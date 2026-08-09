@@ -4747,6 +4747,10 @@
                 "doc": "$~Das @Instrument, das bei diesem Schlag klingt, jedes einmal aufgeführt. Eine Abkürzung für den häufigen Fall; @Downbeat/parts hat das Detail.",
                 "names": "$~Instrumente"
             },
+            "words": {
+                "doc": "$~Die Silben, die auf diesem Schlag gesungen werden, in der Reihenfolge der Spuren, oder eine leere Liste, wenn nichts gesungen wird. Eine Abkürzung für den häufigen Fall, so wie @Downbeat/instruments es ist; @Downbeat/parts hat die Details.",
+                "names": "$~Wörter"
+            },
             "name": {
                 "doc": "$~Der Name der @Music, aus der dieser Schlag kam, und das ist es, wonach @Beat/name filtert.",
                 "names": "$~Name"
@@ -4813,6 +4817,10 @@
             "loop": {
                 "doc": "$~Ob meine Spur sich wiederholt, wenn sie ihr Ende erreicht.",
                 "names": "$~Schleife"
+            },
+            "words": {
+                "doc": "$~Die Silbe, die dieser Teil auf diesem Taktschlag singt, oder \\ø\\ wenn er nichts singt — eine Pause, oder eine Spur ohne @Track/words.",
+                "names": "$~Wörter"
             }
         }
     },
@@ -5590,7 +5598,7 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Ich neige mich hin und her um den Mittelpunkt eines @Output, wie etwas, das in einer leichten Brise hängt. Ich bin eine gute Ruhe-Animation, weil ein kleiner /angle/ „lebendig“ wirkt, ohne die Aufmerksamkeit an sich zu ziehen.",
+                        "$~Ich neige mich hin und her um den Mittelpunkt eines @Output, wie etwas, das in einer leichten Brise hängt. Ich bin eine gute Ruhe-Animation, denn ein kleiner /angle/ wirkt „lebendig“, ohne Aufmerksamkeit auf sich zu ziehen.",
                         "\\💬('🐈' resting: 💃.wiegen(10°))\\"
                     ],
                     "names": ["$~wiegen"],
@@ -5601,64 +5609,64 @@
                 },
                 "bounce": {
                     "doc": [
-                        "$~Ich lasse ein @Output bis zur /height/ hüpfen und wieder landen, wobei es sich beim Hoch und Runter ein wenig staucht. Gib mir ein @Phrase, das gerade angekommen ist, und ich lasse es sich schwer anfühlen.",
+                        "$~Ich lasse ein @Output bis zur /height/ hüpfen und wieder landen, wobei es sich beim Auf und Ab etwas staucht. Gib mir ein @Phrase, das gerade angekommen ist, und ich lasse es sich schwer anfühlen.",
                         "\\💬('🐈' resting: 💃.hüpfen(3m))\\"
                     ],
                     "names": ["$~hüpfen"],
                     "height": {
-                        "doc": "$~Wie hoch gehüpft wird, in Metern.",
+                        "doc": "$~Wie hoch das Hüpfen sein soll, in Metern.",
                         "names": ["$~Höhe"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$~Ich drehe ein @Output ganz um seinen Mittelpunkt, von 360° zurück auf 0°. Setze mich als Ruhe-Animation ein, und ich drehe mich für immer weiter.",
+                        "$~Ich drehe ein @Output ganz um seinen Mittelpunkt, von 360° zurück auf 0°. Setze mich als Ruhe-Animation, und ich drehe mich für immer weiter.",
                         "\\💬('🐈' resting: 💃.drehen(2s))\\"
                     ],
                     "names": ["$~drehen"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Ich lasse ein @Output von unsichtbar zu voll sichtbar werden. Ich bin für das /entering/ gedacht, wenn etwas auf der Bühne ankommt.",
+                        "$~Ich bringe ein @Output von unsichtbar zu voll sichtbar. Ich bin für das /entering/ gedacht, wenn etwas auf der Bühne ankommt.",
                         "\\💬('🐈' entering: 💃.einblenden(1s))\\"
                     ],
                     "names": ["$~einblenden"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Ich lasse ein @Output von voll sichtbar zu unsichtbar werden. Ich bin für das /exiting/ gedacht, wenn etwas die Bühne verlässt.",
+                        "$~Ich bringe ein @Output von voll sichtbar zu unsichtbar. Ich bin für das /exiting/ gedacht, wenn etwas die Bühne verlässt.",
                         "\\💬('🐈' exiting: 💃.ausblenden(duration: 1s))\\"
                     ],
                     "names": ["$~ausblenden"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Ich lasse ein @Output aus dem Nichts wachsen, über seine echte Größe hinaus, und dann setze ich es wieder zurück. Dieses kleine Überschießen lässt eine Ankunft verspielt statt mechanisch wirken.",
+                        "$~Ich lasse ein @Output aus dem Nichts wachsen, über seine echte Größe hinaus, und dann zurücksinken. Dieses kleine Überschießen lässt eine Ankunft verspielt statt mechanisch wirken.",
                         "\\💬('🐈' entering: 💃.aufspringen(0.5s))\\"
                     ],
                     "names": ["$~aufspringen"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Ich rucke ein @Output in mehrere Richtungen hin und her. Ich wirke wie ein „Nein“ oder wie etwas, das klappert. Ich bewege mich schnell, halte mich also kurz.",
+                        "$~Ich rucke ein @Output in mehrere Richtungen hin und her. Ich wirke wie „nein“ oder wie etwas, das klappert. Ich bewege mich schnell, also halte mich kurz.",
                         "\\💬('🐈' resting: 💃.schütteln(0.5s count: 3x))\\"
                     ],
                     "names": ["$~schütteln"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Ich vergrößere ein @Output bis zu /amount/ und wieder zurück, einmal. Ich bin die leiseste Art zu sagen „schau hier“, ohne etwas aus seiner Lage zu bewegen.",
+                        "$~Ich skaliere ein @Output einmal bis zu /amount/ hoch und wieder herunter. Ich bin die leiseste Art zu sagen „schau hier“, ohne etwas zu verschieben.",
                         "\\💬('🐈' resting: 💃.Impuls(1.2))\\"
                     ],
                     "names": ["$~Impuls"],
                     "amount": {
-                        "doc": "$~Wie viel größer es auf dem Höhepunkt wird. 1 bedeutet gar keine Änderung.",
+                        "doc": "$~Wie viel größer es auf dem Höhepunkt wird. 1 ist gar keine Änderung.",
                         "names": ["$~Menge"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Ich mache zwei schnelle Vergrößerungs-Schläge und ruhe dann, im Rhythmus eines Herzschlags. Ich bin dringlicher als der /pulse/ von @Sequence und natürlicher als /flash/.",
+                        "$~Ich gebe zwei schnelle Skalier-Schläge und ruhe dann, im Rhythmus eines Herzschlags. Ich bin dringlicher als der /pulse/ von @Sequence und natürlicher als /flash/.",
                         "\\💬('🐈' resting: 💃.Herzschlag(1.4 1s))\\"
                     ],
                     "names": ["$~Herzschlag"],
@@ -5669,7 +5677,7 @@
                 },
                 "tada": {
                     "doc": [
-                        "$~Ich feiere: ein kleines Schrumpfen, dann ein Vergrößern mit einem Wackeln hin und her. Ich bin für das Gewinnen, das Fertigwerden und das Richtigmachen.",
+                        "$~Ich feiere: ein kleines Schrumpfen, dann ein Vergrößern mit einem Wackeln hin und her. Ich bin für Gewinnen, Fertigwerden und Richtigmachen.",
                         "\\💬('🐈' resting: 💃.Tada(1.2 1s))\\"
                     ],
                     "names": ["$~Tada"],
@@ -5680,151 +5688,151 @@
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Ich schiebe ein @Output von einer Seite zur anderen und neige es dabei, wobei jeder Schwung kleiner ist als der letzte. Ich bin ein Schütteln mit etwas mehr Persönlichkeit.",
+                        "$~Ich lasse ein @Output von Seite zu Seite gleiten und neige es dabei, wobei jedes Schwingen kleiner ist als das letzte. Ich bin ein Schütteln mit etwas mehr Persönlichkeit.",
                         "\\💬('🐈' resting: 💃.wackeln(8°))\\"
                     ],
                     "names": ["$~wackeln"],
                     "angle": {
-                        "doc": "$~Wie weit es bei jedem Schwung geneigt wird.",
+                        "doc": "$~Wie weit es sich bei jedem Schwung neigt.",
                         "names": ["$~Winkel"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Ich lasse ein @Output zweimal zwischen sichtbar und unsichtbar blinken und dabei verblassen. Man kann mich schwer übersehen — das heißt aber auch, man kann mich schwer ignorieren, also nutze mich sparsam.",
-                        "Ich blinke schnell, deshalb kann ich für Betrachter, die auf Blinken empfindlich reagieren, unangenehm sein. Verlangsame mich mit einer längeren /duration/, wenn ich mich wiederholen soll.",
+                        "$~Ich lasse ein @Output zweimal zwischen sichtbar und unsichtbar blinken und blende dabei aus. Ich bin schwer zu übersehen — was auch heißt, ich bin schwer zu ignorieren, also nutze mich sparsam.",
+                        "Ich blitze schnell, daher könnte mich ein Zuschauer, der empfindlich auf Blinken reagiert, unangenehm finden. Verlangsame mich mit einer längeren /duration/, wenn ich mich wiederholen soll.",
                         "\\💬('🐈' resting: 💃.Blitz(1s))\\"
                     ],
                     "names": ["$~Blitz"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Ich lasse ein @Output aus dem Nichts bis zur vollen Größe wachsen. Anders als /popup/ schieße ich nicht über — ich bin die schlichtere, ruhigere Ankunft.",
+                        "$~Ich lasse ein @Output aus dem Nichts auf volle Größe wachsen. Anders als /popup/ schieße ich nicht über — ich bin die schlichtere, ruhigere Ankunft.",
                         "\\💬('🐈' entering: 💃.zoomen(0.5s))\\"
                     ],
                     "names": ["$~zoomen"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Ich blende ein @Output ein und schiebe es dabei von /distance/ unterhalb nach oben an seinen Platz.",
+                        "$~Ich blende ein @Output ein und lasse es dabei von /distance/ unten an seinen Platz gleiten.",
                         "\\💬('🐈' entering: 💃.Einblenden(2m))\\"
                     ],
                     "names": ["$~Einblenden"],
                     "distance": {
-                        "doc": "$~Wie weit unterhalb gestartet wird, in Metern.",
+                        "doc": "$~Wie weit unten es beginnt, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Ich blende ein @Output ein und schiebe es dabei von /distance/ oberhalb nach unten an seinen Platz.",
+                        "$~Ich blende ein @Output ein und lasse es dabei von /distance/ oben an seinen Platz gleiten.",
                         "\\💬('🐈' entering: 💃.einblendenunten(2m))\\"
                     ],
                     "names": ["einblendenunten"],
                     "distance": {
-                        "doc": "$~Wie weit oberhalb gestartet wird, in Metern.",
+                        "doc": "$~Wie weit oben es beginnt, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Ich blende ein @Output ein und schiebe es dabei von /distance/ links nach rechts an seinen Platz.",
+                        "$~Ich blende ein @Output ein und lasse es dabei von /distance/ links nach rechts an seinen Platz gleiten.",
                         "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
-                        "doc": "$~Wie weit links soll es beginnen, in Metern.",
+                        "doc": "$~Wie weit links es beginnt, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Ich lasse ein @Output langsam erscheinen und schiebe es dabei von /distance/ rechts nach links an seinen Platz.",
+                        "$~Ich lasse ein @Output einblenden und schiebe es dabei von /distance/ rechts an seinen Platz nach links.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$~Wie weit rechts soll es beginnen, in Metern.",
+                        "doc": "$~Wie weit rechts der Anfang liegt, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Ich drehe ein @Output an seinen Platz und lasse es dabei erscheinen. Es beginnt um /angle/ gedreht und endet gerade.",
+                        "$~Ich drehe ein @Output an seinen Platz und blende es dabei ein. Es beginnt um /angle/ gedreht und endet aufrecht.",
                         "\\💬('🐈' entering: 💃.Drehung(180°))\\"
                     ],
                     "names": ["$~Drehung"],
                     "angle": {
-                        "doc": "$~Wie weit gedreht am Anfang, in Grad.",
+                        "doc": "$~Wie weit gedreht der Anfang ist, in Grad.",
                         "names": ["$~Winkel"]
                     }
                 },
                 "zoomout": {
                     "doc": [
-                        "$~Ich schrumpfe ein @Output von voller Größe bis auf nichts.",
+                        "$~Ich verkleinere ein @Output von voller Größe bis auf nichts.",
                         "\\💬('🐈' exiting: 💃.Herauszoomen(0.5s))\\"
                     ],
                     "names": ["$~Herauszoomen"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Ich lasse ein @Output verschwinden und schiebe es dabei /distance/ nach oben.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach oben.",
                         "\\💬('🐈' exiting: 💃.ausblendenoben(2m))\\"
                     ],
                     "names": ["ausblendenoben"],
                     "distance": {
-                        "doc": "$~Wie weit nach oben schieben, in Metern.",
+                        "doc": "$~Wie weit nach oben geschoben wird, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Ich lasse ein @Output verschwinden und schiebe es dabei /distance/ nach unten.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach unten.",
                         "\\💬('🐈' exiting: 💃.ausblendenunten(2m))\\"
                     ],
                     "names": ["ausblendenunten"],
                     "distance": {
-                        "doc": "$~Wie weit nach unten schieben, in Metern.",
+                        "doc": "$~Wie weit nach unten geschoben wird, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Ich lasse ein @Output verschwinden und schiebe es dabei /distance/ nach links.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach links.",
                         "\\💬('🐈' exiting: 💃.Ausblendennachlinks(2m))\\"
                     ],
                     "names": ["$~Ausblendennachlinks"],
                     "distance": {
-                        "doc": "$~Wie weit nach links schieben, in Metern.",
+                        "doc": "$~Wie weit nach links geschoben wird, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Ich lasse ein @Output verschwinden und schiebe es dabei /distance/ nach rechts.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach rechts.",
                         "\\💬('🐈' exiting: 💃.ausblendenrechts(2m))\\"
                     ],
                     "names": ["ausblendenrechts"],
                     "distance": {
-                        "doc": "$~Wie weit nach rechts schieben, in Metern.",
+                        "doc": "$~Wie weit nach rechts geschoben wird, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Ich drehe ein @Output weg und lasse es dabei verschwinden. Es endet um /angle/ gedreht.",
+                        "$~Ich drehe ein @Output weg und blende es dabei aus. Es endet um /angle/ gedreht.",
                         "\\💬('🐈' exiting: 💃.ausdrehen(180°))\\"
                     ],
                     "names": ["$~ausdrehen"],
                     "angle": {
-                        "doc": "$~Wie weit drehen, bevor es verschwindet, in Grad.",
+                        "doc": "$~Wie weit gedreht wird, bevor es verschwindet, in Grad.",
                         "names": ["$~Winkel"]
                     }
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Ich lasse ein @Output durch alle Farben des Regenbogens gehen und wieder zurück zum Anfang.",
-                        "Ich wechsle die Farbe schnell. Für jemanden, der empfindlich auf Blinken reagiert, kann das unangenehm sein. Eine längere /duration/ macht mich viel sanfter.",
+                        "$~Ich lasse ein @Output durch jeden Farbton des Regenbogens laufen und zurück zum Anfang.",
+                        "Ich wechsle die Farbe schnell. Für jemanden, der auf Blinken empfindlich reagiert, kann das unangenehm sein. Eine längere /duration/ macht mich viel sanfter.",
                         "\\💬('🐈' resting: 💃.Regenbogen(3s))\\"
                     ],
                     "names": ["$~Regenbogen"]
@@ -6450,6 +6458,10 @@
             "mash": {
                 "doc": "$~Was eine Note zwischen zwei Noten macht. \\1.5\\ liegt genau in der Mitte zwischen \\1\\ und \\2\\: Wenn dies nicht \\⊥\\ ist, klingen beide, die nähere lauter, so wie zwei zusammen gedrückte Klaviertasten es tun. Mit \\⊥\\ bekommst du stattdessen eine einzige Note, in der Tonhöhe verschoben, je nachdem, wie weit sie zwischen ihnen liegt.",
                 "names": "$~zerdrücken"
+            },
+            "words": {
+                "doc": "$~Die Silben, die @Instrument/voice singen soll. Eine Silbe pro Note, getrennt durch Leerzeichen, also \\'so mi fa'\\ singt drei Noten, und die Leerzeichen zeigen, wo eine Silbe endet und die nächste beginnt.\n\nPausen bekommen keine Silbe, damit ein Text auf den Noten landet, die wirklich klingen. Wenn es weniger Silben als Noten gibt, beginnen sie von vorne, statt still zu werden. Wenn es gar keine gibt, hält die Stimme einen /uh/-Laut.\n\nBeende eine Silbe mit einem Bindestrich, um sie auch über die nächste Note zu halten, eine Note mehr pro Bindestrich – so singst du eine Silbe über mehrere Noten. In \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ deckt die ersten zwei Noten ab, dann nehmen \\mi\\ und \\so\\ je eine.\n\nDie Schreibweise ist das <Internationale Phonetische Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, in dem jeder Buchstabe ein Laut ist. Drücke 🤖 unter dem Editor, um jeden Laut zu sehen und zu hören. Buchstaben, die ich nicht erkenne, werden übersprungen. Jedes Instrument außer der Stimme ignoriert mich, sodass ein Text erhalten bleibt, wenn du @Track/instrument wechselst und wieder zurück.",
+                "names": "$~Wörter"
             }
         },
         "Note": {
@@ -6598,6 +6610,16 @@
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~⚡", "$~elektroGitarre"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~Eine Singstimme, aus Filtern gebaut statt von einem Menschen aufgenommen. Mit Tonhöhe, also wählen Zahlen die Noten.",
+                        "Ich bin ein Synthesizer, wie @Instrument/synth – keine Nachahmung eines Sängers. Mein Mund bleibt gleich groß, egal wie hoch oder tief ich singe, was kein echter Hals kann. Deshalb klinge ich wie eine Maschine, die einen Menschen nachmacht, und deshalb klinge ich weder wie ein Mann noch wie eine Frau.",
+                        "Gib meinem @Track ein @Track/words, und ich singe sie, eine Silbe pro Note. Ohne welche halte ich einen /uh/-Laut, also singe ich immer etwas.",
+                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "Die Silben sind im <Internationalen Phonetischen Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> geschrieben, einem Alphabet, in dem jeder Buchstabe ein /Laut/ statt einer Schreibweise ist – also \\'ʃi'\\ ist das Geräusch am Anfang von /sie/, egal in welcher Sprache du schreibst. Drücke 🤖 unter dem Editor, um jeden Laut zu sehen, den ich machen kann, und höre jeden einzelnen an."
+                    ],
+                    "names": ["$~🤖", "$~Stimme"]
                 }
             },
             "doc": [
@@ -6673,8 +6695,12 @@
                     "off": "$~auf Vollbild erweitern"
                 },
                 "show": {
-                    "on": "$~verstecken",
-                    "off": "$~zeigen"
+                    "on": "$~$name verstecken",
+                    "off": "$~$name zeigen"
+                },
+                "showSource": {
+                    "on": "$~Quelle $name verbergen",
+                    "off": "$~Quelle $name zeigen"
                 }
             },
             "label": {
@@ -6884,7 +6910,8 @@
                 "selectOutput": "$~diese Ausgabe auf der Bühne zeigen",
                 "zoomIn": "$~Vergrößern Sie den Code",
                 "zoomOut": "$~Verkleinern Sie den Code",
-                "replace": "$~Alle Übereinstimmungen ersetzen"
+                "replace": "$~Alle Übereinstimmungen ersetzen",
+                "selectOutputError": "$~zeige diese Ausgabe auf der Bühne; die Auswertung dieser Quelle endete mit einem Fehler"
             },
             "field": {
                 "name": {
@@ -7051,9 +7078,16 @@
             "button": {
                 "resolution": "$~Diesen Konflikt lösen",
                 "toggle": "$~Anmerkungen ein- und ausblenden",
-                "highlight": "$~diesen Code im Editor anzeigen"
+                "highlightMajor": "$~zeige den Code dieses Fehlers im Editor",
+                "highlightMinor": "$~zeige den Code dieser Warnung im Editor",
+                "highlightStep": "$~zeige den Code dieses Auswertungsschritts im Editor"
             },
-            "nodeDescription": "$~Sie $description."
+            "nodeDescription": "$~Sie $description.",
+            "severity": {
+                "major": "$~Fehler",
+                "minor": "$~Warnung"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~Programmausgabe",
@@ -7143,25 +7177,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~Auswertungsmodus",
-                    "labels": ["$~bearbeiten", "$~Schritt", "$~abspielen"],
+                    "labels": ["$~bearbeiten", "$~abspielen", "$~Schritt"],
                     "tips": [
                         "$~in den Bearbeitungsmodus wechseln: ändere das Programm, während die Bühne im aktuellen Bild eingefroren bleibt",
-                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms",
-                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren"
+                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren",
+                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~Auswertungsmodus",
-                    "labels": ["$~ansehen", "$~Schritt", "$~abspielen"],
+                    "labels": ["$~ansehen", "$~abspielen", "$~Schritt"],
                     "tips": [
                         "$~in den Ansichtsmodus wechseln: lies das Programm, während die Bühne im aktuellen Bild eingefroren bleibt",
-                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms",
-                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren"
+                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren",
+                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms"
                     ]
                 },
                 "announce": "$~$mode-Modus",
                 "exception": "$~Das Programm hatte einen Fehler, deshalb ist es in den Schrittmodus gewechselt, damit du ihn untersuchen kannst.",
-                "cycle": "$~zwischen den Modi Bearbeiten, Schritt und Abspielen wechseln"
+                "toggle": "$~zwischen Bearbeiten- und Spielmodus wechseln"
             },
             "gate": {
                 "start": {
@@ -7899,7 +7933,23 @@
                 "createPhrase": "$~Erstellen Sie eine Phrase, die den vorhandenen Wert als Text anzeigt",
                 "createGroup": "$~Erstellen Sie eine Gruppe, die jede vorhandene Phrase umschließt",
                 "createStage": "$~Erstellen Sie eine Bühne, die eine vorhandene Gruppe oder Phrase umschließt",
-                "editMode": "$~in den Bearbeitungsmodus wechseln"
+                "editMode": "$~in den Bearbeitungsmodus wechseln",
+                "createMusic": "$~ein @Music zum Programm hinzufügen",
+                "previousTrack": "$~das vorherige @Track zeigen",
+                "nextTrack": "$~das nächste @Track zeigen",
+                "addTrack": "$~ein @Track hinzufügen",
+                "removeTrack": "$~dieses @Track entfernen",
+                "clearTrack": "$~jede Note aus diesem @Track entfernen",
+                "makeChord": "$~aus dieser Note einen Akkord machen",
+                "unmakeChord": "$~diesen Akkord auf eine Note verringern",
+                "playMusic": "$~dieses @Music ab dem Cursor hören",
+                "pauseMusic": "$~Wiedergabe stoppen",
+                "importMIDI": "$~eine MIDI-Datei als @Music importieren",
+                "record": "$~eine Melodie summen, um sie zu diesem @Track hinzuzufügen",
+                "stopRecording": "$~stoppen und aufschreiben, was du gesummt hast",
+                "playTrack": "$~dieses @Track allein hören, ab dem Cursor",
+                "pauseTrack": "$~die Wiedergabe dieses @Track stoppen",
+                "rewind": "$~zurück zum Anfang gehen"
             },
             "prompt": {
                 "offerPhrase": "$~Soll ich diesen Wert in eine @Phrase einbetten?",
@@ -7909,7 +7959,8 @@
                 "select": "$~Zum Bearbeiten wählen Sie ein 💬, 🔳, ⬟ oder 🎭 im Code aus oder klicken Sie auf ⏸️ auf die @Stage und wählen Sie Ausgabe.",
                 "offerShape": "$~Soll ich dieses @Form in @Shape einbetten, um es auf @Stage anzuzeigen?",
                 "offerNothing": "$~Hier ist noch nichts! Soll ich eine @Phrase hinzufügen, um loszulegen?",
-                "readonly": "$~Diese Werte sind in diesem Modus *nur lesbar*. Wechsle in den ✏️ *Bearbeitungsmodus*, um sie zu ändern."
+                "readonly": "$~Diese Werte sind in diesem Modus *nur lesbar*. Wechsle in den ✏️ *Bearbeitungsmodus*, um sie zu ändern.",
+                "offerMusic": "$~Möchtest du @Music hinzufügen? Ich kann dir ein paar Noten zum Ausprobieren geben."
             },
             "field": {
                 "coordinate": "$~Koordinate bearbeiten",
@@ -7944,6 +7995,69 @@
                 "unset": "$~Wenn für eine Eigenschaft ein /expliziter/ Wert festgelegt ist, entfernt die Schaltfläche *X* diesen Wert und stellt die Eigenschaft auf ihren *Standardwert* zurück.",
                 "editor": "$~Alle Änderungen, die Sie in der Farbpalette vornehmen, werden im Code widergespiegelt, der im Editor angezeigt wird.",
                 "stage": "$~Phrasen können auch direkt auf der *Bühne* verschoben, in ihrer Größe verändert und gedreht werden."
+            },
+            "music": {
+                "staff": "$~die Noten dieser Spur",
+                "track": "$~Spur $count von $total",
+                "duration": {
+                    "label": "$~wie lange eine neue Note dauert",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~eine ganze Note, vier Schläge",
+                        "$~eine halbe Note, zwei Schläge",
+                        "$~eine Viertelnote, ein Schlag",
+                        "$~eine Achtelnote, ein halber Schlag",
+                        "$~eine Sechzehntelnote, ein Viertel Schlag"
+                    ]
+                },
+                "computed": "$~die Noten dieser Spur werden berechnet, deshalb kann man sie hier nicht bewegen",
+                "note": "$~Note $degree, Schlag $beat",
+                "rest": "$~Pause, Schlag $beat",
+                "added": "$~Note $degree bei Schlag $beat hinzugefügt, jetzt $#count[$#count Note|$#count Noten]",
+                "removed": "$~Note $degree bei Schlag $beat entfernt, jetzt $#count[$#count Note|$#count Noten]",
+                "moved": "$~Note $degree, Schlag $beat",
+                "chooser": "$~welche Musik bearbeitet werden soll",
+                "unnamed": "$~Musik $count",
+                "cursor": "$~ziehe, um zu wählen, ab welchem Schlag gespielt wird",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count Spur|$#count Spuren] spielten mehr als eine Note gleichzeitig, daher wurden $extra weitere hinzugefügt, um die zusätzlichen Stimmen zu halten.",
+                    "percussionDropped": "$~$#count[$#count Trommelklang|$#count Trommelklänge] hatte keine Entsprechung in unserem Set, daher wurde er weggelassen.",
+                    "tracksTruncated": "$~$#count[$#count Spur wurde|$#count Spuren wurden] weggelassen, über der Grenze von $cap.",
+                    "pitchesSnapped": "$~$#count[$#count Note war|$#count Noten waren] nicht in der Tonleiter $scale und wurde zur nächsten gerührt, um bis zu $semitones Halbtöne.",
+                    "beatsRounded": "$~$#count[$#count Notenlänge wurde|$#count Notenlängen wurden] gerundet, um höchstens $error eines Schlags.",
+                    "meterChanges": "$~$#count[$#count Taktartwechsel wurde|$#count Taktartwechsel wurden] weggelassen: @Music hat keine Taktarten.",
+                    "velocityRange": "$~Spur $track hat $#count[$#count Lautstärke|$#count Lautstärken]. Jede Note behält ihre eigene, aber es gibt keine Anschwellungen.",
+                    "outOfRange": "$~$#count[$#count Note ist|$#count Noten sind] mehr als drei Oktaven von der ersten Note der Tonleiter entfernt. Sie spielen, aber nicht aus einer echten Aufnahme.",
+                    "tempoFolded": "$~$#count[$#count Tempowechsel wurde|$#count Tempowechsel wurden] in die Notenlängen eingefaltet, damit die Musik weiterhin schneller und langsamer wird. Ein @Music hat ein Tempo, und dieses ist $using, daher passt ein @Beat nicht zu den Noten."
+                },
+                "notMIDI": "$~das sieht nicht wie eine MIDI-Datei aus",
+                "badMIDI": "$~Ich konnte diese MIDI-Datei nicht lesen",
+                "listening": "$~Ich höre zu! Summe oder singe eine Melodie und höre dann auf. Ich schreibe die Noten auf, die ich höre, und füge sie zu dieser Spur hinzu.",
+                "heardNothing": "$~Ich habe keine Noten gehört. Versuche etwas lauter zu summen oder näher am Mikrofon.",
+                "transcribed": "$~Ich habe $#count[$#count Note|$#count Noten] in $scale bei etwa $tempo Schlägen pro Minute gehört.",
+                "noMicrophone": "$~Ich kann dein Mikrofon nicht hören",
+                "imported": "$~$#count[$#count Spur|$#count Spuren] und $notes Noten hinzugefügt",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~Diese Datei hat $#count[$#count Note|$#count Noten], mehr als die $cap, die ein Projekt fassen kann. Versuche ein kürzeres Stück oder weniger Instrumente.",
+                "steps": {
+                    "label": "$~was ein Import gerade macht",
+                    "labels": [
+                        "$~Die Datei wird gelesen",
+                        "$~Die Noten herausfinden",
+                        "$~Die Spuren benennen",
+                        "$~Sie in dein Programm schreiben",
+                        "$~Dein Programm prüfen"
+                    ],
+                    "tips": [
+                        "$~die Datei lesen",
+                        "$~die Noten herausfinden",
+                        "$~die Spuren benennen",
+                        "$~sie in dein Programm schreiben",
+                        "$~dein Programm prüfen"
+                    ]
+                },
+                "report": "$~Was ich importiert habe",
+                "reportExplanation": "$~Ein @Music kann das meiste von dem festhalten, was eine MIDI-Datei beschreibt, aber nicht alles. Hier ist, was sich beim Einlesen geändert hat."
             }
         },
         "save": {
@@ -8678,7 +8792,8 @@
                     "description": "$~Beschreibung",
                     "cssvalue": "$~CSS-Wert",
                     "computed": "$~Berechnet",
-                    "primaryface": "$~Hauptgesicht"
+                    "primaryface": "$~Hauptgesicht",
+                    "contrast": "$~Kontrast"
                 },
                 "demo": {
                     "button": "$~Beispiel",
@@ -8694,7 +8809,13 @@
                     "optiona": "$~Option A",
                     "optionb": "$~Option B",
                     "optionc": "$~Option C"
-                }
+                },
+                "accessibility": "$~Farb-Barrierefreiheit",
+                "accessibilityRules": [
+                    "$~Alles, was als *Text* dargestellt wird, muss eine der AA-Textvarianten verwenden (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* oder eine semantische Variable, die auf eine davon zeigt). Diese erfüllen den Kontrast von 4,5:1, den <WCAG 2.2@https://www.w3.org/TR/WCAG22/> verlangt. Die helleren Markenfarben sind nur für Hintergründe, Ränder und Hervorhebungen gedacht, die 3:1 oder gar keinen Kontrast brauchen. Diese Verhältnisse werden durch Modultests und durch automatische Prüfungen jeder Seite sichergestellt, sowohl im hellen als auch im dunklen Modus. Es gibt eine bewusste Ausnahme: Das Randgrau im hellen Modus liegt unter 3:1, weil Ränder hier nur zur Trennung dienen und jede wichtige Grenze noch einen weiteren Hinweis trägt.",
+                    "Übermittle Bedeutung niemals allein durch Farbe: Verbinde jeden farbcodierten Zustand mit einem zweiten Hinweis – einer Form, einem Linienstil, einem Zeichen oder einem Wort. Zum Beispiel zeichnet der Editor die Hervorhebung des Cursors und große Konflikte *durchgehend*, ausgewählte Ausgabe *gestrichelt* und kleine Konflikte *gepunktet*, damit Schwere und Auswahl auch ohne Farbe unterscheidbar bleiben.",
+                    "Sieh dir den <Design-Wiki@https://github.com/wordplaydev/wordplay/wiki/design>-Leitfaden für alle Hinweise für Mitwirkende an."
+                ]
             },
             "thanks": {
                 "header": "$~Danke",
@@ -9375,6 +9496,129 @@
             "menuEmpty": "$~keine Vorschläge",
             "menuClosed": "$~Menü geschlossen",
             "tidyNoop": "$~bereits aufgeräumt"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Die Laute verstecken, die die Stimme singen kann",
+                "off": "$~Die Laute zeigen, die die Stimme singen kann"
+            },
+            "groups": [
+                "$~Vokale",
+                "$~Approximanten",
+                "$~l-Laute",
+                "$~Nasale",
+                "$~Zischlaute",
+                "$~gerollte Laute",
+                "$~Verschlusslaute",
+                "$~Klicklaute"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Höre $symbol",
+            "insert": "$~Tippe $symbol"
         }
     },
     "moderation": {

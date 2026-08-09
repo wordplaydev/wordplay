@@ -1,39 +1,27 @@
-Make the music follow the action
+音楽を動きに合わせよう
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+最初から最後まで同じ曲だけが流れるゲームは、平坦に感じます。もし音楽があなたが勝っているかどうかを知っていたら、どうでしょう？
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+次のことをする方法はありません：*止める* を  @Music  ── それを止めるのは、ステージにないことです：  @Stage 。だから状態を一つ保ち、それに合った曲をステージに置きましょう：
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'メニュー' … ∆ Button() … (phase = 'メニュー') ? '追いかけ' 'メニュー'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'メニュー') ? '▶ 押して始める' '🏃 走れ！' 1m)
+		(phase = 'メニュー') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+どちらの曲も同じ八つの数字です。楽器とテンポだけが変わり、それだけでもう別の曲のように聞こえます。なぜなら、音度は次のことを表すからです：*音階の何番目の段か*、どの音の高さかではありません。だから  @Music  はそれらを別の意味に読みかえられます。これを渡すと \拡大縮小: 🎼.和声的短音階\、一つの音符も書きかえずに、同じ曲が不気味に変わります。
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+もう半分は、物事の進み具合に合わせて、なめらかに変わる音楽です。変えても、次を変えることはありません：\tempo\ は何もやり直しません ── 次の拍でつなぎ込まれるので、曲は自分の位置を失わずに速くなります：
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('スコア \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+十分な回数を押すと、ドラムは始まったときの二倍の力で刻みます。短くて打楽器のような音符が、それを聞こえるようにします。長く伸ばす音符の下では、テンポの変化は感じにくいのです。
 
 choose-an-instrument, play-a-sound-effect, track-game-state

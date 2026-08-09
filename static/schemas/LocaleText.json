@@ -3601,6 +3601,10 @@
                 "volume": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The music's overall volume."
+                },
+                "words": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The syllables being sung on this beat."
                 }
               },
               "required": [
@@ -3613,7 +3617,8 @@
                 "parts",
                 "scale",
                 "tempo",
-                "volume"
+                "volume",
+                "words"
               ],
               "type": "object"
             },
@@ -4904,6 +4909,10 @@
                 "volume": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "How loud this part is on this beat."
+                },
+                "words": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The syllable this part is singing on this beat, if any."
                 }
               },
               "required": [
@@ -4917,7 +4926,8 @@
                 "pitch",
                 "scale",
                 "sounding",
-                "volume"
+                "volume",
+                "words"
               ],
               "type": "object"
             },
@@ -13631,6 +13641,10 @@
                     "violin": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A violin"
+                    },
+                    "voice": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A synthesized singing voice"
                     }
                   },
                   "required": [
@@ -13650,7 +13664,8 @@
                     "pitchedDog",
                     "synth",
                     "synthBass",
-                    "synthPad"
+                    "synthPad",
+                    "voice"
                   ],
                   "type": "object"
                 },
@@ -15562,6 +15577,10 @@
                 "volume": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The track's volume"
+                },
+                "words": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "IPA syllables for the voice to sing, one per note, separated by spaces"
                 }
               },
               "required": [
@@ -15575,7 +15594,8 @@
                 "notes",
                 "pan",
                 "scale",
-                "volume"
+                "volume",
+                "words"
               ],
               "type": "object"
             },
@@ -16145,8 +16165,16 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
-                    "highlight": {
-                      "description": "[plain] The button to show the annotation's node in the code",
+                    "highlightMajor": {
+                      "description": "[plain] The collapsed-sidebar button that shows a major conflict's code in the editor",
+                      "type": "string"
+                    },
+                    "highlightMinor": {
+                      "description": "[plain] The collapsed-sidebar button that shows a minor conflict's code in the editor",
+                      "type": "string"
+                    },
+                    "highlightStep": {
+                      "description": "[plain] The collapsed-sidebar button that shows an evaluation step's code in the editor",
                       "type": "string"
                     },
                     "resolution": {
@@ -16161,9 +16189,15 @@
                   "required": [
                     "resolution",
                     "toggle",
-                    "highlight"
+                    "highlightMajor",
+                    "highlightMinor",
+                    "highlightStep"
                   ],
                   "type": "object"
+                },
+                "conflictLabel": {
+                  "$ref": "#/definitions/Template%3C%5B%22severity%22%2C%22conflict%22%5D%3E",
+                  "description": "[plain] The accessible name of a conflict row, combining its severity word and the conflict's name"
                 },
                 "cursor": {
                   "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22type%22%5D%3E",
@@ -16193,6 +16227,25 @@
                   "$ref": "#/definitions/Template%3C%5B%22description%22%5D%3E",
                   "description": "[formatted] The description of what the selected node does. $1: the node description."
                 },
+                "severity": {
+                  "additionalProperties": false,
+                  "description": "The severity words shown on and announced with each conflict, so severity never rides on color alone.",
+                  "properties": {
+                    "major": {
+                      "description": "[plain] Label for a major conflict, an error that prevents evaluation",
+                      "type": "string"
+                    },
+                    "minor": {
+                      "description": "[plain] Label for a minor conflict, a warning that doesn't prevent evaluation",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "major",
+                    "minor"
+                  ],
+                  "type": "object"
+                },
                 "space": {
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] What function should say when the cursor is in space"
@@ -16207,6 +16260,8 @@
                 "evaluating",
                 "space",
                 "nodeDescription",
+                "severity",
+                "conflictLabel",
                 "button"
               ],
               "type": "object"
@@ -19385,10 +19440,6 @@
                       "$ref": "#/definitions/Template%3C%5B%22mode%22%5D%3E",
                       "description": "[plain] Announced when the evaluation mode changes. $mode is the new mode's label."
                     },
-                    "cycle": {
-                      "description": "[plain] Description of the keyboard command that cycles between the three evaluation modes",
-                      "type": "string"
-                    },
                     "evaluation": {
                       "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                       "description": "The edit/step/play mode switcher, shown for editable projects"
@@ -19400,6 +19451,10 @@
                     "exception": {
                       "description": "[plain] Announced when an error pauses the program into step mode so it can be inspected",
                       "type": "string"
+                    },
+                    "toggle": {
+                      "description": "[plain] Description of the keyboard command that switches between edit and play mode",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -19407,7 +19462,7 @@
                     "evaluationView",
                     "announce",
                     "exception",
-                    "cycle"
+                    "toggle"
                   ],
                   "type": "object"
                 },
@@ -20349,6 +20404,24 @@
                   "additionalProperties": false,
                   "description": "Design system page text",
                   "properties": {
+                    "accessibility": {
+                      "description": "[plain] Subheader for the accessibility section",
+                      "type": "string"
+                    },
+                    "accessibilityRules": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/FormattedText"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/FormattedText"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "[formatted] The color-accessibility rules contributors must follow: the text-variant vs background-hue split, the contrast requirements and how they're enforced, the border waiver, and never conveying meaning by color alone, with links to WCAG and the wiki"
+                    },
                     "col": {
                       "additionalProperties": false,
                       "description": "Column header labels for data tables",
@@ -20363,6 +20436,10 @@
                         },
                         "computed": {
                           "description": "[plain] Column header for the computed/resolved measurement",
+                          "type": "string"
+                        },
+                        "contrast": {
+                          "description": "[plain] Column header for the color's contrast ratio against the page background",
                           "type": "string"
                         },
                         "cssvalue": {
@@ -20396,6 +20473,7 @@
                         "variable",
                         "color",
                         "hex",
+                        "contrast",
                         "description",
                         "cssvalue",
                         "computed",
@@ -20523,6 +20601,8 @@
                     "description",
                     "theme",
                     "colors",
+                    "accessibility",
+                    "accessibilityRules",
                     "palette",
                     "semantic",
                     "fonts",
@@ -22230,8 +22310,20 @@
                       "description": "[plain] Add a shape to the output",
                       "type": "string"
                     },
+                    "addTrack": {
+                      "description": "[plain] The button that adds a track to a music",
+                      "type": "string"
+                    },
+                    "clearTrack": {
+                      "description": "[plain] The button that removes every note from the track being shown",
+                      "type": "string"
+                    },
                     "createGroup": {
                       "description": "[plain] The button that creates a group when there is none",
+                      "type": "string"
+                    },
+                    "createMusic": {
+                      "description": "[plain] The button that adds music to the program",
                       "type": "string"
                     },
                     "createPhrase": {
@@ -22254,12 +22346,56 @@
                       "description": "[plain] The button in the palette's read-only prompt that switches to edit mode",
                       "type": "string"
                     },
+                    "importMIDI": {
+                      "description": "[plain] The button that imports a MIDI file as a new music",
+                      "type": "string"
+                    },
+                    "makeChord": {
+                      "description": "[plain] The button that makes the focused note into a chord",
+                      "type": "string"
+                    },
+                    "nextTrack": {
+                      "description": "[plain] The button that shows the next track of a music",
+                      "type": "string"
+                    },
+                    "pauseMusic": {
+                      "description": "[plain] The button that stops the music being edited",
+                      "type": "string"
+                    },
+                    "pauseTrack": {
+                      "description": "[plain] The button that stops the track being edited",
+                      "type": "string"
+                    },
+                    "playMusic": {
+                      "description": "[plain] The button that plays the music being edited",
+                      "type": "string"
+                    },
+                    "playTrack": {
+                      "description": "[plain] The button that plays only the track being edited",
+                      "type": "string"
+                    },
+                    "previousTrack": {
+                      "description": "[plain] The button that shows the previous track of a music",
+                      "type": "string"
+                    },
+                    "record": {
+                      "description": "[plain] The button that starts recording humming to transcribe",
+                      "type": "string"
+                    },
                     "remove": {
                       "description": "[plain] Remove child from this output",
                       "type": "string"
                     },
+                    "removeTrack": {
+                      "description": "[plain] The button that removes the track being shown",
+                      "type": "string"
+                    },
                     "revert": {
                       "description": "[plain] Resets a property to it's default value",
+                      "type": "string"
+                    },
+                    "rewind": {
+                      "description": "[plain] The button that moves the player back to the start",
                       "type": "string"
                     },
                     "sequence": {
@@ -22268,6 +22404,14 @@
                     },
                     "set": {
                       "description": "[plain] Sets the property to a value, allowing modification",
+                      "type": "string"
+                    },
+                    "stopRecording": {
+                      "description": "[plain] The button that stops recording and transcribes what was heard",
+                      "type": "string"
+                    },
+                    "unmakeChord": {
+                      "description": "[plain] The button that reduces the focused chord back to one note",
                       "type": "string"
                     },
                     "up": {
@@ -22291,6 +22435,22 @@
                     "createPhrase",
                     "createGroup",
                     "createStage",
+                    "createMusic",
+                    "previousTrack",
+                    "nextTrack",
+                    "addTrack",
+                    "removeTrack",
+                    "clearTrack",
+                    "rewind",
+                    "playTrack",
+                    "pauseTrack",
+                    "playMusic",
+                    "pauseMusic",
+                    "importMIDI",
+                    "record",
+                    "stopRecording",
+                    "makeChord",
+                    "unmakeChord",
                     "editMode"
                   ],
                   "type": "object"
@@ -22419,6 +22579,190 @@
                   ],
                   "type": "object"
                 },
+                "music": {
+                  "additionalProperties": false,
+                  "description": "The music editor, shown when a Music is selected",
+                  "properties": {
+                    "added": {
+                      "$ref": "#/definitions/Template%3C%5B%22degree%22%2C%22beat%22%2C%22%23count%22%5D%3E",
+                      "description": "[plain] Announced when a note is added"
+                    },
+                    "badMIDI": {
+                      "description": "[plain] Shown when a MIDI file can't be read",
+                      "type": "string"
+                    },
+                    "chooser": {
+                      "description": "[plain] The label for the dropdown choosing which music to edit",
+                      "type": "string"
+                    },
+                    "computed": {
+                      "description": "[plain] Shown in place of the staff when a track's notes are computed rather than written out",
+                      "type": "string"
+                    },
+                    "cursor": {
+                      "description": "[plain] The strip along the staff that chooses which beat to play from",
+                      "type": "string"
+                    },
+                    "duration": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                      "description": "The picker choosing how long a placed note lasts. The labels are the note-value glyphs themselves, which read the same in every language, so only the descriptions are really translated."
+                    },
+                    "findings": {
+                      "additionalProperties": false,
+                      "description": "What a MIDI import reports about what it could and couldn't keep. Each is a structured finding from the converter, so the numbers come from the file rather than from the sentence.",
+                      "properties": {
+                        "beatsRounded": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22error%22%5D%3E",
+                          "description": "[formatted] Note lengths were rounded slightly"
+                        },
+                        "meterChanges": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                          "description": "[formatted] Time signature changes were ignored"
+                        },
+                        "outOfRange": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                          "description": "[formatted] Notes far from the tonic will play but not from a sampled zone"
+                        },
+                        "percussionDropped": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                          "description": "[formatted] Percussion notes with no matching kit piece were dropped"
+                        },
+                        "pitchesSnapped": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22scale%22%2C%22semitones%22%5D%3E",
+                          "description": "[formatted] Pitches outside the scale moved to the nearest degree"
+                        },
+                        "tempoFolded": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22using%22%5D%3E",
+                          "description": "[formatted] Tempo changes were folded into note lengths, since Music has one tempo"
+                        },
+                        "tracksSplit": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22extra%22%5D%3E",
+                          "description": "[formatted] Polyphonic tracks were split into several Tracks"
+                        },
+                        "tracksTruncated": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22cap%22%5D%3E",
+                          "description": "[formatted] Tracks past the limit were dropped"
+                        },
+                        "velocityRange": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22track%22%5D%3E",
+                          "description": "[formatted] A track's velocity range, which becomes per-note volume"
+                        }
+                      },
+                      "required": [
+                        "tracksSplit",
+                        "percussionDropped",
+                        "tracksTruncated",
+                        "pitchesSnapped",
+                        "beatsRounded",
+                        "tempoFolded",
+                        "meterChanges",
+                        "velocityRange",
+                        "outOfRange"
+                      ],
+                      "type": "object"
+                    },
+                    "heardNothing": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Shown when a recording had nothing recognizable in it"
+                    },
+                    "imported": {
+                      "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22notes%22%5D%3E",
+                      "description": "[formatted] Summarizes what was imported"
+                    },
+                    "importing": {
+                      "$ref": "#/definitions/Template%3C%5B%22percent%22%2C%22step%22%5D%3E",
+                      "description": "[formatted] Shown while a MIDI file is being read, with how far along it is"
+                    },
+                    "listening": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Explains what recording does, shown while it listens"
+                    },
+                    "moved": {
+                      "$ref": "#/definitions/Template%3C%5B%22degree%22%2C%22beat%22%5D%3E",
+                      "description": "[plain] Announced when a note moves to a new degree"
+                    },
+                    "noMicrophone": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Shown when the microphone isn't available"
+                    },
+                    "notMIDI": {
+                      "description": "[plain] Shown when the chosen file isn't a MIDI file",
+                      "type": "string"
+                    },
+                    "note": {
+                      "$ref": "#/definitions/Template%3C%5B%22degree%22%2C%22beat%22%5D%3E",
+                      "description": "[plain] How one note reads to a screen reader: its degree and the beat it starts on"
+                    },
+                    "removed": {
+                      "$ref": "#/definitions/Template%3C%5B%22degree%22%2C%22beat%22%2C%22%23count%22%5D%3E",
+                      "description": "[plain] Announced when a note is removed"
+                    },
+                    "report": {
+                      "description": "[plain] The heading of the dialog reporting what an import kept and changed",
+                      "type": "string"
+                    },
+                    "reportExplanation": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Explains what the import report is for"
+                    },
+                    "rest": {
+                      "$ref": "#/definitions/Template%3C%5B%22beat%22%5D%3E",
+                      "description": "[plain] How a rest reads to a screen reader"
+                    },
+                    "staff": {
+                      "description": "[plain] The ARIA label for the staff a track's notes are edited on",
+                      "type": "string"
+                    },
+                    "steps": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                      "description": "The named steps of an import, so the wait says what it's doing"
+                    },
+                    "tooBig": {
+                      "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22cap%22%5D%3E",
+                      "description": "[formatted] Shown when a MIDI file holds more than a project can"
+                    },
+                    "track": {
+                      "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22total%22%5D%3E",
+                      "description": "[formatted] Which track of how many is shown. The count stands alone rather than inflecting a noun (\"track 2 of 3\"), so it is a plain input rather than a '#count'."
+                    },
+                    "transcribed": {
+                      "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22scale%22%2C%22tempo%22%5D%3E",
+                      "description": "[formatted] Reports what a recording became"
+                    },
+                    "unnamed": {
+                      "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                      "description": "[plain] How a music with no name of its own is listed in the chooser"
+                    }
+                  },
+                  "required": [
+                    "staff",
+                    "cursor",
+                    "findings",
+                    "importing",
+                    "steps",
+                    "tooBig",
+                    "notMIDI",
+                    "badMIDI",
+                    "listening",
+                    "heardNothing",
+                    "transcribed",
+                    "noMicrophone",
+                    "imported",
+                    "report",
+                    "reportExplanation",
+                    "chooser",
+                    "unnamed",
+                    "track",
+                    "duration",
+                    "computed",
+                    "note",
+                    "rest",
+                    "added",
+                    "removed",
+                    "moved"
+                  ],
+                  "type": "object"
+                },
                 "prompt": {
                   "additionalProperties": false,
                   "properties": {
@@ -22429,6 +22773,10 @@
                     "offerGroup": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] The text offering to create a group in the palette without a stage"
+                    },
+                    "offerMusic": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] The text offering to add music to the program"
                     },
                     "offerNothing": {
                       "$ref": "#/definitions/FormattedText",
@@ -22461,6 +22809,7 @@
                     "offerStage",
                     "offerShape",
                     "offerNothing",
+                    "offerMusic",
                     "select",
                     "editing",
                     "readonly"
@@ -22591,10 +22940,51 @@
                 "labels",
                 "button",
                 "prompt",
+                "music",
                 "field",
                 "sequence",
                 "error",
                 "tour"
+              ],
+              "type": "object"
+            },
+            "phonemes": {
+              "additionalProperties": false,
+              "description": "The phoneme chooser, which lists the sounds the singing voice can make",
+              "properties": {
+                "examples": {
+                  "description": "[plain] An English word containing each sound, one per symbol in the order phonemes.ts lists them. These cannot be machine translated — a translator would translate the word rather than pick one containing the sound — so each locale needs a speaker of it to choose its own.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "groups": {
+                  "description": "[plain] Headings for the sound groups, in the order phonemes.ts lists them: vowel, approximant, lateral, nasal, fricative, trill, plosive, click.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "insert": {
+                  "$ref": "#/definitions/Template%3C%5B%22symbol%22%5D%3E",
+                  "description": "[plain] ARIA label for the button that types a sound into the code. $symbol is the IPA letter."
+                },
+                "play": {
+                  "$ref": "#/definitions/Template%3C%5B%22symbol%22%5D%3E",
+                  "description": "[plain] ARIA label for the button that plays a sound. $symbol is the IPA letter."
+                },
+                "toggle": {
+                  "$ref": "#/definitions/ToggleText",
+                  "description": "[plain] The phoneme chooser expand/collapse toggle"
+                }
+              },
+              "required": [
+                "toggle",
+                "groups",
+                "examples",
+                "play",
+                "insert"
               ],
               "type": "object"
             },
@@ -23250,6 +23640,10 @@
                       "description": "[plain] Output preview button for selecting output for display in output tile",
                       "type": "string"
                     },
+                    "selectOutputError": {
+                      "description": "[plain] The output preview button when the source's latest value is an exception",
+                      "type": "string"
+                    },
                     "zoomIn": {
                       "description": "[plain] The zoom in button for the code editor",
                       "type": "string"
@@ -23261,6 +23655,7 @@
                   },
                   "required": [
                     "selectOutput",
+                    "selectOutputError",
                     "zoomIn",
                     "zoomOut",
                     "replace"
@@ -24155,13 +24550,48 @@
                       "description": "Enter and exit tile fullscreen mode"
                     },
                     "show": {
-                      "$ref": "#/definitions/ToggleText",
-                      "description": "Show or hide the tile"
+                      "additionalProperties": false,
+                      "description": "Show or hide a tile, named by its kind — a project's toggles sit side by side, and an unnamed \"show\" reads identically on every one.",
+                      "properties": {
+                        "off": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[plain] Tooltip and ARIA label for showing the $name tile"
+                        },
+                        "on": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[plain] Tooltip and ARIA label for hiding the $name tile"
+                        }
+                      },
+                      "required": [
+                        "on",
+                        "off"
+                      ],
+                      "type": "object"
+                    },
+                    "showSource": {
+                      "additionalProperties": false,
+                      "description": "Show or hide a source file's tile. Named, because a project can have several, and an unnamed \"show\" reads identically on every one.",
+                      "properties": {
+                        "off": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[plain] Tooltip and ARIA label for showing the source named $name"
+                        },
+                        "on": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[plain] Tooltip and ARIA label for hiding the source named $name"
+                        }
+                      },
+                      "required": [
+                        "on",
+                        "off"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "fullscreen",
-                    "show"
+                    "show",
+                    "showSource"
                   ],
                   "type": "object"
                 }
@@ -24655,6 +25085,7 @@
             "page",
             "edit",
             "template",
+            "phonemes",
             "emoji"
           ],
           "type": "object"
@@ -25229,13 +25660,37 @@
         "string"
       ]
     },
+    "Template<[\"#count\",\"cap\"]>": {
+      "type": "string"
+    },
     "Template<[\"#count\",\"container\",\"example\"]>": {
+      "type": "string"
+    },
+    "Template<[\"#count\",\"error\"]>": {
+      "type": "string"
+    },
+    "Template<[\"#count\",\"extra\"]>": {
       "type": "string"
     },
     "Template<[\"#count\",\"name\",\"frame\",\"pose\",\"color\"]>": {
       "type": "string"
     },
+    "Template<[\"#count\",\"notes\"]>": {
+      "type": "string"
+    },
+    "Template<[\"#count\",\"scale\",\"semitones\"]>": {
+      "type": "string"
+    },
+    "Template<[\"#count\",\"scale\",\"tempo\"]>": {
+      "type": "string"
+    },
     "Template<[\"#count\",\"text\"]>": {
+      "type": "string"
+    },
+    "Template<[\"#count\",\"track\"]>": {
+      "type": "string"
+    },
+    "Template<[\"#count\",\"using\"]>": {
       "type": "string"
     },
     "Template<[\"#count\"]>": {
@@ -25254,6 +25709,9 @@
       "type": "string"
     },
     "Template<[\"amount\",\"unit\"]>": {
+      "type": "string"
+    },
+    "Template<[\"beat\"]>": {
       "type": "string"
     },
     "Template<[\"before\",\"after\"]>": {
@@ -25289,7 +25747,16 @@
     "Template<[\"count\",\"languages\"]>": {
       "type": "string"
     },
+    "Template<[\"count\",\"total\"]>": {
+      "type": "string"
+    },
     "Template<[\"count\"]>": {
+      "type": "string"
+    },
+    "Template<[\"degree\",\"beat\",\"#count\"]>": {
+      "type": "string"
+    },
+    "Template<[\"degree\",\"beat\"]>": {
       "type": "string"
     },
     "Template<[\"description\"]>": {
@@ -25475,6 +25942,9 @@
     "Template<[\"pattern\",\"position\"]>": {
       "type": "string"
     },
+    "Template<[\"percent\",\"step\"]>": {
+      "type": "string"
+    },
     "Template<[\"percent\"]>": {
       "type": "string"
     },
@@ -25497,6 +25967,9 @@
       "type": "string"
     },
     "Template<[\"setOrMap\",\"key\"]>": {
+      "type": "string"
+    },
+    "Template<[\"severity\",\"conflict\"]>": {
       "type": "string"
     },
     "Template<[\"shadowed\"]>": {

@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "$~வசனம்",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "$~அமைதி",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         ["FunctionDefinition", "bored", "$~… ஓ, ஹாய்."],
                         null,
@@ -132,7 +132,7 @@
                     "title": "$~நீங்கள் ஒரு திட்டத்தை விரும்புகிறீர்களா?",
                     "subtitle": "$~நிரல்",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('📄' resting:Pose(rotation: 10°))" },
                         [
@@ -241,7 +241,10 @@
                     "title": "$~இடத்தை வைத்திருத்தல்",
                     "subtitle": "$~ப்ளேஸ்ஹோல்டர்",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -252,7 +255,7 @@
                         [
                             "FunctionDefinition",
                             "confused",
-                            "$~Hellooooo, @ExpressionPlaceholder?",
+                            "$~வணக்கமமமமம், @ExpressionPlaceholder?",
                             "$~ஹ்ம், அவர்கள் பொதுவாக எல்லா இடங்களிலும் இருக்கிறார்கள். இப்போது அவர்கள் எங்கும் இல்லை என்று தெரிகிறது ..."
                         ],
                         [
@@ -360,7 +363,10 @@
                     "title": "$~மீண்டும் சொல்லவா?",
                     "subtitle": "$~பகுத்தறிய முடியாதது",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -504,7 +510,8 @@
                     "subtitle": "$~மதிப்பிடு",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -738,12 +745,12 @@
         },
         {
             "title": "$~சிறிய விஷயங்கள் தான்",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~மதிப்புகள்",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -796,7 +803,8 @@
                     "subtitle": "$~உரை",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -982,7 +990,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1061,7 +1070,8 @@
                     "subtitle": "$~உண்மை",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1266,7 +1276,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1451,7 +1462,10 @@
                     "title": "$~திறப்பு (மறு) மதிப்பெண்கள்",
                     "subtitle": "$~முன்னொட்டு",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1568,20 +1582,60 @@
                             "$~நீங்கள் நன்றாக செய்கிறீர்கள் என்று அவர்கள் நினைக்கிறார்கள்! நீங்களும் சிறப்பாக செயல்படுகிறீர்கள் என்று நினைக்கிறேன். எங்களின் பல அற்புதமான வீரர்களை நீங்கள் ஏற்கனவே சந்தித்துள்ளீர்கள். மேலும் சந்திக்க இன்னும் பல உள்ளன..."
                         ]
                     ]
+                },
+                {
+                    "title": "$~வடிவங்கள்",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~சில நேரங்களில் உங்களுக்கு ஒரு *குறிப்பிட்ட* உரை வேண்டாம் — அதன் *வடிவம்* என்னவென்று நீங்கள் அறிய விரும்புகிறீர்கள். இது இரண்டு இலக்கங்கள், ஒரு முக்காற்புள்ளி, பின்பு இரண்டு இலக்கங்களா — ஒரு கடிகார நேரமா? இதில் ஒரு எண் இருக்கிறதா?"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~அதற்குத்தான் ஒரு @PatternLiteral! நீங்கள் ஒன்றை இதற்குள் எழுதுகிறீர்கள் \\⣿ ⣿\\ மற்றும் அதை தொடக்கத்திலிருந்து முடிவு வரை படிக்கிறீர்கள்: \\_\\ என்பது ஒரு எழுத்து, \\#\\ என்பது ஒரு இலக்கம், \\␣\\ என்பது ஒரு இடைவெளி, மேற்கோள் இட்ட உரை சரியாகப் பொருந்துகிறது. எண்ணிக்கைகள் முதலில் வருகின்றன, எனவே \\2 #\\ என்றால் இரண்டு இலக்கங்கள்."
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~இதைப் பயன்படுத்துங்கள் \\≈\\ “இந்த முழு உரையும் இந்த வடிவத்தில் பொருந்துகிறதா?” எனக் கேட்க — உங்களுக்கு ஒரு \\⊤\\ அல்லது \\⊥\\ கிடைக்கும். \\⌕\\ ஒரு வடிவம் தோன்றும் ஒவ்வொரு இடத்தையும் *கண்டறிய* முயற்சிக்கவும், நீங்கள் வைத்திருக்க விரும்பும் பகுதிகளை @name செய்யவும் இதன் மூலம் \\பெயர்: (…)\\."
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~ஒவ்வொரு முடிவும் பொருந்திய உரை, அது தொடங்கும் மற்றும் முடியும் இடம், மேலும் நீங்கள் பிடித்த குழுக்களைக் கொண்ட ஒரு @Structure. வடிவங்கள் graphemes மூலம் பொருந்துவதால், அவை ஒவ்வொரு @language மற்றும் எழுத்துமுறையிலும் ஒரே மாதிரியாகச் செயல்படுகின்றன."
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "$~குழுமங்கள்",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "$~சமூக மதிப்புகள்",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1619,7 +1673,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1804,7 +1859,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1923,7 +1979,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2092,32 +2149,12 @@
         },
         {
             "title": "$~நடிகர்கள் கட்சி",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~மாற்றுப்பாதை",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2144,7 +2181,7 @@
                     "title": "$~நாம் எதுவாக வேண்டுமானாலும் இருக்கலாம்",
                     "subtitle": "$~மாற்றவும்",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2307,7 +2344,10 @@
                     "title": "$~எப்படி தேர்வு செய்வது?",
                     "subtitle": "$~முடிவுகள்",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2440,12 +2480,12 @@
         },
         {
             "title": "$~காட்சி மாற்றம்",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~உள்ளீடு",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2479,7 +2519,7 @@
                     "title": "$~டிக், டிக், டிக்...",
                     "subtitle": "$~நேரம்",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2554,7 +2594,7 @@
                     "title": "$~கிளிக் கிளாக்",
                     "subtitle": "$~முக்கிய",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2570,7 +2610,11 @@
                             "neutral",
                             "$~இதோ ஒரு எளிய உதாரணம். மேடையைக் கிளிக் செய்யவும் அல்லது விசைப்பலகை மூலம் கவனம் செலுத்தவும், பின்னர் ஏதேனும் விசைப்பலகை விசையை அழுத்தவும். நீங்கள் தட்டச்சு செய்த விசை பெயரால் தோன்றுவதைக் காண்பீர்கள். ஏனென்றால், ஒவ்வொரு முறையும் கீ ஸ்ட்ரீம் மாறும்போது, @Program கீ ஸ்ட்ரீமை அதன் சமீபத்திய மதிப்பாக மதிப்பீடு செய்து, அதை மேடையில் காண்பிக்கும்."
                         ],
-                        ["Key", "neutral", "$~clickety clickety clickety"],
+                        [
+                            "Key",
+                            "neutral",
+                            "$~கிளிக்கிட்டி கிளிக்கிட்டி கிளிக்கிட்டி"
+                        ],
                         { "edit": "Key()" },
                         null,
                         [
@@ -2578,7 +2622,7 @@
                             "serious",
                             "$~எந்த விசையை அழுத்தினாலும் இந்த ஸ்ட்ரீம் மாறும். ஆனால் ஒரு குறிப்பிட்ட விசையை அழுத்தும் போது மாற்றுமாறு ஒரு கீ ஸ்ட்ரீமைச் சொல்லலாம். ஸ்ட்ரீம் முதல் முறையாக \\a\\ எப்படி மாறுகிறது, ஆனால் அதன் பிறகு மாறவில்லை என்பதைப் பார்க்கவா? ஏனெனில் \\a\\ அழுத்தினால் மட்டுமே இந்த ஸ்ட்ரீம் மாறுகிறது, எனவே இது எப்போதும் \\a\\ காண்பிக்கப்படும். ஆனால் காலவரிசையில் புதிய முக்கிய மதிப்பு தோன்றுவதை நீங்கள் எப்போதும் பார்ப்பீர்கள்."
                         ],
-                        ["Key", "neutral", "$~clickety 'a'…"],
+                        ["Key", "neutral", "$~கிளிக்கிட்டி 'a'…"],
                         { "edit": "Key('a')" },
                         null,
                         [
@@ -2586,7 +2630,7 @@
                             "kind",
                             "$~சில நேரங்களில் அழுத்துவதற்குப் பதிலாக, ஒரு விசை எப்போது வெளியிடப்பட்டது என்பதை அறிவது உதவியாக இருக்கும். ஒரு விசையை அழுத்துவதற்குப் பதிலாக எப்போது வெளியிடப்படும் என்பதை @Key ஸ்ட்ரீமுக்குச் சொல்ல \\⊥\\ ஐக் கடந்து செல்லவும். இப்போது, 'a' விசையை அழுத்திப் பிடிக்கவும், பின்னர் நீங்கள் வெளியிடும் போது, மேடையில் 'a' தோன்றுவதைக் காண்பீர்கள். பிடிக்கவில்லையா? செயல்திறனை மீட்டமைக்க ↻ பொத்தானை அழுத்தி மீண்டும் முயற்சிக்கவும்."
                         ],
-                        ["Key", "neutral", "$~clickety 'a'…"],
+                        ["Key", "neutral", "$~கிளிக்கிட்டி 'a'…"],
                         { "edit": "Key('a' ⊥)" },
                         null,
                         [
@@ -2602,7 +2646,7 @@
                     "title": "$~ம்ம்ம்ம்ம்ம்ம்…",
                     "subtitle": "$~சுட்டி",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2642,7 +2686,7 @@
                     "title": "$~மற்றும்... இப்போது!",
                     "subtitle": "$~பொத்தான்",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2676,7 +2720,7 @@
                     "title": "$~யாராவது கேட்கிறார்களா?",
                     "subtitle": "$~தொகுதி",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2700,7 +2744,8 @@
                     "subtitle": "$~சீரற்ற",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2736,7 +2781,8 @@
                     "subtitle": "$~வேலை வாய்ப்பு",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2776,7 +2822,8 @@
                     "subtitle": "$~இயக்கம்",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2842,7 +2889,7 @@
                             "$~எடுத்துக்காட்டாக, அதற்கு நாம் @Motion.velocity என்ற தொடக்கத்தைக் கொடுக்கலாம்.",
                             "$~இந்த உதாரணம் பந்தை வலது மற்றும் மேலே நகர்த்தவும், ஆரம்பத்தில் சிறிது சுழலவும் செய்கிறது."
                         ],
-                        ["Motion", "excited", "$~Woooosh…"],
+                        ["Motion", "excited", "$~வூஷ்…"],
                         null,
                         {
                             "edit": [
@@ -2862,7 +2909,7 @@
                             "$~ஈர்ப்பு விசை மிகவும் குறைவாக இருக்கும் சந்திரனைப் போல மாற்ற முயற்சிக்கவும்!",
                             "$~அல்லது @Matter.mass அல்லது @Matter.bounciness ஐ மாற்ற முயற்சிக்கவும், இது @Phrase துள்ளலைப் பாதிக்கும்."
                         ],
-                        ["Motion", "excited", "$~Wsh…"],
+                        ["Motion", "excited", "$~வ்ஷ்…"],
                         null,
                         {
                             "edit": [
@@ -2904,7 +2951,7 @@
                     "title": "$~பேசலாம்",
                     "subtitle": "$~அரட்டை",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2934,7 +2981,8 @@
                     "subtitle": "$~வலைப்பக்கம்",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2978,7 +3026,7 @@
                     "title": "$~ஆன் க்யூ",
                     "subtitle": "$~எதிர்வினை",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3120,12 +3168,15 @@
         },
         {
             "title": "$~மேடை ஏறுங்கள்",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~வெளியீடு",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3167,7 +3218,7 @@
                     "title": "$~என்ன சொல்ல?",
                     "subtitle": "$~சொற்றொடர்",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3447,7 +3498,10 @@
                     "title": "$~1, 2, 3, 4, 1, 2, 3, 4",
                     "subtitle": "$~வரிசை",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3628,7 +3682,8 @@
                     "subtitle": "$~குழு",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3884,9 +3939,7 @@
                     "title": "$~மேடை... சரியா?",
                     "subtitle": "$~மேடை",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3992,10 +4045,198 @@
                     ]
                 },
                 {
+                    "title": "$~குழி",
+                    "subtitle": "$~இசை",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~நீங்கள் @Stage, @Group, @Phrase, @Sequence ஆகியவற்றைச் சந்தித்திருக்கிறீர்கள். இதுவரை நீங்கள் உருவாக்கிய அனைத்தையும் *பார்க்கப்படுவதற்காக* உருவாக்கினீர்கள்."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~குழுவில் இன்னும் ஒரு உறுப்பினர் இருக்கிறார். அவரை நீங்கள் ஒருபோதும் பார்க்க மாட்டீர்கள்."
+                        ],
+                        null,
+                        [
+                            "Music",
+                            "serious",
+                            "$~நான் எண்களை ஒலியாக மாற்றுகிறேன்."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~எண்களா? இசைக்குறிப்புகள் இல்லையா?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~பாருங்கள். எட்டு எண்கள், ஒரு குரல்."
+                        ],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~மேடைக்கு மேலே உள்ள முறை மாற்றியில் @UI/modeSwitcher ▶️ இயக்கு பொத்தானை அழுத்துங்கள். நீங்கள் எழுதிக்கொண்டிருக்கும்போது நான் அசையாமல் இருக்கிறேன் — இயக்கும்போதுதான் நான் தொடங்குகிறேன்."
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~ஒவ்வொரு எண்ணும் ஒரு *அளவின் படி*, ஒரு ஒலியேற்றம் அல்ல. \\1\\ என்பது ஒரு பாட்டு முடிந்ததாக ஒலிக்கும் படி, மேலும் \\8\\ என்பது அதே இசைக்குறிப்பு ஒரு எட்டுப்படி மேலே."
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~அவற்றில் ஒன்றை மாற்றவும் — மீண்டும் ✏️ திருத்தும் முறையில் — பிறகு மீண்டும் இசைத்து என்ன நகர்ந்தது என்று கேட்கவும்."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~அதை யார் இசைக்கிறார்கள்?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~நான் கேட்கும் யாராவது. அது ஒரு @Track இன் @Track.instrument."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~அந்த எட்டு எண்கள் மாறவில்லை. அவற்றை யார் இசைக்கிறார்கள் என்பதுதான் மாறியது.",
+                            "$~தேர்ந்தெடுக்க பதினெட்டு உள்ளன. முயற்சி செய்யவும் \\Instrument.violin\\, அல்லது \\Instrument.trumpet\\, அல்லது \\Instrument.dog\\."
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~எவ்வளவு வேகமாக?"],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo. நிமிடத்திற்கு துடிப்புகள், வேறு எதுவும் இல்லை."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~எழுபத்திரண்டு என்பது கிட்டத்தட்ட நடக்கும் வேகம். முப்பதை முயற்சி செய்யவும். இருநூறை முயற்சி செய்யவும்."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~நீங்கள் அதை மாற்றும்போது நான் மீண்டும் தொடங்கவில்லை என்பதைக் கவனியுங்கள். புதிய வேகம் அடுத்த துடிப்பில் இணைகிறது, எனவே இசைத்துண்டு அதன் இடத்தை இழக்காமல் வேகமெடுக்கிறது."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ஒன்றுக்கு மேற்பட்ட குரல்கள் இருக்க முடியுமா?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~உங்களுக்கு விருப்பமான அளவு. ஒன்றை மட்டும் தராமல் @Track இன் ஒரு பட்டியலை என்னிடம் கொடுங்கள்."
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~நான்கு குரல்கள், ஒரே இசை. அடிக்குரல் என்பது *அதே எட்டு எண்கள்*, @Track.key ஆல் ஒரு எட்டுப்படி கீழே இறக்கப்பட்டவை. கார்டுகள் ஒவ்வொன்றும் இரண்டு துடிப்புகள் நீடிக்கின்றன, மேளம் இரண்டு மடங்கு வேகமாக நகர்கிறது — அது @Track.beat."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~ஒலியளவுகளையும் கவனியுங்கள். புல்லாங்குழல் மட்டுமே முழு அளவுக்கு அருகில் உள்ளது. முழு ஒலியளவில் உள்ள குரல்கள் சேர்ந்து சத்தமான இசைக்குழுவாக மாறுவதில்லை; அவை சேர்ந்து குழப்பமான ஒன்றாக மாறுகின்றன."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~வேறு என்ன மாற முடியும்?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~ஒரு வாக்கியத்தில் என்னால் சொல்ல முடியாத அளவு. எனவே: எல்லாமே ஒரே நேரத்தில்."
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~மீண்டும் இசை பொத்தானை அழுத்தவும். @Music.scale மற்றும் @Music.key முழு இசைத்துண்டையும் ஒரே நேரத்தில் நகர்த்துகின்றன. \\pan\\ ஒவ்வொரு குரலையும் அறையில் எங்காவது வைக்கிறது. மணி இசைக்குறிப்பு மதிப்புகளைப் படிக்கிறது — \\𝅘𝅥𝅮\\ என்பது ஒரு எட்டில் ஒன்று — மேலும் ஒரு @Note அதன் சொந்த ஒலியளவைச் சுமக்கிறது. கடைசி குரலில் \\words\\ உள்ளது, எனவே அது அவற்றை ஒருமுறை பாடுகிறது, ஏனெனில் அதன் \\loop\\ என்பது \\⊥\\."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~மேலும் ஒவ்வொரு தாளத்திலும் @Beat உங்களுக்கு ஒரு @Downbeat கொடுக்கிறது. @Downbeat.parts என்பது இப்போது ஒவ்வொரு குரலும் அதன் சுருதி, ஒலியளவு, மற்றும் இடம் ஆகியவற்றுடன் உள்ளது; @Downbeat.words என்பது பாடப்படும் அசை. புள்ளிகளும் பாடல் வரியும் இவ்வளவுதான்."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~@Music கேட்கப்படுகிறது ஆனால் ஒருபோதும் காணப்படுவதில்லை, எனவே அவர்களைப் பற்றி எதுவும் *இடம் பெறுவதில்லை*. அவர்கள் @Stage மேல் பயணித்து அறையை நிரப்புகிறார்கள் — மேலும் பார்க்கும் ஒவ்வொரு நபரும் அவர்கள் எப்படி, அல்லது தோன்றுவார்களா என்பதைத் தேர்ந்தெடுக்கிறார்கள்."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~அப்படியென்றால்: உங்கள் உலகம் எப்படி ஒலிக்க வேண்டும் என நீங்கள் விரும்புகிறீர்கள்?"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~மற்றும்... காட்சி!",
                     "subtitle": "$~காட்சி",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4122,7 +4363,10 @@
                     "title": "$~பெயர் யாராவது உண்டா...",
                     "subtitle": "$~தேர்வு",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4172,12 +4416,12 @@
         },
         {
             "title": "$~திரும்பப் பெறுதல்",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~நினைவுகள்",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~…"],
                         null,
@@ -4200,7 +4444,7 @@
                     "title": "$~பெயரிடுதல்",
                     "subtitle": "$~கட்டு",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4449,7 +4693,7 @@
                     "title": "$~ஆஃப் ஸ்டேஜ்",
                     "subtitle": "$~தடு",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4615,7 +4859,10 @@
                     "title": "$~மேடை திசைகள்",
                     "subtitle": "$~செயல்பாடுகள்",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4722,7 +4969,10 @@
                     "title": "$~வடிவமைப்பு அமைக்கவும்",
                     "subtitle": "$~கட்டமைப்புகள்",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -5052,7 +5302,7 @@
                     "title": "$~இயக்குனரின் குறிப்புகள்",
                     "subtitle": "$~விளக்கவும்",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5290,15 +5540,14 @@
         },
         {
             "title": "$~கண்டனம்",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~இணை சார்பு",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5695,12 +5944,46 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~ஆம், நிச்சயமாக! அவர்களை இசையமைக்க அனுமதிப்பது எப்படி? @Phrase, @Phrase் கேட்டு, உங்கள் நிறத்தில் @Color.lightness மற்றும் @Color.chroma என இணைக்க முடியுமா? அந்த வகையில், நம்ம டைரக்டர் சத்தம் போட்டால் வெளுத்து விடுவோம்!"
+                            "$~ஓ ஆம், நிச்சயமாக! அவர்கள் அறையை ஒளிரச் செய்யட்டுமே? @Phrase, நீ @Volumeஐக் கேட்டு, அதை உன் நிறத்தில் @Color.lightness மற்றும் @Color.chroma உடன் இணைக்க முடியுமா? அப்படிச் செய்தால், நம் இயக்குநர் சத்தம் எழுப்பும்போது நாம் வெண்மையாய் ஒளிர்வோம்!"
                         ],
                         ["Phrase", "kind", "$~அருமையான யோசனை!"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~நாம் நகர்கிறோம்… ஆனால் அறை மிகவும் அமைதியாக உள்ளது. @Music? நீ அங்கே இருக்கிறாயா?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~நான் இந்த நேரம் முழுவதும் இங்கேதான் இருந்தேன். நீ ஒருபோதும் என்னிடம் ஒரு ஒலியைக் கேட்கவில்லை."
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~… நாம் நகர்வதற்கு ஏதாவது ஒன்று எங்களுக்குக் கொடுப்பாயா?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~அப்படியென்றால் நான்கு குரல்கள்: ஒரு இசை, ஒரு பாஸ், ஒரு நாண், மற்றும் ஒரு மேளம். நிமிடத்திற்கு எண்பது தாளங்கள் — அதுதான் நீ @Reaction-இடம் கேட்ட வினாடியின் முக்கால் பகுதி."
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~டும்… டும்… டும்… டும்…"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~சரியான நேரத்தில்! சரியான நேரத்தில்! *ஒவ்வொரு* சமிக்ஞையிலும்! இதுபோன்ற ஒரு தாளம் எனக்கு இதற்கு முன் கிடைத்ததில்லை."
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction, நீ இனி ஒரு கடிகாரத்தை எண்ணவில்லை. நீ @Music-ஐக் கேட்கிறாய்."
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "$~1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "$~நகர்த்தவும்!"],
                         ["Text", "excited", "$~மகிழ்ச்சி!"],

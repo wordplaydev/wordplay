@@ -1,44 +1,28 @@
-Play a sound when something happens
+Redă un sunet când se întâmplă ceva
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+Un clinchet când răspunsul este corect, o bufnitură când ceva aterizează — un efect sonor este un mic  @Music  care se redă o dată și apoi dispare.
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+Două lucruri îl fac să fie un efect sonor, nu un cântec. \buclă: ⊥\ îi spune lui  @Track  să redea notele o singură dată, nu la nesfârșit. Iar lista de note vine chiar din acel moment: ea conține note când tocmai s-a întâmplat ceva și este goală în restul timpului.
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 atinge-mă' selectable: ⊤ name: 'atingere')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+Nu-ți face griji că lista se golește din nou la următoarea evaluare — o notă care a început se redă mereu până la capăt. Ceea ce nu poți lăsa deoparte este \replay\. Atinge de două ori și a doua atingere produce exact aceeași muzică precum prima, deci nimic nu s-a schimbat și nimic nu ar suna din nou; \replay\ este modul în care spui /din nou, acum/. 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music  vrea aici o condiție *de moment* — una care este adevărată doar la evaluarea provocată de eveniment, precum \∆ 🖱()\ de mai sus. Ceva de durată, precum \score > 10\, rămâne adevărat pentru totdeauna după aceea și ar reporni sunetul la fiecare evaluare.
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+Deoarece notele sunt doar o listă, le poți hotărî în funcție de *ce* s-a întâmplat, în loc să redai mereu același lucru:
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '⌨ apasă o tastă' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+Observă că \∆ key\ este calculat pe propria linie, iar testul valorii \key = ' '\ se întâmplă separat. Scrise împreună ca o singură condiție, sunetul s-ar declanșa din nou la următoarea tastă fără legătură, în timp ce \key\ încă se citește ca un spațiu.
 
 draw-the-music, music-follows-the-action, offer-choices

@@ -21,7 +21,6 @@ import {
 } from '@edit/drag/Drag';
 import Bind from '@nodes/Bind';
 import DefinitionExpression from '@nodes/DefinitionExpression';
-import type Evaluate from '@nodes/Evaluate';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Literal from '@nodes/Literal';
@@ -193,7 +192,7 @@ export function getProjectHighlights(
     /** The node responsible for the latest source-level exception, if any. */
     exceptionNode: Node | undefined,
     animatingNodes: Set<Node> | undefined,
-    selectedOutput: Evaluate[] | undefined,
+    selectedOutput: Node[] | undefined,
     blocks: boolean,
 ): Highlights {
     const highlights = new Highlights();
@@ -221,7 +220,10 @@ export function getProjectHighlights(
 
     // Mark the whole Evaluate, matching what selection actually means: the caret being
     // anywhere inside the output selects it, so marking one token would understate it.
-    // Readable now that it's a traced outline rather than a full-width underline.
+    // Readable now that it's a traced outline rather than a full-width underline. A
+    // palette editor may narrow this to one node inside the output — the note it has
+    // focused — since a whole Music spans lines and outlining all of it says nothing
+    // about which note is being edited.
     if (selectedOutput)
         for (const node of selectedOutput)
             highlights.add(source, node, 'output');
@@ -526,7 +528,7 @@ export function getHighlights(
     hovered: Node | undefined,
     insertion: InsertionPoint | AssignmentPoint | undefined,
     animatingNodes: Set<Node> | undefined,
-    selectedOutput: Evaluate[] | undefined,
+    selectedOutput: Node[] | undefined,
     blocks: boolean,
     selecting: boolean,
 ): Highlights {

@@ -37,6 +37,7 @@ export const InstrumentKeys = [
     'synth',
     'synthBass',
     'synthPad',
+    'voice',
 ] as const;
 
 export type InstrumentKey = (typeof InstrumentKeys)[number];
@@ -48,6 +49,10 @@ export type InstrumentSpec = {
     pitched: boolean;
     /** For unpitched instruments, what degree n strikes (1-indexed). */
     kit?: readonly string[];
+    /** Whether this instrument sounds a track's `words`. Only the voice does,
+     * and everything else ignores them — which is why the sheet draws a lyric
+     * only under a track that will actually sing it. */
+    sings?: boolean;
     /** The stable visualization hue (degrees), one per instrument across every project. */
     hue: number;
 };
@@ -58,6 +63,11 @@ export type InstrumentSpec = {
 export function instrumentSpec(id: string): InstrumentSpec | undefined {
     for (const key of InstrumentKeys) if (key === id) return Instruments[key];
     return undefined;
+}
+
+/** Whether an instrument sounds a track's `words`. */
+export function sung(id: string): boolean {
+    return instrumentSpec(id)?.sings ?? false;
 }
 
 /** Narrow an arbitrary id to a palette key, for callers that need the key
@@ -144,4 +154,16 @@ export const Instruments: Record<InstrumentKey, InstrumentSpec> = {
     synthBass: { emoji: '🎚️', pitched: true, hue: 310 },
     // A pad is a soft sustained wash rather than another control surface.
     synthPad: { emoji: '☁️', pitched: true, hue: 200 },
+    // A vocal tract built out of filters, and a synthesizer by the same test
+    // as the three above: it is not standing in for a singer we failed to
+    // record. Its formants never move with pitch, which no throat can manage,
+    // so it sings without ever being mistaken for a person — and without
+    // sounding like a man or a woman at any note.
+    //
+    // A robot, because that is what it sounds like: a machine doing an
+    // impression of a person, which is the design rather than a shortfall of
+    // it. A speaking head would have been the obvious pick and belongs to
+    // `Chat`; a mouth is red lips in most fonts, which is a gender cue on the
+    // one instrument that must not carry one.
+    voice: { emoji: '🤖', pitched: true, sings: true, hue: 95 },
 };

@@ -1,0 +1,52 @@
+让声音把词语唱出来
+
+在调色板里的每一个  @Instrument  中，\🔈.🤖\ 是唯一一个能说出内容的。给它的  @Track  一个  @Track/words ，它就会把它们唱出来，每个音符一个音节：
+
+\Music(Track([1 2 3 5 3 1] words: '啦 啦 啦 啦 啦 啦' instrument: Instrument.voice) tempo: 120beats/min)\
+
+六个音节，六个音符。这里的空格就是全部语法——它们标出一个音节在哪里结束，下一个从哪里开始。休止符不占音节，所以词语落在你真正听到的音符上。如果你写的音节比音符少，它们就会从头再开始；如果一个都不写，声音就会保持一个 /呃/ 的声音，所以它总会唱出些什么。
+
+这种拼写不是英语。它是 <国际音标@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>，其中每个字母正好是一个音，每个音也正好有一个字母。英语拼写做不到这一点——在 \o\ 里的 /go/、/do/ 和 /women/ 中的字母是三个不同的音——所以一个读英语拼写的声音只能猜，而且会猜错。这也意味着一段歌词无论你用哪种语言写都一样有效，因为这些字母描述的是你的嘴，而不是你的字母表。
+
+你的键盘上大多数这些音符都没有对应的按键，所以请按编辑器下方的 🤖。它列出了声音能发出的每一个音，还有一个包含这个音的词，以及一个可以播放它的按钮——按下字母本身就会把它输入到你的代码里。听到一个音是真正认识它的唯一方法，那个面板就是参考；接下来的内容足够让你开始了。
+
+从元音开始。这十二个涵盖了你大部分想要的音，每一个都放在一个包含它的英语词里展示：
+
+\a\ f/a/ther，\e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+元音单独出现时，就是一个很好的音节。把它们一个接一个地唱出来，是分辨它们的最清楚的方法：
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+辅音大多和你预想的一样：\p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ 它们的发音和英语里差不多。值得学习的是英语用两个字母拼写的音，还有一个改变了位置的字母。\ʃ\ 是 /sh/，\ʒ\ 是 /s/ 在 /measure/ 里的音，\θ\ 是 /th/ 在 /thin/ 里的音，\ð\ 是 /th/在/this/，\ŋ\里的发音，/ng/在/sing/里的发音，还有\j\是/y/在/yes/里的发音。在元音前面放一个，你就得到一个词：
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+一个音节也可以拉长跨过好几个音符。用连字符结尾，每加一个连字符它就多保持一个音符——这一连串落在同一个音节上的音符，让赞美诗和摇篮曲有了它们的形状：
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+这三个连字符把\glo\拉过四个音符，然后\ri\落在最后一个上。声音认不出来的东西，它会跳过而不是拒绝，所以你可以尽情尝试而不会弄坏曲调。
+
+要显示正在唱的词，就把它们从 @Beat 里读出来。 @Downbeat/words 承载着那一刻正在唱的内容，所以一个短语就是一整个卡拉OK显示：
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts 逐条有相同的音节，如果你想把两个歌手分开画而不是画在一起。
+
+choose-an-instrument, write-rhythm, draw-the-music

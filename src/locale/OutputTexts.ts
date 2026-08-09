@@ -243,6 +243,8 @@ type OutputTexts = {
         loop: NameAndDoc;
         /** Whether a note between two notes plays both of them or bends one */
         mash: NameAndDoc;
+        /** IPA syllables for the voice to sing, one per note, separated by spaces */
+        words: NameAndDoc;
     };
     /** A single note with its own length and volume */
     Note: NameAndDoc & {
@@ -296,6 +298,8 @@ type OutputTexts = {
             synthBass: NameAndDoc;
             /** A synthesizer pad */
             synthPad: NameAndDoc;
+            /** A synthesized singing voice */
+            voice: NameAndDoc;
         };
     };
     /** The base form type */

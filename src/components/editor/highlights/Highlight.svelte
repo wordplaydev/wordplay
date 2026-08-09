@@ -147,6 +147,10 @@
     .outline.output path {
         stroke: var(--selection-color);
         stroke-width: var(--selection-ring-width);
+        /* Dashed, so a selected output can't be mistaken for the caret's
+           solid highlight — they otherwise draw the same shape in nearly the
+           same colour around the same tokens. */
+        stroke-dasharray: var(--selection-dash);
         fill: none;
         filter: drop-shadow(
             0 0 var(--selection-glow-blur) var(--selection-color)
@@ -220,6 +224,14 @@
         will-change: transform;
     }
 
+    /* Same treatment for the evaluating (current step) highlight, which was
+       otherwise invisible in blocks mode: static, matching text mode where
+       evaluating holds still and animating moves. */
+    :global(.node-view.block.evaluating) {
+        box-shadow: 0 0 0 var(--wordplay-focus-width)
+            var(--wordplay-evaluation-color);
+    }
+
     /* Make the text legible inside animating/evaluating/dragging nodes —
        only in text mode (i.e. NOT inside .block), where the pink SVG fill
        is what's behind the text. In blocks mode the block keeps its normal
@@ -256,6 +268,12 @@
     .underline.minor path,
     .underline.minor {
         stroke: var(--wordplay-warning);
+        /* Round dots, per the line vocabulary in app.html: error orange and
+           warning gold collapse under red-green color blindness, and warning
+           gold is also the selection hue, so line style — not hue — is what
+           says "minor". Dotted, not dashed: dashed means selected output. */
+        stroke-dasharray: var(--minor-severity-dots);
+        stroke-linecap: round;
     }
 
     /* Emphasized conflict: wiggle both the outline and underline left-right.

@@ -1,44 +1,28 @@
-Play a sound when something happens
+何かが起きたときに音を鳴らす
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+答えが正しいときの「チン」、何かが着地したときの「ドン」——効果音は、小さな @Music です。一度だけ鳴って、すぐに消えます。
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+歌ではなく効果音にするには、二つのことが必要です。\ループ: ⊥\は、 @Track に、音符をずっと鳴らし続けるのではなく一度だけ鳴らすよう伝えます。そして音符のリストそのものは、その瞬間から生まれます。何かがちょうど起きたときには音符が入っていて、それ以外のときは空です。
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 タップしてね' selectable: ⊤ name: 'タップ')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+次の評価でリストがまた空になっても心配いりません——始まった音符は、いつも最後まで鳴ります。省けないのは\replay\です。二回タップすると、二回目のタップは一回目とまったく同じ音楽を作ります。だから何も変わらず、もう一度は鳴りません。\replay\は、こう言うための方法です。/もう一度、今すぐ/。 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music は、ここでは*一瞬だけの*条件を求めます——出来事が起こした評価のときだけ真になるものです。上の\∆ 🖱()\のようなものです。ずっと続くもの、たとえば\score > 10\は、そのあとずっと真のままになり、評価のたびに音をやり直してしまいます。
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+音符はただのリストなので、いつも同じものを鳴らすのではなく、*何が*起きたかによって決めることができます。
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '⌨ キーを押してね' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+注目してください。\∆ key\は自分の行で計算され、値のテスト\key = ' '\は別々に起こります。もし一つの条件としてまとめて書くと、関係のない次のキーでも音がまた鳴ってしまいます。なぜなら\key\ は今も空白として読まれます。
 
 draw-the-music, music-follows-the-action, offer-choices

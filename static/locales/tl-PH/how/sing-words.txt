@@ -1,0 +1,52 @@
+Paawitin ang boses ng mga salita
+
+Sa bawat  @Instrument  sa palette, \🔈.🤖\ lang ang kayang magsalita ng kahit ano. Bigyan ang  @Track  nito ng  @Track/words  at aawitin ito, isang pantig kada nota:
+
+\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+
+Anim na pantig, anim na nota. Ang mga puwang ang buong balarila dito — sinasabi nila kung saan tumitigil ang isang pantig at kung saan nagsisimula ang susunod. Ang mga pahinga ay walang pantig, kaya ang mga salita ay dumadapo sa mga notang talagang naririnig mo. Sumulat ng mas kaunting pantig kaysa sa mga nota at mag-uumpisa sila ulit mula sa simula; huwag kang sumulat ng kahit isa at hahawakan ng boses ang isang /uh/ na tunog, kaya lagi itong may inaawit.
+
+Ang pagbabaybay ay hindi Ingles. Ito ang <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, kung saan ang bawat titik ay eksaktong isang tunog at ang bawat tunog ay may eksaktong isang titik. Hindi ito kayang gawin ng pagbabaybay sa Ingles — ang \o\ sa /go/, /do/ at /women/ ay tatlong magkaibang tunog — kaya ang boses na bumabasa ng pagbabaybay sa Ingles ay kailangang manghula, at mali ang huhulaan. Ibig sabihin din, ang isang liriko ay gumagana nang pareho kahit anong wika ang isinulat mo, dahil inilalarawan ng mga titik ang iyong bibig sa halip na ang iyong alpabeto.
+
+Walang susi sa iyong keyboard para sa karamihan ng mga ito, kaya pindutin ang 🤖 sa ilalim ng editor. Inililista nito ang bawat tunog na kayang gawin ng boses, kasama ang isang salitang naglalaman nito at isang pindutang tumutugtog nito — kapag pinindot mo ang titik mismo, isusulat ito sa iyong code. Ang pakikinig sa isang tunog lang ang paraan para tunay itong makilala, at ang panel na iyon ang sanggunian; ang mga susunod ay sapat na para makapagsimula.
+
+Magsimula sa mga patinig. Ang labindalawang ito ay sumasaklaw sa karamihan ng gusto mo, bawat isa ay ipinakita sa loob ng isang salitang Ingles na naglalaman nito:
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+Ang isang patinig na nakaisa ay isa nang magandang pantig. Ang pagkanta ng mga ito nang sunud-sunod ang pinakamalinaw na paraan para marinig ang pagkakaiba ng bawat isa:
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+Ang mga katinig ay kadalasang mukhang tulad ng inaasahan mo: \p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ ang lahat ay halos katunog ng sa Ingles. Ang mga sulit matutunan ay ang mga tunog na binabaybay ng Ingles gamit ang dalawang letra, kasama ang isang letra na lumipat. \ʃ\ ay /sh/, \ʒ\ ay ang /s/ sa /measure/, \θ\ ay ang /th/ sa /thin/, \ð\ ay ang /th/ sa /this/, \ŋ\ ay ang /ng/ sa /sing/, at \j\ ay ang /y/ sa /yes/. Maglagay ng isa sa harap ng patinig at magkakaroon ka ng salita:
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+Ang isang pantig ay maaari ring umabot sa ilang nota. Tapusin ito ng gitling at hahawak ito sa isa pang nota para sa bawat gitling — ang serye ng mga nota sa isang pantig na nagbibigay ng hugis sa mga himno at oyayi:
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+Dinadala ng tatlong gitling ang \glo\ sa apat na nota bago \ri\ mapunta sa huling nota. Ang anumang hindi nakikilala ng boses ay nilalaktawan nito sa halip na tumanggi, kaya makakapag-eksperimento ka nang hindi sinisira ang tono.
+
+Para ipakita ang mga salita habang inaawit ang mga ito, basahin muli ang mga ito mula sa  @Beat .  @Downbeat/words  ang nagdadala ng kung ano man ang inaawit sa sandaling iyon, kaya ang isang parirala ay isang buong karaoke display:
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts  ay may parehong mga pantig sa bawat track, kung nais mong ipinta ang dalawang mang-aawit nang magkahiwalay sa halip na magkasama.
+
+choose-an-instrument, write-rhythm, draw-the-music

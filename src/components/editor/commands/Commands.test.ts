@@ -109,7 +109,7 @@ test('commands claiming external feedback are enumerated', () => {
             // it (command, toolbar, settings dialog) sounds identical
             '⧠', // blocks/text editing mode → the blocks setting
             '▾', // autocomplete menu → the menu's own open/close
-            '⏯', // cycle evaluation mode → setUIMode
+            '⏯', // toggle evaluation mode → setUIMode
             '✏️', // edit mode → setUIMode
             '⏸', // step mode → setUIMode
             '▶', // play mode → setUIMode

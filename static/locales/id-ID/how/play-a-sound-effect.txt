@@ -1,44 +1,28 @@
-Play a sound when something happens
+Mainkan suara saat sesuatu terjadi
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+Bunyi "ding" saat jawaban benar, bunyi "buk" saat sesuatu jatuh — efek suara adalah  @Music  kecil yang berbunyi sekali lalu selesai.
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+Dua hal membuatnya menjadi efek suara, bukan lagu. \pengulangan: ⊥\ memberi tahu  @Track  untuk memainkan nadanya sekali saja, bukan selamanya. Dan daftar nadanya sendiri berasal dari momen itu: daftar berisi nada saat sesuatu baru saja terjadi, dan kosong di waktu lainnya.
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 sentuh aku' selectable: ⊤ name: 'sentuh')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+Jangan khawatir jika daftar kembali kosong pada evaluasi berikutnya — nada yang sudah mulai selalu berbunyi sampai selesai. Yang tidak boleh kamu hilangkan adalah \replay\. Sentuh dua kali, dan sentuhan kedua menghasilkan musik yang persis sama dengan yang pertama, jadi tidak ada yang berubah dan tidak ada yang berbunyi lagi; \replay\ adalah cara kamu mengatakan /lagi, sekarang/. 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music  ingin sebuah *sesaat* condition di sini — yang bernilai benar hanya pada evaluasi yang disebabkan oleh peristiwa itu, seperti \∆ 🖱()\ di atas. Sesuatu yang bertahan lama, seperti \score > 10\, tetap benar selamanya sesudah itu dan akan memulai ulang suara pada setiap evaluasi.
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+Karena nada hanya sebuah daftar, kamu bisa menentukannya dari *apa* yang terjadi, bukan selalu memainkan hal yang sama:
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '⌨ tekan sebuah tombol' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+Perhatikan bahwa \∆ key\ dikerjakan di barisnya sendiri, dan pengujian value \key = ' '\ terjadi secara terpisah. Jika ditulis bersama sebagai satu condition, suara akan berbunyi lagi pada tombol berikutnya yang tidak berkaitan, selagi \key\ tetap dibaca sebagai spasi.
 
 draw-the-music, music-follows-the-action, offer-choices

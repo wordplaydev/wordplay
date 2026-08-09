@@ -82,6 +82,11 @@ const NounlessCounts = new Set([
     // "and 3 more", "Showing 12 — search to find more"
     'ui.emoji.moreLanguages',
     'ui.emoji.moreGlyphs',
+    // "track 2 of 3" — both numbers count the same noun, which is already
+    // named ahead of them and never inflects.
+    'ui.palette.music.track',
+    // "music 2" — which music, not how many, so it is an ordinal label.
+    'ui.palette.music.unnamed',
 ]);
 
 test('no en-US string interpolates a count without a plural form', () => {

@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+భాగాలను ఒక అమరికలో పొరలుగా పేర్చండి
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+ఒక  @Track  ఒక రాగం. కలిసి వాయించే అనేకం ఒక బృందం — దానిని రాయడంలో మెళకువ ఏమిటంటే, భాగాలు వేర్వేరు సంగీతం కానవసరం లేదు.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+డిగ్రీలు స్థిర శ్రుతులు కాకుండా ఒక స్కేల్ యొక్క మెట్లు కాబట్టి, ఒక పూర్తి బాస్ లైన్ అనేది రాగం యొక్క సొంత సంఖ్యలను ఒక ఆక్టేవ్ కిందకు దించినది కావచ్చు.  @Track/key  ఒకే ట్రాక్‌ను కొన్ని సెమిటోన్ల మేర జరుపుతుంది, పన్నెండు సెమిటోన్లు సరిగ్గా ఒక ఆక్టేవ్:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+రెండు స్వరాలు, ఒక్క జాబితా. రాగాన్ని మార్చండి, బాస్ దానిని అనుసరిస్తుంది, ఎందుకంటే మార్చడానికి ఒకే ఒక రాగం ఉంది.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+ఇప్పుడు దాని చుట్టూ నింపండి. కార్డ్‌లకు రాగం యొక్క లయ కాకుండా వాటి సొంత లయ కావాలి, ఒక ట్రాక్ యొక్క సొంత  @Track/beat  దానికి ఒకటి ఇస్తుంది; \pan\ స్వరాలను ఎడమ, కుడి వైపులకు విస్తరిస్తుంది, తద్వారా చెవి వాటిని వేరు చేయగలదు:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+వాల్యూమ్‌లను గమనించండి: పిల్లనగ్రోవి మాత్రమే పూర్తి స్థాయిలో ఉంది. పూర్తి వాల్యూమ్‌లో ఉన్న భాగాలు కలిసి బిగ్గరగా వినిపించే బృందం కావు, అవి మరింత గజిబిజిగా అవుతాయి, ఎందుకంటే ఒకేసారి వినిపించే ప్రతిదీ ఒకే స్పీకర్ ద్వారా సరిపోవాలి. రాగాన్ని \100%\ వద్ద మొదలుపెట్టి, మిగతా అన్నింటినీ దాని కింద ఉంచండి.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+ప్యాడ్ యొక్క నాలుగు ప్రవేశాలు \beat: 2beats\ వద్ద ఎనిమిది బీట్లను నింపుతాయి, డ్రమ్‌ల ఎనిమిది \0.5beats\ వద్ద నాలుగింటిని నింపుతాయి — కాబట్టి డ్రమ్‌లు ప్రతి ప్యాడ్ చక్రానికి రెండుసార్లు తిరిగి వస్తాయి, అన్నీ మొదట్లో మళ్లీ కలుస్తాయి. భాగాలు లయ తప్పినప్పుడు, సాధారణంగా వాటి పొడవులు ఒకదానిలో ఒకటి భాగించబడకపోవడమే కారణం.
 
 write-rhythm, choose-an-instrument, music-follows-the-action

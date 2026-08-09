@@ -131,3 +131,44 @@ describe('getMultilingualFrom', () => {
         expect(entries.map((e) => e.text)).toEqual(['start', 'empezar']);
     });
 });
+
+describe('getMultilingualMarkupFrom', () => {
+    const showSource = (l: LocaleText) => l.ui.tile.toggle.showSource;
+
+    test('concretizes the template inputs into markup', () => {
+        const entries = locales(en).getMultilingualMarkupFrom(
+            showSource,
+            (text) => text.off,
+            { name: 'main' },
+        );
+        expect(entries).toHaveLength(1);
+        // This flattened text becomes an aria-label, so it must read as a plain
+        // sentence — no leftover template syntax or markup delimiters.
+        expect(entries[0].markup.toText()).toBe('show source main');
+    });
+
+    test('a function input names the value in each locale', () => {
+        // A tile's name is itself locale text, so a fixed input would put one
+        // language's word in every line — including the primary-locale line that
+        // becomes an aria-label.
+        const entries = locales(en, es).getMultilingualMarkupFrom(
+            (l) => l.ui.tile.toggle.show,
+            (text) => text.off,
+            (locale) => ({
+                name: locale.getTextStructure((l) => l.ui.tile.label).output,
+            }),
+        );
+        expect(entries).toHaveLength(1);
+        expect(entries[0].markup.toText()).toBe('show stage');
+    });
+
+    test('gives one entry per chosen locale', () => {
+        const entries = locales(en, es).getMultilingualMarkupFrom(
+            showSource,
+            (text) => text.on,
+            { name: 'song' },
+        );
+        expect(entries).toHaveLength(1);
+        expect(entries[0].language).toBe('en');
+    });
+});

@@ -5,13 +5,13 @@
     "acts": [
         {
             "title": "$~Wordplayはちがう",
-            "performance": { "fit": "#Symbol 💬" },
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
             "scenes": [
                 {
                     "title": "$~プログラムはvalueです",
                     "subtitle": "$~文ではなく、expression",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
                     "lines": [
                         { "edit": "" },
                         [
@@ -48,7 +48,10 @@
                     "title": "$~conditionを調べる",
                     "subtitle": null,
                     "concept": "Conditional",
-                    "performance": { "fit": "#Symbol ?" },
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
                         [
@@ -82,7 +85,7 @@
                     "title": "$~valueとtype",
                     "subtitle": null,
                     "concept": "Number",
-                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
                     "lines": [
                         {
                             "edit": [
@@ -148,7 +151,7 @@
                     "title": "$~変換、集まり、関数",
                     "subtitle": null,
                     "concept": "Convert",
-                    "performance": { "fit": "#Symbol →" },
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
                     "lines": [
                         { "edit": ["1m → #ft → ''"] },
                         [
@@ -188,7 +191,7 @@
                     "title": "$~出力は文字の表現、入力は反応する",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
                     "lines": [
                         {
                             "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
@@ -243,7 +246,10 @@
                     "title": "$~conflictとデバッグ",
                     "subtitle": null,
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ‼️" },
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         {
                             "edit": "1 + 'hello'",
@@ -274,7 +280,7 @@
                     "title": "$~組み合わせる",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 🔨" },
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
                     "lines": [
                         { "edit": ["elapsed: Time(100ms)", "elapsed"] },
                         [

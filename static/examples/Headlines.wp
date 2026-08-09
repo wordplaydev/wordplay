@@ -1,6 +1,7 @@
 l
 "Headlines"/en"头条新闻"/zh-CN"頭條新聞"/zh-TW
 === start/en
+¶Live New York Times headlines, pulled from the web and stacked on stage.¶
 headlines: Webpage('https://www.nytimes.com' '.indicate-hover')
 headlines•# ? 
     Phrase('loading')

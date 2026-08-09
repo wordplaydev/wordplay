@@ -1,39 +1,27 @@
-Make the music follow the action
+সংগীতক ক্ৰিয়াৰ পিছে পিছে চলিবলৈ দিয়ক
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+যি খেলে আৰম্ভণিৰ পৰা শেষলৈ এটাই সুৰ বজায়, সেয়া মামুলি লাগে। যদি সংগীতে জানিলেহেঁতেন যে তুমি জিকি আছা নে নাই?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+ইয়াক *বন্ধ* কৰাৰ কোনো উপায় নাই এটা  @Music  — ইয়াক যিয়ে বন্ধ কৰে সেয়া হৈছে  @Stage ত নাথকা। গতিকে state ৰ এটা টুকুৰা ৰাখা, আৰু তাৰ সৈতে মিলা গীতটো মঞ্চত ৰাখা:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'মেনু' … ∆ Button() … (phase = 'মেনু') ? 'খেদা' 'মেনু'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'মেনু') ? '▶ আৰম্ভ কৰিবলৈ টিপা' '🏃 দৌৰা!' 1m)
+		(phase = 'মেনু') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+দুয়োটা গীতেই একেই আঠটা সংখ্যা। কেৱল বাদ্যযন্ত্ৰ আৰু গতি সলনি হয়, আৰু ইতিমধ্যে ই এটা বেলেগ গীতৰ দৰে শুনা যায় — কাৰণ ডিগ্ৰীবোৰে কয় *স্কেলৰ কোনটো খোজ*, কোনটো পিচ নহয়, সেয়ে এটা  @Music এ ইয়াক নতুনকৈ ব্যাখ্যা কৰিব পাৰে। ইয়াক \মাপ: 🎼.harmonicMinor\ দিয়া আৰু এটা টোকাও নিলিখাকৈ একেই সুৰটো ভয়ংকৰ হৈ পৰে।
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+আনটো ভাগ হৈছে এনে সংগীত যিয়ে কথাবোৰ কেনেকৈ চলি আছে তাৰ সৈতে একেৰাহে বাকি যায়। \tempo\ সলনি কৰিলে একো পুনৰ আৰম্ভ নহয় — ই পৰৱৰ্তী বিটত জোৰা লাগে, সেয়ে গীতটোৱে নিজৰ ঠাই নেহেৰুৱাকৈ বেগ বঢ়ায়:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('স্কোৰ \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+যথেষ্টবাৰ টিপা আৰু ঢোলবোৰে আৰম্ভ কৰাতকৈ দুগুণ জোৰেৰে বাজে। এটা চুটি, তালযুক্ত টোকাইহে সেয়া শুনিবলৈ দিয়ে — দীঘলীয়া ধৰি ৰখা টোকাৰ তলত গতিৰ সলনি অনুভৱ কৰা টান।
 
 choose-an-instrument, play-a-sound-effect, track-game-state

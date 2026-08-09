@@ -195,6 +195,82 @@ test('music alongside several phrases groups only the phrases', () => {
     expect(stage?.getMusic()).toHaveLength(1);
 });
 
+test('music beside an explicit stage rides along on it', () => {
+    // A program with a stage and a song is two result expressions, so its value
+    // is a list. The stage used to be taken alone and everything beside it
+    // dropped, which silenced the song with no error anywhere.
+    const stage = stageFrom("Stage([Phrase('hi')])\nMusic(Track([1 2 3]))");
+    expect(stage?.explicit).toBe(true);
+    expect(stage?.content.map((output) => output?.constructor.name)).toEqual([
+        'Phrase',
+        'Music',
+    ]);
+    expect(stage?.getMusic()).toHaveLength(1);
+});
+
+test('a literal list of a stage and music merges the same way', () => {
+    // Same path, but reached by writing the list rather than by Block.collect
+    // building one out of several result expressions.
+    const stage = stageFrom("[Stage([Phrase('hi')]) Music(Track([1 2 3]))]");
+    expect(stage?.getMusic()).toHaveLength(1);
+});
+
+test('output before the stage still lands after its content', () => {
+    // The stage's own content is what the creator composed deliberately, so
+    // leftovers go after it — and content order is draw order, so they're on top.
+    const stage = stageFrom("Music(Track([1]))\nStage([Phrase('hi')])");
+    expect(stage?.content.map((output) => output?.constructor.name)).toEqual([
+        'Phrase',
+        'Music',
+    ]);
+});
+
+test('stray phrases beside a stage join it flat, with no implicit group', () => {
+    // The synthesized Stack group exists only because a stageless program has
+    // nothing to say what the layout is. Here the stage does, so strays get
+    // exactly what typing them into its content list would have given them.
+    const stage = stageFrom("Stage([Phrase('a')])\nPhrase('b')\nPhrase('c')");
+    expect(stage?.content.map((output) => output?.constructor.name)).toEqual([
+        'Phrase',
+        'Phrase',
+        'Phrase',
+    ]);
+});
+
+test('the last stage still wins, and carries the rest of the list', () => {
+    // Stages can't nest and an earlier one's background and frame have no merge
+    // rule, so it's still discarded — but the music isn't its, it's the list's.
+    const stage = stageFrom(
+        "Stage([Phrase('a')] name: 'first')\nStage([Phrase('b')] name: 'second')\nMusic(Track([1]))",
+    );
+    expect(stage?.getName()).toBe('second');
+    expect(stage?.getMusic()).toHaveLength(1);
+});
+
+test('merging does not change the order names are generated in', () => {
+    // Names are handed out as the list is read, and a colliding one gets a
+    // suffix. Reading the stage's content late (or early) would swap which of
+    // these two 'a's is the original — and a music whose name moved is
+    // reconciled as a different piece and restarts on every evaluation.
+    expect(
+        stageFrom(
+            "Stage([Phrase('hi' name: 'a')])\nMusic(Track([1]) name: 'a')",
+        )?.getMusic()[0]?.getName(),
+    ).toBe('a2');
+    expect(
+        stageFrom(
+            "Music(Track([1]) name: 'a')\nStage([Phrase('hi' name: 'a')])",
+        )?.getMusic()[0]?.getName(),
+    ).toBe('a');
+});
+
+test('a say beside an explicit stage rides along too', () => {
+    // Say is heard rather than seen, like Music, and reaches the speech
+    // synthesizer through the same content walk.
+    const stage = stageFrom("Stage([Phrase('hi')])\nSay('hello')");
+    expect(stage?.getSays()).toHaveLength(1);
+});
+
 test('unnamed music gets a stable generated name across evaluations', () => {
     // Names derive from creator node ids, which are stable for as long as the
     // program is: converting the same value twice (as consecutive evaluations

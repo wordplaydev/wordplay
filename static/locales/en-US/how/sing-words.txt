@@ -1,0 +1,66 @@
+Make the voice sing words
+
+Of every @Instrument in the palette, \Instrument.voice\ is the only one that can say something. Give its @Track a @Track/words and it sings them, one syllable per note:
+
+\
+Music(
+	Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice)
+	tempo: 120beats/min
+)
+\
+
+Six syllables, six notes. The spaces are the whole grammar here — they say where one syllable stops and the next starts. Rests take no syllable, so the words land on the notes you actually hear. Write fewer syllables than notes and they start over from the beginning; write none at all and the voice holds an /uh/ sound, so it always sings something.
+
+The spelling isn't English. It's the <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, where every letter is exactly one sound and every sound has exactly one letter. English spelling can't do that — the \o\ in /go/, /do/ and /women/ is three different sounds — so a voice reading English spelling would have to guess, and would guess wrong. It also means a lyric works the same whichever language you write in, because the letters describe your mouth rather than your alphabet.
+
+There is no key on your keyboard for most of these, so press 🤖 under the editor. It lists every sound the voice can make, with a word containing it and a button that plays it — pressing the letter itself types it into your code. Hearing a sound is the only way to really know it, and that panel is the reference; what follows is enough to get started.
+
+Start with the vowels. These twelve cover most of what you'll want, each shown inside an English word that contains it:
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+A vowel on its own is a perfectly good syllable, and singing them in a row is the clearest way to hear one from another:
+
+\
+Music(
+	Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice)
+	tempo: 90beats/min
+)
+\
+
+Consonants mostly look like what you'd expect: \p b t d k m n s f l r w\ all sound about as they do in English. The ones worth learning are the sounds English spells with two letters, plus one letter that has moved. \ʃ\ is /sh/, \ʒ\ is the /s/ in /measure/, \θ\ is the /th/ in /thin/, \ð\ is the /th/ in /this/, \ŋ\ is the /ng/ in /sing/, and \j\ is the /y/ in /yes/. Put one in front of a vowel and you have a word:
+
+\
+Music(
+	Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice)
+	tempo: 100beats/min
+)
+\
+
+One syllable can also stretch across several notes. End it with a hyphen and it holds through one more note for each hyphen — the run of notes on a single syllable that gives hymns and lullabies their shape:
+
+\
+Music(
+	Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice)
+	tempo: 140beats/min
+)
+\
+
+The three hyphens carry \glo\ over four notes before \ri\ lands on the last one. Anything the voice doesn't recognize it skips rather than refusing, so you can experiment without breaking the tune.
+
+To show the words as they are sung, read them back out of @Beat. @Downbeat/words carries whatever is being sung at that moment, so one phrase is a whole karaoke display:
+
+\
+beat: Beat()
+Stage([
+	Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+	Music(
+		Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice)
+		tempo: 100beats/min
+	)
+])
+\
+
+@Downbeat/parts has the same syllables track by track, if you want to draw two singers apart rather than together.
+
+choose-an-instrument, write-rhythm, draw-the-music

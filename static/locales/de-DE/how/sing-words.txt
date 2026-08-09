@@ -1,0 +1,41 @@
+Bring die Stimme dazu, Wörter zu singen
+
+Von jedem  @Instrument  in der Palette kann \🔈.🤖\ als Einziges etwas sagen. Gib seinem  @Track  ein  @Track/words  und es singt sie, eine Silbe pro Note:
+
+\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+
+Sechs Silben, sechs Noten. Die Leerzeichen sind hier die ganze Grammatik – sie sagen, wo eine Silbe aufhört und die nächste beginnt. Pausen bekommen keine Silbe, also landen die Wörter auf den Noten, die du wirklich hörst. Schreibst du weniger Silben als Noten, fangen sie von vorn an. Schreibst du gar keine, hält die Stimme einen /äh/-Laut, damit sie immer etwas singt.
+
+Die Schreibweise ist nicht Englisch. Es ist das <Internationale Phonetische Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, bei dem jeder Buchstabe genau ein Laut ist und jeder Laut genau einen Buchstaben hat. Die englische Schreibweise kann das nicht – das \o\ in /go/, /do/ und /women/ sind drei verschiedene Laute – eine Stimme, die englische Schreibweise liest, müsste also raten und würde falsch raten. Es bedeutet auch, dass ein Liedtext gleich funktioniert, egal in welcher Sprache du schreibst, denn die Buchstaben beschreiben deinen Mund und nicht dein Alphabet.
+
+Für die meisten davon gibt es keine Taste auf deiner Tastatur, also drücke 🤖 unter dem Editor. Dort steht jeder Laut, den die Stimme machen kann, mit einem Wort, das ihn enthält, und einem Knopf, der ihn abspielt – wenn du den Buchstaben selbst drückst, schreibst du ihn in deinen Code. Einen Laut zu hören ist der einzige Weg, ihn wirklich zu kennen, und dieses Feld ist das Nachschlagewerk. Was folgt, reicht für den Anfang.
+
+Fang mit den Vokalen an. Diese zwölf decken das meiste ab, was du brauchen wirst, jeweils gezeigt in einem englischen Wort, das ihn enthält:
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+Ein Vokal für sich allein ist eine völlig gute Silbe. Sie hintereinander zu singen ist der klarste Weg, einen vom anderen zu hören:
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+Konsonanten sehen meist so aus, wie du es erwartest: \pbtdkmnsflrw\ klingen alle ungefähr so wie im Englischen. Die, die man lernen sollte, sind die Laute, die das Englische mit zwei Buchstaben schreibt, sowie ein Buchstabe, der sich verschoben hat. \ʃ\ ist /sch/, \ʒ\ ist das /s/ in /measure/, \θ\ ist das /th/ in /thin/, \ð\ ist das /th/ in /this/, \ŋ\ ist das /ng/ in /sing/, und \j\ ist das /y/ in /yes/. Setze einen vor einen Vokal, und du hast ein Wort:
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+Eine Silbe kann sich auch über mehrere Noten strecken. Beende sie mit einem Bindestrich, und sie hält für jeden Bindestrich eine Note länger — die Folge von Noten auf einer einzigen Silbe, die Liedern und Wiegenliedern ihre Form gibt:
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+Die drei Bindestriche tragen \glo\ über vier Noten, bevor \ri\ auf der letzten landet. Alles, was die Stimme nicht erkennt, überspringt sie, statt es abzulehnen. So kannst du ausprobieren, ohne die Melodie zu zerstören.
+
+Um die Wörter so zu zeigen, wie sie gesungen werden, lies sie aus  @Beat  zurück.  @Downbeat/words  trägt das, was in diesem Moment gesungen wird. So ist eine einzige Phrase eine ganze Karaoke-Anzeige:
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts  hat dieselben Silben Spur für Spur, falls du zwei Singende getrennt statt zusammen zeigen willst.
+
+choose-an-instrument, write-rhythm, draw-the-music

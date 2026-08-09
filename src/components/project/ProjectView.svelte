@@ -2559,8 +2559,8 @@
                                     ? (l) => l.ui.output.mode.evaluation
                                     : (l) => l.ui.output.mode.evaluationView}
                                 icons={editable
-                                    ? [EDIT_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]
-                                    : [VIEW_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]}
+                                    ? [EDIT_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]
+                                    : [VIEW_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]}
                                 choice={ProjectModes.indexOf(uiMode)}
                                 select={(index) =>
                                     setUIMode(ProjectModes[index])}
@@ -2605,27 +2605,31 @@
                         {#snippet timelineSlider()}<Timeline
                                 evaluator={$evaluator}
                             />{/snippet}
-                        <!-- The step-mode second toolbar row: reset, step buttons, and the
-                             history slider. A row of its own since the main toolbar has no
-                             horizontal room, and overflowing these into a menu would hide
-                             the primary debugging controls. -->
+                        <!-- The step-mode controls: reset and the step buttons on one line,
+                             the history slider on its own beneath them. Sharing one line meant
+                             the slider could only get wider by pushing step buttons into the
+                             overflow menu — measured at 73px of a 403px toolbar, which is not
+                             a scrubber anyone can aim at, and 240px of reserved width hid six
+                             of the nine buttons. On its own line it is full width and hides
+                             nothing. -->
                         {#snippet outputStepRow()}
-                            <OverflowToolbar
-                                pinnedStart={[outputRestart]}
-                                items={[
-                                    stepToStartItem,
-                                    stepBackInputItem,
-                                    stepBackNodeItem,
-                                    stepBackItem,
-                                    stepOutItem,
-                                    stepForwardItem,
-                                    stepForwardNodeItem,
-                                    stepForwardInputItem,
-                                    stepToPresentItem,
-                                ]}
-                                stretchy={timelineSlider}
-                                stretchyMin={64}
-                            />
+                            <div class="step-controls">
+                                <OverflowToolbar
+                                    pinnedStart={[outputRestart]}
+                                    items={[
+                                        stepToStartItem,
+                                        stepBackInputItem,
+                                        stepBackNodeItem,
+                                        stepBackItem,
+                                        stepOutItem,
+                                        stepForwardItem,
+                                        stepForwardNodeItem,
+                                        stepForwardInputItem,
+                                        stepToPresentItem,
+                                    ]}
+                                />
+                                {@render timelineSlider()}
+                            </div>
                         {/snippet}
                         <TileView
                             {project}
@@ -3269,6 +3273,16 @@
 {/if}
 
 <style>
+    /* Plain block, not flex: the toolbar and the slider each take the full
+       width on their own line, and the slider's own `flex: 1` is inert here. */
+    .step-controls {
+        width: 100%;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--wordplay-spacing) / 2);
+    }
+
     :global(body) {
         touch-action: none;
     }

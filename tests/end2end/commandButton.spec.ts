@@ -19,8 +19,8 @@ test('create project and check for command buttons and their functionalities ', 
     const TimeLineSlider = page.locator('[data-uiid="timeline"]');
     await expect(TimeLineSlider).not.toBeVisible();
 
-    // Enter step mode via the switcher's second button.
-    await ModeSwitcher.getByRole('radio').nth(1).click();
+    // Enter step mode via the switcher's third button (edit, play, step).
+    await ModeSwitcher.getByRole('radio').nth(2).click();
 
     await expect(TimeLineSlider).toBeVisible();
 
@@ -41,4 +41,51 @@ test('create project and check for command buttons and their functionalities ', 
 
     const ToEnd = page.locator('[data-uiid="stepOut"]');
     await expect(ToEnd).toBeVisible();
+});
+
+test('the step timeline is a full-width scrubber you can grab', async ({
+    page,
+}) => {
+    await page.goto('/en-US/projects');
+    await page.getByTestId('addproject').click();
+    await page.waitForURL(/\/project\/.+/);
+
+    const ModeSwitcher = page.locator('[data-uiid="modeSwitcher"]');
+    await expect(ModeSwitcher).toBeVisible();
+    // Step is the third mode (edit, play, step).
+    await ModeSwitcher.getByRole('radio').nth(2).click();
+
+    const Timeline = page.locator('[data-uiid="timeline"]');
+    await expect(Timeline).toBeVisible();
+
+    // It gets a line of its own, so it spans the controls rather than taking
+    // whatever the step buttons leave. Sharing a line with them, it measured
+    // 73px of a 403px toolbar — too narrow to aim at, and it could only get
+    // wider by pushing the step buttons into the overflow menu.
+    const width = await Timeline.evaluate((el) => {
+        const row = el.closest('.subtoolbar');
+        return row
+            ? el.getBoundingClientRect().width /
+                  row.getBoundingClientRect().width
+            : 0;
+    });
+    expect(width).toBeGreaterThan(0.9);
+
+    // And the time cursor is a handle: a drag that starts on the cursor itself
+    // scrubs, rather than only a drag that starts on the track.
+    const cursor = Timeline.locator('.time');
+    await expect(cursor).toBeVisible();
+    const before = await Timeline.getAttribute('aria-valuenow');
+    const track = await Timeline.boundingBox();
+    const grip = await cursor.boundingBox();
+    if (track === null || grip === null) throw new Error('no timeline to drag');
+    await page.mouse.move(grip.x + 1, grip.y + grip.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(
+        track.x + track.width * 0.1,
+        grip.y + grip.height / 2,
+        { steps: 12 },
+    );
+    await page.mouse.up();
+    expect(await Timeline.getAttribute('aria-valuenow')).not.toBe(before);
 });

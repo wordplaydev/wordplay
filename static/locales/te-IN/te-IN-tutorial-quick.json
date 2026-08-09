@@ -5,13 +5,13 @@
     "acts": [
         {
             "title": "$~Wordplay వేరుగా ఉంటుంది",
-            "performance": { "fit": "#Symbol 💬" },
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
             "scenes": [
                 {
                     "title": "$~ప్రోగ్రామ్‌లు విలువలు",
                     "subtitle": "$~వ్యక్తీకరణలు, ప్రకటనలు కాదు",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
                     "lines": [
                         { "edit": "" },
                         [
@@ -48,7 +48,10 @@
                     "title": "$~షరతులను తనిఖీ చేయడం",
                     "subtitle": null,
                     "concept": "Conditional",
-                    "performance": { "fit": "#Symbol ?" },
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
                         [
@@ -82,7 +85,7 @@
                     "title": "$~విలువలు మరియు రకాలు",
                     "subtitle": null,
                     "concept": "Number",
-                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
                     "lines": [
                         {
                             "edit": [
@@ -148,7 +151,7 @@
                     "title": "$~మార్పిడులు, సముదాయాలు మరియు ఫంక్షన్లు",
                     "subtitle": null,
                     "concept": "Convert",
-                    "performance": { "fit": "#Symbol →" },
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
                     "lines": [
                         { "edit": ["1m → #ft → ''"] },
                         [
@@ -188,7 +191,7 @@
                     "title": "$~ఔట్‌పుట్ టైపోగ్రాఫిక్, ఇన్‌పుట్ ప్రతిస్పందించేది",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
                     "lines": [
                         {
                             "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
@@ -243,7 +246,10 @@
                     "title": "$~విభేదాలు మరియు డీబగ్గింగ్",
                     "subtitle": null,
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ‼️" },
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         {
                             "edit": "1 + 'hello'",
@@ -274,7 +280,7 @@
                     "title": "$~దానిని కలిపి ఉంచడం",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 🔨" },
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
                     "lines": [
                         { "edit": ["elapsed: Time(100ms)", "elapsed"] },
                         [

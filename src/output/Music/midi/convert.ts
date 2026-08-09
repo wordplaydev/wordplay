@@ -17,6 +17,7 @@ import { degreeToSemitones } from '@output/Music/degrees';
 import { instrumentSpec, type InstrumentKey } from '@output/Music/instruments';
 import { MaxTracks } from '@output/Music/musicData';
 import { Scales, type ScaleKey } from '@output/Music/scales';
+import { BORROW_SYMBOL } from '@parser/Symbols';
 import {
     degreeForKitPiece,
     drumPieceForNote,
@@ -24,6 +25,11 @@ import {
     PercussionChannel,
 } from '@output/Music/midi/gm';
 import type { ParsedMIDI } from '@output/Music/midi/parseMIDI';
+import {
+    dominantTempo,
+    tempoRegions,
+    tempoScale,
+} from '@output/Music/midi/tempoMap';
 import splitVoices, { maxPolyphony } from '@output/Music/midi/voices';
 
 /** Degree 1 is middle C at key 0, in every scale (see degrees.ts). */
@@ -33,6 +39,8 @@ export const TonicMIDI = 60;
 export const BeatPrecision = 3;
 
 export type ConvertOptions = {
+    /** What to call the source holding the tracks. */
+    sourceName?: string;
     /** The scale degrees resolve against; chromatic loses no pitch. */
     scale?: ScaleKey | undefined;
     /** Semitones to shift the whole piece. */
@@ -53,7 +61,7 @@ export type Finding = {
         | 'tracks-truncated'
         | 'pitches-snapped'
         | 'beats-rounded'
-        | 'tempo-changes'
+        | 'tempo-folded'
         | 'time-signature-changes'
         | 'velocity-range'
         | 'pitches-out-of-range';
@@ -63,9 +71,38 @@ export type Finding = {
     detail?: Record<string, number | string>;
 };
 
+/**
+ * What the imported source and its shared list are called by default.
+ *
+ * Plain, guessable names rather than ones unlikely to collide: if a program
+ * already uses them, Wordplay's own duplicate-name conflict says so and the
+ * creator renames — better than a name nobody would choose to type. The
+ * importer numbers past anything already taken.
+ */
+export const DefaultSourceName = 'song';
+
 export type Conversion = {
-    /** A complete `Music(…)` expression, ready to paste into a program. */
-    source: string;
+    /**
+     * What belongs in the program that plays the music: a borrow of the
+     * tracks, then a `Music(…)` referring to them. The borrow comes first
+     * because a program's borrows are parsed before anything else.
+     */
+    main: string;
+    /**
+     * What belongs in its own source: one shared list holding every track.
+     *
+     * Separate so the notes are somewhere a creator needn't look. A
+     * supplement's tile starts collapsed and an unmounted tile renders nothing,
+     * so thousands of notes cost no layout until someone opens them — and the
+     * program stays two lines, which is what makes editing it fast.
+     *
+     * One source holding a list rather than one per track, because a borrow names
+     * one thing: fifty-four tracks would otherwise be fifty-four borrow lines
+     * and fifty-four tiles.
+     */
+    tracks: string;
+    /** What to call the source holding the tracks. */
+    sourceName: string;
     findings: Finding[];
     /** Tracks emitted, after voice splitting and the MaxTracks cap. */
     trackCount: number;
@@ -73,11 +110,22 @@ export type Conversion = {
     noteCount: number;
 };
 
-/** Round to `BeatPrecision`, returning the value and the error introduced. */
-function roundBeats(beats: number): { value: number; error: number } {
-    const factor = 10 ** BeatPrecision;
-    const value = Math.round(beats * factor) / factor;
-    return { value, error: Math.abs(value - beats) };
+/** How many of the smallest written beat unit make a beat. */
+const BeatUnits = 10 ** BeatPrecision;
+
+/**
+ * Round to `BeatPrecision`, in whole units as well as beats. Callers track
+ * position in whole units so that a length is the difference of two integers
+ * and carries none of the noise of subtracting two decimals.
+ */
+function roundBeats(beats: number): {
+    units: number;
+    value: number;
+    error: number;
+} {
+    const units = Math.round(beats * BeatUnits);
+    const value = units / BeatUnits;
+    return { units, value, error: Math.abs(value - beats) };
 }
 
 /**
@@ -143,13 +191,25 @@ export default function convert(
     const key = options.key ?? 0;
     const findings: Finding[] = [];
 
-    // Music carries one tempo, so a tempo map cannot be expressed. Use the
-    // first and say how many others were passed over.
-    const bpm = midi.tempos[0]?.bpm ?? 120;
-    if (midi.tempos.length > 1)
+    // Music carries one tempo, so a tempo map cannot be written as one. Fix
+    // the music at the tempo held longest and scale every length by the tempo
+    // in force where it sits, so the piece is heard as written. See tempoMap.
+    const regions = tempoRegions(midi.tempos);
+    const endTicks = midi.tracks.reduce(
+        (end, track) =>
+            track.notes.reduce(
+                (last, note) =>
+                    Math.max(last, note.startTicks + note.durationTicks),
+                end,
+            ),
+        0,
+    );
+    const bpm = dominantTempo(regions, endTicks);
+    const beatsAt = tempoScale(regions, bpm, midi.division);
+    if (regions.length > 1)
         findings.push({
-            kind: 'tempo-changes',
-            count: midi.tempos.length - 1,
+            kind: 'tempo-folded',
+            count: regions.length - 1,
             detail: { using: Math.round(bpm * 100) / 100 },
         });
     if (midi.timeSignatures.length > 1)
@@ -220,21 +280,32 @@ export default function convert(
         for (const voice of voices) {
             const entries: string[] = [];
             let atTicks = 0;
+            // The running position, in whole units of the last decimal a beat
+            // is written to. Emitting the difference of two rounded positions
+            // rather than a rounded length keeps a track's total drift at one
+            // rounding step instead of one per note.
+            let emitted = 0;
 
             const push = (
                 degrees: number[] | undefined,
-                ticks: number,
+                fromTicks: number,
+                toTicks: number,
                 volume: number,
             ) => {
-                if (ticks <= 0) return;
-                const { value, error } = roundBeats(ticks / midi.division);
-                if (value <= 0) return;
+                if (toTicks <= fromTicks) return;
+                const { units, error } = roundBeats(beatsAt(toTicks));
                 maxRoundError = Math.max(maxRoundError, error);
-                entries.push(entrySource(degrees, value, volume));
+                // Shorter than the last decimal of a beat: there is no length
+                // to write, and the position has not moved.
+                if (units <= emitted) return;
+                entries.push(
+                    entrySource(degrees, (units - emitted) / BeatUnits, volume),
+                );
+                emitted = units;
             };
 
             for (const entry of voice) {
-                push(undefined, entry.startTicks - atTicks, 1);
+                push(undefined, atTicks, entry.startTicks, 1);
 
                 let degrees: number[];
                 if (percussion) degrees = entry.pitches;
@@ -255,7 +326,12 @@ export default function convert(
                     });
                 }
 
-                push(degrees, entry.durationTicks, entry.velocity / 127);
+                push(
+                    degrees,
+                    entry.startTicks,
+                    entry.startTicks + entry.durationTicks,
+                    entry.velocity / 127,
+                );
                 noteCount++;
                 atTicks = entry.startTicks + entry.durationTicks;
             }
@@ -267,9 +343,9 @@ export default function convert(
             for (let i = 0; i < entries.length; i += 8)
                 lines.push('\t\t\t\t' + entries.slice(i, i + 8).join(' '));
             trackSources.push(
-                `\t\tTrack(\n\t\t\t[\n${lines.join('\n')}\n\t\t\t]\n` +
-                    `\t\t\tinstrument: Instrument.${instrument}\n` +
-                    `\t\t\tloop: ⊥\n\t\t)`,
+                `Track(\n\t[\n${lines.join('\n')}\n\t]\n` +
+                    `\tinstrument: Instrument.${instrument}\n` +
+                    `\tloop: ⊥\n)`,
             );
         }
     }
@@ -311,13 +387,52 @@ export default function convert(
 
     const tempo = Math.round(bpm * 100) / 100;
     const name = options.name;
-    const source =
-        `Music(\n\t[\n${kept.join('\n')}\n\t]\n` +
+
+    /**
+     * Each track is bound to its own name and the music refers to them, rather
+     * than nesting every track inside one expression.
+     *
+     * This is about what the editor can draw. It windows the root block's
+     * statement list, so a program is only as expensive to render as the
+     * statements in view — but a music written as one nested expression is one
+     * statement, and the whole of it renders at once. A 5,000-note import that
+     * way is tens of thousands of nodes in a single synchronous pass, which
+     * freezes the tab before a single note appears.
+     *
+     * It also reads better: a track a line is something a creator can scan and
+     * rename, where a wall of nested notes is not.
+     */
+    const sourceName = options.sourceName ?? DefaultSourceName;
+
+    // The notes, in their own source: a list of tracks as its last expression.
+    //
+    // Borrowed as a whole source rather than as a `↑` share, which would have
+    // to declare its languages — a shared name without them is an error, and an
+    // importer has no business choosing a language for someone's music. A
+    // source's value is its last expression, so the list is what the borrow
+    // yields. It is also how Lyrics is written.
+    const tracks =
+        `[\n` +
+        kept.map((track) => `\t${track.replaceAll('\n', '\n\t')}`).join('\n') +
+        `\n]`;
+
+    // The program that plays them. The borrow comes first because a program's
+    // borrows are parsed before anything else.
+    const main =
+        `${BORROW_SYMBOL} ${sourceName}\n` +
+        `Music(\n\t${sourceName}\n` +
         `\ttempo: ${tempo}beats/min\n` +
         `\tscale: Music.${scaleKey}\n` +
         (key !== 0 ? `\tkey: ${key}semitones\n` : '') +
         (name !== undefined ? `\tname: '${name.replaceAll("'", '')}'\n` : '') +
         `)`;
 
-    return { source, findings, trackCount: kept.length, noteCount };
+    return {
+        main,
+        tracks,
+        sourceName,
+        findings,
+        trackCount: kept.length,
+        noteCount,
+    };
 }

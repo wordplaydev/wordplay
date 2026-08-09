@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+Βάλε τα μέρη σε στρώσεις για να φτιάξεις μια σύνθεση
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+Ένα  @Track  είναι μια μελωδία. Πολλά που παίζουν μαζί κάνουν μια μπάντα — και το κόλπο για να γράψεις μία είναι ότι τα μέρη δεν χρειάζεται να είναι διαφορετική μουσική.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+Επειδή οι βαθμίδες είναι σκαλοπάτια μιας κλίμακας και όχι σταθερές νότες, μια ολόκληρη γραμμή μπάσου μπορεί να είναι οι ίδιοι αριθμοί της μελωδίας, κατεβασμένοι μία οκτάβα.  @Track/key  μετακινεί ένα κομμάτι κατά έναν αριθμό ημιτονίων, και δώδεκα ημιτόνια είναι ακριβώς μία οκτάβα:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+Δύο φωνές, μία λίστα. Άλλαξε τη μελωδία και το μπάσο την ακολουθεί, γιατί υπάρχει μόνο μία μελωδία για να αλλάξεις.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+Τώρα γέμισε γύρω της. Οι συγχορδίες θέλουν τον δικό τους ρυθμό και όχι της μελωδίας, και το δικό του κομματιού  @Track/beat  του δίνει έναν· \pan\ απλώνει τις φωνές αριστερά και δεξιά ώστε το αυτί να μπορεί να τις ξεχωρίσει:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+Πρόσεξε τις εντάσεις: μόνο το φλάουτο είναι στο μέγιστο. Τα μέρη σε πλήρη ένταση δεν κάνουν μια πιο δυνατή μπάντα, κάνουν μια πιο θολή, γιατί όλα όσα ηχούν ταυτόχρονα πρέπει να χωρέσουν στο ίδιο ηχείο. Ξεκίνα τη μελωδία στο \100%\ και βάλε όλα τα άλλα από κάτω της.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+Οι τέσσερις εγγραφές του pad στο \χτύπος: 2beats\ γεμίζουν οκτώ χτύπους, και τα οκτώ των τυμπάνων στο \0.5beats\ γεμίζουν τέσσερις — έτσι τα τύμπανα γυρίζουν δύο φορές σε κάθε κύκλο του pad και όλα συναντιούνται ξανά στην αρχή. Όταν τα μέρη ξεφεύγουν από τον ρυθμό, συνήθως είναι γιατί τα μήκη τους δεν διαιρούνται μεταξύ τους.
 
 write-rhythm, choose-an-instrument, music-follows-the-action

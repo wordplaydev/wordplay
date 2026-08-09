@@ -69,11 +69,34 @@ describe('ProjectCRDT', () => {
     test('listeners fire on local edits', () => {
         const crdt = ProjectCRDT.fromSources(['x']);
         const seen: string[] = [];
-        crdt.onChange((idx, code) => {
-            if (idx === 0) seen.push(code);
+        crdt.onChange((idx, readCode) => {
+            if (idx === 0) seen.push(readCode());
         });
         crdt.applyLocalEdit(0, 'x', 'xy');
         expect(seen).toContain('xy');
+    });
+
+    test('a listener that ignores an edit never reads the text', () => {
+        // Reading is an uncached walk of the whole document, and `fire` offers
+        // every source on every transaction — so a listener filtering on origin
+        // would otherwise pay for materializing every source in the project on
+        // every local keystroke, only to discard it.
+        const crdt = ProjectCRDT.fromSources(['x', 'y'.repeat(1000)]);
+
+        // Count the reads themselves, not the listener's calls: what matters is
+        // that no text is materialized anywhere, including by `fire`.
+        let reads = 0;
+        const read = crdt.getCode.bind(crdt);
+        crdt.getCode = (index: number) => {
+            reads++;
+            return read(index);
+        };
+
+        crdt.onChange((_index, _readCode, origin) => {
+            if (origin !== 'remote') return;
+        });
+        crdt.applyLocalEdit(0, 'x', 'xy');
+        expect(reads).toBe(0);
     });
 
     test('large prefix common to old/new stays as a stable insert tail', () => {

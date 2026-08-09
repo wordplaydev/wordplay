@@ -22,7 +22,7 @@ That's the whole music as one number. But a @Downbeat also carries a \parts\ lis
 beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 
-ƒ height(p•Part)•# p.pitch[1]
+ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
 
 ƒ dot(p•Part)•Phrase
 	Phrase(
@@ -42,6 +42,6 @@ Stage([
 
 Each dot sits where its track sits: \pan\ puts it left or right, \pitch\ puts it high or low. Because \sounding\ stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.
 
-Watch the little \height\ function: \pitch\ is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \ø\. Declaring that the function returns a \#\ is what settles it back down to a number you can do arithmetic with.
+Watch the little \height\ function. \pitch\ is a /list/, since a chord sounds several notes at once, so \p.pitch[1]\ takes the lowest note of whatever is ringing. That number is in \semitones\, and dividing by \1semitones\ is what turns it into a plain number you can mix with the \0.2\ and the \1m\ below. Declaring the function as \#\ isn't enough on its own: a bare \#\ means /any/ unit, not /no/ unit, so it will happily accept the semitones and then complain about them one line later.
 
 play-a-sound-effect, react-to-sound, count-with-time

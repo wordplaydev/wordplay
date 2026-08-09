@@ -67,9 +67,16 @@ export default class ProjectCRDT {
      *  the originating transaction's tag ('local' / 'remote' / whatever
      *  applyLocalEdit / applyRemoteUpdate passed) so subscribers can
      *  filter — typically ignoring 'local' to avoid echoing our own
-     *  edits back into the Project they came from. */
+     *  edits back into the Project they came from.
+     *
+     *  The code arrives as a function rather than a string so a listener that
+     *  filters on origin costs nothing. Reading it is `Y.Text.toString()`, an
+     *  uncached walk of the document's item list, and `fire` offers every
+     *  source on every transaction — so materializing eagerly meant a solo
+     *  creator typing one character in a small source rebuilt the text of
+     *  every other source in the project and threw it away. */
     private readonly listeners = new Set<
-        (sourceIndex: number, code: string, origin: unknown) => void
+        (sourceIndex: number, code: () => string, origin: unknown) => void
     >();
 
     constructor(doc?: Y.Doc) {
@@ -235,7 +242,7 @@ export default class ProjectCRDT {
         return Y.encodeStateAsUpdateV2(this.doc, stateVector);
     }
 
-    /** Subscribe to changes — callback gets (sourceIndex, newCode, origin)
+    /** Subscribe to changes — callback gets (sourceIndex, readCode, origin)
      *  for each source after the Y.Doc emits a transaction. Origin is the
      *  tag passed by whoever drove the change: 'local' for applyLocalEdit,
      *  'remote' for applyRemoteUpdate (i.e. an incoming peer update),
@@ -243,7 +250,7 @@ export default class ProjectCRDT {
      *  'remote' to avoid echoing local edits back into the Project they
      *  came from. */
     onChange(
-        fn: (sourceIndex: number, code: string, origin: unknown) => void,
+        fn: (sourceIndex: number, code: () => string, origin: unknown) => void,
     ): () => void {
         this.listeners.add(fn);
         return () => this.listeners.delete(fn);
@@ -280,8 +287,10 @@ export default class ProjectCRDT {
         // ProjectsDatabase.activateCRDT does this by comparing against
         // the in-memory Project's Source.code.
         for (const index of this.getKnownSourceIndices()) {
-            const code = this.getCode(index);
-            for (const fn of this.listeners) fn(index, code, origin);
+            // Read at most once per source, and only if a listener asks.
+            let code: string | undefined = undefined;
+            const read = () => (code ??= this.getCode(index));
+            for (const fn of this.listeners) fn(index, read, origin);
         }
     }
 }

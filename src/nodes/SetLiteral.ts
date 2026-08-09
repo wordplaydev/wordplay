@@ -1,6 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
@@ -80,27 +79,19 @@ export default class SetLiteral extends CompositeLiteral {
                 getType: (context) =>
                     this.getItemType(context) ?? new AnyType(),
                 space: true,
-                newline: this.wrap(),
+                // Break onto one line per value when the literal doesn't fit.
+                wrap: true,
                 initial: true,
                 indent: true,
             },
             {
                 name: 'close',
                 kind: node(Sym.SetClose),
-                newline: this.wrap(),
+                wrap: true,
                 label: undefined,
             },
             { name: 'literal', kind: node(Sym.Literal), label: undefined },
         ];
-    }
-
-    wrap(): boolean {
-        return (
-            this.values.reduce(
-                (sum, value) => sum + value.toWordplay().length,
-                0,
-            ) > MAX_LINE_LENGTH
-        );
     }
 
     clone(replace?: Replacement) {
@@ -113,7 +104,7 @@ export default class SetLiteral extends CompositeLiteral {
     }
 
     getPurpose() {
-        return Purpose.Hidden;
+        return Purpose.Maps;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

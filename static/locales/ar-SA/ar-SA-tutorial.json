@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "الآية",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "الصمت",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -133,7 +133,7 @@
                     "title": "هل تريد البرنامج؟",
                     "subtitle": "برنامج",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('' resting:Pose(rotation: 10°))" },
                         [
@@ -185,6 +185,47 @@
                         ],
                         null,
                         [
+                            "Program",
+                            "neutral",
+                            "$~على سبيل المثال، جرّب أن تكتب \\'مرحبًا'\\ في المحرر هناك.",
+                            "$~(لا تقلق بشأن ارتكاب الأخطاء، يمكنك دائماً العودة إلى الأصل باستخدام *revert* @UI/revertProject).",
+                            "$~هل كتبت شيئاً؟ هذا صديقي @Text. هل قابلته من قبل؟ إنه يُقيّم إلى \\'مرحبًا'\\ أو أي نص تكتبه، ثم يوضع ذلك النص على المسرح. جرّب تغيير نصك إلى شيء آخر. سأعرض ذلك بدلاً منه. لذا سأقوم فوراً بتقييم أي شيء تكتبه وعرض النتيجة."
+                        ],
+                        null,
+                        [
+                            "Program",
+                            "serious",
+                            "$~يمكن أن تصبح التعليمات معقدة بقدر ما تريد، لكن هناك بعض القواعد.",
+                            "$~على سبيل المثال، أنا أُقيّم إلى *@value* واحدة وأعرض تلك القيمة على المسرح. يمكن أن تكون تلك القيمة الواحدة معقدة بقدر ما تريد، وطالما أعرف كيف أعرضها، فسأفعل.",
+                            "$~إذا أعطيتني أكثر من @expression واحدة، فسأجمع قيمها في *قائمة* وأعرض ذلك.",
+                            "$~على سبيل المثال، جرّب إضافة سطر آخر ثم اكتب أي كلمة تريدها، بين علامتي اقتباس."
+                        ],
+                        null,
+                        [
+                            "Program",
+                            "serious",
+                            "$~أرأيت؟ لقد جمعت كلتا العبارتين في قائمة ووضعتهما على المسرح."
+                        ],
+                        null,
+                        { "fit": "#Symbol 🎭" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~لكن يمكنك فعل الكثير أكثر من ذلك!"
+                        ],
+                        [
+                            "Program",
+                            "serious",
+                            "$~نعم ولا. أستطيع فعل الكثير، لكن ذلك فقط لأنني أعمل مع الجميع في *الكون*. هم من يجلبون كل الإمكانيات المثيرة إلى *المسرح*. كل ما أفعله حقاً هو أن أدعهم يقومون بعملهم ثم أجلب أي قيمة صنعوها — رقم، أو نص، أو عبارة، أو قائمة من القيم — إلى المسرح."
+                        ],
+                        null,
+                        [
+                            "Program",
+                            "serious",
+                            "$~في الواقع، إذا أردت يوماً أن ترى البرنامج الخاص بشيء ما على المسرح، يمكنك الضغط على 👁️ على المسرح @UI/editProject. سيُظهر لك ذلك كيف يجتمع الجميع لصنع ما هو على المسرح. هذا البرنامج مجرد عبارة بسيطة."
+                        ],
+                        null,
+                        [
                             "FunctionDefinition",
                             "neutral",
                             "شكراً جزيلاً @Program! نحن متحمسون جداً لنقابل الجميع ونخبرهم بالخبر!"
@@ -200,7 +241,10 @@
                     "title": "$~مساحة انتظار",
                     "subtitle": "$~عنصر نائب",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -311,7 +355,10 @@
                     "title": "$~ماذا قلت مرة أخرى؟",
                     "subtitle": "$~غير قابل للتحليل",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -455,7 +502,8 @@
                     "subtitle": "$~يقيم",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -681,12 +729,12 @@
         },
         {
             "title": "$~إنها التفاصيل الصغيرة",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~قيم",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -739,7 +787,8 @@
                     "subtitle": "$~نص",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -925,7 +974,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1004,7 +1054,8 @@
                     "subtitle": "$~حقيقة",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1205,7 +1256,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1382,7 +1434,10 @@
                     "title": "$~علامات افتتاحية (معاد صياغتها)",
                     "subtitle": "$~بادئة",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1499,20 +1554,60 @@
                             "$~يعتقدون أنك تبلي بلاءً حسناً! وأنا أيضاً أعتقد أنك تبلي بلاءً حسناً. لقد قابلت بالفعل العديد من لاعبينا الرائعين. وهناك المزيد بانتظارك..."
                         ]
                     ]
+                },
+                {
+                    "title": "$~الأنماط",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~أحياناً لا تريد قطعة نص *محددة* — بل تريد أن تعرف *شكلها*. هل هذا رقمان، ثم نقطتان، ثم رقمان — أي وقت على ساعة؟ هل يحتوي هذا على رقم أصلاً؟"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~هذا هو الغرض من @PatternLiteral! تكتب واحداً داخل \\⣿ ⣿\\ وتقرأه من البداية إلى النهاية: \\_\\ هو حرف، \\#\\ هو رقم، \\␣\\ هو مسافة، والنص بين علامتي اقتباس يتطابق تماماً. تأتي الأعداد أولاً، لذا \\2 #\\ يعني رقمين."
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~استخدم \\≈\\ لتسأل ”هل يتناسب هذا النص كله مع الشكل؟“ — تحصل على \\⊤\\ أو \\⊥\\. جرّب \\⌕\\ لكي *تجد* كل مكان يظهر فيه نمط، و@name الأجزاء التي تريد الاحتفاظ بها مع \\اسم: (…)\\."
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~كل نتيجة هي @Structure تحتوي على النص المطابق، ومكان بدايته ونهايته، والمجموعات التي التقطتها. ولأن الأنماط تطابق حسب الحرف المرئي، فإنها تتصرف بنفس الطريقة في كل @language ونظام كتابة."
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "$~الفرق الموسيقية",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "$~القيم المجتمعية",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1550,7 +1645,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1727,7 +1823,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1846,7 +1943,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2015,32 +2113,12 @@
         },
         {
             "title": "$~حفل فريق العمل",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~التفاف",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2067,7 +2145,7 @@
                     "title": "$~بإمكاننا أن نكون أي شيء",
                     "subtitle": "$~يتحول",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2226,7 +2304,10 @@
                     "title": "$~كيف نختار؟",
                     "subtitle": "$~القرارات",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2359,12 +2440,12 @@
         },
         {
             "title": "$~تغيير المشهد",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~مدخل",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2398,7 +2479,7 @@
                     "title": "$~تك، تك، تك...",
                     "subtitle": "$~وقت",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2457,7 +2538,7 @@
                     "title": "$~كليكتي كلاك",
                     "subtitle": "$~مفتاح",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2505,7 +2586,7 @@
                     "title": "$~همممممممم…",
                     "subtitle": "$~مؤشر",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2522,14 +2603,14 @@
                             "$~حرك مؤشر الماوس حول المسرح، وسترى تدفق @Place يتغير على المسرح."
                         ],
                         { "fix": "Pointer()" },
-                        ["Pointer", "neutral", "$~wzzzzzzzzz…"],
+                        ["Pointer", "neutral", "$~وزززززززز…"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~والآن لنشاهدها على المسرح!"
                         ],
-                        ["Pointer", "neutral", "$~wzzzzzzzzz…"],
+                        ["Pointer", "neutral", "$~وزززززززز…"],
                         { "fix": "Phrase(Pointer()→'' place: Pointer())" },
                         null,
                         [
@@ -2545,7 +2626,7 @@
                     "title": "$~والآن...",
                     "subtitle": "$~زر",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2579,7 +2660,7 @@
                     "title": "$~هل من أحد يستمع؟",
                     "subtitle": "$~مقدار",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2603,7 +2684,8 @@
                     "subtitle": "$~عشوائي",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2639,7 +2721,8 @@
                     "subtitle": "$~التوظيف",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2679,7 +2762,8 @@
                     "subtitle": "$~حركة",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2765,7 +2849,7 @@
                             "$~حاول تغييرها لتصبح مثل القمر، حيث تكون الجاذبية منخفضة للغاية!",
                             "$~أو جرب تغيير @Matter.mass أو @Matter.mass مما يؤثر على كيفية ارتداد @Phrase."
                         ],
-                        ["Motion", "excited", "$~Wsh…"],
+                        ["Motion", "excited", "$~وش…"],
                         null,
                         {
                             "edit": [
@@ -2807,7 +2891,7 @@
                     "title": "$~لنتحدث",
                     "subtitle": "$~محادثة",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2837,7 +2921,8 @@
                     "subtitle": "$~صفحة على الإنترنت",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2881,7 +2966,7 @@
                     "title": "$~في الوقت المناسب",
                     "subtitle": "$~رد فعل",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3023,12 +3108,15 @@
         },
         {
             "title": "$~اصعد إلى المسرح",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~الناتج",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3070,7 +3158,7 @@
                     "title": "$~يقول ما؟",
                     "subtitle": "$~عبارة",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3338,7 +3426,10 @@
                     "title": "$~1، 2، 3، 4، 1، 2، 3، 4",
                     "subtitle": "$~تسلسل",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3519,7 +3610,8 @@
                     "subtitle": "$~مجموعة",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3775,9 +3867,7 @@
                     "title": "$~المسرح... صحيح؟",
                     "subtitle": "$~منصة",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3883,10 +3973,186 @@
                     ]
                 },
                 {
+                    "title": "$~الحفرة",
+                    "subtitle": "$~موسيقى",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~لقد قابلت @Stage و@Group و@Phrase و@Sequence. كل ما صنعته حتى الآن، صنعته لكي *يُرى*."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~هناك عضو آخر في الفرقة. لن تراه أبدًا."
+                        ],
+                        null,
+                        ["Music", "serious", "$~أنا أحوّل الأرقام إلى صوت."],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~أرقام؟ وليس نغمات؟"
+                        ],
+                        ["Music", "kind", "$~شاهد. ثمانية أرقام، صوت واحد."],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~اضغط على زر التشغيل ▶️ في مبدّل الأوضاع @UI/modeSwitcher فوق المسرح. أثناء الكتابة أبقى ساكنًا — التشغيل هو وقت بدايتي."
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~كل رقم هو *درجة في السُّلّم*، وليس نغمة. \\1\\ هي الدرجة التي تبدو عندها اللحن منتهية، و \\8\\ هي نفس النغمة لكن أعلى بأوكتاف واحد."
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~غيّر واحدًا منها — بالعودة إلى وضع التحرير ✏️ — ثم شغّل مرة أخرى واسمع ما الذي تغيّر."
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~من الذي يعزفها؟"],
+                        [
+                            "Music",
+                            "serious",
+                            "$~أيًّا كان من أطلبه. هذه هي @Track.instrument الخاصة بـ @Track."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~الأرقام الثمانية لم تتغير. فقط من يعزفها هو الذي تغيّر.",
+                            "$~هناك ثمانية عشر خيارًا. جرّب \\🔈.🎻\\، أو \\🔈.🎺\\، أو \\🔈.🐶\\."
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~وبأي سرعة؟"],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo. النبضات في الدقيقة، ولا شيء غير ذلك."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~اثنان وسبعون تقريبًا سرعة المشي. جرّب ثلاثين. جرّب مئتين."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~ولاحظ أنني لا أبدأ من جديد عندما تغيّره. تدخل السرعة الجديدة عند النبضة التالية، فتتسارع القطعة دون أن تفقد مكانها."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~هل يمكن أن يكون هناك أكثر من صوت واحد؟"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~بقدر ما تريد. أعطني قائمة من @Track بدلاً من واحد فقط."
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~أربعة أصوات، لحن واحد. الجهير هو *نفس الأرقام الثمانية*، منخفضة بمقدار أوكتاف بواسطة @Track.key. الوترات تدوم نبضتين لكل واحدة والطبول تتحرك بسرعة مضاعفة — هذا هو @Track.beat."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~وراقب مستويات الصوت. فقط الناي قريب من الحد الأقصى. الأصوات بأقصى مستوى لا تُنتج فرقة أعلى صوتاً؛ بل تُنتج فرقة أكثر تشوشاً."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ماذا يمكن أن يتغير أيضاً؟"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~أكثر مما أستطيع قوله في جملة واحدة. إذاً: كل شيء دفعة واحدة."
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~اضغط تشغيل مرة أخرى. @Music.scale و @Music.key يحرّكان القطعة كلها دفعة واحدة. \\pan\\ يضع كل صوت في مكان ما في الغرفة. الجرس يقرأ قيم النغمات — \\𝅘𝅥𝅮\\ هو ثُمن — و @Note يحمل مستوى صوته الخاص. الصوت الأخير لديه \\words\\، فيغنّيها، مرة واحدة، لأن \\loop\\ هو \\⊥\\."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~و @Beat يعطيك @Downbeat عند كل نبضة. @Downbeat.parts هو كل صوت مع نغمته ومستواه ومكانه الآن؛ @Downbeat.words هو المقطع الذي يُغنّى. هذا كل ما تمثله النقاط والكلمات."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~@Music يُسمع ولا يُرى أبداً، لذا لا شيء منها يُوضع أبداً في *مكان*. تسير مع @Stage وتملأ الغرفة — وكل شخص يشاهد يختار كيف، أو هل، تظهر."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~إذاً: كيف تريد أن يبدو صوت عالمك؟"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~وانتهى المشهد!",
                     "subtitle": "$~مشهد",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4013,7 +4279,10 @@
                     "title": "$~هل يوجد شخص اسمه...",
                     "subtitle": "$~خيار",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4059,12 +4328,12 @@
         },
         {
             "title": "$~معاودة الاتصال",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~ذكريات",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~..."],
                         null,
@@ -4087,7 +4356,7 @@
                     "title": "$~تسمية",
                     "subtitle": "$~ربط",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4336,7 +4605,7 @@
                     "title": "$~خارج المسرح",
                     "subtitle": "$~حاجز",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4498,7 +4767,10 @@
                     "title": "$~إرشادات المسرح",
                     "subtitle": "$~الوظائف",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4605,7 +4877,10 @@
                     "title": "$~تصميم الديكور",
                     "subtitle": "$~الهياكل",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -4931,7 +5206,7 @@
                     "title": "$~ملاحظات المخرج",
                     "subtitle": "$~يشرح",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5169,15 +5444,14 @@
         },
         {
             "title": "$~الْخَاتِمَة",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~الِاعْتِمَادُ الْمُتَبَادِل",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5570,9 +5844,9 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~We just forgot one person..."
+                            "$~لقد نسينا شخصًا واحدًا فقط..."
                         ],
-                        ["Evaluate", "excited", "$~Who?"],
+                        ["Evaluate", "excited", "$~من؟"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -5582,33 +5856,59 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Yes, of course! What if we leave them the job of making the music? @Phrase, can you listen to @Volume and connect it to @Color.lightness and @Color.chroma with your color? This way, we will turn bright white when our director makes a sound!"
+                            "$~نعم بالطبع! ما رأيك أن ندعهم يضيئون الغرفة؟ @Phrase، هل يمكنك الاستماع إلى @Volume وربطه بـ @Color.lightness و @Color.chroma بلونك؟ بهذه الطريقة، سنصبح بيضاء ساخنة عندما يصدر مخرجنا ضجيجاً!"
                         ],
                         ["Phrase", "kind", "$~What a great idea!"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~نحن نتحرك… لكن الغرفة هادئة جداً. @Music؟ هل أنت هناك؟"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~كنت هنا طوال الوقت. لم تطلب مني صوتاً ولو مرة واحدة."
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~… هل تعطينا شيئاً نتحرك على إيقاعه؟"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~أربعة أصوات إذاً: لحن، وجهير، ووتر، وطبل. ثمانون نبضة في الدقيقة — وهي الثلاثة أرباع الثانية التي طلبتها من @Reaction."
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~بوم… بوم… بوم… بوم…"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~في الوقت المحدد! في الوقت المحدد! في *كل* لحظة محددة! لم يكن لدي إيقاع كهذا من قبل."
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction، أنت لم تعد تعدّ ساعة. أنت تستمع إلى @Music."
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "$~1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "$~Moving!"],
                         ["Text", "excited", "$~Cheer!"],
-                        [
-                            "Conditional",
-                            "excited",
-                            "$~What is dancing, really?"
-                        ],
-                        ["Changed", "excited", "$~Boom, boom, boom"],
+                        ["Conditional", "excited", "$~ما هو الرقص حقًا؟"],
+                        ["Changed", "excited", "$~بوم، بوم، بوم"],
                         ["Number", "excited", "$~Left 5 degrees, up 1 meter"],
                         ["Phrase", "excited", "$~Wonderful!"],
                         ["Sequence", "excited", "$~What a feeling!"],
-                        ["Group", "excited", "$~Together now!"],
+                        ["Group", "excited", "$~معًا الآن!"],
                         ["Stage", "excited", "$~Boom boom boom"],
                         ["None", "excited", "$~..."],
-                        [
-                            "StructureDefinition",
-                            "excited",
-                            "$~Remember to move!"
-                        ],
-                        ["Bind", "excited", "$~Characters!"],
+                        ["StructureDefinition", "excited", "$~تذكر أن تتحرك!"],
+                        ["Bind", "excited", "$~أيها الشخصيات!"],
                         null,
                         [
                             "FunctionDefinition",

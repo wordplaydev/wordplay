@@ -42,7 +42,14 @@
     });
 </script>
 
-<Toggle tips={(l) => l.ui.tile.toggle.show} on={expanded} {toggle}>
+<!-- Name the source in the tooltip: a project can have several sources, and a bare
+     "show" is indistinguishable between them, especially to a screen reader. -->
+<Toggle
+    tips={(l) => l.ui.tile.toggle.showSource}
+    tipInputs={{ name: $locales.getName(source.names) }}
+    on={expanded}
+    {toggle}
+>
     {#if conflictCount > 0}<span class="count conflict">{conflictCount}</span
         >{/if}
     {#if conflictCount === 0}<Emoji text={Characters.Program.symbols} />{/if}

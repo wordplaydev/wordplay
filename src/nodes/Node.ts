@@ -43,6 +43,17 @@ export default abstract class Node {
      * so caching avoids repeated full-subtree traversals. */
     _nodes: Node[] | undefined = undefined;
 
+    /** A cache of which grammar field each child sits in.
+     *
+     * `getFieldOfChild` otherwise scans the grammar and, for an array-valued
+     * field, does a linear `includes` — so for a node with N children in one
+     * field, asking about all N costs O(N²). `getPreferredSpaces` asks once per
+     * token of whatever it is reformatting, which made every programmatic edit
+     * quadratic in the width of the widest list in it: inserting one node into
+     * a program holding a few thousand notes took 47 seconds, almost all of it
+     * here. Nodes are immutable, so one fill lasts the node's life. (#1265) */
+    _fieldOfChild: Map<Node, Field | undefined> | undefined = undefined;
+
     /** A cache of this node's structural hash. hash() is recursive — without
      * caching, computing it for one node is O(subtree size), and Source.reparse
      * calls hash() once per new node plus once per old candidate it inspects,
@@ -246,12 +257,24 @@ export default abstract class Node {
     }
 
     getFieldOfChild(child: Node): Field | undefined {
-        return this.getGrammar().find((field) => {
-            const value = (this as any)[field.name];
-            return Array.isArray(value)
-                ? value.includes(child)
-                : value === child;
-        });
+        // Built in one pass over the grammar rather than one scan per question,
+        // so N children cost O(N) altogether instead of O(N²).
+        if (this._fieldOfChild === undefined) {
+            const fields = new Map<Node, Field | undefined>();
+            for (const field of this.getGrammar()) {
+                const value = (this as unknown as Record<string, unknown>)[
+                    field.name
+                ];
+                if (Array.isArray(value)) {
+                    for (const each of value)
+                        if (each instanceof Node && !fields.has(each))
+                            fields.set(each, field);
+                } else if (value instanceof Node && !fields.has(value))
+                    fields.set(value, field);
+            }
+            this._fieldOfChild = fields;
+        }
+        return this._fieldOfChild.get(child);
     }
 
     hasField(field: string): boolean {
@@ -686,6 +709,10 @@ export default abstract class Node {
 
     /** A node equals another node if its of the same type and its children are equal */
     isEqualTo(node: Node) {
+        // Nodes are immutable, so being the same node settles it. Worth the
+        // check because a revision reuses the nodes it didn't touch, and
+        // comparing two projects otherwise walks every one of them.
+        if (this === node) return true;
         if (this.constructor !== node.constructor) return false;
         const thisChildren = this.getChildren();
         const thatChildren = node.getChildren();
@@ -693,6 +720,21 @@ export default abstract class Node {
         for (const [index, child] of thisChildren.entries())
             if (!child.isEqualTo(thatChildren[index])) return false;
         return true;
+    }
+
+    /** Like isEqualTo, but purely structural: same classes, same shape, same token text. Semantic
+     * isEqualTo overrides (e.g. Unit's wildcard flag, which two identical prints can disagree on)
+     * don't participate. This is the right equivalence for asking whether a tree and the parse of
+     * its printed text describe the same program. */
+    isStructurallyEqualTo(node: Node): boolean {
+        if (this === node) return true;
+        if (this.constructor !== node.constructor) return false;
+        const thisChildren = this.getChildren();
+        const thatChildren = node.getChildren();
+        if (thisChildren.length !== thatChildren.length) return false;
+        return thisChildren.every((child, index) =>
+            child.isStructurallyEqualTo(thatChildren[index]),
+        );
     }
 
     // DESCRIPTIONS
@@ -800,6 +842,12 @@ type BaseField = {
     indent?: boolean;
     /** True if the field prefers newlines */
     newline?: boolean;
+    /** True if the field breaks onto its own lines when the node it belongs to doesn't
+     * fit on the current line. Unlike `newline`, which always breaks, this is decided
+     * per format run from the node's measured width and the column it starts at (see
+     * getPreferredSpaces). Set it on both a container's item list and its closing
+     * delimiter, so the two break together. */
+    wrap?: boolean;
     /** True if the field should have double newlines */
     double?: boolean;
     /** True if the first item in the list should get a newline too */

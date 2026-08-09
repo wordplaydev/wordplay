@@ -344,7 +344,10 @@ export type OutputKind =
     | 'group'
     | 'shape'
     | 'stage'
-    | 'say';
+    | 'say'
+    /** Heard rather than seen, like `say` — but output all the same, so it is
+     *  never something to wrap in a @Phrase or convert to text. */
+    | 'music';
 
 /** The program's root block and its result statements — the statements whose values make up the
  *  rendered output (1 → that value, 2+ → a list of them). */
@@ -379,6 +382,7 @@ function outputKindOfType(
             if (def === output.Phrase) return 'phrase';
             if (def === output.Shape) return 'shape';
             if (def === output.Say) return 'say';
+        if (def === output.Music) return 'music';
             if (
                 def === output.Rectangle ||
                 def === output.Circle ||
@@ -473,6 +477,8 @@ export function classifyOutput(project: Project): {
             return { kind: 'shape', expression: last, isList: false };
         if (last.is(output.Say, context))
             return { kind: 'say', expression: last, isList: false };
+        if (last.is(output.Music, context))
+            return { kind: 'music', expression: last, isList: false };
         if (
             last.is(output.Rectangle, context) ||
             last.is(output.Circle, context) ||
@@ -541,22 +547,31 @@ function wrapTarget(project: Project):
  *  it can be unit-tested without mounting the component. `placeholder` is the distinct "start from
  *  nothing" action (add a placeholder Phrase); the others transform existing output/text. */
 export type OutputOffer =
-    | 'placeholder'
-    | 'phrase'
-    | 'shape'
-    | 'group'
-    | 'stage';
+    'placeholder' | 'phrase' | 'shape' | 'group' | 'stage' | 'music';
 
 export function offersFor(
     kind: OutputKind,
     stageExists: boolean,
+    /**
+     * True when the output is a LIST rather than one value — either several
+     * result statements, or one expression that evaluates to a list.
+     *
+     * A @Phrase is made from a single value, so there is nothing to offer
+     * otherwise: `addSoloPhrase` refuses a program with more than one result
+     * statement, and an offer whose action does nothing is worse than no offer.
+     */
+    isList = false,
 ): OutputOffer[] {
-    // No output at all: there's nothing to wrap, so offer only to add a placeholder Phrase to start.
-    if (kind === 'none') return ['placeholder'];
+    // No output at all: there's nothing to wrap, so offer to start with a placeholder Phrase — or
+    // with music, which needs nothing to wrap and is a whole program on its own.
+    if (kind === 'none') return ['placeholder', 'music'];
 
     const offers: OutputOffer[] = [];
-    // Make a Phrase from existing text, or a (text-convertible) value — never from an output/Form.
-    if (kind === 'text' || kind === 'value') offers.push('phrase');
+    // Make a Phrase out of a single statement that isn't already output: text,
+    // or a value that can be shown as text. Never out of output — a @Phrase
+    // around a @Stage is not a thing, and neither is one around a @Music, which
+    // is output you hear.
+    if (!isList && (kind === 'text' || kind === 'value')) offers.push('phrase');
     // Wrap a bare Form in a Shape.
     if (kind === 'form') offers.push('shape');
     // Wrap a Phrase/Say in a Group (Group excludes Shape and Stage); not if a Stage already exists.
@@ -572,6 +587,9 @@ export function offersFor(
             kind === 'say')
     )
         offers.push('stage');
+    // Music is heard rather than seen, so it wraps nothing and displaces nothing: it can be added
+    // alongside whatever is already there, in every state.
+    offers.push('music');
     return offers;
 }
 
@@ -691,6 +709,54 @@ export function addStage(db: Database, project: Project): Project | undefined {
             [block, block.withStatement(stage)],
         ]);
     }
+    db.Projects.reviseProject(revised);
+    return revised;
+}
+
+/**
+ * Add a `Music` to the program, seeded with one track of a rising scale so
+ * there is something to hear and something to edit.
+ *
+ * Unlike the other offers this wraps nothing. Music is heard rather than seen,
+ * and `Stage.content` accepts it, so it goes into the stage when there is one
+ * and otherwise becomes another result of the program's block — which is a
+ * list of outputs, the same shape two phrases already make.
+ */
+export function addMusic(db: Database, project: Project): Project | undefined {
+    const locales = db.Locales.getLocaleSet();
+    const output = project.shares.output;
+
+    const music = Evaluate.make(output.Music.getReference(locales), [
+        Evaluate.make(output.Track.getReference(locales), [
+            ListLiteral.make(
+                [1, 2, 3, 4, 5].map((degree) => NumberLiteral.make(degree)),
+            ),
+        ]),
+    ]);
+
+    const stage = getStage(project);
+    const content =
+        stage === undefined
+            ? undefined
+            : stage.getInput(
+                  output.Stage.inputs[0],
+                  project.getNodeContext(stage),
+              );
+
+    // Into the stage's content when there is one, so it plays as part of the
+    // stage rather than as a second, competing output.
+    const revised =
+        content instanceof ListLiteral
+            ? project.withRevisedNodes([
+                  [content, ListLiteral.make([...content.values, music])],
+              ])
+            : project.withRevisedNodes([
+                  [
+                      getOutputExpression(project).block,
+                      getOutputExpression(project).block.withStatement(music),
+                  ],
+              ]);
+
     db.Projects.reviseProject(revised);
     return revised;
 }

@@ -1,4 +1,5 @@
 😐
 "Talk"/en"说话"/zh-CN"說話"/zh-TW
 === start
+¶An emoji that opens its mouth when you get loud.¶
 Phrase(Volume() > 0.5 ? "😮" "😐" 5m)

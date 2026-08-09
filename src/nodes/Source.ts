@@ -258,21 +258,37 @@ export default class Source extends Expression {
     }
 
     getMatchedDelimiter(anchor: Token): Token | undefined {
-        const text = anchor.getText();
-        const match =
-            text in DelimiterCloseByOpen
-                ? DelimiterCloseByOpen[text]
-                : text in DelimiterOpenByClose
-                  ? DelimiterOpenByClose[text]
-                  : undefined;
-        if (match === undefined) return;
+        // Some delimiters are part of a longer token — a table's ⎡? select opens with ⎡ — so match
+        // on the delimiter character the token begins with rather than its whole text.
+        const delimiter = this.getLeadingDelimiter(anchor);
+        if (delimiter === undefined) return;
+        // A character can be both an open and a close — “ closes „ and opens ” — so accept a
+        // partner in either role and let the sibling that actually exists decide which it is.
+        const matches = new Set(
+            [
+                DelimiterCloseByOpen[delimiter],
+                DelimiterOpenByClose[delimiter],
+            ].filter((match): match is string => match !== undefined),
+        );
+        if (matches.size === 0) return;
         return this.root
             .getParent(anchor)
             ?.getChildren()
-            .find(
-                (node): node is Token =>
-                    node instanceof Token && node.getText() === match,
-            );
+            .find((node): node is Token => {
+                // Delimiters whose open and close are the same character (a doc's ¶, a formatting
+                // symbol) would otherwise match the anchor with itself, making an unclosed
+                // delimiter look matched.
+                if (node === anchor || !(node instanceof Token)) return false;
+                const leading = this.getLeadingDelimiter(node);
+                return leading !== undefined && matches.has(leading);
+            });
+    }
+
+    /** The first code point of a token's text. Every delimiter is one code point, so this avoids
+     * grapheme segmenting a token on a path the caret runs on every keystroke. */
+    private getLeadingDelimiter(token: Token): string | undefined {
+        const code = token.getText().codePointAt(0);
+        return code === undefined ? undefined : String.fromCodePoint(code);
     }
 
     getUnmatchedDelimiter(anchor: Token, delimiter: string): Token | undefined {
@@ -620,28 +636,31 @@ export default class Source extends Expression {
             (replace.replacement instanceof Node ||
                 replace.replacement === undefined)
         ) {
-            const newSource = new Source(
-                this.names,
-                [
-                    this.replaceChild('expression', this.expression, replace),
-                    this.spaces.withReplacement(
-                        replace.original,
-                        replace.replacement,
-                    ),
-                ],
-                this.keywords,
+            const program = this.replaceChild(
+                'expression',
+                this.expression,
+                replace,
             );
+            const replaced = this.spaces.withReplacement(
+                replace.original,
+                replace.replacement,
+            );
+            // Space the replaced node *before* building the source rather than
+            // after. Building one and then re-spacing it built two, and a
+            // source's constructor is not cheap — it lays the whole program
+            // back out as text, normalizes it, and measures every token. The
+            // spacing doesn't need the source: `getPreferredSpaces` roots
+            // itself at the replacement and only reads the mapping, which is
+            // the same either way.
+            const spaces =
+                replace.replacement === undefined
+                    ? replaced
+                    : getPreferredSpaces(replace.replacement, replaced);
 
-            // Pretty print the replaced node, if there is one.
-            return (
-                replace.replacement
-                    ? newSource.withSpaces(
-                          getPreferredSpaces(
-                              replace.replacement,
-                              newSource.spaces,
-                          ),
-                      )
-                    : newSource
+            return new Source(
+                this.names,
+                [program, spaces],
+                this.keywords,
             ) as this;
         } else
             return new Source(
@@ -1016,7 +1035,14 @@ export default class Source extends Expression {
     }
 
     computeType(context: Context): Type {
-        return this.expression.getType(context);
+        // A source's type belongs to the source, not to whoever borrowed it,
+        // so infer it in its own context. Under the borrower's, every node in
+        // the borrowed source is re-inferred for each borrower and looked up
+        // against the wrong root — which for an imported song is thousands of
+        // notes typed again on every keystroke. Cycles are still caught: each
+        // source's context is stable within a project, so a borrow that comes
+        // back around finds its own program already on that context's stack.
+        return this.expression.getType(context.project.getContext(this));
     }
     getDependencies(): Expression[] {
         return [this.expression];

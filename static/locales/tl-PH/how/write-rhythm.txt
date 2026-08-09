@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+Sumulat ng ritmo, hindi lang mga nota
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+Ang listahan ng mga hubad na numero ay nagbibigay sa bawat nota ng parehong haba, na parang tunog ng laruang pinaikot. Ang totoong ritmo ay nagmumula sa dalawang lugar: ang grid na binibilang ng isang  @Track , at ang mga halaga ng nota na isinusulat mo sa mga indibidwal na numero. 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  ang nagtatakda ng grid. Bawat hubad na entri ay tumatagal nang ganoon kahaba — gayundin ang bawat \ø\, na siyang ginagawang pinakamadaling paraan ang mga pahinga para patagalin ang isang nota:
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+Ang unang nota ng piyano ay sinusundan ng tatlong pahinga, kaya tumutunog ito nang apat na beats. Ang grid ng tambol ay kalahating beat, kaya ang walong entri nito ay pumupuno ng apat na beats habang ang walo ng piyano ay pumupuno ng walo — dalawang beses umiikot ang tambol para sa isang ikot ng piyano. Ang mga track ay umuulit ayon sa kanilang sariling haba, kaya isang numero lang ang gumagawa ng polyrhythm.
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+Nakakapagod na bumilang ng mga pahinga, kaya puwede mong isulat ang haba sa numero mismo. Ang hubad na numero ay nangangahulugan pa ring "isang grid step"; ang anumang may halaga ng nota ay nagsasabi ng sarili nitong haba:
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+Iyon ay dalawang bar ng apat na beats. \𝅝\ ay buong nota, \𝅗𝅥\ ay kalahati, \𝅘𝅥\ ay isang-kapat, \𝅘𝅥𝅮\ ay isang-kawalo at \𝅘𝅥𝅯\ ay isang-kalabing-anim, at ang tuldok \𝅭\ ay nagpapahaba ng kahit alin sa kanila ng kalahati pa — kaya ang \𝅘𝅥𝅮𝅭\ ay ang may-tuldok na isang-kawalo na nagpapasulong sa martsang ito. Ang hanay ng mga simbolo sa ilalim ng editor ay nag-aalok ng mga ito pagkatapos mong mag-type ng numero.
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+Isang bagay na hindi nila kayang gawin ay pahinga: \ø\ ay hindi numero, kaya wala itong lugar para sa isang halaga. Sa halip, dublehin ang mga pahinga, o gamitin ang isang  @Note , na nagbibigay din sa iyo ng mga haba na hindi kayang ibaybay ng anumang halaga ng nota — \Note(1 2beats ÷ 3)\ ay isang triplet, tatlong nota sa puwang ng dalawa.
 
 layer-an-arrangement, draw-the-music

@@ -1,0 +1,52 @@
+讓聲音唱出文字
+
+在調色盤裡的每個  @Instrument  中，\🔈.🤖\ 是唯一能說話的。給它的  @Track  一個  @Track/words ，它就會把它們唱出來，一個音符對一個音節：
+
+\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+
+六個音節，六個音符。這裡的空格就是全部的文法——它們說明一個音節在哪裡停止，下一個在哪裡開始。休止符不佔音節，所以文字會落在你真正聽到的音符上。如果你寫的音節比音符少，它們就會從頭再開始；如果完全不寫，聲音就會維持一個 /uh/ 的聲音，所以它總是會唱出些什麼。
+
+這種拼法不是英文。它是 <國際音標@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>，在這裡每個字母都剛好是一個聲音，每個聲音也剛好有一個字母。英文拼法做不到——在 \o\ 中的 /go/、/do/ 和 /women/ 這三個是不同的聲音——所以讀英文拼法的聲音只能用猜的，而且會猜錯。這也表示不管你用哪種語言寫，歌詞的運作方式都一樣，因為這些字母描述的是你的嘴巴，而不是你的字母系統。
+
+你的鍵盤上大多數這些聲音都沒有對應的按鍵，所以請按編輯器下方的 🤖。它會列出聲音能發出的每個音，附上一個包含這個音的字，還有一個可以播放它的按鈕——按下那個字母本身，就會把它輸入到你的程式碼裡。聽到一個聲音是真正認識它的唯一方法，而那個面板就是參考資料；接下來的內容足夠讓你開始。
+
+先從母音開始。這十二個涵蓋了你大部分想用的音，每個都放在一個包含它的英文字裡展示：
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t、\ʌ\ c/u/p、\ə\ /a/bout
+
+母音單獨出現時，本身就是一個完整的音節。把它們一個接一個地唱出來，是分辨每個音最清楚的方法：
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+大部分子音看起來就跟你想的一樣：\p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ 的發音大致都和英語裡的一樣。真正值得學的，是英語用兩個字母拼出來的那些音，還有一個位置改變了的字母。\ʃ\ 是 /sh/、\ʒ\ 是 /s/ 在 /measure/、\θ\ 是 /th/ 在 /thin/、\ð\ 是 /th/，在 /this/，\ŋ\ 就是 /ng/，在 /sing/ 中的音，還有 \j\ 就是 /y/，在 /yes/ 中的音。在母音前面放一個，你就得到一個字：
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+一個音節也可以延伸到好幾個音上。用連字號結尾，每加一個連字號，這個音節就多維持一個音——單一音節上連續的多個音，讓聖歌和搖籃曲有了形狀：
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+這三個連字號讓 \glo\ 延續四個音，接著 \ri\ 落在最後一個音上。任何聲音無法辨認的東西，它會跳過而不是拒絕，所以你可以盡情嘗試，不會弄壞旋律。
+
+想顯示正在唱的字，就從  @Beat  把它們讀出來。 @Downbeat/words  承載著那一刻正在唱的內容，所以一個片語就是一整個卡拉OK畫面：
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts  有著逐軌相同的音節，如果你想把兩位歌手分開畫，而不是畫在一起。
+
+choose-an-instrument, write-rhythm, draw-the-music

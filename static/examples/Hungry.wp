@@ -1,6 +1,7 @@
 お
 Hungry
 === start/en
+¶Whether the tummy is empty or full depends on the bananas, in Japanese.¶
 food: 10bananas
 hungry: food < 15bananas
 

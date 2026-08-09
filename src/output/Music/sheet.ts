@@ -23,9 +23,8 @@ import {
     degreeVoices,
 } from '@output/Music/degrees';
 import { PlainDurations } from '@output/Music/durations';
-import { instrumentSpec } from '@output/Music/instruments';
+import { instrumentSpec, sung } from '@output/Music/instruments';
 import {
-    noteOnset,
     trackLength,
     type MusicData,
     type TrackData,
@@ -147,7 +146,46 @@ export type Mark = {
     music: string;
     track: number;
     rest: boolean;
+    /**
+     * The syllable being sung on this note, drawn under the staff the way a
+     * vocal score puts a lyric.
+     *
+     * Undefined for a rest, for a track with no words, for the second notehead
+     * of a chord or a mash (one note is sung once, however many pitches it
+     * has), and — the reason this isn't simply `note.words` — for any
+     * instrument that doesn't sing. `Track.words` is accepted on every track,
+     * so a creator can write a lyric before choosing the voice and can swap
+     * the instrument back and forth without losing it; but drawing a lyric
+     * under a piano, which will never sound it, reads as a bug rather than as
+     * a plan.
+     */
+    words: string | undefined;
 };
+
+/**
+ * Whether two marks would draw the same thing.
+ *
+ * A sheet redraws only when this says something changed, so it has to compare
+ * everything the view puts on screen — not just identity. Comparing ids alone
+ * looks right and isn't: a mark's id is its music, note and pass, so changing a
+ * track's instrument keeps every id and every count identical while changing
+ * the notehead's label and its lyric. The sheet then never re-rendered, and the
+ * staff kept drawing the instrument you had switched away from.
+ */
+export function sameMark(a: Mark, b: Mark): boolean {
+    return (
+        a.id === b.id &&
+        a.beat === b.beat &&
+        a.beats === b.beats &&
+        a.step === b.step &&
+        a.level === b.level &&
+        a.glyph === b.glyph &&
+        a.accidental === b.accidental &&
+        a.label === b.label &&
+        a.words === b.words &&
+        a.rest === b.rest
+    );
+}
 
 /** Rests are drawn on the middle line, where notation puts them. */
 export const RestStep = 3;
@@ -193,6 +231,31 @@ export function marksOf(
     return tracks > 1
         ? marks.filter((mark) => !mark.rest)
         : withoutCoveredRests(marks);
+}
+
+/**
+ * The marks an editor draws as reference rather than as the score it is
+ * editing: every other track, plus the repeats of the selected track's own
+ * loop.
+ *
+ * The echoes are what make looping visible — without them a four-beat loop
+ * under a thirty-two beat melody looks like a track that stops after four
+ * beats, and toggling `loop` changes nothing on the staff. Never a rest, for
+ * the same reason {@link marksOf} drops them from a multi-track score: a rest
+ * superimposed on other tracks says nothing a reader can use.
+ *
+ * `length` is one pass of the selected track, so anything of its own at or
+ * past it is a repetition rather than the pass being edited.
+ */
+export function referenceMarks(
+    marks: readonly Mark[],
+    selected: number,
+    length: number,
+): Mark[] {
+    return marks.filter(
+        (mark) =>
+            !mark.rest && !(mark.track === selected && mark.beat < length),
+    );
 }
 
 /**
@@ -253,13 +316,9 @@ function markPitch(degree: number, track: TrackData): MarkPitch[] {
     const lower = Math.floor(degree);
     const fraction = degree - lower;
     const bent =
-        !track.mash &&
-        fraction > DegreeEpsilon &&
-        fraction < 1 - DegreeEpsilon;
+        !track.mash && fraction > DegreeEpsilon && fraction < 1 - DegreeEpsilon;
     if (bent) {
-        const low = staffStep(
-            degreeToSemitones(lower, track.scale, track.key),
-        );
+        const low = staffStep(degreeToSemitones(lower, track.scale, track.key));
         const high = staffStep(
             degreeToSemitones(lower + 1, track.scale, track.key),
         );
@@ -297,6 +356,9 @@ function collectTrack(
     const length = trackLength(track);
     if (track.notes.length === 0 || length <= 0) return;
 
+    // Only a singing track shows its lyric; see `Mark.words`.
+    const sings = sung(track.instrument);
+
     // A looping track repeats; a one-shot happens once. Starting the pass at
     // the first one that could reach the window is what bounds the work.
     const firstPass = track.loop ? Math.floor(fromBeat / length) : 0;
@@ -304,11 +366,19 @@ function collectTrack(
 
     for (let pass = Math.max(0, firstPass); pass <= lastPass; pass++) {
         const offset = pass * length;
+        // Carried rather than recomputed: `noteOnset` sums from the top of the
+        // track, so asking it per note made drawing a staff quadratic in the
+        // notes — fine for a written tune, not for an imported one.
+        let onset = 0;
         for (let note = 0; note < track.notes.length; note++) {
             const entry = track.notes[note];
-            const beat = offset + noteOnset(track, note);
+            const beat = offset + onset;
+            onset += entry.beats;
+            // Onsets only grow, so once the window is behind us there is
+            // nothing left in this pass to draw.
+            if (beat > toBeat) break;
             // A note is visible if any part of it falls in the window.
-            if (beat + entry.beats < fromBeat || beat > toBeat) continue;
+            if (beat + entry.beats < fromBeat) continue;
             const rest = entry.degrees.length === 0;
             // A hairline rest is data, not notation; drawing it would put a
             // glyph on top of every note in an imported piece.
@@ -328,6 +398,7 @@ function collectTrack(
                     music: music.name,
                     track: index,
                     rest: true,
+                    words: undefined,
                 });
                 continue;
             }
@@ -353,6 +424,12 @@ function collectTrack(
                         music: music.name,
                         track: index,
                         rest: false,
+                        // Only the first notehead carries it, so a chord
+                        // shows one syllable rather than a stack of copies.
+                        words:
+                            sings && voice === 0 && sub === 0
+                                ? entry.words
+                                : undefined,
                     });
                 }
             }
@@ -558,6 +635,68 @@ export function staffLines(center: number): number[] {
 export function placeStep(step: number, center: number): number {
     const place = 0.5 - (step - center) / StepsVisible;
     return Math.min(1, Math.max(0, place));
+}
+
+/* ------------------------------------------------------------------ *
+ * Reading the staff backwards
+ *
+ * Everything above maps music to geometry, which is all a drawing needs. An
+ * editor needs the other direction too: a pointer lands somewhere on the staff
+ * and has to become a beat and a degree.
+ * ------------------------------------------------------------------ */
+
+/**
+ * The step a point in the band sits on — the inverse of `placeStep`.
+ *
+ * Deliberately unrounded and unclamped: a caller placing a note rounds to a
+ * whole step, but a caller dragging one wants the continuous value so the
+ * gesture doesn't stair-step, and a point outside the band should read as the
+ * step it really is rather than as the edge.
+ */
+export function stepAtPlace(place: number, center: number): number {
+    return center + (0.5 - place) * StepsVisible;
+}
+
+/**
+ * The scale degree whose pitch draws nearest a staff step.
+ *
+ * Not an arithmetic inverse, because `staffStep` is many-to-one — C and C♯
+ * share a line — and a scale's degrees are unevenly spaced in semitones. So
+ * this estimates from the octave (seven steps to a scale's worth of degrees)
+ * and then searches an octave either side for the closest actual match, which
+ * is exact for every scale rather than only the diatonic ones. Ties go to the
+ * lower degree.
+ */
+export function degreeForStep(
+    step: number,
+    scale: readonly number[],
+    key = 0,
+): number {
+    if (scale.length === 0) return 1;
+    // Where degree 1 sits, so a shifted key doesn't skew the estimate.
+    const base = staffStep(degreeToSemitones(1, scale, key));
+    const estimate = Math.round(((step - base) * scale.length) / 7) + 1;
+    let best = estimate;
+    let closest = Infinity;
+    for (
+        let degree = estimate - scale.length;
+        degree <= estimate + scale.length;
+        degree++
+    ) {
+        const distance = Math.abs(
+            staffStep(degreeToSemitones(degree, scale, key)) - step,
+        );
+        if (distance < closest) {
+            closest = distance;
+            best = degree;
+        }
+    }
+    return best;
+}
+
+/** The beat a horizontal offset falls on, given the drawn width of a beat. */
+export function beatAtX(x: number, perBeat: number): number {
+    return perBeat > 0 ? x / perBeat : 0;
 }
 
 /** The lowest and highest steps among some marks, for fitting them

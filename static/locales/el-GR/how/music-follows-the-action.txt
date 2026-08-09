@@ -1,39 +1,27 @@
-Make the music follow the action
+Κάνε τη μουσική να ακολουθεί τη δράση
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+Ένα παιχνίδι που παίζει ένα σκοπό από την αρχή ως το τέλος μοιάζει βαρετό. Τι θα γινόταν αν η μουσική ήξερε αν κερδίζεις;
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+Δεν υπάρχει τρόπος να *σταματήσεις* ένα  @Music  — αυτό που το σταματά είναι το να μην βρίσκεται στη  @Stage . Γι' αυτό κράτα ένα κομμάτι state, και βάλε στη σκηνή το τραγούδι που του ταιριάζει:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'μενού' … ∆ Button() … (phase = 'μενού') ? 'καταδίωξη' 'μενού'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'μενού') ? '▶ πάτα για να ξεκινήσεις' '🏃 τρέξε!' 1m)
+		(phase = 'μενού') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+Και τα δύο τραγούδια είναι οι ίδιοι οκτώ αριθμοί. Αλλάζει μόνο το όργανο και ο ρυθμός, και ήδη ακούγεται σαν διαφορετικό κομμάτι — επειδή οι βαθμίδες λένε *ποιο σκαλί της κλίμακας*, όχι ποιος τόνος, οπότε ένα  @Music  μπορεί να τους ερμηνεύσει ξανά. Δώσ' του \κλίμακα: 🎼.αρμονικόΜινόρε\ και ο ίδιος σκοπός γίνεται απειλητικός χωρίς να ξαναγραφτεί ούτε μία νότα.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+Το άλλο μισό είναι μουσική που λυγίζει συνεχώς ανάλογα με το πώς πάνε τα πράγματα. Το να αλλάζεις \tempo\ δεν ξεκινά τίποτα από την αρχή — μπαίνει στον επόμενο χτύπο, οπότε το κομμάτι επιταχύνει χωρίς να χάσει τη θέση του:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('παρτιτούρα \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+Πάτα αρκετές φορές και τα τύμπανα χτυπούν δύο φορές πιο δυνατά από ό,τι στην αρχή. Μια σύντομη, κρουστή νότα είναι αυτό που το κάνει να ακούγεται — κάτω από μακρόχρονες νότες η αλλαγή ρυθμού είναι δύσκολο να τη νιώσεις.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

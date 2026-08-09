@@ -1,7 +1,10 @@
 import conciseRef from '@nodes/conciseRef';
 import type { TemplateInput } from '@locale/Locales';
 import type Locales from '@locale/Locales';
-import type { ReplaceContext } from '@edit/revision/EditContext';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '@edit/revision/EditContext';
 import getConceptName from '@locale/getConceptName';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -14,6 +17,7 @@ import { BIND_SYMBOL } from '@parser/Symbols';
 import AnyType from '@nodes/AnyType';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import ListType from '@nodes/ListType';
 import type { Grammar, Replacement } from '@nodes/Node';
 import Node, { node, optional } from '@nodes/Node';
@@ -45,8 +49,16 @@ export default class Spread extends Node {
             : [];
     }
 
-    static getPossibleInsertions() {
-        return [];
+    /** Offer a spread wherever list values live, so `:` can reach an empty list literal. */
+    static getPossibleInsertions({ parent, field }: InsertContext) {
+        const kind = parent.getGrammar().find((f) => f.name === field)?.kind;
+        return kind !== undefined && kind.allowsKind(Spread)
+            ? [
+                  Spread.make(
+                      ExpressionPlaceholder.make(ListType.make()),
+                  ),
+              ]
+            : [];
     }
 
     getDescriptor(): NodeDescriptor {

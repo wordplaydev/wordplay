@@ -407,8 +407,8 @@ export function targetAnchorNode(
  * Simulate dropping `dragged` onto `target` in `source` and return the NEW major conflicts (Warning +
  * Error) the drop would introduce, diffed against the project's current major conflicts. Placeholder
  * (minor) conflicts are already excluded by getMajorConflictsNow(), so a drop that only leaves a
- * placeholder behind returns []. Used for FEEDBACK — it returns both blocking (Error) and permitted
- * (Warning) conflicts so the caller can explain a rejection or a type-mismatch warning. Diffs the entire
+ * placeholder behind returns []. Used for FEEDBACK — it returns both blocking (structural) and
+ * permitted (semantic) conflicts so the caller can explain a rejection or a warning. Diffs the entire
  * simulated project (not Project.getNewConflicts, which only re-derives a single source) so cross-source
  * drags, where the donor source also changes, are handled correctly.
  */
@@ -440,8 +440,9 @@ export function getDropConflicts(
     };
 }
 
-/** The subset of {@link getDropConflicts} that is BLOCKING (Error severity) — the conflicts that make a
- * drop invalid in blocks mode (e.g. an unknown name). Warning conflicts (type mismatches) are excluded. */
+/** The subset of {@link getDropConflicts} that is BLOCKING — the conflicts that make a drop invalid
+ * in blocks mode (unparsable code). Semantic conflicts (type mismatches, unknown names) are excluded,
+ * whatever their severity: they're explained, not blocked. */
 export function getBlockingDropConflicts(
     project: Project,
     source: Source,
@@ -454,11 +455,32 @@ export function getBlockingDropConflicts(
 }
 
 /**
- * Whether a drop is permitted: structurally valid AND introducing no blocking (Error) conflict. This
- * mirrors the typing/paste policy — Warning and Minor conflicts are permitted, Error is blocked. For a
- * Node target we run the cheap structural {@link isValidDropTarget} first; InsertionPoint/AssignmentPoint
- * targets were already structurally validated at detection time (PointerUtilities), so we only
- * conflict-check them.
+ * True if every source the drop edited prints to text that reparses to the same structure. The
+ * conflict analysis runs on the edited TREE, so it can't see breakage that only appears in the
+ * printed program — e.g. moving a definition's only Name away leaves `•(...)`, which is a fine
+ * tree but unparsable text. Only sources the drop changed are checked (the rest are shared by
+ * identity and came from text in the first place).
+ */
+function dropRoundTrips(before: Project, after: Project): boolean {
+    return after
+        .getSources()
+        .every(
+            (source) =>
+                before.getSources().includes(source) ||
+                new Source(
+                    'test',
+                    source.getCode().toString(),
+                ).expression.isStructurallyEqualTo(source.expression),
+        );
+}
+
+/**
+ * Whether a drop is permitted: structurally valid, introducing no blocking (unparsable) conflict,
+ * and printing to text that means the same program. This mirrors the typing/paste policy —
+ * semantic conflicts of any severity are permitted and explained, only structural breakage is
+ * blocked. For a Node target we run the cheap structural {@link isValidDropTarget} first;
+ * InsertionPoint/AssignmentPoint targets were already structurally validated at detection time
+ * (PointerUtilities), so we only conflict-check them.
  */
 export function isDropPermitted(
     project: Project,
@@ -468,8 +490,15 @@ export function isDropPermitted(
 ): boolean {
     if (target instanceof Node && !isValidDropTarget(project, dragged, target))
         return false;
+    const { conflicts, project: simulated } = getDropConflicts(
+        project,
+        source,
+        dragged,
+        target,
+    );
     return (
-        getBlockingDropConflicts(project, source, dragged, target).length === 0
+        !conflicts.some((conflict) => conflict.isBlocking()) &&
+        dropRoundTrips(project, simulated)
     );
 }
 
@@ -500,14 +529,15 @@ export function resolveStructuralReplacementTarget(
 }
 
 /**
- * The target a RELEASE should actually drop on: `target` itself when permitted
- * (structurally valid + no blocking conflict), otherwise the nearest of up to
- * `limit` enclosing nodes that is — e.g. a drop released on a call's function
- * name lands on the call when only the name rejects it. Returns undefined when
- * nothing qualifies (the drop is refused; the rest-feedback already explained
- * why). This is the drag's ONE conflict-checked resolution: each candidate is a
- * full-project drop simulation, so it runs once at release and is bounded so a
- * fully-blocked ancestor chain can't stall the pointer-up.
+ * The target a RELEASE should actually drop on. Candidates are `target` itself and up to `limit`
+ * enclosing nodes; the winner is the nearest candidate whose drop introduces NO new conflict at all,
+ * falling back to the nearest merely permitted one (no blocking conflict; semantic warnings ride
+ * along), and undefined only when every candidate is structurally blocked — e.g. a drop released on
+ * a call's function name lands on the call when only the name would conflict. Preferring the clean
+ * interpretation over the nearest warned one is what keeps a drop on a call's glyph replacing the
+ * call, not the function name. This is the drag's ONE conflict-checked resolution: each candidate is
+ * a full-project drop simulation, so it runs once at release and is bounded so a long ancestor chain
+ * can't stall the pointer-up.
  */
 export function resolvePermittedDropTarget(
     project: Project,
@@ -516,15 +546,44 @@ export function resolvePermittedDropTarget(
     target: Node | InsertionPoint | AssignmentPoint,
     limit = 3,
 ): Node | InsertionPoint | AssignmentPoint | undefined {
-    if (isDropPermitted(project, source, dragged, target)) return target;
-    if (!(target instanceof Node)) return undefined;
-    const root = project.getRoot(target);
-    if (root === undefined) return undefined;
-    let candidate = root.getParent(target);
-    for (let i = 0; i < limit && candidate !== undefined; i++) {
-        if (isDropPermitted(project, source, dragged, candidate))
-            return candidate;
-        candidate = root.getParent(candidate);
+    // Gather the candidates: the target, and for node targets, up to limit ancestors.
+    const candidates: (Node | InsertionPoint | AssignmentPoint)[] = [target];
+    if (target instanceof Node) {
+        const root = project.getRoot(target);
+        let candidate = root?.getParent(target);
+        for (let i = 0; i < limit && candidate !== undefined; i++) {
+            candidates.push(candidate);
+            candidate = root?.getParent(candidate);
+        }
     }
-    return undefined;
+    let warned: Node | InsertionPoint | AssignmentPoint | undefined = undefined;
+    for (const candidate of candidates) {
+        // Structurally invalid candidates are out entirely.
+        if (
+            candidate instanceof Node &&
+            !isValidDropTarget(project, dragged, candidate)
+        )
+            continue;
+        // One simulation per candidate answers every question.
+        const { conflicts, project: simulated } = getDropConflicts(
+            project,
+            source,
+            dragged,
+            candidate,
+        );
+        if (conflicts.some((conflict) => conflict.isBlocking())) continue;
+        if (!dropRoundTrips(project, simulated)) continue;
+        if (conflicts.length === 0) return candidate;
+        // A placeholder is an explicit "drop here" slot: a permitted drop on one lands there even
+        // when it warns, since building through a type mismatch is exactly what the slot is for.
+        // Other warned candidates only win when no enclosing candidate is conflict-free.
+        if (
+            candidate === target &&
+            candidate instanceof Node &&
+            candidate.isPlaceholder()
+        )
+            return candidate;
+        warned ??= candidate;
+    }
+    return warned;
 }

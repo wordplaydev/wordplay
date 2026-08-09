@@ -4747,6 +4747,10 @@
                 "doc": "$~@Instrument care se aude pe acest ritm, fiecare listat o dată. O scurtătură pentru cazul obișnuit; @Downbeat/parts are detaliile.",
                 "names": "$~instrumente"
             },
+            "words": {
+                "doc": "$~Silabele cântate pe acest ritm, în ordinea pieselor, sau o listă goală când nimic nu cântă. O scurtătură pentru cazul obișnuit, așa cum este @Downbeat/instruments; @Downbeat/parts conține detaliile.",
+                "names": "$~cuvinte"
+            },
             "name": {
                 "doc": "$~Numele @Music din care provine acest ritm, ceea ce filtrează @Beat/name.",
                 "names": "$~nume"
@@ -4813,6 +4817,10 @@
             "loop": {
                 "doc": "$~Dacă piesa mea se repetă când ajunge la sfârșit.",
                 "names": "$~buclă"
+            },
+            "words": {
+                "doc": "$~Silaba pe care o cântă această parte pe acest ritm, sau \\ø\\ când nu cântă nimic — o pauză, sau o pistă fără @Track/words.",
+                "names": "$~cuvinte"
             }
         }
     },
@@ -5506,7 +5514,7 @@
                 },
                 "bounce": {
                     "doc": [
-                        "$~Fac un @Output să sară până la /height/ și îl las să aterizeze, turtindu-se puțin la urcare și la coborâre. Dă-mi un @Phrase care tocmai a sosit și îl voi face să pară că are greutate.",
+                        "$~Fac un @Output să sară până la /height/ și să aterizeze, turtindu-se puțin la urcare și la coborâre. Dă-mi un @Phrase care tocmai a sosit și îl voi face să pară că are greutate.",
                         "\\💬('🐈' resting: 💃.sări(3m))\\"
                     ],
                     "names": ["$~sări"],
@@ -5517,75 +5525,75 @@
                 },
                 "spin": {
                     "doc": [
-                        "$~Rotesc un @Output complet în jurul centrului său, de la 360° înapoi la 0°. Pune-mă ca animație de repaus și voi continua să mă rotesc pentru totdeauna.",
+                        "$~Rotesc un @Output complet în jurul centrului său, de la 360° înapoi la 0°. Alege-mă ca animație de repaus și mă voi roti pentru totdeauna.",
                         "\\💬('🐈' resting: 💃.rotire(2s))\\"
                     ],
                     "names": ["$~rotire"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Aduc un @Output de la invizibil la complet vizibil. Sunt făcut pentru /entering/, când ceva sosește pe scenă.",
+                        "$~Aduc un @Output de la invizibil la complet vizibil. Sunt gândit pentru /intrare/, când ceva sosește pe scenă.",
                         "\\💬('🐈' entering: 💃.estompare(1s))\\"
                     ],
                     "names": ["$~estompare"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Duc un @Output de la complet vizibil la invizibil. Sunt făcut pentru /exiting/, când ceva părăsește scena.",
+                        "$~Duc un @Output de la complet vizibil la invizibil. Sunt gândit pentru /ieșire/, când ceva părăsește scena.",
                         "\\💬('🐈' exiting: 💃.estompareieșire(duration: 1s))\\"
                     ],
                     "names": ["estompareieșire"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Fac un @Output să crească din nimic, depășesc mărimea sa reală, apoi revin. Acea mică depășire face ca o sosire să pară jucăușă în loc de mecanică.",
+                        "$~Fac un @Output să crească din nimic, depășind mărimea sa reală, apoi să revină. Acea mică depășire face ca o sosire să pară jucăușă în loc de mecanică.",
                         "\\💬('🐈' entering: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Zdruncin un @Output înainte și înapoi în mai multe direcții. Par a spune „nu” sau ceva care zăngăne. Mă mișc repede, așa că păstrează-mă scurt.",
+                        "$~Trag brusc un @Output înainte și înapoi în mai multe direcții. Par „nu”, sau ceva care zornăie. Mă mișc repede, așa că păstrează-mă scurt.",
                         "\\💬('🐈' resting: 💃.scutura(0.5s count: 3x))\\"
                     ],
                     "names": ["$~scutura"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Măresc un @Output până la /amount/ și înapoi, o singură dată. Sunt cel mai discret mod de a spune „privește aici” fără a muta nimic din loc.",
+                        "$~Măresc un @Output până la /amount/ și înapoi, o dată. Sunt cea mai liniștită modalitate de a spune „privește aici” fără a muta nimic din loc.",
                         "\\💬('🐈' resting: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
                     "amount": {
-                        "doc": "$~Cât de mare să devină la vârf. 1 înseamnă nicio schimbare.",
+                        "doc": "$~Cât de mult să crească la vârf. 1 înseamnă nicio schimbare.",
                         "names": ["$~cantitate"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Dau două bătăi rapide de mărire și apoi mă odihnesc, ritmul unei bătăi de inimă. Sunt mai urgent decât /pulse/ al lui @Sequence și mai organic decât /flash/.",
+                        "$~Dau două bătăi rapide de mărire și apoi mă odihnesc, ritmul unei bătăi de inimă. Sunt mai urgent decât /pulse/-ul unui @Sequence și mai natural decât /flash/.",
                         "\\💬('🐈' resting: 💃.bătaiainimii(1.4 1s))\\"
                     ],
                     "names": ["$~bătaiainimii"],
                     "amount": {
-                        "doc": "$~Cât de mare să devină la fiecare bătaie.",
+                        "doc": "$~Cât de mult să crească la fiecare bătaie.",
                         "names": ["$~cantitate"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~Sărbătoresc: o mică micșorare, apoi o mărire cu o legănare înainte și înapoi. Sunt pentru câștig, pentru finalizare și pentru a reuși.",
+                        "$~Sărbătoresc: o mică micșorare, apoi o mărire cu o legănare înainte și înapoi. Sunt pentru câștig, terminare și reușită.",
                         "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~Cât de mare să devină în timpul sărbătoririi.",
+                        "doc": "$~Cât de mult să crească în timpul sărbătorii.",
                         "names": ["$~cantitate"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Alunec un @Output dintr-o parte în alta în timp ce îl înclin, fiecare legănare fiind mai mică decât cea dinainte. Sunt o scuturare cu puțin mai multă personalitate.",
+                        "$~Alunec un @Output dintr-o parte în alta în timp ce îl înclin, fiecare legănare fiind mai mică decât cea de dinainte. Sunt o scuturare cu un pic mai multă personalitate.",
                         "\\💬('🐈' resting: 💃.semișcă(8°))\\"
                     ],
                     "names": ["$~semișcă"],
@@ -5596,22 +5604,22 @@
                 },
                 "flash": {
                     "doc": [
-                        "$~Clipesc un @Output între vizibil și invizibil de două ori, estompându-mă pe parcurs. Sunt greu de ratat — ceea ce înseamnă și că sunt greu de ignorat, așa că folosește-mă cu moderație.",
-                        "Clipesc rapid, așa că un privitor sensibil la clipire mă poate găsi neplăcut. Încetinește-mă cu o /duration/ mai lungă dacă mă voi repeta.",
+                        "$~Fac un @Output să clipească între vizibil și invizibil de două ori, estompându-mă pe parcurs. Sunt greu de ratat — ceea ce înseamnă și că sunt greu de ignorat, așa că folosește-mă rar.",
+                        "Clipesc repede, așa că un privitor sensibil la clipiri m-ar putea găsi neplăcut. Încetinește-mă cu un /duration/ mai lung dacă mă voi repeta.",
                         "\\💬('🐈' resting: 💃.bliț(1s))\\"
                     ],
                     "names": ["$~bliț"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Fac un @Output să crească din nimic până la mărimea deplină. Spre deosebire de /popup/, eu nu depășesc — sunt sosirea mai simplă și mai liniștită.",
+                        "$~Fac un @Output să crească din nimic până la mărimea completă. Spre deosebire de /popup/, nu depășesc — sunt sosirea mai simplă și mai calmă.",
                         "\\💬('🐈' entering: 💃.mărire(0.5s))\\"
                     ],
                     "names": ["$~mărire"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Estompez un @Output făcându-l vizibil în timp ce îl alunec în sus la locul său de la /distance/ dedesubt.",
+                        "$~Fac un @Output să apară estompat în timp ce îl alunec în sus, la locul lui, dintr-o /distance/ de mai jos.",
                         "\\💬('🐈' entering: 💃.estomparesus(2m))\\"
                     ],
                     "names": ["estomparesus"],
@@ -5622,7 +5630,7 @@
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Estompez un @Output făcându-l vizibil în timp ce îl alunec în jos la locul său de la /distance/ deasupra.",
+                        "$~Fac un @Output să apară estompat în timp ce îl alunec în jos, la locul lui, dintr-o /distance/ de mai sus.",
                         "\\💬('🐈' entering: 💃.estomparejos(2m))\\"
                     ],
                     "names": ["estomparejos"],
@@ -5633,91 +5641,91 @@
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Estompez un @Output făcându-l vizibil în timp ce îl alunec spre dreapta la locul său de la /distance/ din stânga.",
+                        "$~Fac un @Output să apară estompat în timp ce îl alunec spre dreapta, la locul lui, dintr-o /distance/ din stânga.",
                         "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
-                        "doc": "$~Cât de departe la stânga să înceapă, în metri.",
+                        "doc": "$~Cât de mult spre stânga să înceapă, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Fac ca un @Output să apară treptat în timp ce alunecă spre stânga la locul lui, de la /distance/ spre dreapta.",
+                        "$~Fac un @Output să apară treptat în timp ce îl aduc spre stânga la locul lui, de la /distance/ spre dreapta.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$~Cât de departe la dreapta să înceapă, în metri.",
+                        "doc": "$~Cât de departe spre dreapta să înceapă, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Rotesc un @Output la locul lui în timp ce apare treptat, pornind rotit cu /angle/ și terminând drept.",
+                        "$~Rotesc un @Output la locul lui în timp ce îl fac să apară treptat, pornind rotit cu /angle/ și terminând drept.",
                         "\\💬('🐈' entering: 💃.rotație(180°))\\"
                     ],
                     "names": ["$~rotație"],
                     "angle": {
-                        "doc": "$~Cât de mult să se rotească la început, în grade.",
+                        "doc": "$~Cât de mult rotit să înceapă, în grade.",
                         "names": ["$~unghi"]
                     }
                 },
                 "zoomout": {
                     "doc": [
-                        "$~Micșorez un @Output de la dimensiunea completă până la nimic.",
+                        "$~Micșorez un @Output de la mărimea completă până la nimic.",
                         "\\💬('🐈' exiting: 💃.micșorare(0.5s))\\"
                     ],
                     "names": ["$~micșorare"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Fac ca un @Output să dispară treptat în timp ce alunecă /distance/ în sus.",
+                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ în sus.",
                         "\\💬('🐈' exiting: 💃.estompareieșiresus(2m))\\"
                     ],
                     "names": ["estompareieșiresus"],
                     "distance": {
-                        "doc": "$~Cât de departe să alunece în sus, în metri.",
+                        "doc": "$~Cât de mult să alunece în sus, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Fac ca un @Output să dispară treptat în timp ce alunecă /distance/ în jos.",
+                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ în jos.",
                         "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
-                        "doc": "$~Cât de departe să alunece în jos, în metri.",
+                        "doc": "$~Cât de mult să alunece în jos, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Fac ca un @Output să dispară treptat în timp ce alunecă /distance/ la stânga.",
+                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ spre stânga.",
                         "\\💬('🐈' exiting: 💃.estomparelastânga(2m))\\"
                     ],
                     "names": ["$~estomparelastânga"],
                     "distance": {
-                        "doc": "$~Cât de departe să alunece la stânga, în metri.",
+                        "doc": "$~Cât de mult să alunece spre stânga, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Fac ca un @Output să dispară treptat în timp ce alunecă /distance/ la dreapta.",
+                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ spre dreapta.",
                         "\\💬('🐈' exiting: 💃.estompeazăcomplet(2m))\\"
                     ],
                     "names": ["$~estompeazăcomplet"],
                     "distance": {
-                        "doc": "$~Cât de departe să alunece la dreapta, în metri.",
+                        "doc": "$~Cât de mult să alunece spre dreapta, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Rotesc un @Output pentru a dispărea în timp ce se estompează, terminând rotit cu /angle/.",
+                        "$~Rotesc un @Output pentru a-l îndepărta în timp ce îl fac să dispară treptat, terminând rotit cu /angle/.",
                         "\\💬('🐈' exiting: 💃.rotireieșire(180°))\\"
                     ],
                     "names": ["rotireieșire"],
@@ -5728,8 +5736,8 @@
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Parcurg un @Output prin toate nuanțele curcubeului și înapoi de unde am pornit.",
-                        "Schimb culoarea repede, așa că o persoană sensibilă la lumini care clipesc s-ar putea simți inconfortabil. O /duration/ mai lungă mă face mult mai blând.",
+                        "$~Trec un @Output prin fiecare nuanță a curcubeului și înapoi la punctul de plecare.",
+                        "Schimb culoarea repede, așa că o persoană sensibilă la lumini care clipesc poate să nu se simtă bine. O /duration/ mai lungă mă face mult mai blând.",
                         "\\💬('🐈' resting: 💃.curcubeu(3s))\\"
                     ],
                     "names": ["$~curcubeu"]
@@ -6450,6 +6458,10 @@
             "mash": {
                 "doc": "$~Ce face o notă aflată între alte două note. \\1.5\\ stă la jumătatea distanței dintre \\1\\ și \\2\\: dacă nu este \\⊥\\, amândouă se aud, cea mai apropiată mai tare, așa cum fac două clape de pian apăsate împreună. Cu \\⊥\\ obții o singură notă în schimb, deviată de la înălțime cu cât de departe se află între ele.",
                 "names": "$~amestecare"
+            },
+            "words": {
+                "doc": "$~Silabele pe care @Instrument/voice să le cânte. O silabă pentru fiecare notă, separate prin spații, așa că \\'sol mi fa'\\ cântă trei note, iar spațiile sunt cele care spun unde se termină o silabă și unde începe următoarea.\n\nPauzele nu iau nicio silabă, așa că un vers ajunge pe notele care chiar sună. Dacă sunt mai puține silabe decât note, ele o iau de la început în loc să tacă. Dacă nu există deloc, vocea ține un sunet /uh/.\n\nTermină o silabă cu o liniuță ca s-o ții și peste nota următoare, câte o notă în plus pentru fiecare liniuță — așa cânți o singură silabă pe mai multe note. În \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ acoperă primele două note, apoi \\mi\\ și \\so\\ iau câte una fiecare.\n\nScrierea este <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, unde fiecare literă este un sunet. Apasă 🤖 sub editor ca să vezi fiecare sunet și să îl auzi. Literele pe care nu le recunosc sunt sărite. Orice instrument în afară de voce mă ignoră, așa că un vers rămâne dacă schimbi @Track/instrument și te întorci.",
+                "names": "$~cuvinte"
             }
         },
         "Note": {
@@ -6598,6 +6610,16 @@
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~⚡", "$~chitarăElectrică"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~O voce care cântă, făcută din filtre în loc să fie înregistrată de la o persoană. Are înălțime, așa că numerele aleg notele.",
+                        "Sunt un sintetizator, ca @Instrument/synth — nu o imitație a unui cântăreț. Gura mea rămâne la fel de mare oricât de sus sau de jos cânt, ceea ce niciun gât adevărat nu poate face. De aceea sun ca o mașină care imită o persoană și de aceea nu sun nici a bărbat, nici a femeie.",
+                        "Dă-i lui @Track un @Track/words și le cânt, o silabă pentru fiecare notă. Fără nimic, țin un sunet /uh/, așa că mereu cânt ceva.",
+                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "Silabele sunt scrise în <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabet în care fiecare literă este un /sunet/ în loc de o scriere — așa că \\'ʃi'\\ este sunetul de la începutul cuvântului /she/, indiferent de limba în care scrii. Apasă 🤖 sub editor ca să vezi toate sunetele pe care le pot face și să auzi fiecare sunet."
+                    ],
+                    "names": ["$~🤖", "$~voce"]
                 }
             },
             "doc": [
@@ -6673,8 +6695,12 @@
                     "off": "$~extindeți dala ferestrei la ecran complet"
                 },
                 "show": {
-                    "on": "$~ascunde",
-                    "off": "$~spectacol"
+                    "on": "$~ascunde $name",
+                    "off": "$~arată $name"
+                },
+                "showSource": {
+                    "on": "$~ascunde sursa $name",
+                    "off": "$~arată sursa $name"
                 }
             },
             "label": {
@@ -7146,7 +7172,8 @@
                 "selectOutput": "$~arată această ieșire pe scenă",
                 "zoomIn": "$~Măriți codul",
                 "zoomOut": "$~Faceți codul mai mic",
-                "replace": "$~înlocuiește toate chibriturile"
+                "replace": "$~înlocuiește toate chibriturile",
+                "selectOutputError": "$~arată această ieșire pe scenă; evaluarea acestei surse s-a încheiat cu o eroare"
             },
             "field": {
                 "name": {
@@ -7307,8 +7334,15 @@
             "button": {
                 "resolution": "$~Rezolvă acest conflict",
                 "toggle": "$~afișarea și ascunderea adnotărilor",
-                "highlight": "$~afișează acest cod în editor"
-            }
+                "highlightMajor": "$~arată codul acestei erori în editor",
+                "highlightMinor": "$~arată codul acestei avertizări în editor",
+                "highlightStep": "$~arată codul acestui pas de evaluare în editor"
+            },
+            "severity": {
+                "major": "$~eroare",
+                "minor": "$~avertizare"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~etapă",
@@ -7398,25 +7432,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~mod de evaluare",
-                    "labels": ["$~editare", "$~pas", "$~redare"],
+                    "labels": ["$~editare", "$~redare", "$~pas"],
                     "tips": [
                         "$~treci la modul de editare: schimbă programul în timp ce scena rămâne oprită pe cadrul actual",
-                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând",
-                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real"
+                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real",
+                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~mod de evaluare",
-                    "labels": ["$~vizualizare", "$~pas", "$~redare"],
+                    "labels": ["$~vizualizare", "$~redare", "$~pas"],
                     "tips": [
                         "$~treci la modul de vizualizare: citește programul în timp ce scena rămâne oprită pe cadrul actual",
-                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând",
-                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real"
+                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real",
+                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând"
                     ]
                 },
                 "announce": "$~mod $mode",
                 "exception": "$~Programul a avut o eroare, așa că a trecut la modul pas cu pas ca să îl poți examina.",
-                "cycle": "$~comută între modurile de editare, pas cu pas și redare"
+                "toggle": "$~comută între modul de editare și modul de joacă"
             },
             "gate": {
                 "start": {
@@ -8245,7 +8279,23 @@
                 "createPhrase": "$~creează o frază, afișând valoarea existentă ca text",
                 "createGroup": "$~creați un Grup, încadrând orice Frază existentă",
                 "createStage": "$~creați o Scenă, încadrând orice Grup sau Frază existentă",
-                "editMode": "$~treci la modul de editare"
+                "editMode": "$~treci la modul de editare",
+                "createMusic": "$~adaugă @Music în program",
+                "previousTrack": "$~arată @Track anterioară",
+                "nextTrack": "$~arată @Track următoare",
+                "addTrack": "$~adaugă o @Track",
+                "removeTrack": "$~elimină această @Track",
+                "clearTrack": "$~elimină fiecare notă din această @Track",
+                "makeChord": "$~transformă această notă într-un acord",
+                "unmakeChord": "$~redu acest acord la o singură notă",
+                "playMusic": "$~ascultă această @Music de la cursor",
+                "pauseMusic": "$~oprește redarea",
+                "importMIDI": "$~importă un fișier MIDI ca @Music",
+                "record": "$~fredonează o melodie pentru a o adăuga la @Track",
+                "stopRecording": "$~oprește-te și scrie ce ai fredonat",
+                "playTrack": "$~ascultă acest @Track singur, de la cursor",
+                "pauseTrack": "$~oprește redarea acestui @Track",
+                "rewind": "$~întoarce-te la început"
             },
             "prompt": {
                 "offerPhrase": "$~Ar trebui să includ această valoare într-o frază @Phrase ?",
@@ -8255,7 +8305,8 @@
                 "editing": "$~Editează-mă!",
                 "offerShape": "$~Ar trebui să încapăl acest @Form în @Shape pentru a-l afișa pe @Stage ?",
                 "offerNothing": "$~Nimic aici încă! Ar trebui să adaug o @Phrase pentru a începe?",
-                "readonly": "$~Aceste valori sunt *doar pentru citire* în acest mod. Treci la modul ✏️ *editare* ca să le schimbi."
+                "readonly": "$~Aceste valori sunt *doar pentru citire* în acest mod. Treci la modul ✏️ *editare* ca să le schimbi.",
+                "offerMusic": "$~Vrei să adaugi @Music? Pot să încep cu câteva note cu care să te joci."
             },
             "field": {
                 "coordinate": "$~editați coordonatele",
@@ -8290,6 +8341,69 @@
                 "unset": "$~Când o proprietate are setată o valoare /explicită/, butonul *X* elimină acea valoare, readucând proprietatea la valoarea *implicită*.",
                 "editor": "$~Toate modificările pe care le faceți în paletă se reflectă în /codul/ afișat în *editor*.",
                 "stage": "$~Frazele pot fi, de asemenea, /mutate/, /redimensionate/ și /rotite/ direct pe *scenă*."
+            },
+            "music": {
+                "staff": "$~notele acestei piese",
+                "track": "$~piesa $count din $total",
+                "duration": {
+                    "label": "$~cât durează o notă nouă",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~o notă întreagă, patru bătăi",
+                        "$~o notă de jumătate, două bătăi",
+                        "$~o notă de sfert, o bătaie",
+                        "$~o notă de optime, o jumătate de bătaie",
+                        "$~o notă de șaisprezecime, un sfert de bătaie"
+                    ]
+                },
+                "computed": "$~notele acestei piese sunt calculate, așa că nu pot fi mutate aici",
+                "note": "$~nota $degree, bătaia $beat",
+                "rest": "$~pauză, bătaia $beat",
+                "added": "$~am adăugat nota $degree la bătaia $beat, acum $#count[$#count notă|$#count note|$#count de note]",
+                "removed": "$~nota $degree eliminată la bătaia $beat, acum $#count[$#count notă|$#count note|$#count de note]",
+                "moved": "$~nota $degree, bătaia $beat",
+                "chooser": "$~ce muzică să editezi",
+                "unnamed": "$~muzica $count",
+                "cursor": "$~trage pentru a alege de la ce bătaie să cânți",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count pistă a cântat|$#count piste au cântat|$#count de piste au cântat] mai multe note în același timp, așa că $extra în plus au fost adăugate pentru a ține vocile suplimentare.",
+                    "percussionDropped": "$~$#count[$#count sunet de tobă nu a avut|$#count sunete de tobă nu au avut|$#count de sunete de tobă nu au avut] potrivire în setul nostru, așa că au fost lăsate deoparte.",
+                    "tracksTruncated": "$~$#count[$#count pistă a fost lăsată|$#count piste au fost lăsate|$#count de piste au fost lăsate] deoparte, peste limita de $cap.",
+                    "pitchesSnapped": "$~$#count[$#count notă nu era|$#count note nu erau|$#count de note nu erau] în gama $scale și au fost mutate la cea mai apropiată, cu până la $semitones semitonuri.",
+                    "beatsRounded": "$~$#count[$#count lungime de notă a fost rotunjită|$#count lungimi de notă au fost rotunjite|$#count de lungimi de notă au fost rotunjite], cu cel mult $error dintr-o bătaie.",
+                    "meterChanges": "$~$#count[$#count schimbare de măsură a fost lăsată|$#count schimbări de măsură au fost lăsate|$#count de schimbări de măsură au fost lăsate] deoparte: @Music nu are măsuri.",
+                    "velocityRange": "$~Pista $track are $#count[$#count intensitate|$#count intensități|$#count de intensități]. Fiecare notă o păstrează pe a sa, dar nu există creșteri treptate.",
+                    "outOfRange": "$~$#count[$#count notă este|$#count note sunt|$#count de note sunt] la mai mult de trei octave de prima notă a gamei. Vor cânta, dar nu dintr-o înregistrare reală.",
+                    "tempoFolded": "$~$#count[$#count schimbare de tempo a fost|$#count schimbări de tempo au fost|$#count de schimbări de tempo au fost] incluse în lungimile notelor, așa că muzica tot accelerează și încetinește. Un @Music are un singur tempo, iar acesta este $using, deci un @Beat nu se va potrivi cu notele."
+                },
+                "notMIDI": "$~asta nu pare a fi un fișier MIDI",
+                "badMIDI": "$~nu am putut citi acel fișier MIDI",
+                "listening": "$~Ascult! Fredonează sau cântă o melodie, apoi oprește-te. Voi nota notele pe care le aud și le voi adăuga la această pistă.",
+                "heardNothing": "$~Nu am auzit nicio notă. Încearcă să fredonezi puțin mai tare sau mai aproape de microfon.",
+                "transcribed": "$~Am auzit $#count[$#count notă|$#count note|$#count de note] în $scale la aproximativ $tempo bătăi pe minut.",
+                "noMicrophone": "$~Nu îți pot auzi microfonul",
+                "imported": "$~am adăugat $#count[$#count pistă|$#count piste|$#count de piste] și $notes note",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~Acel fișier are $#count[$#count notă|$#count note|$#count de note], mai mult decât cele $cap pe care le poate ține un proiect. Încearcă o piesă mai scurtă sau mai puține instrumente.",
+                "steps": {
+                    "label": "$~ce face un import",
+                    "labels": [
+                        "$~Se citește fișierul",
+                        "$~Aflarea notelor",
+                        "$~Denumirea pieselor",
+                        "$~Scrierea lor în programul tău",
+                        "$~Verificarea programului tău"
+                    ],
+                    "tips": [
+                        "$~citirea fișierului",
+                        "$~aflarea notelor",
+                        "$~denumirea pieselor",
+                        "$~scrierea lor în programul tău",
+                        "$~verificarea programului tău"
+                    ]
+                },
+                "report": "$~Ce am importat",
+                "reportExplanation": "$~Un @Music poate păstra cea mai mare parte din ce descrie un fișier MIDI, dar nu chiar totul. Iată ce s-a schimbat la intrare."
             }
         },
         "save": {
@@ -9207,7 +9321,8 @@
                     "description": "$~Descriere",
                     "cssvalue": "$~Valoare CSS",
                     "computed": "$~Calculat",
-                    "primaryface": "$~Fața principală"
+                    "primaryface": "$~Fața principală",
+                    "contrast": "$~Contrast"
                 },
                 "demo": {
                     "button": "$~Exemplu",
@@ -9223,7 +9338,13 @@
                     "optiona": "$~Opțiunea A",
                     "optionb": "$~Opțiunea B",
                     "optionc": "$~Opțiunea C"
-                }
+                },
+                "accessibility": "$~Accesibilitatea culorilor",
+                "accessibilityRules": [
+                    "$~Orice este afișat ca *text* trebuie să folosească una dintre variantele de text AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* sau o variabilă semantică ce indică spre una dintre ele). Acestea îndeplinesc contrastul de 4,5:1 pe care îl cere <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Nuanțele de marcă mai luminoase sunt doar pentru fundaluri, margini și evidențieri, care au nevoie de 3:1 sau de nimic. Aceste rapoarte sunt verificate prin teste unitare și prin scanări automate ale fiecărei pagini, atât în modul luminos, cât și în cel întunecat. Există o excepție intenționată: griul de margine din modul luminos este sub 3:1, fiindcă marginile de aici sunt o separare decorativă, iar fiecare limită importantă are un alt indiciu.",
+                    "Nu transmite niciodată un sens doar prin culoare: însoțește fiecare stare marcată prin culoare cu un al doilea indiciu — o formă, un stil de linie, un simbol sau un cuvânt. De exemplu, editorul desenează evidențierea cursorului și conflictele majore *pline*, ieșirea selectată *întreruptă* și conflictele minore *punctate*, astfel încât gravitatea și selecția rămân distincte fără nuanță.",
+                    "Consultă ghidul <wiki de design@https://github.com/wordplaydev/wordplay/wiki/design> pentru îndrumarea completă pentru contribuitori."
+                ]
             },
             "thanks": {
                 "header": "$~Mulţumesc",
@@ -9375,6 +9496,129 @@
             "menuEmpty": "$~nicio sugestie",
             "menuClosed": "$~ai închis meniul",
             "tidyNoop": "$~deja ordonat"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Ascunde sunetele pe care le poate cânta vocea",
+                "off": "$~Arată sunetele pe care le poate cânta vocea"
+            },
+            "groups": [
+                "$~vocale",
+                "$~aproximante",
+                "$~sunete l",
+                "$~nazale",
+                "$~sunete șuierătoare",
+                "$~sunete rulate",
+                "$~sunete oprite",
+                "$~pocnete"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Ascultă $symbol",
+            "insert": "$~Scrie $symbol"
         }
     },
     "moderation": {

@@ -1,6 +1,7 @@
 s
 "Sequence Easing"/en"序列缓动"/zh-CN"序列緩動"/zh-TW
 ===
+¶The same car animation eight ways, one for each easing style.¶
 keyframes: {
 		0%: Pose(offset: Place(-1m 0m))
 		25%: Pose(offset: Place(1m 0m))

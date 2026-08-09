@@ -1,6 +1,7 @@
 🙂
 "Face"/en"脸"/zh-CN"臉"/zh-TW
 ===
+¶An emoji that mirrors your face as you smile, frown, gape, and blink.¶
 face: Face()
 
 Stage([

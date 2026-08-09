@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+Sadece notaları değil, ritmi de yaz
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+Yalın sayılardan oluşan bir liste her notaya aynı uzunluğu verir; bu da kurmalı bir oyuncak gibi ses çıkarır. Gerçek ritim iki yerden gelir: bir  @Track  hangi ölçüde saydığı ve tek tek sayıların üzerine yazdığın nota değerleri. 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  ölçüyü belirler. Her yalın giriş o kadar sürer — ve her \ø\ de öyle; bu yüzden es koymak bir notayı uzatmanın en kolay yoludur:
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+Piyanonun ilk notasından sonra üç es gelir, bu yüzden dört vuruş boyunca çalar. Davulun ölçüsü yarım vuruştur, bu yüzden onun sekiz girişi dört vuruşu doldururken piyanonun sekiz girişi sekiz vuruşu doldurur — davul, piyano bir kez dönerken iki kez döner. Parçalar kendi uzunluklarına göre döner; bir sayının nasıl çokritmi oluşturduğu da budur.
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+Esleri saymak yorucu olur, bu yüzden uzunluğu doğrudan sayının üzerine yazabilirsin. Yalın bir sayı yine de "bir ölçü adımı" demektir; üzerinde nota değeri olan her şey kendi uzunluğunu söyler:
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+Bu, dörder vuruşluk iki ölçüdür. \𝅝\ bir tam notadır, \𝅗𝅥\ bir yarım, \𝅘𝅥\ bir dörtlük, \𝅘𝅥𝅮\ bir sekizlik ve \𝅘𝅥𝅯\ bir on altılık, nokta ise \𝅭\ bunların herhangi birini yarısı kadar daha uzun yapar — böylece \𝅘𝅥𝅮𝅭\ bu marşı ileri fırlatan noktalı sekizliktir. Düzenleyicinin altındaki simge satırı, bir sayı yazdıktan sonra bunları sana sunar.
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+Yapamadıkları tek şey es koymaktır: \ø\ bir sayı değildir, bu yüzden bir değere yer yoktur. Bunun yerine esleri ikiye katla ya da bir  @Note  kullan; bu ayrıca hiçbir nota değerinin yazamayacağı uzunlukları da sana verir — \Note(1 2beats ÷ 3)\ bir üçlemedir, iki notanın yerinde üç nota.
 
 layer-an-arrangement, draw-the-music

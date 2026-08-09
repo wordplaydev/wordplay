@@ -3,9 +3,10 @@ import { Zones } from '@output/Music/samples.generated';
 import {
     InstrumentKeys,
     Instruments,
+    sung,
     type InstrumentKey,
 } from '@output/Music/instruments';
-import { kitIndex } from '@output/Music/synthesis';
+import { Recipes, kitIndex } from '@output/Music/synthesis';
 import {
     checkHashes,
     checkProvenance,
@@ -45,7 +46,10 @@ test('every zone records its provenance and is CC0', () => {
 test('the generated zone map agrees with the lockfile', () => {
     for (const [id, zones] of Object.entries(lock!.instruments)) {
         const generated = Zones[id];
-        expect(generated, `${id} missing from samples.generated.ts`).toBeDefined();
+        expect(
+            generated,
+            `${id} missing from samples.generated.ts`,
+        ).toBeDefined();
         expect(generated.map((zone) => zone.file)).toEqual(
             zones.map((zone) => zone.file),
         );
@@ -68,7 +72,10 @@ test('pitched zones are ordered by root, with one zone per root', () => {
     for (const [id, zones] of Object.entries(Zones)) {
         if (Instruments[id as InstrumentKey]?.pitched === false) continue;
         const roots = zones.map((zone) => zone.root);
-        expect([...roots].sort((a, b) => a - b), id).toEqual(roots);
+        expect(
+            [...roots].sort((a, b) => a - b),
+            id,
+        ).toEqual(roots);
         expect(new Set(roots).size, `${id} has duplicate roots`).toBe(
             roots.length,
         );
@@ -90,7 +97,9 @@ test('kit zones keep the manifest order, which is the degree order', () => {
             zone.file.split('/')[1].replace('.mp3', ''),
         );
         expect(files, `${id} zone order`).toEqual(
-            spec.kit.map((piece) => piece.toLowerCase().replace(/[^a-z0-9]+/g, '')),
+            spec.kit.map((piece) =>
+                piece.toLowerCase().replace(/[^a-z0-9]+/g, ''),
+            ),
         );
     }
 });
@@ -100,7 +109,10 @@ test('tuning corrections are small, since the libraries are already at A440', ()
     // the build refuses to ship one, and this keeps that guarantee visible.
     for (const [id, zones] of Object.entries(Zones))
         for (const zone of zones)
-            expect(Math.abs(zone.detune), `${id}/${zone.file}`).toBeLessThanOrEqual(50);
+            expect(
+                Math.abs(zone.detune),
+                `${id}/${zone.file}`,
+            ).toBeLessThanOrEqual(50);
 });
 
 test('percussion zones line up one-to-one with the kit they index', () => {
@@ -128,4 +140,34 @@ test('kit indices wrap and never depend on the synth pitch offset', () => {
     // Degrees past the kit wrap around to the start.
     expect(kitIndex('drums', 7)).toBe(0);
     expect(kitIndex('drums', 0)).toBe(5);
+});
+
+test('the palette and the recipes agree about who sings', () => {
+    // Two truths about the same thing: `sings` is the palette fact the sheet
+    // reads to decide whether to draw a lyric, and `source: 'voice'` is the
+    // synthesis fact `MusicAudio` reads to decide which graph to build. They
+    // answer different questions, so they both exist — and a lyric drawn under
+    // a track that won't sound it, or sounded under one that shows nothing, is
+    // what it looks like when they drift apart.
+    for (const key of InstrumentKeys)
+        expect(sung(key), key).toBe(Recipes[key].source === 'voice');
+    // And exactly one instrument sings, so neither is vacuously true.
+    expect(InstrumentKeys.filter((key) => sung(key))).toEqual(['voice']);
+});
+
+test('every instrument has its own hue, and its own emoji', () => {
+    // Hues are stable per instrument across every project and drive the light
+    // show, the mood cloud, and the orchestra view, so two instruments sharing
+    // one are indistinguishable in all three. The emoji is the sheet's label
+    // and the palette's picker, so a shared one is the same problem in text.
+    const hues = InstrumentKeys.map((key) => Instruments[key].hue);
+    expect(new Set(hues).size).toBe(hues.length);
+    for (const hue of hues) {
+        expect(hue).toBeGreaterThanOrEqual(0);
+        expect(hue).toBeLessThan(360);
+    }
+    const emoji = InstrumentKeys.map((key) => Instruments[key].emoji).filter(
+        (value) => value !== undefined,
+    );
+    expect(new Set(emoji).size).toBe(emoji.length);
 });

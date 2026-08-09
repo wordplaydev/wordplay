@@ -47,11 +47,13 @@ export default class WebLink extends Content {
         );
     }
 
+    /** The placeholder URL needs a host: a bare `https://` doesn't lex as a URL token, so a
+     * template carrying one wouldn't survive printing and reparsing. */
     static getPossibleReplacements({ locales }: ReplaceContext) {
         return [
             WebLink.make(
                 locales.getMultilingualText((l) => l.node.WebLink.name),
-                'https://',
+                'https://example.com',
             ),
         ];
     }
@@ -60,7 +62,7 @@ export default class WebLink extends Content {
         return [
             WebLink.make(
                 locales.getMultilingualText((l) => l.node.WebLink.name),
-                'https://',
+                'https://example.com',
             ),
         ];
     }

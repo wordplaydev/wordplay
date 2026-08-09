@@ -1,5 +1,6 @@
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
+import Bind from '@nodes/Bind';
 import Evaluate from '@nodes/Evaluate';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import ListLiteral from '@nodes/ListLiteral';
@@ -258,32 +259,54 @@ test('getDropConflicts reports the conflict a type-erroring drop would introduce
     ).toBeGreaterThan(0);
 });
 
-test('a drop that creates an unknown name is blocked (Error severity)', () => {
+test('a drop that creates an unknown name is permitted with a warning', () => {
     const source = new Source('test', '1 + _');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    // Dragging a reference to an undefined name onto the placeholder → `1 + saddf` → unknown name.
+    // Dragging a reference to an undefined name onto the placeholder → `1 + saddf` → unknown name,
+    // a semantic mistake the creator can repair in place, so the drop lands with a warning.
     const dragged = parseExpression(toTokens('saddf'));
     const target = source.find(ExpressionPlaceholder);
     expect(
-        getBlockingDropConflicts(project, source, dragged, target).map(
+        getBlockingDropConflicts(project, source, dragged, target),
+    ).toHaveLength(0);
+    expect(isDropPermitted(project, source, dragged, target)).toBe(true);
+    // The conflict is still reported for feedback.
+    expect(
+        getDropConflicts(project, source, dragged, target).conflicts.map(
             (c) => c.constructor.name,
         ),
     ).toContain('UnknownName');
-    expect(isDropPermitted(project, source, dragged, target)).toBe(false);
 });
 
-test('a type-mismatch drop is blocked (Error severity)', () => {
+test('a type-mismatch drop onto a placeholder lands there, warned', () => {
     const source = new Source('test', 'a•#: _');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    // Dropping text into a number-typed bind is a type mismatch — a blocking error.
+    // Dropping text into a number-typed bind is a type mismatch — semantic, so it is permitted, and
+    // because the target is an explicit placeholder slot, the release keeps it there rather than
+    // elevating to a cleaner enclosing replacement.
     const dragged = parseExpression(toTokens('"hi"'));
     const target = source.find(ExpressionPlaceholder);
-    expect(isDropPermitted(project, source, dragged, target)).toBe(false);
+    expect(isDropPermitted(project, source, dragged, target)).toBe(true);
     expect(
-        getBlockingDropConflicts(project, source, dragged, target).map(
+        getDropConflicts(project, source, dragged, target).conflicts.map(
             (c) => c.constructor.name,
         ),
     ).toContain('IncompatibleType');
+    expect(resolvePermittedDropTarget(project, source, dragged, target)).toBe(
+        target,
+    );
+});
+
+test('a structurally invalid drop is still blocked', () => {
+    // A number can never live in a Bind's names list — the grammar refuses it, whatever the types.
+    const source = new Source('test', 'a: 1');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('2'));
+    const target = source.find<Bind>(Bind).names.names[0];
+    expect(isDropPermitted(project, source, dragged, target)).toBe(false);
+    expect(
+        resolvePermittedDropTarget(project, source, dragged, target),
+    ).not.toBe(target);
 });
 
 test('a palette drop fills typed placeholders with their defaults', () => {
@@ -390,25 +413,31 @@ test.each([
     },
 );
 
-test('dropping a structure into a wrong-typed function input is blocked', () => {
-    // The reported defect: Group is not valid for Phrase's text input, so `'a'` must not be a drop target.
+test('dropping a structure into a wrong-typed function input elevates to a clean replacement', () => {
+    // Group is not valid for Phrase's text input; the drop on `'a'` is permitted (semantic
+    // conflicts warn), but the release prefers the conflict-free interpretation — replacing the
+    // whole Phrase — over leaving a mismatched input behind.
     const source = new Source('test', "Phrase('a')");
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Group(_ _)'));
     const target = source.find(TextLiteral);
-    expect(isDropPermitted(project, source, dragged, target)).toBe(false);
+    expect(isDropPermitted(project, source, dragged, target)).toBe(true);
     expect(
-        getBlockingDropConflicts(project, source, dragged, target).map(
+        getDropConflicts(project, source, dragged, target).conflicts.map(
             (c) => c.constructor.name,
         ),
     ).toContain('IncompatibleInput');
+    expect(resolvePermittedDropTarget(project, source, dragged, target)).toBe(
+        source.find(Evaluate),
+    );
 });
 
-test('resolvePermittedDropTarget elevates a blocked release on a function name to the enclosing call', () => {
+test('resolvePermittedDropTarget elevates a conflicted release on a function name to the enclosing call', () => {
     // The reported defect: in blocks mode the pointer over ⬇ resolves to the call's function name
-    // (Evaluate.fun), where dropping Row() is blocked (a non-function in function position, a
-    // CONFLICT rather than a structural rejection — so mid-drag structural resolution keeps the
-    // name). The RELEASE must elevate to the whole ⬇() call, which accepts a Row.
+    // (Evaluate.fun), where dropping Row() conflicts (a non-function in function position — a
+    // CONFLICT rather than a structural rejection, so mid-drag structural resolution keeps the
+    // name). The RELEASE must prefer the conflict-free interpretation: the whole ⬇() call, which
+    // accepts a Row.
     const source = new Source('test', 'Group(⬇() [])');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Row()'));
@@ -416,7 +445,6 @@ test('resolvePermittedDropTarget elevates a blocked release on a function name t
     const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
 
     const fun = stack.fun; // the ⬇ Reference
-    expect(isDropPermitted(project, source, dragged, fun)).toBe(false);
     const resolved = resolvePermittedDropTarget(project, source, dragged, fun);
     expect(resolved).toBe(stack);
     if (resolved === undefined) return;
@@ -424,17 +452,17 @@ test('resolvePermittedDropTarget elevates a blocked release on a function name t
     expect(newProject.getMain().toWordplay()).toBe('Group(Row() [])');
 });
 
-test('resolvePermittedDropTarget refuses when nothing near is permitted', () => {
-    // An unknown name is a blocking conflict at every level of the chain, so the
-    // release resolves to nothing and the drop is refused (the rest-feedback
-    // already explained why).
+test('resolvePermittedDropTarget lands warned when nothing near is conflict-free', () => {
+    // An unknown name conflicts at every level of the chain; since semantic conflicts warn rather
+    // than block, the release lands on the nearest permitted candidate with the warning riding
+    // along, instead of refusing the drop.
     const source = new Source('test', 'Group(⬇() [])');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('saddf'));
     const fun = source.find<Evaluate>(Evaluate, 0).fun;
-    expect(
-        resolvePermittedDropTarget(project, source, dragged, fun),
-    ).toBeUndefined();
+    expect(resolvePermittedDropTarget(project, source, dragged, fun)).toBe(
+        fun,
+    );
 });
 
 test('resolveStructuralReplacementTarget keeps a permitted direct target', () => {

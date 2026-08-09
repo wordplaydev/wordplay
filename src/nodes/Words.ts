@@ -10,7 +10,15 @@ import previewText from '@locale/previewText';
 import ValueRef from '@locale/ValueRef';
 import Characters from '../lore/BasisCharacters';
 import { unescapeMarkupSymbols } from '@parser/Tokenizer';
-import { BULLET_SYMBOL } from '@parser/Symbols';
+import {
+    BOLD_SYMBOL,
+    BULLET_SYMBOL,
+    EXTRA_SYMBOL,
+    ITALIC_SYMBOL,
+    LIGHT_SYMBOL,
+    UNDERSCORE_SYMBOL,
+} from '@parser/Symbols';
+import type { InsertContext } from '@edit/revision/EditContext';
 import { withColorEmoji } from '@unicode/emoji';
 import Branch from '@nodes/Branch';
 import ConceptLink from '@nodes/ConceptLink';
@@ -56,6 +64,39 @@ export default class Words extends Content {
             [new Token(text ?? '…', Sym.Words)],
             undefined,
         );
+    }
+
+    /** Make a formatted run of words, e.g. italic or bold. */
+    static makeFormatted(format: Format, text?: string) {
+        const symbol =
+            format === 'italic'
+                ? new Token(ITALIC_SYMBOL, Sym.Italic)
+                : format === 'underline'
+                  ? new Token(UNDERSCORE_SYMBOL, Sym.Underline)
+                  : format === 'light'
+                    ? new Token(LIGHT_SYMBOL, Sym.Light)
+                    : format === 'bold'
+                      ? new Token(BOLD_SYMBOL, Sym.Bold)
+                      : new Token(EXTRA_SYMBOL, Sym.Extra);
+        return new Words(
+            symbol,
+            [new Token(text ?? '…', Sym.Words)],
+            symbol.clone(),
+        );
+    }
+
+    /** Bare words are typed, not chosen from a menu; a run is only offered as an insertion. */
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    /** Offer formatted runs (italic, bold) wherever markup content lives, so formatting is
+     * creatable without typing the delimiters. */
+    static getPossibleInsertions({ parent, field }: InsertContext) {
+        const kind = parent.getGrammar().find((f) => f.name === field)?.kind;
+        return kind !== undefined && kind.allowsKind(Words)
+            ? [Words.makeFormatted('italic'), Words.makeFormatted('bold')]
+            : [];
     }
 
     getDescriptor(): NodeDescriptor {

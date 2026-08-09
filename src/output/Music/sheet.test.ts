@@ -2,6 +2,7 @@ import { expect, test } from 'vitest';
 import type { MusicData, TrackData } from '@output/Music/musicData';
 import { Scales } from '@output/Music/scales';
 import { InstrumentKeys } from '@output/Music/instruments';
+import { degreeToSemitones } from '@output/Music/degrees';
 
 /** A stage wide enough for the old fixed thresholds, so tests about layout
  * say what they mean rather than depending on a default. */
@@ -10,6 +11,8 @@ import {
     absoluteBeat,
     accidentalFor,
     advanceCursor,
+    beatAtX,
+    degreeForStep,
     beatsAcross,
     densityOf,
     glyphFor,
@@ -18,18 +21,21 @@ import {
     layoutOf,
     lengthOf,
     marksOf,
+    sameMark,
     playheadOf,
     Noteheads,
     PlayheadFraction,
     Rests,
     MinBeatWidth,
     placeStep,
+    referenceMarks,
     Sharp,
     staffCenterOf,
     staffLines,
     staffStep,
     startCursor,
     startHistory,
+    stepAtPlace,
     stepRangeOf,
     windowStart,
 } from '@output/Music/sheet';
@@ -662,6 +668,72 @@ test('a rest that something plays through is not drawn', () => {
     expect(marksOf([covered], 0, 8).some((mark) => mark.rest)).toBe(true);
 });
 
+/* ---------------------------------------------------------------- *
+ * Reference marks
+ * ---------------------------------------------------------------- */
+
+test('reference marks keep the other tracks and drop the edited pass', () => {
+    const both = music([
+        track([
+            { degrees: [1], beats: 1 },
+            { degrees: [2], beats: 1 },
+        ]),
+        track([{ degrees: [5], beats: 1 }], { instrument: 'drums' }),
+    ]);
+    const reference = referenceMarks(marksOf([both], 0, 8), 0, 2);
+    // Nothing of the track being edited, everything of the other one.
+    expect(reference.every((mark) => mark.track === 1)).toBe(true);
+    expect(reference).toHaveLength(1);
+});
+
+test('a looping edited track keeps its repeats and only its repeats', () => {
+    const notes = [
+        { degrees: [1], beats: 1 },
+        { degrees: [2], beats: 1 },
+    ];
+    const looping = music([track(notes, { loop: true })]);
+    const echoes = referenceMarks(marksOf([looping], 0, 8), 0, 2);
+    // The first pass is what is being edited; every later one is an echo.
+    expect(echoes.length).toBeGreaterThan(0);
+    expect(echoes.every((mark) => mark.beat >= 2)).toBe(true);
+
+    // Turning the loop off leaves nothing to echo, which is what makes
+    // looping visible on the staff.
+    const once = music([track(notes)]);
+    expect(referenceMarks(marksOf([once], 0, 8), 0, 2)).toHaveLength(0);
+});
+
+test('reference marks never include a rest', () => {
+    const resting = music([
+        track([
+            { degrees: [1], beats: 1 },
+            { degrees: [], beats: 1 },
+        ]),
+        track(
+            [
+                { degrees: [], beats: 1 },
+                { degrees: [5], beats: 1 },
+            ],
+            { instrument: 'drums' },
+        ),
+    ]);
+    expect(
+        referenceMarks(marksOf([resting], 0, 8), 0, 2).some(
+            (mark) => mark.rest,
+        ),
+    ).toBe(false);
+
+    // Even alone, where `marksOf` keeps rests for a single readable line.
+    const alone = music([
+        track([
+            { degrees: [1], beats: 1 },
+            { degrees: [], beats: 1 },
+        ]),
+    ]);
+    expect(marksOf([alone], 0, 8).some((mark) => mark.rest)).toBe(true);
+    expect(referenceMarks(marksOf([alone], 0, 8), 0, 2)).toHaveLength(0);
+});
+
 test('tracks that drift against each other still never crowd', () => {
     // Loops of different lengths interleave into ever finer offsets as they
     // repeat, which reading a single pass cannot see — this is Cat Scat's
@@ -845,4 +917,251 @@ test('a bent note takes the accidental of the note it is nearer', () => {
         4,
     );
     expect(mark.accidental).toBeUndefined();
+});
+
+/* ---------------------------------------------------------------- *
+ * Reading the staff backwards
+ * ---------------------------------------------------------------- */
+
+test('a place round-trips back to the step that made it', () => {
+    for (const center of [0, 4, -6, 11])
+        for (const step of [-8, -1, 0, 3, 7, 12]) {
+            const place = placeStep(step, center);
+            // Only steps inside the visible band round-trip; placeStep clamps
+            // outside it on purpose, and clamping is not invertible.
+            if (place > 0 && place < 1)
+                expect(stepAtPlace(place, center)).toBeCloseTo(step, 10);
+        }
+});
+
+test('a degree read back from its own step draws on that step', () => {
+    // The property that makes clicking reliable. Not "returns the same
+    // degree": the staff is diatonic, so a scale can put two degrees on one
+    // line — in the minor scale degrees 2 and 3 are D and E♭, which share a
+    // line and are told apart by an accidental. Landing on the right line is
+    // what a creator sees and what an exact inverse can't promise.
+    for (const scale of [Scales.major, Scales.minor, Scales.pentatonic])
+        for (const key of [0, 3, -2])
+            for (let degree = -6; degree <= 14; degree++) {
+                const step = staffStep(degreeToSemitones(degree, scale, key));
+                const read = degreeForStep(step, scale, key);
+                expect(
+                    staffStep(degreeToSemitones(read, scale, key)),
+                    `${degree} in a ${scale.length}-note scale at key ${key}`,
+                ).toBe(step);
+            }
+});
+
+test('the round trip is exact when no two degrees share a line', () => {
+    // Which is the common case a creator meets: an unshifted major or
+    // pentatonic scale puts every degree on its own line, so a click lands on
+    // exactly the note aimed at. Shift the key and that stops being true —
+    // major at key 3 draws G and A♭ on one line, the same way minor does at
+    // key 0 — which is why the test above asks about the line, not the degree.
+    for (const scale of [Scales.major, Scales.pentatonic])
+        for (let degree = -6; degree <= 14; degree++) {
+            const step = staffStep(degreeToSemitones(degree, scale, 0));
+            expect(degreeForStep(step, scale, 0), `${degree}`).toBe(degree);
+        }
+});
+
+test('two degrees on one line resolve to the lower one', () => {
+    // Deliberate and deterministic rather than incidental: in a minor scale
+    // degrees 2 and 3 both draw on step 1, and a click there gives the lower.
+    const scale = Scales.minor;
+    expect(staffStep(degreeToSemitones(2, scale, 0))).toBe(1);
+    expect(staffStep(degreeToSemitones(3, scale, 0))).toBe(1);
+    expect(degreeForStep(1, scale, 0)).toBe(2);
+});
+
+test('a step between two degrees picks the nearer one', () => {
+    // In the pentatonic scale degrees are far apart, so a step lands between
+    // them often — that's the case worth pinning.
+    const scale = Scales.pentatonic;
+    const low = staffStep(degreeToSemitones(2, scale, 0));
+    const high = staffStep(degreeToSemitones(3, scale, 0));
+    expect(degreeForStep(low, scale, 0)).toBe(2);
+    expect(degreeForStep(high, scale, 0)).toBe(3);
+});
+
+test('an empty scale still answers a degree', () => {
+    expect(degreeForStep(4, [], 0)).toBe(1);
+});
+
+test('a horizontal offset reads back as a beat', () => {
+    expect(beatAtX(0, 46)).toBe(0);
+    expect(beatAtX(46, 46)).toBe(1);
+    expect(beatAtX(69, 46)).toBeCloseTo(1.5, 10);
+    // A zero-width beat can't be divided by; answering 0 keeps a click from
+    // becoming NaN before the sheet has been measured.
+    expect(beatAtX(100, 0)).toBe(0);
+});
+
+test('a beat drawn and read back is the same beat', () => {
+    // The error this pins: a staff insets its music to leave room for the clef,
+    // so what draws a note and what decides which beat a click landed on have
+    // to subtract the same amount. They didn't, and every click landed almost a
+    // whole beat late — for placing a note as much as for moving the cursor.
+    const perBeat = 44;
+    const inset = 39.6;
+    // Where the view draws a beat, and where a pointer over it would be.
+    const drawnAt = (beat: number, scroll: number) =>
+        beat * perBeat + inset - scroll;
+    for (const scroll of [0, 100, 3000])
+        for (const beat of [0, 1, 7.5, 240]) {
+            const x = drawnAt(beat, scroll);
+            // What pointAt computes: pointer x, minus the inset, plus scroll.
+            expect(beatAtX(x - inset + scroll, perBeat)).toBeCloseTo(beat, 10);
+        }
+});
+
+test('forgetting the inset shifts every beat by the same amount', () => {
+    // Why it was invisible: the error is a constant offset, so the staff looks
+    // right and only the aim is wrong.
+    const perBeat = 44;
+    const inset = 39.6;
+    const wrong = beatAtX(3 * perBeat + inset, perBeat);
+    expect(wrong - 3).toBeCloseTo(inset / perBeat, 10);
+    expect(wrong - 3).toBeGreaterThan(0.85);
+});
+
+test('a window costs the same however long the track behind it is', () => {
+    // `marksOf` used to ask `noteOnset` for each note's onset, and `noteOnset`
+    // sums from the top of the track — so drawing eight beats of a staff was
+    // quadratic in the whole track. An imported song is thousands of notes, and
+    // this runs on every edit and every scroll.
+    const long = (count: number) =>
+        music([
+            track(
+                Array.from({ length: count }, (_, i) => ({
+                    degrees: [1 + (i % 7)],
+                    beats: 1,
+                })),
+            ),
+        ]);
+
+    const cost = (count: number) => {
+        const data = long(count);
+        const started = performance.now();
+        for (let run = 0; run < 20; run++) marksOf([data], 0, 8);
+        return performance.now() - started;
+    };
+
+    // Warm the JIT so the first call's compilation isn't the measurement.
+    cost(500);
+
+    const small = cost(1000);
+    const large = cost(8000);
+    // Eight times the notes for the same eight beats. Linear-with-an-early-exit
+    // is flat; quadratic is ~64x. Ten is far outside the noise either way.
+    expect(
+        large,
+        `8000 notes took ${large.toFixed(1)}ms against ${small.toFixed(1)}ms for 1000`,
+    ).toBeLessThan(Math.max(small, 1) * 10);
+});
+
+test('a window near the end of a long track still draws it', () => {
+    // The early exit must not cut off notes that are genuinely in the window.
+    const data = music([
+        track(
+            Array.from({ length: 400 }, (_, i) => ({
+                degrees: [1 + (i % 7)],
+                beats: 1,
+            })),
+        ),
+    ]);
+    const marks = marksOf([data], 380, 390);
+    expect(marks.length).toBeGreaterThan(0);
+    for (const mark of marks) {
+        expect(mark.beat + mark.beats).toBeGreaterThanOrEqual(380);
+        expect(mark.beat).toBeLessThanOrEqual(390);
+    }
+    // And the onsets are the real ones, not a running total that drifted:
+    // every note is one beat, so they are exactly the beats they sit on. The
+    // first is 379, whose tail reaches the window.
+    expect(marks.map((mark) => mark.beat)).toEqual([
+        379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390,
+    ]);
+});
+
+test('only a singing track draws its lyric', () => {
+    // `Track.words` is accepted on every track, so a creator can write a lyric
+    // before choosing the voice and can swap the instrument back and forth
+    // without losing it. Drawing that lyric under a piano, which will never
+    // sound it, reads as a bug rather than as a plan.
+    const notes = [
+        { degrees: [1], beats: 1, volume: 1, words: 'la' },
+        { degrees: [2], beats: 1, volume: 1, words: 'mi' },
+    ];
+    const sung = marksOf(
+        [music([{ ...track([]), notes, instrument: 'voice' }])],
+        0,
+        8,
+    );
+    expect(sung.map((mark) => mark.words)).toEqual(['la', 'mi']);
+
+    const played = marksOf(
+        [music([{ ...track([]), notes, instrument: 'piano' }])],
+        0,
+        8,
+    );
+    expect(played).toHaveLength(2);
+    expect(played.every((mark) => mark.words === undefined)).toBe(true);
+});
+
+test('one note is sung once, however many pitches it has', () => {
+    // A chord's second and third noteheads must not each repeat the syllable.
+    const chord = marksOf(
+        [
+            music([
+                {
+                    ...track([]),
+                    notes: [
+                        {
+                            degrees: [1, 3, 5],
+                            beats: 1,
+                            volume: 1,
+                            words: 'la',
+                        },
+                    ],
+                    instrument: 'voice',
+                },
+            ]),
+        ],
+        0,
+        8,
+    );
+    expect(chord.length).toBeGreaterThan(1);
+    expect(chord.filter((mark) => mark.words !== undefined)).toHaveLength(1);
+});
+
+test('a mark changes when its instrument does, not only when its id does', () => {
+    // The sheet redraws only when its marks compare unequal, so this is what
+    // stands between a track changing instrument and the staff still showing
+    // the old one. Every id here is identical on purpose: a mark's id is its
+    // music, note and pass, none of which a change of instrument touches.
+    const [base] = marksOf(
+        [
+            music([
+                {
+                    ...track([]),
+                    notes: [{ degrees: [1], beats: 1, volume: 1 }],
+                },
+            ]),
+        ],
+        0,
+        4,
+    );
+    expect(sameMark(base, { ...base })).toBe(true);
+    // The notehead's superscript — the thing that says which instrument.
+    expect(sameMark(base, { ...base, label: '🤖' })).toBe(false);
+    // The lyric under the staff, which only a singing track has.
+    expect(sameMark(base, { ...base, words: 'la' })).toBe(false);
+    // And the rest of what is drawn.
+    expect(sameMark(base, { ...base, glyph: '𝅗𝅥' })).toBe(false);
+    expect(sameMark(base, { ...base, step: 9 })).toBe(false);
+    expect(sameMark(base, { ...base, level: 0.5 })).toBe(false);
+    expect(sameMark(base, { ...base, accidental: Sharp })).toBe(false);
+    expect(sameMark(base, { ...base, beat: 3 })).toBe(false);
+    expect(sameMark(base, { ...base, rest: true })).toBe(false);
 });

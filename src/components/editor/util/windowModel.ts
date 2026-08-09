@@ -16,8 +16,15 @@
 export const WINDOWING_ENABLED = true;
 
 /** Only window the root statement list when it has more than this many statements,
- *  so small programs render normally with zero windowing overhead. */
-export const WINDOWING_MIN_STATEMENTS = 60;
+ *  so small programs render normally with zero windowing overhead.
+ *
+ *  Lowered from 60 when MIDI import began writing a statement per track: a
+ *  54-track song is 55 statements, which sat just under the old threshold and
+ *  rendered whole — tens of thousands of nodes in one synchronous pass, which
+ *  froze the tab. Two dozen top-level statements is already a program where
+ *  windowing pays for itself, and well above anything written by hand in a
+ *  tutorial or example. */
+export const WINDOWING_MIN_STATEMENTS = 24;
 
 /** Character offsets at which each source line begins. Line 0 starts at 0; every
  *  '\n' at offset i begins a new line at i+1. Built once per source so a
@@ -67,12 +74,28 @@ export function estimateSlotHeights(
     });
 }
 
+/** The smallest px-per-source-line ratio that can be evidence about line height.
+ *  Even at the minimum editor zoom a rendered line of text is taller than this, so
+ *  anything below it is a slot that isn't showing all of its lines. */
+export const MIN_LINE_HEIGHT = 8;
+
 /**
  * The best per-line height estimate from measured slot gaps: each gap is the
  * pixel distance between two rendered statements' tops (`px`) spanning `lines`
  * source lines. Wrapping can only ADD pixels to a slot, never remove them, so the
  * smallest px-per-line ratio is the closest to the true line height. Returns
- * undefined when no gap is usable (zero/negative spans or pixels).
+ * undefined when no gap is usable (zero/negative spans, zero/negative pixels, or
+ * a slot rendering far fewer pixels than it has lines).
+ *
+ * That last case is folding — the one thing that REMOVES pixels from a slot. A
+ * collapsed container (lists of 50+ items fold by default, which is every MIDI
+ * track) renders a single header line for a span of hundreds of source lines, so
+ * its ratio approaches zero. Taken as the minimum it rounds the line height to 0,
+ * which zeroes every unmeasured estimate, collapses the total content height, and
+ * drops computeWindow into its scrolled-past branch — one statement rendered, and
+ * with fewer than two visible the measurement pass bails, so the line height can
+ * never recover. The editor stays blank until the source changes. A ratio below a
+ * plausible line height is not evidence about line height at all, so skip it.
  */
 export function perLineHeight(
     gaps: { px: number; lines: number }[],
@@ -81,6 +104,7 @@ export function perLineHeight(
     for (const { px, lines } of gaps) {
         if (lines <= 0 || px <= 0) continue;
         const ratio = px / lines;
+        if (ratio < MIN_LINE_HEIGHT) continue;
         if (best === undefined || ratio < best) best = ratio;
     }
     return best;

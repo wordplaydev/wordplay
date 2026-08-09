@@ -41,8 +41,11 @@ export function instrumentForProgram(program: number): InstrumentKey {
             return 'synthBass';
         case 5: // solo strings
             return 'violin';
-        case 6: // ensemble and choir
-            return 'violin';
+        // The ensemble family is string sections up to 51 and then voices —
+        // choir aahs, voice oohs, and synth voice — so the top of it goes to
+        // the voice and the rest stays with the strings.
+        case 6:
+            return program >= 52 && program <= 54 ? 'voice' : 'violin';
         case 7: // brass
             return 'trumpet';
         case 8: // reed

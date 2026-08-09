@@ -2,12 +2,14 @@
 "Instruments"/en
 === start/en
 ¶The same eight bars, played by every instrument in the palette. Choose a name
-and the melody keeps its place — only the voice changes. The two cats are the
+and the melody keeps its place — only the sound changes. The two cats are the
 same cat, and so are the two dogs: one of each is a kit, so the tune reads as
 noises, and the other is pitched, so it sings it.
 
-Most of these are real recordings. The three synthesizers are not imitating
-anything: they are synthesizers, and that is the sound.¶
+Most of these are real recordings. The four synthesizers are not imitating
+anything: they are synthesizers, and that is the sound. The last of them sings,
+which is what the words on the track are for — every other instrument here
+ignores them.¶
 
 ¶Which instrument the melody is playing. Choice() gives back the name of
 whatever selectable output was picked, and ø until something is.¶
@@ -35,6 +37,7 @@ voices•[Voice]: [
 	Voice('synth' '🎛️' 🔈.🎛️ 290°)
 	Voice('bass' '🎛️' 🔈.synthBass 310°)
 	Voice('pad' '🎛️' 🔈.synthPad 200°)
+	Voice('voice' '🤖' 🔈.🤖 95°)
 ]
 
 ¶The chosen voice, or the piano before anyone has chosen. find() gives back ø
@@ -46,6 +49,12 @@ current•Voice: chosen•ø ? Voice('piano' '🎹' 🔈.🎹 260°) chosen
 not notes, so it means the same thing on every instrument — and on the drums
 it reads as rhythm instead, since degrees index the kit there.¶
 tune: [1 3 5 6 5 3 2 ø]
+
+¶One syllable per note, spelled in the International Phonetic Alphabet, where
+each letter is one sound. Only the singing voice uses these; the rest of the
+palette ignores them. The rest takes no syllable, so seven sounds cover eight
+entries.¶
+lyric: 'la li lu le lo li la'
 
 ¶One button per instrument: the icon stacked above its name, so they don't
 run into each other. Selectable phrases are what Choice() reads, and the
@@ -66,7 +75,13 @@ current one is drawn brighter so you can see where you are.¶
 
 ¶Everything visible goes in one Stack. A Stage centres each of its children
 on its own, so left loose they would all sit on top of each other — the
-layout has to say they go one above the next.¶
+layout has to say they go one above the next.
+
+The music keeps one name the whole time rather than taking the instrument's.
+A 🎼's name is its identity: rename it and the player hears a different piece
+begin, so the melody would jump back to the top on every switch, and the score
+would draw the old instrument's notes beside the new one until they scrolled
+away.¶
 🎭(
 	[
 		🔳(
@@ -81,10 +96,10 @@ layout has to say they go one above the next.¶
 			]
 		)
 		🎼(
-			🎶(tune instrument: current.sound)
+			🎶(tune instrument: current.sound words: lyric)
 			tempo: 120beats/min
 			scale: 🎼.pentatonic
-			name: current.label
+			name: 'tune'
 		)
 	]
 	background: Color(14% 12 280°)

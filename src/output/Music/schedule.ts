@@ -7,6 +7,7 @@
  */
 
 import { degreeToSemitones, degreeVoices } from '@output/Music/degrees';
+import { sung } from '@output/Music/instruments';
 import {
     trackLength,
     type MusicData,
@@ -38,6 +39,9 @@ export type ScheduledNote = {
     velocity: number;
     pan: number;
     instrument: string;
+    /** The syllable to sing, for a voice; undefined for every other
+     * instrument, and for a voice with no words written. */
+    words: string | undefined;
 };
 
 export type BeatTick = {
@@ -48,6 +52,15 @@ export type BeatTick = {
     time: number;
     /** The instruments with a note sounding on this beat. */
     instruments: readonly string[];
+    /**
+     * The syllables being sung on this beat, in track order.
+     *
+     * The shortcut a lyric visualization wants, standing to `parts` as
+     * `instruments` does — reaching a syllable through `parts` means filtering
+     * out every track that isn't singing, on every beat, which is a lot of
+     * ceremony for the one thing a karaoke display is made of.
+     */
+    words: readonly string[];
     tempo: number;
     /** The music's 0-1 gain. */
     volume: number;
@@ -129,6 +142,8 @@ export type PartTick = {
     scale: readonly number[];
     key: number;
     loop: boolean;
+    /** The syllable sounding on this beat; absent when there is none. */
+    words?: string | undefined;
 };
 
 /** Snapshot every track at a beat, in track order. */
@@ -148,6 +163,7 @@ function partsAt(data: MusicData, beat: number): PartTick[] {
             scale: track.scale,
             key: track.key,
             loop: track.loop,
+            words: degrees.length > 0 ? note?.words : undefined,
         };
     });
 }
@@ -186,6 +202,7 @@ function scheduledNotes(
                     note.volume * track.volume * data.volume * voice.weight,
                 pan: track.pan,
                 instrument: track.instrument,
+                words: note.words,
             }),
         ),
     );
@@ -213,7 +230,8 @@ export function pickupNotes(
     const notes: ScheduledNote[] = [];
     data.tracks.forEach((track, which) => {
         const covering = noteCovering(track, beat);
-        if (covering === undefined || covering.note.degrees.length === 0) return;
+        if (covering === undefined || covering.note.degrees.length === 0)
+            return;
         const remaining = covering.onset + covering.note.beats - beat;
         if (covering.onset >= beat || remaining <= 0) return;
         notes.push(
@@ -289,6 +307,16 @@ function scheduleRegion(
                 .filter((track) => soundingAt(track, beatCount))
                 .map((track) => track.instrument)
                 .filter((id, index, all) => all.indexOf(id) === index),
+            // Not deduplicated the way `instruments` is: two voices singing
+            // the same syllable at once is a chorus, and dropping one of them
+            // would misreport what is being heard.
+            words: data.tracks
+                .filter(
+                    (track) =>
+                        sung(track.instrument) && soundingAt(track, beatCount),
+                )
+                .map((track) => noteAt(track, beatCount)?.words)
+                .filter((word) => word !== undefined),
             tempo: data.tempo,
             volume: data.volume,
             key: data.key,

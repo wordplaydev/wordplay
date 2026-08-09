@@ -5,6 +5,8 @@ import Source from '@nodes/Source';
 import Evaluator from '@runtime/Evaluator';
 import { DB } from '@db/Database';
 import { toStage } from '@output/Output/Stage';
+import { BORROW_SYMBOL } from '@parser/Symbols';
+import readMusic, { musicsIn } from '@edit/output/editableMusic';
 import ExceptionValue from '@values/ExceptionValue';
 import { degreeToSemitones } from '@output/Music/degrees';
 import { Scales } from '@output/Music/scales';
@@ -13,8 +15,17 @@ import splitVoices, {
     maxPolyphony,
     toSimultaneities,
 } from '@output/Music/midi/voices';
-import convert, { degreeForPitch, TonicMIDI } from '@output/Music/midi/convert';
+import convert, {
+    degreeForPitch,
+    TonicMIDI,
+    type Conversion,
+} from '@output/Music/midi/convert';
 import importMIDI, { looksLikeMIDI } from '@output/Music/midi/importMIDI';
+import {
+    DefaultBPM,
+    dominantTempo,
+    tempoRegions,
+} from '@output/Music/midi/tempoMap';
 import { drumPieceForNote, instrumentForProgram } from '@output/Music/midi/gm';
 
 /* ---------------------------------------------------------------- fixtures */
@@ -38,7 +49,13 @@ type Event = { at: number; pitch: number; duration: number; velocity?: number };
  */
 function midiFile(
     tracks: Event[][],
-    options: { division?: number; bpm?: number; program?: number } = {},
+    options: {
+        division?: number;
+        bpm?: number;
+        program?: number;
+        /** Tempo changes, in quarter notes; overrides `bpm` when given. */
+        tempos?: { at: number; bpm: number }[];
+    } = {},
 ): Uint8Array {
     const division = options.division ?? 480;
     const bytes: number[] = [];
@@ -59,21 +76,24 @@ function midiFile(
         (division >> 8) & 0xff, division & 0xff,
     );
 
-    // A tempo-only conductor track.
-    const micros = Math.round(60_000_000 / (options.bpm ?? 120));
-    const conductor = [
-        0,
-        0xff,
-        0x51,
-        3,
-        (micros >> 16) & 0xff,
-        (micros >> 8) & 0xff,
-        micros & 0xff,
-        0,
-        0xff,
-        0x2f,
-        0,
-    ];
+    // A tempo-only conductor track, carrying one tempo or a whole map.
+    const tempos = options.tempos ?? [{ at: 0, bpm: options.bpm ?? 120 }];
+    const conductor: number[] = [];
+    let lastTempoAt = 0;
+    for (const tempo of tempos) {
+        const micros = Math.round(60_000_000 / tempo.bpm);
+        conductor.push(
+            ...varLength(Math.round((tempo.at - lastTempoAt) * division)),
+            0xff,
+            0x51,
+            3,
+            (micros >> 16) & 0xff,
+            (micros >> 8) & 0xff,
+            micros & 0xff,
+        );
+        lastTempoAt = tempo.at;
+    }
+    conductor.push(0, 0xff, 0x2f, 0);
     push(0x4d, 0x54, 0x72, 0x6b, ...u32(conductor.length), ...conductor);
 
     for (const events of tracks) {
@@ -253,17 +273,21 @@ test('findings carry numbers, never prose', () => {
 
 /* ------------------------------------------------------- the real contract */
 
-function evaluate(source: string) {
-    const code = `stage: ${source}\nStage([stage])`;
+/** Build the two-source project a conversion describes, and evaluate it. */
+function evaluate(result: Conversion) {
+    // A conversion is two sources now: the program that plays the music, and
+    // the notes it borrows. Evaluating one without the other proves nothing —
+    // the borrow is the part most likely to be wrong.
     const project = Project.make(
         null,
         'midi',
-        new Source('midi', code),
-        [],
+        new Source('start', result.main),
+        [new Source(result.sourceName, result.tracks)],
         DefaultLocale,
     );
     project.analyze();
     const conflicts = Array.from(project.getConflictedNodes().values()).flat();
+    for (const c of conflicts) console.log('CONFLICT:', c.constructor.name);
     const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
     const value = evaluator.getInitialValue();
     return { conflicts, value, evaluator };
@@ -287,7 +311,7 @@ test('the emitted source is valid Wordplay that evaluates', () => {
         ),
         { name: 'test' },
     );
-    const { conflicts, value } = evaluate(result.source);
+    const { conflicts, value } = evaluate(result);
     expect(conflicts).toHaveLength(0);
     expect(value).not.toBeInstanceOf(ExceptionValue);
 });
@@ -300,7 +324,7 @@ test('onsets and durations survive the round trip', () => {
         { at: 2.5, pitch: 64, duration: 1.5 },
     ];
     const result = importMIDI(midiFile([events], { division: 1000 }));
-    const { conflicts, evaluator } = evaluate(result.source);
+    const { conflicts, evaluator } = evaluate(result);
     expect(conflicts).toHaveLength(0);
 
     const stage = toStage(evaluator, evaluator.getInitialValue()!);
@@ -322,6 +346,172 @@ test('onsets and durations survive the round trip', () => {
     });
 });
 
+/* ------------------------------------------------------------ tempo maps */
+
+/** When a quarter-note position is heard, integrating a file's tempo map. */
+function secondsAt(
+    quarters: number,
+    tempos: { at: number; bpm: number }[],
+): number {
+    let seconds = 0;
+    for (let i = 0; i < tempos.length; i++) {
+        const from = tempos[i].at;
+        if (quarters <= from) break;
+        const to = i + 1 < tempos.length ? tempos[i + 1].at : Infinity;
+        seconds += ((Math.min(quarters, to) - from) * 60) / tempos[i].bpm;
+    }
+    return seconds;
+}
+
+/** The sounding notes of a conversion, as beats and as seconds. */
+function heard(result: Conversion) {
+    const { conflicts, evaluator } = evaluate(result);
+    expect(conflicts).toHaveLength(0);
+    const stage = toStage(evaluator, evaluator.getInitialValue()!);
+    const data = stage!.getMusic()[0]!.toData();
+    let beat = 0;
+    const notes: { at: number; seconds: number }[] = [];
+    for (const note of data.tracks[0].notes) {
+        if (note.degrees.length > 0)
+            notes.push({
+                at: (beat * 60) / data.tempo,
+                seconds: (note.beats * 60) / data.tempo,
+            });
+        beat += note.beats;
+    }
+    return { notes, beats: beat, tempo: data.tempo };
+}
+
+test('regions cover tick zero onward, however the file declares them', () => {
+    // A file with no tempo at all means MIDI's default, and one whose first
+    // change comes late is that default until it arrives.
+    expect(tempoRegions([])).toEqual([{ ticks: 0, bpm: DefaultBPM }]);
+    expect(tempoRegions([{ ticks: 480, bpm: 90 }])).toEqual([
+        { ticks: 0, bpm: DefaultBPM },
+        { ticks: 480, bpm: 90 },
+    ]);
+    // Two declarations at one tick is the later one; order is by tick, not file.
+    expect(
+        tempoRegions([
+            { ticks: 480, bpm: 90 },
+            { ticks: 0, bpm: 60 },
+            { ticks: 480, bpm: 100 },
+        ]),
+    ).toEqual([
+        { ticks: 0, bpm: 60 },
+        { ticks: 480, bpm: 100 },
+    ]);
+});
+
+test('the fixed tempo is the one held longest, not the one declared first', () => {
+    // A four-bar intro should not decide how the rest of the piece is written.
+    const regions = tempoRegions([
+        { ticks: 0, bpm: 60 },
+        { ticks: 100, bpm: 132 },
+    ]);
+    expect(dominantTempo(regions, 1000)).toBe(132);
+    expect(dominantTempo(regions, 150)).toBe(60);
+});
+
+test('a tempo change is folded into the note lengths, not dropped', () => {
+    // Six quarter notes at 60bpm, then two at 120. `Music` has one tempo, so
+    // the fast ones must be *written* shorter to be *heard* faster.
+    const tempos = [
+        { at: 0, bpm: 60 },
+        { at: 6, bpm: 120 },
+    ];
+    const events = Array.from({ length: 8 }, (_, i) => ({
+        at: i,
+        pitch: 60 + i,
+        duration: 1,
+    }));
+    const { notes } = heard(importMIDI(midiFile([events], { tempos })));
+
+    expect(notes).toHaveLength(events.length);
+    events.forEach((event, i) => {
+        expect(notes[i].at, `onset of note ${i}`).toBeCloseTo(
+            secondsAt(event.at, tempos),
+            2,
+        );
+        expect(notes[i].seconds, `length of note ${i}`).toBeCloseTo(
+            secondsAt(event.at + event.duration, tempos) -
+                secondsAt(event.at, tempos),
+            2,
+        );
+    });
+    // And the second half really is written shorter, not merely played so.
+    expect(notes[7].seconds).toBeCloseTo(notes[0].seconds / 2, 2);
+});
+
+test('one tempo leaves the score its own beats', () => {
+    // Nothing to fold means nothing to scale: a quarter note is one beat, and
+    // there is no finding to report.
+    const result = importMIDI(
+        midiFile(
+            [
+                [
+                    { at: 0, pitch: 60, duration: 1 },
+                    { at: 1, pitch: 62, duration: 0.5 },
+                    { at: 2, pitch: 64, duration: 2 },
+                ],
+            ],
+            { bpm: 84 },
+        ),
+    );
+    expect(result.tracks).toContain('♪(1 1beats');
+    expect(result.tracks).toContain('♪(3 0.5beats');
+    expect(result.tracks).toContain('♪(5 2beats');
+    expect(result.findings.some((f) => f.kind === 'tempo-folded')).toBe(false);
+});
+
+test('rounding does not pile up over a long track', () => {
+    // The reason positions are rounded rather than lengths. Scaled by a third,
+    // every note in the fast region is a non-terminating number of beats;
+    // rounding each length would walk the end of the track a sixth of a beat
+    // off, which is audible. Rounding the running position cannot drift.
+    const tempos = [
+        { at: 0, bpm: 40 },
+        { at: 400, bpm: 120 },
+    ];
+    const events = Array.from({ length: 700 }, (_, i) => ({
+        at: i,
+        pitch: 60,
+        duration: 1,
+    }));
+    const { notes, beats, tempo } = heard(
+        importMIDI(midiFile([events], { tempos, division: 480 })),
+    );
+
+    expect(tempo).toBe(40);
+    // 400 beats at 1, then 300 at a third.
+    expect(beats).toBeCloseTo(400 + 300 / 3, 3);
+    // And the last note is heard when the file says, not a beat late.
+    const last = notes[notes.length - 1];
+    expect(last.at).toBeCloseTo(secondsAt(699, tempos), 2);
+});
+
+test('the tempo finding says the changes were kept, not lost', () => {
+    const result = importMIDI(
+        midiFile(
+            [
+                [
+                    { at: 0, pitch: 60, duration: 1 },
+                    { at: 4, pitch: 62, duration: 1 },
+                ],
+            ],
+            {
+                tempos: [
+                    { at: 0, bpm: 60 },
+                    { at: 4, bpm: 120 },
+                ],
+            },
+        ),
+    );
+    const finding = result.findings.find((f) => f.kind === 'tempo-folded');
+    expect(finding?.count).toBe(1);
+    expect(finding?.detail?.using).toBe(60);
+});
+
 test('a percussion channel maps to drum-kit degrees', () => {
     // Channel 10 is index 9; midiFile writes channel 0, so drive the mapper
     // through convert with a hand-made parse result instead.
@@ -335,7 +525,97 @@ test('a percussion channel maps to drum-kit degrees', () => {
     const result = convert(midi);
     // bass is kit index 0 → degree 1, snare index 1 → degree 2. Entries also
     // carry a volume, since velocity 100 of 127 isn't full.
-    expect(result.source).toContain('Instrument.drums');
-    expect(result.source).toContain('♪(1 1beats');
-    expect(result.source).toContain('♪(2 1beats');
+    expect(result.tracks).toContain('Instrument.drums');
+    expect(result.tracks).toContain('♪(1 1beats');
+    expect(result.tracks).toContain('♪(2 1beats');
+});
+
+test('editing the program an import writes does not re-analyze the notes', () => {
+    // The regression this exists for: every analysis cache lives on the Project
+    // instance and an edit makes a new Project, so re-deriving every source on
+    // each keystroke made editing a two-line program that borrows a song take
+    // about a second. Measured at ~60x apart; a fifth is a wide margin that
+    // still fails outright if a cache stops being carried.
+    const events = Array.from({ length: 150 }, (_, i) => ({
+        at: i,
+        pitch: 60 + (i % 12),
+        duration: 1,
+    }));
+    const result = importMIDI(midiFile(Array(12).fill(events)), {
+        name: 'test',
+    });
+    const main = new Source('start', result.main);
+    const project = Project.make(
+        null,
+        'midi',
+        main,
+        [new Source(result.sourceName, result.tracks)],
+        DefaultLocale,
+    );
+
+    // What loading the project costs, once.
+    const opened = performance.now();
+    project.analyze();
+    project.getLocalesUsed();
+    const cold = performance.now() - opened;
+
+    // What one edit to the program costs, every time.
+    const edited = main.withCode(result.main + '\n1 + 1');
+    const started = performance.now();
+    const revised = project.withSource(main, edited);
+    revised.analyze();
+    project.getNewConflicts(main, edited);
+    revised.getLocalesUsed();
+    const warm = performance.now() - started;
+
+    expect(
+        warm,
+        `editing the program cost ${warm.toFixed(1)}ms against ${cold.toFixed(1)}ms to open the project`,
+    ).toBeLessThan(cold / 5);
+});
+
+test('an import is a small program and a source full of notes', () => {
+    // The point of the two-source form. The program stays something a creator
+    // can read, and the notes live in a source whose tile starts collapsed —
+    // so they cost no layout until someone opens them, and editing the program
+    // no longer drags thousands of nodes along with it.
+    const events = Array.from({ length: 200 }, (_, i) => ({
+        at: i,
+        pitch: 60 + (i % 12),
+        duration: 1,
+    }));
+    const result = importMIDI(midiFile([events, events]), { name: 'test' });
+
+    // Two lines of program: bring the notes in, and play them.
+    expect(result.main.split('\n')[0]).toBe(`${BORROW_SYMBOL} song`);
+    expect(result.main).toContain('Music(');
+    expect(result.main).not.toContain('♪');
+    expect(result.main.length).toBeLessThan(200);
+
+    // And the notes are all in the other source.
+    expect(result.tracks).toContain('♪');
+    expect(result.tracks.length).toBeGreaterThan(result.main.length * 10);
+
+    // Which parses and evaluates as one project.
+    const { conflicts, value } = evaluate(result);
+    expect(conflicts).toHaveLength(0);
+    expect(value).not.toBeInstanceOf(ExceptionValue);
+});
+
+test('the borrowed tracks are readable by the music editor', () => {
+    // The borrow has to resolve all the way to the Track expressions, or the
+    // palette shows a music with nothing in it.
+    const events = [{ at: 0, pitch: 60, duration: 1 }];
+    const result = importMIDI(midiFile([events, events]), { name: 'test' });
+    const project = Project.make(
+        null,
+        'midi',
+        new Source('start', result.main),
+        [new Source(result.sourceName, result.tracks)],
+        DefaultLocale,
+    );
+    const music = readMusic(project, musicsIn(project)[0]);
+    expect(music?.tracks).toHaveLength(result.trackCount);
+    // And editable, so a note can be moved from the palette.
+    expect(music?.tracks[0].notes).toBeDefined();
 });

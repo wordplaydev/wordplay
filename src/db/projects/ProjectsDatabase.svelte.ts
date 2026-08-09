@@ -387,6 +387,19 @@ export default class ProjectsDatabase {
         // Get all the projects from disk, deserialize them.
         const projects = await this.deserializeAll(serialized);
 
+        // Drop tutorial rows saved under the old position-only id scheme. Tutorial step ids now
+        // end in a hash of the step's program (`tutorial-6-6-3-a1f2`), so that a saved edit can
+        // only ever load back into the program it was made from; the pre-hash rows
+        // (`tutorial-6-6-3`) can never match a step again. Left alone they'd still be rehydrated
+        // into memory on every page load, forever, growing the boot cost of anyone who did the
+        // tutorial before. The pattern is exactly three numbers, so a current title-card id
+        // (`tutorial-6-6`) and a current step id are both untouched.
+        const orphaned = /^tutorial-\d+-\d+-\d+$/;
+        for (const { project } of projects.filter(({ project }) =>
+            orphaned.test(project.getID()),
+        ))
+            void this.deleteLocalProject(project.getID());
+
         // Projects whose last cloud write didn't confirm before the page
         // unloaded — replay them so the edit isn't stranded locally.
         const dirty = new Set(
@@ -401,6 +414,7 @@ export default class ProjectsDatabase {
         // not a peer/backend writing — the cache may trail the in-memory
         // Y.Doc, so track() must skip foldRemoteCRDT for these.
         for (const { project, upgraded } of projects) {
+            if (orphaned.test(project.getID())) continue;
             this.track(
                 project,
                 true,
@@ -986,7 +1000,7 @@ export default class ProjectsDatabase {
         // We act only on origin='remote' updates so we don't echo our
         // own local edits (those are already in the Source the user
         // is typing in, and applyCRDTDiff put them in the Y.Text).
-        crdt.onChange((sourceIndex, code, origin) => {
+        crdt.onChange((sourceIndex, readCode, origin) => {
             if (origin !== 'remote') return;
             const history = this.projectHistories.get(projectID);
             if (history === undefined) return;
@@ -994,6 +1008,9 @@ export default class ProjectsDatabase {
             const sourcesNow = current.getSources();
             const source = sourcesNow[sourceIndex];
             if (source === undefined) return;
+            // Materialize only now: every bail above is reached on every local
+            // keystroke, for every source in the project.
+            const code = readCode();
             if (source.code.toString() === code) return;
 
             // Build a new Source with the merged code, keeping the

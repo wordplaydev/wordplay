@@ -16,6 +16,7 @@ import getGroupProperties from '@edit/output/GroupProperties';
 import type OutputProperty from '@edit/output/OutputProperty';
 import getPhraseProperties from '@edit/output/PhraseProperties';
 import getStageProperties from '@edit/output/StageProperties';
+import { getMusicProperties } from '@edit/output/MusicProperties';
 import { isAnimation } from '@output/animation/Sequence';
 
 /**
@@ -77,7 +78,8 @@ export default class OutputExpression {
                 fun === this.project.shares.output.Phrase ||
                 fun === this.project.shares.output.Shape ||
                 fun === this.project.shares.output.Pose ||
-                fun === this.project.shares.output.Sequence)
+                fun === this.project.shares.output.Sequence ||
+                fun === this.project.shares.output.Music)
             ? fun
             : undefined;
     }
@@ -107,7 +109,9 @@ export default class OutputExpression {
                           ? getStageProperties(this.project, locales)
                           : type === this.project.shares.output.Shape
                             ? getShapeProperties(this.project, locales)
-                            : []),
+                            : type === this.project.shares.output.Music
+                              ? getMusicProperties(this.project, locales)
+                              : []),
               ];
     }
 
@@ -123,13 +127,11 @@ export default class OutputExpression {
         // reuse Sequence's bind names and so answer to the same property lookups.
         const context = this.project.getNodeContext(this.node);
         const fun = this.node.getFunction(context);
-        if (
-            !(
-                fun instanceof StructureDefinition ||
-                fun instanceof StreamDefinition ||
-                isAnimation(this.project, fun ?? this.node)
-            )
-        )
+        if (!(
+            fun instanceof StructureDefinition ||
+            fun instanceof StreamDefinition ||
+            isAnimation(this.project, fun ?? this.node)
+        ))
             return undefined;
 
         // What binding does this name refer to?

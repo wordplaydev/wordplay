@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+把各個部份分層疊放成一個編排
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+一個  @Track  是一段旋律。幾段一起演奏就成了一個樂團——而寫出樂團的訣竅在於，各部份不一定要是不同的音樂。
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+因為音級是音階上的級數，而不是固定的音高，所以整條低音線可以就是旋律自己的數字降低一個八度。 @Track/key  會把單一音軌移動若干個半音，而十二個半音正好是一個八度：
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+兩個聲部，一份清單。編輯旋律，低音就跟著改變，因為只有一段旋律可以編輯。
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+現在在它周圍填滿其他部份。和弦想要有自己的節奏，而不是跟著旋律，而音軌自己的  @Track/beat  就給了它一個節奏；\pan\ 把各個聲部往左右散開，這樣耳朵就能把它們分辨出來：
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+注意音量：只有長笛開到最大。所有部份都用最大音量，並不會讓樂團變得更響亮，只會讓它變得更混濁，因為所有同時發出的聲音都得從同一個喇叭裡擠出來。讓旋律從 \100%\ 開始，把其他所有部份都藏在它下面。
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+襯底聲部的四個項目在 \拍子: 2beats\ 填滿八拍，而鼓的八個項目在 \0.5beats\ 填滿四拍——所以鼓在每一個襯底循環裡走完兩次，然後所有部份又在開頭再次相遇。當各部份逐漸走不齊時，通常是因為它們的長度無法互相整除。
 
 write-rhythm, choose-an-instrument, music-follows-the-action

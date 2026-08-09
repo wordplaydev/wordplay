@@ -285,6 +285,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'SentenceLength',
                 'StudyModeMeter',
                 'Patterns',
+                'Chatterbox',
             ],
             locales,
         ),

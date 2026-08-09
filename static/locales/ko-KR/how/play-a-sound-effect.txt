@@ -1,44 +1,28 @@
-Play a sound when something happens
+어떤 일이 일어날 때 소리를 재생하세요
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+정답일 때 나는 딩 소리, 무언가 떨어질 때 나는 쿵 소리 — 효과음은 한 번 재생되고 사라지는 아주 작은  @Music 입니다.
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+두 가지가 노래가 아닌 효과음으로 만들어 줍니다. \루프: ⊥\는  @Track 에게 음을 영원히 반복하지 말고 한 번만 재생하라고 말합니다. 그리고 음 목록 자체는 그 순간에서 나옵니다. 무언가 방금 일어났을 때 음을 담고 있고, 나머지 시간에는 비어 있습니다.
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 나를 눌러요' selectable: ⊤ name: '누르기')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+바로 다음 계산에서 목록이 다시 비워진다고 걱정하지 마세요 — 이미 시작된 음은 언제나 끝까지 재생됩니다. 빠뜨릴 수 없는 것은 \replay\입니다. 두 번 누르면 두 번째 누름은 첫 번째와 똑같은 음악을 만들어 냅니다. 그래서 아무것도 바뀌지 않고 다시 소리도 나지 않습니다. \replay\는 /지금 다시/라고 말하는 방법입니다. 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music 는 여기서 *순간적인* 조건을 원합니다 — 사건이 일어나게 한 계산에서만 참인 조건이지요. 위의 \∆ 🖱()\처럼요. \score > 10\처럼 지속되는 것은 
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+그 뒤로 영원히 참으로 남아서 모든 계산마다 소리를 다시 시작할 것입니다.*음은 그냥 목록이므로, 항상 같은 것을 재생하는 대신 *무엇
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '이 일어났는지에 따라 정할 수 있습니다:' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+⌨ 키를 누르세요\∆ key\를 살펴보세요. \key = ' '\는 자기만의 줄에서 계산되고, 값 검사 \key\ 여전히 공백으로 읽힙니다.
 
 draw-the-music, music-follows-the-action, offer-choices

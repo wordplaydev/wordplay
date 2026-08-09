@@ -4744,6 +4744,10 @@
                 "doc": "$~Bu vuruşta çalan @Instrument, her biri bir kez listelenir. Yaygın durum için bir kısayol; @Downbeat/parts ayrıntıya sahiptir.",
                 "names": "$~enstrümanlar"
             },
+            "words": {
+                "doc": "$~Bu vuruşta söylenen heceler, parça sırasına göre, ya da hiçbir şey söylenmiyorsa boş bir liste. Yaygın durum için bir kısayol, @Downbeat/instruments gibi; @Downbeat/parts ayrıntıyı verir.",
+                "names": "$~kelimeler"
+            },
             "name": {
                 "doc": "$~Bu vuruşun geldiği @Music isminin adı, @Beat/name özelliğinin üzerinde filtre yaptığı şey.",
                 "names": "$~isim"
@@ -4810,6 +4814,10 @@
             "loop": {
                 "doc": "$~Parçamın sonuna ulaştığında tekrarlanıp tekrarlanmadığı.",
                 "names": "$~döngü"
+            },
+            "words": {
+                "doc": "$~Bu parçanın bu vuruşta söylediği hece, ya da \\ø\\ hiçbir şey söylemediği zaman — bir es, ya da @Track/words olmayan bir iz.",
+                "names": "$~kelimeler"
             }
         }
     },
@@ -5477,123 +5485,123 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Bir @Output'nin merkezi etrafında ileri geri eğilirim, hafif bir esintide sallanan bir şey gibi. İyi bir dinlenme animasyonuyum, çünkü küçük bir /angle/ dikkat çekmeden “canlı” gibi görünür.",
+                        "$~Bir @Output'nin merkezi etrafında ileri geri eğilirim, hafif bir esintide asılı duran bir şey gibi. İyi bir dinlenme animasyonuyum, çünkü küçük bir /angle/ dikkat çekmeden “canlı” gibi görünür.",
                         "\\💬('🐈' resting: 💃.sallanmak(10°))\\"
                     ],
                     "names": ["$~sallanmak"],
                     "angle": {
-                        "doc": "$~Her yöne ne kadar eğileceği. Küçük değerler yumuşak görünür; büyük değerler telaşlı görünür.",
+                        "doc": "$~Her yönde ne kadar eğilineceği. Küçük değerler yumuşak görünür; büyük olanlar telaşlı görünür.",
                         "names": ["$~açı"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Bir @Output'yi /height/ kadar yukarı zıplatırım ve inmesini sağlarım, yukarı ve aşağı giderken biraz ezilir. Bana yeni gelen bir @Phrase ver, ona ağırlığı varmış gibi bir his katayım.",
+                        "$~Bir @Output'yi /height/ kadar yukarı zıplatırım ve yere inmesini sağlarım, yukarı ve aşağı inerken biraz eziyorum. Bana yeni gelmiş bir @Phrase ver, ben de onu ağırlığı varmış gibi hissettireyim.",
                         "\\💬('🐈' resting: 💃.sıçrama(3m))\\"
                     ],
                     "names": ["$~sıçrama"],
                     "height": {
-                        "doc": "$~Metre cinsinden ne kadar yükseğe zıplayacağı.",
+                        "doc": "$~Metre cinsinden ne kadar yükseğe zıplanacağı.",
                         "names": ["$~yükseklik"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$~Bir @Output'yi merkezi etrafında tamamen döndürürüm, 360°'den 0°'ye. Beni dinlenme animasyonu olarak ayarla, sonsuza kadar dönmeye devam edeyim.",
+                        "$~Bir @Output'yi merkezi etrafında tamamen döndürürüm, 360°'den 0°'ye geri. Beni dinlenme animasyonu olarak ayarla, sonsuza dek dönmeye devam edeyim.",
                         "\\💬('🐈' resting: 💃.döndürmek(2s))\\"
                     ],
                     "names": ["$~döndürmek"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Bir @Output'yi görünmezden tamamen görünüre getiririm. /Sahneye girmek/ içinim, bir şey sahneye geldiğinde.",
+                        "$~Bir @Output'yi görünmezden tamamen görünür hale getiririm. /entering/ için, yani sahneye bir şey geldiğinde kullanılırım.",
                         "\\💬('🐈' entering: 💃.kaybolmak(1s))\\"
                     ],
                     "names": ["$~kaybolmak"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Bir @Output'yi tamamen görünürden görünmeze götürürüm. /Sahneden çıkmak/ içinim, bir şey sahneden ayrıldığında.",
+                        "$~Bir @Output'yi tamamen görünürden görünmez hale getiririm. /exiting/ için, yani bir şey sahneden ayrıldığında kullanılırım.",
                         "\\💬('🐈' exiting: 💃.kaybolma(duration: 1s))\\"
                     ],
                     "names": ["$~kaybolma"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Bir @Output'yi yoktan büyütürüm, gerçek boyutunu aşarım, sonra geri yerleşirim. O küçük aşma, bir gelişi mekanik yerine oyuncul hissettiren şeydir.",
+                        "$~Bir @Output'yi hiçlikten büyütürüm, gerçek boyutunu biraz aşarım, sonra geri otururum. İşte o küçük aşma, bir gelişi mekanik yerine eğlenceli hissettiren şeydir.",
                         "\\💬('🐈' entering: 💃.anidenbelirmek(0.5s))\\"
                     ],
                     "names": ["$~anidenbelirmek"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Bir @Output'yi birkaç yönde ileri geri sarsarım. “Hayır” gibi ya da titreşen bir şey gibi okunurum. Hızlı hareket ederim, o yüzden beni kısa tut.",
+                        "$~Bir @Output'yi birkaç yönde ileri geri sarsarım. “Hayır” gibi ya da sallanan bir şey gibi okunurum. Hızlı hareket ederim, o yüzden beni kısa tut.",
                         "\\💬('🐈' resting: 💃.sallamak(0.5s count: 3x))\\"
                     ],
                     "names": ["$~sallamak"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Bir @Output'yi /amount/ kadar büyütür ve bir kez geri küçültürüm. Hiçbir şeyi yerinden oynatmadan “buraya bak” demenin en sessiz yoluyum.",
+                        "$~Bir @Output'yi /amount/ kadar büyütüp geri küçültürüm, bir kez. Hiçbir şeyi yerinden oynatmadan “buraya bak” demenin en sessiz yoluyum.",
                         "\\💬('🐈' resting: 💃.nabız(1.2))\\"
                     ],
                     "names": ["$~nabız"],
                     "amount": {
-                        "doc": "$~En tepede ne kadar büyüyeceği. 1 hiçbir değişiklik değildir.",
+                        "doc": "$~Zirvede ne kadar büyüneceği. 1 hiçbir değişiklik olmaması demektir.",
                         "names": ["$~miktar"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~İki hızlı ölçek vuruşu veririm, sonra dinlenirim, bir kalp atışının ritmi gibi. @Sequence'nin /pulse/'undan daha acildir ve /flash/'ten daha doğaldır.",
+                        "$~İki hızlı ölçek vuruşu yaparım, sonra dinlenirim, bir kalp atışının ritmi gibi. @Sequence'nin /pulse/'undan daha aceleciyim ve /flash/'tan daha doğalım.",
                         "\\💬('🐈' resting: 💃.kalpatışı(1.4 1s))\\"
                     ],
                     "names": ["$~kalpatışı"],
                     "amount": {
-                        "doc": "$~Her vuruşta ne kadar büyüyeceği.",
+                        "doc": "$~Her vuruşta ne kadar büyüneceği.",
                         "names": ["$~miktar"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~Kutlarım: küçük bir büzülme, sonra ileri geri sallanarak bir büyüme. Kazanmak, bitirmek ve doğru yapmak içinim.",
+                        "$~Kutlarım: küçük bir daralma, sonra ileri geri sallanarak bir büyüme. Kazanmak, bitirmek ve doğru yapmak için varım.",
                         "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~Kutlarken ne kadar büyüyeceği.",
+                        "doc": "$~Kutlarken ne kadar büyüneceği.",
                         "names": ["$~miktar"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Bir @Output'yi eğerek yana kaydırırım, her salınım bir öncekinden küçüktür. Biraz daha kişilikli bir sarsıntıyım.",
+                        "$~Bir @Output'yi eğerken yana yana kaydırırım, her salınım bir öncekinden daha küçük. Biraz daha karakterli bir sarsıntıyım.",
                         "\\💬('🐈' resting: 💃.kıpırdamak(8°))\\"
                     ],
                     "names": ["$~kıpırdamak"],
                     "angle": {
-                        "doc": "$~Her salınımda ne kadar eğileceği.",
+                        "doc": "$~Her salınımda ne kadar eğilineceği.",
                         "names": ["$~açı"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Bir @Output'yi görünür ve görünmez arasında iki kez yanıp söndürürüm, giderek soluklaşarak. Beni kaçırmak zordur — bu da beni görmezden gelmenin zor olduğu anlamına gelir, o yüzden beni az kullan.",
-                        "Hızlı yanıp sönerim, bu yüzden yanıp sönmeye duyarlı bir izleyici beni rahatsız edici bulabilir. Eğer tekrar edeceksem, daha uzun bir /duration/ ile beni yavaşlat.",
+                        "$~Bir @Output'yi görünür ve görünmez arasında iki kez yakıp söndürürüm, giderken solarak. Fark etmemek zordur — bu da beni görmezden gelmenin zor olduğu anlamına gelir, o yüzden beni az kullan.",
+                        "Hızlı yanıp sönerim, o yüzden yanıp sönmeye duyarlı bir izleyici beni rahatsız edici bulabilir. Tekrar edeceksem, daha uzun bir /duration/ ile beni yavaşlat.",
                         "\\💬('🐈' resting: 💃.flaş(1s))\\"
                     ],
                     "names": ["$~flaş"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Bir @Output'yi yoktan tam boyuta büyütürüm. /popup/'ın aksine, boyutu aşmam — daha sade, daha sakin bir gelişim.",
+                        "$~Bir @Output'yi hiçlikten tam boyutuna büyütürüm. /popup/'ın aksine, ben aşmam — daha sade, daha sakin gelişim.",
                         "\\💬('🐈' entering: 💃.yakınlaştırma(0.5s))\\"
                     ],
                     "names": ["$~yakınlaştırma"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Bir @Output'yi soluklaştırarak getiririm ve /distance/ kadar aşağıdan yerine kaydırırım.",
+                        "$~Bir @Output'yi solarak görünür yaparken, /distance/ kadar aşağıdan yukarı yerine kaydırırım.",
                         "\\💬('🐈' entering: 💃.yavaşçayukarı(2m))\\"
                     ],
                     "names": ["$~yavaşçayukarı"],
@@ -5604,7 +5612,7 @@
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Bir @Output'yi soluklaştırarak getiririm ve /distance/ kadar yukarıdan yerine kaydırırım.",
+                        "$~Bir @Output'yi solarak görünür yaparken, /distance/ kadar yukarıdan aşağı yerine kaydırırım.",
                         "\\💬('🐈' entering: 💃.solma(2m))\\"
                     ],
                     "names": ["$~solma"],
@@ -5615,34 +5623,34 @@
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Bir @Output'yi soluklaştırarak getiririm ve /distance/ kadar soldan yerine sağa doğru kaydırırım.",
+                        "$~Bir @Output'yi solarak görünür yaparken, /distance/ kadar soldan sağa yerine kaydırırım.",
                         "\\💬('🐈' entering: 💃.sol(2m))\\"
                     ],
                     "names": ["$~sol"],
                     "distance": {
-                        "doc": "$~Sola doğru ne kadar uzakta başlanacağı, metre cinsinden.",
+                        "doc": "$~Metre cinsinden ne kadar soldan başlanacağı.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Bir @Output öğesini sağdan /distance/ kadar sola kaydırarak yerine getirirken yavaşça belirginleştiririm.",
+                        "$~Bir @Output öğesini yavaşça belirirken sola kaydırarak yerine getiririm; sağdaki /distance/ noktasından başlarım.",
                         "\\💬('🐈' entering: 💃.sağadoğrusolma(2m))\\"
                     ],
                     "names": ["$~sağadoğrusolma"],
                     "distance": {
-                        "doc": "$~Sağa doğru ne kadar uzakta başlanacağı, metre cinsinden.",
+                        "doc": "$~Sağda ne kadar uzaktan başlanacağı, metre cinsinden.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Bir @Output öğesini yerine döndürerek belirginleştiririm; /angle/ kadar dönmüş halde başlarım ve dik durarak biterim.",
+                        "$~Bir @Output öğesini yavaşça belirirken döndürerek yerine getiririm; /angle/ kadar dönmüş başlar, dik biterim.",
                         "\\💬('🐈' entering: 💃.dönen(180°))\\"
                     ],
                     "names": ["$~dönen"],
                     "angle": {
-                        "doc": "$~Başlangıçta ne kadar döneceği, derece cinsinden.",
+                        "doc": "$~Başlangıçta ne kadar döndürüleceği, derece cinsinden.",
                         "names": ["$~açı"]
                     }
                 },
@@ -5655,7 +5663,7 @@
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Bir @Output öğesini /distance/ kadar yukarı kaydırırken yavaşça kaybederim.",
+                        "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar yukarı kaydırırım.",
                         "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
                     ],
                     "names": ["$~fadeoutup"],
@@ -5666,7 +5674,7 @@
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Bir @Output öğesini /distance/ kadar aşağı kaydırırken yavaşça kaybederim.",
+                        "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar aşağı kaydırırım.",
                         "\\💬('🐈' exiting: 💃.solmaaşağı(2m))\\"
                     ],
                     "names": ["$~solmaaşağı"],
@@ -5677,7 +5685,7 @@
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Bir @Output öğesini /distance/ kadar sola kaydırırken yavaşça kaybederim.",
+                        "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar sola kaydırırım.",
                         "\\💬('🐈' exiting: 💃.soldankaybol(2m))\\"
                     ],
                     "names": ["$~soldankaybol"],
@@ -5688,7 +5696,7 @@
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Bir @Output öğesini /distance/ kadar sağa kaydırırken yavaşça kaybederim.",
+                        "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar sağa kaydırırım.",
                         "\\💬('🐈' exiting: 💃.solupgitmek(2m))\\"
                     ],
                     "names": ["$~solupgitmek"],
@@ -5699,18 +5707,18 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Bir @Output öğesini döndürerek uzaklaştırırım ve yavaşça kaybederim; /angle/ kadar dönmüş halde biterim.",
+                        "$~Bir @Output öğesini yavaşça kaybolurken döndürerek uzaklaştırırım; /angle/ kadar dönmüş biterim.",
                         "\\💬('🐈' exiting: 💃.döndürerekçıkış(180°))\\"
                     ],
                     "names": ["döndürerekçıkış"],
                     "angle": {
-                        "doc": "$~Kaybolmadan önce ne kadar döneceği, derece cinsinden.",
+                        "doc": "$~Kaybolmadan önce ne kadar döndürüleceği, derece cinsinden.",
                         "names": ["$~açı"]
                     }
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Bir @Output öğesini gökkuşağının her renk tonundan geçirir ve başladığım yere geri getiririm.",
+                        "$~Bir @Output öğesini gökkuşağının her renginden geçirir ve başladığım yere geri getiririm.",
                         "Rengi hızlı değiştiririm, bu yüzden yanıp sönmeye duyarlı bir izleyici beni rahatsız edici bulabilir. Daha uzun bir /duration/ beni çok daha yumuşak yapar.",
                         "\\💬('🐈' resting: 💃.gökkuşağı(3s))\\"
                     ],
@@ -6447,6 +6455,10 @@
             "mash": {
                 "doc": "$~İki nota arasındaki bir notanın ne yaptığı. \\1.5\\ tam ortada durur \\1\\ ile \\2\\ arasında: bu \\⊥\\ değilse, her ikisi de duyulur, daha yakın olan daha yüksek, tıpkı birlikte basılan iki piyano tuşu gibi. \\⊥\\ ile bunun yerine tek bir nota elde edersin, aralarında ne kadar mesafedeyse o kadar perdeden saptırılmış olarak.",
                 "names": "$~ez"
+            },
+            "words": {
+                "doc": "$~@Instrument/voice öğesinin söyleyeceği heceler. Her nota için bir hece, boşluklarla ayrılmış, yani \\'so mi fa'\\ üç nota söyler ve boşluklar bir hecenin nerede bittiğini ve bir sonrakinin nerede başladığını gösterir.\n\nSuskunluklar hece almaz, yani bir söz gerçekten ses veren notalara denk gelir. Notalardan daha az hece varsa, susmak yerine baştan başlarlar. Hiç hece yoksa, ses bir /uh/ sesi tutar.\n\nBir heceyi tire ile bitirirseniz, o hece bir sonraki notada da tutulur; her tire için bir nota daha eklenir — böylece bir heceyi birkaç nota boyunca söylersiniz. Şurada \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ ilk iki notayı kapsar, sonra \\mi\\ ve \\so\\ birer nota alır.\n\nYazım <Uluslararası Fonetik Alfabe@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ile yazılır; burada her harf bir sestir. Her sesi görmek ve duymak için düzenleyicinin altındaki 🤖 düğmesine basın. Tanımadığım harfler atlanır. Ses dışındaki her enstrüman beni yok sayar, yani bir söz @Track/instrument öğesini değiştirip geri aldığınızda korunur.",
+                "names": "$~kelimeler"
             }
         },
         "Note": {
@@ -6595,6 +6607,16 @@
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~⚡", "$~elektroGitar"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~Bir insandan kaydedilmek yerine filtrelerden oluşturulmuş bir şarkı söyleyen ses. Perdeli olduğu için sayılar notaları seçer.",
+                        "Ben bir sentezleyiciyim, tıpkı @Instrument/synth gibi — bir şarkıcının taklidi değilim. Ağzım ne kadar yüksek ya da alçak söylersem söyleyeyim aynı boyutta kalır, ki bunu gerçek bir boğaz yapamaz. İşte bu yüzden bir insanı taklit eden bir makine gibi duyuluyorum ve ne bir erkek ne de bir kadın gibi duyuluyorum.",
+                        "@Track öğeme bir @Track/words verin, ben de onları her nota için bir hece söyleyeyim. Hiç hece olmadan, bir /uh/ sesi tutarım, yani her zaman bir şeyler söylerim.",
+                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "Heceler <Uluslararası Fonetik Alfabe@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ile yazılır; bu, her harfin bir yazım değil bir /ses/ olduğu bir alfabedir — yani \\'ʃi'\\ hangi dilde yazarsan yaz, /she/ kelimesinin başındaki sestir. Yapabileceğim tüm sesleri görmek ve her birini duymak için düzenleyicinin altındaki 🤖 düğmesine bas."
+                    ],
+                    "names": ["$~🤖", "$~ses"]
                 }
             },
             "doc": [
@@ -6670,8 +6692,12 @@
                     "off": "$~tam ekrana genişlet"
                 },
                 "show": {
-                    "on": "$~saklamak",
-                    "off": "$~göstermek"
+                    "on": "$~gizle $name",
+                    "off": "$~göster $name"
+                },
+                "showSource": {
+                    "on": "$~kaynağı gizle $name",
+                    "off": "$~kaynağı göster $name"
                 }
             },
             "label": {
@@ -6898,7 +6924,8 @@
                 "selectOutput": "$~bu çıktıyı sahnede göster",
                 "zoomIn": "$~Kodu daha büyük yapın",
                 "zoomOut": "$~Kodu küçültün",
-                "replace": "$~tüm eşleşmeleri değiştir"
+                "replace": "$~tüm eşleşmeleri değiştir",
+                "selectOutputError": "$~bu çıktıyı sahnede göster; bu kaynağın değerlendirmesi bir hatayla bitti"
             },
             "field": {
                 "name": {
@@ -7065,9 +7092,16 @@
             "button": {
                 "resolution": "$~Bu çatışmayı çöz",
                 "toggle": "$~açıklamaları göster ve gizle",
-                "highlight": "$~bu kodu editörde göster"
+                "highlightMajor": "$~bu hatanın kodunu düzenleyicide göster",
+                "highlightMinor": "$~bu uyarının kodunu düzenleyicide göster",
+                "highlightStep": "$~bu değerlendirme adımının kodunu düzenleyicide göster"
             },
-            "nodeDescription": "$~$description ."
+            "nodeDescription": "$~$description .",
+            "severity": {
+                "major": "$~hata",
+                "minor": "$~uyarı"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~program çıktısı",
@@ -7157,25 +7191,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~değerlendirme modu",
-                    "labels": ["$~düzenle", "$~adım", "$~oynat"],
+                    "labels": ["$~düzenle", "$~oynat", "$~adım"],
                     "tips": [
                         "$~düzenleme moduna geç: sahne mevcut karede donmuş kalırken programı değiştir",
-                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle",
-                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver"
+                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver",
+                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~değerlendirme modu",
-                    "labels": ["$~görüntüle", "$~adım", "$~oynat"],
+                    "labels": ["$~görüntüle", "$~oynat", "$~adım"],
                     "tips": [
                         "$~görüntüleme moduna geç: sahne mevcut karede donmuş kalırken programı oku",
-                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle",
-                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver"
+                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver",
+                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle"
                     ]
                 },
                 "announce": "$~$mode modu",
                 "exception": "$~Programda bir hata vardı, bu yüzden inceleyebilmen için adım moduna geçti.",
-                "cycle": "$~düzenleme, adım ve oynatma modları arasında geçiş yap"
+                "toggle": "$~düzenleme ve oynatma modları arasında geçiş yap"
             },
             "gate": {
                 "start": {
@@ -7993,7 +8027,23 @@
                 "createPhrase": "$~mevcut değeri metin olarak gösteren bir Cümle oluşturun",
                 "createGroup": "$~mevcut herhangi bir İfadeyi saran bir Grup oluşturun",
                 "createStage": "$~herhangi bir mevcut Grup veya İfadeyi saran bir Sahne oluşturun",
-                "editMode": "$~düzenleme moduna geç"
+                "editMode": "$~düzenleme moduna geç",
+                "createMusic": "$~programa @Music ekle",
+                "previousTrack": "$~önceki @Track öğesini göster",
+                "nextTrack": "$~sonraki @Track öğesini göster",
+                "addTrack": "$~bir @Track ekle",
+                "removeTrack": "$~bu @Track öğesini kaldır",
+                "clearTrack": "$~bu @Track öğesinden her notayı kaldır",
+                "makeChord": "$~bu notayı bir akora dönüştür",
+                "unmakeChord": "$~bu akoru tek notaya indir",
+                "playMusic": "$~bu @Music öğesini imleçten itibaren dinle",
+                "pauseMusic": "$~çalmayı durdur",
+                "importMIDI": "$~bir MIDI dosyasını @Music olarak içe aktar",
+                "record": "$~bu @Track öğesine eklemek için bir ezgi mırıldan",
+                "stopRecording": "$~dur ve mırıldandığını yaz",
+                "playTrack": "$~bu @Track öğesini tek başına, imleçten itibaren dinle",
+                "pauseTrack": "$~bu @Track öğesini çalmayı durdur",
+                "rewind": "$~başlangıca geri dön"
             },
             "prompt": {
                 "offerPhrase": "$~Bu değeri bir @Phrase içine mi sarmalıyım?",
@@ -8003,7 +8053,8 @@
                 "select": "$~Düzenlemek için kodda 💬, 🔳, ⬟ veya 🎭 simgelerinden birini seçin veya @Stage ⏸️ seçip çıktıyı seçin.",
                 "offerShape": "$~@Form @Shape içine alıp @Stage Stage'de göstermeli miyim?",
                 "offerNothing": "$~Henüz burada bir şey yok! Başlamak için bir @Phrase ekleyeyim mi?",
-                "readonly": "$~Bu değerler bu modda *salt okunurdur*. Onları değiştirmek için ✏️ *düzenleme* moduna geç."
+                "readonly": "$~Bu değerler bu modda *salt okunurdur*. Onları değiştirmek için ✏️ *düzenleme* moduna geç.",
+                "offerMusic": "$~@Music eklemek ister misin? Oynayabilmen için sana birkaç notayla başlayabilirim."
             },
             "field": {
                 "coordinate": "$~Koordinatı düzenle",
@@ -8038,6 +8089,69 @@
                 "unset": "$~Bir özelliğe açık bir değer atandığında, *X* düğmesi bu değeri kaldırır ve özelliği *varsayılan* değerine döndürür.",
                 "editor": "$~Palet üzerinde yaptığınız tüm değişiklikler, *editörde* gösterilen /kod/ kısmına yansıtılır.",
                 "stage": "$~İfadeler ayrıca doğrudan *sahne* üzerinde /taşınabilir/, /boyutlandırılabilir/ ve /döndürülebilir/."
+            },
+            "music": {
+                "staff": "$~bu parçanın notaları",
+                "track": "$~parça $count içinden $total",
+                "duration": {
+                    "label": "$~yeni bir nota ne kadar sürer",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~birlik nota, dört vuruş",
+                        "$~ikilik nota, iki vuruş",
+                        "$~dörtlük nota, bir vuruş",
+                        "$~sekizlik nota, yarım vuruş",
+                        "$~onaltılık nota, çeyrek vuruş"
+                    ]
+                },
+                "computed": "$~bu parçanın notaları hesaplanır, bu yüzden buraya taşınamaz",
+                "note": "$~nota $degree, vuruş $beat",
+                "rest": "$~es, vuruş $beat",
+                "added": "$~$beat vuruşuna $degree notası eklendi, şimdi $#count[$#count nota|$#count nota]",
+                "removed": "$~$beat vuruşundaki $degree notası silindi, şimdi $#count[$#count nota|$#count nota]",
+                "moved": "$~nota $degree, vuruş $beat",
+                "chooser": "$~hangi müzik düzenlenecek",
+                "unnamed": "$~müzik $count",
+                "cursor": "$~hangi vuruştan çalınacağını seçmek için sürükle",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count parça|$#count parça] aynı anda birden fazla nota çaldı, bu yüzden fazladan sesleri tutmak için $extra tane daha eklendi.",
+                    "percussionDropped": "$~$#count[$#count davul sesi|$#count davul sesi] setimizde eşleşmedi, bu yüzden dışarıda bırakıldı.",
+                    "tracksTruncated": "$~$#count[$#count parça|$#count parça] $cap sınırını aştığı için dışarıda bırakıldı.",
+                    "pitchesSnapped": "$~$#count[$#count nota|$#count nota] $scale gamında değildi ve en yakınına taşındı, en fazla $semitones yarım ses kadar.",
+                    "beatsRounded": "$~$#count[$#count nota uzunluğu|$#count nota uzunluğu] yuvarlandı, en fazla bir vuruşun $error kadarı.",
+                    "meterChanges": "$~$#count[$#count ölçü işareti değişikliği|$#count ölçü işareti değişikliği] dışarıda bırakıldı: @Music ölçü işareti içermez.",
+                    "velocityRange": "$~$track parçasının $#count[$#count ses yüksekliği|$#count ses yüksekliği] var. Her nota kendininkini korur, ama yükselişler yoktur.",
+                    "outOfRange": "$~$#count[$#count nota|$#count nota] gamın ilk notasından üç oktavdan daha uzakta. Çalacaklar, ama gerçek bir kayıttan değil.",
+                    "tempoFolded": "$~$#count[$#count tempo değişikliği|$#count tempo değişikliği] nota uzunluklarına katıldı, bu yüzden müzik yine hızlanıp yavaşlar. Bir @Music tek bir tempoya sahiptir, bu da $using olduğu için, bir @Beat notalarla eşleşmez."
+                },
+                "notMIDI": "$~bu bir MIDI dosyasına benzemiyor",
+                "badMIDI": "$~o MIDI dosyasını okuyamadım",
+                "listening": "$~Dinliyorum! Bir ezgiyi mırıldan ya da söyle, sonra dur. Duyduğum notaları yazıp bu parçaya ekleyeceğim.",
+                "heardNothing": "$~Hiç nota duymadım. Biraz daha yüksek sesle mırıldanmayı dene ya da mikrofona yaklaş.",
+                "transcribed": "$~$scale gamında dakikada yaklaşık $tempo vuruşta $#count[$#count nota|$#count nota] duydum.",
+                "noMicrophone": "$~mikrofonunu duyamıyorum",
+                "imported": "$~$#count[$#count parça|$#count parça] ve $notes nota eklendi",
+                "importing": "$~$step… %$percent",
+                "tooBig": "$~O dosyada $#count[$#count nota|$#count nota] var, bir projenin tutabileceği $cap sınırından fazla. Daha kısa bir parça ya da daha az çalgı dene.",
+                "steps": {
+                    "label": "$~bir içe aktarmanın ne yaptığı",
+                    "labels": [
+                        "$~Dosya okunuyor",
+                        "$~Notaları çözmek",
+                        "$~Parçaları isimlendirmek",
+                        "$~Onları programına yazmak",
+                        "$~Programını kontrol etmek"
+                    ],
+                    "tips": [
+                        "$~dosyayı okumak",
+                        "$~notaları çözmek",
+                        "$~parçaları isimlendirmek",
+                        "$~onları programına yazmak",
+                        "$~programını kontrol etmek"
+                    ]
+                },
+                "report": "$~Neyi içe aktardım",
+                "reportExplanation": "$~Bir @Music, bir MIDI dosyasının anlattığı şeylerin çoğunu tutabilir ama hepsini tutamaz. İşte içe aktarma sırasında değişen şeyler."
             }
         },
         "save": {
@@ -8763,7 +8877,8 @@
                     "description": "$~Tanım",
                     "cssvalue": "$~CSS değeri",
                     "computed": "$~Hesaplandı",
-                    "primaryface": "$~Birincil yüz"
+                    "primaryface": "$~Birincil yüz",
+                    "contrast": "$~Karşıtlık"
                 },
                 "demo": {
                     "button": "$~Örnek",
@@ -8779,7 +8894,13 @@
                     "optiona": "$~A Seçeneği",
                     "optionb": "$~B Seçeneği",
                     "optionc": "$~C Seçeneği"
-                }
+                },
+                "accessibility": "$~Renk Erişilebilirliği",
+                "accessibilityRules": [
+                    "$~*Metin* olarak gösterilen her şey AA metin türlerinden birini kullanmalıdır (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* veya bunlardan birini işaret eden anlamsal bir değişken). Bunlar <WCAG 2.2@https://www.w3.org/TR/WCAG22/> tarafından istenen 4.5:1 karşıtlık oranını sağlar. Daha parlak marka renkleri yalnızca arka planlar, kenarlıklar ve vurgular içindir; bunlar 3:1 veya hiç oran gerektirmez. Bu oranlar birim testleriyle ve her sayfanın hem açık hem koyu modda otomatik taranmasıyla uygulanır. Bilerek yapılan bir istisna vardır: açık moddaki kenarlık grisi 3:1 oranının altındadır, çünkü buradaki kenarlıklar süsleyici ayırma amaçlıdır ve her önemli sınır başka bir ipucu taşır.",
+                    "Anlamı asla yalnızca renkle aktarma: renkle kodlanmış her durumu ikinci bir ipucuyla eşleştir — bir şekil, bir çizgi türü, bir simge veya bir kelime. Örneğin, düzenleyici imlecin vurgusunu ve büyük çakışmaları *düz*, seçili çıktıyı *kesik* ve küçük çakışmaları *noktalı* çizer, böylece önem ve seçim renk olmadan da ayrı kalır.",
+                    "Katkıda bulunanlara yönelik tam rehber için <tasarım wiki@https://github.com/wordplaydev/wordplay/wiki/design> rehberine bakın."
+                ]
             },
             "thanks": {
                 "header": "$~Teşekkürler",
@@ -9365,6 +9486,129 @@
             "menuEmpty": "$~öneri yok",
             "menuClosed": "$~menü kapatıldı",
             "tidyNoop": "$~zaten düzenli"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Sesin söyleyebileceği sesleri gizle",
+                "off": "$~Sesin söyleyebileceği sesleri göster"
+            },
+            "groups": [
+                "$~ünlüler",
+                "$~yaklaşık ünsüzler",
+                "$~l sesleri",
+                "$~genizsi sesler",
+                "$~tıslama sesleri",
+                "$~titreşimli sesler",
+                "$~durak sesleri",
+                "$~şıklamalar"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~$symbol öğesini duy",
+            "insert": "$~$symbol öğesini yaz"
         }
     },
     "moderation": {

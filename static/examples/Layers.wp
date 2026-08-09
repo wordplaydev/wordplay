@@ -1,6 +1,7 @@
 o
 "Layers"/en"图层"/zh-CN"圖層"/zh-TW
 === start
+¶Balls bouncing at different depths to show off parallax layers.¶
 count: 10 → []
 
 ƒ balls(z•#m) count.translate(

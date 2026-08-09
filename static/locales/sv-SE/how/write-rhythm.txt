@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+Skriv rytm, inte bara toner
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+En lista med bara siffror ger varje ton samma längd, vilket låter som en uppdragen leksak. Riktig rytm kommer från två ställen: rutnätet som en  @Track  räknar i, och de tonvärden du skriver på enskilda siffror. 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  sätter rutnätet. Varje ensam siffra varar så länge — och det gör även varje \ø\, vilket gör att pauser är det enklaste sättet att hålla ut en ton:
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+Pianots första ton följs av tre pauser, så den klingar i fyra slag. Trummans rutnät är ett halvt slag, så dess åtta poster fyller fyra slag medan pianots åtta fyller åtta — trumman går runt två gånger på pianots ena. Spår upprepas efter sina egna längder, och så gör en enda siffra en polyrytm.
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+Att räkna pauser blir tröttsamt, så du kan skriva längden på själva siffran. En ensam siffra betyder fortfarande "ett rutnätssteg"; allt som har ett tonvärde på sig anger sin egen längd:
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+Det är två takter med fyra slag. \𝅝\ är en helnot, \𝅗𝅥\ en halvnot, \𝅘𝅥\ en fjärdedel, \𝅘𝅥𝅮\ en åttondel och \𝅘𝅥𝅯\ en sextondel, och punkten \𝅭\ gör vilken som helst av dem hälften så lång till — så \𝅘𝅥𝅮𝅭\ är den punkterade åttondelen som knäpper den här marschen framåt. Symbolraden under redigeraren erbjuder dem efter att du skrivit en siffra.
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+En sak de inte kan göra är att pausa: \ø\ är inte en siffra, så den har inget utrymme för ett värde. Dubbla pauser i stället, eller ta till en  @Note , som också ger dig längder som inget tonvärde kan stava — \Note(1 2beats ÷ 3)\ är en triol, tre toner i utrymmet för två.
 
 layer-an-arrangement, draw-the-music

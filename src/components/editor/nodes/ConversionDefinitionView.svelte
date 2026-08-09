@@ -12,10 +12,12 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={[node, 'docs']} {format} empty="hide" /><NodeView
-    node={[node, 'arrow']}
+<!-- Docs are addable in blocks mode, matching every other documentable definition. -->
+<NodeView
+    node={[node, 'docs']}
     {format}
-/><NodeView node={[node, 'input']} {format} /><NodeView
+    empty={format.block ? 'menu' : 'hide'}
+/><NodeView node={[node, 'arrow']} {format} /><NodeView node={[node, 'input']} {format} /><NodeView
     node={[node, 'output']}
     {format}
 /><NodeView node={[node, 'expression']} {format} />

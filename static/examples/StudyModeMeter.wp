@@ -1,6 +1,8 @@
 ⏳
 Study Mode Meter
 === start/en
+¶Click to add study hours and watch the meter shift from calm to focus to overload.¶
+
 ¶The action stores the choice the user clicks, such as add or reset.¶/en
 action: Choice()
 

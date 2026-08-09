@@ -1,44 +1,28 @@
-Play a sound when something happens
+當某件事發生時播放聲音
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+答對時的叮聲，東西落地時的砰聲——音效就是一個小小的 @Music ，它只播放一次然後就結束了。
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+有兩件事讓它成為音效，而不是一首歌曲。\迴圈: ⊥\告訴 @Track 只播放它的音符一次，而不是永遠重複。而音符清單本身來自那個時刻：當某件事剛發生時，它會裝著音符；其餘時間則是空的。
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 點我' selectable: ⊤ name: '點擊')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+不用擔心清單在下一次求值時又變空了——已經開始的音符一定會播放到結束。你不能省略的是\replay\。點兩下，第二下產生的音樂和第一下完全一樣，所以沒有任何改變，也不會再發出聲音；\replay\就是你用來說「/再來一次，現在/」的方式。 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music 這裡需要一個*短暫的*條件——一個只在事件引發的那次求值時才為真的條件，就像上面的\∆ 按鈕()\。像\score > 10\這種持續為真的條件，此後會永遠為真，並且會在每次求值時重新開始播放聲音。
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+既然音符只是一個清單，你可以根據*發生了什麼*來決定它們，而不是總是播放同樣的東西：
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '⌨ 按一個鍵' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+注意\∆ key\是在自己的一行算出來的，而值的測試\key = ' '\則是分開進行的。如果把它們寫成一個條件，當你按下下一個無關的鍵時聲音會再次響起，而\key\ 仍然讀作一個空格。
 
 draw-the-music, music-follows-the-action, offer-choices

@@ -162,11 +162,14 @@ test.each([
         '🖱()',
     ],
     [
-        'suggest negation on number expressions',
-        '5',
-        (node) => node instanceof NumberLiteral,
+        // A literal gets no unary suggestion: `-5` as a UnaryEvaluate prints as text that lexes
+        // as a signed literal — a different tree — so the soundness gate drops it. References
+        // are unambiguous (`-a` always parses as a negation), so the suggestion survives there.
+        'suggest negation on number references',
+        'a: 5\na',
+        (node) => node instanceof Reference && node.getName() === 'a',
         Replace,
-        '-5',
+        '-a',
     ],
     [
         'suggest translate (↦) on a collection',
@@ -707,7 +710,10 @@ test('a partially typed link completes to a matching custom character', () => {
 test('a position expecting a formatted translation recommends custom characters', () => {
     // Adding a translation to a formatted literal's `texts` list should offer,
     // alongside an empty translation, one linking to each available character.
-    const code = '`hello`';
+    // The existing translation must carry a language tag: two adjacent untagged
+    // formatted translations print as `a``b`, which reparses as one translation,
+    // so the soundness gate refuses appending to an untagged one.
+    const code = '`hello`/en';
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const literal = source

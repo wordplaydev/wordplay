@@ -70,6 +70,7 @@ export default class ListAccess extends Expression {
         );
     }
 
+    /** Reachable via the palette and blocks-mode typing completions, so no menu suggestions here. */
     static getPossibleReplacements() {
         return [];
     }

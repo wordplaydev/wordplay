@@ -5,13 +5,13 @@
     "acts": [
         {
             "title": "$~Το Wordplay είναι διαφορετικό",
-            "performance": { "fit": "#Symbol 💬" },
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
             "scenes": [
                 {
                     "title": "$~Τα προγράμματα είναι τιμές",
                     "subtitle": "$~Εκφράσεις, όχι εντολές",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
                     "lines": [
                         { "edit": "" },
                         [
@@ -48,7 +48,10 @@
                     "title": "$~Έλεγχος συνθηκών",
                     "subtitle": null,
                     "concept": "Conditional",
-                    "performance": { "fit": "#Symbol ?" },
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
                         [
@@ -82,7 +85,7 @@
                     "title": "$~Τιμές και τύποι",
                     "subtitle": null,
                     "concept": "Number",
-                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
                     "lines": [
                         {
                             "edit": [
@@ -148,7 +151,7 @@
                     "title": "$~Μετατροπές, συλλογές και συναρτήσεις",
                     "subtitle": null,
                     "concept": "Convert",
-                    "performance": { "fit": "#Symbol →" },
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
                     "lines": [
                         { "edit": ["1m → #ft → ''"] },
                         [
@@ -188,7 +191,7 @@
                     "title": "$~Η έξοδος είναι τυπογραφική, η είσοδος είναι αντιδραστική",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
                     "lines": [
                         {
                             "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
@@ -243,7 +246,10 @@
                     "title": "$~Συγκρούσεις και αποσφαλμάτωση",
                     "subtitle": null,
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ‼️" },
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         {
                             "edit": "1 + 'hello'",
@@ -274,7 +280,7 @@
                     "title": "$~Βάζοντάς τα όλα μαζί",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 🔨" },
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
                     "lines": [
                         { "edit": ["elapsed: Time(100ms)", "elapsed"] },
                         [

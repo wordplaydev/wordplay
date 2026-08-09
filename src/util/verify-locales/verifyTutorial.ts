@@ -4,6 +4,7 @@ import {
     isMachineTranslated,
     isRevised,
     isUnwritten,
+    toLocaleString,
 } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink, {
@@ -26,8 +27,13 @@ import TutorialSchema, {
     getDefaultTutorial,
 } from '@util/verify-locales/TutorialSchema';
 import Validator from '@util/verify-locales/Validator';
+import { alignTutorialLines } from '@util/verify-locales/syncTutorialStructure';
 import getTranslator from '@util/verify-locales/getTranslator';
-import { Performances } from '../../tutorial/Performances';
+import {
+    Performances,
+    performanceSource,
+} from '../../tutorial/Performances';
+import { Themes, themeSource } from '../../tutorial/Themes';
 import {
     DEFAULT_TUTORIAL_MODE,
     type TutorialMode,
@@ -68,6 +74,18 @@ export async function verifyTutorial(
         }
     }
 
+    // A tutorial must say it is the locale it lives in. This is the field the translator reads to
+    // decide what language to translate *into* — so when hi-IN's tutorial declared `en`/`US`,
+    // every run asked for English-to-English and dutifully handed the English back. The strings
+    // came out marked `$~`, which reads as "translated, awaiting review", so nothing anywhere
+    // reported that a whole locale's tutorial had never been translated at all.
+    const declared = `${tutorial.language}-${tutorial.regions[0] ?? ''}`;
+    const expected = toLocaleString(locale);
+    if (tutorial.language !== locale.language)
+        log.bad(
+            `This tutorial says it is written in "${declared}", but it is ${expected}'s. The translator reads this to pick the target language, so it would translate ${expected} into ${declared}. Fix "language" and "regions".`,
+        );
+
     // Verify and (when repairing) fix the tutorial.
     tutorial = await checkTutorial(
         log,
@@ -79,7 +97,16 @@ export async function verifyTutorial(
 
     // Translate if requested.
     if (translate)
-        tutorial = await translateTutorial(log, tutorial, override, targets);
+        tutorial = await translateTutorial(
+            log,
+            tutorial,
+            override,
+            targets,
+            mode,
+        );
+
+    // What's still unwritten once everything that was going to run has run.
+    reportUnwritten(log, tutorial);
 
     return tutorial;
 }
@@ -219,21 +246,23 @@ async function checkTutorial(
         if (parsed.conflicts) continue;
 
         let code: string | undefined = undefined;
-        // A template reference resolves to its program; otherwise use the literal code.
-        if (typeof parsed.code === 'string') code = parsed.code;
-        else {
-            const fun = (
-                Performances as Record<
-                    string,
-                    ((...input: string[]) => string) | undefined
-                >
-            )[parsed.code.name];
-            if (fun === undefined)
-                log.bad(
-                    `#${parsed.code.name} doesn't exist in Performances. Is it misspelled or missing?`,
-                );
-            else code = fun(...parsed.code.inputs);
-        }
+        if (
+            typeof parsed.code !== 'string' &&
+            !(parsed.code.name in Performances)
+        )
+            log.bad(
+                `#${parsed.code.name} doesn't exist in Performances. Is it misspelled or missing?`,
+            );
+        // A template reference resolves to its program; otherwise use the literal code. Resolved
+        // with the card's theme in it, since the themed program is the one that actually runs —
+        // checking the unthemed one would leave the composition unverified.
+        else
+            code = performanceSource(
+                parsed.code,
+                parsed.theme === undefined
+                    ? undefined
+                    : themeSource(Themes[parsed.theme]),
+            );
         if (code) {
             const result = analyzeCode(code, locale);
             if (result.error)
@@ -251,6 +280,12 @@ async function checkTutorial(
     // tutorial's links at the same position when possible (translation sometimes
     // glues text onto a link's property or translates it entirely).
     const defaultTutorial = getDefaultTutorial(mode);
+    // Which en-US line each of this tutorial's lines corresponds to. Positional indexing was wrong
+    // whenever a locale was a scene or a line short of en-US — and one has been since "Patterns"
+    // landed. Comparing act 6 scene 6 against a different lesson's dialog doesn't just fail to
+    // repair: the fallback below rewrites a link from the English at that index whenever the link
+    // counts happen to match, so a correct translation gets replaced with a stranger's concept.
+    const counterparts = alignTutorialLines(defaultTutorial, revised);
     revised.acts.forEach((act, actIndex) =>
         act.scenes.forEach((scene, sceneIndex) =>
             scene.lines.forEach((line, lineIndex) => {
@@ -258,10 +293,7 @@ async function checkTutorial(
                 if (!Array.isArray(line)) return;
                 const repairs: [string, string][] = [];
                 const lineLinks = extractConceptLinks(line);
-                const defaultLine =
-                    defaultTutorial.acts[actIndex]?.scenes[sceneIndex]?.lines[
-                        lineIndex
-                    ];
+                const defaultLine = counterparts.get(line);
                 const defaultLinks = Array.isArray(defaultLine)
                     ? extractConceptLinks(defaultLine)
                     : [];
@@ -371,20 +403,31 @@ async function checkTutorial(
             `${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
-    // Unwritten ("$?") strings fall back to English at runtime. Fail in CI so
-    // they never reach production — they should be machine translated first.
-    const unwritten = pairs.filter(({ value }) =>
-        typeof value === 'string'
-            ? isUnwritten(value)
-            : value.some((s) => isUnwritten(s)),
+    return revised;
+}
+
+/**
+ * Report strings that would still fall back to English, and fail the run.
+ *
+ * Counted *after* any translation, not before — the same order `verifyLocale`
+ * has always used. Reporting first meant a translate run announced every string
+ * it was about to fill as an error and then filled it, so `start.ts` set a
+ * non-zero exit for work that had entirely succeeded. The batch board read that
+ * exit code and summarized 21 finished locales as "0 ok, 21 failed", which is
+ * exactly backwards on the one command whose whole job is to fix this.
+ */
+function reportUnwritten(log: Log, tutorial: Tutorial): void {
+    const unwritten = getTranslatableTutorialPairs(tutorial).filter(
+        ({ value }) =>
+            typeof value === 'string'
+                ? isUnwritten(value)
+                : value.some((s) => isUnwritten(s)),
     );
 
     if (unwritten.length > 0)
         log.bad(
             `${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them.`,
         );
-
-    return revised;
 }
 
 /** Create a copy of the default (en-US) tutorial for a mode, with all dialog marked unwritten */
@@ -406,12 +449,22 @@ export function createUnwrittenTutorial(
     return tutorial;
 }
 
-/** Given a source tutorial and a current target tutorial, translate untranslated tutorial text. */
+/**
+ * Given a source tutorial and a current target tutorial, translate untranslated tutorial text.
+ *
+ * The English to translate comes from en-US, falling back to whatever the target holds. That
+ * matters because a locale never has to carry a copy of the English: an unwritten string falls
+ * back to the source at runtime, so a bare `$?` is the correct and minimal way to say "nobody has
+ * written this yet". Reading the text from the target alone made that representation
+ * untranslatable — `withoutAnnotations('$?')` is the empty string, so the translator was handed
+ * nothing, returned nothing, and the string stayed `$?` on every future run.
+ */
 async function translateTutorial(
     log: Log,
     tutorial: Tutorial,
     override: boolean,
     targets: TutorialTarget[] = [],
+    mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
 ): Promise<Tutorial> {
     // Get the key/value pairs to translate, narrowed to the requested act/scene
     // scope (if any).
@@ -430,13 +483,18 @@ async function translateTutorial(
     // Copy the target tutorial so we can revise it.
     const revised = JSON.parse(JSON.stringify(tutorial)) as Tutorial;
 
-    // Extract the strings to translate. Strip ALL annotation markers (not just
-    // $?), because the tutorial resolves from the target — which already carries
-    // $~ on machine-translated strings — so without this an override run would
-    // re-mark an already-marked string and accumulate markers ($~$~$~…).
+    // Extract the strings to translate, preferring en-US's text over the target's. Strip ALL
+    // annotation markers (not just $?) from whichever we use, because the target already carries
+    // $~ on machine-translated strings — so without this an override run would re-mark an
+    // already-marked string and accumulate markers ($~$~$~…).
+    const source = getDefaultTutorial(mode);
     const sourceStrings = unwritten
         .map((path) => {
-            const match = path.resolve(tutorial);
+            const english = path.resolve(source);
+            const match =
+                typeof english === 'string' && withoutAnnotations(english) !== ''
+                    ? english
+                    : path.resolve(tutorial);
             return match === undefined || Array.isArray(match)
                 ? undefined
                 : withoutAnnotations(match);

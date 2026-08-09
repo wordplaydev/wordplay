@@ -4716,6 +4716,10 @@
                 "doc": "$~這個節拍上發出聲音的 @Instrument，每個只列一次。這是常見情況的捷徑；@Downbeat/parts 有詳細資訊。",
                 "names": "$~樂器"
             },
+            "words": {
+                "doc": "$~這一拍正在唱的音節，依音軌順序排列，若沒有在唱則是空清單。這是常見情況的捷徑，就像 @Downbeat/instruments 那樣；@Downbeat/parts 有詳細內容。",
+                "names": "$~文字"
+            },
             "name": {
                 "doc": "$~這個節拍來自的 @Music 姓名，這是 @Beat/name 過濾的依據。",
                 "names": "$~姓名"
@@ -4782,6 +4786,10 @@
             "loop": {
                 "doc": "$~我的音軌到達結尾時是否重複。",
                 "names": "$~迴圈"
+            },
+            "words": {
+                "doc": "$~這個部分在這一拍唱的音節，或\\ø\\沒有唱的時候——休息，或是一個沒有 @Track/words 的音軌。",
+                "names": "$~文字"
             }
         }
     },
@@ -5551,97 +5559,97 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~我會繞著 @Output 的中心來回傾斜，就像有東西在微風中晃動。我很適合當靜止動畫，因為小小的 /angle/ 看起來「有生命」，卻不會搶走注意力。",
+                        "$~我會繞著 @Output 的中心前後傾斜，就像有東西在微風中輕輕搖擺。我很適合當靜止時的動畫，因為一個小小的 /angle/ 看起來像「活的」，卻不會搶走注意力。",
                         "\\短語('🐈' resting: 💃.搖擺(10°))\\"
                     ],
                     "names": ["搖擺"],
                     "angle": {
-                        "doc": "$~每個方向要傾斜多遠。小的價值看起來溫和；大的看起來慌張。",
+                        "doc": "$~每個方向要傾斜多遠。小的值看起來很溫柔；大的值看起來很急躁。",
                         "names": ["角度"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~我會讓 @Output 往上跳到 /height/ 再落下，上升和下降時會壓扁一點。給我一個剛出現的 @Phrase，我會讓它看起來有重量。",
+                        "$~我會讓 @Output 往上跳到 /height/ 再落下，上升和下降時會稍微壓扁一點。給我一個剛進入的 @Phrase，我會讓它感覺有重量。",
                         "\\短語('🐈' resting: 💃.彈跳(3m))\\"
                     ],
                     "names": ["彈跳"],
                     "height": {
-                        "doc": "$~要跳多高，以公尺為單位。",
+                        "doc": "$~要往上跳多高，以公尺為單位。",
                         "names": ["高度"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$~我會讓 @Output 繞著自己的中心轉一整圈，從 360° 回到 0°。把我設成靜止動畫，我就會一直轉下去。",
+                        "$~我會讓 @Output 繞著它的中心完整轉一圈，從 360° 回到 0°。把我設成靜止時的動畫，我就會一直轉下去。",
                         "\\短語('🐈' resting: 💃.旋轉(2s))\\"
                     ],
                     "names": ["旋轉"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~我會讓 @Output 從看不見變成完全看得見。我是用在 /進入/ 的時候，也就是有東西正要出現在舞台上。",
+                        "$~我會讓 @Output 從看不見變成完全看得見。我是給 /entering/ 用的，也就是有東西正要進入舞台的時候。",
                         "\\短語('🐈' entering: 💃.淡入(1s))\\"
                     ],
                     "names": ["淡入"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~我會讓 @Output 從完全看得見變成看不見。我是用在 /離開/ 的時候，也就是有東西正要離開舞台。",
+                        "$~我會讓 @Output 從完全看得見變成看不見。我是給 /exiting/ 用的，也就是有東西正要離開舞台的時候。",
                         "\\短語('🐈' exiting: 💃.淡出(duration: 1s))\\"
                     ],
                     "names": ["$~淡出"]
                 },
                 "popup": {
                     "doc": [
-                        "$~我會讓 @Output 從無到有長出來，先超過真正的大小，再回到原位。就是那一點點超過，讓出現看起來活潑，而不是死板。",
+                        "$~我會讓 @Output 從無到有長大，超過它真正的大小一點，再收回來。就是那一點點超過，讓進入的感覺變得好玩，而不是死板。",
                         "\\短語('🐈' entering: 💃.彈出(0.5s))\\"
                     ],
                     "names": ["彈出"]
                 },
                 "shake": {
                     "doc": [
-                        "$~我會讓 @Output 往好幾個方向快速抖動。看起來像在說「不」，或像東西在嘎嘎作響。我動得很快，所以請讓我短一點。",
+                        "$~我會讓 @Output 往好幾個方向快速抖動。我看起來像「不」，或像有東西在震動。我動得很快，所以請讓我保持短短的。",
                         "\\短語('🐈' resting: 💃.抖動(0.5s count: 3x))\\"
                     ],
                     "names": ["抖動"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~我會把 @Output 放大到 /amount/ 再縮回去，只做一次。我是最安靜的方式來說「看這裡」，卻不會把任何東西移出原位。",
+                        "$~我會把 @Output 放大到 /amount/ 再縮回來，只做一次。我是最安靜的方式來說「看這裡」，而且不會把任何東西移出原位。",
                         "\\短語('🐈' resting: 💃.脈動(1.2))\\"
                     ],
                     "names": ["$~脈動"],
                     "amount": {
-                        "doc": "$~在最高點時要變大多少。1 表示完全不變。",
+                        "doc": "$~在最高點時要變大多少。1 表示完全沒有改變。",
                         "names": ["$~數量"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~我會快速做兩下縮放，然後停下來，像心跳的節奏。我比 @Sequence 的 /pulse/ 更急促，也比 /flash/ 更自然。",
+                        "$~我會做兩次快速的縮放拍子，然後休息，就像心跳的節奏。我比 @Sequence 的 /pulse/ 更急，也比 /flash/ 更自然。",
                         "\\短語('🐈' resting: 💃.心跳(1.4 1s))\\"
                     ],
                     "names": ["$~心跳"],
                     "amount": {
-                        "doc": "$~每一下要變大多少。",
+                        "doc": "$~每一拍要變大多少。",
                         "names": ["$~數量"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~我在慶祝：先小小縮一下，再放大並來回搖擺。我適合用在勝利、完成，還有做對的時候。",
+                        "$~我在慶祝：先稍微縮小，再放大並前後擺動一下。我是給獲勝、完成，還有做對的時候用的。",
                         "\\短語('🐈' resting: 💃.驚喜(1.2 1s))\\"
                     ],
                     "names": ["$~驚喜"],
                     "amount": {
-                        "doc": "$~慶祝時要變大多少。",
+                        "doc": "$~慶祝的時候要變大多少。",
                         "names": ["$~數量"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~我會讓 @Output 左右滑動，同時傾斜，每一次擺動都比上一次小。我像是有多一點個性的抖動。",
+                        "$~我會讓 @Output 左右滑動並傾斜，每一次擺動都比上一次小。我是有多一點個性的抖動。",
                         "\\短語('🐈' resting: 💃.擺動(8°))\\"
                     ],
                     "names": ["$~擺動"],
@@ -5652,15 +5660,15 @@
                 },
                 "flash": {
                     "doc": [
-                        "$~我會讓 @Output 在看得見和看不見之間閃兩次，一邊閃一邊淡出。我很難被忽略——這也表示很難不理我，所以請少用。",
-                        "我閃得很快，所以對閃爍敏感的觀眾可能會覺得不舒服。如果我要重複，就用比較長的 /duration/ 把我放慢。",
+                        "$~我會讓 @Output 在看得見和看不見之間閃兩次，一邊閃一邊淡出。我很難被忽略——這也表示我很難被人忽視，所以請少用我。",
+                        "我閃得很快，所以對閃爍敏感的人看了可能會不舒服。如果我要重複播放，就用比較長的 /duration/ 把我放慢。",
                         "\\短語('🐈' resting: 💃.閃爍(1s))\\"
                     ],
                     "names": ["$~閃爍"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~我會讓 @Output 從無到有長到完整大小。跟 /popup/ 不一樣，我不會超過——我是比較樸素、比較平靜的出現方式。",
+                        "$~我會讓 @Output 從無到有長到完整大小。和 /popup/ 不一樣，我不會超過——我是比較樸素、比較平靜的進入方式。",
                         "\\短語('🐈' entering: 💃.放大進入(0.5s))\\"
                     ],
                     "names": ["$~放大進入"]
@@ -5694,13 +5702,13 @@
                     ],
                     "names": ["$~從左淡入"],
                     "distance": {
-                        "doc": "$~從左邊多遠的地方開始，以公尺為單位。",
+                        "doc": "$~要從左邊多遠的地方開始，以公尺為單位。",
                         "names": ["$~距離"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~我讓一個 @Output 淡入，同時從右方 /distance/ 的位置向左滑進定位。",
+                        "$~我讓 @Output 淡入，同時從右邊 /distance/ 的位置向左滑動到定位。",
                         "\\短語('🐈' entering: 💃.從右淡入(2m))\\"
                     ],
                     "names": ["$~從右淡入"],
@@ -5711,81 +5719,81 @@
                 },
                 "rotatein": {
                     "doc": [
-                        "$~我讓一個 @Output 旋轉進定位，同時淡入。它從轉了 /angle/ 開始，結束時擺正。",
+                        "$~我讓 @Output 旋轉到定位，同時淡入，一開始轉了 /angle/，最後轉正。",
                         "\\短語('🐈' entering: 💃.旋轉進入(180°))\\"
                     ],
                     "names": ["旋轉進入"],
                     "angle": {
-                        "doc": "$~一開始要轉多少角度，以度為單位。",
+                        "doc": "$~一開始轉了多少角度，以度為單位。",
                         "names": ["$~角度"]
                     }
                 },
                 "zoomout": {
                     "doc": [
-                        "$~我讓一個 @Output 從全尺寸縮小到消失。",
+                        "$~我讓 @Output 從完整大小縮小到什麼都沒有。",
                         "\\短語('🐈' exiting: 💃.縮小離開(0.5s))\\"
                     ],
                     "names": ["$~縮小離開"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~我讓一個 @Output 淡出，同時向上滑 /distance/。",
+                        "$~我讓 @Output 淡出，同時向上滑動 /distance/。",
                         "\\短語('🐈' exiting: 💃.淡出向上(2m))\\"
                     ],
                     "names": ["淡出向上"],
                     "distance": {
-                        "doc": "$~向上滑多遠，以公尺為單位。",
+                        "doc": "$~向上滑動多遠，以公尺為單位。",
                         "names": ["$~距離"]
                     }
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~我讓一個 @Output 淡出，同時向下滑 /distance/。",
+                        "$~我讓 @Output 淡出，同時向下滑動 /distance/。",
                         "\\短語('🐈' exiting: 💃.淡出向下(2m))\\"
                     ],
                     "names": ["淡出向下"],
                     "distance": {
-                        "doc": "$~向下滑多遠，以公尺為單位。",
+                        "doc": "$~向下滑動多遠，以公尺為單位。",
                         "names": ["$~距離"]
                     }
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~我讓一個 @Output 淡出，同時向左滑 /distance/。",
+                        "$~我讓 @Output 淡出，同時向左滑動 /distance/。",
                         "\\短語('🐈' exiting: 💃.往左淡出(2m))\\"
                     ],
                     "names": ["$~往左淡出"],
                     "distance": {
-                        "doc": "$~向左滑多遠，以公尺為單位。",
+                        "doc": "$~向左滑動多遠，以公尺為單位。",
                         "names": ["$~距離"]
                     }
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~我讓一個 @Output 淡出，同時向右滑 /distance/。",
+                        "$~我讓 @Output 淡出，同時向右滑動 /distance/。",
                         "\\短語('🐈' exiting: 💃.淡出向右(2m))\\"
                     ],
                     "names": ["淡出向右"],
                     "distance": {
-                        "doc": "$~向右滑多遠，以公尺為單位。",
+                        "doc": "$~向右滑動多遠，以公尺為單位。",
                         "names": ["$~距離"]
                     }
                 },
                 "rotateout": {
                     "doc": [
-                        "$~我讓一個 @Output 旋轉離開，同時淡出，結束時轉了 /angle/。",
+                        "$~我讓 @Output 旋轉離開，同時淡出，最後轉了 /angle/。",
                         "\\短語('🐈' exiting: 💃.旋轉離開(180°))\\"
                     ],
                     "names": ["$~旋轉離開"],
                     "angle": {
-                        "doc": "$~消失前要轉多少角度，以度為單位。",
+                        "doc": "$~消失前轉了多少角度，以度為單位。",
                         "names": ["$~角度"]
                     }
                 },
                 "rainbow": {
                     "doc": [
-                        "$~我讓一個 @Output 循環經過彩虹的每一種色調，再回到我開始的地方。",
-                        "我變換顏色的速度很快，所以對閃爍敏感的觀眾可能會覺得不舒服。較長的 /duration/ 會讓我溫和許多。",
+                        "$~我讓 @Output 循環過彩虹的每一種色調，再回到我一開始的顏色。",
+                        "我很快就換顏色，所以對閃爍敏感的觀眾可能會覺得不舒服。比較長的 /duration/ 會讓我溫和很多。",
                         "\\短語('🐈' resting: 💃.彩虹(3s))\\"
                     ],
                     "names": ["$~彩虹"]
@@ -6411,6 +6419,10 @@
             "mash": {
                 "doc": "$~位於兩個音符之間的一個音符會做什麼。 \\1.5\\ 位於 \\1\\ 和 \\2\\ 的正中間：除非這是 \\⊥\\，否則兩個音都會響起，比較近的那個較大聲，就像同時按下兩個鋼琴鍵一樣。用 \\⊥\\ 你會得到一個音符，這個音符的音高會依它在兩者之間的距離而偏移。",
                 "names": "$~混合"
+            },
+            "words": {
+                "doc": "$~讓 @Instrument/voice 唱的音節。每個音符一個音節，用空格分開，所以 \\'so mi fa'\\ 會唱三個音符，空格用來表示一個音節在哪裡結束、下一個從哪裡開始。\n\n休止符不佔音節，所以歌詞會落在真正發聲的音符上。如果音節比音符少，音節會從頭再開始，而不是變成安靜。如果完全沒有音節，聲音就會維持一個 /uh/ 的音。\n\n在音節最後加一個連字號，可以讓它延續到下一個音符，每加一個連字號就多延續一個音符——這就是你怎麼用一個音節唱好幾個音符。在 \\🎶([1 2 3 4] words: 'la- mi so')\\，\\la\\ 涵蓋前兩個音符，然後 \\mi\\ 和 \\so\\ 各佔一個。\n\n拼寫使用<國際音標@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>，其中每個字母代表一個聲音。按下編輯器下方的 🤖，可以看到每個聲音並聽它發音。我不認得的字母會被跳過。除了人聲以外的每種樂器都會忽略我，所以歌詞在你改變 @Track/instrument 再改回來之後仍然存在。",
+                "names": "$~文字"
             }
         },
         "Note": {
@@ -6559,6 +6571,16 @@
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~⚡", "$~電吉他"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~一種歌唱的聲音，是用濾波器做出來的，而不是從一個人身上錄下來的。有音高，所以數字可以選擇音符。",
+                        "我是一個合成器，就像 @Instrument/synth 一樣——不是模仿一位歌手。無論我唱得多高或多低，我的嘴巴都保持一樣的大小，這是真正的喉嚨做不到的。這就是為什麼我聽起來像一台機器在模仿人，也是為什麼我聽起來既不像男人也不像女人。",
+                        "給我的 @Track 一個 @Track/words，我就會把它們唱出來，每個音符一個音節。如果沒有給，我會維持一個 /uh/ 的音，所以我一定會唱點什麼。",
+                        "\\🎼(🎶([1 2 3 5] words: '啦 啦 啦 啦' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "這些音節用<國際音標@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>拼寫，這是一種字母表，其中每個字母代表一個 /聲音/ 而不是一種拼法——所以 \\'ʃi'\\ 是 /she/ 開頭的聲音，不論你用什麼語言書寫。按下編輯器下方的 🤖，就能看到我能發出的每個聲音，並聽到每一個。"
+                    ],
+                    "names": ["$~🤖", "$~聲音"]
                 }
             },
             "doc": [
@@ -6634,8 +6656,12 @@
                     "off": "擴展到全螢幕"
                 },
                 "show": {
-                    "on": "隱藏",
-                    "off": "顯示"
+                    "on": "$~隱藏 $name",
+                    "off": "$~顯示 $name"
+                },
+                "showSource": {
+                    "on": "$~隱藏來源 $name",
+                    "off": "$~顯示來源 $name"
                 }
             },
             "label": {
@@ -6845,7 +6871,8 @@
                 "selectOutput": "在舞台上顯示此輸出",
                 "zoomIn": "$~把程式碼變大",
                 "zoomOut": "$~把程式碼變小",
-                "replace": "$~取代全部符合項目"
+                "replace": "$~取代全部符合項目",
+                "selectOutputError": "$~在舞台上顯示這個輸出；這個來源的計算以錯誤結束"
             },
             "field": {
                 "name": {
@@ -7011,10 +7038,17 @@
             "button": {
                 "resolution": "$~解決這個衝突",
                 "toggle": "$~顯示和隱藏註記",
-                "highlight": "$~在編輯器中顯示這段程式碼"
+                "highlightMajor": "$~在編輯器中顯示這個錯誤的程式碼",
+                "highlightMinor": "$~在編輯器中顯示這個警告的程式碼",
+                "highlightStep": "$~在編輯器中顯示這個計算步驟的程式碼"
             },
             "cursorParent": "$~它們在一個 *$node*$type[，型別是 $type|] 裡面。",
-            "nodeDescription": "$~它們 $description。"
+            "nodeDescription": "$~它們 $description。",
+            "severity": {
+                "major": "$~錯誤",
+                "minor": "$~警告"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "程式輸出",
@@ -7104,25 +7138,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~執行模式",
-                    "labels": ["$~編輯", "$~逐步", "$~播放"],
+                    "labels": ["$~編輯", "$~播放", "$~逐步"],
                     "tips": [
                         "$~切換到編輯模式：修改程式時，舞台會停在目前這一幀不動",
-                        "$~切換到逐步模式：暫停程式，一次一步地檢視程式的執行過程",
-                        "$~切換到播放模式：即時執行程式，並即時回應各種輸入"
+                        "$~切換到播放模式：即時執行程式，並即時回應各種輸入",
+                        "$~切換到逐步模式：暫停程式，一次一步地檢視程式的執行過程"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~執行模式",
-                    "labels": ["$~檢視", "$~逐步", "$~播放"],
+                    "labels": ["$~檢視", "$~播放", "$~逐步"],
                     "tips": [
                         "$~切換到檢視模式：閱讀程式時，舞台會停在目前這一幀不動",
-                        "$~切換到逐步模式：暫停程式，一次一步地檢視程式的執行過程",
-                        "$~切換到播放模式：即時執行程式，並即時回應各種輸入"
+                        "$~切換到播放模式：即時執行程式，並即時回應各種輸入",
+                        "$~切換到逐步模式：暫停程式，一次一步地檢視程式的執行過程"
                     ]
                 },
                 "announce": "$~$mode 模式",
                 "exception": "$~程式發生錯誤，所以切換到逐步模式，讓你可以檢查它。",
-                "cycle": "$~在編輯、逐步和播放模式之間循環切換"
+                "toggle": "$~在編輯模式和播放模式之間切換"
             },
             "gate": {
                 "start": {
@@ -7851,7 +7885,23 @@
                 "createPhrase": "建立一個短語，顯示現有值為文字",
                 "createGroup": "建立一個群組，將任何現有的片語包含進來",
                 "createStage": "創建一個舞台，將任何現有的群組或短語包括起來",
-                "editMode": "$~切換到編輯模式"
+                "editMode": "$~切換到編輯模式",
+                "createMusic": "$~把 @Music 加到程式裡",
+                "previousTrack": "$~顯示前一個 @Track",
+                "nextTrack": "$~顯示下一個 @Track",
+                "addTrack": "$~加一個 @Track",
+                "removeTrack": "$~移除這個 @Track",
+                "clearTrack": "$~移除這個 @Track 裡的每個音符",
+                "makeChord": "$~把這個音符變成和弦",
+                "unmakeChord": "$~把這個和弦縮成一個音符",
+                "playMusic": "$~從游標的位置聽這個 @Music",
+                "pauseMusic": "$~停止播放",
+                "importMIDI": "$~匯入一個 MIDI 檔案作為 @Music",
+                "record": "$~哼一段旋律加進這個 @Track",
+                "stopRecording": "$~停止並寫下你哼的旋律",
+                "playTrack": "$~從游標處單獨聽這個 @Track",
+                "pauseTrack": "$~停止播放這個 @Track",
+                "rewind": "$~回到開頭"
             },
             "prompt": {
                 "offerPhrase": "$~要我把這個價值包進 @Phrase 裡嗎？",
@@ -7861,7 +7911,8 @@
                 "select": "$~若要編輯，請在程式碼中選取 💬、🔳、⬟ 或 🎭，或在 @Stage 上選取輸出。",
                 "offerShape": "$~要我把這個 @Form 包進 @Shape 裡，好讓它顯示在 @Stage 上嗎？",
                 "offerNothing": "$~這裡還沒有東西！要不要我加一個 @Phrase 來開始？",
-                "readonly": "$~在這個模式下調色盤是*唯讀*的。切換到 ✏️ *編輯*模式來做更改。"
+                "readonly": "$~在這個模式下調色盤是*唯讀*的。切換到 ✏️ *編輯*模式來做更改。",
+                "offerMusic": "$~想要加入 @Music 嗎？我可以先給你幾個音符來玩玩看。"
             },
             "field": {
                 "coordinate": "編輯座標",
@@ -7896,6 +7947,69 @@
                 "unset": "$~當某個屬性設定了 /明確/ 的價值時，*X* 按鈕會移除那個價值，讓屬性回到它的*預設*。",
                 "editor": "$~你在調色盤裡做的所有更改，都會反映在*編輯器*顯示的 /程式碼/ 中。",
                 "stage": "$~詞語也可以直接在*舞台*上被 /移動/、/調整大小/ 和 /旋轉/。"
+            },
+            "music": {
+                "staff": "$~這條音軌的音符",
+                "track": "$~第 $count 條音軌，共 $total 條",
+                "duration": {
+                    "label": "$~一個新音符持續多久",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~全音符，四拍",
+                        "$~二分音符，兩拍",
+                        "$~四分音符，一拍",
+                        "$~八分音符，半拍",
+                        "$~十六分音符，四分之一拍"
+                    ]
+                },
+                "computed": "$~這條音軌的音符是計算出來的，所以不能移動到這裡",
+                "note": "$~音符 $degree，第 $beat 拍",
+                "rest": "$~休止，第 $beat 拍",
+                "added": "$~在第 $beat 拍加入了音符 $degree，現在有 $#count[$#count 個音符]",
+                "removed": "$~移除了在拍子 $beat 的音符 $degree，現在有 $#count[$#count 個音符]",
+                "moved": "$~音符 $degree，拍子 $beat",
+                "chooser": "$~要編輯哪一段音樂",
+                "unnamed": "$~音樂 $count",
+                "cursor": "$~拖曳來選擇要從哪一拍開始播放",
+                "findings": {
+                    "tracksSplit": "$~有 $#count[$#count 個音軌]同時播放超過一個音符，所以多加了 $extra 個來容納額外的聲音。",
+                    "percussionDropped": "$~有 $#count[$#count 個鼓聲]在我們的鼓組裡找不到對應，所以被略過了。",
+                    "tracksTruncated": "$~有 $#count[$#count 個音軌]超過 $cap 的上限，所以被略過了。",
+                    "pitchesSnapped": "$~有 $#count[$#count 個音符]不在 $scale 音階裡，被移到最接近的音，最多移動了 $semitones 個半音。",
+                    "beatsRounded": "$~有 $#count[$#count 個音符長度]被四捨五入，最多差 $error 拍。",
+                    "meterChanges": "$~有 $#count[$#count 個拍號變化]被略過了：@Music 沒有拍號。",
+                    "velocityRange": "$~音軌 $track 有 $#count[$#count 個音量]。每個音符保留自己的音量，但沒有漸強或漸弱。",
+                    "outOfRange": "$~有 $#count[$#count 個音符]距離音階的第一個音超過三個八度。它們會播放，但不是來自真實的錄音。",
+                    "tempoFolded": "$~有 $#count[$#count 個速度變化]被併入音符長度裡，所以音樂仍然會加快和變慢。一個 @Music 只有一個速度，而這個是 $using，所以 @Beat 不會與這些音符相符。"
+                },
+                "notMIDI": "$~那看起來不像是 MIDI 檔案",
+                "badMIDI": "$~我無法讀取那個 MIDI 檔案",
+                "listening": "$~聆聽中！哼唱一段旋律，然後停下來。我會把聽到的音符記下來，加到這個音軌裡。",
+                "heardNothing": "$~我沒有聽到任何音符。試著哼唱大聲一點，或靠近麥克風一點。",
+                "transcribed": "$~我在 $scale 裡聽到了 $#count[$#count 個音符]，速度大約是每分鐘 $tempo 拍。",
+                "noMicrophone": "$~我聽不到你的麥克風",
+                "imported": "$~新增了 $#count[$#count 個音軌]和 $notes 個音符",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~那個檔案有 $#count[$#count 個音符]，超過一個工程能容納的 $cap 個上限。試試較短的曲子，或較少的樂器。",
+                "steps": {
+                    "label": "$~匯入正在做什麼",
+                    "labels": [
+                        "$~正在讀取檔案",
+                        "$~整理音符",
+                        "$~為音軌命名",
+                        "$~把它們寫進你的程式",
+                        "$~檢查你的程式"
+                    ],
+                    "tips": [
+                        "$~讀取檔案",
+                        "$~整理音符",
+                        "$~為音軌命名",
+                        "$~把它們寫進你的程式",
+                        "$~檢查你的程式"
+                    ]
+                },
+                "report": "$~我匯入了什麼",
+                "reportExplanation": "$~一個 @Music 可以容納 MIDI 檔案描述的大部分內容，但無法容納全部。以下是匯入時改變的部分。"
             }
         },
         "save": {
@@ -8625,7 +8739,8 @@
                     "description": "$~描述",
                     "cssvalue": "$~CSS 值",
                     "computed": "$~計算結果",
-                    "primaryface": "$~主要字體"
+                    "primaryface": "$~主要字體",
+                    "contrast": "$~對比"
                 },
                 "demo": {
                     "button": "$~範例",
@@ -8641,7 +8756,13 @@
                     "optiona": "$~選項 A",
                     "optionb": "$~選項 B",
                     "optionc": "$~選項 C"
-                }
+                },
+                "accessibility": "$~顏色無障礙",
+                "accessibilityRules": [
+                    "$~任何呈現為 *文字* 的內容都必須使用其中一種 AA 文字變體（*--color-gold-text*、*--color-grey-text*、*--color-blue-text*、*--color-orange-text*，或是指向其中之一的語意變數），這些變體達到 <WCAG 2.2@https://www.w3.org/TR/WCAG22/> 所要求的 4.5:1 對比。較亮的品牌色調只用於背景、邊框和重點標示，這些地方需要 3:1 或不需要對比。這些比例會由單元測試以及對每個頁面的自動掃描來檢查，在淺色和深色模式中都會執行。有一個刻意的例外：淺色模式的邊框灰色低於 3:1，因為這裡的邊框只是裝飾性的分隔，而且每個重要的邊界都會帶有另一個提示。",
+                    "絕對不要只用顏色來傳達意義：每個用顏色標示的狀態都要搭配第二個提示——一個形狀、一種線條樣式、一個符號或一個字。舉例來說，編輯器會把游標的重點標示和主要衝突畫成 *實線*，把選取的輸出畫成 *虛線*，把次要衝突畫成 *點線*，這樣即使沒有顏色，嚴重程度和選取狀態也能清楚區分。",
+                    "完整的貢獻者指南請參閱 <設計維基@https://github.com/wordplaydev/wordplay/wiki/design> 指南。"
+                ]
             },
             "thanks": {
                 "header": "$~感謝",
@@ -9317,6 +9438,129 @@
             "menuEmpty": "$~沒有建議",
             "menuClosed": "$~已關閉選單",
             "tidyNoop": "$~已經整齊了"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~隱藏這個聲音能唱出的音",
+                "off": "$~顯示這個聲音能唱出的音"
+            },
+            "groups": [
+                "$~母音",
+                "$~半母音",
+                "$~l 音",
+                "$~鼻音",
+                "$~嘶嘶音",
+                "$~顫音",
+                "$~塞音",
+                "$~搭嘴音"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~聆聽 $symbol",
+            "insert": "$~輸入 $symbol"
         }
     },
     "moderation": {

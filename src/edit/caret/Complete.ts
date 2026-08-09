@@ -36,6 +36,7 @@ import { Sym } from '@nodes/Sym';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import UnparsableExpression from '@nodes/UnparsableExpression';
+import UnparsableType from '@nodes/UnparsableType';
 import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';
 import {
@@ -48,8 +49,12 @@ import {
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     EXPONENT_SYMBOL,
+    LIST_OPEN_SYMBOL,
+    LIST_OPEN_SYMBOL_FULL,
     PLACEHOLDER_SYMBOL,
     PRODUCT_SYMBOL,
+    SET_OPEN_SYMBOL,
+    SET_OPEN_SYMBOL_FULL,
     STREAM_SYMBOL,
     SUM_SYMBOL,
     TAG_OPEN_SYMBOL,
@@ -85,6 +90,13 @@ type Trigger = {
     symbol: string | string[] | ((text: string) => boolean);
     /** The function that generates the revision for this autocomplete */
     revise: (info: InsertInfo) => Revision | undefined;
+    /**
+     * Whether this completion only applies in blocks mode. Completions that insert placeholder
+     * templates or select nodes interfere with typing a syntactically correct sequence of
+     * characters in text mode — the only thing text mode may auto-insert is text the creator
+     * would have typed later anyway (closing delimiters), which typing can then type over.
+     */
+    blocksOnly: boolean;
 };
 
 /** A list of autocompletions by symbol triggers, and the order in which to consider them. */
@@ -92,18 +104,24 @@ const AutocompleteTriggers: Trigger[] = [
     {
         symbol: EVAL_OPEN_SYMBOL,
         revise: completeEvaluate,
+        blocksOnly: true,
     },
-    { symbol: CONVERT_SYMBOL, revise: completeConvert },
-    { symbol: Object.keys(DelimiterCloseByOpen), revise: completeDelimiter },
-    { symbol: '.', revise: completeStream },
+    { symbol: CONVERT_SYMBOL, revise: completeConvert, blocksOnly: true },
+    {
+        symbol: Object.keys(DelimiterCloseByOpen),
+        revise: completeDelimiter,
+        blocksOnly: false,
+    },
+    { symbol: '.', revise: completeStream, blocksOnly: false },
     {
         symbol: (text) => tokens(text)[0]?.isSymbol(Sym.Operator),
         revise: completeOperatorEvaluate,
+        blocksOnly: true,
     },
-    { symbol: TYPE_SYMBOL, revise: completeIs },
-    { symbol: BIND_SYMBOL, revise: completeBindOrKeyValue },
-    { symbol: TAG_OPEN_SYMBOL, revise: completeLink },
-    { symbol: CODE_SYMBOL, revise: completeExample },
+    { symbol: TYPE_SYMBOL, revise: completeIs, blocksOnly: true },
+    { symbol: BIND_SYMBOL, revise: completeBindOrKeyValue, blocksOnly: true },
+    { symbol: TAG_OPEN_SYMBOL, revise: completeLink, blocksOnly: true },
+    { symbol: CODE_SYMBOL, revise: completeExample, blocksOnly: true },
 ];
 
 /** Given some text to insert, get a revision based on any eligible autocompletions. */
@@ -122,8 +140,14 @@ export function completeInsertion(
 
     if (typeof position !== 'number') return undefined;
 
+    // The unparsable count a plain insertion of the text would produce, computed lazily since
+    // most keystrokes produce no completion at all.
+    let rawUnparsables: number | undefined = undefined;
+
     // Iterate through the autocomplete triggers to see if any apply.
     for (const trigger of AutocompleteTriggers) {
+        // Completions that build placeholder templates only run in blocks mode.
+        if (trigger.blocksOnly && !validOnly) continue;
         if (
             Array.isArray(trigger.symbol)
                 ? trigger.symbol.includes(text)
@@ -144,11 +168,29 @@ export function completeInsertion(
                 // If the revised source didn't change (likely because the edit wasn't allowed)
                 // then we don't make the edit.
                 if (result !== undefined && !source.isEqualTo(result[0])) {
+                    // A completion must never parse worse than what typing the text alone would
+                    // produce; if it does, skip it so a later trigger or the plain insertion runs.
+                    rawUnparsables ??= countUnparsables(
+                        source.withGraphemesAt(text, position),
+                    );
+                    if (countUnparsables(result[0]) > rawUnparsables) continue;
                     return result;
                 }
             } catch (_) {}
         }
     }
+}
+
+/** How many unparsable nodes a source contains, for comparing a completion to a plain insertion.
+ * An impossible insertion counts as infinitely unparsable, so a completion is never rejected in its favor. */
+function countUnparsables(source: Source | undefined): number {
+    return source === undefined
+        ? Infinity
+        : source.nodes(
+              (node) =>
+                  node instanceof UnparsableExpression ||
+                  node instanceof UnparsableType,
+          ).length;
 }
 
 function getPrecedingExpression(
@@ -293,43 +335,58 @@ function completeDelimiter({
     // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward
     // 2) the character being inserted closes an unmatched delimiter, in which case we just insert the character.
     if (
-        ((!caret.isInsideWords() &&
+        ((!caret.isInsideContent() &&
             (!FormattingSymbols.includes(text) ||
                 // Allow the elision symbol, since it can be completed outside of words.
                 text === ELISION_SYMBOL)) ||
             // Formatting only has meaning in markup words, not text literal words.
             // The cheap includes check gates the ancestor walk.
             (FormattingSymbols.includes(text) &&
-                caret.isInsideMarkupWords())) &&
+                caret.isInsideMarkupWords()) ||
+            // A code delimiter opens an example or an interpolation, which is exactly what it
+            // means inside words, in both markup and text literals. Leaving it unclosed here
+            // would strand every delimiter typed inside the code that follows.
+            text === CODE_SYMBOL) &&
         (caret.tokenPrior === undefined ||
             // The text typed does not close an unmatched delimiter
             (caret.source.getUnmatchedDelimiter(caret.tokenPrior, text) ===
                 undefined &&
                 !(
                     // The token prior is text or unknown
-                    (
-                        caret.tokenPrior.isSymbol(Sym.Text) ||
-                        caret.tokenPrior.isSymbol(Sym.Unknown)
-                    )
+                    caret.tokenPrior.isSymbol(Sym.Text) ||
+                    caret.tokenPrior.isSymbol(Sym.Unknown)
                 )))
     ) {
         let newPosition: Node | number = position;
         let newSource = source;
 
-        const preceding = getPrecedingExpression(source, position, false).map(
-            (node) => ({
-                expression: node,
-                type: node.getType(project.getNodeContext(node)),
-            }),
-        );
-        const precedingList = preceding.filter(
-            (preceding) => preceding.type instanceof ListType,
-        )[0]?.expression;
-        const precedingSet = preceding.filter(
-            (preceding) =>
-                preceding.type instanceof SetType ||
-                preceding.type instanceof MapType,
-        )[0]?.expression;
+        // Access templates only apply in blocks mode; in text mode they would insert a
+        // placeholder the creator didn't type and select it, interfering with typing.
+        // Skipping them also keeps type analysis out of the text-mode keystroke path.
+        const preceding = validOnly
+            ? getPrecedingExpression(source, position, false).map((node) => ({
+                  expression: node,
+                  type: node.getType(project.getNodeContext(node)),
+              }))
+            : [];
+        // Only the matching bracket turns a preceding list or set into an access:
+        // ListAccess and SetOrMapAccess build their own delimiters, so without this
+        // check any auto-closing character typed after a list — a quote, a table, a
+        // set — would silently become `list[_]` instead of what was asked for.
+        const precedingList =
+            text === LIST_OPEN_SYMBOL || text === LIST_OPEN_SYMBOL_FULL
+                ? preceding.filter(
+                      (preceding) => preceding.type instanceof ListType,
+                  )[0]?.expression
+                : undefined;
+        const precedingSet =
+            text === SET_OPEN_SYMBOL || text === SET_OPEN_SYMBOL_FULL
+                ? preceding.filter(
+                      (preceding) =>
+                          preceding.type instanceof SetType ||
+                          preceding.type instanceof MapType,
+                  )[0]?.expression
+                : undefined;
 
         // Insert an empty block in valid only mode and place the caret at the placeholder.
         if (validOnly && text === EVAL_OPEN_SYMBOL) {
@@ -374,9 +431,12 @@ function completeDelimiter({
 }
 
 function completeStream({
+    caret,
     source,
     position,
 }: InsertInfo): Revision | undefined {
+    // Dots in a text literal or markup words are prose, not a stream symbol being typed.
+    if (caret.isInsideWords()) return undefined;
     // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
     if (
         source.getGraphemeAt(position - 1) === '.' &&
@@ -644,7 +704,8 @@ function completeBindOrKeyValue({
 
 /** Complete a web link inside a paragraph */
 function completeLink(info: InsertInfo): Revision | undefined {
-    return completeMarkup(info, WebLink.make('', 'https://'));
+    // The placeholder URL needs a host, or the inserted template wouldn't lex as a URL token.
+    return completeMarkup(info, WebLink.make('', 'https://example.com'));
 }
 
 /** Complete a example program inside a paragraph */

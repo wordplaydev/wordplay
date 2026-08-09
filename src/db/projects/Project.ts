@@ -172,6 +172,13 @@ type Analysis = {
     dependencies: Map<Expression, Set<Expression>>;
 };
 
+/**
+ * One source's share of an `Analysis`, cached so an edit to one source doesn't
+ * re-derive every other source's. Same shape as the whole, since merging is
+ * just unioning the pieces.
+ */
+type SourceAnalysis = Analysis;
+
 type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
 
 /**
@@ -227,10 +234,27 @@ export default class Project {
         dependencies: new Map(),
     };
 
+    /** Each source's share of the analysis above, so a revision can keep the
+     * shares belonging to sources it didn't touch. */
+    readonly sourceAnalysis: Map<Source, SourceAnalysis> = new Map();
+
+    /** Each source's locales, cached and carried for the same reason. */
+    readonly sourceLocales: Map<Source, Locale[]> = new Map();
+
+    /** Each source's references indexed by definition; see getReferencesInSource. */
+    readonly sourceReferences: Map<
+        Source,
+        Map<Definition, (Reference | PropertyReference)[]>
+    > = new Map();
+
     /** A cache of expressions that dependent on Changed expressions, so we can quickly know to reevaluate them. */
     #changeDependentExpressions: Set<Expression> | undefined = undefined;
 
-    constructor(data: ProjectData) {
+    /**
+     * @param carry The project this one revises, if any. Sources it did not
+     * change keep their analysis caches; see `adoptCaches`.
+     */
+    constructor(data: ProjectData, carry?: Project) {
         // Copy to prevent external modification
         this.data = { ...data };
 
@@ -247,6 +271,60 @@ export default class Project {
             ...this.getSources().map((source) => source.root),
             ...this.basis.getRoots(),
         ];
+
+        if (carry !== undefined) this.adoptCaches(carry);
+    }
+
+    /**
+     * Take over the analysis caches of the project this one revises, for every
+     * source it left alone.
+     *
+     * Every cache here lives on the Project instance, and an edit makes a new
+     * Project, so without this a keystroke re-infers the types of *every*
+     * source in the project — not just the one being typed in. That is fine
+     * until a project has a source it doesn't touch: a MIDI import puts
+     * thousands of notes in one, and re-inferring them made each edit to the
+     * two-line program that plays them take about a second.
+     *
+     * A source's types and constants depend on its own nodes, on the basis, and
+     * on whatever it borrows. So the safe cases to carry are the ones that are
+     * identity-unchanged (which `withSources` guarantees for sources it doesn't
+     * replace), borrow nothing, and share our basis — which is per-locale
+     * memoized, so it holds whenever the locales did not change.
+     */
+    /**
+     * A revision of this project, keeping the analysis of every source the
+     * revision doesn't change.
+     *
+     * **Every instance method that returns a modified project must go through
+     * this.** A bare `new Project({ ...this.data, x })` silently starts with
+     * cold caches, and that is not a small loss: typing one character runs
+     * `withSource` (which adopts them) and then `withCaret`, `bumpStampsFrom`,
+     * and `withNewTime`, so three plain constructions were enough to hand the
+     * UI a project that had to re-infer and re-analyze an untouched 200KB
+     * source on every keystroke. `Project.revision.test.ts` fails if a new
+     * `new Project(` appears outside the two static factories.
+     */
+    private revised(data: Partial<ProjectData>): Project {
+        return new Project({ ...this.data, ...data }, this);
+    }
+
+    private adoptCaches(carry: Project) {
+        if (carry.basis !== this.basis) return;
+        for (const source of this.getSources()) {
+            if (source.expression.borrows.length > 0) continue;
+            const context = carry.sourceContext.get(source);
+            if (context !== undefined)
+                this.sourceContext.set(source, context.withProject(this));
+            const analysis = carry.sourceAnalysis.get(source);
+            if (analysis !== undefined)
+                this.sourceAnalysis.set(source, analysis);
+            const locales = carry.sourceLocales.get(source);
+            if (locales !== undefined) this.sourceLocales.set(source, locales);
+            const references = carry.sourceReferences.get(source);
+            if (references !== undefined)
+                this.sourceReferences.set(source, references);
+        }
     }
 
     static make(
@@ -454,97 +532,151 @@ export default class Project {
             dependencies: new Map(),
         };
 
-        // Build a mapping from nodes to conflicts.
         for (const source of this.getSources()) {
-            const context = this.getContext(source);
-
-            // Compute all of the conflicts in this source.
-            const rawConflicts = source.expression.getAllConflicts(context);
-
-            // Drop structural duplicates (same constructor + same Node fields).
-            // `Conflict.isEqualTo` exists but no caller used it for dedup; the
-            // Annotations UI did a defensive identity-Set pass instead. With
-            // the type-rooted cascade gates in place, true duplicates are
-            // already rare — this is a backstop for any that slip through. #1146
-            const sourceConflicts: Conflict[] = [];
-            for (const c of rawConflicts)
-                if (!sourceConflicts.some((d) => d.isEqualTo(c)))
-                    sourceConflicts.push(c);
-
-            this.analysis.conflicts =
-                this.analysis.conflicts.concat(sourceConflicts);
-
-            // Build conflict indices for just this source's new conflicts.
-            // (Earlier sources' conflicts were already indexed in their own
-            // iteration — re-iterating the cumulative list double-counts.)
-            for (const conflict of sourceConflicts) {
-                const node = conflict.getConflictingNode(context, Templates);
-                this.analysis.conflictedNodes.set(node, [
-                    ...(this.analysis.conflictedNodes.get(node) ?? []),
-                    conflict,
-                ]);
-            }
-
-            // Build a mapping from functions and structures to their evaluations.
-            for (const node of source.nodes()) {
-                // Find all Evaluates
-                if (node instanceof Evaluate) {
-                    // Find the function called.
-                    const fun = node.getFunction(context);
-                    if (fun) {
-                        // Add this evaluate to the function's list of calls.
-                        const evaluates =
-                            this.analysis.evaluations.get(fun) ?? new Set();
-                        evaluates.add(node);
-                        this.analysis.evaluations.set(fun, evaluates);
-
-                        // Is it a higher order function? Get the function input
-                        // and add the Evaluate as a caller of the function input.
-                        if (fun instanceof FunctionDefinition) {
-                            for (const input of node.inputs) {
-                                const type = input.getType(context);
-                                if (
-                                    type instanceof FunctionType &&
-                                    type.definition
-                                ) {
-                                    const hofEvaluates =
-                                        this.analysis.evaluations.get(
-                                            type.definition,
-                                        ) ?? new Set();
-                                    hofEvaluates.add(node);
-                                    this.analysis.evaluations.set(
-                                        type.definition,
-                                        hofEvaluates,
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Now create the dependency graph using the call graph.
-            for (const node of source.nodes()) {
-                // Build the dependency graph by asking each expression node for its dependencies.
-                // Determine whether the node is constant.
-                if (node instanceof Expression) {
-                    const dependencies = node.getDependencies(context);
-                    for (const dependency of dependencies) {
-                        const set = this.analysis.dependencies.get(dependency);
-                        if (set) set.add(node);
-                        else
-                            this.analysis.dependencies.set(
-                                dependency,
-                                new Set([node]),
-                            );
-                    }
-                }
-            }
+            const cached = this.sourceAnalysis.get(source);
+            if (cached !== undefined) this.mergeAnalysis(cached);
+            else this.sourceAnalysis.set(source, this.analyzeSource(source));
         }
 
         this.analyzed = 'analyzed';
 
         return this.analysis;
+    }
+
+    /** Fold one source's share into the whole project's analysis. */
+    private mergeAnalysis(share: SourceAnalysis, parts?: (keyof Analysis)[]) {
+        const wanted = (part: keyof Analysis) =>
+            parts === undefined || parts.includes(part);
+
+        if (wanted('conflicts'))
+            this.analysis.conflicts = this.analysis.conflicts.concat(
+                share.conflicts,
+            );
+
+        // A node belongs to one source, but a conflict may point at one in
+        // another, so these merge rather than overwrite.
+        if (wanted('conflictedNodes'))
+            for (const [node, conflicts] of share.conflictedNodes)
+                this.analysis.conflictedNodes.set(node, [
+                    ...(this.analysis.conflictedNodes.get(node) ?? []),
+                    ...conflicts,
+                ]);
+
+        // Definitions and dependencies are shared across sources — a basis
+        // function is called from all of them — so these union.
+        if (wanted('evaluations'))
+            for (const [fun, evaluates] of share.evaluations) {
+                const set = this.analysis.evaluations.get(fun) ?? new Set();
+                for (const evaluate of evaluates) set.add(evaluate);
+                this.analysis.evaluations.set(fun, set);
+            }
+        if (wanted('dependencies'))
+            for (const [dependency, dependents] of share.dependencies) {
+                const set =
+                    this.analysis.dependencies.get(dependency) ?? new Set();
+                for (const dependent of dependents) set.add(dependent);
+                this.analysis.dependencies.set(dependency, set);
+            }
+    }
+
+    /**
+     * Everything analysis knows that comes from one source: its conflicts, the
+     * evaluations it makes, and the dependencies it creates. Kept per source so
+     * an edit to one doesn't re-derive the others — see `adoptCaches`.
+     *
+     * Each part is folded into the project's analysis as it is computed, not at
+     * the end, because the later parts read the earlier ones: `Bind`'s
+     * dependencies are the calls to the function it sits in, which it asks the
+     * project for. Building the whole share in private and merging once leaves
+     * that read empty, and a reaction inside a function stops reevaluating.
+     */
+    private analyzeSource(source: Source): SourceAnalysis {
+        const context = this.getContext(source);
+        const contribution: SourceAnalysis = {
+            conflicts: [],
+            conflictedNodes: new Map(),
+            evaluations: new Map(),
+            dependencies: new Map(),
+        };
+
+        // Compute all of the conflicts in this source.
+        const rawConflicts = source.expression.getAllConflicts(context);
+
+        // Drop structural duplicates (same constructor + same Node fields).
+        // `Conflict.isEqualTo` exists but no caller used it for dedup; the
+        // Annotations UI did a defensive identity-Set pass instead. With
+        // the type-rooted cascade gates in place, true duplicates are
+        // already rare — this is a backstop for any that slip through. #1146
+        for (const c of rawConflicts)
+            if (!contribution.conflicts.some((d) => d.isEqualTo(c)))
+                contribution.conflicts.push(c);
+
+        for (const conflict of contribution.conflicts) {
+            const node = conflict.getConflictingNode(context, Templates);
+            contribution.conflictedNodes.set(node, [
+                ...(contribution.conflictedNodes.get(node) ?? []),
+                conflict,
+            ]);
+        }
+        this.mergeAnalysis(contribution, ['conflicts', 'conflictedNodes']);
+
+        // Build a mapping from functions and structures to their evaluations.
+        for (const node of source.nodes()) {
+            // Find all Evaluates
+            if (node instanceof Evaluate) {
+                // Find the function called.
+                const fun = node.getFunction(context);
+                if (fun) {
+                    // Add this evaluate to the function's list of calls.
+                    const evaluates =
+                        contribution.evaluations.get(fun) ?? new Set();
+                    evaluates.add(node);
+                    contribution.evaluations.set(fun, evaluates);
+
+                    // Is it a higher order function? Get the function input
+                    // and add the Evaluate as a caller of the function input.
+                    if (fun instanceof FunctionDefinition) {
+                        for (const input of node.inputs) {
+                            const type = input.getType(context);
+                            if (type instanceof FunctionType && type.definition) {
+                                const hofEvaluates =
+                                    contribution.evaluations.get(
+                                        type.definition,
+                                    ) ?? new Set();
+                                hofEvaluates.add(node);
+                                contribution.evaluations.set(
+                                    type.definition,
+                                    hofEvaluates,
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        this.mergeAnalysis(contribution, ['evaluations']);
+
+        // Now create the dependency graph using the call graph.
+        for (const node of source.nodes()) {
+            // Build the dependency graph by asking each expression node for its dependencies.
+            // Determine whether the node is constant.
+            if (node instanceof Expression) {
+                const dependencies = node.getDependencies(context);
+                for (const dependency of dependencies) {
+                    const set = contribution.dependencies.get(dependency);
+                    if (set) set.add(node);
+                    else
+                        contribution.dependencies.set(
+                            dependency,
+                            new Set([node]),
+                        );
+                }
+            }
+        }
+        this.mergeAnalysis(contribution, ['dependencies']);
+
+        return contribution;
     }
 
     static analyze(project: Project): Analysis {
@@ -639,23 +771,28 @@ export default class Project {
     }
 
     /**
-     * For each revised source, the new BLOCKING (Error-severity) conflicts it would introduce versus the
-     * project's current conflicts. Only Error conflicts gate an edit in blocks mode — Warning (type
-     * mismatches) and Minor (placeholders, etc.) are permitted.
+     * For each revised source, the new BLOCKING conflicts it would introduce versus the project's
+     * current conflicts. Only blocking conflicts — unparsable code — gate an edit in blocks mode;
+     * semantic conflicts of any severity (type mismatches, unknown names, placeholders, etc.) are
+     * permitted, since they can be repaired in place.
      */
     getNewConflictsBatch(
         oldSource: Source,
         newSources: Source[],
     ): Map<Source, Conflict[]> {
-        // Get the current conflicts.
-        const currentConflicts = this.getMajorConflictsNow();
         const newConflictsBySource = new Map<Source, Conflict[]>();
         // Each candidate replaces only one source; unchanged sources reproduce
         // conflicts already in currentConflicts, so they can never contribute a
         // NEW conflict. We can therefore recompute conflicts for just the changed
-        // source — unless some source borrows from another, the one channel by
-        // which a single-source edit can change another source's conflicts.
-        const crossSource = this.hasCrossSourceDependencies();
+        // source — unless some source borrows the one being edited, the one
+        // channel by which a single-source edit can change another's conflicts.
+        const crossSource = this.hasSourcesDependingOn(oldSource);
+        // The baseline only has to cover wherever a candidate's conflicts can
+        // come from, which in the narrow case is the replaced source alone.
+        // Taking the whole project's would make the saving above pointless.
+        const currentConflicts = crossSource
+            ? this.getMajorConflictsNow()
+            : this.getMajorConflictsInSource(oldSource);
         // For all of the new sources, get the new conflicts caused by the revision.
         for (const newSource of newSources) {
             const revised = this.withSource(oldSource, newSource);
@@ -704,6 +841,31 @@ export default class Project {
     hasCrossSourceDependencies(): boolean {
         return this.getSources().some(
             (source) => source.expression.borrows.length > 0,
+        );
+    }
+
+    /**
+     * True if editing `source` could change some *other* source's conflicts,
+     * which can only happen through a borrow of it.
+     *
+     * The direction matters. Asking whether any source borrows at all answers
+     * yes for the borrower itself, and a MIDI import is exactly that shape: a
+     * two-line program borrowing a source of notes that nothing else reads.
+     * Editing the program then re-walked every note in the supplement to
+     * validate a keystroke — a second an edit on a real song.
+     *
+     * A borrow with no source named yet is unfinished syntax, and answers yes
+     * rather than guessing what it will name.
+     */
+    hasSourcesDependingOn(source: Source): boolean {
+        return this.getSources().some(
+            (other) =>
+                other !== source &&
+                other.expression.borrows.some(
+                    (borrow) =>
+                        borrow.source === undefined ||
+                        source.hasName(borrow.source.getName()),
+                ),
         );
     }
 
@@ -836,17 +998,65 @@ export default class Project {
         );
     }
 
+    /**
+     * A source's references, indexed by what they resolve to.
+     *
+     * Callers ask this one definition at a time, and resolving a reference is
+     * not cheap, so answering each question with its own walk means resolving
+     * every reference in the project once per question. `getRequiredPermissions`
+     * alone asks seven times and is derived on every project change; with a
+     * large source that was tens of milliseconds on every keystroke. One walk
+     * per source answers all of them.
+     */
+    private getReferencesInSource(
+        source: Source,
+    ): Map<Definition, (Reference | PropertyReference)[]> {
+        let index = this.sourceReferences.get(source);
+        if (index === undefined) {
+            index = new Map();
+            const context = this.getContext(source);
+            for (const node of source.nodes()) {
+                if (
+                    !(
+                        node instanceof Reference ||
+                        node instanceof PropertyReference
+                    )
+                )
+                    continue;
+                const definition = node.resolve(context);
+                if (definition === undefined) continue;
+                const refs = index.get(definition);
+                if (refs) refs.push(node);
+                else index.set(definition, [node]);
+            }
+            this.sourceReferences.set(source, index);
+        }
+        return index;
+    }
+
+    /**
+     * Whether evaluating this source twice gives the same answer and creates
+     * nothing along the way.
+     *
+     * True when it borrows nothing — so everything it can reach is its own or
+     * the basis — and it references nothing in the basis's `input` group, which
+     * is where every stream lives, along with `Random`. A source that is
+     * literal data qualifies; anything that could tick, react, or roll does not.
+     * A stream can only be created by referring to its definition, so a source
+     * that names none of them cannot make one.
+     */
+    isStableSource(source: Source): boolean {
+        if (source.expression.borrows.length > 0) return false;
+        const referenced = this.getReferencesInSource(source);
+        for (const definition of Object.values(this.shares.input))
+            if (referenced.has(definition)) return false;
+        return true;
+    }
+
     getReferences(bind: Definition): (Reference | PropertyReference)[] {
         const refs: (Reference | PropertyReference)[] = [];
-        for (const source of this.getSources()) {
-            const context = this.getContext(source);
-            for (const ref of source.nodes(
-                (n): n is Reference | PropertyReference =>
-                    n instanceof Reference || n instanceof PropertyReference,
-            ) as (Reference | PropertyReference)[]) {
-                if (ref.resolve(context) === bind) refs.push(ref);
-            }
-        }
+        for (const source of this.getSources())
+            refs.push(...(this.getReferencesInSource(source).get(bind) ?? []));
         return refs;
     }
 
@@ -875,7 +1085,7 @@ export default class Project {
     }
 
     withName(name: string) {
-        return new Project({ ...this.data, name });
+        return this.revised({  name });
     }
 
     getMain() {
@@ -892,8 +1102,8 @@ export default class Project {
 
     /** Copies this project, but with the new locale added if it's not already included, placing new locales in the front, and the remainder at the end. */
     withLocales(locales: LocaleText[]) {
-        return new Project({
-            ...this.data,
+        return this.revised({
+            
             locales: [
                 // New locales
                 ...locales,
@@ -911,8 +1121,8 @@ export default class Project {
     }
 
     withCaret(source: Source, caret: CaretPosition) {
-        return new Project({
-            ...this.data,
+        return this.revised({
+            
             carets: this.data.carets.map((sourceCaret) =>
                 sourceCaret.source === source
                     ? {
@@ -928,8 +1138,8 @@ export default class Project {
     }
 
     withoutSource(source: Source) {
-        return new Project({
-            ...this.data,
+        return this.revised({
+            
             supplements: this.data.supplements.filter((s) => s !== source),
             carets: this.data.carets.filter((c) => c.source !== source),
         });
@@ -959,8 +1169,7 @@ export default class Project {
                 : caret;
         });
 
-        return new Project({
-            ...this.data,
+        return this.revised({
             main: newMain,
             supplements: newSupplements,
             carets: newCarets,
@@ -979,8 +1188,8 @@ export default class Project {
      * old Source objects.
      */
     withSourcesFrom(other: Project): Project {
-        return new Project({
-            ...this.data,
+        return this.revised({
+            
             main: other.data.main,
             supplements: other.data.supplements,
             carets: other.data.carets,
@@ -1041,8 +1250,8 @@ export default class Project {
 
     withNewSource(name: string, code?: string | undefined) {
         const newSource = new Source(name, code ?? '', this.getKeywordIndex());
-        return new Project({
-            ...this.data,
+        return this.revised({
+            
             supplements: [...this.data.supplements, newSource],
             carets: [...this.data.carets, { source: newSource, caret: 0 }],
         });
@@ -1061,7 +1270,7 @@ export default class Project {
     }
 
     withOwner(owner: string | null) {
-        return new Project({ ...this.data, owner });
+        return this.revised({  owner });
     }
 
     getCollaborators() {
@@ -1090,8 +1299,8 @@ export default class Project {
 
     withCollaborator(uid: string) {
         if (this.data.collaborators.includes(uid)) return this;
-        return new Project({
-            ...this.data,
+        return this.revised({
+            
             collaborators: [...this.data.collaborators, uid],
         });
     }
@@ -1099,8 +1308,8 @@ export default class Project {
     withoutCollaborator(uid: string) {
         return !this.data.collaborators.some((user) => user === uid)
             ? this
-            : new Project({
-                  ...this.data,
+            : this.revised({
+                  
                   collaborators: this.data.collaborators.filter(
                       (id) => id !== uid,
                   ),
@@ -1112,7 +1321,7 @@ export default class Project {
     }
 
     asPublic(pub = true) {
-        return new Project({ ...this.data, public: pub });
+        return this.revised({  public: pub });
     }
 
     getBindReplacements(
@@ -1143,8 +1352,8 @@ export default class Project {
     }
 
     withPrimaryLocale(locale: LocaleText) {
-        return new Project({
-            ...this.data,
+        return this.revised({
+            
             locales: [locale, ...this.data.locales.filter((l) => l !== locale)],
         });
     }
@@ -1277,10 +1486,20 @@ export default class Project {
     getLocalesUsed(): Locale[] {
         const locales: Record<string, Locale> = {};
         for (const source of this.getSources()) {
-            for (const [id, locale] of Object.entries(
-                source.expression.getLocalesUsed(this.getContext(source)),
-            ))
-                locales[id] = locale;
+            // Cached per source because this resolves every reference in it,
+            // and ProjectView derives it on every project change — including
+            // mid-flurry, where nothing else this expensive runs.
+            let used = this.sourceLocales.get(source);
+            if (used === undefined) {
+                used = source.expression.getLocalesUsed(
+                    this.getContext(source),
+                );
+                this.sourceLocales.set(source, used);
+            }
+            // Keyed by locale, not by position: `getLocalesUsed` answers an
+            // array, so keying on its indices had a second source's first
+            // locale replace the first source's.
+            for (const locale of used) locales[localeToString(locale)] = locale;
         }
         return Array.from(Object.values(locales));
     }
@@ -1294,11 +1513,11 @@ export default class Project {
     }
 
     asArchived(archived: boolean) {
-        return new Project({ ...this.data, archived });
+        return this.revised({  archived });
     }
 
     asPersisted() {
-        return new Project({ ...this.data, persisted: true });
+        return this.revised({  persisted: true });
     }
 
     isPersisted() {
@@ -1310,7 +1529,7 @@ export default class Project {
     }
 
     withGallery(id: string | null) {
-        return new Project({ ...this.data, gallery: id });
+        return this.revised({  gallery: id });
     }
 
     getFlags() {
@@ -1318,15 +1537,15 @@ export default class Project {
     }
 
     withFlags(flags: ModerationState) {
-        return new Project({ ...this.data, flags: { ...flags } });
+        return this.revised({  flags: { ...flags } });
     }
 
     asUnmoderated() {
-        return new Project({ ...this.data, flags: unknownFlags() });
+        return this.revised({  flags: unknownFlags() });
     }
 
     withNewTime() {
-        return new Project({ ...this.data, timestamp: Date.now() });
+        return this.revised({  timestamp: Date.now() });
     }
 
     getTimestamp() {
@@ -1338,8 +1557,8 @@ export default class Project {
     }
 
     withNonPII(text: string) {
-        return new Project({
-            ...this.data,
+        return this.revised({
+            
             // Add to the set of text
             nonPII: Array.from(new Set([...this.data.nonPII, text])),
         });
@@ -1350,7 +1569,7 @@ export default class Project {
         const withPII = this.data.nonPII.filter((piiText) => {
             return piiText != text;
         });
-        return new Project({ ...this.data, nonPII: withPII });
+        return this.revised({  nonPII: withPII });
     }
 
     isNotPII(text: string) {
@@ -1507,7 +1726,7 @@ export default class Project {
     }
 
     withChat(id: string | null) {
-        return new Project({ ...this.data, chat: id });
+        return this.revised({  chat: id });
     }
 
     getPreview(): SerializedPreview | undefined {
@@ -1515,7 +1734,7 @@ export default class Project {
     }
 
     withPreview(preview: SerializedPreview | undefined): Project {
-        return new Project({ ...this.data, preview });
+        return this.revised({  preview });
     }
 
     /** The ID of the project this was remixed from, or null if it's an original. */
@@ -1528,7 +1747,7 @@ export default class Project {
     }
 
     withRemixOf(remixOf: ProjectID | null): Project {
-        return new Project({ ...this.data, remixOf });
+        return this.revised({  remixOf });
     }
 
     static getHistorySize(history: SerializedSourceCheckpoint[]) {
@@ -1558,7 +1777,7 @@ export default class Project {
         while (Project.getHistorySize(history) > MaxCheckpointSize)
             history.shift();
 
-        return new Project({ ...this.data, history: history });
+        return this.revised({  history: history });
     }
 
     getCheckpoints() {
@@ -1584,7 +1803,7 @@ export default class Project {
     }
 
     withoutHistory() {
-        return new Project({ ...this.data, history: [] });
+        return this.revised({  history: [] });
     }
 
     toWordplay() {
@@ -1608,8 +1827,8 @@ export default class Project {
     withViewer(viewer: string) {
         return this.data.viewers.some((user) => user === viewer)
             ? this
-            : new Project({
-                  ...this.data,
+            : this.revised({
+                  
                   viewers: [...this.data.viewers, viewer],
               });
     }
@@ -1617,8 +1836,8 @@ export default class Project {
     withoutViewer(viewer: string) {
         return !this.data.viewers.some((user) => user === viewer)
             ? this
-            : new Project({
-                  ...this.data,
+            : this.revised({
+                  
                   viewers: this.data.viewers.filter((id) => id !== viewer),
               });
     }
@@ -1634,8 +1853,8 @@ export default class Project {
     withCommenter(commenter: string) {
         return this.data.commenters.some((user) => user === commenter)
             ? this
-            : new Project({
-                  ...this.data,
+            : this.revised({
+                  
                   commenters: [...this.data.commenters, commenter],
               });
     }
@@ -1643,8 +1862,8 @@ export default class Project {
     withoutCommenter(commenter: string) {
         return !this.data.commenters.some((user) => user === commenter)
             ? this
-            : new Project({
-                  ...this.data,
+            : this.revised({
+                  
                   commenters: this.data.commenters.filter(
                       (id) => id !== commenter,
                   ),
@@ -1660,7 +1879,7 @@ export default class Project {
     }
 
     withRestrictedGallery(restricted: boolean) {
-        return new Project({ ...this.data, restrictedGallery: restricted });
+        return this.revised({  restrictedGallery: restricted });
     }
 
     // --- CRDT snapshot ---
@@ -1687,7 +1906,7 @@ export default class Project {
     /** Return a copy with the CRDT snapshot replaced. Persisted with
      *  the next save. */
     withCRDTSnapshot(crdt: string | null): Project {
-        return new Project({ ...this.data, crdt });
+        return this.revised({  crdt });
     }
 
     // --- Per-field stamp accessors and merge ---
@@ -1697,7 +1916,7 @@ export default class Project {
     }
 
     withStamps(stamps: SerializedProjectStamps): Project {
-        return new Project({ ...this.data, stamps });
+        return this.revised({  stamps });
     }
 
     /**
@@ -1853,7 +2072,9 @@ export default class Project {
             persisted: this.data.persisted || other.data.persisted,
             stamps: mergeStamps(localStamps, remoteStamps),
         };
-        return new Project(mergedData);
+        // Sources and carets come from `this` (see above), so its caches
+        // still describe them.
+        return new Project(mergedData, this);
     }
 }
 
@@ -1861,6 +2082,11 @@ export default class Project {
  *  pass through the same stable serialization, so this is exact for our
  *  composite-field data (arrays, plain objects, primitives). */
 function sameSerialized(a: unknown, b: unknown): boolean {
+    // The same reference always serializes the same, and on the edit path most
+    // fields *are* the same reference, carried over by the `{...this.data}`
+    // spread. Without this, every keystroke stringifies every stamped field —
+    // including `locales`, which holds whole parsed locales, not locale codes.
+    if (a === b) return true;
     return JSON.stringify(a) === JSON.stringify(b);
 }
 

@@ -1,53 +1,38 @@
-Let your audience choose the instrument
+Lasă publicul să aleagă instrumentul
 
-Everything about a @Music can be decided while it plays, including who plays it. Hand the @Track a different @Instrument and the tune keeps its place — only the voice changes.
+Totul despre un  @Music  poate fi decis în timp ce se redă, inclusiv cine îl redă. Dă-i  @Track  un alt  @Instrument  și melodia își păstrează locul — se schimbă doar vocea. 
 
-@Choice gives back the \name\ of whichever selectable output the audience picked, so a conditional is enough to turn that into an instrument:
+@Choice  dă înapoi \name\ oricărei ieșiri selectabile alese de public, așa că o condiție este suficientă pentru a transforma asta într-un instrument:
 
-\
-picked: Choice()
-
+\picked: Choice()
 Stage([
-	Group(Row() [
-		Phrase('🎹' selectable: ⊤ name: 'piano')
-		Phrase('🎻' selectable: ⊤ name: 'violin')
-	])
-	Music(
-		Track(
-			[1 3 5 6 5 3]
-			instrument: (picked = 'violin') ? Instrument.violin Instrument.piano
-		)
-	)
-])
-\
+		Group(Row() [
+				Phrase('🎹' selectable: ⊤ name: 'pian')
+				Phrase('🎻' selectable: ⊤ name: 'vioară')
+			])
+		Music(Track([1 3 5 6 5 3] instrument: (picked = 'vioară') ? Instrument.violin Instrument.piano))
+	])\
 
-The two selectable phrases are what make this work — @Choice has nothing to read unless something on stage is \selectable: ⊤\.
+Cele două fraze selectabile sunt cele care fac ca asta să funcționeze —  @Choice  nu are nimic de citit dacă ceva de pe scenă nu este \selectabil: ⊤\.
 
-Two instruments fit in one conditional. A whole palette doesn't, and you'd end up writing the list twice: once for the buttons and once for the sound. Keep them together in a structure of your own instead, and build both from it:
+Două instrumente încap într-o singură condiție. O paletă întreagă nu încape, iar ai ajunge să scrii lista de două ori: o dată pentru butoane și o dată pentru sunet. În schimb, ține-le împreună într-o structură proprie și construiește-le pe amândouă din ea:
 
-\
-•Voice(icon•'' sound•🔈)
-
+\•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-	Voice('🎹' Instrument.piano)
-	Voice('🎺' Instrument.trumpet)
-	Voice('🔔' Instrument.bell)
-]
-
+		Voice('🎹' Instrument.piano)
+		Voice('🎺' Instrument.trumpet)
+		Voice('🔔' Instrument.bell)
+	]
 picked: Choice()
 found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-
 Stage([
-	Group(Row() [
-		:voices.translate(
-			ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon)
-		)
-	])
-	Music(Track([1 3 5 6 5 3] instrument: current.sound))
-])
-\
+		Group(Row() [
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+			])
+		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+	])\
 
-Adding a fourth voice is now one line, and the button appears by itself. Note the \found•ø ?\ guard: @List/find gives back \ø\ when nothing matches, which is what happens before anyone has chosen — and the fallback has to be a whole \Voice\, since that's what \current\ promises to be.
+Adăugarea unei a patra voci este acum o singură linie, iar butonul apare de la sine. Observă protecția \found•ø ?\:  @List/find  dă înapoi \ø\ când nimic nu se potrivește, ceea ce se întâmplă înainte ca cineva să fi ales — iar valoarea de rezervă trebuie să fie un întreg \🎙\, pentru că asta este ce \current\ promite să fie.
 
 music-follows-the-action, offer-choices, layer-an-arrangement

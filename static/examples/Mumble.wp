@@ -1,6 +1,7 @@
 m
 Mumble
 === start
+¶Keep clicking to make the mumbling grow bolder.¶
 clicks•#: 0 … ∆ Button() … clicks + 1
 
 clicks < 3 ?

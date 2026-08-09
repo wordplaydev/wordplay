@@ -1,47 +1,34 @@
-Draw what the music is playing
+संगीत जे वाजवत आहे ते काढा
 
-Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.
+तुम्हाला ऐकू येणारे संगीत हे त्याचा फक्त अर्धा भाग आहे. जेव्हा एखादा ठोका वाजतो, तेव्हा  @Beat  स्ट्रीम तुम्हाला वाजवणाऱ्याची संपूर्ण स्थिती देते, त्यामुळे जे काही चालू आहे ते तुम्ही काढू शकता. 
 
-@Beat always has a @Downbeat to give you, so you can read it straight away. Before any music starts it sits on beat zero with nothing playing:
+@Beat  कडे देण्यासाठी नेहमी एक  @Downbeat  असते, त्यामुळे तुम्ही ते लगेच वाचू शकता. कोणतेही संगीत सुरू होण्याआधी ते शून्य ठोक्यावर असते आणि काहीही वाजत नसते:
 
-\
-beat: Beat()
+\beat: Beat()
 count: beat.count
-
 Stage([
-	Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] instrument: Instrument.drums))
-])
-\
+		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrument: Instrument.drums))
+	])\
 
-The \count\ goes up by one each beat, so \count % 4\ is \0\ on every fourth one — the downbeat — and the drum jumps.
+प्रत्येक ठोक्यासोबत \count\ एकने वाढते, त्यामुळे \count % 4\ हे \0\ प्रत्येक चौथ्या ठोक्यावर — मुख्य ठोक्यावर — असते आणि ढोल उडी मारतो.
 
-That's the whole music as one number. But a @Downbeat also carries a \parts\ list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \pitch\, its \volume\, its \pan\, and whether it's \sounding\. Draw those and you get every voice separately instead of the mix:
+हे संपूर्ण संगीत एका संख्येत आहे. पण  @Downbeat  सोबत एक \parts\ यादीदेखील असते, प्रत्येक  @Part  साठी एक  @Track , आणि एका  @Part  ला माहीत असते की त्याचा स्वतःचा आवाज आत्ता काय करत आहे: त्याचा \pitch\, त्याचा \volume\, त्याचा \pan\, आणि तो \sounding\ आहे का. ते काढा आणि तुम्हाला मिश्रणाऐवजी प्रत्येक आवाज वेगवेगळा मिळेल:
 
-\
-beat: Beat()
+\beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-
-ƒ height(p•Part)•# p.pitch[1]
-
-ƒ dot(p•Part)•Phrase
-	Phrase(
-		'⬤'
-		0.4m + (p.volume · 1m)
-		place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
-	)
-
+ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
+ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
 Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-		Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-	])
-])
-\
+		:parts.translate(ƒ(p•Part) dot(p))
+		Music([
+				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
+				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
+			])
+	])\
 
-Each dot sits where its track sits: \pan\ puts it left or right, \pitch\ puts it high or low. Because \sounding\ stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.
+प्रत्येक ठिपका त्याचा ट्रॅक जिथे असतो तिथे बसतो: \pan\ तो डावीकडे किंवा उजवीकडे ठेवते, \pitch\ तो वर किंवा खाली ठेवते. एक लांब स्वर अजून वाजत असताना \sounding\ खरे राहते, त्यामुळे धरून ठेवलेला स्वर मिटण्याऐवजी त्याचा ठिपका ठेवतो.
 
-Watch the little \height\ function: \pitch\ is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \ø\. Declaring that the function returns a \#\ is what settles it back down to a number you can do arithmetic with.
+हे छोटे \height\ फंक्शन बघा: \pitch\ ही एक /यादी/ आहे, कारण एक कॉर्ड एकाच वेळी अनेक सूर वाजवतो. यादीला तिचा पहिला घटक विचारल्यावर एकतर एक संख्या मिळते किंवा \ø\ मिळते. फंक्शन एक \#\ परत करते असे सांगितल्याने ते पुन्हा अशा संख्येत बदलते जिच्यासोबत तुम्ही गणित करू शकता.
 
 play-a-sound-effect, react-to-sound, count-with-time

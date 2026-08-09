@@ -1,44 +1,28 @@
-Play a sound when something happens
+ఏదైనా జరిగినప్పుడు ఒక శబ్దం వినిపించు
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+సమాధానం సరైనప్పుడు ఒక 'డింగ్', ఏదైనా కింద పడినప్పుడు ఒక 'థడ్' — ఒక శబ్ద ప్రభావం అనేది ఒక చిన్న  @Music  ఇది ఒకసారి వినిపించి, ఆపై తప్పుకుంటుంది.
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+రెండు విషయాలు దీనిని పాట కాకుండా శబ్ద ప్రభావంగా చేస్తాయి. \లూప్: ⊥\ ఈ  @Track  కి తన నోట్లను ఎప్పటికీ కాకుండా ఒకసారి మాత్రమే వినిపించమని చెబుతుంది. మరియు నోట్ల జాబితా ఆ క్షణం నుండి వస్తుంది: ఏదైనా అప్పుడే జరిగినప్పుడు ఇందులో నోట్లు ఉంటాయి, మిగతా సమయమంతా ఇది ఖాళీగా ఉంటుంది.
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 నన్ను తట్టు' selectable: ⊤ name: 'తట్టు')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+తర్వాతి మూల్యాంకనంలోనే జాబితా మళ్ళీ ఖాళీ అయిపోతుందని బాధపడకు — మొదలైన ఒక నోట్ ఎప్పుడూ చివరి వరకు వినిపిస్తుంది. నువ్వు వదిలిపెట్టలేని విషయం \replay\. రెండుసార్లు తట్టు, రెండో తట్టు మొదటి దానితో సరిగ్గా అదే సంగీతాన్ని ఇస్తుంది, కాబట్టి ఏదీ మారలేదు, ఏదీ మళ్ళీ వినిపించదు; \replay\ అనేది నీవు /మళ్ళీ, ఇప్పుడు/ అని చెప్పే విధానం. 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music  కి ఇక్కడ ఒక *క్షణికమైన* condition కావాలి — పైన ఉన్న \∆ 🖱()\ లాగా, ఘటన కలిగించిన మూల్యాంకనంలో మాత్రమే true అయ్యేది. \score > 10\ లాంటి శాశ్వతమైన ఏదైనా, తర్వాత ఎప్పటికీ true గా ఉండి, ప్రతి మూల్యాంకనంలోనూ శబ్దాన్ని మళ్ళీ మొదలుపెడుతుంది.
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+నోట్లు కేవలం ఒక జాబితా కాబట్టి, ఎప్పుడూ అదే దానిని వినిపించడం కాకుండా, *ఏమి* జరిగింది అనే దాని ఆధారంగా వాటిని నిర్ణయించవచ్చు:
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '⌨ ఒక కీని నొక్కు' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+గమనించు, \∆ key\ దాని స్వంత లైన్‌లో లెక్కించబడుతుంది మరియు value పరీక్ష \key = ' '\ విడిగా జరుగుతుంది. రెండింటినీ కలిపి ఒకే condition గా రాస్తే, \key\ ఇప్పటికీ ఒక ఖాళీగా చదవబడుతుంది.
 
 draw-the-music, music-follows-the-action, offer-choices

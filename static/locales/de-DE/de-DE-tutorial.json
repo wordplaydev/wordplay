@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "$~Der Vers",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "$~Schweigen",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         ["FunctionDefinition", "bored", "$~… Oh, hallo."],
                         null,
@@ -128,7 +128,7 @@
                     "title": "$~Sie möchten ein Programm?",
                     "subtitle": "$~Programm",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('📄' resting:Pose(rotation: 10°))" },
                         [
@@ -237,7 +237,10 @@
                     "title": "$~Platz halten",
                     "subtitle": "$~Platzhalter",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -352,7 +355,10 @@
                     "title": "$~Wie bitte?",
                     "subtitle": "$~Nicht analysierbar",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -496,7 +502,8 @@
                     "subtitle": "$~Auswerten",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -726,12 +733,12 @@
         },
         {
             "title": "$~Es sind die kleinen Dinge",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~Werte",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -784,7 +791,8 @@
                     "subtitle": "$~Text",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -970,7 +978,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1049,7 +1058,8 @@
                     "subtitle": "$~Wahrheit",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1250,7 +1260,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1431,7 +1442,10 @@
                     "title": "$~Eröffnungs(-)Markierungen",
                     "subtitle": "$~Präfix",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1548,20 +1562,60 @@
                             "$~Sie finden, dass du das großartig machst! Und ich finde auch, dass du das großartig machst. Du hast schon so viele unserer wunderbaren Spieler kennengelernt. Und es gibt noch so viele weitere, die du kennenlernen wirst …"
                         ]
                     ]
+                },
+                {
+                    "title": "$~Muster",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Manchmal willst du keinen *bestimmten* Text — du willst seine *Form* kennen. Sind das zwei Ziffern, ein Doppelpunkt, dann zwei Ziffern — eine Uhrzeit? Enthält das überhaupt eine Zahl?"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Genau dafür ist ein @PatternLiteral da! Du schreibst eines in \\⣿ ⣿\\ und liest es von Anfang bis Ende: \\_\\ ist ein Buchstabe, \\#\\ ist eine Ziffer, \\␣\\ ist ein Leerzeichen, und Text in Anführungszeichen passt genau. Anzahlen kommen zuerst, also \\2 #\\ bedeutet zwei Ziffern."
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Benutze \\≈\\ um zu fragen „passt dieser ganze Text zur Form?“ — du bekommst ein \\⊤\\ oder \\⊥\\. Probiere \\⌕\\ um jede Stelle zu *finden*, an der ein Muster vorkommt, und @name die Teile, die du behalten willst, mit \\name: (…)\\."
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Jedes Ergebnis ist ein @Structure mit dem passenden Text, wo er beginnt und endet, und den Gruppen, die du erfasst hast. Und weil Muster nach Graphem passen, verhalten sie sich in jeder @language und Schrift gleich."
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "$~Ensembles",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "$~Werte der Gemeinschaft",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1599,7 +1653,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1784,7 +1839,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1903,7 +1959,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2072,32 +2129,12 @@
         },
         {
             "title": "$~Besetzungsparty",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~Umleitung",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2124,7 +2161,7 @@
                     "title": "$~Wir können alles sein",
                     "subtitle": "$~Konvertieren",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2279,7 +2316,10 @@
                     "title": "$~Wie man wählt?",
                     "subtitle": "$~Entscheidungen",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2412,12 +2452,12 @@
         },
         {
             "title": "$~Szenenwechsel",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~Eingang",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2451,7 +2491,7 @@
                     "title": "$~Tick, tick, tick …",
                     "subtitle": "$~Zeit",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2510,7 +2550,7 @@
                     "title": "$~Klick, Klack",
                     "subtitle": "$~Schlüssel",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2558,7 +2598,7 @@
                     "title": "$~Hmmmmmm …",
                     "subtitle": "$~Zeiger",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2598,7 +2638,7 @@
                     "title": "$~Und... jetzt!",
                     "subtitle": "$~Taste",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2628,7 +2668,7 @@
                     "title": "$~Hört jemand zu?",
                     "subtitle": "$~Volumen",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2652,7 +2692,8 @@
                     "subtitle": "$~Zufällig",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2688,7 +2729,8 @@
                     "subtitle": "$~Platzierung",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2728,7 +2770,8 @@
                     "subtitle": "$~Bewegung",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2856,7 +2899,7 @@
                     "title": "$~Lassen Sie uns reden",
                     "subtitle": "$~Chat",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2886,7 +2929,8 @@
                     "subtitle": "$~Webseite",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2930,7 +2974,7 @@
                     "title": "$~Aufs Stichwort",
                     "subtitle": "$~Reaktion",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3068,12 +3112,15 @@
         },
         {
             "title": "$~Betreten Sie die Bühne",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~Ausgabe",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3115,7 +3162,7 @@
                     "title": "$~Sag was?",
                     "subtitle": "$~Phrase",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3395,7 +3442,10 @@
                     "title": "$~1, 2, 3, 4, 1, 2, 3, 4",
                     "subtitle": "$~Sequenz",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3576,7 +3626,8 @@
                     "subtitle": "$~Gruppe",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3832,9 +3883,7 @@
                     "title": "$~Bühne… richtig?",
                     "subtitle": "$~Bühne",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3940,10 +3989,190 @@
                     ]
                 },
                 {
+                    "title": "$~Der Orchestergraben",
+                    "subtitle": "$~Musik",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Du hast @Stage, @Group, @Phrase, @Sequence kennengelernt. Alles, was du bisher gemacht hast, hast du gemacht, um es zu *sehen*."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~Es gibt noch ein Mitglied der Truppe. Du wirst es niemals sehen."
+                        ],
+                        null,
+                        [
+                            "Music",
+                            "serious",
+                            "$~Ich verwandle Zahlen in Klang."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Zahlen? Keine Noten?"
+                        ],
+                        ["Music", "kind", "$~Schau. Acht Zahlen, eine Stimme."],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Drücke die Wiedergabetaste ▶️ im Modus-Umschalter @UI/modeSwitcher über der Bühne. Während du schreibst, bleibe ich still — bei der Wiedergabe fange ich an."
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Jede Zahl ist ein *Schritt einer Tonleiter*, keine Tonhöhe. \\1\\ ist der Schritt, auf dem eine Melodie fertig klingt, und \\8\\ ist dieselbe Note eine Oktave höher."
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~Ändere eine davon — zurück im ✏️-Bearbeitungsmodus — spiele dann noch einmal und höre, was sich verändert hat."
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~Wer spielt sie?"],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Wen auch immer ich frage. Das ist ein @Track von @Track.instrument."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Die acht Zahlen haben sich nicht geändert. Nur, wer sie spielt, hat sich geändert.",
+                            "$~Es gibt achtzehn zur Auswahl. Probiere \\🔈.🎻\\, oder \\🔈.🎺\\, oder \\🔈.🐶\\."
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~Und wie schnell?"],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo. Schläge pro Minute, und sonst nichts."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Zweiundsiebzig ist ungefähr Gehtempo. Probiere dreißig. Probiere zweihundert."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Und beachte: Ich fange nicht von vorne an, wenn du es änderst. Das neue Tempo wird beim nächsten Schlag eingefügt, sodass das Stück schneller wird, ohne seine Stelle zu verlieren."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Kann es mehr als eine Stimme geben?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~So viele du möchtest. Gib mir eine Liste von @Track statt nur eine."
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Vier Stimmen, eine Melodie. Der Bass sind *dieselben acht Zahlen*, um eine Oktave abgesenkt durch @Track.key. Die Akkorde halten jeweils zwei Schläge, und die Trommeln bewegen sich doppelt so schnell — das ist @Track.beat."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Und achte auf die Lautstärken. Nur die Flöte ist annähernd auf voller Lautstärke. Stimmen auf voller Lautstärke ergeben keine lautere Band; sie ergeben eine matschigere."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Was kann sich noch ändern?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Mehr, als ich in einem Satz sagen kann. Also: alles auf einmal."
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Drücke noch einmal auf Abspielen. @Music.scale und @Music.key bewegen das ganze Stück auf einmal. \\pan\\ platziert jede Stimme irgendwo im Raum. Die Glocke liest Notenwerte — \\𝅘𝅥𝅮\\ ist ein Achtel — und ein @Note trägt seine eigene Lautstärke. Die letzte Stimme hat \\words\\, also singt sie sie, einmal, weil ihr \\loop\\ gleich \\⊥\\ ist."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Und @Beat gibt dir bei jedem Schlag ein @Downbeat. @Downbeat.parts ist jede Stimme mit ihrer Tonhöhe, Lautstärke und ihrem Ort gerade jetzt; @Downbeat.words ist die Silbe, die gesungen wird. Das ist alles, was die Punkte und der Liedtext sind."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~@Music wird gehört und nie gesehen, deshalb wird nichts an ihnen jemals *platziert*. Sie reiten auf dem @Stage mit und füllen den Raum — und jede Person, die zuschaut, wählt, wie oder ob sie erscheinen."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Also: Wie soll deine Welt klingen?"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~Und... Szene!",
                     "subtitle": "$~Szene",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4070,7 +4299,10 @@
                     "title": "$~Gibt es jemanden mit dem Namen ...",
                     "subtitle": "$~Auswahl",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4120,12 +4352,12 @@
         },
         {
             "title": "$~Rückrufe",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~Erinnerungen",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~…"],
                         null,
@@ -4148,7 +4380,7 @@
                     "title": "$~Benennung",
                     "subtitle": "$~Binden",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4397,7 +4629,7 @@
                     "title": "$~Abseits der Bühne",
                     "subtitle": "$~Block",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4559,7 +4791,10 @@
                     "title": "$~Regieanweisungen",
                     "subtitle": "$~Funktionen",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4666,7 +4901,10 @@
                     "title": "$~Bühnenbild",
                     "subtitle": "$~Bauwerke",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -4992,7 +5230,7 @@
                     "title": "$~Anmerkungen des Regisseurs",
                     "subtitle": "$~Erklären",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5230,15 +5468,14 @@
         },
         {
             "title": "$~Auflösung",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~Co-Abhängigkeit",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5615,12 +5852,46 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Oh ja, natürlich! Wie wäre es, wenn wir sie die Musik machen lassen? @Phrase, kannst du @Volume hören und es mit @Phrase und @Volume in deiner Farbe verbinden? Auf diese Weise werden wir glühend heiß, wenn unser Regisseur Lärm macht!"
+                            "$~Oh ja, natürlich! Wie wäre es, wenn wir sie den Raum beleuchten lassen? @Phrase, kannst du auf @Volume hören und es mit @Color.lightness und @Color.chroma in deiner Farbe verbinden? So werden wir weißglühend, wenn unser Regisseur Lärm macht!"
                         ],
                         ["Phrase", "kind", "$~Ausgezeichnete Idee!"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~Wir bewegen uns … aber der Raum ist so still. @Music? Bist du da draußen?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Ich war die ganze Zeit hier. Du hast mich kein einziges Mal um einen Klang gebeten."
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~… würdest du uns etwas geben, wozu wir uns bewegen können?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Vier Stimmen also: eine Melodie, ein Bass, ein Akkord und eine Trommel. Achtzig Schläge pro Minute — das ist die dreiviertel Sekunde, um die du @Reaction gebeten hast."
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~bumm … bumm … bumm … bumm …"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~Im Takt! Im Takt! Bei *jedem* Takt! So einen Schlag hatte ich noch nie zuvor."
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction, du zählst keine Uhr mehr. Du hörst @Music zu."
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "$~1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "$~Bewegen!"],
                         ["Text", "excited", "$~Begeisterung!"],

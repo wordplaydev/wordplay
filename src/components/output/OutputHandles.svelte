@@ -208,8 +208,16 @@
         cursor: grabbing;
     }
 
+    /* Keyboard focus can't be a color swap alone: ring and enlarge the handle.
+       A box-shadow ring survives the outline suppression above and renders
+       over opaque output fills; the scale composes with the positioning
+       translate. (Precedents: OutputView's focus ring, MenuTrigger's scale.) */
     .rotation-handle:focus-visible {
         color: var(--wordplay-focus-color);
+        border-radius: 50%;
+        box-shadow: 0 0 0 calc(var(--wordplay-focus-width) / 2)
+            var(--wordplay-focus-color);
+        transform: translate(50%, 50%) scale(1.5);
     }
 
     .size-handle {
@@ -235,7 +243,12 @@
         outline: none !important;
     }
 
+    /* Same non-color focus treatment as the rotation handle above. */
     .size-handle:focus-visible {
         color: var(--wordplay-focus-color);
+        border-radius: 50%;
+        box-shadow: 0 0 0 calc(var(--wordplay-focus-width) / 2)
+            var(--wordplay-focus-color);
+        transform: translate(-50%, 50%) scale(1.5);
     }
 </style>

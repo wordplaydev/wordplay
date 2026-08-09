@@ -1,47 +1,34 @@
-Draw what the music is playing
+음악이 연주하는 것을 그려 보세요
 
-Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.
+들을 수 있는 음악은 절반에 불과해요.  @Beat  스트림은 박자가 울릴 때마다 재생기의 전체 state를 여러분에게 건네줘요. 그래서 무슨 일이 일어나고 있는지 무엇이든 그릴 수 있어요. 
 
-@Beat always has a @Downbeat to give you, so you can read it straight away. Before any music starts it sits on beat zero with nothing playing:
+@Beat 에는 언제나 여러분에게 줄  @Downbeat 가 있어요. 그래서 바로 읽을 수 있어요. 음악이 시작되기 전에는 아무것도 연주하지 않은 채 박자 0에 머물러 있어요:
 
-\
-beat: Beat()
+\beat: Beat()
 count: beat.count
-
 Stage([
-	Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] instrument: Instrument.drums))
-])
-\
+		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrument: Instrument.drums))
+	])\
 
-The \count\ goes up by one each beat, so \count % 4\ is \0\ on every fourth one — the downbeat — and the drum jumps.
+\count\는 박자마다 하나씩 올라가요. 그래서 \count % 4\는 매 네 번째마다 — 강박에서 — \0\가 되고, 드럼이 뛰어올라요.
 
-That's the whole music as one number. But a @Downbeat also carries a \parts\ list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \pitch\, its \volume\, its \pan\, and whether it's \sounding\. Draw those and you get every voice separately instead of the mix:
+그것이 하나의 숫자로 표현된 음악 전체예요. 하지만  @Downbeat 는 \parts\ 목록도 지니고 있어요. 각  @Part 마다 하나씩의  @Track 가 있고,  @Part 는 지금 자기 목소리가 무엇을 하고 있는지 알아요: 자신의 \pitch\, 자신의 \volume\, 자신의 \pan\, 그리고 그것이 \sounding\인지 여부요. 그것들을 그리면 섞인 소리 대신 각 목소리를 따로따로 얻을 수 있어요:
 
-\
-beat: Beat()
+\beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-
-ƒ height(p•Part)•# p.pitch[1]
-
-ƒ dot(p•Part)•Phrase
-	Phrase(
-		'⬤'
-		0.4m + (p.volume · 1m)
-		place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
-	)
-
+ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
+ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
 Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-		Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-	])
-])
-\
+		:parts.translate(ƒ(p•Part) dot(p))
+		Music([
+				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
+				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
+			])
+	])\
 
-Each dot sits where its track sits: \pan\ puts it left or right, \pitch\ puts it high or low. Because \sounding\ stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.
+각 점은 자기 트랙이 있는 곳에 놓여요: \pan\는 점을 왼쪽이나 오른쪽에 놓고, \pitch\는 점을 위나 아래에 놓아요. 긴 음이 아직 울리고 있는 동안 \sounding\가 참으로 유지되기 때문에, 유지되는 음은 깜빡이며 사라지지 않고 점을 그대로 지켜요.
 
-Watch the little \height\ function: \pitch\ is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \ø\. Declaring that the function returns a \#\ is what settles it back down to a number you can do arithmetic with.
+작은 \height\ 함수를 보세요: \pitch\는 /목록/이에요. 화음은 여러 음을 한 번에 소리 내기 때문이에요. 목록에 첫 번째 항목을 물으면 숫자나 \ø\를 돌려줘요. 함수가 \#\를 돌려준다고 정하면, 다시 계산할 수 있는 숫자로 정리돼요.
 
 play-a-sound-effect, react-to-sound, count-with-time

@@ -13,6 +13,18 @@ export type NoteData = {
     beats: number;
     /** 0-1 gain multiplier for this entry alone. */
     volume: number;
+    /**
+     * The syllable this note sings, already resolved from the track's words.
+     *
+     * Resolved here rather than looked up downstream because assigning
+     * syllables to notes needs the whole track at once — rests are skipped and
+     * a melisma spans several notes — and the scheduler sees one note at a
+     * time. Absent on a rest and on every note of a track with no words —
+     * optional rather than required because a note with no lyric is the
+     * overwhelming default, and the one place that builds notes singly (the
+     * editor's `readNote`) has no track to read words from anyway.
+     */
+    words?: string | undefined;
 };
 
 export type TrackData = {
@@ -114,7 +126,12 @@ export function signatureOf(data: MusicData): string {
             track.volume,
             track.pan,
             track.loop,
-            track.notes.map((note) => [note.degrees, note.beats, note.volume]),
+            track.notes.map((note) => [
+                note.degrees,
+                note.beats,
+                note.volume,
+                note.words ?? null,
+            ]),
         ]),
     ]);
 }
@@ -132,6 +149,59 @@ export function noteOnset(track: TrackData, index: number): number {
     for (let position = 0; position < index; position++)
         onset += track.notes[position].beats;
     return onset;
+}
+
+/**
+ * The beat a track first makes a sound on, skipping any rests it opens with.
+ *
+ * An imported piece is full of these: every instrument that enters late opens
+ * with a rest as long as its wait, and one that enters in the last chorus opens
+ * with hundreds of beats of silence. Starting the editor and the preview there
+ * rather than at zero is the difference between seeing your music and seeing an
+ * empty staff.
+ *
+ * Undefined for a track that never sounds, which has no first note to find.
+ */
+export function firstSoundingBeat(track: TrackData): number | undefined {
+    let beat = 0;
+    for (const note of track.notes) {
+        if (note.degrees.length > 0) return beat;
+        beat += note.beats;
+    }
+    return undefined;
+}
+
+/**
+ * Where in the note list a beat asks for a note — for turning a click on the
+ * staff into an insertion.
+ *
+ * The places a note can go are the *boundaries* between notes, so a beat
+ * answers the boundary it is nearest: the gap the creator pointed at. Asking
+ * instead which note is *sounding* at that beat — the obvious reading, and
+ * what this used to do — is half a note out everywhere, because a notehead is
+ * drawn straddling its onset while its span begins there. Clicking just left
+ * of a notehead landed a note before the note *before* it, and the whole width
+ * of the last note read as "before the last note", so the empty staff after a
+ * track could not be clicked to extend it.
+ *
+ * A beat past the end answers the length, which appends; a negative one
+ * answers zero.
+ */
+export function insertionAtBeat(track: TrackData, beat: number): number {
+    let best = 0;
+    let closest = Math.abs(beat);
+    let onset = 0;
+    for (let index = 0; index < track.notes.length; index++) {
+        onset += track.notes[index].beats;
+        const distance = Math.abs(beat - onset);
+        // Strictly nearer, so a beat exactly between two boundaries takes the
+        // earlier one rather than sliding right as the list is walked.
+        if (distance < closest) {
+            closest = distance;
+            best = index + 1;
+        }
+    }
+    return best;
 }
 
 /**

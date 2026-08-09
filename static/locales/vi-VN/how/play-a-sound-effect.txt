@@ -1,44 +1,28 @@
-Play a sound when something happens
+Phát âm thanh khi có việc gì đó xảy ra
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+Một tiếng "ding" khi câu trả lời đúng, một tiếng "thịch" khi có thứ gì đó rơi xuống — hiệu ứng âm thanh là một  @Music  nhỏ chỉ phát một lần rồi ngừng lại.
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+Hai điều làm cho nó thành hiệu ứng âm thanh chứ không phải một bài hát. \vòngLặp: ⊥\ bảo  @Track  phát các nốt nhạc một lần thay vì phát mãi mãi. Và danh sách nốt nhạc đến từ đúng khoảnh khắc đó: nó chứa các nốt khi vừa có việc gì đó xảy ra, và rỗng vào lúc còn lại.
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 chạm vào tôi' selectable: ⊤ name: 'chạm')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+Đừng lo rằng danh sách lại rỗng ngay ở lần chạy tiếp theo — một nốt nhạc đã bắt đầu thì luôn phát cho đến hết. Điều bạn không thể bỏ qua là \replay\. Chạm hai lần và lần chạm thứ hai tạo ra đúng bản nhạc giống hệt lần đầu, nên không có gì thay đổi và cũng không có gì kêu lại; \replay\ là cách bạn nói /lại, ngay bây giờ/. 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music  cần một điều kiện *tạm thời* ở đây — một điều kiện chỉ đúng vào lần chạy do sự kiện gây ra, giống như \∆ 🖱()\ ở trên. Một thứ kéo dài, như \score > 10\, sẽ luôn đúng mãi mãi về sau và sẽ phát lại âm thanh ở mỗi lần chạy.
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+Vì các nốt nhạc chỉ là một danh sách, bạn có thể quyết định chúng dựa trên *việc gì* đã xảy ra thay vì luôn phát cùng một thứ:
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '⌨ nhấn một phím' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+Hãy để ý rằng \∆ key\ được tính riêng trên dòng của nó và phép kiểm tra giá trị \key = ' '\ xảy ra riêng biệt. Nếu viết chung thành một điều kiện, âm thanh sẽ lại kêu ở phím tiếp theo không liên quan trong khi \key\ vẫn được đọc như một khoảng trắng.
 
 draw-the-music, music-follows-the-action, offer-choices

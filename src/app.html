@@ -99,6 +99,16 @@
                    blocks did (they had, e.g. --color-dark-grey). */
                 --blue-light: #648fff;
                 --blue-dark: #3a72fe;
+                /* Focus-indicator blue, split from --color-blue: the brand
+                   blue misses WCAG 1.4.11's 3:1 non-text floor on light
+                   backgrounds (2.74:1 on the alternating grey), and in dark
+                   mode a focused button's white label on it misses 4.5:1.
+                   These darker values pass both roles (light: 4.0:1 on white,
+                   3.6:1 on alternating; dark: white text 4.8:1, 4.3:1 on
+                   black) while block fills and other brand uses keep
+                   --color-blue. Enforced by paletteContrast.test.ts. */
+                --focus-blue-light: #4577f8;
+                --focus-blue-dark: #2f66f5;
                 --blue-transparent-light: color-mix(
                     in srgb,
                     var(--blue-light) 10%,
@@ -166,6 +176,7 @@
                    every color that uses it. */
                 --color-blue: var(--blue-light);
                 --color-blue-transparent: var(--blue-transparent-light);
+                --color-focus-blue: var(--focus-blue-light);
                 --color-purple: var(--purple-light);
                 --color-purple-transparent: var(--purple-transparent-light);
                 --color-pink: var(--pink-light);
@@ -201,7 +212,7 @@
                    element can flip it to the foreground to stay legible on the
                    gold hover background (see #1216). */
                 --wordplay-link-color: var(--color-gold-text);
-                --wordplay-focus-color: var(--color-blue);
+                --wordplay-focus-color: var(--color-focus-blue);
                 --wordplay-hover: var(--color-yellow);
                 --wordplay-hover-light: var(--color-yellow-transparent);
                 /* The AA orange text variant works in both roles: as error
@@ -313,7 +324,19 @@
                 --selection-glow-blur: 16px;
                 --selection-glow-offset: 6px;
                 --selection-radius: var(--wordplay-border-radius);
+                /* Selection is drawn dashed everywhere it appears, so it never
+                   reads as the caret's solid highlight. The stage already used
+                   a dash for "you could select this"; the same rhythm filled
+                   in with the selection colour says "you did". */
+                --selection-dash: 5px 4px;
                 --selection-color: var(--wordplay-highlight-color);
+                /* The editor's line vocabulary, so no meaning rides on hue
+                   alone: solid = the caret's highlight and major conflicts,
+                   dashed = selected output (above), dotted = minor conflicts,
+                   and a small animated dash = exceptions. Dotted is distinct
+                   from the selection dash on purpose — selection and warning
+                   share the gold hue, so rhythm is what tells them apart. */
+                --minor-severity-dots: 0 6px;
 
                 --animation-factor: 1;
             }
@@ -356,6 +379,10 @@
                     --color-blue-transparent: light-dark(
                         var(--blue-transparent-light),
                         var(--blue-transparent-dark)
+                    );
+                    --color-focus-blue: light-dark(
+                        var(--focus-blue-light),
+                        var(--focus-blue-dark)
                     );
                     --color-purple: light-dark(
                         var(--purple-light),
@@ -442,6 +469,7 @@
                     :root {
                         --color-blue: var(--blue-dark);
                         --color-blue-transparent: var(--blue-transparent-dark);
+                        --color-focus-blue: var(--focus-blue-dark);
                         --color-purple: var(--purple-dark);
                         --color-purple-transparent: var(
                             --purple-transparent-dark
@@ -625,41 +653,33 @@
                step by hand, and all read the same --selection-* values above, which is
                where drift would actually show.
 
+               These animate the glow ALONE. The border is a dashed `outline` on each
+               consumer, which no keyframe touches — a box-shadow ring here would paint
+               a solid edge back over the dashes every frame, which is exactly what it
+               used to do. Don't put the border back in the keyframes.
+
                Every consumer's base rule must carry a complete, visible border and glow
                on its own. An animation with a 0s duration — which is what
                --animation-factor: 0 (the calm setting, or OS reduced motion) produces —
                renders the base style rather than the 0% keyframe, so selection stays
-               fully legible with motion switched off. Don't move the border into the
-               keyframes. */
+               fully legible with motion switched off. */
             @keyframes selectionglow {
                 0%,
                 100% {
-                    box-shadow:
-                        0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        0 calc(-1 * var(--selection-glow-offset))
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: 0 calc(-1 * var(--selection-glow-offset))
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 25% {
-                    box-shadow:
-                        0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        var(--selection-glow-offset) 0
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: var(--selection-glow-offset) 0
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 50% {
-                    box-shadow:
-                        0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        0 var(--selection-glow-offset)
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: 0 var(--selection-glow-offset)
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 75% {
-                    box-shadow:
-                        0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        calc(-1 * var(--selection-glow-offset)) 0
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: calc(-1 * var(--selection-glow-offset)) 0
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
             }
 
@@ -670,32 +690,20 @@
             @keyframes selectionglowinset {
                 0%,
                 100% {
-                    box-shadow:
-                        inset 0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        inset 0 var(--selection-glow-offset)
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: inset 0 var(--selection-glow-offset)
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 25% {
-                    box-shadow:
-                        inset 0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        inset calc(-1 * var(--selection-glow-offset)) 0
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: inset calc(-1 * var(--selection-glow-offset)) 0
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 50% {
-                    box-shadow:
-                        inset 0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        inset 0 calc(-1 * var(--selection-glow-offset))
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: inset 0 calc(-1 * var(--selection-glow-offset))
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 75% {
-                    box-shadow:
-                        inset 0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        inset var(--selection-glow-offset) 0
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: inset var(--selection-glow-offset) 0
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
             }
 
@@ -894,14 +902,34 @@
                 text-decoration-color: var(--wordplay-focus-color);
             }
 
-            /* Universal design for solid highlight-yellow surfaces: --color-white
-               text, white links with a resting --color-orange underline (yellow
-               links would otherwise vanish into the same-color background). Apply
-               to any container whose background is --wordplay-highlight-color. */
+            /* Universal design for solid highlight-yellow surfaces. Apply to any
+               container whose background is --wordplay-highlight-color.
+
+               Both the text and the link colors are --black-light — literal
+               black, not the mode-flipping --color-white, which is #ffffff in
+               light and #000000 in dark. White on this gold measures 3.01:1,
+               under the 4.5:1 AA minimum, and that is what shipped here; black
+               passes in both modes (6.96:1 light, 5.87:1 dark). Toggle.svelte's
+               .highlight had already worked this out and reached the opposite
+               conclusion from this rule.
+
+               The link color must be stated at all, rather than inherited,
+               because --wordplay-link-color's dark value and this background
+               are the same hex — #b67c00 — so an un-overridden link on gold is
+               invisible at 1.00:1. The orange underline stays: it is the one
+               cue that survives whatever the label does.
+
+               It is currentColor rather than a literal, because a custom
+               property keeps inheriting long after the background that
+               justified it has been painted over: a descendant that repaints
+               and resets `color` would otherwise keep a link color chosen for
+               gold. currentColor makes the variable self-correcting — links are
+               legible wherever their prose is, on every surface, in both
+               schemes. */
             .highlight-surface {
                 background: var(--wordplay-highlight-color);
-                color: var(--color-white);
-                --wordplay-link-color: var(--color-white);
+                color: var(--black-light);
+                --wordplay-link-color: currentColor;
                 --wordplay-link-underline-color: var(--color-orange);
             }
         </style>

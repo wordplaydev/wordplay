@@ -1,6 +1,7 @@
 📹
 "Video"/en"视频"/zh-CN"影片"/zh-TW
 ===
+¶Your camera feed painted as a grid of colored letters.¶
 colors: Camera(32px 24px 33ms)
 
 Stage(

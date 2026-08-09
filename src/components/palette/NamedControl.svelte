@@ -11,7 +11,11 @@
     let { name, control, highlighted = false }: Props = $props();
 </script>
 
-<div class="property" class:caret-highlight={highlighted}>
+<div
+    class="property"
+    class:caret-highlight={highlighted}
+    aria-current={highlighted ? 'true' : undefined}
+>
     <h3 class="name">{@render name()}</h3>
     <div class="control">{@render control()} </div>
 </div>
@@ -25,6 +29,10 @@
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
         user-select: none;
+        /* Reserve the caret-highlight bar's space (filled by Palette's
+           .caret-highlight rule) so highlighting doesn't shift the row. */
+        border-inline-start: var(--wordplay-focus-width) solid transparent;
+        padding-inline-start: var(--wordplay-spacing-half);
     }
 
     .name {

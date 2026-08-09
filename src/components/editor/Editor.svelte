@@ -67,7 +67,10 @@
         nearestVisibleBoundary,
         renderedTokenIds,
     } from '@components/editor/util/foldedCaret';
-    import { isFoldableNode } from '@components/editor/util/folding';
+    import {
+        defaultFolds,
+        isFoldableNode,
+    } from '@components/editor/util/folding';
     import {
         type CaretTokenSummary,
         type EditorState,
@@ -134,6 +137,7 @@
         dropNodeOnSource,
         getDropConflicts,
         isValidDropTarget,
+        kindAcceptsDrop,
         resolvePermittedDropTarget,
         resolveStructuralReplacementTarget,
         targetAnchorNode,
@@ -143,10 +147,12 @@
     import type Revision from '@edit/revision/Revision';
     import type Locale from '@locale/Locale';
     import { type LocaleTextAccessor } from '@locale/Locales';
+    import Block from '@nodes/Block';
     import Evaluate from '@nodes/Evaluate';
     import Expression from '@nodes/Expression';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
+    import Program from '@nodes/Program';
     import Source from '@nodes/Source';
     import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
@@ -261,10 +267,42 @@
             project.getID(),
             project.getIndexOfSource(source),
         );
-        if (stored === undefined) return [];
+        // Never folded by hand: start with the long containers closed, so a
+        // source with an imported song in it doesn't render every note before
+        // anyone has asked to see them.
+        if (stored === undefined) return defaultFolds(source.expression);
         return stored
             .map((path) => source.root.resolvePath(path))
             .filter((n): n is Node => n !== undefined);
+    }
+
+    /**
+     * The long containers already accounted for, by path.
+     *
+     * A default fold applies to a container the *first time it appears* rather
+     * than whenever one is long, because those are different rules and only
+     * the first is wanted: re-folding on every edit would fight a creator who
+     * opened one deliberately, and folding only on a fresh source would miss
+     * everything a MIDI import brings in — which is the case the defaults
+     * exist for.
+     */
+    let seenLong = new Set<string>(
+        defaultFolds(source.expression).map((n) =>
+            JSON.stringify(source.root.getPath(n)),
+        ),
+    );
+
+    /** Long containers that weren't here last time, so they arrive folded. */
+    function newlyLong(): Node[] {
+        const arrived: Node[] = [];
+        const keys = new Set<string>();
+        for (const node of defaultFolds(source.expression)) {
+            const key = JSON.stringify(source.root.getPath(node));
+            keys.add(key);
+            if (!seenLong.has(key)) arrived.push(node);
+        }
+        seenLong = keys;
+        return arrived;
     }
     const folded = writable<Set<Node>>(new Set(editable ? localFolded() : []));
     setFolded(folded);
@@ -1133,10 +1171,23 @@
             )
                 hovered.set(permittedTarget);
             drop();
+            // Clear any drag feedback now that the drop landed.
+            notify?.clear(DragFeedbackNotification);
+        } else if (
+            editable &&
+            $dragged !== undefined &&
+            releaseTarget !== undefined
+        ) {
+            // The drop was refused. A release inside the feedback rest debounce would otherwise
+            // refuse silently — the mid-drag feedback is optimistic while the pointer moves — so
+            // explain the refusal now with one simulation of the release target.
+            applyDropConflicts(
+                getDropConflicts(project, source, $dragged, releaseTarget),
+            );
+        } else {
+            // No drop was attempted; clear any leftover drag feedback.
+            notify?.clear(DragFeedbackNotification);
         }
-
-        // Clear any drag feedback now that the drag is ending.
-        notify?.clear(DragFeedbackNotification);
 
         // A drag that selected a range ends here; say what's selected now that
         // it's settled (the mid-drag updates coalesce away).
@@ -1237,11 +1288,11 @@
 
     /**
      * While dragging, explain at the bottom of the editor what dropping on the target under the pointer
-     * would do: a red rejection if it would introduce a blocking (Error) conflict (the drop is then
-     * disallowed), or an amber warning if it would only introduce a permitted type-mismatch (Warning).
-     * Also records `currentTargetPermitted` so the highlight pass can gate the 'match' highlight without
-     * re-simulating. Only re-simulates when the pointer moves to a new target, since dragged + source are
-     * constant during a drag.
+     * would do: a red rejection if it would introduce a blocking (structural) conflict (the drop is then
+     * disallowed), or an amber warning if it would only introduce a permitted semantic conflict (a type
+     * mismatch, an unknown name). Also records `currentTargetPermitted` so the highlight pass can gate
+     * the 'match' highlight without re-simulating. Only re-simulates when the pointer moves to a new
+     * target, since dragged + source are constant during a drag.
      */
     function updateDragFeedback() {
         // No feedback (and no valid drop) when there's no drag, or in a read-only editor where
@@ -1325,7 +1376,7 @@
         conflicts: Conflict[];
         project: Project;
     }) {
-        // Blocking (Error) conflicts make the drop invalid; Warning conflicts are
+        // Blocking (structural) conflicts make the drop invalid; semantic conflicts are
         // permitted but worth flagging. Explain the blocker first if there is one.
         const blocking = conflicts.filter((c) => c.isBlocking());
         currentTargetPermitted = blocking.length === 0;
@@ -1350,7 +1401,7 @@
                     dropped.getNodeContext(nodes.node) ?? droppedContext,
                 ),
             },
-            // Red when the drop is blocked, amber when it's a permitted type-mismatch.
+            // Red when the drop is blocked, amber when it's permitted with a semantic conflict.
             variant: blocking.length > 0 ? 'error' : 'warning',
         });
     }
@@ -1564,6 +1615,15 @@
             dragCandidate = draggingSelection
                 ? selectedNode
                 : nonTokenNodeUnderPointer;
+
+            // The source, its program, and the root block have no field anywhere to be dropped
+            // into, so a drag would start and silently go nowhere. Don't pick them up.
+            if (
+                dragCandidate instanceof Source ||
+                dragCandidate instanceof Program ||
+                (dragCandidate instanceof Block && dragCandidate.isRoot())
+            )
+                dragCandidate = undefined;
 
             // A read-only drag source (e.g. an example) drags nodes into a
             // *different* editor. Release the implicit pointer capture the browser
@@ -1829,10 +1889,11 @@
                         : undefined,
                 ).filter((insertion) => {
                     const kind = insertion.node.getFieldKind(insertion.field);
+                    // The same structural check the blocks path uses, so they can't drift apart.
                     return (
-                        kind &&
-                        $dragged &&
-                        (kind.allows($dragged) || kind.allows([$dragged]))
+                        kind !== undefined &&
+                        $dragged !== undefined &&
+                        kindAcceptsDrop(kind, $dragged)
                     );
                 })[0];
             }
@@ -1901,9 +1962,11 @@
             CharactersDB.getAvailableCharacterNamesForAutocomplete(),
         );
 
-        // If in blocks mode, filter edits that would create conflicts.
+        // If in blocks mode, filter edits that would create blocking (structural) conflicts.
         if ($blocks) {
-            // Make a mapping of sources to revisions.
+            // Make a mapping of sources to revisions. A revision whose edit isn't a
+            // [Source, Caret] pair is a bare caret move or undefined — no source change to
+            // gate — so it passes through unfiltered by construction.
             const revisionToSource = new Map<Revision, Source>();
             for (const revision of revisions) {
                 const edit = revision.getEdit($locales);
@@ -2011,6 +2074,14 @@
                 menu = menu.withSelection([newIndex, 0]);
                 return false;
             } else {
+                // The menu's revisions were computed (and blocks-mode filtered) against the
+                // project at open time; if a revision arrived since (e.g. a temporal stream
+                // tick), the edit's source is stale, so close instead of applying — the same
+                // staleness guard the drop path uses.
+                if (!project.getSources().includes(menu.getSource())) {
+                    hideMenu();
+                    return false;
+                }
                 // Menu commands are discrete user actions — clear any defer
                 // flag left set by a prior held-key flurry so consumers
                 // (description block, editors store, announcer) update on
@@ -3240,7 +3311,12 @@
 
     // Memoize the resolved selected outputs so projectHighlights doesn't see a
     // new array reference on every read of selection.getOutput().
-    let selectedOutputs = $derived(selection?.getOutput(project));
+    /** What the selection outline traces: the node a palette editor has
+     *  focused when there is one, and otherwise the whole selected output. */
+    let selectedOutputs = $derived.by(() => {
+        const focus = selection?.getFocus(project);
+        return focus !== undefined ? [focus] : selection?.getOutput(project);
+    });
 
     // The project-level slice (conflicts, animating nodes, output, evaluating
     // step) is computed via an effect rather than a $derived so we can clear
@@ -3473,6 +3549,9 @@
         untrack(() => {
             if (!editable) return;
             const resolved = new Set(localFolded());
+            // Anything long that just arrived — an imported song, a pasted
+            // block — arrives folded, whatever was remembered before it.
+            for (const node of newlyLong()) resolved.add(node);
             const current = get(folded);
             if (resolved.size === 0 && current.size === 0) return;
             folded.set(resolved);

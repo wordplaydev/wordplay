@@ -1,6 +1,10 @@
 import { expect, test } from 'vitest';
 import type { MusicData, TrackData } from '@output/Music/musicData';
-import { signatureOf } from '@output/Music/musicData';
+import {
+    firstSoundingBeat,
+    insertionAtBeat,
+    signatureOf,
+} from '@output/Music/musicData';
 import {
     beatAt,
     createTransport,
@@ -12,6 +16,7 @@ import {
 import { pickupNotes, scheduleWindow } from '@output/Music/schedule';
 import { reconcile } from '@output/Music/reconcile';
 import { chooseSteal, type Voice } from '@output/Music/voices';
+import { assignWords } from '@output/Music/articulate';
 
 /** A track of bare quarter notes on a piano, one beat each. */
 function track(
@@ -35,7 +40,10 @@ function track(
     };
 }
 
-function music(tracks: TrackData[], options: Partial<MusicData> = {}): MusicData {
+function music(
+    tracks: TrackData[],
+    options: Partial<MusicData> = {},
+): MusicData {
     return {
         name: 'song',
         tempo: 60,
@@ -121,9 +129,7 @@ test('a splice lands at the next beat boundary and keeps phase', () => {
     const rest = scheduleWindow(transport, 4.5);
     // Old data owns beats < 2; new data resumes at beat 2 with its third
     // note — phase preserved, not restarted.
-    expect(
-        rest.notes.map((note) => [note.startBeat, note.degree]),
-    ).toEqual([
+    expect(rest.notes.map((note) => [note.startBeat, note.degree])).toEqual([
         [2, 7],
         [3, 8],
         [4, 5],
@@ -233,7 +239,9 @@ test('a part resolves chords and honors a track key and scale override', () => {
 
 test('reconcile: keep on identical, splice on change, restart on replay each evaluation', () => {
     const data = music([track([1, 2, 3])]);
-    const live = new Map([[data.name, { data, draining: false, finished: false }]]);
+    const live = new Map([
+        [data.name, { data, draining: false, finished: false }],
+    ]);
     expect(reconcile(live, [data]).get('song')?.kind).toBe('keep');
 
     const edited = music([track([1, 2, 4])]);
@@ -258,11 +266,11 @@ test('reconcile: exits stop loops, drain one-shots; entries start', () => {
     expect(decisions.get('song')?.kind).toBe('stop');
     expect(decisions.get('ding')?.kind).toBe('drain');
     // A new name starts.
-    expect(
-        reconcile(new Map(), [oneShot]).get('ding')?.kind,
-    ).toBe('start');
+    expect(reconcile(new Map(), [oneShot]).get('ding')?.kind).toBe('start');
     // Re-entry while draining interrupts rather than layering.
-    const draining = new Map([['ding', { data: oneShot, draining: true, finished: false }]]);
+    const draining = new Map([
+        ['ding', { data: oneShot, draining: true, finished: false }],
+    ]);
     expect(reconcile(draining, [oneShot]).get('ding')?.kind).toBe('restart');
 });
 
@@ -412,8 +420,9 @@ test('a pickup is silent when there is nothing left over to play', () => {
     // would sound it twice.
     expect(pickupNotes(data, 1, 0)).toEqual([]);
     // A rest covers the beat.
-    expect(pickupNotes(music([track([1, null, 3], { loop: true })]), 1.5, 0))
-        .toEqual([]);
+    expect(
+        pickupNotes(music([track([1, null, 3], { loop: true })]), 1.5, 0),
+    ).toEqual([]);
     // A non-looping track that has already run out.
     expect(pickupNotes(music([track([1, 2], { loop: false })]), 5, 0)).toEqual(
         [],
@@ -494,4 +503,150 @@ test('a whole degree still schedules exactly one note', () => {
                 10,
             ).notes,
         ).toHaveLength(3);
+});
+
+test('a beat asks for a note at the gap it is nearest', () => {
+    // For turning a click on the staff into a place in the note list. The
+    // boundaries between notes are where a note can go, so each beat answers
+    // the one it is closest to.
+    const t = track([1, 2, 3]);
+    expect(insertionAtBeat(t, 0)).toBe(0);
+    expect(insertionAtBeat(t, 0.4)).toBe(0);
+    // Past the middle of a note is past the note: this is what the staff shows,
+    // since a notehead is drawn straddling its onset.
+    expect(insertionAtBeat(t, 0.6)).toBe(1);
+    expect(insertionAtBeat(t, 1)).toBe(1);
+    // A beat exactly between two gaps takes the earlier one.
+    expect(insertionAtBeat(t, 1.5)).toBe(1);
+    expect(insertionAtBeat(t, -1)).toBe(0);
+    expect(insertionAtBeat(track([]), 0)).toBe(0);
+});
+
+test('the staff after the last note can be clicked to extend the track', () => {
+    // The bug this rule exists for: the whole width of the last note read as
+    // "before the last note", so a click in the empty staff after a track put
+    // the new note second to last and there was no way to append by pointer.
+    const t = track([1, 2, 3]);
+    expect(insertionAtBeat(t, 2.6)).toBe(3);
+    expect(insertionAtBeat(t, 3)).toBe(3);
+    expect(insertionAtBeat(t, 99)).toBe(3);
+});
+
+test('a long note is one gap wide, not one beat', () => {
+    // A whole note ending a track has four beats of staff to itself; half of
+    // them belong to the gap after it, or a click anywhere near it would land
+    // before it.
+    const held = track([1, 2]);
+    const long = {
+        ...held,
+        notes: [{ degrees: [1], beats: 4, volume: 1 }, held.notes[1]],
+    };
+    expect(insertionAtBeat(long, 0)).toBe(0);
+    expect(insertionAtBeat(long, 1.9)).toBe(0);
+    expect(insertionAtBeat(long, 2.1)).toBe(1);
+    expect(insertionAtBeat(long, 4)).toBe(1);
+    expect(insertionAtBeat(long, 4.6)).toBe(2);
+});
+
+test('a track that enters late reports where it actually starts', () => {
+    // An imported piece is full of these: every instrument entering after the
+    // opening carries a rest as long as its wait, and one entering in the last
+    // chorus opens with hundreds of beats of silence. Showing or playing from
+    // beat 0 there is an empty staff and a long silence.
+    const late = track([null, null, 3, 4]);
+    expect(firstSoundingBeat(late)).toBe(2);
+    expect(firstSoundingBeat(track([1, 2]))).toBe(0);
+    // A track of nothing but rests has no first note to find.
+    expect(firstSoundingBeat(track([null, null]))).toBeUndefined();
+    expect(firstSoundingBeat(track([]))).toBeUndefined();
+});
+
+test('a late entry is measured in beats, not entries', () => {
+    // The rest the importer writes is one entry however long it is.
+    const t = track([null, 5]);
+    const long = { ...t, notes: [{ ...t.notes[0], beats: 40 }, t.notes[1]] };
+    expect(firstSoundingBeat(long)).toBe(40);
+});
+
+test('a syllable rides the note it was assigned to', () => {
+    // The whole point of resolving words in `Music.toData` is that the
+    // scheduler carries them without knowing anything about lyrics, so what
+    // this checks is that the syllable survives the trip to the audio layer.
+    const singing = track([1, null, 2], { instrument: 'voice' });
+    const worded = {
+        ...singing,
+        notes: assignWords('la mi', singing.notes).map((words, index) => ({
+            ...singing.notes[index],
+            words,
+        })),
+    };
+    const { notes } = scheduleWindow(createTransport(music([worded]), 0), 10);
+    expect(notes.map((note) => note.words)).toEqual(['la', 'mi']);
+});
+
+test('a mashed degree sings the same syllable in both its voices', () => {
+    // A fractional degree sounds as two notes; hearing two different
+    // syllables at once would be a chord of nonsense.
+    const singing = track([1], { instrument: 'voice', mash: true });
+    const worded = {
+        ...singing,
+        notes: [{ degrees: [1.5], beats: 1, volume: 1, words: 'la' }],
+    };
+    const { notes } = scheduleWindow(createTransport(music([worded]), 0), 10);
+    expect(notes.length).toBe(2);
+    expect(notes.every((note) => note.words === 'la')).toBe(true);
+});
+
+test('every other instrument carries no syllable', () => {
+    const { notes } = scheduleWindow(
+        createTransport(music([track([1, 2])]), 0),
+        10,
+    );
+    expect(notes.every((note) => note.words === undefined)).toBe(true);
+});
+
+test('a beat reports the syllables being sung on it', () => {
+    // The shortcut a karaoke display is made of; reaching it through `parts`
+    // means filtering out every silent and non-singing track on every beat.
+    const singing = track([1, null, 2], { instrument: 'voice' });
+    const worded = {
+        ...singing,
+        notes: assignWords('la mi', singing.notes).map((words, index) => ({
+            ...singing.notes[index],
+            words,
+        })),
+    };
+    const { beats } = scheduleWindow(createTransport(music([worded]), 0), 10);
+    expect(beats.slice(0, 3).map((beat) => beat.words)).toEqual([
+        ['la'],
+        [],
+        ['mi'],
+    ]);
+});
+
+test('an instrument that cannot sing reports no syllables', () => {
+    const playing = track([1, 2], { instrument: 'piano' });
+    const worded = {
+        ...playing,
+        notes: playing.notes.map((note) => ({ ...note, words: 'la' })),
+    };
+    const { beats } = scheduleWindow(createTransport(music([worded]), 0), 10);
+    expect(beats.every((beat) => beat.words.length === 0)).toBe(true);
+});
+
+test('two voices on one syllable are two syllables, not one', () => {
+    // Deduplicating the way `instruments` does would report a chorus as a
+    // soloist, which is not what is being heard.
+    const singing = (pan: number) => {
+        const base = track([1], { instrument: 'voice', pan });
+        return {
+            ...base,
+            notes: base.notes.map((note) => ({ ...note, words: 'la' })),
+        };
+    };
+    const { beats } = scheduleWindow(
+        createTransport(music([singing(-1), singing(1)]), 0),
+        4,
+    );
+    expect(beats[0].words).toEqual(['la', 'la']);
 });

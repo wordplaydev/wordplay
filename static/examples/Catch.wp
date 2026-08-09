@@ -1,6 +1,8 @@
 🐭
 "Catch"/en"接住"/zh-CN"接住"/zh-TW
 ===start/en
+¶Catch the scurrying mouse with a click — click again to set it free.¶
+
 ¶If the selected phrase is mouse, toggle whether the mouse is caught.¶
 name: Choice()
 caught: ⊥ … ∆ (name) … (name = 'mouse') & ~caught

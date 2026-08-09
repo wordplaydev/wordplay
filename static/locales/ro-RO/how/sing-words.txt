@@ -1,0 +1,52 @@
+Fă vocea să cânte cuvinte
+
+Din fiecare  @Instrument  din paletă, \🔈.🤖\ este singurul care poate spune ceva. Dă-i  @Track  un  @Track/words  și le cântă, câte o silabă pe fiecare notă:
+
+\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+
+Șase silabe, șase note. Spațiile sunt toată gramatica de aici — ele spun unde se oprește o silabă și unde începe următoarea. Pauzele nu iau nicio silabă, așa că cuvintele cad pe notele pe care chiar le auzi. Scrie mai puține silabe decât note și ele o iau de la început; nu scrie niciuna și vocea ține un sunet /ăă/, deci mereu cântă ceva.
+
+Ortografia nu este engleză. Este <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, unde fiecare literă este exact un sunet și fiecare sunet are exact o literă. Ortografia engleză nu poate face asta — \o\ din /go/, /do/ și /women/ sunt trei sunete diferite — așa că o voce care citește ortografia engleză ar trebui să ghicească și ar ghici greșit. Asta înseamnă și că un vers funcționează la fel în orice limbă scrii, pentru că literele descriu gura ta, nu alfabetul tău.
+
+Nu există nicio tastă pe tastatura ta pentru majoritatea acestora, așa că apasă 🤖 de sub editor. Acesta listează fiecare sunet pe care îl poate face vocea, cu un cuvânt care îl conține și un buton care îl redă — apăsarea literei o scrie chiar în codul tău. A auzi un sunet este singurul mod de a-l cunoaște cu adevărat, iar acel panou este referința; ceea ce urmează este suficient pentru a începe.
+
+Începe cu vocalele. Aceste douăsprezece acoperă cea mai mare parte din ceea ce vei dori, fiecare arătată în interiorul unui cuvânt englezesc care o conține:
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+O vocală singură este o silabă foarte bună, iar dacă le cânți una după alta este cel mai clar mod de a le auzi diferența:
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+Consoanele arată în cea mai mare parte așa cum te aștepți: \p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ toate sună aproape ca în engleză. Cele care merită învățate sunt sunetele pe care engleza le scrie cu două litere, plus o literă care s-a schimbat. \ʃ\ este /ș/, \ʒ\ este sunetul /s/ din /măsură/, \θ\ este /th/ din /subțire/, \ð\ este /th/ din /this/, \ŋ\ este /ng/ din /sing/, și \j\ este /y/ din /yes/. Pune una în fața unei vocale și ai un cuvânt:
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+O silabă se poate întinde și peste mai multe note. Termin-o cu o liniuță și ea ține încă o notă pentru fiecare liniuță — șirul de note pe o singură silabă care dă imnurilor și cântecelor de leagăn forma lor:
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+Cele trei liniuțe duc \glo\ peste patru note înainte ca \ri\ să cadă pe ultima. Orice nu recunoaște vocea sare peste, în loc să refuze, așa că poți experimenta fără să strici melodia.
+
+Pentru a arăta cuvintele așa cum sunt cântate, citește-le înapoi din  @Beat .  @Downbeat/words  duce orice se cântă în acel moment, așa că o singură frază este un întreg afișaj de karaoke:
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts  are aceleași silabe pistă cu pistă, dacă vrei să desenezi doi cântăreți separat, nu împreună.
+
+choose-an-instrument, write-rhythm, draw-the-music

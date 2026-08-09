@@ -1,39 +1,27 @@
-Make the music follow the action
+גרמו למוזיקה לעקוב אחר הפעולה
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+משחק שמנגן לחן אחד מההתחלה עד הסוף מרגיש שטוח. מה אם המוזיקה היתה יודעת אם אתם מנצחים?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+אין דרך *לעצור* את  @Music  — מה שעוצר אותו הוא שהוא לא נמצא על ה @Stage . אז שמרו פיסת state, ושימו את השיר שמתאים לה על הבמה:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'תפריט' … ∆ Button() … (phase = 'תפריט') ? 'מרדף' 'תפריט'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'תפריט') ? '▶ לחצו כדי להתחיל' '🏃 רוצו!' 1m)
+		(phase = 'תפריט') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+שני השירים הם אותם שמונה מספרים. רק הכלי והקצב משתנים, וזה כבר נשמע כמו יצירה אחרת — כי דרגות אומרות *איזה שלב בסולם*, ולא איזה גובה צליל, כך ש @Music  יכול לפרש אותן מחדש. תנו לו \קנהמידה: 🎼.מינורהרמוני\ ואותו הלחן הופך למאיים בלי לכתוב מחדש אף תו.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+החצי השני הוא מוזיקה שמשתנה ברציפות לפי איך שהדברים מתקדמים. שינוי \tempo\ לא מתחיל שום דבר מחדש — הוא נכנס בפעימה הבאה, כך שהיצירה מאיצה בלי לאבד את מקומה:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('תווים \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+לחצו מספיק פעמים והתופים דוחפים חזק פי שניים מכפי שהתחילו. תו קצר והולם הוא מה שגורם לזה להישמע — מתחת לתווים ארוכים ומוחזקים קשה להרגיש שינוי בקצב.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

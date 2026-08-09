@@ -72,6 +72,8 @@ const Lanes = {
     // once. Announced on entry, which is a real event, since a description is
     // constant text and would go unheard if it recurred.
     'music-description': 'queued',
+    /** A note added, removed, or moved in the music editor. */
+    'note-edit': 'queued',
     'tour-step': 'queued',
     collaborator: 'queued',
     notification: 'queued',

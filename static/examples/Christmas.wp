@@ -1,6 +1,7 @@
 🎄
 "Christmas"/en"圣诞节"/zh-CN"聖誕節"/zh-TW
 ===
+¶A Christmas tree that wobbles and shimmies in a looping dance.¶
 Phrase('🎄' resting: (((Sequence({
   0: Pose(rotation: 0°)
   1: Pose(rotation: 15°)

@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "$~Ο Στίχος",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "$~Σιωπή",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         ["FunctionDefinition", "bored", "$~… Ω, γεια."],
                         null,
@@ -128,7 +128,7 @@
                     "title": "$~Θα θέλατε ένα πρόγραμμα;",
                     "subtitle": "$~Πρόγραμμα",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('📄' resting:Pose(rotation: 10°))" },
                         [
@@ -237,7 +237,10 @@
                     "title": "$~Χώρος συγκράτησης",
                     "subtitle": "$~Θέση κράτησης θέσης",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -352,7 +355,10 @@
                     "title": "$~Ξαναλέγω;",
                     "subtitle": "$~Μη αναλυόμενο",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -496,7 +502,8 @@
                     "subtitle": "$~Αξιολογώ",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -730,12 +737,12 @@
         },
         {
             "title": "$~Είναι τα μικρά πράγματα",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~Αξίες",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -788,7 +795,8 @@
                     "subtitle": "$~Κείμενο",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -974,7 +982,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1053,7 +1062,8 @@
                     "subtitle": "$~Αλήθεια",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1250,7 +1260,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1427,7 +1438,10 @@
                     "title": "$~Εναρκτήριες (παρα)τηρήσεις",
                     "subtitle": "$~Πρόθεμα",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1544,20 +1558,60 @@
                             "$~Νομίζουν ότι τα πας περίφημα! Και νομίζω ότι τα πας περίφημα κι εσύ. Έχεις ήδη γνωρίσει τόσους πολλούς από τους υπέροχους παίκτες μας. Και υπάρχουν τόσοι πολλοί ακόμη που έχεις να γνωρίσεις..."
                         ]
                     ]
+                },
+                {
+                    "title": "$~Μοτίβα",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Μερικές φορές δεν θέλεις ένα *συγκεκριμένο* κομμάτι κειμένου — θέλεις να μάθεις το *σχήμα* του. Είναι αυτό δύο ψηφία, μια άνω και κάτω τελεία, μετά δύο ψηφία — η ώρα ενός ρολογιού; Περιέχει έστω έναν αριθμό;"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Γι' αυτό υπάρχει το @PatternLiteral! Γράφεις ένα μέσα στο \\⣿ ⣿\\ και το διαβάζεις από την αρχή ως το τέλος: \\_\\ είναι ένα γράμμα, \\#\\ είναι ένα ψηφίο, \\␣\\ είναι ένα κενό, και το κείμενο μέσα σε εισαγωγικά ταιριάζει ακριβώς. Οι μετρήσεις μπαίνουν πρώτες, οπότε \\2 #\\ σημαίνει δύο ψηφία."
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Χρησιμοποίησε \\≈\\ για να ρωτήσεις «ταιριάζει όλο αυτό το κείμενο στο σχήμα;» — παίρνεις ένα \\⊤\\ ή \\⊥\\. Δοκίμασε \\⌕\\ για να *βρεις* κάθε σημείο όπου εμφανίζεται ένα μοτίβο, και @name τα κομμάτια που θέλεις να κρατήσεις με \\όνομα: (…)\\."
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Κάθε αποτέλεσμα είναι ένα @Structure με το κείμενο που ταίριαξε, το πού αρχίζει και τελειώνει, και τις ομάδες που έπιασες. Και επειδή τα μοτίβα ταιριάζουν κατά γράφημα, συμπεριφέρονται το ίδιο σε κάθε @language και γραφή."
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "$~Σύνολα",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "$~Κοινοτικές αξίες",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1595,7 +1649,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1772,7 +1827,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1891,7 +1947,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2060,32 +2117,12 @@
         },
         {
             "title": "$~Ηθοποιοί",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~Παράκαμψη",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2112,7 +2149,7 @@
                     "title": "$~Μπορούμε να είμαστε οτιδήποτε",
                     "subtitle": "$~Μετατρέπω",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2271,7 +2308,10 @@
                     "title": "$~Πώς να επιλέξετε;",
                     "subtitle": "$~Αποφάσεις",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2404,12 +2444,12 @@
         },
         {
             "title": "$~Αλλαγή σκηνής",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~Εισαγωγή",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2443,7 +2483,7 @@
                     "title": "$~Τικ, τικ, τικ...",
                     "subtitle": "$~Φορά",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2518,7 +2558,7 @@
                     "title": "$~Κλακ με κλικ",
                     "subtitle": "$~Κλειδί",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2566,7 +2606,7 @@
                     "title": "$~Χμμμμμμμ…",
                     "subtitle": "$~Δείκτης",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2606,7 +2646,7 @@
                     "title": "$~Και... τώρα!",
                     "subtitle": "$~Κουμπί",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2636,7 +2676,7 @@
                     "title": "$~Ακούει κανείς;",
                     "subtitle": "$~Τόμος",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2660,7 +2700,8 @@
                     "subtitle": "$~Τυχαίος",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2696,7 +2737,8 @@
                     "subtitle": "$~Τοποθέτηση",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2736,7 +2778,8 @@
                     "subtitle": "$~Κίνηση",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2864,7 +2907,7 @@
                     "title": "$~Ας μιλήσουμε",
                     "subtitle": "$~Κουβέντα",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2894,7 +2937,8 @@
                     "subtitle": "$~Ιστοσελίδα",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2938,7 +2982,7 @@
                     "title": "$~Σε συνεννόηση",
                     "subtitle": "$~Αντίδραση",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3080,12 +3124,15 @@
         },
         {
             "title": "$~Ανέβα στη σκηνή",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~Παραγωγή",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3127,7 +3174,7 @@
                     "title": "$~Τι να πω;",
                     "subtitle": "$~Φράση",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3407,7 +3454,10 @@
                     "title": "$~1, 2, 3, 4, 1, 2, 3, 4",
                     "subtitle": "$~Αλληλουχία",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3588,7 +3638,8 @@
                     "subtitle": "$~Ομάδα",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3844,9 +3895,7 @@
                     "title": "$~Στάδιο… σωστά;",
                     "subtitle": "$~Στάδιο",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3952,10 +4001,194 @@
                     ]
                 },
                 {
+                    "title": "$~Το λάκκο",
+                    "subtitle": "$~Μουσική",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Γνώρισες τα @Stage, @Group, @Phrase, @Sequence. Ό,τι έφτιαξες ως τώρα, το έφτιαξες για να το *βλέπεις*."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~Υπάρχει ακόμη ένα μέλος της ομάδας. Αυτό δεν θα το δεις ποτέ."
+                        ],
+                        null,
+                        ["Music", "serious", "$~Μετατρέπω αριθμούς σε ήχο."],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Αριθμούς; Όχι νότες;"
+                        ],
+                        ["Music", "kind", "$~Κοίτα. Οκτώ αριθμοί, μία φωνή."],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Πάτησε το κουμπί αναπαραγωγής ▶️ στον διακόπτη λειτουργίας @UI/modeSwitcher πάνω από τη σκηνή. Όσο γράφεις μένω ακίνητο — η αναπαραγωγή είναι η στιγμή που ξεκινάω."
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Κάθε αριθμός είναι ένα *σκαλί μιας κλίμακας*, όχι ένα ύψος τόνου. \\1\\ είναι το σκαλί όπου μια μελωδία ακούγεται ολοκληρωμένη, και \\8\\ είναι η ίδια νότα μία οκτάβα πιο ψηλά."
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~Άλλαξε μία από αυτές — πίσω στη λειτουργία ✏️ επεξεργασίας — μετά παίξε ξανά και άκουσε τι μετακινήθηκε."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Ποιος την παίζει;"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Όποιον ρωτήσω. Αυτό είναι ένα @Track.instrument ενός @Track."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Οι οκτώ αριθμοί δεν άλλαξαν. Άλλαξε μόνο ποιος τους παίζει.",
+                            "$~Υπάρχουν δεκαοκτώ για να διαλέξεις. Δοκίμασε \\🔈.🎻\\, ή \\🔈.🎺\\, ή \\🔈.🐶\\."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Και πόσο γρήγορα;"
+                        ],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo. Χτύποι ανά λεπτό, και τίποτα άλλο."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Το εβδομήντα δύο είναι περίπου ρυθμός βαδίσματος. Δοκίμασε τριάντα. Δοκίμασε διακόσια."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Και πρόσεξε ότι δεν ξεκινάω από την αρχή όταν το αλλάζεις. Ο νέος ρυθμός μπαίνει στον επόμενο χτύπο, οπότε το κομμάτι επιταχύνει χωρίς να χάσει τη θέση του."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Μπορεί να υπάρχει πάνω από μία φωνή;"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Όσες θέλεις. Δώσε μου μια λίστα από @Track αντί για μία μόνο."
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Τέσσερις φωνές, μία μελωδία. Το μπάσο είναι οι *ίδιοι οκτώ αριθμοί*, κατεβασμένοι μία οκτάβα από το @Track.key. Οι συγχορδίες κρατούν δύο χτύπους η καθεμία και τα τύμπανα κινούνται δύο φορές πιο γρήγορα — αυτό είναι το @Track.beat."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Και πρόσεξε τις εντάσεις. Μόνο το φλάουτο είναι κάπου κοντά στο μέγιστο. Φωνές σε πλήρη ένταση δεν φτιάχνουν μια πιο δυνατή μπάντα· φτιάχνουν μια πιο θολή."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Τι άλλο μπορεί να αλλάξει;"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Περισσότερα από όσα μπορώ να πω σε μία πρόταση. Οπότε: όλα μαζί."
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Πάτησε ξανά αναπαραγωγή. Το @Music.scale και το @Music.key μετακινούν όλο το κομμάτι μαζί. \\pan\\ βάζει κάθε φωνή κάπου μέσα στο δωμάτιο. Το κουδούνι διαβάζει τιμές νότας — \\𝅘𝅥𝅮\\ είναι ένα όγδοο — και ένα @Note κουβαλά τη δική του ένταση. Η τελευταία φωνή έχει \\words\\, οπότε τις τραγουδά, μία φορά, επειδή το \\loop\\ της είναι \\⊥\\."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Και ο @Beat σου δίνει ένα @Downbeat σε κάθε χτύπο. Το @Downbeat.parts είναι κάθε φωνή με το ύψος της, την ένταση και τη θέση της τώρα· το @Downbeat.words είναι η συλλαβή που τραγουδιέται. Αυτό είναι όλα τα σημεία και οι στίχοι."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~Ο @Music ακούγεται και δεν φαίνεται ποτέ, οπότε τίποτα σχετικά με αυτόν δεν *τοποθετείται* ποτέ. Ταξιδεύει πάνω στο @Stage και γεμίζει τον χώρο — και κάθε άτομο που παρακολουθεί επιλέγει πώς, ή αν, θα εμφανιστεί."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Λοιπόν: πώς θέλεις να ακούγεται ο κόσμος σου;"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~Και... σκηνή!",
                     "subtitle": "$~Σκηνή",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4082,7 +4315,10 @@
                     "title": "$~Υπάρχει κάποιος που ονομάζεται...",
                     "subtitle": "$~Επιλογή",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4132,12 +4368,12 @@
         },
         {
             "title": "$~Επανακλήσεις",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~Αναμνήσεις",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~…"],
                         null,
@@ -4160,7 +4396,7 @@
                     "title": "$~Ονομασία",
                     "subtitle": "$~Δένω",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4409,7 +4645,7 @@
                     "title": "$~Εκτός σκηνής",
                     "subtitle": "$~Φραγμός",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4571,7 +4807,10 @@
                     "title": "$~Οδηγίες σκηνής",
                     "subtitle": "$~Συναρτήσεις",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4678,7 +4917,10 @@
                     "title": "$~Σχεδιασμός σκηνικών",
                     "subtitle": "$~Δομές",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -5004,7 +5246,7 @@
                     "title": "$~Σημειώσεις του σκηνοθέτη",
                     "subtitle": "$~Εξηγώ",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5242,15 +5484,14 @@
         },
         {
             "title": "$~Λύση",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~Συνεξάρτηση",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5619,12 +5860,46 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Ω, ναι, φυσικά! Τι θα λέγατε να τους αφήσουμε να φτιάξουν τη μουσική; @Phrase, μπορείς να ακούσεις το @Volume και να το συνδέσεις με το @Color.lightness και το @Color.chroma στο χρώμα σου; Με αυτόν τον τρόπο, θα φουντώσουμε όταν ο σκηνοθέτης μας κάνει θόρυβο!"
+                            "$~Ω ναι, φυσικά! Τι λες να τους αφήσουμε να φωτίσουν το δωμάτιο; @Phrase, μπορείς να ακούσεις το @Volume και να το συνδέσεις με τα @Color.lightness και @Color.chroma στο χρώμα σου; Έτσι, θα γίνουμε λευκά και πυρωμένα όταν ο σκηνοθέτης μας κάνει θόρυβο!"
                         ],
                         ["Phrase", "kind", "$~Εξαιρετική ιδέα!"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~Κινούμαστε… αλλά ο χώρος είναι τόσο ήσυχος. @Music; Είσαι εκεί έξω;"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Ήμουν εδώ όλη την ώρα. Δεν μου ζήτησες ποτέ έναν ήχο."
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~… θα μας έδινες κάτι για να κινηθούμε;"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Τέσσερις φωνές, λοιπόν: μια μελωδία, ένα μπάσο, μια συγχορδία και ένα τύμπανο. Ογδόντα χτύποι το λεπτό — δηλαδή τα τρία τέταρτα του δευτερολέπτου που ζήτησες από το @Reaction."
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~μπουμ… μπουμ… μπουμ… μπουμ…"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~Στο σύνθημα! Στο σύνθημα! Σε *κάθε* σύνθημα! Δεν είχα ποτέ πριν έναν τέτοιο ρυθμό."
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction, δεν μετράς πια ένα ρολόι. Ακούς το @Music."
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "$~1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "$~Κίνηση!"],
                         ["Text", "excited", "$~Εξαρση!"],
