@@ -1,6 +1,8 @@
 🗣
 "Face Talk"/en
 ===
+¶Your facial expressions, tracked by camera and narrated on stage.¶
+
 ¶ Make a face stream to track expressions ¶
 face: Face(200ms)
 

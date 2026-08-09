@@ -1,6 +1,7 @@
 🖐
 "Hand"/en"手"/zh-CN"手"/zh-TW
 ===
+¶Hold up fingers to your camera and an emoji hand counts along.¶
 hand: Hand()
 
 Stage([

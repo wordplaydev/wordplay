@@ -1,6 +1,7 @@
 H
 "SentenceLength"/en"句子长度"/zh-CN"句子長度"/zh-TW
 ===
+¶Type in the chat bar and it counts your sentence's characters.¶
 sentence: Chat()
 length: Chat().length()
 

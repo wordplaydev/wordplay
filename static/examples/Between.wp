@@ -1,6 +1,8 @@
 📏
 Between
 === start/en
+¶A little function that checks whether a number lies between two others.¶
+
 ¶True if n is between min and max, exclusive¶
 ƒ between(n•# min•# max•#) (n > min) & (n < max)
 

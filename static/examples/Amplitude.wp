@@ -1,6 +1,7 @@
 ⚫
 "Amplitude"/en"振幅"/zh-CN"振幅"/zh-TW
 ===
+¶A row of dots that glow and fade with your microphone's volume.¶
 amplitudes•[#]: ←← 10 Volume()
 vis: amplitudes.translate(ƒ (amp•#) Phrase("⚫️" opacity: amp size: 10m))
 Stage([Group( Row() vis )] place: Place(0m 0m -50m))

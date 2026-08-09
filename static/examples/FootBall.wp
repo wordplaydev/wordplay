@@ -1,6 +1,7 @@
 ⚽
 "FootBall"/en"足球"/zh-CN"足球"/zh-TW
 === start/en
+¶A physics penalty shootout against a goalkeeper that slides side to side.¶
 hit/en,golpe/es: Collision('footy' 'ball')
 
 ballPlace/en,bolaLugar/es: Motion(Place(6m 1m) nextvelocity: hit•ø ? ø Velocity(Random(80m/s 100m/s)))

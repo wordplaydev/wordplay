@@ -1,6 +1,8 @@
 🎬
 "Slide Show"/en
 === start
+¶A slideshow telling how Wordplay came to be; press → and ← to move through it.¶
+
 ¶One slide of the show: a character, a title, and the words below it.¶
 •Slide(emoji•'' title•'' body•''|`…`)
 

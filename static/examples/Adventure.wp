@@ -1,6 +1,7 @@
 Y
 "Adventure"/en"冒险游戏"/zh-CN"冒險遊戲"/zh-TW
 === start/en
+¶A tiny text adventure: choose your way out of a dark, cold room.¶
 •State(action•"" description•"" options•[State] won•?)
 
 stand: State('stand up' "You can't stand, you're tied down." [] ⊥)
