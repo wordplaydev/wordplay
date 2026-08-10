@@ -145,7 +145,7 @@
             $announce(
                 'chat-translation-error',
                 $locales.getLanguages()[0],
-                $locales.getMultilingualText(
+                $locales.getPrimaryPlainText(
                     (l) => l.ui.collaborate.translate.error,
                 ),
             );
@@ -161,7 +161,7 @@
             $announce(
                 'chat-message-errors',
                 $locales.getLanguages()[0],
-                $locales.getMultilingualText(
+                $locales.getPrimaryPlainText(
                     (l) => l.ui.collaborate.translate.messageError,
                 ),
             );
