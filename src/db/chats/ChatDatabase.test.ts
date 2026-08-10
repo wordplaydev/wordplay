@@ -98,7 +98,7 @@ describe('ChatDatabase granular message operations', () => {
     let db: ChatDatabase;
     let mockDatabase: any;
 
-    it('counts cached translations when trimming messages to fit the size cap', () => {
+    it('evicts oversized cached translations instead of dropping the message', () => {
         const oversizedChat = makeChat(
             {
                 messages: [
@@ -126,7 +126,9 @@ describe('ChatDatabase granular message operations', () => {
             ],
         );
 
-        expect(oversizedChat.getMessages()).toHaveLength(0);
+        const messages = oversizedChat.getMessages();
+        expect(messages).toHaveLength(1);
+        expect(messages[0].translations).toBeUndefined();
     });
 
     beforeEach(() => {

@@ -155,9 +155,21 @@ export function upgradeChat(
 // APIs
 ////////////////////////////////
 
-// We let a chat be at most 128KB, which is a lot of text, but since we have to pass the
-// whole document around each time, we need to cap it.
+// We let a chat's real message text be at most 128KB, which is a lot of
+// text, but since we have to pass the whole document around each time, we
+// need to cap it.
 const MAX_CHAT_MESSAGES_BYTES = 131072;
+
+// Cached translations get their own, separate cap so they can never push a
+// real message out of the chat. When they exceed it, the oldest cached
+// translations are evicted first — before any message text is ever touched.
+const MAX_CHAT_TRANSLATIONS_BYTES = 131072;
+
+const messageTranslationsSize = (message: SerializedMessage) =>
+    Object.values(message.translations ?? {}).reduce(
+        (sum, text) => sum + text.length,
+        0,
+    );
 
 /** An immutable wrapper class for accessing and manipulating chat data */
 export default class Chat {
@@ -167,31 +179,43 @@ export default class Chat {
     constructor(data: SerializedChat) {
         this.data = data;
 
-        // We automatically trim the chat messages if they exceed the maximum size.
-        // We estimate about 2 bytes per codepoint, even though some are 1 and some are 4.
-        const size = data.messages.reduce((size, message) => {
-            const textSize = message.text?.length ?? 0;
-            const translationSize = Object.values(
-                message.translations ?? {},
-            ).reduce((sum, text) => sum + text.length, 0);
-            return size + textSize + translationSize;
-        }, 0);
-
-        // If the chat is too big, keep trimming old messages until it fits.
-        if (size > MAX_CHAT_MESSAGES_BYTES) {
-            let newSize = size;
-            let messages = data.messages;
+        // We automatically trim the oldest chat messages if their text exceeds
+        // the maximum size. We estimate about 2 bytes per codepoint, even
+        // though some are 1 and some are 4.
+        const textSize = data.messages.reduce(
+            (size, message) => size + (message.text?.length ?? 0),
+            0,
+        );
+        let messages = data.messages;
+        if (textSize > MAX_CHAT_MESSAGES_BYTES) {
+            let newSize = textSize;
+            messages = [...messages];
             while (newSize > MAX_CHAT_MESSAGES_BYTES) {
                 const message = messages.shift();
                 if (message === undefined) break;
-                const textSize = message.text?.length ?? 0;
-                const translationSize = Object.values(
-                    message.translations ?? {},
-                ).reduce((sum, text) => sum + text.length, 0);
-                newSize -= textSize + translationSize;
+                newSize -= message.text?.length ?? 0;
             }
-            this.data = { ...data, messages: messages };
         }
+
+        // Cached translations are disposable: if they exceed their own budget,
+        // drop the oldest ones until they fit, never touching message text.
+        let translationsSize = messages.reduce(
+            (size, message) => size + messageTranslationsSize(message),
+            0,
+        );
+        if (translationsSize > MAX_CHAT_TRANSLATIONS_BYTES) {
+            messages = messages.map((message) => {
+                if (translationsSize <= MAX_CHAT_TRANSLATIONS_BYTES)
+                    return message;
+                const size = messageTranslationsSize(message);
+                if (size === 0) return message;
+                translationsSize -= size;
+                const { translations, ...withoutTranslations } = message;
+                return withoutTranslations;
+            });
+        }
+
+        if (messages !== data.messages) this.data = { ...data, messages };
     }
 
     getProjectID() {
