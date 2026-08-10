@@ -141,13 +141,19 @@
         if (!announce || !$announce) return;
         if (translateError === lastAnnouncedTranslateError) return;
         lastAnnouncedTranslateError = translateError;
-        if (translateError) {
+        if (translateError && translateTo !== undefined) {
+            const toLang = getLocaleLanguages(translateTo)
+                .map((c) => Languages[c]?.name ?? c)
+                .join(' + ');
             $announce(
-                'chat-translation-error',
+                'banner',
                 $locales.getLanguages()[0],
-                $locales.getPrimaryPlainText(
-                    (l) => l.ui.collaborate.translate.error,
-                ),
+                $locales
+                    .concretize(
+                        (l) => l.ui.collaborate.translate.error,
+                        { to: toLang },
+                    )
+                    .toText(),
             );
         }
     });
@@ -158,13 +164,32 @@
         if (messageErrorIDs === lastAnnouncedMessageErrors) return;
         lastAnnouncedMessageErrors = messageErrorIDs;
         if (messageErrorIDs.length > 0) {
-            $announce(
-                'chat-message-errors',
-                $locales.getLanguages()[0],
-                $locales.getPrimaryPlainText(
-                    (l) => l.ui.collaborate.translate.messageError,
-                ),
-            );
+            const ids = Object.keys(messageErrors);
+            const count = ids.length;
+            let text: string;
+            if (count === 1 && chat) {
+                const msg = chat
+                    .getMessages()
+                    .find((m) => m.id === ids[0]);
+                const sender =
+                    (msg ? creators[msg.creator] : undefined)?.getUsername(
+                        false,
+                    ) ?? '—';
+                text = $locales
+                    .concretize(
+                        (l) => l.ui.collaborate.translate.messageError,
+                        { sender },
+                    )
+                    .toText();
+            } else {
+                text = $locales
+                    .concretize(
+                        (l) => l.ui.collaborate.translate.messageErrors,
+                        { count },
+                    )
+                    .toText();
+            }
+            $announce('banner', $locales.getLanguages()[0], text);
         }
     });
 

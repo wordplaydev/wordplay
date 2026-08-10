@@ -8222,8 +8222,9 @@
                 "label": "Translate messages to",
                 "language": "message language",
                 "off": "—",
-                "error": "There was an issue translating this chat.",
-                "messageError": "There was an issue translating this message.",
+                "error": "Couldn't translate this chat to $to.",
+                "messageError": "A message from $sender couldn't be translated.",
+                "messageErrors": "$#count[$count message couldn't be translated.|$count messages couldn't be translated.]",
                 "direction": "$from → $to"
             },
             "role": {

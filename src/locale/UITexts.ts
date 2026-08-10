@@ -973,10 +973,12 @@ type UITexts = {
             language: string;
             /** [plain] Button label and tip to clear the current translation target */
             off: string;
-            /** [plain] Shown below the translate control when the whole chat couldn't be translated */
-            error: string;
-            /** [plain] Shown next to a message when that individual message couldn't be translated */
-            messageError: string;
+            /** [plain] Shown below the translate control when the whole chat couldn't be translated; $to is the target language name */
+            error: Template<['to']>;
+            /** [plain] Shown when exactly one message couldn't be translated; $sender is the sender's username */
+            messageError: Template<['sender']>;
+            /** [plain] Shown when multiple messages couldn't be translated; $count is the number of failed messages */
+            messageErrors: Template<['#count']>;
             /** [plain] Translation direction label; $from is the source language name, $to is the target language name */
             direction: Template<['from', 'to']>;
         };

@@ -16247,8 +16247,8 @@
                                             "description": "[plain] Translation direction label; $from is the source language name, $to is the target language name"
                                         },
                                         "error": {
-                                            "description": "[plain] Shown below the translate control when the whole chat couldn't be translated",
-                                            "type": "string"
+                                            "$ref": "#/definitions/Template%3C%5B%22to%22%5D%3E",
+                                            "description": "[plain] Shown below the translate control when the whole chat couldn't be translated; $to is the target language name"
                                         },
                                         "label": {
                                             "description": "[plain] Label for the control that translates received messages",
@@ -16259,8 +16259,12 @@
                                             "type": "string"
                                         },
                                         "messageError": {
-                                            "description": "[plain] Shown next to a message when that individual message couldn't be translated",
-                                            "type": "string"
+                                            "$ref": "#/definitions/Template%3C%5B%22sender%22%5D%3E",
+                                            "description": "[plain] Shown when exactly one message couldn't be translated; $sender is the sender's username"
+                                        },
+                                        "messageErrors": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                            "description": "[plain] Shown when multiple messages couldn't be translated; $count is the number of failed messages"
                                         },
                                         "off": {
                                             "description": "[plain] Button label and tip to clear the current translation target",
@@ -16273,6 +16277,7 @@
                                         "off",
                                         "error",
                                         "messageError",
+                                        "messageErrors",
                                         "direction"
                                     ],
                                     "type": "object"
@@ -25355,6 +25360,9 @@
         "Template<[\"rows\",\"columns\"]>": {
             "type": "string"
         },
+        "Template<[\"sender\"]>": {
+            "type": "string"
+        },
         "Template<[\"setOrMap\",\"key\"]>": {
             "type": "string"
         },
@@ -25422,6 +25430,9 @@
             "type": "string"
         },
         "Template<[\"title\"]>": {
+            "type": "string"
+        },
+        "Template<[\"to\"]>": {
             "type": "string"
         },
         "Template<[\"token\",\"before\",\"after\"]>": {
