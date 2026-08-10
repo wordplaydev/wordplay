@@ -1,3 +1,4 @@
+import { Domain } from '@db/Domains';
 import {
     collection,
     deleteDoc,
@@ -9,7 +10,7 @@ import {
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { MAX_CONCURRENT_EDITORS } from '@db/projects/Project';
-import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
+
 import {
     isPresenceStale,
     pickColorForClient,
@@ -107,12 +108,7 @@ export class PresenceTracker {
     private attach(): void {
         // Subscribe to all peers in this project's presence subcollection.
         this.subUnsub = onSnapshot(
-            collection(
-                this.db,
-                ProjectsCollection,
-                this.projectID,
-                'presence',
-            ),
+            collection(this.db, Domain.Projects, this.projectID, 'presence'),
             (snapshot) => {
                 for (const change of snapshot.docChanges()) {
                     const id = change.doc.id;
@@ -120,7 +116,10 @@ export class PresenceTracker {
                     if (change.type === 'removed') {
                         this.peers.delete(id);
                     } else {
-                        this.peers.set(id, change.doc.data() as PresencePayload);
+                        this.peers.set(
+                            id,
+                            change.doc.data() as PresencePayload,
+                        );
                     }
                 }
                 // Snapshot changes can open or close a slot for us.
@@ -204,7 +203,7 @@ export class PresenceTracker {
             await setDoc(
                 doc(
                     this.db,
-                    ProjectsCollection,
+                    Domain.Projects,
                     this.projectID,
                     'presence',
                     this.clientID,
@@ -261,7 +260,7 @@ export class PresenceTracker {
                 await deleteDoc(
                     doc(
                         this.db,
-                        ProjectsCollection,
+                        Domain.Projects,
                         this.projectID,
                         'presence',
                         this.clientID,

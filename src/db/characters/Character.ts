@@ -9,7 +9,9 @@
  *
  * All units are interpreted in pixels, on a 128x128 square canvas.
  */
-import { LCHtoRGB } from '@output/Color/Color';
+// From the standalone module, not Color: Character is reachable from the
+// database, and Color pulls the whole basis.
+import { LCHtoRGB } from '@output/Color/lch';
 import z from 'zod';
 
 const PointSchema = z.object({ x: z.number(), y: z.number() });

@@ -1,3 +1,4 @@
+import { LCHtoRGB } from '@output/Color/lch';
 import { getBind } from '@locale/getBind';
 import { SHARE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 import type Value from '@values/Value';
@@ -343,14 +344,6 @@ export function toColor(value: Value | undefined) {
     const h = toDecimal(hVal);
 
     return l && c && h ? new Color(value, l, c, h) : undefined;
-}
-
-/** l: 0-1, c: 0-infinity, h=0-360 */
-export function LCHtoRGB(l: number, c: number, h: number) {
-    return `lch(${l * 100}% ${c} ${h}deg)`;
-    // The previous way we converted to rgb prior to LCH support.
-    // const color = new ColorJS(ColorJS.spaces.lch, [l * 100, c, h], 1);
-    // return color.to('srgb').toString();
 }
 
 /**

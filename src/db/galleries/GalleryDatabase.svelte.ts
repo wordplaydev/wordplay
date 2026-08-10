@@ -30,7 +30,7 @@ import isQuotaError from '@db/isQuotaError';
 import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import type Project from '@db/projects/Project';
-import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
+
 import {
     ClassesCollection,
     ClassSchema,
@@ -686,7 +686,7 @@ export default class GalleryDatabase {
         // so concurrent shares to the same gallery accumulate rather than clobber.
         const batch = writeBatch(firestore);
         batch.set(
-            doc(firestore, ProjectsCollection, projectID),
+            doc(firestore, Domain.Projects, projectID),
             updated.asPersisted().serialize(),
         );
         batch.update(doc(firestore, GalleriesCollection, galleryID), {
@@ -751,7 +751,7 @@ export default class GalleryDatabase {
         // Atomic batch: clear project.gallery and remove from the gallery's projects array.
         const batch = writeBatch(firestore);
         batch.set(
-            doc(firestore, ProjectsCollection, projectID),
+            doc(firestore, Domain.Projects, projectID),
             updated.asPersisted().serialize(),
         );
         if (targetGalleryID !== null) {
@@ -876,7 +876,7 @@ export default class GalleryDatabase {
 
         const batch = writeBatch(firestore);
         for (const projectID of projectsToRemove) {
-            batch.update(doc(firestore, ProjectsCollection, projectID), {
+            batch.update(doc(firestore, Domain.Projects, projectID), {
                 gallery: null,
             });
         }

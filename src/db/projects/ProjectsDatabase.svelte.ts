@@ -341,12 +341,23 @@ export default class ProjectsDatabase {
      *  during the brief window between mount and first emission. */
     hydrated: boolean = $state(false);
 
+    /** The in-flight or finished hydration, so start() is idempotent. */
+    private starting: Promise<void> | undefined = undefined;
+
     constructor(database: Database) {
         this.database = database;
         this.localDB = database.localDB;
+    }
 
-        // Hydrate the editable projects from disk
-        this.hydrate();
+    /**
+     * Read the local projects and begin tracking them. Called by
+     * `Database.startProjectWork()` rather than from the constructor: every
+     * cached project is deserialized into a `Project`, and each of those builds
+     * a `Basis`, so doing it on import made every page — including ones with no
+     * projects on them — pay for it before first paint.
+     */
+    start(): Promise<void> {
+        return (this.starting ??= this.hydrate());
     }
 
     async hydrate() {

@@ -13,7 +13,6 @@ import type Node from '@nodes/Node';
 import type { FieldPosition } from '@nodes/Node';
 import type Root from '@nodes/Root';
 import type Token from '@nodes/Token';
-import type Color from '@output/Color/Color';
 import type Spaces from '@parser/Spaces';
 import type { ProjectMode } from '@components/project/ProjectMode';
 import type Evaluator from '@runtime/Evaluator';
@@ -92,10 +91,13 @@ export type AnnouncerContext =
 export const [getAnnouncer, setAnnouncer] =
     createOptionalContext<Writable<AnnouncerContext>>();
 
-/** Whether the site is in fullscreen mode. */
+/** Whether the site is in fullscreen mode. Colors arrive already resolved to
+ * CSS: Page renders on every route, and importing Color to resolve them there
+ * would pull the whole language basis into every page's bundle. */
 export type FullscreenContext = Writable<{
     on: boolean;
-    background: Color | string | null;
+    background: string | null;
+    foreground: string | null;
 }>;
 export const [getFullscreen, setFullscreen] =
     createContext<FullscreenContext>();

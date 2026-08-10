@@ -22,7 +22,6 @@
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import Color from '@output/Color/Color';
     import {
         DOCUMENTATION_SYMBOL,
         LEARN_SYMBOL,
@@ -57,6 +56,7 @@
     let fullscreen: FullscreenContext = writable({
         on: false,
         background: null,
+        foreground: null,
     });
     setFullscreen(fullscreen);
 
@@ -66,14 +66,10 @@
     $effect(() => {
         if (typeof document !== 'undefined' && $fullscreen) {
             document.body.style.background = $fullscreen.on
-                ? $fullscreen.background instanceof Color
-                    ? $fullscreen.background.toCSS()
-                    : ($fullscreen.background ?? '')
+                ? ($fullscreen.background ?? '')
                 : '';
             document.body.style.color = $fullscreen.on
-                ? $fullscreen.background instanceof Color
-                    ? $fullscreen.background.contrasting().toCSS()
-                    : ''
+                ? ($fullscreen.foreground ?? '')
                 : '';
         }
     });

@@ -11,9 +11,9 @@
         setProject,
     } from '@components/project/Contexts';
     import ProjectView from '@components/project/ProjectView.svelte';
-    import { Galleries, Projects } from '@db/Database';
+    import { DB, Galleries, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import { untrack } from 'svelte';
+    import { untrack, onMount } from 'svelte';
     import { writable } from 'svelte/store';
     import Writing from '@components/app/Writing.svelte';
 
@@ -113,6 +113,10 @@
         if (project === undefined) return false;
         else return isAuthenticated($user) && project.hasCommenter($user.uid);
     });
+
+    // This page reads projects straight away, so ask for them rather than
+    // waiting for the layout's idle warm-up.
+    onMount(() => void DB.startProjectWork());
 </script>
 
 <svelte:head>
