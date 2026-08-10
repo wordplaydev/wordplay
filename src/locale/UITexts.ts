@@ -981,6 +981,8 @@ type UITexts = {
             messageErrors: Template<['#count']>;
             /** [plain] Translation direction label; $from is the source language name, $to is the target language name */
             direction: Template<['from', 'to']>;
+            /** [plain] Announced to screen readers with the number of languages matching the search; $count is the match count */
+            results: Template<['#count']>;
         };
         /** The chat message input field */
         field: {

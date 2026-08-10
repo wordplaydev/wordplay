@@ -16269,6 +16269,10 @@
                                         "off": {
                                             "description": "[plain] Button label and tip to clear the current translation target",
                                             "type": "string"
+                                        },
+                                        "results": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                            "description": "[plain] Announced to screen readers with the number of languages matching the search; $count is the match count"
                                         }
                                     },
                                     "required": [
@@ -16278,7 +16282,8 @@
                                         "error",
                                         "messageError",
                                         "messageErrors",
-                                        "direction"
+                                        "direction",
+                                        "results"
                                     ],
                                     "type": "object"
                                 }

@@ -5,7 +5,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import LocaleName from '@components/settings/LocaleName.svelte';
-    import LocaleSearch, { filterLocalesByQuery } from '@components/settings/LocaleSearch.svelte';
+    import LocaleCombobox from '@components/settings/LocaleCombobox.svelte';
     import { getAnnouncer, getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -64,12 +64,8 @@
 
     let scrollerView = $state<HTMLDivElement | undefined>();
 
-    // Query strings for the two language search inputs; the more they enter, suggestions is added .
-    let translateQuery = $state('');
-    let messageLanguageQuery = $state('');
-
-    // Keep each translatable locale distinct.
-    
+    // The distinct set of translatable locales offered by both comboboxes,
+    // which each filter it by their own search query.
     const uniqueLanguageLocales = (() => {
         const seen = new Set<string>();
         const result: Locale[] = [];
@@ -81,30 +77,6 @@
         }
         return result;
     })();
-
-    // Locale lists filtered by the corresponding search query.
-    let translatableLocales = $derived(
-        filterLocalesByQuery(
-            uniqueLanguageLocales,
-            translateQuery,
-            (locale) => locale,
-            $locales.getLanguages(),
-        ),
-    );
-    let messageLanguageLocales = $derived(
-        filterLocalesByQuery(
-            uniqueLanguageLocales,
-            messageLanguageQuery,
-            (locale) => locale,
-            $locales.getLanguages(),
-        ),
-    );
-
-    function isSelectedLocale(value: string | undefined, locale: Locale) {
-        if (value === undefined) return false;
-        const selected = stringToLocale(value);
-        return selected !== undefined && localesAreEqual(selected, locale);
-    }
 
     // The language the creator has chosen to tag their next message with.
     // Intentionally unset by default: sending is blocked until the user
@@ -606,23 +578,14 @@
                     /></Button
                 >
             {/if}
-            <LocaleSearch id="translate-messages-search" bind:query={translateQuery} />
+            <LocaleCombobox
+                id="translate-messages"
+                candidates={uniqueLanguageLocales}
+                selected={translateTo}
+                label={(l) => l.ui.collaborate.translate.label}
+                choose={(ls) => queueTranslateMessages(ls)}
+            />
         </div>
-        {#if translateQuery.trim() !== ''}
-            <div class="locale-options">
-                {#each translatableLocales as locale}
-                    {@const ls = localeToString(locale)}
-                    <div class="option" class:selected={isSelectedLocale(translateTo, locale)}>
-                        <Button
-                            action={() => { translateQuery = ''; queueTranslateMessages(ls); }}
-                            active={!isSelectedLocale(translateTo, locale)}
-                            tip={(l) => l.ui.project.button.destination}
-                        ><LocaleName locale={ls} supported showDraft={false} /></Button>
-                    </div>
-                {:else}&mdash;
-                {/each}
-            </div>
-        {/if}
         {#if translateError}
             <Notice text={(l) => l.ui.collaborate.translate.error} />
         {/if}
@@ -640,22 +603,13 @@
             </div>
         </div>
         <div class="language">
-            <LocaleSearch id="new-message-language-search" bind:query={messageLanguageQuery} />
-            {#if messageLanguageQuery.trim() !== ''}
-                <div class="locale-options">
-                    {#each messageLanguageLocales as locale}
-                        {@const ls = localeToString(locale)}
-                        <div class="option" class:selected={isSelectedLocale(messageLanguage, locale)}>
-                            <Button
-                                action={() => { messageLanguage = ls; messageLanguageQuery = ''; }}
-                                active={!isSelectedLocale(messageLanguage, locale)}
-                                tip={(l) => l.ui.collaborate.translate.language}
-                            ><LocaleName locale={ls} supported showDraft={false} /></Button>
-                        </div>
-                    {:else}&mdash;
-                    {/each}
-                </div>
-            {/if}
+            <LocaleCombobox
+                id="new-message-language"
+                candidates={uniqueLanguageLocales}
+                selected={messageLanguage}
+                label={(l) => l.ui.collaborate.translate.language}
+                choose={(ls) => (messageLanguage = ls)}
+            />
         </div>
         {#if messageLanguage === undefined}
             <Notice text={(l) => l.ui.collaborate.error.untaggedMessage} />
@@ -819,27 +773,5 @@
         border-radius: var(--wordplay-border-radius);
         width: 100%;
         overflow-wrap: anywhere;
-    }
-
-    .locale-options {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: calc(2 * var(--wordplay-spacing));
-        row-gap: var(--wordplay-spacing);
-        padding-block: var(--wordplay-spacing);
-        max-height: 8rem;
-        overflow-y: auto;
-        flex-shrink: 0;
-    }
-
-    .option {
-        border: var(--wordplay-focus-width) solid transparent;
-        border-radius: var(--wordplay-border-radius);
-    }
-
-    .option.selected {
-        border-color: var(--wordplay-focus-color);
     }
 </style>

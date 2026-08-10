@@ -611,6 +611,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.collaborate.translate.error': ['to'],
     'ui.collaborate.translate.messageError': ['sender'],
     'ui.collaborate.translate.messageErrors': ['#count'],
+    'ui.collaborate.translate.results': ['#count'],
     'ui.dialog.notifications.notification.howToChatHeader': ['title'],
     'ui.dialog.notifications.notification.howToHeader': ['title'],
     'ui.dialog.notifications.notification.moderationHeader': ['name'],

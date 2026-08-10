@@ -8195,7 +8195,8 @@
                 "error": "$?",
                 "messageError": "$?",
                 "direction": "$from → $to",
-                "messageErrors": "$?"
+                "messageErrors": "$?",
+                "results": "$?"
             }
         },
         "palette": {
