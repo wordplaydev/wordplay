@@ -78,6 +78,20 @@ export type MusicAudioLike = {
  * music can offer a "tap for sound" affordance. */
 export const musicSuspended: Writable<boolean> = writable(false);
 
+/**
+ * iOS puts Web-Audio-only pages in the 'ambient' audio session, which the
+ * hardware silent switch mutes even while the context reports 'running' —
+ * resume "works" and nothing is heard. The Audio Session API is absent from
+ * TS's DOM lib, so this narrows structurally instead of declaring it.
+ */
+function requestPlaybackSession(): void {
+    if (typeof navigator === 'undefined') return;
+    if (!('audioSession' in navigator)) return;
+    const session: unknown = navigator.audioSession;
+    if (typeof session === 'object' && session !== null && 'type' in session)
+        session.type = 'playback';
+}
+
 /** Seconds to duck down, and to come back up. Asymmetric on purpose: duck
  * fast enough not to talk over a screen reader, restore gently. */
 const DuckDown = 0.08;
@@ -112,6 +126,7 @@ class MusicAudio implements MusicAudioLike {
             typeof AudioContext === 'undefined'
         )
             return undefined;
+        requestPlaybackSession();
         const context = new AudioContext();
         const master = context.createGain();
         master.gain.value = 1;
@@ -142,6 +157,10 @@ class MusicAudio implements MusicAudioLike {
         );
         this.context = context;
         this.master = master;
+        // Browsers suspend and interrupt on their own (iOS calls, tab
+        // policies); without this the store goes stale and the affordance
+        // never appears. Never removed — the context lives for the page.
+        context.addEventListener('statechange', () => this.reportSuspended());
         // The sample loader decodes into this context rather than making one
         // of its own, since browsers cap how many can exist.
         setDecodeContext(context);
@@ -163,7 +182,9 @@ class MusicAudio implements MusicAudioLike {
     }
 
     private reportSuspended() {
-        musicSuspended.set(this.context?.state === 'suspended');
+        musicSuspended.set(
+            this.context !== undefined && this.context.state !== 'running',
+        );
     }
 
     /**
@@ -187,12 +208,21 @@ class MusicAudio implements MusicAudioLike {
     }
 
     isSuspended(): boolean {
-        return this.context === undefined || this.context.state === 'suspended';
+        // Anything but 'running' won't be heard: WebKit parks contexts in a
+        // non-standard 'interrupted' state after calls and backgrounding, so
+        // comparing to 'suspended' would miss it.
+        return this.context === undefined || this.context.state !== 'running';
     }
 
     async resume(): Promise<void> {
         const context = this.ensure();
-        if (context === undefined || context.state !== 'suspended') return;
+        if (context === undefined || context.state === 'running') return;
+        // Older WebKit only unmutes when a source node starts inside the
+        // gesture; resume() alone leaves the context 'running' but silent.
+        const kick = context.createBufferSource();
+        kick.buffer = context.createBuffer(1, 1, context.sampleRate);
+        kick.connect(context.destination);
+        kick.start(0);
         try {
             await context.resume();
         } catch {

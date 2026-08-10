@@ -1889,6 +1889,9 @@
     let musicEvaluator: Evaluator | undefined = undefined;
 
     $effect(() => {
+        // Re-run when the audio context resumes, so sound recovers on the
+        // unlock gesture rather than on the next evaluation.
+        $musicSuspended;
         const present = musics;
         // The music editor's preview takes over while it plays: both share one
         // audio context, and two transports at different positions sound like a
