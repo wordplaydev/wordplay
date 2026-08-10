@@ -124,6 +124,7 @@
     // Whether a translation pass is currently running.
     let translating = $state(false);
     let translateRequest = 0;
+    let lastTranslationContentKey = '';
 
     // Whether the whole translation pass failed (shown below the translate
     // control), e.g. the translation service is unavailable.
@@ -328,6 +329,35 @@
             if (request === translateRequest) translating = false;
         }
     }
+
+    // Keep translation mode live: when message content changes (including newly
+    // arrived messages), refresh translations for the active target.
+    $effect(() => {
+        if (!chat || translateTo === undefined) {
+            lastTranslationContentKey = '';
+            return;
+        }
+
+        const contentKey = [
+            chat.getProjectID(),
+            translateTo,
+            ...chat.getMessages().map((msg) =>
+                [
+                    msg.id,
+                    msg.text ?? '',
+                    msg.moderation ?? '',
+                    msg.language ?? '',
+                ].join(':'),
+            ),
+        ].join('|');
+
+        if (contentKey === lastTranslationContentKey) return;
+        lastTranslationContentKey = contentKey;
+
+        untrack(() => {
+            void translateMessages(translateTo);
+        });
+    });
 
     function areSameDay(a: Date, b: Date): boolean {
         return (
