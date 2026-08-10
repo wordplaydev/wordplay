@@ -681,11 +681,13 @@ export class ChatDatabase {
             chat.getProjectID(),
             chat.withReportedMessage(message, reporterID),
         );
+        // Preserve cached translations: the message text is unchanged, only its
+        // moderation flag is being set. Wiping translations here would force every
+        // viewer to re-translate a message whose content hasn't changed.
         await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
             ...m,
             moderation: 'pending',
             reporter: reporterID,
-            translations: deleteField(),
         }));
     }
 

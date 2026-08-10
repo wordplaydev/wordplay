@@ -75,9 +75,8 @@ vi.mock('@db/Database', () => ({
     Projects: {},
 }));
 
-import { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
-import Chat from './ChatDatabase.svelte';
 import { deleteField, updateDoc } from 'firebase/firestore';
+import Chat, { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 
 function makeChat(
     overrides: Partial<SerializedChat> = {},
@@ -282,7 +281,8 @@ describe('ChatDatabase granular message operations', () => {
                 moderation: 'pending',
                 reporter: 'user-1',
             });
-            expect(data.messages[0].translations).toEqual(deleteField());
+
+            expect(data.messages[0].translations).toBeUndefined();
         });
     });
 
