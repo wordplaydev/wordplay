@@ -125,6 +125,7 @@
     let translating = $state(false);
     let translateRequest = 0;
     let lastTranslationContentKey = '';
+    let translateTargetTimeout: ReturnType<typeof setTimeout> | undefined;
 
     // Whether the whole translation pass failed (shown below the translate
     // control), e.g. the translation service is unavailable.
@@ -211,6 +212,23 @@
         const language = localeToString($locales.getLocale());
         if (project) Chats.addChat(project, gallery, language);
         else if (howTo) Chats.addChatToHowTo(howTo, gallery, language);
+    }
+
+    function queueTranslateMessages(target: string | undefined) {
+        if (translateTargetTimeout !== undefined) {
+            clearTimeout(translateTargetTimeout);
+            translateTargetTimeout = undefined;
+        }
+
+        if (target === undefined) {
+            void translateMessages(target);
+            return;
+        }
+
+        translateTargetTimeout = setTimeout(() => {
+            translateTargetTimeout = undefined;
+            void translateMessages(target);
+        }, 300);
     }
 
     /** Translate every visible message into the chosen target language and show
@@ -557,7 +575,7 @@
             {#if translateTo !== undefined}
                 <Button
                     tip={(l) => l.ui.collaborate.translate.off}
-                    action={() => translateMessages(undefined)}
+                    action={() => queueTranslateMessages(undefined)}
                     ><LocalizedText
                         path={(l) => l.ui.collaborate.translate.off}
                     /></Button
@@ -571,7 +589,7 @@
                     {@const ls = localeToString(locale)}
                     <div class="option" class:selected={isSelectedLocale(translateTo, locale)}>
                         <Button
-                            action={() => { translateQuery = ''; translateMessages(ls); }}
+                            action={() => { translateQuery = ''; queueTranslateMessages(ls); }}
                             active={!isSelectedLocale(translateTo, locale)}
                             tip={(l) => l.ui.project.button.destination}
                         ><LocaleName locale={ls} supported showDraft={false} /></Button>
