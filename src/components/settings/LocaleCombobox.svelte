@@ -222,7 +222,18 @@
                     <LocaleName locale={ls} supported showDraft={false} />
                 </li>
             {:else}
-                <li class="empty" role="presentation">&mdash;</li>
+                <li
+                    class="empty"
+                    role="option"
+                    aria-disabled="true"
+                    aria-selected="false"
+                >
+                    {$locales
+                        .concretize((l) => l.ui.collaborate.translate.results, {
+                            count: 0,
+                        })
+                        .toText()}
+                </li>
             {/each}
         {/if}
     </ul>
