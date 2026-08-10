@@ -1,5 +1,6 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
+import { grantClipboard } from '../helpers/clipboard';
 
 /**
  * Editing a phrase's text on stage must behave like a text field. It doesn't come for free:
@@ -23,9 +24,7 @@ test('typing in a phrase on stage inserts in order, without accumulating quotes'
 }) => {
     test.setTimeout(60000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
 
     const editor = page.getByTestId('editor').first();
@@ -71,9 +70,7 @@ test('a formatted phrase opens the palette rather than a plain text field', asyn
 }) => {
     test.setTimeout(60000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
 
     const editor = page.getByTestId('editor').first();
