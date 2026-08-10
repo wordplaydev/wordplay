@@ -23,6 +23,7 @@ import {
     arrayRemove,
     arrayUnion,
     collection,
+    deleteField,
     deleteDoc,
     doc,
     getDoc,
@@ -581,7 +582,7 @@ export class ChatDatabase {
     private async modifyChatMessage(
         chatID: string,
         messageID: string,
-        transform: (m: SerializedMessage) => SerializedMessage,
+        transform: (m: SerializedMessage) => Record<string, unknown>,
     ) {
         if (firestore === undefined) return;
         const chatRef = doc(firestore, ChatsCollection, chatID);
@@ -635,7 +636,7 @@ export class ChatDatabase {
             ...m,
             moderation: 'pending',
             reporter: reporterID,
-            translations: undefined,
+            translations: deleteField(),
         }));
     }
 
@@ -654,7 +655,7 @@ export class ChatDatabase {
             ...m,
             moderation: action,
             moderator: moderatorID,
-            ...(action === 'approved' ? {} : { translations: undefined }),
+            ...(action === 'approved' ? {} : { translations: deleteField() }),
         }));
     }
 
@@ -664,7 +665,7 @@ export class ChatDatabase {
         await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
             ...m,
             text: null,
-            translations: undefined,
+            translations: deleteField(),
         }));
     }
 

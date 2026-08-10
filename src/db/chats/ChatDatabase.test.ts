@@ -27,6 +27,7 @@ vi.mock('firebase/firestore', () => ({
     setDoc: vi.fn(async () => {}),
     updateDoc: vi.fn(async () => {}),
     deleteDoc: vi.fn(async () => {}),
+    deleteField: vi.fn(() => ({ _op: 'deleteField' })),
     runTransaction: vi.fn(
         async (
             _firestore: unknown,
@@ -76,7 +77,7 @@ vi.mock('@db/Database', () => ({
 
 import { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 import Chat from './ChatDatabase.svelte';
-import { updateDoc } from 'firebase/firestore';
+import { deleteField, updateDoc } from 'firebase/firestore';
 
 function makeChat(
     overrides: Partial<SerializedChat> = {},
@@ -279,6 +280,7 @@ describe('ChatDatabase granular message operations', () => {
                 moderation: 'pending',
                 reporter: 'user-1',
             });
+            expect(data.messages[0].translations).toEqual(deleteField());
         });
     });
 
@@ -319,6 +321,7 @@ describe('ChatDatabase granular message operations', () => {
                 moderation: 'removed',
                 moderator: 'mod-uid',
             });
+            expect(data.messages[0].translations).toEqual(deleteField());
         });
     });
 
@@ -444,8 +447,8 @@ describe('ChatDatabase granular message operations', () => {
             expect(data.messages[0]).toMatchObject({
                 id: 'm1',
                 text: null,
-                translations: undefined,
             });
+            expect(data.messages[0].translations).toEqual(deleteField());
         });
     });
 });
