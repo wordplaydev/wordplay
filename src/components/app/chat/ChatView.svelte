@@ -224,51 +224,55 @@
         const toLocale = stringToLocale(target);
         if (toLocale === undefined) return;
 
-        // getFunctionsInstance() initialises the SDK on first call and wires the emulator
-        const functionsInstance = await getFunctionsInstance();
-        if (!functionsInstance) {
-            translateError = true;
-            return;
+        const messages = chat.getMessages();
+
+        // Translations to show, keyed by message id: cached ones filled in now,
+        // freshly translated ones added after the batch pass.
+        const next: Record<string, { language: string; text: string }> = {};
+
+        // Messages that still need translating, grouped/batched by the helper.
+        const toTranslate: MarkupTranslationInput[] = [];
+
+        for (const msg of messages) {
+            const isVisibleMessage =
+                msg.text !== null &&
+                (msg.moderation === undefined || msg.moderation === 'approved');
+            if (!isVisibleMessage || msg.text === null) continue;
+
+            // Reuse a cached translation for this target immediately
+            const cached = msg.translations?.[target];
+            if (cached !== undefined) {
+                next[msg.id] = { language: target, text: cached };
+                continue;
+            }
+
+            const source = msg.language ?? $locales.getLanguages()[0];
+            const fromLocale = stringToLocale(source);
+            if (fromLocale === undefined) continue;
+
+            toTranslate.push({
+                id: msg.id,
+                text: msg.text,
+                from: fromLocale,
+            });
         }
+
+        // Show cached results right away then aftere network call
+        translations = next;
+
+        if (toTranslate.length === 0) return;
 
         translating = true;
         try {
-            const messages = chat.getMessages();
-            const translate = getFirebaseTranslator(functionsInstance);
-
-            // Translations to show, keyed by message id: cached ones filled in
-            // now, freshly translated ones added after the batch pass.
-            const next: Record<string, { language: string; text: string }> = {};
-
-            // Messages that still need translating, grouped/batched by the helper.
-            const toTranslate: MarkupTranslationInput[] = [];
-
-            for (const msg of messages) {
-                const isVisibleMessage =
-                    msg.text !== null &&
-                    (msg.moderation === undefined ||
-                        msg.moderation === 'approved');
-                if (!isVisibleMessage || msg.text === null) continue;
-
-                // Reuse a cached translation for this target if the message
-                // already has one, skipping the LLM call entirely.
-                const cached = msg.translations?.[target];
-                if (cached !== undefined) {
-                    next[msg.id] = { language: target, text: cached };
-                    continue;
-                }
-
-                const source = msg.language ?? $locales.getLanguages()[0];
-                const fromLocale = stringToLocale(source);
-                if (fromLocale === undefined) continue;
-
-                toTranslate.push({
-                    id: msg.id,
-                    text: msg.text,
-                    from: fromLocale,
-                });
+            // getFunctionsInstance() initialises the SDK on first call and
+            // wires the emulator.
+            const functionsInstance = await getFunctionsInstance();
+            if (!functionsInstance) {
+                translateError = true;
+                return;
             }
 
+            const translate = getFirebaseTranslator(functionsInstance);
             const { translated, failed } = await translateMarkupTexts(
                 toTranslate,
                 toLocale,
@@ -290,11 +294,15 @@
             // for this language reuse the stored text without issuing one
             // transaction per message.
             if (translated.size > 0) {
-                await Chats.saveMessageTranslations(chat, target, translated);
+                try {
+                    await Chats.saveMessageTranslations(chat, target, translated);
+                } catch (error) {
+                    // Rendering already has the translated text.
+                    console.error(error);
+                }
             }
         } catch (_) {
-            // The whole pass failed (e.g. setting up the call threw); show the
-            // general error at the top of the chat.
+            // The network translation pass failed; cached entries remain shown.
             translateError = true;
         } finally {
             translating = false;
