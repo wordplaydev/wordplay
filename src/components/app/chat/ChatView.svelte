@@ -123,6 +123,7 @@
 
     // Whether a translation pass is currently running.
     let translating = $state(false);
+    let translateRequest = 0;
 
     // Whether the whole translation pass failed (shown below the translate
     // control), e.g. the translation service is unavailable.
@@ -217,13 +218,20 @@
      *  translateMarkupTexts, which groups them by source language and translates
      *  in batches, then their results are cached on the message for next time. */
     async function translateMessages(target: string | undefined) {
+        const request = ++translateRequest;
         translateTo = target;
         translations = {};
         translateError = false;
         messageErrors = {};
-        if (target === undefined || !chat) return;
+        if (target === undefined || !chat) {
+            translating = false;
+            return;
+        }
         const toLocale = stringToLocale(target);
-        if (toLocale === undefined) return;
+        if (toLocale === undefined) {
+            translating = false;
+            return;
+        }
 
         const messages = chat.getMessages();
 
@@ -255,6 +263,7 @@
             const source = msg.language ?? chat.getLanguage() ?? localeToString($locales.getLocale());
             const fromLocale = stringToLocale(source);
             if (fromLocale === undefined) continue;
+            if (localesAreEqual(fromLocale, toLocale)) continue;
 
             toTranslate.push({
                 id: msg.id,
@@ -266,7 +275,10 @@
         // Show cached results right away then aftere network call
         translations = next;
 
-        if (toTranslate.length === 0) return;
+        if (toTranslate.length === 0) {
+            translating = false;
+            return;
+        }
 
         translating = true;
         try {
@@ -274,6 +286,7 @@
             // wires the emulator.
             const functionsInstance = await getFunctionsInstance();
             if (!functionsInstance) {
+                if (request !== translateRequest) return;
                 translateError = true;
                 return;
             }
@@ -286,7 +299,7 @@
             );
 
             // A newer target was chosen while this pass ran; discard our result.
-            if (target !== translateTo) return;
+            if (request !== translateRequest) return;
 
             const failedIds: Record<string, boolean> = {};
             for (const id of failed) failedIds[id] = true;
@@ -308,10 +321,11 @@
                 }
             }
         } catch (_) {
+            if (request !== translateRequest) return;
             // The network translation pass failed; cached entries remain shown.
             translateError = true;
         } finally {
-            translating = false;
+            if (request === translateRequest) translating = false;
         }
     }
 
@@ -527,7 +541,7 @@
                     {@const ls = localeToString(locale)}
                     <div class="option" class:selected={isSelectedLocale(translateTo, locale)}>
                         <Button
-                            action={() => translateMessages(ls)}
+                            action={() => { translateQuery = ''; translateMessages(ls); }}
                             active={!isSelectedLocale(translateTo, locale)}
                             tip={(l) => l.ui.project.button.destination}
                         ><LocaleName locale={ls} supported showDraft={false} /></Button>
@@ -560,7 +574,7 @@
                         {@const ls = localeToString(locale)}
                         <div class="option" class:selected={isSelectedLocale(messageLanguage, locale)}>
                             <Button
-                                action={() => { messageLanguage = ls; }}
+                                action={() => { messageLanguage = ls; messageLanguageQuery = ''; }}
                                 active={!isSelectedLocale(messageLanguage, locale)}
                                 tip={(l) => l.ui.collaborate.translate.language}
                             ><LocaleName locale={ls} supported showDraft={false} /></Button>
