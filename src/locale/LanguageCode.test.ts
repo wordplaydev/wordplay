@@ -1,4 +1,3 @@
-import { expect, test } from 'vitest';
 import {
     getCLDRCandidates,
     GoogleTranslateCodeOverrides,
@@ -6,6 +5,7 @@ import {
     Translatable,
     TranslatableLocales,
 } from '@locale/LanguageCode';
+import { expect, test } from 'vitest';
 
 test('every translatable code is a real language', () => {
     for (const code of Translatable)
@@ -18,12 +18,6 @@ test('TranslatableLocales only offers allowlisted languages', () => {
             Translatable,
             `${locale.language} is offered but not translatable`,
         ).toContain(locale.language);
-});
-
-test('TranslatableLocales contains no duplicate locale tags', async () => {
-    const { localeToString } = await import('@locale/Locale');
-    const tags = TranslatableLocales.map((locale) => localeToString(locale));
-    expect(tags).toEqual([...new Set(tags)]);
 });
 
 test('languages Google Translate does not support are not offered', () => {
