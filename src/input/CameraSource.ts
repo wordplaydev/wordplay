@@ -20,8 +20,18 @@ type Consumer = {
     onDenied: (() => void) | undefined;
 };
 
+/**
+ * How long a zero-consumer source stays warm. Evaluator rebuilds release and
+ * reacquire within a frame, but each fresh `getUserMedia` can re-show an
+ * OS-level permission dialog on Android Chrome — so tearing down eagerly
+ * re-prompted on every rebuild. Mirrors `AudioSource`'s grace period.
+ */
+const SourceGraceMs = 5000;
+
 class SharedSource {
     private database: Database;
+    /** The `sources` map key this source registered under, for self-removal. */
+    private readonly key: string;
     /** undefined = not yet started, null = failed/denied. */
     private stream: MediaStream | undefined | null = undefined;
     private video: HTMLVideoElement | undefined;
@@ -29,28 +39,42 @@ class SharedSource {
     private stopped = false;
     /** True once start() has kicked off acquisition, so it only runs once. */
     private started = false;
+    /** Pending deferred teardown, while the source idles with no consumers. */
+    private teardown: ReturnType<typeof setTimeout> | undefined = undefined;
     private readonly consumers = new Set<Consumer>();
 
-    constructor(database: Database) {
+    constructor(database: Database, key: string) {
         this.database = database;
+        this.key = key;
     }
 
     add(consumer: Consumer) {
+        if (this.teardown !== undefined) {
+            clearTimeout(this.teardown);
+            this.teardown = undefined;
+        }
         this.consumers.add(consumer);
         if (!this.started) this.start();
         else if (this.stream === null) consumer.onDenied?.();
         else this.applyFrameRate();
     }
 
-    /** Returns true when the source has no remaining consumers and was torn down. */
-    remove(consumer: Consumer): boolean {
+    remove(consumer: Consumer): void {
         this.consumers.delete(consumer);
         if (this.consumers.size === 0) {
-            this.stop();
-            return true;
+            // A denied source holds nothing live; retire now so the next
+            // acquire can ask again rather than caching the denial.
+            if (this.stream === null) this.retire();
+            else
+                this.teardown = setTimeout(() => this.retire(), SourceGraceMs);
+            return;
         }
         this.applyFrameRate();
-        return false;
+    }
+
+    /** True when nothing is consuming this source (teardown pending or not). */
+    isIdle(): boolean {
+        return this.consumers.size === 0;
     }
 
     getVideoElement(): HTMLVideoElement | undefined {
@@ -170,8 +194,11 @@ class SharedSource {
         video.play().then(() => (this.playing = true));
     }
 
-    private stop() {
+    retire() {
+        if (this.stopped) return;
         this.stopped = true;
+        if (this.teardown !== undefined) clearTimeout(this.teardown);
+        this.teardown = undefined;
         if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
         if (this.video) {
             this.video.srcObject = null;
@@ -179,21 +206,21 @@ class SharedSource {
                 document.body.removeChild(this.video);
         }
         this.video = undefined;
+        sources.delete(this.key);
     }
 }
 
 /**
  * A per-consumer handle onto a shared `SharedSource`. Acquire one via
- * `acquireCameraSource`; call `release()` when done. When the last handle for a
- * device is released, its stream and `<video>` are torn down.
+ * `acquireCameraSource`; call `release()` when done. When the last handle for
+ * a device is released, its stream and `<video>` linger briefly for reuse,
+ * then tear down.
  */
 export class CameraSourceHandle {
-    private readonly key: string;
     private readonly consumer: Consumer;
     private source: SharedSource | undefined;
 
-    constructor(key: string, source: SharedSource, consumer: Consumer) {
-        this.key = key;
+    constructor(source: SharedSource, consumer: Consumer) {
         this.source = source;
         this.consumer = consumer;
         source.add(consumer);
@@ -217,7 +244,7 @@ export class CameraSourceHandle {
 
     release() {
         if (this.source === undefined) return;
-        if (this.source.remove(this.consumer)) sources.delete(this.key);
+        this.source.remove(this.consumer);
         this.source = undefined;
     }
 }
@@ -236,10 +263,14 @@ export function acquireCameraSource(
     onDenied?: () => void,
 ): CameraSourceHandle {
     const key = database.Settings.getCamera() ?? '';
+    // A device switch shouldn't hold the old camera open for the grace
+    // period; retire any idling source for a different device now.
+    for (const [otherKey, other] of sources)
+        if (otherKey !== key && other.isIdle()) other.retire();
     let source = sources.get(key);
     if (source === undefined) {
-        source = new SharedSource(database);
+        source = new SharedSource(database, key);
         sources.set(key, source);
     }
-    return new CameraSourceHandle(key, source, { idealFrequency, onDenied });
+    return new CameraSourceHandle(source, { idealFrequency, onDenied });
 }

@@ -5900,7 +5900,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~ああ、もちろん！みんなに部屋を照らしてもらうのはどう？@Phrase、@Volumeの音を聞いて、それをあなたの色で@Color.lightnessと@Color.chromaにつないでくれる？そうすれば、監督が音を出したとき、わたしたちは真っ白に熱く光るよ！"
+                            "$~ああ、そうだね、もちろん！みんなに部屋を照らしてもらうのはどう？@Phrase、@Volumeを聞いて、あなたの色で@Color.lightnessと@Color.chromaにつないでくれる？そうすれば、監督が音を出したときに、私たちは白く光り輝くよ！"
                         ],
                         ["Phrase", "kind", "$~素晴らしいアイデアですね！"],
                         { "edit": "#EvaluateDance14" },

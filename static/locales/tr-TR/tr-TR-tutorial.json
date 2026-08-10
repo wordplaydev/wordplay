@@ -5860,7 +5860,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Ah evet, tabii ki! Odayı onlara aydınlatmaya ne dersin? @Phrase, @Volume dinleyip onu kendi renginde @Color.lightness ve @Color.chroma ile bağlayabilir misin? Böylece yönetmenimiz ses çıkardığında beyaz sıcaklığa döneriz!"
+                            "$~Ah evet, tabii ki! Odayı onların aydınlatmasına ne dersin? @Phrase, @Volume öğesini dinleyip kendi renginde @Color.lightness ve @Color.chroma öğelerine bağlayabilir misin? Böylece yönetmenimiz ses çıkardığında beyaz kızıla döneceğiz!"
                         ],
                         ["Phrase", "kind", "$~Harika fikir!"],
                         { "edit": "#EvaluateDance14" },

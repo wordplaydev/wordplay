@@ -6681,6 +6681,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~Um balão de fala com uma letra do teu sistema de escrita lá dentro"
             }
         },
         "tile": {
@@ -9219,13 +9222,25 @@
                     "optionslabel": "Exemplo",
                     "optiona": "Opção A",
                     "optionb": "Opção B",
-                    "optionc": "Opção C"
+                    "optionc": "Opção C",
+                    "logoresting": "$~Em repouso",
+                    "logoloading": "$~A carregar",
+                    "logoscripts": "$~Entre sistemas de escrita",
+                    "logodownloadsvg": "$~Descarregar SVG",
+                    "logodownloadpng": "$~Descarregar PNG (512px)",
+                    "logodownloadcard": "$~Descarregar imagem de partilha"
                 },
                 "accessibility": "$~Acessibilidade de Cor",
                 "accessibilityRules": [
                     "$~Tudo o que é apresentado como *texto* deve usar uma das variantes de texto AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, ou uma variável semântica que aponte para uma delas), que cumprem o contraste de 4.5:1 que as <WCAG 2.2@https://www.w3.org/TR/WCAG22/> exigem. As cores da marca mais vivas servem apenas para fundos, contornos e destaques, que precisam de 3:1 ou de nada. Estes rácios são garantidos por testes unitários e por análises automáticas de cada página, tanto no modo claro como no modo escuro. Há uma exceção deliberada: o cinzento dos contornos no modo claro está abaixo de 3:1, porque aqui os contornos são uma separação decorativa e cada limite essencial tem outra pista.",
                     "Nunca transmitas significado apenas pela cor: junta a cada estado codificado por cor uma segunda pista — uma forma, um estilo de linha, um símbolo ou uma palavra. Por exemplo, o editor desenha o destaque do cursor e os conflitos maiores a *cheio*, o resultado selecionado a *tracejado*, e os conflitos menores a *pontilhado*, para que a gravidade e a seleção continuem distintas sem a cor.",
                     "Consulta o guia <wiki de design@https://github.com/wordplaydev/wordplay/wiki/design> para toda a orientação aos contribuidores."
+                ],
+                "logo": "$~Logótipo",
+                "logoDescription": [
+                    "$~O logótipo do Wordplay é um balão de fala com uma letra: um pequeno palco onde o balão pode dizer qualquer coisa — uma letra do sistema de escrita do leitor, um emoji, ou um círculo, um triângulo e um quadrado enquanto algo carrega. Na aplicação, a letra segue o sistema de escrita do teu idioma principal; em superfícies neutras quanto à escrita, como o ícone do navegador e as imagens de partilha, o balão mostra as três formas, prestes a criar algo.",
+                    "O desenho em si nunca mostra movimento. O movimento é comportamental — a página inicial vai trocando o que o balão diz ao mesmo ritmo do seletor de idioma, e, enquanto carrega, as formas saltam à vez, como uma multidão a fazer a onda — e ajusta-se sempre à definição de velocidade da animação, parando por completo quando a animação está desligada.",
+                    "A marca é sempre desenhada na cor de texto atual, por isso, onde quer que o texto cumpra os requisitos de contraste, o logótipo também os cumpre."
                 ]
             },
             "localize": {
@@ -9690,7 +9705,8 @@
     "system": {
         "noscript": "O Wordplay utiliza JavaScript. O seu navegador não o suporta ou está desativado.",
         "unsupportedHeading": "Navegador não compatível",
-        "unsupportedBody": "O seu navegador não suporta funcionalidades essenciais. Para utilizar o Wordplay, precisa de atualizar para uma versão mais recente."
+        "unsupportedBody": "O seu navegador não suporta funcionalidades essenciais. Para utilizar o Wordplay, precisa de atualizar para uma versão mais recente.",
+        "imageDescription": "$~O logótipo do Wordplay — um balão de fala com um círculo, um triângulo e um quadrado — ao lado do nome Wordplay, rodeado por um grupo esbatido de símbolos para tudo o que os programas do Wordplay podem sentir e dizer."
     },
     "keyword": {
         "function": "função",

@@ -2,8 +2,9 @@
     import Action from '@components/app/Action.svelte';
     import Background from '@components/app/Background.svelte';
     import BigLink from '@components/app/BigLink.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
     import Header from '@components/app/Header.svelte';
+    import Logo from '@components/app/Logo.svelte';
+    import { getLogoLanguageCycle } from '@components/app/logoGlyph';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
@@ -11,13 +12,12 @@
     import LocaleChooser from '@components/settings/LocaleChooser.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { DB, Settings } from '@db/Database';
+    import { animationFactor, DB, Settings } from '@db/Database';
     import { getLocaleLanguageName } from '@locale/LocaleText';
     import { SupportedLocales } from '@locale/SupportedLocales';
     import {
         DOCUMENTATION_SYMBOL,
         LEARN_SYMBOL,
-        LOGO_SYMBOL,
         PROJECT_SYMBOL,
         STAGE_SYMBOL,
         SYMBOL_SYMBOL,
@@ -31,33 +31,48 @@
 
     const user = getUser();
 
+    // The language chooser's rotating label and the logo's glyph advance in
+    // lockstep — the language drives the script. The cycle is the union of
+    // both lists: every supported locale paired with its script's glyph,
+    // then a few glyph-only emoji entries, during which the label holds.
+    const cycle = getLogoLanguageCycle();
     let index = $state(0);
-    let interval: ReturnType<typeof setInterval> | null = null;
     let isHovering = $state(false);
 
-    const rotatingLocale = $derived(SupportedLocales[index]);
+    const cycleGlyph = $derived(cycle[index % cycle.length].glyph);
+    const rotatingLocale = $derived.by(() => {
+        // The current entry's locale, or — during glyph-only entries — the
+        // most recent one before it, so the chooser always names a language.
+        for (let back = 0; back < cycle.length; back++) {
+            const entry =
+                cycle[(index - back + cycle.length * 2) % cycle.length];
+            if (entry.locale !== undefined) return entry.locale;
+        }
+        return SupportedLocales[0];
+    });
     const rotatingLabel = $derived(getLocaleLanguageName(rotatingLocale));
 
-    function startRotation() {
-        if (interval || isHovering) return;
-        interval = setInterval(() => {
-            index = (index + 1) % SupportedLocales.length;
-        }, 4000);
-    }
-
-    function stopRotation() {
-        if (interval) {
-            clearInterval(interval);
-            interval = null;
-        }
-    }
-
     $effect(() => {
-        if (isHovering) {
-            stopRotation();
-            return;
-        }
-        startRotation();
+        // Paused while pointed at; no timer at all at factor 0 (reduced
+        // motion), matching the JS-motion convention in Background.svelte.
+        // Larger factors slow the cycle like every other duration, floored
+        // so the label always stays readable.
+        if (isHovering || $animationFactor <= 0) return;
+        const period = Math.max(1500, 4000 * $animationFactor);
+        let alive = true;
+        let cycler: ReturnType<typeof setInterval> | null = null;
+        // Wait for fonts so the first glyph swaps aren't seen mid-FOUT.
+        document.fonts.ready.then(() => {
+            if (!alive) return;
+            cycler = setInterval(
+                () => (index = (index + 1) % cycle.length),
+                period,
+            );
+        });
+        return () => {
+            alive = false;
+            if (cycler) clearInterval(cycler);
+        };
     });
 
     let showLocaleChooser = $state(false);
@@ -82,7 +97,9 @@
 <Writing footer={false}>
     <Beta />
     <Header
-        ><Emoji text={LOGO_SYMBOL} /><LocalizedText
+        >{#key cycleGlyph}<span class="logo-swap"
+                ><Logo glyph={cycleGlyph} size="0.9em" /></span
+            >{/key}<LocalizedText
             path={(l) => l.glossary.wordplay.word}
         /></Header
     >
@@ -328,7 +345,28 @@
 
     .locale-word {
         display: inline-block;
-        animation: slideBounce 0.5s cubic-bezier(0.25, 1.2, 0.5, 1) forwards;
+        /* Factor-scaled so reduced motion (factor 0) swaps without animating,
+           matching Spinning.svelte. */
+        animation: slideBounce calc(var(--animation-factor) * 0.5s)
+            cubic-bezier(0.25, 1.2, 0.5, 1) forwards;
+    }
+
+    /* Each glyph the logo says settles in gently; the base style is the
+       fully-visible mark, so factor 0 renders it with no motion. */
+    .logo-swap {
+        display: inline-block;
+        animation: logo-settle calc(var(--animation-factor) * 0.4s) ease-out;
+    }
+
+    @keyframes logo-settle {
+        0% {
+            opacity: 0.3;
+            transform: translateY(-0.05em);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     @keyframes slideBounce {

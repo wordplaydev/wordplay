@@ -195,7 +195,6 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             [
                 'Amplitude',
                 'PointerTrail',
-                'PitchNotes',
                 'CodeGap',
                 'Garden',
                 'Letters',
@@ -256,6 +255,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'SpokenWords',
                 'RainingLetters',
                 'Video',
+                'PitchNotes',
                 'ASCII',
                 'Hand',
                 'Face',

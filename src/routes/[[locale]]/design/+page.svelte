@@ -2,6 +2,8 @@
     import { browser } from '$app/environment';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
+    import Logo from '@components/app/Logo.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Notice from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -20,9 +22,19 @@
     import Title from '@components/widgets/Title.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { dark, locales, Settings } from '@db/Database';
+    import { Scripts, type ScriptMetadata } from '@locale/Scripts';
     import { contrast } from '@util/colorContrast';
 
     // Demo state for interactive component examples
+    // Every script with an exemplar glyph, for the logo's writing-system row.
+    const scriptGlyphs: { code: string; name: string; glyph: string }[] =
+        Object.entries(Scripts).flatMap(([code, metadata]) => {
+            const meta: ScriptMetadata = metadata;
+            return meta.glyph === undefined
+                ? []
+                : [{ code, name: meta.name, glyph: meta.glyph }];
+        });
+
     let toggleOn = $state(false);
     let modeChoice = $state(0);
     let tabbedChoice = $state(0);
@@ -537,6 +549,58 @@
         </table></div
     >
 
+    <!-- Logo -->
+    <Subheader text={(l) => l.ui.page.design.logo} />
+    <div class="section-content">
+        <MarkupHTMLView markup={(l) => l.ui.page.design.logoDescription} />
+        <div class="logo-row">
+            <figure class="logo-item">
+                <!-- The one place the mark is content rather than
+                     decoration, so it carries the localized description. -->
+                <Logo label={(l) => l.ui.widget.logo.description} size="6rem" />
+                <figcaption
+                    ><LocalizedText
+                        path={(l) => l.ui.page.design.demo.logoresting}
+                    /></figcaption
+                >
+            </figure>
+            <figure class="logo-item">
+                <Spinning size={6} />
+                <figcaption
+                    ><LocalizedText
+                        path={(l) => l.ui.page.design.demo.logoloading}
+                    /></figcaption
+                >
+            </figure>
+        </div>
+        <LocalizedText path={(l) => l.ui.page.design.demo.logoscripts} />
+        <div class="logo-row">
+            {#each scriptGlyphs as script (script.code)}
+                <figure class="logo-item">
+                    <Logo glyph={script.glyph} size="3rem" />
+                    <figcaption>{script.name}</figcaption>
+                </figure>
+            {/each}
+        </div>
+        <div class="logo-row">
+            <Link
+                download
+                to="/icons/logo.svg"
+                label={(l) => l.ui.page.design.demo.logodownloadsvg}
+            />
+            <Link
+                download
+                to="/icons/android-chrome-512x512.png"
+                label={(l) => l.ui.page.design.demo.logodownloadpng}
+            />
+            <Link
+                download
+                to="/icons/og-card.png"
+                label={(l) => l.ui.page.design.demo.logodownloadcard}
+            />
+        </div>
+    </div>
+
     <!-- Components -->
     <Subheader text={(l) => l.ui.page.design.components} />
     <div class="section-content">
@@ -722,6 +786,28 @@
     .section-content {
         margin-block-start: var(--wordplay-spacing);
         margin-block-end: calc(2 * var(--wordplay-spacing));
+    }
+
+    .logo-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: calc(2 * var(--wordplay-spacing));
+        margin-block: var(--wordplay-spacing);
+    }
+
+    .logo-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        margin: 0;
+    }
+
+    .logo-item figcaption {
+        font-size: calc(var(--wordplay-font-size) - 2pt);
+        color: var(--wordplay-inactive-color);
     }
 
     .swatch-grid {

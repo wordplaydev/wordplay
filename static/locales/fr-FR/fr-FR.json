@@ -6688,6 +6688,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~Une bulle de parole avec une lettre de ton système d'écriture à l'intérieur"
             }
         },
         "tile": {
@@ -8810,13 +8813,25 @@
                     "optionslabel": "$~Exemple",
                     "optiona": "$~Option A",
                     "optionb": "$~Option B",
-                    "optionc": "$~Option C"
+                    "optionc": "$~Option C",
+                    "logoresting": "$~Au repos",
+                    "logoloading": "$~Chargement",
+                    "logoscripts": "$~À travers les systèmes d'écriture",
+                    "logodownloadsvg": "$~Télécharger le SVG",
+                    "logodownloadpng": "$~Télécharger le PNG (512px)",
+                    "logodownloadcard": "$~Télécharger l'image de partage"
                 },
                 "accessibility": "$~Accessibilité des couleurs",
                 "accessibilityRules": [
                     "$~Tout ce qui s'affiche comme *texte* doit utiliser une des variantes de texte AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, ou une variable sémantique qui pointe vers l'une d'elles). Elles atteignent le contraste de 4,5:1 que <WCAG 2.2@https://www.w3.org/TR/WCAG22/> exige. Les teintes de marque plus vives servent seulement aux arrière-plans, aux bordures et aux surlignages, qui ont besoin de 3:1 ou de rien. Ces rapports sont contrôlés par des tests unitaires et par des analyses automatiques de chaque page, en mode clair et en mode sombre. Une exception voulue : le gris des bordures en mode clair est en dessous de 3:1, car ici les bordures sont une séparation décorative et chaque limite importante porte un autre indice.",
                     "Ne transmets jamais un sens par la couleur seule : accompagne chaque état codé par couleur d'un second indice — une forme, un style de trait, un symbole ou un mot. Par exemple, l'éditeur dessine le surlignage du curseur et les conflits majeurs en trait *plein*, la sortie sélectionnée en trait *tireté*, et les conflits mineurs en trait *pointillé*. Ainsi la gravité et la sélection restent distinctes sans la teinte.",
                     "Consulte le guide <wiki de conception@https://github.com/wordplaydev/wordplay/wiki/design> pour toutes les consignes destinées aux contributeurs."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Le logo de Wordplay est une bulle de dialogue qui contient une seule lettre : une petite scène sur laquelle la bulle peut tout dire — une lettre du système d'écriture du lecteur, un emoji, ou un cercle, un triangle et un carré pendant qu'une chose se charge. Dans l'application, la lettre suit le système d'écriture de ta langue principale ; sur les surfaces neutres, comme l'icône du navigateur et les images de partage, la bulle montre les trois formes, prêtes à créer une chose.",
+                    "Le dessin lui-même ne montre jamais de mouvement. Le mouvement est un comportement — la page d'accueil change ce que dit la bulle en même temps que le sélecteur de langue, et pendant le chargement les formes sautent chacune à leur tour, comme une foule qui fait la vague — et il suit toujours le réglage de vitesse d'animation. Il s'arrête tout à fait quand l'animation est désactivée.",
+                    "La marque est toujours dessinée avec la couleur du texte actuel. Ainsi, partout où le texte respecte les règles de contraste, le logo les respecte aussi."
                 ]
             },
             "thanks": {
@@ -9702,7 +9717,8 @@
     "system": {
         "noscript": "$~Wordplay utilise JavaScript. Votre navigateur ne le prend pas en charge ou cette fonctionnalité est désactivée.",
         "unsupportedHeading": "$~Navigateur non pris en charge",
-        "unsupportedBody": "$~Votre navigateur ne prend pas en charge certaines fonctionnalités essentielles. Pour utiliser Wordplay, vous devez le mettre à jour vers une version plus récente."
+        "unsupportedBody": "$~Votre navigateur ne prend pas en charge certaines fonctionnalités essentielles. Pour utiliser Wordplay, vous devez le mettre à jour vers une version plus récente.",
+        "imageDescription": "$~Le logo de Wordplay — une bulle de parole qui contient un cercle, un triangle et un carré — à côté du nom Wordplay, entouré d'une foule pâle de symboles pour tout ce que les programmes Wordplay peuvent percevoir et dire."
     },
     "keyword": {
         "function": "fonction",

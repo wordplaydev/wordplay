@@ -6677,6 +6677,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~Isang bula ng usapan na may isang letra ng iyong sistema ng pagsulat sa loob"
             }
         },
         "tile": {
@@ -9216,13 +9219,25 @@
                     "optionslabel": "$~Halimbawa",
                     "optiona": "$~Opsyon A",
                     "optionb": "$~Opsyon B",
-                    "optionc": "$~Opsyon C"
+                    "optionc": "$~Opsyon C",
+                    "logoresting": "$~Nakapahinga",
+                    "logoloading": "$~Naglo-load",
+                    "logoscripts": "$~Sa iba't ibang sistema ng pagsulat",
+                    "logodownloadsvg": "$~I-download ang SVG",
+                    "logodownloadpng": "$~I-download ang PNG (512px)",
+                    "logodownloadcard": "$~I-download ang larawan na ibabahagi"
                 },
                 "accessibility": "$~Aksesibilidad ng Kulay",
                 "accessibilityRules": [
                     "$~Anumang ipinapakita bilang *text* ay dapat gumamit ng isa sa mga AA text variant (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, o isang semantikong variable na tumuturo sa isa sa mga ito), na umaabot sa 4.5:1 na kontrast na kinakailangan ng <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Ang mas maliliwanag na kulay ng brand ay para lamang sa background, mga gilid, at mga highlight, na nangangailangan ng 3:1 o wala. Ang mga ratio na ito ay ipinapatupad ng mga unit test at ng awtomatikong pag-scan ng bawat pahina, sa parehong light at dark mode. Isang sinadyang eksepsiyon: ang kulay abo ng gilid sa light mode ay mas mababa sa 3:1, dahil ang mga gilid dito ay pandekorasyong paghihiwalay at bawat mahalagang hangganan ay may ibang senyas.",
                     "Huwag kailanman ipahayag ang kahulugan sa pamamagitan lamang ng kulay: isabay sa bawat estado na may kulay ang pangalawang senyas — isang hugis, isang istilo ng linya, isang glyph, o isang salita. Halimbawa, iginuguhit ng editor ang highlight ng caret at ang mga malalaking conflict nang *solid*, ang napiling output nang *dashed*, at ang mga maliliit na conflict nang *dotted*, kaya nananatiling magkaiba ang antas at pagpili kahit walang kulay.",
                     "Tingnan ang gabay sa <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> para sa buong patnubay para sa mga nag-aambag."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Ang logo ng Wordplay ay isang speech bubble na may hawak na isang letra: isang maliit na entablado kung saan puwedeng sabihin ng bubble ang kahit ano — isang letra mula sa sistema ng pagsulat ng mambabasa, isang emoji, o isang bilog, tatsulok, at parisukat habang may nilo-load. Sa app, sinusunod ng letra ang sistema ng pagsulat ng iyong pangunahing wika; sa mga lugar na walang tiyak na sistema ng pagsulat gaya ng icon ng browser at mga larawang ibinabahagi, ipinapakita ng bubble ang tatlong hugis, malapit nang gumawa ng isang bagay.",
+                    "Ang mismong guhit ay hindi kailanman nagpapakita ng galaw. Ang paggalaw ay pag-uugali — ang landing page ay pabago-bago kung ano ang sinasabi ng bubble kasabay ng pagpili ng wika, at habang nilo-load ang mga hugis ay salit-salitang lumulukso, gaya ng maramihang taong gumagawa ng wave — at palaging sumusukat sa setting ng bilis ng animation, at tuluyang humihinto kapag naka-off ang animation.",
+                    "Palaging iginuguhit ang marka gamit ang kasalukuyang kulay ng teksto, kaya saanman may sapat na contrast ang teksto, ganoon din ang logo."
                 ]
             },
             "thanks": {
@@ -9690,7 +9705,8 @@
     "system": {
         "noscript": "$~Gumagamit ang Wordplay ng JavaScript. Hindi ito sinusuportahan ng iyong browser, o hindi ito pinagana.",
         "unsupportedHeading": "$~Hindi Sinusuportahang Browser",
-        "unsupportedBody": "$~Hindi sinusuportahan ng iyong browser ang mahahalagang functionality. Para magamit ang Wordplay, kakailanganin mong mag-upgrade sa mas bagong bersyon."
+        "unsupportedBody": "$~Hindi sinusuportahan ng iyong browser ang mahahalagang functionality. Para magamit ang Wordplay, kakailanganin mong mag-upgrade sa mas bagong bersyon.",
+        "imageDescription": "$~Ang logo ng Wordplay — isang speech bubble na may hawak na bilog, tatsulok, at parisukat — sa tabi ng pangalang Wordplay, na napapaligiran ng malabong pulutong ng mga simbolo para sa lahat ng bagay na kayang maramdaman at sabihin ng mga programa ng Wordplay."
     },
     "keyword": {
         "function": "punsyon",

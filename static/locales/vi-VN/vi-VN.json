@@ -6681,6 +6681,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~Một bong bóng lời nói với một chữ cái của hệ chữ viết của bạn ở bên trong"
             }
         },
         "tile": {
@@ -9143,13 +9146,25 @@
                     "optionslabel": "$~Ví dụ",
                     "optiona": "$~Phương án A",
                     "optionb": "$~Phương án B",
-                    "optionc": "$~Phương án C"
+                    "optionc": "$~Phương án C",
+                    "logoresting": "$~Đang nghỉ",
+                    "logoloading": "$~Đang tải",
+                    "logoscripts": "$~Qua các hệ thống chữ viết",
+                    "logodownloadsvg": "$~Tải xuống SVG",
+                    "logodownloadpng": "$~Tải xuống PNG (512px)",
+                    "logodownloadcard": "$~Tải xuống hình ảnh chia sẻ"
                 },
                 "accessibility": "$~Khả năng tiếp cận màu sắc",
                 "accessibilityRules": [
                     "$~Bất cứ thứ gì hiển thị dưới dạng *chữ* đều phải dùng một trong các biến thể chữ AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, hoặc một biến ngữ nghĩa trỏ đến một trong số đó), vì chúng đạt độ tương phản 4.5:1 mà <WCAG 2.2@https://www.w3.org/TR/WCAG22/> yêu cầu. Các màu thương hiệu sáng hơn chỉ dùng cho nền, viền và điểm nhấn, những thứ cần độ tương phản 3:1 hoặc không cần gì cả. Các tỷ lệ này được kiểm soát bằng các bài kiểm tra đơn vị và bằng cách quét tự động mọi trang, ở cả chế độ sáng và tối. Có một ngoại lệ cố ý: màu xám của viền ở chế độ sáng thấp hơn 3:1, vì viền ở đây chỉ để phân tách trang trí và mọi ranh giới quan trọng đều có thêm một dấu hiệu khác.",
                     "Đừng bao giờ truyền đạt ý nghĩa chỉ bằng màu sắc: hãy ghép mỗi trạng thái mã hóa bằng màu với một dấu hiệu thứ hai — một hình dạng, một kiểu đường, một biểu tượng, hoặc một từ. Ví dụ, trình soạn thảo vẽ điểm nhấn của con trỏ và các xung đột lớn dạng *nét liền*, kết quả được chọn dạng *nét đứt*, và các xung đột nhỏ dạng *nét chấm*, để mức độ nghiêm trọng và lựa chọn vẫn khác biệt mà không cần màu sắc.",
                     "Hãy xem sổ tay hướng dẫn <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> để biết đầy đủ hướng dẫn dành cho người đóng góp."
+                ],
+                "logo": "$~Biểu trưng",
+                "logoDescription": [
+                    "$~Biểu tượng của Wordplay là một bong bóng lời nói chứa một chữ cái: một sân khấu nhỏ mà bong bóng có thể nói bất cứ điều gì — một chữ cái trong hệ thống chữ viết của người đọc, một biểu tượng cảm xúc, hoặc một hình tròn, hình tam giác và hình vuông trong khi thứ gì đó đang tải. Trong ứng dụng, chữ cái theo hệ thống chữ viết của ngôn ngữ chính của bạn; trên các bề mặt không phụ thuộc chữ viết như biểu tượng trình duyệt và hình ảnh chia sẻ, bong bóng hiển thị ba hình dạng, sắp tạo ra một thứ gì đó.",
+                    "Bản vẽ tự nó không bao giờ thể hiện chuyển động. Chuyển động là hành vi — trang chủ luân chuyển những gì bong bóng nói theo bộ chọn ngôn ngữ, và trong khi tải các hình dạng lần lượt nhảy, giống như một đám đông làm sóng người — và luôn thay đổi theo cài đặt tốc độ hoạt hình, dừng hoàn toàn khi tắt hoạt hình.",
+                    "Dấu hiệu này luôn được vẽ bằng màu chữ hiện tại, vì vậy bất cứ nơi nào chữ đáp ứng yêu cầu tương phản, biểu tượng cũng vậy."
                 ]
             },
             "thanks": {
@@ -9699,7 +9714,8 @@
     "system": {
         "noscript": "$~Wordplay sử dụng JavaScript. Trình duyệt của bạn không hỗ trợ hoặc đã tắt JavaScript.",
         "unsupportedHeading": "$~Trình duyệt không được hỗ trợ",
-        "unsupportedBody": "$~Trình duyệt của bạn không hỗ trợ một số chức năng quan trọng. Để sử dụng Wordplay, bạn cần nâng cấp lên phiên bản mới hơn."
+        "unsupportedBody": "$~Trình duyệt của bạn không hỗ trợ một số chức năng quan trọng. Để sử dụng Wordplay, bạn cần nâng cấp lên phiên bản mới hơn.",
+        "imageDescription": "$~Biểu tượng Wordplay — một bong bóng thoại chứa một hình tròn, một hình tam giác và một hình vuông — bên cạnh cái tên Wordplay, được bao quanh bởi một đám ký hiệu mờ nhạt cho mọi thứ mà các chương trình Wordplay có thể cảm nhận và nói ra."
     },
     "keyword": {
         "function": "hàm",

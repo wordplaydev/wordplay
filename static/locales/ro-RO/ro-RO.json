@@ -6686,6 +6686,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~O bulă de vorbire cu o literă din sistemul tău de scriere înăuntru"
             }
         },
         "tile": {
@@ -9338,13 +9341,25 @@
                     "optionslabel": "$~Exemplu",
                     "optiona": "$~Opțiunea A",
                     "optionb": "$~Opțiunea B",
-                    "optionc": "$~Opțiunea C"
+                    "optionc": "$~Opțiunea C",
+                    "logoresting": "$~În repaus",
+                    "logoloading": "$~Se încarcă",
+                    "logoscripts": "$~Prin diferite sisteme de scriere",
+                    "logodownloadsvg": "$~Descarcă SVG",
+                    "logodownloadpng": "$~Descarcă PNG (512px)",
+                    "logodownloadcard": "$~Descarcă imaginea de partajare"
                 },
                 "accessibility": "$~Accesibilitatea culorilor",
                 "accessibilityRules": [
                     "$~Orice este afișat ca *text* trebuie să folosească una dintre variantele de text AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* sau o variabilă semantică ce indică spre una dintre ele). Acestea îndeplinesc contrastul de 4,5:1 pe care îl cere <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Nuanțele de marcă mai luminoase sunt doar pentru fundaluri, margini și evidențieri, care au nevoie de 3:1 sau de nimic. Aceste rapoarte sunt verificate prin teste unitare și prin scanări automate ale fiecărei pagini, atât în modul luminos, cât și în cel întunecat. Există o excepție intenționată: griul de margine din modul luminos este sub 3:1, fiindcă marginile de aici sunt o separare decorativă, iar fiecare limită importantă are un alt indiciu.",
                     "Nu transmite niciodată un sens doar prin culoare: însoțește fiecare stare marcată prin culoare cu un al doilea indiciu — o formă, un stil de linie, un simbol sau un cuvânt. De exemplu, editorul desenează evidențierea cursorului și conflictele majore *pline*, ieșirea selectată *întreruptă* și conflictele minore *punctate*, astfel încât gravitatea și selecția rămân distincte fără nuanță.",
                     "Consultă ghidul <wiki de design@https://github.com/wordplaydev/wordplay/wiki/design> pentru îndrumarea completă pentru contribuitori."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Sigla Wordplay este un balon de vorbire care ține o singură literă: o scenă mică pe care balonul poate spune orice — o literă din sistemul de scriere al cititorului, un emoji sau un cerc, un triunghi și un pătrat în timp ce ceva se încarcă. În aplicație, litera urmează sistemul de scriere al limbii tale principale; pe suprafețe neutre față de scriere, cum ar fi pictograma din browser și imaginile de distribuit, balonul arată cele trei forme, gata să facă ceva.",
+                    "Desenul în sine nu arată niciodată mișcare. Mișcarea vine din comportament — pagina de start schimbă pe rând ce spune balonul, în ritm cu selectorul de limbă, iar în timpul încărcării formele sar pe rând, ca o mulțime care face valul — și se potrivește mereu cu setarea vitezei de animație, oprindu-se complet când animația este dezactivată.",
+                    "Semnul este mereu desenat în culoarea actuală a textului, așa că oriunde textul îndeplinește cerințele de contrast, o face și sigla."
                 ]
             },
             "thanks": {
@@ -9695,7 +9710,8 @@
     "system": {
         "noscript": "$~Jocul de cuvinte folosește JavaScript. Browserul dvs. nu îl acceptă sau este dezactivat.",
         "unsupportedHeading": "$~Browser neacceptat",
-        "unsupportedBody": "$~Browserul dvs. nu acceptă funcționalități esențiale. Pentru a utiliza Wordplay, va trebui să faceți upgrade la o versiune mai recentă."
+        "unsupportedBody": "$~Browserul dvs. nu acceptă funcționalități esențiale. Pentru a utiliza Wordplay, va trebui să faceți upgrade la o versiune mai recentă.",
+        "imageDescription": "$~Sigla Wordplay — un balon de vorbire care ține un cerc, un triunghi și un pătrat — lângă numele Wordplay, înconjurat de o mulțime estompată de simboluri pentru tot ce pot simți și spune programele Wordplay."
     },
     "keyword": {
         "function": "funcţie",

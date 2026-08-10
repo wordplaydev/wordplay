@@ -23,6 +23,10 @@ type PageText = {
     spacing: string;
     /** [plain] Subheader for typography */
     typography: string;
+    /** [plain] Subheader for the logo section */
+    logo: string;
+    /** [formatted] What the logo is (a speech bubble holding one letter, a stage that can say anything), how it localizes to the reader's writing system, why motion is behavioral and animation-gated, and the color rule (always the current text color) */
+    logoDescription: FormattedText | FormattedText[];
     /** [plain] Subheader for the components section */
     components: string;
     /** Column header labels for data tables */
@@ -76,6 +80,18 @@ type PageText = {
         optionb: string;
         /** [plain] Third option in the Options demo */
         optionc: string;
+        /** [plain] Label for the logo's resting state specimen */
+        logoresting: string;
+        /** [plain] Label for the logo's loading state specimen */
+        logoloading: string;
+        /** [plain] Label for the row of logo glyphs across writing systems */
+        logoscripts: string;
+        /** [plain] Label for the SVG logo download link */
+        logodownloadsvg: string;
+        /** [plain] Label for the 512-pixel PNG logo download link */
+        logodownloadpng: string;
+        /** [plain] Label for the social share image download link */
+        logodownloadcard: string;
     };
 };
 

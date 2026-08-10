@@ -6683,6 +6683,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~İçinde senin yazı sisteminden bir harf olan bir konuşma balonu"
             }
         },
         "tile": {
@@ -8894,13 +8897,25 @@
                     "optionslabel": "$~Örnek",
                     "optiona": "$~A Seçeneği",
                     "optionb": "$~B Seçeneği",
-                    "optionc": "$~C Seçeneği"
+                    "optionc": "$~C Seçeneği",
+                    "logoresting": "$~Durgun halde",
+                    "logoloading": "$~Yükleniyor",
+                    "logoscripts": "$~Yazı sistemleri arasında",
+                    "logodownloadsvg": "$~SVG indir",
+                    "logodownloadpng": "$~PNG indir (512px)",
+                    "logodownloadcard": "$~Paylaşım görselini indir"
                 },
                 "accessibility": "$~Renk Erişilebilirliği",
                 "accessibilityRules": [
                     "$~*Metin* olarak gösterilen her şey AA metin türlerinden birini kullanmalıdır (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* veya bunlardan birini işaret eden anlamsal bir değişken). Bunlar <WCAG 2.2@https://www.w3.org/TR/WCAG22/> tarafından istenen 4.5:1 karşıtlık oranını sağlar. Daha parlak marka renkleri yalnızca arka planlar, kenarlıklar ve vurgular içindir; bunlar 3:1 veya hiç oran gerektirmez. Bu oranlar birim testleriyle ve her sayfanın hem açık hem koyu modda otomatik taranmasıyla uygulanır. Bilerek yapılan bir istisna vardır: açık moddaki kenarlık grisi 3:1 oranının altındadır, çünkü buradaki kenarlıklar süsleyici ayırma amaçlıdır ve her önemli sınır başka bir ipucu taşır.",
                     "Anlamı asla yalnızca renkle aktarma: renkle kodlanmış her durumu ikinci bir ipucuyla eşleştir — bir şekil, bir çizgi türü, bir simge veya bir kelime. Örneğin, düzenleyici imlecin vurgusunu ve büyük çakışmaları *düz*, seçili çıktıyı *kesik* ve küçük çakışmaları *noktalı* çizer, böylece önem ve seçim renk olmadan da ayrı kalır.",
                     "Katkıda bulunanlara yönelik tam rehber için <tasarım wiki@https://github.com/wordplaydev/wordplay/wiki/design> rehberine bakın."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Wordplay logosu, içinde tek bir harf bulunan bir konuşma balonudur: balonun her şeyi söyleyebileceği küçük bir sahnedir — okuyucunun yazı sisteminden bir harf, bir emoji ya da bir şey yüklenirken bir daire, üçgen ve kare. Uygulamada harf, senin ana dilinin yazı sistemini takip eder; tarayıcı simgesi ve paylaşım görselleri gibi yazıdan bağımsız yerlerde balon, bir şey yapmak üzere olan üç şekli gösterir.",
+                    "Çizimin kendisi asla hareketi göstermez. Hareket davranışsaldır — açılış sayfası, balonun söylediklerini dil seçici ile aynı adımda değiştirir ve yükleme sırasında şekiller sırayla zıplar, tıpkı Meksika dalgası yapan bir kalabalık gibi — ve her zaman animasyon hızı ayarına göre ölçeklenir, animasyon kapalıyken tamamen durur.",
+                    "İşaret her zaman geçerli metin renginde çizilir, bu yüzden metnin kontrast gerekliliklerini karşıladığı her yerde logo da karşılar."
                 ]
             },
             "thanks": {
@@ -9685,7 +9700,8 @@
     "system": {
         "noscript": "$~Wordplay JavaScript kullanıyor. Tarayıcınız JavaScript'i desteklemiyor veya devre dışı bırakılmış.",
         "unsupportedHeading": "$~Desteklenmeyen Tarayıcı",
-        "unsupportedBody": "$~Tarayıcınız kritik işlevleri desteklemiyor. Wordplay'i kullanmak için daha yeni bir sürüme yükseltmeniz gerekecek."
+        "unsupportedBody": "$~Tarayıcınız kritik işlevleri desteklemiyor. Wordplay'i kullanmak için daha yeni bir sürüme yükseltmeniz gerekecek.",
+        "imageDescription": "$~Wordplay logosu — bir daire, bir üçgen ve bir kare tutan bir konuşma balonu — Wordplay isminin yanında; Wordplay programlarının algılayıp söyleyebileceği her şeyin sembollerinden oluşan solgun bir kalabalıkla çevrili."
     },
     "keyword": {
         "function": "işlev",

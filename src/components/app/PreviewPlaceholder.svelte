@@ -14,7 +14,11 @@
 </script>
 
 <div class="placeholder" style:width={`${size}rem`} style:height={`${size}rem`}>
-    {#if loading}<Spinning label={(l) => l.ui.widget.loading.message} />{/if}
+    <!-- Two thirds of the tile, so the mark's shapes stay legible. -->
+    {#if loading}<Spinning
+            label={(l) => l.ui.widget.loading.message}
+            size={(size * 2) / 3}
+        />{/if}
 </div>
 
 <style>

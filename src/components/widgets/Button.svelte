@@ -48,6 +48,10 @@
         shortcut?: string;
         /** Whether to wrap the text in the button */
         wrap?: boolean;
+        /** Show the standard loading indicator instead of the button's
+         *  content (it also appears automatically while an async action is
+         *  pending). */
+        loading?: boolean;
         /** The label */
         children?: import('svelte').Snippet | undefined;
     }
@@ -71,6 +75,7 @@
         wrap = false,
         icon,
         spinIcon = false,
+        loading = false,
         children,
     }: Props = $props();
 
@@ -79,7 +84,11 @@
         return fun.length === 0;
     }
 
-    let loading = $state(false);
+    // True while an async action is pending. Only this blocks clicks — the
+    // loading prop is presentational (e.g. the save status chip shows the
+    // indicator while syncing but must stay openable).
+    let acting = $state(false);
+    let busy = $derived(loading || acting);
     // Per-locale concretized tooltip markup (undefined for computed tips, which have no
     // accessor and so stay single-locale). Drives the rich stacked popup; the aria-label
     // uses only the primary locale's text — screen readers speak it in one voice, and
@@ -123,8 +132,8 @@
             setTimeout(() => (pressed = false), 100);
 
             if (result instanceof Promise) {
-                loading = true;
-                result.finally(() => (loading = false));
+                acting = true;
+                result.finally(() => (acting = false));
             }
             event.stopPropagation();
             event.preventDefault();
@@ -170,13 +179,13 @@
     onblur={hideTip}
     bind:this={_}
     ondblclick={(event) => event.stopPropagation()}
-    onclick={loading
+    onclick={acting
         ? null
         : (event) => {
               event.stopPropagation();
               event.button === 0 && active ? doAction(event) : undefined;
           }}
-    onkeydown={loading
+    onkeydown={acting
         ? null
         : (event) =>
               (event.key === 'Enter' || event.key === ' ') &&
@@ -187,7 +196,9 @@
               !event.metaKey
                   ? doAction(event)
                   : undefined}
-    >{#if loading}<Spinning />{:else}{#if icon}{#if spinIcon}<span
+    >{#if busy}<!-- 1.5rem, not the 2rem default: sized to the button's
+            content line so the button doesn't grow while busy.
+        --><Spinning size={1.5} />{:else}{#if icon}{#if spinIcon}<span
                     class="spin-icon">{withMonoEmoji(icon)}</span
                 >{:else}{withMonoEmoji(icon)}{/if}{/if}
         {#if children}{@render children()}{:else if label && !tipEditing}<LocalizedText

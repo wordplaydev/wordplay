@@ -6667,6 +6667,9 @@
                 "message": "Loading, thanks for waiting!"
             },
             "home": "go to home page",
+            "logo": {
+                "description": "A speech bubble with a letter of your writing system inside"
+            },
             "table": {
                 "cell": {
                     "description": "edit this cell",
@@ -9393,6 +9396,12 @@
                 "fonts": "Fonts",
                 "spacing": "Spacing",
                 "typography": "Typography",
+                "logo": "Logo",
+                "logoDescription": [
+                    "The Wordplay logo is a speech bubble holding one letter: a tiny stage on which the bubble can say anything — a letter of the reader's writing system, an emoji, or a circle, triangle, and square while something loads. In the app, the letter follows your primary language's writing system; on script-neutral surfaces like the browser icon and share images, the bubble shows the three shapes, about to make something.",
+                    "The drawing itself never depicts motion. Movement is behavioral — the landing page cycles what the bubble says in step with the language chooser, and while loading the shapes take turns hopping, like a crowd doing the wave — and always scales with the animation speed setting, stopping entirely when animation is off.",
+                    "The mark is always drawn in the current text color, so wherever text meets contrast requirements, the logo does too."
+                ],
                 "components": "Components",
                 "col": {
                     "component": "Component",
@@ -9419,7 +9428,13 @@
                     "optionslabel": "Example",
                     "optiona": "Option A",
                     "optionb": "Option B",
-                    "optionc": "Option C"
+                    "optionc": "Option C",
+                    "logoresting": "At rest",
+                    "logoloading": "Loading",
+                    "logoscripts": "Across writing systems",
+                    "logodownloadsvg": "Download SVG",
+                    "logodownloadpng": "Download PNG (512px)",
+                    "logodownloadcard": "Download share image"
                 }
             },
             "thanks": {
@@ -9727,6 +9742,7 @@
         }
     },
     "system": {
+        "imageDescription": "The Wordplay logo — a speech bubble holding a circle, a triangle, and a square — beside the name Wordplay, surrounded by a faded crowd of symbols for everything Wordplay programs can sense and say.",
         "noscript": "Wordplay uses JavaScript. Your browser doesn't support it, or it is disabled.",
         "unsupportedHeading": "Unsupported Browser",
         "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version."

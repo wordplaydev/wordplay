@@ -94,6 +94,7 @@
             return {
                 icon: withMonoEmoji('🖥️'),
                 spin: false,
+                loading: false,
                 text: (l: LocaleText) => l.ui.save.status.state.offline,
                 tip: (l: LocaleText) => l.ui.project.button.savedLocally,
                 // Salient (same as the unsaved state) so being offline is
@@ -104,6 +105,7 @@
             return {
                 icon: CANCEL_SYMBOL,
                 spin: false,
+                loading: false,
                 text: (l: LocaleText) => l.ui.save.unsaved,
                 tip: (l: LocaleText) => l.ui.project.button.unsaved,
                 salient: true,
@@ -114,6 +116,7 @@
                 // "working toward saved" rather than an ambiguous "…".
                 icon: withMonoEmoji(device ? '🖥️' : '🌐'),
                 spin: true,
+                loading: false,
                 text: (l: LocaleText) => l.ui.save.saving,
                 tip: (l: LocaleText) =>
                     device
@@ -123,8 +126,9 @@
             };
         // Initial cloud sync: a signed-in, online session where some domain
         // hasn't finished its first sync yet (the serial init brings them
-        // online one at a time). Spin the globe so the toolbar shows the
-        // connection is in progress, instead of prematurely reading "saved".
+        // online one at a time). Show the standard loading indicator so the
+        // toolbar shows the connection is in progress, instead of
+        // prematurely reading "saved".
         if (
             !device &&
             !$disconnected &&
@@ -135,8 +139,9 @@
             )
         )
             return {
-                icon: withMonoEmoji('🌐'),
-                spin: true,
+                icon: undefined,
+                spin: false,
+                loading: true,
                 text: (l: LocaleText) => l.ui.save.status.state.loading,
                 tip: (l: LocaleText) => l.ui.project.button.savedOnline,
                 salient: false,
@@ -150,6 +155,7 @@
             return {
                 icon: CANCEL_SYMBOL,
                 spin: false,
+                loading: false,
                 text: (l: LocaleText) => l.ui.save.unsaved,
                 tip: (l: LocaleText) => l.ui.project.button.unsaved,
                 salient: true,
@@ -157,6 +163,7 @@
         return {
             icon: withMonoEmoji(device ? '🖥️' : '🌐'),
             spin: false,
+            loading: false,
             text: device
                 ? (l: LocaleText) => l.ui.save.local
                 : (l: LocaleText) => l.ui.save.saved,
@@ -284,6 +291,7 @@
         tip: display.tip,
         icon: display.icon,
         spinIcon: display.spin,
+        loading: display.loading,
         label: display.text,
         background: display.salient ? 'salient' : true,
         testid: 'save-status',
