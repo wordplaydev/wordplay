@@ -20,6 +20,12 @@ test('TranslatableLocales only offers allowlisted languages', () => {
         ).toContain(locale.language);
 });
 
+test('TranslatableLocales contains no duplicate locale tags', async () => {
+    const { localeToString } = await import('@locale/Locale');
+    const tags = TranslatableLocales.map((locale) => localeToString(locale));
+    expect(tags).toEqual([...new Set(tags)]);
+});
+
 test('languages Google Translate does not support are not offered', () => {
     // Verified absent from https://cloud.google.com/translate/docs/languages
     // (2026-06-25). These previously slipped through the denylist and would

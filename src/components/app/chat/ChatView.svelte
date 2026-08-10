@@ -31,7 +31,6 @@
         localeToString,
         localesAreEqual,
         stringToLocale,
-        type Locale,
     } from '@locale/Locale';
     import { getLocaleLanguages } from '@locale/LocaleText';
     import type Gallery from '@db/galleries/Gallery';
@@ -64,19 +63,9 @@
 
     let scrollerView = $state<HTMLDivElement | undefined>();
 
-    // The distinct set of translatable locales offered by both comboboxes,
-    // which each filter it by their own search query.
-    const uniqueLanguageLocales = (() => {
-        const seen = new Set<string>();
-        const result: Locale[] = [];
-        for (const locale of getTranslatableLocales()) {
-            const key = localeToString(locale);
-            if (seen.has(key)) continue;
-            seen.add(key);
-            result.push(locale);
-        }
-        return result;
-    })();
+    // Offered translation targets come from the locale metadata's curated
+    // translatable list; LanguageCode.test.ts asserts it has no duplicates.
+    const translatableLocales = getTranslatableLocales();
 
     // The language the creator has chosen to tag their next message with.
     // Intentionally unset by default: sending is blocked until the user
@@ -592,7 +581,7 @@
             {/if}
             <LocaleCombobox
                 id="translate-messages"
-                candidates={uniqueLanguageLocales}
+                candidates={translatableLocales}
                 selected={translateTo}
                 label={(l) => l.ui.collaborate.translate.label}
                 choose={(ls) => queueTranslateMessages(ls)}
@@ -617,7 +606,7 @@
         <div class="language">
             <LocaleCombobox
                 id="new-message-language"
-                candidates={uniqueLanguageLocales}
+                candidates={translatableLocales}
                 selected={messageLanguage}
                 label={(l) => l.ui.collaborate.translate.language}
                 choose={(ls) => (messageLanguage = ls)}
