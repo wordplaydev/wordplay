@@ -1026,6 +1026,8 @@ type UITexts = {
             empty: string;
             /** [plain] A message was deleted */
             deleted: string;
+            /** [plain] Shown when the user tries to send a message without tagging its language */
+            untaggedMessage: string;
         };
         /** Messages to explain the purpose of the chat to each kind of participant */
         prompt: {

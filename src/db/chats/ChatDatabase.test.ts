@@ -84,7 +84,7 @@ function makeChat(
     messages: SerializedMessage[] = [],
 ): Chat {
     return new Chat({
-        v: 2,
+        v: 3,
         project: 'project-1',
         participants: ['user-1', 'user-2', 'user-3'],
         messages,
@@ -455,11 +455,11 @@ describe('ChatDatabase granular message operations', () => {
 
 /**
  * Upgrade-on-load coverage for chats. Old chat docs are upgraded when a snapshot
- * arrives (upgradeChat), so a regression silently corrupts every pre-v2 chat on
- * load. v1 → v2 adds the `type` discriminator (project vs how-to).
+ * arrives (upgradeChat), so a regression silently corrupts every pre-v2/v3 chat on
+ * load. v1 → v2 adds the `type` discriminator; v2 → v3 adds an optional `language`.
  */
 describe('upgradeChat (upgrade-on-load)', () => {
-    it('upgrades a v1 doc to v2, defaulting type to project', () => {
+    it('upgrades a v1 doc to v3, defaulting type to project and language to undefined', () => {
         const v1 = {
             v: 1 as const,
             project: 'p1',
@@ -468,8 +468,9 @@ describe('upgradeChat (upgrade-on-load)', () => {
             unread: ['u2'],
         };
         const upgraded = upgradeChat(v1);
-        expect(upgraded.v).toBe(2);
+        expect(upgraded.v).toBe(3);
         expect(upgraded.type).toBe('project');
+        expect(upgraded.language).toBeUndefined();
         // v1 user data is preserved across the upgrade.
         expect(upgraded.project).toBe('p1');
         expect(upgraded.participants).toEqual(['u1', 'u2']);
@@ -478,16 +479,33 @@ describe('upgradeChat (upgrade-on-load)', () => {
         expect(upgraded.unread).toEqual(['u2']);
     });
 
-    it('an already-latest v2 doc upgrades to itself', () => {
-        const v2: SerializedChat = {
-            v: 2,
+    it('upgrades a v2 doc to v3, preserving all fields', () => {
+        const v2 = {
+            v: 2 as const,
             project: 'p1',
             participants: ['u1'],
             messages: [],
             unread: [],
-            type: 'howto',
+            type: 'howto' as const,
         };
-        expect(upgradeChat(v2)).toEqual(v2);
+        const upgraded = upgradeChat(v2);
+        expect(upgraded.v).toBe(3);
+        expect(upgraded.type).toBe('howto');
+        expect(upgraded.language).toBeUndefined();
+        expect(upgraded.project).toBe('p1');
+    });
+
+    it('a v3 doc with a language field round-trips unchanged', () => {
+        const v3: SerializedChat = {
+            v: 3,
+            project: 'p1',
+            participants: ['u1'],
+            messages: [],
+            unread: [],
+            type: 'project',
+            language: 'en-US',
+        };
+        expect(upgradeChat(v3)).toEqual(v3);
     });
 
     it('throws on an unknown version', () => {

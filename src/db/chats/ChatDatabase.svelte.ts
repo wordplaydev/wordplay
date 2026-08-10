@@ -115,13 +115,25 @@ const ChatSchemaV2 = ChatSchemaV1.omit({ v: true }).extend(
     z.object({ v: z.literal(2), type: z.enum(['project', 'howto']) }).shape,
 );
 
-/** The latest version of the chat schema */
-const ChatSchema = ChatSchemaV2;
-const ChatSchemaLatestVersion = 2;
+/** v3 adds an optional primary-language locale string (e.g. "en-US") to the chat
+ *  document itself. Untagged messages fall back to this when a source language is
+ *  needed for translation, instead of the viewer's UI locale. */
+const ChatSchemaV3 = ChatSchemaV2.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(3),
+        language: z.string().optional(),
+    }).shape,
+);
 
-export type SerializedChat = z.infer<typeof ChatSchemaV2>;
+/** The latest version of the chat schema */
+const ChatSchema = ChatSchemaV3;
+const ChatSchemaLatestVersion = 3;
+
+export type SerializedChat = z.infer<typeof ChatSchemaV3>;
 export type SerializedChatUnknownVersion =
-    z.infer<typeof ChatSchemaV1> | SerializedChat;
+    | z.infer<typeof ChatSchemaV1>
+    | z.infer<typeof ChatSchemaV2>
+    | SerializedChat;
 
 /** Chat upgrader */
 export function upgradeChat(
@@ -130,6 +142,8 @@ export function upgradeChat(
     switch (chat.v) {
         case 1:
             return upgradeChat({ ...chat, v: 2, type: 'project' });
+        case 2:
+            return upgradeChat({ ...chat, v: 3 });
         case ChatSchemaLatestVersion:
             return chat;
         default:
@@ -319,6 +333,14 @@ export default class Chat {
 
     getType() {
         return this.data.type;
+    }
+
+    /** The primary locale string of this chat (e.g. "en-US"), or undefined for
+     *  pre-existing chats created before this field existed. Used as the
+     *  source-language fallback when translating messages with no per-message
+     *  language tag. */
+    getLanguage(): string | undefined {
+        return this.data.language;
     }
 
     getData() {
@@ -794,18 +816,20 @@ export class ChatDatabase {
     async addChat(
         project: Project,
         gallery: Gallery | undefined,
+        language?: string,
     ): Promise<string | undefined> {
         if (firestore === undefined) return undefined;
         if (project.getOwner() === null) return undefined;
 
         const newChat: SerializedChat = {
-            v: 2,
+            v: 3,
             project: project.getID(),
             messages: [],
             // Everyone contributing is eligible to see and participate in the chat.
             participants: Array.from(this.getAllParticipants(project, gallery)),
             unread: [],
             type: 'project',
+            ...(language !== undefined ? { language } : {}),
         };
 
         return this.createChat(newChat, () =>
@@ -813,12 +837,12 @@ export class ChatDatabase {
         );
     }
 
-    async addChatToHowTo(howTo: HowTo, gallery: Gallery | undefined) {
+    async addChatToHowTo(howTo: HowTo, gallery: Gallery | undefined, language?: string) {
         if (firestore === undefined) return undefined;
         if (howTo.getCreator() === null) return undefined;
 
         const newChat: SerializedChat = {
-            v: 2,
+            v: 3,
             project: howTo.getHowToId(),
             messages: [],
             // All gallery curators, creators, viewers can access the chat
@@ -834,6 +858,7 @@ export class ChatDatabase {
             ),
             unread: [],
             type: 'howto',
+            ...(language !== undefined ? { language } : {}),
         };
 
         return this.createChat(newChat, () =>

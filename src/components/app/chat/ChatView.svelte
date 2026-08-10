@@ -106,11 +106,10 @@
         return selected !== undefined && localesAreEqual(selected, locale);
     }
 
-    // The language the creator has chosen to tag their next message with,
-    // defaulting to their current primary UI language.
-    let messageLanguage = $state<string | undefined>(
-        $locales.getLanguages()[0],
-    );
+    // The language the creator has chosen to tag their next message with.
+    // Intentionally unset by default: sending is blocked until the user
+    // explicitly picks the language the message was written in.
+    let messageLanguage = $state<string | undefined>(undefined);
 
     // The language the viewer chose to translate received messages into, or
     // undefined for no translation.
@@ -194,6 +193,7 @@
     function submitMessage() {
         if (newMessage.trim() === '') return;
         if (!chat) return;
+        if (messageLanguage === undefined) return;
         Chats.addMessage(chat, newMessage, messageLanguage);
         newMessage = '';
         tick().then(() => {
@@ -206,8 +206,9 @@
     }
 
     function startChat() {
-        if (project) Chats.addChat(project, gallery);
-        else if (howTo) Chats.addChatToHowTo(howTo, gallery);
+        const language = localeToString($locales.getLocale());
+        if (project) Chats.addChat(project, gallery, language);
+        else if (howTo) Chats.addChatToHowTo(howTo, gallery, language);
     }
 
     /** Translate every visible message into the chosen target language and show
@@ -246,7 +247,12 @@
                 continue;
             }
 
-            const source = msg.language ?? $locales.getLanguages()[0];
+            // Fall back to the chat's language (set at creation), then the
+            // viewer's locale as a last resort. This avoids wrongly declaring
+            // every untagged pre-existing message as being in the viewer's
+            // language, which would fire redundant translation batches and
+            // produce incorrect translations for non-viewer-language chats.
+            const source = msg.language ?? chat.getLanguage() ?? localeToString($locales.getLocale());
             const fromLocale = stringToLocale(source);
             if (fromLocale === undefined) continue;
 
@@ -564,6 +570,9 @@
                 </div>
             {/if}
         </div>
+        {#if messageLanguage === undefined}
+            <Notice text={(l) => l.ui.collaborate.error.untaggedMessage} />
+        {/if}
         <form class="new" data-sveltekit-keepfocus>
             <div class="editor">
                 <FormattedEditor
@@ -579,7 +588,7 @@
             <div class="send">
                 <Button
                     submit
-                    active={chat !== undefined && newMessage.trim() !== ''}
+                    active={chat !== undefined && newMessage.trim() !== '' && messageLanguage !== undefined}
                     tip={(l) => l.ui.collaborate.button.submit.tip}
                     action={submitMessage}
                     background

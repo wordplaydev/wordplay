@@ -8267,7 +8267,8 @@
                 "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
                 "offline": "Unable to load this chat.",
                 "empty": "No messages.",
-                "deleted": "This message was deleted."
+                "deleted": "This message was deleted.",
+                "untaggedMessage": "Tag your message with the language it was written in."
             },
             "prompt": {
                 "solo": "Chat with yourself or add...",
