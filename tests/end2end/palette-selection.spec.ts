@@ -1,5 +1,6 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
+import { grantClipboard } from '../helpers/clipboard';
 
 /**
  * The palette is the only thing on screen that explains an output selection, and the
@@ -17,9 +18,7 @@ test('collapsing the palette clears the output selection underline', async ({
 }) => {
     test.setTimeout(60000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
 
     const editor = page.getByTestId('editor').first();

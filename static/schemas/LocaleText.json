@@ -18975,6 +18975,22 @@
                                     "required": ["start"],
                                     "type": "object"
                                 },
+                                "keypad": {
+                                    "additionalProperties": false,
+                                    "description": "The buttons offered on a touch screen in place of the on-screen keyboard, for a project that responds to a known set of keys",
+                                    "properties": {
+                                        "any": {
+                                            "description": "[plain] Label for the single button shown when a project responds to any key",
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "description": "[plain] Description of the group of key buttons",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["label", "any"],
+                                    "type": "object"
+                                },
                                 "label": {
                                     "description": "[plain] The ARIA label for the output section",
                                     "type": "string"
@@ -19246,7 +19262,8 @@
                                 "gate",
                                 "download",
                                 "sensor",
-                                "sound"
+                                "sound",
+                                "keypad"
                             ],
                             "type": "object"
                         },

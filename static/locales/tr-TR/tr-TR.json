@@ -7234,6 +7234,10 @@
                 "explanation": "$~Bu projede müzik var, ama tarayıcın ses çalmadan önce sayfayla etkileşime geçmeni bekliyor.",
                 "loading": "$~$instruments hazırlanıyor…",
                 "synthesized": "$~$instruments yüklenemedi, bu yüzden sentezlenmiş gibi duyulurlar."
+            },
+            "keypad": {
+                "label": "$~Bu projenin kullandığı anahtarlar",
+                "any": "$~Oynamak için dokun"
             }
         },
         "timeline": {

@@ -7220,6 +7220,10 @@
                 "explanation": "$~Dieses Projekt hat Musik, aber dein Browser wartet darauf, dass du mit der Seite handelst, bevor er Ton abspielt.",
                 "loading": "$~$instruments werden vorbereitet…",
                 "synthesized": "$~$instruments konnten nicht geladen werden, daher klingen sie künstlich erzeugt."
+            },
+            "keypad": {
+                "label": "$~Schlüssel, die dieses Projekt verwendet",
+                "any": "$~Tippe zum Spielen"
             }
         },
         "timeline": {

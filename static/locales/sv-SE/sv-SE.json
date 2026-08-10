@@ -7221,6 +7221,10 @@
                 "explanation": "$~Detta projekt har musik, men din webbläsare väntar på att du ska agera på sidan innan den spelar ljud.",
                 "loading": "$~Gör $instruments redo…",
                 "synthesized": "$~$instruments kunde inte laddas, så de låter syntetiserade."
+            },
+            "keypad": {
+                "label": "$~Tangenter som detta projekt använder",
+                "any": "$~Tryck för att spela"
             }
         },
         "timeline": {

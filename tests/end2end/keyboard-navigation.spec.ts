@@ -10,7 +10,18 @@ import { createTestProject } from '../helpers/createProject';
 
 test('home page primary navigation is reachable by keyboard, in order', async ({
     page,
+    browserName,
 }) => {
+    // WebKit leaves links out of the tab order entirely — Safari's "press Tab
+    // to highlight each item on a webpage" is off by default, so Tab visits
+    // form controls only. That's a browser preference, not something our
+    // markup decides: the same links focus fine via element.focus() in WebKit,
+    // and Chromium covers the ordering this test is really about.
+    test.skip(
+        browserName === 'webkit',
+        'WebKit omits links from the tab order by default',
+    );
+
     await page.goto('/en-US/');
     await expect(page.getByRole('heading').first()).toBeVisible();
 

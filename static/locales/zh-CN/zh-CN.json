@@ -7191,6 +7191,10 @@
                 "explanation": "$~这个项目有音乐，但你的浏览器在播放声音之前，正在等待你与页面互动。",
                 "loading": "$~正在准备 $instruments…",
                 "synthesized": "$~$instruments 无法加载，所以它们用合成音发声。"
+            },
+            "keypad": {
+                "label": "$~这个项目使用的键",
+                "any": "$~点击开始"
             }
         },
         "timeline": {

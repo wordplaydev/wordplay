@@ -7470,6 +7470,10 @@
                 "explanation": "$~Dự án này có nhạc, nhưng trình duyệt của bạn đang chờ bạn tương tác với trang trước khi nó phát âm thanh.",
                 "loading": "$~Đang chuẩn bị $instruments…",
                 "synthesized": "$~$instruments không thể tải, nên chúng nghe như được tạo bằng máy."
+            },
+            "keypad": {
+                "label": "$~Các chìa khóa mà dự án này sử dụng",
+                "any": "$~Chạm để chơi"
             }
         },
         "timeline": {

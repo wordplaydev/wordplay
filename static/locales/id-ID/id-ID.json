@@ -7475,6 +7475,10 @@
                 "explanation": "$~Proyek ini punya musik, tetapi peramban kamu menunggu kamu berinteraksi dengan halaman sebelum memainkan suara.",
                 "loading": "$~Menyiapkan $instruments…",
                 "synthesized": "$~$instruments tidak dapat dimuat, jadi suaranya terdengar seperti buatan mesin."
+            },
+            "keypad": {
+                "label": "$~Kunci yang dipakai proyek ini",
+                "any": "$~Ketuk untuk bermain"
             }
         },
         "timeline": {

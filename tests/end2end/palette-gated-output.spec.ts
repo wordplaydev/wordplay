@@ -1,5 +1,6 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
+import { grantClipboard } from '../helpers/clipboard';
 
 /**
  * Output selection and the chrome that draws it belong to the palette: with the palette
@@ -37,9 +38,7 @@ async function loadCode(
 test('output chrome and selection need the palette open', async ({ page }) => {
     test.setTimeout(60000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     await loadCode(page, "Phrase('hi')");
 
@@ -73,9 +72,7 @@ test('an unselected output border is dashed, a selected one glows', async ({
 }) => {
     test.setTimeout(60000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     await loadCode(page, "Group(Stack() [Phrase('hi') Phrase('there')])");
 
@@ -131,9 +128,7 @@ test('an empty phrase is visible and laid out like any other', async ({
 }) => {
     test.setTimeout(60000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     await loadCode(page, "Phrase('')");
 

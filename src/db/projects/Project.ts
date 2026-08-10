@@ -898,7 +898,7 @@ export default class Project {
     }
 
     getEvaluationsOf(
-        fun: FunctionDefinition | StructureDefinition,
+        fun: FunctionDefinition | StructureDefinition | StreamDefinition,
     ): Evaluate[] {
         return Array.from(this.getAnalysis().evaluations.get(fun) ?? []);
     }

@@ -7475,6 +7475,10 @@
                 "explanation": "$~Acest proiect are muzică, dar browserul tău așteaptă să interacționezi cu pagina înainte de a reda sunetul.",
                 "loading": "$~Se pregătesc $instruments…",
                 "synthesized": "$~$instruments nu s-au putut încărca, așa că sună sintetizat."
+            },
+            "keypad": {
+                "label": "$~Tastele pe care le folosește acest proiect",
+                "any": "$~Atinge pentru a reda"
             }
         },
         "timeline": {

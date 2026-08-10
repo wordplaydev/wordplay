@@ -7468,6 +7468,10 @@
                 "explanation": "$~Este projeto tem música, mas o teu navegador está à espera que interajas com a página antes de tocar o som.",
                 "loading": "$~A preparar $instruments…",
                 "synthesized": "$~$instruments não conseguiram carregar, por isso soam sintetizados."
+            },
+            "keypad": {
+                "label": "$~Teclas que este projeto usa",
+                "any": "$~Toca para jogar"
             }
         },
         "timeline": {

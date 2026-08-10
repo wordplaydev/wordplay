@@ -1,5 +1,6 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
+import { grantClipboard } from '../helpers/clipboard';
 
 /**
  * The music editor's playback feedback, which can only be observed in a
@@ -33,9 +34,7 @@ async function loadCode(
 test('the playhead appears and advances while previewing', async ({ page }) => {
     test.setTimeout(90000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     // Slow and long, so the head has somewhere to travel and time to do it.
     await loadCode(page, 'Music(Track([1 2 3 4 5 6 7 8]) tempo: 60beats/min)');
@@ -93,9 +92,7 @@ test('the playhead appears and advances while previewing', async ({ page }) => {
 test('only one play button owns the preview at a time', async ({ page }) => {
     test.setTimeout(90000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     await loadCode(page, 'Music(Track([1 2 3 4]) tempo: 60beats/min)');
 
@@ -129,9 +126,7 @@ test('the other tracks are drawn for reference, and only sound active when they 
 }) => {
     test.setTimeout(90000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     // A melody and a short loop under it — the pairing the reference layer
     // exists for. The melody is selected first, since it is track one.
@@ -199,9 +194,7 @@ test('clicking the empty staff after a track adds a note to the end of it', asyn
 }) => {
     test.setTimeout(90000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     // Every note the same, so where the added one lands is unambiguous — it is
     // the only one that won't be a 1.
@@ -280,9 +273,7 @@ test('the first note added to an empty track is the one being edited', async ({
 }) => {
     test.setTimeout(90000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     await loadCode(page, 'Music(Track([] loop: ⊥))');
 
@@ -317,9 +308,7 @@ test('editing a note leaves the staff scrolled where it was', async ({
 }) => {
     test.setTimeout(90000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     // Long enough to scroll, and a second track to switch to.
     const many = Array.from({ length: 40 }, (_, i) => 1 + (i % 7)).join(' ');
@@ -419,9 +408,7 @@ test('importing a large MIDI file finishes rather than hanging', async ({
 }) => {
     test.setTimeout(120000);
 
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
 
     // No code loaded on purpose. The importer sits beside the "+music" offer,
