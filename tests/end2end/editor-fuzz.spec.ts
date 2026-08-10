@@ -1,5 +1,6 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
+import { grantClipboard } from '../helpers/clipboard';
 
 /**
  * Stress test for the editor's render layer: the crash class fixed alongside
@@ -58,7 +59,17 @@ test('rapid editing never crashes the editor', async ({ page }) => {
     // Other console.error noise (e.g. the emulator's PresenceTracker permission
     // warnings) is unrelated and must not fail the test.
     const errors: string[] = [];
-    page.on('pageerror', (error) => errors.push(error.stack ?? String(error)));
+    page.on('pageerror', (error) => {
+        // "ResizeObserver loop completed with undelivered notifications" is a
+        // benign browser condition rather than a throw from our code: it means
+        // a resize callback caused another resize, which a resizing editor full
+        // of animated typography does constantly. WebKit reports it as a
+        // pageerror where Chromium doesn't, so it failed only the nightly.
+        if (error.message.startsWith('ResizeObserver loop')) return;
+        // Prefer the stack, but fall back to the message — WebKit leaves the
+        // stack empty on some errors, and reporting "" says nothing.
+        errors.push(error.stack || error.message || String(error));
+    });
     page.on('console', (message) => {
         if (
             message.type() === 'error' &&
@@ -67,7 +78,7 @@ test('rapid editing never crashes the editor', async ({ page }) => {
             errors.push(message.text());
     });
 
-    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
 
     await createTestProject(page);
     const editor = page.getByTestId('editor').first();
