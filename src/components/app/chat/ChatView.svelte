@@ -121,10 +121,9 @@
                 'banner',
                 $locales.getLanguages()[0],
                 $locales
-                    .concretize(
-                        (l) => l.ui.collaborate.translate.error,
-                        { to: toLang },
-                    )
+                    .concretize((l) => l.ui.collaborate.translate.error, {
+                        to: toLang,
+                    })
                     .toText(),
             );
         }
@@ -140,9 +139,7 @@
             const count = ids.length;
             let text: string;
             if (count === 1 && chat) {
-                const msg = chat
-                    .getMessages()
-                    .find((m) => m.id === ids[0]);
+                const msg = chat.getMessages().find((m) => m.id === ids[0]);
                 const sender =
                     (msg ? creators[msg.creator] : undefined)?.getUsername(
                         false,
@@ -280,7 +277,10 @@
             // every untagged pre-existing message as being in the viewer's
             // language, which would fire redundant translation batches and
             // produce incorrect translations for non-viewer-language chats.
-            const source = msg.language ?? chat.getLanguage() ?? localeToString($locales.getLocale());
+            const source =
+                msg.language ??
+                chat.getLanguage() ??
+                localeToString($locales.getLocale());
             const fromLocale = stringToLocale(source);
             if (fromLocale === undefined) continue;
             if (localesAreEqual(fromLocale, toLocale)) continue;
@@ -334,7 +334,11 @@
             // transaction per message.
             if (translated.size > 0) {
                 try {
-                    await Chats.saveMessageTranslations(chat, target, translated);
+                    await Chats.saveMessageTranslations(
+                        chat,
+                        target,
+                        translated,
+                    );
                 } catch (error) {
                     // Rendering already has the translated text.
                     console.error(error);
@@ -360,14 +364,16 @@
         const contentKey = [
             chat.getProjectID(),
             translateTo,
-            ...chat.getMessages().map((msg) =>
-                [
-                    msg.id,
-                    msg.text ?? '',
-                    msg.moderation ?? '',
-                    msg.language ?? '',
-                ].join(':'),
-            ),
+            ...chat
+                .getMessages()
+                .map((msg) =>
+                    [
+                        msg.id,
+                        msg.text ?? '',
+                        msg.moderation ?? '',
+                        msg.language ?? '',
+                    ].join(':'),
+                ),
         ].join('|');
 
         if (contentKey === lastTranslationContentKey) return;
@@ -487,21 +493,23 @@
                     />
                 </div>
                 <div class="lang-tag">
-                    {#if msg.language}{$locales.concretize(
-                            (l) => l.ui.collaborate.translate.direction,
-                            {
-                                from: getLocaleLanguages(msg.language)
-                                    .map((c) => Languages[c]?.name ?? c)
-                                    .join(' + '),
-                                to: getLocaleLanguages(
-                                    translations[msg.id].language,
-                                )
-                                    .map((c) => Languages[c]?.name ?? c)
-                                    .join(' + '),
-                            },
-                        ).toText()}{:else}<LocaleName
-                        locale={translations[msg.id].language}
-                    />{/if}
+                    {#if msg.language}{$locales
+                            .concretize(
+                                (l) => l.ui.collaborate.translate.direction,
+                                {
+                                    from: getLocaleLanguages(msg.language)
+                                        .map((c) => Languages[c]?.name ?? c)
+                                        .join(' + '),
+                                    to: getLocaleLanguages(
+                                        translations[msg.id].language,
+                                    )
+                                        .map((c) => Languages[c]?.name ?? c)
+                                        .join(' + '),
+                                },
+                            )
+                            .toText()}{:else}<LocaleName
+                            locale={translations[msg.id].language}
+                        />{/if}
                 </div>
             </div>
         {/if}
@@ -633,7 +641,9 @@
             <div class="send">
                 <Button
                     submit
-                    active={chat !== undefined && newMessage.trim() !== '' && messageLanguage !== undefined}
+                    active={chat !== undefined &&
+                        newMessage.trim() !== '' &&
+                        messageLanguage !== undefined}
                     tip={(l) => l.ui.collaborate.button.submit.tip}
                     action={submitMessage}
                     background
@@ -696,7 +706,6 @@
     .translate-label {
         font-size: small;
     }
-
 
     .translation {
         display: flex;
