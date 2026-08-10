@@ -1,10 +1,11 @@
 {
     "resvg": "2.6.2",
     "inputs": {
+        "scripts/logo/fonts/NotoEmoji-400.ttf": "3c4aea565060fa91575a851e2718a5b14b9fe8856ead696b374c5a7e672179cb",
         "scripts/logo/fonts/NotoSans-700.ttf": "9f0ce911354e554bbac00c399dcea71c785962cebfd86e965656f0bd011dfca9",
-        "scripts/logo/generate.ts": "7bed36df64b051f6ef7d909c25baf746a5b9bde9e7376b19a881ff5f3dd6fb34",
+        "scripts/logo/generate.ts": "f859fde6b19a070a69727fbe4b366921583fe0b8118115c276b9377fda824b42",
         "scripts/logo/ico.ts": "d5768fa06717badf4b2366c03b56b9045cca4f06994fd7714e4df487d8bebbe6",
-        "scripts/logo/manifest.ts": "1f0a24c886215c605c68319311b102778365075f574519caa0e6ed32e90b3817",
+        "scripts/logo/manifest.ts": "e55e538213de8dd53541de11885d7508e11c53d38c122eec8ba0e6a038c1c449",
         "src/components/app/logoMark.ts": "e5b3c298897528bb4ff7bd5fa9bec4023a4a850cc995fb24b0b9b7bd25a354af"
     },
     "outputs": {
@@ -17,6 +18,6 @@
         "static/icons/icon.png": "eabaad2b8ce4eefc17f1f7aa6c3bbcd1c379ea16209d7323d4d3e777e849e360",
         "static/icons/logo.svg": "6ba5667c2d79d0f0b7324c8fb949590315df8d367d47f4852b4a01e9a4d05582",
         "static/icons/maskable-512x512.png": "94715b0ca11dbbd9763e153c613a20812b6be06dda4b950d381d8deb2f1f0469",
-        "static/icons/og-card.png": "5141d1e726872df1c88dbeb0d766d9edf5387719f1bd4aac34decf3739e2bf9b"
+        "static/icons/og-card.png": "a28f07d918a588cf00f75bd3b0539de07f2bdd993867193941a806fe159e0278"
     }
 }

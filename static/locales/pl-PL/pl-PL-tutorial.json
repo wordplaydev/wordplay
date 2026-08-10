@@ -5848,7 +5848,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~O tak, oczywiście! Może pozwolimy im oświetlić pokój? @Phrase, czy możesz słuchać @Volume i połączyć to z @Color.lightness oraz @Color.chroma w twoim kolorze? W ten sposób rozjaśnimy się na biało, gdy nasz reżyser zrobi hałas!"
+                            "$~O tak, oczywiście! Może pozwolimy im oświetlić pokój? @Phrase, czy możesz posłuchać @Volume i połączyć to z @Color.lightness i @Color.chroma w swoim kolorze? W ten sposób staniemy się rozgrzani do białości, gdy nasz reżyser zrobi hałas!"
                         ],
                         ["Phrase", "kind", "$~Świetny pomysł!"],
                         { "edit": "#EvaluateDance14" },

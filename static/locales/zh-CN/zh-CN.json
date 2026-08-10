@@ -9641,7 +9641,7 @@
         "noscript": "$~Wordplay 使用 JavaScript。你的浏览器不支持它，或者它被禁用了。",
         "unsupportedHeading": "$~不支持的浏览器",
         "unsupportedBody": "$~你的浏览器不支持关键功能。要使用 Wordplay，你需要升级到更新的版本。",
-        "imageDescription": "$~Wordplay 的标志——一个装着圆形、三角形和方形的对话气泡——旁边是名字 Wordplay。"
+        "imageDescription": "$~Wordplay 标志——一个对话气泡，里面装着一个圆形、一个三角形和一个正方形——旁边写着 Wordplay 这个名字，周围环绕着一群淡淡的符号，代表 Wordplay 程序能感知和表达的一切。"
     },
     "keyword": {
         "function": "函数",

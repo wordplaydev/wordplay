@@ -9706,7 +9706,7 @@
         "noscript": "$~Wordplay sử dụng JavaScript. Trình duyệt của bạn không hỗ trợ hoặc đã tắt JavaScript.",
         "unsupportedHeading": "$~Trình duyệt không được hỗ trợ",
         "unsupportedBody": "$~Trình duyệt của bạn không hỗ trợ một số chức năng quan trọng. Để sử dụng Wordplay, bạn cần nâng cấp lên phiên bản mới hơn.",
-        "imageDescription": "$~Biểu tượng của Wordplay — một bong bóng lời nói chứa một hình tròn, một hình tam giác và một hình vuông — bên cạnh tên Wordplay."
+        "imageDescription": "$~Biểu tượng Wordplay — một bong bóng thoại chứa một hình tròn, một hình tam giác và một hình vuông — bên cạnh cái tên Wordplay, được bao quanh bởi một đám ký hiệu mờ nhạt cho mọi thứ mà các chương trình Wordplay có thể cảm nhận và nói ra."
     },
     "keyword": {
         "function": "hàm",

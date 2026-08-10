@@ -64,7 +64,7 @@ export type LocaleText = {
     musicsafety: MusicSafetyTexts;
     /** Pre-mount fallback strings shown in app.html before the app loads. */
     system: {
-        /** [plain] Alt text for the social-sharing image: the Wordplay logo — a speech bubble holding a circle, a triangle, and a square — beside the name Wordplay. */
+        /** [plain] Alt text for the social-sharing image: the Wordplay logo — a speech bubble holding a circle, a triangle, and a square — beside the name Wordplay, surrounded by a faded crowd of input and output symbols. */
         imageDescription: string;
         /** [plain] Shown in <noscript> when JavaScript is disabled or unsupported. */
         noscript: string;

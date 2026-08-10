@@ -9724,7 +9724,7 @@
         "noscript": "$~Wordplay korzysta z JavaScript. Twoja przeglądarka go nie obsługuje lub jest wyłączony.",
         "unsupportedHeading": "$~Nieobsługiwana przeglądarka",
         "unsupportedBody": "$~Twoja przeglądarka nie obsługuje kluczowych funkcji. Aby korzystać z Wordplay, musisz zaktualizować ją do nowszej wersji.",
-        "imageDescription": "$~Logo Wordplay — dymek z kołem, trójkątem i kwadratem — obok nazwy Wordplay."
+        "imageDescription": "$~Logo Wordplay — dymek z kółkiem, trójkątem i kwadratem — obok nazwy Wordplay, otoczony przygaszonym tłumem symboli oznaczających wszystko, co programy Wordplay mogą wyczuć i powiedzieć."
     },
     "keyword": {
         "function": "funkcja",

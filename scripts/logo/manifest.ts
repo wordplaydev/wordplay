@@ -78,6 +78,23 @@ export const CARD_WORDMARK = 'Wordplay';
  *  1.1; see static/fonts/License.txt. */
 export const CardFontPath = 'scripts/logo/fonts/NotoSans-700.ttf';
 
+/** The monochrome emoji face for the card's ensemble cast. SIL OFL 1.1. */
+export const EmojiFontPath = 'scripts/logo/fonts/NotoEmoji-400.ttf';
+
+/** The ensemble cast scattered behind the card's lockup: the symbolic names
+ *  of the language's input streams and output types (the emoji-named ones,
+ *  variation selectors omitted for the rasterizer; Moment and Now are value
+ *  constructors, not streams, so their calendar and clock stay out),
+ *  conveying the abundance of things a program can sense and say. */
+export const CARD_CAST = [
+    // Input streams.
+    '🎲', '🔘', '🖱', '👆', '⌨', '🕕', '🎤', '🎵',
+    '🎙', '🎥', '🖐', '🙂', '📦', '🎬', '⚽', '🗣', '🖋', '🔗',
+    // Output types.
+    '🔳', '💬', '🔊', '🎼', '🎶', '🔈', '🤪', '🌈', '💃', '📍',
+    '✋', '🔎', '😀', '💨', '⚛', '🔮', '🎭',
+];
+
 /** Inputs whose change must force a regeneration: geometry, this manifest,
  *  the generator itself, and the card font. Hashes are recorded in the lock
  *  and verified by `npm run logo` / logoSync.test.ts. */
@@ -87,6 +104,7 @@ export const InputFiles = [
     'scripts/logo/generate.ts',
     'scripts/logo/ico.ts',
     CardFontPath,
+    EmojiFontPath,
 ];
 
 /** Every generated output, for verification. */

@@ -9700,7 +9700,7 @@
         "noscript": "$~Wordplay usa JavaScript. Tu navegador no lo admite o está desactivado.",
         "unsupportedHeading": "$~Navegador no compatible",
         "unsupportedBody": "$~Tu navegador no admite funciones esenciales. Para usar Wordplay, necesitarás actualizar a una versión más reciente.",
-        "imageDescription": "$~El logo de Wordplay: una burbuja de diálogo que sostiene un círculo, un triángulo y un cuadrado, junto al nombre Wordplay."
+        "imageDescription": "$~El logotipo de Wordplay — un globo de diálogo que sostiene un círculo, un triángulo y un cuadrado — junto al nombre Wordplay, rodeado de una multitud tenue de símbolos que representan todo lo que los programas de Wordplay pueden percibir y decir."
     },
     "keyword": {
         "function": "función",

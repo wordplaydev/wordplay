@@ -9697,7 +9697,7 @@
         "noscript": "O Wordplay utiliza JavaScript. O seu navegador não o suporta ou está desativado.",
         "unsupportedHeading": "Navegador não compatível",
         "unsupportedBody": "O seu navegador não suporta funcionalidades essenciais. Para utilizar o Wordplay, precisa de atualizar para uma versão mais recente.",
-        "imageDescription": "$~O logótipo do Wordplay — um balão de fala com um círculo, um triângulo e um quadrado — ao lado do nome Wordplay."
+        "imageDescription": "$~O logótipo do Wordplay — um balão de fala com um círculo, um triângulo e um quadrado — ao lado do nome Wordplay, rodeado por um grupo esbatido de símbolos para tudo o que os programas do Wordplay podem sentir e dizer."
     },
     "keyword": {
         "function": "função",

@@ -9692,7 +9692,7 @@
         "noscript": "$~Wordplay JavaScript kullanıyor. Tarayıcınız JavaScript'i desteklemiyor veya devre dışı bırakılmış.",
         "unsupportedHeading": "$~Desteklenmeyen Tarayıcı",
         "unsupportedBody": "$~Tarayıcınız kritik işlevleri desteklemiyor. Wordplay'i kullanmak için daha yeni bir sürüme yükseltmeniz gerekecek.",
-        "imageDescription": "$~Wordplay logosu — içinde bir daire, bir üçgen ve bir kare bulunan bir konuşma balonu — Wordplay isminin yanında."
+        "imageDescription": "$~Wordplay logosu — bir daire, bir üçgen ve bir kare tutan bir konuşma balonu — Wordplay isminin yanında; Wordplay programlarının algılayıp söyleyebileceği her şeyin sembollerinden oluşan solgun bir kalabalıkla çevrili."
     },
     "keyword": {
         "function": "işlev",

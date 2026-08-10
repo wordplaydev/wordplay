@@ -9644,7 +9644,7 @@
         "noscript": "$~Wordplay 使用 JavaScript。你的瀏覽器不支援它，或它被停用了。",
         "unsupportedHeading": "$~不支援的瀏覽器",
         "unsupportedBody": "$~你的瀏覽器不支援重要的功能。要使用 Wordplay，你需要升級到較新的版本。",
-        "imageDescription": "$~Wordplay 標誌——一個對話泡泡，裡面放著一個圓形、一個三角形和一個方形——旁邊是 Wordplay 這個名字。"
+        "imageDescription": "$~Wordplay 的標誌——一個對話框，裡面裝著一個圓形、一個三角形和一個正方形——旁邊是 Wordplay 這個名字，四周圍繞著一群淡淡的符號，代表 Wordplay 程式能夠感知和表達的所有事物。"
     },
     "keyword": {
         "function": "函數",

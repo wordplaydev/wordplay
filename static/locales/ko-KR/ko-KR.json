@@ -9677,7 +9677,7 @@
         "noscript": "$~Wordplay는 JavaScript를 사용합니다. 사용하시는 브라우저에서 JavaScript를 지원하지 않거나 비활성화되어 있습니다.",
         "unsupportedHeading": "$~지원되지 않는 브라우저",
         "unsupportedBody": "$~현재 사용 중인 브라우저는 필수 기능을 지원하지 않습니다. Wordplay를 사용하려면 최신 버전으로 업그레이드해야 합니다.",
-        "imageDescription": "$~Wordplay 로고입니다. 원, 삼각형, 사각형을 담은 말풍선이 Wordplay라는 이름 옆에 있습니다."
+        "imageDescription": "$~Wordplay 로고 — 원, 삼각형, 사각형을 담은 말풍선 — 옆에 Wordplay라는 이름이 있고, Wordplay 프로그램이 느끼고 말할 수 있는 모든 것을 나타내는 흐릿한 기호 무리가 둘러싸고 있습니다."
     },
     "keyword": {
         "function": "함수",

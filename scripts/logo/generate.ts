@@ -15,12 +15,14 @@ import {
     type Lockfile,
 } from './lockfile';
 import {
+    CARD_CAST,
     CARD_HEIGHT,
     CARD_WIDTH,
     CARD_WORDMARK,
     CardFontPath,
     CardPath,
     DARK_FOREGROUND,
+    EmojiFontPath,
     IcoPath,
     IcoSizes,
     InputFiles,
@@ -37,12 +39,85 @@ function rasterize(svg: string, width: number): Buffer {
     const resvg = new Resvg(svg, {
         fitTo: { mode: 'width', value: width },
         font: {
-            fontFiles: [CardFontPath],
+            fontFiles: [CardFontPath, EmojiFontPath],
             loadSystemFonts: false,
             defaultFontFamily: 'Noto Sans',
         },
     });
     return Buffer.from(resvg.render().asPng());
+}
+
+/** A tiny deterministic PRNG (mulberry32) with a fixed seed: the card's
+ *  scatter must produce byte-identical output on every regeneration, or the
+ *  lockfile's hash model would see phantom drift. */
+function seededRandom(seed: number): () => number {
+    let state = seed;
+    return () => {
+        state |= 0;
+        state = (state + 0x6d2b79f5) | 0;
+        let t = Math.imul(state ^ (state >>> 15), 1 | state);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+}
+
+/** The card's border inset: the cast never reaches within this of the edge. */
+const CAST_MARGIN = 44;
+
+/** The faded ensemble cast behind the card's lockup: every emoji-named
+ *  input stream and output type — a crowd of everything the bubble could be
+ *  saying. Placement is organic, not gridded: seeded rejection sampling
+ *  scatters glyphs uniformly over the inset canvas, rejecting any that
+ *  would enter the lockup's zone or come within a minimum gap of an
+ *  already-placed neighbor, so the crowd surrounds the lockup with visible
+ *  space between every member and a clear border at the card's edge. */
+function castLayer(exclude: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}): string {
+    const random = seededRandom(414);
+    const placed: { x: number; y: number; size: number }[] = [];
+    const gap = 14;
+    let next = 0;
+    let layer = '';
+    for (let attempt = 0; attempt < 6000 && placed.length < 44; attempt++) {
+        // Bias early placements large so big glyphs aren't crowded out.
+        const max = attempt < 1500 ? 96 : 78;
+        const size = 50 + random() * (max - 50);
+        const half = size / 2;
+        const x =
+            CAST_MARGIN +
+            half +
+            random() * (CARD_WIDTH - 2 * (CAST_MARGIN + half));
+        const y =
+            CAST_MARGIN +
+            half +
+            random() * (CARD_HEIGHT - 2 * (CAST_MARGIN + half));
+        if (
+            x + half > exclude.x &&
+            x - half < exclude.x + exclude.width &&
+            y + half > exclude.y &&
+            y - half < exclude.y + exclude.height
+        )
+            continue;
+        if (
+            placed.some(
+                (other) =>
+                    Math.hypot(other.x - x, other.y - y) <
+                    other.size / 2 + half + gap,
+            )
+        )
+            continue;
+        placed.push({ x, y, size });
+        const rotation = -28 + random() * 56;
+        const opacity = 0.09 + random() * 0.07;
+        const glyph = CARD_CAST[next % CARD_CAST.length];
+        next++;
+        layer += `<text x="${x.toFixed(1)}" y="${(y + size * 0.35).toFixed(1)}" text-anchor="middle" font-family="Noto Emoji" font-size="${size.toFixed(1)}" fill="${LIGHT_FOREGROUND}" fill-opacity="${opacity.toFixed(3)}" transform="rotate(${rotation.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})">${glyph}</text>`;
+    }
+    return layer;
 }
 
 /** The 1200×630 social card: the dots-face mark beside the wordmark, sized
@@ -74,9 +149,26 @@ function cardSVG(): string {
     const textX = left + markWidth + gap;
     const baseline = centerY + capHeight / 2;
 
+    // The zone the cast keeps clear of: the lockup's actual extent (bubble
+    // top/tail-bottom vs. wordmark cap/descender) plus a small margin —
+    // tight, so the cast surrounds the lockup on all sides.
+    const bubbleTop = markTy + (14 - LOGO_STROKE_WIDTH / 2) * scale;
+    const bubbleBottom = markTy + (86 + LOGO_STROKE_WIDTH / 2) * scale;
+    const textTop = baseline - capHeight;
+    const textBottom = baseline + 0.22 * fontSize;
+    const lockupTop = Math.min(bubbleTop, textTop) - 24;
+    const lockupBottom = Math.max(bubbleBottom, textBottom) + 24;
+    const exclude = {
+        x: left - 30,
+        y: lockupTop,
+        width: markWidth + gap + textWidth + 60,
+        height: lockupBottom - lockupTop,
+    };
+
     return (
         `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${CARD_WIDTH} ${CARD_HEIGHT}">` +
         `<rect width="${CARD_WIDTH}" height="${CARD_HEIGHT}" fill="${LIGHT_BACKGROUND}"/>` +
+        castLayer(exclude) +
         `<g style="color: ${LIGHT_FOREGROUND}" transform="translate(${markTx} ${markTy}) scale(${scale})">${renderLogoGroup('shapes')}</g>` +
         `<text x="${textX}" y="${baseline}" font-family="Noto Sans" font-weight="700" font-size="${fontSize}" fill="${LIGHT_FOREGROUND}">${CARD_WORDMARK}</text>` +
         `</svg>`

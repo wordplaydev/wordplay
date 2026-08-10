@@ -9695,7 +9695,7 @@
         "noscript": "$~WordplayはJavaScriptを使います。あなたのブラウザはそれに対応していないか、無効になっています。",
         "unsupportedHeading": "$~対応していないブラウザ",
         "unsupportedBody": "$~あなたのブラウザは大切な機能に対応していません。Wordplayを使うには、もっと新しいバージョンに更新する必要があります。",
-        "imageDescription": "$~Wordplayのロゴは、丸・三角・四角を入れた吹き出しで、Wordplayという名前のとなりにあります。"
+        "imageDescription": "$~Wordplayのロゴ — 円、三角、四角を包む吹き出し — とその横にあるWordplayという名前。まわりには、Wordplayのプログラムが感じ取り、伝えられるすべてのものを表す記号が、うすくにぎやかに並んでいます。"
     },
     "keyword": {
         "function": "関数",

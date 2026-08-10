@@ -9709,7 +9709,7 @@
         "noscript": "$~Wordplay utilise JavaScript. Votre navigateur ne le prend pas en charge ou cette fonctionnalité est désactivée.",
         "unsupportedHeading": "$~Navigateur non pris en charge",
         "unsupportedBody": "$~Votre navigateur ne prend pas en charge certaines fonctionnalités essentielles. Pour utiliser Wordplay, vous devez le mettre à jour vers une version plus récente.",
-        "imageDescription": "$~Le logo de Wordplay — une bulle de dialogue qui contient un cercle, un triangle et un carré — à côté du nom Wordplay."
+        "imageDescription": "$~Le logo de Wordplay — une bulle de parole qui contient un cercle, un triangle et un carré — à côté du nom Wordplay, entouré d'une foule pâle de symboles pour tout ce que les programmes Wordplay peuvent percevoir et dire."
     },
     "keyword": {
         "function": "fonction",
