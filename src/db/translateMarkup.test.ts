@@ -45,3 +45,103 @@ test('translateMarkupText returns null when the translator fails', async () => {
     const failing: RawTranslator = async () => null;
     expect(await translateMarkupText('hello', en, es, failing)).toBeNull();
 });
+
+import { translateMarkupTexts, type MarkupTranslationInput } from './translateMarkup';
+
+// ---------------------------------------------------------------------------
+// translateMarkupTexts
+// ---------------------------------------------------------------------------
+
+const fr = stringToLocale('fr-FR');
+
+test('translateMarkupTexts groups by source locale — single batch per language', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const calls: { texts: string[] }[] = [];
+    const spy: RawTranslator = async (texts) => {
+        calls.push({ texts });
+        return texts.map((t) => t + '_translated');
+    };
+    const inputs: MarkupTranslationInput[] = [
+        { id: 'a', text: 'hello', from: en },
+        { id: 'b', text: 'world', from: en },
+    ];
+    const { translated, failed } = await translateMarkupTexts(inputs, es, spy);
+    // Both en-US strings go in one call, not two.
+    expect(calls).toHaveLength(1);
+    expect(calls[0].texts).toHaveLength(2);
+    expect(translated.size).toBe(2);
+    expect(failed.size).toBe(0);
+});
+
+test('translateMarkupTexts sends separate batches for different source locales', async () => {
+    if (en === undefined || es === undefined || fr === undefined)
+        throw new Error('bad locale');
+    const calls: string[][] = [];
+    const spy: RawTranslator = async (texts) => {
+        calls.push(texts);
+        return texts.map((t) => t + '_translated');
+    };
+    const inputs: MarkupTranslationInput[] = [
+        { id: 'a', text: 'hello', from: en },
+        { id: 'b', text: 'bonjour', from: fr },
+    ];
+    await translateMarkupTexts(inputs, es, spy);
+    // en-US and fr-FR are separate groups → two calls.
+    expect(calls).toHaveLength(2);
+});
+
+test('translateMarkupTexts isolates per-group failures — other groups still succeed', async () => {
+    if (en === undefined || es === undefined || fr === undefined)
+        throw new Error('bad locale');
+    const spy: RawTranslator = async (_texts, from) => {
+        // The French group fails; the English group succeeds.
+        if (from.language === 'fr') return null;
+        return _texts.map((t) => t + '_ok');
+    };
+    const inputs: MarkupTranslationInput[] = [
+        { id: 'en1', text: 'hello', from: en },
+        { id: 'fr1', text: 'bonjour', from: fr },
+    ];
+    const { translated, failed } = await translateMarkupTexts(inputs, es, spy);
+    expect(translated.has('en1')).toBe(true);
+    expect(failed.has('fr1')).toBe(true);
+    // The succeeded id must not appear in failed.
+    expect(failed.has('en1')).toBe(false);
+});
+
+test('translateMarkupTexts marks id failed when translator returns undefined for that entry', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const spy: RawTranslator = async (texts) =>
+        // Return undefined for the second entry.
+        texts.map((t, i) => (i === 1 ? undefined : t + '_ok'));
+    const inputs: MarkupTranslationInput[] = [
+        { id: 'a', text: 'one', from: en },
+        { id: 'b', text: 'two', from: en },
+    ];
+    const { translated, failed } = await translateMarkupTexts(inputs, es, spy);
+    expect(translated.has('a')).toBe(true);
+    expect(failed.has('b')).toBe(true);
+});
+
+test('translateMarkupTexts marks all ids in a throwing group as failed', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const spy: RawTranslator = async () => {
+        throw new Error('network failure');
+    };
+    const inputs: MarkupTranslationInput[] = [
+        { id: 'x', text: 'hello', from: en },
+        { id: 'y', text: 'world', from: en },
+    ];
+    const { translated, failed } = await translateMarkupTexts(inputs, es, spy);
+    expect(translated.size).toBe(0);
+    expect(failed).toContain('x');
+    expect(failed).toContain('y');
+});
+
+test('translateMarkupTexts returns empty maps for empty input', async () => {
+    if (es === undefined) throw new Error('bad locale');
+    const spy: RawTranslator = async (texts) => texts;
+    const { translated, failed } = await translateMarkupTexts([], es, spy);
+    expect(translated.size).toBe(0);
+    expect(failed.size).toBe(0);
+});
