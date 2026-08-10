@@ -63,9 +63,9 @@
 
     let scrollerView = $state<HTMLDivElement | undefined>();
 
-    // getTranslatableLocales() is built from Object.entries(Languages) which
-    // has unique keys, so its output has no duplicates.
-    const uniqueLanguageLocales = getTranslatableLocales();
+    // getTranslatableLocales() is built from Object.entries(Languages), which
+    // has unique keys, so no additional dedupe is needed here.
+    const translatableLocales = getTranslatableLocales();
 
     // The language the creator has chosen to tag their next message with.
     // Intentionally unset by default: sending is blocked until the user
@@ -581,7 +581,7 @@
             {/if}
             <LocaleCombobox
                 id="translate-messages"
-                candidates={uniqueLanguageLocales}
+                candidates={translatableLocales}
                 selected={translateTo}
                 label={(l) => l.ui.collaborate.translate.label}
                 choose={(ls) => queueTranslateMessages(ls)}
@@ -606,7 +606,7 @@
         <div class="language">
             <LocaleCombobox
                 id="new-message-language"
-                candidates={uniqueLanguageLocales}
+                candidates={translatableLocales}
                 selected={messageLanguage}
                 label={(l) => l.ui.collaborate.translate.language}
                 choose={(ls) => (messageLanguage = ls)}
