@@ -6670,6 +6670,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~En pratbubbla med en bokstav från ditt skriftsystem inuti"
             }
         },
         "tile": {
@@ -8881,13 +8884,25 @@
                     "optionslabel": "$~Exempel",
                     "optiona": "$~Alternativ A",
                     "optionb": "$~Alternativ B",
-                    "optionc": "$~Alternativ C"
+                    "optionc": "$~Alternativ C",
+                    "logoresting": "$~I vila",
+                    "logoloading": "$~Laddar",
+                    "logoscripts": "$~Över olika skriftsystem",
+                    "logodownloadsvg": "$~Ladda ner SVG",
+                    "logodownloadpng": "$~Ladda ner PNG (512px)",
+                    "logodownloadcard": "$~Ladda ner delningsbild"
                 },
                 "accessibility": "$~Färgtillgänglighet",
                 "accessibilityRules": [
                     "$~Allt som visas som *text* måste använda en av AA-textvarianterna (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, eller en semantisk variabel som pekar på en av dem). De uppfyller kontrasten 4,5:1 som <WCAG 2.2@https://www.w3.org/TR/WCAG22/> kräver. De ljusare varumärkesfärgerna är bara till för bakgrunder, kanter och markeringar, som behöver 3:1 eller inget alls. Dessa förhållanden kontrolleras av enhetstester och av automatiska genomsökningar av varje sida, i både ljust och mörkt läge. Ett medvetet undantag: kantgrå i ljust läge ligger under 3:1, eftersom kanter här bara skiljer saker åt på ett dekorativt sätt och varje viktig gräns bär en annan ledtråd.",
                     "Förmedla aldrig mening enbart med färg: para varje färgkodat tillstånd med en andra ledtråd — en form, en linjestil, en symbol eller ett ord. Till exempel ritar editorn markörens markering och stora konflikter *heldragna*, valt utdata *streckat* och små konflikter *punktat*, så att allvar och val förblir tydliga utan färg.",
                     "Se guiden <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> för hela vägledningen till bidragsgivare."
+                ],
+                "logo": "$~Logotyp",
+                "logoDescription": [
+                    "$~Wordplays logotyp är en pratbubbla med en bokstav i sig: en liten scen där bubblan kan säga vad som helst — en bokstav från läsarens skriftsystem, en emoji, eller en cirkel, triangel och fyrkant medan något laddas. I appen följer bokstaven ditt huvudspråks skriftsystem; på skriftneutrala ytor som webbläsarikonen och delningsbilder visar bubblan de tre formerna, redo att skapa något.",
+                    "Själva teckningen visar aldrig rörelse. Rörelsen kommer från beteendet — startsidan växlar det bubblan säger i takt med språkväljaren, och medan sidan laddas turas formerna om att hoppa, som en publik som gör vågen — och den anpassas alltid efter inställningen för animeringshastighet, och stannar helt när animering är avstängd.",
+                    "Märket ritas alltid i den aktuella textfärgen, så överallt där texten uppfyller kraven på kontrast gör logotypen det också."
                 ]
             },
             "thanks": {
@@ -9664,7 +9679,8 @@
     "system": {
         "noscript": "$~Wordplay använder JavaScript. Din webbläsare stöder det inte, eller så är det inaktiverat.",
         "unsupportedHeading": "$~Webbläsare som inte stöds",
-        "unsupportedBody": "$~Din webbläsare stöder inte viktiga funktioner. För att använda Wordplay måste du uppgradera till en nyare version."
+        "unsupportedBody": "$~Din webbläsare stöder inte viktiga funktioner. För att använda Wordplay måste du uppgradera till en nyare version.",
+        "imageDescription": "$~Wordplays logotyp — en pratbubbla med en cirkel, en triangel och en fyrkant — bredvid namnet Wordplay."
     },
     "keyword": {
         "function": "funktion",

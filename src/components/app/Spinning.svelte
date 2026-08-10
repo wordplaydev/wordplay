@@ -1,6 +1,7 @@
 <script lang="ts">
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import Logo from './Logo.svelte';
 
     interface Props {
         label?: LocaleTextAccessor | undefined;
@@ -8,7 +9,9 @@
         spin?: boolean;
     }
 
-    let { label = undefined, size = 1.5, spin = true }: Props = $props();
+    /* Default of 2rem: any smaller and the typing dots inside the bubble
+       stop being legible. */
+    let { label = undefined, size = 2, spin = true }: Props = $props();
 </script>
 
 <!-- A span, not a div, because this is rendered inline inside phrasing-only
@@ -19,43 +22,31 @@
      is an implicit polite, atomic live region, replacing the previous
      hand-set aria-live attributes. -->
 <span
-    class="cursor"
+    class="spinner"
     class:spin
     style="width: {size}rem; height: {size}rem;"
     role="status"
     aria-label={$locales.getPrimaryPlainText(
         label ?? ((l) => l.ui.widget.loading.message),
     )}
-></span>
+>
+    <!-- The logo's shapes face: the bubble is "about to make something." The
+         wave is factor-gated inside Logo, so reduced motion shows a still
+         mark. The mark is decorative here; this span's label carries the
+         meaning. -->
+    <Logo variant="shapes" pulse={spin} size="{size}rem" />
+</span>
 
 <style>
-    .cursor {
+    .spinner {
         display: inline-block;
-        transform-origin: center;
-        border: var(--wordplay-inactive-color) solid
-            calc(2 * var(--wordplay-border-width));
-        border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-alternating-color);
-        width: 1em;
-        height: 1em;
+        line-height: 0;
+        /* Invisible by default so spin={false} still reserves the box as a
+           layout placeholder (see Join.svelte). */
         opacity: 0;
     }
 
-    .cursor.spin {
+    .spinner.spin {
         opacity: 1;
-        animation: spin infinite linear;
-        animation-duration: calc(var(--animation-factor) * 1s);
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        50% {
-            transform: rotate(180deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
     }
 </style>

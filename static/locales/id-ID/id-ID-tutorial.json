@@ -5896,7 +5896,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Oh iya, tentu saja! Bagaimana kalau kita biarkan mereka menerangi ruangan? @Phrase, bisakah kamu mendengarkan @Volume dan menghubungkannya ke @Color.lightness dan @Color.chroma dengan warnamu? Dengan begitu, kita akan berubah menjadi putih terang saat sutradara kita membuat suara!"
+                            "$~Oh iya, tentu saja! Bagaimana kalau kita biarkan mereka menerangi ruangan? @Phrase, bisakah kamu mendengarkan @Volume lalu menghubungkannya ke @Color.lightness dan @Color.chroma dengan warnamu? Dengan begitu, kita akan berpijar putih panas saat sutradara kita membuat suara!"
                         ],
                         ["Phrase", "kind", "$~Ide yang bagus!"],
                         { "edit": "#EvaluateDance14" },

@@ -127,6 +127,11 @@ type UITexts = {
         };
         /** [plain] The go home button description */
         home: string;
+        /** The Wordplay logo mark */
+        logo: {
+            /** [plain] Accessible description of the Wordplay logo: a speech bubble holding one letter of the reader's writing system */
+            description: string;
+        };
         /** An editable table */
         table: {
             /** The field to edit a cell */

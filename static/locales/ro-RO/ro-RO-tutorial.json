@@ -5852,7 +5852,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~O, da, sigur! Ce-ar fi să îi lăsăm să lumineze camera? @Phrase, poți să asculți @Volume și să îl legi la @Color.lightness și @Color.chroma în culoarea ta? Astfel, vom deveni alb aprins când regizorul nostru face zgomot!"
+                            "$~O, da, sigur! Ce ar fi să îi lăsăm pe ei să lumineze camera? @Phrase, poți să asculți @Volume și să îl conectezi la @Color.lightness și @Color.chroma în culoarea ta? Așa, vom deveni albi și fierbinți când regizorul nostru face zgomot!"
                         ],
                         ["Phrase", "kind", "$~Excelentă idee!"],
                         { "edit": "#EvaluateDance14" },

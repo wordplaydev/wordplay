@@ -43,9 +43,12 @@
         button?:
             | {
                   tip: LocaleTextAccessor;
-                  icon?: string;
+                  icon?: string | undefined;
                   /** Continuously spin the icon (e.g. to show ongoing work). */
                   spinIcon?: boolean;
+                  /** Replace the button's content with the standard loading
+                   *  indicator (see Button's loading prop). */
+                  loading?: boolean;
                   label?: string | LocaleTextAccessor;
                   background?: boolean | 'salient' | 'circular';
                   testid?: string;
@@ -161,6 +164,7 @@
         action={() => (show = true)}
         icon={button.icon}
         spinIcon={button.spinIcon ?? false}
+        loading={button.loading ?? false}
         background={button.background ?? false}
         testid={button.testid}
         children={button.label !== undefined ? buttonLabel : undefined}

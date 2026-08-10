@@ -17,7 +17,8 @@
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import type Project from '@db/projects/Project';
     import type { SerializedPreview } from '@db/projects/ProjectSchemas';
-    import { PHRASE_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
+    import Logo from '@components/app/Logo.svelte';
+    import { REMIX_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         project: Project;
@@ -285,7 +286,12 @@
                 </div>
             {/if}
             {#if unread}
-                <div class="notification">{PHRASE_SYMBOL}</div>
+                <!-- The logo's shapes face: an unread chat is the bubble
+                     with something to show. Still, not waving — the badge
+                     already bounces. -->
+                <div class="notification">
+                    <Logo variant="shapes" pulse={false} />
+                </div>
             {/if}
             {#if matchText}
                 <div class="match-text">{@render highlighted(matchText)}</div>
@@ -363,6 +369,10 @@
         color: var(--wordplay-background);
         align-self: flex-start;
         border-radius: var(--wordplay-border-radius);
+        /* Breathing room around the logo mark, which unlike the emoji it
+           replaced has no line box of its own. */
+        padding: 0.2em;
+        line-height: 0;
         animation: bounce;
         animation-duration: calc(var(--animation-factor) * 1000ms);
         animation-delay: 0;

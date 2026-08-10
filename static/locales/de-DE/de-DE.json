@@ -6686,6 +6686,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~Eine Sprechblase mit einem Buchstaben deines Schriftsystems darin"
             }
         },
         "tile": {
@@ -8808,13 +8811,25 @@
                     "optionslabel": "$~Beispiel",
                     "optiona": "$~Option A",
                     "optionb": "$~Option B",
-                    "optionc": "$~Option C"
+                    "optionc": "$~Option C",
+                    "logoresting": "$~In Ruhe",
+                    "logoloading": "$~Wird geladen",
+                    "logoscripts": "$~Über Schriftsysteme hinweg",
+                    "logodownloadsvg": "$~SVG herunterladen",
+                    "logodownloadpng": "$~PNG herunterladen (512px)",
+                    "logodownloadcard": "$~Teilbild herunterladen"
                 },
                 "accessibility": "$~Farb-Barrierefreiheit",
                 "accessibilityRules": [
                     "$~Alles, was als *Text* dargestellt wird, muss eine der AA-Textvarianten verwenden (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* oder eine semantische Variable, die auf eine davon zeigt). Diese erfüllen den Kontrast von 4,5:1, den <WCAG 2.2@https://www.w3.org/TR/WCAG22/> verlangt. Die helleren Markenfarben sind nur für Hintergründe, Ränder und Hervorhebungen gedacht, die 3:1 oder gar keinen Kontrast brauchen. Diese Verhältnisse werden durch Modultests und durch automatische Prüfungen jeder Seite sichergestellt, sowohl im hellen als auch im dunklen Modus. Es gibt eine bewusste Ausnahme: Das Randgrau im hellen Modus liegt unter 3:1, weil Ränder hier nur zur Trennung dienen und jede wichtige Grenze noch einen weiteren Hinweis trägt.",
                     "Übermittle Bedeutung niemals allein durch Farbe: Verbinde jeden farbcodierten Zustand mit einem zweiten Hinweis – einer Form, einem Linienstil, einem Zeichen oder einem Wort. Zum Beispiel zeichnet der Editor die Hervorhebung des Cursors und große Konflikte *durchgehend*, ausgewählte Ausgabe *gestrichelt* und kleine Konflikte *gepunktet*, damit Schwere und Auswahl auch ohne Farbe unterscheidbar bleiben.",
                     "Sieh dir den <Design-Wiki@https://github.com/wordplaydev/wordplay/wiki/design>-Leitfaden für alle Hinweise für Mitwirkende an."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Das Wordplay-Logo ist eine Sprechblase mit einem einzigen Zeichen darin: eine winzige Bühne, auf der die Blase alles sagen kann — ein Zeichen aus dem Schriftsystem der Leserin oder des Lesers, ein Emoji oder einen Kreis, ein Dreieck und ein Quadrat, während etwas lädt. In der App folgt das Zeichen dem Schriftsystem deiner Hauptsprache; auf schriftneutralen Flächen wie dem Browser-Symbol und den Teilbildern zeigt die Blase die drei Formen, kurz bevor sie etwas macht.",
+                    "Die Zeichnung selbst zeigt niemals Bewegung. Bewegung entsteht durch Verhalten — die Startseite wechselt das, was die Blase sagt, im Takt mit der Sprachauswahl, und beim Laden hüpfen die Formen der Reihe nach, wie eine Menschenmenge, die eine La-Ola-Welle macht — und richtet sich immer nach der Einstellung für die Animationsgeschwindigkeit. Sie hört ganz auf, wenn Animationen aus sind.",
+                    "Das Zeichen wird immer in der aktuellen Textfarbe gezeichnet. So erfüllt das Logo überall dort die Kontrastanforderungen, wo auch der Text sie erfüllt."
                 ]
             },
             "thanks": {
@@ -9686,7 +9701,8 @@
     "system": {
         "noscript": "$~Wordplay verwendet JavaScript. Ihr Browser unterstützt es nicht oder es ist deaktiviert.",
         "unsupportedHeading": "$~Nicht unterstützter Browser",
-        "unsupportedBody": "$~Ihr Browser unterstützt wichtige Funktionen nicht. Um Wordplay nutzen zu können, müssen Sie auf eine neuere Version aktualisieren."
+        "unsupportedBody": "$~Ihr Browser unterstützt wichtige Funktionen nicht. Um Wordplay nutzen zu können, müssen Sie auf eine neuere Version aktualisieren.",
+        "imageDescription": "$~Das Wordplay-Logo — eine Sprechblase mit einem Kreis, einem Dreieck und einem Quadrat — neben dem Namen Wordplay."
     },
     "keyword": {
         "function": "Funktion",

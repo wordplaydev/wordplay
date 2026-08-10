@@ -27,9 +27,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎶 The dance at the end of Learn now has a band playing. The cast used to move to a clock; now they move to the beat of the music, and you still light them up by making noise. (#390)
 - 🤖 We added Chatterbox, a little robot you can talk to, inspired by Eliza, the very first chatbot from 1966. It shows how to keep a chat log, spot patterns in what you type, and echo your words back with the pronouns flipped — find it with the other example projects in [galleries](https://wordplay.dev/galleries). (#380)
 - 🎨 The [Design](https://wordplay.dev/design) page now explains our color rules — like never using color as the only clue — and its color table shows how strongly each color stands out against the background. (#1183)
+- 🔣 The [Design](https://wordplay.dev/design) page now shows the new logo speaking fifteen writing systems, and lets you download it. (#414)
 
 ### Changed
 
+- 💬 We gave Wordplay a new logo: a speech bubble that can say anything. On the [home page](https://wordplay.dev/) it speaks the letter of each language as the language chooser names it; while things load it holds a circle, a triangle, and a square that take turns hopping, like a crowd doing the wave; and it holds still if you turn animation off. (#414)
 - 🎞️ The ready-made animations now belong to @Sequence, so you write `Sequence.sway()` where you used to write `Sequence(sway())`, and each one makes a whole animation by itself. You can still set how long it takes, how it eases, how many times it repeats, and what to call it, the same way as before. If you have a project that uses the old names, Wordplay will offer to fix it for you.
 - 📖 Every ready-made animation now says what its motion looks like and when to reach for it, and comes with an example you can run in the [Guide](https://wordplay.dev/guide).
 - 🎨 The stage stays clean while you work: the outlines around your output only show up when the palette is open. Double-click anything on the stage to open the palette and pick it, and the things you haven't picked now have a dashed outline, so the one you did pick stands out.
