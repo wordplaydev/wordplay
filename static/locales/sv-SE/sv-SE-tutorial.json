@@ -5856,7 +5856,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Åh ja, självklart! Vad sägs om att vi låter dem lysa upp rummet? @Phrase, kan du lyssna på @Volume och koppla det till @Color.lightness och @Color.chroma i din färg? På så sätt blir vi vitglödande när vår regissör låter höra sig!"
+                            "$~Åh ja, självklart! Vad sägs om att vi låter dem lysa upp rummet? @Phrase, kan du lyssna på @Volume och koppla det till @Color.lightness och @Color.chroma i din färg? På så sätt blir vi vitglödgade när vår regissör låter höra sig!"
                         ],
                         ["Phrase", "kind", "$~Utmärkt idé!"],
                         { "edit": "#EvaluateDance14" },

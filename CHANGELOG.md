@@ -28,6 +28,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🤖 We added Chatterbox, a little robot you can talk to, inspired by Eliza, the very first chatbot from 1966. It shows how to keep a chat log, spot patterns in what you type, and echo your words back with the pronouns flipped — find it with the other example projects in [galleries](https://wordplay.dev/galleries). (#380)
 - 🎨 The [Design](https://wordplay.dev/design) page now explains our color rules — like never using color as the only clue — and its color table shows how strongly each color stands out against the background. (#1183)
 - 🔣 The [Design](https://wordplay.dev/design) page now shows the new logo speaking fifteen writing systems, and lets you download it. (#414)
+- 📱 On phones and tablets, a project that listens for certain keys now shows those keys as buttons on the stage, instead of opening the keyboard that covers your work. Wordplay reads your project to find which keys it uses, so arrow keys come out as an arrow pad you can steer with and letters come out as a row.
 
 ### Changed
 
@@ -53,6 +54,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🎮 We fixed the Where's Waldough game: the 🔁 button now shuffles everyone to new hiding spots, and finding Waldough only scores one point per round. (#1095)
+- 🔊 On iPhones and iPads, music stayed silent even after you tapped "Tap for sound". It now plays, even with the ringer switch set to silent, and it comes back after a phone call cuts it off.
+- 🎤 On Android phones, a project that listens to sound kept asking to use the microphone over and over, even after you said yes. Now it asks once.
 - ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
 - 🐛 Removing a `↓` borrow from a program used to leave the code mangled instead of removing it. Same for adding one.
 - 💡 Some menu suggestions used to save different code than they showed — like putting `1 + _` inside a function's inputs, where it reads as separate inputs. Wordplay now checks every suggestion and only offers ones that mean what they say.

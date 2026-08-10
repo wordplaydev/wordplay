@@ -7466,6 +7466,10 @@
                 "explanation": "$~May musika ang proyektong ito, ngunit naghihintay ang iyong browser na makipag-ugnayan ka muna sa pahina bago ito magpatunog.",
                 "loading": "$~Inihahanda ang $instruments…",
                 "synthesized": "$~Hindi ma-load ang $instruments, kaya ang tunog nila ay synthesized."
+            },
+            "keypad": {
+                "label": "$~Mga susi na ginagamit ng proyektong ito",
+                "any": "$~Pindutin para maglaro"
             }
         },
         "timeline": {

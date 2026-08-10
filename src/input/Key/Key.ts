@@ -28,7 +28,10 @@ function getKeyMap(locales: Locales): KeyMap {
 /** Localize the browser's English `event.key` to the primary locale's display
  *  name. Falls back to the canonical English value if the key isn't in the
  *  curated WellKnownKeys list or the locale's table lacks it. */
-function localizeKeyName(canonicalEnglish: string, locales: Locales): string {
+export function localizeKeyName(
+    canonicalEnglish: string,
+    locales: Locales,
+): string {
     const map = getKeyMap(locales);
     const entry = map[canonicalEnglish];
     return entry && entry.length > 0 ? entry[0] : canonicalEnglish;
