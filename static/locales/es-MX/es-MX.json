@@ -8984,7 +8984,8 @@
                 "unowned": "$~Este proyecto no se guarda en línea, así que no puede tener chat ni colaboradores.",
                 "offline": "$~No se pudo cargar este chat.",
                 "empty": "$~Sin mensajes.",
-                "deleted": "$~Este mensaje fue borrado."
+                "deleted": "$~Este mensaje fue borrado.",
+                "untaggedMessage": "$?"
             },
             "prompt": {
                 "solo": "$~Chatea contigo o agrega...",
