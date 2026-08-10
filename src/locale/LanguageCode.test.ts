@@ -5,7 +5,6 @@ import {
     Translatable,
     TranslatableLocales,
 } from '@locale/LanguageCode';
-import { localeToString } from '@locale/Locale';
 import { expect, test } from 'vitest';
 
 test('every translatable code is a real language', () => {
@@ -21,9 +20,10 @@ test('TranslatableLocales only offers allowlisted languages', () => {
         ).toContain(locale.language);
 });
 
-test('TranslatableLocales has no duplicate locale tags', () => {
-    const keys = TranslatableLocales.map((locale) => localeToString(locale));
-    expect(new Set(keys).size).toBe(keys.length);
+test('TranslatableLocales contains no duplicate locale tags', async () => {
+    const { localeToString } = await import('@locale/Locale');
+    const tags = TranslatableLocales.map((locale) => localeToString(locale));
+    expect(tags).toEqual([...new Set(tags)]);
 });
 
 test('languages Google Translate does not support are not offered', () => {
