@@ -15,10 +15,10 @@
         type Edit,
         InsertSymbol,
         type ProjectRevision,
-        altKeyLabel,
         handleKeyCommand,
         resetVisualColumnAfter,
     } from '@components/editor/commands/Commands';
+    import { altKeyLabel } from '@components/editor/commands/shortcuts';
     import { resolveFeedback } from '@components/editor/commands/feedback';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
     import {

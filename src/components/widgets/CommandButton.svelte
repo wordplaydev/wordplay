@@ -5,9 +5,9 @@
     import { tokenize } from '@parser/Tokenizer';
     import {
         resetVisualColumnAfter,
-        toShortcut,
         type Command,
     } from '@components/editor/commands/Commands';
+    import { toShortcut } from '@components/editor/commands/shortcuts';
     import { resolveFeedback } from '@components/editor/commands/feedback';
     import TokenView from '@components/editor/tokens/TokenView.svelte';
     import {

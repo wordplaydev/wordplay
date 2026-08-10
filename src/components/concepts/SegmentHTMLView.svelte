@@ -1,33 +1,28 @@
 <script lang="ts">
     import ConceptRef from '@locale/ConceptRef';
-    import NodeRef from '@locale/NodeRef';
     import TermRef from '@locale/TermRef';
-    import ValueRef from '@locale/ValueRef';
     import ConceptLink from '@nodes/ConceptLink';
-    import Example from '@nodes/Example';
     import ExternalExample from '@nodes/ExternalExample';
     import type { Segment } from '@nodes/Paragraph';
     import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
-    import UnknownType from '@nodes/UnknownType';
     import WebLink from '@nodes/WebLink';
     import Words from '@nodes/Words';
     import type Spaces from '@parser/Spaces';
     import { unescapeMarkupSymbols } from '@parser/Tokenizer';
     import { BULLET_SYMBOL } from '@parser/Symbols';
     import Link from '@components/app/Link.svelte';
-    import RootView from '@components/project/RootView.svelte';
-    import ValueView from '@components/values/ValueView.svelte';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import TermView from '@components/concepts/TermView.svelte';
-    import elideNode from '@components/concepts/elideNode';
-    import ExampleUI from '@components/concepts/ExampleUI.svelte';
     import ExternalExampleView from '@components/concepts/ExternalExampleView.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import WebLinkHTMLView from '@components/concepts/WebLinkHTMLView.svelte';
     import WordsHTMLView from '@components/concepts/WordsHTMLView.svelte';
     import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import {
+        isRichSegment,
+        loadRichSegment,
+    } from '@components/concepts/richSegment';
 
     interface Props {
         segment: Segment;
@@ -76,18 +71,21 @@
 </script>
 
 {#if segment instanceof WebLink}<WebLinkHTMLView link={segment} {spaces} />
-{:else if segment instanceof Example}{#if alone}<ExampleUI
-            example={segment}
+    <!-- Examples, node references, and values render code, so they arrive with
+         the language runtime on demand. While it loads, the app's spinner
+         stands in so the gap reads as "coming" rather than as missing text.
+         It's aria-hidden: a page of documentation can hold dozens of these,
+         and Spinning is a live region, so leaving them exposed would announce
+         "loading" dozens of times. Screen readers get the code when it
+         arrives. -->
+{:else if isRichSegment(segment)}{#await loadRichSegment()}<span
+            class="rich-loading"
+            aria-hidden="true"><Spinning size={1.5} /></span
+        >{:then RichSegment}<RichSegment
+            {segment}
             {spaces}
-            evaluated={alone}
-        />
-    {:else}<ConceptPreview
-            node={segment.program}
-            inline={true}
-            {spaces}
-            outline={false}
-            describe={false}
-        />{/if}
+            {alone}
+        />{/await}
 {:else if segment instanceof ExternalExample}<ExternalExampleView
         example={segment}
     />
@@ -97,37 +95,17 @@
     />
 {:else if segment instanceof TermRef}<TermView term={segment} />
 {:else if segment instanceof Words}<WordsHTMLView words={segment} {spaces} />
-{:else if segment instanceof NodeRef}{#if segment.node instanceof UnknownType}
-        <MarkupHTMLView
-            markup={segment.node.getDescription(
-                segment.locales,
-                segment.context,
-            )}
-            inline
-        />
-    {:else}
-        {@const elision = elideNode(segment.node, segment.locales)}
-        {#if elision}
-            <!-- Render the elided preview (still as code, via RootView) and
-                 append the localized "or N other options" suffix as markup. -->
-            <RootView
-                node={elision.preview}
-                inline
-                locale="symbolic"
-                blocks={false}
-            /><MarkupHTMLView markup={elision.suffix} inline />
-        {:else}<RootView
-                node={segment.node}
-                inline
-                locale="symbolic"
-                blocks={false}
-            />{/if}
-    {/if}
-{:else if segment instanceof ValueRef}<strong
-        ><ValueView value={segment.value} /></strong
-    >
     <!-- Remove the bullet if the words start with one. -->
-{:else if segment instanceof Token}{#if isTokenSpaced(segment)}&nbsp;{/if}{#if segment.isSymbol(Sym.URL)}{@const url = getTokenURL(segment)}<Link
-            external={!url.startsWith('/')}
-            to={url}>{segment.getText()}</Link
+{:else if segment instanceof Token}{#if isTokenSpaced(segment)}&nbsp;{/if}{#if segment.isSymbol(Sym.URL)}{@const url =
+            getTokenURL(segment)}<Link external={!url.startsWith('/')} to={url}
+            >{segment.getText()}</Link
         >{:else}<EmojisRepaired text={getTokenText(segment)} />{/if}{/if}
+
+<style>
+    /* Keep the stand-in on the text baseline so a line of prose doesn't jump
+       while the code it contains is still arriving. */
+    .rich-loading {
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>

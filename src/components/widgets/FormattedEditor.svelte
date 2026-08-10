@@ -1,7 +1,7 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { toShortcut } from '@components/editor/commands/Commands';
+    import { toShortcut } from '@components/editor/commands/shortcuts';
     import Button from '@components/widgets/Button.svelte';
     import Switch from '@components/widgets/Switch.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';

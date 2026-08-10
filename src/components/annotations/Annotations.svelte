@@ -23,6 +23,10 @@
 </script>
 
 <script lang="ts">
+    // Populates the conflict-resolution registry read by getResolutions below.
+    // Imported here rather than in the root layout so its ~40 node and conflict
+    // classes load with the editor instead of with every page.
+    import '@conflicts/registerTypeResolutions';
     import getFocusNode from '@components/annotations/getFocusNode';
     import getMenuNoteMarkup from '@components/editor/menu/menuNote';
     import { describesOwnType } from '@nodes/conciseRef';
@@ -32,8 +36,8 @@
         DecrementLiteral,
         IncrementLiteral,
         ShowMenu,
-        toShortcut,
     } from '@components/editor/commands/Commands';
+    import { toShortcut } from '@components/editor/commands/shortcuts';
     import Speech from '@components/lore/Speech.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Sidebar from '@components/widgets/Sidebar.svelte';

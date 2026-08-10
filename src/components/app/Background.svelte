@@ -56,9 +56,10 @@
 
                 const element = elements[character.index];
                 if (element) {
-                    element.style.left = `${character.x}px`;
-                    element.style.top = `${character.y}px`;
-                    element.style.transform = `rotate(${character.angle}deg)`;
+                    // Position with a transform rather than left/top: those
+                    // are layout properties, so moving 20 very large glyphs
+                    // with them reflowed the whole document every frame.
+                    element.style.transform = `translate(${character.x}px, ${character.y}px) rotate(${character.angle}deg)`;
                 }
             }
         }
@@ -162,6 +163,10 @@
         font-family: 'Noto Emoji';
         font-size: 48pt;
         position: absolute;
+        /* The animation translates from this origin; see the transform in
+           step() for why position isn't set with left/top. */
+        left: 0;
+        top: 0;
         opacity: 0.03;
         user-select: none;
         color: var(--wordplay-inactive);

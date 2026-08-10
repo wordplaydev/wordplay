@@ -1,7 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import type LocaleText from '../../src/locale/LocaleText';
-import { expect, test, type Locator, type Page } from '../../playwright/fixtures';
+import {
+    expect,
+    test,
+    type Locator,
+    type Page,
+} from '../../playwright/fixtures';
 
 /**
  * Localization mode's 💭 tip badges are pinned to their control's corner rather
@@ -36,6 +41,17 @@ async function localizeOn(page: Page) {
         })
         .click();
     await expect(page.getByText('Localize', { exact: true })).toBeVisible();
+    await settled(page);
+}
+
+/**
+ * Wait for markup that embeds code to finish arriving. Examples, node
+ * references, and values load the language runtime on demand and show a
+ * stand-in until it lands (see SegmentHTMLView), so a box measured before then
+ * is a layout that is still one chunk away from final.
+ */
+async function settled(page: Page) {
+    await expect(page.locator('.rich-loading')).toHaveCount(0);
 }
 
 async function size(locator: Locator) {
@@ -50,6 +66,7 @@ test('turning on localization mode does not resize the controls it annotates', a
     page,
 }) => {
     await page.goto('/en-US/projects');
+    await settled(page);
 
     const gear = page.getByRole('button', { name: 'show settings dialog' });
     const toggle = page

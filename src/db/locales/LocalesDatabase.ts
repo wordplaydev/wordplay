@@ -1,4 +1,3 @@
-import { Basis } from '@basis/Basis';
 import Fonts from '@basis/faces/Fonts';
 import type HowTo from '@concepts/HowTo';
 import {
@@ -345,10 +344,6 @@ export default class LocalesDatabase {
 
         // Update the locales stores
         return selected.length === 0 ? [this.defaultLocale] : selected;
-    }
-
-    getLocaleBasis(): Basis {
-        return Basis.getLocalizedBasis(this.getLocaleSet());
     }
 
     getLanguages(): LanguageCode[] {
