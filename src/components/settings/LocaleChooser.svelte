@@ -224,7 +224,12 @@
                 .concretize((l) => l.ui.dialog.locale.subheader.supported)
                 .toText()}</h2
         >
-        <LocaleSearch id="locale-available-search" bind:query />
+        <LocaleSearch
+            id="locale-available-search"
+            placeholder={(l) => l.ui.dialog.locale.search.placeholder}
+            description={(l) => l.ui.dialog.locale.search.description}
+            bind:query
+        />
     </div>
     <div class="supported">
         {#each availableLocales as supported (supported)}

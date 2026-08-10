@@ -44,15 +44,17 @@
         query: string;
         /** A unique id for the underlying text field. */
         id: string;
-        placeholder?: LocaleTextAccessor;
-        description?: LocaleTextAccessor;
+        /** Placeholder text shown in the search field. */
+        placeholder: LocaleTextAccessor;
+        /** ARIA label/description for the search field. */
+        description: LocaleTextAccessor;
     }
 
     let {
         query = $bindable(''),
         id,
-        placeholder = (l) => l.ui.dialog.locale.search.placeholder,
-        description = (l) => l.ui.dialog.locale.search.description,
+        placeholder,
+        description,
     }: Props = $props();
 </script>
 
