@@ -235,8 +235,12 @@
      *  in batches, then their results are cached on the message for next time. */
     async function translateMessages(target: string | undefined) {
         const request = ++translateRequest;
+        // Only wipe existing translations when the target language changes.
+        // When the same target is active and a new message arrives, we keep
+        // existing cached translations visible and only fetch the new one.
+        const sameTarget = target !== undefined && target === translateTo;
         translateTo = target;
-        translations = {};
+        if (!sameTarget) translations = {};
         translateError = false;
         messageErrors = {};
         if (target === undefined || !chat) {
