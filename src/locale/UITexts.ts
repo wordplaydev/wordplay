@@ -958,6 +958,14 @@ type UITexts = {
             /** [plain] Chip shown when an instrument's recordings couldn't load and it will sound synthesized */
             synthesized: Template<['instruments']>;
         };
+        /** The buttons offered on a touch screen in place of the on-screen
+         *  keyboard, for a project that responds to a known set of keys */
+        keypad: {
+            /** [plain] Description of the group of key buttons */
+            label: string;
+            /** [plain] Label for the single button shown when a project responds to any key */
+            any: string;
+        };
     };
     /** The documentation browser */
     docs: DocumentationText;

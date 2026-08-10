@@ -91,6 +91,7 @@ import {
     type ProjectMode,
 } from '@components/project/ProjectMode';
 import { TileKind } from '@components/project/TileKind';
+import { TouchSupported } from '@components/util/TouchSupported';
 import { Settings, type Database } from '@db/Database';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
@@ -2643,9 +2644,6 @@ const Commands: Command[] = [
     // The catch all
     InsertSymbol,
 ];
-
-const TouchSupported =
-    typeof window !== 'undefined' && 'ontouchstart' in window;
 
 export const VisibleModifyCommands = Commands.filter(
     (c) =>

@@ -5852,7 +5852,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~오, 물론이지! 저들이 방을 밝히게 하면 어떨까? @Phrase, @Volume을 듣고 그것을 네 색깔로 @Color.lightness과 @Color.chroma에 연결해 줄래? 그러면 우리 감독이 소리를 낼 때 하얗게 뜨겁게 빛날 거야!"
+                            "$~오, 그래! 방을 밝혀보는 건 어때? @Phrase, @Volume를 듣고, 그것을 네 색으로 @Color.lightness와 @Color.chroma에 연결할 수 있어? 그러면 우리 감독이 소리를 낼 때 우리가 하얗게 밝아질 거야!"
                         ],
                         ["Phrase", "kind", "$~훌륭한 생각이네요!"],
                         { "edit": "#EvaluateDance14" },

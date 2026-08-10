@@ -7531,6 +7531,10 @@
                 "explanation": "This project has music, but your browser is waiting for you to interact with the page before it plays sound.",
                 "loading": "Getting $instruments ready…",
                 "synthesized": "$instruments could not load, so they sound synthesized."
+            },
+            "keypad": {
+                "label": "Keys this project uses",
+                "any": "Tap to play"
             }
         },
         "timeline": {

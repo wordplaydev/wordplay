@@ -7222,6 +7222,10 @@
                 "explanation": "$~Ce projet a de la musique, mais ton navigateur attend que tu interagisses avec la page avant de jouer le son.",
                 "loading": "$~Préparation de $instruments…",
                 "synthesized": "$~$instruments n'a pas pu se charger, donc le son est synthétisé."
+            },
+            "keypad": {
+                "label": "$~Touches utilisées par ce projet",
+                "any": "$~Appuie pour jouer"
             }
         },
         "timeline": {

@@ -5713,7 +5713,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~喔，對耶，當然可以！我們讓它們來照亮房間怎麼樣？@Phrase，你可以聽 @Volume，然後用你的顏色把它接到 @Color.lightness 和 @Color.chroma 上嗎？這樣一來，當我們的導演發出聲音時，我們就會變成白熱的亮光！"
+                            "$~喔對，當然！我們讓它們來照亮房間好不好？@Phrase，你可以聽 @Volume，然後用你的顏色把它接到 @Color.lightness 和 @Color.chroma 嗎？這樣，當我們的導演發出聲音時，我們就會變成火熱的白色！"
                         ],
                         ["Phrase", "kind", "好主意！"],
                         { "edit": "#EvaluateDance14" },

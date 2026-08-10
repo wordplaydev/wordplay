@@ -7253,6 +7253,10 @@
                 "explanation": "$~Ten projekt ma muzykę, ale twoja przeglądarka czeka, aż wejdziesz w interakcję ze stroną, zanim odtworzy dźwięk.",
                 "loading": "$~Przygotowuję $instruments…",
                 "synthesized": "$~Nie udało się wczytać $instruments, więc brzmią syntetycznie."
+            },
+            "keypad": {
+                "label": "$~Klawisze, których używa ten projekt",
+                "any": "$~Dotknij, aby zagrać"
             }
         },
         "timeline": {

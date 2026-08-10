@@ -7181,6 +7181,10 @@
                 "explanation": "$~這個工程有音樂，但你的瀏覽器正在等你先與頁面互動，然後才會播放聲音。",
                 "loading": "$~正在準備 $instruments…",
                 "synthesized": "$~$instruments 無法載入，所以它們用合成的聲音播放。"
+            },
+            "keypad": {
+                "label": "$~這個工程使用的鑰匙",
+                "any": "$~點一下開始玩"
             }
         },
         "timeline": {
