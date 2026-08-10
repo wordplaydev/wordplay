@@ -379,6 +379,51 @@ describe('ChatDatabase granular message operations', () => {
             });
         });
 
+        it('trims cached translations before persisting when they exceed the budget', async () => {
+            const existingMessages: SerializedMessage[] = [
+                {
+                    id: 'm1',
+                    time: 1000,
+                    creator: 'user-1',
+                    text: 'hello',
+                    translations: { fr: 'x'.repeat(131072) },
+                },
+                {
+                    id: 'm2',
+                    time: 1001,
+                    creator: 'user-2',
+                    text: 'world',
+                },
+            ];
+            transactionReadSnap = {
+                exists: () => true,
+                data: () => ({
+                    v: 2,
+                    project: 'project-1',
+                    participants: ['user-1', 'user-2'],
+                    messages: existingMessages,
+                    unread: [],
+                    type: 'project',
+                }),
+            };
+
+            await db.saveMessageTranslations(
+                makeChat({}, existingMessages),
+                'es',
+                new Map([['m2', 'hola']]),
+            );
+
+            const data = lastTransactionOps[0].data as {
+                messages: SerializedMessage[];
+            };
+            expect(data.messages).toHaveLength(2);
+            expect(data.messages[0].translations).toBeUndefined();
+            expect(data.messages[1]).toMatchObject({
+                id: 'm2',
+                translations: { es: 'hola' },
+            });
+        });
+
         it('merges new translations without dropping existing ones', async () => {
             const existingMessages: SerializedMessage[] = [
                 {

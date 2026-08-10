@@ -171,6 +171,23 @@ const messageTranslationsSize = (message: SerializedMessage) =>
         0,
     );
 
+const trimChatTranslations = (messages: SerializedMessage[]) => {
+    let translationsSize = messages.reduce(
+        (size, message) => size + messageTranslationsSize(message),
+        0,
+    );
+    if (translationsSize <= MAX_CHAT_TRANSLATIONS_BYTES) return messages;
+
+    return messages.map((message) => {
+        if (translationsSize <= MAX_CHAT_TRANSLATIONS_BYTES) return message;
+        const size = messageTranslationsSize(message);
+        if (size === 0) return message;
+        translationsSize -= size;
+        const { translations, ...withoutTranslations } = message;
+        return withoutTranslations;
+    });
+};
+
 /** An immutable wrapper class for accessing and manipulating chat data */
 export default class Chat {
     /** The data of the chat. */
@@ -199,21 +216,7 @@ export default class Chat {
 
         // Cached translations are disposable: if they exceed their own budget,
         // drop the oldest ones until they fit, never touching message text.
-        let translationsSize = messages.reduce(
-            (size, message) => size + messageTranslationsSize(message),
-            0,
-        );
-        if (translationsSize > MAX_CHAT_TRANSLATIONS_BYTES) {
-            messages = messages.map((message) => {
-                if (translationsSize <= MAX_CHAT_TRANSLATIONS_BYTES)
-                    return message;
-                const size = messageTranslationsSize(message);
-                if (size === 0) return message;
-                translationsSize -= size;
-                const { translations, ...withoutTranslations } = message;
-                return withoutTranslations;
-            });
-        }
+        messages = trimChatTranslations(messages);
 
         if (messages !== data.messages) this.data = { ...data, messages };
     }
@@ -752,7 +755,9 @@ export class ChatDatabase {
                 const current = upgradeChat(
                     snap.data() as SerializedChatUnknownVersion,
                 );
-                const messages = current.messages.map(transform);
+                const messages = trimChatTranslations(
+                    current.messages.map(transform),
+                );
                 tx.update(chatRef, { messages });
             }),
         );
