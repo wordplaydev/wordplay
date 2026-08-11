@@ -9463,7 +9463,7 @@
             "deleteFailed": "$~No pudimos eliminar eso.",
             "saveFailed": "$~No pudimos guardar eso",
             "submitFailed": "$~No pudimos enviar eso",
-            "loadFailed": "$~No pudimos cargar eso.",
+            "loadFailed": "$~No pudimos cargar esto. Intenta de nuevo en un momento.",
             "storageFull": "$~El almacenamiento de este dispositivo está lleno, así que no pudimos guardar una copia aquí. Tu trabajo sigue en la nube.",
             "storageNearFull": "$~A este dispositivo casi no le queda almacenamiento, así que pronto Wordplay podría no poder guardar en él. El trabajo guardado en la nube está a salvo; liberar espacio en tu dispositivo o navegador le permite seguir guardando aquí.",
             "saveTooLarge": "$~Esto es demasiado grande para guardarlo. Intenta quitar algo de contenido."

@@ -46,6 +46,16 @@ import Gallery, {
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = Domain.Galleries;
 
+/** Why a gallery isn't available: 'missing' means the lookup succeeded and
+ *  there's nothing here for this viewer; 'unreachable' means we never got an
+ *  answer. Only the second is worth asking someone to check their connection. */
+export type GalleryFailure = 'missing' | 'unreachable';
+
+/** The outcome of looking a gallery up. See {@link GalleryDatabase.find}. */
+export type GalleryResult =
+    | { kind: 'found'; gallery: Gallery }
+    | { kind: GalleryFailure };
+
 /** The in-memory representation of a Gallery, for type safe manipulation and analysis. */
 export default class GalleryDatabase {
     /** The main database that manages this gallery database */
@@ -471,37 +481,59 @@ export default class GalleryDatabase {
         return id;
     }
 
-    /** Get a gallery with this ID */
-    async get(id: string): Promise<Gallery | undefined> {
+    /**
+     * Get a gallery with this ID, saying why when there isn't one.
+     *
+     * 'missing' and 'unreachable' are genuinely different things to tell
+     * someone — "this isn't here" versus "we couldn't go look" — and collapsing
+     * them into `undefined` meant a timed-out read reported an accessible
+     * gallery as nonexistent.
+     *
+     * A denied read maps to 'missing' on purpose: whether a private gallery
+     * exists is not ours to reveal, so "doesn't exist or isn't public" is both
+     * the true answer available to this viewer and the discreet one.
+     */
+    async find(id: string): Promise<GalleryResult> {
         // See if we have it cached.
         const cache = this.accessibleGalleries.get(id);
-        if (cache) return cache;
+        if (cache) return { kind: 'found', gallery: cache };
         const expandedCache = this.expandedScopeGalleries.get(id);
-        if (expandedCache) return expandedCache;
+        if (expandedCache) return { kind: 'found', gallery: expandedCache };
 
         // See if it's a public gallery.
         const publicGallery = this.publicGalleries.get(id);
-        if (publicGallery) return publicGallery;
+        if (publicGallery) return { kind: 'found', gallery: publicGallery };
 
-        // Didn't find it locally? See if we get read it from the database.
-        if (firestore) {
-            try {
-                const galDoc = await this.database.read(
-                    getDoc(doc(firestore, GalleriesCollection, id)),
-                );
-                if (galDoc.exists()) {
-                    const gallery = deserializeGallery(galDoc.data());
-                    this.publicGalleries.set(id, gallery);
-                    return gallery;
-                }
-            } catch (err) {
-                console.error(`Couldn't get gallery with ID ${id}:`, err);
-                return undefined;
+        // Didn't find it locally? See if we can read it from the database.
+        // No backend at all means we never got to look, not that it's absent.
+        if (firestore === undefined) return { kind: 'unreachable' };
+
+        try {
+            const galDoc = await this.database.read(
+                getDoc(doc(firestore, GalleriesCollection, id)),
+            );
+            if (galDoc.exists()) {
+                const gallery = deserializeGallery(galDoc.data());
+                this.publicGalleries.set(id, gallery);
+                return { kind: 'found', gallery };
             }
+        } catch (err) {
+            console.error(`Couldn't get gallery with ID ${id}:`, err);
+            return this.database.isConnectivityError(err)
+                ? { kind: 'unreachable' }
+                : { kind: 'missing' };
         }
 
-        // Didn't find it.
-        return undefined;
+        // Read succeeded and the document isn't there.
+        return { kind: 'missing' };
+    }
+
+    /** Get a gallery with this ID, for callers that treat "couldn't reach it"
+     *  and "isn't there" the same way. See {@link find} when the difference is
+     *  something the user should be told. */
+    async get(id: string): Promise<Gallery | undefined> {
+        const result = await this.find(id);
+        return result.kind === 'found' ? result.gallery : undefined;
     }
 
     /** Update the given gallery in the cloud. */

@@ -9455,7 +9455,7 @@
             "deleteFailed": "$~Bunu silemedik.",
             "saveFailed": "$~Onu kurtaramadık",
             "submitFailed": "$~Bunu gönderemedik.",
-            "loadFailed": "$~Bunu yükleyemedik.",
+            "loadFailed": "$~Bunu yükleyemedik. Biraz sonra tekrar dene.",
             "storageFull": "$~Bu cihazın depolama alanı dolu, bu nedenle buraya bir kopya kaydedemedik. Çalışmanız hala bulutta.",
             "storageNearFull": "$~Bu cihazın depolama alanı neredeyse doldu, bu nedenle Wordplay yakında kaydedemeyebilir. Buluta kaydedilen çalışmalar güvendedir; cihazınızda veya tarayıcınızda yer açmak, Wordplay'in buraya kaydetmeye devam etmesini sağlar.",
             "saveTooLarge": "$~Bu dosya kaydedilemeyecek kadar büyük. Bazı içerikleri silmeyi deneyin."
