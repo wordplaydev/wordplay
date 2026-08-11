@@ -1,43 +1,253 @@
 Y
 "Adventure"/en"冒险游戏"/zh-CN"冒險遊戲"/zh-TW
 === start/en
-¶A tiny text adventure: choose your way out of a dark, cold room.¶
-•State(action•"" description•"" options•[State] won•?)
+¶A text adventure in fifteen rooms: wake tied down in a dark, cold room and find one of the four ways this night can end. The rooms lead back into each other, so a wrong turn is a loop rather than a dead end, and what you are carrying decides which passages are open to you.¶
 
-stand: State('stand up' "You can't stand, you're tied down." [] ⊥)
-cut: State('cut yourself free'  "You've cut yourself free." [] ⊤)
-throw: State('throw' "You threw the knife" [stand] ⊥)
-pickup: State('pickup' 'You have a knife.' [ cut throw ] ⊥)
-roll: State('roll over' 'There is a knife next to you.' [ pickup stand ] ⊥)
-start: State("start" "You awaken in a dark, cold room that smells of mold." [ roll stand ] ⊥)
+¶A way out of a room: what the choice is called, the id of the room it opens
+onto, and, for a door that is locked, what you have to be carrying to use it.
+Naming the destination instead of holding onto it is the whole trick. A bind has
+to exist before anything can mention it, so a story built out of binds can only
+ever point backwards and can never come around again. A text id has no such
+rule, so two rooms can each name the other, and the map can have loops in it.¶
+•Door(label•'' room•'' needs•'': '')
+
+¶A room. Most rooms only need the first three: an id, what you find there, and
+its doors. The last three are for the rooms that are special — one that hands
+you something, and the four that end the story.¶
+•Room(id•'' description•'' doors•[Door]: [] take•'': '' ending•'': '' won•?: ⊥)
+
+¶Where you are and what you are carrying. This is what the story actually is:
+one room id and a small pile of things.¶
+•Trek(room•'' pack•[''])
+
+¶Every room in one list. Only the first one matters positionally: it is where
+the story starts, and where every ending sends you back to.¶
+rooms•[Room]: [
+	Room(
+		'cell'
+		"You awaken in a dark, cold room that smells of mold. Your wrists are bound behind you, and whoever tied the knots was in no hurry about it."
+		[
+			Door('roll onto your side' 'floor')
+			Door('lie still and listen' 'listen')
+		]
+	)
+	Room(
+		'listen'
+		"Two voices come down through the floorboards. They are arguing about who left the gate open, and neither of them sounds worried about you."
+		[Door('roll onto your side' 'floor')]
+	)
+	Room(
+		'floor'
+		"On your side you can see under the cot: a knife on the flagstones, rusted along the spine, near enough to reach if you are willing to put your face on the floor."
+		[
+			Door('take it and cut yourself free' 'cellar')
+			Door('hold still and listen again' 'listen')
+		]
+	)
+	Room(
+		'cellar'
+		"The cellar, standing up: the cot, a spill of cut rope, a stair climbing one wall and a low passage running out the other."
+		[
+			Door('climb the stair' 'stair')
+			Door('take the low passage' 'passage')
+		]
+		take: 'knife'
+	)
+	Room(
+		'stair'
+		"Steps worn hollow in the middle. Halfway up there is a landing with a lantern hanging from a hook, and above the landing the stair keeps going."
+		[
+			Door('take the lantern' 'lantern')
+			Door('keep climbing' 'door')
+			Door('go back down' 'cellar')
+		]
+	)
+	Room(
+		'lantern'
+		"The wick catches on the second try, and the landing turns out to be much smaller than the dark had made it."
+		[
+			Door('keep climbing' 'door')
+			Door('go back down' 'cellar')
+		]
+		take: 'lantern'
+	)
+	Room(
+		'door'
+		"At the top of the stair, a heavy door bolted from the other side. The bolt is old and the gap beside it is wide enough for a blade."
+		[
+			Door('work the bolt with the knife' 'hall')
+			Door('go back down' 'stair')
+		]
+	)
+	Room(
+		'hall'
+		"A hall with a hearth gone cold and two chairs pushed back from it, as if the argument had ended in a hurry. At the far end is a gate, and grey light under the gate."
+		[
+			Door('cross to the gate' 'gate')
+			Door('take the stair back down' 'stair')
+		]
+	)
+	Room(
+		'gate'
+		"The gate is chained, and the chain runs through a lock the size of your fist. Past it the road goes down into the valley."
+		[
+			Door('turn the key in the lock' 'hillside' needs: 'key')
+			Door('climb the chain instead' 'climb')
+			Door('go back to the hall' 'hall')
+		]
+	)
+	Room(
+		'passage'
+		"The passage is low enough that you go on one hand, and it smells of river. A few steps in, the dark stops being a shade and becomes a wall."
+		[
+			Door('feel your way on' 'blind')
+			Door('carry the light in' 'crypt' needs: 'lantern')
+			Door('back out the way you came' 'cellar')
+		]
+	)
+	Room(
+		'crypt'
+		"The lantern finds a low room of stone boxes, and on a hook beside the last one, a rusted key with a scrap of cloth still tied through it."
+		[
+			Door('go on toward the water' 'river')
+			Door('back up the passage' 'passage')
+		]
+		take: 'key'
+	)
+	Room(
+		'blind'
+		"You go on with one hand out. The hand finds nothing, and a moment later neither do your feet. The dark keeps what it is given."
+		ending: 'The dark keeps you.'
+	)
+	Room(
+		'climb'
+		"You are most of the way up before the chain remembers how old it is. They find you at the foot of the gate at dawn, and this time they bring rope enough for two."
+		ending: 'Caught at the gate.'
+	)
+	Room(
+		'river'
+		"The passage ends at a grate over moving water. The bars are old and the knife is patient. You go out with the river, and the house is a long way behind you before the sky is even grey."
+		ending: 'Out with the river.'
+		won: ⊤
+	)
+	Room(
+		'hillside'
+		"The key turns, the chain pours off into the grass, and the gate swings without a sound that anyone will hear. The valley is grey with morning, and the road is yours."
+		ending: 'Out through the gate.'
+		won: ⊤
+	)
+]
+
+¶The room with this id. find() gives back ø when nothing matches, and an id that
+names no room is a hole in the map rather than a turn in the story, so the first
+room stands in for it.¶
+ƒ go(wanted•'')•Room rooms.find(ƒ(room•Room) room.id = wanted) ?? rooms[1]
+
+¶The doors you can actually take from here. A locked door you have nothing for
+is simply not offered, so it reads as a wall until the thing that opens it is in
+your hands.¶
+ƒ ways(here•Room pack•[''])•[Door]
+	here.doors.filter(ƒ(door•Door) (door.needs = '') | pack.has(door.needs))
+
+¶Walk into a room, picking up whatever it holds. add() would happily give you a
+second knife, so ask first.¶
+ƒ arrive(here•Room pack•[''])•Trek
+	Trek(
+		here.id
+		((here.take ≠ '') & (~pack.has(here.take))) ? pack.add(here.take) pack
+	)
 
 key: Key()
 
-¶start at the state state, and if the key changes, either go to start if there are no options, stay if the key isn't valid, or choose the option.¶ 
-state•State: 
-  start … ∆ key …
-    state.won ? start
-  		state.options.length() = 0 ? start 
-  ~((key = '1') | (key = '2')) ? state 
-state.options[key → #]
+¶A key press, in order: at an ending, any key wakes you in the first room again;
+a key that is not 1, 2, or 3 means nothing; a number past the count of doors in
+this room means nothing either; and only then is it a door. That third test is
+the one worth writing down, because list access wraps around — without it,
+pressing 3 in a room with two doors would quietly take the first one.
 
-options: 
-  state.won ? [ Phrase(`*You're free!*`) ] 
-  (state.options.length() = 0) ? [ Phrase(`*start over*`) ] 
-    state.options.translate(ƒ(option•State index•#) Phrase(`\index\. *\option.action\*` size: 2m name: option.action duration: 1s entering: Pose(opacity: 0%)))
+The comparisons live in here rather than beside the ∆ in the reaction, because
+comparing a stream against a word in the same breath as testing it for change
+would narrow its type out from under the ∆.¶
+ƒ step(t•Trek k•'')•Trek (
+	here: go(t.room)
+	doors: ways(here t.pack)
+	here.ending ≠ '' ? Trek('cell' [])
+	~((k = '1') | (k = '2') | (k = '3')) ? t
+	(k → #) > doors.length() ? t
+	arrive(go(doors[k → #].room) t.pack)
+)
 
+trek•Trek: Trek('cell' []) … ∆ key … step(trek key)
+
+here: go(trek.room)
+doors: ways(here trek.pack)
+
+¶What you are carrying, shown only once you are carrying something.¶
+carrying:
+	trek.pack.length() > 0
+		? [
+			Phrase(
+				`*carrying* \trek.pack.join(' · ')\`
+				size: 0.3m
+				alignment: '|'
+				color: Color(60% 30 0°)
+			)
+		]
+		[]
+
+¶What sits under the room: its doors, numbered so that what you read is what you
+press, or, at an ending, how it ended and the one key that starts it over.¶
+below:
+	here.ending ≠ ''
+		? [
+			Phrase(
+				`*\here.ending\*`
+				size: 0.8m
+				alignment: '|'
+				color: here.won ? Color(85% 50 90°) Color(45% 40 25°)
+				duration: 1.5s
+				entering: Pose(opacity: 0% scale: 0.5)
+			)
+			Phrase(
+				`press any key to wake again`
+				size: 0.3m
+				alignment: '|'
+				duration: 3s
+				entering: Pose(opacity: 0%)
+			)
+		]
+		doors.translate(
+			ƒ(door•Door index•#)
+				Phrase(
+					`\index\. *\door.label\*`
+					size: 0.5m
+					alignment: '|'
+					name: door.label
+					duration: 1s
+					entering: Pose(opacity: 0%)
+				)
+		)
 
 Stage(
-  [
+	[
 		Group(
 			Stack()
 			[
-        Phrase(state.description duration: 0.5s name: state.action entering: Pose(offset: Place(0m 2m)))
-        :options
-      ]
-    )
-  ] 
-  background: Color(0 0 0°) 
-  color: Color(100% 0 0°)
-  face: "Permanent Marker"
+				Phrase(
+					here.description
+					size: 0.5m
+					wrap: 14m
+					alignment: '|'
+					name: here.id
+					duration: 0.5s
+					entering: Pose(offset: Place(0m 2m))
+				)
+				:carrying
+				:below
+			]
+		)
+	]
+	background: Color(0 0 0°)
+	color: Color(100% 0 0°)
+	face: "Permanent Marker"
 )

@@ -61,14 +61,15 @@ test('tapping a key drives the program', async ({ page }) => {
 test('a partly-bounded project offers the keys it knows AND keeps the keyboard', async ({
     page,
 }) => {
-    // Adventure guards on '1' and '2', then converts the key to a number to
-    // index with — so the conversion could involve any key, but those two are
-    // exactly what it is played with. Offering them is what makes it playable
-    // on a touch screen; keeping the keyboard is what keeps the rest reachable.
+    // Adventure guards on '1', '2', and '3', then converts the key to a number
+    // to index with — so the conversion could involve any key, but those three
+    // are exactly what it is played with. Offering them is what makes it
+    // playable on a touch screen; keeping the keyboard is what keeps the rest
+    // reachable.
     await page.goto(example('Adventure'));
     const pad = page.locator('.key-pad');
     await pad.waitFor();
-    await expect(pad.locator('.key')).toHaveText(['1', '2']);
+    await expect(pad.locator('.key')).toHaveText(['1', '2', '3']);
     await expect(page.locator('.keyboard-input')).not.toHaveAttribute(
         'inputmode',
         'none',

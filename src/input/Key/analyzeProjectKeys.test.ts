@@ -170,10 +170,10 @@ test.each([
     ['Pounce', ['ArrowLeft', 'ArrowRight']],
     // A filter passed to the stream itself.
     ['ShowAndTell', ['ArrowRight']],
-    // Guards on '1' and '2' and then converts the key to a number to index
-    // with. The conversion could involve any key, so the keyboard stays — but
-    // the two it compares against are exactly what it's played with.
-    ['Adventure', 'unbounded:1,2'],
+    // Guards on '1', '2', and '3' and then converts the key to a number to
+    // index with. The conversion could involve any key, so the keyboard stays —
+    // but the three it compares against are exactly what it's played with.
+    ['Adventure', 'unbounded:1,2,3'],
     // Converts the key and compares the RESULT against a list access, so it
     // never compares the key itself to anything — there is no key to recover,
     // and it rightly keeps the keyboard alone.
