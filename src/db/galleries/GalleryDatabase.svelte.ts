@@ -328,7 +328,7 @@ export default class GalleryDatabase {
                         this.accessibleGalleries.set(gallery.getID(), gallery);
 
                         // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
-                        this.database.Projects.refreshGallery(gallery);
+                        this.database.MaybeProjects?.refreshGallery(gallery);
                     } else {
                         // user is only a how-to viewer, which means they have expanded scope access only
                         this.expandedScopeGalleries.set(
@@ -366,7 +366,7 @@ export default class GalleryDatabase {
                     .join(',');
                 if (watchedKey !== this.watchedGalleryKey) {
                     this.watchedGalleryKey = watchedKey;
-                    this.database.Projects.syncUser(false);
+                    this.database.MaybeProjects?.syncUser(false);
                 }
 
                 // Mark the database loaded.
@@ -598,7 +598,7 @@ export default class GalleryDatabase {
 
         // Remove all projects from the gallery.
         for (const projectID of gallery.getProjects()) {
-            const project = await this.database.Projects.get(projectID);
+            const project = await (await this.database.loadProjects()).get(projectID);
             if (project) await this.removeProjectFromGallery(project);
         }
 
@@ -660,7 +660,7 @@ export default class GalleryDatabase {
         // Update the in-memory project to reflect the new gallery. Pass persist=false
         // so we can include the project doc write in our atomic batch below rather than
         // letting the project history's separate persist() race with it.
-        const editResult = await this.database.Projects.edit(
+        const editResult = await (await this.database.loadProjects()).edit(
             project.withGallery(galleryID),
             false,
             false,
@@ -671,7 +671,7 @@ export default class GalleryDatabase {
 
         // Get the just-edited project so we can serialize its latest form into the batch.
         const updated =
-            this.database.Projects.getHistory(projectID)?.getCurrent();
+            this.database.MaybeProjects?.getHistory(projectID)?.getCurrent();
         if (updated === undefined) return;
 
         // If a concurrent share/unshare ran between our history edit and now,
@@ -716,8 +716,8 @@ export default class GalleryDatabase {
         void this.trackSave(galleryID, galleryName, batch.commit()).then(
             (ok) => {
                 if (ok)
-                    this.database.Projects.getHistory(projectID)?.markSaved();
-                else this.database.Projects.saveSoon();
+                    this.database.MaybeProjects?.getHistory(projectID)?.markSaved();
+                else this.database.MaybeProjects?.saveSoon();
             },
         );
     }
@@ -730,7 +730,7 @@ export default class GalleryDatabase {
         const targetGalleryID = galleryID ?? project.getGallery();
 
         // Update the in-memory project to clear its gallery field (no persist; batched below).
-        const editResult = await this.database.Projects.edit(
+        const editResult = await (await this.database.loadProjects()).edit(
             project.withGallery(null),
             false,
             false,
@@ -740,7 +740,7 @@ export default class GalleryDatabase {
         if (editResult !== undefined) return;
 
         const updated =
-            this.database.Projects.getHistory(projectID)?.getCurrent();
+            this.database.MaybeProjects?.getHistory(projectID)?.getCurrent();
         if (updated === undefined) return;
 
         // Same race-collapsing check as addProject: if a concurrent share ran after
@@ -773,8 +773,8 @@ export default class GalleryDatabase {
                 batch.commit(),
             ).then((ok) => {
                 if (ok)
-                    this.database.Projects.getHistory(projectID)?.markSaved();
-                else this.database.Projects.saveSoon();
+                    this.database.MaybeProjects?.getHistory(projectID)?.markSaved();
+                else this.database.MaybeProjects?.saveSoon();
             });
         } else {
             // No gallery doc in the batch — it's just the project write; let the
@@ -782,16 +782,16 @@ export default class GalleryDatabase {
             void this.database
                 .track(batch.commit())
                 .then(() =>
-                    this.database.Projects.getHistory(projectID)?.markSaved(),
+                    this.database.MaybeProjects?.getHistory(projectID)?.markSaved(),
                 )
-                .catch(() => this.database.Projects.saveSoon());
+                .catch(() => this.database.MaybeProjects?.saveSoon());
         }
     }
 
     // Remove the project from whatever gallery it is in, but only the project side
     // (used by gallery deletion, where the gallery doc itself is about to be deleted).
     async removeProjectFromGallery(project: Project) {
-        await this.database.Projects.edit(
+        await (await this.database.loadProjects()).edit(
             project.withGallery(null),
             false,
             true,
@@ -866,7 +866,7 @@ export default class GalleryDatabase {
         const projectsToRemove: string[] = [];
         for (const projectID of gallery.getProjects()) {
             try {
-                const project = await this.database.Projects.get(projectID);
+                const project = await (await this.database.loadProjects()).get(projectID);
                 if (project !== undefined && project.getOwner() === uid)
                     projectsToRemove.push(projectID);
             } catch (err) {

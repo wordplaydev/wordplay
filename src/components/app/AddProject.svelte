@@ -1,8 +1,7 @@
 <script lang="ts">
     import Button from '@components/widgets/Button.svelte';
     import { locales } from '@db/Database';
-    import Project from '@db/projects/Project';
-    import Source from '@nodes/Source';
+    import type Project from '@db/projects/Project';
 
     interface Props {
         add: (newProject: Project) => void;
@@ -19,6 +18,13 @@
 
     async function newProject() {
         creating = true;
+        // Making a project needs the language runtime; imported on the click
+        // rather than statically, so merely showing this button on the
+        // projects list doesn't pull it in. The button spins while it loads.
+        const [{ default: Project }, { default: Source }] = await Promise.all([
+            import('@db/projects/Project'),
+            import('@nodes/Source'),
+        ]);
         add(
             Project.make(
                 null,

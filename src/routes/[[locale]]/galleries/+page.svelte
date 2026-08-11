@@ -26,13 +26,7 @@
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import {
-        authAttempted,
-        DB,
-        Galleries,
-        locales,
-        Projects,
-    } from '@db/Database';
+    import { authAttempted, DB, Galleries, locales } from '@db/Database';
     import { firestore } from '@db/firebase';
     import type { SerializedGallery } from '@db/galleries/Gallery';
     import Gallery, { upgradeGallery } from '@db/galleries/Gallery';
@@ -239,7 +233,11 @@
                     ),
                 ),
             ];
-            Promise.all(ids.map((id) => Projects.get(id))).then((projects) => {
+            // The runtime arrives with the examples rather than with the
+            // page, so the gallery list renders before any project does.
+            DB.loadProjects()
+                .then((db) => Promise.all(ids.map((id) => db.get(id))))
+                .then((projects) => {
                 allExampleProjects = projects.filter(
                     (p): p is Project => p !== undefined,
                 );

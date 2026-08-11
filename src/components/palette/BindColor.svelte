@@ -6,7 +6,7 @@
     import NumberLiteral from '@nodes/NumberLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
-    import { Projects } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Bind from '@nodes/Bind';
     import {
         getProject,

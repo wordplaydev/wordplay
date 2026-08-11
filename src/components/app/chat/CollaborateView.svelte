@@ -13,7 +13,8 @@
     import Mode from '@components/widgets/Mode.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Creators, Galleries, locales, Projects } from '@db/Database';
+    import { Creators, Galleries, locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Gallery from '@db/galleries/Gallery';
     import type Project from '@db/projects/Project';
 

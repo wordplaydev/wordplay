@@ -18,11 +18,10 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import {
+    import { DB,
         authAttempted,
         disconnected,
         Galleries,
-        Projects,
         locales,
     } from '@db/Database';
     import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
@@ -115,7 +114,9 @@
             await Promise.all(
                 gallery
                     .getProjects()
-                    .map((projectID) => Projects.get(projectID)),
+                    .map(async (projectID) =>
+                        (await DB.loadProjects()).get(projectID),
+                    ),
             )
         ).filter((proj): proj is Project => proj !== undefined);
     }
@@ -210,9 +211,11 @@
 
                 {#if editable || addable}
                     <AddProject
-                        add={(template) => {
+                        add={async (template) => {
                             if (gallery) {
-                                const newProjectID = Projects.copy(
+                                const newProjectID = (
+                                    await DB.loadProjects()
+                                ).copy(
                                     template,
                                     $user?.uid ?? null,
                                     gallery.getID(),
@@ -247,11 +250,12 @@
                                   label: '👁️',
                               }}
                         copy={{
-                            description: (l) =>
-                                l.ui.project.button.remix.tip,
-                            action: (project) =>
+                            description: (l) => l.ui.project.button.remix.tip,
+                            action: async (project) =>
                                 localeGoto(
-                                    Projects.remix(project).getLink(false),
+                                    (await DB.loadProjects())
+                                        .remix(project)
+                                        .getLink(false),
                                 ),
                             label: REMIX_SYMBOL,
                         }}

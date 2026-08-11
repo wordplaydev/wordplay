@@ -1,6 +1,7 @@
 <script lang="ts">
     import Notice from '@components/app/Notice.svelte';
-    import { Galleries, Projects, locales } from '@db/Database';
+    import { Galleries, locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Options from '@components/widgets/Options.svelte';

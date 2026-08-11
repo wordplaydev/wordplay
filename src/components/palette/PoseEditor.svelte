@@ -1,6 +1,7 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { Projects, locales } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import type OutputExpression from '@edit/output/OutputExpression';
     import getPoseProperties from '@edit/output/PoseProperties';

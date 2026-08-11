@@ -2,7 +2,8 @@
     import { getProject } from '@components/project/Contexts';
     import StructureInputsEditor from '@components/palette/StructureInputsEditor.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import { locales, Projects } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
     import getStructureProperties from '@edit/output/getStructureProperties';

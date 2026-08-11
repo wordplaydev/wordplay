@@ -13,7 +13,8 @@
     import { CONFIRM_SYMBOL } from '@parser/Symbols';
     import { fade } from 'svelte/transition';
     import { get } from 'svelte/store';
-    import { Projects, animationDuration, locales } from '@db/Database';
+    import { animationDuration, locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import { default as MarkupHTMLView } from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import getFocusNode from '@components/annotations/getFocusNode';

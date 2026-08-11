@@ -131,12 +131,6 @@
         // Install browser online/offline + visibilitychange listeners.
         const cleanupNetworkListeners = DB.installNetworkListeners();
 
-        // Install best-effort save-on-unload handlers so local edits
-        // (especially in-memory CRDT state) survive a tab close that
-        // beats saveSoon's debounce. See
-        // ProjectsDatabase.installSaveOnUnloadListeners for what it
-        // catches and what it can't.
-        const cleanupSaveOnUnload = DB.Projects.installSaveOnUnloadListeners();
 
         // Read the local project cache once the page is up rather than on
         // import: hydration deserializes every cached project and each one
@@ -175,7 +169,6 @@
             if (idleSupported) window.cancelIdleCallback(idle);
             else window.clearTimeout(idle);
             cleanupNetworkListeners();
-            cleanupSaveOnUnload();
             window.removeEventListener('beforeunload', warnUnsaved);
             DB.clean();
         };

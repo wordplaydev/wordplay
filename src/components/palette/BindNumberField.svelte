@@ -6,7 +6,8 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Note from '@components/widgets/Note.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { locales, Projects } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type OutputProperty from '@edit/output/OutputProperty';
     import type OutputPropertyNumber from '@edit/output/OutputPropertyNumber';
     import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';

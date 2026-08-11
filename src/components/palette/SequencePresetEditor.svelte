@@ -10,7 +10,8 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
     import Slider from '@components/widgets/Slider.svelte';
-    import { locales, Projects } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import type OutputExpression from '@edit/output/OutputExpression';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -169,7 +170,9 @@
 
     // Sequence's inputs after `poses`: duration, style, count, description. Every animation
     // static declares the same ones, under the same names, and passes them through.
-    let passThroughBinds = $derived(project.shares.output.Sequence.inputs.slice(1));
+    let passThroughBinds = $derived(
+        project.shares.output.Sequence.inputs.slice(1),
+    );
 
     /**
      * The pass-through arguments explicitly given on an evaluate, as named inputs. Switching

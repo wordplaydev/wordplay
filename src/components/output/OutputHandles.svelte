@@ -4,7 +4,8 @@
         getSelectedOutput,
     } from '@components/project/Contexts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { Projects, locales } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Evaluate from '@nodes/Evaluate';
     import {
         rotatedOutput,

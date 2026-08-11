@@ -75,9 +75,9 @@
         locales,
         mic,
         musicVisualization,
-        Projects,
         Settings,
     } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import {
         MusicVisualizationIcons,
         MusicVisualizations,
@@ -110,11 +110,7 @@
     import { debounced } from '@util/debounce.svelte';
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import {
-        writable,
-        type Readable,
-        type Writable,
-    } from 'svelte/store';
+    import { writable, type Readable, type Writable } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,

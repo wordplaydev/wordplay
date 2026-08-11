@@ -151,11 +151,19 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 getLocaleSet: () => ({ getMultilingualText: () => 'Test' }),
                 locales: { subscribe: () => () => {} },
             },
-            Projects: {
+            // Awaited calls go through loadProjects(); best-effort
+            // bookkeeping reads MaybeProjects. Both point at one fake.
+            projectsFake: {
                 edit: projectsEditMock,
                 getHistory: getHistoryMock,
                 get: vi.fn(async () => undefined),
                 refreshGallery: vi.fn(),
+                saveSoon: vi.fn(),
+                syncUser: vi.fn(),
+            },
+            loadProjects: vi.fn(async () => mockDatabase.projectsFake),
+            get MaybeProjects() {
+                return mockDatabase.projectsFake;
             },
         };
 
@@ -299,7 +307,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             });
             db.accessibleGalleries.set('g1', gallery);
 
-            mockDatabase.Projects.get = vi.fn(async (id: string) => {
+            mockDatabase.projectsFake.get = vi.fn(async (id: string) => {
                 if (id === 'p1') return project1;
                 if (id === 'p2') return project2;
                 if (id === 'p3') return project3;
@@ -354,7 +362,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 projects: [],
             });
             db.accessibleGalleries.set('g1', gallery);
-            mockDatabase.Projects.get = vi.fn(async () => undefined);
+            mockDatabase.projectsFake.get = vi.fn(async () => undefined);
 
             await db.removeCurator(gallery, 'teacher-uid');
 

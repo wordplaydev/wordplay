@@ -1,3 +1,8 @@
+import { type ExtractedPreview } from '@components/app/previewTypes';
+export {
+    UncomputablePreview,
+    type ExtractedPreview,
+} from '@components/app/previewTypes';
 /**
  * Pure extractor: given an Evaluator and the project's top-level value,
  * return a {@link SerializedPreview}-shaped payload (sans `mode`) that
@@ -23,24 +28,6 @@ import type Value from '@values/Value';
 import ExceptionValue from '@values/ExceptionValue';
 import MarkupValue from '@values/MarkupValue';
 import StructureValue from '@values/StructureValue';
-
-export type ExtractedPreview = {
-    text: string;
-    foreground: string | null;
-    background: string | null;
-    face: string | null;
-    characterName: string | null;
-};
-
-/** Shown when a preview compute throws — a tile that can't be computed should
- *  read as empty, not as perpetually loading. */
-export const UncomputablePreview: ExtractedPreview = {
-    text: '—',
-    foreground: null,
-    background: null,
-    face: null,
-    characterName: null,
-};
 
 function findCharacterName(value: Value): string | null {
     if (value instanceof MarkupValue) {

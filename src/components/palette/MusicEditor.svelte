@@ -13,6 +13,7 @@
      * `TextStyleEditor` is rendered after a phrase's face — a bespoke editor
      * rather than a `property.type`, since what it edits is a list of lists.
      */
+    import { Projects } from '@db/projects/Projects';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -25,7 +26,7 @@
         getSelectedOutput,
         IdleKind,
     } from '@components/project/Contexts';
-    import { DB, locales } from '@db/Database';
+    import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import readMusic, {
         isEditable,
@@ -279,7 +280,7 @@
                       ),
                   );
         deferAnalysis();
-        DB.Projects.reviseProject(tidied, remember);
+        Projects.reviseProject(tidied, remember);
     }
 
     /** Rewrite the shown track's note list. */

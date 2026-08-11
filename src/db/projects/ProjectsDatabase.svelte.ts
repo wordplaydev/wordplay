@@ -357,8 +357,22 @@ export default class ProjectsDatabase {
      * projects on them — pay for it before first paint.
      */
     start(): Promise<void> {
-        return (this.starting ??= this.hydrate());
+        // Resolves when projects are actually IN MEMORY, not merely when the
+        // subscription is set up: hydrate() returns as soon as it has
+        // subscribed, but the first emission — which deserializes the cached
+        // projects — lands later. Callers ask for this because they want to
+        // read projects, and returning early let a character rename iterate an
+        // empty set and silently rewrite nothing.
+        return (this.starting ??= this.hydrate().then(
+            () => this.firstHydration,
+        ));
     }
+
+    /** Resolves once the first hydration pass has put projects in memory. */
+    private readonly firstHydration: Promise<void> = new Promise((resolve) => {
+        this.resolveFirstHydration = resolve;
+    });
+    private resolveFirstHydration: (() => void) | undefined = undefined;
 
     async hydrate() {
         // Local DB support?
@@ -377,18 +391,21 @@ export default class ProjectsDatabase {
                         if (firstEmission) {
                             firstEmission = false;
                             this.hydrated = true;
+                            this.resolveFirstHydration?.();
                         }
                     });
                 });
             } else {
                 // Observable didn't materialize — nothing to wait for.
                 this.hydrated = true;
+                this.resolveFirstHydration?.();
             }
         } else {
             // No IndexedDB at all (e.g. private-window mode in some
             // browsers). Nothing to hydrate; the page should show
             // whatever's in memory immediately.
             this.hydrated = true;
+            this.resolveFirstHydration?.();
         }
 
         // We don't pull projects from the cloud. That's handled by syncUser() when the user changes.

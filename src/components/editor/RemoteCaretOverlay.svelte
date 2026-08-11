@@ -23,7 +23,8 @@
 -->
 <script lang="ts">
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Creators, Projects } from '@db/Database';
+    import { Creators } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import { decodeRemoteCaret } from '@db/projects/caretEncoding';
     import {
         assignDistinctColors,
