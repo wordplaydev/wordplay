@@ -53,7 +53,16 @@
         async function show(i: number) {
             const projects = gallery.getProjects();
             if (projects.length === 0) return;
-            const next = await (await DB.loadProjects()).get(projects[i]);
+            // Swallow a failed runtime load or project read: rotate() awaits
+            // this, so an escaping rejection would stop this tile rotating for
+            // good. Keep showing the last project and try again next tick.
+            let next;
+            try {
+                next = await (await DB.loadProjects()).get(projects[i]);
+            } catch (error) {
+                console.error(error);
+                return;
+            }
             if (unmounted) return;
             project = next;
         }

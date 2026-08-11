@@ -1,3 +1,5 @@
+import retryableLoad from '@util/retryableLoad';
+
 // Load highlight.js lazily and once, using the CORE build plus only the three languages the
 // tutorial's contrast examples actually use (python/javascript/java — see ContrastLanguage.ts).
 // The full `highlight.js` entry bundles ~190 grammars (~1 MB); core + 3 langs is ~25x smaller.
@@ -17,14 +19,17 @@ async function loadHljs() {
     return hljs;
 }
 
-let hljsPromise: ReturnType<typeof loadHljs> | null = null;
+// Memoized so the chunk loads once, but not across failures: a fetch that
+// failed once must stay retryable rather than breaking highlighting for the
+// life of the tab.
+const loadHljsOnce = retryableLoad(loadHljs);
 
 /** Syntax-highlight foreign code, returning HTML with `hljs-*` token classes for styling. */
 export async function highlightExternal(
     hljsLanguage: string,
     code: string,
 ): Promise<string> {
-    const hljs = await (hljsPromise ??= loadHljs());
+    const hljs = await loadHljsOnce();
     const html = hljs.highlight(code, {
         language: hljsLanguage,
         ignoreIllegals: true,

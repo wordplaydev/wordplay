@@ -78,7 +78,10 @@
 
     let classes = $state<Class[] | undefined>(undefined);
     $effect(() => {
-        if (gallery) {
+        // Listing classes requires auth, and the list links to /teach pages
+        // only members can open, so a signed-out visitor must not ask. $user is
+        // undefined until auth resolves, so this waits rather than asking early.
+        if (gallery && $user) {
             getClasses(gallery.getID()).then((matches) => (classes = matches));
         }
     });

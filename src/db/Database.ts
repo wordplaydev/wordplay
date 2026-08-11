@@ -38,6 +38,7 @@ import { Domain, SyncDomains, type SyncDomain } from '@db/Domains';
 import { ProjectSchema } from '@db/projects/ProjectSchemas';
 import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
+import retryableLoad from '@util/retryableLoad';
 
 // Intercept console.log and console.error
 
@@ -146,7 +147,6 @@ export class Database {
     /** The projects database, once the language runtime it needs has loaded.
      *  Undefined until then; see loadProjects(). */
     private projects: ProjectsDatabase | undefined = undefined;
-    private projectsLoading: Promise<ProjectsDatabase> | undefined = undefined;
     /** The same value as a store, so views that list projects re-render when
      *  the database arrives. A plain field can't do that: a `$derived` reading
      *  it captures `undefined` and never re-runs, which silently leaves the
@@ -364,22 +364,20 @@ export class Database {
         }, Database.BANNER_TIMEOUT_MS);
     }
 
-    /** Surface an automatic (non-user-action) load failure as a banner. A
-     *  non-connectivity cause (bad schema, denied read) is a real one-off
-     *  failure, so it banners immediately.
+    /** Record an automatic (non-user-action) load failure. Never banners: a read
+     *  the user didn't ask for has no antecedent in an app-wide strip, and the
+     *  page that raised it can't take the message with it when it leaves — so a
+     *  denied background read showed up as an unexplained error over pages that
+     *  had loaded fine. Callers that need to tell the user show an inline notice
+     *  next to the missing content instead.
      *
-     *  A connectivity cause does NOT banner here. One failed read is no evidence
-     *  of an outage — a tab that's been frozen fails its first read on wake and
-     *  reconnects a second later — so it feeds {@link markFirebaseFailed}
-     *  instead, and the banner is raised from {@link confirmDisconnect} only if
-     *  the disconnection actually persists. */
+     *  A connectivity cause additionally feeds {@link markFirebaseFailed}. One
+     *  failed read is no evidence of an outage — a tab that's been frozen fails
+     *  its first read on wake and reconnects a second later — so the banner is
+     *  raised from {@link confirmDisconnect} only if the disconnection persists. */
     reportLoadFailure(error: unknown) {
-        if (this.isConnectivityError(error)) {
-            console.error(error);
-            this.markFirebaseFailed();
-            return;
-        }
-        this.reportBanner((l) => l.ui.banner.loadFailed, error);
+        console.error(error);
+        if (this.isConnectivityError(error)) this.markFirebaseFailed();
     }
 
     /** Ask the browser to make this origin's storage persistent, so it's exempt
@@ -535,15 +533,20 @@ export class Database {
      * await anywhere in the app graph reorders WebKit's module evaluation
      * across the route/db import cycle and crashes hydration (see
      * src/util/getTemporal.ts).
+     *
+     * Memoized across successes but not failures — this is the app's largest
+     * chunk, so a single failed fetch on a flaky connection would otherwise
+     * leave every project view broken for the life of the tab.
      */
+    private readonly loadProjectsOnce = retryableLoad(async () => {
+        const { Projects } = await import('@db/projects/Projects');
+        this.projects = Projects;
+        this.projectsStore.set(Projects);
+        return Projects;
+    });
+
     loadProjects(): Promise<ProjectsDatabase> {
-        return (this.projectsLoading ??= import('@db/projects/Projects').then(
-            ({ Projects }) => {
-                this.projects = Projects;
-                this.projectsStore.set(Projects);
-                return Projects;
-            },
-        ));
+        return this.loadProjectsOnce();
     }
 
     /** The projects database if the runtime has already loaded, else

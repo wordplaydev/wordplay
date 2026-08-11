@@ -104,7 +104,10 @@
         try {
             documentSnapshots = await DB.read(getDocs(unmoderated));
         } catch (error) {
-            DB.reportLoadFailure(error);
+            // Unlike a background read, this one is user-initiated: a moderator
+            // opened a tool whose entire content is this queue, so the failure
+            // belongs on screen.
+            DB.reportBanner((l) => l.ui.banner.loadFailed, error);
             return;
         }
 

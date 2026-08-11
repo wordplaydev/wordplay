@@ -39,9 +39,10 @@
     let show = $state(false);
     let submitting = $state(false);
 
-    // undefined = not loaded yet. A load failure leaves it as-is and raises the
-    // top banner (see getFeedback), so we don't track a separate error state.
+    // undefined = not loaded yet. A load failure is reported inline below,
+    // where the list would have been, rather than in the app-wide banner.
     let feedback = $state<Feedback[] | undefined>(undefined);
+    let loadFailed = $state(false);
     let defects = $derived(feedback?.filter((f) => f.type === 'defect'));
     let ideas = $derived(feedback?.filter((f) => f.type === 'idea'));
     let currentFeedback = $derived(mode === 'defect' ? defects : ideas);
@@ -57,13 +58,20 @@
         if ($user) isModerator($user).then((mod) => (moderator = mod));
     });
 
+    // Only load when the dialog is actually open. `submitting` starts false, so
+    // the old `|| !submitting` ran a full feedback query on mount — and this
+    // component sits in Page.svelte's nav, i.e. on every page.
     $effect(() => {
-        if (show || !submitting) loadFeedback(true);
+        if (show) loadFeedback(true);
     });
 
     function loadFeedback(reset: boolean = false) {
         getFeedback().then((f: Feedback[] | null) => {
-            if (f === null) return;
+            if (f === null) {
+                loadFailed = true;
+                return;
+            }
+            loadFailed = false;
             // Sort first by number of votes, then by creation date.
             feedback = f?.toSorted(
                 (a, b) => b.votes - a.votes || b.created - a.created,
@@ -409,7 +417,9 @@
         select={(num) => (mode = num === 0 ? 'defect' : 'idea')}
     >
         {#snippet children()}
-            {#if currentFeedback === undefined}
+            {#if loadFailed}
+                <Notice text={(l) => l.ui.banner.loadFailed} />
+            {:else if currentFeedback === undefined}
                 <Spinning />
             {:else}
                 <div class="feedback-list">
