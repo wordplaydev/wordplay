@@ -8836,7 +8836,8 @@
                     "$~Le logo de Wordplay est une bulle de dialogue qui contient une seule lettre : une petite scène sur laquelle la bulle peut tout dire — une lettre du système d'écriture du lecteur, un emoji, ou un cercle, un triangle et un carré pendant qu'une chose se charge. Dans l'application, la lettre suit le système d'écriture de ta langue principale ; sur les surfaces neutres, comme l'icône du navigateur et les images de partage, la bulle montre les trois formes, prêtes à créer une chose.",
                     "Le dessin lui-même ne montre jamais de mouvement. Le mouvement est un comportement — la page d'accueil change ce que dit la bulle en même temps que le sélecteur de langue, et pendant le chargement les formes sautent chacune à leur tour, comme une foule qui fait la vague — et il suit toujours le réglage de vitesse d'animation. Il s'arrête tout à fait quand l'animation est désactivée.",
                     "La marque est toujours dessinée avec la couleur du texte actuel. Ainsi, partout où le texte respecte les règles de contraste, le logo les respecte aussi."
-                ]
+                ],
+                "copyvalue": "$~copier la valeur CSS complète"
             },
             "thanks": {
                 "header": "$~Merci",

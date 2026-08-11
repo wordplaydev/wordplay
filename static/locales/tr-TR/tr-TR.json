@@ -8911,7 +8911,8 @@
                     "$~Wordplay logosu, içinde tek bir harf bulunan bir konuşma balonudur: balonun her şeyi söyleyebileceği küçük bir sahnedir — okuyucunun yazı sisteminden bir harf, bir emoji ya da bir şey yüklenirken bir daire, üçgen ve kare. Uygulamada harf, senin ana dilinin yazı sistemini takip eder; tarayıcı simgesi ve paylaşım görselleri gibi yazıdan bağımsız yerlerde balon, bir şey yapmak üzere olan üç şekli gösterir.",
                     "Çizimin kendisi asla hareketi göstermez. Hareket davranışsaldır — açılış sayfası, balonun söylediklerini dil seçici ile aynı adımda değiştirir ve yükleme sırasında şekiller sırayla zıplar, tıpkı Meksika dalgası yapan bir kalabalık gibi — ve her zaman animasyon hızı ayarına göre ölçeklenir, animasyon kapalıyken tamamen durur.",
                     "İşaret her zaman geçerli metin renginde çizilir, bu yüzden metnin kontrast gerekliliklerini karşıladığı her yerde logo da karşılar."
-                ]
+                ],
+                "copyvalue": "$~tam CSS değerini kopyala"
             },
             "thanks": {
                 "header": "$~Teşekkürler",

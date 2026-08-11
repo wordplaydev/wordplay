@@ -9355,7 +9355,8 @@
                     "$~Sigla Wordplay este un balon de vorbire care ține o singură literă: o scenă mică pe care balonul poate spune orice — o literă din sistemul de scriere al cititorului, un emoji sau un cerc, un triunghi și un pătrat în timp ce ceva se încarcă. În aplicație, litera urmează sistemul de scriere al limbii tale principale; pe suprafețe neutre față de scriere, cum ar fi pictograma din browser și imaginile de distribuit, balonul arată cele trei forme, gata să facă ceva.",
                     "Desenul în sine nu arată niciodată mișcare. Mișcarea vine din comportament — pagina de start schimbă pe rând ce spune balonul, în ritm cu selectorul de limbă, iar în timpul încărcării formele sar pe rând, ca o mulțime care face valul — și se potrivește mereu cu setarea vitezei de animație, oprindu-se complet când animația este dezactivată.",
                     "Semnul este mereu desenat în culoarea actuală a textului, așa că oriunde textul îndeplinește cerințele de contrast, o face și sigla."
-                ]
+                ],
+                "copyvalue": "$~copiază valoarea CSS completă"
             },
             "thanks": {
                 "header": "$~Mulţumesc",

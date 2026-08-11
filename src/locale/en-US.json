@@ -9397,6 +9397,7 @@
                     "The mark is always drawn in the current text color, so wherever text meets contrast requirements, the logo does too."
                 ],
                 "components": "Components",
+                "copyvalue": "copy the full CSS value",
                 "col": {
                     "component": "Component",
                     "preview": "Preview",

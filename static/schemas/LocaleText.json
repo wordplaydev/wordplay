@@ -19972,6 +19972,10 @@
                                             "description": "[plain] Subheader for the components section",
                                             "type": "string"
                                         },
+                                        "copyvalue": {
+                                            "description": "[plain] Tooltip for the button that copies a font stack's full CSS value to the clipboard",
+                                            "type": "string"
+                                        },
                                         "demo": {
                                             "additionalProperties": false,
                                             "description": "Placeholder text used in live component demos",
@@ -20142,6 +20146,7 @@
                                         "logo",
                                         "logoDescription",
                                         "components",
+                                        "copyvalue",
                                         "col",
                                         "demo"
                                     ],

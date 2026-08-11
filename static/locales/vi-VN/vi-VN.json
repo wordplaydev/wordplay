@@ -9160,7 +9160,8 @@
                     "$~Biểu tượng của Wordplay là một bong bóng lời nói chứa một chữ cái: một sân khấu nhỏ mà bong bóng có thể nói bất cứ điều gì — một chữ cái trong hệ thống chữ viết của người đọc, một biểu tượng cảm xúc, hoặc một hình tròn, hình tam giác và hình vuông trong khi thứ gì đó đang tải. Trong ứng dụng, chữ cái theo hệ thống chữ viết của ngôn ngữ chính của bạn; trên các bề mặt không phụ thuộc chữ viết như biểu tượng trình duyệt và hình ảnh chia sẻ, bong bóng hiển thị ba hình dạng, sắp tạo ra một thứ gì đó.",
                     "Bản vẽ tự nó không bao giờ thể hiện chuyển động. Chuyển động là hành vi — trang chủ luân chuyển những gì bong bóng nói theo bộ chọn ngôn ngữ, và trong khi tải các hình dạng lần lượt nhảy, giống như một đám đông làm sóng người — và luôn thay đổi theo cài đặt tốc độ hoạt hình, dừng hoàn toàn khi tắt hoạt hình.",
                     "Dấu hiệu này luôn được vẽ bằng màu chữ hiện tại, vì vậy bất cứ nơi nào chữ đáp ứng yêu cầu tương phản, biểu tượng cũng vậy."
-                ]
+                ],
+                "copyvalue": "$~sao chép toàn bộ giá trị CSS"
             },
             "thanks": {
                 "header": "$~Cảm ơn",

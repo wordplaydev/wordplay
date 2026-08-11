@@ -9355,7 +9355,8 @@
                     "$~Logo Wordplay adalah balon bicara yang memuat satu huruf: sebuah panggung kecil tempat balon itu bisa mengatakan apa saja — sebuah huruf dari sistem tulisan pembaca, sebuah emoji, atau lingkaran, segitiga, dan persegi saat ada sesuatu yang sedang dimuat. Di dalam aplikasi, huruf itu mengikuti sistem tulisan bahasa utamamu; pada permukaan yang netral terhadap tulisan seperti ikon peramban dan gambar berbagi, balon itu menampilkan tiga bentuk, yang siap membuat sesuatu.",
                     "Gambar itu sendiri tidak pernah menunjukkan gerakan. Gerakan bersifat perilaku — halaman awal mengganti apa yang dikatakan balon itu seiring dengan pemilih bahasa, dan saat memuat, bentuk-bentuk itu bergiliran melompat, seperti kerumunan yang melakukan gelombang — dan selalu menyesuaikan dengan pengaturan kecepatan animasi, berhenti sepenuhnya saat animasi dimatikan.",
                     "Tanda itu selalu digambar dengan warna teks saat ini, jadi di mana pun teks memenuhi syarat kontras, logo pun demikian."
-                ]
+                ],
+                "copyvalue": "$~salin nilai CSS lengkap"
             },
             "thanks": {
                 "header": "$~Terima kasih",

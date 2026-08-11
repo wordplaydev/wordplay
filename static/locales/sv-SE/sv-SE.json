@@ -8907,7 +8907,8 @@
                     "$~Wordplays logotyp är en pratbubbla med en bokstav i sig: en liten scen där bubblan kan säga vad som helst — en bokstav från läsarens skriftsystem, en emoji, eller en cirkel, triangel och fyrkant medan något laddas. I appen följer bokstaven ditt huvudspråks skriftsystem; på skriftneutrala ytor som webbläsarikonen och delningsbilder visar bubblan de tre formerna, redo att skapa något.",
                     "Själva teckningen visar aldrig rörelse. Rörelsen kommer från beteendet — startsidan växlar det bubblan säger i takt med språkväljaren, och medan sidan laddas turas formerna om att hoppa, som en publik som gör vågen — och den anpassas alltid efter inställningen för animeringshastighet, och stannar helt när animering är avstängd.",
                     "Märket ritas alltid i den aktuella textfärgen, så överallt där texten uppfyller kraven på kontrast gör logotypen det också."
-                ]
+                ],
+                "copyvalue": "$~kopiera hela CSS-värdet"
             },
             "thanks": {
                 "header": "$~Tack",
