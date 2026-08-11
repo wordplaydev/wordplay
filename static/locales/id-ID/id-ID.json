@@ -1832,8 +1832,14 @@
             "description": "$~jenis daftar $type[ dari $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~Saya sangat menyukai @List. Saya bisa memberi tahu @Bind jenis daftar apa itu! Seperti ini, saya mengatakan bahwa ini adalah daftar @Number:",
-                "\\things•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~Aku /sangat/ menyukai @List. Aku bisa memberi tahu @Bind jenis list apa mereka! Seperti ini, aku bilang bahwa ini adalah list dari @Number:",
+                "\\benda•[#]: [1 2 3 4 5]\\🪲",
+                "Aku bisa mengatakannya dengan tiga cara berbeda. Jika aku tidak menyebutkan jenis sama sekali, maka sebuah list bisa memiliki panjang berapa pun dan menyimpan apa saja:",
+                "\\barang•[]: [1 'dua' ø]\\🪲",
+                "Jika aku menyebutkan satu jenis, list tetap bisa memiliki panjang berapa pun, tetapi semua di dalamnya harus jenis yang satu itu, seperti list dari @Number di atas.",
+                "Dan jika aku menyebutkan beberapa jenis, artinya sebuah list dengan tepat sejumlah hal itu, dengan satu jenis untuk setiap tempat di dalamnya. Yang ini adalah list dari dua hal: sebuah @Number dulu, lalu beberapa @Text.",
+                "\\pasangan•[# '']: [1 'dua']\\🪲",
+                "Yang terakhir itu favoritku, karena kemudian semua orang tahu apa yang ada di mana. @ListAccess tahu hal pertama adalah @Number dan yang kedua adalah @Text, dan jika kamu memberiku jumlah hal yang salah, atau menaruhnya dengan urutan yang salah, aku akan mengatakannya!"
             ]
         },
         "MapType": {

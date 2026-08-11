@@ -137,13 +137,49 @@ function parseStreamType(tokens: Tokens): StreamType {
     return new StreamType(stream, type);
 }
 
+/** True if the next token can begin a type, mirroring parseType's dispatch. */
+export function nextIsType(tokens: Tokens): boolean {
+    return (
+        tokens.nextIsOneOf(
+            Sym.Placeholder,
+            Sym.Name,
+            Sym.BooleanType,
+            Sym.Percent,
+            Sym.Number,
+            Sym.NumberType,
+            Sym.Text,
+            Sym.None,
+            Sym.ListOpen,
+            Sym.SetOpen,
+            Sym.TableOpen,
+            Sym.PatternDelimiter,
+            Sym.Function,
+            Sym.Stream,
+        ) || tokens.nextIs(Sym.FormattedType)
+    );
+}
+
 function parseListType(tokens: Tokens): ListType {
     const open = tokens.read(Sym.ListOpen);
-    const type = tokens.nextIsnt(Sym.ListClose) ? parseType(tokens) : undefined;
-    const close = tokens.nextIs(Sym.ListClose)
-        ? tokens.read(Sym.ListClose)
-        : undefined;
-    return new ListType(open, type, close);
+    const types: Type[] = [];
+    let first = true;
+    tokens.whileDo(
+        () =>
+            tokens.hasNext() &&
+            tokens.nextIsnt(Sym.Code) &&
+            tokens.nextIsnt(Sym.ListClose) &&
+            // Only the first type may be unparsable or follow a line break, so that a half-typed
+            // `[#` can't swallow what follows it via parseType's readLine() fallback.
+            (first ||
+                (nextIsType(tokens) &&
+                    tokens.nextHasPrecedingLineBreak() !== true)),
+        () => {
+            types.push(parseType(tokens));
+            first = false;
+        },
+    );
+    const close = tokens.readIf(Sym.ListClose);
+    return new ListType(open, types, close);
 }
 
 function parseSetOrMapType(tokens: Tokens): SetType | MapType {

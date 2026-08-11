@@ -128,10 +128,7 @@ export default class Is extends Expression {
 
         return new BoolValue(
             this,
-            this.type.accepts(
-                value.getType(evaluator.getCurrentContext()),
-                evaluator.getCurrentContext(),
-            ),
+            this.type.acceptsValue(value, evaluator.getCurrentContext()),
         );
     }
 
