@@ -1832,8 +1832,14 @@
             "description": "$~liste tipi $type[ türü $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~@List'in /çok/ hayranıyım. @Bind'e ne tür bir liste olduklarını söyleyebiliyorum! Şöyle ki, bunun bir @Number listesi olduğunu söylüyorum:",
-                "\\şeyler•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~@List hakkında /çok/ hayranım. @Bind öğesine nasıl bir liste olduğunu söyleyebiliyorum! İşte böyle, bunun bir @Number listesi olduğunu söylüyorum:",
+                "\\şeyler•[#]: [1 2 3 4 5]\\🪲",
+                "Bunu üç farklı şekilde söyleyebilirim. Hiç tip belirtmezsem, bir liste herhangi bir uzunlukta olabilir ve herhangi bir şeyi tutabilir:",
+                "\\şeyler•[]: [1 'iki' ø]\\🪲",
+                "Bir tip belirtirsem, liste yine herhangi bir uzunlukta olabilir, ama içindeki her şey o tek tipte olmalı, yukarıdaki @Number listesi gibi.",
+                "Ve birkaç tip belirtirsem, tam olarak o kadar şeyden oluşan bir liste demek isterim, her yeri için bir tip vardır. Bu, iki şeyden oluşan bir listedir: önce bir @Number, sonra biraz @Text.",
+                "\\çift•[# '']: [1 'iki']\\🪲",
+                "Sonuncusu en sevdiğim, çünkü o zaman herkes neyin nerede olduğunu bilir. @ListAccess ilk şeyin bir @Number ve ikincinin @Text olduğunu bilir, ve bana yanlış sayıda şey verirsen ya da onları yanlış sırada koyarsan, bunu söylerim!"
             ]
         },
         "MapType": {

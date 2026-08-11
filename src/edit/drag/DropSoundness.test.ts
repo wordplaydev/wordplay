@@ -39,6 +39,7 @@ const Corpus = [
     "pick: ⊤…∆Button()…⊥\npick ? 'a' 'b'",
     "⣿'a'⣿ ≈ 'a'",
     '1 → ""',
+    "a•[# '']: [1 'hi']\na[2]",
 ];
 
 /** Palette-style rootless nodes to drop, spanning literals, calls, and rows. */

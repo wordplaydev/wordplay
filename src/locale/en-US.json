@@ -2209,7 +2209,13 @@
             "emotion": "cheerful",
             "doc": [
                 "I am /such/ a fan of @List. I get to tell @Bind what kind of list they are! Like this, I'm saying that it's a list of @Number:",
-                "\\things•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "\\things•[#]: [ 1 2 3 4 5 ]\\🪲",
+                "I can say it three different ways. If I don't name a type at all, then a list can be any length and hold anything:",
+                "\\stuff•[]: [ 1 'two' ø ]\\🪲",
+                "If I name one type, the list can still be any length, but everything in it has to be that one type, like the list of @Number up there.",
+                "And if I name several types, I mean a list of exactly that many things, with a type for each place in it. This one is a list of two things: a @Number first, then some @Text.",
+                "\\pair•[# '']: [ 1 'two' ]\\🪲",
+                "That last one is my favorite, because then everyone knows what's where. @ListAccess knows the first thing is a @Number and the second is @Text, and if you give me the wrong number of things, or put them in the wrong order, I'll say so!"
             ]
         },
         "MapType": {

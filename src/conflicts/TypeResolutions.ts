@@ -351,10 +351,10 @@ function generateWrapResolution(
     templates: TemplatesAccessor,
 ): Resolution | undefined {
     if (expectedType instanceof ListType) {
-        if (
-            expectedType.type !== undefined &&
-            !expectedType.type.accepts(givenType, context)
-        )
+        // A list of one value can't satisfy a type that specifies several positions.
+        if (expectedType.isTuple()) return undefined;
+        const itemType = expectedType.getItemType(context);
+        if (itemType !== undefined && !itemType.accepts(givenType, context))
             return undefined;
         const wrapped = ListLiteral.make([givenNode]);
         return makeResolution(

@@ -125,7 +125,8 @@
                         {
                             "edit": [
                                 "inferredType: [1 2 3]",
-                                "declaredType•[#]: [1 2 3]"
+                                "declaredType•[#]: [1 2 3]",
+                                "pair•[# '']: [1 'hi']"
                             ],
                             "conflicts": true
                         },
@@ -134,7 +135,7 @@
                             "curious",
                             "Some programming languages allow you to specify the @type of a @variable, so you can ensure all the ways you use the variable are valid:",
                             "\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
-                            "@wordplay is typed too, but types are *inferred*. You usually don't need to declare them, but sometimes you might have to if they can't be inferred."
+                            "@wordplay is typed too, but types are *inferred*. You usually don't need to declare them, but sometimes you might have to if they can't be inferred. A list type can also name a type for each place in a list, like \\[# '']\\ for a list of exactly two things: a number, then a word."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

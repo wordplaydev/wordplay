@@ -1832,8 +1832,14 @@
             "description": "$~listtyp $type[ av $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~Jag är /sådan/ ett fan av @List. Jag får berätta för @Bind vilken typ av lista de är! Så här säger jag att det är en lista med @Number:",
-                "\\things•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~Jag är /verkligen/ ett fan av @List. Jag får berätta för @Bind vilken sorts lista de är! Så här säger jag att det är en lista med @Number:",
+                "\\saker•[#]: [1 2 3 4 5]\\🪲",
+                "Jag kan säga det på tre olika sätt. Om jag inte namnger någon typ alls, kan en lista vara hur lång som helst och innehålla vad som helst:",
+                "\\grejer•[]: [1 'två' ø]\\🪲",
+                "Om jag namnger en typ kan listan fortfarande vara hur lång som helst, men allt i den måste vara just den typen, som listan med @Number där uppe.",
+                "Och om jag namnger flera typer menar jag en lista med precis så många saker, med en typ för varje plats i den. Den här är en lista med två saker: först en @Number, sedan lite @Text.",
+                "\\par•[# '']: [1 'två']\\🪲",
+                "Den sista är min favorit, för då vet alla vad som finns var. @ListAccess vet att den första saken är en @Number och den andra är @Text, och om du ger mig fel antal saker, eller lägger dem i fel ordning, säger jag till!"
             ]
         },
         "MapType": {

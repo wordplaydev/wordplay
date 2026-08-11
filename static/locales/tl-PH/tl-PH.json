@@ -1832,8 +1832,14 @@
             "description": "$~uri ng listahan $type[ ng $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~Isa akong tagahanga ng @List. Nasasabi ko kay @Bind kung anong klaseng listahan ang mga ito! Ganito, sinasabi kong ito ay isang listahan ng @Number:",
-                "\\mga bagay•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~Napaka-/tagahanga/ ko ng @List. Nasasabi ko sa @Bind kung anong uri ng listahan sila! Katulad nito, sinasabi ko na ito ay isang listahan ng @Number:",
+                "\\mgaBagay•[#]: [1 2 3 4 5]\\🪲",
+                "Maaari kong sabihin ito sa tatlong magkaibang paraan. Kung hindi ako magpapangalan ng anumang uri, maaaring anumang haba ang listahan at maaaring maglaman ng kahit ano:",
+                "\\mgaBagay•[]: [1 'dalawa' ø]\\🪲",
+                "Kung magpapangalan ako ng isang uri, maaari pa ring anumang haba ang listahan, ngunit ang lahat ng nasa loob nito ay dapat sa isang uri na iyon, tulad ng listahan ng @Number sa itaas.",
+                "At kung magpapangalan ako ng ilang uri, ang ibig kong sabihin ay isang listahan ng tumpak na dami ng mga bagay, na may uri para sa bawat lugar dito. Ang isang ito ay listahan ng dalawang bagay: una ay isang @Number, pagkatapos ay ilang @Text.",
+                "\\pares•[# '']: [1 'dalawa']\\🪲",
+                "Ang huling iyon ang paborito ko, dahil alam ng lahat kung ano ang nasaan. Alam ng @ListAccess na ang unang bagay ay isang @Number at ang pangalawa ay @Text, at kung bibigyan mo ako ng maling dami ng mga bagay, o ilalagay mo ang mga ito sa maling pagkakasunod-sunod, sasabihin ko sa iyo!"
             ]
         },
         "MapType": {
