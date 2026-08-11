@@ -12,6 +12,7 @@
     import Objects from '@input/Objects/Objects';
     import { VOLUME_FFT_SIZE, computeVolume, PITCH_FFT_SIZE, computePitch } from '@input/AudioAnalysisMath';
     import { PitchDetector } from 'pitchy';
+    import { toPreviewPoint, toPreviewBox } from './cameraPreview';
 
     type SensorKind = 'microphone' | 'camera';
 
@@ -81,14 +82,6 @@
             const width = rect.width;
             const height = rect.height;
 
-            // Calculate transform for object-fit: cover
-            const scale = Math.max(
-                width / videoElement.videoWidth,
-                height / videoElement.videoHeight,
-            );
-            const offsetX = (width - videoElement.videoWidth * scale) / 2;
-            const offsetY = (height - videoElement.videoHeight * scale) / 2;
-
             // Get foreground color for landmarks and compute CSS functions
             let fgColor = '#ffff00';
             try {
@@ -104,25 +97,18 @@
             // Draw hand points (larger, opaque)
             ctx.fillStyle = fgColor;
             for (let i = 0; i < handPoints.length; i++) {
-                const point = handPoints[i];
-                const pixelX =
-                    point.x * videoElement.videoWidth * scale + offsetX;
-                const pixelY =
-                    point.y * videoElement.videoHeight * scale + offsetY;
+                const { x, y } = toPreviewPoint(handPoints[i], width, height);
                 ctx.beginPath();
-                ctx.arc(pixelX, pixelY, 5, 0, Math.PI * 2);
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
                 ctx.fill();
             }
 
             // Draw face points (smaller, opaque)
             ctx.fillStyle = fgColor;
             for (const point of facePoints) {
-                const pixelX =
-                    point.x * videoElement.videoWidth * scale + offsetX;
-                const pixelY =
-                    point.y * videoElement.videoHeight * scale + offsetY;
+                const { x, y } = toPreviewPoint(point, width, height);
                 ctx.beginPath();
-                ctx.arc(pixelX, pixelY, 1.5, 0, Math.PI * 2);
+                ctx.arc(x, y, 1.5, 0, Math.PI * 2);
                 ctx.fill();
             }
 
@@ -132,13 +118,14 @@
             ctx.font = '12px sans-serif';
             ctx.textBaseline = 'bottom';
             for (const box of objectBoxes) {
-                const pixelX = box.x * videoElement.videoWidth * scale + offsetX;
-                const pixelY =
-                    box.y * videoElement.videoHeight * scale + offsetY;
-                const pixelWidth = box.width * videoElement.videoWidth * scale;
-                const pixelHeight = box.height * videoElement.videoHeight * scale;
-                ctx.strokeRect(pixelX, pixelY, pixelWidth, pixelHeight);
-                ctx.fillText(box.label, pixelX, Math.max(12, pixelY - 2));
+                const mapped = toPreviewBox(box, width, height);
+                ctx.strokeRect(
+                    mapped.x,
+                    mapped.y,
+                    mapped.width,
+                    mapped.height,
+                );
+                ctx.fillText(box.label, mapped.x, Math.max(12, mapped.y - 2));
             }
         } catch (e) {
             // Silently catch any canvas errors to prevent breaking the hand detection
@@ -608,6 +595,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        /* Show a mirror, so a creator positioning a hand or face in frame moves
+           the image the way they expect, and the way the stage places it. The
+           overlay canvas is not mirrored — cameraPreview.ts mirrors the points
+           instead, so object labels drawn on it stay readable. */
+        transform: scaleX(-1);
     }
 
     .landmark-overlay {
