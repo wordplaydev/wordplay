@@ -50,11 +50,35 @@ test('tapping a key drives the program', async ({ page }) => {
     await expect(stage).toContainText('2 of 10');
 });
 
-test('a project whose keys cannot be bounded keeps the keyboard', async ({
+test('a partly-bounded project offers the keys it knows AND keeps the keyboard', async ({
     page,
 }) => {
-    // Adventure indexes a map with the key, so any key at all could matter.
+    // Adventure guards on '1' and '2', then converts the key to a number to
+    // index with — so the conversion could involve any key, but those two are
+    // exactly what it is played with. Offering them is what makes it playable
+    // on a touch screen; keeping the keyboard is what keeps the rest reachable.
     await page.goto(example('Adventure'));
+    const pad = page.locator('.key-pad');
+    await pad.waitFor();
+    await expect(pad.locator('.key')).toHaveText(['1', '2']);
+    await expect(page.locator('.keyboard-input')).not.toHaveAttribute(
+        'inputmode',
+        'none',
+    );
+
+    // And tapping one has to actually advance the story.
+    const stage = page.locator('.value');
+    await expect(stage).toContainText('dark, cold room');
+    await pad.locator('.key').first().tap();
+    await expect(stage).toContainText('knife');
+});
+
+test('a project with no bounded keys at all keeps only the keyboard', async ({
+    page,
+}) => {
+    // French Numbers compares the CONVERTED key against a list access, so it
+    // never compares the key itself to anything and there is nothing to offer.
+    await page.goto(example('FrenchNumbers'));
     await page.locator('.value').waitFor();
     await expect(page.locator('.key-pad')).toHaveCount(0);
     await expect(page.locator('.keyboard-input')).not.toHaveAttribute(

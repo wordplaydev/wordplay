@@ -666,11 +666,23 @@
             ? analyzeProjectKeys(evaluator.project)
             : undefined,
     );
-    /** A project whose keys we couldn't bound keeps the keyboard. */
+    /** The pad to show, if any. A project we couldn't fully bound still gets one
+     *  for the keys it provably compares against — those are the keys it's
+     *  played with — and keeps the keyboard for the rest. */
     const keyPad = $derived(
-        keyAnalysis !== undefined && keyAnalysis.kind !== 'unbounded'
-            ? keyAnalysis
-            : undefined,
+        keyAnalysis === undefined
+            ? undefined
+            : keyAnalysis.kind !== 'unbounded'
+              ? keyAnalysis
+              : keyAnalysis.keys.size > 0
+                ? ({ kind: 'specific', keys: keyAnalysis.keys } as const)
+                : undefined,
+    );
+
+    /** Only a project whose keys we bounded completely can have the on-screen
+     *  keyboard taken away; anything else would strand the keys we can't see. */
+    const keyboardSuppressed = $derived(
+        keyAnalysis !== undefined && keyAnalysis.kind !== 'unbounded',
     );
 
     /** Interactive stage inputs (like the chat field) are only live in play mode;
@@ -1849,7 +1861,15 @@
                 )[0].view;
                 if (candidate instanceof HTMLElement) output = candidate;
             }
-            if (output)
+            // A program that reads keys needs the sink focused, not the stage:
+            // focusing the stage instead is what leaves the on-screen keyboard
+            // down after a stray blur.
+            if (keyboardInputView && (keys || placements))
+                setKeyboardFocus(
+                    keyboardInputView,
+                    'Output lost focus, restoring the keyboard sink',
+                );
+            else if (output)
                 setKeyboardFocus(
                     output,
                     'Output lost focus, focusing on the closest focusbale output on stage',
@@ -2049,6 +2069,25 @@
     });
 </script>
 
+<!--
+    iOS Safari keeps document.activeElement across a backgrounded tab (switching
+    apps, locking the device) even though the on-screen keyboard is gone. On
+    return, setKeyboardFocus's "already focused" short-circuit skips .focus(), so
+    the keyboard never comes back until the creator taps something else first.
+    Blurring on visibility change resets that so the next tap focuses cleanly.
+    Same fix as the editor's textarea.
+-->
+<svelte:document
+    onvisibilitychange={() => {
+        if (
+            document.hidden &&
+            keyboardInputView &&
+            document.activeElement === keyboardInputView
+        )
+            keyboardInputView.blur();
+    }}
+/>
+
 <section
     class="output"
     data-testid="output"
@@ -2090,6 +2129,17 @@
         onpointerdown={(event) => {
             event.stopPropagation();
             if (interactive) handlePointerDown(event);
+        }}
+        onmousedown={(event) => {
+            // iOS Safari fires a synthetic mousedown after touchend even though
+            // we handled the gesture with pointer events, and that mousedown's
+            // default action blurs the programmatically focused keyboard sink —
+            // which is what dismisses the on-screen keyboard a moment after a
+            // tap. preventDefault on pointerdown does not suppress it, so it has
+            // to be cancelled here. Real mouse and pen input is already handled
+            // by pointerdown, so in practice only touch reaches this. Same fix
+            // as the editor's textarea.
+            event.preventDefault();
         }}
         onpointerup={interactive ? handlePointerUp : null}
         onpointermove={interactive ? handlePointerMove : null}
@@ -2294,17 +2344,19 @@
                 <!-- Hidden focus sink that lets Key/Placement streams receive keyboard events -->
                 {#if keys || placements}
                     <div class="keyboard">
-                        <!-- With a key pad on screen, the on-screen keyboard
+                        <!-- With every key on screen, the on-screen keyboard
                              would only obstruct the stage; the field stays
-                             focused so physical keyboards still work. -->
+                             focused so physical keyboards still work. A project
+                             we couldn't fully bound keeps the keyboard even when
+                             it has a pad, since the pad can't offer every key. -->
                         <input
                             type="text"
                             class="keyboard-input"
                             data-defaultfocus
-                            inputmode={keyPad !== undefined
-                                ? 'none'
-                                : undefined}
+                            inputmode={keyboardSuppressed ? 'none' : undefined}
                             aria-autocomplete="none"
+                            autocapitalize="none"
+                            spellcheck="false"
                             aria-label={$locales.getPrimaryPlainText(
                                 (l) => l.ui.output.field.key.description,
                             )}
