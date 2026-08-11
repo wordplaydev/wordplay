@@ -853,7 +853,7 @@ type UITexts = {
             zoomIn: string;
             /** [plain] Zoom in output button */
             zoomOut: string;
-            /** [plain] Reset the zoom to the stage's computed place when one is set */
+            /** [plain] Clear the viewer's own pan and zoom, handing the camera back to the project */
             resetZoom: string;
             /** [plain] The rotation handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
             rotate: Template<['name']>;

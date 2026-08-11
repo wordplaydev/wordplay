@@ -1448,3 +1448,15 @@ While we've generally alluded to how Wordplay programs evaluate through examples
     - An unparsable sequence of tokens was found
     - The evaluator evaluated too many steps within a single function
     - The evaluator evaluated too many functions (stack overflow)
+
+## Stage camera
+
+A `Stage`'s optional `place` (`📍|ø`, defaulting to `ø`) is a camera rather than a position: it says where the stage is viewed from, and its `z` is the zoom, since output is scaled by its distance in front of the focus. Its `x` is negated relative to output places, so a camera moving right slides the world left.
+
+Three things decide what is finally seen, and they compose rather than override one another:
+
+- **The program.** When `place` is set, it is the camera. A camera whose `place` changes over time eases toward each new value over the stage's `duration`, so it pans rather than snaps. A `z` at or beyond `0` would put the camera in the output's own plane, where nothing draws and the scene inverts, so keep it comfortably negative.
+- **The platform.** When `place` is `ø`, the stage is framed automatically so its content fits the view. The frame expands immediately to cover content and tightens back in only after content has stayed well inside it, so a stage whose content moves settles into a still frame instead of following the motion. A program-set camera is additionally pulled back on viewports smaller than it was authored for, so a narrow screen still shows what the creator framed; it is never pulled closer, so larger screens see exactly what was written.
+- **The audience.** Panning and zooming (scroll, pinch, two-finger drag, the zoom controls) apply as an offset on top of whichever of the two above is in play. Because it is an offset and not a replacement, a viewer may zoom out of a project that moves its own camera without freezing it. Zooming out is unbounded; zooming in stops before the camera would reach the output plane.
+
+A stage's `overlay` is exempt from all of this: it is pinned flat to the screen and is unaffected by the camera.

@@ -223,7 +223,8 @@
         /** Force the editor's annotation panel expanded (true) or collapsed (false); undefined uses
          * the creator's global annotation setting. Used by the tutorial to show or hide conflicts. */
         annotationsExpanded?: boolean | undefined;
-        /** True if the output should be fit to content */
+        /** Whether the platform keeps reframing the stage to its content. The toolbar
+         * toggles this, so it is bindable. */
         fit?: boolean;
         /** True if the project should focus the main editor source on mount */
         autofocus?: boolean;
@@ -252,7 +253,7 @@
         editable = true,
         showOutput = false,
         annotationsExpanded = undefined,
-        fit = true,
+        fit = $bindable(true),
         autofocus = true,
         guide = true,
         warn = true,
@@ -1655,7 +1656,7 @@
     let hasStagePlace = $state(false);
 
     /** Tracks whether the audience has overridden the stage's computed focus, so the reset-zoom button can be disabled when there is nothing to reset. */
-    let focusOverridden = $state(false);
+    let focusAdjusted = $state(false);
 
     let adjusting = $state(false);
 
@@ -2803,7 +2804,10 @@
                                                     l.ui.output.button.zoomIn}
                                                 ><Emoji text="+⌕" /></Button
                                             >
-                                            {#if hasStagePlace}
+                                            <!-- Shown whenever the audience has panned or
+                                                 zoomed, with or without a program camera,
+                                                 since it now means "clear my adjustment". -->
+                                            {#if focusAdjusted}
                                                 <Button
                                                     action={() =>
                                                         outputView?.resetZoom()}
@@ -2811,13 +2815,15 @@
                                                         l.ui.output.button
                                                             .resetZoom}
                                                     background
-                                                    active={focusOverridden}
                                                     ><Emoji text="⟲⌕" /></Button
                                                 >
                                             {/if}
                                         </span>
                                     {/snippet}
                                     {#snippet outputGridFit()}
+                                        <!-- The fit toggle is inactive when the program sets
+                                             its own camera, since it is already framing the
+                                             stage and there is nothing for fitting to do. -->
                                         <span class="grid-fit">
                                             <Toggle
                                                 uiid="stageGrid"
@@ -2831,6 +2837,7 @@
                                                 tips={(l) =>
                                                     l.ui.output.toggle.fit}
                                                 on={fit}
+                                                active={!hasStagePlace}
                                                 toggle={() => (fit = !fit)}
                                                 ><Emoji
                                                     text={fit ? '🔒' : '🔓'}
@@ -2973,7 +2980,7 @@
                                         bind:grid
                                         bind:painting
                                         bind:hasStagePlace
-                                        bind:focusOverridden
+                                        bind:focusAdjusted
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                         editable={editableNow}

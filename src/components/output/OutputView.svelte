@@ -75,7 +75,11 @@
     import Evaluate from '@nodes/Evaluate';
     import { describeColorLocalized } from '@output/Color/BasicColors';
     import Color, { toColor } from '@output/Color/Color';
-    import { PX_PER_METER, rootScale } from '@output/Output/outputToCSS';
+    import {
+        PX_PER_METER,
+        rootScale,
+        screenToStage,
+    } from '@output/Output/outputToCSS';
     import Say from '@output/Output/Say';
     import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
     import { acquireMusicPlayer } from '@output/Music/players';
@@ -136,8 +140,8 @@
         wheel?: boolean;
         /** Reflects whether the current stage value has an explicit place set. */
         hasStagePlace?: boolean;
-        /** Reflects whether the audience has overridden the stage's computed focus via zoom/pan controls. */
-        focusOverridden?: boolean;
+        /** Reflects whether the audience has panned or zoomed away from the base focus. */
+        focusAdjusted?: boolean;
         /** Whether to blur the output while the user is typing in the project's editor. True for the main stage; false for embedded examples that are unaffected by the user's typing. */
         blurOnTyping?: boolean;
         /** Called when the viewer clicks Retry after a PermissionException. The host should restart the evaluator so failed streams can re-attempt getUserMedia. */
@@ -167,7 +171,7 @@
         background = $bindable(null),
         wheel = true,
         hasStagePlace = $bindable(false),
-        focusOverridden = $bindable(false),
+        focusAdjusted = $bindable(false),
         blurOnTyping = true,
         onretry = undefined,
         warnings = [],
@@ -294,7 +298,14 @@
 
     /** The state of dragging the adjusted focus. A location or nothing. */
     let drag = $state<
-        { startPlace: Place; left: number; top: number } | undefined
+        | {
+              startPlace: Place;
+              /** The audience's pan/zoom when the drag began, so a pan can anchor on it. */
+              startOffset: { x: number; y: number; z: number } | undefined;
+              left: number;
+              top: number;
+          }
+        | undefined
     >();
 
     /** Whether this press has travelled far enough to be a move rather than a click.
@@ -351,8 +362,14 @@
 
     /** Event cache for touch panning and zooming */
     let pointersByIndex = $state<PointerEvent[]>([]);
+    /** Whether the in-progress gesture is panning the camera, so it must not also feed
+     *  the Pointer stream. */
+    let panningCamera = $state(false);
     let startDifference = $state<number | undefined>();
-    let startGesturePlace = $state<Place | undefined>();
+    let startMidpoint = $state<{ x: number; y: number } | undefined>();
+    let startGestureOffset = $state<
+        { x: number; y: number; z: number } | undefined
+    >();
 
     let keyboardInputView = $state<HTMLInputElement | undefined>();
     let chatInputView = $state<HTMLInputElement | undefined>();
@@ -1303,21 +1320,17 @@
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
             const dy = event.clientY - rect.top;
-            const { x: mx, y: my } = pixelsToMeters(
+            const { x: mx, y: my } = screenToStage(
                 dx - rect.width / 2,
-                -(dy - rect.height / 2),
-                0,
+                dy - rect.height / 2,
+                renderedFocus.x,
+                renderedFocus.y,
                 renderedFocus.z,
             );
             const place =
                 // If painting, the start place is where the click was
                 painting
-                    ? new Place(
-                          renderedFocus.value,
-                          mx - renderedFocus.x,
-                          my + renderedFocus.y,
-                          0,
-                      )
+                    ? new Place(renderedFocus.value, mx, my, 0)
                     : // If moving a selected output, start from its place.
                       movable
                       ? getOrCreatePlace(
@@ -1329,10 +1342,24 @@
                       : // Otherwise we're panning: start from the rendered focus.
                         renderedFocus;
 
-            if (place) {
-                fit = false;
+            // While playing, a plain drag belongs to the program: it is how Pointer and
+            // Placement receive input, and panning with it moves the stage under content
+            // that is chasing the pointer. Shift opts into panning, mirroring shift+wheel
+            // to zoom; two fingers pan on touch. Paused, a drag pans as it always has.
+            const panning = !painting && !movable;
+            // A gesture that drives the camera is the camera's alone: letting it also feed
+            // Pointer moves the stage under content that is chasing the pointer, which is
+            // what made panning run away in the first place. Only a gesture that actually
+            // pans counts — a plain drag while playing is the program's, and must still
+            // reach Pointer.
+            panningCamera = panning && mayPan(event) && evaluator.isPlaying();
+            if (place && !(panning && !mayPan(event))) {
                 drag = {
                     startPlace: place,
+                    // Panning adjusts the audience's offset, so anchor it here. A press
+                    // that never becomes a drag leaves it untouched, which is why fitting
+                    // is no longer switched off on every click.
+                    startOffset: stage?.getOffset(),
                     left: dx,
                     top: dy,
                 };
@@ -1364,37 +1391,58 @@
         // Replace it with this new event
         if (index >= 0) pointersByIndex[index] = event;
 
-        // If there are two pointers down, check for a pinch
+        // If there are two pointers down, this is a pinch: zoom by their distance and pan
+        // by their midpoint. Panning here rather than on a single-finger drag is what makes
+        // the stage pannable on a touch screen at all — a one-finger drag is how Pointer
+        // streams receive input, so panning with it would fight the program, and it is
+        // gated on `editable` so an audience never gets it. This block runs before that
+        // gate, so a two-finger gesture works for an audience too.
         if (pointersByIndex.length === 2) {
             // Find the Euclidean distance between the two pointers
             const currentPointerDifference = Math.hypot(
                 pointersByIndex[0].clientX - pointersByIndex[1].clientX,
                 pointersByIndex[0].clientY - pointersByIndex[1].clientY,
             );
-            // No differences yet? Initialize to the current difference, which
-            // is the anchor difference. Also initialize to the current rendered focus.
+            const currentMidpoint = {
+                x:
+                    (pointersByIndex[0].clientX + pointersByIndex[1].clientX) /
+                    2,
+                y:
+                    (pointersByIndex[0].clientY + pointersByIndex[1].clientY) /
+                    2,
+            };
+            // No anchor yet? Anchor the gesture on the current distance, midpoint, and the
+            // audience's offset, so the whole gesture is measured from where it started.
             if (
                 startDifference === undefined ||
-                startGesturePlace === undefined
+                startMidpoint === undefined ||
+                startGestureOffset === undefined
             ) {
                 startDifference = currentPointerDifference;
-                startGesturePlace = renderedFocus;
-            } else {
+                startMidpoint = currentMidpoint;
+                startGestureOffset = stage?.getOffset() ?? {
+                    x: 0,
+                    y: 0,
+                    z: 0,
+                };
+            } else if (stage) {
                 const delta = currentPointerDifference - startDifference;
-                const scale = rootScale(0, startGesturePlace.z);
-                const newZ = startGesturePlace.z + delta / PX_PER_METER / scale;
-                const boundedNewZ =
-                    newZ > -1 || newZ === Infinity
-                        ? -1
-                        : newZ < -40 || newZ === -Infinity
-                          ? -40
-                          : newZ;
-
-                if (!isNaN(boundedNewZ) && stage)
-                    stage.setFocus(
-                        startGesturePlace.x,
-                        startGesturePlace.y,
-                        boundedNewZ,
+                const scale = rootScale(0, renderedFocus.z);
+                const dz = delta / PX_PER_METER / scale;
+                // Screen pixels to metres at the current scale, and in the same sign
+                // convention the mouse drag-pan uses: a larger focus x/y translates content
+                // right/down, so content follows the fingers.
+                const dx =
+                    (currentMidpoint.x - startMidpoint.x) /
+                    (PX_PER_METER * scale);
+                const dy =
+                    (currentMidpoint.y - startMidpoint.y) /
+                    (PX_PER_METER * scale);
+                if (!isNaN(dz) && !isNaN(dx) && !isNaN(dy))
+                    stage.setOffset(
+                        startGestureOffset.x + dx,
+                        startGestureOffset.y + dy,
+                        startGestureOffset.z + dz,
                     );
             }
         }
@@ -1515,13 +1563,15 @@
                             scheduleMove(newX, newY);
                             event.stopPropagation();
                         }
-                    } else if (stage) {
+                    } else if (stage && drag.startOffset && mayPan(event)) {
                         const scale = rootScale(0, renderedFocus.z);
                         // Scale down the mouse delta and offset by the drag starting point.
-                        stage.setFocus(
-                            renderedDeltaX / scale + drag.startPlace.x,
-                            renderedDeltaY / scale + drag.startPlace.y,
-                            drag.startPlace.z,
+                        // This adjusts the audience's offset rather than the camera itself,
+                        // so panning composes with a program that moves its own camera.
+                        stage.setOffset(
+                            renderedDeltaX / scale + drag.startOffset.x,
+                            renderedDeltaY / scale + drag.startOffset.y,
+                            drag.startOffset.z,
                         );
                         event.stopPropagation();
                     }
@@ -1529,7 +1579,16 @@
             }
         }
 
-        reactPointerStream(event);
+        // A gesture that is driving the camera doesn't also drive the program.
+        if (!panningCamera) reactPointerStream(event);
+    }
+
+    /** Whether this drag may pan the camera. While playing, a plain drag is the program's
+     *  input (Pointer, Placement), so panning with it would fight the project; shift opts
+     *  in, matching shift+wheel to zoom, and two fingers pan on touch. Consulted by both
+     *  the pointer-down setup and the move handler, which must agree. */
+    function mayPan(event: PointerEvent) {
+        return !evaluator.isPlaying() || event.shiftKey;
     }
 
     /** Report the pointer's stage position to any Pointer stream. Called on both
@@ -1540,26 +1599,16 @@
         if (valueView && evaluator.isPlaying() && pointerStreams.length > 0) {
             const valueRect = valueView.getBoundingClientRect();
             if (valueRect !== undefined) {
-                // First, get the position of the pointer relative to the tile bounds.
-                const tileX =
-                    event.clientX - valueRect.left - valueRect.width / 2;
-                const tileY = -(
-                    event.clientY -
-                    valueRect.top -
-                    valueRect.height / 2
-                );
-
-                // Now translate the position into stage coordinates.
-                const position = pixelsToMeters(
-                    tileX,
-                    tileY,
-                    0,
+                // Pointer position in pixels from the centre of the tile, then through the
+                // renderer's own inverse transform. Doing this arithmetic by hand here is
+                // what previously reported y off by twice the camera's y.
+                const position = screenToStage(
+                    event.clientX - valueRect.left - valueRect.width / 2,
+                    event.clientY - valueRect.top - valueRect.height / 2,
+                    renderedFocus?.x ?? 0,
+                    renderedFocus?.y ?? 0,
                     renderedFocus?.z ?? 0,
                 );
-
-                // Now translate the position relative to the stage focus.
-                position.x -= renderedFocus?.x ?? 0;
-                position.y -= renderedFocus?.y ?? 0;
 
                 evaluator.singletonReact(Pointer, (stream) =>
                     stream.react(position),
@@ -1596,8 +1645,10 @@
     }
 
     function cancelGesture() {
+        panningCamera = false;
         startDifference = undefined;
-        startGesturePlace = undefined;
+        startMidpoint = undefined;
+        startGestureOffset = undefined;
         pointersByIndex = [];
     }
 
@@ -2139,8 +2190,9 @@
                 bind:painting
                 bind:this={stage}
                 bind:renderedFocus
-                bind:focusOverridden
+                bind:focusAdjusted
                 interactive={!mini}
+                {mini}
                 {editable}
                 inspectable={inspecting}
             />

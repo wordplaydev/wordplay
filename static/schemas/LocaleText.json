@@ -15874,7 +15874,7 @@
                                     "type": "string"
                                 },
                                 "loadFailed": {
-                                    "description": "[plain] Shown when loading/reading something from the cloud failed",
+                                    "description": "[plain] Shown when loading/reading something from the cloud failed. Belongs inline, next to the missing content, or on the one page whose content is the thing that failed — never as a floating banner, which outlives the page that raised it and reads as an error about a page that loaded fine.",
                                     "type": "string"
                                 },
                                 "saveFailed": {

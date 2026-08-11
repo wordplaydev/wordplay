@@ -7454,7 +7454,7 @@
                 "submit": "submit this chat message",
                 "zoomIn": "zoom into the stage",
                 "zoomOut": "zoom out from the stage",
-                "resetZoom": "reset zoom to the stage's place",
+                "resetZoom": "clear your pan and zoom",
                 "rotate": "rotate $name",
                 "resize": "resize $name"
             },
