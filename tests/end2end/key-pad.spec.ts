@@ -1,15 +1,23 @@
-import { devices } from '@playwright/test';
 import { expect, test } from '../../playwright/fixtures';
 
 /**
- * The on-stage key pad only exists on touch devices, so these run in a phone
- * context — `'ontouchstart' in window` is what gates it, and a desktop
- * context never has it.
+ * The on-stage key pad only exists on touch devices, so these run in a phone-
+ * sized touch context — `'ontouchstart' in window` is what gates it, and a
+ * desktop context never has it.
  *
  * What matters here is the pair: the pad appears AND the on-screen keyboard
  * is suppressed. Either alone is a worse experience than what we replaced.
+ *
+ * The touch context is spelled out rather than taken from a `devices[...]`
+ * descriptor, because a phone descriptor carries two things that break the
+ * WebKit run: `defaultBrowserType: 'chromium'`, which makes these tests launch
+ * Chromium even under the webkit project (the nightly macOS runner installs
+ * only WebKit, so they died at launch), and `isMobile`, which WebKit does not
+ * support at all. `hasTouch` and a small viewport are the whole of what the pad
+ * needs, and both engines take them — which matters here more than most, since
+ * iOS Safari is the platform this feature exists for.
  */
-test.use({ ...devices['Pixel 7'], hasTouch: true });
+test.use({ viewport: { width: 412, height: 839 }, hasTouch: true });
 
 /** Gallery examples reach the player at this route without signing in. */
 function example(id: string) {
