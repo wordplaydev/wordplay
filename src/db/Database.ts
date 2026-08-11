@@ -7,7 +7,13 @@ import { type SupportedLocale } from '@locale/SupportedLocales';
 // Value symbols from firebase/auth are dynamically imported at use so the auth
 // SDK stays out of the eager chunk; only the erased types are imported here.
 import { type Unsubscribe, type User } from 'firebase/auth';
-import { deleteDoc, doc, getDocFromServer, setDoc } from 'firebase/firestore';
+import {
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocFromServer,
+    setDoc,
+} from 'firebase/firestore';
 import {
     derived,
     get,
@@ -27,10 +33,12 @@ import CreatorDatabase, {
 import GalleryDatabase from '@db/galleries/GalleryDatabase.svelte';
 import { HowToDatabase } from '@db/howtos/HowToDatabase.svelte';
 import LocalesDatabase from '@db/locales/LocalesDatabase';
-import ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
+import type ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
 import { Domain, SyncDomains, type SyncDomain } from '@db/Domains';
+import { ProjectSchema } from '@db/projects/ProjectSchemas';
 import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
+import retryableLoad from '@util/retryableLoad';
 
 // Intercept console.log and console.error
 
@@ -136,8 +144,15 @@ export class Database {
      *  schemas for the same DB name conflict). */
     readonly localDB = new WordplayDexie();
 
-    /** An IndexedDB backed database of projects, allowing for scalability of local persistence. */
-    readonly Projects: ProjectsDatabase;
+    /** The projects database, once the language runtime it needs has loaded.
+     *  Undefined until then; see loadProjects(). */
+    private projects: ProjectsDatabase | undefined = undefined;
+    /** The same value as a store, so views that list projects re-render when
+     *  the database arrives. A plain field can't do that: a `$derived` reading
+     *  it captures `undefined` and never re-runs, which silently leaves the
+     *  projects page empty forever. */
+    private readonly projectsStore: Writable<ProjectsDatabase | undefined> =
+        writable(undefined);
 
     /** A collection of Galleries loaded from the database */
     readonly Galleries: GalleryDatabase;
@@ -242,7 +257,6 @@ export class Database {
             concretize,
             this.Settings.settings.locales,
         );
-        this.Projects = new ProjectsDatabase(this);
         this.Galleries = new GalleryDatabase(this);
         this.Creators = new CreatorDatabase(this);
         this.Chats = new ChatDatabase(this);
@@ -262,7 +276,7 @@ export class Database {
      *  that would discard local-only edits. */
     getUnsavedCount(): number {
         return (
-            this.Projects.saveCounts.unsaved +
+            (this.projects?.saveCounts.unsaved ?? 0) +
             this.Galleries.saveCounts.unsaved +
             this.Characters.saveCounts.unsaved +
             this.HowTos.saveCounts.unsaved +
@@ -350,22 +364,20 @@ export class Database {
         }, Database.BANNER_TIMEOUT_MS);
     }
 
-    /** Surface an automatic (non-user-action) load failure as a banner. A
-     *  non-connectivity cause (bad schema, denied read) is a real one-off
-     *  failure, so it banners immediately.
+    /** Record an automatic (non-user-action) load failure. Never banners: a read
+     *  the user didn't ask for has no antecedent in an app-wide strip, and the
+     *  page that raised it can't take the message with it when it leaves — so a
+     *  denied background read showed up as an unexplained error over pages that
+     *  had loaded fine. Callers that need to tell the user show an inline notice
+     *  next to the missing content instead.
      *
-     *  A connectivity cause does NOT banner here. One failed read is no evidence
-     *  of an outage — a tab that's been frozen fails its first read on wake and
-     *  reconnects a second later — so it feeds {@link markFirebaseFailed}
-     *  instead, and the banner is raised from {@link confirmDisconnect} only if
-     *  the disconnection actually persists. */
+     *  A connectivity cause additionally feeds {@link markFirebaseFailed}. One
+     *  failed read is no evidence of an outage — a tab that's been frozen fails
+     *  its first read on wake and reconnects a second later — so the banner is
+     *  raised from {@link confirmDisconnect} only if the disconnection persists. */
     reportLoadFailure(error: unknown) {
-        if (this.isConnectivityError(error)) {
-            console.error(error);
-            this.markFirebaseFailed();
-            return;
-        }
-        this.reportBanner((l) => l.ui.banner.loadFailed, error);
+        console.error(error);
+        if (this.isConnectivityError(error)) this.markFirebaseFailed();
     }
 
     /** Ask the browser to make this origin's storage persistent, so it's exempt
@@ -514,10 +526,95 @@ export class Database {
      * Waiting is safe for unsaved work: edits are recorded in a durable dirty
      * table, so anything pending replays once this runs.
      */
-    async startProjectWork(): Promise<void> {
-        await this.Projects.start();
-        if (this.user !== null) this.Projects.saveSoon();
+    /**
+     * Load the language runtime and the projects database that needs it, once.
+     *
+     * The dynamic import lives inside this method on purpose: a module-level
+     * await anywhere in the app graph reorders WebKit's module evaluation
+     * across the route/db import cycle and crashes hydration (see
+     * src/util/getTemporal.ts).
+     *
+     * Memoized across successes but not failures — this is the app's largest
+     * chunk, so a single failed fetch on a flaky connection would otherwise
+     * leave every project view broken for the life of the tab.
+     */
+    private readonly loadProjectsOnce = retryableLoad(async () => {
+        const { Projects } = await import('@db/projects/Projects');
+        this.projects = Projects;
+        this.projectsStore.set(Projects);
+        return Projects;
+    });
+
+    loadProjects(): Promise<ProjectsDatabase> {
+        return this.loadProjectsOnce();
     }
+
+    /** The projects database if the runtime has already loaded, else
+     *  undefined. For synchronous paths that must not force a load — unsaved
+     *  counts read from `beforeunload`, reconnect flushes, locale re-sync —
+     *  where "not loaded" correctly means "nothing in memory to act on". */
+    get MaybeProjects(): ProjectsDatabase | undefined {
+        return this.projects;
+    }
+
+    /** {@link MaybeProjects} as a store, for views that must re-render when the
+     *  projects database finishes loading. */
+    get LoadedProjects(): Readable<ProjectsDatabase | undefined> {
+        return this.projectsStore;
+    }
+
+    /** Whether the projects database is loaded and usable synchronously. */
+    get projectsReady(): boolean {
+        return this.projects !== undefined;
+    }
+
+    /**
+     * A project's name and gallery, read straight from its stored document.
+     *
+     * For paths that need to label a project rather than work with it — chat
+     * notifications, moderation lists. Constructing a `Project` to ask its
+     * name would build a `Basis` and pull the whole language runtime into the
+     * footer, which renders on every page.
+     */
+    async getProjectSummary(
+        id: string,
+    ): Promise<{ name: string; gallery: string | null } | undefined> {
+        try {
+            const local = await this.localDB.getProject(id);
+            if (local !== undefined)
+                return { name: local.name, gallery: local.gallery };
+        } catch {
+            // Fall through to the cloud copy below.
+        }
+        if (firestore === undefined) return undefined;
+        try {
+            const remote = await getDoc(doc(firestore, Domain.Projects, id));
+            const data = remote.data();
+            if (data === undefined) return undefined;
+            const serialized = ProjectSchema.safeParse(data);
+            return serialized.success
+                ? {
+                      name: serialized.data.name,
+                      gallery: serialized.data.gallery,
+                  }
+                : undefined;
+        } catch {
+            return undefined;
+        }
+    }
+
+    async startProjectWork(): Promise<void> {
+        const projects = await this.loadProjects();
+        await projects.start();
+        // Installed here rather than at page load: these handlers flush
+        // project edits on unload, and until projects are in memory there is
+        // nothing for them to flush.
+        this.cleanupSaveOnUnload ??= projects.installSaveOnUnloadListeners();
+        if (this.user !== null) projects.saveSoon();
+    }
+
+    /** Removes the save-on-unload handlers installed by startProjectWork. */
+    private cleanupSaveOnUnload: (() => void) | undefined = undefined;
 
     /** Whether this device has project work worth starting: a signed-in
      *  creator, or projects cached locally from a previous visit. */
@@ -534,7 +631,7 @@ export class Database {
      *  when that domain has nothing unsaved, so it's safe to fire on any
      *  reconnect signal (browser `online` or Firebase reachability recovery). */
     private flushUnsavedWork() {
-        this.Projects.saveSoon();
+        this.projects?.saveSoon();
         void this.Galleries.flushUnsaved();
         void this.Characters.flushUnsaved();
         void this.HowTos.flushUnsaved();
@@ -846,7 +943,7 @@ export class Database {
             // Logout (or an involuntary auth drop): tear down every realtime
             // listener and reset the per-domain sync status. These syncUser
             // calls are no-ops/ignores when the user is null.
-            this.Projects.syncUser(remove);
+            this.projects?.syncUser(remove);
             this.Characters.syncUser();
             this.HowTos.syncUser();
             this.Chats.syncUser();
@@ -884,12 +981,17 @@ export class Database {
         const superseded = () =>
             sequence !== this.syncSequence || this.user === null;
 
-        this.Projects.syncUser(remove);
+        // Being signed in IS having project work, so this deliberately loads
+        // the projects database rather than skipping when it isn't there —
+        // skipping would mean a creator's projects never arrive from the
+        // cloud. It does NOT wait for local hydration: reading the cache is a
+        // separate concern, and blocking sync behind it stalls every domain.
+        (await this.loadProjects()).syncUser(remove);
         // Now that the user is known, flush any project edits whose cloud write
         // didn't confirm before the last reload (durable dirty flag → unsaved on
         // hydrate). persist() only writes unsaved histories, so this is a no-op
         // when everything is saved.
-        this.Projects.saveSoon();
+        this.projects?.saveSoon();
         await this.domainSettled(Domain.Projects);
         if (superseded()) return;
 
@@ -957,7 +1059,7 @@ export class Database {
      *  a null user, so an involuntary auth drop (a flaky connection that can't
      *  refresh the token) can't erase a creator's local projects. */
     async logout() {
-        await this.Projects.deleteLocal();
+        await (await this.loadProjects()).deleteLocal();
         await this.Characters.clearLocal();
         await this.Chats.clearLocal();
         await this.Galleries.clearLocal();
@@ -976,10 +1078,12 @@ export class Database {
 
     /** Clean up listeners */
     clean() {
+        this.cleanupSaveOnUnload?.();
+        this.cleanupSaveOnUnload = undefined;
         if (this.authUnsubscribe) this.authUnsubscribe();
         if (this.authRefreshUnsubscribe) this.authRefreshUnsubscribe();
 
-        this.Projects.unmount();
+        this.projects?.unmount();
         this.Galleries.clean();
         this.Chats.ignore();
         this.Characters.ignore();
@@ -1010,7 +1114,7 @@ export class Database {
         if (firestore === undefined) return 'failed';
 
         try {
-            await this.Projects.deleteOwnedProjects();
+            await (await this.loadProjects()).deleteOwnedProjects();
         } catch (err) {
             this.reportBanner((l) => l.ui.banner.deleteFailed, err);
             return 'failed';
@@ -1068,8 +1172,8 @@ export const DB = new Database(
     DefaultLocale,
 );
 
+export const LoadedProjects = DB.LoadedProjects;
 export const Settings = DB.Settings;
-export const Projects = DB.Projects;
 export const Locales = DB.Locales;
 export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;

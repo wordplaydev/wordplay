@@ -18,15 +18,18 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import {
+    import { DB,
         authAttempted,
         disconnected,
         Galleries,
-        Projects,
         locales,
     } from '@db/Database';
     import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
     import type Gallery from '@db/galleries/Gallery';
+    import type {
+        GalleryFailure,
+        GalleryResult,
+    } from '@db/galleries/GalleryDatabase.svelte';
     import {
         getClasses,
         type Class,
@@ -40,6 +43,9 @@
 
     // The current gallery being viewed. Starts at null, to represent loading state.
     let gallery = $state<Gallery | null | undefined>(null);
+    /** Why there's no gallery, when there isn't one, so the notice below says
+     *  what actually happened instead of inferring it from connection state. */
+    let failure = $state<GalleryFailure | undefined>(undefined);
     const galleryID: string | undefined = page.params.galleryid
         ? decodeURI(page.params.galleryid)
         : undefined;
@@ -62,24 +68,28 @@
 
         if (known) {
             // In the user's galleries — resolves from the local cache.
-            Galleries.get(galleryID).then((gal) => {
-                gallery = gal ?? undefined;
-            });
+            Galleries.find(galleryID).then(receive);
         } else if (!hydrated || !authResolved) {
             // Still hydrating the cache or resolving auth — stay loading.
             gallery = null;
         } else {
             // Not one of the user's galleries; it may be a public gallery, which
-            // requires a network read (returns undefined offline).
-            Galleries.get(galleryID).then((gal) => {
-                gallery = gal ?? undefined;
-            });
+            // requires a network read.
+            Galleries.find(galleryID).then(receive);
         }
     });
 
+    function receive(result: GalleryResult) {
+        gallery = result.kind === 'found' ? result.gallery : undefined;
+        failure = result.kind === 'found' ? undefined : result.kind;
+    }
+
     let classes = $state<Class[] | undefined>(undefined);
     $effect(() => {
-        if (gallery) {
+        // Listing classes requires auth, and the list links to /teach pages
+        // only members can open, so a signed-out visitor must not ask. $user is
+        // undefined until auth resolves, so this waits rather than asking early.
+        if (gallery && $user) {
             getClasses(gallery.getID()).then((matches) => (classes = matches));
         }
     });
@@ -115,7 +125,9 @@
             await Promise.all(
                 gallery
                     .getProjects()
-                    .map((projectID) => Projects.get(projectID)),
+                    .map(async (projectID) =>
+                        (await DB.loadProjects()).get(projectID),
+                    ),
             )
         ).filter((proj): proj is Project => proj !== undefined);
     }
@@ -147,14 +159,13 @@
 {:else}
     <Writing wide>
         {#if gallery === undefined}
-            <!-- Distinguish "couldn't reach the database" (the read timed out /
-                 we're disconnected) from a gallery that genuinely doesn't exist —
-                 otherwise a timed-out load misreports an accessible gallery as
-                 missing. -->
+            <!-- The lookup reports which of these happened, so a read that
+                 timed out no longer misreports an accessible gallery as
+                 nonexistent. -->
             <PageHeader />
             <Notice
                 text={(l) =>
-                    $disconnected
+                    failure === 'unreachable'
                         ? l.ui.gallery.error.unreachable
                         : l.ui.gallery.error.unknown}
             />
@@ -210,9 +221,11 @@
 
                 {#if editable || addable}
                     <AddProject
-                        add={(template) => {
+                        add={async (template) => {
                             if (gallery) {
-                                const newProjectID = Projects.copy(
+                                const newProjectID = (
+                                    await DB.loadProjects()
+                                ).copy(
                                     template,
                                     $user?.uid ?? null,
                                     gallery.getID(),
@@ -247,11 +260,12 @@
                                   label: '👁️',
                               }}
                         copy={{
-                            description: (l) =>
-                                l.ui.project.button.remix.tip,
-                            action: (project) =>
+                            description: (l) => l.ui.project.button.remix.tip,
+                            action: async (project) =>
                                 localeGoto(
-                                    Projects.remix(project).getLink(false),
+                                    (await DB.loadProjects())
+                                        .remix(project)
+                                        .getLink(false),
                                 ),
                             label: REMIX_SYMBOL,
                         }}

@@ -1,3 +1,4 @@
+import { Projects } from '@db/projects/Projects';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import type Node from '@nodes/Node';
@@ -200,7 +201,7 @@ export default class OutputPropertyValueSet {
         // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs
         // that represent the original Evaluate and the replacement without the given value.
         // If the property is required, replace with a default value.
-        projects.Projects.revise(
+        Projects.revise(
             project,
             project.getBindReplacements(
                 this.values
@@ -216,7 +217,7 @@ export default class OutputPropertyValueSet {
 
     /** Given a project, set this property to a reasonable starting value */
     set(db: Database, project: Project, locales: Locales) {
-        db.Projects.revise(
+        Projects.revise(
             project,
             project.getBindReplacements(
                 this.values

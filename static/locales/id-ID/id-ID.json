@@ -9355,7 +9355,8 @@
                     "$~Logo Wordplay adalah balon bicara yang memuat satu huruf: sebuah panggung kecil tempat balon itu bisa mengatakan apa saja — sebuah huruf dari sistem tulisan pembaca, sebuah emoji, atau lingkaran, segitiga, dan persegi saat ada sesuatu yang sedang dimuat. Di dalam aplikasi, huruf itu mengikuti sistem tulisan bahasa utamamu; pada permukaan yang netral terhadap tulisan seperti ikon peramban dan gambar berbagi, balon itu menampilkan tiga bentuk, yang siap membuat sesuatu.",
                     "Gambar itu sendiri tidak pernah menunjukkan gerakan. Gerakan bersifat perilaku — halaman awal mengganti apa yang dikatakan balon itu seiring dengan pemilih bahasa, dan saat memuat, bentuk-bentuk itu bergiliran melompat, seperti kerumunan yang melakukan gelombang — dan selalu menyesuaikan dengan pengaturan kecepatan animasi, berhenti sepenuhnya saat animasi dimatikan.",
                     "Tanda itu selalu digambar dengan warna teks saat ini, jadi di mana pun teks memenuhi syarat kontras, logo pun demikian."
-                ]
+                ],
+                "copyvalue": "$~salin nilai CSS lengkap"
             },
             "thanks": {
                 "header": "$~Terima kasih",
@@ -9465,7 +9466,7 @@
             "deleteFailed": "$~Kami tidak bisa menghapusnya.",
             "saveFailed": "$~Kita tidak bisa menyelamatkan itu.",
             "submitFailed": "$~Kami tidak bisa mengirimkan itu",
-            "loadFailed": "$~Kami tidak dapat memuatnya.",
+            "loadFailed": "$~Kami tidak bisa memuat ini. Coba lagi sebentar.",
             "storageFull": "$~Penyimpanan perangkat ini penuh, jadi kami tidak dapat menyimpan salinan di sini. Pekerjaan Anda masih tersimpan di cloud.",
             "storageNearFull": "$~Penyimpanan di perangkat ini hampir penuh, jadi Wordplay mungkin sebentar lagi tidak dapat menyimpan data. Pekerjaan yang disimpan di cloud aman; mengosongkan ruang di perangkat atau browser Anda memungkinkan Wordplay untuk terus menyimpan data di sini.",
             "saveTooLarge": "$~Ukuran file ini terlalu besar untuk disimpan. Coba hapus beberapa konten."

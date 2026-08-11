@@ -85,7 +85,9 @@
             {segment}
             {spaces}
             {alone}
-        />{/await}
+        />{:catch}<!-- The chunk didn't arrive. Drop the snippet rather than
+             letting the rejection tear down a route with no error boundary;
+             the load isn't cached across failures, so a later render retries. -->{/await}
 {:else if segment instanceof ExternalExample}<ExternalExampleView
         example={segment}
     />

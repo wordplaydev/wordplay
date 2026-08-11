@@ -8834,7 +8834,8 @@
                     "$~Das Wordplay-Logo ist eine Sprechblase mit einem einzigen Zeichen darin: eine winzige Bühne, auf der die Blase alles sagen kann — ein Zeichen aus dem Schriftsystem der Leserin oder des Lesers, ein Emoji oder einen Kreis, ein Dreieck und ein Quadrat, während etwas lädt. In der App folgt das Zeichen dem Schriftsystem deiner Hauptsprache; auf schriftneutralen Flächen wie dem Browser-Symbol und den Teilbildern zeigt die Blase die drei Formen, kurz bevor sie etwas macht.",
                     "Die Zeichnung selbst zeigt niemals Bewegung. Bewegung entsteht durch Verhalten — die Startseite wechselt das, was die Blase sagt, im Takt mit der Sprachauswahl, und beim Laden hüpfen die Formen der Reihe nach, wie eine Menschenmenge, die eine La-Ola-Welle macht — und richtet sich immer nach der Einstellung für die Animationsgeschwindigkeit. Sie hört ganz auf, wenn Animationen aus sind.",
                     "Das Zeichen wird immer in der aktuellen Textfarbe gezeichnet. So erfüllt das Logo überall dort die Kontrastanforderungen, wo auch der Text sie erfüllt."
-                ]
+                ],
+                "copyvalue": "$~kopiere den vollständigen CSS-Wert"
             },
             "thanks": {
                 "header": "$~Danke",
@@ -9465,7 +9466,7 @@
             "deleteFailed": "$~Das konnten wir nicht löschen.",
             "saveFailed": "$~Das konnten wir nicht retten.",
             "submitFailed": "$~Wir konnten das nicht einreichen.",
-            "loadFailed": "$~Das konnten wir nicht laden.",
+            "loadFailed": "$~Wir konnten das nicht laden. Versuche es gleich noch einmal.",
             "storageFull": "$~Der Speicher dieses Geräts ist voll, daher konnten wir hier keine Kopie speichern. Ihre Arbeit befindet sich weiterhin in der Cloud.",
             "storageNearFull": "$~Der Speicherplatz auf diesem Gerät ist fast voll, daher kann Wordplay möglicherweise bald keine Daten mehr darauf speichern. Ihre in der Cloud gespeicherten Daten sind sicher; wenn Sie Speicherplatz auf Ihrem Gerät oder Browser freigeben, können Sie weiterhin Daten hier speichern.",
             "saveTooLarge": "$~Diese Datei ist zu groß zum Speichern. Versuchen Sie, etwas Inhalt zu entfernen."

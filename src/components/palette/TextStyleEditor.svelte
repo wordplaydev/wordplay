@@ -4,7 +4,8 @@
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import { Projects, locales } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import { getLanguageQuoteClose } from '@locale/LanguageCode';
@@ -26,7 +27,11 @@
     import { toTokens } from '@parser/toTokens';
     import MarkupValue from '@values/MarkupValue';
     import NamedControl from '@components/palette/NamedControl.svelte';
-    import { Faces, faceSupportsWeight, type FontWeight } from '@basis/faces/Fonts';
+    import {
+        Faces,
+        faceSupportsWeight,
+        type FontWeight,
+    } from '@basis/faces/Fonts';
     import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {

@@ -299,7 +299,11 @@ export default class LocalesDatabase {
                                 response.ok ? await response.json() : undefined,
                             )
                             .catch(() => undefined),
-                        fetch(versioned(`/locales/${lang}/${lang}-datetimes.json`))
+                        fetch(
+                            versioned(
+                                `/locales/${lang}/${lang}-datetimes.json`,
+                            ),
+                        )
                             .then(async (response) =>
                                 response.ok ? await response.json() : undefined,
                             )
@@ -368,8 +372,10 @@ export default class LocalesDatabase {
         // Try to load locales for the requested languages
         const locales = await this.loadLocales(preferredLocales);
 
-        // Revise all projects to have the new locale
-        this.database.Projects.localize(locales);
+        // Revise all projects to have the new locale. Best-effort: if the
+        // projects database hasn't loaded there is nothing in memory to
+        // re-localize, and deserialization reads the current locales anyway.
+        this.database.MaybeProjects?.localize(locales);
 
         // Sync the locales store to update all uses of the current locales.
         this.syncLocales();

@@ -21,14 +21,10 @@
  * `requestIdleCallback` is unavailable (Safari < 17).
  */
 
-import {
-    extractPreview,
-    type ExtractedPreview,
-} from '@components/app/extractPreview';
+import { type ExtractedPreview } from '@components/app/extractPreview';
 import type { Database } from '@db/Database';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
-import Evaluator from '@runtime/Evaluator';
 
 import type { ProjectID } from '@db/projects/ProjectSchemas';
 
@@ -80,6 +76,15 @@ export function enqueuePreviewCompute(
 
     const job = workerChain.then(async () => {
         await yieldToBrowser();
+        // Imported here rather than at module scope: computing a preview is
+        // the only thing on this path that needs the evaluator, and a static
+        // import would put it in every page that renders a project tile. The
+        // job is already async, so this costs nothing it wasn't already
+        // paying. Never at module top level — see src/util/getTemporal.ts.
+        const [{ default: Evaluator }, { extractPreview }] = await Promise.all([
+            import('@runtime/Evaluator'),
+            import('@components/app/extractPreview'),
+        ]);
         const evaluator = new Evaluator(
             project,
             db,

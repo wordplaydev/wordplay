@@ -11,7 +11,8 @@
         setProject,
     } from '@components/project/Contexts';
     import ProjectView from '@components/project/ProjectView.svelte';
-    import { DB, Galleries, Projects } from '@db/Database';
+    import { DB, Galleries } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import { untrack, onMount } from 'svelte';
     import { writable } from 'svelte/store';

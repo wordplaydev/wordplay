@@ -9236,7 +9236,8 @@
                     "$~O logótipo do Wordplay é um balão de fala com uma letra: um pequeno palco onde o balão pode dizer qualquer coisa — uma letra do sistema de escrita do leitor, um emoji, ou um círculo, um triângulo e um quadrado enquanto algo carrega. Na aplicação, a letra segue o sistema de escrita do teu idioma principal; em superfícies neutras quanto à escrita, como o ícone do navegador e as imagens de partilha, o balão mostra as três formas, prestes a criar algo.",
                     "O desenho em si nunca mostra movimento. O movimento é comportamental — a página inicial vai trocando o que o balão diz ao mesmo ritmo do seletor de idioma, e, enquanto carrega, as formas saltam à vez, como uma multidão a fazer a onda — e ajusta-se sempre à definição de velocidade da animação, parando por completo quando a animação está desligada.",
                     "A marca é sempre desenhada na cor de texto atual, por isso, onde quer que o texto cumpra os requisitos de contraste, o logótipo também os cumpre."
-                ]
+                ],
+                "copyvalue": "$~copiar o valor CSS completo"
             },
             "localize": {
                 "header": "Localizar",
@@ -9460,7 +9461,7 @@
             "deleteFailed": "Não foi possível apagar isto.",
             "saveFailed": "Não conseguimos guardar isso.",
             "submitFailed": "Não conseguimos submeter isso.",
-            "loadFailed": "Não foi possível carregar isso.",
+            "loadFailed": "$~Não conseguimos carregar isto. Tenta novamente daqui a pouco.",
             "storageFull": "O armazenamento deste dispositivo está cheio, pelo que não foi possível guardar aqui uma cópia. O seu trabalho ainda está na nuvem.",
             "storageNearFull": "Este dispositivo está quase sem espaço de armazenamento, pelo que o Wordplay poderá em breve deixar de conseguir guardar ficheiros nele. O trabalho guardado na nuvem está seguro; libertar espaço no seu dispositivo ou browser permite que este continue a guardar aqui.",
             "saveTooLarge": "$~Este ficheiro é demasiado grande para ser guardado. Tente remover parte do conteúdo."

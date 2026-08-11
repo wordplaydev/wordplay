@@ -14,12 +14,13 @@
      * a tempo change that can't be kept, a drum with no match — so there is
      * nothing for a creator to choose, only something to know.
      */
+    import { Projects } from '@db/projects/Projects';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import Note from '@components/widgets/Note.svelte';
-    import { DB, locales } from '@db/Database';
+    import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Bind from '@nodes/Bind';
     import { BORROW_SYMBOL, MUSIC_SYMBOL } from '@parser/Symbols';
@@ -191,7 +192,7 @@
         const musics = musicsIn(revised);
         const track = readMusic(revised, musics[musics.length - 1])?.tracks[0]
             ?.evaluate;
-        DB.Projects.reviseProject(
+        Projects.reviseProject(
             track === undefined
                 ? revised
                 : revised.withCaret(revised.getMain(), track),

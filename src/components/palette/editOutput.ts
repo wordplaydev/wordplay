@@ -1,3 +1,4 @@
+import { Projects } from '@db/projects/Projects';
 import type Project from '@db/projects/Project';
 import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
@@ -55,7 +56,7 @@ export default function moveOutput(
 ) {
     const PlaceType = project.shares.output.Place;
 
-    db.Projects.revise(
+    Projects.revise(
         project,
         evaluates.map((evaluate) => {
             const ctx = project.getNodeContext(evaluate);
@@ -220,7 +221,7 @@ export function reviseContent(
     list: ListLiteral,
     newValues: (Expression | Spread)[],
 ) {
-    db.Projects.revise(project, [[list, ListLiteral.make(newValues)]]);
+    Projects.revise(project, [[list, ListLiteral.make(newValues)]]);
 }
 
 export function removeContent(
@@ -284,7 +285,7 @@ export function addStageContent(
         const newStage = Evaluate.make(StageType.getReference(locales), [
             ListLiteral.make([newContent]),
         ]);
-        database.Projects.reviseProject(
+        Projects.reviseProject(
             project.withRevisedNodes([[block, block.withStatement(newStage)]]),
         );
     }
@@ -618,7 +619,7 @@ export function addSoloPhrase(
     const revised = project.withRevisedNodes([
         last ? [last, phrase] : [block, block.withStatement(phrase)],
     ]);
-    db.Projects.reviseProject(revised);
+    Projects.reviseProject(revised);
     return revised;
 }
 
@@ -642,7 +643,7 @@ export function addShape(db: Database, project: Project): Project | undefined {
             [block, block.withStatement(shape)],
         ]);
     }
-    if (revised) db.Projects.reviseProject(revised);
+    if (revised) Projects.reviseProject(revised);
     return revised;
 }
 
@@ -668,7 +669,7 @@ export function addGroup(db: Database, project: Project): Project | undefined {
     );
 
     const revised = project.withRevisedNodes(target.replace(group));
-    db.Projects.reviseProject(revised);
+    Projects.reviseProject(revised);
     return revised;
 }
 
@@ -709,7 +710,7 @@ export function addStage(db: Database, project: Project): Project | undefined {
             [block, block.withStatement(stage)],
         ]);
     }
-    db.Projects.reviseProject(revised);
+    Projects.reviseProject(revised);
     return revised;
 }
 
@@ -757,7 +758,7 @@ export function addMusic(db: Database, project: Project): Project | undefined {
                   ],
               ]);
 
-    db.Projects.reviseProject(revised);
+    Projects.reviseProject(revised);
     return revised;
 }
 

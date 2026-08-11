@@ -1,3 +1,4 @@
+import { Projects } from '@db/projects/Projects';
 import type { CommandFeedback } from '@components/editor/commands/feedback';
 import Caret from '@edit/caret/Caret';
 import type { InsertContext } from '@edit/insertContext';
@@ -1113,13 +1114,13 @@ export const Undo: Command = {
     keySymbol: 'Z',
     important: true,
     active: ({ database, evaluator }) =>
-        database.Projects.getHistory(
+        Projects.getHistory(
             evaluator.project.getID(),
         )?.isUndoable() === true
             ? true
             : undefined,
     execute: ({ database, evaluator, clearLargeDeletionNotification }) => {
-        database.Projects.undoRedo(evaluator.project.getID(), -1);
+        Projects.undoRedo(evaluator.project.getID(), -1);
         // Clear large deletion notification when user undoes
         clearLargeDeletionNotification?.();
         // Always swallow the shortcut to avoid the browser or OS from handling it.
@@ -1140,13 +1141,13 @@ export const Redo: Command = {
     keySymbol: 'Z',
     important: true,
     active: ({ evaluator, database }) =>
-        database.Projects.getHistory(
+        Projects.getHistory(
             evaluator.project.getID(),
         )?.isRedoable() === true
             ? true
             : undefined,
     execute: ({ database, evaluator }) => {
-        database.Projects.undoRedo(evaluator.project.getID(), 1);
+        Projects.undoRedo(evaluator.project.getID(), 1);
         // Always swallow the shortcut to avoid the browser or OS from handling it.
         return true;
     },

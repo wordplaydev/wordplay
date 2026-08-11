@@ -853,7 +853,7 @@ type UITexts = {
             zoomIn: string;
             /** [plain] Zoom in output button */
             zoomOut: string;
-            /** [plain] Reset the zoom to the stage's computed place when one is set */
+            /** [plain] Clear the viewer's own pan and zoom, handing the camera back to the project */
             resetZoom: string;
             /** [plain] The rotation handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
             rotate: Template<['name']>;
@@ -1753,7 +1753,11 @@ type UITexts = {
         saveFailed: string;
         /** [plain] Shown when submitting something (e.g. feedback) didn't reach the cloud */
         submitFailed: string;
-        /** [plain] Shown when loading/reading something from the cloud failed */
+        /** [plain] Shown when loading/reading something from the cloud failed.
+         *  Belongs inline, next to the missing content, or on the one page whose
+         *  content is the thing that failed — never as a floating banner, which
+         *  outlives the page that raised it and reads as an error about a page
+         *  that loaded fine. */
         loadFailed: string;
         /** [plain] Shown when a local (this-device) save failed because storage
          *  is full, but the data is still safe in the cloud */

@@ -4,7 +4,8 @@
     import type OutputProperty from '@edit/output/OutputProperty';
     import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
     import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
-    import { locales, Projects } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import { getProject } from '@components/project/Contexts';
     import Options from '@components/widgets/Options.svelte';
 

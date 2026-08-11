@@ -9355,7 +9355,8 @@
                     "$~Sigla Wordplay este un balon de vorbire care ține o singură literă: o scenă mică pe care balonul poate spune orice — o literă din sistemul de scriere al cititorului, un emoji sau un cerc, un triunghi și un pătrat în timp ce ceva se încarcă. În aplicație, litera urmează sistemul de scriere al limbii tale principale; pe suprafețe neutre față de scriere, cum ar fi pictograma din browser și imaginile de distribuit, balonul arată cele trei forme, gata să facă ceva.",
                     "Desenul în sine nu arată niciodată mișcare. Mișcarea vine din comportament — pagina de start schimbă pe rând ce spune balonul, în ritm cu selectorul de limbă, iar în timpul încărcării formele sar pe rând, ca o mulțime care face valul — și se potrivește mereu cu setarea vitezei de animație, oprindu-se complet când animația este dezactivată.",
                     "Semnul este mereu desenat în culoarea actuală a textului, așa că oriunde textul îndeplinește cerințele de contrast, o face și sigla."
-                ]
+                ],
+                "copyvalue": "$~copiază valoarea CSS completă"
             },
             "thanks": {
                 "header": "$~Mulţumesc",
@@ -9465,7 +9466,7 @@
             "deleteFailed": "$~Nu am putut șterge asta.",
             "saveFailed": "$~Nu am putut salva asta",
             "submitFailed": "$~Nu am putut trimite asta",
-            "loadFailed": "$~Nu am putut încărca asta.",
+            "loadFailed": "$~Nu am putut încărca acest lucru. Încearcă din nou peste puțin timp.",
             "storageFull": "$~Spațiul de stocare al acestui dispozitiv este plin, așa că nu am putut salva o copie aici. Lucrările tale sunt încă în cloud.",
             "storageNearFull": "$~Spațiul de stocare pe acest dispozitiv este aproape epuizat, așa că este posibil ca Wordplay să nu mai poată salva pe el în curând. Lucrările salvate în cloud sunt în siguranță; eliberarea spațiului pe dispozitiv sau browser permite salvarea continuă aici.",
             "saveTooLarge": "$~Acest conținut este prea mare pentru a fi salvat. Încearcă să elimini o parte din acesta."

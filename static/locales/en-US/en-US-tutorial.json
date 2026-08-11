@@ -5808,7 +5808,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$!Oh yes, of course! How about we let them light the room? @Phrase, can you listen to @Volume and hook it up to @Color.lightness and @Color.chroma in your color? That way, we'll turn white hot when our director makes noise!"
+                            "Oh yes, of course! How about we let them light the room? @Phrase, can you listen to @Volume and hook it up to @Color.lightness and @Color.chroma in your color? That way, we'll turn white hot when our director makes noise!"
                         ],
                         ["Phrase", "kind", "Excellent idea!"],
                         { "edit": "#EvaluateDance14" },

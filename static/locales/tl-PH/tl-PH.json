@@ -9234,7 +9234,8 @@
                     "$~Ang logo ng Wordplay ay isang speech bubble na may hawak na isang letra: isang maliit na entablado kung saan puwedeng sabihin ng bubble ang kahit ano — isang letra mula sa sistema ng pagsulat ng mambabasa, isang emoji, o isang bilog, tatsulok, at parisukat habang may nilo-load. Sa app, sinusunod ng letra ang sistema ng pagsulat ng iyong pangunahing wika; sa mga lugar na walang tiyak na sistema ng pagsulat gaya ng icon ng browser at mga larawang ibinabahagi, ipinapakita ng bubble ang tatlong hugis, malapit nang gumawa ng isang bagay.",
                     "Ang mismong guhit ay hindi kailanman nagpapakita ng galaw. Ang paggalaw ay pag-uugali — ang landing page ay pabago-bago kung ano ang sinasabi ng bubble kasabay ng pagpili ng wika, at habang nilo-load ang mga hugis ay salit-salitang lumulukso, gaya ng maramihang taong gumagawa ng wave — at palaging sumusukat sa setting ng bilis ng animation, at tuluyang humihinto kapag naka-off ang animation.",
                     "Palaging iginuguhit ang marka gamit ang kasalukuyang kulay ng teksto, kaya saanman may sapat na contrast ang teksto, ganoon din ang logo."
-                ]
+                ],
+                "copyvalue": "$~kopyahin ang buong CSS na halaga"
             },
             "thanks": {
                 "header": "$~Salamat",
@@ -9461,7 +9462,7 @@
             "deleteFailed": "$~Hindi namin mabura iyon.",
             "saveFailed": "$~Hindi namin nailigtas iyon",
             "submitFailed": "$~Hindi namin maisumite iyon",
-            "loadFailed": "$~Hindi namin ma-load iyon.",
+            "loadFailed": "$~Hindi namin ito naiload. Subukan muli sandali.",
             "storageFull": "$~Puno na ang storage ng device na ito, kaya hindi kami makapag-save ng kopya rito. Nasa cloud pa rin ang gawa mo.",
             "storageNearFull": "$~Halos wala nang storage ang device na ito, kaya maaaring hindi na makapag-save ang Wordplay dito. Ligtas ang mga gawaing naka-save sa cloud; ang pagbabakante ng espasyo sa iyong device o browser ay nagbibigay-daan dito upang patuloy itong mag-save dito.",
             "saveTooLarge": "$~Masyado itong malaki para i-save. Subukang mag-alis ng ilang nilalaman."

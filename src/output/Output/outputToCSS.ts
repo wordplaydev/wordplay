@@ -59,6 +59,51 @@ export function centerTransform(viewportWidth: number, viewportHeight: number) {
     return translateXY(viewportWidth / 2, viewportHeight / 2);
 }
 
+/**
+ * Where a stage place lands on screen, in pixels from the viewport's centre, given the
+ * camera focus. This is the transform below stated as arithmetic: the root translates by
+ * the viewport centre, scales by the focus distance, then translates by the focus and the
+ * place — so `x` and `y` are *not* symmetric, because `placeY` is negated to flip the y
+ * axis while `focusY` is not. Screen y grows downward.
+ */
+export function stageToScreen(
+    placeX: number,
+    placeY: number,
+    focusX: number,
+    focusY: number,
+    focusZ: number,
+) {
+    const scale = rootScale(0, focusZ);
+    return {
+        x: (focusX + placeX) * PX_PER_METER * scale,
+        y: (focusY - placeY) * PX_PER_METER * scale,
+    };
+}
+
+/**
+ * The stage place at a screen offset from the viewport's centre — the exact inverse of
+ * `stageToScreen`, and the only thing that should be used to turn a pointer position into
+ * stage coordinates. Writing this inverse out by hand is what produced a sign error in the
+ * `Pointer` stream that survived because nothing tested the pair against each other.
+ */
+export function screenToStage(
+    screenX: number,
+    screenY: number,
+    focusX: number,
+    focusY: number,
+    focusZ: number,
+) {
+    const scale = rootScale(0, focusZ);
+    // A degenerate scale has no invertible mapping; report the focus itself rather than
+    // dividing by zero and handing the program an infinity.
+    if (scale === 0 || !Number.isFinite(scale))
+        return { x: -focusX, y: focusY };
+    return {
+        x: screenX / (PX_PER_METER * scale) - focusX,
+        y: focusY - screenY / (PX_PER_METER * scale),
+    };
+}
+
 export function getFaceCSS(face: string | undefined) {
     return face ? `"${face}", ${CSSFallbackFaces}` : null;
 }
@@ -143,8 +188,9 @@ export function toOutputTransform(
         // Add the height of the parent to compensate for HTML rendering local coordinates from the top.
         parentAscent * PX_PER_METER;
 
-    // Translate the focus to focus coordinates.
-    // Negate y to account for flipped y axis.
+    // Translate the focus to focus coordinates. Unlike `placeY` above, y is deliberately
+    // NOT negated here: the focus is a camera, so a larger focus y translates content
+    // downward, which is what centers content whose own y has already been flipped.
     const focusX = focus.x * PX_PER_METER;
     const focusY = focus.y * PX_PER_METER;
 

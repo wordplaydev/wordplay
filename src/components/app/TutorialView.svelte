@@ -24,13 +24,8 @@
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import type ConceptIndex from '@concepts/ConceptIndex';
-    import {
-        contrastLanguage,
-        locales,
-        Locales,
-        Projects,
-        Settings,
-    } from '@db/Database';
+    import { contrastLanguage, locales, Locales, Settings } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import { moderatedFlags } from '@db/projects/Moderation';
     import Project from '@db/projects/Project';
     import { PersistenceType } from '@db/projects/ProjectHistory.svelte';

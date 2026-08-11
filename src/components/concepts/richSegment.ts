@@ -2,6 +2,7 @@ import NodeRef from '@locale/NodeRef';
 import ValueRef from '@locale/ValueRef';
 import Example from '@nodes/Example';
 import type { Segment } from '@nodes/Paragraph';
+import retryableLoad from '@util/retryableLoad';
 
 /**
  * Loads the markup segments that render code. Kept apart from
@@ -13,15 +14,9 @@ import type { Segment } from '@nodes/Paragraph';
  * evaluation across the route/db import cycle and crashes hydration (see
  * src/util/getTemporal.ts).
  */
-let loading:
-    Promise<typeof import('./RichSegmentHTMLView.svelte').default> | undefined =
-    undefined;
-
-export function loadRichSegment() {
-    return (loading ??= import('./RichSegmentHTMLView.svelte').then(
-        (module) => module.default,
-    ));
-}
+export const loadRichSegment = retryableLoad(() =>
+    import('./RichSegmentHTMLView.svelte').then((module) => module.default),
+);
 
 /** Whether this segment is one RichSegmentHTMLView renders. */
 export function isRichSegment(segment: Segment): boolean {

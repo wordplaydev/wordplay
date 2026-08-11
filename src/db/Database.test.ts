@@ -323,17 +323,20 @@ test('a window the browser deferred while the tab was frozen reports nothing yet
     expect(get(firebaseFailed)).toBe(true);
 });
 
-test('reportLoadFailure banners a real load error now, a connectivity one only if it persists', () => {
+test('reportLoadFailure never banners; a connectivity one reports only if it persists', () => {
     vi.useFakeTimers();
+    // The failure is logged, not shown; keep it out of the test output.
+    vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    // A permission denial is a one-off the user should see immediately.
+    // A denied background read has no antecedent in an app-wide strip, and the
+    // page that asked can't take the message with it when the user navigates —
+    // so it showed up as an unexplained error over pages that had loaded fine.
     DB.reportLoadFailure(new FirebaseError('permission-denied', 'not allowed'));
-    expect(bannerText()).toBe(DefaultLocale.ui.banner.loadFailed);
+    expect(bannerText()).toBeUndefined();
+    // A denial is also no evidence about the connection.
+    expect(get(firebaseFailed)).toBe(false);
 
-    appBanner.set(undefined);
-    DB.markFirebaseReachable();
-
-    // A connectivity failure waits out the window instead.
+    // A connectivity failure still waits out the window, then reports.
     DB.reportLoadFailure(new Error('read-timeout'));
     expect(bannerText()).toBeUndefined();
     vi.advanceTimersByTime(CONFIRM_MS);

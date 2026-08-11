@@ -61,6 +61,11 @@ export const ClassesCollection = 'classes';
 export async function getClasses(galleryID: string) {
     if (db === undefined) return [];
 
+    // Listing classes requires auth (firestore.rules), so asking while signed
+    // out is a guaranteed permission-denied. Not reactive — callers still wait
+    // for auth; this only stops a read that can never succeed.
+    if (DB.getUser() === null) return [];
+
     // Wrap in read() so an unreachable backend fails fast (and feeds the
     // connection state, which reports only if the outage persists) instead of hanging; on failure return no classes.
     let querySnapshot;

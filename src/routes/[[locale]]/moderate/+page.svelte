@@ -26,7 +26,8 @@
     import Spinning from '@components/app/Spinning.svelte';
     import { getUser, setConceptPath } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
-    import { DB, disconnected, Projects, locales } from '@db/Database';
+    import { DB, disconnected, locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import { firestore } from '@db/firebase';
     import type { ModerationState } from '@db/projects/Moderation';
     import {
@@ -103,7 +104,10 @@
         try {
             documentSnapshots = await DB.read(getDocs(unmoderated));
         } catch (error) {
-            DB.reportLoadFailure(error);
+            // Unlike a background read, this one is user-initiated: a moderator
+            // opened a tool whose entire content is this queue, so the failure
+            // belongs on screen.
+            DB.reportBanner((l) => l.ui.banner.loadFailed, error);
             return;
         }
 
@@ -116,7 +120,9 @@
         lastBatch = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
         // Convert the docs to galleries
-        const projectData = documentSnapshots.docs.map((snap) => snap.data())[0];
+        const projectData = documentSnapshots.docs.map((snap) =>
+            snap.data(),
+        )[0];
 
         project = await Projects.parseProject(projectData);
 

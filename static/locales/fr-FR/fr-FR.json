@@ -8836,7 +8836,8 @@
                     "$~Le logo de Wordplay est une bulle de dialogue qui contient une seule lettre : une petite scène sur laquelle la bulle peut tout dire — une lettre du système d'écriture du lecteur, un emoji, ou un cercle, un triangle et un carré pendant qu'une chose se charge. Dans l'application, la lettre suit le système d'écriture de ta langue principale ; sur les surfaces neutres, comme l'icône du navigateur et les images de partage, la bulle montre les trois formes, prêtes à créer une chose.",
                     "Le dessin lui-même ne montre jamais de mouvement. Le mouvement est un comportement — la page d'accueil change ce que dit la bulle en même temps que le sélecteur de langue, et pendant le chargement les formes sautent chacune à leur tour, comme une foule qui fait la vague — et il suit toujours le réglage de vitesse d'animation. Il s'arrête tout à fait quand l'animation est désactivée.",
                     "La marque est toujours dessinée avec la couleur du texte actuel. Ainsi, partout où le texte respecte les règles de contraste, le logo les respecte aussi."
-                ]
+                ],
+                "copyvalue": "$~copier la valeur CSS complète"
             },
             "thanks": {
                 "header": "$~Merci",
@@ -9472,7 +9473,7 @@
             "deleteFailed": "$~Nous ne pouvions pas supprimer cela.",
             "saveFailed": "$~Nous n'avons pas pu sauver ça",
             "submitFailed": "$~Nous n'avons pas pu soumettre cela",
-            "loadFailed": "$~Nous n'avons pas pu charger ceci.",
+            "loadFailed": "$~Nous n'avons pas pu charger ceci. Réessaie dans un instant.",
             "storageFull": "$~L'espace de stockage de cet appareil est plein, nous n'avons donc pas pu enregistrer de copie ici. Votre travail est toujours dans le cloud.",
             "storageNearFull": "$~Cet appareil est presque plein ; Wordplay risque donc de ne plus pouvoir y enregistrer de données. Votre travail enregistré dans le cloud est en sécurité ; libérer de l’espace sur votre appareil ou votre navigateur permettra à Wordplay de continuer à l’enregistrer.",
             "saveTooLarge": "$~Ce fichier est trop volumineux pour être enregistré. Essayez de supprimer du contenu."

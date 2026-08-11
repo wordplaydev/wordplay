@@ -15874,7 +15874,7 @@
                                     "type": "string"
                                 },
                                 "loadFailed": {
-                                    "description": "[plain] Shown when loading/reading something from the cloud failed",
+                                    "description": "[plain] Shown when loading/reading something from the cloud failed. Belongs inline, next to the missing content, or on the one page whose content is the thing that failed — never as a floating banner, which outlives the page that raised it and reads as an error about a page that loaded fine.",
                                     "type": "string"
                                 },
                                 "saveFailed": {
@@ -19972,6 +19972,10 @@
                                             "description": "[plain] Subheader for the components section",
                                             "type": "string"
                                         },
+                                        "copyvalue": {
+                                            "description": "[plain] Tooltip for the button that copies a font stack's full CSS value to the clipboard",
+                                            "type": "string"
+                                        },
                                         "demo": {
                                             "additionalProperties": false,
                                             "description": "Placeholder text used in live component demos",
@@ -20142,6 +20146,7 @@
                                         "logo",
                                         "logoDescription",
                                         "components",
+                                        "copyvalue",
                                         "col",
                                         "demo"
                                     ],

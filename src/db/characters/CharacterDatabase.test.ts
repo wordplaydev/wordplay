@@ -35,10 +35,13 @@ describe('CharactersDatabase', () => {
             setStatus: vi.fn(),
             reportBanner: vi.fn(),
             track: vi.fn((write) => write),
-            Projects: {
-                allEditableProjects: [],
+            // The projects database is loaded on demand now, so the fake
+            // exposes it the same way Database does.
+            projectsFake: {
+                allEditableProjects: [] as unknown[],
                 reviseProject: vi.fn(),
             },
+            loadProjects: vi.fn(async () => mockDatabase.projectsFake),
         };
 
         charactersDb = new CharactersDatabase(mockDatabase);
@@ -80,7 +83,7 @@ describe('CharactersDatabase', () => {
             };
 
             // Mock the Projects.allEditableProjects to return our mock project
-            mockDatabase.Projects.allEditableProjects = [mockProject];
+            mockDatabase.projectsFake.allEditableProjects = [mockProject];
 
             // Set up existing character
             charactersDb.byID.set('char1', oldCharacter);

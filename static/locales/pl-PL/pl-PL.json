@@ -8943,7 +8943,8 @@
                     "$~Logo Wordplay to dymek z jedną literą w środku: mała scena, na której dymek może powiedzieć wszystko — literę z systemu pisma czytelnika, emoji albo koło, trójkąt i kwadrat, gdy coś się wczytuje. W aplikacji litera pasuje do systemu pisma twojego głównego języka. Na powierzchniach neutralnych dla pisma, takich jak ikona przeglądarki i obrazki do udostępniania, dymek pokazuje trzy kształty, które zaraz coś stworzą.",
                     "Sam rysunek nigdy nie przedstawia ruchu. Ruch pochodzi z zachowania — strona startowa zmienia to, co mówi dymek, w rytm wyboru języka, a podczas wczytywania kształty po kolei podskakują, jak tłum robiący meksykańską falę. Ruch zawsze dopasowuje się do ustawienia prędkości animacji i całkowicie się zatrzymuje, gdy animacja jest wyłączona.",
                     "Znak zawsze rysujemy w aktualnym kolorze tekstu. Dzięki temu wszędzie tam, gdzie tekst spełnia wymagania kontrastu, logo też je spełnia."
-                ]
+                ],
+                "copyvalue": "$~skopiuj całą wartość CSS"
             },
             "thanks": {
                 "header": "$~Dzięki",
@@ -9487,7 +9488,7 @@
             "deleteFailed": "$~Nie mogliśmy tego usunąć.",
             "saveFailed": "$~Nie mogliśmy tego uratować",
             "submitFailed": "$~Nie mogliśmy tego przesłać",
-            "loadFailed": "$~Nie mogliśmy tego załadować.",
+            "loadFailed": "$~Nie udało się tego wczytać. Spróbuj ponownie za chwilę.",
             "storageFull": "$~Pamięć tego urządzenia jest pełna, więc nie mogliśmy zapisać tutaj kopii. Twoja praca nadal znajduje się w chmurze.",
             "storageNearFull": "$~Pamięć na tym urządzeniu jest prawie pusta, więc aplikacja Wordplay może wkrótce nie być w stanie jej zapisać. Praca zapisana w chmurze jest bezpieczna; zwolnienie miejsca na urządzeniu lub w przeglądarce pozwoli na jej dalsze zapisywanie.",
             "saveTooLarge": "$~Plik jest za duży, aby go zapisać. Spróbuj usunąć część treści."

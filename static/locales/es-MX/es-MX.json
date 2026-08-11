@@ -8827,7 +8827,8 @@
                     "$~El logo de Wordplay es una burbuja de diálogo que sostiene una letra: un pequeño escenario donde la burbuja puede decir lo que sea: una letra del sistema de escritura del lector, un emoji, o un círculo, un triángulo y un cuadrado mientras algo carga. En la aplicación, la letra sigue el sistema de escritura de tu idioma principal; en lugares neutrales de escritura, como el ícono del navegador y las imágenes para compartir, la burbuja muestra las tres formas, a punto de crear algo.",
                     "El dibujo en sí nunca muestra movimiento. El movimiento es un comportamiento: la página de inicio va cambiando lo que dice la burbuja al ritmo del selector de idioma, y mientras carga, las formas se turnan para saltar, como una multitud haciendo la ola, y siempre se ajusta a la velocidad de animación que elijas, deteniéndose por completo cuando la animación está apagada.",
                     "La marca siempre se dibuja con el color de texto actual, así que donde el texto cumple los requisitos de contraste, el logo también lo hace."
-                ]
+                ],
+                "copyvalue": "$~copia el valor CSS completo"
             },
             "thanks": {
                 "header": "$~Gracias",
@@ -9463,7 +9464,7 @@
             "deleteFailed": "$~No pudimos eliminar eso.",
             "saveFailed": "$~No pudimos guardar eso",
             "submitFailed": "$~No pudimos enviar eso",
-            "loadFailed": "$~No pudimos cargar eso.",
+            "loadFailed": "$~No pudimos cargar esto. Intenta de nuevo en un momento.",
             "storageFull": "$~El almacenamiento de este dispositivo está lleno, así que no pudimos guardar una copia aquí. Tu trabajo sigue en la nube.",
             "storageNearFull": "$~A este dispositivo casi no le queda almacenamiento, así que pronto Wordplay podría no poder guardar en él. El trabajo guardado en la nube está a salvo; liberar espacio en tu dispositivo o navegador le permite seguir guardando aquí.",
             "saveTooLarge": "$~Esto es demasiado grande para guardarlo. Intenta quitar algo de contenido."

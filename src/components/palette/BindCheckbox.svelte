@@ -2,7 +2,8 @@
     import type OutputProperty from '@edit/output/OutputProperty';
     import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
     import BooleanLiteral from '@nodes/BooleanLiteral';
-    import { locales, Projects } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import { getProject } from '@components/project/Contexts';
     import Checkbox from '@components/widgets/Checkbox.svelte';
 

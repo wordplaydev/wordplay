@@ -227,12 +227,16 @@
         display: block;
     }
 
+    /* Dimming secondary-locale echoes and the shortcut suffix has to stay
+       above AA: opacity multiplies against the background, so 0.7 over already
+       grey-ish text lands at ~3:1 and axe fails it. 0.92 still reads as
+       secondary while keeping the text legible. */
     .hint-entry.secondary {
-        opacity: 0.7;
+        opacity: 0.92;
     }
 
     .hint-shortcut {
-        opacity: 0.7;
+        opacity: 0.92;
     }
 
     @keyframes appear {

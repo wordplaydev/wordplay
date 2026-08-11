@@ -79,12 +79,18 @@ vi.mock('@db/firebase', () => ({
     firestore: { _fake: true },
 }));
 
+/** Who the mocked DB reports as signed in; getClasses gates its read on this. */
+let currentUser: { uid: string } | null = null;
+
 // Galleries facade is exercised by removeTeacher/removeStudent for the
 // curator-side cleanup, which we don't need to assert on here.
 vi.mock('@db/Database', () => ({
     DB: {
         track: vi.fn(<T>(p: Promise<T>) => p),
         write: vi.fn(<T>(p: Promise<T>) => p),
+        read: vi.fn(<T>(p: Promise<T>) => p),
+        getUser: vi.fn(() => currentUser),
+        reportLoadFailure: vi.fn(),
     },
     Galleries: {
         get: vi.fn(async () => undefined),
@@ -100,9 +106,11 @@ vi.mock('@db/galleries/GalleryDatabase.svelte', () => ({
 import {
     addStudent,
     addTeacher,
+    getClasses,
     removeStudent,
     removeTeacher,
 } from './TeacherDatabase.svelte';
+import { getDocs } from 'firebase/firestore';
 
 function makeClass(overrides: Partial<Class> = {}): Class {
     return {
@@ -117,9 +125,31 @@ function makeClass(overrides: Partial<Class> = {}): Class {
     };
 }
 
+describe('getClasses', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+        currentUser = null;
+    });
+
+    it('asks for nothing while signed out', async () => {
+        // firestore.rules only allows listing classes when signed in, so this
+        // read can only ever be denied — and a denial on a gallery page every
+        // signed-out visitor loads is not something to report.
+        expect(await getClasses('g1')).toEqual([]);
+        expect(getDocs).not.toHaveBeenCalled();
+    });
+
+    it('reads once someone is signed in', async () => {
+        currentUser = { uid: 't1' };
+        expect(await getClasses('g1')).toEqual([]);
+        expect(getDocs).toHaveBeenCalledTimes(1);
+    });
+});
+
 describe('TeacherDatabase atomic class & gallery updates', () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        currentUser = { uid: 't1' };
         lastBatchOps = [];
         lastTransactionOps = [];
         transactionReadSnap = { exists: () => false, data: () => ({}) };
