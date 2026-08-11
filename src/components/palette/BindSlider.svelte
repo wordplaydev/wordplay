@@ -5,7 +5,8 @@
     import { getFirstText } from '@locale/LocaleText';
     import { parseNumber } from '@parser/parseExpression';
     import type Decimal from 'decimal.js';
-    import { locales, Projects } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import { toTokens } from '@parser/toTokens';
     import {
         getProject,

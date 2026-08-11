@@ -5,7 +5,7 @@ import FunctionConcept from '@concepts/FunctionConcept';
 import NodeConcept from '@concepts/NodeConcept';
 import { Purpose, type PurposeType } from '@concepts/Purpose';
 import StructureConcept from '@concepts/StructureConcept';
-import { Projects } from '@db/Database';
+import { Projects } from '@db/projects/Projects';
 import type Project from '@db/projects/Project';
 import type LanguageCode from '@locale/LanguageCode';
 import {

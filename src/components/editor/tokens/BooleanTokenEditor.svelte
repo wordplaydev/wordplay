@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getCaret } from '@components/project/Contexts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { Projects } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';

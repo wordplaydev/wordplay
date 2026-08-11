@@ -15,7 +15,8 @@
     import EditorNotice from '@components/editor/EditorNotice.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { getAnnouncer } from '@components/project/Contexts';
-    import { Creators, locales, Projects } from '@db/Database';
+    import { Creators, locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import {
         assignDistinctColors,

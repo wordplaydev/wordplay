@@ -1,3 +1,4 @@
+import { Projects } from '@db/projects/Projects';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -1164,7 +1165,7 @@ export default class Evaluator {
                     current.code.toString() !== valueText
                 ) {
                     // Revise the project with the new or overwritten source.
-                    const result = await this.database.Projects.reviseProject(
+                    const result = await Projects.reviseProject(
                         current
                             ? this.project.withSource(
                                   current,

@@ -3,14 +3,14 @@
     import { navigating } from '$app/state';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
-    import { UncomputablePreview } from '@components/app/extractPreview';
+    import { UncomputablePreview } from '@components/app/previewTypes';
     import GlyphTile from '@components/app/GlyphTile.svelte';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Note from '@components/widgets/Note.svelte';
-    import { Chats, Creators, DB, locales, Projects } from '@db/Database';
+    import { Chats, Creators, DB, LoadedProjects, locales } from '@db/Database';
     import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import { isFlagged } from '@db/projects/Moderation';
     import { isAudience } from '@db/projects/ModerationUtils';
@@ -115,8 +115,13 @@
                     ...extracted,
                 };
                 displayed = full;
-                if (Projects.isEditable(project))
-                    Projects.setAutoPreview(project.getID(), extracted);
+                // Reading what's loaded rather than importing it: a tile is
+                // only ever handed a Project once the database exists, and a
+                // static import would put the runtime in every page that
+                // lists projects.
+                const projects = DB.MaybeProjects;
+                if (projects?.isEditable(project))
+                    projects.setAutoPreview(project.getID(), extracted);
             })
             .catch(() => {
                 if (cancelled) return;
@@ -158,7 +163,7 @@
 
     const owner = $derived(project.getOwner());
     const collaborators = $derived(project.getCollaborators());
-    const editable = $derived(Projects.isEditable(project));
+    const editable = $derived($LoadedProjects?.isEditable(project) ?? false);
 
     // Read the chat from the global chats cache (kept current by the single
     // `participants array-contains` listener) rather than fetching it per tile.

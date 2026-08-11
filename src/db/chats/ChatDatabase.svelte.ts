@@ -2,7 +2,6 @@
 import type { NotificationData } from '@components/settings/Notifications.svelte';
 import {
     HowTos,
-    Projects,
     type Database,
     type SaveCounts,
     type SaveError,
@@ -463,7 +462,7 @@ export class ChatDatabase {
 
         // Make sure we're listening to updates on the chat's project.
         if (chat.getType() === 'project') {
-            this.db.Projects.listen(projectID, this.projectsListener);
+            this.db.MaybeProjects?.listen(projectID, this.projectsListener);
         } else {
             this.db.HowTos.addListener(projectID, this.howToListener);
         }
@@ -722,8 +721,10 @@ export class ChatDatabase {
             type: 'project',
         };
 
-        return this.createChat(newChat, () =>
-            Projects.reviseProject(project.withChat(newChat.project)),
+        return this.createChat(newChat, async () =>
+            (await this.db.loadProjects()).reviseProject(
+                project.withChat(newChat.project),
+            ),
         );
     }
 
@@ -781,7 +782,9 @@ export class ChatDatabase {
         const uid = this.db.getUser()?.uid;
         if (uid !== undefined && gallery.getCurators().includes(uid)) {
             for (const projectID of gallery.getProjects()) {
-                const project = await this.db.Projects.get(projectID);
+                const project = await (
+                    await this.db.loadProjects()
+                ).get(projectID);
                 if (project) this.syncParticipants(project, gallery);
             }
         }
@@ -1027,7 +1030,7 @@ export class ChatDatabase {
                             change.doc.data().type === 'project' &&
                             this.projectsListener
                         )
-                            this.db.Projects.ignore(
+                            this.db.MaybeProjects?.ignore(
                                 projectID,
                                 this.projectsListener,
                             );
@@ -1059,10 +1062,10 @@ export class ChatDatabase {
                         let galleryID: string = '';
 
                         if (chatData.getType() === 'project') {
-                            const project = await this.db.Projects.get(
+                            const project = await this.db.getProjectSummary(
                                 chatData.getProjectID(),
                             );
-                            if (project) title = project.getName();
+                            if (project) title = project.name;
                         } else {
                             const howto = await this.db.HowTos.getHowTo(
                                 chatData.getProjectID(),

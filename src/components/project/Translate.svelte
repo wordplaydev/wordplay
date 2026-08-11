@@ -8,7 +8,8 @@
     } from '@components/settings/LocaleSearch.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import { locales, Projects } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import { getFunctionsInstance } from '@db/firebase';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';

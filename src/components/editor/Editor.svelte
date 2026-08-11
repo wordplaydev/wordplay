@@ -109,7 +109,6 @@
     import {
         CharactersDB,
         DB,
-        Projects,
         Settings,
         animationFactor,
         blockDensity,
@@ -119,6 +118,7 @@
         showLines,
         wrap,
     } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import {
         type RemoteCaret,
         decodeRemoteCaret,
@@ -2829,7 +2829,7 @@
         // is restored by the sync effect when composing ends.
         if (input) input.value = '';
 
-        if (insertedSymbol) DB.Projects.undoRedo(evaluator.project.getID(), -1);
+        if (insertedSymbol) Projects.undoRedo(evaluator.project.getID(), -1);
     }
 
     function handleCompositionEnd() {

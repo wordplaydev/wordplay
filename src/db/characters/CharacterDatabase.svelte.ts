@@ -421,9 +421,15 @@ export class CharactersDatabase {
                 // Collect failures from project updates
                 const failedProjects: Project[] = [];
 
+                // Renaming a character rewrites the projects that use it, so
+                // this genuinely needs the projects database — loaded here
+                // rather than imported, so editing a character is what pulls
+                // in the language runtime rather than opening any page.
+                const projects = await this.db.loadProjects();
+
                 // Collect all revision promises
                 const revisionPromises =
-                    this.db.Projects.allEditableProjects.map(
+                    projects.allEditableProjects.map(
                         async (project) => {
                             const revisions: [Node, Node | undefined][] = [];
 
@@ -460,7 +466,7 @@ export class CharactersDatabase {
                                 const newProject =
                                     project.withRevisedNodes(revisions);
                                 const failure =
-                                    await this.db.Projects.reviseProject(
+                                    await projects.reviseProject(
                                         newProject,
                                     );
 

@@ -64,9 +64,11 @@ test('resolving a color needs no basis', () => {
  * are still reachable today — as each door closes, flip it to `false`.
  */
 test.each([
-    ['src/routes/+layout.svelte', 620, 4.6],
-    ['src/components/app/Page.svelte', 640, 4.8],
-    ['src/routes/[[locale]]/+page.svelte', 655, 4.8],
+    ['src/routes/+layout.svelte', 475, 3.35],
+    ['src/components/app/Page.svelte', 495, 3.55],
+    ['src/routes/[[locale]]/+page.svelte', 510, 3.6],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.65],
+    ['src/routes/[[locale]]/projects/+page.svelte', 515, 3.65],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(
@@ -79,28 +81,32 @@ test.each([
     ).toBeLessThanOrEqual(maxMB);
 });
 
-test('the doors the runtime still comes through are the known ones', () => {
-    const reach = reachFrom('src/routes/+layout.svelte', Root);
-    /** The chain to a module, named by file, for a readable failure. */
-    const via = (target: string) =>
-        reach
-            .chainTo(target)
-            ?.map((f) => f.split('/').pop())
-            .join(' -> ');
-    // Markup no longer drags the editor and evaluator along: the segments that
-    // render code load on demand (see richSegment.ts). Keep it that way.
-    expect(
-        reach.files.has(Runtime.evaluator),
-        `evaluator via ${via(Runtime.evaluator)}`,
-    ).toBe(false);
-    expect(
-        reach.files.has(Runtime.commands),
-        `commands via ${via(Runtime.commands)}`,
-    ).toBe(false);
-    // One door left: the database still builds projects eagerly, so it carries
-    // the basis with it. That's the next stage; flip these when it lands.
-    expect(
-        reach.files.has(Runtime.project),
-        `project via ${via(Runtime.project)}`,
-    ).toBe(true);
+test('no page-wide chrome reaches the language runtime', () => {
+    // The layout, the footer, and the landing page are what every visitor
+    // loads. None of them runs code, so none of them may carry the machinery
+    // that does. Each of these was a real door once: markup rendering pulled
+    // the editor and evaluator, the database built projects eagerly, and the
+    // footer's notifications named projects by constructing them.
+    for (const entry of [
+        'src/routes/+layout.svelte',
+        'src/components/app/Page.svelte',
+        'src/routes/[[locale]]/+page.svelte',
+        // Listing projects doesn't require being able to run them: these
+        // render from stored data and load the runtime only on an action.
+        'src/routes/[[locale]]/galleries/+page.svelte',
+        'src/routes/[[locale]]/projects/+page.svelte',
+        'src/routes/[[locale]]/gallery/[galleryid]/+page.svelte',
+    ]) {
+        const reach = reachFrom(entry, Root);
+        for (const [name, target] of Object.entries(Runtime)) {
+            const chain = reach
+                .chainTo(target)
+                ?.map((f) => f.split('/').pop())
+                .join(' -> ');
+            expect(
+                reach.files.has(target),
+                `${entry} reaches ${name} via ${chain}`,
+            ).toBe(false);
+        }
+    }
 });

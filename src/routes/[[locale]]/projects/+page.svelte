@@ -12,7 +12,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import { authAttempted, DB, locales, Projects } from '@db/Database';
+    import { DB, LoadedProjects, authAttempted, locales } from '@db/Database';
     import { onMount } from 'svelte';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from './search';
@@ -31,7 +31,7 @@
     const debouncedTerm = debounced(() => searchTerm);
 
     let allOwnedProjects = $derived(
-        Projects.allEditableProjects.filter(
+        ($LoadedProjects?.allEditableProjects ?? []).filter(
             (p) => p.getOwner() === $user?.uid || !p.hasOwner(),
         ),
     );
@@ -39,7 +39,7 @@
     let allSharedProjects = $derived(
         !isAuthenticated($user)
             ? []
-            : Projects.allEditableProjects.filter(
+            : ($LoadedProjects?.allEditableProjects ?? []).filter(
                   (p) => p.hasOwner() && p.getOwner() !== $user.uid,
               ),
     );
@@ -49,7 +49,9 @@
     $effect(() => {
         if (!isAuthenticated($user)) return;
 
-        commenterViewerProjects = [...Projects.readonlyProjects.values()]
+        commenterViewerProjects = [
+            ...($LoadedProjects?.readonlyProjects.values() ?? []),
+        ]
             .filter((project) => project !== undefined)
             .filter((project) => {
                 return (
@@ -62,7 +64,7 @@
 
     // Add archived projects to search scope
     let allArchivedProjects = $derived(
-        Projects.allArchivedProjects.filter(
+        ($LoadedProjects?.allArchivedProjects ?? []).filter(
             (p) => p.getOwner() === $user?.uid || !p.hasOwner(),
         ),
     );
@@ -133,8 +135,8 @@
              a `$user === undefined` gate would hide the button forever. -->
         <AddProject
             ready={$authAttempted}
-            add={(template) => {
-                const newProjectID = Projects.copy(
+            add={async (template) => {
+                const newProjectID = (await DB.loadProjects()).copy(
                     template,
                     $user?.uid ?? null,
                     null,
@@ -144,7 +146,7 @@
         />
     </div>
 
-    {#if !browser || !Projects.hydrated}
+    {#if !browser || !($LoadedProjects?.hydrated ?? false)}
         <!-- Show the placeholder where the project list will appear, so the
              user has feedback instead of staring at an empty page during the
              gap between mount and the first IndexedDB emission.
@@ -176,8 +178,10 @@
             }}
             copy={{
                 description: (l) => l.ui.project.button.remix.tip,
-                action: (project) =>
-                    localeGoto(Projects.remix(project).getLink(false)),
+                action: async (project) =>
+                    localeGoto(
+                        (await DB.loadProjects()).remix(project).getLink(false),
+                    ),
                 label: REMIX_SYMBOL,
             }}
             remove={(project) => {
@@ -185,8 +189,11 @@
                     prompt: (l) => l.ui.page.projects.confirm.archive.prompt,
                     description: (l) =>
                         l.ui.page.projects.confirm.archive.description,
-                    action: () =>
-                        Projects.archiveProject(project.getID(), true),
+                    action: async () =>
+                        (await DB.loadProjects()).archiveProject(
+                            project.getID(),
+                            true,
+                        ),
                     label: '🗑️',
                 };
             }}
@@ -196,7 +203,7 @@
     {/if}
 
     <!-- If there are any shared projects, make a shared section. -->
-    {#if Projects.hydrated && shared.length + commenterViewerProjects.length > 0}
+    {#if ($LoadedProjects?.hydrated ?? false) && shared.length + commenterViewerProjects.length > 0}
         <Subheader text={(l) => l.ui.page.projects.subheader.shared} />
         <ProjectPreviewSet
             set={shared.concat(commenterViewerProjects)}
@@ -209,8 +216,10 @@
             }}
             copy={{
                 description: (l) => l.ui.project.button.remix.tip,
-                action: (project) =>
-                    localeGoto(Projects.remix(project).getLink(false)),
+                action: async (project) =>
+                    localeGoto(
+                        (await DB.loadProjects()).remix(project).getLink(false),
+                    ),
                 label: REMIX_SYMBOL,
             }}
             remove={() => false}
@@ -220,7 +229,7 @@
     {/if}
 
     <!-- If there are archived projects in search results, show them -->
-    {#if Projects.hydrated && debouncedTerm.current.trim() && archived.length > 0}
+    {#if ($LoadedProjects?.hydrated ?? false) && debouncedTerm.current.trim() && archived.length > 0}
         <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
         <ProjectPreviewSet
             set={archived}
@@ -228,8 +237,11 @@
             matchTexts={archivedMatchTexts}
             edit={{
                 description: (l) => l.ui.page.projects.button.unarchive,
-                action: (project) =>
-                    Projects.archiveProject(project.getID(), false),
+                action: async (project) =>
+                    (await DB.loadProjects()).archiveProject(
+                        project.getID(),
+                        false,
+                    ),
                 label: '↑🗑️',
             }}
             copy={false}
@@ -242,10 +254,12 @@
                               l.ui.page.projects.confirm.delete.prompt,
                           description: (l) =>
                               l.ui.page.projects.confirm.delete.description,
-                          action: () => {
+                          action: async () => {
                               deleteError = false;
                               try {
-                                  Projects.deleteProject(project.getID());
+                                  (await DB.loadProjects()).deleteProject(
+                                      project.getID(),
+                                  );
                               } catch (error) {
                                   deleteError = true;
                                   console.error(error);
@@ -258,7 +272,7 @@
     {/if}
 
     <!-- If there are any archived projects, make an archived section. -->
-    {#if Projects.hydrated && Projects.allArchivedProjects.length > 0}
+    {#if ($LoadedProjects?.hydrated ?? false) && ($LoadedProjects?.allArchivedProjects.length ?? 0) > 0}
         <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
         <MarkupHTMLView markup={(l) => l.ui.page.projects.archiveprompt} />
         {#if $user === null}<Notice
@@ -268,11 +282,14 @@
             <Notice text={(l) => l.ui.page.projects.error.delete} />
         {/if}
         <ProjectPreviewSet
-            set={Projects.allArchivedProjects}
+            set={$LoadedProjects?.allArchivedProjects ?? []}
             edit={{
                 description: (l) => l.ui.page.projects.button.unarchive,
-                action: (project) =>
-                    Projects.archiveProject(project.getID(), false),
+                action: async (project) =>
+                    (await DB.loadProjects()).archiveProject(
+                        project.getID(),
+                        false,
+                    ),
                 label: '↑',
             }}
             copy={false}
@@ -285,10 +302,12 @@
                               l.ui.page.projects.confirm.delete.prompt,
                           description: (l) =>
                               l.ui.page.projects.confirm.delete.description,
-                          action: () => {
+                          action: async () => {
                               deleteError = false;
                               try {
-                                  Projects.deleteProject(project.getID());
+                                  (await DB.loadProjects()).deleteProject(
+                                      project.getID(),
+                                  );
                               } catch (error) {
                                   deleteError = true;
                                   console.error(error);

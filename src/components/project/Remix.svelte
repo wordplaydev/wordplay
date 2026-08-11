@@ -4,7 +4,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Notice from '@components/app/Notice.svelte';
     import { isDialogOpenInURL } from '@components/widgets/dialogURL';
-    import { Projects } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import { ExamplePrefix } from '../../examples/examples';
 

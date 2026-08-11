@@ -63,13 +63,19 @@
             l.ui.project.save.failureReason.projectContainsPII,
         'project-too-large': (l) =>
             l.ui.project.save.failureReason.projectTooLarge,
-        'no-cloud-target': (l) =>
-            l.ui.project.save.failureReason.noCloudTarget,
+        'no-cloud-target': (l) => l.ui.project.save.failureReason.noCloudTarget,
     };
 
     /** Per-domain save counts (saved on this device, in the cloud, unsaved). */
     let counts = $derived<Record<SyncDomain, SaveCounts>>({
-        projects: DB.Projects.saveCounts,
+        // Zeroes until the projects database loads. This renders in the footer
+        // on every page, so it reads what's in memory rather than forcing the
+        // language runtime to load — and nothing is in memory to be unsaved.
+        projects: DB.MaybeProjects?.saveCounts ?? {
+            device: 0,
+            cloud: 0,
+            unsaved: 0,
+        },
         galleries: DB.Galleries.saveCounts,
         characters: DB.Characters.saveCounts,
         howtos: DB.HowTos.saveCounts,
@@ -188,51 +194,41 @@
     /** All save failures across every document type. Projects keep their richer
      *  failure flow via the `status` store; the other domains expose `saveErrors`. */
     let allErrors = $derived<DomainError[]>([
-        ...$status.failures.map(
-            (f): DomainError => ({
-                domain: 'projects',
-                key: f.projectId,
-                name: f.projectName,
-                reason: f.reason,
-                detail: f.detail,
-            }),
-        ),
-        ...DB.Galleries.saveErrors.map(
-            (e): DomainError => ({
-                domain: 'galleries',
-                key: e.id,
-                name: e.name,
-                reason: e.reason,
-                detail: e.detail,
-            }),
-        ),
-        ...DB.Characters.saveErrors.map(
-            (e): DomainError => ({
-                domain: 'characters',
-                key: e.id,
-                name: e.name,
-                reason: e.reason,
-                detail: e.detail,
-            }),
-        ),
-        ...DB.HowTos.saveErrors.map(
-            (e): DomainError => ({
-                domain: 'howtos',
-                key: e.id,
-                name: e.name,
-                reason: e.reason,
-                detail: e.detail,
-            }),
-        ),
-        ...DB.Chats.saveErrors.map(
-            (e): DomainError => ({
-                domain: 'chats',
-                key: e.id,
-                name: e.name,
-                reason: e.reason,
-                detail: e.detail,
-            }),
-        ),
+        ...$status.failures.map((f): DomainError => ({
+            domain: 'projects',
+            key: f.projectId,
+            name: f.projectName,
+            reason: f.reason,
+            detail: f.detail,
+        })),
+        ...DB.Galleries.saveErrors.map((e): DomainError => ({
+            domain: 'galleries',
+            key: e.id,
+            name: e.name,
+            reason: e.reason,
+            detail: e.detail,
+        })),
+        ...DB.Characters.saveErrors.map((e): DomainError => ({
+            domain: 'characters',
+            key: e.id,
+            name: e.name,
+            reason: e.reason,
+            detail: e.detail,
+        })),
+        ...DB.HowTos.saveErrors.map((e): DomainError => ({
+            domain: 'howtos',
+            key: e.id,
+            name: e.name,
+            reason: e.reason,
+            detail: e.detail,
+        })),
+        ...DB.Chats.saveErrors.map((e): DomainError => ({
+            domain: 'chats',
+            key: e.id,
+            name: e.name,
+            reason: e.reason,
+            detail: e.detail,
+        })),
     ]);
 
     /** The errors grouped by domain, for a per-kind "couldn't save" list. */

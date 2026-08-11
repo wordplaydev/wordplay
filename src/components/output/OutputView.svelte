@@ -39,13 +39,8 @@
     // Named to avoid colliding with the Button input stream imported below.
     import ButtonWidget from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import {
-        animationFactor,
-        DB,
-        locales,
-        Projects,
-        voice,
-    } from '@db/Database';
+    import { animationFactor, DB, locales, voice } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import Button from '@input/Button/Button';
     import Camera from '@input/Camera/Camera';

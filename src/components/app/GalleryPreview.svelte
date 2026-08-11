@@ -1,7 +1,7 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
-    import { Projects, locales } from '@db/Database';
+    import { DB, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { onMount } from 'svelte';
     import type Gallery from '@db/galleries/Gallery';
@@ -53,7 +53,7 @@
         async function show(i: number) {
             const projects = gallery.getProjects();
             if (projects.length === 0) return;
-            const next = await Projects.get(projects[i]);
+            const next = await (await DB.loadProjects()).get(projects[i]);
             if (unmounted) return;
             project = next;
         }
