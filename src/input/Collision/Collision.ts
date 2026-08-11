@@ -43,7 +43,7 @@ export default class Collision extends StreamValue<
     ) {
         super(
             evaluation,
-            evaluation.getEvaluator().project.shares.input.Button,
+            evaluation.getEvaluator().project.shares.input.Collision,
             new NoneValue(evaluation.getCreator()),
             undefined,
         );

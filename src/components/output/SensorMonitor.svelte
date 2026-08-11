@@ -10,7 +10,13 @@
     import Hand from '@input/Hand/Hand';
     import Face from '@input/Face/Face';
     import Objects from '@input/Objects/Objects';
-    import { VOLUME_FFT_SIZE, computeVolume, PITCH_FFT_SIZE, computePitch } from '@input/AudioAnalysisMath';
+    import {
+        VOLUME_FFT_SIZE,
+        computeVolume,
+        PITCH_FFT_SIZE,
+        computePitch,
+        createPitchDetector,
+    } from '@input/AudioAnalysisMath';
     import { PitchDetector } from 'pitchy';
     import { toPreviewPoint, toPreviewBox } from './cameraPreview';
 
@@ -188,7 +194,7 @@
                     pitchAnalyzer.fftSize = PITCH_FFT_SIZE;
                     sourceNode.connect(pitchAnalyzer);
                     pitchDataArray = new Float32Array(pitchAnalyzer.fftSize);
-                    pitchDetector = PitchDetector.forFloat32Array(PITCH_FFT_SIZE);
+                    pitchDetector = createPitchDetector();
                 }
             }
 

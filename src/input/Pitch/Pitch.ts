@@ -13,7 +13,11 @@ import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
 import AudioStream from '@input/AudioStream';
 import createStreamEvaluator from '@input/createStreamEvaluator';
-import { PITCH_FFT_SIZE, computePitch } from '@input/AudioAnalysisMath';
+import {
+    PITCH_FFT_SIZE,
+    computePitch,
+    createPitchDetector,
+} from '@input/AudioAnalysisMath';
 const DEFAULT_FREQUENCY = 50;
 
 // A helpful article on getting raw data streams:
@@ -23,10 +27,16 @@ export default class Pitch extends AudioStream {
     readonly detector: PitchDetector<Float32Array>;
 
     constructor(evaluation: Evaluation, frequency: number | undefined) {
-        super(evaluation, frequency, Unit.reuse(['hz']), PITCH_FFT_SIZE);
+        super(
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Pitch,
+            frequency,
+            Unit.reuse(['hz']),
+            PITCH_FFT_SIZE,
+        );
 
         this.frequency = Math.max(15, frequency ?? DEFAULT_FREQUENCY);
-        this.detector = PitchDetector.forFloat32Array(PITCH_FFT_SIZE);
+        this.detector = createPitchDetector();
     }
 
     react(pitch: number) {
