@@ -23,6 +23,10 @@
          * text (e.g., an image-only preview) — WCAG requires every link to
          * have an accessible name. */
         ariaLabel?: LocaleTextAccessor | undefined;
+        /** A download link to a static asset (e.g. /icons/logo.svg): skips
+         * the locale prefix and client routing, and asks the browser to save
+         * the file rather than navigate. */
+        download?: boolean;
         children?: import('svelte').Snippet;
     }
 
@@ -34,6 +38,7 @@
         reload = false,
         label,
         ariaLabel = undefined,
+        download = false,
         children,
     }: Props = $props();
 
@@ -50,9 +55,10 @@
     // We hide the anchor during edit so the field has the row to itself.
     let editing = $state(false);
 
-    // Prefix internal paths with the current locale segment.
+    // Prefix internal paths with the current locale segment. Downloads point
+    // at static assets, which live outside the locale tree.
     let href = $derived.by(() => {
-        if (external || to.startsWith('http')) return to;
+        if (download || external || to.startsWith('http')) return to;
         const locale = page.params.locale;
         if (!locale) return to;
         return `/${locale}${to === '/' ? '' : to}`;
@@ -60,7 +66,9 @@
 
     // A link is "active" when the current route matches the destination.
     // With [[locale]] wrapping all pages, route IDs look like /[[locale]] or /[[locale]]/guide.
+    // Downloads are never a route.
     let isActive = $derived.by(() => {
+        if (download) return false;
         const id = page.route.id ?? '';
         if (to === '/') return id === '/[[locale]]';
         return id.endsWith(to);
@@ -84,8 +92,9 @@
     {#if isActive}
         <span class="link inactive">{@render labelOrChildren()}</span>
     {:else}<a
-            data-sveltekit-preload-data="tap"
-            data-sveltekit-reload={reload ? '' : null}
+            data-sveltekit-preload-data={download ? null : 'tap'}
+            data-sveltekit-reload={reload || download ? '' : null}
+            download={download ? '' : null}
             aria-label={ariaLabel
                 ? $locales.getPrimaryPlainText(ariaLabel)
                 : undefined}

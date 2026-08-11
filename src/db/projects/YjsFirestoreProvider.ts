@@ -1,3 +1,4 @@
+import { Domain } from '@db/Domains';
 import { FirebaseError } from 'firebase/app';
 import {
     addDoc,
@@ -11,7 +12,6 @@ import ProjectCRDT, {
     base64ToBytes,
     bytesToBase64,
 } from '@db/projects/ProjectCRDT';
-import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
 
 /** Debounce window (ms) for batching consecutive keystrokes into a single
  *  Firestore write. Wide enough to fold a burst of typing into one update
@@ -150,7 +150,7 @@ export default class YjsFirestoreProvider {
 
         // Remote → local: subscribe to the updates subcollection.
         this.unsubscribe = onSnapshot(
-            collection(this.db, ProjectsCollection, this.projectID, 'updates'),
+            collection(this.db, Domain.Projects, this.projectID, 'updates'),
             (snapshot) => {
                 for (const change of snapshot.docChanges()) {
                     if (change.type !== 'added') continue;
@@ -240,7 +240,7 @@ export default class YjsFirestoreProvider {
         };
         const updatesCollection = collection(
             this.db,
-            ProjectsCollection,
+            Domain.Projects,
             this.projectID,
             'updates',
         );
@@ -273,12 +273,10 @@ export default class YjsFirestoreProvider {
                         this.ownDocIDs.add(retryRef.id);
                         return;
                     } catch (retryErr) {
-                        if (
-                            !(
-                                retryErr instanceof FirebaseError &&
-                                retryErr.code === 'permission-denied'
-                            )
-                        ) {
+                        if (!(
+                            retryErr instanceof FirebaseError &&
+                            retryErr.code === 'permission-denied'
+                        )) {
                             // Refresh or retry failed transiently —
                             // re-queue and let the next flush try
                             // again. We've already burned our retry

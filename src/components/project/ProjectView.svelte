@@ -95,7 +95,7 @@
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
-    import type Color from '@output/Color/Color';
+    import Color from '@output/Color/Color';
     import {
         CANCEL_SYMBOL,
         EDIT_SYMBOL,
@@ -110,7 +110,11 @@
     import { debounced } from '@util/debounce.svelte';
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { writable, type Writable } from 'svelte/store';
+    import {
+        writable,
+        type Readable,
+        type Writable,
+    } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -405,11 +409,18 @@
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
+        // Only set a background if it's the stage that's in fullscreen.
+        const background = layout.isStageFullscreen() ? outputBackground : null;
         pageFullscreen?.set({
             // Don't turn on fullscreen if we were requested to show output.
             on: layout.isFullscreen() && !showOutput,
-            // Only set a background if it's the stage that's in fullscreen
-            background: layout.isStageFullscreen() ? outputBackground : null,
+            // Resolved here rather than in Page, which every route renders.
+            background:
+                background instanceof Color ? background.toCSS() : background,
+            foreground:
+                background instanceof Color
+                    ? background.contrasting().toCSS()
+                    : null,
         });
     });
 
@@ -1722,9 +1733,23 @@
         }
     });
 
+    /** Svelte stores fire subscribers on subscribe; only later *changes*
+     * should rebuild the evaluator, since the initial one already reflects
+     * current settings and each rebuild releases and reacquires media streams. */
+    function subscribeToChanges<T>(
+        store: Readable<T>,
+        react: () => void,
+    ): () => void {
+        let first = true;
+        return store.subscribe(() => {
+            if (first) first = false;
+            else react();
+        });
+    }
+
     /** If the camera or mic changes, restart the evaluator to reflect to the new stream. */
-    const cameraUnsubscribe = camera.subscribe(() => resetInputs());
-    const micUnsubscribe = mic.subscribe(() => resetInputs());
+    const cameraUnsubscribe = subscribeToChanges(camera, resetInputs);
+    const micUnsubscribe = subscribeToChanges(mic, resetInputs);
 
     onDestroy(() => {
         cameraUnsubscribe();

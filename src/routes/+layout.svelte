@@ -3,7 +3,6 @@
     // registry. Loaded once at app startup so the registry is populated by
     // the time any annotation asks for resolutions. See the file's header
     // for why it can't be imported by the conflict files directly.
-    import '@conflicts/registerTypeResolutions';
 
     // Notifications state lives in @db so the databases that write it don't
     // import from this route component (that cycle crashes WebKit hydration).
@@ -139,6 +138,22 @@
         // catches and what it can't.
         const cleanupSaveOnUnload = DB.Projects.installSaveOnUnloadListeners();
 
+        // Read the local project cache once the page is up rather than on
+        // import: hydration deserializes every cached project and each one
+        // builds a Basis, which is seconds of main-thread work on a phone and
+        // used to happen before first paint on every page. Only devices with
+        // project work to do pay for it at all — a first-time visitor reading
+        // the landing page never does. Pending edits aren't at risk while we
+        // wait; they live in a durable dirty table and replay when this runs.
+        const startProjects = () =>
+            void DB.shouldStartProjectWork().then((should) => {
+                if (should) void DB.startProjectWork();
+            });
+        const idleSupported = typeof window.requestIdleCallback === 'function';
+        const idle = idleSupported
+            ? window.requestIdleCallback(startProjects)
+            : window.setTimeout(startProjects, 200);
+
         // Warn before closing/reloading the tab when there are edits not yet
         // saved online (e.g. made offline). The save-on-unload handlers above
         // flush to the LOCAL cache, but local-only edits would still be lost on
@@ -157,6 +172,8 @@
 
         // Have the Database cleanup database connections when this is unmounted.
         return () => {
+            if (idleSupported) window.cancelIdleCallback(idle);
+            else window.clearTimeout(idle);
             cleanupNetworkListeners();
             cleanupSaveOnUnload();
             window.removeEventListener('beforeunload', warnUnsaved);

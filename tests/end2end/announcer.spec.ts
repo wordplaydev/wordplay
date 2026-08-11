@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { createTestProject } from '../helpers/createProject';
+import { grantClipboard } from '../helpers/clipboard';
 
 /**
  * The centralized Announcer (src/components/project/Announcer.svelte) owns
@@ -223,9 +224,7 @@ async function playing(
     page: import('@playwright/test').Page,
     code: string,
 ): Promise<() => Promise<string>> {
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     const base = page.url().split('?')[0];
     const editor = page.getByTestId('editor').first();
@@ -362,9 +361,7 @@ test('stage output is described once, by the stage', async ({ page }) => {
 test('a paused stage stays quiet while you edit', async ({ page }) => {
     // A paused stage is a preview of code being read with the caret and echo
     // announcements; describing it talks over them.
-    await page
-        .context()
-        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     const editor = page.getByTestId('editor').first();
     await editor.click();

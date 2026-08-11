@@ -127,6 +127,11 @@ type UITexts = {
         };
         /** [plain] The go home button description */
         home: string;
+        /** The Wordplay logo mark */
+        logo: {
+            /** [plain] Accessible description of the Wordplay logo: a speech bubble holding one letter of the reader's writing system */
+            description: string;
+        };
         /** An editable table */
         table: {
             /** The field to edit a cell */
@@ -952,6 +957,14 @@ type UITexts = {
             loading: Template<['instruments']>;
             /** [plain] Chip shown when an instrument's recordings couldn't load and it will sound synthesized */
             synthesized: Template<['instruments']>;
+        };
+        /** The buttons offered on a touch screen in place of the on-screen
+         *  keyboard, for a project that responds to a known set of keys */
+        keypad: {
+            /** [plain] Description of the group of key buttons */
+            label: string;
+            /** [plain] Label for the single button shown when a project responds to any key */
+            any: string;
         };
     };
     /** The documentation browser */

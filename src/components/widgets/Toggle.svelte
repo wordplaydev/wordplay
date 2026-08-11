@@ -6,10 +6,9 @@
     import type { TemplateInputs } from '@locale/Locales';
     import { untrack, type Snippet } from 'svelte';
     import type { ToggleText } from '@locale/UITexts';
-    import {
-        toShortcut,
-        type Command,
-    } from '@components/editor/commands/Commands';
+    // Type-only, so this widget carries no runtime edge to the command table.
+    import type { Command } from '@components/editor/commands/Commands';
+    import { toShortcut } from '@components/editor/commands/shortcuts';
 
     interface Props {
         tips: (locale: LocaleText) => ToggleText;

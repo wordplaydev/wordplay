@@ -35,6 +35,12 @@ export type ScriptMetadata = {
      *  Defaults to horizontal-tb — most historical vertical scripts are
      *  rendered horizontally in modern computing environments. */
     layout: WritingLayout;
+    /** A single exemplar glyph of this script, shown inside the Wordplay
+     *  logo's speech bubble when this is the viewer's dominant script.
+     *  Only populated for scripts that are the dominant script of a
+     *  supported UI locale (logoGlyph.test.ts enforces coverage); the logo
+     *  falls back to Latin 'a' for scripts without one. */
+    glyph?: string;
 };
 
 /** ISO 15924 script metadata: native name, English name, and writing
@@ -85,6 +91,7 @@ export const Scripts = {
         en: 'Arabic',
         direction: 'rtl',
         layout: 'horizontal-tb',
+        glyph: 'ع',
     },
     Armi: {
         name: 'Imperial Aramaic',
@@ -133,6 +140,7 @@ export const Scripts = {
         en: 'Bengali',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'অ',
     },
     Berf: {
         name: 'Beria Erfe',
@@ -235,12 +243,14 @@ export const Scripts = {
         en: 'Cyrillic',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'ж',
     },
     Deva: {
         name: 'देवनागरी',
         en: 'Devanagari',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'अ',
     },
     Diak: {
         name: 'Dives Akuru',
@@ -337,12 +347,14 @@ export const Scripts = {
         en: 'Greek',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'α',
     },
     Gujr: {
         name: 'ગુજરાતી લિપિ',
         en: 'Gujarati',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'અ',
     },
     Gukh: {
         name: 'Gurung Khema',
@@ -355,6 +367,7 @@ export const Scripts = {
         en: 'Gurmukhi',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'ਅ',
     },
     Hang: {
         name: '한글',
@@ -379,6 +392,7 @@ export const Scripts = {
         en: 'Han (Simplified)',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: '文',
     },
     Hant: {
         name: '正體字',
@@ -397,12 +411,14 @@ export const Scripts = {
         en: 'Hebrew',
         direction: 'rtl',
         layout: 'horizontal-tb',
+        glyph: 'א',
     },
     Hira: {
         name: '平仮名',
         en: 'Hiragana',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'あ',
     },
     Hluw: {
         name: 'Anatolian Hieroglyphs',
@@ -487,12 +503,14 @@ export const Scripts = {
         en: 'Kannada',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'ಅ',
     },
     Kore: {
         name: '한글',
         en: 'Korean',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: '가',
     },
     Krai: {
         name: 'Kirat Rai',
@@ -523,6 +541,7 @@ export const Scripts = {
         en: 'Latin',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'a',
     },
     Lepc: {
         name: 'Lepcha',
@@ -963,6 +982,7 @@ export const Scripts = {
         en: 'Tamil',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'அ',
     },
     Tang: {
         name: 'Tangut',
@@ -987,6 +1007,7 @@ export const Scripts = {
         en: 'Telugu',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'అ',
     },
     Tfng: {
         name: 'ⵜⵉⴼⵉⵏⴰⵖ',

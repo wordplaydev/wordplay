@@ -58,6 +58,9 @@
     import { prefetch as prefetchHand } from '@input/Hand/HandLandmarker';
     import { handLandmarkerStatus } from '@input/Hand/HandLandmarkerLoader.svelte';
     import Key from '@input/Key/Key';
+    import analyzeProjectKeys from '@input/Key/analyzeProjectKeys';
+    import KeyPadView from '@components/output/KeyPadView.svelte';
+    import { TouchSupported } from '@components/util/TouchSupported';
     import { prefetch as prefetchObjects } from '@input/Objects/ObjectDetector';
     import { objectDetectorStatus } from '@input/Objects/ObjectDetectorLoader.svelte';
     import Objects from '@input/Objects/Objects';
@@ -641,6 +644,23 @@
             $evaluation.evaluator.getBasisStreamsOfType(Chat).length > 0,
     );
 
+    /**
+     * Which keys this project listens for, when we're on a touch screen and
+     * could offer them as buttons instead of the on-screen keyboard. Analysis
+     * is cached per project revision, so this costs nothing to re-derive.
+     */
+    const keyAnalysis = $derived(
+        TouchSupported && interactive && (keys || placements)
+            ? analyzeProjectKeys(evaluator.project)
+            : undefined,
+    );
+    /** A project whose keys we couldn't bound keeps the keyboard. */
+    const keyPad = $derived(
+        keyAnalysis !== undefined && keyAnalysis.kind !== 'unbounded'
+            ? keyAnalysis
+            : undefined,
+    );
+
     /** Interactive stage inputs (like the chat field) are only live in play mode;
      *  both edit and step map to playing === false. */
     const playing = $derived($evaluation?.playing === true);
@@ -834,24 +854,61 @@
     /** When creator's preferred animation factor changes, update evaluator */
     $effect(() => evaluator.updateTimeMultiplier($animationFactor));
 
-    function handleKeyUp(event: KeyboardEvent) {
-        keysDown.set(event.key, false);
+    /** Keys the stage maps onto Placement's axes of change. */
+    function isPlacementKey(key: string) {
+        return key.startsWith('Arrow') || key === '-' || key === '=';
+    }
 
-        if (event.key === 'Tab') return;
+    /**
+     * Give a key press or release to the streams that want it. Both the
+     * physical keyboard and the on-screen key pad route through here, so a
+     * tapped key is indistinguishable from a typed one — including for the
+     * input recording that replay depends on.
+     */
+    function pressKey(key: string, down: boolean) {
+        keysDown.set(key, down);
+
+        if (!evaluator.isPlaying()) return;
+
+        evaluator.singletonReact(Key, (stream) => stream.react({ key, down }));
+
+        // Only a press is announced and steers Placement, matching what a
+        // physical keyboard does.
+        if (!down) return;
+
+        if ($announce) $announce('keyinput', $locales.getLanguages()[0], key);
+
+        if (isPlacementKey(key))
+            evaluator.singletonReact(Placement, (stream) =>
+                stream.react({
+                    x: keysDown.get('ArrowLeft')
+                        ? -1
+                        : keysDown.get('ArrowRight')
+                          ? 1
+                          : 0,
+                    y: keysDown.get('ArrowUp')
+                        ? 1
+                        : keysDown.get('ArrowDown')
+                          ? -1
+                          : 0,
+                    z: keysDown.get('-') ? 1 : keysDown.get('=') ? -1 : 0,
+                }),
+            );
+    }
+
+    function handleKeyUp(event: KeyboardEvent) {
+        // Tab is for keyboard navigation, but still stops being held.
+        if (event.key === 'Tab') {
+            keysDown.set(event.key, false);
+            return;
+        }
 
         // The keyboard input is just a focus sink for key events; discard anything typed into it.
         if (keyboardInputView) {
             keyboardInputView.value = '';
         }
 
-        // Is the program evaluating?
-        if (evaluator.isPlaying()) {
-            // Record the key event on all keyboard streams if it wasn't handled above.
-            evaluator.singletonReact(Key, (stream) =>
-                stream.react({ key: event.key, down: false }),
-            );
-        }
-        // else ignore();
+        pressKey(event.key, false);
     }
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -1076,39 +1133,11 @@
         movingOutput = false;
 
         // Finally, if the event was ignored by all of the above, pass it to streams.
-        if (evaluator.isPlaying()) {
-            evaluator.singletonReact(Key, (stream) =>
-                stream.react({ key: event.key, down: true }),
-            );
+        pressKey(event.key, true);
 
-            // Announce the key pressed
-            if ($announce)
-                $announce('keyinput', $locales.getLanguages()[0], event.key);
-
-            // Map keys onto axes of change for any Placement streams.
-            if (
-                event.key.startsWith('Arrow') ||
-                event.key === '-' ||
-                event.key === '='
-            ) {
-                evaluator.singletonReact(Placement, (stream) =>
-                    stream.react({
-                        x: keysDown.get('ArrowLeft')
-                            ? -1
-                            : keysDown.get('ArrowRight')
-                              ? 1
-                              : 0,
-                        y: keysDown.get('ArrowUp')
-                            ? 1
-                            : keysDown.get('ArrowDown')
-                              ? -1
-                              : 0,
-                        z: keysDown.get('-') ? 1 : keysDown.get('=') ? -1 : 0,
-                    }),
-                );
-                event.stopPropagation();
-            }
-        }
+        // Placement steers with these, so don't let them scroll the page too.
+        if (evaluator.isPlaying() && isPlacementKey(event.key))
+            event.stopPropagation();
     }
 
     function submitChat() {
@@ -1889,6 +1918,9 @@
     let musicEvaluator: Evaluator | undefined = undefined;
 
     $effect(() => {
+        // Re-run when the audio context resumes, so sound recovers on the
+        // unlock gesture rather than on the next evaluation.
+        $musicSuspended;
         const present = musics;
         // The music editor's preview takes over while it plays: both share one
         // audio context, and two transports at different positions sound like a
@@ -2215,10 +2247,16 @@
                 <!-- Hidden focus sink that lets Key/Placement streams receive keyboard events -->
                 {#if keys || placements}
                     <div class="keyboard">
+                        <!-- With a key pad on screen, the on-screen keyboard
+                             would only obstruct the stage; the field stays
+                             focused so physical keyboards still work. -->
                         <input
                             type="text"
                             class="keyboard-input"
                             data-defaultfocus
+                            inputmode={keyPad !== undefined
+                                ? 'none'
+                                : undefined}
                             aria-autocomplete="none"
                             aria-label={$locales.getPrimaryPlainText(
                                 (l) => l.ui.output.field.key.description,
@@ -2230,6 +2268,10 @@
                     </div>
                 {/if}
             </div>
+            <!-- Tappable keys in place of the on-screen keyboard. -->
+            {#if keyPad !== undefined}
+                <KeyPadView analysis={keyPad} press={pressKey} />
+            {/if}
         {/if}
     </div>
     <!-- Chat stream message field. It lives OUTSIDE .value so it escapes the pinned

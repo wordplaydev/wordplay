@@ -5,7 +5,7 @@ import { Domain } from '@db/Domains';
 import exceedsDocLimit from '@db/exceedsDocLimit';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
-import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
+
 import isQuotaError from '@db/isQuotaError';
 import { PreviewContentSchema } from '@db/projects/ProjectSchemas';
 import SaveTracker from '@db/SaveTracker.svelte';
@@ -522,10 +522,9 @@ export class HowToDatabase {
             // (a no-op when it's already linked, as on a plain edit replay).
             const batch = writeBatch(db);
             batch.set(doc(db, HowTosCollection, id), howTo.getData());
-            batch.update(
-                doc(db, GalleriesCollection, howTo.getHowToGalleryId()),
-                { howTos: arrayUnion(id) },
-            );
+            batch.update(doc(db, Domain.Galleries, howTo.getHowToGalleryId()), {
+                howTos: arrayUnion(id),
+            });
             return { name: howTo.getTitle(), write: batch.commit() };
         });
     }
@@ -672,7 +671,7 @@ export class HowToDatabase {
                 const batch = writeBatch(firestore);
                 batch.delete(doc(firestore, HowTosCollection, howToId));
                 batch.update(
-                    doc(firestore, GalleriesCollection, gallery.getID()),
+                    doc(firestore, Domain.Galleries, gallery.getID()),
                     { howTos: arrayRemove(howToId) },
                 );
                 await this.db.write(batch.commit());
@@ -778,7 +777,7 @@ export class HowToDatabase {
             // overwriting each other.
             const batch = writeBatch(firestore);
             batch.set(doc(firestore, HowTosCollection, newHowTo.id), newHowTo);
-            batch.update(doc(firestore, GalleriesCollection, gallery.getID()), {
+            batch.update(doc(firestore, Domain.Galleries, gallery.getID()), {
                 howTos: arrayUnion(newHowTo.id),
             });
 

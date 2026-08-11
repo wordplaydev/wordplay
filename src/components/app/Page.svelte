@@ -2,6 +2,7 @@
     import { page } from '$app/state';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import Logo from '@components/app/Logo.svelte';
     import Feedback from '@components/app/Feedback.svelte';
     import Link from '@components/app/Link.svelte';
     import Status from '@components/app/Status.svelte';
@@ -21,11 +22,9 @@
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import Color from '@output/Color/Color';
     import {
         DOCUMENTATION_SYMBOL,
         LEARN_SYMBOL,
-        LOGO_SYMBOL,
         PROJECT_SYMBOL,
         STAGE_SYMBOL,
         SYMBOL_SYMBOL,
@@ -57,6 +56,7 @@
     let fullscreen: FullscreenContext = writable({
         on: false,
         background: null,
+        foreground: null,
     });
     setFullscreen(fullscreen);
 
@@ -66,14 +66,10 @@
     $effect(() => {
         if (typeof document !== 'undefined' && $fullscreen) {
             document.body.style.background = $fullscreen.on
-                ? $fullscreen.background instanceof Color
-                    ? $fullscreen.background.toCSS()
-                    : ($fullscreen.background ?? '')
+                ? ($fullscreen.background ?? '')
                 : '';
             document.body.style.color = $fullscreen.on
-                ? $fullscreen.background instanceof Color
-                    ? $fullscreen.background.contrasting().toCSS()
-                    : ''
+                ? ($fullscreen.foreground ?? '')
                 : '';
         }
     });
@@ -116,9 +112,15 @@
         <nav>
             {#snippet navHome()}
                 {#if footer}
-                    <Link nowrap tip={(l) => l.ui.widget.home} to="/"
+                    <Link
+                        nowrap
+                        tip={(l) => l.ui.widget.home}
+                        ariaLabel={(l) => l.ui.widget.home}
+                        to="/"
                         ><span style:font-size="150%"
-                            ><Emoji text={LOGO_SYMBOL} /></span
+                            ><!-- The exemplar glyph of the viewer's primary
+                                 locale's script (Logo's default). -->
+                            <Logo /></span
                         ></Link
                     >
                 {/if}

@@ -2,9 +2,9 @@
     import Emoji from '@components/app/Emoji.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
-        toShortcut,
         type Command,
     } from '@components/editor/commands/Commands';
+    import { toShortcut } from '@components/editor/commands/shortcuts';
 
     interface Props {
         command: Command;

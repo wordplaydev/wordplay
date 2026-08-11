@@ -6702,6 +6702,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~Dymek z literą Twojego systemu pisma w środku"
             }
         },
         "tile": {
@@ -7250,6 +7253,10 @@
                 "explanation": "$~Ten projekt ma muzykę, ale twoja przeglądarka czeka, aż wejdziesz w interakcję ze stroną, zanim odtworzy dźwięk.",
                 "loading": "$~Przygotowuję $instruments…",
                 "synthesized": "$~Nie udało się wczytać $instruments, więc brzmią syntetycznie."
+            },
+            "keypad": {
+                "label": "$~Klawisze, których używa ten projekt",
+                "any": "$~Dotknij, aby zagrać"
             }
         },
         "timeline": {
@@ -8917,13 +8924,25 @@
                     "optionslabel": "$~Przykład",
                     "optiona": "$~Opcja A",
                     "optionb": "$~Opcja B",
-                    "optionc": "$~Opcja C"
+                    "optionc": "$~Opcja C",
+                    "logoresting": "$~W spoczynku",
+                    "logoloading": "$~Ładowanie",
+                    "logoscripts": "$~W różnych systemach pisma",
+                    "logodownloadsvg": "$~Pobierz SVG",
+                    "logodownloadpng": "$~Pobierz PNG (512px)",
+                    "logodownloadcard": "$~Pobierz obraz do udostępnienia"
                 },
                 "accessibility": "$~Dostępność kolorów",
                 "accessibilityRules": [
                     "$~Wszystko, co jest wyświetlane jako *tekst*, musi używać jednego z wariantów tekstu AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* lub zmiennej znaczeniowej, która na niego wskazuje). Warianty te spełniają wymóg kontrastu 4,5:1, którego wymaga <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Jaśniejsze barwy marki są tylko do teł, obramowań i podświetleń, które potrzebują kontrastu 3:1 albo wcale. Te proporcje są sprawdzane przez testy jednostkowe i przez automatyczne skanowanie każdej strony, zarówno w trybie jasnym, jak i ciemnym. Jest jeden celowy wyjątek: szary kolor obramowania w trybie jasnym ma kontrast poniżej 3:1, ponieważ obramowania służą tu tylko do ozdobnego oddzielenia, a każda ważna granica ma dodatkowy sygnał.",
                     "Nigdy nie przekazuj znaczenia samym kolorem: połącz każdy stan oznaczony kolorem z drugim sygnałem — kształtem, stylem linii, symbolem lub słowem. Na przykład edytor rysuje podświetlenie kursora i poważne konflikty *pełną linią*, zaznaczone wyjście *linią przerywaną*, a drobne konflikty *linią kropkowaną*, dzięki czemu waga i zaznaczenie pozostają rozróżnialne bez koloru.",
                     "Zobacz przewodnik <design wiki@https://github.com/wordplaydev/wordplay/wiki/design>, aby poznać pełne wskazówki dla współtwórców."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Logo Wordplay to dymek z jedną literą w środku: mała scena, na której dymek może powiedzieć wszystko — literę z systemu pisma czytelnika, emoji albo koło, trójkąt i kwadrat, gdy coś się wczytuje. W aplikacji litera pasuje do systemu pisma twojego głównego języka. Na powierzchniach neutralnych dla pisma, takich jak ikona przeglądarki i obrazki do udostępniania, dymek pokazuje trzy kształty, które zaraz coś stworzą.",
+                    "Sam rysunek nigdy nie przedstawia ruchu. Ruch pochodzi z zachowania — strona startowa zmienia to, co mówi dymek, w rytm wyboru języka, a podczas wczytywania kształty po kolei podskakują, jak tłum robiący meksykańską falę. Ruch zawsze dopasowuje się do ustawienia prędkości animacji i całkowicie się zatrzymuje, gdy animacja jest wyłączona.",
+                    "Znak zawsze rysujemy w aktualnym kolorze tekstu. Dzięki temu wszędzie tam, gdzie tekst spełnia wymagania kontrastu, logo też je spełnia."
                 ]
             },
             "thanks": {
@@ -9708,7 +9727,8 @@
     "system": {
         "noscript": "$~Wordplay korzysta z JavaScript. Twoja przeglądarka go nie obsługuje lub jest wyłączony.",
         "unsupportedHeading": "$~Nieobsługiwana przeglądarka",
-        "unsupportedBody": "$~Twoja przeglądarka nie obsługuje kluczowych funkcji. Aby korzystać z Wordplay, musisz zaktualizować ją do nowszej wersji."
+        "unsupportedBody": "$~Twoja przeglądarka nie obsługuje kluczowych funkcji. Aby korzystać z Wordplay, musisz zaktualizować ją do nowszej wersji.",
+        "imageDescription": "$~Logo Wordplay — dymek z kółkiem, trójkątem i kwadratem — obok nazwy Wordplay, otoczony przygaszonym tłumem symboli oznaczających wszystko, co programy Wordplay mogą wyczuć i powiedzieć."
     },
     "keyword": {
         "function": "funkcja",

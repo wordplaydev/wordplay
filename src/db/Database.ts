@@ -504,6 +504,32 @@ export class Database {
         if (recovered) this.flushUnsavedWork();
     }
 
+    /**
+     * Bring the project subsystem online: read the local cache and, if signed
+     * in, start syncing. Kept off the import path and out of the constructor
+     * because hydration deserializes every cached project, and each one builds
+     * a `Basis` — seconds of main-thread work on a phone, spent before first
+     * paint on pages that show no projects at all. Idempotent.
+     *
+     * Waiting is safe for unsaved work: edits are recorded in a durable dirty
+     * table, so anything pending replays once this runs.
+     */
+    async startProjectWork(): Promise<void> {
+        await this.Projects.start();
+        if (this.user !== null) this.Projects.saveSoon();
+    }
+
+    /** Whether this device has project work worth starting: a signed-in
+     *  creator, or projects cached locally from a previous visit. */
+    async shouldStartProjectWork(): Promise<boolean> {
+        if (this.user !== null) return true;
+        try {
+            return (await this.localDB.projects.count()) > 0;
+        } catch {
+            return false;
+        }
+    }
+
     /** Re-push every domain's unsaved edits to the cloud. Each call is a no-op
      *  when that domain has nothing unsaved, so it's safe to fire on any
      *  reconnect signal (browser `online` or Firebase reachability recovery). */

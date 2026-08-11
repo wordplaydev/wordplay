@@ -4,7 +4,7 @@
 </script>
 
 <div class="container">
-    <Spinning label={(l) => l.ui.widget.loading.message} size={2} />
+    <Spinning label={(l) => l.ui.widget.loading.message} size={3} />
     <Subheader text={(l) => l.ui.widget.loading.message} compact wrap />
 </div>
 

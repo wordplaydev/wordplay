@@ -6686,6 +6686,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~Sebuah balon ucapan dengan huruf dari sistem penulisanmu di dalamnya"
             }
         },
         "tile": {
@@ -7472,6 +7475,10 @@
                 "explanation": "$~Proyek ini punya musik, tetapi peramban kamu menunggu kamu berinteraksi dengan halaman sebelum memainkan suara.",
                 "loading": "$~Menyiapkan $instruments…",
                 "synthesized": "$~$instruments tidak dapat dimuat, jadi suaranya terdengar seperti buatan mesin."
+            },
+            "keypad": {
+                "label": "$~Kunci yang dipakai proyek ini",
+                "any": "$~Ketuk untuk bermain"
             }
         },
         "timeline": {
@@ -9329,13 +9336,25 @@
                     "optionslabel": "$~Contoh",
                     "optiona": "$~Opsi A",
                     "optionb": "$~Opsi B",
-                    "optionc": "$~Opsi C"
+                    "optionc": "$~Opsi C",
+                    "logoresting": "$~Sedang diam",
+                    "logoloading": "$~Sedang memuat",
+                    "logoscripts": "$~Di berbagai sistem tulisan",
+                    "logodownloadsvg": "$~Unduh SVG",
+                    "logodownloadpng": "$~Unduh PNG (512px)",
+                    "logodownloadcard": "$~Unduh gambar berbagi"
                 },
                 "accessibility": "$~Aksesibilitas Warna",
                 "accessibilityRules": [
                     "$~Apa pun yang ditampilkan sebagai *teks* harus memakai salah satu varian teks AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, atau variabel semantik yang menunjuk ke salah satunya). Varian-varian ini memenuhi kontras 4.5:1 yang diwajibkan oleh <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Warna merek yang lebih terang hanya untuk latar belakang, garis tepi, dan sorotan, yang membutuhkan kontras 3:1 atau tidak sama sekali. Rasio-rasio ini dijaga oleh uji unit dan pemindaian otomatis pada setiap halaman, baik dalam mode terang maupun gelap. Ada satu pengecualian yang disengaja: warna abu-abu garis tepi pada mode terang berada di bawah 3:1, karena garis tepi di sini hanya pemisah dekoratif dan setiap batas penting sudah memiliki penanda lain.",
                     "Jangan pernah menyampaikan makna hanya melalui warna: pasangkan setiap keadaan berkode warna dengan penanda kedua — bentuk, gaya garis, simbol, atau kata. Contohnya, editor menggambar sorotan kursor dan konflik besar dengan garis *penuh*, output terpilih dengan garis *putus-putus*, dan konflik kecil dengan garis *titik-titik*, sehingga tingkat keparahan dan pilihan tetap dapat dibedakan tanpa warna.",
                     "Lihat panduan <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> untuk panduan lengkap bagi kontributor."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Logo Wordplay adalah balon bicara yang memuat satu huruf: sebuah panggung kecil tempat balon itu bisa mengatakan apa saja — sebuah huruf dari sistem tulisan pembaca, sebuah emoji, atau lingkaran, segitiga, dan persegi saat ada sesuatu yang sedang dimuat. Di dalam aplikasi, huruf itu mengikuti sistem tulisan bahasa utamamu; pada permukaan yang netral terhadap tulisan seperti ikon peramban dan gambar berbagi, balon itu menampilkan tiga bentuk, yang siap membuat sesuatu.",
+                    "Gambar itu sendiri tidak pernah menunjukkan gerakan. Gerakan bersifat perilaku — halaman awal mengganti apa yang dikatakan balon itu seiring dengan pemilih bahasa, dan saat memuat, bentuk-bentuk itu bergiliran melompat, seperti kerumunan yang melakukan gelombang — dan selalu menyesuaikan dengan pengaturan kecepatan animasi, berhenti sepenuhnya saat animasi dimatikan.",
+                    "Tanda itu selalu digambar dengan warna teks saat ini, jadi di mana pun teks memenuhi syarat kontras, logo pun demikian."
                 ]
             },
             "thanks": {
@@ -9686,7 +9705,8 @@
     "system": {
         "noscript": "$~Wordplay menggunakan JavaScript. Browser Anda tidak mendukungnya, atau fitur tersebut dinonaktifkan.",
         "unsupportedHeading": "$~Browser yang tidak didukung",
-        "unsupportedBody": "$~Browser Anda tidak mendukung fungsi penting. Untuk menggunakan Wordplay, Anda perlu memperbarui ke versi yang lebih baru."
+        "unsupportedBody": "$~Browser Anda tidak mendukung fungsi penting. Untuk menggunakan Wordplay, Anda perlu memperbarui ke versi yang lebih baru.",
+        "imageDescription": "$~Logo Wordplay — sebuah gelembung ucapan yang berisi lingkaran, segitiga, dan persegi — di samping nama Wordplay, dikelilingi oleh kerumunan simbol yang samar untuk semua hal yang dapat dirasakan dan dikatakan oleh program Wordplay."
     },
     "keyword": {
         "function": "fungsi",

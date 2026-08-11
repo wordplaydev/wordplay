@@ -5904,7 +5904,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Ay oo, siyempre! Ano kaya kung hayaan natin silang magbigay-liwanag sa kwarto? @Phrase, pwede mo bang pakinggan si @Volume at ikonekta ito sa @Color.lightness at @Color.chroma sa iyong kulay? Sa ganoong paraan, magiging puting-mainit tayo kapag maingay ang ating direktor!"
+                            "$~Ay oo, syempre! Ano kaya kung sila na ang magpapaliwanag ng silid? @Phrase, kaya mo bang makinig sa @Volume at ikabit ito sa @Color.lightness at @Color.chroma sa iyong kulay? Sa ganoong paraan, magiging puting-mainit tayo kapag may ingay ang ating direktor!"
                         ],
                         ["Phrase", "kind", "$~Napakagandang ideya!"],
                         { "edit": "#EvaluateDance14" },

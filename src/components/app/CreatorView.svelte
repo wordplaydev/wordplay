@@ -75,6 +75,9 @@
     .loading-face {
         display: inline-block;
         transform-origin: center;
+        /* The mono chain, so this monochrome face doesn't match a color emoji
+           slice and download it. The FE0E selector alone doesn't prevent that. */
+        font-family: var(--wordplay-emoji-mono-font);
         /* Multiplying by --animation-factor makes this a no-op under
            prefers-reduced-motion (factor 0), matching Spinning.svelte. */
         animation: spin infinite linear;

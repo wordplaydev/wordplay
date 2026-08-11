@@ -6682,6 +6682,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~Un globo de diálogo con una letra de tu sistema de escritura adentro"
             }
         },
         "tile": {
@@ -7213,6 +7216,10 @@
                 "explanation": "$~Este proyecto tiene música, pero tu navegador espera a que interactúes con la página antes de reproducir el sonido.",
                 "loading": "$~Preparando $instruments…",
                 "synthesized": "$~$instruments no se pudieron cargar, así que suenan sintetizados."
+            },
+            "keypad": {
+                "label": "$~Teclas que usa este proyecto",
+                "any": "$~Toca para jugar"
             }
         },
         "timeline": {
@@ -8801,13 +8808,25 @@
                     "optionslabel": "$~Ejemplo",
                     "optiona": "$~Opción A",
                     "optionb": "$~Opción B",
-                    "optionc": "$~Opción C"
+                    "optionc": "$~Opción C",
+                    "logoresting": "$~En reposo",
+                    "logoloading": "$~Cargando",
+                    "logoscripts": "$~A través de sistemas de escritura",
+                    "logodownloadsvg": "$~Descargar SVG",
+                    "logodownloadpng": "$~Descargar PNG (512px)",
+                    "logodownloadcard": "$~Descargar imagen para compartir"
                 },
                 "accessibility": "$~Accesibilidad de color",
                 "accessibilityRules": [
                     "$~Cualquier cosa que se muestre como *texto* debe usar una de las variantes de texto AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, o una variable con significado que apunte a una de ellas), que cumplen el contraste de 4.5:1 que exige <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Los tonos de marca más brillantes son solo para fondos, bordes y resaltados, que necesitan 3:1 o nada. Estas proporciones se verifican con pruebas unitarias y con revisiones automáticas de cada página, tanto en modo claro como en modo oscuro. Hay una excepción a propósito: el gris del borde en modo claro está por debajo de 3:1, porque aquí los bordes son una separación decorativa y cada límite importante tiene otra señal.",
                     "Nunca transmitas significado solo con el color: acompaña cada estado marcado con color con una segunda señal: una forma, un estilo de línea, un símbolo o una palabra. Por ejemplo, el editor dibuja el resaltado del cursor y los conflictos mayores en *sólido*, la salida seleccionada en *guiones* y los conflictos menores en *puntos*, para que la gravedad y la selección se distingan sin usar el color.",
                     "Revisa la guía del <wiki de diseño@https://github.com/wordplaydev/wordplay/wiki/design> para ver toda la orientación para quienes colaboran."
+                ],
+                "logo": "$~Logotipo",
+                "logoDescription": [
+                    "$~El logo de Wordplay es una burbuja de diálogo que sostiene una letra: un pequeño escenario donde la burbuja puede decir lo que sea: una letra del sistema de escritura del lector, un emoji, o un círculo, un triángulo y un cuadrado mientras algo carga. En la aplicación, la letra sigue el sistema de escritura de tu idioma principal; en lugares neutrales de escritura, como el ícono del navegador y las imágenes para compartir, la burbuja muestra las tres formas, a punto de crear algo.",
+                    "El dibujo en sí nunca muestra movimiento. El movimiento es un comportamiento: la página de inicio va cambiando lo que dice la burbuja al ritmo del selector de idioma, y mientras carga, las formas se turnan para saltar, como una multitud haciendo la ola, y siempre se ajusta a la velocidad de animación que elijas, deteniéndose por completo cuando la animación está apagada.",
+                    "La marca siempre se dibuja con el color de texto actual, así que donde el texto cumple los requisitos de contraste, el logo también lo hace."
                 ]
             },
             "thanks": {
@@ -9684,7 +9703,8 @@
     "system": {
         "noscript": "$~Wordplay usa JavaScript. Tu navegador no lo admite o está desactivado.",
         "unsupportedHeading": "$~Navegador no compatible",
-        "unsupportedBody": "$~Tu navegador no admite funciones esenciales. Para usar Wordplay, necesitarás actualizar a una versión más reciente."
+        "unsupportedBody": "$~Tu navegador no admite funciones esenciales. Para usar Wordplay, necesitarás actualizar a una versión más reciente.",
+        "imageDescription": "$~El logotipo de Wordplay — un globo de diálogo que sostiene un círculo, un triángulo y un cuadrado — junto al nombre Wordplay, rodeado de una multitud tenue de símbolos que representan todo lo que los programas de Wordplay pueden percibir y decir."
     },
     "keyword": {
         "function": "función",

@@ -6647,6 +6647,9 @@
                 "pick": {
                     "tip": "select a color from your screen"
                 }
+            },
+            "logo": {
+                "description": "$~一個對話泡泡，裡面有一個你書寫系統的字母"
             }
         },
         "tile": {
@@ -7178,6 +7181,10 @@
                 "explanation": "$~這個工程有音樂，但你的瀏覽器正在等你先與頁面互動，然後才會播放聲音。",
                 "loading": "$~正在準備 $instruments…",
                 "synthesized": "$~$instruments 無法載入，所以它們用合成的聲音播放。"
+            },
+            "keypad": {
+                "label": "$~這個工程使用的鑰匙",
+                "any": "$~點一下開始玩"
             }
         },
         "timeline": {
@@ -8755,13 +8762,25 @@
                     "optionslabel": "$~範例",
                     "optiona": "$~選項 A",
                     "optionb": "$~選項 B",
-                    "optionc": "$~選項 C"
+                    "optionc": "$~選項 C",
+                    "logoresting": "$~靜止",
+                    "logoloading": "$~載入中",
+                    "logoscripts": "$~跨越不同書寫系統",
+                    "logodownloadsvg": "$~下載 SVG",
+                    "logodownloadpng": "$~下載 PNG（512px）",
+                    "logodownloadcard": "$~下載分享圖片"
                 },
                 "accessibility": "$~顏色無障礙",
                 "accessibilityRules": [
                     "$~任何呈現為 *文字* 的內容都必須使用其中一種 AA 文字變體（*--color-gold-text*、*--color-grey-text*、*--color-blue-text*、*--color-orange-text*，或是指向其中之一的語意變數），這些變體達到 <WCAG 2.2@https://www.w3.org/TR/WCAG22/> 所要求的 4.5:1 對比。較亮的品牌色調只用於背景、邊框和重點標示，這些地方需要 3:1 或不需要對比。這些比例會由單元測試以及對每個頁面的自動掃描來檢查，在淺色和深色模式中都會執行。有一個刻意的例外：淺色模式的邊框灰色低於 3:1，因為這裡的邊框只是裝飾性的分隔，而且每個重要的邊界都會帶有另一個提示。",
                     "絕對不要只用顏色來傳達意義：每個用顏色標示的狀態都要搭配第二個提示——一個形狀、一種線條樣式、一個符號或一個字。舉例來說，編輯器會把游標的重點標示和主要衝突畫成 *實線*，把選取的輸出畫成 *虛線*，把次要衝突畫成 *點線*，這樣即使沒有顏色，嚴重程度和選取狀態也能清楚區分。",
                     "完整的貢獻者指南請參閱 <設計維基@https://github.com/wordplaydev/wordplay/wiki/design> 指南。"
+                ],
+                "logo": "$~標誌",
+                "logoDescription": [
+                    "$~Wordplay 標誌是一個對話泡泡，裡面放著一個字：這是一個小小的舞台，泡泡可以在上面說任何東西——讀者書寫系統中的一個字母、一個表情符號，或是在載入時出現的圓形、三角形和方形。在應用程式裡，這個字會跟隨你主要語言的書寫系統；而在不分書寫系統的地方，例如瀏覽器圖示和分享圖片，泡泡會顯示這三種形狀，正準備做出點什麼。",
+                    "這個圖案本身從不表現移動。移動是一種行為——首頁會讓泡泡說的內容配合語言選擇器一起變換；載入時，這些形狀會輪流跳動，就像人群做波浪動作一樣——而且移動的快慢一律會跟著動畫速度設定改變，當動畫關閉時就完全停止。",
+                    "這個標記一律用目前的文字顏色來繪製，所以只要文字符合對比要求，標誌也一樣符合。"
                 ]
             },
             "thanks": {
@@ -9628,7 +9647,8 @@
     "system": {
         "noscript": "$~Wordplay 使用 JavaScript。你的瀏覽器不支援它，或它被停用了。",
         "unsupportedHeading": "$~不支援的瀏覽器",
-        "unsupportedBody": "$~你的瀏覽器不支援重要的功能。要使用 Wordplay，你需要升級到較新的版本。"
+        "unsupportedBody": "$~你的瀏覽器不支援重要的功能。要使用 Wordplay，你需要升級到較新的版本。",
+        "imageDescription": "$~Wordplay 的標誌——一個對話框，裡面裝著一個圓形、一個三角形和一個正方形——旁邊是 Wordplay 這個名字，四周圍繞著一群淡淡的符號，代表 Wordplay 程式能夠感知和表達的所有事物。"
     },
     "keyword": {
         "function": "函數",

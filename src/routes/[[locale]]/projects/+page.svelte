@@ -12,7 +12,8 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import { authAttempted, locales, Projects } from '@db/Database';
+    import { authAttempted, DB, locales, Projects } from '@db/Database';
+    import { onMount } from 'svelte';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from './search';
     import { CANCEL_SYMBOL, EDIT_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
@@ -102,6 +103,10 @@
                 .map((m) => [m.project.getID(), m.matchText!]),
         ),
     );
+
+    // This page reads projects straight away, so ask for them rather than
+    // waiting for the layout's idle warm-up.
+    onMount(() => void DB.startProjectWork());
 </script>
 
 <svelte:head>

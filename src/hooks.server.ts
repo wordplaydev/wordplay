@@ -9,6 +9,7 @@ import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 type FallbackStrings = {
     wordplay: string;
+    imageDescription: string;
     noscript: string;
     unsupportedHeading: string;
     unsupportedBody: string;
@@ -34,6 +35,9 @@ function loadFallback(locale: string): FallbackStrings {
     };
     const strings: FallbackStrings = {
         wordplay: withoutAnnotations(parsed.glossary?.wordplay?.word ?? ''),
+        imageDescription: withoutAnnotations(
+            parsed.system?.imageDescription ?? '',
+        ),
         noscript: withoutAnnotations(parsed.system?.noscript ?? ''),
         unsupportedHeading: withoutAnnotations(
             parsed.system?.unsupportedHeading ?? '',
@@ -48,12 +52,15 @@ function loadFallback(locale: string): FallbackStrings {
     if (
         locale !== 'en-US' &&
         (!strings.wordplay ||
+            !strings.imageDescription ||
             !strings.noscript ||
             !strings.unsupportedHeading ||
             !strings.unsupportedBody)
     ) {
         const fallback = loadFallback('en-US');
         if (!strings.wordplay) strings.wordplay = fallback.wordplay;
+        if (!strings.imageDescription)
+            strings.imageDescription = fallback.imageDescription;
         if (!strings.noscript) strings.noscript = fallback.noscript;
         if (!strings.unsupportedHeading)
             strings.unsupportedHeading = fallback.unsupportedHeading;
@@ -86,6 +93,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     const locale = pickLocale(event.params.locale);
     const strings = loadFallback(locale);
     const wordplay = escapeHtml(strings.wordplay);
+    const imageDescription = escapeHtml(strings.imageDescription);
     const noscript = escapeHtml(strings.noscript);
     const unsupportedHeading = escapeHtml(strings.unsupportedHeading);
     const unsupportedBody = escapeHtml(strings.unsupportedBody);
@@ -94,6 +102,10 @@ export const handle: Handle = async ({ event, resolve }) => {
         transformPageChunk: ({ html }) =>
             html
                 .replaceAll('%wordplay.wordplay%', wordplay)
+                .replaceAll(
+                    '%wordplay.system.imageDescription%',
+                    imageDescription,
+                )
                 .replaceAll('%wordplay.system.noscript%', noscript)
                 .replaceAll(
                     '%wordplay.system.unsupportedHeading%',
