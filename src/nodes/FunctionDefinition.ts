@@ -494,7 +494,11 @@ export default class FunctionDefinition extends DefinitionExpression {
             ? // If it's a number type, and we received a caller, pass it, so we can infer the units.
               this.output instanceof NumberType && caller !== undefined
                 ? this.output.withOp(caller)
-                : this.output
+                : // A declared output is an annotation, so a name in it is still just a name.
+                  // Resolve it, or a call's type would be a NameType, and member resolution —
+                  // property access, operators — would find nothing on it. Concretize leaves
+                  // type variables alone, and is a no-op for every type without a name in it.
+                  this.output.concretize(context)
             : this.expression === undefined
               ? new AnyType()
               : this.expression.getType(context);

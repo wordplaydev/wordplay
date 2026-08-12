@@ -8,6 +8,8 @@ import UnknownInput from '@conflicts/UnknownInput';
 import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
 import type Conflict from '@conflicts/Conflict';
+import Project from '@db/projects/Project';
+import DefaultLocale from '@locale/DefaultLocale';
 import evaluateCode from '@runtime/evaluate';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Evaluate from '@nodes/Evaluate';
@@ -16,6 +18,7 @@ import type Node from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
 import Reference from '@nodes/Reference';
 import SetType from '@nodes/SetType';
+import Source from '@nodes/Source';
 
 test.each([
     // Calling an undefined function — reported as UnknownName on the Reference,
@@ -161,6 +164,32 @@ test.each([
     ['x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(5 1)', '[5 [1]]'],
 ])('%s = %s', (code: string, value: string) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
+});
+
+/**
+ * The symptom that surfaced the unresolved-output bug, kept in its original shape because the
+ * report was so misleading: a one-input predicate was blamed for having one input rather than
+ * three. The real mismatch was the predicate's *output* — the call's type was an unresolved
+ * name, so the property was unknown and the comparison's type poisoned the lambda — and
+ * IncompatibleInput renders a function type as its input count, which named the wrong thing.
+ */
+test('A predicate that calls a function with a declared structure output is fine', () => {
+    // `doors` is bound rather than written inline because a line that opens with `[` continues
+    // the line above it as a list access, which would make this fixture about parsing instead.
+    const code = `•Door(room•'')
+•Room(id•'' needs•'': '')
+rooms•[Room]: [ Room('a') Room('b' needs: 'lantern') ]
+doors•[Door]: [ Door('b') ]
+ƒ go(wanted•'')•Room rooms.find(ƒ(r•Room) r.id = wanted) ?? rooms[1]
+doors.filter(ƒ(d•Door) go(d.room).needs = '')`;
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    project.analyze();
+    expect(
+        Array.from(project.getConflictedNodes().keys()).map((n) =>
+            n.toWordplay(),
+        ),
+    ).toEqual([]);
 });
 
 test('Test generics', () => {

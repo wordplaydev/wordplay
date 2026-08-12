@@ -929,7 +929,7 @@ Conversions can be extended with conversion definitions. This defines a global c
 
 Conversions first evaluate their input value. Then, all conversions in scope are retrieved, including all of the conversions defined on the input value, and any defined external to the value. Finally, a graph is built of all of the conversion paths, the shortest path is found betwen the input and output types. If no path is found, a conversion exception is generated, halting the program. Otherwise, the conversion function is evaluated on the input, and its result is provided as the convert's value.
 
-When the input expression's static type is a name type referring to a structure (as with a structure-valued stream like `Now()`, whose declared output type names `Moment`), the named structure's own conversions are consulted just as if the type were the structure type itself, before generic conversions apply.
+When the input expression's static type is a name type referring to a structure, the named structure's own conversions are consulted just as if the type were the structure type itself, before generic conversions apply.
 
 ### Translate
 
