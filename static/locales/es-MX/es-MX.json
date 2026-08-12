@@ -1804,8 +1804,14 @@
             "description": "$~tipo de lista $type[ de $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~Soy /tan/ fan de @List. ¡Puedo decirle a @Bind qué tipo de lista son! Así, estoy diciendo que es una lista de @Number:",
-                "\\cosas•[#]: [1 2 3 4 5]\\🪲"
+                "$~Soy /muy/ fan de @List. ¡Puedo decirle a @Bind qué tipo de lista es! Así, estoy diciendo que es una lista de @Number:",
+                "\\cosas•[#]: [1 2 3 4 5]\\🪲",
+                "Puedo decirlo de tres maneras distintas. Si no nombro ningún tipo, entonces una lista puede tener cualquier longitud y guardar cualquier cosa:",
+                "\\cosas•[]: [1 'dos' ø]\\🪲",
+                "Si nombro un tipo, la lista todavía puede tener cualquier longitud, pero todo lo que hay en ella tiene que ser ese único tipo, como la lista de @Number de arriba.",
+                "Y si nombro varios tipos, me refiero a una lista de exactamente esa cantidad de cosas, con un tipo para cada lugar en ella. Esta es una lista de dos cosas: primero un @Number, y luego algo de @Text.",
+                "\\par•[# '']: [1 'dos']\\🪲",
+                "Esa última es mi favorita, porque así todos saben qué hay en cada lugar. @ListAccess sabe que la primera cosa es un @Number y la segunda es @Text, ¡y si me das la cantidad equivocada de cosas, o las pones en el orden equivocado, lo diré!"
             ]
         },
         "MapType": {

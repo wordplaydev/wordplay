@@ -163,10 +163,13 @@ export default class ListAccess extends Expression {
         const listType = this.list.getType(context);
         if (listType instanceof ListType) {
             // No type specified? It could be anything.
-            if (listType.type === undefined) return new AnyType();
+            const elementType = listType.getItemType(context);
+            if (elementType === undefined) return new AnyType();
 
-            // Get the type specified.
-            const itemType = listType.type;
+            // Get the type specified, preferring the one at this position if the list type gives
+            // a type per position and the index is a constant in range.
+            const itemType =
+                this.getPositionType(listType, indexType) ?? elementType;
 
             // See if there are any type guards on list accesses with equivalent expressions.
             // Find any type guards that are also list accesses that have an equivalent index expression.
@@ -211,6 +214,21 @@ export default class ListAccess extends Expression {
         }
         // Not a list? Give a more precise unknown type.
         else return new NotAType(this, listType, ListType.make());
+    }
+
+    /**
+     * The type at a constant index of a list type that specifies a type per position. Indices out of
+     * range fall back to the item type, since a list access wraps around at runtime.
+     */
+    private getPositionType(
+        listType: ListType,
+        indexType: NumberType,
+    ): Type | undefined {
+        if (!listType.isTuple() || !indexType.isLiteral()) return undefined;
+        const index = indexType.getLiteral().getValue().num;
+        return index.isInteger()
+            ? listType.getTypeAt(index.toNumber() - 1)
+            : undefined;
     }
 
     getReference(): Reference | PropertyReference | undefined {

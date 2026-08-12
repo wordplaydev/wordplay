@@ -17,6 +17,7 @@ import AnyType from '@nodes/AnyType';
 import CompositeLiteral from '@nodes/CompositeLiteral';
 import type Context from '@nodes/Context';
 import Expression, { type GuardContext } from '@nodes/Expression';
+import getExpectedType from '@nodes/getExpectedType';
 import ListCloseToken from '@nodes/ListCloseToken';
 import ListOpenToken from '@nodes/ListOpenToken';
 import ListType from '@nodes/ListType';
@@ -79,7 +80,7 @@ export default class ListLiteral extends CompositeLiteral {
                 kind: list(true, node(Expression), node(Spread)),
                 label: () => (l) => l.glossary.value.word,
                 // Only allow types to be inserted that are of the surrounding field's expected type.
-                getType: (context) => {
+                getType: (context, index) => {
                     // What is the field of this list?
                     const parent = context.getRoot(this)?.getParent(this);
                     if (parent) {
@@ -87,18 +88,22 @@ export default class ListLiteral extends CompositeLiteral {
                         if (field) {
                             if (field.getType) {
                                 const fieldValue = parent.getField(field.name);
-                                const index = Array.isArray(fieldValue)
+                                const position = Array.isArray(fieldValue)
                                     ? fieldValue.indexOf(this)
                                     : -1;
                                 const listType = field.getType(
                                     context,
-                                    index < 0 ? undefined : index,
+                                    position < 0 ? undefined : position,
                                 );
-                                if (
-                                    listType instanceof ListType &&
-                                    listType.type !== undefined
-                                )
-                                    return listType.type;
+                                if (listType instanceof ListType) {
+                                    // Prefer the type declared for the position being edited.
+                                    const itemType =
+                                        (index === undefined
+                                            ? undefined
+                                            : listType.getTypeAt(index)) ??
+                                        listType.getItemType(context);
+                                    if (itemType !== undefined) return itemType;
+                                }
                             }
                         }
                     }
@@ -144,7 +149,9 @@ export default class ListLiteral extends CompositeLiteral {
             .map((e) => {
                 if (e instanceof Spread) {
                     const type = e.list?.getType(context);
-                    return type instanceof ListType ? type.type : undefined;
+                    return type instanceof ListType
+                        ? type.getItemType(context)
+                        : undefined;
                 } else return e.getType(context);
             })
             .filter((type): type is Type => type !== undefined);
@@ -161,11 +168,28 @@ export default class ListLiteral extends CompositeLiteral {
     }
 
     computeType(context: Context): Type {
+        const length = this.getConstantLength();
+
+        // If the type expected here specifies a type per position, and this list has exactly that
+        // many values, take a type per position, so that order is checked. Otherwise the item types
+        // are unioned, which loses what's at each position.
+        const expected = getExpectedType(this, context);
+        if (
+            expected instanceof ListType &&
+            expected.isTuple() &&
+            length === expected.types.length
+        ) {
+            const positions = this.values
+                .filter((value): value is Expression => !(value instanceof Spread))
+                .map((value) => value.getType(context));
+            if (positions.length === length) {
+                const tuple = ListType.tuple(positions);
+                return this.literal ? tuple : tuple.generalize(context);
+            }
+        }
+
         // Strip away any concrete types in the item types.
-        const union = ListType.make(
-            this.getItemType(context),
-            this.values.length,
-        );
+        const union = ListType.make(this.getItemType(context), length);
 
         // If a literal type, keep it, otherwise generalize the type.
         return this.literal ? union : union.generalize(context);

@@ -1832,8 +1832,14 @@
             "description": "$~tipo lista $type[ de $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~Sou grande fã da @List. Posso dizer ao @Bind que tipo de lista é! Assim, estou a dizer que é uma lista de @Number:",
-                "\\coisas•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~Eu sou /mesmo/ fã de @List. Consigo dizer a @Bind que tipo de lista são! Assim, estou a dizer que é uma lista de @Number:",
+                "\\coisas•[#]: [1 2 3 4 5]\\🪲",
+                "Posso dizê-lo de três maneiras diferentes. Se não indicar nenhum tipo, então uma lista pode ter qualquer comprimento e conter qualquer coisa:",
+                "\\coisas•[]: [1 'dois' ø]\\🪲",
+                "Se indicar um tipo, a lista ainda pode ter qualquer comprimento, mas tudo dentro dela tem de ser esse tipo, como a lista de @Number ali em cima.",
+                "E se indicar vários tipos, refiro-me a uma lista com exatamente essa quantidade de coisas, com um tipo para cada lugar nela. Esta é uma lista de duas coisas: primeiro um @Number, depois algum @Text.",
+                "\\par•[# '']: [1 'dois']\\🪲",
+                "Essa última é a minha preferida, porque assim toda a gente sabe o que está onde. @ListAccess sabe que a primeira coisa é um @Number e a segunda é @Text, e se me deres o número errado de coisas, ou as puseres na ordem errada, eu digo-o!"
             ]
         },
         "MapType": {

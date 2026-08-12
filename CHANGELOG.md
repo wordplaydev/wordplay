@@ -29,6 +29,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎨 The [Design](https://wordplay.dev/design) page now explains our color rules — like never using color as the only clue — and its color table shows how strongly each color stands out against the background. (#1183)
 - 🔣 The [Design](https://wordplay.dev/design) page now shows the new logo speaking fifteen writing systems, and lets you download it. (#414)
 - 📱 On phones and tablets, a project that listens for certain keys now shows those keys as buttons on the stage, instead of opening the keyboard that covers your work. Wordplay reads your project to find which keys it uses, so arrow keys come out as an arrow pad you can steer with and letters come out as a row.
+- 🚦 A list type can now say what goes in each place: `[# '']` means a list of exactly two things, a @Number and then some @Text. Wordplay checks that a list is that long and in that order, and it knows that the first thing in it is a number and the second is text.
 
 ### Changed
 

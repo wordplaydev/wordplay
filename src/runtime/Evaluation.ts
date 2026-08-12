@@ -345,7 +345,7 @@ export default class Evaluation {
             return new ValueException(this.#evaluator, requestor);
         else if (
             expected !== undefined &&
-            !expected.accepts(value.getType(this.#context), this.#context)
+            !expected.acceptsValue(value, this.#context)
         )
             return new TypeException(
                 requestor,

@@ -1832,8 +1832,14 @@
             "description": "$~kiểu danh sách $type[ của $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~Tôi là một fan cuồng của @List. Tôi có thể cho @Bind biết chúng là loại danh sách nào! Ví dụ như thế này, tôi đang nói rằng đó là một danh sách gồm các @Number:",
-                "\\things•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~Tôi /rất/ hâm mộ @List. Tôi được nói cho @Bind biết chúng là loại danh sách nào! Như thế này, tôi đang nói rằng đây là một danh sách các @Number:",
+                "\\đồVật•[#]: [1 2 3 4 5]\\🪲",
+                "Tôi có thể nói theo ba cách khác nhau. Nếu tôi không nêu tên kiểu nào cả, thì một danh sách có thể dài bao nhiêu cũng được và chứa bất cứ thứ gì:",
+                "\\đồVật•[]: [1 'hai' ø]\\🪲",
+                "Nếu tôi nêu tên một kiểu, danh sách vẫn có thể dài bao nhiêu cũng được, nhưng mọi thứ trong đó phải là kiểu đó, giống như danh sách các @Number ở trên kia.",
+                "Và nếu tôi nêu tên nhiều kiểu, tôi muốn nói đến một danh sách có đúng bấy nhiêu thứ, với một kiểu cho mỗi vị trí trong đó. Cái này là một danh sách hai thứ: một @Number trước, rồi đến một @Text.",
+                "\\cặp•[# '']: [1 'hai']\\🪲",
+                "Cái cuối cùng đó là cái tôi thích nhất, vì khi ấy ai cũng biết cái gì ở đâu. @ListAccess biết thứ đầu tiên là một @Number và thứ thứ hai là @Text, và nếu bạn đưa cho tôi sai số lượng thứ, hoặc đặt chúng sai thứ tự, tôi sẽ nói ra ngay!"
             ]
         },
         "MapType": {

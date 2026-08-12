@@ -1833,8 +1833,14 @@
             "description": "$~tip listă $type[ de $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~Sunt un mare fan al @List. Pot să-i spun lui @Bind ce fel de listă este! Așadar, spun că este o listă de @Number:",
-                "\\lucruri•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~Sunt /mare/ fan al @List. Pot să îi spun lui @Bind ce fel de listă este! Uite așa, spun că este o listă de @Number:",
+                "\\lucruri•[#]: [1 2 3 4 5]\\🪲",
+                "Pot să o spun în trei feluri diferite. Dacă nu numesc deloc un tip, atunci o listă poate avea orice lungime și poate conține orice:",
+                "\\lucruri•[]: [1 'doi' ø]\\🪲",
+                "Dacă numesc un singur tip, lista poate avea în continuare orice lungime, dar tot ce se află în ea trebuie să fie acel tip, precum lista de @Number de mai sus.",
+                "Și dacă numesc mai multe tipuri, mă refer la o listă cu exact atâtea lucruri, cu un tip pentru fiecare loc din ea. Aceasta este o listă cu două lucruri: mai întâi un @Number, apoi niște @Text.",
+                "\\pereche•[# '']: [1 'doi']\\🪲",
+                "Ultima este preferata mea, pentru că atunci toată lumea știe ce se află unde. @ListAccess știe că primul lucru este un @Number și al doilea este @Text, iar dacă îmi dai un număr greșit de lucruri sau le pui în ordine greșită, o să spun!"
             ]
         },
         "MapType": {

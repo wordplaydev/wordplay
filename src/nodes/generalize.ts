@@ -54,11 +54,10 @@ export default function generalize(types: Type, context: Context) {
             types = ListType.make(
                 UnionType.getPossibleUnion(
                     context,
-                    (possible as ListType[]).reduce(
-                        (all: Type[], type) =>
-                            type.type ? [...all, type.type] : all,
-                        [],
-                    ),
+                    (possible as ListType[]).reduce((all: Type[], type) => {
+                        const itemType = type.getItemType(context);
+                        return itemType ? [...all, itemType] : all;
+                    }, []),
                 ),
             );
         }

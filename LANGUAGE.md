@@ -564,6 +564,8 @@ And this is also `1`:
 
 Because indices wrap, no index is ever out of range. There are only three ways a list access evaluates to `ø`: an index of `0`, since lists are indexed from `1`; an index that isn't a whole number; and any index into an empty list, which has no values to wrap onto. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners. It also means `??` on a list access is a conflict, since the access's type doesn't include `ø` for it to coalesce.
 
+A list access's type is usually the type of any item in the list. But when the list's type gives a type per position (see `LISTTYPE` under [Types](#types)) and the index is a constant in range, the access has the type of exactly that position.
+
 Lists have a wide range of higher order functions. For example, `translate` can map a list's values to different values, and `combine` can reduce a list of values into some value:
 
 ```
@@ -1368,7 +1370,7 @@ Documented expressions simply evaluate to their expression's value.
 > NUMBERTYPE → （`#` （`!` ｜ UNIT）？） ｜ numeral  
 > TEXTTYPE → （textopen textclose LANGUAGE？） ｜ TEXT  
 > NONETYPE → `ø`  
-> LISTTYPE → `[` TYPE `]`  
+> LISTTYPE → `[` TYPE＊ `]`  
 > SETTYPE → `{` TYPE `}`  
 > MAPTYPE → `{` TYPE `:` TYPE `}`  
 > STREAMTYPE → `…` TYPE  
@@ -1387,7 +1389,9 @@ num•1
 text•''
 text•'hello'
 none•ø
+list•[]
 list•[#]
+pair•[# '']
 set•{''}
 map•{'':#}
 stream•…#
@@ -1396,6 +1400,16 @@ name•Kitty
 function•ƒ(message•'')•#
 union•#|''
 ```
+
+A list type says how many types it has, and that means three different things:
+
+- No type (`[]`) is a list of anything, of any length.
+- One type (`[#]`) is a list of any length whose every item is that type.
+- Several types (`[# '']`) is a list of exactly that many items, with a type for each position: `[# '']` is a list of two items, a number then some text.
+
+When a list type says what's at each position, a list access with a constant index in range has the type of that position, so `pair[1]` is a `#` and `pair[2]` is a `''` for `pair•[# '']`. Any other index (out of range, negative, or not a constant) could be any item, because indices wrap around.
+
+A list of values takes a type per position only where a type declares them — as the value of a bind, an input to an evaluation, the body of a function with a declared output type, or an item of another such list. So `[1 'hi']` on its own is a `[#|'']`, and `pair•[# '']: [1 'hi']` is a `[# '']`. That's why the order of a list is only checked where a declaration says what the order should be.
 
 Types are also used in "is" expressions:
 
@@ -1412,7 +1426,7 @@ Type compatibility is defined as follows:
 - Boolean types are only compatible with other boolean types
 - Number types are compatible if they are a concrete number and the other number type is the same concrete number, or they have equivalent units
 - Text types are compatible if they are concrete text and the other text type is the same text and language, or they are both generic text with the same language
-- List types are only compatible if their element types are compatible
+- List types are only compatible if their element types are compatible. A list type with no element type accepts any list. A list type with a type per position additionally requires a matching length, and accepts another such type only if every position accepts the corresponding one. When only one of the two types says what's at each position, only their element types are compared, since the order of the other list can't be known until it's evaluated — an `is` expression checks the items of the value itself, so `['hi' 1]•[# '']` is `⊥`.
 - Set types are only compatible if their element types are compatible
 - Map types are only compatible if their key types are compatible and their value types are compatible
 - Stream types are only compatible if their element types are compatible; a stream type additionally accepts its element type (a stream dereferences to its latest value), and accepts a value whose type is known to come from a stream (which is how stream-ness passes into a function through a `•…T` parameter)
