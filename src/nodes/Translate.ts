@@ -96,7 +96,7 @@ export default class Translate extends Expression {
         // the suggestion pass the menu's type filter.
         const itemType =
             type instanceof ListType
-                ? type.type
+                ? type.getItemType(context)
                 : type instanceof SetType
                   ? type.key
                   : type instanceof MapType
@@ -163,7 +163,8 @@ export default class Translate extends Expression {
     /** The type of `.` (This) inside the translation body: the element/value/row type of the left collection. */
     getItemType(context: Context): Type {
         const leftType = this.expression.getType(context);
-        if (leftType instanceof ListType) return leftType.type ?? new AnyType();
+        if (leftType instanceof ListType)
+            return leftType.getItemType(context) ?? new AnyType();
         if (leftType instanceof SetType) return leftType.key ?? new AnyType();
         if (leftType instanceof MapType) return leftType.value ?? new AnyType();
         if (leftType instanceof TableType)

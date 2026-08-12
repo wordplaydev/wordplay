@@ -104,7 +104,17 @@ class SharedAudioSource {
         const micID = this.database.Settings.getMic();
 
         navigator.mediaDevices
-            .getUserMedia({ audio: micID ? { deviceId: micID } : true })
+            // Automatic gain control normalizes loudness away, which is exactly
+            // what Volume and Pitch are here to report — it ramps a silent room
+            // up until its noise reads as sound. Requested as a plain value, not
+            // `{ exact: false }`, so a browser without it ignores the request
+            // instead of failing acquisition.
+            .getUserMedia({
+                audio: {
+                    ...(micID ? { deviceId: micID } : {}),
+                    autoGainControl: false,
+                },
+            })
             .then((stream) => this.attachStream(stream))
             .catch(() => {
                 this.stream = null;

@@ -1,15 +1,23 @@
-import { devices } from '@playwright/test';
 import { expect, test } from '../../playwright/fixtures';
 
 /**
- * The on-stage key pad only exists on touch devices, so these run in a phone
- * context — `'ontouchstart' in window` is what gates it, and a desktop
- * context never has it.
+ * The on-stage key pad only exists on touch devices, so these run in a phone-
+ * sized touch context — `'ontouchstart' in window` is what gates it, and a
+ * desktop context never has it.
  *
  * What matters here is the pair: the pad appears AND the on-screen keyboard
  * is suppressed. Either alone is a worse experience than what we replaced.
+ *
+ * The touch context is spelled out rather than taken from a `devices[...]`
+ * descriptor, because a phone descriptor carries two things that break the
+ * WebKit run: `defaultBrowserType: 'chromium'`, which makes these tests launch
+ * Chromium even under the webkit project (the nightly macOS runner installs
+ * only WebKit, so they died at launch), and `isMobile`, which WebKit does not
+ * support at all. `hasTouch` and a small viewport are the whole of what the pad
+ * needs, and both engines take them — which matters here more than most, since
+ * iOS Safari is the platform this feature exists for.
  */
-test.use({ ...devices['Pixel 7'], hasTouch: true });
+test.use({ viewport: { width: 412, height: 839 }, hasTouch: true });
 
 /** Gallery examples reach the player at this route without signing in. */
 function example(id: string) {
@@ -50,11 +58,36 @@ test('tapping a key drives the program', async ({ page }) => {
     await expect(stage).toContainText('2 of 10');
 });
 
-test('a project whose keys cannot be bounded keeps the keyboard', async ({
+test('a partly-bounded project offers the keys it knows AND keeps the keyboard', async ({
     page,
 }) => {
-    // Adventure indexes a map with the key, so any key at all could matter.
+    // Adventure guards on '1', '2', and '3', then converts the key to a number
+    // to index with — so the conversion could involve any key, but those three
+    // are exactly what it is played with. Offering them is what makes it
+    // playable on a touch screen; keeping the keyboard is what keeps the rest
+    // reachable.
     await page.goto(example('Adventure'));
+    const pad = page.locator('.key-pad');
+    await pad.waitFor();
+    await expect(pad.locator('.key')).toHaveText(['1', '2', '3']);
+    await expect(page.locator('.keyboard-input')).not.toHaveAttribute(
+        'inputmode',
+        'none',
+    );
+
+    // And tapping one has to actually advance the story.
+    const stage = page.locator('.value');
+    await expect(stage).toContainText('dark, cold room');
+    await pad.locator('.key').first().tap();
+    await expect(stage).toContainText('knife');
+});
+
+test('a project with no bounded keys at all keeps only the keyboard', async ({
+    page,
+}) => {
+    // French Numbers compares the CONVERTED key against a list access, so it
+    // never compares the key itself to anything and there is nothing to offer.
+    await page.goto(example('FrenchNumbers'));
     await page.locator('.value').waitFor();
     await expect(page.locator('.key-pad')).toHaveCount(0);
     await expect(page.locator('.keyboard-input')).not.toHaveAttribute(

@@ -52,6 +52,15 @@
          *  content (it also appears automatically while an async action is
          *  pending). */
         loading?: boolean;
+        /** Act on pointer down rather than on click, for controls that do
+         *  something for as long as they are held — an on-screen key, for
+         *  instance, which has to send a press and a release like a real one.
+         *  Giving this also captures the pointer, so the release still arrives
+         *  if the finger slides off. `action` still runs for click and for
+         *  Enter/Space, so the control stays usable without a pointer. */
+        onPress?: ((event: PointerEvent) => void) | undefined;
+        /** Pairs with `onPress`, on pointer up or cancel. */
+        onRelease?: ((event: PointerEvent) => void) | undefined;
         /** The label */
         children?: import('svelte').Snippet | undefined;
     }
@@ -76,6 +85,8 @@
         icon,
         spinIcon = false,
         loading = false,
+        onPress = undefined,
+        onRelease = undefined,
         children,
     }: Props = $props();
 
@@ -166,7 +177,27 @@
         event.preventDefault();
         event.stopPropagation();
         if (active) pressed = true;
+        if (active && onPress) {
+            // Capture so the release still lands here if the finger slides off.
+            if (event.currentTarget instanceof HTMLElement)
+                event.currentTarget.setPointerCapture(event.pointerId);
+            onPress(event);
+        }
     }}
+    onpointerup={onRelease
+        ? (event) => {
+              // Held controls own their release, so it must not also reach
+              // whatever is underneath — the stage sends its own events.
+              event.stopPropagation();
+              onRelease(event);
+          }
+        : null}
+    onpointercancel={onRelease
+        ? (event) => {
+              event.stopPropagation();
+              onRelease(event);
+          }
+        : null}
     onpointerenter={showTip}
     onpointerleave={() => {
         hideTip();
@@ -183,6 +214,10 @@
         ? null
         : (event) => {
               event.stopPropagation();
+              // A control that acts on press already acted on pointer down, and
+              // the click that follows a tap would repeat it. Keyboard
+              // activation still runs `action`, from onkeydown below.
+              if (onPress) return;
               event.button === 0 && active ? doAction(event) : undefined;
           }}
     onkeydown={acting

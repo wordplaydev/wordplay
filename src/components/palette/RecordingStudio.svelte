@@ -96,6 +96,9 @@
             failed = true;
             stop(false);
         });
+        // Deliberately not createPitchDetector(): a whole take is gated
+        // relatively against its own loudest (MinLevel in transcribe), so an
+        // absolute floor here would throw away a quiet recording entirely.
         detector = PitchDetector.forFloat32Array(PITCH_FFT_SIZE);
         buffer = new Float32Array(PITCH_FFT_SIZE);
         startedAt = performance.now();

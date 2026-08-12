@@ -1,3 +1,4 @@
+import type StreamDefinition from '@nodes/StreamDefinition';
 import type Unit from '@nodes/Unit';
 import type Evaluation from '@runtime/Evaluation';
 import NumberValue from '@values/NumberValue';
@@ -25,15 +26,19 @@ export default abstract class AudioStream extends TemporalStreamValue<
     frequency: number;
     private source: AudioSourceHandle | undefined;
 
+    /** Each subclass passes its own definition: a stream's definition is what
+     * names it everywhere it's shown, so a shared one would make every audio
+     * stream report itself as the same input. */
     constructor(
         evaluation: Evaluation,
+        definition: StreamDefinition,
         frequency: number | undefined,
         unit: Unit | undefined,
         fftSize: number,
     ) {
         super(
             evaluation,
-            evaluation.getEvaluator().project.shares.input.Volume,
+            definition,
             new NumberValue(evaluation.getCreator(), 0, unit),
             0,
         );

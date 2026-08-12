@@ -1,20 +1,19 @@
 import { expect, test } from '@playwright/test';
 
 /**
- * The stage has two camera modes: the audience drives it (after a pan or zoom),
- * or the platform does — and when the platform does, a @Place set by the program
- * wins over fitting content to the viewport. Handing the camera back by
- * re-enabling fit must restore the program's camera, not strand the stage on the
- * audience's last zoom.
+ * The camera composes rather than switching modes: a base focus from the program's
+ * @Place (or from fitting, when it sets none) with the audience's pan and zoom
+ * applied on top as an offset. So a zoom never takes the camera away from the
+ * program — the program keeps driving underneath it — and clearing the offset must
+ * return the view *exactly* to what the program asked for.
  *
  * Building Blocks sets a stage @Place, so the size it renders the player at is a
- * signature of which camera is driving. Holding the game still and only changing
- * camera modes isolates that: the player's rendered size can only change because
- * the camera did. Fitting the content settles on its own distinct size, so
- * returning to *exactly* the program's size is what proves the program got the
- * camera back rather than the platform merely taking over.
+ * signature of the camera. Holding the game still and only changing the camera
+ * isolates that: the player's rendered size can only change because the camera
+ * did. Returning to exactly the program's size is what proves the offset was
+ * cleared rather than merely changed, or the platform having taken over.
  */
-test('re-enabling fit hands the camera back to the program', async ({
+test('clearing the audience zoom returns the program its camera', async ({
     page,
 }) => {
     await page.goto('/en-US/project/example-BuildingBlocks?mode=play');
@@ -48,10 +47,10 @@ test('re-enabling fit hands the camera back to the program', async ({
     const byProgram = await restingWidth();
     expect(byProgram).toBeGreaterThan(0);
 
-    // Zooming takes the camera away from the program, which must change the view.
-    // This zooms out rather than in, and via the toolbar rather than the wheel:
-    // a wheel delta is an unpredictable amount of zoom, and zooming far enough IN
-    // walks the camera past the player, who then vanishes and can't be measured.
+    // The audience zooms, which must change the view. This zooms out rather than
+    // in, and via the toolbar rather than the wheel: a wheel delta is an
+    // unpredictable amount of zoom, and zooming far enough IN walks the camera
+    // past the player, who then vanishes and can't be measured.
     await page
         .locator('[data-uiid="stageZoom"]')
         .getByRole('button')
@@ -60,11 +59,32 @@ test('re-enabling fit hands the camera back to the program', async ({
     const byAudience = await restingWidth();
     expect(byAudience).not.toBe(byProgram);
 
-    // Re-enabling fit gives it back, so the program's camera drives once more.
-    // Fitting settles on a size several times the program's here, so this catches
-    // the platform taking over as readily as it catches the audience's zoom
-    // sticking. Both sizes are computed rather than measured, so comparing them
-    // exactly is stable.
-    await page.locator('[data-uiid="stageLock"]').first().click();
+    // The reset only appears once there is an adjustment to clear, which is
+    // itself the signal that the zoom took effect.
+    const reset = page.locator('[data-uiid="stageZoomReset"]');
+    await expect(reset).toBeVisible();
+
+    // Clearing the offset leaves the program's camera alone underneath, so the
+    // view returns to exactly the size the program asked for. Both sizes are
+    // computed rather than measured, so comparing them exactly is stable.
+    await reset.click();
     expect(await restingWidth()).toBe(byProgram);
+    // And with nothing left to clear, the control goes away again.
+    await expect(reset).toBeHidden();
+});
+
+/**
+ * Fitting frames the content when the program sets no @Place of its own. A
+ * program that does set one is already framing the stage, so there is nothing
+ * for fitting to do and the lock says so rather than sitting there inert.
+ */
+test('the fit lock is inactive for a program that sets its own camera', async ({
+    page,
+}) => {
+    await page.goto('/en-US/project/example-BuildingBlocks?mode=play');
+    await expect(page.locator('.value[tabindex="0"]')).toBeVisible();
+    await expect(page.locator('[data-uiid="stageLock"]').first()).toHaveAttribute(
+        'aria-disabled',
+        'true',
+    );
 });

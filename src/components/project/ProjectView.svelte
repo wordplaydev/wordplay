@@ -2809,6 +2809,7 @@
                                                  since it now means "clear my adjustment". -->
                                             {#if focusAdjusted}
                                                 <Button
+                                                    uiid="stageZoomReset"
                                                     action={() =>
                                                         outputView?.resetZoom()}
                                                     tip={(l) =>

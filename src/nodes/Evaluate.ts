@@ -679,31 +679,31 @@ export default class Evaluate extends Expression {
                         if (
                             lastType instanceof ListType &&
                             expectedType instanceof ListType &&
-                            (lastType.type === undefined ||
-                                expectedType.type === undefined ||
-                                expectedType.type.accepts(
-                                    lastType.type,
-                                    context,
-                                ))
+                            // A list type accepting a list type is exactly this leniency: either
+                            // side without item types accepts, and positions must be compatible.
+                            expectedType.accepts(lastType, context)
                         )
                             isVariableListInput = true;
                     }
 
                     // If it's not a list input for a variable length input, check every input to make sure it's valid.
                     if (!isVariableListInput) {
+                        const itemType =
+                            expectedType instanceof ListType
+                                ? expectedType.getItemType(context)
+                                : undefined;
                         for (const item of given) {
                             const givenType = item.getType(context);
                             if (
                                 !context.isUnknownDownstream(item) &&
-                                expectedType instanceof ListType &&
-                                expectedType.type &&
-                                !expectedType.type.accepts(givenType, context)
+                                itemType !== undefined &&
+                                !itemType.accepts(givenType, context)
                             )
                                 conflicts.push(
                                     new IncompatibleInput(
                                         item,
                                         givenType,
-                                        expectedType.type,
+                                        itemType,
                                     ),
                                 );
                         }
@@ -897,13 +897,18 @@ export default class Evaluate extends Expression {
                 refinements,
             );
         } else if (fun instanceof StreamDefinition) {
-            // Remember that this type came from this definition.
-            context.setStreamType(
-                fun.output,
-                StreamType.make(fun.getType(context)),
-            );
+            // A declared output is an annotation, so a name in it is still just a name. Resolve
+            // it, or `Now().year` would look up `year` on a NameType and find nothing — silently,
+            // since an unknown property type reports no conflict of its own.
+            const output = fun.output.concretize(context);
+            const streamType = StreamType.make(fun.getType(context));
+            // Remember that this type came from this definition. Register the annotation too:
+            // Changed, Previous, and Reaction identify streams by Type node identity (#1232), and
+            // resolving a name produces a different node than the one they may already hold.
+            context.setStreamType(fun.output, streamType);
+            if (output !== fun.output) context.setStreamType(output, streamType);
             // Return the type of this stream's output.
-            return fun.output;
+            return output;
         }
         // Otherwise, who knows.
         else return new NonFunctionType(this.fun, this.fun.getType(context));

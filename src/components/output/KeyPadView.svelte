@@ -10,6 +10,7 @@
      * tell the difference.
      */
     import { locales } from '@db/Database';
+    import Button from '@components/widgets/Button.svelte';
     import layoutKeyPad from '@components/output/keyPadLayout';
     import { localizeKeyName } from '@input/Key/Key';
     import type { KeyAnalysis } from '@input/Key/analyzeProjectKeys';
@@ -60,13 +61,9 @@
     }
 
     function down(event: PointerEvent, key: string) {
-        // Keep the stage's own pointer handling — which would fire Button and
-        // Pointer streams and refocus the keyboard sink — out of this.
-        event.preventDefault();
-        event.stopPropagation();
-        if (event.currentTarget instanceof HTMLElement)
-            event.currentTarget.setPointerCapture(event.pointerId);
-
+        // Button already prevents the default, stops propagation so the stage's
+        // own handling doesn't fire its Button and Pointer streams, and captures
+        // the pointer so a release still lands here.
         release(event.pointerId);
         press(key, true);
 
@@ -82,9 +79,15 @@
     }
 
     function up(event: PointerEvent) {
-        event.preventDefault();
-        event.stopPropagation();
         release(event.pointerId);
+    }
+
+    /** A press with no pointer behind it — a click, or Enter/Space on a focused
+     *  key — has no up to pair with, so send the release immediately. Without
+     *  this the pad is unusable by keyboard and switch access. */
+    function tap(key: string) {
+        press(key, true);
+        press(key, false);
     }
 
     /** Stop repeating and report the key up, so nothing is left held. */
@@ -108,17 +111,13 @@
     aria-label={$locales.getPrimaryPlainText((l) => l.ui.output.keypad.label)}
 >
     {#snippet keyButton(key: string, wide: boolean, text?: string)}
-        <button
-            type="button"
-            class="key"
-            class:wide
-            title={label(key)}
-            aria-label={label(key)}
-            onpointerdown={(event) => down(event, key)}
-            onpointerup={up}
-            onpointercancel={up}
-            onclick={(event) => event.stopPropagation()}
-            >{text ?? caption(key)}</button
+        <Button
+            classes={wide ? 'key wide' : 'key'}
+            background
+            tip={() => label(key)}
+            onPress={(event) => down(event, key)}
+            onRelease={up}
+            action={() => tap(key)}>{text ?? caption(key)}</Button
         >
     {/snippet}
 
@@ -245,37 +244,27 @@
         padding-inline: var(--wordplay-spacing);
     }
 
-    .key {
+    /* These are standard Buttons, so their chrome — background, border, radius,
+       hover and press feedback, focus — comes from the widget. Scoped styles
+       can't reach inside a component, so the few things the pad needs on top of
+       that are set globally on the class the buttons carry. */
+    .key-pad :global(button.key) {
+        /* The pad itself is pointer-events: none so the stage stays draggable
+           between the keys, so each key has to opt back in. */
         pointer-events: auto;
-        /* Comfortably above the 24px minimum target size, since these are
-           meant for fingers rather than a cursor. */
+        /* Comfortably above the standard 24px minimum target size, since these
+           are meant for fingers rather than a cursor. */
         min-inline-size: 44px;
         min-block-size: 44px;
-        padding: var(--wordplay-spacing);
-        /* Opaque, since a creator's stage can be any color behind this. */
-        background: var(--wordplay-background);
-        color: var(--wordplay-foreground);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
-        font-family: var(--wordplay-app-font);
+        /* Keys are read at a glance while playing, not at widget size. */
         font-size: var(--wordplay-font-size);
-        cursor: pointer;
         /* The stage suppresses gestures; these are taps, not pans. */
         touch-action: none;
         user-select: none;
     }
 
-    .key.wide {
+    .key-pad :global(button.key.wide) {
         min-inline-size: 128px;
         flex-grow: 1;
-    }
-
-    .key:active {
-        background: var(--wordplay-highlight-color);
-    }
-
-    .key:focus-visible {
-        outline: var(--wordplay-focus-width) solid
-            var(--wordplay-focus-color);
     }
 </style>
