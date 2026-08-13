@@ -241,6 +241,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Chimes',
                 'Fireworks',
                 'Lyrics',
+                'VirtualPiano',
             ],
             locales,
         ),
