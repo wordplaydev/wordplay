@@ -13,6 +13,7 @@
 
 <script lang="ts" generics="Item extends Option">
     import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
 
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
@@ -170,12 +171,10 @@
             // Hide immediately on open in case a focus/hover already showed it.
             if (open) hideTip();
         }}
-        onpointerenter={showTip}
+        onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
         onpointerleave={hideTip}
-        ontouchstart={showTip}
-        ontouchend={hideTip}
-        ontouchcancel={hideTip}
-        onfocus={showTip}
+        onfocus={(event) =>
+            canFocusTips(event.currentTarget) ? showTip() : undefined}
         onblur={hideTip}
     >
         <button

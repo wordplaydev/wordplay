@@ -48,6 +48,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📐 Switching modes no longer moves your windows around. You can keep the editor open while your project plays — the code wears a colored border so you know it's running — and leaving full screen gives you back exactly the windows you had.
 - ▶️ Pressing play now always continues from wherever your program is, even after you edit — speech, music, and animations pick up where they left off instead of starting over. The perform and reset buttons are how you start from the beginning.
 - ⏩ If you dragged back into your program's past, pressing play first fast-forwards through what already happened, so you can see how the present came to be, and then keeps going live.
+- 📱 On small screens that show one tile at a time, switching modes now brings the right tile forward: play shows the stage, and edit and debug show your code. Entering a mode also expands its tile if you had collapsed it.
+- ⏯️ When the stage tile is hidden — like on a phone showing one tile at a time — debug mode floats the step buttons and timeline over your code, so you can still step through your program.
+- 👆 Tooltips no longer pop up and stay stuck on the screen when you tap on a touch screen. They appear on hover and on keyboard focus, where they can also go away.
 - 🚦 A program with an error no longer jumps into debug mode when you press play. Only a new error that happens while playing does; one you can already see while editing stays where you can fix it.
 - 🎨 The palette now stays on screen in every mode, with controls you can read but not change outside edit mode.
 - 🎼 Captions and the touch keys now sit above the sheet music and the orchestra instead of covering them.

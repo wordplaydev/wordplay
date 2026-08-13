@@ -1,5 +1,6 @@
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import OptionTips from '@components/widgets/OptionTips.svelte';
     import {
@@ -180,24 +181,21 @@
                         if (event.button === 0) choose(index);
                     }}
                     onpointerenter={(event) =>
-                        showTip(
-                            event.target as HTMLButtonElement,
-                            tipEntriesFor(index),
-                        )}
+                        canHoverTips()
+                            ? showTip(
+                                  event.target as HTMLButtonElement,
+                                  tipEntriesFor(index),
+                              )
+                            : undefined}
                     onpointerleave={hideTip}
                     onfocus={(event) =>
-                        showTip(
-                            event.target as HTMLButtonElement,
-                            tipEntriesFor(index),
-                        )}
+                        canFocusTips(event.currentTarget)
+                            ? showTip(
+                                  event.target as HTMLButtonElement,
+                                  tipEntriesFor(index),
+                              )
+                            : undefined}
                     onblur={hideTip}
-                    ontouchstart={(event) =>
-                        showTip(
-                            event.target as HTMLButtonElement,
-                            tipEntriesFor(index),
-                        )}
-                    ontouchend={hideTip}
-                    ontouchcancel={hideTip}
                     onkeydown={(event) => handleKey(event, index)}
                 >
                     {#if icons}<span

@@ -2574,13 +2574,11 @@
             // creator scrubbed to. The always-visible timeline names the
             // position, and `StepToStart` is how a creator asks for the
             // beginning.
-            // A fullscreen stage would hide the very code these modes are
-            // about, so leave it — revealing the arrangement as it was. Only
-            // the stage's own fullscreen: a fullscreened source tile is a
-            // choice about reading code, not about performance.
-            if (layout.fullscreenID === TileKind.Output)
-                setFullscreen(undefined);
         }
+
+        // Surface the tile the mode is about, so a mode switch always shows
+        // its subject.
+        surfaceTileForMode(mode);
 
         // Not every transition broadcasts (e.g., edit to debug while already paused),
         // so sync the evaluation context explicitly.
@@ -2617,6 +2615,40 @@
     function announceProjectMode(text: string) {
         if (announce && $announce)
             $announce('project-mode', $locales.getLanguages()[0], text);
+    }
+
+    /** Whether the output tile — home of the debugger's step controls and
+     * timeline — is not on screen: collapsed, zeroed out by a single/split
+     * arrangement, or covered by another tile's fullscreen. When it is hidden
+     * in debug mode, the controls float over whatever is visible instead. */
+    const outputTileHidden = $derived.by(() => {
+        const output = layout.getOutput();
+        return (
+            output === undefined ||
+            !output.isExpanded() ||
+            output.isInvisible() ||
+            (layout.fullscreenID !== undefined &&
+                layout.fullscreenID !== output.id)
+        );
+    });
+
+    /** Make the tile a mode is about visible: edit and debug are about the
+     * active source, play is about the stage. Expanding and raising it covers
+     * every way a tile can be hidden — collapsed by hand, or pushed out of the
+     * single/split arrangements, which show only the most recently raised one
+     * or two — and a fullscreen tile that ISN'T the subject is exited, since
+     * it would cover the subject entirely (this is also what exits the stage's
+     * fullscreen when returning to edit). */
+    function surfaceTileForMode(mode: ProjectMode) {
+        const tile =
+            mode === 'play'
+                ? layout.getOutput()
+                : (layout.getSource(selectedSourceIndex) ??
+                  layout.getTileWithID(Layout.getSourceID(0)));
+        if (tile === undefined) return;
+        if (layout.fullscreenID !== undefined && layout.fullscreenID !== tile.id)
+            setFullscreen(undefined);
+        setMode(tile, TileMode.Expanded);
     }
 
     /**
@@ -2708,6 +2740,118 @@
         {/if}
 
         {#key tileIDSequence}
+            <!-- The evaluation controls, declared here so three surfaces can
+                 render them: the output tile's toolbar, its subtoolbar, and
+                 the floating debug controls shown when that tile is hidden.
+                 None of them depend on the tile being iterated. -->
+            {#snippet outputMode()}
+                <!-- editableAndCurrent, not editable: browsing an
+                     old checkpoint is read-only, so the first mode
+                     says 👁 view there, matching the editor. -->
+                <Mode
+                    modes={editableAndCurrent
+                        ? (l) => l.ui.output.mode.evaluation
+                        : (l) => l.ui.output.mode.evaluationView}
+                    icons={editableAndCurrent
+                        ? ProjectModeIcons
+                        : ProjectModeViewIcons}
+                    choice={ProjectModes.indexOf(uiMode)}
+                    select={(index) =>
+                        setUIMode(ProjectModes[index])}
+                    labeled={false}
+                    modeLabels={false}
+                    uiid="modeSwitcher"
+                />
+            {/snippet}
+            {#snippet outputRestart()}
+                <CommandButton background command={Restart} />
+            {/snippet}
+            {#snippet outputPerform()}
+                <CommandButton
+                    background
+                    command={Perform}
+                    icon={PerformIcon}
+                />
+            {/snippet}
+            <!-- Anchor the `stepControls` UI reference (tutorial highlight + tour)
+                 on the leftmost, most overflow-stable step button. -->
+            {#snippet stepToStartItem()}<CommandButton
+                    command={StepToStart}
+                    uiid="stepControls"
+                />{/snippet}
+            {#snippet stepBackInputItem()}<CommandButton
+                    command={StepBackInput}
+                />{/snippet}
+            {#snippet stepBackNodeItem()}<CommandButton
+                    command={StepBackNode}
+                />{/snippet}
+            {#snippet stepBackItem()}<CommandButton
+                    command={StepBack}
+                />{/snippet}
+            {#snippet stepOutItem()}<CommandButton
+                    command={StepOut}
+                />{/snippet}
+            {#snippet stepForwardItem()}<CommandButton
+                    command={StepForward}
+                />{/snippet}
+            {#snippet stepForwardNodeItem()}<CommandButton
+                    command={StepForwardNode}
+                />{/snippet}
+            {#snippet stepForwardInputItem()}<CommandButton
+                    command={StepForwardInput}
+                />{/snippet}
+            {#snippet stepToPresentItem()}<CommandButton
+                    command={StepToPresent}
+                />{/snippet}
+            <!-- In edit mode the timeline navigates the input
+                 history, so it snaps by reaction; debug stops at
+                 every step. -->
+            {#snippet timelineSlider()}<Timeline
+                    evaluator={$evaluator}
+                    granularity={uiMode === 'edit'
+                        ? 'input'
+                        : 'step'}
+                />{/snippet}
+            <!-- Edit mode shows the timeline alone: it names the
+                 paused position and snaps to prior inputs, which is
+                 useful while authoring, but the nine precise step
+                 buttons are debugger apparatus most editing never
+                 touches — showing them all the time reads as a
+                 cockpit. Debug mode adds them on their own line
+                 above the slider. With no reactions beyond the
+                 program's start, edit hides the row entirely:
+                 there is no history to navigate. -->
+            {#snippet outputTimelineRow()}
+                <div class="step-controls">
+                    {@render timelineSlider()}
+                </div>
+            {/snippet}
+            <!-- The debugger's controls: the step buttons on one
+                 line, the history slider on its own beneath them.
+                 Sharing one line meant the slider could only get
+                 wider by pushing step buttons into the overflow
+                 menu — measured at 73px of a 403px toolbar, which
+                 is not a scrubber anyone can aim at, and 240px of
+                 reserved width hid six of the nine buttons. On its
+                 own line it is full width and hides nothing. -->
+            {#snippet outputStepRow()}
+                <div class="step-controls">
+                    <OverflowToolbar
+                        items={[
+                            stepToStartItem,
+                            stepBackInputItem,
+                            stepBackNodeItem,
+                            stepBackItem,
+                            stepOutItem,
+                            stepForwardItem,
+                            stepForwardNodeItem,
+                            stepForwardInputItem,
+                            stepToPresentItem,
+                        ]}
+                    />
+                    {@render timelineSlider()}
+                </div>
+            {/snippet}
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">
@@ -2723,117 +2867,6 @@
                 <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
                 {#each $arrangement === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
                     {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
-                        <!-- The evaluation controls for the output tile, declared outside the
-                             TileView so both its toolbar (mode switcher, reset) and its step-mode
-                             subtoolbar (reset, step buttons, history slider) can render them. -->
-                        {#snippet outputMode()}
-                            <!-- editableAndCurrent, not editable: browsing an
-                                 old checkpoint is read-only, so the first mode
-                                 says 👁 view there, matching the editor. -->
-                            <Mode
-                                modes={editableAndCurrent
-                                    ? (l) => l.ui.output.mode.evaluation
-                                    : (l) => l.ui.output.mode.evaluationView}
-                                icons={editableAndCurrent
-                                    ? ProjectModeIcons
-                                    : ProjectModeViewIcons}
-                                choice={ProjectModes.indexOf(uiMode)}
-                                select={(index) =>
-                                    setUIMode(ProjectModes[index])}
-                                labeled={false}
-                                modeLabels={false}
-                                uiid="modeSwitcher"
-                            />
-                        {/snippet}
-                        {#snippet outputRestart()}
-                            <CommandButton background command={Restart} />
-                        {/snippet}
-                        {#snippet outputPerform()}
-                            <CommandButton
-                                background
-                                command={Perform}
-                                icon={PerformIcon}
-                            />
-                        {/snippet}
-                        <!-- Anchor the `stepControls` UI reference (tutorial highlight + tour)
-                             on the leftmost, most overflow-stable step button. -->
-                        {#snippet stepToStartItem()}<CommandButton
-                                command={StepToStart}
-                                uiid="stepControls"
-                            />{/snippet}
-                        {#snippet stepBackInputItem()}<CommandButton
-                                command={StepBackInput}
-                            />{/snippet}
-                        {#snippet stepBackNodeItem()}<CommandButton
-                                command={StepBackNode}
-                            />{/snippet}
-                        {#snippet stepBackItem()}<CommandButton
-                                command={StepBack}
-                            />{/snippet}
-                        {#snippet stepOutItem()}<CommandButton
-                                command={StepOut}
-                            />{/snippet}
-                        {#snippet stepForwardItem()}<CommandButton
-                                command={StepForward}
-                            />{/snippet}
-                        {#snippet stepForwardNodeItem()}<CommandButton
-                                command={StepForwardNode}
-                            />{/snippet}
-                        {#snippet stepForwardInputItem()}<CommandButton
-                                command={StepForwardInput}
-                            />{/snippet}
-                        {#snippet stepToPresentItem()}<CommandButton
-                                command={StepToPresent}
-                            />{/snippet}
-                        <!-- In edit mode the timeline navigates the input
-                             history, so it snaps by reaction; debug stops at
-                             every step. -->
-                        {#snippet timelineSlider()}<Timeline
-                                evaluator={$evaluator}
-                                granularity={uiMode === 'edit'
-                                    ? 'input'
-                                    : 'step'}
-                            />{/snippet}
-                        <!-- Edit mode shows the timeline alone: it names the
-                             paused position and snaps to prior inputs, which is
-                             useful while authoring, but the nine precise step
-                             buttons are debugger apparatus most editing never
-                             touches — showing them all the time reads as a
-                             cockpit. Debug mode adds them on their own line
-                             above the slider. With no reactions beyond the
-                             program's start, edit hides the row entirely:
-                             there is no history to navigate. -->
-                        {#snippet outputTimelineRow()}
-                            <div class="step-controls">
-                                {@render timelineSlider()}
-                            </div>
-                        {/snippet}
-                        <!-- The debugger's controls: the step buttons on one
-                             line, the history slider on its own beneath them.
-                             Sharing one line meant the slider could only get
-                             wider by pushing step buttons into the overflow
-                             menu — measured at 73px of a 403px toolbar, which
-                             is not a scrubber anyone can aim at, and 240px of
-                             reserved width hid six of the nine buttons. On its
-                             own line it is full width and hides nothing. -->
-                        {#snippet outputStepRow()}
-                            <div class="step-controls">
-                                <OverflowToolbar
-                                    items={[
-                                        stepToStartItem,
-                                        stepBackInputItem,
-                                        stepBackNodeItem,
-                                        stepBackItem,
-                                        stepOutItem,
-                                        stepForwardItem,
-                                        stepForwardNodeItem,
-                                        stepForwardInputItem,
-                                        stepToPresentItem,
-                                    ]}
-                                />
-                                {@render timelineSlider()}
-                            </div>
-                        {/snippet}
                         <TileView
                             {project}
                             {tile}
@@ -3384,6 +3417,17 @@
                     {/each}
                 {/if}
             {/if}
+            <!-- The debugger's controls, floated over whatever tile is
+                 visible when their home — the output tile's subtoolbar — is
+                 hidden (collapsed, pushed out by a single/split arrangement,
+                 or covered by another tile's fullscreen). Debug surfaced the
+                 editor, and on a phone's one-tile layout there would otherwise
+                 be no way to step at all. -->
+            {#if uiMode === 'debug' && outputTileHidden}
+                <div class="floating-debug">
+                    {@render outputStepRow()}
+                </div>
+            {/if}
         {/key}
     </div>
 
@@ -3485,6 +3529,22 @@
 {/if}
 
 <style>
+    /* The debugger's controls when their home tile is hidden: pinned above
+       the footer, in the debug band's own color so they read as the same
+       instrument. */
+    .floating-debug {
+        position: absolute;
+        inset-block-end: var(--wordplay-spacing);
+        inset-inline: var(--wordplay-spacing);
+        z-index: 2;
+        background: var(--wordplay-evaluation-color);
+        color: var(--wordplay-background);
+        fill: var(--wordplay-background);
+        border-radius: var(--wordplay-border-radius);
+        padding: var(--wordplay-spacing);
+        box-shadow: 2px 2px 5px var(--wordplay-chrome);
+    }
+
     /* Plain block, not flex: the toolbar and the slider each take the full
        width on their own line, and the slider's own `flex: 1` is inert here. */
     .step-controls {

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
     import { locales } from '@db/Database';
     import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
     import Emoji from '@components/app/Emoji.svelte';
@@ -32,9 +33,10 @@
     bind:this={annotation}
     aria-label={tip}
     class:wiggle={localize.on}
-    onfocus={showTip}
+    onfocus={(event) =>
+        canFocusTips(event.currentTarget) ? showTip() : undefined}
     onblur={hideTip}
-    onpointerenter={showTip}
+    onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
     onpointerleave={hideTip}
     ><Emoji text={MACHINE_TRANSLATED_SYMBOL} color={false} /></span
 >

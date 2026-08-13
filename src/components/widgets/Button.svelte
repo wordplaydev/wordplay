@@ -5,6 +5,7 @@
 
 <script lang="ts">
     import Spinning from '@components/app/Spinning.svelte';
+    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
     import { getLocalizing, getTip } from '@components/project/Contexts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
@@ -198,15 +199,13 @@
               onRelease(event);
           }
         : null}
-    onpointerenter={showTip}
+    onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
     onpointerleave={() => {
         hideTip();
         pressed = false;
     }}
-    ontouchstart={showTip}
-    ontouchend={hideTip}
-    ontouchcancel={hideTip}
-    onfocus={showTip}
+    onfocus={(event) =>
+        canFocusTips(event.currentTarget) ? showTip() : undefined}
     onblur={hideTip}
     bind:this={_}
     ondblclick={(event) => event.stopPropagation()}

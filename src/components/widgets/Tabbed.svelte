@@ -7,6 +7,7 @@
      the panel both communicate. -->
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
         getFocusableOption,
@@ -235,15 +236,15 @@
                             select(index);
                     }}
                     onpointerenter={(event) =>
-                        showTip(event.currentTarget, tipEntriesFor(index))}
+                        canHoverTips()
+                            ? showTip(event.currentTarget, tipEntriesFor(index))
+                            : undefined}
                     onpointerleave={hideTip}
                     onfocus={(event) =>
-                        showTip(event.currentTarget, tipEntriesFor(index))}
+                        canFocusTips(event.currentTarget)
+                            ? showTip(event.currentTarget, tipEntriesFor(index))
+                            : undefined}
                     onblur={hideTip}
-                    ontouchstart={(event) =>
-                        showTip(event.currentTarget, tipEntriesFor(index))}
-                    ontouchend={hideTip}
-                    ontouchcancel={hideTip}
                     onkeydown={(event) => handleKey(event, index)}
                 >
                     {#if icons}<span class="icon" aria-hidden="true"
