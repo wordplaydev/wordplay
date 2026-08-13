@@ -1,6 +1,9 @@
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
-    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import OptionTips from '@components/widgets/OptionTips.svelte';
     import {
@@ -45,6 +48,11 @@
          *  so they become items of a parent grid (the label right-aligns, the group
          *  left-aligns). Lets multiple Modes align into a filter grid. */
         grid?: boolean;
+        /** With `grid`, step this row's button group in from the column's start
+         *  edge to show it depends on the setting above it. The label stays on
+         *  the shared right edge, so nesting reads without breaking the column
+         *  — which is why the offset lands on the group and not the label. */
+        indented?: boolean;
         /** When true, stack the buttons vertically (column) instead of in a row.
          *  Used by the blocks-mode Wellspring's icon-only category chooser. */
         vertical?: boolean;
@@ -64,6 +72,7 @@
         omit = [],
         annotations,
         grid = false,
+        indented = false,
         vertical = false,
         uiid = undefined,
     }: Props = $props();
@@ -155,6 +164,7 @@
         class="group"
         class:wrap
         class:vertical
+        class:indented
         role="radiogroup"
         aria-label={labeled ? undefined : labelTitle}
         aria-labelledby={labeled ? labelID : undefined}
@@ -201,7 +211,9 @@
                     {#if icons}<span
                             aria-hidden={modeLabels ? 'true' : undefined}
                             >{#if index < icons.length}{@const icon =
-                                    icons[index]}{#if typeof icon === 'string'}{withMonoEmoji(
+                                    icons[
+                                        index
+                                    ]}{#if typeof icon === 'string'}{withMonoEmoji(
                                         icon,
                                     )}{:else}{@const Icon = icon}<Icon
                                     />{/if}{:else}?{/if}</span
@@ -268,6 +280,14 @@
     .mode.grid .label {
         justify-self: end;
         text-align: end;
+    }
+
+    /* Wide enough to read as a deliberate step rather than a misalignment. Only
+       meaningful under `grid`, where every group shares one start edge to step
+       from; in flow layout each row starts wherever its own label ended, so
+       there is no edge an offset could be measured against. */
+    .mode.grid .group.indented {
+        margin-inline-start: calc(4 * var(--wordplay-spacing));
     }
 
     .label {

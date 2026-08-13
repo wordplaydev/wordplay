@@ -7913,9 +7913,28 @@
             },
             "settings": {
                 "header": "Settings",
-                "explanation": "Change layout, device, and theme settings.",
+                "explanation": "Change how Wordplay looks, how you write code, and how programs use your devices.",
                 "button": {
                     "show": "show settings dialog"
+                },
+                "tab": {
+                    "label": "settings groups",
+                    "labels": [
+                        "Appearance",
+                        "Code",
+                        "Camera + Mic",
+                        "Sound + Music"
+                    ],
+                    "tips": [
+                        "how Wordplay itself looks and feels: font, colors, tiles, and animation",
+                        "how code looks and feels while you write it",
+                        "which camera and microphone programs read from",
+                        "how a program's music, speech, and captions reach you"
+                    ]
+                },
+                "subheader": {
+                    "music": "Music",
+                    "say": "Say"
                 },
                 "mode": {
                     "layout": {
@@ -7986,7 +8005,7 @@
                         ]
                     },
                     "space": {
-                        "label": "space, tab, and new line markers",
+                        "label": "space markers",
                         "labels": ["hide", "show"],
                         "tips": [
                             "do not show space and tab indicators",
@@ -8041,7 +8060,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "music",
+                        "label": "visualization",
                         "labels": [
                             "orchestra",
                             "light show",
@@ -8058,7 +8077,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "music volume",
+                        "label": "volume",
                         "labels": ["off", "quiet", "full"],
                         "tips": [
                             "Mute all music",
@@ -8067,7 +8086,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "music while speaking",
+                        "label": "while speaking",
                         "labels": ["quiet", "quieter", "silent"],
                         "tips": [
                             "Lower music a little while something is spoken",
@@ -8097,9 +8116,9 @@
                 },
                 "options": {
                     "face": "font face",
-                    "mic": "selected microphone",
-                    "camera": "selected camera",
-                    "voice": "selected voice for Say",
+                    "mic": "microphone",
+                    "camera": "camera",
+                    "voice": "Say voice",
                     "default": "default"
                 }
             },

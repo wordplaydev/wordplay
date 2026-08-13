@@ -7739,7 +7739,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~müzik",
+                        "label": "$~görselleştirme",
                         "labels": [
                             "$~ışık gösterisi",
                             "$~ruh hâli",
@@ -7756,7 +7756,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~müzik sesi",
+                        "label": "$~ses düzeyi",
                         "labels": ["$~kapalı", "$~kısık", "$~tam"],
                         "tips": [
                             "$~Tüm müziği sustur",
@@ -7765,7 +7765,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~konuşurken müzik",
+                        "label": "$~konuşurken",
                         "labels": ["$~kısık", "$~daha kısık", "$~sessiz"],
                         "tips": [
                             "$~Bir şey söylenirken müziği biraz kıs",
@@ -7795,10 +7795,29 @@
                 },
                 "options": {
                     "face": "$~yazı tipi",
-                    "mic": "$~seçili mikrofon",
-                    "camera": "$~seçili kamera",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
                     "default": "$~varsayılan",
-                    "voice": "$~Say için seçilen ses"
+                    "voice": "$~Söyleme sesi"
+                },
+                "tab": {
+                    "label": "$~ayar grupları",
+                    "labels": [
+                        "$~Görünüm",
+                        "$~Kod",
+                        "$~Kamera + Mikrofon",
+                        "$~Ses + Müzik"
+                    ],
+                    "tips": [
+                        "$~Wordplay'in kendisinin nasıl göründüğü ve hissettirdiği: yazı tipi, renkler, döşemeler ve animasyon",
+                        "$~kodu yazarken nasıl göründüğü ve hissettirdiği",
+                        "$~programların hangi kameradan ve mikrofondan okuyacağı",
+                        "$~bir programın müziği, konuşması ve altyazıları sana nasıl ulaşır"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Müzik",
+                    "say": "$~Söyle"
                 }
             },
             "locale": {

@@ -7971,7 +7971,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~musika",
+                        "label": "$~biswalisasyon",
                         "labels": [
                             "$~orkestra",
                             "$~palabas ng ilaw",
@@ -7988,7 +7988,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~lakas ng musika",
+                        "label": "$~lakas ng tunog",
                         "labels": ["$~patay", "$~mahina", "$~buo"],
                         "tips": [
                             "$~Patahimikin ang lahat ng musika",
@@ -7997,7 +7997,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~musika habang nagsasalita",
+                        "label": "$~habang nagsasalita",
                         "labels": ["$~mahina", "$~mas mahina", "$~tahimik"],
                         "tips": [
                             "$~Bahagyang hinaan ang musika habang may sinasabi",
@@ -8027,10 +8027,29 @@
                 },
                 "options": {
                     "face": "$~mukha ng font",
-                    "mic": "$~napiling mikropono",
-                    "camera": "$~napiling kamera",
-                    "voice": "$~napiling boses para kay Say",
+                    "mic": "$~mikropono",
+                    "camera": "$~kamera",
+                    "voice": "$~Boses na Magsasalita",
                     "default": "$~paunang"
+                },
+                "tab": {
+                    "label": "$~mga pangkat ng setting",
+                    "labels": [
+                        "$~Anyo",
+                        "$~Kodigo",
+                        "$~Kamera + Mikropono",
+                        "$~Tunog + Musika"
+                    ],
+                    "tips": [
+                        "$~kung paano lumitaw at gumana ang mismong Wordplay: font, mga kulay, mga tile, at animation",
+                        "$~kung paano lumitaw at gumana ang kodigo habang isinusulat mo ito",
+                        "$~kung aling kamera at mikropono ang binabasa ng mga programa",
+                        "$~kung paano umaabot sa iyo ang musika, pananalita, at caption ng isang programa"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musika",
+                    "say": "$~Sabihin"
                 }
             },
             "notifications": {

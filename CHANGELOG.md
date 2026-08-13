@@ -6,7 +6,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.29.1 - 2026-08-13
 
-This week we launched a new logo and improved the edit, debug, and play modes for more flexibility.
+This week we launched a new logo, improved the edit, debug, and play modes for more flexibility, and better organized the growing settings dialog.
 
 ### Added
 
@@ -20,6 +20,7 @@ This week we launched a new logo and improved the edit, debug, and play modes fo
 ### Changed
 
 - 💬 We gave Wordplay a new logo: a speech bubble that can say anything. On the [home page](https://wordplay.dev/) it speaks the letter of each language as the language chooser names it; while things load it holds a circle, a triangle, and a square that take turns hopping, like a crowd doing the wave; and it holds still if you turn animation off. (#414)
+- ⚙️ We better organized the settings dialog, since it was getting log. It should be easier to find the setting you're looking for.
 - 🖱️ The slider that moves through your program now gets a whole row to itself. While editing, it appears once your program has reacted to input and snaps between those moments; in debug mode it stops at every step, with the precise step buttons above it.
 - 🐛 The pause mode is now called debug, keeping its two-bar pause icon, and the mode buttons above the stage go edit, debug, play. In debug, the value of each part of your program shows next to its code in the editor and next to its control in the palette.
 - ⌨️ Ctrl-Enter switches between edit and play, and ctrl-alt-5, 6, and 7 jump straight to a mode. Ctrl-alt-Enter resets your program, in any mode.

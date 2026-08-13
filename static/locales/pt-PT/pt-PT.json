@@ -7973,7 +7973,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~música",
+                        "label": "$~visualização",
                         "labels": [
                             "$~orquestra",
                             "$~espetáculo de luz",
@@ -7990,7 +7990,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~volume da música",
+                        "label": "$~volume",
                         "labels": ["$~desligado", "$~baixo", "$~máximo"],
                         "tips": [
                             "$~Silenciar toda a música",
@@ -7999,7 +7999,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~música durante a fala",
+                        "label": "$~enquanto fala",
                         "labels": ["$~baixo", "$~mais baixo", "$~silencioso"],
                         "tips": [
                             "$~Baixar um pouco a música enquanto algo é dito",
@@ -8029,10 +8029,29 @@
                 },
                 "options": {
                     "face": "fonte",
-                    "mic": "microfone selecionado",
-                    "camera": "câmara selecionada",
-                    "voice": "Voz selecionada para Say",
+                    "mic": "$~microfone",
+                    "camera": "$~câmara",
+                    "voice": "$~Voz para falar",
                     "default": "predefinição"
+                },
+                "tab": {
+                    "label": "$~grupos de definições",
+                    "labels": [
+                        "$~Aparência",
+                        "$~Código",
+                        "$~Câmara + Microfone",
+                        "$~Som + Música"
+                    ],
+                    "tips": [
+                        "$~como o próprio Wordplay parece e se sente: tipo de letra, cores, mosaicos e animação",
+                        "$~como o código parece e se sente enquanto o escreves",
+                        "$~de que câmara e microfone os programas leem",
+                        "$~como a música, a fala e as legendas de um programa chegam até ti"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Música",
+                    "say": "$~Falar"
                 }
             },
             "notifications": {

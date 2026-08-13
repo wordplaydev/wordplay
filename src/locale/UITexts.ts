@@ -1476,6 +1476,17 @@ type UITexts = {
                 /** [plain] Show the settings dialog */
                 show: string;
             };
+            /** The tabs that switch between groups of settings */
+            tab: ModeText<[string, string, string, string]>;
+            /** Names the output each group of settings belongs to, so the labels
+             *  beneath them don't each have to repeat it. Both are the names of
+             *  Wordplay's own output types. */
+            subheader: {
+                /** [plain] Heads the settings for Music output */
+                music: string;
+                /** [plain] Heads the settings for Say output */
+                say: string;
+            };
             mode: {
                 /** The project tile layout mode */
                 layout: ModeText<

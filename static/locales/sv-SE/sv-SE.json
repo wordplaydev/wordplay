@@ -7726,7 +7726,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~musik",
+                        "label": "$~visualisering",
                         "labels": [
                             "$~orkester",
                             "$~ljusshow",
@@ -7743,7 +7743,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~musikvolym",
+                        "label": "$~volym",
                         "labels": ["$~av", "$~tyst", "$~full"],
                         "tips": [
                             "$~Stäng av all musik",
@@ -7752,7 +7752,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~musik medan någon talar",
+                        "label": "$~medan man talar",
                         "labels": ["$~tyst", "$~tystare", "$~ljudlös"],
                         "tips": [
                             "$~Sänk musiken lite medan något sägs",
@@ -7782,10 +7782,29 @@
                 },
                 "options": {
                     "face": "$~teckensnitt",
-                    "mic": "$~vald mikrofon",
-                    "camera": "$~vald kamera",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
                     "default": "$~standard",
-                    "voice": "$~vald röst för Say"
+                    "voice": "$~Säg-röst"
+                },
+                "tab": {
+                    "label": "$~inställningsgrupper",
+                    "labels": [
+                        "$~Utseende",
+                        "$~Koda",
+                        "$~Kamera + Mikrofon",
+                        "$~Ljud + Musik"
+                    ],
+                    "tips": [
+                        "$~hur Wordplay själv ser ut och känns: teckensnitt, färger, rutor och animation",
+                        "$~hur koda ser ut och känns medan du skriver den",
+                        "$~vilken kamera och mikrofon som program läser från",
+                        "$~hur ett programs musik, tal och bildtexter når dig"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Säg"
                 }
             },
             "locale": {

@@ -7730,7 +7730,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~musique",
+                        "label": "$~visualisation",
                         "labels": [
                             "$~orchestre",
                             "$~spectacle de lumière",
@@ -7747,7 +7747,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~volume de la musique",
+                        "label": "$~volume",
                         "labels": ["$~éteint", "$~doux", "$~plein"],
                         "tips": [
                             "$~Couper toute la musique",
@@ -7756,7 +7756,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~musique pendant qu'on parle",
+                        "label": "$~pendant que ça parle",
                         "labels": ["$~doux", "$~plus doux", "$~silencieux"],
                         "tips": [
                             "$~Baisser un peu la musique quand quelque chose est dit",
@@ -7785,11 +7785,30 @@
                     }
                 },
                 "options": {
-                    "mic": "$~microphone sélectionné",
-                    "camera": "$~caméra sélectionnée",
+                    "mic": "$~microphone",
+                    "camera": "$~caméra",
                     "face": "$~police de caractère",
                     "default": "$~défaut",
-                    "voice": "$~voix sélectionnée pour Say"
+                    "voice": "$~Voix de Say"
+                },
+                "tab": {
+                    "label": "$~groupes de réglages",
+                    "labels": [
+                        "$~Apparence",
+                        "$~Code",
+                        "$~Caméra + Micro",
+                        "$~Son + Musique"
+                    ],
+                    "tips": [
+                        "$~comment Wordplay lui-même paraît et se comporte : police, couleurs, tuiles et animation",
+                        "$~comment le code paraît et se comporte pendant que tu l'écris",
+                        "$~quelle caméra et quel microphone les programmes utilisent",
+                        "$~comment la musique, la parole et les sous-titres d'un programme te parviennent"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musique",
+                    "say": "$~Say"
                 }
             },
             "locale": {

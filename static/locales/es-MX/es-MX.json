@@ -7721,7 +7721,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~música",
+                        "label": "$~visualización",
                         "labels": [
                             "$~orquesta",
                             "$~espectáculo de luces",
@@ -7738,7 +7738,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~volumen de la música",
+                        "label": "$~volumen",
                         "labels": ["$~apagado", "$~bajo", "$~completo"],
                         "tips": [
                             "$~Silenciar toda la música",
@@ -7747,7 +7747,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~música al hablar",
+                        "label": "$~mientras habla",
                         "labels": ["$~bajo", "$~más bajo", "$~silencio"],
                         "tips": [
                             "$~Bajar un poco la música mientras alguien habla",
@@ -7776,11 +7776,30 @@
                     }
                 },
                 "options": {
-                    "mic": "micrófono seleccionado",
-                    "camera": "cámara seleccionada ",
+                    "mic": "$~micrófono",
+                    "camera": "$~cámara",
                     "face": "fuente de texto",
                     "default": "$~predeterminado",
-                    "voice": "$~voz seleccionada para Say"
+                    "voice": "$~Voz de Say"
+                },
+                "tab": {
+                    "label": "$~grupos de ajustes",
+                    "labels": [
+                        "$~Apariencia",
+                        "$~Código",
+                        "$~Cámara + Micrófono",
+                        "$~Sonido + Música"
+                    ],
+                    "tips": [
+                        "$~cómo se ve y se siente Wordplay: la fuente, los colores, los mosaicos y la animación",
+                        "$~cómo se ve y se siente el código mientras lo escribes",
+                        "$~de qué cámara y micrófono leen los programas",
+                        "$~cómo llegan a ti la música, la voz y los subtítulos de un programa"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Música",
+                    "say": "$~Say"
                 }
             },
             "locale": {

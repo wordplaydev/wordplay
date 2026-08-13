@@ -7732,7 +7732,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~Musik",
+                        "label": "$~Darstellung",
                         "labels": [
                             "$~Orchester",
                             "$~Lichtshow",
@@ -7749,7 +7749,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~Musiklautstärke",
+                        "label": "$~Lautstärke",
                         "labels": ["$~aus", "$~leise", "$~voll"],
                         "tips": [
                             "$~Alle Musik stummschalten",
@@ -7758,7 +7758,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~Musik beim Sprechen",
+                        "label": "$~beim Sprechen",
                         "labels": ["$~leise", "$~leiser", "$~still"],
                         "tips": [
                             "$~Musik ein wenig leiser machen, während etwas gesprochen wird",
@@ -7787,11 +7787,30 @@
                     }
                 },
                 "options": {
-                    "mic": "$~ausgewähltes Mikrofon",
-                    "camera": "$~ausgewählte Kamera",
+                    "mic": "$~Mikrofon",
+                    "camera": "$~Kamera",
                     "face": "$~Schriftart",
                     "default": "$~Standard",
-                    "voice": "$~ausgewählte Stimme für Say"
+                    "voice": "$~Sprich mit Stimme"
+                },
+                "tab": {
+                    "label": "$~Einstellungsgruppen",
+                    "labels": [
+                        "$~Aussehen",
+                        "$~Code",
+                        "$~Kamera + Mikrofon",
+                        "$~Ton + Musik"
+                    ],
+                    "tips": [
+                        "$~wie Wordplay selbst aussieht und wirkt: Schrift, Farben, Kacheln und Animation",
+                        "$~wie Code aussieht und wirkt, während du ihn schreibst",
+                        "$~von welcher Kamera und welchem Mikrofon Programme lesen",
+                        "$~wie die Musik, die Sprache und die Untertitel eines Programms zu dir gelangen"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Sprich"
                 }
             },
             "locale": {

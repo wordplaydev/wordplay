@@ -7991,7 +7991,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~muzică",
+                        "label": "$~vizualizare",
                         "labels": [
                             "$~orchestră",
                             "$~spectacol de lumini",
@@ -8008,7 +8008,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~volumul muzicii",
+                        "label": "$~volum",
                         "labels": ["$~oprit", "$~încet", "$~maxim"],
                         "tips": [
                             "$~Oprește sunetul întregii muzici",
@@ -8017,7 +8017,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~muzica în timp ce se vorbește",
+                        "label": "$~în timp ce vorbește",
                         "labels": ["$~încet", "$~mai încet", "$~fără sunet"],
                         "tips": [
                             "$~Dă muzica puțin mai încet când se spune ceva",
@@ -8047,10 +8047,29 @@
                 },
                 "options": {
                     "face": "$~font",
-                    "mic": "$~microfon selectat",
-                    "camera": "$~cameră selectată",
-                    "voice": "$~voce selectată pentru Say",
+                    "mic": "$~microfon",
+                    "camera": "$~cameră",
+                    "voice": "$~Voce Say",
                     "default": "$~implicit"
+                },
+                "tab": {
+                    "label": "$~grupuri de setări",
+                    "labels": [
+                        "$~Aspect",
+                        "$~Cod",
+                        "$~Cameră + Microfon",
+                        "$~Sunet + Muzică"
+                    ],
+                    "tips": [
+                        "$~cum arată și se simte Wordplay în sine: fontul, culorile, plăcile și animația",
+                        "$~cum arată și se simte codul în timp ce îl scrii",
+                        "$~de la ce cameră și microfon citesc programele",
+                        "$~cum ajung la tine muzica, vorbirea și subtitrările unui program"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Muzică",
+                    "say": "$~Say"
                 }
             },
             "notifications": {

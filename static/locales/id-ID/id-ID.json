@@ -7988,7 +7988,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~musik",
+                        "label": "$~visualisasi",
                         "labels": [
                             "$~orkestra",
                             "$~pertunjukan cahaya",
@@ -8005,7 +8005,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~volume musik",
+                        "label": "$~volume",
                         "labels": ["$~mati", "$~pelan", "$~penuh"],
                         "tips": [
                             "$~Matikan semua musik",
@@ -8014,7 +8014,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~musik saat berbicara",
+                        "label": "$~saat berbicara",
                         "labels": ["$~pelan", "$~lebih pelan", "$~sunyi"],
                         "tips": [
                             "$~Turunkan musik sedikit saat ada yang diucapkan",
@@ -8044,10 +8044,29 @@
                 },
                 "options": {
                     "face": "$~huruf muka",
-                    "mic": "$~mikrofon yang dipilih",
-                    "camera": "$~kamera terpilih",
-                    "voice": "$~suara terpilih untuk Say",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
+                    "voice": "$~Suara ucapan",
                     "default": "$~bawaan"
+                },
+                "tab": {
+                    "label": "$~grup pengaturan",
+                    "labels": [
+                        "$~Tampilan",
+                        "$~Kode",
+                        "$~Kamera + Mikrofon",
+                        "$~Suara + Musik"
+                    ],
+                    "tips": [
+                        "$~bagaimana tampilan dan rasa Wordplay itu sendiri: huruf, warna, ubin, dan animasi",
+                        "$~bagaimana tampilan dan rasa kode saat kamu menuliskannya",
+                        "$~kamera dan mikrofon mana yang dibaca oleh program",
+                        "$~bagaimana musik, ucapan, dan teks sebuah program sampai kepadamu"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Ucapkan"
                 }
             },
             "notifications": {

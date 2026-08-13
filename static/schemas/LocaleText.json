@@ -17313,6 +17313,29 @@
                         "default"
                       ],
                       "type": "object"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "description": "Names the output each group of settings belongs to, so the labels beneath them don't each have to repeat it. Both are the names of Wordplay's own output types.",
+                      "properties": {
+                        "music": {
+                          "description": "[plain] Heads the settings for Music output",
+                          "type": "string"
+                        },
+                        "say": {
+                          "description": "[plain] Heads the settings for Say output",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "music",
+                        "say"
+                      ],
+                      "type": "object"
+                    },
+                    "tab": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                      "description": "The tabs that switch between groups of settings"
                     }
                   },
                   "required": [
@@ -17320,7 +17343,9 @@
                     "explanation",
                     "header",
                     "mode",
-                    "options"
+                    "options",
+                    "subheader",
+                    "tab"
                   ],
                   "type": "object"
                 },

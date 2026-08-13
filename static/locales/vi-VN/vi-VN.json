@@ -7979,7 +7979,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~nhạc",
+                        "label": "$~trực quan hóa",
                         "labels": [
                             "$~dàn nhạc",
                             "$~trình diễn ánh sáng",
@@ -7996,7 +7996,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~âm lượng nhạc",
+                        "label": "$~âm lượng",
                         "labels": ["$~tắt", "$~nhỏ", "$~lớn nhất"],
                         "tips": [
                             "$~Tắt tiếng tất cả nhạc",
@@ -8005,7 +8005,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~nhạc khi đang nói",
+                        "label": "$~khi nói",
                         "labels": ["$~nhỏ", "$~nhỏ hơn", "$~im lặng"],
                         "tips": [
                             "$~Giảm nhạc một chút khi có ai đó nói",
@@ -8035,10 +8035,29 @@
                 },
                 "options": {
                     "face": "$~kiểu chữ",
-                    "mic": "$~micro đã chọn",
-                    "camera": "$~máy ảnh đã chọn",
+                    "mic": "$~micrô",
+                    "camera": "$~máy quay",
                     "default": "$~mặc định",
-                    "voice": "$~giọng nói được chọn cho Say"
+                    "voice": "$~Giọng nói"
+                },
+                "tab": {
+                    "label": "$~nhóm cài đặt",
+                    "labels": [
+                        "$~Giao diện",
+                        "$~Mã số",
+                        "$~Máy quay + Micrô",
+                        "$~Âm thanh + Nhạc"
+                    ],
+                    "tips": [
+                        "$~cách chính Wordplay trông và cảm nhận: phông chữ, màu sắc, ô, và chuyển động",
+                        "$~cách mã số trông và cảm nhận khi bạn viết nó",
+                        "$~chương trình đọc từ máy quay và micrô nào",
+                        "$~cách nhạc, lời nói, và phụ đề của một chương trình đến với bạn"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Nhạc",
+                    "say": "$~Nói"
                 }
             },
             "notifications": {

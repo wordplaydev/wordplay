@@ -7762,7 +7762,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~muzyka",
+                        "label": "$~wizualizacja",
                         "labels": [
                             "$~orkiestra",
                             "$~pokaz świateł",
@@ -7779,7 +7779,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~głośność muzyki",
+                        "label": "$~głośność",
                         "labels": ["$~wyłączone", "$~cicho", "$~pełna"],
                         "tips": [
                             "$~Wycisz całą muzykę",
@@ -7788,7 +7788,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~muzyka podczas mówienia",
+                        "label": "$~podczas mówienia",
                         "labels": ["$~cicho", "$~ciszej", "$~cisza"],
                         "tips": [
                             "$~Ścisz muzykę trochę, gdy coś jest mówione",
@@ -7818,10 +7818,29 @@
                 },
                 "options": {
                     "face": "$~krój czcionki",
-                    "mic": "$~wybrany mikrofon",
-                    "camera": "$~wybrana kamera",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
                     "default": "$~domyślny",
-                    "voice": "$~wybrany głos dla Say"
+                    "voice": "$~Głos mówienia"
+                },
+                "tab": {
+                    "label": "$~grupy ustawień",
+                    "labels": [
+                        "$~Wygląd",
+                        "$~Kod",
+                        "$~Kamera + mikrofon",
+                        "$~Dźwięk + muzyka"
+                    ],
+                    "tips": [
+                        "$~jak wygląda i działa sam Wordplay: czcionka, kolory, kafelki i animacja",
+                        "$~jak wygląda i działa kod, gdy go piszesz",
+                        "$~z której kamery i którego mikrofonu korzystają programy",
+                        "$~jak muzyka, mowa i napisy programu docierają do ciebie"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Muzyka",
+                    "say": "$~Mów"
                 }
             },
             "locale": {
