@@ -20,6 +20,7 @@ import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkNames from '@util/verify-locales/checkNames';
+import checkRedundantNames from '@util/verify-locales/checkRedundantNames';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import checkTerms from '@util/verify-locales/checkTerms';
 import classifyLocalePath, {
@@ -152,6 +153,10 @@ export async function verifyLocale(
     // below, so fix-mode repairs land first.
     revisedText = checkStringArrays(log, DefaultLocale, revisedText, fix);
     revisedText = checkNames(log, DefaultLocale, revisedText, fix);
+    // After checkNames, so a name repaired to its en-US value is recognized as the duplicate
+    // it now is rather than surviving until the next run.
+    if (locale !== 'en-US')
+        revisedText = checkRedundantNames(log, DefaultLocale, revisedText, fix);
 
     // Validate the per-locale word list: key shape, no collision with template
     // input names, and no term-in-term references.

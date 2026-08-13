@@ -1431,7 +1431,8 @@
                         "explanation": "$~$name[Wala akong kilalang nagngangalang $name sa $scope[$scope|this @Block]|Maaari mo ba akong bigyan ng pangalan?]"
                     },
                     "resolution": "$~Ang ibig mo bang sabihin ay *$suggestion?*",
-                    "staticResolution": "$~Ibig mo bang sabihin ay *$owner.$suggestion?*"
+                    "staticResolution": "$~Ibig mo bang sabihin ay *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name* ay isang pangalan sa $language. Idagdag ang $language sa mga wika ng iyong proyekto para magamit ito rito."
                 },
                 "ReferenceCycle": {
                     "name": "$~halagang tumutukoy sa sarili",
@@ -2413,7 +2414,7 @@
                         "\\⊥ | ⊤\\",
                         "\\⊥ | ⊥\\"
                     ],
-                    "names": ["$~|", "$~o"],
+                    "names": ["$~o"],
                     "inputs": [
                         {
                             "doc": "$~Ang isa pang @Boolean na susuriin. Kung ang una ay \\⊥\\, ang function ay mag-e-evaluate lamang sa \\⊤\\ kung ito ay \\⊤\\.",
@@ -2423,12 +2424,12 @@
                 },
                 "not": {
                     "doc": "$~Kabaligtaran ng aking nararamdaman: kung ang \\⊤\\, ay nagbibigay ng \\⊥\\, kung ang \\⊥\\, ay nagbibigay ng \\⊤\\.",
-                    "names": ["$~~", "$~hindi"],
+                    "names": ["$~hindi"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ kung pareho ay \\⊤\\ o pareho ay \\⊥\\.",
-                    "names": ["$~=", "$~katumbas"],
+                    "names": ["$~katumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang iba pang halaga na dapat suriin.",
@@ -2460,7 +2461,7 @@
             "function": {
                 "equals": {
                     "doc": "$~Wala rin bang ibang halaga? Mas mabuting, kung hindi, \\⊥\\.",
-                    "names": ["$~=", "$~katumbas"],
+                    "names": ["$~katumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang iba pang halaga.",
@@ -2500,7 +2501,7 @@
                 "Kita mo ba kung paano naging @FunctionDefinition ang 192? Naririnig kong tinatawag ninyo ang mga numerong ito na 'Unicode'.",
                 "Kung hindi, napakaraming kahanga-hangang mga function na ginawa ng @FunctionDefinition para sa akin upang gawin ang lahat ng uri ng bagay sa mga salita!"
             ],
-            "name": ["$~''", "$~Teksto"],
+            "name": ["$~Teksto"],
             "function": {
                 "length": {
                     "doc": [
@@ -2508,12 +2509,12 @@
                         "\\'hello'.length()\\",
                         "\\'🐈📚'.length()\\"
                     ],
-                    "names": ["$~📏", "$~haba"],
+                    "names": ["$~haba"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ kung ako ay ang parehong pagkakasunod-sunod ng karakter gaya ng ibinigay na @Text.",
-                    "names": ["$~=", "$~katumbas"],
+                    "names": ["$~katumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Text para ihambing.",
@@ -2536,7 +2537,7 @@
                         "$~\\⊤\\ kung ang ibinigay na @Text ay lilitaw sa akin.",
                         "\\'nahanap mo ba ang hinahanap mo?'.has('you')\\"
                     ],
-                    "names": ["$~⊆", "$~aymay"],
+                    "names": ["$~aymay"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Text na hahanapin sa akin.",
@@ -2582,7 +2583,7 @@
                         "\\'hi ' × -5\\",
                         "Ang pinakamahabang teksto na kaya kong gawin ay 65,535 na karakter. Kung susubukan mong gumawa ng mas mahabang teksto, uulitin ko ang teksto nang maraming beses hangga't maaari."
                     ],
-                    "names": ["$~×", "$~·", "$~🔁", "$~paulitulit", "$~ulitin"],
+                    "names": ["$~paulitulit", "$~ulitin"],
                     "inputs": [
                         {
                             "doc": "$~Ang bilang ng beses na inulit ko ang sarili ko sa bagong teksto.",
@@ -2597,7 +2598,7 @@
                         "Kung ang separator ay isang walang laman na @Text, hinahati ko ang aking sarili sa mga karakter:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["$~÷", "$~nakasegment", "$~segment"],
+                    "names": ["$~nakasegment"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Text na gagamitin bilang separator.",
@@ -2610,7 +2611,7 @@
                         "$~Minsan, nakakatulong na pagsamahin ang dalawang @Text sa isa. Bigyan mo ako ng isa pang @Text at gagawa ako ng bagong teksto na magdudugtong sa atin:",
                         "\\'hello ' + 'taludtod'\\"
                     ],
-                    "names": ["$~+", "$~pinagsama", "$~pagsamahin"],
+                    "names": ["$~pinagsama", "$~pagsamahin"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Text na idadagdag.",
@@ -2623,7 +2624,7 @@
                         "$~\\⊤\\ kung ang buong teksto ay tumutugma sa ibinigay na padron.",
                         "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
                     ],
-                    "names": ["$~≈", "$~mgatugma"],
+                    "names": ["$~mgatugma"],
                     "inputs": [
                         {
                             "doc": "$~Ang padron na dapat pagtumbasan.",
@@ -2636,7 +2637,7 @@
                         "$~Hanapin ang bawat lugar kung saan tumutugma ang ibinigay na pattern sa akin, bilang isang listahan ng @Result .",
                         "\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~paghahanap"],
+                    "names": ["$~paghahanap"],
                     "inputs": [
                         {
                             "doc": "$~Ang padron na hahanapin.",
@@ -2675,7 +2676,7 @@
                 "Walang digit na '2' sa base 2, kaya hindi ito isang wastong numero. Lalabas din ang NaN kung susubukan mong i-convert ang tekstong hindi numero sa numero.",
                 "\\'hi'→#\\"
             ],
-            "name": ["$~#", "$~Numero"],
+            "name": ["$~Numero"],
             "function": {
                 "add": {
                     "doc": [
@@ -2686,7 +2687,7 @@
                         "Kung hindi magkatugma ang mga yunit, ititigil ko ang palabas.",
                         "\\3pusa + 5aso\\🪲"
                     ],
-                    "names": ["$~+", "$~idagdag"],
+                    "names": ["$~idagdag"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Number na idadagdag.",
@@ -2703,7 +2704,7 @@
                         "Kung hindi magkatugma ang mga yunit, ititigil ko ang palabas.",
                         "\\3pusa - 5aso\\🪲"
                     ],
-                    "names": ["$~-", "$~ibawas"],
+                    "names": ["$~ibawas"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Number na ibawas sa akin.",
@@ -2718,7 +2719,7 @@
                         "\\5m × 5m\\",
                         "\\5m × 1/s\\"
                     ],
-                    "names": ["$~×", "$~·", "$~magparami"],
+                    "names": ["$~magparami"],
                     "inputs": [
                         {
                             "doc": "$~Ang bilang na ipaparami.",
@@ -2733,7 +2734,7 @@
                         "\\5m ÷ 5m\\",
                         "\\5m ÷ 5s\\"
                     ],
-                    "names": ["$~÷", "$~hatiin"],
+                    "names": ["$~hatiin"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Number para hatiin ako.",
@@ -2748,7 +2749,7 @@
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
-                    "names": ["$~%", "$~natitira"],
+                    "names": ["$~natitira"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Number para hatiin ako.",
@@ -2801,7 +2802,7 @@
                         "\\10 ^ -2\\",
                         "\\5 ^ -.5\\"
                     ],
-                    "names": ["$~^", "$~kapangyarihan"],
+                    "names": ["$~kapangyarihan"],
                     "inputs": [
                         {
                             "doc": "$~Ang eksponente para itaas ako.",
@@ -2815,7 +2816,7 @@
                         "\\4 √ 2\\",
                         "\\1000 √ 3\\"
                     ],
-                    "names": ["$~√", "$~ugat"],
+                    "names": ["$~ugat"],
                     "inputs": [
                         {
                             "doc": "$~Ang ugat para kalkulahin.",
@@ -2829,7 +2830,7 @@
                         "\\1 < 2\\",
                         "\\2 < 1\\"
                     ],
-                    "names": ["$~<", "$~masmababasa"],
+                    "names": ["$~masmababasa"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Number para ikumpara ako.",
@@ -2844,7 +2845,7 @@
                         "\\2 ≤ 1\\",
                         "\\2 ≤ 2\\"
                     ],
-                    "names": ["$~≤", "$~masmababaangkatumbas"],
+                    "names": ["$~masmababaangkatumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Number para ikumpara ako.",
@@ -2858,7 +2859,7 @@
                         "\\1 > 2\\",
                         "\\2 > 1\\"
                     ],
-                    "names": ["$~>", "$~masmalakikaysasa"],
+                    "names": ["$~masmalakikaysasa"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Number para ikumpara ako.",
@@ -2873,7 +2874,7 @@
                         "\\2 ≥ 1\\",
                         "\\2 ≥ 2\\"
                     ],
-                    "names": ["$~≥", "$~masmalakiokatumbas"],
+                    "names": ["$~masmalakiokatumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Number para ikumpara ako.",
@@ -2887,7 +2888,7 @@
                         "\\1 = 2\\",
                         "\\2 = 2\\"
                     ],
-                    "names": ["$~=", "$~pantay"],
+                    "names": ["$~pantay"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Number para ikumpara ako.",
@@ -2911,12 +2912,12 @@
                 },
                 "cos": {
                     "doc": ["$~Kwentahin ang cosine ng ako.", "\\π.cos()\\"],
-                    "names": ["$~cos", "$~kosino"],
+                    "names": ["$~kosino"],
                     "inputs": []
                 },
                 "sin": {
                     "doc": ["$~Kwentahin ang sine ng ako.", "\\π.cos()\\"],
-                    "names": ["$~kasalanan", "$~sine"],
+                    "names": ["$~kasalanan"],
                     "inputs": []
                 },
                 "min": {
@@ -2947,7 +2948,7 @@
                 },
                 "tan": {
                     "doc": ["$~Kalkulahin ang tangent ko.", "\\π.tan()\\"],
-                    "names": ["$~tan", "$~tanghente"],
+                    "names": ["$~tanghente"],
                     "inputs": []
                 },
                 "arcsin": {
@@ -3067,7 +3068,7 @@
                 "\\['mansanas' 'saging' 'mangga']!\\",
                 "Medyo ganoon na nga. Pero kaya kong gawin ang lahat ng uri ng kapanapanabik na bagay gamit ang aking @FunctionDefinition!"
             ],
-            "name": ["$~[]", "$~Listahan"],
+            "name": ["$~Listahan"],
             "kind": "$~Mabait",
             "out": "$~Resulta",
             "outofbounds": "$~mgaLabasSaHangganan",
@@ -3119,7 +3120,7 @@
                 },
                 "length": {
                     "doc": "$~Ang @Number ng mga aytem sa akin.",
-                    "names": ["$~📏", "$~haba"],
+                    "names": ["$~haba"],
                     "inputs": []
                 },
                 "random": {
@@ -3209,7 +3210,7 @@
                         "$~Gumagawa ako ng listahan nang wala ang una kong aytem.",
                         "\\['mansanas' 'saging' 'mangga'].sansFirst()\\"
                     ],
-                    "names": ["$~walangUna", "$~sansFirst"],
+                    "names": ["$~walangUna"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3217,7 +3218,7 @@
                         "$~Gumagawa ako ng listahan nang wala ang aking huling aytem.",
                         "\\['mansanas' 'saging' 'mangga'].sansLast()\\"
                     ],
-                    "names": ["$~walangHuling", "$~sansLast"],
+                    "names": ["$~walangHuling"],
                     "inputs": []
                 },
                 "sans": {
@@ -3251,7 +3252,7 @@
                         "$~Ako, pero pabaligtad!",
                         "\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
-                    "names": ["$~baligtad", "$~reverse"],
+                    "names": ["$~baligtad"],
                     "inputs": []
                 },
                 "equals": {
@@ -3259,7 +3260,7 @@
                         "$~\\⊤\\ kung ang aking mga item at order ay eksaktong kapareho ng ibinigay na @List.",
                         "\\['apple' 'banana' 'mangga'] = ['apple' 'mangga' 'saging']\\"
                     ],
-                    "names": ["$~=", "$~katumbas"],
+                    "names": ["$~katumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang @List para ikumpara ako.",
@@ -3502,7 +3503,7 @@
                 "\\{'uy' 'hi' 'hello'}!{'yo'}\\🪲",
                 "May iba ka pa bang gustong gawin sa akin? Tingnan mo lahat ng maayos na @FunctionDefinition na meron ako!"
             ],
-            "name": ["$~{}", "$~Itakda"],
+            "name": ["$~Itakda"],
             "kind": "$~Mabait",
             "out": "$~Resulta",
             "function": {
@@ -3516,7 +3517,7 @@
                         "$~Ako ay \\⊤\\ kung ang ibinigay na @Set at ako ay may eksaktong parehong mga halaga:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": ["$~=", "$~katumbas"],
+                    "names": ["$~katumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Set para ihambing.",
@@ -3542,7 +3543,7 @@
                         "$~Bigyan mo ako ng isang item na idadagdag at gagawa ako ng bagong @Set gamit ang mga item ko at ang ibinigay na item.",
                         "\\{1 2 3} + 4\\"
                     ],
-                    "names": ["$~kasama", "$~idagdag", "$~+"],
+                    "names": ["$~kasama", "$~idagdag"],
                     "inputs": [
                         {
                             "doc": "$~Ang item na idadagdag",
@@ -3556,7 +3557,7 @@
                         "\\{1 2 3} - 2\\",
                         "Kung wala akong item, ako na lang mag-e-evaluate."
                     ],
-                    "names": ["$~tanggalin", "$~-"],
+                    "names": ["$~tanggalin"],
                     "inputs": [
                         {
                             "doc": "$~Ang bagay na aalisin.",
@@ -3569,7 +3570,7 @@
                         "$~Bigyan mo ako ng @Set at gagawa ako ng bagong @Set na naglalaman ng mga item ko at ng mga item ng set.",
                         "\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": ["$~unyon", "$~∪"],
+                    "names": ["$~unyon"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Set para pagsamahin sa akin.",
@@ -3582,7 +3583,7 @@
                         "$~Bigyan mo ako ng @Set at gagawa ako ng bagong @Set na maglalaman lamang ng mga bagay na pareho nating taglay.",
                         "\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": ["$~sangandaan", "$~∩"],
+                    "names": ["$~sangandaan"],
                     "inputs": [
                         {
                             "doc": "$~Ang set para ikumpara sa akin.",
@@ -3675,7 +3676,7 @@
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
                 "Marami akong alam na magagandang bagay sa mga pairings ko."
             ],
-            "name": ["$~{:}", "$~Mapa"],
+            "name": ["$~Mapa"],
             "key": "$~Susi",
             "value": "$~Halaga",
             "result": "$~Resulta",
@@ -3690,7 +3691,7 @@
                         "$~\\{⊤}\\ kung ang aking mga pares ay eksaktong kapareho ng ibinigay na @Map.",
                         "\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": ["$~=", "$~katumbas"],
+                    "names": ["$~katumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Map para ikumpara ako.",
@@ -3833,12 +3834,12 @@
                 "At kung gusto mong makakuha ng mga partikular na halaga mula sa akin, maaari mong i-convert ang anumang talahanayan sa isang listahan at i-access ang mga indibidwal na hilera gamit ang @PropertyReference",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
             ],
-            "name": ["$~⎡⎦", "$~Mesa"],
+            "name": ["$~Mesa"],
             "row": "$~Hilera",
             "function": {
                 "equals": {
                     "doc": "$~Sinusuri ko kung mayroon akong eksaktong parehong mga cell sa eksaktong parehong pagkakasunud-sunod ng isa pang @Table.",
-                    "names": ["$~=", "$~katumbas"],
+                    "names": ["$~katumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang kabilang mesa na dapat suriin.",
@@ -3848,7 +3849,7 @@
                 },
                 "notequal": {
                     "doc": "$~Sinusuri ko kung ang alinman sa aking mga cell ay naiiba o nasa ibang pagkakasunud-sunod mula sa ibang @Table.",
-                    "names": ["$~≠", "$~hindiKatumbas"],
+                    "names": ["$~hindiKatumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang kabilang mesa na dapat suriin.",
@@ -3868,7 +3869,7 @@
             "function": {
                 "equals": {
                     "doc": "$~Sinusuri ko kung ang aking mga katangian ay kapareho ng pangalan at mga halaga ng mga katangian ng ibang istraktura.",
-                    "names": ["$~=", "$~katumbas"],
+                    "names": ["$~katumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang iba pang istruktura na dapat suriin.",
@@ -3878,7 +3879,7 @@
                 },
                 "notequal": {
                     "doc": "$~Sinusuri ko kung ang aking mga ari-arian ay naiiba sa anumang paraan mula sa pangalan at mga halaga bilang ibang istraktura.",
-                    "names": ["$~≠", "$~hindiKatumbas"],
+                    "names": ["$~hindiKatumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang iba pang istruktura na dapat suriin.",
@@ -3897,16 +3898,16 @@
                 "\\`I am **bold** and /italic/`\\",
                 "Gumagana ako nang halos katulad @Text , pero kaya ko ang pag-format. Maaari mo akong pagsamahin, ulitin, tingnan kung ano ang nilalaman ko, at i-convert ako sa plain @Text ."
             ],
-            "name": ["$~`…`", "$~NakaFormat"],
+            "name": ["$~NakaFormat"],
             "function": {
                 "length": {
                     "doc": "$~Sinusuri ko ang bilang ng mga nababasang karakter sa aking teksto, hindi pinapansin ang pag-format at mga break sa talata.",
-                    "names": ["$~📏", "$~haba"],
+                    "names": ["$~haba"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ kung ako ay ang parehong naka-format na teksto gaya ng ibinigay na halaga.",
-                    "names": ["$~=", "$~katumbas"],
+                    "names": ["$~katumbas"],
                     "inputs": [
                         {
                             "doc": "$~Ang naka-format na teksto na ihahambing.",
@@ -3956,7 +3957,7 @@
                 },
                 "repeat": {
                     "doc": "$~Gumagawa ako ng bagong format na teksto, ako mismo, inuulit ko ito nang ilang beses. Kung mayroon akong higit sa isang talata, ang mga pahinga ay pinapanatili sa pagitan ng mga kopya.",
-                    "names": ["$~×", "$~·", "$~🔁", "$~paulitulit", "$~ulitin"],
+                    "names": ["$~paulitulit", "$~ulitin"],
                     "inputs": [
                         {
                             "doc": "$~Ang dami ng beses na inuulit ko ang sarili ko.",
@@ -3966,7 +3967,7 @@
                 },
                 "combine": {
                     "doc": "$~Bigyan mo ako ng isa pang naka-format na teksto at pagsasamahin kita. Kung ang isa sa atin ay may higit sa isang talata, mananatili ang mga break ng talata.",
-                    "names": ["$~+", "$~pinagsama", "$~pagsamahin"],
+                    "names": ["$~pinagsama", "$~pagsamahin"],
                     "inputs": [
                         {
                             "doc": "$~Ang naka-format na teksto na idadagdag.",
@@ -4018,7 +4019,7 @@
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "Kopyahin ito sa editor at pagkatapos ay pumili ng isa sa dalawang @Phrase . Makikita mo sa pangatlong @Phrase na nagpapakita ng pangalang napili."
             ],
-            "names": ["$~🔘", "$~Pagpipilian"]
+            "names": ["$~Pagpipilian"]
         },
         "Button": {
             "doc": [
@@ -4030,7 +4031,7 @@
                 "\\Phrase(Button() → '')\\",
                 "Gumagawa lang ito ng @Phrase na siyang value ng stream bilang text. Kung kokopyahin mo ito sa editor at i-click, makikita mo itong magpalipat-lipat sa pagitan ng \\⊥\\ at \\⊤\\ ."
             ],
-            "names": ["$~🖱️", "$~Butones"],
+            "names": ["$~Butones"],
             "down": {
                 "names": "$~pababa",
                 "doc": "$~Kung @None, ang stream ay magbibigay ng parehong pataas at pababa na mga halaga. Kung ang isang \\⊤\\, magbabago lamang ito kapag pinindot ang buton. Kung bibigyan ng \\⊥\\, magbabago lamang ito kapag binitawan ang buton."
@@ -4045,7 +4046,7 @@
                 "\\Pointer()\\",
                 "Ang @Place na ibinibigay nito ay tutugma sa kung saan sa @Stage nakaturo ang pointer."
             ],
-            "names": ["$~👆🏻", "$~Panturo"]
+            "names": ["$~Panturo"]
         },
         "Key": {
             "doc": [
@@ -4061,7 +4062,7 @@
                 "At kung gusto mo lang malaman kung kailan inilalabas ang isang @Key sa halip na pindutin, maaari kang magbigay ng isang @Boolean :",
                 "\\Key('a' ⊥)\\"
             ],
-            "names": ["$~⌨️", "$~Susi"],
+            "names": ["$~Susi"],
             "key": {
                 "names": "$~susi",
                 "doc": "$~Kung @None, lahat ng key ay ibibigay. Kung isang partikular na @Text, ang key na iyon lamang ang ibibigay."
@@ -4136,7 +4137,7 @@
                 "Gayunpaman, may mga limitasyon kung gaano ito kaliit, dahil @Program ay nangangailangan ng oras upang masuri bago sila makatugon sa susunod na tik.",
                 "Ang pinakamaliit ay malamang nasa bandang \\20ms\\ ."
             ],
-            "names": ["$~🕕", "$~Oras"],
+            "names": ["$~Oras"],
             "frequency": {
                 "names": ["$~dalas"],
                 "doc": "$~Ito ang dalas na dapat takbo ng oras. Ang default nito ay \\33ms\\, na humigit-kumulang 30 beses bawat segundo."
@@ -4154,7 +4155,7 @@
                 "\\Volume()\\",
                 "Ang ganda nito para mapakinggan kung gaano kalakas ang sigawan ng mga manonood!"
             ],
-            "names": ["$~🎤", "$~Dami"],
+            "names": ["$~Dami"],
             "frequency": {
                 "names": ["$~dalas"],
                 "doc": "$~Ang oras sa pagitan ng mga sampling."
@@ -4168,7 +4169,7 @@
                 "\\Pitch()\\",
                 "Maganda ito para sa pakikinig sa tono ng pagsasalita o pag-awit ng isang tao."
             ],
-            "names": ["$~🎵", "Tono"],
+            "names": ["Tono"],
             "frequency": {
                 "names": ["$~dalas"],
                 "doc": "$~Ang oras sa pagitan ng mga sampling."
@@ -4186,13 +4187,13 @@
                 "Kung walang tinukoy na wika, ito ay magiging default sa iyong ginustong wika.",
                 "Ang pagkilala sa pananalita ay nangangailangan ng access sa mikropono at koneksyon sa Internet (pakiusap bigyan ng access!). Gayundin, maaaring may mga limitasyon sa paggamit, kaya huwag itong iwanang naka-on nang masyadong matagal (hindi pwede)!"
             ],
-            "names": ["$~🎙️", "$~Pagsasalita", "$~Boses"],
+            "names": ["$~Pagsasalita", "$~Boses"],
             "reset": {
                 "names": ["$~ireset", "$~malinaw"],
                 "doc": "$~Kapag nagbago ang halagang ito, i-clear ang naipon na pananalita at magsimulang muli."
             },
             "language": {
-                "names": ["$~wika", "$~lang"],
+                "names": ["$~wika"],
                 "doc": "$~Isang BCP 47 language code (hal., 'en-US'). Kung hindi ito sinusuportahan ng speech recognition ng iyong browser, makakatanggap ka ng error. Ito ay gagamit ng default na wika na gusto mo."
             },
             "limit": {
@@ -4218,7 +4219,7 @@
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "Ngunit maaari mo ring suriin ang mga kulay upang magpasya kung ang isang ilaw ay naka-on o naka-off, o kung ang isang partikular na kulay ay karaniwan, na hinahayaan ang mga manonood na makaimpluwensya sa isang pagtatanghal gamit ang mga kulay na ipinapakita ng mga ito."
             ],
-            "names": ["$~🎥", "$~Kamera"],
+            "names": ["$~Kamera"],
             "width": {
                 "names": ["$~lapad"],
                 "doc": "$~Ang bilang ng @Color na isa-sample nang sunud-sunod."
@@ -4247,7 +4248,7 @@
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Tingnan mo kung paano ito humihinto pagkatapos ng bawat @Phrase , at naghihintay na magbago @Button bago sumulong?"
             ],
-            "names": ["$~🎬", "$~Eksena"],
+            "names": ["$~Eksena"],
             "outputs": {
                 "names": "$~mgaoutput",
                 "doc": "$~Ang listahan ng mga output na ipapakita nang sunod-sunod."
@@ -4263,7 +4264,7 @@
                 "Nakikita mo ba kung paano tumatalbog ang o? Sa unang pagsusuri, bibigyan mo ito ng lugar sa mataas na bahagi ng @Stage , pero pagkatapos, mapupunta ito sa @None , na magbibigay-daan sa @Motion na baguhin ito sa anumang posisyon na ilalagay ng grabidad.",
                 "Tingnan ang maraming iba pang mga paraan upang i-configure ito sa ibaba."
             ],
-            "names": ["$~⚽️", "$~Paggalaw"],
+            "names": ["$~Paggalaw"],
             "place": {
                 "doc": "$~Ang panimulang lugar.",
                 "names": "$~lugar"
@@ -4288,7 +4289,7 @@
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "Ayan na! Maaari kang gumawa ng lahat ng uri ng pagtatanghal gamit ito, tulad ng mga chat bot, text adventure, o mga text-based control scheme para sa iba pang uri ng pagtatanghal."
             ],
-            "names": ["$~🗣️", "$~Makipagchat"]
+            "names": ["$~Makipagchat"]
         },
         "Placement": {
             "doc": [
@@ -4301,7 +4302,7 @@
                 "Subukang kopyahin ito sa iyong programa at ilipat ang @Output gamit ang pointer o keyboard.",
                 "Maaari mong i-customize ang @Placement , na nagpapagana at nagpapagana ng paggalaw sa ilang partikular na dimensyon, binabago kung gaano kalayo ang galaw ng isang @Place , at ang inisyal @Place na ginagamit sa pagsisimula ng stream."
             ],
-            "names": ["$~✥", "$~Paglalagay"],
+            "names": ["$~Paglalagay"],
             "inputs": [
                 {
                     "doc": "$~Ang unang lugar kung saan magsisimula.",
@@ -4335,7 +4336,7 @@
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
                 "Maraming bagay ang maaaring magkamali dito. Kung mawalan ka ng koneksyon sa internet, o kung ang URL ay hindi magre-resolve sa kahit ano, o kung ang URL ay hindi pampubliko, o kung ang URL ay hindi isang HTML page… Lahat ng ito ay maaaring humantong sa exception. Kung makakita ka ng page na gumagana, makakatanggap ka ng ilang @Number na nagpapahiwatig ng porsyentong kumpleto at pagkatapos ay isang @List ng mga salita sa page."
             ],
-            "names": ["$~🔗", "$~Pahinangweb"],
+            "names": ["$~Pahinangweb"],
             "url": {
                 "doc": "$~Ang HTML na URL ng webpage na kukunin.",
                 "names": "$~url"
@@ -4412,7 +4413,7 @@
                 "Subukan ito — nagpapakita ito ng emoji na tumutugma sa postura ng iyong kamay kung nasaan man ang iyong totoong kamay:",
                 "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
-            "names": ["$~🖐️", "$~Kamay"],
+            "names": ["$~Kamay"],
             "frequency": {
                 "names": ["$~dalas"],
                 "doc": "$~Ang oras sa pagitan ng mga sample."
@@ -4432,7 +4433,7 @@
                 "Maaari mong i-scale ang outline gamit ang @Number of meters, ilipat ang pinagmulan nito gamit ang @Place , pumili ng font weight, i-on ang italics, at itakda ang `spacing` sa pagitan ng mga punto bilang distansya sa metro. Ang mas maliit na `spacing` ay mas malapit na sumusubaybay sa outline, na may pantay na pagitan ng mga punto sa parehong linya at kurba.",
                 "Ang ilang mga glyph, tulad ng color emoji, ay walang outline, kaya wala silang dinadagdag na mga point. Habang kinukuha nito ang font, bibigyan ka nito ng isang blangkong @List , pagkatapos ay pupunan ito kapag handa na ito."
             ],
-            "names": ["$~🖋️", "$~Kontur"],
+            "names": ["$~Kontur"],
             "inputs": [
                 {
                     "doc": "$~Ang teksto na ang mga balangkas ng glyph ay dapat kong sundan.",
@@ -4486,7 +4487,7 @@
                 "Kung magbago ang mga input na iyon — halimbawa, isang reaksyon ang nagbibigay sa akin ng ibang time zone — magsisimula akong gumawa ng mga Moment gamit ang bagong mga setting.",
                 "Paano ako naiiba sa @Time? Binibilang ng @Time ang mga milisegundo mula nang magsimula ang isang programa, na mabuti para sa animasyon. Sinasabi ko sa iyo ang petsa at oras ayon sa orasan sa dingding, sa isang kalendaryo at time zone, na mabuti para sa mga orasan at kalendaryo."
             ],
-            "names": ["$~⏰", "$~Ngayon"],
+            "names": ["$~Ngayon"],
             "frequency": {
                 "names": ["$~dalas"],
                 "doc": "$~Gaano kadalas ako gumawa ng bagong @Moment, sa segundo, minuto, o oras. Kung \\ø\\, nagta-tik ako kada \\1s\\."
@@ -4582,7 +4583,7 @@
                 "Ipinapakita ng halimbawang ito ang isang emoji na tumutugma sa iyong mukha saan man naroon ang tunay mong mukha:",
                 "\\mukha: 🙂()\n💬((mukha.nakangiti ? '😀' mukha.bibigBukas ? '😮' '😐') place: mukha.lugar)\\"
             ],
-            "names": ["$~🙂", "$~Mukha"],
+            "names": ["$~Mukha"],
             "frequency": {
                 "names": ["$~dalas"],
                 "doc": "$~Ang oras sa pagitan ng mga sample."
@@ -4605,7 +4606,7 @@
                 "Maaari ka ring maghanap ng iisang uri lamang ng bagay, at balewalain ang iba:",
                 "\\mgaBagay: 📦(category: 'cat')\n💬(mgaBagay.📏() > 0 ? '🐈' '…')\\"
             ],
-            "names": ["$~📦", "$~MgaBagay"],
+            "names": ["$~MgaBagay"],
             "inputs": [
                 {
                     "doc": "$~Ang oras sa pagitan ng mga sample.",
@@ -4837,7 +4838,7 @@
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "Kung paano ko eksaktong inaayos ang mga bagay-bagay ay nakadepende sa @Arrangement na ibibigay mo sa akin."
             ],
-            "names": ["$~🔳", "$~Grupo"],
+            "names": ["$~Grupo"],
             "layout": {
                 "doc": "$~Ang kaayusang gagamitin upang ilagay ang @Output sa kani-kanilang mga lugar.",
                 "names": "$~layout"
@@ -4894,7 +4895,7 @@
             },
             "rotation": {
                 "doc": "$~Gaano ba dapat ako dapat nakatagilid sa paligid ng aking gitna, iba ang @Pose ko.",
-                "names": ["$~📐", "$~pagikot"]
+                "names": ["$~pagikot"]
             },
             "scale": {
                 "doc": "$~Gaano dapat kalaki ang laki ko kumpara sa orihinal kong laki.",
@@ -4926,7 +4927,7 @@
             },
             "duration": {
                 "doc": "$~Pareho ng @Phrase.duration!",
-                "names": ["$~⏳", "$~tagal"]
+                "names": ["$~tagal"]
             },
             "style": {
                 "doc": "$~Pareho ng @Phrase.style!",
@@ -4943,7 +4944,7 @@
                 "Maaari mo ring opsyonal na ibigay sa akin ang lahat ng kayang gawin ng isang @Output , kabilang ang pagpapalit ng aking laki, font, rotation, at gawin ang lahat ng aking mga hindi kapani-paniwalang sayaw gamit ang @Pose at @Sequence .",
                 "Maaari mo rin akong piliin sa @Stage at i-edit gamit ang palette 🎨 sa tabi ko — isa itong magandang paraan para subukan ang iba't ibang font at piliin ang tamang /face/ para sa iyong @Text ."
             ],
-            "names": ["$~💬", "$~Parirala"],
+            "names": ["$~Parirala"],
             "text": {
                 "doc": "$~Ang mga karakter na ipapakita sa @Stage, isang @TextLiteral o @FormattedLiteral.",
                 "names": "$~teksto"
@@ -4962,7 +4963,7 @@
             },
             "wrap": {
                 "doc": "$~Ang gilid kung saan ko dapat ibalot ang mga simbolo o \\ø\\ kung hindi ko dapat ibalot ang mga ito.",
-                "names": ["$~↵", "$~pambalot"]
+                "names": ["$~pambalot"]
             },
             "alignment": {
                 "doc": "$~Kung mayroong nakatakdang hangganan na @Phrase.wrap, dapat ko bang ihanay ang mga simbolo sa simula, gitna, o dulo ng gilid.",
@@ -5050,7 +5051,7 @@
             },
             "duration": {
                 "doc": "$~Ang tagal ng paglalapat kapag lilipat sa ibang lugar sa entablado.",
-                "names": ["$~⏳", "$~tagal"]
+                "names": ["$~tagal"]
             },
             "style": {
                 "doc": "$~Ang istilo ng animation na gagamitin kapag lumilipat sa ibang lugar sa entablado.",
@@ -5064,11 +5065,11 @@
         },
         "Arrangement": {
             "doc": "$~Isa akong inspirasyon sa maraming iba pang uri ng pagkakaayos sa Talata, kabilang ang @Row, @Stack, @Grid, at @Free. Malapit akong nakikipagtulungan sa @Group para",
-            "names": ["$~⠿", "$~Kaayusan"]
+            "names": ["$~Kaayusan"]
         },
         "Row": {
             "doc": "$~Ako si @Row, isang pahalang na @Arrangement ng @Output, na may opsyonal na padding sa pagitan. Nakilala mo na ba ang kakambal ko, si @Stack?",
-            "names": ["$~➡", "$~Hilera"],
+            "names": ["$~Hilera"],
             "description": "$~hilera ng $#count[$count parirala o grupo|$count na parirala at grupo]",
             "alignment": {
                 "doc": "$~Kung i-align ang teksto sa simula, gitna, o dulo sa bawat column.",
@@ -5081,7 +5082,7 @@
         },
         "Stack": {
             "doc": "$~Ako si @Stack, isang patayong @Arrangement ng @Output, na may opsyonal na padding sa pagitan. Nakilala mo na ba ang kakambal ko, si @Row?",
-            "names": ["$~⬇", "$~Patongpatong"],
+            "names": ["$~Patongpatong"],
             "description": "$~salansan ng $#count[$count parirala o grupo|$count na parirala at grupo]",
             "alignment": {
                 "doc": "$~Kung i-align ang teksto sa simula, gitna, o dulo sa bawat hilera.",
@@ -5127,7 +5128,7 @@
         },
         "Shape": {
             "doc": "$~Isa akong inspirasyon sa lahat ng hugis. Magagamit ko ang pagsasabi kay @Stage kung anong hugis ang dapat gamitin.",
-            "names": ["$~⬟", "$~Hugis"],
+            "names": ["$~Hugis"],
             "form": {
                 "doc": "$~Ako ang uri ng hugis na dapat ipakita. Ang bawat hugis ay nangangailangan ng iba't ibang impormasyon upang matukoy ang pagkakaayos nito.",
                 "names": "$~anyo"
@@ -5211,7 +5212,7 @@
                 "Gagamitin ko ang @Language ng @TextLiteral kung mayroon ito, kung hindi ay gagamitin ko ang napiling wika.",
                 "Maaari kang pumili ng boses sa mga setting."
             ],
-            "names": ["$~🔊", "$~Sabihin"],
+            "names": ["$~Sabihin"],
             "text": {
                 "doc": "$~Dapat kong magsalita nang malakas sa teksto.",
                 "names": "$~teksto"
@@ -5351,18 +5352,18 @@
                 "\\Color.blue\\",
                 "Gumagana rin ang mga shortcut na ito sa iyong wika, kaya maaaring isulat ng isang nagsasalita ng Pranses \\couleur.rouge\\🪲 at ng isang nagsasalita ng Hapon \\色.赤\\🪲 . Ang mga shortcut ay: pula, kahel, dilaw, berde, asul, lila, kayumanggi, rosas, itim, puti, at kulay abo."
             ],
-            "names": ["$~🌈", "$~Kulay"],
+            "names": ["$~Kulay"],
             "lightness": {
                 "doc": "$~Gaano ako dapat kagaan mula \\0\\ hanggang \\1\\, mula itim sa \\0\\, hanggang abo sa \\0.5\\, hanggang puti sa \\1\\.",
-                "names": ["$~kagaanan", "$~l"]
+                "names": ["$~kagaanan"]
             },
             "chroma": {
                 "doc": "$~Gaano karaming kulay ang dapat kong magkaroon, mula \\0\\ hanggang \\∞\\. Ang walang kulay ay nangangahulugang kulay abo, ang mas mataas na numero ay nangangahulugang mas maraming kulay.",
-                "names": ["$~kroma", "$~c"]
+                "names": ["$~kroma"]
             },
             "hue": {
                 "doc": "$~Anong kulay ang dapat kong maging, sa isang color wheel, mula magenta \\0\\, pula \\30\\, berde \\120\\, hanggang asul \\270\\.",
-                "names": ["$~kulay", "$~h"]
+                "names": ["$~kulay"]
             },
             "colors": {
                 "black": {
@@ -5476,14 +5477,14 @@
                 "Sinasabi nito, /sa simula (0%), magsimula sa tilt 360, at magtatapos sa tilt 0/. Iikot tayo niyan nang tuluyan, dahil ako ang nakatakda bilang rest pose ng @Phrase !",
                 "Subukan ang sarili mong mga malikhaing sayaw sa pamamagitan ng paglalaro gamit ang iba pang mga instrumento."
             ],
-            "names": ["$~💃", "$~Pagkakasunodsunod"],
+            "names": ["$~Pagkakasunodsunod"],
             "poses": {
                 "doc": "$~Isang @Map ng mga porsyento sa pagitan ng 0% at 100%, bawat isa ay ipinares sa isang @Pose. Hindi mo kailangang ibigay ang lahat ng porsyento; dahan-dahan kong ililipat ang isang @Output sa pagitan ng mga ibibigay mo sa akin.",
                 "names": "$~mgapostura"
             },
             "duration": {
                 "doc": "$~Gaano katagal ko dapat gawin ang sayaw na ito? Kung uulitin ko man ito, hindi ko na dadagdagan pa ang tagal, mas bibilis ko na lang sasayaw.",
-                "names": ["$~⏳", "$~tagal"]
+                "names": ["$~tagal"]
             },
             "style": {
                 "doc": "$~Ang estilo na dapat kong gamitin para sa sayaw.",
@@ -5849,7 +5850,7 @@
         },
         "Place": {
             "doc": "$~Ako ay isang lokasyon sa @Stage. Opsyonal ang lahat ng aking mga input, dahil nasa gitna ako bilang default.",
-            "names": ["$~📍", "$~Lugar"],
+            "names": ["$~Lugar"],
             "x": {
                 "doc": "$~Isang posisyon sa x-axis.",
                 "names": "$~x"
@@ -5864,12 +5865,12 @@
             },
             "rotation": {
                 "doc": "$~Pag-ikot sa posisyong ito",
-                "names": ["$~📐", "$~pagikot"]
+                "names": ["$~pagikot"]
             }
         },
         "Velocity": {
             "doc": "$~Sinusuri ko kung gaano kabilis gumagalaw @Output sa @Stage — metro bawat segundo sa x at y, at digri bawat segundo ng pag-ikot. Opsyonal ang aking mga input; bilang default ay walang gumagalaw.",
-            "names": ["$~💨", "$~Bilis"],
+            "names": ["$~Bilis"],
             "x": {
                 "doc": "$~Ilang metro ang dapat igalaw bawat segundo sa x-axis.",
                 "names": "$~x"
@@ -5880,12 +5881,12 @@
             },
             "angle": {
                 "doc": "$~Ilang digri ang iikot bawat segundo",
-                "names": ["$~anggulo", "$~°"]
+                "names": ["$~anggulo"]
             }
         },
         "Matter": {
             "doc": "$~Ang I ay mga pisikal na katangian ng output, na nakakaimpluwensya sa kung paano ako nakikipag-ugnayan sa iba pang output sa entablado.",
-            "names": ["$~⚛️", "$~Materyales"],
+            "names": ["$~Materyales"],
             "mass": {
                 "doc": "$~Timbang, sa kilo",
                 "names": "$~masa"
@@ -5943,7 +5944,7 @@
                 "PWEDE MO RIN AKONG BIGYAN NG FRAME BORDER AT I-CROP KO.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": ["$~🎭", "$~Entablado"],
+            "names": ["$~Entablado"],
             "content": {
                 "doc": "$~Ang listahan ng @Output na ipapakita sa entablado.",
                 "names": "$~nilalaman"
@@ -5996,7 +5997,7 @@
             },
             "rotation": {
                 "doc": "$~PAREHO NG @Group.rotation",
-                "names": ["$~📐", "$~pagikot"]
+                "names": ["$~pagikot"]
             },
             "scale": {
                 "doc": "$~PAREHO NG @Group.scale",
@@ -6028,7 +6029,7 @@
             },
             "duration": {
                 "doc": "$~PAREHO NG @Phrase.duration!",
-                "names": ["$~⏳", "$~tagal"]
+                "names": ["$~tagal"]
             },
             "style": {
                 "doc": "$~PAREHO NG @Phrase.style!",
@@ -6085,7 +6086,7 @@
         },
         "Gesture": {
             "doc": "$~Isa akong snapshot ng isang pose ng kamay na na-detect ng camera, na inilalabas ng @Hand stream. Sinasabi sa iyo ng aking lugar kung nasaan ang kamay sa entablado, sinasabi sa iyo ng aking mga daliri kung ilan ang nakaunat, ang aking bukas ay true kapag ang kamay ay nakabukas (3+ daliri ang nakaunat), at ang aking hinlalaki, hintuturo, gitnang bahagi, singsing, at maliit na daliri ay nagsasabi kung aling mga partikular na daliri ang nakaunat. Ang aking palad ay true kapag ang palad ay nakaharap sa camera, at false kapag ang likod ng kamay ay nakaharap.",
-            "names": ["$~✋", "$~Kilos"],
+            "names": ["$~Kilos"],
             "place": {
                 "doc": "$~Kung saan nasa entablado ang kamay.",
                 "names": ["$~lugar"]
@@ -6158,7 +6159,7 @@
         },
         "Expression": {
             "doc": "$~Ako ay isang snapshot ng ekspresyon ng mukhang natukoy ng kamera, ipinalabas ng @Face stream. Sinasabi ng aking lugar kung nasaan ang mukha sa entablado. Sinasabi ng aking @Expression.leftEyeOpen, @Expression.rightEyeOpen, at @Expression.eyesOpen kung bukas ba ang mga mata. Sinasabi ng aking @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, at @Expression.browsRaised kung ano ang ginagawa ng mukha, at bawat isa ay may katugmang halaga (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) mula 0 hanggang 1 para sa kung gaano ito kalakas. Sinasabi ng aking @Expression.turn at @Expression.tilt kung saang direksyon nakaharap ang ulo, sa mga degree.",
-            "names": ["$~😀", "$~Ekspresyon"],
+            "names": ["$~Ekspresyon"],
             "place": {
                 "doc": "$~Kung nasaan ang mukha sa entablado.",
                 "names": ["$~lugar"]
@@ -6218,7 +6219,7 @@
         },
         "Thing": {
             "doc": "$~Ako ay isang bagay na nakita ng camera, ibinibigay sa isang @List ng @Objects na daloy. Ang aking pangalan ay nagsasabi kung ano ako, ang aking kumpiyansa ay nagsasabi kung gaano kasigurado ang modelo, ang aking lugar ay nagsasabi kung nasaan ako sa entablado, at ang aking lapad at taas ay nagsasabi kung gaano ako kalaki tumingin.",
-            "names": ["$~🔎", "$~Bagay"],
+            "names": ["$~Bagay"],
             "name": {
                 "doc": "$~Kung ano ang bagay, sa iyong wika.",
                 "names": ["$~pangalan"]
@@ -6262,7 +6263,7 @@
                 "Wala akong sariling anyo na maaaring i-estilo, kaya wala akong kinukuha sa karaniwang mga input ng hitsura — walang sukat, lugar, kulay, o animasyon. Ang paglitaw ko ay pinili ng manonood, ginawa sa kanilang mga setting, at nakaangkla ito sa stage sa halip na inilagay sa iyong layout; wala akong inuubos na espasyo, kaya ang paglalagay sa akin sa isang @Row o @Stack ay hindi kailanman naglilipat ng anuman sa tabi ko. Para iguhit mo mismo ang musika, gamitin ang @Beat: ibinibigay nito sa iyo ang bawat beat habang tumutunog ito, para patakbuhin ang anumang output na gusto mo.",
                 "Patuloy akong tumutugtog sa buong mga pagsusuri: i-edit ang aking mga nota habang tumutugtog ako at ang pagbabago ay ipinapasok sa susunod na beat sa halip na magsimulang muli, na siyang gumagawa na parang musikal ang pagbabago ng melodiya habang tumutugtog. Para tugtugin ako ulit mula sa itaas, tingnan ang @Music/replay; para pigilin ako at ituloy sa parehong lugar, tingnan ang @Music/pause."
             ],
-            "names": ["$~🎼", "$~Musika"],
+            "names": ["$~Musika"],
             "tracks": {
                 "doc": "$~Isang @Track, o isang listahan ng mga ito na tinutugtog nang sabay. Ang bawat track ay isang boses na may isang instrumento, kaya ang isang listahan ng mga ito ay isang banda.",
                 "names": "$~mgaTrack"
@@ -6468,7 +6469,7 @@
                 "Ang isang triplet ay tapat na aritmetika: \\♪(1 2beats ÷ 3)\\ ay nagsasabi na tatlo sa mga ito ang pumupuno sa dalawang beat. Ang aking haba ay maaari ding isang note value, kaya ang \\♪(1 1𝅗𝅥)\\ at \\♪(1 2beats)\\ ay ang parehong dalawang beat.",
                 "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
-            "names": ["$~♪", "$~Nota"],
+            "names": ["$~Nota"],
             "degree": {
                 "doc": "$~Ano ang tutugtugin: isang numero para sa isang nota, \\ø\\ para sa isang pahinga, o isang set ng mga numero para sa isang chord, eksaktong katulad ng isang basura na entry sa isang @Track. Ang isang note value sa numero — \\3𝅗𝅥\\ — ay nagsasabi kung gaano ako katagal, at nananalo laban sa @Note/beat kung isusulat mo ang pareho.",
                 "names": "$~degree"
@@ -6483,7 +6484,7 @@
             }
         },
         "Instrument": {
-            "names": ["$~🔈", "$~Instrumento"],
+            "names": ["$~Instrumento"],
             "id": {
                 "doc": "$~Aling palette entry ako.",
                 "names": "$~id"
@@ -6494,49 +6495,49 @@
                         "$~Isang piyano. Nakuha mula sa totoong piyano, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎹", "$~piyano"]
+                    "names": ["$~piyano"]
                 },
                 "violin": {
                     "doc": [
                         "$~Isang biyolin. Nakuha mula sa totoong biyolin, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎻", "$~biyolin"]
+                    "names": ["$~biyolin"]
                 },
                 "drums": {
                     "doc": [
                         "$~Isang set ng tambol. Nakuha mula sa totoo, at isang set sa halip na may tono: ang mga numero ang pumipili ng bahagi ng set sa halip na isang nota — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ pompyang, \\5\\ tom tom, \\6\\ cowbell — at \\7\\ bumabalik ulit sa bass drum.",
                         "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🥁", "$~mgaTambol"]
+                    "names": ["$~mgaTambol"]
                 },
                 "flute": {
                     "doc": [
                         "$~Isang plauta. Nakuha mula sa totoong plauta, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🪈", "$~plauta"]
+                    "names": ["$~plauta"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Isang trumpeta. Nakuha mula sa totoong trumpeta, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎺", "$~trumpeta"]
+                    "names": ["$~trumpeta"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Isang saksopon, isang tenor. Nakuha mula sa totoong saksopon, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎷", "$~saksopon", "$~sax"]
+                    "names": ["$~saksopon"]
                 },
                 "bell": {
                     "doc": [
                         "$~Isang kampana — mga orchestral chime, ang uring pinapalo ng mallet. Nakuha mula sa totoo, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🔔", "$~kampana"]
+                    "names": ["$~kampana"]
                 },
                 "didgeridoo": {
                     "doc": [
@@ -6546,14 +6547,14 @@
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
-                    "names": ["$~🐱", "$~pusa", "$~ngiyaw"],
+                    "names": ["$~pusa", "$~ngiyaw"],
                     "doc": [
                         "$~Isang pusa — isang buong set nito, sa totoo lang. Nakuha mula sa totoong pusa, at isang set sa halip na may tono: ang mga numero ang pumipili kung ano ang sinasabi ng pusa sa halip na isang nota — \\1\\ naiinis, \\2\\ nagmamakaawa, \\3\\ gutom, \\4\\ nagrereklamo, \\5\\ nakikiusap, \\6\\ naghahangad, \\7\\ naaabala, \\8\\ takot, \\9\\ madamdamin, \\10\\ naaaliw, \\11\\ nag-iisa, \\12\\ umuungol nang malambing — at \\13\\ babalik ulit sa nayayamot. Para sa isang pusa na tumutugtog ng mga nota, tingnan ang \\🔈.😺\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
-                    "names": ["$~🐶", "$~aso", "$~tahol"],
+                    "names": ["$~aso", "$~tahol"],
                     "doc": [
                         "$~Isang aso — o isang buong grupo nito, talaga. Naitala mula sa mga totoong aso, at isang grupo sa halip na naka-tono: pinipili ng mga numero kung aling tahol ang maririnig sa halip na isang nota, mula sa pinakamalalim hanggang pinakamatalim — \\1\\ magaspang, \\2\\ nagbababala, \\3\\ nagbabantay, \\4\\ alerto, \\5\\ nagpupumilit, \\6\\ naghihingi, \\7\\ nag-aanunsyo, \\8\\ sabik, \\9\\ nasasabik, \\10\\ naiinip, \\11\\ kumakahol, \\12\\ matinis — at \\13\\ babalik ulit sa magaspang. Para sa isang aso na tumutugtog ng mga nota, tingnan ang \\🔈.🐕\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
@@ -6585,28 +6586,28 @@
                         "$~Ang parehong pusa, na-tono. Sa labindalawang tala na tinutugtog ng grupo \\🔈.🐱\\, ito ang isa na humahawak ng matatag na tono, at ito ay naka-tono sa halip na isang grupo, kaya ang mga numero ang pumipili ng mga nota at makakasulat ka ng isang himig gamit ito. Kapag tinugtog nang malayo sa notang kung saan ito naitala, ang ngiyaw ay nagsisimulang tumunog na nakaunat sa halip na inaawit, kaya pinakamasaya ito sa loob ng isang oktaba mula sa gitna.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~😺", "$~pusangMayTono"]
+                    "names": ["$~pusangMayTono"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Ang parehong mga aso, ngunit inayos. Sa lahat ng mga tahol na ginamit sa kit, ito ang may tuloy-tuloy na tono. Ito ay may tono kaysa sa isang kit, kaya ang mga numero ang pumipili ng mga nota at makakagawa ka ng himig gamit ito. Kapag pinatugtog malayo sa notang inirekord ito, magsisimulang mag-iba ang tunog ng tahol, na parang nakaunat kaysa sa tumatahol, kaya pinakamaganda itong tumunog sa loob ng isang oktaba mula sa gitna.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🐕", "$~asongMayTono"]
+                    "names": ["$~asongMayTono"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Isang klasikong gitara, na may mga kuwerdas na nylon na kinakalabit ng mga daliri kaysa sa isang pick. Inirekord mula sa totoong gitara, at may tono, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng payak na \\guitar\\, kaya ang mga lumang proyekto na humingi ng gitara ay nagpapatugtog nito.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎸", "$~gitaraAkustiko", "$~gitara"]
+                    "names": ["$~gitaraAkustiko", "$~gitara"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~Isang electro-acoustic na gitara — isang guwang na katawan na may pickup sa loob, may mga kuwerdas na bakal, kaya mas maliwanag at mas mahaba ang tunog nito kaysa sa nylon na \\🔈.🎸\\. Inirekord mula sa totoong gitara, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~⚡", "$~gitaraElektriko"]
+                    "names": ["$~gitaraElektriko"]
                 },
                 "voice": {
                     "doc": [
@@ -6616,7 +6617,7 @@
                         "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Ang mga pantig ay binabaybay sa <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, isang alpabeto kung saan ang bawat titik ay isang /sound/ sa halip na isang pagbabaybay — kaya \\'ʃi'\\ ay ang tunog sa simula ng /she/, kahit anong wika ang isinusulat mo. Pindutin ang 🤖 sa ilalim ng editor upang makita ang bawat tunog na kaya kong gawin at marinig ang bawat isa."
                     ],
-                    "names": ["$~🤖", "$~boses"]
+                    "names": ["$~boses"]
                 }
             },
             "doc": [
@@ -6753,6 +6754,14 @@
                 "remix": {
                     "tip": "$~gumawa ng sarili mong kopya ng proyektong ito para baguhin",
                     "label": "$~remix"
+                },
+                "languages": "$~ipakita ang mga wikang ginamit sa proyektong ito",
+                "addLanguage": "$~isulat din ang proyektong ito sa wikang ito",
+                "removeLanguage": "$~itigil ang pagsulat ng proyektong ito sa wikang ito",
+                "firstLanguage": "$~gawin itong unang wika ng proyekto",
+                "removeUnusedLanguages": {
+                    "tip": "$~tanggalin ang mga wikang hindi ginagamit ng kodigo ng proyektong ito",
+                    "label": "$~tanggalin ang hindi ginagamit"
                 }
             },
             "field": {
@@ -6779,22 +6788,39 @@
                 "projectsNotSavingOnline": "$~Ang ilang proyekto ay nasa device na ito lamang, hindi pa online."
             },
             "dialog": {
-                "translate": {
-                    "header": "$~Isalin",
+                "languages": {
+                    "header": "$~Mga Wika",
                     "explanation": [
-                        "$~Ito ang mga wikang ginagamit ng iyong proyekto.",
-                        "Para isalin ang iyong proyekto sa iba pang mga sinusuportahang wika, pumili ng pangunahing wika ng pinagmulan at pagkatapos ay pumili ng bagong wika.",
-                        "/Magiging hindi perpekto ang mga pagsasalin, kaya suriin ang mga resulta!/"
+                        "$~Ito ang mga wikang ginamit sa iyong proyekto.",
+                        "Maaari kang magdagdag ng wikang gagamitin, magtanggal ng isang hindi mo ginagamit, o isalin ang buong proyekto sa isang bagong wika."
                     ],
+                    "count": "$~$#count[$count wika|$count na wika]",
+                    "meaning": [
+                        "$~Ang mga wika ng proyekto ang nagpapasya kung anong mga pangalan at salita ang magagamit ng kodigo nito. Kung nakasulat sa Espanyol ang iyong proyekto, kailangan nito ang Espanyol dito, o ang mga pangalang gaya ng \\Frase\\ ay hindi mangangahulugan ng anuman.",
+                        "Lahat ng magbubukas ng iyong proyekto ay maglo-load ng mga wikang ito, at ang una ang nagpapasya kung paano ilalatag ang iyong output. Palaging gumagana ang mga pangalang Ingles, sa bawat proyekto."
+                    ],
+                    "unused": "$~hindi ginagamit",
+                    "unloaded": "$~hindi ma-load",
+                    "checking": "$~Naghahanap ng mga wikang ginagamit ng iyong kodigo…",
+                    "complete": "$~Ang iyong kodigo ay hindi gumagamit ng anumang wikang wala sa iyong proyekto.",
                     "search": {
                         "description": "$~Salain ang mga wika ayon sa pangalan o rehiyon",
                         "placeholder": "$~wika o rehiyon"
+                    },
+                    "tab": {
+                        "label": "$~mga setting ng wika",
+                        "labels": ["$~Nakasulat sa", "$~Isalin"],
+                        "tips": [
+                            "$~tingnan at baguhin ang mga wikang ginamit sa proyektong ito",
+                            "$~isalin ang mga pangalan, teksto, at dokumentasyon ng proyektong ito sa ibang wika"
+                        ]
                     }
                 }
             },
             "subheader": {
                 "source": "$~Pinagmulan",
-                "destination": "$~Destinasyon"
+                "destination": "$~Destinasyon",
+                "missing": "$~Maaaring nawawala"
             },
             "toggle": {
                 "fullscreen": {
@@ -6814,8 +6840,8 @@
                 "sourceToggle": "$~Ipinapakita o itinatago ng /toggle/ na ito ang *source file*. Ganito rin ang gagawin ng *iba pang mga toggle* sa row na ito para sa iba pang mga tile.",
                 "addSource": "$~Ang ilang proyekto ay nakikinabang mula sa *maraming* source file, kung saan ang data ay iniimbak sa isa at ini-import sa *pangunahing* source. Ang button na /add source/ ay lumilikha ng bago.",
                 "share": "$~Ang dialog na /share/ ay nagbibigay-daan sa iyong ibahagi ang iyong proyekto sa mga *gallery*, sa *publiko*, o kopyahin ito bilang *text* upang ibahagi sa ibang lugar.",
-                "translate": "$~Ang buton na /translate/ ay maaaring magdagdag ng mga *salin* ng mga *pangalan*, *teksto*, at *dokumentasyon* ng iyong proyekto sa ibang mga wika.",
-                "checkpoints": "$~Ang panel na /revisions/ ay nagbibigay-daan sa iyong *bumalik* sa mga nakaraang bersyon ng iyong proyekto, at mga *snapshot* na bersyong gusto mong matandaan."
+                "checkpoints": "$~Ang panel na /revisions/ ay nagbibigay-daan sa iyong *bumalik* sa mga nakaraang bersyon ng iyong proyekto, at mga *snapshot* na bersyong gusto mong matandaan.",
+                "languages": "$~Ang pindutan ng /mga wika/ ay nagpapakita kung anong mga wika ang ginamit sa iyong proyekto, nagbibigay-daan na magdagdag o magtanggal ng isa, at maaaring *isalin* ang mga *pangalan*, *teksto*, at *dokumentasyon* ng iyong proyekto sa isang bagong wika."
             },
             "options": {
                 "layout": {
@@ -7336,7 +7362,8 @@
                 "toggle": "$~ipakita at itago ang mga anotasyon",
                 "highlightMajor": "$~ipakita ang kodigo ng error na ito sa editor",
                 "highlightMinor": "$~ipakita ang kodigo ng babalang ito sa editor",
-                "highlightStep": "$~ipakita ang kodigo ng hakbang ng pagtatasa na ito sa editor"
+                "highlightStep": "$~ipakita ang kodigo ng hakbang ng pagtatasa na ito sa editor",
+                "elsewhere": "$~Buksan kung saan ito maaaring ayusin"
             },
             "severity": {
                 "major": "$~error",

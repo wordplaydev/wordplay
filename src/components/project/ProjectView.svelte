@@ -714,7 +714,8 @@
         const exception = $evaluator.exception;
         const latest = $evaluator.getLatestSourceValue($evaluator.getMain());
         const surfaced =
-            exception ?? (latest instanceof ExceptionValue ? latest : undefined);
+            exception ??
+            (latest instanceof ExceptionValue ? latest : undefined);
         const fresh =
             surfaced !== undefined && surfaced.creator !== lastSeenException;
         lastSeenException = surfaced?.creator ?? lastSeenException;
@@ -1222,8 +1223,8 @@
             explanation: (l) => l.ui.project.tour.share,
         },
         {
-            uiid: 'translateButton',
-            explanation: (l) => l.ui.project.tour.translate,
+            uiid: 'languagesButton',
+            explanation: (l) => l.ui.project.tour.languages,
         },
         {
             uiid: 'checkpoints',
@@ -2646,7 +2647,10 @@
                 : (layout.getSource(selectedSourceIndex) ??
                   layout.getTileWithID(Layout.getSourceID(0)));
         if (tile === undefined) return;
-        if (layout.fullscreenID !== undefined && layout.fullscreenID !== tile.id)
+        if (
+            layout.fullscreenID !== undefined &&
+            layout.fullscreenID !== tile.id
+        )
             setFullscreen(undefined);
         setMode(tile, TileMode.Expanded);
     }
@@ -2756,8 +2760,7 @@
                         ? ProjectModeIcons
                         : ProjectModeViewIcons}
                     choice={ProjectModes.indexOf(uiMode)}
-                    select={(index) =>
-                        setUIMode(ProjectModes[index])}
+                    select={(index) => setUIMode(ProjectModes[index])}
                     labeled={false}
                     modeLabels={false}
                     uiid="modeSwitcher"
@@ -2808,9 +2811,7 @@
                  every step. -->
             {#snippet timelineSlider()}<Timeline
                     evaluator={$evaluator}
-                    granularity={uiMode === 'edit'
-                        ? 'input'
-                        : 'step'}
+                    granularity={uiMode === 'edit' ? 'input' : 'step'}
                 />{/snippet}
             <!-- Edit mode shows the timeline alone: it names the
                  paused position and snaps to prior inputs, which is

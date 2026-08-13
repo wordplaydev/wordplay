@@ -1,6 +1,5 @@
 import type LocalesDatabase from '@db/locales/LocalesDatabase';
 import type { SerializedProject } from '@db/projects/ProjectSchemas';
-import type LocaleText from '@locale/LocaleText';
 import Project from '@db/projects/Project';
 
 // Remember this many project edits.
@@ -90,11 +89,6 @@ export class ProjectHistory {
         this.persist = persist;
         this.saved = saved;
         this.locales = locales;
-    }
-
-    /** Revise this project history to have all of the specified locales. */
-    withLocales(locales: LocaleText[]) {
-        this.current = this.current.withLocales(locales);
     }
 
     getCurrent() {

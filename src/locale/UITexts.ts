@@ -271,6 +271,16 @@ type UITexts = {
             primary: string;
             /** [plain] The tooltip for the destination language button in the translate dialog */
             destination: string;
+            /** [plain] Show the project's languages dialog */
+            languages: string;
+            /** [plain] Add a language to the project, so its code can use that language's names and words */
+            addLanguage: string;
+            /** [plain] Remove a language from the project */
+            removeLanguage: string;
+            /** [plain] Make a language the project's first, deciding how its output is laid out */
+            firstLanguage: string;
+            /** Remove every language nothing in the project's code uses */
+            removeUnusedLanguages: ButtonText;
         };
         field: {
             /** [name] The project name text field */
@@ -315,13 +325,30 @@ type UITexts = {
             };
         };
         dialog: {
-            /** The content for the translation dialog */
-            translate: HeaderAndExplanationText & {
-                /** The field that filters destination languages by name or region */
+            /** The content for the project's languages dialog: which languages its code is
+             *  written in, which ones it looks like it needs, and translating it into another. */
+            languages: HeaderAndExplanationText & {
+                /** The tabs that switch between the languages the project is written in and translating it */
+                tab: ModeText<[string, string]>;
+                /** [plain] The dialog button's label, saying how many languages the project is written in */
+                count: Template<['#count']>;
+                /** [formatted] Explains what a project's languages decide, above the list of them */
+                meaning: FormattedText | FormattedText[];
+                /** [plain] Marks a language nothing in the project's code uses */
+                unused: string;
+                /** [plain] Marks a language whose words couldn't be loaded, so its names don't work right now */
+                unloaded: string;
+                /** [formatted] Shown while checking which languages the project's code needs */
+                checking: FormattedText;
+                /** [formatted] Shown when the code doesn't use any language the project is missing */
+                complete: FormattedText;
+                /** The field that filters languages by name or region */
                 search: FieldText;
             };
         };
         subheader: {
+            /** [formatted] The header for languages the project's code uses but doesn't have */
+            missing: FormattedText;
             /** [formatted] The header for the source language */
             source: FormattedText;
             /** [formatted] The header for the destination language */
@@ -358,8 +385,8 @@ type UITexts = {
             addSource: FormattedText;
             /** [formatted] Markup describing the share dialog button */
             share: FormattedText;
-            /** [formatted] Markup describing the translate button */
-            translate: FormattedText;
+            /** [formatted] Markup describing the languages button */
+            languages: FormattedText;
             /** [formatted] Markup describing the checkpoints/revisions panel */
             checkpoints: FormattedText;
         };
@@ -773,6 +800,8 @@ type UITexts = {
         button: {
             /** [formatted] How the resolution button should should be described */
             resolution: FormattedText;
+            /** [formatted] How the button that opens the dialog where a fix lives should be described */
+            elsewhere: FormattedText;
             /** [plain] The button to toggle the annotations */
             toggle: string;
             /** [plain] The collapsed-sidebar button that shows a major conflict's code in the editor */
