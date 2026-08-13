@@ -379,6 +379,10 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
         'name',
         'scope',
     ],
+    'node.Reference.conflict.UnknownName.languageResolution': [
+        'name',
+        'language',
+    ],
     'node.Reference.conflict.UnknownName.resolution': ['suggestion'],
     'node.Reference.conflict.UnknownName.staticResolution': [
         'owner',
@@ -691,6 +695,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.phonemes.play': ['symbol'],
     'ui.presence.joined': ['name'],
     'ui.presence.left': ['name'],
+    'ui.project.dialog.languages.count': ['#count'],
     'ui.project.options.layout.auto': ['layout'],
     'ui.source.cursor.selected': ['#count', 'text'],
     'ui.source.cursor.tab': ['alt'],

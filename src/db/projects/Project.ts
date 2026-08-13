@@ -5,7 +5,7 @@ import { resolveCaretPosition, type CaretPosition } from '@edit/caret/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';
-import { localeToString } from '@locale/Locale';
+import { localeToString, stringToLocale } from '@locale/Locale';
 import type { SharedDefinition } from '@nodes/Borrow';
 import Changed from '@nodes/Changed';
 import Context from '@nodes/Context';
@@ -29,11 +29,18 @@ import { Basis } from '@basis/Basis';
 import DefaultLocale from '@locale/DefaultLocale';
 import Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
+import type { SupportedLocale } from '@locale/SupportedLocales';
 import FunctionType from '@nodes/FunctionType';
 import type { Path } from '@nodes/Root';
 import Root from '@nodes/Root';
 import { parseNames } from '@parser/parseBind';
-import { buildKeywordIndex, type KeywordIndex } from '@parser/Keywords';
+import {
+    buildKeywordIndex,
+    KeywordIds,
+    Keywords,
+    type KeywordIndex,
+} from '@parser/Keywords';
+import Sym, { type SymType } from '@nodes/Sym';
 import { toTokens } from '@parser/toTokens';
 import { PROJECT_PARAM_MODE } from '../../routes/[[locale]]/project/constants';
 import type LocalesDatabase from '@db/locales/LocalesDatabase';
@@ -72,11 +79,34 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
     /** All source files in the project, and their evaluators */
     supplements: Source[];
     /**
-     * The locales on which this project relies.
-     * Not an indicator of what locales are currently selected; a locale may be selected that this project does not use. */
-    locales: LocaleText[];
+     * The locales this project **declares** it is written in, as locale codes, in
+     * priority order. This is the persisted list and the sole determinant of the
+     * project's basis and keyword index — it never absorbs the viewer's UI locales,
+     * so a project analyzes identically for everyone (#1246). Not an indicator of
+     * what locales are currently selected; a locale may be selected that this
+     * project does not use, and vice versa. Only a creator changes it, through the
+     * languages dialog. */
+    locales: SupportedLocale[];
+    /**
+     * The subset of {@link ProjectData.locales} whose text actually loaded. Kept
+     * separate from the declared codes so a locale whose fetch failed stays declared
+     * rather than silently disappearing from the project on the next save. Derived,
+     * never serialized. */
+    localeTexts: LocaleText[];
     /** Serialized caret positions for each source file */
     carets: SerializedSourceCaret[];
+};
+
+/** How a project's declared languages relate to what its code needs. See {@link Project.getLocaleUsage}. */
+export type LocaleUsage = {
+    /** The declared locale codes, in priority order. */
+    declared: SupportedLocale[];
+    /** Declared codes the code names, whether by a localized name, a language tag, or a keyword word. */
+    used: SupportedLocale[];
+    /** Declared codes nothing in the code refers to. */
+    unused: SupportedLocale[];
+    /** Declared codes whose text isn't loaded, so their names don't currently bind. */
+    unloaded: SupportedLocale[];
 };
 
 /**
@@ -241,6 +271,9 @@ export default class Project {
     /** Each source's locales, cached and carried for the same reason. */
     readonly sourceLocales: Map<Source, Locale[]> = new Map();
 
+    /** Memoized result of {@link Project.getKeywordLocalesUsed}, which scans every token. */
+    private keywordLocales: Set<SupportedLocale> | undefined = undefined;
+
     /** Each source's references indexed by definition; see getReferencesInSource. */
     readonly sourceReferences: Map<
         Source,
@@ -258,9 +291,9 @@ export default class Project {
         // Copy to prevent external modification
         this.data = { ...data };
 
-        // Get a Basis for the requested locales.
+        // Get a Basis for the declared locales that loaded.
         this.basis = Basis.getLocalizedBasis(
-            new Locales(concretize, this.data.locales, DefaultLocale),
+            new Locales(concretize, this.data.localeTexts, DefaultLocale),
         );
 
         // Initialize default shares
@@ -346,13 +379,15 @@ export default class Project {
         // This is last; omitting it updates the time.
         timestamp: number | undefined = undefined,
     ) {
+        const localeTexts = Array.isArray(locales) ? locales : [locales];
         return new Project({
             v: ProjectSchemaLatestVersion,
             id: id ?? uuidv4(),
             name,
             main,
             supplements,
-            locales: Array.isArray(locales) ? locales : [locales],
+            locales: localeTexts.map((l) => localeToString(l)),
+            localeTexts,
             owner,
             collaborators,
             public: pub,
@@ -383,14 +418,20 @@ export default class Project {
      *  record of where it came from. This is the blank-slate copy used for
      *  starter templates; see {@link remix} for the one that keeps provenance. */
     copy(newOwner: string | null) {
-        return Project.make(
-            uuidv4(),
-            this.getName(),
-            this.getMain(),
-            this.getSupplements(),
-            this.getLocales().getLocales(),
-            newOwner,
-        ).asUnmoderated();
+        return (
+            Project.make(
+                uuidv4(),
+                this.getName(),
+                this.getMain(),
+                this.getSupplements(),
+                this.data.localeTexts,
+                newOwner,
+            )
+                // Carry the declared codes over verbatim: `make` can only derive them from the
+                // loaded texts, so a declared locale that failed to load would be lost here.
+                .revised({ locales: this.data.locales })
+                .asUnmoderated()
+        );
     }
 
     /** A copy of this project owned by `newOwner` that remembers this project
@@ -468,13 +509,24 @@ export default class Project {
         return this.basis.locales;
     }
 
+    /** The locale codes this project declares it is written in, in priority order. The
+     * persisted list; see {@link ProjectData.locales}. */
+    getLocaleCodes(): SupportedLocale[] {
+        return [...this.data.locales];
+    }
+
+    /** The text of the declared locales that loaded. */
+    getLocaleTexts(): LocaleText[] {
+        return [...this.data.localeTexts];
+    }
+
     private keywordIndex: KeywordIndex | undefined = undefined;
     /** The localized-keyword recognizer for this project's declared locales, so creators can type
      * keyword words in those languages. Memoized; rebuilt per project instance. See LANGUAGE.md. */
     getKeywordIndex(): KeywordIndex {
         if (this.keywordIndex === undefined)
             this.keywordIndex = buildKeywordIndex(
-                this.data.locales.map((l) => l.keyword),
+                this.data.localeTexts.map((l) => l.keyword),
             );
         return this.keywordIndex;
     }
@@ -638,7 +690,10 @@ export default class Project {
                     if (fun instanceof FunctionDefinition) {
                         for (const input of node.inputs) {
                             const type = input.getType(context);
-                            if (type instanceof FunctionType && type.definition) {
+                            if (
+                                type instanceof FunctionType &&
+                                type.definition
+                            ) {
                                 const hofEvaluates =
                                     contribution.evaluations.get(
                                         type.definition,
@@ -824,7 +879,10 @@ export default class Project {
     getMajorConflictsNow() {
         let conflicts: Conflict[] = [];
         for (const source of this.getSources())
-            conflicts = [...conflicts, ...this.getMajorConflictsInSource(source)];
+            conflicts = [
+                ...conflicts,
+                ...this.getMajorConflictsInSource(source),
+            ];
         return conflicts;
     }
 
@@ -1016,12 +1074,10 @@ export default class Project {
             index = new Map();
             const context = this.getContext(source);
             for (const node of source.nodes()) {
-                if (
-                    !(
-                        node instanceof Reference ||
-                        node instanceof PropertyReference
-                    )
-                )
+                if (!(
+                    node instanceof Reference ||
+                    node instanceof PropertyReference
+                ))
                     continue;
                 const definition = node.resolve(context);
                 if (definition === undefined) continue;
@@ -1085,7 +1141,7 @@ export default class Project {
     }
 
     withName(name: string) {
-        return this.revised({  name });
+        return this.revised({ name });
     }
 
     getMain() {
@@ -1100,29 +1156,43 @@ export default class Project {
         return this.withSources([[oldSource, newSource]]);
     }
 
-    /** Copies this project, but with the new locale added if it's not already included, placing new locales in the front, and the remainder at the end. */
+    /**
+     * Copies this project, declaring the given locales if they aren't already declared.
+     * New locales go at the *end*: the first declared locale is the project's primary
+     * one — it decides the stage's writing direction and `getPrimaryLanguage()` — so
+     * adding a language must not silently reassign that. Use {@link withPrimaryLocale}
+     * to change it deliberately.
+     */
     withLocales(locales: LocaleText[]) {
+        const added = locales.filter(
+            (l) => !this.data.locales.includes(localeToString(l)),
+        );
+        if (added.length === 0) return this;
         return this.revised({
-            
-            locales: [
-                // New locales
-                ...locales,
-                // Locales that aren't the locales in the list above, in their current order.
-                ...this.data.locales.filter(
-                    (l1) =>
-                        !locales.some(
-                            (l2) =>
-                                l2.language === l1.language &&
-                                l2.regions.join() === l1.regions.join(),
-                        ),
-                ),
-            ],
+            locales: [...this.data.locales, ...added.map(localeToString)],
+            localeTexts: [...this.data.localeTexts, ...added],
+        });
+    }
+
+    /** Copies this project without the given declared locales. Refuses to empty the
+     * list — a project with no languages has no basis names at all. */
+    withoutLocales(codes: SupportedLocale[]) {
+        const remaining = this.data.locales.filter((l) => !codes.includes(l));
+        if (
+            remaining.length === 0 ||
+            remaining.length === this.data.locales.length
+        )
+            return this;
+        return this.revised({
+            locales: remaining,
+            localeTexts: this.data.localeTexts.filter((l) =>
+                remaining.includes(localeToString(l)),
+            ),
         });
     }
 
     withCaret(source: Source, caret: CaretPosition) {
         return this.revised({
-            
             carets: this.data.carets.map((sourceCaret) =>
                 sourceCaret.source === source
                     ? {
@@ -1139,7 +1209,6 @@ export default class Project {
 
     withoutSource(source: Source) {
         return this.revised({
-            
             supplements: this.data.supplements.filter((s) => s !== source),
             carets: this.data.carets.filter((c) => c.source !== source),
         });
@@ -1189,7 +1258,6 @@ export default class Project {
      */
     withSourcesFrom(other: Project): Project {
         return this.revised({
-            
             main: other.data.main,
             supplements: other.data.supplements,
             carets: other.data.carets,
@@ -1251,7 +1319,6 @@ export default class Project {
     withNewSource(name: string, code?: string | undefined) {
         const newSource = new Source(name, code ?? '', this.getKeywordIndex());
         return this.revised({
-            
             supplements: [...this.data.supplements, newSource],
             carets: [...this.data.carets, { source: newSource, caret: 0 }],
         });
@@ -1270,7 +1337,7 @@ export default class Project {
     }
 
     withOwner(owner: string | null) {
-        return this.revised({  owner });
+        return this.revised({ owner });
     }
 
     getCollaborators() {
@@ -1300,7 +1367,6 @@ export default class Project {
     withCollaborator(uid: string) {
         if (this.data.collaborators.includes(uid)) return this;
         return this.revised({
-            
             collaborators: [...this.data.collaborators, uid],
         });
     }
@@ -1309,7 +1375,6 @@ export default class Project {
         return !this.data.collaborators.some((user) => user === uid)
             ? this
             : this.revised({
-                  
                   collaborators: this.data.collaborators.filter(
                       (id) => id !== uid,
                   ),
@@ -1321,7 +1386,7 @@ export default class Project {
     }
 
     asPublic(pub = true) {
-        return this.revised({  public: pub });
+        return this.revised({ public: pub });
     }
 
     getBindReplacements(
@@ -1351,10 +1416,19 @@ export default class Project {
         return this.getLocales().getLocale().language;
     }
 
+    /** Copies this project with the given locale declared first, adding it if it wasn't
+     * declared. Compares by locale code, not object identity — the same locale text can
+     * arrive as a different object from a reload or a fresh fetch. */
     withPrimaryLocale(locale: LocaleText) {
+        const code = localeToString(locale);
         return this.revised({
-            
-            locales: [locale, ...this.data.locales.filter((l) => l !== locale)],
+            locales: [code, ...this.data.locales.filter((l) => l !== code)],
+            localeTexts: [
+                locale,
+                ...this.data.localeTexts.filter(
+                    (l) => localeToString(l) !== code,
+                ),
+            ],
         });
     }
 
@@ -1428,19 +1502,19 @@ export default class Project {
         // Upgrade the project just in case.
         project = upgradeProject(project);
 
-        // Get all of the locales on which the project depends.
-        const dependentLocales = await localesDB.loadLocales(
-            getBestSupportedLocales(project.locales),
-        );
+        // The locales the project declares, normalized to supported ones. This is an offline
+        // mapping, so a locale whose text can't be fetched right now still stays declared —
+        // only the creator removes a language (#1246). The viewer's UI locales are
+        // deliberately *not* mixed in: a project's basis must not depend on who opens it.
+        const locales = getBestSupportedLocales(project.locales);
 
-        const locales = Array.from(
-            new Set([...dependentLocales, ...localesDB.getLocales()]),
-        );
+        // Load what we can of them; a failed fetch just means fewer names bind this session.
+        const localeTexts = await localesDB.loadLocales(locales);
 
         // Recognize typed keyword words in the project's declared locales. Dual-type tokens (LANGUAGE.md
         // §3) mean a name that collides with a keyword (e.g. "número") still parses as a name — it
         // shadows the keyword rather than breaking — so this is safe to activate for declared locales.
-        const keywords = buildKeywordIndex(locales.map((l) => l.keyword));
+        const keywords = buildKeywordIndex(localeTexts.map((l) => l.keyword));
         const sources = project.sources.map((source) =>
             Project.deserializeSource(source, keywords),
         );
@@ -1452,6 +1526,7 @@ export default class Project {
             main: sources[0],
             supplements: sources.slice(1),
             locales,
+            localeTexts,
             owner: project.owner,
             collaborators: project.collaborators,
             public: project.public,
@@ -1504,6 +1579,98 @@ export default class Project {
         return Array.from(Object.values(locales));
     }
 
+    /**
+     * The declared locales whose localized keyword words the sources actually parse with.
+     *
+     * A keyword word is a *parse* dependency, not just a name lookup: a source containing
+     * `función` only lexes it as a function keyword while `es-MX` is declared, and degrades
+     * it to a plain name otherwise (LANGUAGE.md, "Localized keywords"). `getLocalesUsed`
+     * sees only names and language tags, so it can't tell.
+     *
+     * Every declared locale that defines a used word counts, not just the one that won the
+     * index: `buildKeywordIndex` resolves cross-locale collisions first-wins, so we can't
+     * tell which locale the creator meant, and over-reporting only means we decline to
+     * suggest removing a language.
+     */
+    getKeywordLocalesUsed(): Set<SupportedLocale> {
+        if (this.keywordLocales !== undefined) return this.keywordLocales;
+
+        // Every keyword-bearing name token in the project, by text. A word only carries a
+        // keyword Sym alongside Sym.Name when the keyword index recognized it.
+        const keywordTokens = new Map<string, Set<SymType>>();
+        for (const source of this.getSources())
+            for (const token of source.tokens) {
+                if (!token.isSymbol(Sym.Name) || token.getTypes().length < 2)
+                    continue;
+                const text = token.getText();
+                const types = keywordTokens.get(text) ?? new Set<SymType>();
+                for (const type of token.getTypes()) types.add(type);
+                keywordTokens.set(text, types);
+            }
+
+        const locales = new Set<SupportedLocale>();
+        if (keywordTokens.size > 0)
+            for (const locale of this.data.localeTexts) {
+                for (const id of KeywordIds) {
+                    const raw = locale.keyword[id];
+                    if (typeof raw !== 'string') continue;
+                    const word = raw.replace(/^\$[~?!]/, '').trim();
+                    const types = keywordTokens.get(word);
+                    if (
+                        types !== undefined &&
+                        Keywords[id].types.some((t) => types.has(t))
+                    ) {
+                        locales.add(localeToString(locale));
+                        break;
+                    }
+                }
+            }
+
+        this.keywordLocales = locales;
+        return locales;
+    }
+
+    /**
+     * How this project's declared languages relate to what its code actually needs, for the
+     * languages dialog. Purely advisory — nothing acts on it, since a half-written program
+     * can make a language the creator deliberately added look unused (#1246).
+     */
+    getLocaleUsage(): LocaleUsage {
+        const declared = this.getLocaleCodes();
+        const loaded = new Set(
+            this.data.localeTexts.map((l) => localeToString(l)),
+        );
+
+        // The languages the code names. Basis names carry only a language, not a region
+        // (getNameLocales tags them with `localeToLanguage`), so this can only ever match at
+        // language granularity — two declared regions of one language are both "used".
+        const languages = new Set<string>();
+        for (const locale of this.getLocalesUsed()) {
+            languages.add(locale.language);
+            for (const language of locale.multilingual ?? [])
+                languages.add(language);
+        }
+
+        const keywordLocales = this.getKeywordLocalesUsed();
+        const used = declared.filter(
+            (code, index) =>
+                // The first declared locale is the project's own language: it decides the
+                // stage's writing direction and is the default translation source, so it's
+                // used whether or not any name in the code happens to come from it.
+                index === 0 ||
+                keywordLocales.has(code) ||
+                languages.has(stringToLocale(code)?.language ?? code),
+        );
+        const usedSet = new Set(used);
+
+        return {
+            declared,
+            used,
+            unused: declared.filter((code) => !usedSet.has(code)),
+            unloaded: declared.filter((code) => !loaded.has(code)),
+        };
+    }
+
     isListed() {
         return this.data.listed;
     }
@@ -1513,11 +1680,11 @@ export default class Project {
     }
 
     asArchived(archived: boolean) {
-        return this.revised({  archived });
+        return this.revised({ archived });
     }
 
     asPersisted() {
-        return this.revised({  persisted: true });
+        return this.revised({ persisted: true });
     }
 
     isPersisted() {
@@ -1529,7 +1696,7 @@ export default class Project {
     }
 
     withGallery(id: string | null) {
-        return this.revised({  gallery: id });
+        return this.revised({ gallery: id });
     }
 
     getFlags() {
@@ -1537,15 +1704,15 @@ export default class Project {
     }
 
     withFlags(flags: ModerationState) {
-        return this.revised({  flags: { ...flags } });
+        return this.revised({ flags: { ...flags } });
     }
 
     asUnmoderated() {
-        return this.revised({  flags: unknownFlags() });
+        return this.revised({ flags: unknownFlags() });
     }
 
     withNewTime() {
-        return this.revised({  timestamp: Date.now() });
+        return this.revised({ timestamp: Date.now() });
     }
 
     getTimestamp() {
@@ -1558,7 +1725,6 @@ export default class Project {
 
     withNonPII(text: string) {
         return this.revised({
-            
             // Add to the set of text
             nonPII: Array.from(new Set([...this.data.nonPII, text])),
         });
@@ -1569,7 +1735,7 @@ export default class Project {
         const withPII = this.data.nonPII.filter((piiText) => {
             return piiText != text;
         });
-        return this.revised({  nonPII: withPII });
+        return this.revised({ nonPII: withPII });
     }
 
     isNotPII(text: string) {
@@ -1681,9 +1847,10 @@ export default class Project {
             id: this.getID(),
             name: this.getName(),
             sources: this.getSerializedSources(),
-            locales: this.getLocales()
-                .getLocales()
-                .map((l) => localeToString(l)),
+            // The declared codes, verbatim. Not `getLocales().getLocales()`, which is the
+            // *loaded* subset plus the appended en-US fallback — writing that back is what
+            // made a project's language list grow every time anyone opened it (#1246).
+            locales: this.data.locales,
             owner: this.data.owner,
             collaborators: this.data.collaborators,
             listed: this.isListed(),
@@ -1726,7 +1893,7 @@ export default class Project {
     }
 
     withChat(id: string | null) {
-        return this.revised({  chat: id });
+        return this.revised({ chat: id });
     }
 
     getPreview(): SerializedPreview | undefined {
@@ -1734,7 +1901,7 @@ export default class Project {
     }
 
     withPreview(preview: SerializedPreview | undefined): Project {
-        return this.revised({  preview });
+        return this.revised({ preview });
     }
 
     /** The ID of the project this was remixed from, or null if it's an original. */
@@ -1747,7 +1914,7 @@ export default class Project {
     }
 
     withRemixOf(remixOf: ProjectID | null): Project {
-        return this.revised({  remixOf });
+        return this.revised({ remixOf });
     }
 
     static getHistorySize(history: SerializedSourceCheckpoint[]) {
@@ -1777,7 +1944,7 @@ export default class Project {
         while (Project.getHistorySize(history) > MaxCheckpointSize)
             history.shift();
 
-        return this.revised({  history: history });
+        return this.revised({ history: history });
     }
 
     getCheckpoints() {
@@ -1803,7 +1970,7 @@ export default class Project {
     }
 
     withoutHistory() {
-        return this.revised({  history: [] });
+        return this.revised({ history: [] });
     }
 
     toWordplay() {
@@ -1828,7 +1995,6 @@ export default class Project {
         return this.data.viewers.some((user) => user === viewer)
             ? this
             : this.revised({
-                  
                   viewers: [...this.data.viewers, viewer],
               });
     }
@@ -1837,7 +2003,6 @@ export default class Project {
         return !this.data.viewers.some((user) => user === viewer)
             ? this
             : this.revised({
-                  
                   viewers: this.data.viewers.filter((id) => id !== viewer),
               });
     }
@@ -1854,7 +2019,6 @@ export default class Project {
         return this.data.commenters.some((user) => user === commenter)
             ? this
             : this.revised({
-                  
                   commenters: [...this.data.commenters, commenter],
               });
     }
@@ -1863,7 +2027,6 @@ export default class Project {
         return !this.data.commenters.some((user) => user === commenter)
             ? this
             : this.revised({
-                  
                   commenters: this.data.commenters.filter(
                       (id) => id !== commenter,
                   ),
@@ -1879,7 +2042,7 @@ export default class Project {
     }
 
     withRestrictedGallery(restricted: boolean) {
-        return this.revised({  restrictedGallery: restricted });
+        return this.revised({ restrictedGallery: restricted });
     }
 
     // --- CRDT snapshot ---
@@ -1906,7 +2069,7 @@ export default class Project {
     /** Return a copy with the CRDT snapshot replaced. Persisted with
      *  the next save. */
     withCRDTSnapshot(crdt: string | null): Project {
-        return this.revised({  crdt });
+        return this.revised({ crdt });
     }
 
     // --- Per-field stamp accessors and merge ---
@@ -1916,7 +2079,7 @@ export default class Project {
     }
 
     withStamps(stamps: SerializedProjectStamps): Project {
-        return this.revised({  stamps });
+        return this.revised({ stamps });
     }
 
     /**
@@ -2084,8 +2247,7 @@ export default class Project {
 function sameSerialized(a: unknown, b: unknown): boolean {
     // The same reference always serializes the same, and on the edit path most
     // fields *are* the same reference, carried over by the `{...this.data}`
-    // spread. Without this, every keystroke stringifies every stamped field —
-    // including `locales`, which holds whole parsed locales, not locale codes.
+    // spread. Without this, every keystroke stringifies every stamped field.
     if (a === b) return true;
     return JSON.stringify(a) === JSON.stringify(b);
 }

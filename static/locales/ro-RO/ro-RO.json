@@ -1432,7 +1432,8 @@
                         "explanation": "$~$name[Nu cunosc pe nimeni pe nume $name în $scope[$scope|this @Block]|Îmi poți da un nume?]"
                     },
                     "resolution": "$~Ai vrut să spui * $suggestion ?*",
-                    "staticResolution": "$~Ai vrut să spui *$owner.$suggestion?*"
+                    "staticResolution": "$~Ai vrut să spui *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name* este un nume în $language. Adaugă $language la limbile proiectului tău pentru a-l folosi aici."
                 },
                 "ReferenceCycle": {
                     "name": "$~valoare care se referă la sine",
@@ -2398,7 +2399,7 @@
                         "\\⊥ & ⊤\\",
                         "\\⊥ & ⊥\\"
                     ],
-                    "names": ["$~&", "$~şi"],
+                    "names": ["$~şi"],
                     "inputs": [
                         {
                             "doc": "$~Celălalt @Boolean de verificat. Dacă primul este \\⊥\\, nu contează ce este acesta, funcția va fi evaluată ca \\⊥\\.",
@@ -2414,7 +2415,7 @@
                         "\\⊥ | ⊤\\",
                         "\\⊥ | ⊥\\"
                     ],
-                    "names": ["$~|", "$~sau"],
+                    "names": ["$~sau"],
                     "inputs": [
                         {
                             "doc": "$~Celălalt @Boolean de verificat. Dacă primul este \\⊥\\, funcția va fi evaluată ca \\⊤\\ doar dacă acesta este \\⊤\\.",
@@ -2424,12 +2425,12 @@
                 },
                 "not": {
                     "doc": "$~Obțin opusul meu: dacă \\⊤\\, dă \\⊥\\, dacă \\⊥\\, dă \\⊤\\.",
-                    "names": ["$~~", "$~nu"],
+                    "names": ["$~nu"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ dacă ambele sunt \\⊤\\ sau ambele sunt \\⊥\\.",
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~Cealaltă valoare de verificat.",
@@ -2439,7 +2440,7 @@
                 },
                 "notequal": {
                     "doc": "$~\\⊤\\ dacă ambele sunt opuse.",
-                    "names": ["$~≠", "$~notabilitate"],
+                    "names": ["$~notabilitate"],
                     "inputs": [
                         {
                             "doc": "$~Cealaltă valoare de verificat.",
@@ -2457,11 +2458,11 @@
                 "$~Reprezint absența unei valori, scrisă \\ø\\ .",
                 "Sunt @None . Invocă-mă cu \\ø\\ ."
             ],
-            "name": ["$~ø", "$~Niciunul"],
+            "name": ["$~Niciunul"],
             "function": {
                 "equals": {
                     "doc": "$~O altă valoare este, de asemenea, nimic? Altfel, ar fi mai bine să fie \\⊥\\.",
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~Cealaltă valoare.",
@@ -2471,7 +2472,7 @@
                 },
                 "notequals": {
                     "doc": "$~O altă valoare /nu/ este nimic?",
-                    "names": ["$~≠", "$~notăegală"],
+                    "names": ["$~notăegală"],
                     "inputs": [
                         {
                             "doc": "$~Cealaltă valoare.",
@@ -2509,12 +2510,12 @@
                         "\\'hello'.length()\\",
                         "\\'🐈📚'.length()\\"
                     ],
-                    "names": ["$~📏", "$~lungime"],
+                    "names": ["$~lungime"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ dacă am aceeași secvență de caractere ca @Text-ul dat.",
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~@Text de comparat.",
@@ -2537,7 +2538,7 @@
                         "$~\\⊤\\ dacă @Text-ul dat apare în mine.",
                         "\\'Ai găsit ce căutai?'.has('tu')\\"
                     ],
-                    "names": ["$~⊆", "$~are"],
+                    "names": ["$~are"],
                     "inputs": [
                         {
                             "doc": "$~@Text de căutat în mine.",
@@ -2583,7 +2584,7 @@
                         "\\'salut ' × -5\\",
                         "Cel mai lung text pe care îl pot face are 65.535 de caractere. Dacă încerci să faci un text mai lung, voi repeta textul de câte ori pot."
                     ],
-                    "names": ["$~×", "$~·", "$~🔁", "$~repetat", "$~repeta"],
+                    "names": ["$~repetat", "$~repeta"],
                     "inputs": [
                         {
                             "doc": "$~Numărul de repetări în textul nou.",
@@ -2598,7 +2599,7 @@
                         "Dacă separatorul este un @Text gol, mă împart în caractere:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["$~÷", "$~segmentat", "$~segment"],
+                    "names": ["$~segmentat"],
                     "inputs": [
                         {
                             "doc": "$~@Text-ul de utilizat ca separator.",
@@ -2611,7 +2612,7 @@
                         "$~Uneori este util să combini două @Text-uri într-unul singur. Dă-mi un alt @Text și voi crea un text nou care să ne unească:",
                         "\\'salut ' + 'vers'\\"
                     ],
-                    "names": ["$~+", "$~combinate", "$~combina"],
+                    "names": ["$~combinate", "$~combina"],
                     "inputs": [
                         {
                             "doc": "$~@Text de adăugat.",
@@ -2624,7 +2625,7 @@
                         "$~\\⊤\\ dacă întregul text corespunde modelului dat.",
                         "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
                     ],
-                    "names": ["$~≈", "$~meciuri"],
+                    "names": ["$~meciuri"],
                     "inputs": [
                         {
                             "doc": "$~Modelul cu care să se potrivească.",
@@ -2637,7 +2638,7 @@
                         "$~Găsește fiecare loc în care se potrivește modelul dat, ca o listă de @Result .",
                         "\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~căutare"],
+                    "names": ["$~căutare"],
                     "inputs": [
                         {
                             "doc": "$~Modelul de căutat.",
@@ -2676,7 +2677,7 @@
                 "Nu există cifra „2” în baza 2, deci nu este un număr valid. NaN va apărea și dacă încercați să convertiți text non-număr în număr.",
                 "\\'salut'→#\\"
             ],
-            "name": ["$~#", "$~Număr"],
+            "name": ["$~Număr"],
             "function": {
                 "add": {
                     "doc": [
@@ -2687,7 +2688,7 @@
                         "Dacă unitățile nu se potrivesc, opresc spectacolul.",
                         "\\3pisică + 5câine\\🪲"
                     ],
-                    "names": ["$~+", "$~adăuga"],
+                    "names": ["$~adăuga"],
                     "inputs": [
                         {
                             "doc": "$~@Number de adăugat.",
@@ -2704,7 +2705,7 @@
                         "Dacă unitățile nu se potrivesc, opresc spectacolul.",
                         "\\3cat - 5dog\\🪲"
                     ],
-                    "names": ["$~-", "$~scădea"],
+                    "names": ["$~scădea"],
                     "inputs": [
                         {
                             "doc": "$~@Number-ul care trebuie scăzut din mine.",
@@ -2719,7 +2720,7 @@
                         "\\5m × 5m\\",
                         "\\5m × 1/s\\"
                     ],
-                    "names": ["$~×", "$~·", "$~multiplica"],
+                    "names": ["$~multiplica"],
                     "inputs": [
                         {
                             "doc": "$~Numărul de înmulțit.",
@@ -2734,7 +2735,7 @@
                         "\\5m ÷ 5m\\",
                         "\\5m ÷ 5s\\"
                     ],
-                    "names": ["$~÷", "$~împărți"],
+                    "names": ["$~împărți"],
                     "inputs": [
                         {
                             "doc": "$~@Number la care să mă împarți.",
@@ -2749,7 +2750,7 @@
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
-                    "names": ["$~%", "$~rest"],
+                    "names": ["$~rest"],
                     "inputs": [
                         {
                             "doc": "$~@Number la care să mă împarți.",
@@ -2802,7 +2803,7 @@
                         "\\10 ^ -2\\",
                         "\\5 ^ -.5\\"
                     ],
-                    "names": ["$~^", "$~putere"],
+                    "names": ["$~putere"],
                     "inputs": [
                         {
                             "doc": "$~Exponentul la care să mă ridic.",
@@ -2816,7 +2817,7 @@
                         "\\4 √ 2\\",
                         "\\1000 √ 3\\"
                     ],
-                    "names": ["$~√", "$~rădăcină"],
+                    "names": ["$~rădăcină"],
                     "inputs": [
                         {
                             "doc": "$~Rădăcina de calculat.",
@@ -2830,7 +2831,7 @@
                         "\\1 < 2\\",
                         "\\2 < 1\\"
                     ],
-                    "names": ["$~<", "$~maipuțindecât"],
+                    "names": ["$~maipuțindecât"],
                     "inputs": [
                         {
                             "doc": "$~@Number-ul cu care să mă compari.",
@@ -2845,7 +2846,7 @@
                         "\\2 ≤ 1\\",
                         "\\2 ≤ 2\\"
                     ],
-                    "names": ["$~≤", "$~maipuținegal"],
+                    "names": ["$~maipuținegal"],
                     "inputs": [
                         {
                             "doc": "$~@Number-ul cu care să mă compari.",
@@ -2859,7 +2860,7 @@
                         "\\1 > 2\\",
                         "\\2 > 1\\"
                     ],
-                    "names": ["$~>", "$~maimaredecât"],
+                    "names": ["$~maimaredecât"],
                     "inputs": [
                         {
                             "doc": "$~@Number-ul cu care să mă compari.",
@@ -2874,7 +2875,7 @@
                         "\\2 ≥ 1\\",
                         "\\2 ≥ 2\\"
                     ],
-                    "names": ["$~≥", "$~maimaresauegal"],
+                    "names": ["$~maimaresauegal"],
                     "inputs": [
                         {
                             "doc": "$~@Number-ul cu care să mă compari.",
@@ -2888,7 +2889,7 @@
                         "\\1 = 2\\",
                         "\\2 = 2\\"
                     ],
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~@Number-ul cu care să mă compari.",
@@ -2902,7 +2903,7 @@
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
-                    "names": ["$~≠", "$~notabilitate"],
+                    "names": ["$~notabilitate"],
                     "inputs": [
                         {
                             "doc": "$~@Number-ul cu care să mă compari.",
@@ -2912,7 +2913,7 @@
                 },
                 "cos": {
                     "doc": ["$~Calculați cosinusul meu.", "\\π.cos()\\"],
-                    "names": ["$~cos", "$~cosinus"],
+                    "names": ["$~cosinus"],
                     "inputs": []
                 },
                 "sin": {
@@ -2948,7 +2949,7 @@
                 },
                 "tan": {
                     "doc": ["$~Calculează tangenta mea.", "\\π.tan()\\"],
-                    "names": ["$~tan", "$~tangentă"],
+                    "names": ["$~tangentă"],
                     "inputs": []
                 },
                 "arcsin": {
@@ -3068,7 +3069,7 @@
                 "\\['măr' 'banană' 'mango']!\\",
                 "Cam asta e tot. Dar pot face tot felul de lucruri interesante cu @FunctionDefinition-ul meu!"
             ],
-            "name": ["$~[]", "$~Listă"],
+            "name": ["$~Listă"],
             "kind": "$~Fel",
             "out": "$~Rezultat",
             "outofbounds": "$~înAfaraLimitelor",
@@ -3120,7 +3121,7 @@
                 },
                 "length": {
                     "doc": "$~@Number de elemente din mine.",
-                    "names": ["$~📏", "$~lungime"],
+                    "names": ["$~lungime"],
                     "inputs": []
                 },
                 "random": {
@@ -3210,7 +3211,7 @@
                         "$~Creez o listă fără primul meu element.",
                         "\\['măr' 'banană' 'mango'].sansFirst()\\"
                     ],
-                    "names": ["$~fărăPrimul", "$~sansFirst"],
+                    "names": ["$~fărăPrimul"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3239,7 +3240,7 @@
                         "$~Eu, dar fără toate aparițiile valorii date.",
                         "\\['măr' 'banană' 'mango' 'măr'].sans('măr')\\"
                     ],
-                    "names": ["$~fărăToate", "$~sansAll"],
+                    "names": ["$~fărăToate"],
                     "inputs": [
                         {
                             "doc": "$~Valoarea pentru care trebuie eliminate toate aparițiile lui din listă.",
@@ -3260,7 +3261,7 @@
                         "$~\\⊤\\ dacă articolele și comanda mea sunt exact aceleași cu cele din @List.",
                         "\\['măr' 'banană' 'mango'] = ['măr' 'mango' 'banană']\\"
                     ],
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~@List cu care să mă compari.",
@@ -3273,7 +3274,7 @@
                         "$~\\⊤\\ dacă articolele și comanda mea /nu/ sunt exact aceleași cu cele din @List dată.",
                         "\\['măr' 'banană' 'mango'] ≠ ['măr' 'mango' 'banană']\\"
                     ],
-                    "names": ["$~≠", "$~notăegală"],
+                    "names": ["$~notăegală"],
                     "inputs": [
                         {
                             "doc": "$~@List cu care să mă compari.",
@@ -3517,7 +3518,7 @@
                         "$~Sunt \\⊤\\ dacă @Set-ul dat și I avem exact aceleași valori:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~@Set-ul de comparat.",
@@ -3530,7 +3531,7 @@
                         "$~Sunt \\⊤\\ dacă @Set-ul dat și eu nu avem exact aceleași valori:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": ["$~≠", "$~notabilitate"],
+                    "names": ["$~notabilitate"],
                     "inputs": [
                         {
                             "doc": "$~@Set-ul de comparat.",
@@ -3543,7 +3544,7 @@
                         "$~Dă-mi un element de adăugat și voi crea un nou @Set cu elementele mele și elementul dat.",
                         "\\{1 2 3} + 4\\"
                     ],
-                    "names": ["$~cu", "$~adăuga", "$~+"],
+                    "names": ["$~cu", "$~adăuga"],
                     "inputs": [
                         {
                             "doc": "$~Elementul de adăugat",
@@ -3557,7 +3558,7 @@
                         "\\{1 2 3} - 2\\",
                         "Dacă nu am articolul, îl voi evalua singur."
                     ],
-                    "names": ["$~elimina", "$~-"],
+                    "names": ["$~elimina"],
                     "inputs": [
                         {
                             "doc": "$~Elementul de eliminat.",
@@ -3570,7 +3571,7 @@
                         "$~Dă-mi @Set și voi crea un nou @Set care conține obiectele mele și obiectele setului.",
                         "\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": ["$~uniune", "$~∪"],
+                    "names": ["$~uniune"],
                     "inputs": [
                         {
                             "doc": "$~@Set să se combine cu mine.",
@@ -3583,7 +3584,7 @@
                         "$~Dă-mi @Set și voi crea un nou @Set care conține doar elementele pe care le avem în comun.",
                         "\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": ["$~intersecţie", "$~∩"],
+                    "names": ["$~intersecţie"],
                     "inputs": [
                         {
                             "doc": "$~Setul pentru a se compara cu mine.",
@@ -3676,7 +3677,7 @@
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
                 "Știu cum să fac multe lucruri minunate cu asocierile mele."
             ],
-            "name": ["$~{:}", "$~Hartă"],
+            "name": ["$~Hartă"],
             "key": "$~Cheie",
             "value": "$~Valoare",
             "result": "$~Rezultat",
@@ -3691,7 +3692,7 @@
                         "$~\\{⊤}\\ dacă perechile mele sunt exact aceleași cu cele din @Map-urile date.",
                         "\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~@Map cu care să mă compari.",
@@ -3704,7 +3705,7 @@
                         "$~\\{⊤}\\ dacă perechile mele /nu/ sunt exact aceleași cu cele din @Map-urile date.",
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": ["$~≠", "$~notabilitate"],
+                    "names": ["$~notabilitate"],
                     "inputs": [
                         {
                             "doc": "$~@Map cu care să mă compari.",
@@ -3834,12 +3835,12 @@
                 "Și dacă vreți vreodată să obțineți valori specifice de la mine, puteți converti orice tabel într-o listă și accesa rânduri individuale cu @PropertyReference",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
             ],
-            "name": ["$~⎡⎦", "$~Masă"],
+            "name": ["$~Masă"],
             "row": "$~Rând",
             "function": {
                 "equals": {
                     "doc": "$~Verific dacă am exact aceleași celule în exact aceeași ordine ca un alt @Table.",
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~Cealaltă masă de verificat.",
@@ -3849,7 +3850,7 @@
                 },
                 "notequal": {
                     "doc": "$~Verific dacă vreuna dintre celulele mele este diferită sau se află într-o ordine diferită față de un alt @Table.",
-                    "names": ["$~≠", "$~nuesteegal"],
+                    "names": ["$~nuesteegal"],
                     "inputs": [
                         {
                             "doc": "$~Cealaltă masă de verificat.",
@@ -3869,7 +3870,7 @@
             "function": {
                 "equals": {
                     "doc": "$~Verific dacă proprietățile mele au același nume și aceleași valori ca proprietățile altei structuri.",
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~Cealaltă structură de verificat.",
@@ -3879,7 +3880,7 @@
                 },
                 "notequal": {
                     "doc": "$~Verific dacă proprietățile mele sunt diferite în vreun fel de nume și valori față de cele ale unei alte structuri.",
-                    "names": ["$~≠", "$~nuesteegal"],
+                    "names": ["$~nuesteegal"],
                     "inputs": [
                         {
                             "doc": "$~Cealaltă structură de verificat.",
@@ -3898,16 +3899,16 @@
                 "\\`I am **bold** and /italic/`\\",
                 "Lucrez foarte asemănător cu @Text , dar pot folosi formatare. Poți să mă combini, să mă repeți, să verifici ce conțin și să mă convertești în @Text simplu."
             ],
-            "name": ["$~`…`", "$~Formatat"],
+            "name": ["$~Formatat"],
             "function": {
                 "length": {
                     "doc": "$~Evaluez în funcție de numărul de caractere lizibile din textul meu, ignorând formatarea și pauzele de paragraf.",
-                    "names": ["$~📏", "$~lungime"],
+                    "names": ["$~lungime"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ dacă sunt același text formatat ca valoarea dată.",
-                    "names": ["$~=", "$~egal"],
+                    "names": ["$~egal"],
                     "inputs": [
                         {
                             "doc": "$~Textul formatat de comparat.",
@@ -3957,7 +3958,7 @@
                 },
                 "repeat": {
                     "doc": "$~Creez text nou, formatat, care este al meu, repetat de numărul dat de ori. Dacă am mai mult de un paragraf, pauzele sunt păstrate între copii.",
-                    "names": ["$~×", "$~·", "$~🔁", "$~repetat", "$~repeta"],
+                    "names": ["$~repetat", "$~repeta"],
                     "inputs": [
                         {
                             "doc": "$~Numărul de ori în care mă repet.",
@@ -3967,7 +3968,7 @@
                 },
                 "combine": {
                     "doc": "$~Dă-mi un alt text formatat și ne voi uni într-unul singur. Dacă oricare dintre noi are mai mult de un paragraf, se păstrează pauzele de paragraf.",
-                    "names": ["$~+", "$~combinate", "$~combina"],
+                    "names": ["$~combinate", "$~combina"],
                     "inputs": [
                         {
                             "doc": "$~Textul formatat de adăugat.",
@@ -3998,7 +3999,7 @@
                 "Și dacă dați numere cu un anumit număr de cifre semnificative după virgulă, acea precizie va fi păstrată.",
                 "\\Random(1.00 10.00)\\"
             ],
-            "names": ["$~🎲", "$~Aleatoriu"],
+            "names": ["$~Aleatoriu"],
             "inputs": [
                 {
                     "names": "$~min",
@@ -4019,7 +4020,7 @@
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "Copiați acest cod în editor și apoi selectați una dintre cele două @Phrase . Veți vedea că a treia @Phrase arată numele selectat."
             ],
-            "names": ["$~🔘", "$~Alegere"]
+            "names": ["$~Alegere"]
         },
         "Button": {
             "doc": [
@@ -4031,7 +4032,7 @@
                 "\\Phrase(Button() → '')\\",
                 "Aceasta pur și simplu creează o @Phrase care este valoarea fluxului ca text. Dacă o copiați în editor și faceți clic, veți vedea cum comută între \\⊥\\ și \\⊤\\ ."
             ],
-            "names": ["$~🖱️", "$~Buton"],
+            "names": ["$~Buton"],
             "down": {
                 "names": "$~jos",
                 "doc": "$~Dacă este @None, fluxul va oferi atât valori ascendente, cât și descendente. Dacă este specificat un \\⊤\\, aceasta se va schimba doar la apăsarea butonului. Dacă este specificat un \\⊥\\, aceasta se va schimba doar la eliberarea butonului."
@@ -4046,7 +4047,7 @@
                 "\\Pointer()\\",
                 "@Place pe care îl furnizează va corespunde locului în care indică indicatorul pe @Stage ."
             ],
-            "names": ["$~👆🏻", "$~Indicator"]
+            "names": ["$~Indicator"]
         },
         "Key": {
             "doc": [
@@ -4062,7 +4063,7 @@
                 "Și dacă vrei să știi doar când este eliberată o @Key în loc să fie apăsată, poți furniza un @Boolean :",
                 "\\Key('a' ⊥)\\"
             ],
-            "names": ["$~⌨️", "$~Cheie"],
+            "names": ["$~Cheie"],
             "key": {
                 "names": "$~cheie",
                 "doc": "$~Dacă este @None, atunci sunt furnizate toate cheile. Dacă este un @Text specific, atunci este furnizată doar acea cheie."
@@ -4137,7 +4138,7 @@
                 "Totuși, există limite privind cât de mică poate fi, deoarece @Program are nevoie de timp pentru a evalua înainte de a putea răspunde la următoarea bifă.",
                 "Cel mai mic este probabil în jur de \\20ms\\ ."
             ],
-            "names": ["$~🕕", "$~Timp"],
+            "names": ["$~Timp"],
             "frequency": {
                 "names": ["$~frecvenţă"],
                 "doc": "$~Aceasta este frecvența cu care ar trebui să se scurgă timpul. Implicit, este setată la \\33ms\\, ceea ce înseamnă aproximativ 30 de ori pe secundă."
@@ -4155,7 +4156,7 @@
                 "\\Volume()\\",
                 "Este excelent pentru a asculta cât de zgomotos este publicul!"
             ],
-            "names": ["$~🎤", "$~Volum"],
+            "names": ["$~Volum"],
             "frequency": {
                 "names": ["$~frecvenţă"],
                 "doc": "$~Timpul dintre eșantionări."
@@ -4169,7 +4170,7 @@
                 "\\Pitch()\\",
                 "Acest lucru este excelent pentru a asculta tonul pe care cineva îl vorbește sau cântă."
             ],
-            "names": ["$~🎵", "$~Pas"],
+            "names": ["$~Pas"],
             "frequency": {
                 "names": ["$~frecvenţă"],
                 "doc": "$~Timpul dintre eșantionări."
@@ -4187,7 +4188,7 @@
                 "Dacă nu este specificată nicio limbă, implicit se folosește limba preferată.",
                 "Recunoașterea vorbirii necesită acces la microfon și conexiune la internet (vă rugăm să acordați acces!). De asemenea, pot exista limite de utilizare, așa că nu o lăsați activată prea mult timp (nuuuuu)!"
             ],
-            "names": ["$~🎙️", "$~Vorbire", "$~Voce"],
+            "names": ["$~Vorbire", "$~Voce"],
             "reset": {
                 "names": ["$~resetare", "$~clar"],
                 "doc": "$~Când această valoare se modifică, ștergeți vorbirea acumulată și începeți de la zero."
@@ -4219,7 +4220,7 @@
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "Dar ai putea analiza culorile și pentru a decide dacă o lumină era aprinsă sau stinsă sau dacă o anumită culoare era comună, permițând publicului să influențeze o reprezentație cu culorile pe care le arată."
             ],
-            "names": ["$~🎥", "$~Cameră"],
+            "names": ["$~Cameră"],
             "width": {
                 "names": ["$~lăţime"],
                 "doc": "$~Numărul de @Color de eșantionat într-un rând."
@@ -4243,7 +4244,7 @@
                 "Încearcă asta — îți arată un emoji care se potrivește cu poziția mâinii tale, indiferent de locul în care se află mâna ta reală:",
                 "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
-            "names": ["$~🖐️", "$~Mână"],
+            "names": ["$~Mână"],
             "frequency": {
                 "names": ["$~frecvenţă"],
                 "doc": "$~Timpul dintre eșantioane."
@@ -4268,7 +4269,7 @@
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Vezi cum se întrerupe după fiecare @Phrase și așteaptă ca @Button să se schimbe înainte de a avansa?"
             ],
-            "names": ["$~🎬", "$~Scenă"],
+            "names": ["$~Scenă"],
             "outputs": {
                 "names": "$~ieșiri",
                 "doc": "$~Lista de ieșiri de afișat în secvență."
@@ -4284,7 +4285,7 @@
                 "Vezi cum sare literele o? La prima evaluare, îi dai o poziție sus pe @Stage , dar apoi primește @None , ceea ce permite @Motion să le schimbe în orice poziție ar plasa gravitația.",
                 "Consultați mai jos numeroasele alte modalități de configurare."
             ],
-            "names": ["$~⚽️", "$~Mişcare"],
+            "names": ["$~Mişcare"],
             "place": {
                 "doc": "$~Locul de plecare.",
                 "names": "$~loc"
@@ -4322,7 +4323,7 @@
                 "Încercați să copiați acest lucru în programul dvs. și să mutați @Output cu indicatorul sau tastatura.",
                 "Puteți personaliza @Placement , activând și dezactivând mișcarea pe anumite dimensiuni, modificând distanța de deplasare a unui @Place și @Place inițial cu care începe fluxul."
             ],
-            "names": ["$~✥", "$~Plasament"],
+            "names": ["$~Plasament"],
             "inputs": [
                 {
                     "doc": "$~Locul inițial de la care să începi.",
@@ -4356,7 +4357,7 @@
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
                 "Multe lucruri pot merge prost cu asta. Dacă pierzi conexiunea la internet, sau adresa URL nu duce la nimic, sau adresa URL nu este publică, sau adresa URL nu este o pagină HTML... Toate acestea pot duce la excepții. Dacă găsești o pagină care funcționează, vei primi un @Number care indică un procent de finalizare și apoi o @List a cuvintelor de pe pagină."
             ],
-            "names": ["$~🔗", "$~Paginăweb"],
+            "names": ["$~Paginăweb"],
             "url": {
                 "doc": "$~Adresa URL a paginii web HTML de obținut.",
                 "names": "$~URLul"
@@ -4433,7 +4434,7 @@
                 "Puteți scala conturul cu un @Number de metri, puteți muta originea acestuia cu un @Place , puteți alege o grosime a fontului, puteți activa italic și puteți seta `spațierea` dintre puncte ca distanță în metri. O `spațiere` mai mică trasează conturul mai îndeaproape, cu puncte distanțate uniform atât de-a lungul liniilor, cât și de-a lungul curbelor.",
                 "Unele glife, cum ar fi emoji-urile colorate, nu au contur, deci nu adaugă puncte. În timp ce preia fontul, îți va oferi o @List goală, apoi o va completa când este gata."
             ],
-            "names": ["$~🖋️", "$~Contur"],
+            "names": ["$~Contur"],
             "inputs": [
                 {
                     "doc": "$~Textul ale cărui contururi de glife ar trebui să le trasez.",
@@ -4487,7 +4488,7 @@
                 "Dacă acele intrări se schimbă — să zicem, o reacție îmi dă un fus orar diferit — încep să creez Momente cu noile setări.",
                 "Cu ce sunt diferit de @Time? @Time numără milisecundele de la pornirea unui program, ceea ce este bun pentru animație. Eu îți spun data și ora de ceas într-un calendar și un fus orar, ceea ce este bun pentru ceasuri și calendare."
             ],
-            "names": ["$~⏰", "$~Acum"],
+            "names": ["$~Acum"],
             "frequency": {
                 "names": ["$~frecvență"],
                 "doc": "$~Cât de des fac un nou @Moment, în secunde, minute sau ore. Dacă \\ø\\, marchez la fiecare \\1s\\."
@@ -4583,7 +4584,7 @@
                 "Acest exemplu arată un emoji care se potrivește cu fața ta oriunde este fața ta reală:",
                 "\\față: 🙂()\n💬((față.zâmbind ? '😀' față.gurăDeschisă ? '😮' '😐') place: față.loc)\\"
             ],
-            "names": ["$~🙂", "$~Față"],
+            "names": ["$~Față"],
             "frequency": {
                 "names": ["$~frecvență"],
                 "doc": "$~Timpul dintre eșantioane."
@@ -4606,7 +4607,7 @@
                 "Poți de asemenea să cauți doar un singur fel de lucru și să ignori restul:",
                 "\\lucruri: 📦(category: 'cat')\n💬(lucruri.📏() > 0 ? '🐈' '…')\\"
             ],
-            "names": ["$~📦", "$~Obiecte"],
+            "names": ["$~Obiecte"],
             "inputs": [
                 {
                     "doc": "$~Timpul dintre mostre.",
@@ -4846,7 +4847,7 @@
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "Modul exact în care aranjez lucrurile depinde de @Arrangement pe care mi-l dai."
             ],
-            "names": ["$~🔳", "$~Grup"],
+            "names": ["$~Grup"],
             "layout": {
                 "doc": "$~Aranjamentul de utilizat pentru a plasa @Output la locul lor.",
                 "names": "$~aspect"
@@ -4865,7 +4866,7 @@
             },
             "face": {
                 "doc": "$~Numele fontului pe care ar trebui să-l aibă conținutul din interiorul meu, cu excepția cazului în care au propria lor față de utilizat.",
-                "names": ["$~faţă", "$~font"]
+                "names": ["$~faţă"]
             },
             "place": {
                 "doc": "$~Locul de pe scenă unde ar trebui să fiu. Conținutul din mine va fi aranjat în raport cu acesta.",
@@ -4903,7 +4904,7 @@
             },
             "rotation": {
                 "doc": "$~Cât de înclinată ar trebui să fiu în jurul centrului meu, @Pose-ul meu are una diferită.",
-                "names": ["$~📐", "$~rotaţie"]
+                "names": ["$~rotaţie"]
             },
             "scale": {
                 "doc": "$~Cât de mare ar trebui să fiu în raport cu mărimea mea originală.",
@@ -4935,7 +4936,7 @@
             },
             "duration": {
                 "doc": "$~La fel ca @Phrase.duration!",
-                "names": ["$~⏳", "$~durată"]
+                "names": ["$~durată"]
             },
             "style": {
                 "doc": "$~La fel ca @Phrase.style!",
@@ -4952,7 +4953,7 @@
                 "De asemenea, poți opțional să-mi dai tot ce poate face un @Output , inclusiv să-mi schimbi dimensiunea, fontul, rotația și să fac toate dansurile mele incredibile cu @Pose și @Sequence .",
                 "De asemenea, mă poți selecta pe @Stage și edita cu paleta 🎨 de alături — e o modalitate excelentă de a încerca diferite fonturi și de a alege /face/ potrivit pentru @Text ."
             ],
-            "names": ["$~💬", "$~Fraza"],
+            "names": ["$~Fraza"],
             "text": {
                 "doc": "$~Caracterele care vor fi afișate pe @Stage, un @TextLiteral sau un @FormattedLiteral.",
                 "names": "$~text"
@@ -4971,7 +4972,7 @@
             },
             "wrap": {
                 "doc": "$~Marginea la care ar trebui să încadrez simbolurile sau \\ø\\ dacă nu ar trebui să le încadrez.",
-                "names": ["$~↵", "$~înfășura"]
+                "names": ["$~înfășura"]
             },
             "alignment": {
                 "doc": "$~Dacă există o limită @Phrase.wrap setată, dacă ar trebui să aliniez simbolurile la începutul, centrul sau sfârșitul marginii.",
@@ -5059,7 +5060,7 @@
             },
             "duration": {
                 "doc": "$~Durata care se aplică la mutarea într-un alt loc pe scenă.",
-                "names": ["$~⏳", "$~durată"]
+                "names": ["$~durată"]
             },
             "style": {
                 "doc": "$~Stilul de animație de utilizat atunci când vă mutați într-un alt loc pe scenă.",
@@ -5073,11 +5074,11 @@
         },
         "Arrangement": {
             "doc": "$~Sunt o sursă de inspirație pentru multe alte tipuri de aranjamente din Verse, inclusiv @Row, @Stack, @Grid și @Free. Lucrez îndeaproape cu @Group pentru a",
-            "names": ["$~⠿", "$~Aranjament"]
+            "names": ["$~Aranjament"]
         },
         "Row": {
             "doc": "$~Sunt @Row, un @Arrangement orizontal al lui @Output, cu o umplutură opțională între ele. L-ai cunoscut pe geamănul meu, @Stack?",
-            "names": ["$~➡", "$~Rând"],
+            "names": ["$~Rând"],
             "description": "$~rând cu $#count[$#count frază sau grup|$count fraze și grupuri|$count de fraze și grupuri]",
             "alignment": {
                 "doc": "$~Dacă se aliniază textul la început, la centru sau la sfârșit pe fiecare coloană.",
@@ -5090,7 +5091,7 @@
         },
         "Stack": {
             "doc": "$~Sunt @Stack, un @Arrangement vertical al lui @Output, cu o umplutură opțională între ele. L-ai cunoscut pe geamănul meu, @Row?",
-            "names": ["$~⬇", "$~Stivă"],
+            "names": ["$~Stivă"],
             "description": "$~stivă cu $#count[$#count frază sau grup|$count fraze și grupuri|$count de fraze și grupuri]",
             "alignment": {
                 "doc": "$~Dacă se aliniază textul la începutul, centrul sau sfârșitul fiecărui rând.",
@@ -5103,7 +5104,7 @@
         },
         "Grid": {
             "doc": "$~Sunt o grilă de @Output. Dați-mi un număr de rânduri și coloane și voi face un aranjament ordonat cu padding opțional și dimensiuni ale celulelor.",
-            "names": ["$~▦", "$~Grilă"],
+            "names": ["$~Grilă"],
             "description": "$~$rows rând $columns grilă de coloane",
             "rows": {
                 "doc": "$~Câte rânduri să se facă în grilă.",
@@ -5136,7 +5137,7 @@
         },
         "Shape": {
             "doc": "$~Sunt o inspirație pentru toate formele. Sunt utilă pentru a-i spune lui @Stage ce formă să aibă.",
-            "names": ["$~⬟", "Figură"],
+            "names": ["Figură"],
             "form": {
                 "doc": "$~Sunt genul de formă pe care o poți arăta. Fiecare formă necesită informații diferite pentru a-i defini aranjamentul.",
                 "names": "$~formă"
@@ -5220,7 +5221,7 @@
                 "Voi folosi @Language lui @TextLiteral dacă are unul, altfel voi folosi limba selectată.",
                 "Poți selecta o voce în setări."
             ],
-            "names": ["$~🔊", "$~Cuvânt"],
+            "names": ["$~Cuvânt"],
             "text": {
                 "doc": "$~Textul pe care ar trebui să-l rostesc cu voce tare.",
                 "names": "$~text"
@@ -5304,7 +5305,7 @@
                 "$~Capturez o @Pose pentru @Output să o mențină, iar eu sunt elementul constitutiv al mișcărilor lor. Știți când cineva stă în picioare în cel mai uimitor mod, face o pauză și toată lumea se uită? Acela sunt eu.",
                 "O poză implică atât de multe lucruri. Vezi numeroasele mele contribuții pentru a vedea ce fel de poziții ai putea realiza!"
             ],
-            "names": ["$~🤪", "$~Poză"],
+            "names": ["$~Poză"],
             "style": {
                 "doc": "$~Stilul de animație de utilizat la trecerea în această poziție.",
                 "names": "$~stil"
@@ -5360,18 +5361,18 @@
                 "\\Color.blue\\",
                 "Aceste scurtături funcționează și în limba dvs., deci un vorbitor de franceză poate scrie \\couleur.rouge\\🪲 iar un vorbitor de japoneză poate scrie \\色.赤\\🪲 . Scurtăturile sunt: roșu, portocaliu, galben, verde, albastru, violet, maro, roz, negru, alb și gri."
             ],
-            "names": ["$~🌈", "$~Culoare"],
+            "names": ["$~Culoare"],
             "lightness": {
                 "doc": "$~Cât de ușor ar trebui să fiu de la \\0\\ la \\1\\, de la negru la \\0\\, la gri la \\0.5\\, la alb la \\1\\.",
-                "names": ["$~ușurință", "$~l"]
+                "names": ["$~ușurință"]
             },
             "chroma": {
                 "doc": "$~Câtă culoare ar trebui să am, de la \\0\\ la \\∞\\. Fără culoare înseamnă gri, numerele mai mari înseamnă mai multă culoare.",
-                "names": ["$~cromă", "$~c"]
+                "names": ["$~cromă"]
             },
             "hue": {
                 "doc": "$~Ce culoare ar trebui să am, pe o roată cromatică, de la magenta \\0\\, roșu \\30\\, verde \\120\\, până la albastru \\270\\.",
-                "names": ["$~nuanţă", "$~h"]
+                "names": ["$~nuanţă"]
             },
             "colors": {
                 "black": {
@@ -5485,14 +5486,14 @@
                 "Asta spune, /la început (0%), începe la înclinare 360 și se termină la înclinare 0/. Asta ne va învârti în cerc la nesfârșit, din moment ce sunt setat ca poziție de repaus a lui @Phrase !",
                 "Încearcă-ți propriile dansuri creative jucându-te cu alte elemente."
             ],
-            "names": ["$~💃", "$~Secvenţă"],
+            "names": ["$~Secvenţă"],
             "poses": {
                 "doc": "$~O @Map cu procente între 0% și 100%, fiecare asociată cu o @Pose. Nu trebuie să furnizezi toate procentele; voi muta fără probleme un @Output între cele pe care mi le oferi.",
                 "names": "$~poze"
             },
             "duration": {
                 "doc": "$~Cât timp ar trebui să fac acest dans? Dacă ar trebui să-l repet, nu voi adăuga timp la durată, voi dansa doar mai repede.",
-                "names": ["$~⏳", "$~durată"]
+                "names": ["$~durată"]
             },
             "style": {
                 "doc": "$~Ce stil ar trebui să folosesc pentru dans?",
@@ -5858,7 +5859,7 @@
         },
         "Place": {
             "doc": "$~Sunt o locație pe @Stage. Toate intrările mele sunt opționale, deoarece sunt în centru în mod implicit.",
-            "names": ["$~📍", "$~Loc"],
+            "names": ["$~Loc"],
             "x": {
                 "doc": "$~O poziție pe axa x.",
                 "names": "$~x"
@@ -5873,12 +5874,12 @@
             },
             "rotation": {
                 "doc": "$~Rotația în această poziție",
-                "names": ["$~📐", "$~rotaţie"]
+                "names": ["$~rotaţie"]
             }
         },
         "Gesture": {
             "doc": "$~Sunt o imagine a unei poziții a mâinii detectată de cameră, emisă de fluxul @Hand . Locul meu îți spune unde se află mâna pe scenă, degetele mele îți spun câte sunt extinse, deschiderea mea este adevărată când mâna este deschisă (3+ degete extinse), iar degetul mare, arătătorul, mijlociul, inelarul și degetul mic indică fiecare ce degete sunt extinse. Palma mea este adevărată când palma este orientată spre cameră și falsă când dosul mâinii este orientat spre ea.",
-            "names": ["$~✋", "$~Gest"],
+            "names": ["$~Gest"],
             "place": {
                 "doc": "$~Unde mâna este pe scenă.",
                 "names": ["$~loc"]
@@ -5918,7 +5919,7 @@
         },
         "Velocity": {
             "doc": "$~Reprezintă viteza de mișcare @Output pe @Stage — metri pe secundă de-a lungul x și y și grade pe secundă de rotație. Intrările mele sunt opționale; în mod implicit, nimic nu se mișcă.",
-            "names": ["$~💨", "$~Viteză"],
+            "names": ["$~Viteză"],
             "x": {
                 "doc": "$~Câți metri să parcurgi în fiecare secundă pe axa x.",
                 "names": "$~x"
@@ -5929,12 +5930,12 @@
             },
             "angle": {
                 "doc": "$~Câte grade să se rotească în fiecare secundă",
-                "names": ["$~unghi", "$~°"]
+                "names": ["$~unghi"]
             }
         },
         "Matter": {
             "doc": "$~Sunt proprietăți fizice ale rezultatului, care influențează modul în care interacționez cu alte rezultate pe scenă.",
-            "names": ["$~⚛️", "$~Materie"],
+            "names": ["$~Materie"],
             "mass": {
                 "doc": "$~O greutate, în kilograme",
                 "names": "$~masa"
@@ -5965,7 +5966,7 @@
                 "$~Fac ca @Phrase să strălucească! Sunt o AURĂ. Cam așa:",
                 "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\🪲"
             ],
-            "names": ["$~🔮", "$~Aură"],
+            "names": ["$~Aură"],
             "color": {
                 "doc": "$~@Color pe care ar trebui să o aibă @Aura.",
                 "names": "$~culoare"
@@ -5992,7 +5993,7 @@
                 "ÎMI POȚI DA ȘI O CHEMINĂ PENTRU O CADRU ȘI O VOI DECUPA.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": ["$~🎭", "$~Etapă"],
+            "names": ["$~Etapă"],
             "content": {
                 "doc": "$~Lista de @Output care vor fi afișate pe scenă.",
                 "names": "$~conţinut"
@@ -6045,7 +6046,7 @@
             },
             "rotation": {
                 "doc": "$~ACELAȘI CA @Group.rotation",
-                "names": ["$~📐", "$~rotaţie"]
+                "names": ["$~rotaţie"]
             },
             "scale": {
                 "doc": "$~ACELAȘI CA @Group.scale",
@@ -6077,7 +6078,7 @@
             },
             "duration": {
                 "doc": "$~LA FEL CA @Phrase.duration!",
-                "names": ["$~⏳", "$~durată"]
+                "names": ["$~durată"]
             },
             "style": {
                 "doc": "$~LA FEL CA @Phrase.style!",
@@ -6167,7 +6168,7 @@
         },
         "Expression": {
             "doc": "$~Sunt o captură a unei expresii faciale detectate de cameră, emisă de fluxul @Face. Locul meu îți spune unde este fața pe scenă. @Expression.leftEyeOpen, @Expression.rightEyeOpen și @Expression.eyesOpen ale mele spun dacă ochii sunt deschiși. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning și @Expression.browsRaised ale mele spun ce face fața, și fiecare are o cantitate corespunzătoare (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) de la 0 la 1 pentru cât de puternică este. @Expression.turn și @Expression.tilt ale mele spun în ce direcție este orientat capul, în grade.",
-            "names": ["$~😀", "$~Expresie"],
+            "names": ["$~Expresie"],
             "place": {
                 "doc": "$~Unde se află fața pe scenă.",
                 "names": ["$~loc"]
@@ -6227,7 +6228,7 @@
         },
         "Thing": {
             "doc": "$~Sunt un lucru pe care camera l-a văzut, trimis într-o @List de fluxul @Objects. Numele meu spune ce sunt, încrederea mea spune cât de sigur este modelul, locul meu spune unde am fost pe scenă, iar lățimea și înălțimea mea spun cât de mare am părut.",
-            "names": ["$~🔎", "$~Lucru"],
+            "names": ["$~Lucru"],
             "name": {
                 "doc": "$~Ce este lucrul, în limba ta.",
                 "names": ["$~nume"]
@@ -6271,7 +6272,7 @@
                 "Nu am un aspect propriu de stilizat, așa că nu iau niciuna dintre intrările obișnuite de aspect — nici dimensiune, loc, culoare sau animație. Cum apar este alegerea privitorului, făcută în setările lui, și este ancorat de scenă în loc să fie plasat în aranjamentul tău; nu ocup loc, așa că punându-mă într-un @Row sau un @Stack nu mută niciodată nimic de lângă mine. Ca să desenezi muzica singur, folosește @Beat: îți dă fiecare beat pe măsură ce sună, ca să conduci orice output vrei.",
                 "Continui să cânt de-a lungul evaluărilor: editează-mi notele în timp ce cânt și schimbarea se îmbină la următorul beat în loc să repornească, ceea ce face ca schimbarea unei melodii în timpul cântării să pară muzicală. Ca să mă cânți din nou de la început, vezi @Music/replay; ca să mă ții pe loc și să continui din același loc, vezi @Music/pause."
             ],
-            "names": ["$~🎼", "$~Muzică"],
+            "names": ["$~Muzică"],
             "tracks": {
                 "doc": "$~O @Track, sau o listă de piese cântate în același timp. Fiecare piesă este o voce cu un instrument, așa că o listă de ele este o formație.",
                 "names": "$~piste"
@@ -6428,7 +6429,7 @@
                 "Umplerea cu pauze este tot ce are nevoie un canon: ambele părți țin același număr de bătăi, așa că rămân la pas în loc să se îndepărteze una de alta. Combinarea a două liste într-una singură cu : este modul în care sunt construite, deoarece \\append\\ are nevoie ca ambele liste să conțină același fel de lucru.",
                 "\\melodie: [1 2 3 1 1 2 3 1 3 4 5 ø]\npauză: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodie :pauză] instrument: 🔈.🪈)\n\t\t🎶([:pauză :melodie] instrument: 🔈.🎻)\n\t])\\"
             ],
-            "names": ["$~🎶", "$~Pistă"],
+            "names": ["$~Pistă"],
             "notes": {
                 "doc": "$~Notele de cântat, în ordine: un număr pentru o notă, \\ø\\ pentru o pauză, un set precum \\{1 3 5}\\ pentru un acord, sau un @Note când o intrare are nevoie de propriul volum. O valoare de notă scrisă pe un număr — \\3𝅗𝅥\\ — spune cât durează acea intrare.",
                 "names": "$~note"
@@ -6477,7 +6478,7 @@
                 "O triolă este aritmetică cinstită: \\♪(1 2beats ÷ 3)\\ spune că trei dintre acestea umplu două bătăi. Lungimea mea poate fi și o valoare de notă, deci \\♪(1 1𝅗𝅥)\\ și \\♪(1 2beats)\\ sunt aceleași două bătăi.",
                 "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
-            "names": ["$~♪", "$~Notă"],
+            "names": ["$~Notă"],
             "degree": {
                 "doc": "$~Ce să cânt: un număr pentru o notă, \\ø\\ pentru o pauză, sau un set de numere pentru un acord, exact ca o intrare simplă dintr-un @Track. O valoare de notă pe număr — \\3𝅗𝅥\\ — spune cât durez, și câștigă în fața @Note/beat dacă le scrii pe amândouă.",
                 "names": "$~grad"
@@ -6503,49 +6504,49 @@
                         "$~Un pian. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎹", "$~pian"]
+                    "names": ["$~pian"]
                 },
                 "violin": {
                     "doc": [
                         "$~O vioară. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎻", "$~vioară"]
+                    "names": ["$~vioară"]
                 },
                 "drums": {
                     "doc": [
                         "$~O tobă. Înregistrată și un set, nu acordată: numerele aleg o parte din set, nu o notă — \\1\\ tobă mare, \\2\\ tobă mică, \\3\\ fus, \\4\\ talger, \\5\\ tom-tom, \\6\\ clopoțel de vacă — și \\7\\ revine înapoi la toba mare.",
                         "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🥁", "$~tobe"]
+                    "names": ["$~tobe"]
                 },
                 "flute": {
                     "doc": [
                         "$~Un flaut. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🪈", "$~flaut"]
+                    "names": ["$~flaut"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~O trompetă. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎺", "$~trompetă"]
+                    "names": ["$~trompetă"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Un saxofon, un tenor. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎷", "$~saxofon", "$~sax"]
+                    "names": ["$~saxofon"]
                 },
                 "bell": {
                     "doc": [
                         "$~Un clopot — clopoței de orchestră, cei loviți cu un ciocănel. Înregistrat și acordat, așa că numerele aleg notele.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🔔", "$~clopoțel"]
+                    "names": ["$~clopoțel"]
                 },
                 "didgeridoo": {
                     "doc": [
@@ -6555,14 +6556,14 @@
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
-                    "names": ["$~🐱", "$~pisică", "$~miau"],
+                    "names": ["$~pisică", "$~miau"],
                     "doc": [
                         "$~O pisică — de fapt un set întreg dintr-una. Înregistrată de la o pisică reală și un set, nu acordată: numerele aleg ce spune pisica, nu o notă — \\1\\ iritată, \\2\\ cerșind, \\3\\ flămândă, \\4\\ protestând, \\5\\ implorând, \\6\\ doritoare, \\7\\ deranjată, \\8\\ speriată, \\9\\ sensibilă, \\10\\ liniștit, \\11\\ singuratic, \\12\\ torcând — și \\13\\ se întoarce înapoi la iritat. Pentru o pisică ce cântă note în schimb, vezi \\🔈.😺\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
-                    "names": ["$~🐶", "$~câine", "$~lătrat"],
+                    "names": ["$~câine", "$~lătrat"],
                     "doc": [
                         "$~Un câine — de fapt, o întreagă trusă de câini. Înregistrat de la câini reali, și este o trusă, nu un instrument acordat: numerele aleg ce lătrat auzi în loc de o notă, mergând de la cel mai grav la cel mai ascuțit — \\1\\ răgușit, \\2\\ avertizare, \\3\\ pază, \\4\\ alertă, \\5\\ insistent, \\6\\ cerând, \\7\\ anunțând, \\8\\ nerăbdător, \\9\\ entuziasmat, \\10\\ nervos, \\11\\ chelălăind, \\12\\ ascuțit — și \\13\\ se întoarce înapoi la răgușit. Pentru un câine ce cântă note în schimb, vezi \\🔈.🐕\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
@@ -6573,49 +6574,49 @@
                         "$~Un sunet principal de sintetizator: luminos și zumzăitor, și nu se rușinează că este făcut din oscilatoare. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎛️", "$~sintetizator"]
+                    "names": ["$~sintetizator"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Un bas de sintetizator: gros și jos. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
                     ],
-                    "names": ["🎚️", "$~sintetizatorBas"]
+                    "names": ["$~sintetizatorBas"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Un sunet de fundal de sintetizator: moale, lent la apariție, și bun pentru a ține un acord sub toate celelalte. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
                     ],
-                    "names": ["☁️", "$~sintetizatorPad"]
+                    "names": ["$~sintetizatorPad"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Aceeași pisică, acordată. Dintre cele douăsprezece înregistrări pe care le cântă trusa \\🔈.🐱\\, aceasta este cea care ține un ton constant, și este acordată, nu o trusă, deci numerele aleg note și poți scrie o melodie cu ea. Cântată departe de nota la care a fost înregistrată, un mieunat începe să sune întins în loc de cântat, deci se simte cel mai bine într-o octavă sau cam așa de la mijloc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~😺", "$~pisicăCuNote"]
+                    "names": ["$~pisicăCuNote"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Aceiași câini, acordați. Dintre toate lătratele din care este făcut setul, acesta ține o notă constantă. Este acordat pe note, nu doar un set, așa că numerele aleg notele și poți scrie o melodie cu el. Când este cântat departe de nota la care a fost înregistrat, un lătrat începe să sune întins, nu lătrat. De aceea sună cel mai bine într-o octavă sau două față de mijloc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🐕", "$~câineCuNote"]
+                    "names": ["$~câineCuNote"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~O chitară clasică, cu corzi de nailon ciupite cu degetele, nu cu o pană. Este înregistrată de la una reală și acordată pe note, așa că numerele aleg notele. Aceasta este cea la care se referă simplul \\guitar\\, așa că proiectele mai vechi care cereau o chitară o cântă pe aceasta.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎸", "$~chitarăAcustică", "$~chitară"]
+                    "names": ["$~chitarăAcustică", "$~chitară"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~O chitară electro-acustică — un corp gol cu un traductor înăuntru, cu corzi de oțel, așa că sună mai luminos și mai lung decât cea de nailon \\🔈.🎸\\. Este înregistrată de la una reală și acordată pe note, așa că numerele aleg notele.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~⚡", "$~chitarăElectrică"]
+                    "names": ["$~chitarăElectrică"]
                 },
                 "voice": {
                     "doc": [
@@ -6625,7 +6626,7 @@
                         "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Silabele sunt scrise în <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabet în care fiecare literă este un /sunet/ în loc de o scriere — așa că \\'ʃi'\\ este sunetul de la începutul cuvântului /she/, indiferent de limba în care scrii. Apasă 🤖 sub editor ca să vezi toate sunetele pe care le pot face și să auzi fiecare sunet."
                     ],
-                    "names": ["$~🤖", "$~voce"]
+                    "names": ["$~voce"]
                 }
             },
             "doc": [
@@ -6763,6 +6764,14 @@
                 "remix": {
                     "tip": "$~fă-ți propria copie a acestui proiect pentru a-l schimba",
                     "label": "$~remixează"
+                },
+                "languages": "$~arată limbile în care este scris acest proiect",
+                "addLanguage": "$~scrie acest proiect și în această limbă",
+                "removeLanguage": "$~nu mai scrie acest proiect în această limbă",
+                "firstLanguage": "$~fă din aceasta prima limbă a proiectului",
+                "removeUnusedLanguages": {
+                    "tip": "$~elimină limbile pe care codul acestui proiect nu le folosește",
+                    "label": "$~elimină cele nefolosite"
                 }
             },
             "field": {
@@ -6789,22 +6798,39 @@
                 "projectsNotSavingOnline": "$~Unele proiecte sunt doar pe acest dispozitiv, nu sunt încă online."
             },
             "dialog": {
-                "translate": {
-                    "header": "$~Traduce",
+                "languages": {
+                    "header": "$~Limbi",
                     "explanation": [
-                        "$~Acestea sunt limbile pe care le folosește proiectul tău.",
-                        "Pentru a traduce proiectul în alte limbi acceptate, alegeți o limbă sursă principală și apoi alegeți o limbă nouă.",
-                        "Traducerile vor fi imperfecte, așa că verificați rezultatele!"
+                        "$~Acestea sunt limbile în care este scris proiectul tău.",
+                        "Poți adăuga o limbă în care să scrii, poți elimina una pe care nu o folosești sau poți traduce întregul proiect într-o limbă nouă."
                     ],
+                    "count": "$~$#count[$#count limbă|$count limbi|$count de limbi]",
+                    "meaning": [
+                        "$~Limbile unui proiect decid ce nume și cuvinte poate folosi codul lui. Dacă proiectul tău este scris în spaniolă, are nevoie de spaniolă aici, altfel nume precum \\Frase\\ nu vor însemna nimic.",
+                        "Toți cei care deschid proiectul tău încarcă aceste limbi, iar prima decide cum este aranjat rezultatul tău. Numele în engleză funcționează întotdeauna, în orice proiect."
+                    ],
+                    "unused": "$~nefolosit",
+                    "unloaded": "$~nu s-a putut încărca",
+                    "checking": "$~Se caută limbile pe care le folosește codul tău…",
+                    "complete": "$~Codul tău nu folosește nicio limbă care lipsește din proiectul tău.",
                     "search": {
                         "description": "$~Filtrați limbile după nume sau regiune",
                         "placeholder": "$~limbă sau regiune"
+                    },
+                    "tab": {
+                        "label": "$~setări de limbă",
+                        "labels": ["$~Scris în", "$~Tradu"],
+                        "tips": [
+                            "$~vezi și schimbă limbile în care este scris acest proiect",
+                            "$~tradu numele, textul și documentarea acestui proiect în altă limbă"
+                        ]
                     }
                 }
             },
             "subheader": {
                 "source": "$~Sursă",
-                "destination": "$~Destinaţie"
+                "destination": "$~Destinaţie",
+                "missing": "$~Poate lipsește"
             },
             "toggle": {
                 "fullscreen": {
@@ -6823,8 +6849,8 @@
                 "sourceToggle": "$~Această /comutare/ afișează sau ascunde *fișierul sursă*. *Celelalte comenzi* de pe acest rând fac același lucru și pentru celelalte plăci.",
                 "addSource": "$~Unele proiecte beneficiază de fișiere sursă *mai multe*, unde datele sunt stocate într-unul singur și importate în sursa *principală*. Butonul /adăugați sursă/ creează una nouă.",
                 "share": "$~Caseta de dialog /share/ vă permite să partajați proiectul cu *galerii*, cu *publicul* sau să îl copiați ca *text* pentru a-l partaja în altă parte.",
-                "translate": "$~Butonul /traduce/ poate adăuga *traduceri* ale *numelor*, *textului* și *documentației* proiectului în alte limbi.",
-                "checkpoints": "$~Panoul /revisions/ vă permite să *reveniți* la versiunile anterioare ale proiectului și la versiunile *snapshot* pe care doriți să le rețineți."
+                "checkpoints": "$~Panoul /revisions/ vă permite să *reveniți* la versiunile anterioare ale proiectului și la versiunile *snapshot* pe care doriți să le rețineți.",
+                "languages": "$~Butonul /limbi/ arată în ce limbi este scris proiectul tău, îți permite să adaugi sau să elimini una și poate *traduce* *numele*, *textul* și *documentarea* proiectului tău într-o limbă nouă."
             },
             "options": {
                 "layout": {
@@ -7345,7 +7371,8 @@
                 "toggle": "$~afișarea și ascunderea adnotărilor",
                 "highlightMajor": "$~arată codul acestei erori în editor",
                 "highlightMinor": "$~arată codul acestei avertizări în editor",
-                "highlightStep": "$~arată codul acestui pas de evaluare în editor"
+                "highlightStep": "$~arată codul acestui pas de evaluare în editor",
+                "elsewhere": "$~Deschide locul unde se poate rezolva aceasta"
             },
             "severity": {
                 "major": "$~eroare",

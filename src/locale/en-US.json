@@ -1807,7 +1807,8 @@
                         "explanation": "$name[I don't know anyone named $name in $scope[$scope|this @Block]|Can you give me a name?]"
                     },
                     "resolution": "Did you mean *$suggestion?*",
-                    "staticResolution": "Did you mean *$owner.$suggestion?*"
+                    "staticResolution": "Did you mean *$owner.$suggestion?*",
+                    "languageResolution": "*$name* is a name in $language. Add $language to your project's languages to use it here."
                 },
                 "ReferenceCycle": {
                     "name": "self-referencing value",
@@ -6781,7 +6782,15 @@
                     "label": "translate"
                 },
                 "primary": "translate text in this language",
-                "destination": "translate to this language"
+                "destination": "translate to this language",
+                "languages": "show the languages this project is written in",
+                "addLanguage": "write this project in this language too",
+                "removeLanguage": "stop writing this project in this language",
+                "firstLanguage": "make this the project's first language",
+                "removeUnusedLanguages": {
+                    "tip": "remove the languages this project's code doesn't use",
+                    "label": "remove unused"
+                }
             },
             "field": {
                 "name": {
@@ -6807,13 +6816,29 @@
                 }
             },
             "dialog": {
-                "translate": {
-                    "header": "Translate",
+                "languages": {
+                    "header": "Languages",
+                    "tab": {
+                        "label": "language settings",
+                        "labels": ["Written in", "Translate"],
+                        "tips": [
+                            "see and change the languages this project is written in",
+                            "translate this project's names, text, and documentation into another language"
+                        ]
+                    },
                     "explanation": [
-                        "These are the languages your project is using.",
-                        "To translate your project into other supported languages, choose a primary source language and then choose a new language.",
-                        "/Translations will be imperfect, so review the results!/"
+                        "These are the languages your project is written in.",
+                        "You can add a language to write in, remove one you aren't using, or translate the whole project into a new language."
                     ],
+                    "count": "$#count[$count language|$count languages]",
+                    "meaning": [
+                        "A project's languages decide which names and words its code can use. If your project is written in Spanish, it needs Spanish here, or names like \\Frase\\ won't mean anything.",
+                        "Everyone who opens your project loads these languages, and the first one decides how your output is laid out. English names always work, in every project."
+                    ],
+                    "unused": "not used",
+                    "unloaded": "couldn't load",
+                    "checking": "Looking for languages your code uses…",
+                    "complete": "Your code doesn't use any language your project is missing.",
                     "search": {
                         "description": "Filter languages by name or region",
                         "placeholder": "language or region"
@@ -6821,6 +6846,7 @@
                 }
             },
             "subheader": {
+                "missing": "Maybe missing",
                 "source": "Source",
                 "destination": "Destination"
             },
@@ -6849,7 +6875,7 @@
                 "sourceToggle": "This /toggle/ shows or hides the *source file*. The *other toggles* on this row do the same for the other tiles.",
                 "addSource": "Some projects benefit from *multiple* source files, where data is stored in one and imported into the *main* source. The /add source/ button creates a new one.",
                 "share": "The /share/ dialog lets you share your project with *galleries*, with the *public*, or copy it as *text* to share elsewhere.",
-                "translate": "The /translate/ button can add *translations* of your project's *names*, *text*, and *documentation* into other languages.",
+                "languages": "The /languages/ button shows which languages your project is written in, lets you add or remove one, and can *translate* your project's *names*, *text*, and *documentation* into a new language.",
                 "checkpoints": "The /revisions/ panel lets you go *back* to previous versions of your project, and *snapshot* versions you want to remember."
             }
         },
@@ -7391,6 +7417,7 @@
             "conflictLabel": "$severity: $conflict",
             "button": {
                 "resolution": "Resolve this conflict",
+                "elsewhere": "Open where this can be fixed",
                 "toggle": "show and hide annotations",
                 "highlightMajor": "show this error's code in the editor",
                 "highlightMinor": "show this warning's code in the editor",

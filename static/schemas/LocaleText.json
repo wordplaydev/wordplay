@@ -10740,6 +10740,10 @@
                         "conflict": {
                           "$ref": "#/definitions/ConflictText%3C%5B%22name%22%2C%22scope%22%5D%3E"
                         },
+                        "languageResolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22language%22%5D%3E",
+                          "description": "[formatted] Suggested fix when the name is what another language calls something, but the project isn't written in that language"
+                        },
                         "resolution": {
                           "$ref": "#/definitions/Template%3C%5B%22suggestion%22%5D%3E",
                           "description": "[formatted] Suggested fix when a name doesn't resolve to a bind in scope"
@@ -10752,7 +10756,8 @@
                       "required": [
                         "conflict",
                         "resolution",
-                        "staticResolution"
+                        "staticResolution",
+                        "languageResolution"
                       ],
                       "type": "object"
                     }
@@ -16170,6 +16175,10 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
+                    "elsewhere": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] How the button that opens the dialog where a fix lives should be described"
+                    },
                     "highlightMajor": {
                       "description": "[plain] The collapsed-sidebar button that shows a major conflict's code in the editor",
                       "type": "string"
@@ -16193,6 +16202,7 @@
                   },
                   "required": [
                     "resolution",
+                    "elsewhere",
                     "toggle",
                     "highlightMajor",
                     "highlightMinor",
@@ -23122,6 +23132,10 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
+                    "addLanguage": {
+                      "description": "[plain] Add a language to the project, so its code can use that language's names and words",
+                      "type": "string"
+                    },
                     "addSource": {
                       "description": "[plain] Add a source file",
                       "type": "string"
@@ -23132,6 +23146,10 @@
                     },
                     "destination": {
                       "description": "[plain] The tooltip for the destination language button in the translate dialog",
+                      "type": "string"
+                    },
+                    "firstLanguage": {
+                      "description": "[plain] Make a language the project's first, deciding how its output is laid out",
                       "type": "string"
                     },
                     "focusCycle": {
@@ -23154,6 +23172,10 @@
                       "description": "[plain] Keyboard shortcut to focus source tiles",
                       "type": "string"
                     },
+                    "languages": {
+                      "description": "[plain] Show the project's languages dialog",
+                      "type": "string"
+                    },
                     "primary": {
                       "description": "[plain] The tooltip for the source language button in the translate dialog",
                       "type": "string"
@@ -23165,6 +23187,14 @@
                     "removeCollaborator": {
                       "description": "[plain] Remove a collaborator that has been shared with",
                       "type": "string"
+                    },
+                    "removeLanguage": {
+                      "description": "[plain] Remove a language from the project",
+                      "type": "string"
+                    },
+                    "removeUnusedLanguages": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Remove every language nothing in the project's code uses"
                     },
                     "revert": {
                       "description": "[plain] Revert project to original code",
@@ -23208,7 +23238,12 @@
                     "unsaved",
                     "translate",
                     "primary",
-                    "destination"
+                    "destination",
+                    "languages",
+                    "addLanguage",
+                    "removeLanguage",
+                    "firstLanguage",
+                    "removeUnusedLanguages"
                   ],
                   "type": "object"
                 },
@@ -23232,10 +23267,22 @@
                 "dialog": {
                   "additionalProperties": false,
                   "properties": {
-                    "translate": {
+                    "languages": {
                       "additionalProperties": false,
-                      "description": "The content for the translation dialog",
+                      "description": "The content for the project's languages dialog: which languages its code is written in, which ones it looks like it needs, and translating it into another.",
                       "properties": {
+                        "checking": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Shown while checking which languages the project's code needs"
+                        },
+                        "complete": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Shown when the code doesn't use any language the project is missing"
+                        },
+                        "count": {
+                          "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                          "description": "[plain] The dialog button's label, saying how many languages the project is written in"
+                        },
                         "explanation": {
                           "anyOf": [
                             {
@@ -23254,21 +23301,54 @@
                           "description": "[plain] The header to be shown at the top of the dialog",
                           "type": "string"
                         },
+                        "meaning": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/FormattedText"
+                            },
+                            {
+                              "items": {
+                                "$ref": "#/definitions/FormattedText"
+                              },
+                              "type": "array"
+                            }
+                          ],
+                          "description": "[formatted] Explains what a project's languages decide, above the list of them"
+                        },
                         "search": {
                           "$ref": "#/definitions/FieldText",
-                          "description": "The field that filters destination languages by name or region"
+                          "description": "The field that filters languages by name or region"
+                        },
+                        "tab": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "The tabs that switch between the languages the project is written in and translating it"
+                        },
+                        "unloaded": {
+                          "description": "[plain] Marks a language whose words couldn't be loaded, so its names don't work right now",
+                          "type": "string"
+                        },
+                        "unused": {
+                          "description": "[plain] Marks a language nothing in the project's code uses",
+                          "type": "string"
                         }
                       },
                       "required": [
+                        "checking",
+                        "complete",
+                        "count",
                         "explanation",
                         "header",
-                        "search"
+                        "meaning",
+                        "search",
+                        "tab",
+                        "unloaded",
+                        "unused"
                       ],
                       "type": "object"
                     }
                   },
                   "required": [
-                    "translate"
+                    "languages"
                   ],
                   "type": "object"
                 },
@@ -23454,12 +23534,17 @@
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] The header for the destination language"
                     },
+                    "missing": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] The header for languages the project's code uses but doesn't have"
+                    },
                     "source": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] The header for the source language"
                     }
                   },
                   "required": [
+                    "missing",
                     "source",
                     "destination"
                   ],
@@ -23499,6 +23584,10 @@
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Markup describing the project controls bar overall"
                     },
+                    "languages": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Markup describing the languages button"
+                    },
                     "launch": {
                       "description": "[plain] Tooltip on the help button that opens the tour",
                       "type": "string"
@@ -23514,10 +23603,6 @@
                     "sourceToggle": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Markup describing the source-tile toggles"
-                    },
-                    "translate": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] Markup describing the translate button"
                     }
                   },
                   "required": [
@@ -23527,7 +23612,7 @@
                     "sourceToggle",
                     "addSource",
                     "share",
-                    "translate",
+                    "languages",
                     "checkpoints"
                   ],
                   "type": "object"
@@ -25989,6 +26074,9 @@
       "type": "string"
     },
     "Template<[\"name\",\"input\"]>": {
+      "type": "string"
+    },
+    "Template<[\"name\",\"language\"]>": {
       "type": "string"
     },
     "Template<[\"name\",\"layout\",\"pose\",\"color\"]>": {

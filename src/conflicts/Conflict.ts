@@ -61,6 +61,14 @@ export type Explainer = {
     description: (locales: Locales, context: Context) => Markup;
     /** Optional node to focus when the learner activates this resolution. */
     focusNode?: Node;
+    /**
+     * The `id` of a {@link Dialog} to open when the learner activates this resolution, for
+     * fixes that live outside the code. A conflict can't perform one itself — a repair's
+     * mediator is synchronous and has no database — so it points at the place that can.
+     */
+    openDialog?: string;
+    /** The glyph on the button that opens {@link Explainer.openDialog}, naming what's there. */
+    openDialogIcon?: string;
 };
 
 /**

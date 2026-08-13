@@ -1431,7 +1431,8 @@
                         "explanation": "$~$name[Jag känner ingen som heter $name i $scope[$scope|detta @Block]|Kan du ge mig ett namn?]"
                     },
                     "resolution": "$~Menade du *$suggestion?*",
-                    "staticResolution": "$~Menade du *$owner.$suggestion?*"
+                    "staticResolution": "$~Menade du *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name* är ett namn på $language. Lägg till $language i ditt projekts språk för att använda det här."
                 },
                 "ReferenceCycle": {
                     "name": "$~självrefererande värde",
@@ -2397,7 +2398,7 @@
                         "\\⊥ & ⊤\\",
                         "\\⊥ & ⊥\\"
                     ],
-                    "names": ["$~&", "$~och"],
+                    "names": ["$~och"],
                     "inputs": [
                         {
                             "doc": "$~Den andra @Boolean att kontrollera. Om den första är \\⊥\\, spelar det ingen roll vad detta är, funktionen kommer att utvärderas till \\⊥\\.",
@@ -2413,7 +2414,7 @@
                         "\\⊥ | ⊤\\",
                         "\\⊥ | ⊥\\"
                     ],
-                    "names": ["$~|", "$~eller"],
+                    "names": ["$~eller"],
                     "inputs": [
                         {
                             "doc": "$~Den andra @Boolean att kontrollera. Om den första är \\⊥\\, kommer funktionen endast att utvärderas till \\⊤\\ om detta är \\⊤\\.",
@@ -2423,12 +2424,12 @@
                 },
                 "not": {
                     "doc": "$~Jag får motsatsen till mig själv: om \\⊤\\ ger det \\⊥\\, om \\⊥\\ ger det \\⊤\\.",
-                    "names": ["$~~", "$~inte"],
+                    "names": ["$~inte"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ om båda är \\⊤\\ eller båda är \\⊥\\.",
-                    "names": ["$~=", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~Det andra värdet att kontrollera.",
@@ -2438,7 +2439,7 @@
                 },
                 "notequal": {
                     "doc": "$~\\⊤\\ om båda är motsatser.",
-                    "names": ["$~≠", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~Det andra värdet att kontrollera.",
@@ -2460,7 +2461,7 @@
             "function": {
                 "equals": {
                     "doc": "$~Är ett annat värde också ingenting? Det är bättre annars, \\⊥\\.",
-                    "names": ["$~=", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~Det andra värdet.",
@@ -2470,7 +2471,7 @@
                 },
                 "notequals": {
                     "doc": "$~Är ett annat värde /inte/ ingenting?",
-                    "names": ["$~≠", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~Det andra värdet.",
@@ -2508,12 +2509,12 @@
                         "\\'hej'.length()\\",
                         "\\'🐈📚'.length()\\"
                     ],
-                    "names": ["$~📏", "$~längd"],
+                    "names": ["$~längd"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ om jag har samma teckensekvens som den givna @Text.",
-                    "names": ["$~=", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~@Text att jämföra.",
@@ -2536,7 +2537,7 @@
                         "$~\\⊤\\ om den givna @Text visas i mig.",
                         "\\'fann du det du letade efter?'.has('du')\\"
                     ],
-                    "names": ["$~⊆", "$~har"],
+                    "names": ["$~har"],
                     "inputs": [
                         {
                             "doc": "$~@Text att söka efter hos mig.",
@@ -2582,7 +2583,7 @@
                         "\\'hej ' × -5\\",
                         "Den längsta text jag kan göra är 65 535 tecken. Om du försöker göra en längre text så upprepar jag texten så många gånger jag kan."
                     ],
-                    "names": ["$~×", "$~🔁", "$~upprepas", "$~upprepa"],
+                    "names": ["$~upprepas", "$~upprepa"],
                     "inputs": [
                         {
                             "doc": "$~Antalet gånger jag ska upprepa mig själv i den nya texten.",
@@ -2597,7 +2598,7 @@
                         "Om avgränsaren är en tom @Text delar jag upp mig själv i tecken:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["$~÷", "$~segmenterade", "$~segment"],
+                    "names": ["$~segmenterade"],
                     "inputs": [
                         {
                             "doc": "$~@Text som ska användas som avgränsare.",
@@ -2610,7 +2611,7 @@
                         "$~Ibland är det bra att kombinera till @Text till en. Ge mig ytterligare en @Text så skapar jag en ny text som förenar oss:",
                         "\\'hej ' + 'vers'\\"
                     ],
-                    "names": ["$~+", "$~kombinerad", "$~kombinera"],
+                    "names": ["$~kombinerad", "$~kombinera"],
                     "inputs": [
                         {
                             "doc": "$~@Text som ska läggas till.",
@@ -2623,7 +2624,7 @@
                         "$~\\⊤\\ om hela texten matchar det givna mönstret.",
                         "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
                     ],
-                    "names": ["$~≈", "$~tändstickor"],
+                    "names": ["$~tändstickor"],
                     "inputs": [
                         {
                             "doc": "$~Mönstret att matcha mot.",
@@ -2636,7 +2637,7 @@
                         "$~Hitta varje plats där det givna mönstret matchar i mig, som en lista med @Result .",
                         "\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~söka"],
+                    "names": ["$~söka"],
                     "inputs": [
                         {
                             "doc": "$~Mönstret att söka efter.",
@@ -2675,7 +2676,7 @@
                 "Det finns ingen siffra '2' i bas 2, så det är inte ett giltigt tal. NaN kommer också att visas om du försöker konvertera icke-nummertext till nummer",
                 "\\'hej'→#\\"
             ],
-            "name": ["$~#", "$~Antal"],
+            "name": ["$~Antal"],
             "function": {
                 "add": {
                     "doc": [
@@ -2686,7 +2687,7 @@
                         "Om enheterna inte matchar, stoppar jag showen.",
                         "\\3katt + 5hund\\🪲"
                     ],
-                    "names": ["$~+", "$~tillägga"],
+                    "names": ["$~tillägga"],
                     "inputs": [
                         {
                             "doc": "$~@Number att lägga till.",
@@ -2703,7 +2704,7 @@
                         "Om enheterna inte matchar, stoppar jag showen.",
                         "\\3katt - 5hund\\🪲"
                     ],
-                    "names": ["$~-", "$~subtrahera"],
+                    "names": ["$~subtrahera"],
                     "inputs": [
                         {
                             "doc": "$~@Number att subtrahera från mig.",
@@ -2718,7 +2719,7 @@
                         "\\5m × 5m\\",
                         "\\5m × 1/s\\"
                     ],
-                    "names": ["$~×", "$~multiplicera"],
+                    "names": ["$~multiplicera"],
                     "inputs": [
                         {
                             "doc": "$~Antalet som ska multipliceras.",
@@ -2733,7 +2734,7 @@
                         "\\5m ÷ 5m\\",
                         "\\5m ÷ 5s\\"
                     ],
-                    "names": ["$~÷", "$~dela"],
+                    "names": ["$~dela"],
                     "inputs": [
                         {
                             "doc": "$~@Number att dela mig med.",
@@ -2748,7 +2749,7 @@
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
-                    "names": ["$~%", "$~återstoden"],
+                    "names": ["$~återstoden"],
                     "inputs": [
                         {
                             "doc": "$~@Number att dela mig med.",
@@ -2801,7 +2802,7 @@
                         "\\10 ^ -2\\",
                         "\\5 ^ -.5\\"
                     ],
-                    "names": ["$~^", "$~driva"],
+                    "names": ["$~driva"],
                     "inputs": [
                         {
                             "doc": "$~Exponenten att höja mig till.",
@@ -2815,7 +2816,7 @@
                         "\\4 √ 2\\",
                         "\\1000 √ 3\\"
                     ],
-                    "names": ["$~√", "$~rot"],
+                    "names": ["$~rot"],
                     "inputs": [
                         {
                             "doc": "$~Roten att beräkna.",
@@ -2829,7 +2830,7 @@
                         "\\1 < 2\\",
                         "\\2 < 1\\"
                     ],
-                    "names": ["$~<", "$~mindreän"],
+                    "names": ["$~mindreän"],
                     "inputs": [
                         {
                             "doc": "$~@Number att jämföra mig med.",
@@ -2844,7 +2845,7 @@
                         "\\2 ≤ 1\\",
                         "\\2 ≤ 2\\"
                     ],
-                    "names": ["$~≤", "$~mindrelika"],
+                    "names": ["$~mindrelika"],
                     "inputs": [
                         {
                             "doc": "$~@Number att jämföra mig med.",
@@ -2858,7 +2859,7 @@
                         "\\1 > 2\\",
                         "\\2 > 1\\"
                     ],
-                    "names": ["$~>", "$~störreän"],
+                    "names": ["$~störreän"],
                     "inputs": [
                         {
                             "doc": "$~@Number att jämföra mig med.",
@@ -2873,7 +2874,7 @@
                         "\\2 ≥ 1\\",
                         "\\2 ≥ 2\\"
                     ],
-                    "names": ["$~≥", "$~störrejämlikt"],
+                    "names": ["$~störrejämlikt"],
                     "inputs": [
                         {
                             "doc": "$~@Number att jämföra mig med.",
@@ -2887,7 +2888,7 @@
                         "\\1 = 2\\",
                         "\\2 = 2\\"
                     ],
-                    "names": ["$~=", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~@Number att jämföra mig med.",
@@ -2901,7 +2902,7 @@
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
-                    "names": ["$~≠", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~@Number att jämföra mig med.",
@@ -2911,7 +2912,7 @@
                 },
                 "cos": {
                     "doc": ["$~Beräkna cosinus för mig.", "\\π.cos()\\"],
-                    "names": ["$~cos", "$~cosinus"],
+                    "names": ["$~cosinus"],
                     "inputs": []
                 },
                 "sin": {
@@ -2947,7 +2948,7 @@
                 },
                 "tan": {
                     "doc": ["$~Räkna ut tangenten av mig.", "\\π.tan()\\"],
-                    "names": ["$~tan", "$~tangens"],
+                    "names": ["$~tangens"],
                     "inputs": []
                 },
                 "arcsin": {
@@ -3064,7 +3065,7 @@
                 "\\['äpple' 'banan' 'mango']!\\",
                 "Det är typ det. Men jag kan ringa olika spännande saker med min @FunctionDefinition!"
             ],
-            "name": ["$~[]", "$~Lista"],
+            "name": ["$~Lista"],
             "kind": "$~Slag",
             "out": "$~Resultat",
             "outofbounds": "$~utanförGränserna",
@@ -3116,7 +3117,7 @@
                 },
                 "length": {
                     "doc": "$~@Number föremål i mig.",
-                    "names": ["$~📏", "$~längd"],
+                    "names": ["$~längd"],
                     "inputs": []
                 },
                 "random": {
@@ -3206,7 +3207,7 @@
                         "$~Jag skapar en lista utan mitt första objekt.",
                         "\\['apple' 'banan' 'mango'].sansFirst()\\"
                     ],
-                    "names": ["$~utanförst", "$~sansFirst"],
+                    "names": ["$~utanförst"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3214,7 +3215,7 @@
                         "$~Jag skapar en lista utan mitt sista objekt.",
                         "\\['apple' 'banan' 'mango'].sansLast()\\"
                     ],
-                    "names": ["$~utanSista", "$~sansLast"],
+                    "names": ["$~utanSista"],
                     "inputs": []
                 },
                 "sans": {
@@ -3222,7 +3223,7 @@
                         "$~Jag, men utan de första förekomsterna av det givna värdet.",
                         "\\['apple' 'banan' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": ["$~utan", "$~sans"],
+                    "names": ["$~utan"],
                     "inputs": [
                         {
                             "doc": "$~Värdet att ta bort den första förekomsten av.",
@@ -3235,7 +3236,7 @@
                         "$~Jag, men utan alla förekomster av det givna värdet.",
                         "\\['apple' 'banan' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": ["$~utanAlla", "$~sansAll"],
+                    "names": ["$~utanAlla"],
                     "inputs": [
                         {
                             "doc": "$~Värdet att ta bort alla förekomster av från listan.",
@@ -3256,7 +3257,7 @@
                         "$~\\⊤\\ om mina varor och beställning är exakt samma som den givna @List.",
                         "\\['äpple' 'banan' 'mango'] = ['äpple' 'mango' 'banan']\\"
                     ],
-                    "names": ["$~=", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~@List att jämföra mig med.",
@@ -3269,7 +3270,7 @@
                         "$~\\⊤\\ om mina varor och beställning är /inte/ exakt samma som den givna @List.",
                         "\\['äpple' 'banan' 'mango'] ≠ ['äpple' 'mango' 'banan']\\"
                     ],
-                    "names": ["$~≠", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~@List att jämföra mig med.",
@@ -3499,7 +3500,7 @@
                 "\\{'hej' 'hej' 'hej'}!{'yo'}\\🪲",
                 "Är det något annat du vill göra med mig? Kolla in alla snygga @FunctionDefinition jag har!"
             ],
-            "name": ["$~{}", "$~Uppsättning"],
+            "name": ["$~Uppsättning"],
             "kind": "$~Slag",
             "out": "$~Resultat",
             "function": {
@@ -3513,7 +3514,7 @@
                         "$~Jag är \\⊤\\ om den givna @Set och jag har exakt samma värden:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": ["$~=", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~@Set för att jämföra.",
@@ -3526,7 +3527,7 @@
                         "$~Jag är \\⊤\\ om den givna @Set och jag inte har exakt samma värden:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": ["$~≠", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~@Set för att jämföra.",
@@ -3539,7 +3540,7 @@
                         "$~Ge mig ett föremål att lägga till så skapar jag ett nytt @Set med mina föremål och det givna föremålet.",
                         "\\{1 2 3} + 4\\"
                     ],
-                    "names": ["$~med", "$~tillägga", "$~+"],
+                    "names": ["$~med", "$~tillägga"],
                     "inputs": [
                         {
                             "doc": "$~Objektet att lägga till",
@@ -3553,7 +3554,7 @@
                         "\\{1 2 3} - 2\\",
                         "Om jag inte har varan så utvärderar jag bara för mig själv."
                     ],
-                    "names": ["$~tabort", "$~-"],
+                    "names": ["$~tabort"],
                     "inputs": [
                         {
                             "doc": "$~Objektet som ska tas bort.",
@@ -3579,7 +3580,7 @@
                         "$~Ge mig @Set så skapar jag ett nytt @Set som bara har de saker vi har gemensamma.",
                         "\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": ["$~skärning", "$~∩"],
+                    "names": ["$~skärning"],
                     "inputs": [
                         {
                             "doc": "$~Setet att jämföra med mig.",
@@ -3672,7 +3673,7 @@
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
                 "Jag vet hur man gör många underbara saker med mina par."
             ],
-            "name": ["$~{:}", "$~Karta"],
+            "name": ["$~Karta"],
             "key": "$~Nyckel",
             "value": "$~Värde",
             "result": "$~Resultat",
@@ -3687,7 +3688,7 @@
                         "$~\\{⊤}\\ om mina parningar är exakt samma som de givna @Map.",
                         "\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": ["$~=", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~@Map att jämföra mig med.",
@@ -3700,7 +3701,7 @@
                         "$~\\{⊤}\\ om mina parningar är /inte/ exakt samma som de givna @Map.",
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": ["$~≠", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~@Map att jämföra mig med.",
@@ -3830,12 +3831,12 @@
                 "Och om du någon gång vill få specifika värden från mig kan du konvertera vilken tabell som helst till en lista och komma åt enskilda rader med @PropertyReference",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
             ],
-            "name": ["$~⎡⎦", "$~Tabell"],
+            "name": ["$~Tabell"],
             "row": "$~Rad",
             "function": {
                 "equals": {
                     "doc": "$~Jag kontrollerar om jag har exakt samma celler i exakt samma ordning som en annan @Table.",
-                    "names": ["$~=", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~Den andra tabellen att kontrollera.",
@@ -3865,7 +3866,7 @@
             "function": {
                 "equals": {
                     "doc": "$~Jag kontrollerar om mina egenskaper har samma namn och värden som en annan strukturs egenskaper.",
-                    "names": ["$~=", "$~lika"],
+                    "names": ["$~lika"],
                     "inputs": [
                         {
                             "doc": "$~Den andra strukturen att kontrollera.",
@@ -3894,16 +3895,16 @@
                 "\\`I am **bold** and /italic/`\\",
                 "Jag fungerar ungefär som @Text , men jag kan hantera formatering. Du kan kombinera mig, upprepa mig, kontrollera vad jag innehåller och konvertera mig till vanlig @Text ."
             ],
-            "name": ["$~`…`", "$~Formaterad"],
+            "name": ["$~Formaterad"],
             "function": {
                 "length": {
                     "doc": "$~Jag utvärderar till antalet läsbara tecken i min text, utan att ta hänsyn till formatering och styckebrytningar.",
-                    "names": ["$~📏", "$~längd"],
+                    "names": ["$~längd"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ om jag har samma formaterade text som det givna värdet.",
-                    "names": ["$~=", "$~likamed"],
+                    "names": ["$~likamed"],
                     "inputs": [
                         {
                             "doc": "$~Den formaterade texten som ska jämföras.",
@@ -3953,7 +3954,7 @@
                 },
                 "repeat": {
                     "doc": "$~Jag skapar ny formaterad text som är jag, upprepad det angivna antalet gånger. Om jag har mer än ett stycke behålls pauserna mellan kopiorna.",
-                    "names": ["$~×", "$~·", "$~🔁", "$~upprepade", "$~upprepa"],
+                    "names": ["$~upprepade", "$~upprepa"],
                     "inputs": [
                         {
                             "doc": "$~Antalet gånger jag ska upprepa mig.",
@@ -3963,7 +3964,7 @@
                 },
                 "combine": {
                     "doc": "$~Ge mig en annan formaterad text så sammanfogar jag oss till en. Om någon av oss har mer än ett stycke behålls styckebrytningarna.",
-                    "names": ["$~+", "$~kombinerad", "$~kombinera"],
+                    "names": ["$~kombinerad", "$~kombinera"],
                     "inputs": [
                         {
                             "doc": "$~Den formaterade texten som ska läggas till.",
@@ -3994,7 +3995,7 @@
                 "Och om du anger tal med ett visst antal signifikanta siffror efter decimaltecknet, kommer den precisionen att bevaras.",
                 "\\Random(1.00 10.00)\\"
             ],
-            "names": ["$~🎲", "$~Slumpmässig"],
+            "names": ["$~Slumpmässig"],
             "inputs": [
                 {
                     "names": "$~min",
@@ -4015,7 +4016,7 @@
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "Kopiera detta till redigeraren och välj sedan en av de två @Phrase . Du kommer att se att den tredje @Phrase visar namnet som valdes."
             ],
-            "names": ["$~🔘", "$~Val"]
+            "names": ["$~Val"]
         },
         "Button": {
             "doc": [
@@ -4027,7 +4028,7 @@
                 "\\Phrase(Button() → '')\\",
                 "Detta skapar bara en @Phrase som är värdet för strömmen som text. Om du kopierar den till redigeraren och klickar, kommer du att se den växla fram och tillbaka mellan \\⊥\\ och \\⊤\\ ."
             ],
-            "names": ["$~🖱️", "$~Knapp"],
+            "names": ["$~Knapp"],
             "down": {
                 "names": "$~ner",
                 "doc": "$~Om @None ger strömmen både upp- och ner-värden. Om ett \\⊤\\, ändras den bara när knappen trycks ner. Om du anger ett \\⊥\\, ändras den bara när knappen släpps upp."
@@ -4042,7 +4043,7 @@
                 "\\Pointer()\\",
                 "Den @Place som den anger kommer att motsvara var på @Stage pekaren pekar."
             ],
-            "names": ["$~👆🏻", "$~Pekare"]
+            "names": ["$~Pekare"]
         },
         "Key": {
             "doc": [
@@ -4058,7 +4059,7 @@
                 "Och om du bara vill veta när en @Key släpps istället för att tryckas ned, kan du ange en @Boolean :",
                 "\\Key('a' ⊥)\\"
             ],
-            "names": ["$~⌨️", "$~Nyckel"],
+            "names": ["$~Nyckel"],
             "key": {
                 "names": "$~nyckel",
                 "doc": "$~Om @None finns alla nycklar. Om en specifik @Text tillhandahålls endast den nyckeln."
@@ -4133,7 +4134,7 @@
                 "Det finns dock gränser för hur liten den kan vara, eftersom @Program behöver tid för att utvärdera innan de kan svara på nästa tick.",
                 "Den minsta är förmodligen runt \\20ms\\ ."
             ],
-            "names": ["$~🕕", "$~Tid"],
+            "names": ["$~Tid"],
             "frequency": {
                 "names": ["$~frekvens"],
                 "doc": "$~Detta är den frekvens med vilken tiden ska ticka. Den har som standard \\33ms\\, vilket är cirka 30 gånger per sekund."
@@ -4151,7 +4152,7 @@
                 "\\Volume()\\",
                 "Det här är fantastiskt för att lyssna på hur högljudd publiken är!"
             ],
-            "names": ["$~🎤", "$~Volym"],
+            "names": ["$~Volym"],
             "frequency": {
                 "names": ["$~frekvens"],
                 "doc": "$~Tiden mellan provtagningarna."
@@ -4165,7 +4166,7 @@
                 "\\Pitch()\\",
                 "Detta är utmärkt för att lyssna på tonen när någon talar eller sjunger."
             ],
-            "names": ["$~🎵", "$~Tonhöjd"],
+            "names": ["$~Tonhöjd"],
             "frequency": {
                 "names": ["$~frekvens"],
                 "doc": "$~Tiden mellan provtagningarna."
@@ -4180,7 +4181,7 @@
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "Men man kunde också analysera färgerna för att avgöra om ett ljus var tänt eller släckt, eller om en viss färg var vanlig, och låta publiken påverka en föreställning med de färger de visar."
             ],
-            "names": ["$~🎥", "$~Kamera"],
+            "names": ["$~Kamera"],
             "width": {
                 "names": ["$~bredd"],
                 "doc": "$~Antalet @Color att ta prov i en rad."
@@ -4209,7 +4210,7 @@
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Ser du hur den pausar efter varje @Phrase och väntar på att @Button ska ändras innan den går vidare?"
             ],
-            "names": ["$~🎬", "$~Scen"],
+            "names": ["$~Scen"],
             "outputs": {
                 "names": "$~utgångar",
                 "doc": "$~Listan över utgångar som ska visas i följd."
@@ -4225,7 +4226,7 @@
                 "Ser du hur o-et studsar? Vid den första utvärderingen ger du det en plats högt upp på @Stage , men därefter får det @None , vilket gör att @Motion kan ändra det till vilken position gravitationen skulle placera det.",
                 "Kolla in de många andra sätten att konfigurera det nedan."
             ],
-            "names": ["$~⚽️", "$~Rörelse"],
+            "names": ["$~Rörelse"],
             "place": {
                 "doc": "$~Startplatsen.",
                 "names": "$~plats"
@@ -4250,7 +4251,7 @@
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "Det var allt! Du kan skapa alla möjliga typer av föreställningar med detta, som chattrobotar, textäventyr eller textbaserade kontrollscheman för andra typer av föreställningar."
             ],
-            "names": ["$~🗣️", "$~Chatta"]
+            "names": ["$~Chatta"]
         },
         "Placement": {
             "doc": [
@@ -4263,7 +4264,7 @@
                 "Försök att kopiera detta till ditt program och flytta @Output med pekaren eller tangentbordet.",
                 "Du kan anpassa @Placement , aktivera och inaktivera rörelse på vissa dimensioner, ändra hur långt en @Place rör sig och den initiala @Place som strömmen börjar med."
             ],
-            "names": ["$~✥", "$~Placering"],
+            "names": ["$~Placering"],
             "inputs": [
                 {
                     "doc": "$~Den första platsen att börja med.",
@@ -4297,7 +4298,7 @@
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
                 "Mycket kan gå fel med det här. Om du förlorar din internetanslutning, eller om URL:en inte leder till något, eller om URL:en inte är offentlig, eller om URL:en inte är en HTML-sida... Allt detta kan leda till undantag. Om du hittar en sida som fungerar får du ett @Number som anger en procentandel färdigställd och sedan en @List med orden på sidan."
             ],
-            "names": ["$~🔗", "$~webbsida"],
+            "names": ["$~webbsida"],
             "url": {
                 "doc": "$~HTML-webbadressen att hämta.",
                 "names": "$~url"
@@ -4429,7 +4430,7 @@
                 "Du kan skala konturen med ett @Number of meters, flytta dess origo med ett @Place , välja en teckensnittsvikt, aktivera kursiv stil och ställa in `spacing` mellan punkter som ett avstånd i meter. Ett mindre `spacing` följer konturen närmare, med jämnt fördelade punkter längs både linjer och kurvor.",
                 "Vissa tecken, som färgemoji, har ingen kontur, så de lägger inte till några punkter. Medan den hämtar teckensnittet ger den dig en tom @List och fyller sedan i den när den är klar."
             ],
-            "names": ["$~🖋️", "$~Kontur"],
+            "names": ["$~Kontur"],
             "inputs": [
                 {
                     "doc": "$~Texten vars glyfkonturer jag ska rita upp.",
@@ -4483,7 +4484,7 @@
                 "Om dessa indata ändras — säg att en reaktion ger mig en annan tidszon — börjar jag skapa Moment med de nya inställningarna.",
                 "Hur skiljer jag mig från @Time? @Time räknar millisekunderna sedan ett program startade, vilket är bra för animering. Jag berättar datumet och tiden på väggklockan i en kalender och tidszon, vilket är bra för klockor och kalendrar."
             ],
-            "names": ["$~⏰", "$~Nu"],
+            "names": ["$~Nu"],
             "frequency": {
                 "names": ["$~frekvens"],
                 "doc": "$~Hur ofta jag skapar ett nytt @Moment, i sekunder, minuter eller timmar. Om \\ø\\, räknar jag upp varje \\1s\\."
@@ -4579,7 +4580,7 @@
                 "Detta exempel visar en emoji som matchar ditt ansikte var ditt riktiga ansikte än är:",
                 "\\ansikte: 🙂()\n💬((ansikte.leende ? '😀' ansikte.munÖppen ? '😮' '😐') place: ansikte.plats)\\"
             ],
-            "names": ["$~🙂", "$~Ansikte"],
+            "names": ["$~Ansikte"],
             "frequency": {
                 "names": ["$~frekvens"],
                 "doc": "$~Tiden mellan proverna."
@@ -4602,7 +4603,7 @@
                 "Du kan också leta efter bara en sorts sak och strunta i resten:",
                 "\\saker: 📦(category: 'cat')\n💬(saker.📏() > 0 ? '🐈' '…')\\"
             ],
-            "names": ["$~📦", "$~Objekt"],
+            "names": ["$~Objekt"],
             "inputs": [
                 {
                     "doc": "$~Tiden mellan varje prov.",
@@ -4830,7 +4831,7 @@
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "Hur exakt jag ordnar saker beror på det @Arrangement du ger mig."
             ],
-            "names": ["$~🔳", "$~Grupp"],
+            "names": ["$~Grupp"],
             "layout": {
                 "doc": "$~Arrangemanget att använda för att placera @Output på sina ställen.",
                 "names": "$~layout"
@@ -4919,7 +4920,7 @@
             },
             "duration": {
                 "doc": "$~Samma som @Phrase.duration!",
-                "names": ["$~⏳", "$~varaktighet"]
+                "names": ["$~varaktighet"]
             },
             "style": {
                 "doc": "$~Samma som @Phrase.style!",
@@ -4936,7 +4937,7 @@
                 "Du kan också valfritt ge mig allt en @Output kan göra, inklusive att ändra min storlek, teckensnitt, rotation och göra alla mina otroliga danser med @Pose och @Sequence .",
                 "Du kan också välja mig på @Stage och redigera mig med paletten 🎨 bredvid — det är ett bra sätt att testa olika typsnitt och välja rätt /face/ till din @Text ."
             ],
-            "names": ["$~💬", "$~Fras"],
+            "names": ["$~Fras"],
             "text": {
                 "doc": "$~Karaktärerna som ska visas på @Stage.",
                 "names": "$~text"
@@ -4955,7 +4956,7 @@
             },
             "wrap": {
                 "doc": "$~Kanten där jag ska linda symboler eller \\ø\\ om jag inte ska linda dem.",
-                "names": ["$~↵", "$~sjal"]
+                "names": ["$~sjal"]
             },
             "alignment": {
                 "doc": "$~Om det finns en @Phrase.wrap, om jag ska justera symboler till början, mitten eller slutet av kanten.",
@@ -5043,7 +5044,7 @@
             },
             "duration": {
                 "doc": "$~Varaktigheten som ska gälla när du flyttar till en annan plats på scenen.",
-                "names": ["$~⏳", "$~varaktighet"]
+                "names": ["$~varaktighet"]
             },
             "style": {
                 "doc": "$~Animeringsstilen som ska användas när du flyttar till en annan plats på scenen.",
@@ -5057,11 +5058,11 @@
         },
         "Arrangement": {
             "doc": "$~Jag är en inspiration till de många andra typerna av arrangemang i Versen, inklusive @Row, @Stack, @Grid och @Free. Jag har ett nära samarbete med @Group till",
-            "names": ["$~⠿", "$~Arrangemang"]
+            "names": ["$~Arrangemang"]
         },
         "Row": {
             "doc": "$~Jag är @Row, ett horisontellt @Row av @Output, med valfri stoppning däremellan. Har du träffat min tvilling, @Stack?",
-            "names": ["$~➡", "$~Rad"],
+            "names": ["$~Rad"],
             "description": "$~rad med $#count[$count fras eller grupp|$count fraser och grupper]",
             "alignment": {
                 "doc": "$~Om text ska justeras i början, centrera eller slutet på varje kolumn.",
@@ -5087,7 +5088,7 @@
         },
         "Grid": {
             "doc": "$~Jag är rutnät av @Output. Ge mig ett antal rader och kolumner så gör jag ett snyggt arrangemang med valfri utfyllnad och cellstorlekar.",
-            "names": ["$~▦", "$~Rutnät"],
+            "names": ["$~Rutnät"],
             "description": "$~$rows rad $columns kolumnrutnät",
             "rows": {
                 "doc": "$~Hur många rader görs i rutnätet.",
@@ -5120,7 +5121,7 @@
         },
         "Shape": {
             "doc": "$~Jag är en inspiration för alla former. Jag är användbar för att berätta för @Stage vilken form man ska ha.",
-            "names": ["$~⬟", "Figur"],
+            "names": ["Figur"],
             "form": {
                 "doc": "$~Jag är den typ av form att visa. Varje form kräver olika information för att definiera dess arrangemang.",
                 "names": "$~form"
@@ -5329,10 +5330,10 @@
                 "\\Color.blue\\",
                 "Dessa genvägar fungerar även på ditt språk, så en fransktalande kan skriva \\couleur.rouge\\🪲 och en japansktalande kan skriva \\色.赤\\🪲 . Genvägarna är: röd, orange, gul, grön, blå, lila, brun, rosa, svart, vit och grå."
             ],
-            "names": ["$~🌈", "$~Färg"],
+            "names": ["$~Färg"],
             "lightness": {
                 "doc": "$~Hur ljus jag ska vara från \\0\\ till \\1\\, från svart vid \\0\\, till grå vid \\0.5\\, till vit vid \\1\\.",
-                "names": ["$~lätthet", "$~l"]
+                "names": ["$~lätthet"]
             },
             "chroma": {
                 "doc": "$~Hur mycket färg ska jag ha, från \\0\\ till \\∞\\. Ingen färg betyder grå, högre siffror betyder mer färg.",
@@ -5340,7 +5341,7 @@
             },
             "hue": {
                 "doc": "$~Vilken färg jag ska ha, på ett färghjul, från megenta \\0\\, röd \\30\\, grön \\120\\, till blå \\270\\.",
-                "names": ["$~nyans", "$~h"]
+                "names": ["$~nyans"]
             },
             "colors": {
                 "black": {
@@ -5454,14 +5455,14 @@
                 "Detta säger, /i början (0%), börjar vid lutning 360 och slutar vid lutning 0/. Det kommer att snurra oss runt i cirklar för alltid, eftersom jag är inställd som @Phrase :s viloposition!",
                 "Prova dina egna kreativa danser genom att leka med andra ingångar."
             ],
-            "names": ["$~💃", "$~Sekvens"],
+            "names": ["$~Sekvens"],
             "poses": {
                 "doc": "$~En @Map med procentsatser mellan 0 % och 100 %, var och en parad med en @Pose. Du behöver inte ange alla procent. Jag kommer smidigt att flytta en @Output mellan de du ger mig.",
                 "names": "$~poserar"
             },
             "duration": {
                 "doc": "$~Hur länge ska jag göra den här dansen? Om jag ska upprepa det kommer jag inte att lägga till någon tid till längden, jag kommer bara att dansa snabbare.",
-                "names": ["$~⏳", "$~varaktighet"]
+                "names": ["$~varaktighet"]
             },
             "style": {
                 "doc": "$~Stilen ska jag använda för dansen.",
@@ -5827,7 +5828,7 @@
         },
         "Place": {
             "doc": "$~Jag är en plats på @Stage. Alla mina inmatningar är valfria, eftersom jag är i centrum som standard.",
-            "names": ["$~📍", "$~Plats"],
+            "names": ["$~Plats"],
             "x": {
                 "doc": "$~En position på x-axeln.",
                 "names": "$~x"
@@ -5847,7 +5848,7 @@
         },
         "Velocity": {
             "doc": "$~Jag är hur snabbt @Output rör sig på @Stage — meter per sekund längs x och y, och grader per sekund av rotation. Mina indata är valfria; som standard rör sig ingenting.",
-            "names": ["$~💨", "$~Hastighet"],
+            "names": ["$~Hastighet"],
             "x": {
                 "doc": "$~Hur många meter som ska flyttas varje sekund på x-axeln.",
                 "names": "$~x"
@@ -5858,12 +5859,12 @@
             },
             "angle": {
                 "doc": "$~Hur många grader som ska roteras varje sekund",
-                "names": ["$~vinkel", "$~°"]
+                "names": ["$~vinkel"]
             }
         },
         "Matter": {
             "doc": "$~Jag är fysiska egenskaper hos output, som påverkar hur jag interagerar med andra output på scenen.",
-            "names": ["$~⚛️", "$~Materia"],
+            "names": ["$~Materia"],
             "mass": {
                 "doc": "$~En vikt, i kilogram",
                 "names": "$~massa"
@@ -5921,7 +5922,7 @@
                 "DU KAN OCKSÅ GE MIG EN RAMKANT SÅ BESKÄR JAG.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": ["$~🎭", "$~Etapp"],
+            "names": ["$~Etapp"],
             "content": {
                 "doc": "$~Listan över @Output att visa på scenen.",
                 "names": "$~innehåll"
@@ -6006,7 +6007,7 @@
             },
             "duration": {
                 "doc": "$~SAMMA SOM @Phrase.duration!",
-                "names": ["$~⏳", "$~varaktighet"]
+                "names": ["$~varaktighet"]
             },
             "style": {
                 "doc": "$~SAMMA SOM @Phrase.style!",
@@ -6069,7 +6070,7 @@
                 "Jag använder @Language för @TextLiteral om det finns ett, annars använder jag det valda språket.",
                 "Du kan välja en röst i inställningarna."
             ],
-            "names": ["$~🔊", "$~Säga"],
+            "names": ["$~Säga"],
             "text": {
                 "doc": "$~Texten jag borde läsa högt.",
                 "names": "$~text"
@@ -6078,7 +6079,7 @@
         },
         "Gesture": {
             "doc": "$~Jag är en ögonblicksbild av en handposition som detekterats av kameran och sänds ut av @Hand strömmen. Min position visar var handen är på scenen, mina fingrar visar hur många som är utsträckta, min öppna position är sann när handen är öppen (3+ fingrar utsträckta), och min tumme, pekfinger, långfinger, ringfinger och lillfinger visar vart och ett vilka specifika fingrar som är utsträckta. Min handflata är sann när handflatan är vänd mot kameran, falsk när handryggen är det.",
-            "names": ["$~✋", "$~Gest"],
+            "names": ["$~Gest"],
             "place": {
                 "doc": "$~Där handen är på scenen.",
                 "names": ["$~plats"]
@@ -6151,7 +6152,7 @@
         },
         "Expression": {
             "doc": "$~Jag är en ögonblicksbild av ett ansiktsuttryck som kameran upptäckt, utsänt av strömmen @Face. Min plats talar om var ansiktet är på scenen. Mina @Expression.leftEyeOpen, @Expression.rightEyeOpen och @Expression.eyesOpen säger om ögonen är öppna. Mina @Expression.mouthOpen, @Expression.smiling, @Expression.frowning och @Expression.browsRaised säger vad ansiktet gör, och var och en har en matchande mängd (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) från 0 till 1 för hur stark den är. Mina @Expression.turn och @Expression.tilt säger åt vilket håll huvudet är vänt, i grader.",
-            "names": ["$~😀", "$~Uttryck"],
+            "names": ["$~Uttryck"],
             "place": {
                 "doc": "$~Var ansiktet är på scenen.",
                 "names": ["$~plats"]
@@ -6211,7 +6212,7 @@
         },
         "Thing": {
             "doc": "$~Jag är en sak som kameran såg, utsänd i en @List av @Objects-strömmen. Mitt namn säger vad jag är, mitt förtroende säger hur säker modellen är, min plats säger var jag var på scenen, och min bredd och höjd säger hur stor jag såg ut.",
-            "names": ["$~🔎", "$~Sak"],
+            "names": ["$~Sak"],
             "name": {
                 "doc": "$~Vad saken är, på ditt språk.",
                 "names": ["$~namn"]
@@ -6255,7 +6256,7 @@
                 "Jag har inget eget utseende att styla, så jag tar inga av de vanliga utseendeindata — ingen storlek, plats, färg eller animering. Hur jag ser ut är betraktarens val, gjort i deras inställningar, och det är förankrat till scenen snarare än placerat i din layout; jag tar ingen plats, så att sätta mig i en @Row eller en @Stack flyttar aldrig något bredvid mig. För att rita musiken själv, använd @Beat: den ger dig varje taktslag när det låter, för att styra vilken utdata du vill.",
                 "Jag fortsätter spela genom utvärderingar: ändra mina noter medan jag spelar så vävs ändringen in vid nästa taktslag i stället för att starta om, vilket är det som gör att ändra en melodi mitt i spelningen känns musikaliskt. För att spela mig igen från början, se @Music/replay; för att hålla mig stilla och ta upp på samma ställe, se @Music/pause."
             ],
-            "names": ["$~🎼", "$~Musik"],
+            "names": ["$~Musik"],
             "tracks": {
                 "doc": "$~Ett @Track, eller en lista med dem spelade samtidigt. Varje spår är en stämma med ett instrument, så en lista med dem är ett band.",
                 "names": "$~spår"
@@ -6412,7 +6413,7 @@
                 "Att fylla ut med pauser är allt en runda behöver: båda delarna håller samma antal slag, så de håller takten i stället för att glida isär. Att sprida ut två listor till en med : är hur de byggs, eftersom \\append\\ kräver att båda listorna håller samma slags sak.",
                 "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\nvila: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :vila] instrument: 🔈.🪈)\n\t\t🎶([:vila :melodi] instrument: 🔈.🎻)\n\t])\\"
             ],
-            "names": ["$~🎶", "$~Spår"],
+            "names": ["$~Spår"],
             "notes": {
                 "doc": "$~Tonerna att spela, i ordning: ett tal för en ton, \\ø\\ för en paus, en mängd som \\{1 3 5}\\ för ett ackord, eller en @Note när en post behöver sin egen volym. Ett notvärde skrivet på ett tal — \\3𝅗𝅥\\ — säger hur länge den posten varar.",
                 "names": "$~noter"
@@ -6461,7 +6462,7 @@
                 "En triol är ärlig aritmetik: \\♪(1 2beats ÷ 3)\\ säger att tre av dessa fyller två slag. Min längd kan vara ett notvärde också, så \\♪(1 1𝅗𝅥)\\ och \\♪(1 2beats)\\ är samma två slag.",
                 "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
-            "names": ["$~♪", "$~Not"],
+            "names": ["$~Not"],
             "degree": {
                 "doc": "$~Vad som ska spelas: ett tal för en ton, \\ø\\ för en paus, eller en mängd tal för ett ackord, precis som en bar post i ett @Track skulle vara. Ett notvärde på talet — \\3𝅗𝅥\\ — säger hur länge jag varar, och vinner över @Note/beat om du skriver båda.",
                 "names": "$~grad"
@@ -6494,21 +6495,21 @@
                         "$~En fiol. Inspelad från en riktig fiol och stämd, så att siffror väljer toner.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎻", "$~fiol"]
+                    "names": ["$~fiol"]
                 },
                 "drums": {
                     "doc": [
                         "$~Ett trumset. Inspelat, och ett set snarare än stämt: siffror väljer en del av trumsetet i stället för en ton — \\1\\ bastrumma, \\2\\ virveltrumma, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tomtom, \\6\\ koskälla — och \\7\\ börjar om igen vid bastrumman.",
                         "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🥁", "$~trummor"]
+                    "names": ["$~trummor"]
                 },
                 "flute": {
                     "doc": [
                         "$~En flöjt. Inspelad från en riktig flöjt och stämd, så att siffror väljer toner.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🪈", "$~flöjt"]
+                    "names": ["$~flöjt"]
                 },
                 "trumpet": {
                     "doc": [
@@ -6522,14 +6523,14 @@
                         "$~En saxofon, en tenor. Inspelad från en riktig saxofon och stämd, så att siffror väljer toner.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎷", "$~saxofon", "$~sax"]
+                    "names": ["$~saxofon"]
                 },
                 "bell": {
                     "doc": [
                         "$~En klocka — orkesterklockor, den sorten man slår på med en klubba. Inspelad och stämd, så att siffror väljer toner.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🔔", "$~klocka"]
+                    "names": ["$~klocka"]
                 },
                 "didgeridoo": {
                     "doc": [
@@ -6539,14 +6540,14 @@
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
-                    "names": ["$~🐱", "$~katt", "$~mjau"],
+                    "names": ["$~katt", "$~mjau"],
                     "doc": [
                         "$~En katt — faktiskt ett helt set av en katt. Inspelad från en riktig katt, och ett set snarare än stämt: siffror väljer vad katten säger i stället för en ton — \\1\\ irriterad, \\2\\ tiggande, \\3\\ hungrig, \\4\\ protesterande, \\5\\ bönande, \\6\\ längtande, \\7\\ störd, \\8\\ rädd, \\9\\ känslig, \\10\\ tröstad, \\11\\ ensam, \\12\\ spinnande — och \\13\\ går tillbaka till irriterad. För en katt som spelar toner istället, se \\🔈.😺\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
-                    "names": ["$~🐶", "$~hund", "$~skäll"],
+                    "names": ["$~hund", "$~skäll"],
                     "doc": [
                         "$~En hund — en hel uppsättning av dem, faktiskt. Inspelad från riktiga hundar, och en uppsättning istället för tonad: siffror väljer vilket skall du hör istället för en ton, från djupast till skarpast — \\1\\ barsk, \\2\\ varnande, \\3\\ vaktande, \\4\\ på alerten, \\5\\ enträget, \\6\\ krävande, \\7\\ tillkännagivande, \\8\\ ivrig, \\9\\ upprymd, \\10\\ otålig, \\11\\ gläfsande, \\12\\ gäll — och \\13\\ går tillbaka till barsk. För en hund som spelar toner istället, se \\🔈.🐕\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
@@ -6557,49 +6558,49 @@
                         "$~En syntledstämma: ljus och surrande, och utan att skämmas för att vara gjord av oscillatorer. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎛️", "$~synt"]
+                    "names": ["$~synt"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~En syntbas: fyllig och låg. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
                     ],
-                    "names": ["🎚️", "$~syntBas"]
+                    "names": ["$~syntBas"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~En syntpad: mjuk, långsam att komma fram, och bra för att hålla ett ackord under allt annat. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
                     ],
-                    "names": ["☁️", "$~syntPad"]
+                    "names": ["$~syntPad"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Samma katt, stämd. Av de tolv inspelningar som uppsättningen \\🔈.🐱\\ spelar är detta den som håller en jämn tonhöjd, och den är tonad istället för en uppsättning, så siffror väljer toner och du kan skriva en melodi med den. Spelad långt från tonen den spelades in på börjar ett jamande låta uttänjt istället för sjunget, så den trivs bäst inom en oktav eller så från mitten.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~😺", "$~tonsattKatt"]
+                    "names": ["$~tonsattKatt"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Samma hundar, stämda. Av alla skall som satsen är gjord av är detta det som håller en jämn tonhöjd. Den är tonad i stället för en sats, så tal väljer noter och du kan skriva en melodi med den. Om den spelas långt från noten den spelades in vid börjar ett skall låta uttöjt i stället för som ett skall. Därför trivs den bäst inom en oktav eller så från mitten.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🐕", "$~tonsattHund"]
+                    "names": ["$~tonsattHund"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrarna i stället för ett plektrum. Inspelad från en riktig, och tonad, så tal väljer noter. Detta är den som enbart \\guitar\\ betyder, så äldre projekt som bad om en gitarr spelar denna.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎸", "$~akustiskGitarr", "$~gitarr"]
+                    "names": ["$~akustiskGitarr", "$~gitarr"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~En elektroakustisk gitarr — en ihålig kropp med en mikrofon i, med stålsträngar, så den klingar ljusare och längre än nylon-\\🔈.🎸\\. Inspelad från en riktig, och tonad, så tal väljer noter.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~⚡", "$~elGitarr"]
+                    "names": ["$~elGitarr"]
                 },
                 "voice": {
                     "doc": [
@@ -6609,7 +6610,7 @@
                         "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Stavelserna stavas i det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, ett alfabet där varje bokstav är ett /ljud/ istället för en stavning — så \\'ʃi'\\ är ljudet i början av /she/, oavsett vilket språk du skriver på. Tryck på 🤖 under redigeraren för att se alla ljud jag kan göra och höra vart och ett."
                     ],
-                    "names": ["$~🤖", "$~röst"]
+                    "names": ["$~röst"]
                 }
             },
             "doc": [
@@ -6743,6 +6744,14 @@
                 "remix": {
                     "tip": "$~gör din egen kopia av det här projektet för att ändra det",
                     "label": "$~remixa"
+                },
+                "languages": "$~visa språken som detta projekt är skrivet på",
+                "addLanguage": "$~skriv detta projekt även på detta språk",
+                "removeLanguage": "$~sluta skriva detta projekt på detta språk",
+                "firstLanguage": "$~gör detta till projektets första språk",
+                "removeUnusedLanguages": {
+                    "tip": "$~ta bort de språk som projektets kod inte använder",
+                    "label": "$~ta bort oanvända"
                 }
             },
             "field": {
@@ -6769,22 +6778,39 @@
                 "projectsNotSavingOnline": "$~Vissa projekt finns bara på den här enheten, inte online än."
             },
             "dialog": {
-                "translate": {
-                    "header": "$~Översätta",
+                "languages": {
+                    "header": "$~Språk",
                     "explanation": [
-                        "$~Det här är de språk som ditt projekt använder.",
-                        "För att översätta ditt projekt till andra språk som stöds, välj ett primärt källspråk och välj sedan ett nytt språk.",
-                        "/Översättningarna kommer att vara ofullkomliga, så granska resultaten!/"
+                        "$~Detta är språken som ditt projekt är skrivet på.",
+                        "Du kan lägga till ett språk att skriva på, ta bort ett du inte använder, eller översätta hela projektet till ett nytt språk."
                     ],
+                    "count": "$~$#count[$count språk|$count språk]",
+                    "meaning": [
+                        "$~Ett projekts språk avgör vilka namn och ord dess kod kan använda. Om ditt projekt är skrivet på spanska behöver det spanska här, annars betyder namn som \\Frase\\ ingenting.",
+                        "Alla som öppnar ditt projekt laddar dessa språk, och det första avgör hur din utdata placeras ut. Engelska namn fungerar alltid, i varje projekt."
+                    ],
+                    "unused": "$~inte använt",
+                    "unloaded": "$~kunde inte ladda",
+                    "checking": "$~Letar efter språk som din kod använder…",
+                    "complete": "$~Din kod använder inget språk som ditt projekt saknar.",
                     "search": {
                         "description": "$~Filtrera språk efter namn eller region",
                         "placeholder": "$~språk eller region"
+                    },
+                    "tab": {
+                        "label": "$~språkinställningar",
+                        "labels": ["$~Skrivet på", "$~Översätt"],
+                        "tips": [
+                            "$~se och ändra språken som detta projekt är skrivet på",
+                            "$~översätt detta projekts namn, text och dokumentation till ett annat språk"
+                        ]
                     }
                 }
             },
             "subheader": {
                 "source": "$~Källa",
-                "destination": "$~Destination"
+                "destination": "$~Destination",
+                "missing": "$~Kanske saknas"
             },
             "defaults": {
                 "starterCode": "¶Välkommen till ditt tomma projekt! Detta är en kommentar.\nDu kan använda den för att beskriva ditt projekt, anteckna och\nförklara vad du vill att folk ska veta om ditt arbete.\nDen stöder *fet*, /kursiv/, <links@https://wordplay.dev> och mer.¶\nFrase('hej')"
@@ -6807,8 +6833,8 @@
                 "sourceToggle": "$~Denna /toggle/ visar eller döljer *källfilen*. De *andra växlarna* på den här raden gör detsamma för de andra panelerna.",
                 "addSource": "$~Vissa projekt drar nytta av *flera* källfiler, där data lagras i en och importeras till *huvud*källan. Knappen /lägg till källa/ skapar en ny.",
                 "share": "$~I dialogrutan /share/ kan du dela ditt projekt med *gallerier*, med *allmänheten*, eller kopiera det som *text* för att dela det någon annanstans.",
-                "translate": "$~Knappen /translate/ kan lägga till *översättningar* av ditt projekts *namn*, *text* och *dokumentation* till andra språk.",
-                "checkpoints": "$~Panelen /revisions/ låter dig gå *tillbaka* till tidigare versioner av ditt projekt och *ögonblicksbilder* av versioner som du vill komma ihåg."
+                "checkpoints": "$~Panelen /revisions/ låter dig gå *tillbaka* till tidigare versioner av ditt projekt och *ögonblicksbilder* av versioner som du vill komma ihåg.",
+                "languages": "$~Knappen /languages/ visar vilka språk ditt projekt är skrivet på, låter dig lägga till eller ta bort ett, och kan *översätta* ditt projekts *namn*, *text* och *dokumentation* till ett nytt språk."
             },
             "options": {
                 "layout": {
@@ -7090,7 +7116,8 @@
                 "toggle": "$~visa och dölj anteckningar",
                 "highlightMajor": "$~visa detta fels kod i editorn",
                 "highlightMinor": "$~visa denna varnings kod i editorn",
-                "highlightStep": "$~visa detta utvärderingssteg kod i editorn"
+                "highlightStep": "$~visa detta utvärderingssteg kod i editorn",
+                "elsewhere": "$~Öppna där detta kan åtgärdas"
             },
             "nodeDescription": "$~De $description.",
             "severity": {
