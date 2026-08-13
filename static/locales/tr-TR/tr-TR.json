@@ -7143,7 +7143,8 @@
                 "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın.",
                 "rotate": "$~döndür $name",
                 "resize": "$~$name yeniden boyutlandır",
-                "resetZoom": "$~Yakınlaştırmayı sahnenin yerine sıfırla"
+                "resetZoom": "$~Yakınlaştırmayı sahnenin yerine sıfırla",
+                "perform": "$~gerçekleştir: programı yeniden başlat, çalıştır ve ekranı sahneyle doldur"
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",
@@ -7152,7 +7153,7 @@
             "tour": {
                 "launch": "$~sahneyi gezin",
                 "stage": "$~/stage/, programınızın *mevcut değerini* gösterir. Bu değer, sayı veya liste gibi *ham bir değer*, görebileceğiniz *görsel çıktı* veya duyabileceğiniz *ses* olabilir.",
-                "reset": "$~/Sıfırla/ düğmesi, programınızın değerlendirmesini *başlangıca* geri sarar ve herhangi bir zamanı, tuşu veya giriş akışını sıfırdan yeniden oynatır.",
+                "reset": "$~/sıfırla/ düğmesi, programının değerlendirmesini her modda *baştan* başlatır: ▶️ *oynat* modunda en baştan yeniden çalışır, ✏️ *düzenle* modunda ilk değerlendirmeden sonra durur, böylece düzenlemelerinin ilk çıktıya etkisini görebilirsin, ⏸️ *hata ayıklama* modunda ise en ilk adımda durur.",
                 "zoom": "$~/zoom/ düğmeleri, sahneyi yakınlaştırmanıza ve uzaklaştırmanıza olanak tanıyarak çıktınızı daha net veya daha ayrıntılı bir şekilde görmenizi sağlar.",
                 "grid": "$~/grid/ düğmesi, tasarım yaparken nesneleri hassas bir şekilde yerleştirmenize yardımcı olacak şekilde sahnede bir *ızgara* gösterir.",
                 "lock": "$~/Kilit/ düğmesi, sahnenin görünümünü sabitler. *Kilitli* olduğunda, sahne sabit kalır; *kilitsiz* olduğunda ise serbestçe kaydırma ve yakınlaştırma yapabilirsiniz.",
@@ -7200,25 +7201,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~değerlendirme modu",
-                    "labels": ["$~düzenle", "$~oynat", "$~adım"],
+                    "labels": ["$~düzenle", "$~hata ayıkla", "$~oynat"],
                     "tips": [
-                        "$~düzenleme moduna geç: sahne mevcut karede donmuş kalırken programı değiştir",
-                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver",
-                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle"
+                        "$~düzenleme kipine geç: programı olduğu yerde duraklat ve değiştir; düzenlemeler bu noktada etkilerini göstermek için yeniden oynatılır",
+                        "$~hata ayıklama kipine geç: programın değerlendirmesini adım adım izle, değerler kodun yanında ve palette gösterilir",
+                        "$~oynatma kipine geç: programı olduğu yerden canlı çalıştır, girdilere gerçek zamanlı yanıt ver"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~değerlendirme modu",
-                    "labels": ["$~görüntüle", "$~oynat", "$~adım"],
+                    "labels": ["$~görüntüle", "$~hata ayıkla", "$~oynat"],
                     "tips": [
-                        "$~görüntüleme moduna geç: sahne mevcut karede donmuş kalırken programı oku",
-                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver",
-                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle"
+                        "$~görüntüleme kipine geç: programı olduğu yerde duraklat ve oku",
+                        "$~hata ayıklama kipine geç: programın değerlendirmesini adım adım izle, değerler kodun yanında ve palette gösterilir",
+                        "$~oynatma kipine geç: programı olduğu yerden canlı çalıştır, girdilere gerçek zamanlı yanıt ver"
                     ]
                 },
                 "announce": "$~$mode modu",
-                "exception": "$~Programda bir hata vardı, bu yüzden inceleyebilmen için adım moduna geçti.",
-                "toggle": "$~düzenleme ve oynatma modları arasında geçiş yap"
+                "exception": "$~Programda bir hata oluştu, bu yüzden onu inceleyebilmen için hata ayıklama kipine geçti.",
+                "toggle": "$~düzenleme ve oynatma modları arasında geçiş yap",
+                "resuming": "$~$position adımından devam ediliyor",
+                "performing": "$~gösteri $number, baştan"
             },
             "gate": {
                 "start": {
@@ -7262,12 +7265,12 @@
                 "reset": "$~yeniden başlatma performansı"
             },
             "tour": {
-                "timeline": "$~/Timeline/ özelliği, programınızın değerlendirme sürecini adım adım *ileri* ve *geri* olarak incelemenizi sağlar. Programınızın değerini *nasıl* hesapladığını görmek ve özellikle istediğiniz davranışı görmüyorsanız, @wordplay programlarının nasıl değerlendirildiğine dair zihinsel bir model oluşturmak için harika bir yoldur.",
+                "timeline": "$~/zaman çizelgesi/ programının değerlendirmesinde bir adım bir adım *ileri* ve *geri* gitmene olanak tanır. ✏️ *düzenle* ve ⏸️ *hata ayıklama* modlarında sahnenin araç çubuğunda görünür. Programının değerini *nasıl* hesapladığını görmek ve @wordplay programlarının nasıl değerlendirildiğine dair zihinsel bir model oluşturmak için harika bir yoldur, özellikle istediğin davranışı göremiyorsan.",
                 "annotations": "$~/annotations/ penceresi, her adımın açıklamalarının göründüğü yerdir. Programınızda adım adım ilerlerken, neler olduğunu burada okuyacaksınız.",
                 "editor": "$~/editör/ kodunuzu gösterir. Adım adım ilerlerken, programınızın her bölümünün *değeri*, değerlendirildikten *sonra* o bölümün yanında görünecektir; böylece program çalışırken değerlerin nasıl biriktiğini izleyebilirsiniz.",
                 "history": "$~/history/ dizini, programınızın aldığı her *girdiyi* gösterir; örneğin tuşlar, zaman işaretleri ve işaretçi olayları. *Sürüklenebilir* olduğundan, programın değerlendirme geçmişindeki herhangi bir ana sürükleyerek geri dönebilirsiniz.",
                 "stepControls": "$~/Adım kontrolleri/ değerlendirme sürecinde hassas bir şekilde ilerlemenizi sağlar. *Başlangıç* veya *son* noktaya atlayabilir, birer adım ileri veya geri gidebilir, *bir girdi* kadar atlayabilir, bir fonksiyonun dışına çıkabilir veya kodun *şu anda seçili* bölümüne atlayabilirsiniz.",
-                "modes": "$~/Mod değiştirici/ programının nasıl değerlendirileceğini seçer. ✏️ *düzenleme* modunda, sahne mevcut karede donmuş kalırken programı değiştirirsin. ⏸️ *adım* modunda — şu an bulunduğun yer — değerlendirmede *ileri* ve *geri* adım atarsın ve programının her parçasının *mevcut değeri* düzenleyicide yanında görünür. ▶️ *oynatma* modunda, programın canlı çalışır ve girişlere gerçek zamanlı yanıt verir."
+                "modes": "$~/mod değiştirici/ programının nasıl değerlendirildiğini seçer. ✏️ *düzenle* modunda program bulunduğu yerde durur ve onu değiştirebilirsin — düzenlemelerin o noktadaki etkisini göstermek için yeniden oynatılır. ⏸️ *hata ayıklama* modunda kod yalnızca okunabilir ve programının her parçasının *şimdiki değeri* düzenleyicide ve palette yanında görünür. ▶️ *oynat* modunda programın bulunduğu yerden canlı çalışır ve girdilere gerçek zamanlı yanıt verir. Değiştiricinin yanında, /performans/ düğmesi — tam ekran köşeleriyle sarılmış bir oynat üçgeni — en baştan bir performans başlatır ve ekranı sahneyle doldurur, ↻ ise programı her modda sıfırlar."
             }
         },
         "docs": {
@@ -7736,7 +7739,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~müzik",
+                        "label": "$~görselleştirme",
                         "labels": [
                             "$~ışık gösterisi",
                             "$~ruh hâli",
@@ -7753,7 +7756,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~müzik sesi",
+                        "label": "$~ses düzeyi",
                         "labels": ["$~kapalı", "$~kısık", "$~tam"],
                         "tips": [
                             "$~Tüm müziği sustur",
@@ -7762,7 +7765,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~konuşurken müzik",
+                        "label": "$~konuşurken",
                         "labels": ["$~kısık", "$~daha kısık", "$~sessiz"],
                         "tips": [
                             "$~Bir şey söylenirken müziği biraz kıs",
@@ -7777,14 +7780,44 @@
                             "$~Ritimde titreşme",
                             "$~Cihaz destekliyorsa ritimde titreş"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~altyazı boyutu",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Daha küçük altyazılar göster",
+                            "$~Altyazıları standart boyutta göster",
+                            "$~Altyazıları bir buçuk kat büyük göster",
+                            "$~Altyazıları iki kat büyük göster",
+                            "$~Altyazıları üç kat büyük göster"
+                        ]
                     }
                 },
                 "options": {
                     "face": "$~yazı tipi",
-                    "mic": "$~seçili mikrofon",
-                    "camera": "$~seçili kamera",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
                     "default": "$~varsayılan",
-                    "voice": "$~Say için seçilen ses"
+                    "voice": "$~Söyleme sesi"
+                },
+                "tab": {
+                    "label": "$~ayar grupları",
+                    "labels": [
+                        "$~Görünüm",
+                        "$~Kod",
+                        "$~Kamera + Mikrofon",
+                        "$~Ses + Müzik"
+                    ],
+                    "tips": [
+                        "$~Wordplay'in kendisinin nasıl göründüğü ve hissettirdiği: yazı tipi, renkler, döşemeler ve animasyon",
+                        "$~kodu yazarken nasıl göründüğü ve hissettirdiği",
+                        "$~programların hangi kameradan ve mikrofondan okuyacağı",
+                        "$~bir programın müziği, konuşması ve altyazıları sana nasıl ulaşır"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Müzik",
+                    "say": "$~Söyle"
                 }
             },
             "locale": {
@@ -8088,7 +8121,7 @@
             },
             "tour": {
                 "launch": "$~Paletin bir turuna çıkın",
-                "palette": "$~Proje *duraklatıldığında*, *ifadeleri*, *grupları* ve *aşamaları* düzenlemek için /palette/ komutunu kullanabilirsiniz.",
+                "palette": "$~✏️ *düzenle* modunda *ifadeleri*, *grupları* ve *sahneyi* düzenlemek için /paleti/ kullanabilirsin; diğer modlarda kontrolleri yalnızca okunabilir ve ⏸️ *hata ayıklama* modunda her özellik *şimdiki değerini* de gösterir.",
                 "text": "$~Bir ifadenin tüm özellikleri burada düzenlenebilir. Bu, ifadenin *metnidir*, ancak diğer özelliklerin kendi kontrolleri vardır.",
                 "set": "$~Bir özellik şu anda varsayılan değerini kullanıyorsa, kalem simgesi düğmesi ona açık bir değer atamanıza olanak tanır.",
                 "unset": "$~Bir özelliğe açık bir değer atandığında, *X* düğmesi bu değeri kaldırır ve özelliği *varsayılan* değerine döndürür.",

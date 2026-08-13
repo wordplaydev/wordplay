@@ -13,9 +13,14 @@
     interface Props {
         /** The evaluator running the program */
         evaluator: Evaluator;
+        /** What positions the slider can land on. In edit mode, the timeline's
+         *  job is navigating the input history, so it snaps to the beginning
+         *  and to reaction starts ('input'); in debug, every step is a stop
+         *  ('step'). */
+        granularity?: 'input' | 'step';
     }
 
-    let { evaluator }: Props = $props();
+    let { evaluator, granularity = 'step' }: Props = $props();
 
     let evaluation = getEvaluation();
 
@@ -134,6 +139,25 @@
         // coordinates from getBoundingClientRect, since elementFromPoint expects
         // them and offsetTop is relative to the offset parent, not the viewport.
         const rect = timeline.getBoundingClientRect();
+        const rtl = getComputedStyle(timeline).direction === 'rtl';
+
+        // Dragged beyond the strip itself? Jump straight to the extreme.
+        // Pointer capture keeps events flowing out there, and with a long
+        // history the marks overflow the strip, so the edge autoscroll alone
+        // would make reaching the present a crawl.
+        const pastEnd = rtl
+            ? event.clientX < rect.left
+            : event.clientX > rect.right;
+        const beforeBeginning = rtl
+            ? event.clientX > rect.right
+            : event.clientX < rect.left;
+        if (pastEnd || beforeBeginning) {
+            if (pastEnd) evaluator.stepToEnd();
+            else evaluator.stepTo(0);
+            dragging = true;
+            return;
+        }
+
         const view = document
             .elementFromPoint(event.clientX, rect.top + rect.height / 2)
             ?.closest('.event');
@@ -151,7 +175,10 @@
                 const index = parseInt(view.dataset.exceptionindex);
                 evaluator.stepTo(index);
             }
-            // Is this a series of steps? Choose one proportional to the mouse offset.
+            // Is this a series of steps? Choose one proportional to the mouse
+            // offset — or, at input granularity, snap to whichever end of the
+            // span is closer, since the stops are reaction boundaries, not
+            // steps.
             else if (
                 view.dataset.startindex !== undefined &&
                 view.dataset.endindex !== undefined
@@ -161,11 +188,40 @@
                 const viewRect = view.getBoundingClientRect();
                 const percent =
                     (event.clientX - viewRect.left) / viewRect.width;
-                const step = Math.min(
-                    end,
-                    Math.max(0, Math.round(percent * (end - start) + start)),
-                );
+                const step =
+                    granularity === 'input'
+                        ? percent < 0.5
+                            ? start
+                            : end
+                        : Math.min(
+                              end,
+                              Math.max(
+                                  0,
+                                  Math.round(percent * (end - start) + start),
+                              ),
+                          );
                 evaluator.stepTo(step);
+            }
+        }
+        // Nothing under the pointer? When the history's marks are narrower
+        // than the strip, a drag past either end would otherwise dead-end
+        // short of its destination: past the last mark means the present,
+        // before the first means the beginning.
+        else {
+            const views = timeline.querySelectorAll('.event');
+            const first = views[0];
+            const last = views[views.length - 1];
+            if (first instanceof HTMLElement && last instanceof HTMLElement) {
+                const lastRect = last.getBoundingClientRect();
+                const firstRect = first.getBoundingClientRect();
+                const pastPresent = rtl
+                    ? event.clientX < lastRect.left
+                    : event.clientX > lastRect.right;
+                const beforeStart = rtl
+                    ? event.clientX > firstRect.right
+                    : event.clientX < firstRect.left;
+                if (pastPresent) evaluator.stepToEnd();
+                else if (beforeStart) evaluator.stepTo(0);
             }
         }
 
@@ -181,10 +237,14 @@
     }
 
     function handleKey(event: KeyboardEvent) {
+        // At input granularity the arrows move by reaction, matching what the
+        // pointer can reach; at step granularity they move by step.
         if (event.key === 'ArrowLeft' || event.key === 'ArrowDown')
-            evaluator.stepBackWithinProgram();
+            if (granularity === 'input') evaluator.stepBackToInput();
+            else evaluator.stepBackWithinProgram();
         else if (event.key === 'ArrowRight' || event.key === 'ArrowUp')
-            evaluator.stepWithinProgram();
+            if (granularity === 'input') evaluator.stepToInput();
+            else evaluator.stepWithinProgram();
         else if (event.key === 'Home') evaluator.stepTo(0);
         else if (event.key === 'End') evaluator.stepToEnd();
         else if (event.key === 'PageUp') evaluator.stepToInput();
@@ -193,7 +253,7 @@
 </script>
 
 <!-- The draggable evaluation-history slider, hosted in the output tile's toolbar
-     while in step mode. -->
+     while paused in edit or debug mode. -->
 {#if $evaluation}
     <div
         role="slider"

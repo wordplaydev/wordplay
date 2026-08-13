@@ -2559,7 +2559,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~May isa pang bagay na maaaring napansin mo: mayroong isang lugar sa ibaba ng output na isang timeline. Nag-a-update ito sa tuwing muling sinusuri ng programa, na siyang bawat pagbabago ng stream. Lumalabas ito sa bawat pag-tick ng @Time."
+                            "$~May isa pang bagay na dapat matuklasan: ang timeline sa ilalim ng output ay nagtatala sa bawat pagkakataon na muling na-evaluate ang programa, na siyang bawat pagkakataon na nagbago ang isang stream — dito, sa tuwing tumatakbo ang @Time. Pindutin ang ⏸️ na debug button sa mode switcher @UI/modeSwitcher para mas suriin ito nang malapitan, kung saan ipinapakita ang value ng bawat expression sa tabi nito."
                         ],
                         ["Time", "neutral", "$~tik… tik… tik… tik… tik… tik…"],
                         null,

@@ -2523,7 +2523,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "There's another thing to discover: press the ⏸️ step button in the mode switcher @UI/modeSwitcher and a timeline appears below the output. It records each time the program reevaluated, which is each time a stream changed. It's showing every time @Time ticked."
+                            "There's another thing to discover: the timeline below the output records each time the program reevaluated, which is each time a stream changed — here, every time @Time ticked. Press the ⏸️ debug button in the mode switcher @UI/modeSwitcher to inspect it more closely, with each expression's value shown beside it."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         null,

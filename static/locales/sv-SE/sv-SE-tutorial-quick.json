@@ -271,7 +271,7 @@
                             "happy",
                             "$~De flesta programmeringsspråk erbjuder någon form av felsökningsverktyg för att hjälpa skapare att förstå och lösa problem i sin kod. Men många använder bara utskriftssatser för att kontrollera värdena på variabler i en konsol:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~@wordplay erbjuder en mer avancerad felsökningsupplevelse, som låter dig stega *framåt* och *bakåt* genom beräkningen. @UI/stepControls stegar beräkningen i valfri riktning, så att du kan se hur ett värde byggs upp.",
+                            "$~@wordplay ger en mer avancerad felsökning. Du kan gå *framåt* och *bakåt* genom hur koden körs. Tryck på felsökningsknappen ⏸️ i lägesväxlaren @UI/modeSwitcher ovanför scenen för att gå in i *felsöknings*läget: värdet av varje expression visas bredvid det i koden, och @UI/stepControls kör ett steg i valfri riktning, så att du kan se hur ett värde byggs upp.",
                             "$~Vill du ha mer vägledning? @UI/debugtour-knappen i felsökningsområdet ger en guidad tur av dessa kontroller."
                         ]
                     ]

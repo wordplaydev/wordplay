@@ -7375,7 +7375,8 @@
                 "zoomOut": "$~lumayo mula sa entablado",
                 "resetZoom": "$~i-reset ang zoom sa lugar ng entablado",
                 "rotate": "$~paikutin $name",
-                "resize": "$~baguhin ang laki $name"
+                "resize": "$~baguhin ang laki $name",
+                "perform": "$~gawin: simulan muli ang programa, patakbuhin ito, at punuin ang screen ng entablado"
             },
             "options": {
                 "locale": "$~ginustong wika para sa output",
@@ -7384,7 +7385,7 @@
             "tour": {
                 "launch": "$~maglibot sa entablado",
                 "stage": "$~Ipinapakita ng /stage/ ang *kasalukuyang halaga* ng iyong programa. Ang halagang iyon ay maaaring isang *raw na halaga* tulad ng isang numero o listahan, *visual output* na nakikita mo, o kahit na *tunog* na naririnig mo.",
-                "reset": "$~Nire-rewind ng button na /reset/ ang ebalwasyon ng iyong programa pabalik sa *simula*, na nire-replay ang anumang oras, key, o input stream mula sa simula.",
+                "reset": "$~Ang /reset/ na pindutan ay nagsisimula muli sa pagtakbo ng iyong programa mula sa *simula*, sa anumang mode: sa ▶️ *play* ay tatakbo itong muli mula sa itaas, sa ✏️ *edit* ay hihinto ito pagkatapos ng unang pagtakbo para makita mo ang epekto ng iyong mga pagbabago sa unang output, at sa ⏸️ *debug* ay hihinto ito sa pinakaunang hakbang.",
                 "zoom": "$~Ang mga buton na /zoom/ ay nagbibigay-daan sa iyong mag-zoom *in* at *out* sa entablado para mas malinaw o mas detalyado mong makita ang iyong output.",
                 "grid": "$~Ang buton na /grid/ ay nagpapakita ng *grid* sa entablado, na nakakatulong para sa eksaktong paglalagay ng mga bagay habang nagdidisenyo ka.",
                 "lock": "$~Nila-lock ng buton na /lock/ ang view ng entablado sa lugar nito. Kapag *naka-lock*, nananatili itong hindi gumagalaw; kapag *naka-unlock*, malaya kang makakapag-pan at makakapag-zoom.",
@@ -7432,25 +7433,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~mode ng pagsusuri",
-                    "labels": ["$~i-edit", "$~patakbuhin", "$~hakbang"],
+                    "labels": ["$~i-edit", "$~i-debug", "$~laruin"],
                     "tips": [
-                        "$~lumipat sa mode ng pag-edit: baguhin ang programa habang nananatiling nakapirmi ang entablado sa kasalukuyang frame",
-                        "$~lumipat sa mode ng pagpapatakbo: patakbuhin ang programa nang live, tumutugon sa mga input sa totoong oras",
-                        "$~lumipat sa mode ng hakbang: itigil at magpatuloy nang paisa-isang hakbang sa pagsusuri ng programa"
+                        "$~lumipat sa edit mode: itigil ang programa kahit saan ito naroon at baguhin ito; ang mga pagbabago ay maglalaro muli para ipakita ang epekto sa puntong ito",
+                        "$~lumipat sa debug mode: dahan-dahang dumaan sa pagtakbo ng programa, na may mga halaga na ipinapakita sa tabi ng kodigo at sa palette",
+                        "$~lumipat sa play mode: patakbuhin nang buhay ang programa mula sa kinaroroonan nito, na tumutugon sa mga input sa tunay na oras"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~mode ng pagsusuri",
-                    "labels": ["$~tingnan", "$~patakbuhin", "$~hakbang"],
+                    "labels": ["$~tingnan", "$~i-debug", "$~laruin"],
                     "tips": [
-                        "$~lumipat sa mode ng pagtingin: basahin ang programa habang nananatiling nakapirmi ang entablado sa kasalukuyang frame",
-                        "$~lumipat sa mode ng pagpapatakbo: patakbuhin ang programa nang live, tumutugon sa mga input sa totoong oras",
-                        "$~lumipat sa mode ng hakbang: itigil at magpatuloy nang paisa-isang hakbang sa pagsusuri ng programa"
+                        "$~lumipat sa view mode: itigil ang programa kahit saan ito naroon at basahin ito",
+                        "$~lumipat sa debug mode: dahan-dahang dumaan sa pagtakbo ng programa, na may mga halaga na ipinapakita sa tabi ng kodigo at sa palette",
+                        "$~lumipat sa play mode: patakbuhin nang buhay ang programa mula sa kinaroroonan nito, na tumutugon sa mga input sa tunay na oras"
                     ]
                 },
                 "announce": "$~mode na $mode",
-                "exception": "$~May error ang programa, kaya lumipat ito sa mode ng hakbang para masuri mo ito.",
-                "toggle": "$~lumipat sa pagitan ng edit at play na mode"
+                "exception": "$~Nagkaroon ng mali ang programa, kaya lumipat ito sa debug mode para masuri mo ito.",
+                "toggle": "$~lumipat sa pagitan ng edit at play mode",
+                "resuming": "$~nagpapatuloy sa hakbang $position",
+                "performing": "$~pagtatanghal $number, mula sa umpisa"
             },
             "gate": {
                 "start": {
@@ -7494,12 +7497,12 @@
                 "reset": "$~i-restart ang pagganap"
             },
             "tour": {
-                "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong humakbang *pasulong* at *paatras* sa pagsusuri ng iyong programa, nang paisa-isang hakbang. Isa itong mahusay na paraan upang makita *kung paano* kinukuwenta ng iyong programa ang halaga nito, at upang bumuo ng isang mental na modelo kung paano sinusuri ng mga programang @wordplay, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
+                "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong maghakbang *pasulong* at *paatras* sa pagtakbo ng iyong programa, isang hakbang sa bawat pagkakataon. Lumalabas ito sa toolbar ng stage sa ✏️ *edit* at ⏸️ *debug* na mode, at magandang paraan ito para makita *kung paano* kinakalkula ng iyong programa ang halaga nito, at para makabuo ng ideya sa isip kung paano tumatakbo ang mga @wordplay na programa, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
                 "annotations": "$~Ang window na /annotations/ ay kung saan lumalabas ang mga paliwanag ng bawat hakbang. Habang tinatahak mo ang iyong programa, dito mo mababasa ang nangyari.",
                 "editor": "$~Ipinapakita ng /editor/ ang iyong code. Habang nag-step, ang *value* ng bawat bahagi ng iyong programa ay lilitaw sa tabi ng bahaging iyon *pagkatapos* itong masuri, para mapanood mo ang pagtaas ng mga value habang tumatakbo ang programa.",
                 "history": "$~Ipinapakita ng /history/ ang bawat *input* na natanggap ng iyong programa, tulad ng mga key, time tick, at pointer event. Ito ay *maaaring i-drag*, kaya maaari kang bumalik sa anumang sandali sa evaluation history ng programa sa pamamagitan lamang ng pag-drag.",
                 "stepControls": "$~Ang /step ang kumokontrol sa/ na nagbibigay-daan sa iyong tumpak na pag-usad sa pagsusuri. Maaari kang tumalon sa *simula* o *dulo*, humakbang *pasulong* o *paatras* nang paisa-isang hakbang, tumalon sa *isang input*, humakbang *palabas* ng isang function, o tumalon sa *kasalukuyang napili* na bahagi ng code.",
-                "modes": "$~Pinipili ng /pampalit ng mode/ kung paano susuriin ang iyong programa. Sa ✏️ mode ng *pag-edit*, binabago mo ang programa habang nananatiling nakapirmi ang entablado sa kasalukuyang frame. Sa ⏸️ mode ng *hakbang* — kung nasaan ka ngayon — humahakbang ka *pasulong* at *paurong* sa pagsusuri, at lumilitaw ang *kasalukuyang halaga* ng bawat bahagi ng iyong programa sa tabi nito sa editor. Sa ▶️ mode ng *pagpapatakbo*, tumatakbo ang iyong programa nang live, tumutugon sa mga input sa totoong oras."
+                "modes": "$~Ang /mode switcher/ ay pumipili kung paano tatakbo ang iyong programa. Sa ✏️ *edit* na mode, hihinto ang programa kung nasaan man ito at maaari mong baguhin — muling tatakbo ang iyong mga pagbabago para ipakita ang epekto sa puntong iyon. Sa ⏸️ *debug* na mode, ang kodigo ay para lamang basahin at ang *kasalukuyang halaga* ng bawat bahagi ng iyong programa ay lumalabas sa tabi nito sa editor at sa palette. Sa ▶️ *play* na mode, tumatakbo ang iyong programa nang live mula kung nasaan ito, tumutugon sa mga input sa totoong oras. Sa tabi ng switcher, ang /perform/ na pindutan — isang play na tatsulok na nakabalot sa mga sulok ng full screen — ay nagsisimula ng pagtakbo mula sa itaas at pinupuno ang screen ng stage, at ang ↻ ay nag-reset ng programa sa anumang mode."
             }
         },
         "docs": {
@@ -7968,7 +7971,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~musika",
+                        "label": "$~biswalisasyon",
                         "labels": [
                             "$~orkestra",
                             "$~palabas ng ilaw",
@@ -7985,7 +7988,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~lakas ng musika",
+                        "label": "$~lakas ng tunog",
                         "labels": ["$~patay", "$~mahina", "$~buo"],
                         "tips": [
                             "$~Patahimikin ang lahat ng musika",
@@ -7994,7 +7997,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~musika habang nagsasalita",
+                        "label": "$~habang nagsasalita",
                         "labels": ["$~mahina", "$~mas mahina", "$~tahimik"],
                         "tips": [
                             "$~Bahagyang hinaan ang musika habang may sinasabi",
@@ -8009,14 +8012,44 @@
                             "$~Huwag umugoy kasabay ng ritmo",
                             "$~Umugoy kasabay ng ritmo, kung sinusuportahan ito ng aparato"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~laki ng kapsyon",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Ipakita ang mas maliliit na kapsyon",
+                            "$~Ipakita ang mga kapsyon sa karaniwang laki",
+                            "$~Ipakita ang mga kapsyon na kalahati pang mas malaki",
+                            "$~Ipakita ang mga kapsyon na dalawang beses na mas malaki",
+                            "$~Ipakita ang mga kapsyon na tatlong beses na mas malaki"
+                        ]
                     }
                 },
                 "options": {
                     "face": "$~mukha ng font",
-                    "mic": "$~napiling mikropono",
-                    "camera": "$~napiling kamera",
-                    "voice": "$~napiling boses para kay Say",
+                    "mic": "$~mikropono",
+                    "camera": "$~kamera",
+                    "voice": "$~Boses na Magsasalita",
                     "default": "$~paunang"
+                },
+                "tab": {
+                    "label": "$~mga pangkat ng setting",
+                    "labels": [
+                        "$~Anyo",
+                        "$~Kodigo",
+                        "$~Kamera + Mikropono",
+                        "$~Tunog + Musika"
+                    ],
+                    "tips": [
+                        "$~kung paano lumitaw at gumana ang mismong Wordplay: font, mga kulay, mga tile, at animation",
+                        "$~kung paano lumitaw at gumana ang kodigo habang isinusulat mo ito",
+                        "$~kung aling kamera at mikropono ang binabasa ng mga programa",
+                        "$~kung paano umaabot sa iyo ang musika, pananalita, at caption ng isang programa"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musika",
+                    "say": "$~Sabihin"
                 }
             },
             "notifications": {
@@ -8320,7 +8353,7 @@
             },
             "tour": {
                 "launch": "$~maglibot sa paleta",
-                "palette": "$~Kapag *naka-pause* ang proyekto, maaari mong gamitin ang /palette/ para i-edit ang mga *parirala*, *grupo*, at ang *stage*.",
+                "palette": "$~Maaari mong gamitin ang /palette/ para baguhin ang mga *phrase*, *group*, at ang *stage* sa ✏️ *edit* na mode; sa ibang mode ang mga kontrol nito ay para lamang basahin, at sa ⏸️ *debug* na mode ang bawat property ay nagpapakita rin ng *kasalukuyang halaga* nito.",
                 "text": "$~Maaaring i-edit dito ang lahat ng /properties/ ng isang parirala. Ito ang *teksto* ng parirala, ngunit ang ibang mga katangian ay may sariling mga kontrol.",
                 "set": "$~Kapag kasalukuyang ginagamit ng isang property ang value nito na /default/, hinahayaan ka ng button na *pencil* na magtakda ng *explicit* value para dito.",
                 "unset": "$~Kapag ang isang property ay may nakatakdang halagang /explicit/, aalisin ng button na *X* ang halagang iyon, at ibabalik ang property sa *default* nito.",

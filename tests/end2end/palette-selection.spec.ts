@@ -11,7 +11,9 @@ import { grantClipboard } from '../helpers/clipboard';
  * Clearing used to live in ProjectView.setMode, which covered only an explicit collapse
  * gesture; it now lives in Palette.svelte's unmount, which covers every route that hides
  * the tile. This test guards the gesture that both implementations share — the other
- * routes (play mode, fullscreen, one-tile arrangements) unmount the same component.
+ * hiding routes (fullscreen, one-tile arrangements) unmount the same component. Entering
+ * play mode no longer hides the palette at all; setUIMode clears the selection there,
+ * since playing disables selection.
  */
 test('collapsing the palette clears the output selection underline', async ({
     page,

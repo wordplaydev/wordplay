@@ -271,7 +271,7 @@
                             "happy",
                             "$~Hầu hết các ngôn ngữ lập trình cung cấp một loại công cụ gỡ lỗi nào đó để giúp người sáng tạo hiểu và giải quyết các vấn đề trong code của họ. Nhưng nhiều người chỉ dùng câu lệnh in để kiểm tra value của các variable trong một console:",
                             "$~\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay cung cấp một trải nghiệm gỡ lỗi tinh vi hơn, cho phép bạn bước *tới* và *lùi* qua quá trình tính toán của nó. @UI/stepControls bước qua quá trình tính toán theo bất kỳ hướng nào, để bạn có thể xem một value được xây dựng như thế nào.",
+                            "$~@wordplay mang lại trải nghiệm gỡ lỗi tinh vi hơn, cho phép bạn bước *tới* và *lùi* qua quá trình tính toán của nó. Nhấn nút gỡ lỗi ⏸️ trong bộ chuyển chế độ @UI/modeSwitcher phía trên sân khấu để vào chế độ *gỡ lỗi*: value của mỗi expression sẽ hiện ngay bên cạnh nó trong code, và @UI/stepControls bước qua quá trình tính toán theo bất kỳ hướng nào, để bạn có thể xem cách một value được tạo nên.",
                             "$~Muốn được hướng dẫn thêm? Nút @UI/debugtour trong khu vực gỡ lỗi đưa ra một chuyến tham quan có hướng dẫn về các nút điều khiển này."
                         ]
                     ]

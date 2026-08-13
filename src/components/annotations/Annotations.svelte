@@ -118,7 +118,7 @@
 
     // While stepping, the annotations always show — they carry the step
     // explanations — and can't be toggled. The stored preference is untouched,
-    // so leaving step mode restores it.
+    // so leaving debug mode restores it.
     let isExpanded = $derived(
         stepping || (expanded !== undefined ? expanded : $showAnnotations),
     );

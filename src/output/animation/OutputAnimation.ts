@@ -658,6 +658,24 @@ export default class OutputAnimation {
         this.animator.updatedAnimationState(this);
     }
 
+    /**
+     * Hold this animation where it is, without finishing it.
+     *
+     * `done()` cancels and lets the output settle to its rest pose, which on
+     * resume reads as the animation having completed while the stage was
+     * frozen — an entrance the creator paused halfway through would come back
+     * already over. Pausing the WAAPI animation keeps its position, so playing
+     * again continues the same motion from the same frame.
+     */
+    suspend() {
+        if (this.animation?.playState === 'running') this.animation.pause();
+    }
+
+    /** Continue an animation held by `suspend`. */
+    resume() {
+        if (this.animation?.playState === 'paused') this.animation.play();
+    }
+
     done() {
         this.log(`Animation is done`);
 

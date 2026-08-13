@@ -177,7 +177,7 @@ export default class Evaluator {
 
     /**
      * True if new stream inputs should be discarded entirely, neither recorded nor evaluated.
-     * Set while the project is in edit or step mode, where the evaluator is navigating a
+     * Set while the project is in edit or debug mode, where the evaluator is navigating a
      * frozen input history that stray interactions must not extend. Never blocks mirror() replay.
      */
     #ignoringInputs = false;
@@ -476,6 +476,7 @@ export default class Evaluator {
                 this.setMode(Mode.Step);
             }
         }
+
     }
 
     // GETTERS
@@ -1485,8 +1486,22 @@ export default class Evaluator {
         return this.reactions[0];
     }
 
+    /**
+     * True while evaluating this run's first evaluation — before any stream reaction —
+     * including when replaying it from the past.
+     *
+     * `reactions.length === 1` answered a different question: whether any reaction has ever
+     * happened. That stays true forever once a stream ticks, so stepping back to replay the
+     * very first evaluation reported false, and `◆` was false in the one evaluation it is
+     * defined to be true in.
+     */
     isInitialEvaluation() {
-        return this.reactions.length === 1;
+        const first = this.reactions[0];
+        // Trimming drops the oldest reactions, so a first entry no longer at zero means the
+        // initial evaluation has scrolled out of the history entirely and can't be replayed.
+        if (first === undefined || first.stepIndex !== 0) return false;
+        const second = this.reactions[1];
+        return second === undefined || this.getStepIndex() < second.stepIndex;
     }
 
     didStreamCauseReaction(stream: StreamValue) {
@@ -1727,7 +1742,7 @@ export default class Evaluator {
     }
 
     react(stream: StreamValue, raw: unknown, silent: boolean) {
-        // Discard inputs entirely in edit/step mode, but never during mirror() replay.
+        // Discard inputs entirely in edit/debug mode, but never during mirror() replay.
         if (this.#ignoringInputs && !this.#replayingInputs) return;
         if (!(stream instanceof Reaction)) {
             // Find the evaluate to which it corresponds.

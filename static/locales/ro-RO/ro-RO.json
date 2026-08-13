@@ -7384,7 +7384,8 @@
                 "zoomOut": "$~micșorați imaginea de pe scenă",
                 "resetZoom": "$~resetează zoom-ul la poziția scenei",
                 "rotate": "$~rotește $name",
-                "resize": "$~redimensionează $name"
+                "resize": "$~redimensionează $name",
+                "perform": "$~execută: repornește programul, rulează-l și umple ecranul cu scena"
             },
             "options": {
                 "locale": "$~limba preferată pentru ieșire",
@@ -7393,7 +7394,7 @@
             "tour": {
                 "launch": "$~faceți un tur al scenei",
                 "stage": "$~/Stage/ arată *valoarea curentă* a programului. Această valoare poate fi o *valoare brută*, cum ar fi un număr sau o listă, un *rezultat vizual* pe care îl puteți vedea sau chiar un *sunet* pe care îl puteți auzi.",
-                "reset": "$~Butonul /resetare/ derulează înapoi evaluarea programului la *început*, redând orice timp, tonalitate sau fluxuri de intrare de la zero.",
+                "reset": "$~Butonul /resetare/ pornește din nou evaluarea programului tău de la *început*, în orice mod: în ▶️ *redare* rulează din nou de la capăt, în ✏️ *editare* se oprește după prima evaluare ca să vezi efectul modificărilor tale asupra rezultatului inițial, iar în ⏸️ *depanare* se oprește chiar la primul pas.",
                 "zoom": "$~Butoanele /zoom/ vă permit să măriți și să micșorați imaginea pe scenă, astfel încât să puteți vedea rezultatul mai clar sau mai detaliat.",
                 "grid": "$~Butonul /grilă/ afișează o *grilă* pe scenă, utilă pentru plasarea precisă a obiectelor în timp ce proiectați.",
                 "lock": "$~Butonul /blocare/ blochează vizualizarea scenei. Când este *blocat*, scena rămâne nemișcată; când este *deblocat*, poți panorama și mări liber.",
@@ -7441,25 +7442,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~mod de evaluare",
-                    "labels": ["$~editare", "$~redare", "$~pas"],
+                    "labels": ["$~editează", "$~depanează", "$~redă"],
                     "tips": [
-                        "$~treci la modul de editare: schimbă programul în timp ce scena rămâne oprită pe cadrul actual",
-                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real",
-                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând"
+                        "$~treci la modul de editare: pune programul pe pauză oriunde se află și modifică-l; modificările se rejoacă pentru a arăta efectul lor în acest punct",
+                        "$~treci la modul de depanare: parcurge pas cu pas evaluarea programului, cu valorile arătate lângă cod și în paletă",
+                        "$~treci la modul de rulare: rulează programul în direct de unde se află, răspunzând la intrări în timp real"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~mod de evaluare",
-                    "labels": ["$~vizualizare", "$~redare", "$~pas"],
+                    "labels": ["$~vezi", "$~depanează", "$~redă"],
                     "tips": [
-                        "$~treci la modul de vizualizare: citește programul în timp ce scena rămâne oprită pe cadrul actual",
-                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real",
-                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând"
+                        "$~treci la modul de vizualizare: pune programul pe pauză oriunde se află și citește-l",
+                        "$~treci la modul de depanare: parcurge pas cu pas evaluarea programului, cu valorile arătate lângă cod și în paletă",
+                        "$~treci la modul de rulare: rulează programul în direct de unde se află, răspunzând la intrări în timp real"
                     ]
                 },
                 "announce": "$~mod $mode",
-                "exception": "$~Programul a avut o eroare, așa că a trecut la modul pas cu pas ca să îl poți examina.",
-                "toggle": "$~comută între modul de editare și modul de joacă"
+                "exception": "$~Programul a avut o eroare, așa că a trecut la modul de depanare ca să îl poți examina.",
+                "toggle": "$~comută între modurile editare și redare",
+                "resuming": "$~se reia la pasul $position",
+                "performing": "$~execuția $number, de la început"
             },
             "gate": {
                 "start": {
@@ -7503,12 +7506,12 @@
                 "reset": "$~repornirea performanței"
             },
             "tour": {
-                "timeline": "$~/Cronologia/ vă permite să parcurgeți *pașii înainte* și *pașii înapoi* prin evaluarea programului, pas cu pas. Este o modalitate excelentă de a vedea *cum* își calculează programul valoarea și de a construi un model mental al modului în care programele @wordplay sunt evaluate, mai ales dacă nu observați comportamentul dorit.",
+                "timeline": "$~/Cronologia/ îți permite să treci *înainte* și *înapoi* prin evaluarea programului tău, câte un pas pe rând. Apare în bara de instrumente a scenei în modurile ✏️ *editare* și ⏸️ *depanare* și este o cale bună să vezi *cum* calculează programul tău valoarea și să îți creezi o imagine mentală despre cum evaluează programele @wordplay, mai ales dacă nu vezi comportamentul pe care îl vrei.",
                 "annotations": "$~Fereastra /adnotări/ este locul unde apar explicațiile fiecărui pas. Pe măsură ce parcurgeți programul, aici veți citi ce tocmai s-a întâmplat.",
                 "editor": "$~/Editorul/ afișează codul. În timpul execuției pas cu pas, *valoarea* fiecărei părți a programului va apărea lângă acea parte *după* evaluare, astfel încât să puteți urmări cum se acumulează valori pe măsură ce programul rulează.",
                 "history": "$~/Istoricul/ afișează fiecare *intrare* pe care programul a primit-o, cum ar fi chei, intervale de timp și evenimente de indicator. Este *glisabil*, așa că poți reveni la orice moment din istoricul de evaluare al programului pur și simplu trăgând.",
                 "stepControls": "$~Comenzile /step/ vă permit să parcurgeți evaluarea cu precizie. Puteți sări la *start* sau *sfârșit*, să mergeți *înainte* sau *înapoi* pas cu pas, să săriți cu *o intrare*, să ieșiți *din funcție* sau să sari la partea *selectată în prezent* a codului.",
-                "modes": "$~/Comutatorul de mod/ alege cum se evaluează programul tău. În modul ✏️ *editare*, schimbi programul în timp ce scena rămâne oprită pe cadrul actual. În modul ⏸️ *pas cu pas* — unde te afli acum — parcurgi *înainte* și *înapoi* prin evaluare, iar *valoarea actuală* a fiecărei părți a programului tău apare lângă ea în editor. În modul ▶️ *redare*, programul tău rulează în direct, răspunzând la intrări în timp real."
+                "modes": "$~/Comutatorul de mod/ alege cum evaluează programul tău. În modul ✏️ *editare*, programul se oprește acolo unde este și îl poți schimba — modificările tale se redau din nou ca să arate efectul lor în acel punct. În modul ⏸️ *depanare*, codul se poate doar citi, iar *valoarea curentă* a fiecărei părți din programul tău apare lângă ea în editor și în paletă. În modul ▶️ *redare*, programul tău rulează în direct de acolo unde este și răspunde la intrări în timp real. Lângă comutator, butonul /executare/ — un triunghi de redare încadrat de colțuri de ecran complet — pornește o execuție de la capăt și umple ecranul cu scena, iar ↻ resetează programul în orice mod."
             }
         },
         "tour": {
@@ -7988,7 +7991,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~muzică",
+                        "label": "$~vizualizare",
                         "labels": [
                             "$~orchestră",
                             "$~spectacol de lumini",
@@ -8005,7 +8008,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~volumul muzicii",
+                        "label": "$~volum",
                         "labels": ["$~oprit", "$~încet", "$~maxim"],
                         "tips": [
                             "$~Oprește sunetul întregii muzici",
@@ -8014,7 +8017,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~muzica în timp ce se vorbește",
+                        "label": "$~în timp ce vorbește",
                         "labels": ["$~încet", "$~mai încet", "$~fără sunet"],
                         "tips": [
                             "$~Dă muzica puțin mai încet când se spune ceva",
@@ -8029,14 +8032,44 @@
                             "$~Nu vibra pe ritm",
                             "$~Vibrează pe ritm, acolo unde dispozitivul acceptă asta"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~mărimea subtitrării",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Arată subtitrări mai mici",
+                            "$~Arată subtitrări la mărimea standard",
+                            "$~Arată subtitrări cu jumătate mai mari",
+                            "$~Arată subtitrări de două ori mai mari",
+                            "$~Arată subtitrări de trei ori mai mari"
+                        ]
                     }
                 },
                 "options": {
                     "face": "$~font",
-                    "mic": "$~microfon selectat",
-                    "camera": "$~cameră selectată",
-                    "voice": "$~voce selectată pentru Say",
+                    "mic": "$~microfon",
+                    "camera": "$~cameră",
+                    "voice": "$~Voce Say",
                     "default": "$~implicit"
+                },
+                "tab": {
+                    "label": "$~grupuri de setări",
+                    "labels": [
+                        "$~Aspect",
+                        "$~Cod",
+                        "$~Cameră + Microfon",
+                        "$~Sunet + Muzică"
+                    ],
+                    "tips": [
+                        "$~cum arată și se simte Wordplay în sine: fontul, culorile, plăcile și animația",
+                        "$~cum arată și se simte codul în timp ce îl scrii",
+                        "$~de la ce cameră și microfon citesc programele",
+                        "$~cum ajung la tine muzica, vorbirea și subtitrările unui program"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Muzică",
+                    "say": "$~Say"
                 }
             },
             "notifications": {
@@ -8340,7 +8373,7 @@
             },
             "tour": {
                 "launch": "$~fă un tur al paletei",
-                "palette": "$~Când proiectul este *în pauză*, puteți folosi /paleta/ pentru a edita *fraze*, *grupuri* și *scena*.",
+                "palette": "$~Poți folosi /paleta/ ca să editezi *frazele*, *grupurile* și *scena* în modul ✏️ *editare*; în alte moduri controalele ei se pot doar citi, iar în modul ⏸️ *depanare* fiecare proprietate arată și *valoarea sa curentă*.",
                 "text": "$~Toate /proprietățile/ unei fraze pot fi editate aici. Acesta este *textul* frazei, dar celelalte proprietăți au propriile controale.",
                 "set": "$~Când o proprietate folosește în prezent valoarea sa /implicită/, butonul *creion* vă permite să setați o valoare *explicită* pentru aceasta.",
                 "unset": "$~Când o proprietate are setată o valoare /explicită/, butonul *X* elimină acea valoare, readucând proprietatea la valoarea *implicită*.",

@@ -7129,7 +7129,8 @@
                 "zoomOut": "$~Zoomen Sie von der Bühne heraus.",
                 "rotate": "$~rotate $name",
                 "resize": "$~resize $name",
-                "resetZoom": "$~Zoom auf die Bühne zurücksetzen"
+                "resetZoom": "$~Zoom auf die Bühne zurücksetzen",
+                "perform": "$~aufführen: das Programm neu starten, abspielen und den Bildschirm mit der Bühne füllen"
             },
             "options": {
                 "locale": "$~Wählen Sie die Sprache für die Ausgabe",
@@ -7138,7 +7139,7 @@
             "tour": {
                 "launch": "$~Machen Sie einen Rundgang über die Bühne",
                 "stage": "$~Die Variable /stage/ zeigt den *aktuellen Wert* Ihres Programms an. Dieser Wert kann ein *Rohwert* wie eine Zahl oder Liste, eine *visuelle Ausgabe*, die Sie sehen können, oder sogar ein *Ton*, den Sie hören können, sein.",
-                "reset": "$~Mit der Schaltfläche „Zurücksetzen“ wird die Auswertung Ihres Programms bis zum *Anfang* zurückgespult, wobei alle Zeit-, Tasten- oder Eingabeströme von Grund auf neu abgespielt werden.",
+                "reset": "$~Die Schaltfläche /Zurücksetzen/ startet die Auswertung deines Programms wieder von *vorne*, in jedem Modus: In ▶️ *Wiedergabe* läuft es wieder von oben, in ✏️ *Bearbeiten* pausiert es nach der ersten Auswertung, damit du siehst, wie sich deine Änderungen auf die erste Ausgabe auswirken, und in ⏸️ *Fehlersuche* pausiert es beim allerersten Schritt.",
                 "zoom": "$~Mit den /zoom/-Tasten können Sie in die Bühne hinein- und herauszoomen, um Ihre Ausgabe klarer oder detaillierter zu sehen.",
                 "grid": "$~Die Schaltfläche /grid/ zeigt ein *Raster* auf der Bühne an, das beim Entwerfen hilfreich ist, um Elemente präzise zu platzieren.",
                 "lock": "$~Die Schaltfläche „Sperren“ fixiert die Bühnenansicht. Im gesperrten Zustand bleibt die Bühne still; im entsperrten Zustand können Sie frei schwenken und zoomen.",
@@ -7186,25 +7187,31 @@
             "mode": {
                 "evaluation": {
                     "label": "$~Auswertungsmodus",
-                    "labels": ["$~bearbeiten", "$~abspielen", "$~Schritt"],
+                    "labels": [
+                        "$~bearbeiten",
+                        "$~Fehler suchen",
+                        "$~abspielen"
+                    ],
                     "tips": [
-                        "$~in den Bearbeitungsmodus wechseln: ändere das Programm, während die Bühne im aktuellen Bild eingefroren bleibt",
-                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren",
-                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms"
+                        "$~in den Bearbeitungsmodus wechseln: das Programm an seiner Stelle anhalten und ändern; Änderungen werden erneut abgespielt, um ihre Wirkung an dieser Stelle zu zeigen",
+                        "$~in den Fehlersuch-Modus wechseln: die Auswertung des Programms Schritt für Schritt durchgehen, wobei die Werte neben dem Code und in der Palette angezeigt werden",
+                        "$~in den Abspielmodus wechseln: das Programm live von seiner Stelle aus laufen lassen und in Echtzeit auf Eingaben reagieren"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~Auswertungsmodus",
-                    "labels": ["$~ansehen", "$~abspielen", "$~Schritt"],
+                    "labels": ["$~ansehen", "$~Fehler suchen", "$~abspielen"],
                     "tips": [
-                        "$~in den Ansichtsmodus wechseln: lies das Programm, während die Bühne im aktuellen Bild eingefroren bleibt",
-                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren",
-                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms"
+                        "$~in den Ansichtsmodus wechseln: das Programm an seiner Stelle anhalten und lesen",
+                        "$~in den Fehlersuch-Modus wechseln: die Auswertung des Programms Schritt für Schritt durchgehen, wobei die Werte neben dem Code und in der Palette angezeigt werden",
+                        "$~in den Abspielmodus wechseln: das Programm live von seiner Stelle aus laufen lassen und in Echtzeit auf Eingaben reagieren"
                     ]
                 },
                 "announce": "$~$mode-Modus",
-                "exception": "$~Das Programm hatte einen Fehler, deshalb ist es in den Schrittmodus gewechselt, damit du ihn untersuchen kannst.",
-                "toggle": "$~zwischen Bearbeiten- und Spielmodus wechseln"
+                "exception": "$~Das Programm hatte einen Fehler, deshalb ist es in den Fehlersuch-Modus gewechselt, damit du es untersuchen kannst.",
+                "toggle": "$~zwischen Bearbeiten- und Wiedergabe-Modus wechseln",
+                "resuming": "$~weiter bei Schritt $position",
+                "performing": "$~Aufführung $number, von Anfang an"
             },
             "gate": {
                 "start": {
@@ -7248,12 +7255,12 @@
                 "reset": "$~Leistung neu starten"
             },
             "tour": {
-                "timeline": "$~Die Zeitleiste ermöglicht es Ihnen, die Auswertung Ihres Programms Schritt für Schritt vorwärts und rückwärts zu verfolgen. So können Sie optimal nachvollziehen, wie Ihr Programm seinen Wert berechnet und sich ein Bild davon machen, wie @wordplay-Programme ausgewertet werden – insbesondere, wenn Sie nicht die gewünschten Ergebnisse erzielen.",
+                "timeline": "$~Mit der /Zeitleiste/ kannst du *vorwärts* und *rückwärts* durch die Auswertung deines Programms gehen, einen Schritt nach dem anderen. Sie erscheint in der Werkzeugleiste der Bühne im ✏️ *Bearbeiten*- und ⏸️ *Fehlersuche*-Modus. Sie ist eine gute Möglichkeit zu sehen, *wie* dein Programm seinen Wert berechnet, und um eine Vorstellung davon aufzubauen, wie @wordplay-Programme auswerten – besonders, wenn du nicht das Verhalten siehst, das du möchtest.",
                 "annotations": "$~Im Fenster „/annotations/“ werden die Erläuterungen zu jedem einzelnen Schritt angezeigt. Während Sie Ihr Programm schrittweise ausführen, können Sie hier nachlesen, was gerade passiert ist.",
                 "editor": "$~Der Editor zeigt Ihren Code an. Beim schrittweisen Ausführen wird der *Wert* jedes Programmteils neben diesem Teil angezeigt, *nachdem* er ausgewertet wurde. So können Sie beobachten, wie sich die Werte während der Programmausführung ansammeln.",
                 "history": "$~Das Verzeichnis /history/ zeigt alle *Eingaben* an, die Ihr Programm erhalten hat, wie z. B. Tastatureingaben, Zeitstempel und Mausereignisse. Es ist *verschiebbar*, sodass Sie durch einfaches Ziehen zu jedem beliebigen Zeitpunkt in der Programmhistorie zurückkehren können.",
                 "stepControls": "$~Die Schrittsteuerung ermöglicht eine präzise Navigation durch die Auswertung. Sie können zum *Anfang* oder *Ende* springen, schrittweise *vorwärts* oder *rückwärts* gehen, um *eine Eingabe* springen, eine Funktion *verlassen* oder zum *aktuell ausgewählten* Teil des Codes springen.",
-                "modes": "$~Der /Modus-Umschalter/ wählt aus, wie dein Programm ausgewertet wird. Im ✏️ *Bearbeitungsmodus* änderst du das Programm, während die Bühne im aktuellen Bild eingefroren bleibt. Im ⏸️ *Schrittmodus* — wo du gerade bist — gehst du *vorwärts* und *rückwärts* durch die Auswertung, und der *aktuelle Wert* jedes Teils deines Programms erscheint daneben im Editor. Im ▶️ *Abspielmodus* läuft dein Programm live und reagiert auf Eingaben in Echtzeit."
+                "modes": "$~Der /Modus-Umschalter/ wählt aus, wie dein Programm auswertet. Im ✏️ *Bearbeiten*-Modus pausiert das Programm dort, wo es gerade ist, und du kannst es ändern – deine Änderungen laufen erneut, um ihre Wirkung an dieser Stelle zu zeigen. Im ⏸️ *Fehlersuche*-Modus ist der Code nur lesbar, und der *aktuelle Wert* jedes Teils deines Programms erscheint daneben im Editor und in der Palette. Im ▶️ *Wiedergabe*-Modus läuft dein Programm live von dort, wo es ist, und reagiert in Echtzeit auf Eingaben. Neben dem Umschalter beginnt die Schaltfläche /Vorführen/ – ein Wiedergabe-Dreieck, umgeben von Vollbild-Ecken – eine Vorführung von oben und füllt den Bildschirm mit der Bühne, und ↻ setzt das Programm in jedem Modus zurück."
             }
         },
         "docs": {
@@ -7725,7 +7732,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~Musik",
+                        "label": "$~Darstellung",
                         "labels": [
                             "$~Orchester",
                             "$~Lichtshow",
@@ -7742,7 +7749,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~Musiklautstärke",
+                        "label": "$~Lautstärke",
                         "labels": ["$~aus", "$~leise", "$~voll"],
                         "tips": [
                             "$~Alle Musik stummschalten",
@@ -7751,7 +7758,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~Musik beim Sprechen",
+                        "label": "$~beim Sprechen",
                         "labels": ["$~leise", "$~leiser", "$~still"],
                         "tips": [
                             "$~Musik ein wenig leiser machen, während etwas gesprochen wird",
@@ -7766,14 +7773,44 @@
                             "$~Nicht im Takt vibrieren",
                             "$~Im Takt vibrieren, wenn das Gerät es unterstützt"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~Untertitelgröße",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Kleinere Untertitel anzeigen",
+                            "$~Untertitel in der Standardgröße anzeigen",
+                            "$~Untertitel eineinhalbmal so groß anzeigen",
+                            "$~Untertitel doppelt so groß anzeigen",
+                            "$~Untertitel dreimal so groß anzeigen"
+                        ]
                     }
                 },
                 "options": {
-                    "mic": "$~ausgewähltes Mikrofon",
-                    "camera": "$~ausgewählte Kamera",
+                    "mic": "$~Mikrofon",
+                    "camera": "$~Kamera",
                     "face": "$~Schriftart",
                     "default": "$~Standard",
-                    "voice": "$~ausgewählte Stimme für Say"
+                    "voice": "$~Sprich mit Stimme"
+                },
+                "tab": {
+                    "label": "$~Einstellungsgruppen",
+                    "labels": [
+                        "$~Aussehen",
+                        "$~Code",
+                        "$~Kamera + Mikrofon",
+                        "$~Ton + Musik"
+                    ],
+                    "tips": [
+                        "$~wie Wordplay selbst aussieht und wirkt: Schrift, Farben, Kacheln und Animation",
+                        "$~wie Code aussieht und wirkt, während du ihn schreibst",
+                        "$~von welcher Kamera und welchem Mikrofon Programme lesen",
+                        "$~wie die Musik, die Sprache und die Untertitel eines Programms zu dir gelangen"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Sprich"
                 }
             },
             "locale": {
@@ -8002,7 +8039,7 @@
             },
             "tour": {
                 "launch": "$~Machen Sie einen Rundgang durch die Farbpalette",
-                "palette": "$~Wenn das Projekt *pausiert* ist, können Sie über die /Palette/ *Phrasen*, *Gruppen* und die *Phase* bearbeiten.",
+                "palette": "$~Du kannst die /Palette/ verwenden, um *Phrasen*, *Gruppen* und die *Bühne* im ✏️ *Bearbeiten*-Modus zu bearbeiten. In anderen Modi sind ihre Steuerungen nur lesbar, und im ⏸️ *Fehlersuche*-Modus zeigt jede Eigenschaft auch ihren *aktuellen Wert*.",
                 "text": "$~Alle Eigenschaften eines Satzes können hier bearbeitet werden. Dies ist der *Text* des Satzes, aber andere Eigenschaften haben ihre eigenen Steuerelemente.",
                 "set": "$~Wenn eine Eigenschaft aktuell ihren Standardwert verwendet, können Sie mit der *Stift*-Schaltfläche einen *expliziten* Wert dafür festlegen.",
                 "unset": "$~Wenn für eine Eigenschaft ein /expliziter/ Wert festgelegt ist, entfernt die Schaltfläche *X* diesen Wert und stellt die Eigenschaft auf ihren *Standardwert* zurück.",

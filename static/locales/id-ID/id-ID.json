@@ -7384,7 +7384,8 @@
                 "zoomOut": "$~menjauh dari panggung",
                 "resetZoom": "$~Atur ulang zoom ke posisi panggung.",
                 "rotate": "$~putar $name",
-                "resize": "$~ubah ukuran $name"
+                "resize": "$~ubah ukuran $name",
+                "perform": "$~tampilkan: mulai ulang program, jalankan, dan penuhi layar dengan panggung"
             },
             "options": {
                 "locale": "$~bahasa pilihan untuk output",
@@ -7393,7 +7394,7 @@
             "tour": {
                 "launch": "$~ikuti tur panggung",
                 "stage": "$~Tahap ini menampilkan *nilai saat ini* program Anda. Nilai tersebut bisa berupa *nilai mentah* seperti angka atau daftar, *output visual* yang dapat Anda lihat, atau bahkan *suara* yang dapat Anda dengar.",
-                "reset": "$~Tombol /reset/ memundurkan evaluasi program Anda kembali ke *awal*, memutar ulang setiap waktu, kunci, atau aliran input dari awal.",
+                "reset": "$~Tombol /reset/ memulai kembali evaluasi programmu dari *awal*, di mode mana pun: di ▶️ *play* program berjalan lagi dari atas, di ✏️ *edit* program berhenti setelah evaluasi pertama agar kamu bisa melihat efek suntinganmu pada output awal, dan di ⏸️ *debug* program berhenti tepat di langkah pertama.",
                 "zoom": "$~Tombol /zoom/ memungkinkan Anda memperbesar dan memperkecil tampilan panggung sehingga Anda dapat melihat hasil karya Anda dengan lebih jelas atau lebih detail.",
                 "grid": "$~Tombol /grid/ menampilkan *grid* di atas panggung, berguna untuk menempatkan berbagai hal secara tepat saat Anda mendesain.",
                 "lock": "$~Tombol /lock/ mengunci tampilan panggung. Saat *terkunci*, panggung tetap diam; saat *tidak terkunci*, Anda dapat menggeser dan memperbesar tampilan dengan bebas.",
@@ -7441,25 +7442,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~mode evaluasi",
-                    "labels": ["$~ubah", "$~jalankan", "$~langkah"],
+                    "labels": ["$~sunting", "$~debug", "$~mainkan"],
                     "tips": [
-                        "$~beralih ke mode ubah: ubah program sementara panggung tetap membeku pada bingkai saat ini",
-                        "$~beralih ke mode jalankan: jalankan program secara langsung, menanggapi masukan secara langsung",
-                        "$~beralih ke mode langkah: jeda dan telusuri evaluasi program, satu langkah demi satu langkah"
+                        "$~beralih ke mode edit: jeda program di mana pun berada lalu ubah; hasil edit diputar ulang untuk menunjukkan efeknya di titik ini",
+                        "$~beralih ke mode debug: telusuri langkah demi langkah evaluasi program, dengan nilai ditampilkan di samping kode dan di palet",
+                        "$~beralih ke mode main: jalankan program secara langsung dari posisinya, merespons masukan secara langsung"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~mode evaluasi",
-                    "labels": ["$~lihat", "$~jalankan", "$~langkah"],
+                    "labels": ["$~lihat", "$~debug", "$~mainkan"],
                     "tips": [
-                        "$~beralih ke mode lihat: baca program sementara panggung tetap membeku pada bingkai saat ini",
-                        "$~beralih ke mode jalankan: jalankan program secara langsung, menanggapi masukan secara langsung",
-                        "$~beralih ke mode langkah: jeda dan telusuri evaluasi program, satu langkah demi satu langkah"
+                        "$~beralih ke mode lihat: jeda program di mana pun berada lalu baca",
+                        "$~beralih ke mode debug: telusuri langkah demi langkah evaluasi program, dengan nilai ditampilkan di samping kode dan di palet",
+                        "$~beralih ke mode main: jalankan program secara langsung dari posisinya, merespons masukan secara langsung"
                     ]
                 },
                 "announce": "$~mode $mode",
-                "exception": "$~Program mengalami kesalahan, jadi program beralih ke mode langkah agar kamu bisa memeriksanya.",
-                "toggle": "$~beralih antara mode edit dan mode bermain"
+                "exception": "$~Program mengalami kesalahan, jadi program beralih ke mode debug agar kamu dapat memeriksanya.",
+                "toggle": "$~beralih antara mode edit dan play",
+                "resuming": "$~melanjutkan pada langkah $position",
+                "performing": "$~pertunjukan $number, dari awal"
             },
             "gate": {
                 "start": {
@@ -7503,12 +7506,12 @@
                 "reset": "$~memulai ulang kinerja"
             },
             "tour": {
-                "timeline": "$~Fitur /timeline/ memungkinkan Anda melangkah *maju* dan *mundur* melalui evaluasi program Anda, selangkah demi selangkah. Ini adalah cara yang bagus untuk melihat *bagaimana* program Anda menghitung nilainya, dan untuk membangun model mental tentang bagaimana program @wordplay melakukan evaluasi, terutama jika Anda tidak melihat perilaku yang Anda inginkan.",
+                "timeline": "$~/timeline/ memungkinkan kamu melangkah *maju* dan *mundur* melewati evaluasi programmu, satu langkah setiap kali. Ini muncul di bilah alat panggung dalam mode ✏️ *edit* dan ⏸️ *debug*. Ini cara yang bagus untuk melihat *bagaimana* programmu menghitung nilainya, dan untuk membangun gambaran di kepalamu tentang cara program @wordplay dievaluasi, terutama jika kamu belum melihat perilaku yang kamu inginkan.",
                 "annotations": "$~Jendela /annotations/ adalah tempat penjelasan setiap langkah muncul. Saat Anda menjalankan program langkah demi langkah, di sinilah Anda akan membaca apa yang baru saja terjadi.",
                 "editor": "$~Editor menampilkan kode Anda. Saat melakukan eksekusi langkah demi langkah, *nilai* setiap bagian program Anda akan muncul di sebelah bagian tersebut *setelah* dievaluasi, sehingga Anda dapat melihat nilai-nilai tersebut bertambah seiring berjalannya program.",
                 "history": "$~Bagian /history/ menampilkan setiap *input* yang diterima program Anda, seperti tombol, detak waktu, dan kejadian penunjuk. Bagian ini *dapat diseret*, sehingga Anda dapat kembali ke momen mana pun dalam riwayat evaluasi program hanya dengan menyeretnya.",
                 "stepControls": "$~Kontrol langkah memungkinkan Anda untuk bergerak melalui evaluasi dengan tepat. Anda dapat melompat ke *awal* atau *akhir*, melangkah *maju* atau *mundur* satu langkah pada satu waktu, melompat sebanyak *satu input*, keluar dari suatu fungsi, atau melompat ke bagian kode yang *sedang dipilih*.",
-                "modes": "$~/Pengalih mode/ memilih cara program kamu dievaluasi. Dalam mode ✏️ *ubah*, kamu mengubah program sementara panggung tetap membeku pada bingkai saat ini. Dalam mode ⏸️ *langkah* — tempat kamu sekarang — kamu melangkah *maju* dan *mundur* melalui evaluasi, dan *nilai saat ini* dari setiap bagian program kamu muncul di sebelahnya di editor. Dalam mode ▶️ *jalankan*, program kamu berjalan secara langsung, menanggapi masukan secara langsung."
+                "modes": "$~/mode switcher/ memilih cara programmu dievaluasi. Di mode ✏️ *edit*, program berhenti di posisinya dan kamu bisa mengubahnya — suntinganmu diputar ulang untuk menunjukkan efeknya di titik itu. Di mode ⏸️ *debug*, kode hanya bisa dibaca dan *nilai saat ini* dari setiap bagian programmu muncul di sebelahnya di editor dan di palet. Di mode ▶️ *play*, programmu berjalan langsung dari posisinya, menanggapi input secara langsung. Di samping switcher, tombol /perform/ — sebuah segitiga play yang dikelilingi sudut layar penuh — memulai pertunjukan dari atas dan memenuhi layar dengan panggung, dan ↻ mereset program di mode mana pun."
             }
         },
         "tour": {
@@ -7985,7 +7988,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~musik",
+                        "label": "$~visualisasi",
                         "labels": [
                             "$~orkestra",
                             "$~pertunjukan cahaya",
@@ -8002,7 +8005,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~volume musik",
+                        "label": "$~volume",
                         "labels": ["$~mati", "$~pelan", "$~penuh"],
                         "tips": [
                             "$~Matikan semua musik",
@@ -8011,7 +8014,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~musik saat berbicara",
+                        "label": "$~saat berbicara",
                         "labels": ["$~pelan", "$~lebih pelan", "$~sunyi"],
                         "tips": [
                             "$~Turunkan musik sedikit saat ada yang diucapkan",
@@ -8026,14 +8029,44 @@
                             "$~Jangan bergetar mengikuti irama",
                             "$~Bergetar mengikuti irama, jika perangkat mendukungnya"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~ukuran keterangan",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Tampilkan keterangan yang lebih kecil",
+                            "$~Tampilkan keterangan dengan ukuran standar",
+                            "$~Tampilkan keterangan satu setengah kali lebih besar",
+                            "$~Tampilkan keterangan dua kali lebih besar",
+                            "$~Tampilkan keterangan tiga kali lebih besar"
+                        ]
                     }
                 },
                 "options": {
                     "face": "$~huruf muka",
-                    "mic": "$~mikrofon yang dipilih",
-                    "camera": "$~kamera terpilih",
-                    "voice": "$~suara terpilih untuk Say",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
+                    "voice": "$~Suara ucapan",
                     "default": "$~bawaan"
+                },
+                "tab": {
+                    "label": "$~grup pengaturan",
+                    "labels": [
+                        "$~Tampilan",
+                        "$~Kode",
+                        "$~Kamera + Mikrofon",
+                        "$~Suara + Musik"
+                    ],
+                    "tips": [
+                        "$~bagaimana tampilan dan rasa Wordplay itu sendiri: huruf, warna, ubin, dan animasi",
+                        "$~bagaimana tampilan dan rasa kode saat kamu menuliskannya",
+                        "$~kamera dan mikrofon mana yang dibaca oleh program",
+                        "$~bagaimana musik, ucapan, dan teks sebuah program sampai kepadamu"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Ucapkan"
                 }
             },
             "notifications": {
@@ -8337,7 +8370,7 @@
             },
             "tour": {
                 "launch": "$~jelajahi palet warnanya",
-                "palette": "$~Saat proyek dijeda, Anda dapat menggunakan palet untuk mengedit frasa, grup, dan tahap.",
+                "palette": "$~Kamu bisa memakai /palette/ untuk menyunting *frasa*, *grup*, dan *panggung* di mode ✏️ *edit*; di mode lain kontrolnya hanya bisa dibaca, dan di mode ⏸️ *debug* setiap properti juga menampilkan *nilai saat ini*.",
                 "text": "$~Semua properti dari sebuah frasa dapat diedit di sini. Ini adalah teks frasa tersebut, tetapi properti lainnya memiliki kontrol tersendiri.",
                 "set": "$~Saat suatu properti saat ini menggunakan nilai /default/nya, tombol *pensil* memungkinkan Anda untuk mengatur nilai *eksplisit* untuk properti tersebut.",
                 "unset": "$~Saat suatu properti memiliki nilai yang /eksplisit/ ditetapkan, tombol *X* akan menghapus nilai tersebut, mengembalikan properti ke nilai *default*.",

@@ -20,7 +20,7 @@ import type { StreamChange } from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import type { User } from 'firebase/auth';
 import { createContext, getContext, setContext } from 'svelte';
-import { type Writable } from 'svelte/store';
+import { derived, type Readable, type Writable } from 'svelte/store';
 import type LanguageCode from '@locale/LanguageCode';
 import type { AnnouncementKind } from '@components/project/announcerQueue';
 import type {
@@ -162,6 +162,14 @@ export type EvaluationContext = {
     /** The project's evaluation mode. Undefined outside a ProjectView (doc examples,
      * previews), where playing alone determines behavior. */
     mode?: ProjectMode;
+    /**
+     * Which performance the stage is showing. Anything that happens once per run
+     * — speaking a `Say`, sounding a one-shot score, playing an entrance —
+     * compares this rather than keeping its own memory, which is how those three
+     * drifted apart. Undefined outside a ProjectView, where there are no modes to
+     * move between and so only ever one performance.
+     */
+    performance?: number;
 };
 export const [getEvaluation, setEvaluation] =
     createOptionalContext<Writable<EvaluationContext>>();
@@ -173,7 +181,28 @@ export const [getEvaluation, setEvaluation] =
  * derived (which shows nothing while playing anyway) isn't re-run per node per
  * frame during play. */
 export const [getSteppedEvaluation, setSteppedEvaluation] =
-    createOptionalContext<Writable<EvaluationContext>>();
+    createOptionalContext<Readable<EvaluationContext>>();
+
+/** Derive a play-rate-decoupled copy of an evaluation store: it forwards every
+ * update except consecutive while-playing broadcasts from the same evaluator,
+ * which arrive at ~60 Hz and which step-oriented consumers (the editor's inline
+ * values, the palette's debug values — both hidden while playing) would re-run
+ * their deriveds for, for nothing. Generic over the context shape so tests can
+ * exercise the skip rule with plain objects. */
+export function deriveSteppedEvaluation<
+    T extends { playing: boolean; evaluator: unknown },
+>(evaluation: Readable<T>): Readable<T> {
+    let previous: T | undefined = undefined;
+    return derived(evaluation, (next, set) => {
+        if (
+            previous === undefined ||
+            !(next.playing && previous.playing) ||
+            next.evaluator !== previous.evaluator
+        )
+            set(next);
+        previous = next;
+    });
+}
 
 /** A once-per-caret-change summary of the caret's token relationships, so each
  * rendered TokenView's caret flags (in-caret, active, added) are identity

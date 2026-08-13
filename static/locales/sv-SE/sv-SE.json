@@ -7130,7 +7130,8 @@
                 "zoomOut": "$~zooma ut från scenen",
                 "rotate": "$~rotera $name",
                 "resize": "$~ändra storlek på $name",
-                "resetZoom": "$~återställ zoomen till scenens plats"
+                "resetZoom": "$~återställ zoomen till scenens plats",
+                "perform": "$~utför: starta om programmet, spela det och fyll skärmen med scenen"
             },
             "options": {
                 "locale": "$~välj språk för utmatning",
@@ -7139,7 +7140,7 @@
             "tour": {
                 "launch": "$~ta en rundtur på scenen",
                 "stage": "$~`/stage/` visar ditt programs *nuvarande värde*. Det värdet kan vara ett *råvärde* som ett tal eller en lista, *visuell utdata* som du kan se, eller till och med *ljud* som du kan höra.",
-                "reset": "$~Knappen /reset/ spolar tillbaka programmets utvärdering till *början* och spelar upp valfri tid, tangent eller inmatningsström från grunden.",
+                "reset": "$~Knappen /återställ/ startar om ditt programs utvärdering från *början*, i alla lägen: i ▶️ *spela* körs det igen från toppen, i ✏️ *redigera* pausas det efter den första utvärderingen så att du kan se hur dina ändringar påverkar den första utmatningen, och i ⏸️ *felsök* pausas det vid allra första steget.",
                 "zoom": "$~Med /zoom/-knapparna kan du zooma *in* och *ut* på scenen så att du kan se dina resultat tydligare eller mer detaljerat.",
                 "grid": "$~Knappen /grid/ visar ett *rutnät* på scenen, vilket är praktiskt för att placera saker exakt medan du designar.",
                 "lock": "$~Knappen /lock/ låser scenens vy. När den är *låst* förblir scenen stilla; när den är *upplåst* kan du panorera och zooma fritt.",
@@ -7187,25 +7188,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~utvärderingsläge",
-                    "labels": ["$~redigera", "$~spela", "$~steg"],
+                    "labels": ["$~redigera", "$~felsök", "$~spela"],
                     "tips": [
-                        "$~byt till redigeringsläge: ändra programmet medan scenen stannar frusen på den aktuella bilden",
-                        "$~byt till spelläge: kör programmet live och svara på indata i realtid",
-                        "$~byt till stegläge: pausa och gå igenom programmets utvärdering, ett steg i taget"
+                        "$~byt till redigeringsläge: pausa programmet var det än är och ändra det; ändringar spelas upp på nytt för att visa sin effekt här",
+                        "$~byt till felsökningsläge: gå igenom programmets utvärdering steg för steg, med värden visade bredvid koden och i paletten",
+                        "$~byt till spelläge: kör programmet direkt från där det är och svara på inmatningar i realtid"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~utvärderingsläge",
-                    "labels": ["$~visa", "$~spela", "$~steg"],
+                    "labels": ["$~visa", "$~felsök", "$~spela"],
                     "tips": [
-                        "$~byt till visningsläge: läs programmet medan scenen stannar frusen på den aktuella bilden",
-                        "$~byt till spelläge: kör programmet live och svara på indata i realtid",
-                        "$~byt till stegläge: pausa och gå igenom programmets utvärdering, ett steg i taget"
+                        "$~byt till visningsläge: pausa programmet var det än är och läs det",
+                        "$~byt till felsökningsläge: gå igenom programmets utvärdering steg för steg, med värden visade bredvid koden och i paletten",
+                        "$~byt till spelläge: kör programmet direkt från där det är och svara på inmatningar i realtid"
                     ]
                 },
                 "announce": "$~$mode-läge",
-                "exception": "$~Programmet fick ett fel, så det bytte till stegläge så att du kan undersöka det.",
-                "toggle": "$~växla mellan redigerings- och spelläge"
+                "exception": "$~Programmet fick ett fel, så det bytte till felsökningsläge så att du kan granska det.",
+                "toggle": "$~växla mellan lägena redigera och spela",
+                "resuming": "$~återupptar vid steg $position",
+                "performing": "$~framförande $number, från början"
             },
             "gate": {
                 "start": {
@@ -7249,12 +7252,12 @@
                 "reset": "$~starta om prestandan"
             },
             "tour": {
-                "timeline": "$~Med /tidslinjen/ kan du gå *framåt* och *bakåt* genom programmets utvärdering, ett steg i taget. Det är ett bra sätt att se *hur* ditt program beräknar sitt värde, och att bygga en mental modell av hur @wordplay-program utvärderar, särskilt om du inte ser det beteende du vill ha.",
+                "timeline": "$~Med /tidslinjen/ kan du stega *framåt* och *bakåt* genom ditt programs utvärdering, ett steg i taget. Den visas i scenens verktygsrad i lägena ✏️ *redigera* och ⏸️ *felsök*, och den är ett bra sätt att se *hur* ditt program beräknar sitt värde. Den hjälper dig också att bygga en mental modell av hur @wordplay-program utvärderas, särskilt om du inte ser det beteende du vill ha.",
                 "annotations": "$~I fönstret /annotations/ visas förklaringar av varje steg. När du går igenom programmet kan du läsa vad som just hände.",
                 "editor": "$~/Editor/ visar din kod. När du stegar kommer *värdet* för varje del av ditt program att visas bredvid den delen *efter* att den har utvärderats, så att du kan se värdena byggas upp medan programmet körs.",
                 "history": "$~/History/ visar alla *indata* som ditt program har mottagit, som tangenter, tidstick och pekarhändelser. Den är *drabar*, så du kan återgå till när som helst i programmets utvärderingshistorik genom att bara dra.",
                 "stepControls": "$~Med /step-kontrollerna/ kan du gå igenom utvärderingen exakt. Du kan hoppa till *start* eller *slut*, gå *framåt* eller *bakåt* ett steg i taget, hoppa *en inmatning*, gå *ut* ur en funktion eller hoppa till den *nu valda* delen av koden.",
-                "modes": "$~/Lägesväxlaren/ väljer hur ditt program utvärderas. I ✏️ *redigeringsläge* ändrar du programmet medan scenen stannar frusen på den aktuella bilden. I ⏸️ *stegläge* — där du är nu — stegar du *framåt* och *bakåt* genom utvärderingen, och det *aktuella värdet* för varje del av ditt program visas bredvid den i redigeraren. I ▶️ *spelläge* körs ditt program live och svarar på indata i realtid."
+                "modes": "$~Med /lägesväxlaren/ väljer du hur ditt program utvärderas. I läget ✏️ *redigera* pausas programmet där det är och du kan ändra det — dina ändringar spelas upp igen för att visa sin effekt vid den punkten. I läget ⏸️ *felsök* går koden bara att läsa, och det *aktuella värdet* för varje del av ditt program visas bredvid den i redigeraren och i paletten. I läget ▶️ *spela* körs ditt program direkt från där det är och svarar på inmatningar i realtid. Bredvid växlaren finns knappen /uppträd/ — en spela-triangel omgiven av helskärmshörn — som startar ett uppträdande från toppen och fyller skärmen med scenen, och ↻ återställer programmet i alla lägen."
             }
         },
         "docs": {
@@ -7723,7 +7726,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~musik",
+                        "label": "$~visualisering",
                         "labels": [
                             "$~orkester",
                             "$~ljusshow",
@@ -7740,7 +7743,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~musikvolym",
+                        "label": "$~volym",
                         "labels": ["$~av", "$~tyst", "$~full"],
                         "tips": [
                             "$~Stäng av all musik",
@@ -7749,7 +7752,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~musik medan någon talar",
+                        "label": "$~medan man talar",
                         "labels": ["$~tyst", "$~tystare", "$~ljudlös"],
                         "tips": [
                             "$~Sänk musiken lite medan något sägs",
@@ -7764,14 +7767,44 @@
                             "$~Vibrera inte i takt med rytmen",
                             "$~Vibrera i takt med rytmen, där enheten stöder det"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~bildtextstorlek",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Visa mindre bildtexter",
+                            "$~Visa bildtexter i standardstorlek",
+                            "$~Visa bildtexter halva gången större",
+                            "$~Visa bildtexter dubbelt så stora",
+                            "$~Visa bildtexter tre gånger så stora"
+                        ]
                     }
                 },
                 "options": {
                     "face": "$~teckensnitt",
-                    "mic": "$~vald mikrofon",
-                    "camera": "$~vald kamera",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
                     "default": "$~standard",
-                    "voice": "$~vald röst för Say"
+                    "voice": "$~Säg-röst"
+                },
+                "tab": {
+                    "label": "$~inställningsgrupper",
+                    "labels": [
+                        "$~Utseende",
+                        "$~Koda",
+                        "$~Kamera + Mikrofon",
+                        "$~Ljud + Musik"
+                    ],
+                    "tips": [
+                        "$~hur Wordplay själv ser ut och känns: teckensnitt, färger, rutor och animation",
+                        "$~hur koda ser ut och känns medan du skriver den",
+                        "$~vilken kamera och mikrofon som program läser från",
+                        "$~hur ett programs musik, tal och bildtexter når dig"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Säg"
                 }
             },
             "locale": {
@@ -8075,7 +8108,7 @@
             },
             "tour": {
                 "launch": "$~ta en rundtur i paletten",
-                "palette": "$~När projektet är *pausat* kan du använda /paletten/ för att redigera *fraser*, *grupper* och *scenen*.",
+                "palette": "$~Du kan använda /paletten/ för att redigera *fraser*, *grupper* och *scenen* i läget ✏️ *redigera*. I andra lägen går dess kontroller bara att läsa, och i läget ⏸️ *felsök* visar varje egenskap också sitt *aktuella värde*.",
                 "text": "$~Alla /egenskaper/ för en fras kan redigeras här. Detta är frasens *text*, men andra egenskaper har sina egna kontroller.",
                 "set": "$~När en egenskap för närvarande använder sitt /default/-värde kan du med *pennan*-knappen ange ett *explicit*-värde för den.",
                 "unset": "$~När en egenskap har ett /explicit/-värde satt, tar *X*-knappen bort det värdet och återställer egenskapen till dess *standard*.",

@@ -5,17 +5,20 @@
         getUser,
         isAuthenticated,
     } from '@components/project/Contexts';
+    import Subheader from '@components/app/Subheader.svelte';
     import { LayoutIcons } from '@components/project/Layout';
     import FaceName from '@components/settings/FaceName.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Options from '@components/widgets/Options.svelte';
+    import Tabbed from '@components/widgets/Tabbed.svelte';
     import {
         arrangement,
         blockDensity,
         blocks,
         camera,
+        captionSize,
         dark,
         haptics,
         insertTab,
@@ -39,15 +42,21 @@
     } from '@db/settings/AnimationFactorSetting';
     import { ArrangementOrder } from '@db/settings/Arrangement';
     import {
+        CaptionSizeIcons,
+        CaptionSizes,
+    } from '@db/settings/CaptionSizeSetting';
+    import { FaceSetting } from '@db/settings/FaceSetting';
+    import {
         MusicVisualizationIcons,
         MusicVisualizations,
     } from '@db/settings/MusicSettings';
-    import { FaceSetting } from '@db/settings/FaceSetting';
+    import supportsVibration from '@db/settings/supportsVibration';
     import { TAB_SYMBOL } from '@parser/Spaces';
     import {
         BLOCK_EDITING_SYMBOL,
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
+        EDIT_SYMBOL,
         TEXT_EDITING_SYMBOL,
     } from '@parser/Symbols';
     import { onMount } from 'svelte';
@@ -57,6 +66,8 @@
     const animationFactor = AnimationFactorSetting.value;
 
     onMount(async () => {
+        vibrates = supportsVibration();
+
         if (
             typeof navigator === 'undefined' ||
             typeof navigator.mediaDevices == 'undefined'
@@ -78,6 +89,10 @@
         }
     });
 
+    /** Resolved on mount, not at module scope, so a prerendered page doesn't
+     *  bake in the server's answer of "no". */
+    let vibrates = $state(false);
+
     let devicesRetrieved: boolean | undefined = $state(false);
     let cameras: MediaDeviceInfo[] = $state([]);
     let mics: MediaDeviceInfo[] = $state([]);
@@ -94,6 +109,23 @@
     let selectedVoice = $derived(
         $voice ? voices.find((v) => v.voiceURI === $voice) : undefined,
     );
+
+    /** Index into the tab labels; see `ui.dialog.settings.tab`. */
+    let tab = $state(0);
+
+    /** The index of the input tab, which is the only one that can disappear. */
+    const InputTab = 2;
+
+    /** The input tab holds nothing but the camera and microphone pickers, so
+     *  hide the tab rather than offer an empty panel on a device that exposes
+     *  no media devices at all. */
+    let omit = $derived(devicesRetrieved ? [] : [InputTab]);
+
+    // Fall back to the first tab if the selected one is hidden, so the dialog
+    // can't end up showing no panel with no tab marked selected.
+    $effect(() => {
+        if (omit.includes(tab)) tab = 0;
+    });
 
     const localizing = getLocalizing();
 
@@ -114,308 +146,484 @@
     }}
     header={(l) => l.ui.dialog.settings.header}
     explanation={(l) => l.ui.dialog.settings.explanation}
+    pinned
 >
-    <hr />
-    <div class="controls">
-        <label for="ui-face">
-            <LocalizedText path={(l) => l.ui.dialog.settings.options.face} />
-            <Options
-                value={FaceSetting.get() ?? 'Noto Sans'}
-                label={(l) => l.ui.dialog.settings.options.face}
-                id="ui-face"
-                width="10em"
-                options={[
-                    { value: undefined, label: () => '—', face: null },
-                    // Only show faces supported in the current locale
-                    ...Object.entries(Faces)
-                        .filter(
-                            ([name, face]) =>
-                                name === FaceSetting.get() ||
-                                face.scripts.some((script) =>
-                                    $locales.usesScript(script),
-                                ),
-                        )
-                        .map(([name, face]) => {
-                            return {
-                                value: name,
-                                label: () => getFaceDescription(name, face),
-                                face: {
-                                    name: name,
-                                    face: face,
-                                },
-                            };
-                        }),
-                ]}
-                change={(choice) =>
-                    Settings.setFace(choice === undefined ? null : choice)}
-            >
-                {#snippet item(option, localized)}
-                    {#if option.face === null}<span
-                            >{@render localized(option.label)}</span
+    <!-- Grouped by the language's own vocabulary — what a program reads, what it
+         produces, and the code between them — plus the app's own appearance.
+         Deliberately no accessibility tab: captions belong with the music and
+         speech they stand in for, and animation speed with the motion it
+         governs, so pulling them into a group of their own would separate each
+         from the thing it modifies. -->
+    <Tabbed
+        id="settings-tabs"
+        tabs={(l) => l.ui.dialog.settings.tab}
+        icons={['🎨', EDIT_SYMBOL, '🎥', '🔊']}
+        {omit}
+        choice={tab}
+        select={(choice) => (tab = choice)}
+        wrap
+    >
+        {#snippet children()}
+            <!-- Only the sound panel carries headers, and only because it holds
+                 two different outputs. Elsewhere the tab already names the
+                 group, so a header would just repeat it. -->
+            {#if tab === 0}
+                <div class="controls">
+                    <label for="ui-face">
+                        <span class="label"
+                            ><LocalizedText
+                                path={(l) => l.ui.dialog.settings.options.face}
+                            /></span
                         >
+                        <Options
+                            value={FaceSetting.get() ?? 'Noto Sans'}
+                            label={(l) => l.ui.dialog.settings.options.face}
+                            id="ui-face"
+                            width="10em"
+                            options={[
+                                {
+                                    value: undefined,
+                                    label: () => '—',
+                                    face: null,
+                                },
+                                // Only show faces supported in the current locale
+                                ...Object.entries(Faces)
+                                    .filter(
+                                        ([name, face]) =>
+                                            name === FaceSetting.get() ||
+                                            face.scripts.some((script) =>
+                                                $locales.usesScript(script),
+                                            ),
+                                    )
+                                    .map(([name, face]) => {
+                                        return {
+                                            value: name,
+                                            label: () =>
+                                                getFaceDescription(name, face),
+                                            face: {
+                                                name: name,
+                                                face: face,
+                                            },
+                                        };
+                                    }),
+                            ]}
+                            change={(choice) =>
+                                Settings.setFace(
+                                    choice === undefined ? null : choice,
+                                )}
+                        >
+                            {#snippet item(option, localized)}
+                                {#if option.face === null}<span
+                                        >{@render localized(option.label)}</span
+                                    >
+                                {:else}
+                                    <FaceName
+                                        name={option.face.name}
+                                        face={option.face.face}
+                                    />
+                                {/if}
+                            {/snippet}
+                        </Options>
+                    </label>
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.dark}
+                        choice={$dark === false ? 0 : $dark === true ? 1 : 2}
+                        select={(choice) =>
+                            Settings.setDark(
+                                choice === 0
+                                    ? false
+                                    : choice === 1
+                                      ? true
+                                      : null,
+                            )}
+                        icons={['☼', '☽', '☼/☽']}
+                    />
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.layout}
+                        wrap
+                        choice={ArrangementOrder.indexOf($arrangement)}
+                        select={(choice) => {
+                            const chosen = ArrangementOrder[choice];
+                            if (chosen !== undefined)
+                                Settings.setArrangement(chosen);
+                        }}
+                        icons={ArrangementOrder.map((a) => LayoutIcons[a])}
+                    />
+                    <!-- modeLabels={false} because the scale factor *is* the
+                         label, so drawing both would read "1x 1x". Each button
+                         still names itself to a screen reader, from its tip. -->
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.animate}
+                        choice={AnimationFactors.indexOf($animationFactor)}
+                        select={(choice) =>
+                            Settings.setAnimationFactor(
+                                AnimationFactors[choice],
+                            )}
+                        icons={AnimationFactorIcons}
+                        modeLabels={false}
+                    />
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.writing}
+                        choice={$writingLayout === 'horizontal-tb'
+                            ? 0
+                            : $writingLayout === 'vertical-rl'
+                              ? 1
+                              : $writingLayout === 'vertical-lr'
+                                ? 2
+                                : 3}
+                        select={(choice) =>
+                            Settings.setWritingLayout(
+                                choice === 0
+                                    ? 'horizontal-tb'
+                                    : choice === 1
+                                      ? 'vertical-rl'
+                                      : choice === 2
+                                        ? 'vertical-lr'
+                                        : 'auto',
+                            )}
+                        icons={['↔↓', '↕←', '↕→', '🌐']}
+                    />
+                </div>
+            {:else if tab === 1}
+                <div class="controls">
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.blocks}
+                        choice={$blocks ? 1 : 0}
+                        select={(choice) =>
+                            Settings.setBlocks(choice === 1 ? true : false)}
+                        icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
+                    />
+                    <!-- `indented` rather than a wrapper element: these depend on
+                         the editor mode above, and a wrapper would occupy one
+                         grid cell and take both of the row's cells with it. -->
+                    {#if $blocks}
+                        <Mode
+                            grid
+                            indented
+                            modes={(l) =>
+                                l.ui.dialog.settings.mode.blockDensity}
+                            choice={$blockDensity === 'compact'
+                                ? 0
+                                : $blockDensity === 'spacious'
+                                  ? 2
+                                  : 1}
+                            select={(choice) =>
+                                Settings.setBlockDensity(
+                                    choice === 0
+                                        ? 'compact'
+                                        : choice === 2
+                                          ? 'spacious'
+                                          : 'normal',
+                                )}
+                        />
                     {:else}
-                        <FaceName
-                            name={option.face.name}
-                            face={option.face.face}
+                        <Mode
+                            grid
+                            indented
+                            modes={(l) => l.ui.dialog.settings.mode.lines}
+                            choice={$showLines ? 1 : 0}
+                            select={(choice) =>
+                                Settings.setLines(choice === 1 ? true : false)}
+                            icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                        />
+                        <Mode
+                            grid
+                            indented
+                            modes={(l) => l.ui.dialog.settings.mode.wrap}
+                            choice={$wrap ? 1 : 0}
+                            select={(choice) =>
+                                Settings.setWrap(choice === 1 ? true : false)}
+                            icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
                         />
                     {/if}
-                {/snippet}
-            </Options>
-        </label>
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.layout}
-            wrap
-            choice={ArrangementOrder.indexOf($arrangement)}
-            select={(choice) => {
-                const chosen = ArrangementOrder[choice];
-                if (chosen !== undefined) Settings.setArrangement(chosen);
-            }}
-            icons={ArrangementOrder.map((a) => LayoutIcons[a])}
-        />
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.animate}
-            choice={AnimationFactors.indexOf($animationFactor)}
-            select={(choice) =>
-                Settings.setAnimationFactor(AnimationFactors[choice])}
-            icons={AnimationFactorIcons}
-            modeLabels={false}
-        />
-        {#if devicesRetrieved}
-            <label for="camera-setting">
-                🎥
-                <Options
-                    value={cameraDevice?.label}
-                    label={(l) => l.ui.dialog.settings.options.camera}
-                    id="camera-setting"
-                    options={[
-                        {
-                            value: undefined,
-                            label: (l) => l.ui.dialog.settings.options.default,
-                        },
-                        ...cameras.map((device) => {
-                            return {
-                                value: device.label,
-                                label: () => device.label,
-                            };
-                        }),
-                    ]}
-                    change={(choice) =>
-                        Settings.setCamera(
-                            cameras.find((camera) => camera.label === choice)
-                                ?.deviceId ?? null,
-                        )}
-                />
-            </label>
-            <label for="mic-setting">
-                🎤
-                <Options
-                    value={micDevice?.label}
-                    label={(l) => l.ui.dialog.settings.options.mic}
-                    id="mic-setting"
-                    options={[
-                        {
-                            value: undefined,
-                            label: (l) => l.ui.dialog.settings.options.default,
-                        },
-                        ...mics.map((device) => {
-                            return {
-                                value: device.label,
-                                label: () => device.label,
-                            };
-                        }),
-                    ]}
-                    change={(choice) =>
-                        Settings.setMic(
-                            mics.find((mic) => mic.label === choice)
-                                ?.deviceId ?? null,
-                        )}
-                />
-            </label>
-            {#if voices.length > 0}
-                <label for="voice-setting">
-                    🔊
-                    <Options
-                        value={selectedVoice?.name}
-                        label={(l) => l.ui.dialog.settings.options.voice}
-                        id="voice-setting"
-                        options={[
-                            {
-                                value: undefined,
-                                label: (l) =>
-                                    l.ui.dialog.settings.options.default,
-                            },
-                            ...voices.map((v) => {
-                                return {
-                                    value: v.name,
-                                    label: () => v.name,
-                                };
-                            }),
-                        ]}
-                        change={(choice) =>
-                            Settings.setVoice(
-                                voices.find((v) => v.name === choice)
-                                    ?.voiceURI ?? null,
-                            )}
+                    <!-- Not indented, unlike the rows above: the markers apply in
+                         both modes — NodeSequenceView renders a ↵ per line break
+                         in blocks mode too — so this is a peer of the editor
+                         mode, not something that depends on it. -->
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.space}
+                        choice={$spaceIndicator ? 1 : 0}
+                        select={(choice) =>
+                            Settings.setSpace(choice === 1 ? true : false)}
+                        icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
                     />
-                </label>
-            {/if}
-        {/if}
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.dark}
-            choice={$dark === false ? 0 : $dark === true ? 1 : 2}
-            select={(choice) =>
-                Settings.setDark(
-                    choice === 0 ? false : choice === 1 ? true : null,
-                )}
-            icons={['☼', '☽', '☼/☽']}
-        />
-        <!-- Driven by the arrays rather than by hand-written indices, so
-             adding a rendering is one entry in MusicSettings rather than four
-             places that have to agree about what index 2 means. -->
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.musicVisualization}
-            choice={Math.max(0, MusicVisualizations.indexOf($musicVisualization))}
-            select={(choice) =>
-                Settings.setMusicVisualization(
-                    MusicVisualizations[choice] ?? 'orchestra',
-                )}
-            icons={MusicVisualizationIcons}
-        />
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.musicVolume}
-            choice={$musicVolume === 0 ? 0 : $musicVolume <= 0.5 ? 1 : 2}
-            select={(choice) =>
-                Settings.setMusicVolume(
-                    choice === 0 ? 0 : choice === 1 ? 0.5 : 1,
-                )}
-            icons={['🔇', '🔉', '🔊']}
-        />
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.musicDucking}
-            choice={$musicDucking === 0 ? 2 : $musicDucking <= 0.1 ? 1 : 0}
-            select={(choice) =>
-                Settings.setMusicDucking(
-                    choice === 0 ? 0.2 : choice === 1 ? 0.1 : 0,
-                )}
-            icons={['🔉', '🔈', '🔇']}
-        />
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.haptics}
-            choice={$haptics ? 1 : 0}
-            select={(choice) => Settings.setHaptics(choice === 1)}
-            icons={['◌', '📳']}
-        />
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.blocks}
-            choice={$blocks ? 1 : 0}
-            select={(choice) => Settings.setBlocks(choice === 1 ? true : false)}
-            icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
-        />
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.words}
-            choice={$words ? 1 : 0}
-            select={(choice) => Settings.setWords(choice === 1 ? true : false)}
-            icons={['ƒ', 'Aa']}
-        />
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.writing}
-            choice={$writingLayout === 'horizontal-tb'
-                ? 0
-                : $writingLayout === 'vertical-rl'
-                  ? 1
-                  : $writingLayout === 'vertical-lr'
-                    ? 2
-                    : 3}
-            select={(choice) =>
-                Settings.setWritingLayout(
-                    choice === 0
-                        ? 'horizontal-tb'
-                        : choice === 1
-                          ? 'vertical-rl'
-                          : choice === 2
-                            ? 'vertical-lr'
-                            : 'auto',
-                )}
-            icons={['↔↓', '↕←', '↕→', '🌐']}
-        />
-        {#if $blocks}
-            <div class="indented">
-                <Mode
-                    modes={(l) => l.ui.dialog.settings.mode.blockDensity}
-                    choice={$blockDensity === 'compact'
-                        ? 0
-                        : $blockDensity === 'spacious'
-                          ? 2
-                          : 1}
-                    select={(choice) =>
-                        Settings.setBlockDensity(
-                            choice === 0
-                                ? 'compact'
-                                : choice === 2
-                                  ? 'spacious'
-                                  : 'normal',
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.words}
+                        choice={$words ? 1 : 0}
+                        select={(choice) =>
+                            Settings.setWords(choice === 1 ? true : false)}
+                        icons={['ƒ', 'Aa']}
+                    />
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.tab}
+                        choice={$insertTab ? 1 : 0}
+                        select={(choice) => Settings.setTab(choice === 1)}
+                        icons={['⌨', TAB_SYMBOL]}
+                    />
+                </div>
+            {:else if tab === 2}
+                <div class="controls">
+                    <!-- Prefixed with the stream's own emoji, the way the sound
+                         panel's headers are, since these two rows have no header
+                         of their own to carry it. -->
+                    <label for="camera-setting">
+                        <span class="label"
+                            >🎥 <LocalizedText
+                                path={(l) =>
+                                    l.ui.dialog.settings.options.camera}
+                            /></span
+                        >
+                        <Options
+                            value={cameraDevice?.label}
+                            label={(l) => l.ui.dialog.settings.options.camera}
+                            id="camera-setting"
+                            options={[
+                                {
+                                    value: undefined,
+                                    label: (l) =>
+                                        l.ui.dialog.settings.options.default,
+                                },
+                                ...cameras.map((device) => {
+                                    return {
+                                        value: device.label,
+                                        label: () => device.label,
+                                    };
+                                }),
+                            ]}
+                            change={(choice) =>
+                                Settings.setCamera(
+                                    cameras.find(
+                                        (camera) => camera.label === choice,
+                                    )?.deviceId ?? null,
+                                )}
+                        />
+                    </label>
+                    <label for="mic-setting">
+                        <span class="label"
+                            >🎤 <LocalizedText
+                                path={(l) => l.ui.dialog.settings.options.mic}
+                            /></span
+                        >
+                        <Options
+                            value={micDevice?.label}
+                            label={(l) => l.ui.dialog.settings.options.mic}
+                            id="mic-setting"
+                            options={[
+                                {
+                                    value: undefined,
+                                    label: (l) =>
+                                        l.ui.dialog.settings.options.default,
+                                },
+                                ...mics.map((device) => {
+                                    return {
+                                        value: device.label,
+                                        label: () => device.label,
+                                    };
+                                }),
+                            ]}
+                            change={(choice) =>
+                                Settings.setMic(
+                                    mics.find((mic) => mic.label === choice)
+                                        ?.deviceId ?? null,
+                                )}
+                        />
+                    </label>
+                </div>
+            {:else}
+                <div class="controls">
+                    <!-- Named after the output each group belongs to, so every
+                         label below can drop the prefix it would otherwise
+                         repeat ("music volume", "Say caption size"). -->
+                    <Subheader compact
+                        >🎼 <LocalizedText
+                            path={(l) => l.ui.dialog.settings.subheader.music}
+                        /></Subheader
+                    >
+                    <div class="header-row-end"></div>
+                    <!-- Driven by the arrays rather than by hand-written indices,
+                         so adding a rendering is one entry in MusicSettings
+                         rather than four places that have to agree about what
+                         index 2 means. -->
+                    <Mode
+                        grid
+                        modes={(l) =>
+                            l.ui.dialog.settings.mode.musicVisualization}
+                        choice={Math.max(
+                            0,
+                            MusicVisualizations.indexOf($musicVisualization),
                         )}
-                />
-            </div>
-        {:else}
-            <div class="indented">
-                <Mode
-                    modes={(l) => l.ui.dialog.settings.mode.lines}
-                    choice={$showLines ? 1 : 0}
-                    select={(choice) =>
-                        Settings.setLines(choice === 1 ? true : false)}
-                    icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
-                />
-            </div>
-            <div class="indented">
-                <Mode
-                    modes={(l) => l.ui.dialog.settings.mode.wrap}
-                    choice={$wrap ? 1 : 0}
-                    select={(choice) =>
-                        Settings.setWrap(choice === 1 ? true : false)}
-                    icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
-                />
-            </div>
-        {/if}
-        <div class="indented">
-            <Mode
-                modes={(l) => l.ui.dialog.settings.mode.space}
-                choice={$spaceIndicator ? 1 : 0}
-                select={(choice) =>
-                    Settings.setSpace(choice === 1 ? true : false)}
-                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
-            />
-        </div>
-        <Mode
-            modes={(l) => l.ui.dialog.settings.mode.tab}
-            choice={$insertTab ? 1 : 0}
-            select={(choice) => Settings.setTab(choice === 1)}
-            icons={['⌨', TAB_SYMBOL]}
-        />
-    </div>
+                        select={(choice) =>
+                            Settings.setMusicVisualization(
+                                MusicVisualizations[choice] ?? 'orchestra',
+                            )}
+                        icons={MusicVisualizationIcons}
+                    />
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.musicVolume}
+                        choice={$musicVolume === 0
+                            ? 0
+                            : $musicVolume <= 0.5
+                              ? 1
+                              : 2}
+                        select={(choice) =>
+                            Settings.setMusicVolume(
+                                choice === 0 ? 0 : choice === 1 ? 0.5 : 1,
+                            )}
+                        icons={['🔇', '🔉', '🔊']}
+                    />
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.musicDucking}
+                        choice={$musicDucking === 0
+                            ? 2
+                            : $musicDucking <= 0.1
+                              ? 1
+                              : 0}
+                        select={(choice) =>
+                            Settings.setMusicDucking(
+                                choice === 0 ? 0.2 : choice === 1 ? 0.1 : 0,
+                            )}
+                        icons={['🔉', '🔈', '🔇']}
+                    />
+                    <!-- Offered only where it can do something: this is the same
+                         condition the vibrate call itself checks, so a device
+                         that would silently no-op never sees the toggle. -->
+                    {#if vibrates}
+                        <Mode
+                            grid
+                            modes={(l) => l.ui.dialog.settings.mode.haptics}
+                            choice={$haptics ? 1 : 0}
+                            select={(choice) =>
+                                Settings.setHaptics(choice === 1)}
+                            icons={['◌', '📳']}
+                        />
+                    {/if}
+                    <Subheader compact
+                        >🔊 <LocalizedText
+                            path={(l) => l.ui.dialog.settings.subheader.say}
+                        /></Subheader
+                    >
+                    <div class="header-row-end"></div>
+                    <!-- Driven by the arrays like the rendering chooser above, so
+                         adding a size is one entry rather than a hand-written
+                         index. Unconditional, unlike the voice chooser below it:
+                         a device with no voices is exactly where captions matter
+                         most, so they must not vanish alongside it.
+
+                         modeLabels={false} like the animation speed row, and for
+                         the same reason: the scale factor *is* the label, so
+                         drawing both would read "1x 1x". Each button still names
+                         itself to a screen reader, from its tip. -->
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.captionSize}
+                        choice={Math.max(0, CaptionSizes.indexOf($captionSize))}
+                        select={(choice) =>
+                            Settings.setCaptionSize(CaptionSizes[choice] ?? 1)}
+                        icons={CaptionSizeIcons}
+                        modeLabels={false}
+                    />
+                    <!-- Gated on the voice list alone, not on the media device
+                         list: speech synthesis works on devices that expose no
+                         cameras or microphones at all. -->
+                    {#if voices.length > 0}
+                        <label for="voice-setting">
+                            <span class="label"
+                                ><LocalizedText
+                                    path={(l) =>
+                                        l.ui.dialog.settings.options.voice}
+                                /></span
+                            >
+                            <Options
+                                value={selectedVoice?.name}
+                                label={(l) =>
+                                    l.ui.dialog.settings.options.voice}
+                                id="voice-setting"
+                                options={[
+                                    {
+                                        value: undefined,
+                                        label: (l) =>
+                                            l.ui.dialog.settings.options
+                                                .default,
+                                    },
+                                    ...voices.map((v) => {
+                                        return {
+                                            value: v.name,
+                                            label: () => v.name,
+                                        };
+                                    }),
+                                ]}
+                                change={(choice) =>
+                                    Settings.setVoice(
+                                        voices.find((v) => v.name === choice)
+                                            ?.voiceURI ?? null,
+                                    )}
+                            />
+                        </label>
+                    {/if}
+                </div>
+            {/if}
+        {/snippet}
+    </Tabbed>
 </Dialog>
 
 <style>
+    /* The same label grid the guide's filters use: labels right-aligned in one
+       column, controls left-aligned in the next, so the whole panel scans as a
+       single column instead of a stack of independently sized rows. Each Mode
+       contributes its two cells via its `grid` prop (`display: contents`). */
     .controls {
-        display: flex;
-        flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing-half));
+        display: grid;
+        grid-template-columns: max-content minmax(0, 1fr);
+        column-gap: var(--wordplay-spacing);
+        row-gap: calc(2 * var(--wordplay-spacing-half));
         align-items: baseline;
     }
 
+    /* Options rows are wrapped in a label for the `for`/`id` association, so it
+       has to dissolve too or the row would sit in a single cell and miss the
+       column. */
     label {
-        white-space: nowrap;
-        display: flex;
-        flex-direction: row;
-        align-items: baseline;
-        gap: var(--wordplay-spacing-half);
+        display: contents;
     }
 
-    .indented {
-        margin-inline-start: var(--wordplay-spacing);
-    }
-
-    label > :global(span) {
+    /* Matches Mode's own grid label styling, so an Options row's label lands on
+       exactly the same edge as a Mode row's. */
+    .label {
+        justify-self: end;
+        text-align: end;
         font-style: italic;
+    }
+
+    /* In the label column and right-aligned, so a header lands on the same edge
+       as the labels it heads rather than starting a second one. Spanning both
+       columns or sitting in the control column each put it out of line with
+       everything beneath it. */
+    .controls :global(h2) {
+        grid-column: 1;
+        justify-self: end;
+        text-align: end;
+        margin-block-start: var(--wordplay-spacing);
+    }
+
+    /* A header pinned to column 1 does not finish its row, so auto-placement
+       would drop the next label into column 2 and shift every cell after it by
+       one. This empty cell finishes the row. It has no content or role, so it
+       never reaches the accessibility tree. */
+    .header-row-end {
+        grid-column: 2;
+    }
+
+    .controls :global(h2:first-child) {
+        margin-block-start: 0;
     }
 </style>

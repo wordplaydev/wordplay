@@ -204,6 +204,8 @@
         position: absolute;
         inset-inline: 0;
         bottom: 0;
+        /* Its own, not a shared token: the floor band is allowed to sit on
+           top of this rendering, so nothing else needs to know how tall it is. */
         height: 42%;
         z-index: 0;
         pointer-events: none;

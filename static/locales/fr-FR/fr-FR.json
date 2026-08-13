@@ -7131,7 +7131,8 @@
                 "zoomOut": "$~Dézoom arrière depuis la scène",
                 "rotate": "$~rotation $name",
                 "resize": "$~redimensionner $name",
-                "resetZoom": "$~Réinitialiser le zoom sur la scène"
+                "resetZoom": "$~Réinitialiser le zoom sur la scène",
+                "perform": "$~jouer : recommence le programme, lance-le et remplis l'écran avec la scène"
             },
             "options": {
                 "locale": "$~choisir la langue de sortie",
@@ -7140,7 +7141,7 @@
             "tour": {
                 "launch": "$~faire le tour de la scène",
                 "stage": "$~La fenêtre /stage/ affiche la *valeur actuelle* de votre programme. Cette valeur peut être une *valeur brute* comme un nombre ou une liste, une *sortie visuelle* que vous pouvez voir, ou même un *son* que vous pouvez entendre.",
-                "reset": "$~Le bouton /reset/ rembobine l'évaluation de votre programme jusqu'au *début*, en rejouant à partir de zéro n'importe quel flux de temps, de touches ou d'entrée.",
+                "reset": "$~Le bouton /réinitialiser/ recommence l'évaluation de ton programme depuis le *début*, dans n'importe quel mode : en ▶️ *lecture*, il rejoue depuis le haut ; en ✏️ *édition*, il fait une pause après la première évaluation pour que tu voies l'effet de tes modifications sur la sortie de départ ; et en ⏸️ *débogage*, il fait une pause à la toute première étape.",
                 "zoom": "$~Les boutons /zoom/ vous permettent de zoomer *en avant* et *en arrière* sur la scène afin de voir votre production plus clairement ou avec plus de détails.",
                 "grid": "$~Le bouton /grid/ affiche une *grille* sur la scène, utile pour placer les éléments avec précision lors de la conception.",
                 "lock": "$~Le bouton /lock/ fige la vue de la scène. Lorsqu'il est *verrouillé*, la scène reste immobile ; lorsqu'il est *déverrouillé*, vous pouvez vous déplacer et zoomer librement.",
@@ -7188,25 +7189,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~mode d'évaluation",
-                    "labels": ["$~modifier", "$~jouer", "$~étape"],
+                    "labels": ["$~modifier", "$~déboguer", "$~jouer"],
                     "tips": [
-                        "$~passer au mode modification : change le programme pendant que la scène reste figée sur l'image actuelle",
-                        "$~passer au mode jouer : lance le programme en direct, en répondant aux entrées en temps réel",
-                        "$~passer au mode étape : mets en pause et avance dans l'évaluation du programme, une étape à la fois"
+                        "$~passe en mode édition : mets le programme en pause où qu'il soit et modifie-le ; les modifications se rejouent pour montrer leur effet à ce point",
+                        "$~passe en mode débogage : avance pas à pas dans l'évaluation du programme, avec les valeurs affichées à côté du code et dans la palette",
+                        "$~passe en mode lecture : lance le programme en direct depuis où il est, en répondant aux entrées en temps réel"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~mode d'évaluation",
-                    "labels": ["$~voir", "$~jouer", "$~étape"],
+                    "labels": ["$~voir", "$~déboguer", "$~jouer"],
                     "tips": [
-                        "$~passer au mode voir : lis le programme pendant que la scène reste figée sur l'image actuelle",
-                        "$~passer au mode jouer : lance le programme en direct, en répondant aux entrées en temps réel",
-                        "$~passer au mode étape : mets en pause et avance dans l'évaluation du programme, une étape à la fois"
+                        "$~passe en mode affichage : mets le programme en pause où qu'il soit et lis-le",
+                        "$~passe en mode débogage : avance pas à pas dans l'évaluation du programme, avec les valeurs affichées à côté du code et dans la palette",
+                        "$~passe en mode lecture : lance le programme en direct depuis où il est, en répondant aux entrées en temps réel"
                     ]
                 },
                 "announce": "$~mode $mode",
-                "exception": "$~Le programme a rencontré une erreur, il est donc passé au mode étape pour que tu puisses l'examiner.",
-                "toggle": "$~basculer entre le mode édition et le mode jeu"
+                "exception": "$~Le programme a rencontré une erreur, il est donc passé en mode débogage pour que tu puisses l'examiner.",
+                "toggle": "$~basculer entre les modes édition et lecture",
+                "resuming": "$~reprise à l'étape $position",
+                "performing": "$~représentation $number, depuis le début"
             },
             "gate": {
                 "start": {
@@ -7250,12 +7253,12 @@
                 "reset": "$~redémarrer les performances"
             },
             "tour": {
-                "timeline": "$~La /timeline/ vous permet de parcourir l'évaluation de votre programme étape par étape, aussi bien en avant qu'en arrière. C'est un excellent moyen de comprendre comment votre programme calcule sa valeur et de vous familiariser avec le fonctionnement de l'évaluation des programmes @wordplay, surtout si le comportement observé ne correspond pas à vos attentes.",
+                "timeline": "$~La /chronologie/ te permet d'avancer et de reculer dans l'évaluation de ton programme, une étape à la fois. Elle apparaît dans la barre d'outils de la scène en modes ✏️ *édition* et ⏸️ *débogage*. C'est un très bon moyen de voir *comment* ton programme calcule sa valeur, et de te faire une idée claire de la façon dont les programmes @wordplay s'évaluent, surtout si tu ne vois pas le comportement que tu veux.",
                 "annotations": "$~La fenêtre /annotations/ contient les explications de chaque étape. Au fur et à mesure que vous exécutez votre programme, c'est ici que vous lirez ce qui s'est passé.",
                 "editor": "$~L'éditeur (/editor/) affiche votre code. Lors du débogage pas à pas, la *valeur* de chaque partie de votre programme apparaît à côté de cette partie *après* son évaluation, ce qui vous permet de suivre l'évolution des valeurs au fur et à mesure de l'exécution du programme.",
                 "history": "$~L'historique (/history/) affiche toutes les entrées reçues par votre programme, comme les touches de frappe, les incréments de temps et les événements de pointeur. Il est déplaçable : vous pouvez donc revenir à n'importe quel moment de l'historique d'exécution du programme par simple glisser-déposer.",
                 "stepControls": "$~Les commandes /step/ permettent de se déplacer précisément dans l'exécution. Vous pouvez accéder au *début* ou à la *fin*, avancer ou reculer d'un pas à la fois, avancer d'une valeur, sortir d'une fonction ou accéder à la partie du code *actuellement sélectionnée*.",
-                "modes": "$~Le /sélecteur de mode/ choisit comment ton programme s'évalue. En mode ✏️ *modification*, tu changes le programme pendant que la scène reste figée sur l'image actuelle. En mode ⏸️ *étape* — où tu te trouves maintenant — tu avances *en avant* et *en arrière* dans l'évaluation, et la *valeur actuelle* de chaque partie de ton programme apparaît à côté d'elle dans l'éditeur. En mode ▶️ *jouer*, ton programme s'exécute en direct, en répondant aux entrées en temps réel."
+                "modes": "$~Le /sélecteur de mode/ choisit comment ton programme s'évalue. En mode ✏️ *édition*, le programme s'arrête là où il en est et tu peux le modifier — tes modifications rejouent pour montrer leur effet à cet endroit. En mode ⏸️ *débogage*, le code est en lecture seule, et la *valeur actuelle* de chaque partie de ton programme apparaît à côté d'elle dans l'éditeur et dans la palette. En mode ▶️ *lecture*, ton programme s'exécute en direct depuis où il en est, et répond aux entrées en temps réel. À côté du sélecteur, le bouton /jouer/ — un triangle de lecture entouré de coins plein écran — commence une exécution depuis le haut et remplit l'écran avec la scène, et ↻ réinitialise le programme dans n'importe quel mode."
             }
         },
         "docs": {
@@ -7727,7 +7730,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~musique",
+                        "label": "$~visualisation",
                         "labels": [
                             "$~orchestre",
                             "$~spectacle de lumière",
@@ -7744,7 +7747,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~volume de la musique",
+                        "label": "$~volume",
                         "labels": ["$~éteint", "$~doux", "$~plein"],
                         "tips": [
                             "$~Couper toute la musique",
@@ -7753,7 +7756,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~musique pendant qu'on parle",
+                        "label": "$~pendant que ça parle",
                         "labels": ["$~doux", "$~plus doux", "$~silencieux"],
                         "tips": [
                             "$~Baisser un peu la musique quand quelque chose est dit",
@@ -7768,14 +7771,44 @@
                             "$~Ne pas vibrer sur le rythme",
                             "$~Vibrer sur le rythme, si l'appareil le permet"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~taille de la légende",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Afficher des légendes plus petites",
+                            "$~Afficher les légendes à la taille normale",
+                            "$~Afficher les légendes une fois et demie plus grandes",
+                            "$~Afficher les légendes deux fois plus grandes",
+                            "$~Afficher les légendes trois fois plus grandes"
+                        ]
                     }
                 },
                 "options": {
-                    "mic": "$~microphone sélectionné",
-                    "camera": "$~caméra sélectionnée",
+                    "mic": "$~microphone",
+                    "camera": "$~caméra",
                     "face": "$~police de caractère",
                     "default": "$~défaut",
-                    "voice": "$~voix sélectionnée pour Say"
+                    "voice": "$~Voix de Say"
+                },
+                "tab": {
+                    "label": "$~groupes de réglages",
+                    "labels": [
+                        "$~Apparence",
+                        "$~Code",
+                        "$~Caméra + Micro",
+                        "$~Son + Musique"
+                    ],
+                    "tips": [
+                        "$~comment Wordplay lui-même paraît et se comporte : police, couleurs, tuiles et animation",
+                        "$~comment le code paraît et se comporte pendant que tu l'écris",
+                        "$~quelle caméra et quel microphone les programmes utilisent",
+                        "$~comment la musique, la parole et les sous-titres d'un programme te parviennent"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musique",
+                    "say": "$~Say"
                 }
             },
             "locale": {
@@ -8004,7 +8037,7 @@
             },
             "tour": {
                 "launch": "$~Faites le tour de la palette",
-                "palette": "$~Lorsque le projet est *en pause*, vous pouvez utiliser la /palette/ pour modifier les *phrases*, les *groupes* et la *scène*.",
+                "palette": "$~Tu peux utiliser la /palette/ pour modifier les *phrases*, les *groupes* et la *scène* en mode ✏️ *édition* ; dans les autres modes, ses commandes sont en lecture seule, et en mode ⏸️ *débogage*, chaque propriété montre aussi sa *valeur actuelle*.",
                 "text": "$~Toutes les propriétés d'une phrase peuvent être modifiées ici. Ceci est le *texte* de la phrase, mais les autres propriétés possèdent leurs propres options de contrôle.",
                 "set": "$~Lorsqu'une propriété utilise actuellement sa valeur par défaut, le bouton *crayon* vous permet de définir une valeur *explicite* pour celle-ci.",
                 "unset": "$~Lorsqu'une propriété possède une valeur /explicite/ définie, le bouton *X* supprime cette valeur, rétablissant la propriété à sa valeur *par défaut*.",

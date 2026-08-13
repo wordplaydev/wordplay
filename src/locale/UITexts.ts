@@ -855,6 +855,8 @@ type UITexts = {
             zoomOut: string;
             /** [plain] Clear the viewer's own pan and zoom, handing the camera back to the project */
             resetZoom: string;
+            /** [plain] The button that begins a fresh performance, from any mode: restarts the program, enters play mode, and fullscreens the stage */
+            perform: string;
             /** [plain] The rotation handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
             rotate: Template<['name']>;
             /** [plain] The size handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
@@ -868,15 +870,19 @@ type UITexts = {
         };
         /** The evaluation mode switcher in the output toolbar */
         mode: {
-            /** The edit/step/play mode switcher, shown for editable projects */
+            /** The edit/debug/play mode switcher, shown for editable projects */
             evaluation: ModeText<[string, string, string]>;
-            /** The view/step/play mode switcher, shown for read-only projects */
+            /** The view/debug/play mode switcher, shown for read-only projects */
             evaluationView: ModeText<[string, string, string]>;
             /** [plain] Announced when the evaluation mode changes. $mode is the new mode's label. */
             announce: Template<['mode']>;
-            /** [plain] Announced when an error pauses the program into step mode so it can be inspected */
+            /** [plain] Announced when switching to play mode, which resumes the performance from wherever it is. $position is the step it picked up at. */
+            resuming: Template<['position']>;
+            /** [plain] Announced when the perform command begins a fresh performance. $number is which performance this is. */
+            performing: Template<['number']>;
+            /** [plain] Announced when an error pauses the program into debug mode so it can be inspected */
             exception: string;
-            /** [plain] Description of the keyboard command that switches between edit and play mode */
+            /** [plain] Description of the keyboard command that cycles between edit, debug, and play modes */
             toggle: string;
         };
         /** Interactive tour explaining the stage tile */
@@ -1332,7 +1338,7 @@ type UITexts = {
             stage: FormattedText;
         };
     };
-    /** The evaluation-history timeline and stepping controls, hosted in the output toolbar in step mode */
+    /** The evaluation-history timeline and stepping controls, hosted in the output toolbar in edit and debug modes */
     timeline: {
         /** [plain] The description of the timeline slider */
         slider: string;
@@ -1470,6 +1476,17 @@ type UITexts = {
                 /** [plain] Show the settings dialog */
                 show: string;
             };
+            /** The tabs that switch between groups of settings */
+            tab: ModeText<[string, string, string, string]>;
+            /** Names the output each group of settings belongs to, so the labels
+             *  beneath them don't each have to repeat it. Both are the names of
+             *  Wordplay's own output types. */
+            subheader: {
+                /** [plain] Heads the settings for Music output */
+                music: string;
+                /** [plain] Heads the settings for Say output */
+                say: string;
+            };
             mode: {
                 /** The project tile layout mode */
                 layout: ModeText<
@@ -1519,6 +1536,8 @@ type UITexts = {
                 musicDucking: ModeText<[string, string, string]>;
                 /** Whether to vibrate on the beat where the device supports it */
                 haptics: ModeText<[string, string]>;
+                /** How big the caption of what Say is speaking is, as a multiple of the standard text size */
+                captionSize: ModeText<[string, string, string, string, string]>;
             };
             options: {
                 /** [plain] The label for the font face chooser */

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { getTip } from '@components/project/Contexts';
+    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
     import { locales } from '@db/Database';
     import { getTermDefinitionString } from '@locale/Glossary';
     import type TermRef from '@locale/TermRef';
@@ -34,10 +35,11 @@
     type="button"
     class="term"
     bind:this={view}
-    onpointerenter={showTip}
+    onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
     onpointerleave={hideTip}
     onclick={showTip}
-    onfocus={showTip}
+    onfocus={(event) =>
+        canFocusTips(event.currentTarget) ? showTip() : undefined}
     onblur={hideTip}>{term.word}</button
 >
 

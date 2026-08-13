@@ -24,7 +24,9 @@
     import Shortcuts from '@components/project/Shortcuts.svelte';
     import SourceTileToggle from '@components/project/SourceTileToggle.svelte';
     import {
+        ProjectModeIcons,
         ProjectModes,
+        ProjectModeViewIcons,
         type ProjectMode,
     } from '@components/project/ProjectMode';
     import type Tile from '@components/project/Tile';
@@ -57,10 +59,7 @@
         EDIT_SYMBOL,
         INFO_SYMBOL,
         PROJECT_SYMBOL,
-        PAUSE_SYMBOL,
-        PLAY_SYMBOL,
         REMIX_SYMBOL,
-        VIEW_SYMBOL,
     } from '@parser/Symbols';
     import Characters from '../../lore/BasisCharacters';
 
@@ -157,6 +156,11 @@
                 ),
             ),
     );
+
+    /** Whether the first evaluation mode is truthfully "edit" right now: an
+     *  editable project on its current version. Browsing an old checkpoint is
+     *  read-only, so the switcher says 👁 view there, matching the editor. */
+    const editableAndCurrent = $derived(editable && checkpoint === -1);
 
     // Indices in the toggle-group items list:
     //   0..addSourceOffset-1     : add-source button (when editable)
@@ -404,15 +408,14 @@
         </div>
         <div class="right-section">
             <!-- A second home for the evaluation mode switcher, since the output
-                 tile's switcher disappears when that tile is collapsed. It sits
-                 before the layout switcher since it also changes the layout. -->
+                 tile's switcher disappears when that tile is collapsed. -->
             <Mode
-                modes={editable
+                modes={editableAndCurrent
                     ? (l) => l.ui.output.mode.evaluation
                     : (l) => l.ui.output.mode.evaluationView}
-                icons={editable
-                    ? [EDIT_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]
-                    : [VIEW_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]}
+                icons={editableAndCurrent
+                    ? ProjectModeIcons
+                    : ProjectModeViewIcons}
                 choice={ProjectModes.indexOf(mode)}
                 select={(index) => setMode(ProjectModes[index])}
                 labeled={false}

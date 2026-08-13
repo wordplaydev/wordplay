@@ -271,7 +271,7 @@
                             "happy",
                             "$~Kebanyakan bahasa pemrograman menawarkan semacam alat debugging untuk membantu pembuat memahami dan menyelesaikan masalah dalam code mereka. Tetapi banyak yang hanya menggunakan pernyataan cetak untuk memeriksa value variable di konsol:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~@wordplay menyediakan pengalaman debugging yang lebih canggih, memungkinkan kamu melangkah *maju* dan *mundur* dalam evaluasinya. @UI/stepControls melangkahi evaluasi ke segala arah, jadi kamu bisa melihat bagaimana sebuah value dibangun.",
+                            "$~@wordplay memberikan pengalaman menemukan kesalahan yang lebih canggih. Kamu bisa melangkah *maju* dan *mundur* saat kode dijalankan. Tekan tombol ⏸️ di pengalih mode @UI/modeSwitcher di atas panggung untuk masuk ke mode *penemuan kesalahan*: value dari setiap expression muncul di sebelahnya di dalam code, dan @UI/stepControls dapat melangkah ke arah mana pun, jadi kamu bisa melihat bagaimana sebuah value dibangun.",
                             "$~Ingin panduan lebih lanjut? Tombol @UI/debugtour di area debug memberikan tur berpemandu untuk kontrol-kontrol ini."
                         ]
                     ]
