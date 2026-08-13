@@ -44,6 +44,15 @@ export type LiveMusic = {
 export function reconcile(
     live: ReadonlyMap<string, LiveMusic>,
     present: readonly MusicData[],
+    /**
+     * True when this evaluation begins a new performance — the creator restarted
+     * the program, or played it again after an edit. A piece that already played
+     * to its end sounds again, the way a `Say` speaks again: the creator asked to
+     * watch the program from the top, and a silent score is not that. Resuming a
+     * paused performance passes false, which is what keeps a one-shot from
+     * re-firing every time the stage is glanced away from.
+     */
+    beginning = false,
 ): Map<string, Decision> {
     const decisions = new Map<string, Decision>();
 
@@ -52,6 +61,10 @@ export function reconcile(
         if (playing === undefined) {
             decisions.set(data.name, { kind: 'start', data });
         } else if (data.replay) {
+            decisions.set(data.name, { kind: 'restart', data });
+        } else if (beginning) {
+            // A new performance plays the piece again wherever it had got to,
+            // finished or not: it is the same request as pressing replay.
             decisions.set(data.name, { kind: 'restart', data });
         } else if (playing.finished) {
             // It played to its end and is still on stage. An edit sounds it

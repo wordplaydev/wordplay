@@ -61,7 +61,7 @@
         parentAscent: number;
         context: RenderContext;
         editable: boolean;
-        /** Whether the creator can select this output for inspection (edit or step mode). */
+        /** Whether the creator can select this output for inspection (edit or debug mode). */
         inspectable?: boolean;
         editing: boolean;
         frame: number;

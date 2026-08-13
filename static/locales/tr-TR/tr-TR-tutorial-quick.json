@@ -271,7 +271,7 @@
                             "happy",
                             "$~Çoğu programlama dili, yaratıcıların kodlarındaki sorunları anlamasına ve çözmesine yardımcı olmak için bir tür hata ayıklama aracı sunar. Ama birçoğu, değişkenlerin değerlerini bir konsolda denetlemek için sadece yazdırma deyimleri kullanır:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~@wordplay daha gelişmiş bir hata ayıklama deneyimi sunar; hesaplamasında *ileri* ve *geri* adım atmana izin verir. @UI/stepControls hesaplamayı herhangi bir yönde adımlar, böylece bir değerin nasıl oluşturulduğunu izleyebilirsin.",
+                            "$~@wordplay daha gelişmiş bir hata ayıklama deneyimi sunar. Değerlendirme sırasında *ileri* ve *geri* adım atmanızı sağlar. Sahnenin üstündeki mod değiştiricideki @UI/modeSwitcher ⏸️ hata ayıklama düğmesine basarak *hata ayıklama* moduna girin. Her ifadenin değeri, kodda hemen yanında görünür. @UI/stepControls değerlendirmede her yöne adım atabilir. Böylece bir değerin nasıl oluşturulduğunu izleyebilirsiniz.",
                             "$~Daha fazla rehberlik mi istiyorsun? Hata ayıklama alanındaki @UI/debugtour düğmesi bu denetimlerin rehberli bir turunu verir."
                         ]
                     ]

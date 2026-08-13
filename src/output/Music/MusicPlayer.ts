@@ -138,6 +138,7 @@ export default class MusicPlayer {
               present: readonly MusicData[];
               playing: boolean;
               mark: number | undefined;
+              beginning: boolean;
           }
         | undefined = undefined;
     /** True while at least one piece is held back waiting for instruments. */
@@ -151,8 +152,8 @@ export default class MusicPlayer {
             // Only re-reconcile if something is actually waiting; readiness
             // changes for every instrument any project loads.
             if (!this.waiting || this.lastUpdate === undefined) return;
-            const { present, playing, mark } = this.lastUpdate;
-            this.update(present, playing, mark);
+            const { present, playing, mark, beginning } = this.lastUpdate;
+            this.update(present, playing, mark, beginning);
         });
     }
 
@@ -173,8 +174,15 @@ export default class MusicPlayer {
      * And `audio.now()` *constructs* the AudioContext, which a paused stage, a
      * preview, or a thumbnail must never be the reason for.
      */
-    update(present: readonly MusicData[], playing: boolean, mark?: number) {
-        this.lastUpdate = { present, playing, mark };
+    /** `beginning` is true when this evaluation begins a new performance; see
+     *  `reconcile`. */
+    update(
+        present: readonly MusicData[],
+        playing: boolean,
+        mark?: number,
+        beginning = false,
+    ) {
+        this.lastUpdate = { present, playing, mark, beginning };
         this.waiting = false;
         if (!playing) {
             this.suspendAll();
@@ -203,7 +211,7 @@ export default class MusicPlayer {
             });
 
         const now = this.deps.audio.now();
-        for (const [name, decision] of reconcile(live, present)) {
+        for (const [name, decision] of reconcile(live, present, beginning)) {
             const entry = this.entries.get(name);
             switch (decision.kind) {
                 case 'start':

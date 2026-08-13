@@ -2527,7 +2527,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Es gibt noch etwas, das Ihnen vielleicht aufgefallen ist: Unter der Ausgabe gibt es einen Bereich, der eine Zeitleiste darstellt. Sie wird jedes Mal aktualisiert, wenn das Programm neu ausgewertet wird, also jedes Mal, wenn sich ein Stream ändert. Sie wird jedes Mal angezeigt, wenn @Time tickt."
+                            "$~Es gibt noch etwas zu entdecken: Die Zeitleiste unter der Ausgabe zeichnet jedes Mal auf, wenn das Programm neu ausgewertet wurde. Das passiert jedes Mal, wenn sich ein Datenstrom ändert – hier jedes Mal, wenn @Time getickt hat. Drücke die Fehlersuche-Taste ⏸️ im Modus-Umschalter @UI/modeSwitcher, um dir das genauer anzuschauen. Dann wird der value jedes expression daneben angezeigt."
                         ],
                         ["Time", "neutral", "$~tick… tick… tick… tick… tick…"],
                         null,

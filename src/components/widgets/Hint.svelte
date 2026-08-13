@@ -165,8 +165,8 @@
     <div
         class="hint"
         role="presentation"
-        bind:clientWidth={width}
-        bind:clientHeight={height}
+        bind:offsetWidth={width}
+        bind:offsetHeight={height}
         class:visible={width !== undefined && width > 0}
         style:left={`${bounds.left ?? 0}px`}
         style:top={`${bounds.top ?? 0}px`}
@@ -179,8 +179,13 @@
                 >{#if entry.markup}<MarkupHTMLView
                         markup={entry.markup}
                         inline
-                    />{:else}{entry.text}{/if}{#if i === 0 && tip.getShortcut()}<span
-                        class="hint-shortcut">&nbsp;({tip.getShortcut()})</span
+                    />{:else}{entry.text}{/if}{#if i === 0 && tip.getShortcut()}
+                    <!-- A breakable space before the shortcut, which wraps as
+                         one unit (see .hint-shortcut): glued with a no-break
+                         space, a label + shortcut wider than the hint's
+                         max-width overflowed the box, eating the right
+                         padding. -->
+                    <span class="hint-shortcut">({tip.getShortcut()})</span
                     >{/if}</span
             >{/each}</div
     >
@@ -210,6 +215,9 @@
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         max-width: 12em;
+        /* A backstop for words longer than the box in any locale: break them
+           rather than letting them spill past the padding. */
+        overflow-wrap: break-word;
         user-select: none;
         pointer-events: none;
         z-index: 3;
@@ -237,6 +245,10 @@
 
     .hint-shortcut {
         opacity: 0.92;
+        /* Wrap onto its own line as a whole rather than breaking inside the
+           key sequence — or, glued to the label, overflowing the box. */
+        display: inline-block;
+        white-space: nowrap;
     }
 
     @keyframes appear {

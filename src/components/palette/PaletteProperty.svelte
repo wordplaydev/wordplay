@@ -1,6 +1,8 @@
 <script lang="ts">
     import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import ValueView from '@components/values/ValueView.svelte';
+    import type Value from '@values/Value';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
     import type OutputProperty from '@edit/output/OutputProperty';
@@ -44,6 +46,10 @@
         property: OutputProperty;
         values: OutputPropertyValueSet;
         editable: boolean;
+        /** In debug mode, the latest evaluated value of this property's
+         *  expression, mirroring the editor's inline values; undefined
+         *  otherwise. */
+        value?: Value | undefined;
         /** True when the code caret is inside this property's input. */
         highlighted?: boolean;
     }
@@ -53,6 +59,7 @@
         property,
         values,
         editable,
+        value = undefined,
         highlighted = false,
     }: Props = $props();
 
@@ -97,6 +104,12 @@
                 action={() => toggleValues(!valuesAreSet)}
                 icon={valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}
             ></Button>{/if}
+        {#if value !== undefined}
+            <!-- The property's latest evaluated value, in debug mode: the
+                 same lens the editor's inline values offer, so the palette
+                 mirrors the code it explains. -->
+            <div class="value"><ValueView {value} interactive={false} /></div>
+        {/if}
     {/snippet}
     {#snippet control()}
         {#if values.areMixed()}
@@ -250,3 +263,12 @@
         {/if}
     {/snippet}
 </NamedControl>
+
+<style>
+    /* Match the editor's inline-value treatment so the two read as one lens. */
+    .value {
+        display: inline-block;
+        font-size: small;
+        color: var(--wordplay-evaluation-color);
+    }
+</style>

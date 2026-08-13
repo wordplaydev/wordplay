@@ -7379,7 +7379,8 @@
                 "zoomOut": "$~thu nhỏ tầm nhìn sân khấu",
                 "rotate": "$~xoay $name",
                 "resize": "$~thay đổi kích thước $name",
-                "resetZoom": "$~Đặt lại mức thu phóng về vị trí của sân khấu."
+                "resetZoom": "$~Đặt lại mức thu phóng về vị trí của sân khấu.",
+                "perform": "$~trình diễn: khởi động lại chương trình, chạy nó và làm đầy màn hình bằng sân khấu"
             },
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",
@@ -7388,7 +7389,7 @@
             "tour": {
                 "launch": "$~tham quan sân khấu",
                 "stage": "$~Khung /stage/ hiển thị *giá trị hiện tại* của chương trình. Giá trị đó có thể là *giá trị thô* như số hoặc danh sách, *kết quả trực quan* mà bạn có thể nhìn thấy, hoặc thậm chí là *âm thanh* mà bạn có thể nghe thấy.",
-                "reset": "$~Nút /reset/ sẽ tua lại quá trình đánh giá chương trình về *đầu tiên*, phát lại bất kỳ luồng thời gian, phím hoặc đầu vào nào từ đầu.",
+                "reset": "$~Nút /đặt lại/ khởi động lại quá trình tính toán của chương trình từ *đầu*, ở bất kỳ chế độ nào: ở chế độ ▶️ *chạy* chương trình thực hiện lại từ đầu, ở chế độ ✏️ *chỉnh sửa* nó tạm dừng sau lần tính toán đầu tiên để bạn thấy tác động của các chỉnh sửa lên kết quả ban đầu, và ở chế độ ⏸️ *gỡ lỗi* nó tạm dừng ngay ở bước đầu tiên.",
                 "zoom": "$~Các nút /zoom/ cho phép bạn phóng to và thu nhỏ khung hình để xem kết quả rõ ràng hơn hoặc chi tiết hơn.",
                 "grid": "$~Nút /grid/ hiển thị một *lưới* trên khung làm việc, hữu ích để đặt các đối tượng một cách chính xác trong quá trình thiết kế.",
                 "lock": "$~Nút /khóa/ khóa khung nhìn của sân khấu. Khi *khóa*, sân khấu sẽ đứng yên; khi *mở khóa*, bạn có thể lia và phóng to thu nhỏ tự do.",
@@ -7436,25 +7437,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~chế độ chạy",
-                    "labels": ["$~chỉnh sửa", "$~chạy", "$~từng bước"],
+                    "labels": ["$~chỉnh sửa", "$~gỡ lỗi", "$~chạy"],
                     "tips": [
-                        "$~chuyển sang chế độ chỉnh sửa: thay đổi chương trình trong khi sân khấu đứng yên ở khung hình hiện tại",
-                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực",
-                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước"
+                        "$~chuyển sang chế độ chỉnh sửa: tạm dừng chương trình ở bất cứ đâu và thay đổi nó; các chỉnh sửa sẽ chạy lại để cho thấy hiệu ứng của chúng tại điểm này",
+                        "$~chuyển sang chế độ gỡ lỗi: đi qua từng bước tính toán của chương trình, với các giá trị hiển thị bên cạnh mã số và trong bảng màu",
+                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp từ nơi nó đang ở, phản hồi các đầu vào ngay lập tức"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~chế độ chạy",
-                    "labels": ["$~xem", "$~chạy", "$~từng bước"],
+                    "labels": ["$~xem", "$~gỡ lỗi", "$~chạy"],
                     "tips": [
-                        "$~chuyển sang chế độ xem: đọc chương trình trong khi sân khấu đứng yên ở khung hình hiện tại",
-                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực",
-                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước"
+                        "$~chuyển sang chế độ xem: tạm dừng chương trình ở bất cứ đâu và đọc nó",
+                        "$~chuyển sang chế độ gỡ lỗi: đi qua từng bước tính toán của chương trình, với các giá trị hiển thị bên cạnh mã số và trong bảng màu",
+                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp từ nơi nó đang ở, phản hồi các đầu vào ngay lập tức"
                     ]
                 },
                 "announce": "$~chế độ $mode",
-                "exception": "$~Chương trình gặp lỗi, nên nó chuyển sang chế độ từng bước để bạn có thể xem xét lỗi đó.",
-                "toggle": "$~chuyển giữa chế độ chỉnh sửa và chế độ chơi"
+                "exception": "$~Chương trình bị lỗi, nên nó chuyển sang chế độ gỡ lỗi để bạn có thể kiểm tra nó.",
+                "toggle": "$~chuyển đổi giữa chế độ chỉnh sửa và chế độ chạy",
+                "resuming": "$~tiếp tục ở bước $position",
+                "performing": "$~buổi trình diễn $number, từ đầu"
             },
             "gate": {
                 "start": {
@@ -7498,12 +7501,12 @@
                 "reset": "$~hiệu suất khởi động lại"
             },
             "tour": {
-                "timeline": "$~Công cụ /timeline/ cho phép bạn tiến *về phía trước* và lùi *về phía sau* trong quá trình đánh giá chương trình của mình, từng bước một. Đây là một cách tuyệt vời để xem *cách* chương trình tính toán giá trị của nó, và để xây dựng mô hình tư duy về cách các chương trình @wordplay đánh giá, đặc biệt nếu bạn không thấy hành vi mình mong muốn.",
+                "timeline": "$~/dòng thời gian/ cho phép bạn bước *tới* và *lui* qua quá trình tính toán của chương trình, mỗi lần một bước. Nó hiện ra trong thanh công cụ của sân khấu ở chế độ ✏️ *chỉnh sửa* và ⏸️ *gỡ lỗi*, và đây là cách tuyệt vời để thấy chương trình tính giá trị của nó *ra sao*, và để xây dựng một mô hình trong đầu về cách các chương trình @wordplay tính toán, nhất là khi bạn chưa thấy hành vi mà bạn muốn.",
                 "annotations": "$~Cửa sổ /annotations/ là nơi hiển thị giải thích cho từng bước. Khi bạn thực thi chương trình từng bước, đây là nơi bạn sẽ đọc những gì vừa xảy ra.",
                 "editor": "$~Cửa sổ /editor/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
                 "history": "$~Cửa sổ /history/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận được, chẳng hạn như phím bấm, thời gian cập nhật và sự kiện con trỏ. Cửa sổ này *có thể kéo thả*, vì vậy bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử thực thi của chương trình chỉ bằng cách kéo.",
                 "stepControls": "$~Các điều khiển /step/ cho phép bạn di chuyển chính xác trong quá trình đánh giá. Bạn có thể nhảy đến *đầu* hoặc *cuối*, tiến *về* hoặc lùi *về* từng bước một, nhảy theo *một đầu vào*, thoát khỏi *một hàm* hoặc nhảy đến phần mã *đang được chọn*.",
-                "modes": "$~/Bộ chuyển chế độ/ chọn cách chương trình của bạn chạy. Ở chế độ ✏️ *chỉnh sửa*, bạn thay đổi chương trình trong khi sân khấu đứng yên ở khung hình hiện tại. Ở chế độ ⏸️ *từng bước* — nơi bạn đang ở — bạn đi *tới* và *lùi* qua quá trình chạy, và *giá trị hiện tại* của mỗi phần trong chương trình sẽ hiện ra bên cạnh nó trong trình chỉnh sửa. Ở chế độ ▶️ *chạy*, chương trình của bạn chạy trực tiếp, phản hồi các đầu vào theo thời gian thực."
+                "modes": "$~/bộ chuyển chế độ/ chọn cách chương trình của bạn tính toán. Ở chế độ ✏️ *chỉnh sửa*, chương trình tạm dừng ở chỗ nó đang chạy và bạn có thể thay đổi nó — các chỉnh sửa của bạn chạy lại để thể hiện tác động tại điểm đó. Ở chế độ ⏸️ *gỡ lỗi*, mã số chỉ được đọc và *giá trị hiện tại* của từng phần trong chương trình hiện ra ngay bên cạnh nó trong trình chỉnh sửa và trong bảng màu. Ở chế độ ▶️ *chạy*, chương trình của bạn chạy trực tiếp từ chỗ nó đang ở, phản hồi các đầu vào theo thời gian thực. Bên cạnh bộ chuyển, nút /biểu diễn/ — một hình tam giác chạy bọc trong các góc toàn màn hình — bắt đầu một buổi biểu diễn từ đầu và lấp đầy màn hình bằng sân khấu, và nút ↻ đặt lại chương trình ở bất kỳ chế độ nào."
             }
         },
         "docs": {
@@ -8017,6 +8020,17 @@
                             "$~Đừng rung theo nhịp",
                             "$~Rung theo nhịp, nếu thiết bị hỗ trợ điều đó"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~kích thước phụ đề",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Hiển thị phụ đề nhỏ hơn",
+                            "$~Hiển thị phụ đề ở kích thước chuẩn",
+                            "$~Hiển thị phụ đề lớn gấp rưỡi",
+                            "$~Hiển thị phụ đề lớn gấp đôi",
+                            "$~Hiển thị phụ đề lớn gấp ba"
+                        ]
                     }
                 },
                 "options": {
@@ -8328,7 +8342,7 @@
             },
             "tour": {
                 "launch": "$~Hãy cùng khám phá bảng màu.",
-                "palette": "$~Khi dự án *tạm dừng*, bạn có thể sử dụng bảng màu để chỉnh sửa *cụm từ*, *nhóm* và *giai đoạn*.",
+                "palette": "$~Bạn có thể dùng /bảng màu/ để chỉnh sửa *cụm từ*, *nhóm*, và *sân khấu* ở chế độ ✏️ *chỉnh sửa*; ở các chế độ khác, các nút điều khiển của nó chỉ được đọc, và ở chế độ ⏸️ *gỡ lỗi* mỗi thuộc tính cũng hiện *giá trị hiện tại* của nó.",
                 "text": "$~Tất cả các thuộc tính của một cụm từ đều có thể được chỉnh sửa ở đây. Đây là *văn bản* của cụm từ, nhưng các thuộc tính khác có các điều khiển riêng.",
                 "set": "$~Khi một thuộc tính hiện đang sử dụng giá trị mặc định, nút *hình bút chì* cho phép bạn đặt một giá trị cụ thể cho thuộc tính đó.",
                 "unset": "$~Khi một thuộc tính có giá trị được thiết lập rõ ràng, nút *X* sẽ xóa giá trị đó, đưa thuộc tính trở về giá trị *mặc định* của nó.",

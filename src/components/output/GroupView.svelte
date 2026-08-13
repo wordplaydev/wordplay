@@ -42,7 +42,7 @@
         parentAscent: number;
         context: RenderContext;
         editable: boolean;
-        /** Whether the creator can select this output for inspection (edit or step mode). */
+        /** Whether the creator can select this output for inspection (edit or debug mode). */
         inspectable?: boolean;
         editing: boolean;
         // A frame counter, used to update aria-labels at a slower rate then visual updates.

@@ -7461,6 +7461,7 @@
                 "zoomIn": "zoom into the stage",
                 "zoomOut": "zoom out from the stage",
                 "resetZoom": "clear your pan and zoom",
+                "perform": "perform: restart the program, play it, and fill the screen with the stage",
                 "rotate": "rotate $name",
                 "resize": "resize $name"
             },
@@ -7471,30 +7472,32 @@
             "mode": {
                 "evaluation": {
                     "label": "evaluation mode",
-                    "labels": ["edit", "play", "step"],
+                    "labels": ["edit", "debug", "play"],
                     "tips": [
-                        "switch to edit mode: change the program while the stage stays frozen on the current frame",
-                        "switch to play mode: run the program live, responding to inputs in real time",
-                        "switch to step mode: pause and step through the program's evaluation, one step at a time"
+                        "switch to edit mode: pause the program wherever it is and change it; edits replay to show their effect at this point",
+                        "switch to debug mode: step through the program's evaluation, with values shown beside the code and in the palette",
+                        "switch to play mode: run the program live from where it is, responding to inputs in real time"
                     ]
                 },
                 "evaluationView": {
                     "label": "evaluation mode",
-                    "labels": ["view", "play", "step"],
+                    "labels": ["view", "debug", "play"],
                     "tips": [
-                        "switch to view mode: read the program while the stage stays frozen on the current frame",
-                        "switch to play mode: run the program live, responding to inputs in real time",
-                        "switch to step mode: pause and step through the program's evaluation, one step at a time"
+                        "switch to view mode: pause the program wherever it is and read it",
+                        "switch to debug mode: step through the program's evaluation, with values shown beside the code and in the palette",
+                        "switch to play mode: run the program live from where it is, responding to inputs in real time"
                     ]
                 },
                 "announce": "$mode mode",
-                "exception": "The program had an error, so it switched to step mode so you can inspect it.",
+                "resuming": "resuming at step $position",
+                "performing": "performance $number, from the top",
+                "exception": "The program had an error, so it switched to debug mode so you can inspect it.",
                 "toggle": "switch between edit and play modes"
             },
             "tour": {
                 "launch": "take a tour of the stage",
                 "stage": "The /stage/ shows your program's *current value*. That value might be a *raw value* like a number or list, *visual output* you can see, or even *sound* you can hear.",
-                "reset": "The /reset/ button rewinds your program's evaluation back to the *beginning*, replaying any time, key, or input streams from scratch.",
+                "reset": "The /reset/ button starts your program's evaluation over from the *beginning*, in any mode: in ▶️ *play* it performs again from the top, in ✏️ *edit* it pauses after the first evaluation so you can see your edits' effect on the initial output, and in ⏸️ *debug* it pauses at the very first step.",
                 "zoom": "The /zoom/ buttons let you zoom *in* and *out* on the stage so you can see your output more clearly or in greater detail.",
                 "grid": "The /grid/ button shows a *grid* on the stage, helpful for placing things precisely while you design.",
                 "lock": "The /lock/ button locks the stage's view in place. When *locked*, the stage stays still; when *unlocked*, you can pan and zoom freely.",
@@ -7559,8 +7562,8 @@
                 "reset": "restart performance"
             },
             "tour": {
-                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ⏸️ *step* mode, and it's a great way to see *how* your program computes its value, and to build a mental model of how @wordplay programs evaluate, especially if you're not seeing the behavior you want.",
-                "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, you change the program while the stage stays frozen on the current frame. In ▶️ *play* mode, your program runs live, responding to inputs in real time. In ⏸️ *step* mode — where you are now — you step *forward* and *backward* through evaluation, and the *current value* of each part of your program appears next to it in the editor.",
+                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ✏️ *edit* and ⏸️ *debug* modes, and it's a great way to see *how* your program computes its value, and to build a mental model of how @wordplay programs evaluate, especially if you're not seeing the behavior you want.",
+                "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, the program pauses wherever it is and you can change it — your edits replay to show their effect at that point. In ⏸️ *debug* mode, the code is read-only and the *current value* of each part of your program appears next to it in the editor and in the palette. In ▶️ *play* mode, your program runs live from where it is, responding to inputs in real time. Beside the switcher, the /perform/ button — a play triangle wrapped in full screen corners — begins a performance from the top and fills the screen with the stage, and ↻ resets the program in any mode.",
                 "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
                 "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
                 "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging.",
@@ -8079,6 +8082,17 @@
                             "Don't vibrate on the beat",
                             "Vibrate on the beat, where the device supports it"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "caption size",
+                        "labels": ["¾", "1x", "1½", "2x", "3x"],
+                        "tips": [
+                            "Show smaller captions",
+                            "Show captions at the standard size",
+                            "Show captions half again as large",
+                            "Show captions twice as large",
+                            "Show captions three times as large"
+                        ]
                     }
                 },
                 "options": {
@@ -8459,7 +8473,7 @@
             },
             "tour": {
                 "launch": "take a tour of the palette",
-                "palette": "In ✏️ *edit* mode, you can use the /palette/ to edit *phrases*, *groups*, and the *stage*.",
+                "palette": "You can use the /palette/ to edit *phrases*, *groups*, and the *stage* in ✏️ *edit* mode; in other modes its controls are read-only, and in ⏸️ *debug* mode each property also shows its *current value*.",
                 "text": "All the /properties/ of a phrase can be edited here. This is the *text* of the phrase, but other properties have their own controls.",
                 "set": "When a property is currently using its /default/ value, the *pencil* button lets you set an *explicit* value for it.",
                 "unset": "When a property has an /explicit/ value set, the *X* button removes that value, returning the property to its *default*.",

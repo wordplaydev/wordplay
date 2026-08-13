@@ -167,6 +167,16 @@ export const ERASE_SYMBOL = '⌫';
 export const PAUSE_SYMBOL = '⏸';
 export const PLAY_SYMBOL = '▶';
 
+/** Debug mode's textual stand-in: the pause bars, since debug is the held
+ * world. The switcher draws its own filled pause badge (DebugIcon.svelte);
+ * this string is the mode's identity where only text renders, like the
+ * shortcuts dialog. */
+export const DEBUG_SYMBOL = PAUSE_SYMBOL;
+/** Perform's textual stand-in: the four fullscreen corners (verified in the
+ * bundled fonts' renderable set). The toolbar draws the full mark — a play
+ * triangle wrapped in those corners (PerformIcon.svelte). */
+export const PERFORM_SYMBOL = '⛶';
+
 // The "teacher" emoji is a combination of the "person" and "school" emojis.
 export const TEACH_SYMBOL = '🏫';
 export const LEARN_SYMBOL = '🎓';

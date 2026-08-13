@@ -17,6 +17,7 @@
         blocks,
         camera,
         dark,
+        captionSize,
         haptics,
         insertTab,
         locales,
@@ -32,6 +33,10 @@
         wrap,
         writingLayout,
     } from '@db/Database';
+    import {
+        CaptionSizeIcons,
+        CaptionSizes,
+    } from '@db/settings/CaptionSizeSetting';
     import {
         AnimationFactorIcons,
         AnimationFactors,
@@ -304,6 +309,26 @@
             choice={$haptics ? 1 : 0}
             select={(choice) => Settings.setHaptics(choice === 1)}
             icons={['◌', '📳']}
+        />
+        <!-- Driven by the arrays like the rendering chooser above, so adding a
+             size is one entry rather than a hand-written index. Sits with the
+             music and haptics rows because these are all "how output reaches
+             you", and the caption is what a viewer who can't hear the speech
+             has instead. Deliberately not beside the voice chooser, which is
+             hidden on devices with no voices — exactly where captions matter
+             most.
+
+             modeLabels={false} like the animation speed row above, and for the
+             same reason: the scale factor *is* the label, so drawing both would
+             read "1x 1x". Each button still names itself to a screen reader,
+             from its tip rather than its label. -->
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.captionSize}
+            choice={Math.max(0, CaptionSizes.indexOf($captionSize))}
+            select={(choice) =>
+                Settings.setCaptionSize(CaptionSizes[choice] ?? 1)}
+            icons={CaptionSizeIcons}
+            modeLabels={false}
         />
         <Mode
             modes={(l) => l.ui.dialog.settings.mode.blocks}

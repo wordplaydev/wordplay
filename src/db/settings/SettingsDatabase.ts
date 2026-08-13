@@ -27,6 +27,7 @@ import { FaceSetting } from '@db/settings/FaceSetting';
 import { HowToNotificationsSetting } from '@db/settings/HowToNotificationsSetting';
 import { LayoutsSetting } from '@db/settings/LayoutsSetting';
 import { LineSetting } from '@db/settings/LinesSetting';
+import { CaptionSizeSetting } from '@db/settings/CaptionSizeSetting';
 import { LocalesSetting } from '@db/settings/LocalesSetting';
 import { MicSetting } from '@db/settings/MicSetting';
 import type { MusicVisualization } from '@db/settings/MusicSettings';
@@ -152,6 +153,7 @@ export default class SettingsDatabase {
         musicVolume: MusicVolumeSetting,
         musicDucking: MusicDuckingSetting,
         haptics: HapticsSetting,
+        captionSize: CaptionSizeSetting,
     };
 
     constructor(database: Database, locales: SupportedLocale[]) {
@@ -422,6 +424,14 @@ export default class SettingsDatabase {
 
     getHaptics() {
         return this.settings.haptics.get();
+    }
+
+    setCaptionSize(size: number) {
+        this.settings.captionSize.set(this.database, size);
+    }
+
+    getCaptionSize() {
+        return this.settings.captionSize.get();
     }
 
     setVoice(voiceURI: string | null) {

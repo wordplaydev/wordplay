@@ -271,7 +271,7 @@
                             "happy",
                             "$~Die meisten Programmiersprachen bieten eine Art Werkzeug zur Fehlersuche, um den Erstellenden zu helfen, Probleme in ihrem Code zu verstehen und zu lösen. Aber viele verwenden einfach Ausgabe-Anweisungen, um die Werte von Variablen in einer Konsole zu prüfen:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~@wordplay bietet eine raffiniertere Erfahrung bei der Fehlersuche und erlaubt dir, durch die Auswertung *vorwärts* und *rückwärts* zu gehen. Die @UI/stepControls steuern die Auswertung in jede Richtung, sodass du beobachten kannst, wie ein Wert aufgebaut wird.",
+                            "$~@wordplay bietet eine ausgereiftere Möglichkeit zur Fehlersuche. Du kannst dich *vorwärts* und *rückwärts* durch die Auswertung bewegen. Drücke die Schaltfläche ⏸️ im Modus-Umschalter @UI/modeSwitcher über der Bühne, um in den *Fehlersuch*-Modus zu wechseln: Der Wert jeder expression erscheint direkt daneben im code, und die @UI/stepControls führen die Auswertung Schritt für Schritt in jede Richtung aus. So kannst du beobachten, wie ein Wert aufgebaut wird.",
                             "$~Möchtest du mehr Hilfe? Die Schaltfläche @UI/debugtour im Bereich der Fehlersuche gibt eine geführte Tour durch diese Bedienelemente."
                         ]
                     ]

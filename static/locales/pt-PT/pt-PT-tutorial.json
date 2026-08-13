@@ -2515,7 +2515,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Há outra coisa que pode ter notado: existe uma área abaixo da saída que é uma linha temporal. É atualizada cada vez que o programa é reavaliado, ou seja, cada vez que um fluxo é alterado. É apresentada cada vez que @Time passa pelo contador."
+                            "$~Há outra coisa para descobrir: a linha do tempo abaixo do resultado regista cada vez que o programa foi reavaliado, que é cada vez que um fluxo mudou — aqui, cada vez que @Time deu um passo. Carrega no botão de depuração ⏸️ no seletor de modo @UI/modeSwitcher para o observar mais de perto, com o valor de cada expressão mostrado ao lado."
                         ],
                         ["Time", "neutral", "tic… tic… tic… tic… tic…"],
                         null,

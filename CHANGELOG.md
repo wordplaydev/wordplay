@@ -30,6 +30,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔣 The [Design](https://wordplay.dev/design) page now shows the new logo speaking fifteen writing systems, and lets you download it. (#414)
 - 📱 On phones and tablets, a project that listens for certain keys now shows those keys as buttons on the stage, instead of opening the keyboard that covers your work. Wordplay reads your project to find which keys it uses, so arrow keys come out as an arrow pad you can steer with and letters come out as a row.
 - 🚦 A list type can now say what goes in each place: `[# '']` means a list of exactly two things, a @Number and then some @Text. Wordplay checks that a list is that long and in that order, and it knows that the first thing in it is a number and the second is text.
+- 💬 When a project speaks with @Say, the words now appear on the stage as a caption, white on black, so viewers who can't hear can read what was said. It fades a few seconds after the speaking ends, replacing the little icon that used to stay on the stage even after @Say went quiet.
+- 🔠 You can choose how big captions are in settings, from three-quarters size to three times as big. The choice is saved on your device, since text size is about the screen you're using.
+- ▶️ We added a perform button above the stage — a play triangle wrapped in full screen corners. It starts your program from the top, plays it, and fills the screen with the stage, and pressing it again starts the show over. Switching back to edit closes the full screen stage and brings your windows back just as you left them.
 
 ### Changed
 
@@ -38,9 +41,16 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📖 Every ready-made animation now says what its motion looks like and when to reach for it, and comes with an example you can run in the [Guide](https://wordplay.dev/guide).
 - 🎨 The stage stays clean while you work: the outlines around your output only show up when the palette is open. Double-click anything on the stage to open the palette and pick it, and the things you haven't picked now have a dashed outline, so the one you did pick stands out.
 - ⚡ We made editing much faster, especially in big projects. Wordplay was redoing a pile of work on every key you pressed, including for parts of your project you weren't touching at all. (#1265)
-- 🖱️ In step mode, the slider that moves through your program now gets a whole row to itself, instead of being squeezed into a small box next to the buttons. You can also drag the line itself to move through time.
+- 🖱️ The slider that moves through your program now gets a whole row to itself. While editing, it appears once your program has reacted to input and snaps between those moments; in debug mode it stops at every step, with the precise step buttons above it.
 - ✍️ Tidying your code now breaks up long lines. A @Phrase with lots of inputs, or a long list, set, or map, gets one thing on each line instead of running off the side of the screen.
-- ⌨️ The edit, play, and pause buttons are now in that order, and their keyboard shortcuts changed. Ctrl-Enter now switches straight between edit and play without stopping at pause on the way, and ctrl-alt-P pauses.
+- 🐛 The pause mode is now called debug, keeping its two-bar pause icon, and the mode buttons above the stage go edit, debug, play. In debug, the value of each part of your program shows next to its code in the editor and next to its control in the palette.
+- ⌨️ Ctrl-Enter switches between edit and play, and ctrl-alt-5, 6, and 7 jump straight to a mode. Ctrl-alt-Enter resets your program, in any mode.
+- 📐 Switching modes no longer moves your windows around. You can keep the editor open while your project plays — the code wears a colored border so you know it's running — and leaving full screen gives you back exactly the windows you had.
+- ▶️ Pressing play now always continues from wherever your program is, even after you edit — speech, music, and animations pick up where they left off instead of starting over. The perform and reset buttons are how you start from the beginning.
+- ⏩ If you dragged back into your program's past, pressing play first fast-forwards through what already happened, so you can see how the present came to be, and then keeps going live.
+- 🚦 A program with an error no longer jumps into debug mode when you press play. Only a new error that happens while playing does; one you can already see while editing stays where you can fix it.
+- 🎨 The palette now stays on screen in every mode, with controls you can read but not change outside edit mode.
+- 🎼 Captions and the touch keys now sit above the sheet music and the orchestra instead of covering them.
 - 🏷️ The buttons along the bottom that show and hide parts of your project now say what they open, like "show source main" or "hide palette", instead of just "show" and "hide".
 - ⚡ Tidying a big project is now about three times faster.
 - ✍️ When you type in text mode, Wordplay no longer fills in bits of code with blanks that your next keystroke would wipe out. Typing `(` after a name now just adds the closing `)`, instead of a set of inputs you never asked for.
@@ -54,6 +64,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🐛 When you add something that listens for input — like a @Chat box — its controls now appear as soon as you finish typing, instead of waiting for the program's next change.
+- 🐛 Refreshing the page while playing next to the editor no longer jumps back to full screen. The page comes back just as you left it.
+- 🎨 A text box that isn't taking input right now, like the stage's chat box outside play mode, is dimmed with a dotted underline instead of looking just like an active one.
+- 🔊 Restarting a project now speaks its @Say again and replays one-time music and entrance animations. Before, restarting stayed silent unless the words had changed.
+- 🧲 Pausing no longer stops falling things cold. When you press play again, a moving object keeps the speed it had instead of starting its fall from rest.
+- 🌐 If you picked a favorite voice for speech, words in other languages no longer come out garbled. Your voice is used only for the language it speaks.
+- 🔊 Long speech no longer cuts off after about fifteen seconds in Chrome.
 - 🎮 We fixed the Where's Waldough game: the 🔁 button now shuffles everyone to new hiding spots, and finding Waldough only scores one point per round. (#1095)
 - 🔊 On iPhones and iPads, music stayed silent even after you tapped "Tap for sound". It now plays, even with the ringer switch set to silent, and it comes back after a phone call cuts it off.
 - 🎤 On Android phones, a project that listens to sound kept asking to use the microphone over and over, even after you said yes. Now it asks once.

@@ -269,8 +269,20 @@
         z-index: 2;
     }
 
+    /* A disabled field must look different from an idle one: the resting
+       border and placeholder already use the inactive color, so color alone
+       says nothing. Dim the whole field and dot its border — the same "not
+       now" vocabulary as inactive buttons — so e.g. the stage's chat field
+       visibly sleeps outside play mode. (Disabled controls are exempt from
+       contrast minimums; the dimming is the message.) */
     [disabled] {
         color: var(--wordplay-inactive-color);
+        opacity: 0.4;
+        cursor: default;
+    }
+
+    input.border[disabled] {
+        border-bottom-style: dotted;
     }
 
     input {

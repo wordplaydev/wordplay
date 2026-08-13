@@ -185,20 +185,17 @@
 </div>
 
 <style>
+    /* Placement belongs to the stage floor band in OutputView, which anchors
+       this clear of whichever music rendering must not be overlapped and keeps
+       the caption above it. This used to position itself against a hardcoded
+       15%, which floated it over nothing when the viewer chose `off`, buried it
+       under the mood cloud, and left it to collide with the caption. */
     .key-pad {
-        position: absolute;
-        /* Above the orchestra, which owns the bottom 15% of the stage. */
-        inset-block-end: calc(15% + var(--wordplay-spacing));
-        inset-inline: 0;
-        /* Above the stage HUD (`.overlay-layer`, z-index 10 in StageView), or
-           a project that draws there would bury its own controls. */
-        z-index: 11;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: var(--wordplay-spacing);
-        /* The gutters around the keys are still stage, and still draggable. */
-        pointer-events: none;
+        max-inline-size: 100%;
     }
 
     .row,

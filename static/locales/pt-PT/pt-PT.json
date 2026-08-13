@@ -7377,7 +7377,8 @@
                 "zoomOut": "zoom out do palco",
                 "rotate": "$~rodar $name",
                 "resize": "$~redimensionar $name",
-                "resetZoom": "repor o zoom para o local do palco"
+                "resetZoom": "repor o zoom para o local do palco",
+                "perform": "$~atuar: reiniciar o programa, executá-lo e preencher o ecrã com o palco"
             },
             "options": {
                 "locale": "idioma preferido para a saída",
@@ -7386,7 +7387,7 @@
             "tour": {
                 "launch": "faça um passeio pelo palco",
                 "stage": "O parâmetro /stage/ mostra o *valor actual* do seu programa. Este valor pode ser um *valor bruto*, como um número ou uma lista, uma *saída visual* que pode ver ou até um *som* que pode ouvir.",
-                "reset": "O botão /reset/ faz recuar a avaliação do seu programa até ao *início*, reproduzindo qualquer tempo, tecla ou fluxo de entrada a partir do zero.",
+                "reset": "$~O botão /reiniciar/ faz a avaliação do teu programa começar de novo desde o *início*, em qualquer modo: em ▶️ *reprodução* ele executa outra vez desde o topo, em ✏️ *edição* ele pausa depois da primeira avaliação para poderes ver o efeito das tuas edições no resultado inicial, e em ⏸️ *depuração* ele pausa logo no primeiro passo.",
                 "zoom": "Os botões /zoom/ permitem ampliar e reduzir o zoom no ecrã para que possa ver a sua saída com mais clareza ou com mais detalhe.",
                 "grid": "O botão /grid/ apresenta uma *grelha* no ecrã, útil para posicionar os elementos com precisão durante o processo de criação.",
                 "lock": "O botão /lock/ fixa a visão do palco. Quando *bloqueado*, o palco permanece estático; quando *desbloqueado*, pode mover e ampliar a imagem livremente.",
@@ -7434,25 +7435,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~modo de avaliação",
-                    "labels": ["$~editar", "$~reproduzir", "$~passo"],
+                    "labels": ["$~editar", "$~depurar", "$~jogar"],
                     "tips": [
-                        "$~mudar para o modo de edição: altera o programa enquanto o palco fica parado no fotograma atual",
-                        "$~mudar para o modo de reprodução: executa o programa em direto, respondendo às entradas em tempo real",
-                        "$~mudar para o modo de passo: pausa e avança pela avaliação do programa, um passo de cada vez"
+                        "$~mudar para o modo de edição: pausar o programa onde estiver e alterá-lo; as edições voltam a ser executadas para mostrar o seu efeito neste ponto",
+                        "$~mudar para o modo de depuração: percorrer a avaliação do programa, com os valores mostrados ao lado do código e na paleta",
+                        "$~mudar para o modo de execução: correr o programa ao vivo a partir de onde está, respondendo às entradas em tempo real"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~modo de avaliação",
-                    "labels": ["$~ver", "$~reproduzir", "$~passo"],
+                    "labels": ["$~ver", "$~depurar", "$~jogar"],
                     "tips": [
-                        "$~mudar para o modo de visualização: lê o programa enquanto o palco fica parado no fotograma atual",
-                        "$~mudar para o modo de reprodução: executa o programa em direto, respondendo às entradas em tempo real",
-                        "$~mudar para o modo de passo: pausa e avança pela avaliação do programa, um passo de cada vez"
+                        "$~mudar para o modo de visualização: pausar o programa onde estiver e lê-lo",
+                        "$~mudar para o modo de depuração: percorrer a avaliação do programa, com os valores mostrados ao lado do código e na paleta",
+                        "$~mudar para o modo de execução: correr o programa ao vivo a partir de onde está, respondendo às entradas em tempo real"
                     ]
                 },
                 "announce": "$~modo $mode",
-                "exception": "$~O programa teve um erro, por isso mudou para o modo de passo para que possas inspecioná-lo.",
-                "toggle": "$~alternar entre os modos de edição e de jogo"
+                "exception": "$~O programa teve um erro, por isso mudou para o modo de depuração para que o possas inspecionar.",
+                "toggle": "$~alternar entre os modos de edição e reprodução",
+                "resuming": "$~a retomar no passo $position",
+                "performing": "$~atuação $number, do início"
             },
             "gate": {
                 "start": {
@@ -7496,12 +7499,12 @@
                 "reset": "reiniciar desempenho"
             },
             "tour": {
-                "timeline": "A linha do tempo permite-lhe avançar e recuar na avaliação do seu programa, um passo de cada vez. É uma excelente forma de ver como o seu programa calcula o seu valor e de construir um modelo mental de como os programas @wordplay avaliam, especialmente se não estiver a ver o comportamento desejado.",
+                "timeline": "$~A /linha temporal/ permite-te avançar para a *frente* e para *trás* pela avaliação do teu programa, um passo de cada vez. Ela aparece na barra de ferramentas do palco nos modos ✏️ *edição* e ⏸️ *depuração*, e é uma ótima forma de ver *como* o teu programa calcula o seu valor, e de construir um modelo mental de como os programas em @wordplay avaliam, especialmente se não estiveres a ver o comportamento que queres.",
                 "annotations": "A janela /annotations/ é onde aparecem as explicações de cada passo. À medida que executa o programa passo a passo, é aqui que irá ler o que acabou de acontecer.",
                 "editor": "O /editor/ apresenta o seu código. Ao depurar passo a passo, o *valor* de cada parte do seu programa aparecerá ao lado dessa parte *após* a sua avaliação, permitindo-lhe observar os valores a acumularem-se à medida que o programa é executado.",
                 "history": "O /histórico/ mostra todas as *entradas* que o seu programa recebeu, como teclas premidas, intervalos de tempo e eventos de ponteiros. É *arrastável*, pelo que pode voltar a qualquer momento no histórico de avaliação do programa simplesmente arrastando.",
                 "stepControls": "Os controlos de /passo/ permitem-lhe navegar pela avaliação com precisão. Pode saltar para o *início* ou *fim*, avançar ou recuar um passo de cada vez, saltar por *uma entrada*, *sair* de uma função ou saltar para a parte do código *atualmente selecionada*.",
-                "modes": "$~O /seletor de modo/ escolhe como o teu programa é avaliado. No modo ✏️ *edição*, alteras o programa enquanto o palco fica parado no fotograma atual. No modo ⏸️ *passo* — onde estás agora — avanças para a *frente* e para *trás* pela avaliação, e o *valor atual* de cada parte do teu programa aparece ao lado dela no editor. No modo ▶️ *reprodução*, o teu programa executa em direto, respondendo às entradas em tempo real."
+                "modes": "$~O /seletor de modo/ escolhe como o teu programa avalia. No modo ✏️ *edição*, o programa pausa onde estiver e podes alterá-lo — as tuas edições repetem-se para mostrar o seu efeito nesse ponto. No modo ⏸️ *depuração*, o código é apenas de leitura e o *valor atual* de cada parte do teu programa aparece ao lado dela no editor e na paleta. No modo ▶️ *reprodução*, o teu programa corre ao vivo a partir de onde está, respondendo às entradas em tempo real. Ao lado do seletor, o botão /atuar/ — um triângulo de reprodução envolvido em cantos de ecrã inteiro — começa uma atuação desde o topo e enche o ecrã com o palco, e ↻ reinicia o programa em qualquer modo."
             }
         },
         "docs": {
@@ -8011,6 +8014,17 @@
                             "$~Não vibrar ao ritmo",
                             "$~Vibrar ao ritmo, quando o dispositivo o permitir"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~tamanho da legenda",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Mostrar legendas mais pequenas",
+                            "$~Mostrar legendas no tamanho normal",
+                            "$~Mostrar legendas metade maiores",
+                            "$~Mostrar legendas duas vezes maiores",
+                            "$~Mostrar legendas três vezes maiores"
+                        ]
                     }
                 },
                 "options": {
@@ -8322,7 +8336,7 @@
             },
             "tour": {
                 "launch": "faça um passeio pela paleta",
-                "palette": "Quando o projeto estiver *pausado*, pode utilizar a /paleta/ para editar *frases*, *grupos* e o *estágio*.",
+                "palette": "$~Podes usar a /paleta/ para editar *frases*, *grupos* e o *palco* no modo ✏️ *edição*; nos outros modos os seus controlos são apenas de leitura, e no modo ⏸️ *depuração* cada propriedade também mostra o seu *valor atual*.",
                 "text": "Todas as /propriedades/ de uma frase podem ser editadas aqui. Este é o *texto* da frase, mas outras propriedades têm os seus próprios controlos.",
                 "set": "Quando uma propriedade está a utilizar o seu valor padrão, o botão de lápis permite definir um valor explícito para a mesma.",
                 "unset": "Quando uma propriedade tem um valor /explícito/ definido, o botão *X* remove esse valor, fazendo com que a propriedade volte ao seu valor *padrão*.",

@@ -81,7 +81,11 @@
         screenToStage,
     } from '@output/Output/outputToCSS';
     import Say from '@output/Output/Say';
-    import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
+    import { shouldDuckMusic } from '@output/Music/ducking';
+    import speech, { SaySource } from '@output/Speech/speech';
+    import Caption from '@components/output/Caption.svelte';
+    import { musicVisualization } from '@db/Database';
+    import { musicFloorHeight } from '@db/settings/MusicSettings';
     import { acquireMusicPlayer } from '@output/Music/players';
     import { isPreviewing } from '@output/Music/previewPlayer';
     import samples from '@output/Music/InstrumentSamples';
@@ -120,7 +124,7 @@
         value: Value | undefined;
         editable: boolean;
         /** Whether output can be selected (for inspection or palette editing). Defaults to
-         * editable; ProjectView passes it separately so step mode can select without editing. */
+         * editable; ProjectView passes it separately so debug mode can select without editing. */
         selectable?: boolean;
         fit?: boolean;
         grid?: boolean;
@@ -686,11 +690,11 @@
     );
 
     /** Interactive stage inputs (like the chat field) are only live in play mode;
-     *  both edit and step map to playing === false. */
+     *  both edit and debug map to playing === false. */
     const playing = $derived($evaluation?.playing === true);
     /** Stepping through a paused program: each step's output is news, so it's
      *  announced even though the program isn't running. */
-    const stepping = $derived($evaluation?.mode === 'step');
+    const stepping = $derived($evaluation?.mode === 'debug');
 
     /** Keep track of active sensor streams */
     const hasMicrophoneStream = $derived(
@@ -1245,7 +1249,7 @@
 
         // If there's a Placement, send it some navigation events based on position.
         // Only while playing — Placement is a live input, so clicking output to select it
-        // in edit/step mode must not also nudge its placement.
+        // in edit/debug mode must not also nudge its placement.
         if (evaluator.isPlaying() && valueView && stageValue) {
             evaluator.singletonReact(Placement, (placement) => {
                 // First, find the output on stage that this placement is placing,
@@ -1890,11 +1894,23 @@
         ),
     );
 
-    // Index of the utterance currently being spoken; -1 when nothing is playing.
-    let speakingIndex = $state(-1);
+    // Keep the bus in step with the viewer's chosen voice. It lives here
+    // because the bus deliberately can't read settings itself — it's reachable
+    // from the music player, which must not pull in the database.
+    $effect(() => {
+        speech.prefer($voice ?? undefined);
+    });
 
     /** Text of the utterances we most recently started speaking, to avoid restarting them. */
     let lastSpoken = '';
+
+    /** The performance that text was spoken for. A newly begun performance — the
+     *  program restarted, or played again after an edit — speaks even when its text is
+     *  identical; resuming a paused one, or returning from the debugger, does not. This
+     *  lives beside the text rather than replacing it because both are needed: text alone
+     *  misses a restart, and the performance alone misses a stream that changes what is
+     *  said. */
+    let lastSpokenPerformance: number | undefined = undefined;
 
     // Speak the queued Say outputs, but only when the text actually changes.
     // Programs driven by streams re-evaluate constantly, so restarting speech
@@ -1902,7 +1918,9 @@
     $effect(() => {
         const currentSays = says;
 
-        if (typeof speechSynthesis === 'undefined') return;
+        // A new performance can land on identical text and the same evaluator, so the
+        // performance is the only thing that changed; the evaluation store carries it.
+        const performance = $evaluation?.performance;
 
         const signature = currentSays
             .map(
@@ -1911,59 +1929,42 @@
             )
             .join('\n');
 
-        // Speech is a live output, so only speak while playing; the initial
-        // (paused) evaluation still populates says. Cancel anything mid-flight
-        // when paused, but leave lastSpoken untouched so pressing play speaks
-        // the current says once. (Every other input here guards the same way.)
+        // Speech is a live output, so only speak while playing; the initial (paused)
+        // evaluation still populates says. Cancel anything mid-flight when paused and record
+        // nothing — recording here is what would break a rewind, since a scrub fires many
+        // replays while paused and only the state on resuming play should decide.
+        // (Every other input here guards the same way.)
         if (!playing) {
-            if (speakingIndex >= 0 || speechSynthesis.speaking) {
-                speechSynthesis.cancel();
-                speakingIndex = -1;
-            }
+            speech.cancel(SaySource);
             return;
         }
 
-        // Same text as last time? Let whatever is speaking continue.
-        if (signature === lastSpoken) return;
+        // Same text, and still the same performance? Let whatever is speaking continue.
+        if (signature === lastSpoken && performance === lastSpokenPerformance)
+            return;
         lastSpoken = signature;
+        lastSpokenPerformance = performance;
 
         // Nothing to say now, but don't interrupt what's still being spoken.
         // Resetting the signature means the same text can be spoken again later.
         if (currentSays.length === 0) return;
 
-        speakingIndex = -1;
-        speechSynthesis.cancel();
-
         const lang = $locales.getLanguages()[0];
-        const currentVoiceURI = $voice;
 
-        // Build all utterances up front so onend closures can reference them.
-        const utterances = currentSays.map((say, i) => {
-            const u = new SpeechSynthesisUtterance(say.text.text);
-            u.lang = say.text.language?.getBCP47() ?? lang;
-            if (currentVoiceURI) {
-                const v = speechSynthesis
-                    .getVoices()
-                    .find((v) => v.voiceURI === currentVoiceURI);
-                if (v) u.voice = v;
-            }
-            u.onstart = () => {
-                speakingIndex = i;
-            };
-            u.onend = () => {
-                speakingIndex = -1;
-                if (i + 1 < utterances.length)
-                    speechSynthesis.speak(utterances[i + 1]);
-            };
-            return u;
-        });
-
-        speechSynthesis.speak(utterances[0]);
-    });
-
-    // Say is the other voice in the room, so music ducks against it too.
-    $effect(() => {
-        saySpeaking.set(speakingIndex >= 0);
+        // The bus chains these itself and cancels what this source had
+        // pending, which is what the hand-rolled `onend` chain here used to do
+        // — except that it cancelled every other source's speech along with it.
+        speech.speak(
+            SaySource,
+            currentSays.map((say) => ({
+                source: SaySource,
+                text: say.text.text,
+                lang: say.text.language?.getBCP47() ?? lang,
+                rate: 1,
+                volume: 1,
+                priority: 'flow' as const,
+            })),
+        );
     });
 
     // Collect the music on stage each evaluation, the way says are collected
@@ -1973,6 +1974,25 @@
     let musics = $derived(
         (stageValue?.getMusic() ?? []).map((music) => music.toData()),
     );
+
+    /** Tracks as well as musics, because the renderings disagree about what
+     *  counts as present — see `musicFloorHeight`. */
+    let musicTracks = $derived(
+        musics.reduce((total, music) => total + music.tracks.length, 0),
+    );
+
+    /** How far above the stage floor the caption and key pad stand: clear of a
+     *  rendering that must not be drawn over, flush with the floor otherwise. */
+    let bandFloor = $derived(
+        musicFloorHeight($musicVisualization, {
+            musics: musics.length,
+            tracks: musicTracks,
+        }),
+    );
+
+    /** The performance the music was last reconciled for, so a new one restarts a
+     *  piece that already played to its end. */
+    let lastSoundedPerformance: number | undefined = undefined;
 
     /** Acquired lazily, so a stage with no music never builds an AudioContext. */
     let musicHandle: ReturnType<typeof acquireMusicPlayer> | undefined =
@@ -2016,7 +2036,16 @@
         }));
         // The step index says where in its own history this evaluation sits, so
         // a creator stepping backwards can be shown where the music was then.
-        musicHandle.player.update(scaled, audible, evaluator.getStepIndex());
+        // A new performance re-sounds a one-shot score, the way it re-speaks a
+        // Say; resuming a paused one picks the piece up mid-phrase instead.
+        const beginning = $evaluation?.performance !== lastSoundedPerformance;
+        lastSoundedPerformance = $evaluation?.performance;
+        musicHandle.player.update(
+            scaled,
+            audible,
+            evaluator.getStepIndex(),
+            beginning,
+        );
     });
 
     $effect(() => {
@@ -2061,8 +2090,9 @@
     });
 
     onDestroy(() => {
-        if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
-        saySpeaking.set(false);
+        // Only this view's says: a cancel that reached every source would
+        // silence music still playing elsewhere on the page.
+        speech.cancel(SaySource);
         musicHandle?.release();
         musicHandle = undefined;
         musicEvaluator = undefined;
@@ -2260,11 +2290,33 @@
                 <span class="pause-glyph"><Emoji text={PAUSE_SYMBOL} /></span>
             </div>
         {/if}
-        <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
-        {#if says.length > 0 || musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
+        <!-- One band along the stage floor holding everything that has to stay
+             clear of the music: the Say caption, and the touch key pad under it.
+             Stacked in one column rather than positioned separately, because
+             both are variable height — the pad by how many keys a project uses,
+             the caption by the viewer's size setting — and no pair of hand-tuned
+             offsets survives both. Spanning the full stage rather than hugging
+             its contents is what gives it a definite height, which is what lets
+             the caption be capped as a fraction of the stage instead of in em
+             that grow with the setting.
+
+             Not in a mini preview, whose .value is position:static — an
+             absolutely positioned band there would escape to an unrelated
+             ancestor. Previews share the one global speech source with the real
+             stage, and a pad there was never tappable anyway. -->
+        {#if !mini}
+            <div class="stage-floor-band" style:--floor={bandFloor}>
+                <Caption />
+                {#if keyPad !== undefined}
+                    <KeyPadView analysis={keyPad} press={pressKey} />
+                {/if}
+            </div>
+        {/if}
+        <!-- Stage controls dock: stream status chips (Hand/Face loading, sensors) + keyboard input -->
+        {#if musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
             <div class="stage-controls-dock">
-                <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
-                {#if says.length > 0 || musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
+                <!-- Corner status chips: Hand/Face loading indicators, sensor monitors -->
+                {#if musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
                     <div class="stage-controls-row">
                         <!-- Sensor monitors (camera before microphone in visual order) -->
                         {#if hasCameraStream}
@@ -2324,21 +2376,6 @@
                                 aria-label={label}><Emoji text="📦" /></span
                             >
                         {/if}
-                        <!-- Speech synthesis queue -->
-                        {#each says as say, i (say.text.text + i)}
-                            <span
-                                class="stage-control-chip"
-                                title={say.text.text}
-                                aria-label={say.text.text}
-                                >{#if i < speakingIndex}
-                                    <Emoji text="🔇" />
-                                {:else if i === speakingIndex}
-                                    <Emoji text="🔊" />
-                                {:else}
-                                    <Emoji text="🔈" />
-                                {/if}</span
-                            >
-                        {/each}
                     </div>
                 {/if}
                 <!-- Hidden focus sink that lets Key/Placement streams receive keyboard events -->
@@ -2367,10 +2404,6 @@
                     </div>
                 {/if}
             </div>
-            <!-- Tappable keys in place of the on-screen keyboard. -->
-            {#if keyPad !== undefined}
-                <KeyPadView analysis={keyPad} press={pressKey} />
-            {/if}
         {/if}
     </div>
     <!-- Chat stream message field. It lives OUTSIDE .value so it escapes the pinned
@@ -2651,6 +2684,31 @@
         margin-top: 0.75em;
         display: flex;
         justify-content: flex-start;
+    }
+
+    .stage-floor-band {
+        position: absolute;
+        inset-inline: 0;
+        inset-block-start: 0;
+        /* --floor is the height of a rendering that must not be drawn over, or
+           0% when what's showing is ambient, off, or absent. */
+        inset-block-end: var(--floor, 0%);
+        display: flex;
+        flex-direction: column;
+        /* Contents pile on the floor; the band's height is only there to cap
+           them. The caption sits above the pad because that is DOM order, and
+           column layout is why they can never overlap however tall either is. */
+        justify-content: flex-end;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        /* Deliberately no align-items: the default stretch is what gives the
+           key pad's `.spread` row a full-stage width to space keys across. */
+        /* Above the stage HUD (`.overlay-layer`, z-index 10 in StageView), or a
+           project that draws there would bury its own caption and controls. */
+        z-index: 11;
+        /* The band covers the playfield, so it must not eat a tap; the keys
+           inside opt back in themselves. */
+        pointer-events: none;
     }
 
     .stage-controls-dock {

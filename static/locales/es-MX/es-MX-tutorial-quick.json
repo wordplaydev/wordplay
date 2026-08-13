@@ -271,7 +271,7 @@
                             "happy",
                             "$~La mayoría de los lenguajes de programación ofrecen algún tipo de herramientas de depuración para ayudar a los creadores a entender y resolver problemas en su código. Pero muchos solo usan instrucciones para mostrar y así comprobar los valores de las variables en una consola:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~@wordplay ofrece una experiencia de depuración más avanzada, que te permite avanzar *hacia adelante* y *hacia atrás* en su evaluación. Los @UI/stepControls avanzan la evaluación en cualquier dirección, así puedes ver cómo se construye un valor.",
+                            "$~@wordplay ofrece una forma más avanzada de depurar. Te permite avanzar *hacia adelante* y *hacia atrás* mientras se evalúa. Presiona el botón de depuración ⏸️ en el selector de modo @UI/modeSwitcher arriba del escenario para entrar al modo de *depuración*. El valor de cada expression aparece junto a ella en el código, y los @UI/stepControls avanzan la evaluación en cualquier dirección, para que puedas ver cómo se construye un valor.",
                             "$~¿Quieres más ayuda? El botón @UI/debugtour en el área de depuración te da un recorrido guiado por estos controles."
                         ]
                     ]

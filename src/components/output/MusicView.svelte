@@ -143,7 +143,7 @@
         position: absolute;
         inset-inline: 0;
         bottom: 0;
-        height: 15%;
+        height: var(--music-orchestra-height);
         display: flex;
         align-items: flex-end;
         justify-content: center;
