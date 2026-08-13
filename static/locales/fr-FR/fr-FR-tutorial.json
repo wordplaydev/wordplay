@@ -2543,7 +2543,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Il y a une autre chose que vous avez peut-être remarquée: il y a une zone sous la sortie qui est une chronologie. Elle est mise à jour à chaque fois que le programme réévalue, c'est-à-dire à chaque fois qu'un flux change. Elle s'affiche à chaque fois que @Time est activé."
+                            "$~Il y a autre chose à découvrir : la frise chronologique sous la sortie enregistre chaque fois que le programme est réévalué, c'est-à-dire chaque fois qu'un flux change — ici, chaque fois que @Time a fait un tic-tac. Appuie sur le bouton de débogage ⏸️ dans le sélecteur de mode @UI/modeSwitcher pour l'examiner de plus près, avec la valeur de chaque expression affichée à côté d'elle."
                         ],
                         ["Time", "neutral", "$~tic… tic… tic… tic… tic…"],
                         null,

@@ -271,7 +271,7 @@
                             "happy",
                             "$~大多数编程语言都提供某种调试工具，帮助创作者理解并解决代码中的问题。但很多只是用打印语句在控制台里检查变量的值：",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~@wordplay 提供了一种更完善的调试体验，让你能在它的求值过程中 *向前* 和 *向后* 一步步走。@UI/stepControls 可以朝任何方向推进求值，这样你就能看到一个值是怎么一步步构造出来的。",
+                            "$~@wordplay提供了更强大的调试方式，让你可以在计算过程中*向前*和*向后*一步步查看。点击舞台上方模式切换器@UI/modeSwitcher里的⏸️调试按钮，进入*调试*模式：每个expression的value会显示在代码旁边，并且@UI/stepControls可以向任意方向单步执行，这样你就能看到一个value是如何一步步生成的。",
                             "$~想要更多指导？调试区里的 @UI/debugtour 按钮会带你做一次关于这些控件的有导览的介绍。"
                         ]
                     ]

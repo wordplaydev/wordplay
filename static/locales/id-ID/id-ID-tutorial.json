@@ -2547,7 +2547,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Ada hal lain yang mungkin Anda perhatikan: ada area di bawah output yang merupakan garis waktu. Garis waktu ini diperbarui setiap kali program melakukan evaluasi ulang, yaitu setiap kali aliran data berubah. Garis waktu ini ditampilkan setiap kali @Time berdetik."
+                            "$~Ada satu hal lagi yang bisa kamu temukan: garis waktu di bawah keluaran mencatat setiap kali program dievaluasi ulang, yaitu setiap kali sebuah aliran berubah — di sini, setiap kali @Time berdetak. Tekan tombol debug ⏸️ di pengalih mode @UI/modeSwitcher untuk memeriksanya lebih dekat, dengan nilai setiap expression ditampilkan di sebelahnya."
                         ],
                         ["Time", "neutral", "$~tik… tik… tik… tik… tik…"],
                         null,

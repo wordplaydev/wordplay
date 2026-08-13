@@ -63,7 +63,7 @@
         stage: Stage;
         interactive: boolean;
         editable: boolean;
-        /** Whether the creator can select output for inspection (edit or step mode).
+        /** Whether the creator can select output for inspection (edit or debug mode).
          * Defaults to editable, so read-only stages behave as before. */
         inspectable?: boolean;
         fit: boolean;
@@ -231,7 +231,7 @@
     /** Whether the stage should describe itself, matching the condition
      *  OutputView uses for value announcements. */
     let speaking = $derived(
-        $evaluation?.playing === true || $evaluation?.mode === 'step',
+        $evaluation?.playing === true || $evaluation?.mode === 'debug',
     );
 
     // When interactive or stage changes, update the announcement timeout and timer.
@@ -306,19 +306,41 @@
         });
     });
 
-    // When the evaluator is playing but the animator is stopped, create a new animator.
+    /** The performance the scene belongs to. A new one is a new scene — every
+     *  output enters again — while pausing and playing within one only holds the
+     *  scene and lets it go. */
+    let animatedPerformance: number | undefined = undefined;
+
+    // Follow the evaluation: hold the scene while paused, continue it on play,
+    // and start a fresh one only when a new performance begins.
     $effect(() => {
-        if (animator) {
-            // If there's an evaluation context, adjust the animator state based on it.
-            if ($evaluation) {
-                if ($evaluation.playing) {
-                    if (animator.isStopped()) untrack(() => resetAnimator());
-                } else {
-                    animator.stop();
-                    overlayAnimator?.stop();
+        if (animator === undefined || $evaluation === undefined) return;
+        const performance = $evaluation.performance;
+        const playing = $evaluation.playing;
+        untrack(() => {
+            if (animator === undefined) return;
+            // A new performance means the creator asked to watch the program
+            // again, so entrances play again. Pausing is not that.
+            if (performance !== animatedPerformance) {
+                animatedPerformance = performance;
+                resetAnimator();
+                if (!playing) {
+                    animator?.suspend();
+                    overlayAnimator?.suspend();
                 }
+                return;
             }
-        }
+            if (playing) {
+                if (animator.isStopped()) resetAnimator();
+                else {
+                    animator.resume();
+                    overlayAnimator?.resume();
+                }
+            } else {
+                animator.suspend();
+                overlayAnimator?.suspend();
+            }
+        });
     });
 
     // The effective writing layout for output: an explicit setting, or the

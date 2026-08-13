@@ -271,7 +271,7 @@
                             "happy",
                             "$~La plupart des langages de programmation offrent une sorte d'outils de débogage pour aider les créateurs à comprendre et à résoudre les problèmes dans leur code. Mais beaucoup utilisent juste des instructions d'affichage pour vérifier les valeurs des variables dans une console :",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~@wordplay offre une expérience de débogage plus poussée, qui te permet d'avancer en *avant* et en *arrière* dans son évaluation. Les @UI/stepControls font avancer l'évaluation dans n'importe quel sens, pour que tu puisses voir comment une valeur se construit.",
+                            "$~@wordplay propose une façon plus avancée de chercher les erreurs. Tu peux avancer *en avant* et *en arrière* dans son évaluation. Appuie sur le bouton de débogage ⏸️ dans le sélecteur de mode @UI/modeSwitcher au-dessus de la scène pour passer en mode *débogage* : la valeur de chaque expression apparaît à côté d'elle dans le code, et les @UI/stepControls font avancer l'évaluation dans n'importe quelle direction, pour que tu puisses voir comment une valeur se construit.",
                             "$~Tu veux plus d'aide ? Le bouton @UI/debugtour dans la zone de débogage donne une visite guidée de ces commandes."
                         ]
                     ]

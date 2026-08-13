@@ -7125,7 +7125,8 @@
                 "zoomOut": "$~alejar del escenario",
                 "rotate": "$~rotar $name",
                 "resize": "$~cambiar tamaño de $name",
-                "resetZoom": "$~restablecer el zoom a la posición del escenario"
+                "resetZoom": "$~restablecer el zoom a la posición del escenario",
+                "perform": "$~realizar: reinicia el programa, ejecútalo y llena la pantalla con el escenario"
             },
             "options": {
                 "locale": "$~idioma preferido para la salida",
@@ -7134,7 +7135,7 @@
             "tour": {
                 "launch": "$~haz un recorrido por el escenario",
                 "stage": "$~El /escenario/ muestra el *valor actual* de tu programa. Ese valor puede ser un *valor sin formato* como un número o una lista, *salida visual* que puedes ver, o incluso *sonido* que puedes oír.",
-                "reset": "$~El botón de /reinicio/ rebobina la evaluación de tu programa hasta el *principio*, reproduciendo desde cero cualquier flujo de tiempo, teclas o entrada.",
+                "reset": "$~El botón /reiniciar/ hace que la evaluación de tu programa empiece desde el *principio*, en cualquier modo: en ▶️ *reproducir* se ejecuta otra vez desde arriba, en ✏️ *editar* se detiene después de la primera evaluación para que veas el efecto de tus cambios en la salida inicial, y en ⏸️ *depurar* se detiene en el primer paso.",
                 "zoom": "$~Los botones de /zoom/ te permiten *acercar* y *alejar* el escenario para que puedas ver tu salida más claramente o con más detalle.",
                 "grid": "$~El botón de /cuadrícula/ muestra una *cuadrícula* en el escenario, útil para colocar cosas con precisión mientras diseñas.",
                 "lock": "$~El botón de /candado/ bloquea la vista del escenario en su lugar. Cuando está *bloqueado*, el escenario se queda quieto; cuando está *desbloqueado*, puedes desplazarte y hacer zoom libremente.",
@@ -7182,25 +7183,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~modo de evaluación",
-                    "labels": ["$~editar", "$~reproducir", "$~paso"],
+                    "labels": ["$~editar", "$~depurar", "$~jugar"],
                     "tips": [
-                        "$~cambiar al modo de edición: modifica el programa mientras el escenario queda congelado en el fotograma actual",
-                        "$~cambiar al modo de reproducción: ejecuta el programa en vivo, respondiendo a las entradas en tiempo real",
-                        "$~cambiar al modo de pasos: pausa y avanza por la evaluación del programa, un paso a la vez"
+                        "$~cambiar al modo de edición: pausa el programa donde esté y cámbialo; las ediciones se vuelven a reproducir para mostrar su efecto en este punto",
+                        "$~cambiar al modo de depuración: recorre paso a paso la evaluación del programa, con los valores mostrados junto al código y en la paleta",
+                        "$~cambiar al modo de reproducción: ejecuta el programa en vivo desde donde esté, respondiendo a las entradas en tiempo real"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~modo de evaluación",
-                    "labels": ["$~ver", "$~reproducir", "$~paso"],
+                    "labels": ["$~ver", "$~depurar", "$~jugar"],
                     "tips": [
-                        "$~cambiar al modo de vista: lee el programa mientras el escenario queda congelado en el fotograma actual",
-                        "$~cambiar al modo de reproducción: ejecuta el programa en vivo, respondiendo a las entradas en tiempo real",
-                        "$~cambiar al modo de pasos: pausa y avanza por la evaluación del programa, un paso a la vez"
+                        "$~cambiar al modo de vista: pausa el programa donde esté y léelo",
+                        "$~cambiar al modo de depuración: recorre paso a paso la evaluación del programa, con los valores mostrados junto al código y en la paleta",
+                        "$~cambiar al modo de reproducción: ejecuta el programa en vivo desde donde esté, respondiendo a las entradas en tiempo real"
                     ]
                 },
                 "announce": "$~modo $mode",
-                "exception": "$~El programa tuvo un error, así que cambió al modo de pasos para que puedas revisarlo.",
-                "toggle": "$~cambiar entre los modos de edición y de juego"
+                "exception": "$~El programa tuvo un error, así que cambió al modo de depuración para que puedas revisarlo.",
+                "toggle": "$~cambiar entre los modos editar y reproducir",
+                "resuming": "$~reanudando en el paso $position",
+                "performing": "$~realización $number, desde el inicio"
             },
             "gate": {
                 "start": {
@@ -7244,12 +7247,12 @@
                 "reset": "reiniciar la actuación"
             },
             "tour": {
-                "timeline": "$~La /línea de tiempo/ te permite avanzar *hacia adelante* y *hacia atrás* en la evaluación de tu programa, un paso a la vez. Es una gran forma de ver *cómo* tu programa calcula su valor, y de crear un modelo mental de cómo se evalúan los programas de @wordplay, especialmente si no estás viendo el comportamiento que quieres.",
+                "timeline": "$~La /línea de tiempo/ te deja avanzar *hacia adelante* y *hacia atrás* por la evaluación de tu programa, un paso a la vez. Aparece en la barra de herramientas del escenario en los modos ✏️ *editar* y ⏸️ *depurar*, y es una gran manera de ver *cómo* tu programa calcula su valor, y de crear un modelo mental de cómo evalúan los programas de @wordplay, sobre todo si no ves el comportamiento que quieres.",
                 "annotations": "$~La ventana de /anotaciones/ es donde aparecen las explicaciones de cada paso. A medida que avanzas por tu programa, aquí leerás lo que acaba de pasar.",
                 "editor": "$~El /editor/ muestra tu código. Mientras avanzas paso a paso, el *valor* de cada parte de tu programa aparecerá junto a esa parte *después* de ser evaluada, para que puedas ver cómo se construyen los valores mientras el programa corre.",
                 "history": "$~El /historial/ muestra cada *entrada* que ha recibido tu programa, como teclas, marcas de tiempo y eventos del puntero. Es *arrastrable*, así que puedes volver a cualquier momento del historial de evaluación del programa solo arrastrando.",
                 "stepControls": "$~Los /controles de pasos/ te permiten moverte por la evaluación con precisión. Puedes saltar al *principio* o al *final*, avanzar *hacia adelante* o *hacia atrás* un paso a la vez, saltar por *una entrada*, salir *de* una función, o saltar a la parte *seleccionada actualmente* del código.",
-                "modes": "$~El /selector de modo/ elige cómo se evalúa tu programa. En el modo ✏️ *editar*, modificas el programa mientras el escenario queda congelado en el fotograma actual. En el modo ⏸️ *paso* — donde estás ahora — avanzas *hacia adelante* y *hacia atrás* por la evaluación, y el *valor actual* de cada parte de tu programa aparece a su lado en el editor. En el modo ▶️ *reproducir*, tu programa se ejecuta en vivo, respondiendo a las entradas en tiempo real."
+                "modes": "$~El /selector de modo/ elige cómo evalúa tu programa. En el modo ✏️ *editar*, el programa se detiene donde esté y puedes cambiarlo — tus cambios se vuelven a ejecutar para mostrar su efecto en ese punto. En el modo ⏸️ *depurar*, el código es solo de lectura y el *valor actual* de cada parte de tu programa aparece junto a ella en el editor y en la paleta. En el modo ▶️ *reproducir*, tu programa corre en vivo desde donde esté, respondiendo a las entradas en tiempo real. Junto al selector, el botón /presentar/ — un triángulo de reproducción rodeado por esquinas de pantalla completa — comienza una presentación desde arriba y llena la pantalla con el escenario, y ↻ reinicia el programa en cualquier modo."
             }
         },
         "docs": {
@@ -7759,6 +7762,17 @@
                             "$~No vibrar con el ritmo",
                             "$~Vibrar con el ritmo, cuando el dispositivo lo permita"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~tamaño del subtítulo",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Mostrar subtítulos más pequeños",
+                            "$~Mostrar subtítulos en el tamaño estándar",
+                            "$~Mostrar subtítulos una vez y media más grandes",
+                            "$~Mostrar subtítulos el doble de grandes",
+                            "$~Mostrar subtítulos tres veces más grandes"
+                        ]
                     }
                 },
                 "options": {
@@ -7995,7 +8009,7 @@
             },
             "tour": {
                 "launch": "$~haz un recorrido por la paleta",
-                "palette": "$~Cuando el proyecto está *en pausa*, puedes usar la /paleta/ para editar *frases*, *grupos* y el *escenario*.",
+                "palette": "$~Puedes usar la /paleta/ para editar *frases*, *grupos* y el *escenario* en el modo ✏️ *editar*; en otros modos sus controles son solo de lectura, y en el modo ⏸️ *depurar* cada propiedad también muestra su *valor actual*.",
                 "text": "$~Todas las /propiedades/ de una frase se pueden editar aquí. Este es el *texto* de la frase, pero otras propiedades tienen sus propios controles.",
                 "set": "$~Cuando una propiedad está usando su valor /predeterminado/, el botón del *lápiz* te permite establecer un valor *explícito* para ella.",
                 "unset": "$~Cuando una propiedad tiene un valor /explícito/ establecido, el botón *X* quita ese valor y devuelve la propiedad a su valor *predeterminado*.",

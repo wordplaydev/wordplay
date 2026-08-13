@@ -305,7 +305,7 @@
         bottom: 0;
         /* Tall enough that a wide register has somewhere to go; the notes are
            fitted into it rather than clipped against it. */
-        height: 34%;
+        height: var(--music-sheet-height);
         z-index: 0;
         pointer-events: none;
         overflow: hidden;

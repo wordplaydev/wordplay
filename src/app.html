@@ -341,6 +341,15 @@
                 --wordplay-widget-height: 1.5em;
                 --wordplay-min-line-height: 3ex;
 
+                /* How much of the stage floor the two renderings that must not
+                   be overlapped stand on (see MusicVisualizationOverlap).
+                   Declared here rather than in each rendering because the floor
+                   band has to clear whichever one the viewer chose, and separate
+                   copies of these numbers drift. The ambient renderings have no
+                   height here because nothing has to clear them. */
+                --music-orchestra-height: 15%;
+                --music-sheet-height: 34%;
+
                 --bounce-height: 0.2em;
                 --wobble-rotation: 2deg;
 

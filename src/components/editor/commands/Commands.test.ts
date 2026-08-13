@@ -111,8 +111,9 @@ test('commands claiming external feedback are enumerated', () => {
             '▾', // autocomplete menu → the menu's own open/close
             '⏯', // toggle evaluation mode → setUIMode
             '✏️', // edit mode → setUIMode
-            '⏸', // step mode → setUIMode
+            '⏸', // debug mode → setUIMode
             '▶', // play mode → setUIMode
+            '⛶', // perform → performProject announces the fresh performance
         ].sort(),
     );
 });

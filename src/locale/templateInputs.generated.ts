@@ -650,6 +650,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.output.download.percent': ['percent'],
     'ui.output.manyChanged': ['#count', 'container', 'example'],
     'ui.output.mode.announce': ['mode'],
+    'ui.output.mode.performing': ['number'],
+    'ui.output.mode.resuming': ['position'],
     'ui.output.moved': ['name', 'direction', 'place'],
     'ui.output.options.default': ['#count'],
     'ui.output.selected': ['name', 'count'],

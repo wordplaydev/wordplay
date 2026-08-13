@@ -12,6 +12,7 @@
     import type { ModeText } from '@locale/UITexts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import { withMonoEmoji } from '@unicode/emoji';
+    import type { Component } from 'svelte';
 
     interface Props {
         /** Localized text for the labels and tooltips */
@@ -22,8 +23,10 @@
         choice: number | undefined;
         /** Callback for when a mode is selected.*/
         select: (choice: number) => void;
-        /** Icons to add as prefixes to labels */
-        icons?: readonly string[];
+        /** Icons to add as prefixes to labels: a glyph string (rendered
+         *  monochrome) or a drawn icon component, for marks whose codepoints
+         *  render unpredictably across platforms (e.g. the playback glyphs). */
+        icons?: readonly (string | Component)[];
         /** Whether the mode chooser is active */
         active?: boolean;
         /** Whether to add a label before the mode chooser*/
@@ -199,9 +202,11 @@
                 >
                     {#if icons}<span
                             aria-hidden={modeLabels ? 'true' : undefined}
-                            >{#if index < icons.length}{withMonoEmoji(
-                                    icons[index],
-                                )}{:else}?{/if}</span
+                            >{#if index < icons.length}{@const icon =
+                                    icons[index]}{#if typeof icon === 'string'}{withMonoEmoji(
+                                        icon,
+                                    )}{:else}{@const Icon = icon}<Icon
+                                    />{/if}{:else}?{/if}</span
                         >{/if}
                     {#if modeLabels && !tipEditing[index]}<LocalizedText
                             path={modes}

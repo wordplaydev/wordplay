@@ -4,15 +4,22 @@
  * ducking itself is not optional; only its depth is (`MusicDuckingSetting`).
  */
 
-import { derived, writable, type Writable } from 'svelte/store';
+import { derived, type Readable } from 'svelte/store';
 import { announcerPresenting } from '@components/project/announcerQueue';
+import { SaySource, speakingNow } from '@output/Speech/speech';
 
 /**
- * True while `Say` is speaking. OutputView owns the utterance chain, so it
- * sets this from the same `onstart`/`onend`/cancel paths that drive its
- * speaking index.
+ * True while a standalone `Say` is speaking.
+ *
+ * Deliberately scoped to `Say` and not to every speaker: a track's spoken text
+ * shares the same synthesizer, but it is *part of* the mix it would be ducking,
+ * so ducking on it would pump the gain on every word. Only a voice from
+ * outside the music gets the music out of its way.
  */
-export const saySpeaking: Writable<boolean> = writable(false);
+export const saySpeaking: Readable<boolean> = derived(
+    speakingNow,
+    ($speaking) => $speaking?.source === SaySource,
+);
 
 /** True while anything else is talking. */
 export const shouldDuckMusic = derived(

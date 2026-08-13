@@ -2513,7 +2513,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Hay otra cosa que quizás hayas notado: hay un área debajo del resultado que es una línea de tiempo. Se actualiza cada vez que el programa se reevalúa, es decir, cada vez que cambia una secuencia. Se muestra cada vez que @Time marca."
+                            "$~Hay otra cosa para descubrir: la línea de tiempo debajo de la salida registra cada vez que el programa se volvió a evaluar, que es cada vez que un flujo cambió. Aquí, cada vez que @Time marcó el tiempo. Presiona el botón de depuración ⏸️ en el selector de modo @UI/modeSwitcher para examinarlo más de cerca, con el valor de cada expresión mostrado a su lado."
                         ],
                         ["Time", "neutral", "$~tic… tic… tic… tic… tic…"],
                         null,

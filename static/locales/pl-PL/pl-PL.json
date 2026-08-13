@@ -7162,7 +7162,8 @@
                 "zoomOut": "$~oddalić się od sceny",
                 "rotate": "$~obróć $name",
                 "resize": "$~zmień rozmiar $name",
-                "resetZoom": "$~zresetuj zoom do miejsca sceny"
+                "resetZoom": "$~zresetuj zoom do miejsca sceny",
+                "perform": "$~wykonaj: uruchom program od nowa, odtwórz go i wypełnij ekran sceną"
             },
             "options": {
                 "locale": "$~wybierz język wyjścia",
@@ -7171,7 +7172,7 @@
             "tour": {
                 "launch": "$~zwiedzić scenę",
                 "stage": "$~Zmienna /stage/ pokazuje *bieżącą wartość* Twojego programu. Ta wartość może być *surową wartością*, taką jak liczba lub lista, *wynikiem wizualnym*, który możesz zobaczyć, a nawet *dźwiękiem*, który możesz usłyszeć.",
-                "reset": "$~Przycisk /reset/ cofa ocenę programu do *początku*, odtwarzając dowolny moment, klawisz lub strumienie wejściowe od początku.",
+                "reset": "$~Przycisk /resetuj/ rozpoczyna wykonywanie twojego programu od *początku*, w każdym trybie: w trybie ▶️ *odtwarzania* program działa znowu od góry, w trybie ✏️ *edycji* zatrzymuje się po pierwszym wykonaniu, więc widzisz wpływ swoich zmian na początkowy wynik, a w trybie ⏸️ *debugowania* zatrzymuje się na samym pierwszym kroku.",
                 "zoom": "$~Przyciski /zoom/ umożliwiają przybliżanie i oddalanie sceny, dzięki czemu możesz zobaczyć swoje wyniki wyraźniej i bardziej szczegółowo.",
                 "grid": "$~Przycisk /grid/ wyświetla na scenie *siatkę*, która ułatwia precyzyjne rozmieszczanie elementów podczas projektowania.",
                 "lock": "$~Przycisk /lock/ blokuje widok sceny. Po *zablokowaniu* scena pozostaje nieruchoma; po *odblokowaniu* możesz swobodnie przesuwać i powiększać.",
@@ -7219,25 +7220,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~tryb wykonywania",
-                    "labels": ["$~edytuj", "$~odtwórz", "$~krok"],
+                    "labels": ["$~edytuj", "$~debuguj", "$~graj"],
                     "tips": [
-                        "$~przełącz na tryb edycji: zmieniaj program, gdy scena pozostaje zamrożona na bieżącej klatce",
-                        "$~przełącz na tryb odtwarzania: uruchom program na żywo, reagując na dane wejściowe w czasie rzeczywistym",
-                        "$~przełącz na tryb kroku: wstrzymaj i przechodź przez wykonywanie programu, krok po kroku"
+                        "$~przełącz na tryb edycji: zatrzymaj program w miejscu, w którym jest, i zmień go; zmiany odtwarzają się, aby pokazać ich efekt w tym punkcie",
+                        "$~przełącz na tryb debugowania: przechodź krok po kroku przez obliczanie programu, z wartościami pokazanymi obok kodu i w palecie",
+                        "$~przełącz na tryb odtwarzania: uruchom program na żywo od miejsca, w którym jest, reagując na dane wejściowe w czasie rzeczywistym"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~tryb wykonywania",
-                    "labels": ["$~widok", "$~odtwórz", "$~krok"],
+                    "labels": ["$~pokaż", "$~debuguj", "$~graj"],
                     "tips": [
-                        "$~przełącz na tryb widoku: czytaj program, gdy scena pozostaje zamrożona na bieżącej klatce",
-                        "$~przełącz na tryb odtwarzania: uruchom program na żywo, reagując na dane wejściowe w czasie rzeczywistym",
-                        "$~przełącz na tryb kroku: wstrzymaj i przechodź przez wykonywanie programu, krok po kroku"
+                        "$~przełącz na tryb podglądu: zatrzymaj program w miejscu, w którym jest, i czytaj go",
+                        "$~przełącz na tryb debugowania: przechodź krok po kroku przez obliczanie programu, z wartościami pokazanymi obok kodu i w palecie",
+                        "$~przełącz na tryb odtwarzania: uruchom program na żywo od miejsca, w którym jest, reagując na dane wejściowe w czasie rzeczywistym"
                     ]
                 },
                 "announce": "$~tryb $mode",
-                "exception": "$~Program napotkał błąd, więc przełączył się na tryb kroku, abyś mógł go zbadać.",
-                "toggle": "$~przełącz między trybem edycji a trybem gry"
+                "exception": "$~Program miał błąd, więc przełączył się na tryb debugowania, abyś mógł go zbadać.",
+                "toggle": "$~przełączaj między trybem edycji a trybem odtwarzania",
+                "resuming": "$~wznawianie na kroku $position",
+                "performing": "$~wykonanie $number, od początku"
             },
             "gate": {
                 "start": {
@@ -7281,12 +7284,12 @@
                 "reset": "$~ponowne uruchomienie wydajności"
             },
             "tour": {
-                "timeline": "$~Oś czasu pozwala *przewijać* i *przewijać* proces ewaluacji programu krok po kroku. To świetny sposób, aby zobaczyć, *jak* program oblicza swoją wartość i zbudować mentalny model ewaluacji programów @wordplay, zwłaszcza jeśli nie obserwujesz pożądanego zachowania.",
+                "timeline": "$~/Oś czasu/ pozwala ci przechodzić *do przodu* i *do tyłu* przez wykonywanie twojego programu, krok po kroku. Pojawia się na pasku narzędzi sceny w trybie ✏️ *edycji* i ⏸️ *debugowania*. To świetny sposób, aby zobaczyć, *jak* twój program oblicza swoją wartość, i zbudować w głowie obraz tego, jak programy @wordplay się wykonują, zwłaszcza gdy nie widzisz zachowania, którego chcesz.",
                 "annotations": "$~W oknie /adnotacje/ pojawiają się objaśnienia każdego kroku. Podczas przechodzenia przez program, tutaj dowiesz się, co się właśnie wydarzyło.",
                 "editor": "$~/Edytor/ pokazuje Twój kod. Podczas wykonywania kroków, *wartość* każdej części programu pojawi się obok tej części *po* jej ocenie, dzięki czemu możesz obserwować, jak wartości rosną w miarę działania programu.",
                 "history": "$~W zakładce /history/ wyświetlane są wszystkie *dane wejściowe* otrzymane przez program, takie jak klawisze, znaczniki czasu i zdarzenia wskaźnika. Można ją *przeciągać*, więc możesz wrócić do dowolnego momentu w historii ewaluacji programu, po prostu przeciągając.",
                 "stepControls": "$~Sterowanie krokami pozwala precyzyjnie poruszać się po ewaluacji. Możesz przejść do *początku* lub *końca*, przejść *do przodu* lub *do tyłu* o jeden krok na raz, przejść o *jeden element wejściowy*, *wyjść* z funkcji lub przejść do *aktualnie zaznaczonego* fragmentu kodu.",
-                "modes": "$~/Przełącznik trybu/ wybiera sposób, w jaki wykonuje się twój program. W trybie ✏️ *edycji* zmieniasz program, gdy scena pozostaje zamrożona na bieżącej klatce. W trybie ⏸️ *kroku* — w którym teraz jesteś — przechodzisz *do przodu* i *do tyłu* przez wykonywanie, a *bieżąca wartość* każdej części twojego programu pojawia się obok niej w edytorze. W trybie ▶️ *odtwarzania* twój program działa na żywo, reagując na dane wejściowe w czasie rzeczywistym."
+                "modes": "$~/Przełącznik trybu/ wybiera, jak twój program się wykonuje. W trybie ✏️ *edycji* program zatrzymuje się tam, gdzie jest, i możesz go zmieniać — twoje zmiany odtwarzają się ponownie, aby pokazać ich wpływ w tym miejscu. W trybie ⏸️ *debugowania* kod jest tylko do odczytu, a *bieżąca wartość* każdej części twojego programu pojawia się obok niej w edytorze i w palecie. W trybie ▶️ *odtwarzania* twój program działa na żywo od miejsca, w którym jest, i reaguje na wejścia w czasie rzeczywistym. Obok przełącznika przycisk /wykonaj/ — trójkąt odtwarzania otoczony narożnikami pełnego ekranu — rozpoczyna wykonanie od góry i wypełnia ekran sceną, a ↻ resetuje program w każdym trybie."
             }
         },
         "docs": {
@@ -7800,6 +7803,17 @@
                             "$~Nie wibruj w rytm",
                             "$~Wibruj w rytm, jeśli urządzenie to obsługuje"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~rozmiar napisów",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Pokaż mniejsze napisy",
+                            "$~Pokaż napisy w standardowym rozmiarze",
+                            "$~Pokaż napisy o połowę większe",
+                            "$~Pokaż napisy dwa razy większe",
+                            "$~Pokaż napisy trzy razy większe"
+                        ]
                     }
                 },
                 "options": {
@@ -8111,7 +8125,7 @@
             },
             "tour": {
                 "launch": "$~obejrzyj paletę barw",
-                "palette": "$~Gdy projekt jest *wstrzymany*, możesz użyć /palette/, aby edytować *frazy*, *grupy* i *etap*.",
+                "palette": "$~Możesz użyć /palety/, aby edytować *frazy*, *grupy* i *scenę* w trybie ✏️ *edycji*; w innych trybach jej elementy sterujące są tylko do odczytu, a w trybie ⏸️ *debugowania* każda właściwość pokazuje też swoją *bieżącą wartość*.",
                 "text": "$~Tutaj można edytować wszystkie /właściwości/ frazy. To jest *tekst* frazy, ale inne właściwości mają własne kontrolki.",
                 "set": "$~Jeśli właściwość aktualnie używa swojej wartości /default/, przycisk *pencil* umożliwia ustawienie dla niej *jawnej* wartości.",
                 "unset": "$~Jeśli właściwość ma ustawioną wartość /explicit/, przycisk *X* usuwa tę wartość, przywracając właściwość do jej *domyślnej* wartości.",

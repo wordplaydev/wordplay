@@ -75,6 +75,7 @@
         type CaretTokenSummary,
         type EditorState,
         IdleKind,
+        deriveSteppedEvaluation,
         getAnimatingNodes,
         getAnnouncer,
         getConceptIndex,
@@ -615,33 +616,22 @@
     const projectCommandContext = getProjectCommandContext();
 
     /** Whether the editor should behave like a debugger right now (step-node scrolling,
-     * value hovers): step mode inside a ProjectView, otherwise simply paused. */
+     * value hovers): debug mode inside a ProjectView, otherwise simply paused. */
     function inStepMode(): boolean {
         const ev = evaluation !== undefined ? get(evaluation) : undefined;
-        if (ev?.mode !== undefined) return ev.mode === 'step';
+        if (ev?.mode !== undefined) return ev.mode === 'debug';
         return !evaluator.isPlaying();
     }
     // Forward a play-rate-decoupled copy of the evaluation context for this
-    // editor's NodeViews (see Contexts.getSteppedEvaluation): while PLAYING,
+    // editor's NodeViews (see Contexts.deriveSteppedEvaluation): while PLAYING,
     // broadcasts arrive ~60 Hz and every rendered NodeView's inline-value derived
-    // would re-run per frame for nothing (values only display while paused). Skip
-    // consecutive while-playing updates from the same evaluator.
+    // would re-run per frame for nothing (values only display while paused).
     const steppedEvaluation =
-        evaluation !== undefined ? writable(get(evaluation)) : undefined;
+        evaluation !== undefined
+            ? deriveSteppedEvaluation(evaluation)
+            : undefined;
     if (steppedEvaluation !== undefined)
         setSteppedEvaluation(steppedEvaluation);
-    $effect(() => {
-        const ev = $evaluation;
-        if (steppedEvaluation === undefined || ev === undefined) return;
-        untrack(() => {
-            const prev = get(steppedEvaluation);
-            if (
-                !(ev.playing && prev.playing) ||
-                ev.evaluator !== prev.evaluator
-            )
-                steppedEvaluation.set(ev);
-        });
-    });
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
@@ -691,7 +681,7 @@
         // hit-testing and rendered-token sets would otherwise reflect a stale window.
         $effectiveFolded;
         $evaluation?.playing;
-        // The project mode also determines whether value views render (step mode only),
+        // The project mode also determines whether value views render (debug mode only),
         // so a mode switch re-renders tokens just like a play/pause flip.
         $evaluation?.mode;
         $windowRevision;
@@ -3293,6 +3283,13 @@
     // undefined so the 'evaluating' highlight doesn't flicker every frame.
     let projectStepNode = $derived.by(() => {
         if ($evaluation === undefined || $evaluation.playing) return undefined;
+        // Only the debugger annotates the current step: edit mode is for
+        // reading and writing the program, not watching its evaluation, so a
+        // paused edit shows no evaluating highlight and does no step-following
+        // scrolling. (Outside a ProjectView mode is undefined, and a stepped
+        // doc example still shows its step.)
+        if ($evaluation.mode !== undefined && $evaluation.mode !== 'debug')
+            return undefined;
         return $evaluation.evaluator.getStepNode();
     });
 
@@ -3807,6 +3804,8 @@
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"
+    class:evaluation-mode={$evaluation?.mode === 'play' ||
+        $evaluation?.mode === 'debug'}
     class:readonly={!editable}
     class:focused
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
@@ -4180,6 +4179,15 @@
             transparent 0
         );
         background-size: 6px 6px;
+    }
+
+    /* In play and debug modes the program's evaluation is on display — live,
+       or held mid-step — and an evaluation-color border says so, which is
+       otherwise invisible from the editor when the stage is in another tile.
+       Inset so nothing shifts. Gated on the project mode (not `playing`) so
+       doc examples' editors don't light up when their previews run. */
+    .editor.evaluation-mode {
+        box-shadow: inset 0 0 0 2px var(--wordplay-evaluation-color);
     }
 
     .editor.dragging {
