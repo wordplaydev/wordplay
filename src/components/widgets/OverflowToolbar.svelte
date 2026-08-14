@@ -1,5 +1,9 @@
 <script lang="ts">
-    import { placeNearTarget } from '@components/widgets/placeNearTarget';
+    import {
+        placeNearTarget,
+        roomAround,
+    } from '@components/widgets/placeNearTarget';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { locales } from '@db/Database';
     import { tick, type Snippet } from 'svelte';
@@ -60,6 +64,9 @@
     const panelId = `overflow-panel-${Math.random().toString(36).slice(2)}`;
     let panelLeft = $state(0);
     let panelTop = $state(0);
+    /** The room on the panel's side of the toggle, so a tall panel scrolls
+     *  within it rather than being placed where part of it can't be reached. */
+    let panelMaxHeight = $state<number | undefined>(undefined);
 
     const showButton = $derived(visibleCount < itemCount);
 
@@ -206,24 +213,48 @@
         tick().then(() => {
             if (!panelEl || !toggleEl) return;
             const rect = toggleEl.getBoundingClientRect();
-            const pos = placeNearTarget(
-                {
-                    left: rect.left,
-                    top: rect.top,
-                    width: rect.width,
-                    height: rect.height,
-                },
-                { width: panelEl.offsetWidth, height: panelEl.offsetHeight },
-                { width: window.innerWidth, height: window.innerHeight },
-            );
-            panelLeft = pos.left;
-            panelTop = pos.top;
+            const target = {
+                left: rect.left,
+                top: rect.top,
+                width: rect.width,
+                height: rect.height,
+            };
+            const container = {
+                width: window.innerWidth,
+                height: window.innerHeight,
+            };
+            // Cap to the roomier side before measuring, so a panel taller than
+            // either side scrolls within its side instead of being placed
+            // somewhere part of it can't be reached.
+            const room = roomAround(target, container);
+            panelMaxHeight = Math.max(room.above, room.below);
+            tick().then(() => {
+                if (!panelEl) return;
+                const pos = placeNearTarget(
+                    target,
+                    {
+                        width: panelEl.offsetWidth,
+                        height: panelEl.offsetHeight,
+                    },
+                    container,
+                );
+                panelLeft = pos.left;
+                panelTop = pos.top;
+            });
         });
     });
 
     let focusedBefore: HTMLElement | null = null;
 
-    async function doOpen() {
+    /** A click with `detail === 0` was synthesized from Enter/Space, or from a
+     *  programmatic `.click()` by assistive tech — no pointer contact. Both want
+     *  focus moved into the menu. Toggle preventDefaults mousedown, so a real tap
+     *  or click never focuses the button in the first place. */
+    function isKeyboardActivation(event?: Event): boolean {
+        return !(event instanceof MouseEvent) || event.detail === 0;
+    }
+
+    async function doOpen(focusFirstItem: boolean) {
         focusedBefore =
             document.activeElement instanceof HTMLElement
                 ? document.activeElement
@@ -231,10 +262,20 @@
         open = true;
         await tick();
         if (!panelEl) return;
-        const first = panelEl.querySelector<HTMLElement>(
-            'button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex="0"]',
+        // A pointer-opened menu focuses the panel itself, not a control inside
+        // it: focusing a `<select>` opens its picker on iOS, so the first tap on
+        // the hamburger opened whichever chooser happened to be first. The panel
+        // is focusable, so Escape and tabbing onward still work. A
+        // keyboard-opened menu still lands on the first item.
+        const first = focusFirstItem
+            ? panelEl.querySelector<HTMLElement>(
+                  'button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex="0"]',
+              )
+            : null;
+        setKeyboardFocus(
+            first ?? panelEl,
+            'Focusing the overflow panel on open.',
         );
-        (first ?? panelEl).focus();
     }
 
     function doClose() {
@@ -317,7 +358,8 @@
             <Toggle
                 tips={(l) => l.ui.widget.overflow.button}
                 on={open}
-                toggle={() => (open ? doClose() : doOpen())}
+                toggle={(event) =>
+                    open ? doClose() : doOpen(isKeyboardActivation(event))}
             >
                 <span class="hamburger" class:open>☰</span>
             </Toggle>
@@ -404,6 +446,9 @@
         tabindex="-1"
         style:left="{panelLeft}px"
         style:top="{panelTop}px"
+        style:max-height={panelMaxHeight === undefined
+            ? null
+            : `${panelMaxHeight}px`}
         bind:this={panelEl}
         onkeydown={handlePanelKeyDown}
         use:portalToBody
@@ -535,6 +580,11 @@
         flex-direction: column;
         align-items: flex-start;
         gap: var(--wordplay-spacing);
+        /* Capped to the room on its side of the toggle (see the placement
+           effect), so a panel too tall for that side scrolls rather than
+           reaching past where it can be seen. */
+        overflow-y: auto;
+        overscroll-behavior: contain;
         /* Inheritable typography is set on .root (in +layout.svelte) which
            the portaled panel escapes — re-apply explicitly so contents
            render with the app font, not the browser default. */

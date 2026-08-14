@@ -362,7 +362,15 @@ export default class LocalesDatabase {
         return get(this.locales).getLayout();
     }
 
-    /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
+    /**
+     * Set the languages, load all locales if they aren't loaded, and save the new
+     * configuration.
+     *
+     * This deliberately does *not* touch any project's declared languages. Those say what
+     * a project is written in, not what its reader speaks; adding the reader's UI language
+     * to every open project made a project's basis — and so its conflicts — depend on who
+     * last opened it (#1246). A creator adds a language through the languages dialog.
+     */
     async setLocales(
         preferredLocales: SupportedLocale[],
     ): Promise<LocaleText[]> {
@@ -371,11 +379,6 @@ export default class LocalesDatabase {
 
         // Try to load locales for the requested languages
         const locales = await this.loadLocales(preferredLocales);
-
-        // Revise all projects to have the new locale. Best-effort: if the
-        // projects database hasn't loaded there is nothing in memory to
-        // re-localize, and deserialization reads the current locales anyway.
-        this.database.MaybeProjects?.localize(locales);
 
         // Sync the locales store to update all uses of the current locales.
         this.syncLocales();

@@ -47,7 +47,9 @@
         ConflictLocaleAccessor,
         Resolution,
     } from '@conflicts/Conflict';
+    import { UnknownName } from '@conflicts/UnknownName';
     import type Caret from '@edit/caret/Caret';
+    import { loadLocaleNameIndex } from '@locale/localeNameIndex';
     import NodeRef from '@locale/NodeRef';
     import Context from '@nodes/Context';
     import Expression from '@nodes/Expression';
@@ -184,6 +186,14 @@
                 }
             }
         }
+
+        // A name can fail to resolve only because the project isn't written in the language
+        // that spells it that way. UnknownName offers to point at the languages dialog, but
+        // it reads the generated name index synchronously, so fetch it (once, and only when
+        // there's a name to explain) before the resolution thunks below are ever called.
+        if (sourceConflicts.some((conflict) => conflict instanceof UnknownName))
+            await loadLocaleNameIndex();
+        if (destroyed) return;
 
         // Map source conflicts to annotation infos.
         const infos: AnnotationInfo[] = sourceConflicts.map(

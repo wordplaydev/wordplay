@@ -27,13 +27,19 @@
 
 <style>
     /* Visually hidden but still in the accessibility tree, matching the
-       technique used for ColorChooser's instructions. */
+       technique used for ColorChooser's instructions. Anchored to its containing
+       block: unanchored, the box sits at its static position deep inside a
+       scrolled pane, but is positioned against an ancestor OUTSIDE that pane —
+       so it isn't clipped by it, and its one pixel extends the whole document
+       (see the same note in Announcer.svelte). */
     .tips {
         clip-path: inset(50%);
         height: 1px;
         width: 1px;
         overflow: hidden;
         position: absolute;
+        top: 0;
+        left: 0;
         white-space: nowrap;
     }
 </style>

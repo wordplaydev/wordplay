@@ -7,6 +7,10 @@
         LOCALE_SYMBOL,
     } from '@parser/Symbols';
     import { getSetMenuAnchor } from '@components/project/Contexts';
+    import {
+        isTap,
+        type PressPoint,
+    } from '@components/editor/menu/menuPointer';
 
     interface Props {
         anchor: CaretPosition | FieldPosition;
@@ -24,9 +28,15 @@
 
         if ($menuNode) {
             event.stopPropagation();
+            event.preventDefault();
             $menuNode(anchor);
         }
     }
+
+    /** Where the pointer went down. The menu opens on release, not press, so a
+     *  scroll that happens to start on this 24×24 target scrolls instead of
+     *  opening a menu the creator then has to dismiss. */
+    let pressPoint: PressPoint | undefined = undefined;
 </script>
 
 <span
@@ -34,7 +44,20 @@
     data-field={field}
     role="button"
     tabindex="0"
-    onpointerdown={show}
+    onpointerdown={(event) => {
+        if (event.button !== 0) return;
+        // Claim the gesture so the editor beneath doesn't move the caret, which
+        // would hide the menu we're about to open.
+        event.stopPropagation();
+        pressPoint = { x: event.clientX, y: event.clientY };
+    }}
+    onpointerup={(event) => {
+        if (pressPoint === undefined) return;
+        const tap = isTap(pressPoint, event);
+        pressPoint = undefined;
+        if (tap) show(event);
+    }}
+    onpointercancel={() => (pressPoint = undefined)}
     onkeydown={(event) =>
         event.key === 'Enter' || event.key === ' ' ? show(event) : undefined}
     >{insert
@@ -60,6 +83,8 @@
         justify-content: center;
         min-width: 24px;
         min-height: 24px;
+        /* Drop the double-tap-zoom delay on this target without disabling panning. */
+        touch-action: manipulation;
     }
 
     .trigger {

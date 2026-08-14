@@ -2317,12 +2317,6 @@ export default class ProjectsDatabase {
         else this.database.setStatus(SaveStatus.Saved, undefined);
     }
 
-    /** Revise all editable projects to use the specified locales */
-    localize(locales: LocaleText[]) {
-        for (const [, history] of this.projectHistories)
-            history.withLocales(locales);
-    }
-
     /** Shorthand for revising nodes in a project */
     revise(project: Project, revisions: [Node, Node | undefined][]) {
         const newProject = project.withRevisedNodes(revisions);

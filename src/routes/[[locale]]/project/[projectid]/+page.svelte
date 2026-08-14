@@ -125,7 +125,9 @@
 </svelte:head>
 
 {#if project}
-    <Page>
+    <!-- The project view fills the page and scrolls its own tiles, so the page's
+         scroller would only ever be a way to pan the whole layout out of view. -->
+    <Page scroll={false}>
         <!-- When the project ID changes, create a fresh project view. -->
         {#key project.getID()}
             <ProjectView

@@ -10,7 +10,8 @@
         Resolution,
     } from '@conflicts/Conflict';
     import type Context from '@nodes/Context';
-    import { CONFIRM_SYMBOL } from '@parser/Symbols';
+    import { setDialogInURL } from '@components/widgets/dialogURL';
+    import { CONFIRM_SYMBOL, DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import { fade } from 'svelte/transition';
     import { get } from 'svelte/store';
     import { animationDuration, locales } from '@db/Database';
@@ -177,17 +178,54 @@
 
 {#snippet messageBody()}
     {#each annotation.messages as explain}
-        {@const repairs =
-            isStep || !editable
-                ? []
-                : annotation
-                      .resolutions()
-                      .filter(
-                          (r): r is Extract<typeof r, { kind: 'repair' }> =>
-                              r.kind === 'repair',
-                      )}
+        {@const resolutions =
+            isStep || !editable ? [] : annotation.resolutions()}
+        {@const repairs = resolutions.filter(
+            (r): r is Extract<typeof r, { kind: 'repair' }> =>
+                r.kind === 'repair',
+        )}
+        <!-- Explainers that name a dialog: fixes that don't live in the code, so there's
+             nothing a repair's synchronous mediator could do. Plain explainers aren't shown,
+             since the fallback one restates the message already rendered above. -->
+        {@const elsewhere = resolutions.filter(
+            (
+                r,
+            ): r is Extract<typeof r, { kind: 'explain' }> & {
+                openDialog: string;
+            } => r.kind === 'explain' && r.openDialog !== undefined,
+        )}
         <aside aria-label={explain($locales).toText()}>
             <MarkupHTMLView markup={{ perLocale: explain }} />
+            {#each elsewhere as resolution}
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <!-- Stop propagation so opening the dialog doesn't also toggle the row. -->
+                <div
+                    class="resolution elsewhere"
+                    onclick={(event) => event.stopPropagation()}
+                    onkeydown={(event) => event.stopPropagation()}
+                >
+                    <Button
+                        background
+                        tip={(l) => l.ui.annotations.button.elsewhere}
+                        action={() =>
+                            setDialogInURL(resolution.openDialog, true)}
+                        >{resolution.openDialogIcon ??
+                            DOCUMENTATION_SYMBOL}</Button
+                    >
+                    <div class="description"
+                        ><MarkupHTMLView
+                            inline
+                            markup={{
+                                perLocale: (l) =>
+                                    resolution.description(
+                                        l,
+                                        annotation.context,
+                                    ),
+                            }}
+                        /></div
+                    >
+                </div>
+            {/each}
             {#each repairs as resolution}
                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <!-- Stop propagation so applying a fix doesn't also toggle the row. -->

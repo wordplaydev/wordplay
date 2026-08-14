@@ -456,6 +456,14 @@
             evaluation: evaluationSignal,
         };
 
+        // Snapshot the pointer gate now, at the moment the caret changed. The
+        // deferred re-measures below run a frame (or `$animationDuration`, 200ms)
+        // later, but `placedByPointer` is cleared 100ms after the pointer placed
+        // the caret — so reading it at call time let a tap arm a scroll that fired
+        // after the gate had closed, yanking the view back while the user was
+        // already scrolling.
+        const byPointer = placedByPointer;
+
         tick().then(() => {
             location = computeLocation();
 
@@ -478,7 +486,7 @@
             // separate effect that races it, is what makes the WHOLE caret land in
             // view instead of scrolling to its stale pre-move position.
             if (moved && location !== undefined)
-                tick().then(() => scrollCaretIntoView());
+                tick().then(() => scrollCaretIntoView(byPointer));
 
             // After a DOM-mutating edit, layout can be transient at
             // tick() time on WebKit (especially with complex programs
@@ -498,7 +506,8 @@
                     location = corrected ?? saved;
                     // The corrected position may differ by a line, so re-reveal it
                     // (after the DOM commits the corrected location).
-                    if (moved) tick().then(() => scrollCaretIntoView());
+                    if (moved)
+                        tick().then(() => scrollCaretIntoView(byPointer));
                 });
 
             if (animationDelayTimeout) clearTimeout(animationDelayTimeout);
@@ -512,7 +521,8 @@
                     // Reveal the FINAL settled position: the block's padding has
                     // finished animating, so the selected node's box is now where
                     // it will stay. 'nearest' no-ops if it's already fully visible.
-                    if (moved) tick().then(() => scrollCaretIntoView());
+                    if (moved)
+                        tick().then(() => scrollCaretIntoView(byPointer));
                 }, $animationDuration);
             }
         });
@@ -592,10 +602,13 @@
     // a separate effect that read `location` and raced the location update, so it
     // scrolled to the stale pre-move box and left the new caret/selection only
     // partly visible. Callers gate on movement + editor membership.
-    function scrollCaretIntoView() {
+    function scrollCaretIntoView(byPointer: boolean) {
         // Skip when placed by pointer (the user already sees where they clicked)
         // or outside a real editor tile (embedded examples own their own scroll).
-        if (placedByPointer || !isElementInEditor) return;
+        // `byPointer` is the caller's snapshot of `placedByPointer` taken when the
+        // caret changed, not the live prop — the deferred callers below fire after
+        // the prop has been cleared.
+        if (byPointer || !isElementInEditor) return;
         // For a node selection the caret element is an invisible placement spot,
         // so scroll the selected node's real element to reveal its full box;
         // otherwise scroll the caret span (which wraps the full-height bar, and is

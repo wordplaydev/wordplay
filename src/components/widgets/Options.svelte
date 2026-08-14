@@ -9,6 +9,25 @@
         options: Type[];
         [key: string]: any;
     };
+
+    let baseSelect: boolean | undefined = undefined;
+
+    /**
+     * Whether this browser renders a customizable `<select>` (`appearance:
+     * base-select`, Chromium 135+). Where it doesn't — WebKit today — both the
+     * closed control and the picker render each `<option>`'s flattened text, so a
+     * rich `item` snippet reads as one run-on string clipped mid-word. We render
+     * a plain label there instead. Memoized: support can't change while the page
+     * is open. The `typeof` guards are for SSR, where there is no CSS global.
+     */
+    export function supportsBaseSelect(): boolean {
+        if (baseSelect === undefined)
+            baseSelect =
+                typeof CSS !== 'undefined' &&
+                typeof CSS.supports === 'function' &&
+                CSS.supports('appearance', 'base-select');
+        return baseSelect;
+    }
 </script>
 
 <script lang="ts" generics="Item extends Option">
@@ -79,6 +98,23 @@
     );
 
     let view: HTMLSelectElement | undefined = $state(undefined);
+
+    /** Whether to render the rich `item` snippet inside each option. False during
+     *  SSR and the hydration render so the server and client markup agree — the
+     *  site prerenders — then flipped in an effect, which flushes before paint.
+     *
+     *  Where this is false (WebKit today) every rich dropdown — the layout
+     *  chooser, settings, the locale and face pickers — falls back to its plain
+     *  short label rather than icons. That's deliberate: a native `<select>` paints
+     *  the selected option's own text in its closed state, with no way to show
+     *  something different there than in the list, so icons in the control would
+     *  mean a list of bare icons and emoji names read aloud. When WebKit ships
+     *  customizable `<select>`, `supportsBaseSelect()` starts reporting true and
+     *  the icons come back on their own — no code change needed here. */
+    let richOptions = $state(false);
+    $effect(() => {
+        richOptions = supportsBaseSelect();
+    });
 
     // A single user action can fire multiple handlers for the same value within a few milliseconds
     // (onpointerdown on the option AND onchange on the select in Chrome; onchange alone in Safari;
@@ -177,10 +213,15 @@
             canFocusTips(event.currentTarget) ? showTip() : undefined}
         onblur={hideTip}
     >
-        <button
-            >{#if selection}{@render selection()}{:else}<selectedcontent
-                ></selectedcontent>{/if}</button
-        >
+        <!-- The custom closed display. Only where `base-select` is supported: a
+             `<button>` isn't valid inside a native `<select>`, which paints the
+             selected option's own text instead. -->
+        {#if richOptions}
+            <button
+                >{#if selection}{@render selection()}{:else}<selectedcontent
+                    ></selectedcontent>{/if}</button
+            >
+        {/if}
         {#each options as option}
             {#if 'options' in option}
                 <optgroup label={$locales.getPlainText(option.label)}>
@@ -201,7 +242,7 @@
                                     commitChange(groupoption.value);
                                 }
                             }}
-                            >{#if item}{@render item(
+                            >{#if item && richOptions}{@render item(
                                     groupoption,
                                     localized,
                                 )}{:else}{@render localized(
@@ -224,7 +265,7 @@
                             commitChange(option.value);
                         }
                     }}
-                    >{#if item}{@render item(
+                    >{#if item && richOptions}{@render item(
                             option,
                             localized,
                         )}{:else}{@render localized(option.label)}{/if}</option
@@ -296,6 +337,15 @@
             transform calc(var(--animation-factor) * 100ms),
             box-shadow calc(var(--animation-factor) * 100ms),
             border-radius calc(var(--animation-factor) * 250ms);
+    }
+
+    /* Without base-select the control is the platform's own select, which paints
+       the selected option's text plus a native arrow. 7em is sized for the custom
+       button we render instead, and truncates that mid-word. */
+    @supports not (appearance: base-select) {
+        select {
+            max-width: 12em;
+        }
     }
 
     select:hover {

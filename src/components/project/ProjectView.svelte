@@ -714,7 +714,8 @@
         const exception = $evaluator.exception;
         const latest = $evaluator.getLatestSourceValue($evaluator.getMain());
         const surfaced =
-            exception ?? (latest instanceof ExceptionValue ? latest : undefined);
+            exception ??
+            (latest instanceof ExceptionValue ? latest : undefined);
         const fresh =
             surfaced !== undefined && surfaced.creator !== lastSeenException;
         lastSeenException = surfaced?.creator ?? lastSeenException;
@@ -1222,8 +1223,8 @@
             explanation: (l) => l.ui.project.tour.share,
         },
         {
-            uiid: 'translateButton',
-            explanation: (l) => l.ui.project.tour.translate,
+            uiid: 'languagesButton',
+            explanation: (l) => l.ui.project.tour.languages,
         },
         {
             uiid: 'checkpoints',
@@ -1772,24 +1773,20 @@
     let maxRight = $state(0);
     let maxBottom = $state(0);
 
-    /** Recompute the bounds based every time the layout changes. */
+    /** Recompute the bounds based every time the layout changes. Derived from the
+     *  current tiles only: seeding from the previous value made these monotonic, so
+     *  a canvas that was once wider (a bigger window, a since-closed tile) kept
+     *  scrolling into empty space forever. */
     $effect(() => {
-        maxRight = Math.max.apply(undefined, [
-            maxRight,
-            ...(layout
-                ? layout.tiles.map(
-                      (tile) => tile.position.left + tile.position.width,
-                  )
-                : []),
-        ]);
-        maxBottom = Math.max.apply(undefined, [
-            maxBottom,
-            ...(layout
-                ? layout.tiles.map(
-                      (tile) => tile.position.top + tile.position.height,
-                  )
-                : []),
-        ]);
+        const tiles = layout ? layout.tiles : [];
+        maxRight = Math.max(
+            0,
+            ...tiles.map((tile) => tile.position.left + tile.position.width),
+        );
+        maxBottom = Math.max(
+            0,
+            ...tiles.map((tile) => tile.position.top + tile.position.height),
+        );
     });
 
     /** When the program steps or locales change, get the latest value of the program's evaluation. */
@@ -2407,10 +2404,19 @@
         );
         if (editor === null) return undefined;
 
-        const project = document.querySelector('.project');
-        if (project === null) return undefined;
+        // The menu's containing block and clipping box is this view's own
+        // `.project` — not `document.querySelector('.project')`, which matches the
+        // project route's outer wrapper (also `.project`) first in document order,
+        // a taller box that includes the page footer.
+        if (view === undefined) return undefined;
 
-        const projectBounds = project.getBoundingClientRect();
+        const projectBounds = view.getBoundingClientRect();
+        // The box the menu must be clamped into, so a menu anchored near the
+        // bottom of a short project isn't placed past its `overflow: hidden` edge.
+        const container = {
+            width: view.clientWidth,
+            height: view.clientHeight,
+        };
 
         if (isFieldPosition(anchor)) {
             // Is it a field position? Position near the field.
@@ -2434,6 +2440,7 @@
                     triggerBounds.bottom -
                     triggerBounds.height / 4 -
                     projectBounds.top,
+                container,
             };
         } else {
             // Is it a node? Position near it's top left.
@@ -2446,6 +2453,7 @@
                 return {
                     left: nodeBounds.left - projectBounds.left,
                     top: nodeBounds.bottom - projectBounds.top,
+                    container,
                 };
             }
             // Is it a position? Position at the bottom right of the caret.
@@ -2457,6 +2465,7 @@
                 return {
                     left: caretBounds.left - projectBounds.left,
                     top: caretBounds.bottom - projectBounds.top,
+                    container,
                 };
             }
         }
@@ -2646,7 +2655,10 @@
                 : (layout.getSource(selectedSourceIndex) ??
                   layout.getTileWithID(Layout.getSourceID(0)));
         if (tile === undefined) return;
-        if (layout.fullscreenID !== undefined && layout.fullscreenID !== tile.id)
+        if (
+            layout.fullscreenID !== undefined &&
+            layout.fullscreenID !== tile.id
+        )
             setFullscreen(undefined);
         setMode(tile, TileMode.Expanded);
     }
@@ -2756,8 +2768,7 @@
                         ? ProjectModeIcons
                         : ProjectModeViewIcons}
                     choice={ProjectModes.indexOf(uiMode)}
-                    select={(index) =>
-                        setUIMode(ProjectModes[index])}
+                    select={(index) => setUIMode(ProjectModes[index])}
                     labeled={false}
                     modeLabels={false}
                     uiid="modeSwitcher"
@@ -2808,9 +2819,7 @@
                  every step. -->
             {#snippet timelineSlider()}<Timeline
                     evaluator={$evaluator}
-                    granularity={uiMode === 'edit'
-                        ? 'input'
-                        : 'step'}
+                    granularity={uiMode === 'edit' ? 'input' : 'step'}
                 />{/snippet}
             <!-- Edit mode shows the timeline alone: it names the
                  paused position and snaps to prior inputs, which is
@@ -2964,6 +2973,16 @@
                             {/snippet}
 
                             {#snippet extra()}
+                                <!-- A third home for the evaluation mode switcher.
+                                     Fullscreen unmounts the project footer, which
+                                     holds the only copy whenever the output tile
+                                     isn't on screen — so fullscreening the editor
+                                     (a tap away in its own toolbar) left no way to
+                                     reach play or debug at all. The output tile
+                                     pins its own copy, so it's excluded here. -->
+                                {#if layout.fullscreenID === tile.id && tile.kind !== TileKind.Output}
+                                    {@render outputMode()}
+                                {/if}
                                 {#if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     <!-- Can't delete main. -->
@@ -3555,10 +3574,6 @@
         gap: calc(var(--wordplay-spacing) / 2);
     }
 
-    :global(body) {
-        touch-action: none;
-    }
-
     .project {
         flex-grow: 1;
         justify-self: center;
@@ -3571,8 +3586,13 @@
 
         /* So tiles absolute positions are relative to the project view. */
         position: relative;
+    }
 
-        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+    /* Suppress native touch gestures only while a tile is actually being dragged.
+       Applying it unconditionally reached every scroller inside the project —
+       effective touch-action is an inherited intersection, so a descendant can't
+       re-permit it — and left the editor unscrollable by touch. */
+    .project.dragging {
         touch-action: none;
     }
 
