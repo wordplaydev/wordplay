@@ -502,8 +502,15 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+    }
 
-        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+    /* Suppress native touch gestures only while a tile is actually being dragged.
+       Blanket `touch-action: none` here made the tile's own scroller unpannable:
+       engines compute the effective value as an inherited intersection from the
+       root down, so a scroll container can't re-permit what an ancestor forbade —
+       which is why a swipe over the editor never scrolled and became a text
+       selection instead. */
+    .tile.dragging {
         touch-action: none;
     }
 
@@ -559,6 +566,9 @@
         display: flex;
         flex-direction: column;
         overflow: auto;
+        /* A fling that reaches the end of a tile stays in the tile rather than
+           chaining out to the project and the page behind it. */
+        overscroll-behavior: contain;
         width: 100%;
         flex-grow: 1;
         /* Must be 0 (not auto) so the flex item can shrink below its content and
@@ -577,6 +587,16 @@
     .start-margin {
         width: auto;
         height: 100%;
+        /* A sidebar's width is a persisted pixel value sized on a laptop — on a
+           390px phone the annotations' stored default (352) is ~90% of the
+           screen, and even its 240 minimum is over half. Cap at half the tile;
+           `%` resolves against .main, which has a definite width. The persisted
+           value is untouched, so a wider window restores it. */
+        max-width: 50%;
+        /* Below the cap the sidebar keeps exactly the width it asked for —
+           without this, flex shrinks it to share the row and the requested
+           width is never honored. */
+        flex-shrink: 0;
     }
 
     .tile.fullscreen {

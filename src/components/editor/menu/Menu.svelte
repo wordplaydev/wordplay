@@ -12,13 +12,25 @@
     import Token from '@nodes/Token';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import MenuItem from '@components/editor/menu/MenuItem.svelte';
+    import {
+        menuMaxHeight,
+        placeMenu,
+        submenuFlips,
+        type MenuPosition,
+    } from '@components/editor/menu/menuPlacement';
+    import {
+        hoverSelects,
+        isTap,
+        type PressPoint,
+    } from '@components/editor/menu/menuPointer';
 
     interface Props {
         menu: Menu;
         /* What to run when hiding the menu */
         hide: () => void;
-        /* The ideal position for the menu, adjusted based on viewport below. */
-        position: { left: number; top: number };
+        /* The ideal position for the menu and the box that clips it, both in the
+           containing block's coordinates; constrained below. */
+        position: MenuPosition;
     }
 
     let { menu = $bindable(), hide, position }: Props = $props();
@@ -57,22 +69,44 @@
         return labelGenerator($locales, context, index, root);
     });
 
-    /**
-     * Constrain the menu position to the viewport.
-     * left + width < window.innerWidth
-     * top + height < window.innerHeight
-     */
+    /** Constrain the menu to the box that clips it (see menuPlacement). */
     let menuWidth: number = $state(0);
     let menuHeight: number = $state(0);
-    let menuLeft = $derived(
-        Math.min(position.left, window.innerWidth - menuWidth),
+    let placement = $derived(
+        placeMenu(
+            position,
+            { width: menuWidth, height: menuHeight },
+            position.container,
+        ),
     );
-    let menuTop = $derived(
-        Math.min(position.top, window.innerHeight - menuHeight),
-    );
+    let menuLeft = $derived(placement.left);
+    let menuTop = $derived(placement.top);
 
     function handleItemClick(item: Revision | RevisionSet | undefined) {
         menu.doEdit($locales, item);
+    }
+
+    /* Where the pointer went down, so a pan over the list isn't read as a choice. */
+    let pressPoint: PressPoint | undefined = undefined;
+
+    function handleItemPress(event: PointerEvent) {
+        if (event.button !== 0) return;
+        event.stopPropagation();
+        event.preventDefault();
+        pressPoint = { x: event.clientX, y: event.clientY };
+    }
+
+    function handleItemRelease(
+        event: PointerEvent,
+        item: Revision | RevisionSet,
+    ) {
+        if (pressPoint === undefined) return;
+        const tap = isTap(pressPoint, event);
+        pressPoint = undefined;
+        if (!tap) return;
+        event.stopPropagation();
+        event.preventDefault();
+        handleItemClick(item);
     }
 
     /* When the selection changes, scroll it's corresponding view and focus it. */
@@ -155,6 +189,7 @@
     bind:offsetHeight={menuHeight}
     style:left="{menuLeft}px"
     style:top="{menuTop}px"
+    style:--menu-max-height="{menuMaxHeight(position.container)}px"
 >
     <div
         class="revisions"
@@ -195,13 +230,11 @@
                     }`}
                     class:show={menu.getSelectionIndex()[0] === itemIndex}
                     bind:this={revisionViews[itemIndex]}
-                    onpointerdown={(event) => {
-                        if (event.button !== 0) return;
-                        event.stopPropagation();
-                        event.preventDefault();
-                        handleItemClick(entry);
-                    }}
+                    onpointerdown={handleItemPress}
+                    onpointerup={(event) => handleItemRelease(event, entry)}
+                    onpointercancel={() => (pressPoint = undefined)}
                     onpointerenter={(event) => {
+                        if (!hoverSelects(event.pointerType)) return;
                         event.stopPropagation();
                         event.preventDefault();
                         handleItemClick(entry);
@@ -217,7 +250,11 @@
                 </div>
                 <div
                     class="submenu"
-                    class:right={menuLeft + menuWidth * 2 > window.innerWidth}
+                    class:right={submenuFlips(
+                        menuLeft,
+                        menuWidth,
+                        position.container,
+                    )}
                     role="menu"
                     tabindex="-1"
                     aria-label={$locales.getLocale().ui.docs.purposes[
@@ -262,9 +299,6 @@
             var(--wordplay-border-radius) 0px var(--wordplay-lightgrey);
         border-spacing: 0;
 
-        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
-        touch-action: none;
-
         /* Submenus should be absolute relative to this */
         position: relative;
     }
@@ -285,9 +319,10 @@
         width: auto;
         height: auto;
 
-        /* Max size */
-        max-width: 100dvw;
-        max-height: 30vh;
+        /* Max size. The height is capped by the box that clips the menu (see
+           menuPlacement), so a tall menu can't be placed where it's unreachable. */
+        max-width: 100%;
+        max-height: min(30vh, var(--menu-max-height, 30vh));
 
         /* Position above tiles (z-index 1) and the sidebar resize knob
            (ResizeKnob, z-index 3), which shares this stacking context and
@@ -299,6 +334,11 @@
         width: fit-content;
         height: auto;
         overflow-y: auto;
+        /* `pan-y`, not `none`: the list must be finger-scrollable. (The menu is not
+           a drag surface — editor node drag lives in .editor, which suppresses
+           touch-action only once a drag actually starts.) */
+        touch-action: pan-y;
+        overscroll-behavior: contain;
     }
 
     .submenu {
@@ -312,6 +352,8 @@
         max-height: 20em;
         padding: var(--wordplay-spacing);
         overflow-y: auto;
+        touch-action: pan-y;
+        overscroll-behavior: contain;
     }
 
     .submenu.right {

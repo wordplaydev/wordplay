@@ -544,6 +544,10 @@
         width: 1px;
         overflow: hidden;
         position: absolute;
+        /* Anchored so the box can't sit at a static position outside its
+           scrolling pane and extend the document (see Announcer.svelte). */
+        top: 0;
+        left: 0;
         white-space: nowrap;
     }
 

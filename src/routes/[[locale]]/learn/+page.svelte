@@ -161,7 +161,9 @@
     >
 {:else}
     <div class="fading" in:fade={{ duration: $animationDuration }}>
-        <Page>
+        <!-- Like the project view, the tutorial fills the page and scrolls its
+             own panes; the page's scroller could only pan it out of view. -->
+        <Page scroll={false}>
             <TutorialView
                 progress={initial && initial.mode === mode
                     ? initial

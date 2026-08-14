@@ -4,6 +4,9 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CONFIRM_SYMBOL } from '@parser/Symbols';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import caretBoundaryKey, {
+        caretBoundarySelection,
+    } from '@components/widgets/caretKeys';
 
     interface Props {
         text: string;
@@ -116,6 +119,22 @@
             oninput={handleInput}
             onkeydown={(e) => {
                 e.stopPropagation();
+                // Home/End have to be handled here: on macOS the browser runs
+                // them as a scroll of the nearest scrollable ancestor instead of
+                // moving the caret (see caretKeys).
+                const boundary = caretBoundaryKey(e);
+                if (boundary !== undefined && view) {
+                    const { start, end } = caretBoundarySelection(
+                        boundary,
+                        e.shiftKey,
+                        view.selectionStart ?? 0,
+                        view.selectionEnd ?? 0,
+                        text,
+                    );
+                    view.setSelectionRange(start, end);
+                    e.preventDefault();
+                    return;
+                }
                 if (onkeydown) onkeydown(e);
             }}></textarea>
         {#if message !== undefined}

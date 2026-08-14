@@ -304,7 +304,7 @@
                                     Projects.reviseProject(
                                         project.withName(name),
                                     )}
-                                max="5em"
+                                max={narrow ? '3rem' : '5em'}
                                 maxlength={MAX_NAME_LENGTH}
                             />
                         {/if}
@@ -538,6 +538,16 @@
     @container (max-width: 900px) {
         .toggle-group :global(.toggle-label) {
             display: none;
+        }
+
+        /* The name field's width resolves against Subheader's `min(4vw, 16pt)`
+           font, so on a phone `5em` is a fifth of the screen and the toggles in
+           the 1fr track get nothing. The `max` prop above drops to a
+           root-relative 3rem here; TextField's own `min-width: 3em` scales the
+           same viewport-relative way and, since min-width beats max-width,
+           would defeat that cap on its own. */
+        .left-section :global(#project-name) {
+            min-width: 2rem;
         }
     }
 </style>
