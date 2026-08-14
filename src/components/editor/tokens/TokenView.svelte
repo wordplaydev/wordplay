@@ -466,8 +466,12 @@
         color: var(--wordplay-type-color);
     }
 
+    /* Relative, not the `small` keyword: absolute-size keywords resolve against the
+       browser's base size, so doc tokens tracked neither --wordplay-font-size nor
+       the editor's --zoom and rendered at a different size than the code. Token
+       views are leaves, so this can't compound. */
     .token-category-docs {
-        font-size: small;
+        font-size: 0.85em;
         color: var(--wordplay-doc-color);
     }
 

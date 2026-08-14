@@ -7,6 +7,9 @@
     import { onMount, tick } from 'svelte';
     import { withMonoEmoji } from '@unicode/emoji';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import caretBoundaryKey, {
+        caretBoundarySelection,
+    } from '@components/widgets/caretKeys';
 
     interface Props {
         /** The current text to show */
@@ -130,6 +133,24 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        // Home/End have to be handled here: on macOS the browser runs them as a
+        // scroll of the nearest scrollable ancestor instead of moving the caret
+        // (see caretKeys). Claim them so our fields behave the same everywhere.
+        const boundary = caretBoundaryKey(event);
+        if (boundary !== undefined && view) {
+            const { start, end } = caretBoundarySelection(
+                boundary,
+                event.shiftKey,
+                view.selectionStart ?? 0,
+                view.selectionEnd ?? 0,
+                text,
+            );
+            view.setSelectionRange(start, end);
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+
         const number = parseFloat(text);
 
         // Not moving past a boundary? Don't let anything handle the event. Otherwise bubble it.

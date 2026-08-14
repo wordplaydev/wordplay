@@ -495,7 +495,7 @@ export function getSearchMatches(
             .getGraphemes()
             .map((g) => g.toLocaleLowerCase(languages));
         // Slide the query over the token, recording non-overlapping matches.
-        for (let i = 0; i + queryLength <= tokenGraphemes.length; ) {
+        for (let i = 0; i + queryLength <= tokenGraphemes.length;) {
             let matched = true;
             for (let j = 0; j < queryLength; j++)
                 if (tokenGraphemes[i + j] !== queryGraphemes[j]) {
@@ -786,21 +786,25 @@ export function getRangeOutline(
         })
         .filter((t): t is TextToken => t !== undefined);
 
-    // Find views of the text tokens.
-    const nodeViews = textTokens
-        .map((t) => getNodeView(t.token))
-        .filter((v): v is HTMLElement => v !== undefined);
+    // Find views of the text tokens. Kept index-aligned with textTokens, gaps and
+    // all: the loop below pairs the two arrays by the same index, so dropping the
+    // tokens that have no view (off-window in the virtualized editor, or folded)
+    // shifted every later token onto its neighbour's box and ran the tail off the
+    // end of the array — the last lines of a long selection went unhighlighted.
+    const nodeViews = textTokens.map((t) => getNodeView(t.token));
 
     // Derive a fallback line-height for zero-height space spans (empty lines).
     // Prefer the rendered height of the first text-token view; fall back to 20 px.
-    const fallbackHeight = nodeViews[0]?.getBoundingClientRect().height || 20;
+    const fallbackHeight =
+        nodeViews
+            .find((v): v is HTMLElement => v !== undefined)
+            ?.getBoundingClientRect().height || 20;
 
-    // Build all rects in document order: for every source token whose space
-    // OR text overlaps [start, end], emit space rects first then the token rect.
-    // This covers three cases that were previously broken:
-    //   • spaces between tokens on the same line
-    //   • selections that start or end inside whitespace / empty lines
-    //   • selections that contain ONLY whitespace with no token text
+    // Build all rects in document order: for every source token whose space OR
+    // text overlaps [start, end], emit its space rects and then its token rect.
+    // The space is the spaces and tabs the selection covers — they have width, so
+    // they belong inside the outline. A newline doesn't, and getSpaceRects drops
+    // the blank lines it used to stand in for with a sliver.
     const allRects: Rect[] = [];
     let textIdx = 0;
 
@@ -840,6 +844,11 @@ export function getRangeOutline(
                             charStart: overlapStart - lineStart,
                             charEnd: overlapEnd - lineStart,
                             lineContent: lines[k],
+                            // Line 0 is the tail of the line the previous token
+                            // sits on, and the last line is the indent before
+                            // this one; only what lies between them is a blank
+                            // line in its own right.
+                            blankLine: k > 0 && !isLastLine,
                         });
                     }
                     lineStart = nextLineStart;

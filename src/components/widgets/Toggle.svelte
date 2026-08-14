@@ -14,7 +14,9 @@
     interface Props {
         tips: (locale: LocaleText) => ToggleText;
         on: boolean;
-        toggle: () => void;
+        /** Receives the activating event, so a caller can tell a keyboard
+         *  activation (a click with `detail === 0`) from a pointer press. */
+        toggle: (event?: Event) => void;
         active?: boolean;
         uiid?: string | undefined;
         testid?: string | undefined;
@@ -42,7 +44,7 @@
 
     async function doToggle(event: Event) {
         if (active) {
-            toggle();
+            toggle(event);
             event?.stopPropagation();
         }
     }

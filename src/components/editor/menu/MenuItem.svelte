@@ -10,6 +10,11 @@
     import Revision from '@edit/revision/Revision';
     import type Node from '@nodes/Node';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import {
+        hoverSelects,
+        isTap,
+        type PressPoint,
+    } from '@components/editor/menu/menuPointer';
 
     interface Props {
         entry: Revision;
@@ -21,6 +26,9 @@
     let { entry, menu = $bindable(), id, handleItemClick }: Props = $props();
 
     let view: HTMLDivElement | undefined = $state(undefined);
+
+    /** Where the pointer went down, so a pan over the list isn't read as a choice. */
+    let pressPoint: PressPoint | undefined = undefined;
 
     /** The selected item is always rendered/labeled (see `visible` below) so a
      *  screen reader reading the menu's active descendant never races the
@@ -121,9 +129,20 @@
         if (event.button !== 0) return;
         event.preventDefault();
         event.stopPropagation();
+        pressPoint = { x: event.clientX, y: event.clientY };
+    }}
+    onpointerup={(event) => {
+        if (pressPoint === undefined) return;
+        const tap = isTap(pressPoint, event);
+        pressPoint = undefined;
+        if (!tap) return;
+        event.preventDefault();
+        event.stopPropagation();
         handleItemClick(entry);
     }}
-    onpointerenter={() => {
+    onpointercancel={() => (pressPoint = undefined)}
+    onpointerenter={(event) => {
+        if (!hoverSelects(event.pointerType)) return;
         if (view && menu.getOrganization().includes(entry))
             setKeyboardFocus(view, 'Focusing menu item on pointer enter');
     }}

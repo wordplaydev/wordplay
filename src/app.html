@@ -787,8 +787,34 @@
                 margin: 0;
             }
 
+            /* The app is a fixed-height shell whose panes scroll internally, so the
+               document itself must never scroll. Without this, anything that escapes
+               a pane (e.g. an absolutely positioned visually-hidden box) extends the
+               document and the whole app — footer included — scrolls away. On iOS it
+               also means Safari never collapses the URL bar, so `dvh` never changes
+               mid-scroll and the app is never relaid out while the user is scrolling. */
+            html,
+            body,
+            /* The wrapper SvelteKit's body renders into; the app's root is sized
+               in percent, so this link in the chain needs a height too. */
+            #wordplay-app {
+                height: 100%;
+                overflow: hidden;
+                overscroll-behavior: none;
+            }
+
             html {
                 box-sizing: border-box;
+                /* iOS Safari's text autosizing inflates some blocks and not others,
+                   which showed up as doc text rendering at a different size than the
+                   code around it. Opt out; our sizes are already responsive. */
+                -webkit-text-size-adjust: 100%;
+                text-size-adjust: 100%;
+                /* iOS paints a translucent grey rectangle over the whole box of
+                   whatever it considers tappable. Every control here already has
+                   its own hover, active, focus, and selection feedback, so the
+                   platform default only ever adds a stray box on top. */
+                -webkit-tap-highlight-color: transparent;
             }
 
             * {

@@ -45,6 +45,23 @@ This week we launched a new logo, improved the edit, debug, and play modes for m
 - 🔊 Long speech no longer cuts off after about fifteen seconds in Chrome.
 - 🔊 On iPhones and iPads, music stayed silent even after you tapped "Tap for sound". It now plays, even with the ringer switch set to silent, and it comes back after a phone call cuts it off.
 - 🎤 On Android phones, a project that listens to sound kept asking to use the microphone over and over, even after you said yes. Now it asks once.
+- 🖱️ Pages no longer scroll past their end. The bottom bar used to slide away and leave an empty screen if you kept scrolling on a long page like [Design](https://wordplay.dev/design).
+- 📱 On iPhones and iPads, scrolling fast could leave the page blank until you reloaded, and the code could jump back down to your cursor while you were trying to scroll up. The page itself no longer scrolls, so Safari stops resizing everything while you swipe.
+- ⌨️ Page Up, Page Down, Home, End, and the space bar scroll the page again, and they move it the same distance a browser does, smoothly, no matter what you clicked on last. If you asked for less motion, they jump instead.
+- 🔠 On iPhones and iPads, the words in a doc sometimes came out a different size than the code around them. They now match, and they grow and shrink with the rest of your code when you zoom.
+- 💡 You can now scroll the list of code suggestions with your finger. Picking one happens when you lift your finger, so sliding through the list no longer chooses something by accident.
+- 💡 The list of suggestions no longer opens past the edge of your project, where you couldn't see it at all.
+- 🎨 Tapping in the editor no longer paints a grey box behind what you tapped.
+- 📐 The buttons for edit, debug, and play are now reachable when a window is full screen. Before, going full screen on your code left no way back to play.
+- 🖱️ On iPhones and iPads, menus that let you choose one thing, like the layout chooser, showed a long run-on line cut off in the middle. They now show a short label.
+- 🖱️ Tapping the ☰ button above your code no longer opens the first thing inside it right away, and the menu no longer covers the button you just tapped.
+- 📱 On a phone, the box that explains your code took almost the whole screen. It now takes at most half, leaving room for the code itself.
+- 📱 The project name at the bottom of the screen no longer takes a fifth of a phone's width.
+- ⌨️ Home and End now jump the cursor to the start and end of the line in every text box in Wordplay. On a Mac, browsers treat those two keys as scroll keys, so our boxes now handle them; Command-Left and Command-Right still work too.
+- 🖱️ Holding Page Down or Page Up now keeps turning pages smoothly. Before, holding one barely moved and stopped after about a page.
+- 📱 You can now scroll your code with your finger in text mode. To pick out a stretch of code, hold your finger still for a moment and then drag — before, the smallest swipe selected text instead of scrolling.
+- 🎨 The gold shape around selected code is now one clean outline per line, instead of growing little hooks, notches, and stray marks off the side. Blank lines you select show a small block, so you can see they're part of your selection.
+- 📱 On iPhones and iPads, selecting code no longer leaves a grey smear and two round handles over your work.
 
 ## 0.29.0 - 2026-08-08
 

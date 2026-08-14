@@ -35,8 +35,10 @@
 >
 
 <style>
+    /* Relative, not the `small` keyword, so it tracks --wordplay-font-size and the
+       editor's --zoom rather than the browser's base size. */
     .language {
-        font-size: small;
+        font-size: 0.85em;
     }
 
     .language.blocks {

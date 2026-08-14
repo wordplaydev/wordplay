@@ -319,14 +319,18 @@
 <Hint></Hint>
 
 <style>
-    /* Flex column at the viewport height so the banner can take its natural
-       space at the top and the content shrinks to fit — same pattern Page.svelte
-       uses for the Localizer header. Keeps the page itself non-scrolling. */
+    /* Flex column filling the pinned html/body (see app.html) so the banner can
+       take its natural space at the top and the content shrinks to fit — same
+       pattern Page.svelte uses for the Localizer header. `overflow: hidden` keeps
+       anything that escapes an inner pane from extending the document; sizing in
+       percent rather than `dvh` means an iOS URL-bar transition can't relayout the
+       app mid-scroll. */
     .root {
         display: flex;
         flex-direction: column;
-        height: 100dvh;
-        max-height: 100dvh;
+        height: 100%;
+        max-height: 100%;
+        overflow: hidden;
         font-family: var(--wordplay-app-font);
         font-weight: var(--wordplay-font-weight);
         font-size: var(--wordplay-font-size);
