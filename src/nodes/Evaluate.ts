@@ -79,6 +79,7 @@ import type TypeSet from '@nodes/TypeSet';
 import TypeVariable from '@nodes/TypeVariable';
 import UnionType from '@nodes/UnionType';
 import { getEvaluationInputConflicts } from '@nodes/util';
+import { isTailCall } from '@nodes/tailCall';
 
 type Mapping = {
     expected: Bind;
@@ -1041,12 +1042,12 @@ export default class Evaluate extends Expression {
             new Start(this),
             ...inputSteps.reduce((steps: Step[], s) => [...steps, ...s], []),
             ...this.fun.compile(evaluator, context),
-            new StartEvaluation(this),
+            new StartEvaluation(this, isTailCall(this, context)),
             new Finish(this),
         ];
     }
 
-    startEvaluation(evaluator: Evaluator) {
+    startEvaluation(evaluator: Evaluator, tail = false) {
         // Get the function off the stack and bail if it's not a function.
         const definitionValue = evaluator.popValue(this);
         if (!(
@@ -1099,15 +1100,17 @@ export default class Evaluate extends Expression {
                     body ?? definitionValue.definition,
                 );
 
-            evaluator.startEvaluation(
-                new Evaluation(
-                    evaluator,
-                    this,
-                    definition,
-                    definitionValue.context,
-                    bindings,
-                ),
+            const evaluation = new Evaluation(
+                evaluator,
+                this,
+                definition,
+                definitionValue.context,
+                bindings,
             );
+            // A tail call replaces the current function activation's frames
+            // instead of growing the stack.
+            if (tail) evaluator.startTailEvaluation(evaluation);
+            else evaluator.startEvaluation(evaluation);
         }
         // For structures, start evaluating its definition.
         else if (definitionValue instanceof StructureDefinitionValue) {

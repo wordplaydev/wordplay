@@ -1,7 +1,13 @@
 import Time from '@input/Time/Time';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import FunctionDefinition from '@nodes/FunctionDefinition';
 import Source from '@nodes/Source';
-import Evaluator, { MAX_SOURCE_VALUE_SIZE } from '@runtime/Evaluator';
+import Evaluator, {
+    MAX_CALL_STACK_DEPTH,
+    MAX_SOURCE_VALUE_SIZE,
+    MAX_STEP_COUNT,
+    TAIL_CULPRIT_THRESHOLD,
+} from '@runtime/Evaluator';
 import { expect, test, vi } from 'vitest';
 import { DB, Locales } from '@db/Database';
 import { readProjects } from '../examples/readProjects';
@@ -285,6 +291,217 @@ test('Stepping an empty stack does not poison the re-entrancy guard', () => {
     expect(errors).not.toHaveBeenCalled();
     errors.mockRestore();
 
+    evaluator.stop();
+});
+
+// A call in tail position replaces the current function activation's frames instead of
+// growing the stack, so tail recursion is bounded by the step budget, not the depth limit.
+// The function is bound rather than declared so the program's value is the call's number:
+// a FunctionDefinition statement is a block result, which would make the program a list.
+const COUNT_UP = (limit: number) => `
+count: ƒ (n•#) •# n ≥ ${limit} ? n count(n + 1)
+count(0)
+`;
+
+function makeEvaluator(code: string, reactive = true) {
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    return {
+        source,
+        evaluator: new Evaluator(project, DB, [DefaultLocale], reactive),
+    };
+}
+
+// The three limits are one system: the step budget is the master bound on
+// main-thread work, and the other two derive from it. If someone retunes
+// MAX_STEP_COUNT, the derived limits must stay whole and ordered.
+test('Evaluation limits are aligned', () => {
+    expect(Number.isInteger(MAX_CALL_STACK_DEPTH)).toBe(true);
+    expect(Number.isInteger(TAIL_CULPRIT_THRESHOLD)).toBe(true);
+    expect(TAIL_CULPRIT_THRESHOLD).toBeLessThan(MAX_CALL_STACK_DEPTH);
+    // A call costs ~10-15 steps, so the depth limit must be reachable well
+    // within the step budget for the culprit-naming diagnosis to fire first.
+    expect(MAX_CALL_STACK_DEPTH * 16).toBeLessThanOrEqual(MAX_STEP_COUNT);
+});
+
+test('Tail recursion runs deeper than the call stack depth limit', () => {
+    // Without tail elision this would need more function frames than the
+    // depth limit allows; derive from the constant so the proof survives
+    // future retuning of the limits.
+    const depth = MAX_CALL_STACK_DEPTH + 1000;
+    const { evaluator } = makeEvaluator(COUNT_UP(depth));
+    const value = evaluator.getInitialValue();
+    expect(value).toBeInstanceOf(NumberValue);
+    if (value instanceof NumberValue)
+        expect(value.num.toString()).toBe(depth.toString());
+});
+
+test('Non-tail recursion runs deeper than the old 512-frame limit', () => {
+    // 2000 frames of pending `n + …` additions; every frame stays live.
+    const { evaluator } = makeEvaluator(
+        'f: ƒ (n•#) •# n ≥ 2000 ? 0 n + f(n + 1)\nf(0)',
+    );
+    const value = evaluator.getInitialValue();
+    expect(value).toBeInstanceOf(NumberValue);
+    // 0 + 1 + … + 1999
+    if (value instanceof NumberValue)
+        expect(value.num.toString()).toBe('1999000');
+});
+
+test('play() time-slices long evaluations instead of blocking', async () => {
+    // An infinite tail loop must exhaust the whole step budget, which takes
+    // far longer than one 25ms slice — so play() must return before it's done,
+    // then complete across deferred slices with the culprit-naming exception.
+    const { source, evaluator } = makeEvaluator('a: ƒ () a()\na()', false);
+    evaluator.pause();
+    evaluator.start();
+    evaluator.play();
+    expect(evaluator.isDone()).toBe(false);
+    await vi.waitFor(() => expect(evaluator.isDone()).toBe(true), {
+        timeout: 20000,
+        interval: 50,
+    });
+    expect(evaluator.getLatestSourceValue(source)).toBeInstanceOf(
+        EvaluationLimitException,
+    );
+    evaluator.stop();
+}, 30000);
+
+test('Tail calls do not grow the evaluation stack', () => {
+    const { evaluator } = makeEvaluator(COUNT_UP(600), false);
+    evaluator.pause();
+    evaluator.start();
+    let deepest = 0;
+    let safety = 0;
+    while (!evaluator.isDone() && safety++ < 100000) {
+        evaluator.step();
+        deepest = Math.max(deepest, evaluator.getEvaluations().length);
+    }
+    expect(deepest).toBeLessThan(MAX_CALL_STACK_DEPTH);
+    // The chain reuses one activation: source frame + at most a few live frames.
+    expect(deepest).toBeLessThan(8);
+    evaluator.stop();
+});
+
+test('Mutual tail recursion through a block-bodied function succeeds', () => {
+    // outer's block frame and function frame are both elided by the tail call
+    // to inner, and inner's frame by the tail call back to outer.
+    const { evaluator } = makeEvaluator(`
+outer: ƒ (n•#) •# (
+  inner: ƒ (m•#) •# m ≥ 2000 ? m outer(m + 1)
+  inner(n + 1)
+)
+outer(0)
+`);
+    const value = evaluator.getInitialValue();
+    expect(value).toBeInstanceOf(NumberValue);
+    if (value instanceof NumberValue)
+        expect(value.num.toNumber()).toBeGreaterThanOrEqual(2000);
+});
+
+test('A tail chain delivers its value to the original caller', () => {
+    // The chain runs nested in an enclosing operation, so the parked caller
+    // must receive exactly one value — the chain's result (see #680 for how
+    // Start/Finish asymmetry corrupts the value stack).
+    const { evaluator } = makeEvaluator(
+        `count: ƒ (n•#) •# n ≥ 600 ? n count(n + 1)\n1 + count(0)`,
+    );
+    const value = evaluator.getInitialValue();
+    expect(value).toBeInstanceOf(NumberValue);
+    if (value instanceof NumberValue) expect(value.num.toString()).toBe('601');
+});
+
+test('Infinite tail recursion names the culprit function', () => {
+    // A tail loop never grows the stack, so it exhausts the step budget; the
+    // exception must still name the looping function, as the depth limit does
+    // for non-tail recursion.
+    const { evaluator } = makeEvaluator('ƒ a() a()\na()');
+    const value = evaluator.getInitialValue();
+    expect(value).toBeInstanceOf(EvaluationLimitException);
+    if (value instanceof EvaluationLimitException)
+        expect(
+            value.functions.some(
+                (fun) =>
+                    fun instanceof FunctionDefinition &&
+                    fun.names.hasName('a'),
+            ),
+        ).toBe(true);
+});
+
+test('Time travel across a tail chain replays deterministically', () => {
+    const { source, evaluator } = makeEvaluator(COUNT_UP(2000), false);
+    evaluator.start(undefined, false);
+    evaluator.pause();
+    const present = evaluator.getStepIndex();
+    const before = evaluator.getLatestSourceValue(source);
+    expect(before).toBeInstanceOf(NumberValue);
+
+    // Rewind into the middle of the chain, then return to the present. The
+    // replay re-executes the program, so it must make identical tail decisions.
+    evaluator.stepBack(-100);
+    expect(evaluator.isInPast()).toBe(true);
+    evaluator.stepTo(present);
+    const after = evaluator.getLatestSourceValue(source);
+    expect(after).toBeInstanceOf(NumberValue);
+    if (before instanceof NumberValue && after instanceof NumberValue)
+        expect(after.num.toString()).toBe(before.num.toString());
+    evaluator.stop();
+});
+
+test('Stepping out of a tail-recursive function runs past the whole chain', () => {
+    const { source, evaluator } = makeEvaluator(COUNT_UP(600), false);
+    evaluator.pause();
+    evaluator.start();
+
+    // Step until we're inside the first activation of count.
+    const countDef = source.expression
+        .nodes()
+        .find((n): n is FunctionDefinition => n instanceof FunctionDefinition);
+    expect(countDef).toBeDefined();
+    let safety = 0;
+    while (
+        evaluator.getCurrentEvaluation()?.getDefinition() !== countDef &&
+        !evaluator.isDone() &&
+        safety++ < 1000
+    )
+        evaluator.step();
+    expect(evaluator.getCurrentEvaluation()?.getDefinition()).toBe(countDef);
+
+    // Stepping out must leave the entire tail chain, not stop at the first
+    // tail replacement — every frame in the chain is the same activation.
+    evaluator.stepOut();
+    expect(evaluator.getCurrentEvaluation()?.getDefinition()).not.toBe(
+        countDef,
+    );
+    evaluator.stop();
+});
+
+// Pins the order sources evaluate in: unused supplements first (in project order),
+// then main last. The evaluation-stack representation must preserve this order.
+test('Unused supplements evaluate before main, and all produce values', () => {
+    const main = new Source('main', '1 + 1');
+    const supplement = new Source('extra', '2 + 2');
+    const project = Project.make(null, 'test', main, [supplement], DefaultLocale);
+    const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
+    evaluator.pause();
+    evaluator.start();
+
+    // Record the order in which sources take their first step.
+    const order: string[] = [];
+    let safety = 0;
+    while (!evaluator.isDone() && safety++ < 1000) {
+        evaluator.step();
+        const source = evaluator.getCurrentEvaluation()?.getSource();
+        const name = source?.names.getFirst();
+        if (name !== undefined && order[order.length - 1] !== name)
+            order.push(name);
+    }
+
+    expect(order).toEqual(['extra', 'main']);
+    expect(evaluator.getLatestSourceValue(main)).toBeInstanceOf(NumberValue);
+    expect(evaluator.getLatestSourceValue(supplement)).toBeInstanceOf(
+        NumberValue,
+    );
     evaluator.stop();
 });
 
