@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.29.1",
+    "version": "0.29.2",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -13,6 +13,7 @@
         "test": "vitest",
         "test:run": "vitest run",
         "test:coverage": "vitest run --coverage",
+        "test:rules": "firebase emulators:exec --only firestore \"npx vitest run --config vitest.rules.config.ts\" --project=demo-wordplay --log-verbosity QUIET",
         "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay --log-verbosity QUIET",
         "dev": "vite dev",
         "emu": "npx tsx scripts/seed.ts & firebase emulators:start --project=demo-wordplay",
@@ -87,6 +88,7 @@
     "devDependencies": {
         "@axe-core/playwright": "^4",
         "@breezystack/lamejs": "^1.2.7",
+        "@firebase/rules-unit-testing": "^5.0.1",
         "@google-cloud/translate": "^9",
         "@playwright/test": "^1",
         "@resvg/resvg-js": "2.6.2",
