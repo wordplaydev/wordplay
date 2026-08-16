@@ -94,7 +94,7 @@
         "@axe-core/playwright": "^4",
         "@breezystack/lamejs": "^1.2.7",
         "@firebase/rules-unit-testing": "^5.0.1",
-        "@google-cloud/translate": "^9",
+        "@google-cloud/translate": "^10",
         "@playwright/test": "^1",
         "@resvg/resvg-js": "2.6.2",
         "@sveltejs/adapter-static": "^3",
