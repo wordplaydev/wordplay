@@ -143,10 +143,7 @@
         "zod": "^4"
     },
     "overrides": {
-        "cookie": "^0.7.0",
-        "jwks-rsa": {
-            "jose": "^5.10.0"
-        }
+        "cookie": "^0.7.0"
     },
     "browserslist": [
         "defaults",
