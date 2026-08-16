@@ -2,3 +2,8 @@
 build
 .svelte-kit
 .vscode
+# compiled Cloud Functions output; gitignored only in functions/.gitignore, which prettier doesn't read
+functions/lib
+# editor- and tool-local files
+.nova
+.claude
