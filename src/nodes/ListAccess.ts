@@ -22,7 +22,10 @@ import Characters from '../lore/BasisCharacters';
 import AnyType from '@nodes/AnyType';
 import Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
-import Expression, { type GuardContext } from '@nodes/Expression';
+import Expression, {
+    canRecordGuard,
+    type GuardContext,
+} from '@nodes/Expression';
 import getGuards from '@nodes/getGuards';
 import ListCloseToken from '@nodes/ListCloseToken';
 import ListOpenToken from '@nodes/ListOpenToken';
@@ -181,7 +184,9 @@ export default class ListAccess extends Expression {
                     node.index.isEqualTo(this.index)
                 ) {
                     // If the parent of the list access is an expression and it guards types, then return it.
-                    const parent = context.source.root.getParent(node);
+                    const parent = (
+                        context.getRoot(node) ?? context.source.root
+                    ).getParent(node);
                     return parent instanceof Expression && parent.guardsTypes();
                 } else return false;
             });
@@ -274,6 +279,7 @@ export default class ListAccess extends Expression {
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // We're evaluating the bind this list refers to, cache the possible values of this index at this point.
         if (
+            canRecordGuard(guard) &&
             (this.list instanceof Reference ||
                 this.list instanceof PropertyReference) &&
             this.isGuardMatch(guard)

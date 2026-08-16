@@ -841,6 +841,17 @@ Conditionals have operator precedence over all other expressions. Unlike all oth
 
 Note that there's no separator between the true anf false cases in this synatax (e.g., `:` in JavaScript, for example). This was partly to reduce overloading of other symbols, but also to encourage use of new lines to convey structure.
 
+A condition that checks a type (`x•#`) or compares against a literal (`x = 'a'`, `map{key} ≠ ø`) **narrows** what it checks inside the branches: the true branch sees only the checked type, and the false branch only the rest of the union. `&`, `|`, and `~` combine checks as intersection, union, and complement. What narrows is the expression the check names — a name, a property, a list index, or a map key — matched by how it's written, so `map{key}` narrows another `map{key}` but not `map{other}`.
+
+The check doesn't have to be written inline. A name bound to it works the same, since the condition is followed through the definitions it names:
+
+```
+valid: notes{pressed} ≠ ø
+valid ? Phrase(notes{pressed}) Phrase('')
+```
+
+Only the names that _decide_ the condition are followed, not every name in it: in `game.phase = 2`, `game` is the subject being asked about rather than the question, so its definition isn't consulted. And it's the _check_ that a name may stand for, not the value being checked — binding `n: map{key}` and testing `n ≠ ø` narrows `n`, not `map{key}`.
+
 ### _conflicts_
 
 - The condition is not boolean typed

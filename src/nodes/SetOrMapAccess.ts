@@ -22,7 +22,10 @@ import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
-import Expression, { type GuardContext } from '@nodes/Expression';
+import Expression, {
+    canRecordGuard,
+    type GuardContext,
+} from '@nodes/Expression';
 import getGuards from '@nodes/getGuards';
 import MapType from '@nodes/MapType';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
@@ -175,7 +178,9 @@ export default class SetOrMapAccess extends Expression {
                     node.key.isEqualTo(this.key)
                 ) {
                     // If the parent of the list access is an expression and it guards types, then return it.
-                    const parent = context.source.root.getParent(node);
+                    const parent = (
+                        context.getRoot(node) ?? context.source.root
+                    ).getParent(node);
                     return parent instanceof Expression && parent.guardsTypes();
                 } else return false;
             });
@@ -254,6 +259,7 @@ export default class SetOrMapAccess extends Expression {
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // Does this expression match the expression we're guarding? Remember the types for the map.
         if (
+            canRecordGuard(guard) &&
             (this.setOrMap instanceof Reference ||
                 this.setOrMap instanceof PropertyReference) &&
             this.isGuardMatch(guard)
