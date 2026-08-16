@@ -853,6 +853,8 @@ valid ? Phrase(notes{pressed}) Phrase('')
 
 Only the names that _decide_ the condition are followed, not every name in it: in `game.phase = 2`, `game` is the subject being asked about rather than the question, so its definition isn't consulted. And it's the _check_ that a name may stand for, not the value being checked — binding `n: map{key}` and testing `n ≠ ø` narrows `n`, not `map{key}`.
 
+Parentheses and docs don't change what a check asks, so `(x)•#` narrows exactly as `x•#` does.
+
 A name bound to a literal narrows like the literal written inline, so `k: 'x'` and then `a = k` refines `a` just as `a = 'x'` does. Two things deliberately do not narrow. A comparison against a text literal with **several translations** refines nothing, because the literal evaluates to the reader's translation and which one that is isn't known while checking — the comparison being false rules out only the one that was compared. And an input's default is not its value, since a caller may pass anything, so `ƒ f(k•'': 'x')` does not let `a = k` narrow.
 
 ### _conflicts_
@@ -897,6 +899,8 @@ sound ???
 ```
 
 If `sound` equals `'meow'`, this evaluates to `'cat'`; if `'woof'`, `'dog'`; otherwise `'unknown'`.
+
+A match **narrows** the value it matches on, the same way a conditional narrows what its condition checks (see [Conditional](#conditional)). Inside a key's value expression, the matched value is known to be that key; inside a later key's, it's known not to be any earlier one; and in the default expression, it's known to be none of them. Only keys whose value can be named — a number, none, or single-translation text literal, or a name bound to one — take part; a computed key rules nothing out, so the default keeps every type it might still have.
 
 ### _conflicts_
 

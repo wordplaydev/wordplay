@@ -68,3 +68,25 @@ test.each([
 ])('the false branch complement also reaches %s', (_name, program) => {
     expect(conflictsIn(declaration + program)).toEqual([]);
 });
+
+/**
+ * Parentheses and docs don't change what an expression means, so a check written through
+ * them checks the same thing. Both the match (`Is` asking whether its expression is the
+ * guarded one) and the search for a guarding ancestor (which looks at a node's parent)
+ * used to stop at the wrapper, so parenthesizing a check silently disabled it.
+ */
+test.each([
+    ['parentheses', `(x)•# ? x + 1 0`],
+    ['nested parentheses', `((x))•# ? x + 1 0`],
+    ['a doc', `(¶why¶ x)•# ? x + 1 0`],
+    ['parentheses in the false branch', `~((x)•#) ? 0 x + 1`],
+])('a check still narrows through %s', (_name, program) => {
+    expect(conflictsIn(declaration + program)).toEqual([]);
+});
+
+/** The same holds for the other kinds of check subject, not just plain names. */
+test('a parenthesized map access still narrows', () => {
+    expect(conflictsIn(`m•{#:#}: {1: 1}\n((m{1}) ≠ ø) ? m{1} + 1 0`)).toEqual(
+        [],
+    );
+});

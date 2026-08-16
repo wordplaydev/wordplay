@@ -26,6 +26,7 @@ import Expression, {
 } from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import getGuards from '@nodes/getGuards';
+import { guardsTypesAround } from '@nodes/typeGuards';
 import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
@@ -295,12 +296,7 @@ export default class PropertyReference extends Expression {
                                 n.getSubjectType(context) as StructureType
                             ).getDefinition(this.name.getName())
                     ) {
-                        const parent = (
-                            context.getRoot(n) ?? context.source.root
-                        ).getParent(n);
-                        return (
-                            parent instanceof Expression && parent.guardsTypes()
-                        );
+                        return guardsTypesAround(n, context);
                     } else return false;
                 });
 

@@ -4,6 +4,7 @@ import Conditional from '@nodes/Conditional';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type ListAccess from '@nodes/ListAccess';
+import Match from '@nodes/Match';
 import type Node from '@nodes/Node';
 import type PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
@@ -46,7 +47,7 @@ export default function getGuards(
             .getRoot(reference)
             ?.getAncestors(reference)
             ?.filter(
-                (a): a is Conditional | BinaryEvaluate =>
+                (a): a is Conditional | BinaryEvaluate | Match =>
                     // Guards must be conditionals
                     (a instanceof Conditional &&
                         // Don't include conditionals whose condition contain this; that would create a cycle
@@ -61,7 +62,12 @@ export default function getGuards(
                     (a instanceof BinaryEvaluate &&
                         a.isLogicalOperator(context) &&
                         !a.left.contains(reference) &&
-                        checks(a.left, new Set())),
+                        checks(a.left, new Set())) ||
+                    // A match decides on its subject the way a conditional decides on
+                    // its condition, so it can narrow inside its cases and fallback.
+                    (a instanceof Match &&
+                        !a.value.contains(reference) &&
+                        checks(a.value, new Set())),
             )
             .reverse() ?? []
     );

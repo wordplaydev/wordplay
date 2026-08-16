@@ -27,6 +27,7 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
+import { getEqualityTypes, narrowToEqual } from '@nodes/typeGuards';
 import UnionType from '@nodes/UnionType';
 
 /**
@@ -286,14 +287,57 @@ export default class Match extends Expression {
      * work, because `KeyValue` extends `Node`, not `Expression`.
      */
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
+        // The subject is evaluated before any case, so it sees the incoming types.
         this.value.evaluateTypeGuards(current, guard);
+
+        // Only the subject's own equality says anything about the guarded value.
+        const deciding = this.value.isGuardMatch(guard);
+
+        // What the subject may still be. A case is only reached once every earlier
+        // case failed to match, so each one sees less than the last.
+        let remaining = current;
+
         for (const kv of this.cases) {
-            kv.key.evaluateTypeGuards(current, guard);
-            kv.value.evaluateTypeGuards(current, guard);
+            // A key is evaluated before its value, and before later keys.
+            kv.key.evaluateTypeGuards(remaining, guard);
+
+            const equality = deciding
+                ? getEqualityTypes(kv.key, guard.context)
+                : undefined;
+
+            kv.value.evaluateTypeGuards(
+                equality
+                    ? narrowToEqual(remaining, equality.types, guard.context)
+                    : remaining,
+                guard,
+            );
+
+            // A key whose value we can't name rules nothing out — we can't subtract a
+            // type we can't determine — and neither can a multi-translation literal,
+            // where only the reader's translation was actually compared. Subtracting
+            // nothing keeps the fallback honest rather than confidently wrong.
+            if (equality?.exclusive) {
+                const rest = remaining.difference(
+                    equality.types,
+                    guard.context,
+                );
+                // Cases that between them cover the subject leave the fallback
+                // unreachable. That's true but useless to say: with no unreachable-case
+                // conflict to report, an empty set here only makes working code look
+                // broken.
+                if (rest.size() > 0) remaining = rest;
+            }
         }
-        this.other.evaluateTypeGuards(current, guard);
+
+        this.other.evaluateTypeGuards(remaining, guard);
+
         // A match's value is arbitrary, so it asserts nothing about the guarded name.
         return current;
+    }
+
+    /** A match decides by equality on its subject, so it narrows. */
+    guardsTypes() {
+        return true;
     }
 
     /** Start node to highlight is the value expression token */

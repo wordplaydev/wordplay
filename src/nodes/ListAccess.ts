@@ -27,6 +27,7 @@ import Expression, {
     type GuardContext,
 } from '@nodes/Expression';
 import getGuards from '@nodes/getGuards';
+import { guardsTypesAround } from '@nodes/typeGuards';
 import ListCloseToken from '@nodes/ListCloseToken';
 import ListOpenToken from '@nodes/ListOpenToken';
 import ListType from '@nodes/ListType';
@@ -184,10 +185,7 @@ export default class ListAccess extends Expression {
                     node.index.isEqualTo(this.index)
                 ) {
                     // If the parent of the list access is an expression and it guards types, then return it.
-                    const parent = (
-                        context.getRoot(node) ?? context.source.root
-                    ).getParent(node);
-                    return parent instanceof Expression && parent.guardsTypes();
+                    return guardsTypesAround(node, context);
                 } else return false;
             });
 

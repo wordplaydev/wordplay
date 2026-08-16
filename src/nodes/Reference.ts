@@ -48,7 +48,11 @@ import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import TypeVariable from '@nodes/TypeVariable';
-import { checksTypes, resolveToConstantLeaf } from '@nodes/typeGuards';
+import {
+    checksTypes,
+    resolveToConstantLeaf,
+    guardsTypesAround,
+} from '@nodes/typeGuards';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import UnionType from '@nodes/UnionType';
 import UnknownType from '@nodes/UnknownType';
@@ -416,10 +420,7 @@ export default class Reference extends SimpleExpression {
                     // And a reference to the same definition as this reference
                     definition === node.resolve(context)
                 ) {
-                    const parent = (
-                        context.getRoot(node) ?? context.source.root
-                    ).getParent(node);
-                    return parent instanceof Expression && parent.guardsTypes();
+                    return guardsTypesAround(node, context);
                 } else return false;
             });
 

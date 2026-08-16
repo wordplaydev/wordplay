@@ -27,6 +27,7 @@ import Expression, {
     type GuardContext,
 } from '@nodes/Expression';
 import getGuards from '@nodes/getGuards';
+import { guardsTypesAround } from '@nodes/typeGuards';
 import MapType from '@nodes/MapType';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import NoneType from '@nodes/NoneType';
@@ -178,10 +179,7 @@ export default class SetOrMapAccess extends Expression {
                     node.key.isEqualTo(this.key)
                 ) {
                     // If the parent of the list access is an expression and it guards types, then return it.
-                    const parent = (
-                        context.getRoot(node) ?? context.source.root
-                    ).getParent(node);
-                    return parent instanceof Expression && parent.guardsTypes();
+                    return guardsTypesAround(node, context);
                 } else return false;
             });
 

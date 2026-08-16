@@ -1,8 +1,10 @@
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
+import DocumentedExpression from '@nodes/DocumentedExpression';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
+import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import NoneLiteral from '@nodes/NoneLiteral';
@@ -166,4 +168,20 @@ export function narrowToEqual(
     );
     const broad = current.intersection(general, context);
     return broad.size() > 0 ? broad : current;
+}
+
+/**
+ * Whether the expression enclosing this node is one that checks types, looking through
+ * the wrappers that don't change what an expression means: parentheses and docs. Without
+ * this, `(x)•#` found no guard at all, because the reference's immediate parent is the
+ * parenthetical rather than the check around it — so wrapping a check in parentheses,
+ * which changes nothing about what it asks, silently stopped it from narrowing.
+ */
+export function guardsTypesAround(node: Node, context: Context): boolean {
+    let parent = (context.getRoot(node) ?? context.source.root).getParent(node);
+    while (parent instanceof Block || parent instanceof DocumentedExpression)
+        parent = (context.getRoot(parent) ?? context.source.root).getParent(
+            parent,
+        );
+    return parent instanceof Expression && parent.guardsTypes();
 }
