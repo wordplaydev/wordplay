@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- ⚡ We made programs with lots of moving output run three to five times more smoothly.
 - 🧲 We updated the physics engine. Things now rest on the ground instead of sinking into it, bouncy things settle instead of jittering forever, and output stops getting flung off the stage when it piles up.
 - 🧲 @Collision now reports far fewer bumps while something is settling — a handful instead of hundreds. A project that counts bumps will count differently than it used to.
 - 🛠️ We upgraded internal tooling for stability.
