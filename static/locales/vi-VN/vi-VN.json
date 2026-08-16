@@ -811,16 +811,16 @@
                 "no": "$~KHÔNG"
             },
             "doc": [
-                "$?Should I give you one @value or another, depending on a @condition? Like this?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "But have you ever thought about how we decide?",
-                "Doesn't it seem like decisions should be more nuanced than just yes or no? Is deciding between \\⊤\\ and \\⊥\\ all there is?",
-                "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?",
-                "There's one more thing I do, and I don't always get credit for it. When my @condition asks what /kind/ of value something is, I don't only answer yes or no. I remember the answer inside each of my choices.",
-                "\\size•#|'': 5\nsize•# ? size + 1 'too small'\\",
-                "On its own, that value could be a @Number or some @Text, and adding to it would be a conflict, since those are added in very different ways. But inside my /yes/ we have just asked whether it's a @Number, so there it is one. Inside my /no/, it's the @Text.",
-                "It doesn't matter how you ask. A type check, a comparison against a particular value, a check for a missing value, and a check you saved under a name all tell me the same thing. And @Boolean/and, @Boolean/or, and @Boolean/not combine them the way you would expect.",
-                "There are two things I can't tell you. If you compare against @Text that has several translations, I learn nothing, because which translation you get depends on who is reading."
+                "$~Mình có nên cho bạn một @value hay một cái khác, tùy theo một @condition không? Như thế này nhé?",
+                "\\số: -100\nsố < 0 ? 'âm' 'dương'\\",
+                "Nhưng bạn đã từng nghĩ về cách chúng ta quyết định chưa?",
+                "Có vẻ như các quyết định nên tinh tế hơn là chỉ có đúng hay sai, phải không? Chỉ có việc chọn giữa \\⊤\\ và \\⊥\\ thôi sao?",
+                "Bạn có lo rằng nếu đây là loại quyết định duy nhất chúng ta có thể đưa ra, thì chúng ta sẽ bỏ lỡ một số bối cảnh quan trọng về thế giới không?",
+                "Có một điều nữa mình làm, và mình không phải lúc nào cũng được ghi nhận vì nó. Khi @condition của mình hỏi rằng một thứ gì đó thuộc /kiểu/ giá trị nào, mình không chỉ trả lời đúng hay sai. Mình ghi nhớ câu trả lời bên trong mỗi lựa chọn của mình.",
+                "\\kíchThước•#|'': 5\nkíchThước•# ? kíchThước + 1 'quá nhỏ'\\",
+                "Tự thân nó, giá trị đó có thể là một @Number hoặc một ít @Text, và việc cộng thêm vào nó sẽ là một xung đột, vì những thứ đó được cộng theo những cách rất khác nhau. Nhưng bên trong phần /đúng/ của mình, chúng ta vừa hỏi liệu nó có phải là một @Number không, nên ở đó nó là một cái. Bên trong phần /sai/ của mình, nó là @Text.",
+                "Bạn hỏi theo cách nào cũng không quan trọng. Một phép kiểm tra kiểu, một phép so sánh với một giá trị cụ thể, một phép kiểm tra giá trị bị thiếu, và một phép kiểm tra bạn lưu dưới một tên đều nói với mình cùng một điều. Và @Boolean/and, @Boolean/or, và @Boolean/not kết hợp chúng theo cách bạn mong đợi.",
+                "Có hai điều mình không thể nói với bạn. Nếu bạn so sánh với @Text có nhiều bản dịch, mình không biết được gì cả, vì bản dịch bạn nhận được tùy thuộc vào ai đang đọc."
             ],
             "start": "$~Hãy xem điều kiện $condition có đúng hay không.",
             "else": "$~$jumping[nhảy qua mã | không nhảy qua mã]",
