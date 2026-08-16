@@ -40,19 +40,15 @@ import getConcreteExpectedType from '@nodes/Generics';
 import NeverType from '@nodes/NeverType';
 import type Node from '@nodes/Node';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
-import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
 import UnionType from '@nodes/UnionType';
 import findDivideByZeroSource from '@conflicts/findDivideByZeroSource';
 import { QUOTIENT_SYMBOL, REMAINDER_SYMBOL } from '@parser/Symbols';
-import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import Reference from '@nodes/Reference';
-import TextLiteral from '@nodes/TextLiteral';
-import TextType from '@nodes/TextType';
-import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import TypeSet from '@nodes/TypeSet';
+import { getEqualityTypes, narrowToEqual } from '@nodes/typeGuards';
 import UnknownNameType from '@nodes/UnknownNameType';
 
 export default class BinaryEvaluate extends Expression {
@@ -505,37 +501,21 @@ export default class BinaryEvaluate extends Expression {
                       ? this.left
                       : undefined;
 
-            let set: TypeSet | undefined = undefined;
+            const equality =
+                guardSide !== undefined && otherSide !== undefined
+                    ? getEqualityTypes(otherSide, guard.context)
+                    : undefined;
 
-            if (guardSide !== undefined && otherSide instanceof TextLiteral) {
-                // Find all of the single token translations, turn them into literal text types, and find the intersection between them and the current set.
-                const types: TextType[] = [];
-                for (const translation of otherSide.texts)
-                    if (
-                        translation.segments.length === 1 &&
-                        translation.segments[0] instanceof Token
-                    )
-                        types.push(
-                            TextType.make(translation.segments[0].getText()),
-                        );
-                set = new TypeSet(types, guard.context);
-            }
-
-            if (guardSide !== undefined && otherSide instanceof NoneLiteral) {
-                set = new TypeSet([NoneType.make()], guard.context);
-            }
-
-            if (guardSide !== undefined && otherSide instanceof NumberLiteral) {
-                set = new TypeSet(
-                    [new NumberType(otherSide.number, otherSide.unit)],
-                    guard.context,
-                );
-            }
-
-            if (set)
+            // Narrow only when we know exactly which value was compared. A
+            // multi-translation literal is the case that isn't: it evaluates to the
+            // reader's translation, and we can't tell statically which that is. The
+            // true branch alone would be sound ("one of the translations"), but a
+            // conditional takes the false branch to be the complement of the true one,
+            // and the complement of a maybe is not a fact. See getEqualityTypes.
+            if (equality && equality.exclusive)
                 return equals
-                    ? current.intersection(set, guard.context)
-                    : current.difference(set, guard.context);
+                    ? narrowToEqual(current, equality.types, guard.context)
+                    : current.difference(equality.types, guard.context);
         }
 
         // Otherwise, just pass the types down and return the original types.
@@ -561,12 +541,9 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.BinaryEvaluate.start,
-            {
-                left: new NodeRef(this.left, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.BinaryEvaluate.start, {
+            left: new NodeRef(this.left, locales, context),
+        });
     }
 
     getFinishExplanations(
@@ -574,12 +551,9 @@ export default class BinaryEvaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.BinaryEvaluate.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.BinaryEvaluate.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {
