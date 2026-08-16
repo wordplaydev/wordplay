@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.29.2 - 2026-08-16
 
+### Changed
+
+- 🛠️ We upgraded internal tooling for stability.
+
 ### Fixed
 
 - 🤝 We fixed errors that filled a teacher's browser when they opened a student's project. Teachers now see students' edits live as they type, and students can see their teacher's cursor when they visit.
