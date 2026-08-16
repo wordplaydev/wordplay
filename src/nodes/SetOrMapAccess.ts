@@ -197,7 +197,6 @@ export default class SetOrMapAccess extends Expression {
                     root.evaluateTypeGuards(possibleTypes, {
                         bind,
                         key: this.key.toWordplay(),
-                        original: possibleTypes,
                         context,
                     });
                     // Get the narrowed type of this index. Use the expression as the key.

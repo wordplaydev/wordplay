@@ -430,7 +430,6 @@ export default class Reference extends SimpleExpression {
                 root.evaluateTypeGuards(possibleTypes, {
                     bind: definition,
                     key: this.getTypeGuardKey(),
-                    original: possibleTypes,
                     context,
                 });
             }

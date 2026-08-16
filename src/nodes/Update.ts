@@ -360,8 +360,7 @@ export default class Update extends Expression {
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.table instanceof Expression)
             this.table.evaluateTypeGuards(current, guard);
-        if (this.row instanceof Expression)
-            this.row.evaluateTypeGuards(current, guard);
+        this.row.evaluateTypeGuards(current, guard);
         if (this.query instanceof Expression)
             this.query.evaluateTypeGuards(current, guard);
         return current;

@@ -1,17 +1,14 @@
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
-import { testConflict } from '@conflicts/TestUtilities';
+import { conflictsIn, testConflict } from '@conflicts/TestUtilities';
 import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
 import type Conflict from '@conflicts/Conflict';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
 import evaluateCode from '@runtime/evaluate';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Conditional from '@nodes/Conditional';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],
@@ -140,15 +137,6 @@ test.each([
         testConflict(good, bad, node, conflict, nodeIndex, badIndex);
     },
 );
-
-/** The conflicts in a program, by class name. */
-function conflictsIn(code: string) {
-    const source = new Source('test', code);
-    const project = Project.make(null, 'test', source, [], DefaultLocale);
-    return source.expression
-        .getAllConflicts(project.getContext(source))
-        .map((conflict) => conflict.constructor.name);
-}
 
 test('a name used as a subject is not a check', () => {
     // `game.phase = 2` names `game` as the thing being asked about, not as the

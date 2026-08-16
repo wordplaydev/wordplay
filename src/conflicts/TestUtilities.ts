@@ -48,6 +48,15 @@ export function testConflict(
     );
 }
 
+/** The conflicts in a program, by class name. */
+export function conflictsIn(code: string): string[] {
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    return source.expression
+        .getAllConflicts(project.getContext(source))
+        .map((conflict) => conflict.constructor.name);
+}
+
 /** Given some code, verify that the type of the last expression in the program's block is of the expected type. */
 export function testTypes(
     code: string,

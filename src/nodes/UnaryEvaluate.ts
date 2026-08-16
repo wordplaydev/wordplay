@@ -222,8 +222,13 @@ export default class UnaryEvaluate extends Expression {
      * the binding's type into Never.
      * */
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
-        // We only manipulate possible types for logical negation operators.
-        if (this.getOperator() !== NOT_SYMBOL) return current;
+        // Every operator's operand still has to be walked, or a narrowed name used
+        // inside one (`-(count + 1)`) keeps its unnarrowed type. Only negation
+        // manipulates the set, though.
+        if (this.getOperator() !== NOT_SYMBOL) {
+            this.input.evaluateTypeGuards(current, guard);
+            return current;
+        }
 
         // Get the possible types of the operand.
         const possible = this.input.evaluateTypeGuards(current, guard);
@@ -258,12 +263,9 @@ export default class UnaryEvaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.UnaryEvaluate.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.UnaryEvaluate.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getDescriptionInputs(

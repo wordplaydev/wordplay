@@ -314,7 +314,6 @@ export default class PropertyReference extends Expression {
                     root.evaluateTypeGuards(possibleTypes, {
                         bind: def,
                         key: this.getTypeGuardKey(),
-                        original: possibleTypes,
                         context,
                     });
                 }

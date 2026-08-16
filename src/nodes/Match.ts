@@ -18,7 +18,7 @@ import type Value from '@values/Value';
 import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
+import Expression, { type GuardContext } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import KeyValue from '@nodes/KeyValue';
 import { list, node, type Grammar, type Replacement } from '@nodes/Node';
@@ -279,7 +279,20 @@ export default class Match extends Expression {
         return result;
     }
 
-    evaluateTypeGuards(current: TypeSet) {
+    /**
+     * Narrowing is recorded by node identity, so anything this doesn't visit keeps the
+     * unnarrowed type — which meant a name narrowed by an enclosing conditional lost its
+     * narrowing merely by being used inside a match. Reaching the cases takes explicit
+     * work, because `KeyValue` extends `Node`, not `Expression`.
+     */
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
+        this.value.evaluateTypeGuards(current, guard);
+        for (const kv of this.cases) {
+            kv.key.evaluateTypeGuards(current, guard);
+            kv.value.evaluateTypeGuards(current, guard);
+        }
+        this.other.evaluateTypeGuards(current, guard);
+        // A match's value is arbitrary, so it asserts nothing about the guarded name.
         return current;
     }
 

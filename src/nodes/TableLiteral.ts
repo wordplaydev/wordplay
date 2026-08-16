@@ -320,10 +320,9 @@ export default class TableLiteral extends CompositeLiteral {
     }
 
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
-        this.rows.forEach((row) => {
-            if (row instanceof Expression)
-                row.evaluateTypeGuards(current, guard);
-        });
+        // Rows aren't Expressions, so the old `instanceof Expression` filter here
+        // skipped every cell of every row.
+        this.rows.forEach((row) => row.evaluateTypeGuards(current, guard));
         return current;
     }
 

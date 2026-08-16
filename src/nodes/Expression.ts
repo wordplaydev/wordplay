@@ -197,7 +197,6 @@ export default abstract class Expression extends Node {
 export type GuardContext = {
     bind: Bind;
     key: string;
-    original: TypeSet;
     context: Context;
     /**
      * The binds whose values we're currently expanding, to evaluate a check held in a

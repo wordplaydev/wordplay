@@ -1150,9 +1150,12 @@ export default class Evaluate extends Expression {
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.fun instanceof Expression)
             this.fun.evaluateTypeGuards(current, guard);
+        // A named argument is an Input, which extends Node rather than Expression, so
+        // an `instanceof Expression` filter here skipped every named argument.
         this.inputs.forEach((input) => {
-            if (input instanceof Expression)
-                input.evaluateTypeGuards(current, guard);
+            if (input instanceof Input)
+                input.value.evaluateTypeGuards(current, guard);
+            else input.evaluateTypeGuards(current, guard);
         });
         return current;
     }
