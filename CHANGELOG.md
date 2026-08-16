@@ -6,8 +6,14 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.29.2 - 2026-08-16
 
+### Added
+
+- 🔠 We added a new example called Chamber to the [galleries](https://wordplay.dev/galleries). A hundred letters from four writing systems bounce around a sealed box, and you can turn gravity off or shake them all up again.
+
 ### Changed
 
+- 🧲 We updated the physics engine. Things now rest on the ground instead of sinking into it, bouncy things settle instead of jittering forever, and output stops getting flung off the stage when it piles up.
+- 🧲 @Collision now reports far fewer bumps while something is settling — a handful instead of hundreds. A project that counts bumps will count differently than it used to.
 - 🛠️ We upgraded internal tooling for stability.
 
 ### Fixed
