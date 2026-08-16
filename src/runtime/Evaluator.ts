@@ -1,4 +1,5 @@
 import { Projects } from '@db/projects/Projects';
+import Block from '@nodes/Block';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -58,13 +59,36 @@ export type StreamCreator = Evaluate | Reaction;
 export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
 
 /**
- * Programs that evaluate too many functions likely have infinite recursion. Halt them!
- * */
-export const MAX_CALL_STACK_DEPTH = 512;
-/**
- * Programs that evaluate too many steps interfer with immediate feedback. Keep them short!
- * */
+ * The master per-evaluation compute budget (2^18 steps). Programs evaluate on
+ * the browser's main thread, so this caps the worst-case work one evaluation
+ * can do. Measured at ~0.33µs/step (Apple silicon, 2026), a full budget is
+ * ~90ms there and plausibly 0.5–1.5s on a low-resource device — tolerable only
+ * because the steady-state play/stream path time-slices in 25ms batches
+ * (`finish(limit)`); paths that evaluate synchronously (`mirror()`,
+ * `getInitialValue()`) are bounded by this constant alone.
+ * The two limits below are derived from it so the three stay aligned.
+ */
 export const MAX_STEP_COUNT = 262144;
+/**
+ * The call stack depth guard (2^13 = MAX_STEP_COUNT / 32). Since the stack
+ * pushes and pops at the end (O(1), no per-step cost proportional to depth)
+ * and frames cost ~500 bytes (~4MB at the limit), depth is a memory guard and
+ * a fast diagnosis for runaway non-tail recursion, not a compute guard: a call
+ * costs ~10–15 steps, so a runaway reaches this depth around 100k steps —
+ * comfortably before the step budget — and still gets the culprit-naming
+ * EvaluationLimitException. (The historical 512 dated from when the evaluator
+ * recursed on the JS stack; it no longer does.)
+ */
+export const MAX_CALL_STACK_DEPTH = MAX_STEP_COUNT / 32;
+/**
+ * The tail-loop attribution floor (2^10 = MAX_STEP_COUNT / 256). A function
+ * that tail-calls doesn't grow the call stack, so infinite tail recursion
+ * exhausts the step budget instead of the depth limit. When that happens and
+ * some function's tail chain accounts for at least this many calls, blame it
+ * by name (as the depth limit does) rather than reporting a generic step
+ * limit; this covers tail loops doing up to ~256 steps per iteration.
+ */
+export const TAIL_CULPRIT_THRESHOLD = MAX_STEP_COUNT / 256;
 /**
  * Cap on how many consecutive synchronous reactions (evaluate → start → finish
  * → step → evaluate → …) we allow before deferring the next batch to a fresh
@@ -105,7 +129,11 @@ export default class Evaluator {
     readonly reactive: boolean;
 
     /** This represents a stack of node evaluations. The first element of the stack is the currently evaluating node. */
-    readonly evaluations: Evaluation[] = [];
+    /** The stack of evaluation frames. The LAST element is the currently
+     *  evaluating frame (top of stack); the first is the root Source frame.
+     *  Top-at-end keeps every call and return O(1) (push/pop), so per-step
+     *  cost does not scale with stack depth. */
+    readonly #evaluations: Evaluation[] = [];
 
     /** The last evaluation to be removed from the stack not triggered by source, used to get shared bindings from a source's block. */
     #lastSourceEvaluation: Evaluation | undefined;
@@ -138,6 +166,12 @@ export default class Evaluator {
      * The total number of steps evaluated since the last reaction.
      */
     #totalStepCount = 0;
+
+    /**
+     * How many times each function has been tail-called since the last
+     * reaction, so the step limit can name a function looping in tail position.
+     */
+    readonly #tailCallCounts: Map<FunctionDefinition, number> = new Map();
 
     /** True if the last step was triggered by a step to a particular node. */
     #steppedToNode = false;
@@ -494,7 +528,7 @@ export default class Evaluator {
     }
 
     getCurrentStep() {
-        return this.evaluations[0]?.currentStep();
+        return this.#evaluations.at(-1)?.currentStep();
     }
 
     /** Get the expression corresponding to the current step.
@@ -521,7 +555,7 @@ export default class Evaluator {
     }
 
     getNextStep() {
-        return this.evaluations[0]?.nextStep();
+        return this.#evaluations.at(-1)?.nextStep();
     }
 
     /** Get the currently selected locales from the database */
@@ -535,7 +569,7 @@ export default class Evaluator {
     }
 
     getCurrentEvaluation() {
-        return this.evaluations.length === 0 ? undefined : this.evaluations[0];
+        return this.#evaluations.at(-1);
     }
 
     getLastEvaluation() {
@@ -625,7 +659,10 @@ export default class Evaluator {
         // from one step); prefer that so the highlight follows the work.
         let step = undefined;
         let active = undefined;
-        for (const evaluation of this.evaluations) {
+        // Scan from the top of the stack (the end) downward, so the innermost
+        // frame in this project wins.
+        for (let i = this.#evaluations.length - 1; i >= 0; i--) {
+            const evaluation = this.#evaluations[i];
             const currentStep = evaluation.currentStep();
             if (currentStep === undefined) continue;
             const here = currentStep.getActiveNode(this) ?? currentStep.node;
@@ -699,13 +736,17 @@ export default class Evaluator {
         return undefined;
     }
 
-    /** Finds the evaluation on the stack evaluating the given expression, if there is one. */
+    /** Finds the innermost evaluation on the stack evaluating the given expression, if there is one. */
     getEvaluationOf(expression: Expression) {
-        return this.evaluations.find((e) => e.getDefinition() === expression);
+        return this.#evaluations.findLast(
+            (e) => e.getDefinition() === expression,
+        );
     }
 
+    /** The evaluation stack, bottom-first: the root Source frame is first and
+     *  the currently evaluating frame is last. */
     getEvaluations() {
-        return this.evaluations;
+        return this.#evaluations;
     }
 
     // PREDICATES
@@ -740,7 +781,7 @@ export default class Evaluator {
     }
 
     isDone() {
-        return this.evaluations.length === 0;
+        return this.#evaluations.length === 0;
     }
 
     /** True once stop() has torn this evaluator down (e.g. the view unmounted). */
@@ -766,11 +807,11 @@ export default class Evaluator {
 
     /** True if any of the evaluations on the stack are evaluating the given source. Used for detecting cycles. */
     isEvaluatingSource(source: Source) {
-        return this.evaluations.some((e) => e.getSource() === source);
+        return this.#evaluations.some((e) => e.getSource() === source);
     }
 
     isEvaluatingFunction() {
-        return this.evaluations.some((e) => e.isFunction());
+        return this.#evaluations.some((e) => e.isFunction());
     }
 
     /** True if the given evaluation node is on the stack */
@@ -833,7 +874,7 @@ export default class Evaluator {
         }
 
         // Reset the evluation stack.
-        this.evaluations.length = 0;
+        this.#evaluations.length = 0;
         this.#lastSourceEvaluation = undefined;
 
         // Drop any reaction dependency frames. These are normally balanced by
@@ -894,8 +935,9 @@ export default class Evaluator {
         // Mark as started.
         this.#started = true;
 
-        // Reset the recent step count to zero.
+        // Reset the recent step count to zero, and the tail-call tally with it.
         this.#totalStepCount = 0;
+        this.#tailCallCounts.clear();
 
         // If we're in the present...
         if (!this.isInPast()) {
@@ -925,8 +967,17 @@ export default class Evaluator {
             }
         }
 
-        // Find all unused supplements and start evaluating them now, so they evaluate after main.
-        for (const unused of this.project.getUnusedSupplements()) {
+        // Stack the main source and the unused supplements so that the
+        // supplements evaluate first, in project order, and main evaluates
+        // last. The top of the stack is the END of the array, so main goes in
+        // first (the bottom) and supplements are stacked above it in reverse.
+        this.#evaluations.push(
+            new Evaluation(this, this.getMain(), this.getMain()),
+        );
+        for (const unused of this.project
+            .getUnusedSupplements()
+            .slice()
+            .reverse()) {
             // Unless we already know what it evaluates to. Nothing borrows an
             // unused supplement, so its value reaches no further than its own
             // tile, and a stable source that hasn't changed will produce the
@@ -941,13 +992,8 @@ export default class Evaluator {
                 this.sourceValueSize += carried.getSize();
                 continue;
             }
-            this.evaluations.push(new Evaluation(this, unused, unused));
+            this.#evaluations.push(new Evaluation(this, unused, unused));
         }
-
-        // Push the main source file onto the evaluation stack.
-        this.evaluations.push(
-            new Evaluation(this, this.getMain(), this.getMain()),
-        );
 
         // Tell listeners that we started.
         this.broadcast();
@@ -963,7 +1009,9 @@ export default class Evaluator {
         // run before we set play mode.)
         if (this.isInPast()) this.stepToEnd();
         this.setMode(Mode.Play);
-        this.finish();
+        // Time-slice so pressing play on a long evaluation never blocks the
+        // main thread; the steady-state stream path already runs this way.
+        this.finish(true);
     }
 
     pause() {
@@ -1048,11 +1096,16 @@ export default class Evaluator {
 
     /** Keep evaluating steps in this project until out of the current evaluation. */
     stepOut(): void {
-        const currentEvaluation = this.evaluations[0];
+        const currentEvaluation = this.#evaluations.at(-1);
         if (currentEvaluation === undefined) return;
+        // Compare activation ids rather than frame identity: a frame that
+        // tail-replaces this one continues the same source-level activation, so
+        // stepping out runs past the entire tail chain. (If the current frame
+        // is a block frame that gets tail-elided, its activation ends at the
+        // elision, so stepping out stops there.)
+        const activation = currentEvaluation.getTailActivation();
         while (
-            this.evaluations.length > 0 &&
-            currentEvaluation === this.evaluations[0]
+            this.#evaluations.at(-1)?.getTailActivation() === activation
         )
             this.stepWithinProgram();
     }
@@ -1091,7 +1144,7 @@ export default class Evaluator {
     /** End the evaluation of the program, optionally with an exception, and if in the past, start again with the next stream change. */
     end(exception?: ExceptionValue) {
         // If there's an exception, end all sources with the exception.
-        while (this.evaluations.length > 0) this.endEvaluation(exception);
+        while (this.#evaluations.length > 0) this.endEvaluation(exception);
 
         // If we're in the past and there's another stream change at this step index, start again.
         if (this.isInPast()) {
@@ -1207,6 +1260,27 @@ export default class Evaluator {
         }
     }
 
+    /** When the step budget is exhausted, prefer naming a function that has
+     *  been calling in tail position over the generic step-limit message:
+     *  tail calls don't grow the stack, so infinite tail recursion arrives
+     *  here instead of at the depth limit that would have named it. */
+    private getStepLimitException(): ExceptionValue {
+        let culprit: FunctionDefinition | undefined = undefined;
+        let most = 0;
+        for (const [definition, count] of this.#tailCallCounts)
+            if (count > most) {
+                most = count;
+                culprit = definition;
+            }
+        return culprit !== undefined && most >= TAIL_CULPRIT_THRESHOLD
+            ? new EvaluationLimitException(
+                  this,
+                  this.project.getMain().expression,
+                  [culprit],
+              )
+            : new StepLimitException(this, this.project.getMain().expression);
+    }
+
     /** Keep track of whether we're stepping to detect accidental infinite recursion. */
     private stepping = false;
 
@@ -1242,25 +1316,22 @@ export default class Evaluator {
         // Get the value of the next step of the current evaluation.
         const value =
             // If it seems like we're stuck in an infinite (recursive) loop, halt.
-            this.evaluations.length > MAX_CALL_STACK_DEPTH
+            this.#evaluations.length > MAX_CALL_STACK_DEPTH
                 ? new EvaluationLimitException(
                       this,
                       this.project.getMain().expression,
-                      this.evaluations.map((e) => e.getDefinition()),
+                      this.#evaluations.map((e) => e.getDefinition()),
                   )
                 : // If it seems like we're evaluating something very time consuming, halt.
                   this.#totalStepCount > MAX_STEP_COUNT
-                  ? new StepLimitException(
-                        this,
-                        this.project.getMain().expression,
-                    )
+                  ? this.getStepLimitException()
                   : // Otherwise, step the current evaluation and get it's value
                     evaluation.step(this);
 
         // If it's an exception on main, halt execution by returning the exception value.
         if (
             value instanceof ExceptionValue &&
-            this.evaluations[0].getSource() === this.project.getMain()
+            this.#evaluations.at(-1)?.getSource() === this.project.getMain()
         )
             this.end(value);
         // If it's another kind of value, pop the evaluation off the stack and add the value to the
@@ -1269,9 +1340,8 @@ export default class Evaluator {
             // End the Evaluation
             this.endEvaluation(value);
             // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
-            if (this.evaluations.length > 0) {
-                this.evaluations[0].pushValue(value);
-            }
+            const top = this.#evaluations.at(-1);
+            if (top) top.pushValue(value);
             // Otherwise, save the value and clean up this final evaluation; nothing left to do!
             else this.end();
         }
@@ -1914,44 +1984,83 @@ export default class Evaluator {
 
     /** Push a value on top of the current evaluation's stack. */
     pushValue(value: Value): void {
-        if (this.evaluations.length > 0) this.evaluations[0].pushValue(value);
+        this.#evaluations.at(-1)?.pushValue(value);
     }
 
     /** See the value on top. */
     hasValue(): boolean {
-        return this.evaluations.length > 0 && this.evaluations[0].hasValue();
+        return this.#evaluations.at(-1)?.hasValue() === true;
     }
 
     /** See the value on top. */
     peekValue(): Value | undefined {
-        return this.evaluations[0]?.peekValue();
+        return this.#evaluations.at(-1)?.peekValue();
     }
 
     /** Get the value on the top of the stack. */
     popValue(requestor: Expression, expected?: Type): Value {
-        return this.evaluations.length > 0
-            ? this.evaluations[0].popValue(requestor, expected)
-            : new ValueException(this, requestor);
+        return (
+            this.#evaluations.at(-1)?.popValue(requestor, expected) ??
+            new ValueException(this, requestor)
+        );
     }
 
     /** Tell the current evaluation to jump to a new instruction. */
     jump(distance: number) {
-        this.evaluations[0].jump(distance);
+        this.#evaluations.at(-1)?.jump(distance);
     }
 
     /** Tell the current evaluation to jump past the given expression */
     jumpPast(expression: Expression) {
-        this.evaluations[0].jumpPast(expression);
+        this.#evaluations.at(-1)?.jumpPast(expression);
     }
 
     /** Start evaluating the given function */
     startEvaluation(evaluation: Evaluation) {
-        this.evaluations.unshift(evaluation);
+        this.#evaluations.push(evaluation);
+    }
+
+    /** Replace the current function activation's frames — zero or more block
+     *  frames and the function frame beneath them — with the given evaluation,
+     *  so a call in tail position doesn't grow the stack. Falls back to a plain
+     *  push when the stack doesn't have the statically-predicted shape; the
+     *  shape at a tail-marked call is program-determined, so time-travel
+     *  replays make the same choice. */
+    startTailEvaluation(evaluation: Evaluation) {
+        // Walk down from the top of the stack (the end) past any block frames
+        // to the function frame that owns this activation.
+        let count = 0;
+        while (this.#evaluations.at(-1 - count)?.getDefinition() instanceof Block)
+            count++;
+        const activation = this.#evaluations.at(-1 - count);
+        if (
+            activation === undefined ||
+            !(activation.getDefinition() instanceof FunctionDefinition) ||
+            !activation.isTailReplaceable()
+        ) {
+            this.startEvaluation(evaluation);
+            return;
+        }
+        // Discard the replaced frames without endEvaluation(): they produced
+        // no values, are never Source frames, and must not become the last
+        // evaluation Borrow sees. The caller that made the activation's
+        // original, non-tail call is parked at that call's Finish step, so when
+        // the tail chain's final frame ends, its value flows there — exactly
+        // where the activation's value was owed.
+        this.#evaluations.length -= count + 1;
+        evaluation.inheritTailActivation(activation);
+        const definition = evaluation.getDefinition();
+        if (definition instanceof FunctionDefinition)
+            this.#tailCallCounts.set(
+                definition,
+                (this.#tailCallCounts.get(definition) ?? 0) + 1,
+            );
+        this.#evaluations.push(evaluation);
     }
 
     /** Remove the evaluation from the stack, but remember it in case a step needs it (like a Borrow does, to access bindings) */
     endEvaluation(value: Value | undefined) {
-        const evaluation = this.evaluations.shift();
+        const evaluation = this.#evaluations.pop();
         if (evaluation === undefined)
             throw Error(
                 "Shouldn't be possible to end an evaluation on an empty evaluation stack.",
@@ -2028,12 +2137,12 @@ export default class Evaluator {
 
     /** Bind the given value to the given name in the context of the current evaluation. */
     bind(names: string | Names, value: Value) {
-        if (this.evaluations.length > 0) this.evaluations[0].bind(names, value);
+        this.#evaluations.at(-1)?.bind(names, value);
     }
 
     /** Resolve the given name in the current execution context. */
     resolve(name: string | Names): Value | undefined {
-        return this.evaluations[0].resolve(name);
+        return this.#evaluations.at(-1)?.resolve(name);
     }
 
     /** A convenience function for evaluating a given function and inputs. */
@@ -2058,11 +2167,15 @@ export default class Evaluator {
         // Create the evaluation.
         const frame = new Evaluation(this, catalyst, fun, undefined, bindings);
 
+        // This loop and the peek below depend on the frame's identity, so it
+        // must never be tail-replaced out from under us.
+        frame.markHostRoot();
+
         // Start the evaluation.
         this.startEvaluation(frame);
 
         // Step until this is no longer on the stack.
-        while (this.evaluations.includes(frame)) this.step();
+        while (this.#evaluations.includes(frame)) this.step();
 
         this.broadcast();
 

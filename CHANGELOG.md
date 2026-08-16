@@ -4,6 +4,14 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.29.2 - 2026-08-16
+
+### Fixed
+
+- 🤝 We fixed errors that filled a teacher's browser when they opened a student's project. Teachers now see students' edits live as they type, and students can see their teacher's cursor when they visit.
+- 💾 For teachers with many galleries, the save light no longer flips between "Saved" and "Unsaved", the connection warning no longer comes and goes, and the [Teach](https://wordplay.dev/teach) page no longer goes blank.
+- 🔑 If the sign in page failed to load, it used to stay broken until you restarted your browser. Now it shows when it's loading, says when it can't connect, and works again when you reload.
+
 ## 0.29.1 - 2026-08-13
 
 This week we launched a new logo, improved the edit, debug, and play modes for more flexibility, and better organized the growing settings dialog.

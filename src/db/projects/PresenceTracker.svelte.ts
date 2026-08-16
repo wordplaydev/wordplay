@@ -1,4 +1,5 @@
 import { Domain } from '@db/Domains';
+import { FirebaseError } from 'firebase/app';
 import {
     collection,
     deleteDoc,
@@ -92,6 +93,14 @@ export class PresenceTracker {
     private currentCaret: RemoteCaret = null;
     private stopped = false;
 
+    /** Latched on a permission-denied publish: the rule will say no for
+     *  every subsequent attempt this session, and without the latch the
+     *  heartbeat retried the denied write every few seconds for as long
+     *  as the project stayed open. Transient errors do NOT latch — the
+     *  next heartbeat retries them. Mirrors YjsFirestoreProvider's
+     *  writeForbidden. */
+    private writeForbidden = false;
+
     constructor(
         db: Firestore,
         projectID: string,
@@ -126,7 +135,17 @@ export class PresenceTracker {
                 this.reconsiderSlot();
             },
             (err) => {
-                console.error('PresenceTracker snapshot error', err);
+                // The SDK terminates an errored listener either way; a
+                // permission denial is the server answering (not an app
+                // fault), so warn rather than error and stay quiet.
+                if (
+                    err instanceof FirebaseError &&
+                    err.code === 'permission-denied'
+                )
+                    console.warn(
+                        'PresenceTracker: presence read denied by Firestore rules; peer presence unavailable for this session.',
+                    );
+                else console.error('PresenceTracker snapshot error', err);
             },
         );
 
@@ -160,6 +179,7 @@ export class PresenceTracker {
      *  treats it as opaque transport since only the editor (which has
      *  the Y.Text needed for the encoding) can produce one. Throttled. */
     updateCaret(sourceIndex: number, caret: RemoteCaret): void {
+        if (this.writeForbidden) return;
         this.currentSourceIndex = sourceIndex;
         this.currentCaret = caret;
         if (this.publishTimer !== undefined) return;
@@ -173,7 +193,7 @@ export class PresenceTracker {
      *  from the heartbeat, and whenever a peer drops (which may open a slot
      *  for us). */
     private async publishNow(): Promise<void> {
-        if (this.stopped) return;
+        if (this.stopped || this.writeForbidden) return;
 
         // Anonymous users don't publish presence — they can still subscribe
         // and see who's editing, but won't appear in others' peer lists.
@@ -213,7 +233,25 @@ export class PresenceTracker {
             this.claimedSlot = true;
             this.setAtCap(false);
         } catch (err) {
-            console.error('PresenceTracker publish failed', err);
+            if (
+                err instanceof FirebaseError &&
+                err.code === 'permission-denied'
+            ) {
+                // Terminal: stop the heartbeat and any pending throttled
+                // publish; the subscription stays up so we still see peers.
+                this.writeForbidden = true;
+                if (this.heartbeatTimer !== undefined) {
+                    clearInterval(this.heartbeatTimer);
+                    this.heartbeatTimer = undefined;
+                }
+                if (this.publishTimer !== undefined) {
+                    clearTimeout(this.publishTimer);
+                    this.publishTimer = undefined;
+                }
+                console.warn(
+                    'PresenceTracker: presence write denied by Firestore rules; this session will not appear present to peers.',
+                );
+            } else console.error('PresenceTracker publish failed', err);
         }
     }
 

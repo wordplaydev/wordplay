@@ -327,10 +327,11 @@ export default class Reaction extends Expression {
                     ?.root.getAncestors(this)
                     .find((ancestor) => ancestor instanceof Bind);
                 if (bind) {
-                    // Find the evaluation that has a step that evaluates this bind.
+                    // Find the innermost evaluation that has a step that evaluates
+                    // this bind. The stack is bottom-first, so search from the end.
                     const evaluation = evaluator
                         .getEvaluations()
-                        .find((evaluation) =>
+                        .findLast((evaluation) =>
                             evaluation.getStepThat(
                                 (step) => step.node === bind,
                             ),

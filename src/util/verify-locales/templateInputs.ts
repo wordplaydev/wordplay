@@ -10,5 +10,6 @@ export {
     getDeclaredInputs,
     getPluralBranches,
     getTemplateReferences,
+    resolveTerms,
     withoutCountMarker,
 } from '@locale/templateInputs';

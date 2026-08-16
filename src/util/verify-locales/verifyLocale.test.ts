@@ -11,6 +11,7 @@ import {
     getCheckableLocalePairs,
     removeExtraKeys,
     translateLocale,
+    verifyLocale,
 } from './verifyLocale';
 
 // Fixtures mirror real locale paths so the tag-based classifier resolves them:
@@ -164,3 +165,42 @@ test('translateLocale translates construct names before example-bearing docs', a
     // Separate, name-first calls — merging the phases would make these equal.
     expect(nameCall).toBeLessThan(docCall);
 });
+
+// A locale's `terms` word list is expanded before the string is parsed as
+// markup, and it belongs to the locale being checked — not en-US, whose terms
+// can't resolve it. Checking against en-US made every $term reference look like
+// an unresolvable mention, so the whole string reported as unparsable (#1284).
+// The flip side is checked in the same pass: expanding terms must not blanket-
+// accept every $name, or a translator's typo becomes literal text in the UI.
+// Verifying a whole locale is slow enough to need more than the default timeout.
+test(
+    'a $term reference resolves against this locale, but an unknown $name still fails',
+    async () => {
+        const locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+        locale.terms = { errorTerm: 'त्रुटि', inputTerm: 'इनपुट' };
+        // A [formatted] field and a [plain] field, the two shapes the issue reports.
+        locale.glossary.value.definition = 'A $errorTerm is a thing.';
+        locale.node.Evaluate.conflict.IncompatibleInput.name = 'bad $inputTerm';
+        // And one typo alongside a valid term, which must still be reported.
+        locale.glossary.type.definition = 'A $errorTerm and a $typo.';
+
+        const { log, lines } = collectingLog();
+        await verifyLocale(
+            log,
+            'hi-IN',
+            locale,
+            false,
+            false,
+            false,
+            [],
+            new Map(),
+        );
+
+        // The typo'd string is the only complaint: the two strings that use
+        // nothing but terms are silent (before the fix, all three failed).
+        expect(lines).toHaveLength(1);
+        expect(lines[0]).toContain('glossary.type.definition');
+        expect(lines[0]).toContain('unparsable template string');
+    },
+    30000,
+);

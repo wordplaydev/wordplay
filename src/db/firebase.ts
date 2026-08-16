@@ -15,6 +15,7 @@ import {
 import type { Analytics } from 'firebase/analytics';
 import { getApp, getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import deferToIdle from '@util/deferToIdle';
+import lazyWithRetry from '@util/lazyWithRetry';
 import type { Auth } from 'firebase/auth';
 import {
     connectFirestoreEmulator,
@@ -35,8 +36,10 @@ let functions: Functions | undefined = undefined;
 let analytics: Analytics | undefined = undefined;
 
 // Memoized in-flight loads so concurrent callers share one SDK download/init.
-let authPromise: Promise<Auth | undefined> | undefined;
-let functionsPromise: Promise<Functions | undefined> | undefined;
+// lazyWithRetry clears the memo on rejection: a failed chunk fetch must not
+// wedge auth/functions for the life of the tab (see lazyWithRetry).
+let authLoader: (() => Promise<Auth | undefined>) | undefined;
+let functionsLoader: (() => Promise<Functions | undefined>) | undefined;
 
 /** Load the analytics SDK on demand, deny tracking consent, then initialize it.
  *  Kept out of module-eval so neither the SDK bytes nor getAnalytics's work sit
@@ -59,9 +62,11 @@ async function initAnalytics(app: FirebaseApp) {
  *  here from module-eval so they still run, but only once auth actually loads). */
 export function ensureAuth(): Promise<Auth | undefined> {
     if (auth !== undefined) return Promise.resolve(auth);
-    if (app === undefined) return Promise.resolve(undefined);
-    if (authPromise === undefined) authPromise = loadAuth(app);
-    return authPromise;
+    const initialized = app;
+    if (initialized === undefined) return Promise.resolve(undefined);
+    if (authLoader === undefined)
+        authLoader = lazyWithRetry(() => loadAuth(initialized));
+    return authLoader();
 }
 
 async function loadAuth(app: FirebaseApp): Promise<Auth | undefined> {
@@ -108,9 +113,11 @@ async function loadAuth(app: FirebaseApp): Promise<Auth | undefined> {
  *  at startup, so the SDK loads on first call. Memoized; wires the emulator. */
 export function getFunctionsInstance(): Promise<Functions | undefined> {
     if (functions !== undefined) return Promise.resolve(functions);
-    if (app === undefined) return Promise.resolve(undefined);
-    if (functionsPromise === undefined) functionsPromise = loadFunctions(app);
-    return functionsPromise;
+    const initialized = app;
+    if (initialized === undefined) return Promise.resolve(undefined);
+    if (functionsLoader === undefined)
+        functionsLoader = lazyWithRetry(() => loadFunctions(initialized));
+    return functionsLoader();
 }
 
 async function loadFunctions(app: FirebaseApp): Promise<Functions | undefined> {
