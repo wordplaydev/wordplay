@@ -45,7 +45,7 @@ const MaxSpeed = 6000;
  *  at 64 px/m — about 6× "real" g in stage units. All the example projects
  *  were tuned to that feel (earth-like on a ~10m stage), so we reproduce the
  *  same effective acceleration rather than a physically literal g × PX_PER_METER. */
-const GravityPxPerS2PerUnit = 1_000_000 / (20 * 2 * PX_PER_METER);
+export const GravityPxPerS2PerUnit = 1_000_000 / (20 * 2 * PX_PER_METER);
 
 /** Air-resistance calibration. Matter.js bodies default to frictionAir 0.01 —
  *  1% velocity loss per 16.7ms frame — which is what made bounces settle and
@@ -687,7 +687,7 @@ export default class Physics {
     }
 }
 
-const FIXED_STEP_MS = 16;
+export const FIXED_STEP_MS = 16;
 
 /** All active collision types, so events fire even between the kinematic /
  *  fixed pairs Rapier ignores by default (KINEMATIC_FIXED, KINEMATIC_KINEMATIC).
