@@ -6,7 +6,7 @@ import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import { type SupportedLocale } from '@locale/SupportedLocales';
 // Value symbols from firebase/auth are dynamically imported at use so the auth
 // SDK stays out of the eager chunk; only the erased types are imported here.
-import { type Unsubscribe, type User } from 'firebase/auth';
+import { type Auth, type Unsubscribe, type User } from 'firebase/auth';
 import {
     deleteDoc,
     doc,
@@ -130,6 +130,18 @@ export { Domain, SyncDomains, type SyncDomain };
  *  error). */
 export type SyncStatus = 'initializing' | 'syncing' | 'updated' | 'failed';
 export type SyncDomainState = { status: SyncStatus; count: number };
+
+/** Whether an auth event carries a different signed-in identity than the one
+ *  last broadcast to the user store (`undefined` = nothing broadcast yet).
+ *  Token refreshes re-deliver the same identity and must not re-notify —
+ *  see the rationale in {@link Database.login}. Exported for unit testing;
+ *  `login` itself needs a browser-initialized Firebase app. */
+export function authIdentityChanged(
+    lastUid: string | null | undefined,
+    user: Pick<User, 'uid'> | null,
+): boolean {
+    return (user === null ? null : user.uid) !== lastUid;
+}
 
 export class Database {
     /** The database of local persisted settings */
@@ -679,6 +691,30 @@ export class Database {
         return error instanceof Error;
     }
 
+    /** Shared handler for realtime listener (`onSnapshot`) errors. Always
+     *  terminal for the domain's sync state, so the save-status button stops
+     *  its "loading" spinner and the dialog shows "failed". Only a
+     *  connectivity error additionally feeds the offline/unreachable state;
+     *  a permission or index error is the server answering — treating it as
+     *  a disconnection made the connection banner flap whenever one denied
+     *  listener alternated with healthy ones. Non-connectivity errors instead
+     *  surface through the optional save-status message. */
+    reportListenerError(
+        domain: SyncDomain,
+        error: unknown,
+        message?: (locale: LocaleText) => FormattedText,
+    ) {
+        if (error instanceof FirebaseError)
+            console.error(error.code, error.message);
+        else console.error(error);
+        this.markSyncFailed(domain);
+        if (this.isConnectivityError(error)) {
+            this.markFirebaseFailed();
+            return;
+        }
+        if (message !== undefined) this.setStatus(SaveStatus.Error, message);
+    }
+
     /** Wrap a one-time Firebase read (`getDoc`/`getDocs`) so it fails fast
      *  instead of hanging when the backend is unreachable, and so reads — not
      *  just writes — feed the reachability banner. Races the read against a
@@ -888,7 +924,18 @@ export class Database {
      *  calls this fire-and-forget from onMount, so auth listeners attach shortly
      *  after first paint rather than blocking it. */
     async login(callback: (use: User | null) => void) {
-        const auth = await ensureAuth();
+        let auth: Auth | undefined;
+        try {
+            auth = await ensureAuth();
+        } catch (error) {
+            // The auth SDK failed to load (offline, blocked chunk fetch). The
+            // layout calls login() fire-and-forget, so swallow the rejection
+            // here and release the banner gate; ensureAuth clears its memo on
+            // rejection, so a later call genuinely retries.
+            console.error(error);
+            authAttempted.set(true);
+            return;
+        }
         if (auth === undefined) {
             // No Firebase Auth configured — release the banner gate so the
             // browser-online signal still works in this environment.
@@ -897,11 +944,24 @@ export class Database {
         }
         const { onAuthStateChanged, onIdTokenChanged } =
             await import('firebase/auth');
+        // Notify the app's user store only when the signed-in identity
+        // actually changes. Both auth listeners fire on every hourly (or
+        // forced) ID-token refresh, and a writable store notifies every
+        // subscriber on every set — which remounted user-gated UI (e.g. the
+        // Teach area's claim check) and tore down and resubscribed realtime
+        // listeners on each refresh. Consumers that need a post-refresh
+        // profile update re-set the store themselves (see Profile.svelte).
+        let lastNotifiedUid: string | null | undefined = undefined;
+        const notify = (newUser: User | null) => {
+            if (!authIdentityChanged(lastNotifiedUid, newUser)) return;
+            lastNotifiedUid = newUser === null ? null : newUser.uid;
+            callback(newUser);
+        };
         // Keep the user store in sync.
         this.authUnsubscribe = onAuthStateChanged(auth, async (newUser) => {
             // First Auth resolution releases the connection-banner gate.
             authAttempted.set(true);
-            callback(newUser);
+            notify(newUser);
             // Update every domain with the new user. updateUser now owns the
             // galleries listener too, bringing each domain online serially in
             // priority order (see startSync) rather than firing them all at once.
@@ -910,7 +970,7 @@ export class Database {
         this.authRefreshUnsubscribe = onIdTokenChanged(
             auth,
             async (newUser) => {
-                callback(newUser);
+                notify(newUser);
             },
         );
     }

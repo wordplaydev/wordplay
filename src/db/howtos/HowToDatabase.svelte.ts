@@ -4,6 +4,7 @@ import { type Database, type SaveCounts, type SaveError } from '@db/Database';
 import { Domain } from '@db/Domains';
 import exceedsDocLimit from '@db/exceedsDocLimit';
 import { firestore } from '@db/firebase';
+import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
 import type Gallery from '@db/galleries/Gallery';
 
 import isQuotaError from '@db/isQuotaError';
@@ -887,7 +888,9 @@ export class HowToDatabase {
         );
 
         // Listener 2: published how-tos in any of the user's editor/curator galleries.
-        // Chunked into groups of 30 because Firestore caps `in` at 30 values.
+        // Chunked because the read rule get()s each matched how-to's gallery and the
+        // rules document-access budget denies a whole query needing too many distinct
+        // get()s — see GALLERY_CHUNK_SIZE.
         // The `published == true` filter is required: the security rules only grant
         // gallery curators/collaborators read access to *published* how-tos (see the
         // read rule in firestore.rules). Other creators' unpublished drafts in these
@@ -897,9 +900,9 @@ export class HowToDatabase {
         const editorGalleryIds = Array.from(
             this.db.Galleries.accessibleGalleries.keys(),
         );
-        for (let i = 0; i < editorGalleryIds.length; i += 30) {
-            const chunk = editorGalleryIds.slice(i, i + 30);
-            const key = `gallery:${i / 30}`;
+        for (let i = 0; i < editorGalleryIds.length; i += GALLERY_CHUNK_SIZE) {
+            const chunk = editorGalleryIds.slice(i, i + GALLERY_CHUNK_SIZE);
+            const key = `gallery:${i / GALLERY_CHUNK_SIZE}`;
             const galleryQuery = query(
                 collection(firestore, HowTosCollection),
                 where('galleryId', 'in', chunk),

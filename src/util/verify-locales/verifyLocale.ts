@@ -44,6 +44,7 @@ import {
     checkPluralBranches,
     checkTemplateInputs,
     getDeclaredInputs,
+    resolveTerms,
     withoutCountMarker,
 } from '@util/verify-locales/templateInputs';
 import { getPluralCategories, getPluralCount } from '@locale/plurals';
@@ -215,9 +216,10 @@ async function checkLocale(
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
 
-    // This locale's terminology keys, so a `$term` reference in a template isn't
-    // flagged as an unknown input.
-    const termKeys = new Set(Object.keys(revised.terms ?? {}));
+    // This locale's word list, and its keys, so a `$term` reference both resolves
+    // to its phrase and isn't flagged as an unknown input while checking below.
+    const terms = revised.terms ?? {};
+    const termKeys = new Set(Object.keys(terms));
 
     // If we're translating, find every unwritten/revised string the user
     // wants Google Translate to fill in, then dispatch a batch request. In
@@ -434,14 +436,19 @@ async function checkLocale(
                 inputs[withoutCountMarker(name)] = name.startsWith('#')
                     ? 1
                     : 'test';
+            // Expand this locale's `$term` word-list references first, as the
+            // runtime does. `DefaultLocales` is en-US, whose `terms` can't
+            // resolve a term defined only in this locale, which would leave an
+            // unresolvable mention and make the whole template read as
+            // unparsable (#1284).
             const description = concretizeOrUndefined(
                 DefaultLocales,
-                path.value,
+                resolveTerms(path.value, terms),
                 inputs,
             );
             if (description === undefined)
                 log.bad(
-                    `String at ${path.toString()} is has unparsable template string "${
+                    `String at ${path.toString()} has an unparsable template string "${
                         path.value
                     }"`,
                 );

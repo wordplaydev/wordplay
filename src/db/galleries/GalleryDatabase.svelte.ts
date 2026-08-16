@@ -1,5 +1,4 @@
 import type { ProjectID } from '@db/projects/ProjectSchemas';
-import { FirebaseError } from 'firebase/app';
 import {
     and,
     arrayRemove,
@@ -388,17 +387,7 @@ export default class GalleryDatabase {
             },
             (error) => {
                 this.status = 'noaccess';
-                // Always terminal so the save-status button stops its "loading"
-                // spinner and the dialog shows "failed" — even for a permission
-                // or index error. Only a connectivity error additionally flips
-                // the offline/unreachable state.
-                this.database.markSyncFailed(Domain.Galleries);
-                if (this.database.isConnectivityError(error))
-                    this.database.markFirebaseFailed();
-                if (error instanceof FirebaseError) {
-                    console.error(error.code);
-                    console.error(error.message);
-                }
+                this.database.reportListenerError(Domain.Galleries, error);
             },
         );
     }
