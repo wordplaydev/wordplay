@@ -73,8 +73,7 @@ test('the committed exemplars artifact matches the pinned CLDR version and expec
     // accents (those are CLDR's auxiliary set, deliberately excluded).
     const en = pools.get('en');
     expect(en).toBeDefined();
-    for (const c of ['a', 'z', 'A', 'Z', '0', '9'])
-        expect(en).toContain(c);
+    for (const c of ['a', 'z', 'A', 'Z', '0', '9']) expect(en).toContain(c);
     for (const c of ['é', 'ü', 'ö', 'ñ']) expect(en).not.toContain(c);
 
     // German includes its umlauts and eszett with uppercase forms.

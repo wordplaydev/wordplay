@@ -69,11 +69,17 @@ function midiFile(
 
     const trackCount = tracks.length + 1;
     push(
-        0x4d, 0x54, 0x68, 0x64,           // "MThd"
-        ...u32(6),                        // header length
-        0, 1,                             // format 1
-        (trackCount >> 8) & 0xff, trackCount & 0xff,
-        (division >> 8) & 0xff, division & 0xff,
+        0x4d,
+        0x54,
+        0x68,
+        0x64, // "MThd"
+        ...u32(6), // header length
+        0,
+        1, // format 1
+        (trackCount >> 8) & 0xff,
+        trackCount & 0xff,
+        (division >> 8) & 0xff,
+        division & 0xff,
     );
 
     // A tempo-only conductor track, carrying one tempo or a whole map.
@@ -98,8 +104,7 @@ function midiFile(
 
     for (const events of tracks) {
         const body: number[] = [];
-        if (options.program !== undefined)
-            body.push(0, 0xc0, options.program);
+        if (options.program !== undefined) body.push(0, 0xc0, options.program);
         // Absolute-time on/off pairs, sorted, then delta-encoded.
         const points: { at: number; on: boolean; e: Event }[] = [];
         for (const e of events) {
@@ -128,7 +133,12 @@ function midiFile(
 
 test('the parser reads notes, tempo, and division', () => {
     const bytes = midiFile(
-        [[{ at: 0, pitch: 60, duration: 1 }, { at: 1, pitch: 64, duration: 2 }]],
+        [
+            [
+                { at: 0, pitch: 60, duration: 1 },
+                { at: 1, pitch: 64, duration: 2 },
+            ],
+        ],
         { bpm: 96 },
     );
     expect(looksLikeMIDI(bytes)).toBe(true);
@@ -228,9 +238,7 @@ test('General MIDI families map to instruments we have', () => {
 /* --------------------------------------------------------------- findings */
 
 test('the chromatic default reports no pitch movement', () => {
-    const result = importMIDI(
-        midiFile([[{ at: 0, pitch: 61, duration: 1 }]]),
-    );
+    const result = importMIDI(midiFile([[{ at: 0, pitch: 61, duration: 1 }]]));
     const snapped = result.findings.find((f) => f.kind === 'pitches-snapped');
     expect(snapped?.count).toBe(0);
 });
@@ -267,7 +275,8 @@ test('findings carry numbers, never prose', () => {
         expect(typeof finding.kind).toBe('string');
         expect(finding.kind).not.toContain(' ');
         for (const value of Object.values(finding.detail ?? {}))
-            if (typeof value === 'string') expect(value.length).toBeLessThan(40);
+            if (typeof value === 'string')
+                expect(value.length).toBeLessThan(40);
     }
 });
 
@@ -516,7 +525,12 @@ test('a percussion channel maps to drum-kit degrees', () => {
     // Channel 10 is index 9; midiFile writes channel 0, so drive the mapper
     // through convert with a hand-made parse result instead.
     const midi = parseMIDI(
-        midiFile([[{ at: 0, pitch: 36, duration: 1 }, { at: 1, pitch: 38, duration: 1 }]]),
+        midiFile([
+            [
+                { at: 0, pitch: 36, duration: 1 },
+                { at: 1, pitch: 38, duration: 1 },
+            ],
+        ]),
     );
     // Track 0 is the tempo-only conductor track; the notes are in the next.
     const notes = midi.tracks.find((track) => track.notes.length > 0);

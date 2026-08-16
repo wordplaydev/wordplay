@@ -41,8 +41,8 @@ export default class EvaluationLimitException extends ExceptionValue {
             {
                 function: new NodeRef(
                     mostFrequent instanceof FunctionDefinition ||
-                    mostFrequent instanceof StructureDefinition ||
-                    mostFrequent instanceof StreamDefinition
+                        mostFrequent instanceof StructureDefinition ||
+                        mostFrequent instanceof StreamDefinition
                         ? (mostFrequent.names.getPreferredName(
                               locales.getLocales(),
                           ) ?? mostFrequent)

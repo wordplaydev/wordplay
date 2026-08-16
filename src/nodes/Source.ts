@@ -362,11 +362,7 @@ export default class Source extends Expression {
     }
 
     withSpaces(spaces: Spaces) {
-        return new Source(
-            this.names,
-            [this.expression, spaces],
-            this.keywords,
-        );
+        return new Source(this.names, [this.expression, spaces], this.keywords);
     }
 
     withPreviousGraphemeReplaced(char: string, position: number) {
@@ -481,7 +477,10 @@ export default class Source extends Expression {
         // keystroke cost on large files. (Combined with the memoized
         // Node.hash() this replaces, the overall character-of-text-edit
         // path is closer to O(N) than to O(N²).)
-        const oldByConstructorAndHash = new Map<Function, Map<string, Node[]>>();
+        const oldByConstructorAndHash = new Map<
+            Function,
+            Map<string, Node[]>
+        >();
         for (const oldNode of unmatchedOldNodes) {
             let byHash = oldByConstructorAndHash.get(oldNode.constructor);
             if (byHash === undefined) {

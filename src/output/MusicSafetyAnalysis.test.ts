@@ -1,8 +1,6 @@
 import { expect, test } from 'vitest';
 import type { MusicData, TrackData } from '@output/Music/musicData';
-import analyzeMusicSafety, {
-    analyzeMusic,
-} from '@output/MusicSafetyAnalysis';
+import analyzeMusicSafety, { analyzeMusic } from '@output/MusicSafetyAnalysis';
 
 function track(
     notes: { degrees: number[]; beats?: number; volume?: number }[],
@@ -25,7 +23,10 @@ function track(
     };
 }
 
-function music(tracks: TrackData[], options: Partial<MusicData> = {}): MusicData {
+function music(
+    tracks: TrackData[],
+    options: Partial<MusicData> = {},
+): MusicData {
     return {
         name: 'song',
         tempo: 120,

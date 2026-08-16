@@ -445,14 +445,12 @@
                 <Button
                     tip={(l) => l.ui.localize.button.submit}
                     action={confirmEditing}
-                    background
-                    >{CONFIRM_SYMBOL}</Button
+                    background>{CONFIRM_SYMBOL}</Button
                 >
                 <Button
                     tip={(l) => l.ui.localize.button.cancel}
                     action={cancelEditing}
-                    background
-                    >{CANCEL_SYMBOL}</Button
+                    background>{CANCEL_SYMBOL}</Button
                 >
                 {#if override}<Button
                         tip={(l) => l.ui.localize.button.revert}
@@ -464,8 +462,7 @@
                                 );
                             cancelEditing();
                         }}
-                        background
-                        >{REVERT_SYMBOL}</Button
+                        background>{REVERT_SYMBOL}</Button
                     >{/if}
             </div>
         {:else}
@@ -477,7 +474,9 @@
                     size="inherit"
                     wrap={true}
                 >
-                    {#if placeholder && displayParsed.toText().trim().length === 0}
+                    {#if placeholder && displayParsed
+                            .toText()
+                            .trim().length === 0}
                         <LocalizedText path={placeholder} />
                     {:else if displaySpaces}
                         {#if inline}

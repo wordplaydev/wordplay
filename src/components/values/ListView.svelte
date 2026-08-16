@@ -22,11 +22,12 @@
     );
 </script>
 
-<SymbolView
-    symbol={LIST_OPEN_SYMBOL}
-    type={Sym.ListOpen}
-/><Expandable count={value.values.length} {start}
-    >{#snippet content(limit)}{#each value.values.slice(0, limit) as item, index}<ValueView
+<SymbolView symbol={LIST_OPEN_SYMBOL} type={Sym.ListOpen} /><Expandable
+    count={value.values.length}
+    {start}
+    >{#snippet content(
+        limit,
+    )}{#each value.values.slice(0, limit) as item, index}<ValueView
                 value={item}
                 {inline}
             />{#if index < value.values.length - 1}{' '}{/if}{/each}{/snippet}</Expandable

@@ -219,9 +219,7 @@
                     background
                     testid="start-gate-start"
                 >
-                    <LocalizedText
-                        path={(l) => l.ui.output.gate.start.label}
-                    />
+                    <LocalizedText path={(l) => l.ui.output.gate.start.label} />
                 </Button>
                 {#if hasPermission}
                     <p class="note">
@@ -397,7 +395,11 @@
         border-radius: var(--wordplay-border-radius);
         /* The card is on --wordplay-error; use a translucent track/fill of the
            card's own foreground so it reads on that background. */
-        background: color-mix(in srgb, var(--wordplay-background) 25%, transparent);
+        background: color-mix(
+            in srgb,
+            var(--wordplay-background) 25%,
+            transparent
+        );
         overflow: hidden;
     }
 

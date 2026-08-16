@@ -313,7 +313,12 @@ test('pattern token suggestions insert real glyphs, not placeholder Sym values',
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     // A caret just after the `#` atom inside the pattern body.
-    const caret = new Caret(source, code.indexOf('#') + 1, undefined, undefined);
+    const caret = new Caret(
+        source,
+        code.indexOf('#') + 1,
+        undefined,
+        undefined,
+    );
     const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
     const inserted = transforms
         .map((t) => t.getNewNode(DefaultLocales)?.toWordplay())
@@ -519,12 +524,7 @@ test('default-value suggestions for an input only include values of its declared
     expect(placeholder).toBeDefined();
     if (!placeholder) return;
 
-    const caret = new Caret(
-        source,
-        placeholder,
-        undefined,
-        undefined,
-    );
+    const caret = new Caret(source, placeholder, undefined, undefined);
     const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
 
     const replacementCodes = transforms
@@ -651,12 +651,7 @@ test('any markup position recommends available custom characters as concept link
         code.substring(0, insertionPoint) + code.substring(insertionPoint + 2);
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const caret = new Caret(
-        source,
-        insertionPoint,
-        undefined,
-        undefined,
-    );
+    const caret = new Caret(source, insertionPoint, undefined, undefined);
     const transforms = getEditsAt(
         project,
         caret,
@@ -683,12 +678,7 @@ test('a partially typed link completes to a matching custom character', () => {
         code.substring(0, insertionPoint) + code.substring(insertionPoint + 2);
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const caret = new Caret(
-        source,
-        insertionPoint,
-        undefined,
-        undefined,
-    );
+    const caret = new Caret(source, insertionPoint, undefined, undefined);
     const transforms = getEditsAt(
         project,
         caret,

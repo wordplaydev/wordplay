@@ -86,9 +86,8 @@ export default abstract class AudioStream extends TemporalStreamValue<
     start() {
         if (this.source !== undefined) return;
 
-        this.source = acquireAudioSource(
-            this.evaluator.database,
-            () => this.handleMicDenied(),
+        this.source = acquireAudioSource(this.evaluator.database, () =>
+            this.handleMicDenied(),
         );
 
         // If the source is already failed, report the denial immediately.

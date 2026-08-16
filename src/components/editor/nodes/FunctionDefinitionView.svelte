@@ -74,20 +74,20 @@
                 undefined,
             )}{@render tail(headerFormat, true)}<FoldEllipsis {node} /></Flow
         >
-    {:else}{#if !node.docs.isEmpty()}{@render docs(
-                format,
-            )}{/if}{@render head(headerFormat, node)}{@render tail(
+    {:else}{#if !node.docs.isEmpty()}{@render docs(format)}{/if}{@render head(
             headerFormat,
-            true,
-        )}<FoldEllipsis {node} />{/if}
+            node,
+        )}{@render tail(headerFormat, true)}<FoldEllipsis {node} />{/if}
 {:else if format.block}
     {#if !node.docs.isEmpty()}{@render docs(format)}{/if}
     {#if vertical}
         <Flow direction="column">
             <Flow direction="row"
-                >{#if foldable}<FoldToggle {node} />{/if}{#if node.docs.isEmpty()}{@render docs(
-                            format,
-                        )}{/if}{@render head(format, undefined)}</Flow
+                >{#if foldable}<FoldToggle
+                        {node}
+                    />{/if}{#if node.docs.isEmpty()}{@render docs(
+                        format,
+                    )}{/if}{@render head(format, undefined)}</Flow
             >
             <Flow direction="row" indent>
                 <NodeSequenceView
@@ -104,9 +104,11 @@
         </Flow>
     {:else}
         <Flow direction="row"
-            >{#if foldable}<FoldToggle {node} />{/if}{#if node.docs.isEmpty()}{@render docs(
-                        format,
-                    )}{/if}{@render head(format, undefined)}<NodeSequenceView
+            >{#if foldable}<FoldToggle
+                    {node}
+                />{/if}{#if node.docs.isEmpty()}{@render docs(
+                    format,
+                )}{/if}{@render head(format, undefined)}<NodeSequenceView
                 {node}
                 field="inputs"
                 {format}
@@ -129,5 +131,8 @@
         field="inputs"
         {format}
         empty="menu"
-    />{@render tail(format, false)}<NodeView node={[node, 'expression']} {format} />
+    />{@render tail(format, false)}<NodeView
+        node={[node, 'expression']}
+        {format}
+    />
 {/if}

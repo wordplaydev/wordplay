@@ -96,7 +96,10 @@ export function createMomentStructure(
 }
 
 export function createMomentType(locales: Locales): StructureDefinition {
-    const names = getNameLocales(locales, (locale) => locale.input.Moment.names);
+    const names = getNameLocales(
+        locales,
+        (locale) => locale.input.Moment.names,
+    );
 
     const bind = (
         select: (locale: LocaleText) => NameAndDoc,
@@ -130,8 +133,11 @@ export function createMomentType(locales: Locales): StructureDefinition {
         getDocLocales(locales, (locale) => locale.input.Moment.conversion.text),
         NameType.make(names.getNames()[0]),
         TextType.make(),
-        (requestor: Expression, moment: StructureValue, evaluation: Evaluation) =>
-            momentToText(requestor, moment, evaluation, locales),
+        (
+            requestor: Expression,
+            moment: StructureValue,
+            evaluation: Evaluation,
+        ) => momentToText(requestor, moment, evaluation, locales),
     );
 
     return StructureDefinition.make(
@@ -146,7 +152,10 @@ export function createMomentType(locales: Locales): StructureDefinition {
 
 /** Read a positional numeric input, truncated to a clamped integer, treating
  *  anything non-finite (or unset) as absent. */
-function integerInput(moment: StructureValue, index: number): number | undefined {
+function integerInput(
+    moment: StructureValue,
+    index: number,
+): number | undefined {
     const value = moment.getInput(index);
     if (!(value instanceof NumberValue)) return undefined;
     const number = value.toNumber();
@@ -183,9 +192,7 @@ function momentToText(
     const target = requestedLanguage?.getLocaleID() ?? locales.getLocale();
     const data = getDateTimeDataForLocale(target);
 
-    const error = (
-        select: (locale: LocaleText) => string,
-    ): MessageException =>
+    const error = (select: (locale: LocaleText) => string): MessageException =>
         new MessageException(
             requestor,
             evaluator,
@@ -221,7 +228,8 @@ function momentToText(
     let zoned: TemporalTypes.ZonedDateTime;
     try {
         const timeZone = timezone ?? Temporal.Now.timeZoneId();
-        const now = Temporal.Now.zonedDateTimeISO(timeZone).withCalendar(calendar);
+        const now =
+            Temporal.Now.zonedDateTimeISO(timeZone).withCalendar(calendar);
         // Unset parts follow a hierarchy (year > month > day > hour > …):
         // anything LARGER than the largest part given comes from the current
         // moment, and anything smaller starts at its beginning (month and day

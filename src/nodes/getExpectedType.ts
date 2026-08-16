@@ -48,8 +48,7 @@ export default function getExpectedType(
 
     // An input to an evaluation, named (`Input`) or positional.
     const given = parent instanceof Input ? parent : expression;
-    const evaluate =
-        parent instanceof Input ? root.getParent(parent) : parent;
+    const evaluate = parent instanceof Input ? root.getParent(parent) : parent;
     if (evaluate instanceof Evaluate)
         return evaluate
             .getInputMapping(context)

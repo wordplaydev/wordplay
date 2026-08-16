@@ -5,7 +5,13 @@ import {
     type SupportedLocale,
 } from '@locale/SupportedLocales';
 
-export const load = ({ params, url }: { params: Record<string, string>; url: URL }) => {
+export const load = ({
+    params,
+    url,
+}: {
+    params: Record<string, string>;
+    url: URL;
+}) => {
     // Don't redirect during SSR / prerender — only the browser can read localStorage.
     if (!browser) return {};
 
@@ -32,7 +38,9 @@ export const load = ({ params, url }: { params: Record<string, string>; url: URL
     // serve a 404-y URL. Prefer localStorage, then en-US.
     let fallback = 'en-US';
     try {
-        const stored: unknown = JSON.parse(localStorage.getItem('locales') ?? '[]');
+        const stored: unknown = JSON.parse(
+            localStorage.getItem('locales') ?? '[]',
+        );
         if (Array.isArray(stored) && stored.length > 0) {
             const valid = (stored as string[]).filter((l) =>
                 SupportedLocales.includes(l as SupportedLocale),
@@ -43,7 +51,8 @@ export const load = ({ params, url }: { params: Record<string, string>; url: URL
         // ignore
     }
 
-    const pathWithoutLocale = url.pathname.slice(('/' + localeParam).length) || '/';
+    const pathWithoutLocale =
+        url.pathname.slice(('/' + localeParam).length) || '/';
     const target = `/${fallback}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}${url.search}`;
     redirect(307, target);
 };

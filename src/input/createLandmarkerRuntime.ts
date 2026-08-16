@@ -152,7 +152,8 @@ export default function createLandmarkerRuntime<T extends { close(): void }>(
     let createdAt = 0;
     let recreatePromise: Promise<T> | undefined;
 
-    const observers: ((loading: boolean, progress: LoadProgress) => void)[] = [];
+    const observers: ((loading: boolean, progress: LoadProgress) => void)[] =
+        [];
     const notifyLoading = (loading: boolean, progress: LoadProgress) => {
         for (const o of observers) o(loading, progress);
     };

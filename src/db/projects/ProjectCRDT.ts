@@ -191,8 +191,7 @@ export default class ProjectCRDT {
             const oldLen = oldCode.length;
             const newLen = newCode.length;
             const minLen = Math.min(oldLen, newLen);
-            while (start < minLen && oldCode[start] === newCode[start])
-                start++;
+            while (start < minLen && oldCode[start] === newCode[start]) start++;
             let oldEnd = oldLen;
             let newEnd = newLen;
             while (

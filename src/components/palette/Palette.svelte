@@ -178,8 +178,7 @@
      *  a single evaluator history lookup. */
     let debugValues = $derived.by(() => {
         const context = stepped !== undefined ? $stepped : undefined;
-        if (context === undefined || context.mode !== 'debug')
-            return undefined;
+        if (context === undefined || context.mode !== 'debug') return undefined;
         const found = new Map<OutputProperty, Value>();
         for (const [property, expression] of debugExpressions) {
             const value =

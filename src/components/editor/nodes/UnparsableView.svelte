@@ -20,7 +20,7 @@
         format={{ ...format, editable: false }}
         empty="hide"
     />
-<!-- The empty marker is an editing affordance — "code is missing here" — so it's
+    <!-- The empty marker is an editing affordance — "code is missing here" — so it's
      only shown in an editable view. Read-only renderings of code (docs, guide
      examples, changelog prose) would just show unexplained orange bars. -->
 {:else if format.editable}<MissingView />{/if}

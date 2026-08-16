@@ -56,15 +56,19 @@
     {#if format.block}
         {#if !node.docs.isEmpty()}{@render docs(format)}{/if}
         <Flow direction="row"
-            ><FoldToggle {node} />{@render head(headerFormat, undefined)}<NodeView
+            ><FoldToggle {node} />{@render head(
+                headerFormat,
+                undefined,
+            )}<NodeView
                 node={[node, 'close']}
                 format={headerFormat}
                 noSpace
             /><FoldEllipsis {node} /></Flow
         >
-    {:else}{#if !node.docs.isEmpty()}{@render docs(
-                format,
-            )}{/if}{@render head(headerFormat, node)}<NodeView
+    {:else}{#if !node.docs.isEmpty()}{@render docs(format)}{/if}{@render head(
+            headerFormat,
+            node,
+        )}<NodeView
             node={[node, 'close']}
             format={headerFormat}
             noSpace
@@ -73,7 +77,9 @@
     <Flow direction="column">
         {#if !node.docs.isEmpty()}{@render docs(format)}{/if}
         <Flow direction="row">
-            {#if foldable}<FoldToggle {node} />{/if}{#if node.docs.isEmpty()}{@render docs(
+            {#if foldable}<FoldToggle
+                    {node}
+                />{/if}{#if node.docs.isEmpty()}{@render docs(
                     format,
                 )}{/if}{@render head(format, undefined)}<NodeSequenceView
                 {node}
@@ -97,13 +103,8 @@
     <NodeView node={[node, 'docs']} {format} />{@render head(
         format,
         foldable ? node : undefined,
-    )}<NodeSequenceView
-        {node}
-        field="inputs"
+    )}<NodeSequenceView {node} field="inputs" {format} empty="label" /><NodeView
+        node={[node, 'close']}
         {format}
-        empty="label"
-    /><NodeView node={[node, 'close']} {format} /><NodeView
-        node={[node, 'expression']}
-        {format}
-    />
+    /><NodeView node={[node, 'expression']} {format} />
 {/if}

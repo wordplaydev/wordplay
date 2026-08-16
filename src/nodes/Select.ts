@@ -159,13 +159,11 @@ export default class Select extends Expression {
         if (tableType instanceof TableType) {
             this.row.cells.forEach((cell) => {
                 const cellName = cell instanceof Reference ? cell : undefined;
-                if (
-                    !(
-                        cellName !== undefined &&
-                        tableType.getColumnNamed(cellName.name.getText()) !==
-                            undefined
-                    )
-                )
+                if (!(
+                    cellName !== undefined &&
+                    tableType.getColumnNamed(cellName.name.getText()) !==
+                        undefined
+                ))
                     conflicts.push(new UnknownColumn(tableType, cell));
             });
         }

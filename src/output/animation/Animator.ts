@@ -3,7 +3,9 @@ import type Node from '@nodes/Node';
 import type Evaluator from '@runtime/Evaluator';
 import type StreamValue from '@values/StreamValue';
 import type Output from '@output/Output/Output';
-import OutputAnimation, { AnimationState } from '@output/animation/OutputAnimation';
+import OutputAnimation, {
+    AnimationState,
+} from '@output/animation/OutputAnimation';
 import Physics from '@output/physics/Physics';
 import Place, { createPlace } from '@output/Place/Place';
 import Pose from '@output/animation/Pose';
@@ -449,8 +451,7 @@ export default class Animator {
         // sides lets the cycle collapse even when one half is still weakly
         // retained from outside.
         if (this.evaluator) {
-            if (this.evaluator.scene === this)
-                this.evaluator.scene = undefined;
+            if (this.evaluator.scene === this) this.evaluator.scene = undefined;
             this.evaluator = undefined;
         }
     }

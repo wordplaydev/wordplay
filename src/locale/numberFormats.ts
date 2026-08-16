@@ -139,7 +139,10 @@ function group(integer: string, separator: string, style: Grouping): string {
 /** Replace any '0'–'9' in the text with the locale's native digits, if its
  *  script has them. Used for numbers here and for date/time fields (which are
  *  never grouped) in dateTimeFormats.ts. */
-export function substituteDigitsForLocale(text: string, locale: Locale): string {
+export function substituteDigitsForLocale(
+    text: string,
+    locale: Locale,
+): string {
     const reverse = reverseDigitsFor(scriptFor(locale));
     return reverse === undefined
         ? text

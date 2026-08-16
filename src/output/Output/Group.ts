@@ -1,5 +1,8 @@
 import StructureValue from '@values/StructureValue';
-import { SupportedFontsFamiliesType, type SupportedFace } from '@basis/faces/Fonts';
+import {
+    SupportedFontsFamiliesType,
+    type SupportedFace,
+} from '@basis/faces/Fonts';
 import toStructure from '@basis/toStructure';
 import { describeColorLocalized } from '@output/Color/BasicColors';
 import { getBind } from '@locale/getBind';
@@ -21,7 +24,11 @@ import Say from '@output/Output/Say';
 import type Sequence from '@output/animation/Sequence';
 import type { NameGenerator } from '@output/Output/Stage';
 import TextValue from '@values/TextValue';
-import { getTypeStyle, toArrangement, toOutputList } from '@output/Output/toOutput';
+import {
+    getTypeStyle,
+    toArrangement,
+    toOutputList,
+} from '@output/Output/toOutput';
 import { getOutputInput } from '@output/Output/Valued';
 
 export function createGroupType(locales: Locales) {
@@ -192,15 +199,15 @@ export default class Group extends Output {
                   )
                 : undefined;
             this._description = locales
-                .concretize(
-                    (l) => l.output.Group.defaultDescription,
-                    {
-                        name: this.name instanceof TextValue ? this.name.text : undefined,
-                        layout: this.layout.getDescription(this.content, locales),
-                        pose: this.pose.getDescription(locales),
-                        color: colorDescription,
-                    },
-                )
+                .concretize((l) => l.output.Group.defaultDescription, {
+                    name:
+                        this.name instanceof TextValue
+                            ? this.name.text
+                            : undefined,
+                    layout: this.layout.getDescription(this.content, locales),
+                    pose: this.pose.getDescription(locales),
+                    color: colorDescription,
+                })
                 .toText()
                 .trim();
         }

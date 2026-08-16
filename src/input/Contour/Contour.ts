@@ -53,9 +53,7 @@ type ContourErrorKind = ContourFontError | 'outline';
 /** The raw value a Contour stream emits: either the computed points or an error.
  * Carrying this (rather than the inputs) makes the stream's history replayable
  * without re-fetching fonts. */
-type ContourEvent =
-    | { points: ContourPoint[] }
-    | { error: ContourErrorKind };
+type ContourEvent = { points: ContourPoint[] } | { error: ContourErrorKind };
 
 /** Localized message for each error kind, mirroring Webpage's error reporting. */
 const ContourErrors: Record<ContourErrorKind, (locale: LocaleText) => string> =
@@ -286,7 +284,12 @@ async function computeContour(
     let penX = 0;
 
     for (const run of runs) {
-        const font = await getContourFont(face, useWeight, useItalic, run.range);
+        const font = await getContourFont(
+            face,
+            useWeight,
+            useItalic,
+            run.range,
+        );
         // Nothing to load (no browser / unsupported): contribute no points.
         if (font === undefined) continue;
         // A load failure is reported to the creator as an exception.
@@ -468,9 +471,7 @@ export default class Contour extends StreamValue<
         // Discard if a newer load started or the stream stopped meanwhile.
         if (this.stopped || request !== this.request) return;
         this.react(
-            typeof result === 'string'
-                ? { error: result }
-                : { points: result },
+            typeof result === 'string' ? { error: result } : { points: result },
         );
     }
 

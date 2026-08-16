@@ -19,7 +19,9 @@ export default class ConversionException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.getTextStructure((l) => l.node.Convert.exception.ConversionException);
+        return locales.getTextStructure(
+            (l) => l.node.Convert.exception.ConversionException,
+        );
     }
 
     getExplanation(locales: Locales) {

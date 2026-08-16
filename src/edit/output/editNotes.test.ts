@@ -349,9 +349,7 @@ test('every length a transcription can produce writes a legal entry', () => {
     // Whole-beat rounding readily produces 3 and 5, and of those only some
     // have a note value; the rest have to become a `Note`. Nothing may be
     // written with a fabricated unit.
-    const lengths = [
-        1, 2, 3, 4, 5, 6, 7, 8, 0.25, 0.375, 0.5, 0.75, 1.5, 2.5,
-    ];
+    const lengths = [1, 2, 3, 4, 5, 6, 7, 8, 0.25, 0.375, 0.5, 0.75, 1.5, 2.5];
     for (const beats of lengths) {
         const { conflicts, code } = conflictsFor([
             { degrees: [3], beats, volume: 1 },
@@ -369,7 +367,9 @@ test('no entry is written with a unit that names nothing', () => {
     for (const entry of entries)
         for (const unit of entry.nodes((n): n is Unit => n instanceof Unit))
             for (const name of unit.exponents?.keys() ?? [])
-                expect(name, `empty unit in ${entry.toWordplay()}`).not.toBe('');
+                expect(name, `empty unit in ${entry.toWordplay()}`).not.toBe(
+                    '',
+                );
 });
 
 test('a rest keeps its length instead of collapsing to one beat', () => {
@@ -390,9 +390,8 @@ test('a length with a note value is written with its glyph, not as a Note', () =
             { degrees: [3], beats: duration.beats, volume: 1 },
         ]);
         if (duration.beats === 1) continue;
-        expect(
-            entries[0].toWordplay(),
-            `${duration.beats} beats`,
-        ).toBe(`3${duration.unit}`);
+        expect(entries[0].toWordplay(), `${duration.beats} beats`).toBe(
+            `3${duration.unit}`,
+        );
     }
 });

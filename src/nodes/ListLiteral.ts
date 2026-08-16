@@ -180,7 +180,9 @@ export default class ListLiteral extends CompositeLiteral {
             length === expected.types.length
         ) {
             const positions = this.values
-                .filter((value): value is Expression => !(value instanceof Spread))
+                .filter(
+                    (value): value is Expression => !(value instanceof Spread),
+                )
                 .map((value) => value.getType(context));
             if (positions.length === length) {
                 const tuple = ListType.tuple(positions);

@@ -44,9 +44,9 @@ function typeConflictCount(code: string): number {
 
 test('a matching formatted-locale annotation type-checks; a mismatch conflicts', () => {
     expect(typeConflictCount('x•`…`/en: `a`/en + `b`/en\nx')).toBe(0);
-    expect(
-        typeConflictCount('x•`…`/fr: `a`/en + `b`/en\nx'),
-    ).toBeGreaterThan(0);
+    expect(typeConflictCount('x•`…`/fr: `a`/en + `b`/en\nx')).toBeGreaterThan(
+        0,
+    );
 });
 
 test('a `…` annotation accepts a union of formatted types', () => {
@@ -56,9 +56,9 @@ test('a `…` annotation accepts a union of formatted types', () => {
 
 test('`…`/en parses to a FormattedType carrying a language', () => {
     const program = parseProgram(toTokens('x•`…`/en: `a`\nx'));
-    const formatted = program.nodes().find((n) => n instanceof FormattedType) as
-        | FormattedType
-        | undefined;
+    const formatted = program
+        .nodes()
+        .find((n) => n instanceof FormattedType) as FormattedType | undefined;
     expect(formatted).toBeDefined();
     expect(formatted?.language).toBeDefined();
 });

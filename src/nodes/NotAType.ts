@@ -16,15 +16,15 @@ export class NotAType extends UnknownType<Expression> {
     }
 
     getReason(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.NotAType.description,
-            {
-                type: new NodeRef(this.expected, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.NotAType.description, {
+            type: new NodeRef(this.expected, locales, context),
+        });
     }
 
-    getDescriptionInputs(locales: Locales, context: Context): Record<string, TemplateInput> {
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
         return {
             type: new NodeRef(this.expected, locales, context),
         };

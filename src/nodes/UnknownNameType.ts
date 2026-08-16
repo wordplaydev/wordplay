@@ -21,17 +21,21 @@ export default class UnknownNameType extends UnknownType<Node> {
     }
 
     getReason(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.UnknownNameType.description,
-            {
-                name: this.name ? new NodeRef(this.name, locales, context) : undefined,
-            },
-        );
+        return locales.concretize((l) => l.node.UnknownNameType.description, {
+            name: this.name
+                ? new NodeRef(this.name, locales, context)
+                : undefined,
+        });
     }
 
-    getDescriptionInputs(locales: Locales, context: Context): Record<string, TemplateInput> {
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
         return {
-            name: this.name ? new NodeRef(this.name, locales, context) : undefined,
+            name: this.name
+                ? new NodeRef(this.name, locales, context)
+                : undefined,
         };
     }
 }

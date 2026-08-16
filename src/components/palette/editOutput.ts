@@ -383,7 +383,7 @@ function outputKindOfType(
             if (def === output.Phrase) return 'phrase';
             if (def === output.Shape) return 'shape';
             if (def === output.Say) return 'say';
-        if (def === output.Music) return 'music';
+            if (def === output.Music) return 'music';
             if (
                 def === output.Rectangle ||
                 def === output.Circle ||

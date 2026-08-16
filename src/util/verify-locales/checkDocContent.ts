@@ -70,7 +70,11 @@ export default function checkDocContent(
         if (include !== undefined && !include(example, index)) return;
         const result = analyzeCode(example.code, locale);
         if (result.error !== undefined)
-            problems.push({ kind: 'unanalyzable', example, error: result.error });
+            problems.push({
+                kind: 'unanalyzable',
+                example,
+                error: result.error,
+            });
         else if (result.conflicts.length > 0)
             problems.push({
                 kind: 'conflicts',

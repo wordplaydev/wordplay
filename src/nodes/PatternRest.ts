@@ -23,7 +23,9 @@ export default class PatternRest extends PatternAtom {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'rest', kind: node(Sym.PatternRest), label: undefined }];
+        return [
+            { name: 'rest', kind: node(Sym.PatternRest), label: undefined },
+        ];
     }
 
     clone(replace?: Replacement) {

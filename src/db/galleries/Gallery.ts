@@ -58,8 +58,7 @@ export const GallerySchema = SerializedGalleryV2;
 export type SerializedGallery = z.infer<typeof SerializedGalleryV2>;
 
 type SerializedGalleryUnknownVersion =
-    | z.infer<typeof SerializedGalleryV1>
-    | SerializedGallery;
+    z.infer<typeof SerializedGalleryV1> | SerializedGallery;
 
 export function upgradeGallery(
     gallery: SerializedGalleryUnknownVersion,
@@ -314,17 +313,26 @@ export default class Gallery {
 
     withExpandedGallery(galleryID: string, viewers: string[]): Gallery {
         const newData = { ...this.data };
-        newData.howToExpandedGalleries = [...newData.howToExpandedGalleries, galleryID];
+        newData.howToExpandedGalleries = [
+            ...newData.howToExpandedGalleries,
+            galleryID,
+        ];
         newData.howToViewers[galleryID] = viewers;
-        newData.howToViewersFlat = Array.from(new Set([...newData.howToViewersFlat, ...viewers]));
+        newData.howToViewersFlat = Array.from(
+            new Set([...newData.howToViewersFlat, ...viewers]),
+        );
         return new Gallery(newData);
     }
 
     withoutExpandedGallery(galleryID: string): Gallery {
         const newData = { ...this.data };
-        newData.howToExpandedGalleries = [...newData.howToExpandedGalleries.filter((id) => id !== galleryID)];
+        newData.howToExpandedGalleries = [
+            ...newData.howToExpandedGalleries.filter((id) => id !== galleryID),
+        ];
         delete newData.howToViewers[galleryID];
-        newData.howToViewersFlat = Array.from(new Set([...Object.values(newData.howToViewers).flat()]));
+        newData.howToViewersFlat = Array.from(
+            new Set([...Object.values(newData.howToViewers).flat()]),
+        );
         return new Gallery(newData);
     }
 

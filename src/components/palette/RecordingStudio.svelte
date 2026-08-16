@@ -163,9 +163,8 @@
         }
         append(transcription.notes);
         result = {
-            count: transcription.notes.filter(
-                (note) => note.degrees.length > 0,
-            ).length,
+            count: transcription.notes.filter((note) => note.degrees.length > 0)
+                .length,
             scale: transcription.scale,
             tempo: transcription.tempo,
         };

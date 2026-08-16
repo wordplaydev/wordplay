@@ -75,7 +75,10 @@ describe('mismatchedConceptLinks', () => {
     test('catches an invented link', () => {
         // zh-CN gained @Stream where en-US had the plain word "streams".
         expect(
-            mismatchedConceptLinks('We met all the streams.', '我们见过 @Stream。'),
+            mismatchedConceptLinks(
+                'We met all the streams.',
+                '我们见过 @Stream。',
+            ),
         ).toBe('@Stream');
     });
 

@@ -12,8 +12,10 @@ let lastBatchOps: BatchOp[] = [];
 /** What the mocked `getDoc` does next. Routed through a variable rather than
  *  `vi.mocked(getDoc).mockResolvedValueOnce(...)` because the real `exists()` is
  *  a type predicate, which a plain `() => false` can't satisfy. */
-let getDocResult: () => Promise<{ exists: () => boolean; data: () => unknown }> =
-    async () => ({ exists: () => false, data: () => ({}) });
+let getDocResult: () => Promise<{
+    exists: () => boolean;
+    data: () => unknown;
+}> = async () => ({ exists: () => false, data: () => ({}) });
 
 vi.mock('firebase/firestore', () => ({
     and: vi.fn(),

@@ -25,10 +25,16 @@ function howToWithLink(
     id: string,
     conceptName: string,
 ): { id: string; text: string } {
-    return { id, text: `Demo\n\nSee @${conceptName} for details.\n\nmove-phrase` };
+    return {
+        id,
+        text: `Demo\n\nSee @${conceptName} for details.\n\nmove-phrase`,
+    };
 }
 
-function findScalar(index: ConceptIndex, purpose: (typeof Purpose)[keyof typeof Purpose]) {
+function findScalar(
+    index: ConceptIndex,
+    purpose: (typeof Purpose)[keyof typeof Purpose],
+) {
     return index.concepts.find(
         (c): c is StructureConcept =>
             c instanceof StructureConcept && c.purpose === purpose,
@@ -76,9 +82,10 @@ test('a how-to that uses a structure in example code matches that concept', () =
     const index = indexWith(howTo('animate-phrase', "Phrase('hi')"));
     const phrase = findStructure(index, 'Phrase');
     expect(phrase).toBeDefined();
-    if (phrase) expect(ids(index.getHowTosForConcept(phrase))).toContain(
-        'animate-phrase',
-    );
+    if (phrase)
+        expect(ids(index.getHowTosForConcept(phrase))).toContain(
+            'animate-phrase',
+        );
 });
 
 test('node-type concepts (Bind) used in example code are matched, not just names', () => {
@@ -86,9 +93,10 @@ test('node-type concepts (Bind) used in example code are matched, not just names
     const index = indexWith(howTo('animate-phrase', 'count: 1\ncount'));
     const bind = findNode(index, 'Bind');
     expect(bind).toBeDefined();
-    if (bind) expect(ids(index.getHowTosForConcept(bind))).toContain(
-        'animate-phrase',
-    );
+    if (bind)
+        expect(ids(index.getHowTosForConcept(bind))).toContain(
+            'animate-phrase',
+        );
 });
 
 test('scalar concepts are included (no longer suppressed)', () => {
@@ -101,9 +109,10 @@ test('scalar concepts are included (no longer suppressed)', () => {
     if (probeName === undefined) return;
     const index = indexWith(howToWithLink('animate-phrase', probeName));
     const number = findScalar(index, Purpose.Numbers);
-    if (number) expect(ids(index.getHowTosForConcept(number))).toContain(
-        'animate-phrase',
-    );
+    if (number)
+        expect(ids(index.getHowTosForConcept(number))).toContain(
+            'animate-phrase',
+        );
 });
 
 test('matches are ranked by reference count and capped at 10', () => {

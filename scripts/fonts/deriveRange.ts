@@ -111,7 +111,9 @@ export function subtractRange(
     range: string,
     remove: ReadonlySet<number>,
 ): string {
-    return toRangeString(parseRangeString(range).filter((cp) => !remove.has(cp)));
+    return toRangeString(
+        parseRangeString(range).filter((cp) => !remove.has(cp)),
+    );
 }
 
 /** Merge a sorted codepoint list into compact intervals and format as a CSS

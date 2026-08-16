@@ -60,12 +60,10 @@ export function toAura(
     project: Project,
     value: Value | undefined,
 ): Aura | undefined {
-    if (
-        !(
-            value instanceof StructureValue &&
-            value.type === project.shares.output.Aura
-        )
-    )
+    if (!(
+        value instanceof StructureValue &&
+        value.type === project.shares.output.Aura
+    ))
         return undefined;
     const [color, blur, offsetX, offsetY] = getOutputInputs(value);
 

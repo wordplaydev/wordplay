@@ -127,18 +127,13 @@ export function describeColor(
         if (l < BLACK_L) return { bcts: ['black'], modifier: undefined };
         if (l > WHITE_L) return { bcts: ['white'], modifier: undefined };
         const modifier =
-            l >= LIGHT_GRAY_L
-                ? 'light'
-                : l <= DARK_GRAY_L
-                  ? 'dark'
-                  : undefined;
+            l >= LIGHT_GRAY_L ? 'light' : l <= DARK_GRAY_L ? 'dark' : undefined;
         return { bcts: ['gray'], modifier };
     }
 
     // Rank the chromatic focals by perceptual distance.
     const ranked = CHROMATIC.map(
-        (key) =>
-            [key, distance(l, c, hue, Focals[key])] as const,
+        (key) => [key, distance(l, c, hue, Focals[key])] as const,
     ).sort((a, b) => a[1] - b[1]);
 
     const [closestKey, closestDist] = ranked[0];
@@ -178,20 +173,19 @@ export function renderColorDescription(
         names.length === 1
             ? names[0]
             : locales
-                  .concretize(
-                      (l) => l.output.Color.description.mix,
-                      { first: names[0], second: names[1] },
-                  )
+                  .concretize((l) => l.output.Color.description.mix, {
+                      first: names[0],
+                      second: names[1],
+                  })
                   .toText();
     if (description.modifier === undefined) return joined;
-    const modifierWord = locales.getLocale().output.Color.description[
-        description.modifier
-    ];
+    const modifierWord =
+        locales.getLocale().output.Color.description[description.modifier];
     return locales
-        .concretize(
-            (l) => l.output.Color.description.modified,
-            { modifier: modifierWord, color: joined },
-        )
+        .concretize((l) => l.output.Color.description.modified, {
+            modifier: modifierWord,
+            color: joined,
+        })
         .toText();
 }
 

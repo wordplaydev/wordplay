@@ -5,11 +5,11 @@ declare global {
     interface Array<T> {
         findLastIndex(
             predicate: (value: T, index: number, obj: T[]) => unknown,
-            thisArg?: any
+            thisArg?: any,
         ): number;
         findLast(
             predicate: (value: T, index: number, obj: T[]) => unknown,
-            thisArg?: any
+            thisArg?: any,
         ): T | undefined;
     }
 }

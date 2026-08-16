@@ -42,7 +42,11 @@ export default class PatternProperty extends PatternNode {
         return [
             { name: 'slash', kind: node(Sym.Language), label: undefined },
             { name: 'name', kind: node(Sym.Name), label: undefined },
-            { name: 'equal', kind: optional(node(Sym.PatternEqual)), label: undefined },
+            {
+                name: 'equal',
+                kind: optional(node(Sym.PatternEqual)),
+                label: undefined,
+            },
             { name: 'value', kind: optional(node(Sym.Name)), label: undefined },
         ];
     }

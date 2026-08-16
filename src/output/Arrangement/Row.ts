@@ -125,12 +125,9 @@ export class Row extends Arrangement {
 
     getDescription(output: Output[], locales: Locales) {
         return locales
-            .concretize(
-                (l) => l.output.Row.description,
-                {
-                    count: output.length,
-                },
-            )
+            .concretize((l) => l.output.Row.description, {
+                count: output.length,
+            })
             .toText();
     }
 }

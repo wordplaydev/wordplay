@@ -25,7 +25,11 @@ import {
 } from '@output/Music/schedule';
 import { reconcile, type LiveMusic } from '@output/Music/reconcile';
 import { chooseSteal, VoiceCap, type Voice } from '@output/Music/voices';
-import type { MusicAudioLike, PlayerBus, PlayingVoice } from '@output/Music/MusicAudio';
+import type {
+    MusicAudioLike,
+    PlayerBus,
+    PlayingVoice,
+} from '@output/Music/MusicAudio';
 
 /** How often the scheduler wakes, in milliseconds. */
 export const TickInterval = 25;

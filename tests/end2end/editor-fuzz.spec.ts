@@ -104,8 +104,7 @@ test('rapid editing never crashes the editor', async ({ page }) => {
         const roll = random();
         if (roll < 0.5) {
             // Insert a burst with no delay to maximize mid-flush overlap.
-            const fragment =
-                FRAGMENTS[Math.floor(random() * FRAGMENTS.length)];
+            const fragment = FRAGMENTS[Math.floor(random() * FRAGMENTS.length)];
             await page.keyboard.type(fragment, { delay: 0 });
         } else if (roll < 0.65) {
             // Select all, copy, move, then paste — exercises the paste path
@@ -142,9 +141,10 @@ test('rapid editing never crashes the editor', async ({ page }) => {
     // fallback replaces content with an error tile) and that nothing threw.
     await page.waitForTimeout(300);
     await expect(editor).not.toContainText('Oops, there was an error');
-    expect(errors, `Editor errors during fuzz:\n${errors.join('\n\n')}`).toEqual(
-        [],
-    );
+    expect(
+        errors,
+        `Editor errors during fuzz:\n${errors.join('\n\n')}`,
+    ).toEqual([]);
 
     // Confirm the editor still accepts input after the whole run. Force text
     // mode first (the fuzz may have left it in blocks mode, where typing behaves

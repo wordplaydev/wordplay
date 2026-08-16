@@ -132,7 +132,10 @@ function harness() {
             dispose: () => undefined,
         }),
         playNote: (_bus, note) => {
-            played.push({ startBeat: note.startBeat, startTime: note.startTime });
+            played.push({
+                startBeat: note.startBeat,
+                startTime: note.startTime,
+            });
             return { endsAt: clock + 1, cancel: () => undefined };
         },
         setDucked: () => undefined,

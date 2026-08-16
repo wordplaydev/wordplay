@@ -56,8 +56,7 @@ function expectRoundTrip(source: Source, what: string) {
     const printed = source.getCode().toString();
     const reparsed = new Source('test', printed);
     const unparsables = reparsed.nodes(
-        (n) =>
-            n instanceof UnparsableExpression || n instanceof UnparsableType,
+        (n) => n instanceof UnparsableExpression || n instanceof UnparsableType,
     );
     expect(
         unparsables.length,
@@ -78,7 +77,14 @@ function getTargets(source: Source): (Node | InsertionPoint)[] {
             if (field.kind instanceof ListOf && Array.isArray(value)) {
                 const list = value.filter((item) => item instanceof Node);
                 targets.push(
-                    new InsertionPoint(node, field.name, list, undefined, undefined, 0),
+                    new InsertionPoint(
+                        node,
+                        field.name,
+                        list,
+                        undefined,
+                        undefined,
+                        0,
+                    ),
                     new InsertionPoint(
                         node,
                         field.name,
@@ -110,7 +116,8 @@ describe('every permitted drop round-trips', () => {
             // they can't be picked up in the editor; only visible nodes drag here.
             const draggables = [
                 ...source.nodes(
-                    (n): n is Node => !(n instanceof Token) && n.toWordplay() !== '',
+                    (n): n is Node =>
+                        !(n instanceof Token) && n.toWordplay() !== '',
                 ),
                 ...PaletteDrops(),
             ];
@@ -172,7 +179,8 @@ describe('every menu revision surviving the blocks filter round-trips', () => {
             // Zero-width nodes (an empty Docs, an absent list) can't be selected in the editor —
             // their affordance is a field-position menu — so only visible nodes anchor here.
             for (const anchor of source.nodes(
-                (n): n is Node => !(n instanceof Token) && n.toWordplay() !== '',
+                (n): n is Node =>
+                    !(n instanceof Token) && n.toWordplay() !== '',
             )) {
                 const caret = new Caret(source, anchor, undefined, undefined);
                 for (const revision of getEditsAt(
@@ -189,9 +197,7 @@ describe('every menu revision surviving the blocks filter round-trips', () => {
                     if (newSource === undefined) continue;
                     // The blocks-mode gate: skip revisions that introduce blocking conflicts,
                     // as the editor's menu filter does.
-                    if (
-                        project.getNewConflicts(source, newSource).length > 0
-                    )
+                    if (project.getNewConflicts(source, newSource).length > 0)
                         continue;
                     applied++;
                     expectRoundTrip(

@@ -23,9 +23,7 @@ function m(
 /** The ids of each row, top-to-bottom (sorted within a row, since intra-row
  *  member order is unspecified), for comparing whole clusterings. */
 function rowIds(members: RowMember<string>[]): string[][] {
-    return buildRows(members).map((r) =>
-        r.members.map((mm) => mm.data).sort(),
-    );
+    return buildRows(members).map((r) => r.members.map((mm) => mm.data).sort());
 }
 
 describe('buildRows', () => {
@@ -72,10 +70,7 @@ describe('buildRows', () => {
         // Caller emits one member per getClientRects() fragment; each lands on
         // its own visual row rather than a single union box merging them.
         expect(
-            rowIds([
-                m('wrapA', 0, 10, 0, 100),
-                m('wrapB', 12, 22, 0, 40),
-            ]),
+            rowIds([m('wrapA', 0, 10, 0, 100), m('wrapB', 12, 22, 0, 40)]),
         ).toEqual([['wrapA'], ['wrapB']]);
     });
 });
@@ -98,21 +93,36 @@ describe('findRowAt', () => {
 });
 
 describe('nearestInRow', () => {
-    const row = buildRows([m('left', 0, 10, 0, 10), m('right', 0, 10, 20, 30)])[0];
+    const row = buildRows([
+        m('left', 0, 10, 0, 10),
+        m('right', 0, 10, 20, 30),
+    ])[0];
 
     test('picks the member containing x and clamps x into it', () => {
         expect(nearestInRow(row, 5)).toEqual({ member: row.members[0], x: 5 });
-        expect(nearestInRow(row, 25)).toEqual({ member: row.members[1], x: 25 });
+        expect(nearestInRow(row, 25)).toEqual({
+            member: row.members[1],
+            x: 25,
+        });
     });
 
     test('x in a gap clamps to the nearest member edge', () => {
         // x=14 is closer to left's right edge (10) than right's left edge (20).
-        expect(nearestInRow(row, 14)).toEqual({ member: row.members[0], x: 10 });
-        expect(nearestInRow(row, 17)).toEqual({ member: row.members[1], x: 20 });
+        expect(nearestInRow(row, 14)).toEqual({
+            member: row.members[0],
+            x: 10,
+        });
+        expect(nearestInRow(row, 17)).toEqual({
+            member: row.members[1],
+            x: 20,
+        });
     });
 
     test('x past all content clamps to the far member edge', () => {
-        expect(nearestInRow(row, 100)).toEqual({ member: row.members[1], x: 30 });
+        expect(nearestInRow(row, 100)).toEqual({
+            member: row.members[1],
+            x: 30,
+        });
     });
 });
 
@@ -167,23 +177,21 @@ describe('targetRowPositionFromSpan', () => {
     });
 
     test('a span covering several rows steps above its FIRST row going up', () => {
-        expect(targetRowPositionFromSpan(rows, 22, 48, -1, 5)?.member.data).toBe(
-            'r0',
-        );
+        expect(
+            targetRowPositionFromSpan(rows, 22, 48, -1, 5)?.member.data,
+        ).toBe('r0');
     });
 
     test('a zero-height span (a plain caret) behaves like a single-row step', () => {
         expect(targetRowPositionFromSpan(rows, 25, 25, 1, 5)?.member.data).toBe(
             'r2',
         );
-        expect(targetRowPositionFromSpan(rows, 25, 25, -1, 5)?.member.data).toBe(
-            'r0',
-        );
+        expect(
+            targetRowPositionFromSpan(rows, 25, 25, -1, 5)?.member.data,
+        ).toBe('r0');
     });
 
     test('a span ending on the last row has no row below (edge)', () => {
-        expect(
-            targetRowPositionFromSpan(rows, 62, 88, 1, 5),
-        ).toBeUndefined();
+        expect(targetRowPositionFromSpan(rows, 62, 88, 1, 5)).toBeUndefined();
     });
 });

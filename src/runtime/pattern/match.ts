@@ -267,7 +267,9 @@ function* matchNode(
             .slice(state.pos, state.pos + literal.length)
             .join('');
         yield atomBeat(node, state, ok, here.length > 0 ? here : undefined);
-        return ok ? { pos: state.pos + literal.length, caps: state.caps } : null;
+        return ok
+            ? { pos: state.pos + literal.length, caps: state.caps }
+            : null;
     }
 
     if (node instanceof PatternRest) {

@@ -534,9 +534,7 @@ export const StepBack: Command = {
     // so the dispatcher still consumes Ctrl/Cmd+← — otherwise the browser would
     // navigate back.
     active: (context) =>
-        inPlayMode(context) || !context.evaluator.isAtBeginning()
-            ? true
-            : null,
+        inPlayMode(context) || !context.evaluator.isAtBeginning() ? true : null,
     execute: (context) => {
         enterDebug(context);
         if (!context.evaluator.isAtBeginning())
@@ -587,9 +585,7 @@ export const StepBackInput: Command = {
     keySymbol: '←',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        inPlayMode(context) || !context.evaluator.isAtBeginning()
-            ? true
-            : null,
+        inPlayMode(context) || !context.evaluator.isAtBeginning() ? true : null,
     execute: (context) => {
         enterDebugFromPlay(context);
         if (!context.evaluator.isAtBeginning())
@@ -723,9 +719,7 @@ export const StepToStart: Command = {
     key: 'Home',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        inPlayMode(context) || !context.evaluator.isAtBeginning()
-            ? true
-            : null,
+        inPlayMode(context) || !context.evaluator.isAtBeginning() ? true : null,
     execute: (context) => {
         enterDebug(context);
         context.evaluator.stepTo(0);
@@ -1154,9 +1148,7 @@ export const Undo: Command = {
     keySymbol: 'Z',
     important: true,
     active: ({ database, evaluator }) =>
-        Projects.getHistory(
-            evaluator.project.getID(),
-        )?.isUndoable() === true
+        Projects.getHistory(evaluator.project.getID())?.isUndoable() === true
             ? true
             : undefined,
     execute: ({ database, evaluator, clearLargeDeletionNotification }) => {
@@ -1181,9 +1173,7 @@ export const Redo: Command = {
     keySymbol: 'Z',
     important: true,
     active: ({ evaluator, database }) =>
-        Projects.getHistory(
-            evaluator.project.getID(),
-        )?.isRedoable() === true
+        Projects.getHistory(evaluator.project.getID())?.isRedoable() === true
             ? true
             : undefined,
     execute: ({ database, evaluator }) => {

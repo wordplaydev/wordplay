@@ -29,7 +29,9 @@ export default class FunctionException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.getTextStructure((l) => l.node.Evaluate.exception.FunctionException);
+        return locales.getTextStructure(
+            (l) => l.node.Evaluate.exception.FunctionException,
+        );
     }
 
     getExplanation(locales: Locales) {

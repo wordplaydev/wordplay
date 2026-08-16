@@ -62,5 +62,8 @@ export default function resolveDerivedLanguage(
         rightType =
             op.inputs.length > 0 ? op.inputs[0].getType(context) : undefined;
     }
-    return deriver(languageOf(leftType, context), languageOf(rightType, context));
+    return deriver(
+        languageOf(leftType, context),
+        languageOf(rightType, context),
+    );
 }

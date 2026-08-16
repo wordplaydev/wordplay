@@ -37,8 +37,8 @@
 
 <span class="match" class:inline>
     <span class="text"
-        >{before}<span class="here {outcome}" aria-hidden="true">{current ||
-                '▮'}</span
+        >{before}<span class="here {outcome}" aria-hidden="true"
+            >{current || '▮'}</span
         >{after}</span
     >
     {#if snapshot?.kind === 'quantifier'}

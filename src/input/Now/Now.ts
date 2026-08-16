@@ -47,9 +47,7 @@ export function frequencyToMilliseconds(
     const amount = value.toNumber();
     if (!Number.isFinite(amount) || amount <= 0) return DEFAULT_FREQUENCY_MS;
     const unit = value.unit.toWordplay();
-    return (
-        amount * (unit === 'h' ? 3600000 : unit === 'min' ? 60000 : 1000)
-    );
+    return amount * (unit === 'h' ? 3600000 : unit === 'min' ? 60000 : 1000);
 }
 
 /** The current wall-clock Moment in the given time zone and calendar, or a

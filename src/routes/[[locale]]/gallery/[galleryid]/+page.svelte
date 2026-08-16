@@ -18,7 +18,8 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { DB,
+    import {
+        DB,
         authAttempted,
         disconnected,
         Galleries,

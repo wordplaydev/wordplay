@@ -11,9 +11,13 @@ import { getMatchLoop } from '@runtime/pattern/matchSteps';
 import { expect, test } from 'vitest';
 
 function evaluatorFor(code: string): Evaluator {
-    const project = Project.make(null, 'test', new Source('test', code), [], [
-        DefaultLocale,
-    ]);
+    const project = Project.make(
+        null,
+        'test',
+        new Source('test', code),
+        [],
+        [DefaultLocale],
+    );
     return new Evaluator(project, DB, [DefaultLocale]);
 }
 
@@ -218,7 +222,7 @@ test('narration covers every atom kind, not just digit classes', () => {
     // Captures/groups/sets: the set narrates, the quantifier tallies, the capture
     // is transparent. Every beat is non-empty and none throws.
     const email = narrate(
-        "'a@b.co' ≈ ⣿u: (>0 {_ #}) \"@\" h: (>0 _) \".\" (>0 _)⣿",
+        '\'a@b.co\' ≈ ⣿u: (>0 {_ #}) "@" h: (>0 _) "." (>0 _)⣿',
     );
     expect(email.length).toBeGreaterThan(6);
     expect(email.every((n) => n.length > 0)).toBe(true);
@@ -260,7 +264,7 @@ test('a stepped match can be stepped backward (reversibility)', () => {
     expect(evaluator.getStepIndex()).toBeLessThan(before);
     // Finishing still yields the correct result after time travel.
     while (!evaluator.isDone()) evaluator.step();
-    expect(evaluator.getLatestSourceValue(evaluator.project.getMain())?.toString()).toBe(
-        '⊤',
-    );
+    expect(
+        evaluator.getLatestSourceValue(evaluator.project.getMain())?.toString(),
+    ).toBe('⊤');
 });

@@ -47,8 +47,16 @@ export default class PatternType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.PatternDelimiter), label: undefined },
-            { name: 'close', kind: node(Sym.PatternDelimiter), label: undefined },
+            {
+                name: 'open',
+                kind: node(Sym.PatternDelimiter),
+                label: undefined,
+            },
+            {
+                name: 'close',
+                kind: node(Sym.PatternDelimiter),
+                label: undefined,
+            },
         ];
     }
 
@@ -87,9 +95,7 @@ export default class PatternType extends BasisType {
     getDefaultExpression() {
         return PatternLiteral.make(
             new PatternSequence([
-                new PatternClass(
-                    new Token(PATTERN_ANY_SYMBOL, Sym.PatternAny),
-                ),
+                new PatternClass(new Token(PATTERN_ANY_SYMBOL, Sym.PatternAny)),
             ]),
         );
     }

@@ -4,7 +4,9 @@
 // This prevents a flash of pre-rendered English content on page load.
 (function () {
     try {
-        var locales = JSON.parse(localStorage.getItem('locales') || '["en-US"]');
+        var locales = JSON.parse(
+            localStorage.getItem('locales') || '["en-US"]',
+        );
         if (Array.isArray(locales) && locales[0] !== 'en-US') {
             document.documentElement.classList.add('locale-loading');
             // Safety valve: always reveal after 5 seconds in case something goes wrong.
