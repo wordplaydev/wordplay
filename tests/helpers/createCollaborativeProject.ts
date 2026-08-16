@@ -30,9 +30,7 @@ export async function seedCollaborativeProject(
         v: 9 as const,
         id,
         name: 'Collab test',
-        sources: [
-            { names: 'start', code: initialCode, caret: 0 },
-        ],
+        sources: [{ names: 'start', code: initialCode, caret: 0 }],
         locales: ['en-US'],
         owner: ownerUid,
         collaborators: collaboratorUid === undefined ? [] : [collaboratorUid],

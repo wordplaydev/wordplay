@@ -17,21 +17,15 @@
     ><NodeView node={[node, 'slash']} {format} /><NodeView
         node={[node, 'language']}
         {format}
-    /><NodeSequenceView
-        {node}
-        field="extras"
+    /><NodeSequenceView {node} field="extras" {format} empty="hide" /><NodeView
+        node={[node, 'dash']}
         {format}
         empty="hide"
-    /><NodeView node={[node, 'dash']} {format} empty="hide" /><NodeView
+    /><NodeView
         node={[node, 'region']}
         {format}
         empty="hide"
-    /><NodeSequenceView
-        {node}
-        field="regionExtras"
-        {format}
-        empty="hide"
-    /></em
+    /><NodeSequenceView {node} field="regionExtras" {format} empty="hide" /></em
 >
 
 <style>

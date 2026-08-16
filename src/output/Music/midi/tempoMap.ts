@@ -45,8 +45,7 @@ export function tempoRegions(tempos: readonly TempoChange[]): TempoChange[] {
     }
 
     if (regions.length === 0) return [{ ticks: 0, bpm: DefaultBPM }];
-    if (regions[0].ticks > 0)
-        regions.unshift({ ticks: 0, bpm: DefaultBPM });
+    if (regions[0].ticks > 0) regions.unshift({ ticks: 0, bpm: DefaultBPM });
     return regions;
 }
 

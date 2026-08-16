@@ -32,8 +32,7 @@
              full binary UnionType tree recurses NodeView per member and
              overflows the call stack at that depth. -->
         <span class="signature"
-            >{#if concept.bind.type &&
-                !(concept.bind.type instanceof AnyType)}{@const elision =
+            >{#if concept.bind.type && !(concept.bind.type instanceof AnyType)}{@const elision =
                     elideNode(
                         concept.bind.type,
                         $locales,

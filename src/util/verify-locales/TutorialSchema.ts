@@ -36,7 +36,10 @@ export function getTutorialJSON(
     locale: string,
     mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
 ): Tutorial | undefined {
-    return getObjectFromJSONFile(log, getTutorialPath(locale, mode)) as Tutorial;
+    return getObjectFromJSONFile(
+        log,
+        getTutorialPath(locale, mode),
+    ) as Tutorial;
 }
 
 /** Get the default (en-US) tutorial for a mode. We use this as the source for translation. */

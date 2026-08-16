@@ -139,17 +139,15 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         // than a real permission change. Force one refresh and retry
         // before giving up.
         let attempt = 0;
-        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(
-            async () => {
-                attempt++;
-                if (attempt === 1)
-                    throw new FirebaseError(
-                        'permission-denied',
-                        'Missing or insufficient permissions.',
-                    );
-                return { id: 'doc-after-refresh' };
-            },
-        );
+        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(async () => {
+            attempt++;
+            if (attempt === 1)
+                throw new FirebaseError(
+                    'permission-denied',
+                    'Missing or insufficient permissions.',
+                );
+            return { id: 'doc-after-refresh' };
+        });
         const refreshAuth = vi.fn(async () => undefined);
         const consoleWarn = vi
             .spyOn(console, 'warn')
@@ -184,14 +182,12 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         // actually removed, account state changed, etc.) and we should
         // fall back to the existing terminal behavior. One refresh per
         // session — no infinite refresh loop.
-        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(
-            async () => {
-                throw new FirebaseError(
-                    'permission-denied',
-                    'Missing or insufficient permissions.',
-                );
-            },
-        );
+        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(async () => {
+            throw new FirebaseError(
+                'permission-denied',
+                'Missing or insufficient permissions.',
+            );
+        });
         const refreshAuth = vi.fn(async () => undefined);
         const consoleWarn = vi
             .spyOn(console, 'warn')
@@ -225,14 +221,12 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         // gate and emitted an update should fail closed without
         // burning a token refresh. Refresh wouldn't change the rule's
         // verdict and would unnecessarily round-trip auth.
-        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(
-            async () => {
-                throw new FirebaseError(
-                    'permission-denied',
-                    'Missing or insufficient permissions.',
-                );
-            },
-        );
+        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(async () => {
+            throw new FirebaseError(
+                'permission-denied',
+                'Missing or insufficient permissions.',
+            );
+        });
         const refreshAuth = vi.fn(async () => undefined);
         const consoleWarn = vi
             .spyOn(console, 'warn')
@@ -267,14 +261,12 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         // Pre-fix, the catch re-queued the bytes and re-scheduled,
         // producing one error per keystroke for the rest of the
         // session.
-        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(
-            async () => {
-                throw new FirebaseError(
-                    'permission-denied',
-                    'Missing or insufficient permissions.',
-                );
-            },
-        );
+        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(async () => {
+            throw new FirebaseError(
+                'permission-denied',
+                'Missing or insufficient permissions.',
+            );
+        });
         const consoleError = vi
             .spyOn(console, 'error')
             .mockImplementation(() => undefined);

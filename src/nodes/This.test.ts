@@ -11,7 +11,10 @@ test.each([
     // Translate: ⬚ is the current item.
     ['[1 2 3] ↦ ⬚ + 1', '[2 3 4]'],
     // Structure method: ⬚ is the instance it was called on, reachable with ⬚.prop.
-    ['•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))', '⊤'],
+    [
+        '•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))',
+        '⊤',
+    ],
     // Structure method returning the instance's own property via ⬚.
     ['•Card(rank•#) (\n\tƒ r() ⬚.rank\n)\n\nCard(10).r()', '10'],
     // A method closing over a construction-time local still resolves it.

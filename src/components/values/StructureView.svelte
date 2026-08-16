@@ -58,8 +58,10 @@
                     : l.ui.source.toggle.expandSequence.off}
             background
             action={() => (expanded = !expanded)}>{expanded ? '▴' : '…'}</Button
-        >{:else if !isColor}<span class="static">…</span
-        >{/if}<SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Sym.EvalClose} />
+        >{:else if !isColor}<span class="static">…</span>{/if}<SymbolView
+        symbol={EVAL_CLOSE_SYMBOL}
+        type={Sym.EvalClose}
+    />
 
     <!-- Block structures are HTML tables -->
 {:else}

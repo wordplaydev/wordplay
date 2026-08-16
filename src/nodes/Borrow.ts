@@ -46,11 +46,7 @@ import Unit from '@nodes/Unit';
 import UnknownNameType from '@nodes/UnknownNameType';
 
 export type SharedDefinition =
-    | Source
-    | Bind
-    | FunctionDefinition
-    | StructureDefinition
-    | StreamDefinition;
+    Source | Bind | FunctionDefinition | StructureDefinition | StreamDefinition;
 
 export default class Borrow extends SimpleExpression {
     readonly borrow: Token;
@@ -295,10 +291,8 @@ export default class Borrow extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Borrow.start,
-            {
-                source: this.source
+        return locales.concretize((l) => l.node.Borrow.start, {
+            source: this.source
                 ? new NodeRef(
                       this.source,
                       locales,
@@ -306,11 +300,10 @@ export default class Borrow extends SimpleExpression {
                       this.source.getName(),
                   )
                 : undefined,
-                name: this.name
+            name: this.name
                 ? new NodeRef(this.name, locales, context, this.name.getName())
                 : undefined,
-            },
-        );
+        });
     }
 
     getCharacter() {

@@ -52,7 +52,12 @@ test('getBlockPositions is cached on the source and stays sorted across carets',
     };
 
     const source = new Source('test', code);
-    const first = new Caret(source, 0, undefined, undefined).getBlockPositions();
+    const first = new Caret(
+        source,
+        0,
+        undefined,
+        undefined,
+    ).getBlockPositions();
     // A different caret on the SAME source returns the cached array verbatim.
     const second = new Caret(
         source,

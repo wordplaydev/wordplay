@@ -2,8 +2,11 @@ name: Unit tests, type check, and locales
 on:
     workflow_call:
 
-# Split into three independent jobs that run concurrently. This work used to run
-# as four sequential steps in one job; as parallel jobs the wall-clock collapses
+permissions:
+    contents: read
+
+# Split into four independent jobs that run concurrently. This work used to run
+# as sequential steps in one job; as parallel jobs the wall-clock collapses
 # to the longest single job instead of their sum. Each job repeats the
 # checkout/setup-node/npm-ci preamble (cheap with the npm cache).
 jobs:
@@ -50,3 +53,19 @@ jobs:
               name: Install dependencies
             - run: npm run locales
               name: Verify locales
+
+    prettier:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
+              with:
+                  node-version: 22.x
+                  cache: 'npm'
+            - run: npm ci
+              name: Install dependencies
+            # The local pre-commit hook auto-formats, but hooks can be bypassed
+            # (--no-verify, GitHub web edits), so this is the backstop.
+            # `npm run format` fixes any failure it reports.
+            - run: npm run format:check
+              name: Check formatting

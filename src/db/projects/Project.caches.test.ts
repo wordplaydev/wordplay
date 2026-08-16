@@ -44,8 +44,12 @@ test('a revision keeps the caches of the sources it did not touch', () => {
 
     // The untouched source keeps everything, by identity — the whole point is
     // that its nodes did not move.
-    expect(revised.sourceAnalysis.get(song)).toBe(project.sourceAnalysis.get(song));
-    expect(revised.sourceLocales.get(song)).toBe(project.sourceLocales.get(song));
+    expect(revised.sourceAnalysis.get(song)).toBe(
+        project.sourceAnalysis.get(song),
+    );
+    expect(revised.sourceLocales.get(song)).toBe(
+        project.sourceLocales.get(song),
+    );
     expect(revised.getContext(song).types).toBe(project.getContext(song).types);
 
     // The edited source keeps nothing: it is not the same source any more.

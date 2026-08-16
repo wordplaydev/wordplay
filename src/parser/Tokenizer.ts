@@ -684,7 +684,10 @@ const PatternTokenPatterns: TokenPattern[] = [
 export const PatternSymbolGlyphs: ReadonlyMap<SymType, string> = new Map(
     PatternTokenPatterns.flatMap((p) =>
         typeof p.pattern === 'string'
-            ? p.types.map((sym): [SymType, string] => [sym, p.pattern as string])
+            ? p.types.map((sym): [SymType, string] => [
+                  sym,
+                  p.pattern as string,
+              ])
             : [],
     ),
 );
@@ -1071,10 +1074,7 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
         // a text/code context: if a pattern context is open, this ⣿ closes it;
         // otherwise it opens one (so the body tokenizes with PatternTokenPatterns).
         else if (nextToken.isSymbol(Sym.PatternDelimiter)) {
-            if (
-                context.length > 0 &&
-                context[0].isSymbol(Sym.PatternDelimiter)
-            )
+            if (context.length > 0 && context[0].isSymbol(Sym.PatternDelimiter))
                 context.shift();
             else context.unshift(nextToken);
         }

@@ -23,7 +23,9 @@
 
     const folded = getFolded();
     const spaces = getSpaces();
-    let isFolded = $derived(node !== undefined && ($folded?.has(node) ?? false));
+    let isFolded = $derived(
+        node !== undefined && ($folded?.has(node) ?? false),
+    );
     // Hang only in text mode, and only when this node begins a new line.
     let atLineStart = $derived(
         lineStart ??
@@ -36,7 +38,9 @@
         $locales
             .concretize(
                 (l) =>
-                    isFolded ? l.ui.source.fold.expand : l.ui.source.fold.collapse,
+                    isFolded
+                        ? l.ui.source.fold.expand
+                        : l.ui.source.fold.collapse,
                 { name: node.getLabel($locales) },
             )
             .toText(),

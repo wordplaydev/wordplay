@@ -25,14 +25,14 @@
         {node}
     /><FoldEllipsis {node} /><NodeView
         node={[node, 'condition']}
-        format={headerFormat} noSpace
-    /><FoldEllipsis {node} />{:else}{#if foldable}<FoldToggle {node} />{/if}<NodeView
-        node={[node, 'initial']}
+        format={headerFormat}
+        noSpace
+    /><FoldEllipsis {node} />{:else}{#if foldable}<FoldToggle
+            {node}
+        />{/if}<NodeView node={[node, 'initial']} {format} /><NodeView
+        node={[node, 'dots']}
         {format}
-    /><NodeView node={[node, 'dots']} {format} /><NodeView
-        node={[node, 'condition']}
+    /><NodeView node={[node, 'condition']} {format} /><NodeView
+        node={[node, 'nextdots']}
         {format}
-    /><NodeView node={[node, 'nextdots']} {format} /><NodeView
-        node={[node, 'next']}
-        {format}
-    />{/if}
+    /><NodeView node={[node, 'next']} {format} />{/if}

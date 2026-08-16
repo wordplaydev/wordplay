@@ -5,7 +5,10 @@
 
 <script lang="ts">
     import Spinning from '@components/app/Spinning.svelte';
-    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import { getLocalizing, getTip } from '@components/project/Contexts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
@@ -232,8 +235,10 @@
                   : undefined}
     >{#if busy}<!-- 1.5rem, not the 2rem default: sized to the button's
             content line so the button doesn't grow while busy.
-        --><Spinning size={1.5} />{:else}{#if icon}{#if spinIcon}<span
-                    class="spin-icon">{withMonoEmoji(icon)}</span
+        --><Spinning
+            size={1.5}
+        />{:else}{#if icon}{#if spinIcon}<span class="spin-icon"
+                    >{withMonoEmoji(icon)}</span
                 >{:else}{withMonoEmoji(icon)}{/if}{/if}
         {#if children}{@render children()}{:else if label && !tipEditing}<LocalizedText
                 path={label}

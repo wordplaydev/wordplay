@@ -115,10 +115,7 @@ export function analyzeMusic(music: MusicData): Set<MusicRisk> {
                             track.scale,
                             track.key,
                         );
-                        if (
-                            semitones > HighRegister ||
-                            semitones < LowRegister
-                        )
+                        if (semitones > HighRegister || semitones < LowRegister)
                             risks.add('register');
                     }
                 }
@@ -149,8 +146,7 @@ export default function analyzeMusicSafety(
     let tracks = 0;
     for (const music of musics) {
         for (const risk of analyzeMusic(music)) risks.add(risk);
-        for (const track of music.tracks)
-            summed += track.volume * music.volume;
+        for (const track of music.tracks) summed += track.volume * music.volume;
         tracks += music.tracks.length;
     }
     if (summed >= SummedLoud) risks.add('loudness');

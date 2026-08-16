@@ -54,13 +54,13 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
                                 tokens.read(Sym.PatternDelimiter),
                             )
                           : tokens.nextIs(Sym.Function)
-                          ? parseFunctionType(tokens)
-                          : tokens.nextIs(Sym.Stream)
-                            ? parseStreamType(tokens)
-                            : // We use the doc symbol because it looks like an empty formatted
-                              tokens.nextIs(Sym.FormattedType)
-                              ? parseFormattedType(tokens)
-                              : new UnparsableType(tokens.readLine());
+                            ? parseFunctionType(tokens)
+                            : tokens.nextIs(Sym.Stream)
+                              ? parseStreamType(tokens)
+                              : // We use the doc symbol because it looks like an empty formatted
+                                tokens.nextIs(Sym.FormattedType)
+                                ? parseFormattedType(tokens)
+                                : new UnparsableType(tokens.readLine());
 
     tokens.whileDo(
         () => tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace(),
@@ -75,7 +75,11 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
     // (`value→type`, which can chain) and must be left for the expression parser.
     if (!isExpression && tokens.nextIs(Sym.Convert)) {
         const convert = tokens.read(Sym.Convert);
-        left = new ConversionType(left, convert, parseType(tokens, isExpression));
+        left = new ConversionType(
+            left,
+            convert,
+            parseType(tokens, isExpression),
+        );
     }
 
     return left;

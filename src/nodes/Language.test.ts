@@ -32,8 +32,7 @@ describe('parsing multilingual language tags', () => {
     function getLanguage(source: string): Language {
         const program = parseProgram(toTokens(source));
         const language = program.nodes().find((n) => n instanceof Language) as
-            | Language
-            | undefined;
+            Language | undefined;
         expect(language).toBeDefined();
         return language!;
     }
@@ -58,27 +57,21 @@ describe('parsing multilingual language tags', () => {
 
     test('arbitrarily long multilingual tag (no cap)', () => {
         const lang = getLanguage('a/es_en_fr_de_pt: 5');
-        expect(lang.getLanguageTexts()).toEqual([
-            'es',
-            'en',
-            'fr',
-            'de',
-            'pt',
-        ]);
+        expect(lang.getLanguageTexts()).toEqual(['es', 'en', 'fr', 'de', 'pt']);
         expect(lang.isMultilingual()).toBe(true);
     });
 
     test('isLocaleLanguage returns true for any matching language in the tag', () => {
         const lang = getLanguage('a/es_en: 5');
-        expect(
-            lang.isLocaleLanguage({ language: 'es', regions: [] }),
-        ).toBe(true);
-        expect(
-            lang.isLocaleLanguage({ language: 'en', regions: [] }),
-        ).toBe(true);
-        expect(
-            lang.isLocaleLanguage({ language: 'fr', regions: [] }),
-        ).toBe(false);
+        expect(lang.isLocaleLanguage({ language: 'es', regions: [] })).toBe(
+            true,
+        );
+        expect(lang.isLocaleLanguage({ language: 'en', regions: [] })).toBe(
+            true,
+        );
+        expect(lang.isLocaleLanguage({ language: 'fr', regions: [] })).toBe(
+            false,
+        );
     });
 
     test('getLocaleIDs exposes one Locale per language', () => {
@@ -155,12 +148,12 @@ describe('Language.union', () => {
     });
 
     test('an undefined side inherits the other', () => {
-        expect(Language.union(undefined, langFromTag('en'))?.getTagString()).toBe(
-            'en',
-        );
-        expect(Language.union(langFromTag('en'), undefined)?.getTagString()).toBe(
-            'en',
-        );
+        expect(
+            Language.union(undefined, langFromTag('en'))?.getTagString(),
+        ).toBe('en');
+        expect(
+            Language.union(langFromTag('en'), undefined)?.getTagString(),
+        ).toBe('en');
         expect(Language.union(undefined, undefined)).toBeUndefined();
     });
 });

@@ -92,7 +92,8 @@ describe('getMenuNoteMarkup', () => {
             .nodes()
             .find(
                 (n): n is PropertyReference =>
-                    n instanceof PropertyReference && n.name?.getName() === name,
+                    n instanceof PropertyReference &&
+                    n.name?.getName() === name,
             );
         const bind = reference?.resolve(context);
         expect(bind).toBeDefined();
@@ -109,7 +110,9 @@ describe('getMenuNoteMarkup', () => {
         const { source, context, locales } = setup('Music.major');
         const node = source
             .nodes()
-            .find((n): n is PropertyReference => n instanceof PropertyReference);
+            .find(
+                (n): n is PropertyReference => n instanceof PropertyReference,
+            );
         expect(node).toBeDefined();
         const note = getMenuNoteMarkup(node!, context, locales).toText();
         expect(note).toBe(

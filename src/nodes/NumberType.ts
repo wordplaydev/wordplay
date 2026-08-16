@@ -44,8 +44,7 @@ export default class NumberType extends BasisType {
         this.none = none;
         // No explicit unit means "no unit" (`#!`) when the none marker is present, otherwise
         // "any unit" (a bare `#`). Concrete values pass an explicit Unit (Unit.Empty for unitless).
-        this.unit =
-            unit ?? (none !== undefined ? Unit.Empty : Unit.Any);
+        this.unit = unit ?? (none !== undefined ? Unit.Empty : Unit.Any);
         this.op = op;
 
         this.computeChildren();
@@ -82,7 +81,11 @@ export default class NumberType extends BasisType {
     getGrammar(): Grammar {
         return [
             { name: 'number', kind: node(Sym.NumberType), label: undefined },
-            { name: 'none', kind: optional(node(Sym.Literal)), label: undefined },
+            {
+                name: 'none',
+                kind: optional(node(Sym.Literal)),
+                label: undefined,
+            },
             { name: 'unit', kind: node(Unit), label: undefined },
         ];
     }

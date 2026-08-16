@@ -39,9 +39,9 @@ describe('beginning a new performance', () => {
         // The creator asked to watch the program from the top; a one-shot score
         // that stays silent is not that. Same request as pressing replay.
         const data = music();
-        expect(reconcile(playing(data, true), [data], true).get('song')).toEqual(
-            { kind: 'restart', data },
-        );
+        expect(
+            reconcile(playing(data, true), [data], true).get('song'),
+        ).toEqual({ kind: 'restart', data });
     });
 
     test('a piece still playing starts over rather than continuing', () => {
@@ -82,8 +82,8 @@ describe('within one performance', () => {
     test('a music new to the stage starts, performance or not', () => {
         const data = music();
         for (const beginning of [true, false])
-            expect(
-                reconcile(new Map(), [data], beginning).get('song'),
-            ).toEqual({ kind: 'start', data });
+            expect(reconcile(new Map(), [data], beginning).get('song')).toEqual(
+                { kind: 'start', data },
+            );
     });
 });

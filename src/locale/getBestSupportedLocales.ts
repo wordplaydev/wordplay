@@ -1,5 +1,8 @@
 import { getLocaleLanguage } from '@locale/LocaleText';
-import { SupportedLocales, type SupportedLocale } from '@locale/SupportedLocales';
+import {
+    SupportedLocales,
+    type SupportedLocale,
+} from '@locale/SupportedLocales';
 
 /** Find the best supported locales from the requested raw language codes */
 

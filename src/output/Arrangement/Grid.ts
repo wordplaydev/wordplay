@@ -161,7 +161,8 @@ export class Grid extends Arrangement {
                             .reduce((sum, height) => sum + height, 0) +
                             row * this.padding);
                     const rowHeight = rowHeights[row];
-                    const cellX = cellLeft + (columnWidth - cell.output.width) / 2;
+                    const cellX =
+                        cellLeft + (columnWidth - cell.output.width) / 2;
                     const place = new Place(
                         this.value,
                         rtl ? reflectX(cellX, cell.output.width, width) : cellX,
@@ -190,13 +191,10 @@ export class Grid extends Arrangement {
 
     getDescription(_: Output[], locales: Locales) {
         return locales
-            .concretize(
-                (l) => l.output.Grid.description,
-                {
-                    rows: this.rows,
-                    columns: this.columns,
-                },
-            )
+            .concretize((l) => l.output.Grid.description, {
+                rows: this.rows,
+                columns: this.columns,
+            })
             .toText();
     }
 }

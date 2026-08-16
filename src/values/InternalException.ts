@@ -11,7 +11,9 @@ export default class InternalException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.getTextStructure((l) => l.node.Program.exception.InternalException);
+        return locales.getTextStructure(
+            (l) => l.node.Program.exception.InternalException,
+        );
     }
 
     getExplanation(locales: Locales) {

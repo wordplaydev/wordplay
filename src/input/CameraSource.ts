@@ -65,8 +65,7 @@ class SharedSource {
             // A denied source holds nothing live; retire now so the next
             // acquire can ask again rather than caching the denial.
             if (this.stream === null) this.retire();
-            else
-                this.teardown = setTimeout(() => this.retire(), SourceGraceMs);
+            else this.teardown = setTimeout(() => this.retire(), SourceGraceMs);
             return;
         }
         this.applyFrameRate();

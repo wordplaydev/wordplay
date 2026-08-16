@@ -63,7 +63,10 @@ function act(title: string, scenes: Scene[], theme: ThemeName = 'Act1'): Act {
 }
 
 /** The same tutorial with every translated string replaced, as a locale's would be. */
-function translated(source: Tutorial, mark: (text: string) => string): Tutorial {
+function translated(
+    source: Tutorial,
+    mark: (text: string) => string,
+): Tutorial {
     const copy = JSON.parse(JSON.stringify(source)) as Tutorial;
     for (const a of copy.acts) {
         a.title = mark(a.title);
@@ -144,7 +147,12 @@ describe('inserting into en-US never disturbs an existing translation', () => {
             'Stage',
         ]);
         expect(report.inserted).toEqual([
-            expect.objectContaining({ kind: 'scene', act: 1, scene: 3, strings: 3 }),
+            expect.objectContaining({
+                kind: 'scene',
+                act: 1,
+                scene: 3,
+                strings: 3,
+            }),
         ]);
         // A bare marker, with no copy of the English: falling back to the
         // source locale is automatic, so carrying it would only duplicate it.
@@ -206,10 +214,7 @@ test('a scene the locale has and en-US does not is reported, never deleted', () 
 
     const { tutorial: result, report } = sync(source, target);
 
-    expect(result.acts[0].scenes.map((s) => s.title)).toEqual([
-        '«A»',
-        'Extra',
-    ]);
+    expect(result.acts[0].scenes.map((s) => s.title)).toEqual(['«A»', 'Extra']);
     expect(report.removed).toEqual([
         expect.objectContaining({ kind: 'scene', label: 'Extra' }),
     ]);
@@ -222,7 +227,9 @@ test('signatures discriminate on the untranslated fields only', () => {
     expect(sceneSignature(a)).not.toBe(sceneSignature(scene('A', 'Doc')));
 
     // Different translated title, everything else the same: the same scene.
-    expect(sceneSignature(a)).toBe(sceneSignature({ ...a, title: 'translated' }));
+    expect(sceneSignature(a)).toBe(
+        sceneSignature({ ...a, title: 'translated' }),
+    );
 
     // Literal code is not identity: es-MX writes `Frase` where en-US writes
     // `Phrase`, and zh-CN translates the literals inside its examples. Reading
@@ -254,7 +261,9 @@ test('signatures discriminate on the untranslated fields only', () => {
 
 describe('$! propagation', () => {
     const source = tutorial([
-        act('One', [scene('A', 'Program', [dialog('Program', 'kind', 'Hello')])]),
+        act('One', [
+            scene('A', 'Program', [dialog('Program', 'kind', 'Hello')]),
+        ]),
     ]);
 
     function propagated(sourceText: string, targetText: string) {
@@ -364,7 +373,10 @@ describe('the shipped tutorials', () => {
 
         function reports() {
             return locales
-                .map((locale) => [locale, getTutorialPath(locale, mode)] as const)
+                .map(
+                    (locale) =>
+                        [locale, getTutorialPath(locale, mode)] as const,
+                )
                 .filter(([, path]) => fs.existsSync(path))
                 .map(([locale, path]) => {
                     const target = JSON.parse(

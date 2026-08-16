@@ -40,7 +40,8 @@
         const fit = () => {
             const available = clipEl.clientHeight;
             const natural = scalerEl.scrollHeight;
-            scale = natural > available && natural > 0 ? available / natural : 1;
+            scale =
+                natural > available && natural > 0 ? available / natural : 1;
         };
         fit();
         const observer = new ResizeObserver(fit);
@@ -69,7 +70,10 @@
                         inline
                         inert
                         editable={false}
-                    />{#if parsed.hidden > 0}<div class="more" aria-label="elided">
+                    />{#if parsed.hidden > 0}<div
+                            class="more"
+                            aria-label="elided"
+                        >
                             …
                         </div>{/if}
                 {:else}{text}{/if}

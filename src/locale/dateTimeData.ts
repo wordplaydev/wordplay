@@ -1,7 +1,5 @@
 import coreDateTimes from '@locale/datetimes-core.json';
-import {
-    type DateTimeData,
-} from '@locale/dateTimeFormats';
+import { type DateTimeData } from '@locale/dateTimeFormats';
 import enUSDateTimes from '@locale/en-US-datetimes.json';
 import type Locale from '@locale/Locale';
 import { getLocaleLanguage } from '@locale/LocaleText';

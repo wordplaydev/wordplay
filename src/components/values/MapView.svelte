@@ -31,13 +31,12 @@
     <SymbolView symbol={SET_OPEN_SYMBOL} type={Sym.SetOpen} /><Expandable
         count={value.values.length}
         {start}
-        >{#snippet content(limit)}{#each value.values.slice(0, limit) as [key, val], index}<ValueView
+        >{#snippet content(
+            limit,
+        )}{#each value.values.slice(0, limit) as [key, val], index}<ValueView
                     value={key}
                     {inline}
-                /><SymbolView
-                    symbol={BIND_SYMBOL}
-                    type={Sym.Bind}
-                /><ValueView
+                /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
                     value={val}
                     {inline}
                 />{#if index < value.values.length - 1}{' '}{/if}{/each}{/snippet}</Expandable
@@ -46,8 +45,14 @@
     <!-- Block maps are displayed as a two column table -->
     <table>
         <tbody>
-            <Expandable count={value.values.length} {start} layout="row" columns={2}
-                >{#snippet content(limit)}{#each value.values.slice(0, limit) as [key, val]}<tr
+            <Expandable
+                count={value.values.length}
+                {start}
+                layout="row"
+                columns={2}
+                >{#snippet content(
+                    limit,
+                )}{#each value.values.slice(0, limit) as [key, val]}<tr
                             ><td><ValueView value={key} {inline} /></td><td>
                                 <ValueView value={val} {inline} /></td
                             ></tr

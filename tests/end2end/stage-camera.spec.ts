@@ -83,8 +83,7 @@ test('the fit lock is inactive for a program that sets its own camera', async ({
 }) => {
     await page.goto('/en-US/project/example-BuildingBlocks?mode=play');
     await expect(page.locator('.value[tabindex="0"]')).toBeVisible();
-    await expect(page.locator('[data-uiid="stageLock"]').first()).toHaveAttribute(
-        'aria-disabled',
-        'true',
-    );
+    await expect(
+        page.locator('[data-uiid="stageLock"]').first(),
+    ).toHaveAttribute('aria-disabled', 'true');
 });

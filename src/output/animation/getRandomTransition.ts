@@ -33,9 +33,7 @@ export function getRandomEntrySteps(
 
     // An empty pool locks entries immediately rather than cycling.
     const randomEntry = (fallback: string) =>
-        pool.length > 0
-            ? pool[Math.floor(random() * pool.length)]
-            : fallback;
+        pool.length > 0 ? pool[Math.floor(random() * pool.length)] : fallback;
 
     const extras = Math.max(0, to.length - from.length);
     const surplus = Math.max(0, from.length - to.length);
@@ -69,7 +67,8 @@ export function getRandomEntrySteps(
         random,
     ).forEach((position, order) => {
         disappear[position] =
-            1 + Math.floor(((order + 1) * Math.max(0, last - 1)) / (surplus + 1));
+            1 +
+            Math.floor(((order + 1) * Math.max(0, last - 1)) / (surplus + 1));
     });
 
     const steps: string[][] = [];

@@ -127,9 +127,9 @@ export default class NameType extends Type {
         const def = this.resolve(context);
         // The name should be a structure type or a type variable on a structure that contains this name type.
         if (def === undefined) conflicts.push(new UnknownName(this, undefined));
-        else if (
-            !(def instanceof StructureDefinition || def instanceof TypeVariable)
-        )
+        else if (!(
+            def instanceof StructureDefinition || def instanceof TypeVariable
+        ))
             conflicts.push(new UnknownTypeName(this, def));
         else if (def instanceof StructureDefinition) {
             // If there are type inputs provided, verify that they exist on the function.

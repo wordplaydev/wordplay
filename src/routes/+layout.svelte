@@ -131,7 +131,6 @@
         // Install browser online/offline + visibilitychange listeners.
         const cleanupNetworkListeners = DB.installNetworkListeners();
 
-
         // Read the local project cache once the page is up rather than on
         // import: hydration deserializes every cached project and each one
         // builds a Basis, which is seconds of main-thread work on a phone and

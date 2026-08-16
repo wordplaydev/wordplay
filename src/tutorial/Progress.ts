@@ -116,8 +116,7 @@ export default class Progress {
      *  index in `scene.lines`. The line index is required to build a stable
      *  override key for inline editing of dialog text. */
     getDialogWithIndices():
-        | { dialog: Dialog; lineIndex: number }[]
-        | undefined {
+        { dialog: Dialog; lineIndex: number }[] | undefined {
         const scene = this.getScene();
         if (scene === undefined) return undefined;
         if (this.pause === 0) return undefined;

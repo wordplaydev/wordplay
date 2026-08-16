@@ -8,10 +8,7 @@ import nodemailer from 'nodemailer';
 const emailPassword = defineString('SMTP_PASSWORD');
 
 export default async function postFeedback(
-    event: FirestoreEvent<
-        QueryDocumentSnapshot | undefined,
-        { id: string }
-    >,
+    event: FirestoreEvent<QueryDocumentSnapshot | undefined, { id: string }>,
 ): Promise<unknown> {
     const feedback = event.data?.data();
     if (feedback === undefined) return;

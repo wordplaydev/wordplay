@@ -99,7 +99,12 @@ describe('foldRemoteCRDT semantics — a converged character survives a lagging 
         // The fix means we never apply the lossy plain code, so the
         // converged character survives.
         if (replay)
-            local.applyLocalEdit(0, local.getCode(0), laggingPlainCode, 'remote');
+            local.applyLocalEdit(
+                0,
+                local.getCode(0),
+                laggingPlainCode,
+                'remote',
+            );
         expect(local.getCode(0)).toBe(converged);
 
         // Sanity: had we replayed (the pre-fix behavior), the character would

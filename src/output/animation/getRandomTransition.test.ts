@@ -24,9 +24,9 @@ test('cycles only pool or final characters and never blanks', () => {
     for (const step of steps.slice(1, -1)) {
         expect(step.length).toBe(3);
         for (const [index, character] of [...step].entries())
-            expect(
-                POOL.includes(character) || character === 'xyz'[index],
-            ).toBe(true);
+            expect(POOL.includes(character) || character === 'xyz'[index]).toBe(
+                true,
+            );
     }
 });
 

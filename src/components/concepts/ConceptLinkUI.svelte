@@ -1,6 +1,9 @@
 <script lang="ts">
     import Link from '@components/app/Link.svelte';
-    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import CharacterView from '@components/output/CharacterView.svelte';
     import {
@@ -266,8 +269,10 @@
             canFocusTips(event.currentTarget) ? showTip() : undefined}
         onblur={hideTip}
         onclick={navigate}
-        >{#if label}{withMonoEmoji(label)}{:else}{#if ownerConcept && !ownerIsCurrent}<span
-                    class="long">{ownerConcept.getName($locales, false)}</span
+        >{#if label}{withMonoEmoji(
+                label,
+            )}{:else}{#if ownerConcept && !ownerIsCurrent}<span class="long"
+                    >{ownerConcept.getName($locales, false)}</span
                 >.{/if}<span class="long">{longName}</span
             >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}<sub
                     >{withMonoEmoji(symbolicName)}</sub

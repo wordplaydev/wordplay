@@ -485,10 +485,7 @@ export default class FunctionDefinition extends DefinitionExpression {
     getOutputType(
         context: Context,
         caller:
-            | BinaryEvaluate
-            | UnaryEvaluate
-            | Evaluate
-            | undefined = undefined,
+            BinaryEvaluate | UnaryEvaluate | Evaluate | undefined = undefined,
     ): Type {
         return this.output !== undefined
             ? // If it's a number type, and we received a caller, pass it, so we can infer the units.

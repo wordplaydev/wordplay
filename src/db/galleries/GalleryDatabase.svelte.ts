@@ -52,8 +52,7 @@ export type GalleryFailure = 'missing' | 'unreachable';
 
 /** The outcome of looking a gallery up. See {@link GalleryDatabase.find}. */
 export type GalleryResult =
-    | { kind: 'found'; gallery: Gallery }
-    | { kind: GalleryFailure };
+    { kind: 'found'; gallery: Gallery } | { kind: GalleryFailure };
 
 /** The in-memory representation of a Gallery, for type safe manipulation and analysis. */
 export default class GalleryDatabase {
@@ -619,7 +618,9 @@ export default class GalleryDatabase {
 
         // Remove all projects from the gallery.
         for (const projectID of gallery.getProjects()) {
-            const project = await (await this.database.loadProjects()).get(projectID);
+            const project = await (
+                await this.database.loadProjects()
+            ).get(projectID);
             if (project) await this.removeProjectFromGallery(project);
         }
 
@@ -681,7 +682,9 @@ export default class GalleryDatabase {
         // Update the in-memory project to reflect the new gallery. Pass persist=false
         // so we can include the project doc write in our atomic batch below rather than
         // letting the project history's separate persist() race with it.
-        const editResult = await (await this.database.loadProjects()).edit(
+        const editResult = await (
+            await this.database.loadProjects()
+        ).edit(
             project.withGallery(galleryID),
             false,
             false,
@@ -737,7 +740,9 @@ export default class GalleryDatabase {
         void this.trackSave(galleryID, galleryName, batch.commit()).then(
             (ok) => {
                 if (ok)
-                    this.database.MaybeProjects?.getHistory(projectID)?.markSaved();
+                    this.database.MaybeProjects?.getHistory(
+                        projectID,
+                    )?.markSaved();
                 else this.database.MaybeProjects?.saveSoon();
             },
         );
@@ -751,13 +756,9 @@ export default class GalleryDatabase {
         const targetGalleryID = galleryID ?? project.getGallery();
 
         // Update the in-memory project to clear its gallery field (no persist; batched below).
-        const editResult = await (await this.database.loadProjects()).edit(
-            project.withGallery(null),
-            false,
-            false,
-            false,
-            'immediate',
-        );
+        const editResult = await (
+            await this.database.loadProjects()
+        ).edit(project.withGallery(null), false, false, false, 'immediate');
         if (editResult !== undefined) return;
 
         const updated =
@@ -794,7 +795,9 @@ export default class GalleryDatabase {
                 batch.commit(),
             ).then((ok) => {
                 if (ok)
-                    this.database.MaybeProjects?.getHistory(projectID)?.markSaved();
+                    this.database.MaybeProjects?.getHistory(
+                        projectID,
+                    )?.markSaved();
                 else this.database.MaybeProjects?.saveSoon();
             });
         } else {
@@ -803,7 +806,9 @@ export default class GalleryDatabase {
             void this.database
                 .track(batch.commit())
                 .then(() =>
-                    this.database.MaybeProjects?.getHistory(projectID)?.markSaved(),
+                    this.database.MaybeProjects?.getHistory(
+                        projectID,
+                    )?.markSaved(),
                 )
                 .catch(() => this.database.MaybeProjects?.saveSoon());
         }
@@ -812,13 +817,9 @@ export default class GalleryDatabase {
     // Remove the project from whatever gallery it is in, but only the project side
     // (used by gallery deletion, where the gallery doc itself is about to be deleted).
     async removeProjectFromGallery(project: Project) {
-        await (await this.database.loadProjects()).edit(
-            project.withGallery(null),
-            false,
-            true,
-            false,
-            'immediate',
-        );
+        await (
+            await this.database.loadProjects()
+        ).edit(project.withGallery(null), false, true, false, 'immediate');
     }
 
     /**
@@ -887,7 +888,9 @@ export default class GalleryDatabase {
         const projectsToRemove: string[] = [];
         for (const projectID of gallery.getProjects()) {
             try {
-                const project = await (await this.database.loadProjects()).get(projectID);
+                const project = await (
+                    await this.database.loadProjects()
+                ).get(projectID);
                 if (project !== undefined && project.getOwner() === uid)
                     projectsToRemove.push(projectID);
             } catch (err) {

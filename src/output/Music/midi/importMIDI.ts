@@ -13,7 +13,11 @@ import convert, {
 } from '@output/Music/midi/convert';
 import parseMIDI, { MIDIFormatError } from '@output/Music/midi/parseMIDI';
 
-export type { Conversion, ConvertOptions, Finding } from '@output/Music/midi/convert';
+export type {
+    Conversion,
+    ConvertOptions,
+    Finding,
+} from '@output/Music/midi/convert';
 export { MIDIFormatError } from '@output/Music/midi/parseMIDI';
 
 /**

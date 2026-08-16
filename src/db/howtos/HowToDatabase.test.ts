@@ -126,8 +126,8 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
 
         mockDatabase = {
             getUser: vi.fn(() => ({ uid: 'user-1' })),
-            track: vi.fn(<T,>(p: Promise<T>) => p),
-            write: vi.fn(<T,>(p: Promise<T>) => p),
+            track: vi.fn(<T>(p: Promise<T>) => p),
+            write: vi.fn(<T>(p: Promise<T>) => p),
             reportBanner: vi.fn(),
         };
 
@@ -163,9 +163,7 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
             const howToRef = howToSet!.ref as { _ref: { collection: string } };
             expect(howToRef._ref.collection).toBe(HowTosCollection);
 
-            const galleryUpdate = lastBatchOps.find(
-                (o) => o.kind === 'update',
-            );
+            const galleryUpdate = lastBatchOps.find((o) => o.kind === 'update');
             expect(galleryUpdate).toBeDefined();
             expect(galleryUpdate!.ref).toMatchObject({
                 _ref: { collection: 'galleries', id: 'g1' },
@@ -192,9 +190,7 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
                 _ref: { collection: HowTosCollection, id: 'ht-1' },
             });
 
-            const galleryUpdate = lastBatchOps.find(
-                (o) => o.kind === 'update',
-            );
+            const galleryUpdate = lastBatchOps.find((o) => o.kind === 'update');
             expect(galleryUpdate).toBeDefined();
             expect(galleryUpdate!.ref).toMatchObject({
                 _ref: { collection: 'galleries', id: 'g1' },

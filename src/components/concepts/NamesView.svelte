@@ -16,7 +16,8 @@
     <HeaderAndExplanation text={(l) => l.ui.docs.header.names} sub />
     <div class="names"
         >{#each unique as name}
-            <ConceptPreview localize={false} node={Reference.make(name)}></ConceptPreview>
+            <ConceptPreview localize={false} node={Reference.make(name)}
+            ></ConceptPreview>
         {/each}
     </div>
 {/if}

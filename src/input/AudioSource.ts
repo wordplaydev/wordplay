@@ -118,7 +118,8 @@ class SharedAudioSource {
             .then((stream) => this.attachStream(stream))
             .catch(() => {
                 this.stream = null;
-                if (!this.stopped) for (const c of this.consumers) c.onDenied?.();
+                if (!this.stopped)
+                    for (const c of this.consumers) c.onDenied?.();
             });
     }
 

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Auto-format staged files with prettier before committing, so formatting drift
+# never reaches CI's `prettier --check` gate. lint-staged formats only the
+# staged files and re-stages them. Installed via core.hooksPath by
+# scripts/setup-git-config.ts (run from postinstall).
+npx lint-staged

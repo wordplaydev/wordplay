@@ -4,7 +4,7 @@ import { collectUsedPrefixes } from '@util/verify-locales/findUnusedKeys';
 describe('collectUsedPrefixes', () => {
     test('captures a closure-form locale accessor', () => {
         const used = collectUsedPrefixes([
-            "locales.get((l) => l.ui.source.empty)",
+            'locales.get((l) => l.ui.source.empty)',
         ]);
         expect(used.has('ui.source.empty')).toBe(true);
     });
@@ -58,9 +58,7 @@ describe('collectUsedPrefixes', () => {
     });
 
     test('does not capture an unrelated `=>` arrow', () => {
-        const used = collectUsedPrefixes([
-            'items.map((item) => item.value)',
-        ]);
+        const used = collectUsedPrefixes(['items.map((item) => item.value)']);
         expect(used.size).toBe(0);
     });
 
@@ -74,9 +72,7 @@ describe('collectUsedPrefixes', () => {
     test('captures direct property access on a locale-store identifier (no arrow)', () => {
         // Some call sites read the locale outside a closure — e.g.,
         // hooks.server.ts: `parsed.system?.unsupportedHeading`.
-        const used = collectUsedPrefixes([
-            'parsed.system.unsupportedHeading',
-        ]);
+        const used = collectUsedPrefixes(['parsed.system.unsupportedHeading']);
         expect(used.has('system.unsupportedHeading')).toBe(true);
     });
 
@@ -89,9 +85,7 @@ describe('collectUsedPrefixes', () => {
 
     test('captures HTML template substitutions', () => {
         // app.html uses %wordplay.system.noscript% style placeholders.
-        const used = collectUsedPrefixes([
-            '<p>%wordplay.system.noscript%</p>',
-        ]);
+        const used = collectUsedPrefixes(['<p>%wordplay.system.noscript%</p>']);
         expect(used.has('system.noscript')).toBe(true);
     });
 

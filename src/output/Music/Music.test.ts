@@ -255,12 +255,16 @@ test('merging does not change the order names are generated in', () => {
     expect(
         stageFrom(
             "Stage([Phrase('hi' name: 'a')])\nMusic(Track([1]) name: 'a')",
-        )?.getMusic()[0]?.getName(),
+        )
+            ?.getMusic()[0]
+            ?.getName(),
     ).toBe('a2');
     expect(
         stageFrom(
             "Music(Track([1]) name: 'a')\nStage([Phrase('hi' name: 'a')])",
-        )?.getMusic()[0]?.getName(),
+        )
+            ?.getMusic()[0]
+            ?.getName(),
     ).toBe('a');
 });
 

@@ -49,6 +49,9 @@ function validate(
         return undefined;
     return {
         shown: state.shown,
-        width: Math.min(defaults.maxWidth, Math.max(defaults.minWidth, state.width)),
+        width: Math.min(
+            defaults.maxWidth,
+            Math.max(defaults.minWidth, state.width),
+        ),
     };
 }

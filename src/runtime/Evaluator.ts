@@ -418,7 +418,8 @@ export default class Evaluator {
         for (const source of this.project.getUnusedSupplements()) {
             if (!this.project.isStableSource(source)) continue;
             const value = evaluator.getLatestSourceValue(source);
-            if (value !== undefined) this.carriedSourceValues.set(source, value);
+            if (value !== undefined)
+                this.carriedSourceValues.set(source, value);
         }
 
         // If the previous evaluator has any raw inputs, replay them on this evaluator.
@@ -510,7 +511,6 @@ export default class Evaluator {
                 this.setMode(Mode.Step);
             }
         }
-
     }
 
     // GETTERS
@@ -1104,9 +1104,7 @@ export default class Evaluator {
         // is a block frame that gets tail-elided, its activation ends at the
         // elision, so stepping out stops there.)
         const activation = currentEvaluation.getTailActivation();
-        while (
-            this.#evaluations.at(-1)?.getTailActivation() === activation
-        )
+        while (this.#evaluations.at(-1)?.getTailActivation() === activation)
             this.stepWithinProgram();
     }
 
@@ -2030,7 +2028,9 @@ export default class Evaluator {
         // Walk down from the top of the stack (the end) past any block frames
         // to the function frame that owns this activation.
         let count = 0;
-        while (this.#evaluations.at(-1 - count)?.getDefinition() instanceof Block)
+        while (
+            this.#evaluations.at(-1 - count)?.getDefinition() instanceof Block
+        )
             count++;
         const activation = this.#evaluations.at(-1 - count);
         if (

@@ -42,31 +42,28 @@ test('every animation is a static function on Sequence', () => {
 // Each animation is generated Wordplay source, so a typo in a pose map or an input name is
 // only caught by actually building and running it. `toSequence` returning a value proves the
 // static evaluated to a real Sequence rather than an exception.
-describe.each(Animations.map((a) => [a.key] as const))(
-    'Sequence.%s',
-    (key) => {
-        test('evaluates with its defaults', () => {
-            const { project, value, conflicts } = analyzeAndEvaluate(
-                `Sequence.${key}()`,
-            );
-            expect(conflicts).toEqual([]);
-            const sequence = toSequence(project, value);
-            expect(sequence).toBeDefined();
-            expect(sequence?.poses.length).toBeGreaterThan(1);
-        });
+describe.each(Animations.map((a) => [a.key] as const))('Sequence.%s', (key) => {
+    test('evaluates with its defaults', () => {
+        const { project, value, conflicts } = analyzeAndEvaluate(
+            `Sequence.${key}()`,
+        );
+        expect(conflicts).toEqual([]);
+        const sequence = toSequence(project, value);
+        expect(sequence).toBeDefined();
+        expect(sequence?.poses.length).toBeGreaterThan(1);
+    });
 
-        test('passes duration, style, and count through', () => {
-            const { project, value, conflicts } = analyzeAndEvaluate(
-                `Sequence.${key}(⏳: 2s style: "zippy" count: 3x)`,
-            );
-            expect(conflicts).toEqual([]);
-            const sequence = toSequence(project, value);
-            expect(sequence?.duration).toBe(2);
-            expect(sequence?.style).toBe('zippy');
-            expect(sequence?.count).toBe(3);
-        });
-    },
-);
+    test('passes duration, style, and count through', () => {
+        const { project, value, conflicts } = analyzeAndEvaluate(
+            `Sequence.${key}(⏳: 2s style: "zippy" count: 3x)`,
+        );
+        expect(conflicts).toEqual([]);
+        const sequence = toSequence(project, value);
+        expect(sequence?.duration).toBe(2);
+        expect(sequence?.style).toBe('zippy');
+        expect(sequence?.count).toBe(3);
+    });
+});
 
 test('an animation with its own input takes it positionally, then duration', () => {
     const { project, value, conflicts } = analyzeAndEvaluate(

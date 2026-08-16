@@ -1,6 +1,9 @@
 <script lang="ts">
     import { getTip } from '@components/project/Contexts';
-    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import { locales } from '@db/Database';
     import { LOCALLY_REVISED_SYMBOL } from '@parser/Symbols';
     import Emoji from '@components/app/Emoji.svelte';

@@ -81,7 +81,8 @@ describe('no locale is quietly still in English', () => {
                 if (claimed.length < ENOUGH_TO_JUDGE) continue;
                 const echoed = claimed.filter(
                     ([text, english]) =>
-                        withoutAnnotations(text) === withoutAnnotations(english),
+                        withoutAnnotations(text) ===
+                        withoutAnnotations(english),
                 );
                 const rate = echoed.length / claimed.length;
                 if (rate > MAX_ECHO)

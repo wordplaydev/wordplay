@@ -21,10 +21,7 @@
     let { children, dismiss = undefined }: Props = $props();
 </script>
 
-<div
-    class="editor-notice"
-    transition:slide={{ duration: $animationDuration }}
->
+<div class="editor-notice" transition:slide={{ duration: $animationDuration }}>
     <div class="content">{@render children()}</div>
     {#if dismiss}<div class="dismiss">
             <Button

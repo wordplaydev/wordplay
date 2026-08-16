@@ -496,12 +496,10 @@ export default class Evaluation {
 
     /** Given an input number in the evaluation's definition, get the corresponding input given to that input, if one was given. */
     getInput(index: number): Value | undefined {
-        if (
-            !(
-                this.#definition instanceof FunctionDefinition ||
-                this.#definition instanceof StructureDefinition
-            )
-        )
+        if (!(
+            this.#definition instanceof FunctionDefinition ||
+            this.#definition instanceof StructureDefinition
+        ))
             return undefined;
 
         const names = this.#definition.inputs[index]?.names;

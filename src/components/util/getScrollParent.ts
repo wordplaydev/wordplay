@@ -10,6 +10,6 @@ export default function getScrollParent(node: HTMLElement): HTMLElement {
     }
 
     return node.parentNode instanceof HTMLElement
-        ? getScrollParent(node.parentNode) ?? document.body
+        ? (getScrollParent(node.parentNode) ?? document.body)
         : document.body;
 }

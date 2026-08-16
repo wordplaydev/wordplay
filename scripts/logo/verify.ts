@@ -43,9 +43,7 @@ export function checkInputs(lock: Lockfile): string[] {
         if (locked === undefined)
             problems.push(`input ${file} is not in the lock`);
         else if (hashFile(file) !== locked)
-            problems.push(
-                `input ${file} changed since assets were generated`,
-            );
+            problems.push(`input ${file} changed since assets were generated`);
     }
     if (lock.resvg !== pinnedResvgVersion())
         problems.push(

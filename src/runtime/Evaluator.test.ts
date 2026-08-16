@@ -422,8 +422,7 @@ test('Infinite tail recursion names the culprit function', () => {
         expect(
             value.functions.some(
                 (fun) =>
-                    fun instanceof FunctionDefinition &&
-                    fun.names.hasName('a'),
+                    fun instanceof FunctionDefinition && fun.names.hasName('a'),
             ),
         ).toBe(true);
 });
@@ -481,7 +480,13 @@ test('Stepping out of a tail-recursive function runs past the whole chain', () =
 test('Unused supplements evaluate before main, and all produce values', () => {
     const main = new Source('main', '1 + 1');
     const supplement = new Source('extra', '2 + 2');
-    const project = Project.make(null, 'test', main, [supplement], DefaultLocale);
+    const project = Project.make(
+        null,
+        'test',
+        main,
+        [supplement],
+        DefaultLocale,
+    );
     const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
     evaluator.pause();
     evaluator.start();
@@ -509,8 +514,7 @@ test('Unused supplements evaluate before main, and all produce values', () => {
 // whose sources together exceed MAX_SOURCE_VALUE_SIZE rendered nothing at all.
 test('A source keeps its latest value when the size cap is exceeded', () => {
     // Each borrowed source holds a list big enough that together they pass the cap.
-    const big = (name: string) =>
-        new Source(name, `20000 → []`);
+    const big = (name: string) => new Source(name, `20000 → []`);
     const main = new Source(
         'start',
         ['↓ a', '↓ b', '↓ c', '↓ d', '[a b c d]'].join('\n'),

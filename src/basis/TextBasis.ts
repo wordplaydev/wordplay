@@ -22,10 +22,7 @@ import type Value from '@values/Value';
 import type Names from '@nodes/Names';
 import PatternType from '@nodes/PatternType';
 import type { PatternMatch } from '@runtime/pattern/match';
-import {
-    getMatchLoop,
-    matchStepBuilder,
-} from '@runtime/pattern/matchSteps';
+import { getMatchLoop, matchStepBuilder } from '@runtime/pattern/matchSteps';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
@@ -206,7 +203,9 @@ export default function bootstrapText(locales: Locales) {
                     undefined,
                     [PatternType.make()],
                     ListType.make(
-                        NameType.make(getResultTypeNames(locales).getNames()[0]),
+                        NameType.make(
+                            getResultTypeNames(locales).getNames()[0],
+                        ),
                     ),
                     (requestor, evaluation) => {
                         const evaluator = evaluation.getEvaluator();
@@ -216,59 +215,56 @@ export default function bootstrapText(locales: Locales) {
                         const ResultType =
                             evaluator.project.shares.output.Result;
                         const results = matches.map((m) => {
-                                const bindings = new Map<Names, Value>();
-                                bindings.set(
-                                    ResultType.inputs[0].names,
-                                    new TextValue(requestor, m.text),
-                                );
-                                bindings.set(
-                                    ResultType.inputs[1].names,
-                                    new NumberValue(requestor, m.start + 1),
-                                );
-                                bindings.set(
-                                    ResultType.inputs[2].names,
-                                    new NumberValue(requestor, m.end),
-                                );
-                                const caps = [...m.caps];
-                                bindings.set(
-                                    ResultType.inputs[3].names,
-                                    new MapValue(
-                                        requestor,
-                                        caps.map(([name, c]) => [
-                                            new TextValue(requestor, name),
-                                            new TextValue(requestor, c.text),
-                                        ]),
-                                    ),
-                                );
-                                bindings.set(
-                                    ResultType.inputs[4].names,
-                                    new MapValue(
-                                        requestor,
-                                        caps.map(([name, c]) => [
-                                            new TextValue(requestor, name),
-                                            new NumberValue(
-                                                requestor,
-                                                c.start + 1,
-                                            ),
-                                        ]),
-                                    ),
-                                );
-                                bindings.set(
-                                    ResultType.inputs[5].names,
-                                    new MapValue(
-                                        requestor,
-                                        caps.map(([name, c]) => [
-                                            new TextValue(requestor, name),
-                                            new NumberValue(requestor, c.end),
-                                        ]),
-                                    ),
-                                );
-                                return createStructure(
-                                    evaluator,
-                                    ResultType,
-                                    bindings,
-                                );
-                            });
+                            const bindings = new Map<Names, Value>();
+                            bindings.set(
+                                ResultType.inputs[0].names,
+                                new TextValue(requestor, m.text),
+                            );
+                            bindings.set(
+                                ResultType.inputs[1].names,
+                                new NumberValue(requestor, m.start + 1),
+                            );
+                            bindings.set(
+                                ResultType.inputs[2].names,
+                                new NumberValue(requestor, m.end),
+                            );
+                            const caps = [...m.caps];
+                            bindings.set(
+                                ResultType.inputs[3].names,
+                                new MapValue(
+                                    requestor,
+                                    caps.map(([name, c]) => [
+                                        new TextValue(requestor, name),
+                                        new TextValue(requestor, c.text),
+                                    ]),
+                                ),
+                            );
+                            bindings.set(
+                                ResultType.inputs[4].names,
+                                new MapValue(
+                                    requestor,
+                                    caps.map(([name, c]) => [
+                                        new TextValue(requestor, name),
+                                        new NumberValue(requestor, c.start + 1),
+                                    ]),
+                                ),
+                            );
+                            bindings.set(
+                                ResultType.inputs[5].names,
+                                new MapValue(
+                                    requestor,
+                                    caps.map(([name, c]) => [
+                                        new TextValue(requestor, name),
+                                        new NumberValue(requestor, c.end),
+                                    ]),
+                                ),
+                            );
+                            return createStructure(
+                                evaluator,
+                                ResultType,
+                                bindings,
+                            );
+                        });
                         return new ListValue(requestor, results);
                     },
                     matchStepBuilder(true),

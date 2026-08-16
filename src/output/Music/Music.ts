@@ -306,12 +306,10 @@ export function toMusic(
     value: Value | undefined,
     namer: NameGenerator,
 ): Music | undefined {
-    if (
-        !(
-            value instanceof StructureValue &&
-            value.type === project.shares.output.Music
-        )
-    )
+    if (!(
+        value instanceof StructureValue &&
+        value.type === project.shares.output.Music
+    ))
         return undefined;
 
     const [

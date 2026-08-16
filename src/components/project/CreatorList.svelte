@@ -27,8 +27,7 @@
         removecolumn?: undefined | ((column: number) => void);
         /** A function for editing metadata */
         cell?:
-            | undefined
-            | ((uid: string, column: number, value: string) => void);
+            undefined | ((uid: string, column: number, value: string) => void);
     }
 
     let {

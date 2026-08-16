@@ -253,7 +253,9 @@ export function getMarkupRewriteTransition(
         random,
     );
     return steps.map((entries, index) =>
-        index === steps.length - 1 ? endLine : replaceMarkupText(endLine, entries),
+        index === steps.length - 1
+            ? endLine
+            : replaceMarkupText(endLine, entries),
     );
 }
 
@@ -278,7 +280,9 @@ export function getMarkupRandomTransition(
         random,
     );
     return steps.map((entries, index) =>
-        index === steps.length - 1 ? endLine : replaceMarkupText(endLine, entries),
+        index === steps.length - 1
+            ? endLine
+            : replaceMarkupText(endLine, entries),
     );
 }
 

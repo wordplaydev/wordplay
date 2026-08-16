@@ -34,8 +34,7 @@ export function writeLock(lock: Lockfile): void {
     // Stable key order for clean diffs.
     const sort = (record: Record<string, string>) => {
         const sorted: Record<string, string> = {};
-        for (const key of Object.keys(record).sort())
-            sorted[key] = record[key];
+        for (const key of Object.keys(record).sort()) sorted[key] = record[key];
         return sorted;
     };
     const stable: Lockfile = {

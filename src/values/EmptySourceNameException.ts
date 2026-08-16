@@ -9,7 +9,9 @@ export default class EmptySourceNameException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.getTextStructure((l) => l.output.Source.EmptySourceNameException);
+        return locales.getTextStructure(
+            (l) => l.output.Source.EmptySourceNameException,
+        );
     }
 
     getExplanation(locales: Locales) {

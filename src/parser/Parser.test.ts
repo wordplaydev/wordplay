@@ -467,9 +467,9 @@ test('an unmarked mention is not a plural branch', () => {
 
 test('stray markup delimiters do not leak into code', () => {
     const program = parseProgram(toTokens('¶Hello [list]¶\n1'));
-    expect(
-        program.nodes().some((n) => n instanceof UnparsableExpression),
-    ).toBe(false);
+    expect(program.nodes().some((n) => n instanceof UnparsableExpression)).toBe(
+        false,
+    );
     expect(program.nodes().some((n) => n instanceof ListLiteral)).toBe(false);
 });
 

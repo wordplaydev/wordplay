@@ -49,7 +49,5 @@ test('a matching locale annotation type-checks; a mismatched one conflicts', () 
     // The derived locale (en) satisfies a `""/en` annotation.
     expect(typeConflictCount('x•""/en: "a"/en + "b"/en\nx')).toBe(0);
     // It does not satisfy a `""/fr` annotation.
-    expect(
-        typeConflictCount('x•""/fr: "a"/en + "b"/en\nx'),
-    ).toBeGreaterThan(0);
+    expect(typeConflictCount('x•""/fr: "a"/en + "b"/en\nx')).toBeGreaterThan(0);
 });

@@ -1,4 +1,8 @@
-import { Faces, faceSupportsWeight, type SupportedFace } from '@basis/faces/Fonts';
+import {
+    Faces,
+    faceSupportsWeight,
+    type SupportedFace,
+} from '@basis/faces/Fonts';
 import UnsupportedFontFormat from '@conflicts/UnsupportedFontFormat';
 import type Conflict from '@conflicts/Conflict';
 import type Context from '@nodes/Context';

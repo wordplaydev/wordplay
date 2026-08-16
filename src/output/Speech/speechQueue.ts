@@ -57,8 +57,7 @@ export type SpeechState = {
 };
 
 export type SpeechEffect =
-    | { kind: 'speak'; speaking: Speaking }
-    | { kind: 'cancel' };
+    { kind: 'speak'; speaking: Speaking } | { kind: 'cancel' };
 
 export type SpeechChange = { next: SpeechState; effects: SpeechEffect[] };
 
@@ -148,7 +147,8 @@ export function requested(
     for (const utterance of utterances) {
         // Silent or empty text would still occupy the one global slot and
         // still have to be waited out, which is worse than never saying it.
-        if (utterance.text.trim().length === 0 || utterance.volume <= 0) continue;
+        if (utterance.text.trim().length === 0 || utterance.volume <= 0)
+            continue;
         added.push({ id: id++, utterance });
     }
 

@@ -8,6 +8,8 @@
         "postinstall:default": "npm run sync && cp .env.template .env && npm run updates && npm run fonts-build && npm run git-config",
         "postinstall:windows": "npm run sync && copy .env.template .env && npm run updates && npm run fonts-build && npm run git-config",
         "git-config": "npx tsx scripts/setup-git-config.ts",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
         "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings --watch .svelte-kit",
         "check:now": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings .svelte-kit",
         "test": "vitest",
@@ -29,7 +31,7 @@
         "tutorial-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/schemas/Tutorial.json",
         "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/LocaleText.ts' --type 'LocaleText' --out static/schemas/LocaleText.json && npx tsx src/util/verify-locales/generate-template-inputs.ts",
         "datetime-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/dateTimeFormats.ts' --type 'DateTimeData' --out static/schemas/DateTimeData.json",
-        "create-schemas": "npm run tutorial-schema && npm run locale-schema && npm run datetime-schema",
+        "create-schemas": "npm run tutorial-schema && npm run locale-schema && npm run datetime-schema && npx prettier --write static/schemas",
         "locales": "npx tsx src/util/verify-locales/start.ts verify",
         "locales-fix": "npx tsx src/util/verify-locales/start.ts fix",
         "locales-link-definitions": "npx tsx src/util/verify-locales/linkGlossaryDefinitions.ts",
@@ -64,6 +66,9 @@
     },
     "engines": {
         "node": "^22.0.0"
+    },
+    "lint-staged": {
+        "*": "prettier --write --ignore-unknown"
     },
     "watch": {
         "verify-locales": {
@@ -102,6 +107,7 @@
         "chalk": "^6",
         "firebase-admin": "^14",
         "firebase-tools": "^15",
+        "lint-staged": "^17.3.0",
         "npm-watch": "^0",
         "prettier": "^3",
         "prettier-plugin-svelte": "^4",

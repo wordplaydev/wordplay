@@ -8,10 +8,7 @@ import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 
 import { MisplacedThis } from '@conflicts/MisplacedThis';
-import type {
-    InsertContext,
-    ReplaceContext,
-} from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import StartFinish from '@runtime/StartFinish';
@@ -34,10 +31,7 @@ import Token from '@nodes/Token';
 import { UnenclosedType } from '@nodes/UnenclosedType';
 
 type ThisStructure =
-    | StructureDefinition
-    | ConversionDefinition
-    | Reaction
-    | Translate;
+    StructureDefinition | ConversionDefinition | Reaction | Translate;
 
 /** The four constructs in which `⬚` (This) is a valid reference. */
 function isThisStructure(node: Node): node is ThisStructure {
@@ -132,14 +126,14 @@ export default class This extends SimpleExpression {
                 ? new StructureType(structure, [])
                 : // Conversion definitions have the input type
                   structure instanceof ConversionDefinition
-                ? // We strip the unit from this in order to provide a scalar for conversion.
-                  structure.input instanceof NumberType
-                    ? NumberType.make()
-                    : structure.input
-                : // Reactions have the reaction's value type
-                  structure instanceof Reaction
-                  ? structure.initial.getType(context)
-                  : new UnenclosedType(this);
+                  ? // We strip the unit from this in order to provide a scalar for conversion.
+                    structure.input instanceof NumberType
+                      ? NumberType.make()
+                      : structure.input
+                  : // Reactions have the reaction's value type
+                    structure instanceof Reaction
+                    ? structure.initial.getType(context)
+                    : new UnenclosedType(this);
     }
 
     getDependencies(context: Context): Expression[] {
@@ -207,12 +201,9 @@ export default class This extends SimpleExpression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.This.start,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.This.start, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

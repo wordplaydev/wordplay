@@ -119,9 +119,7 @@ function checkBasisNodes(node: Node, context: Context) {
             !(conflict instanceof UnusedBind) &&
             !context
                 .getRoot(node)
-                ?.getAncestors(
-                    conflict.getConflictingNode(context, Templates),
-                )
+                ?.getAncestors(conflict.getConflictingNode(context, Templates))
                 .some((n) => n instanceof Example),
     );
 
