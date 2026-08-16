@@ -4,6 +4,7 @@ import Conditional from '@nodes/Conditional';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type ListAccess from '@nodes/ListAccess';
+import Match from '@nodes/Match';
 import type Node from '@nodes/Node';
 import type PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
@@ -46,15 +47,27 @@ export default function getGuards(
             .getRoot(reference)
             ?.getAncestors(reference)
             ?.filter(
-                (a): a is Conditional | BinaryEvaluate =>
+                (a): a is Conditional | BinaryEvaluate | Match =>
                     // Guards must be conditionals
                     (a instanceof Conditional &&
                         // Don't include conditionals whose condition contain this; that would create a cycle
                         !a.condition.contains(reference) && // Some node in the condition must satisfy the given check
                         checks(a.condition, new Set())) ||
+                    // `&` and `|` short-circuit, so the right only evaluates once the
+                    // left has been decided — which makes the LEFT the check and the
+                    // right what it narrows. Testing the right instead only worked
+                    // because every binary operator reports that it guards types, so a
+                    // reference under any operator counted; one used as a plain
+                    // argument (`h(a)`) did not.
                     (a instanceof BinaryEvaluate &&
                         a.isLogicalOperator(context) &&
-                        checks(a.right, new Set())),
+                        !a.left.contains(reference) &&
+                        checks(a.left, new Set())) ||
+                    // A match decides on its subject the way a conditional decides on
+                    // its condition, so it can narrow inside its cases and fallback.
+                    (a instanceof Match &&
+                        !a.value.contains(reference) &&
+                        checks(a.value, new Set())),
             )
             .reverse() ?? []
     );

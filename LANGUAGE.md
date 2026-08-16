@@ -381,6 +381,7 @@ Text values, unlike in other programming languages, are not a single sequence of
 - They can have multiple translations, allowing for one to be selected at runtime using the environment's list of preferred locales.
 - They can contain `concept` references (the same `@…` tokens used in markup), so that codepoints (e.g. `@U/1F600`) and creator-defined characters (e.g. `@username/charactername`) can be written in plain text and rendered. A codepoint reference evaluates to its character; a custom-character reference is kept in the text as-is and rendered as a glyph by the output. To avoid mistaking an email's domain for a reference, an `@` that directly follows an ASCII email-local-part character (`A–Z a–z 0–9 . _ % + -`) is treated as literal text rather than a reference — _unless_ the reference uses a `/` separator (e.g. `@username/charactername`), which an email domain never does. So references are recognized at the start of the text, after whitespace, after non-ASCII text (making the rule work in scripts without inter-word spaces), and — for the `/` form — even mid-word in Latin text (e.g. `hi@amy/cat`); only `.`-style references that follow an email-local-part character (e.g. the `@example.com` in `jdoe@example.com`) stay literal.
 - Language tags are a language
+- A language tag says what language text is written in, not which text it is, so it takes no part in equality: `'hi' = 'hi'/en` is `⊤`, and so is `'hi'/en = 'hi'/es`. Only the graphemes decide. The same rule governs membership in lists, sets, and maps, so a plain key finds a language-tagged one.
 
 For example, these are all valid text values:
 
@@ -852,6 +853,10 @@ valid ? Phrase(notes{pressed}) Phrase('')
 
 Only the names that _decide_ the condition are followed, not every name in it: in `game.phase = 2`, `game` is the subject being asked about rather than the question, so its definition isn't consulted. And it's the _check_ that a name may stand for, not the value being checked — binding `n: map{key}` and testing `n ≠ ø` narrows `n`, not `map{key}`.
 
+Parentheses and docs don't change what a check asks, so `(x)•#` narrows exactly as `x•#` does.
+
+A name bound to a literal narrows like the literal written inline, so `k: 'x'` and then `a = k` refines `a` just as `a = 'x'` does. Two things deliberately do not narrow. A comparison against a text literal with **several translations** refines nothing, because the literal evaluates to the reader's translation and which one that is isn't known while checking — the comparison being false rules out only the one that was compared. And an input's default is not its value, since a caller may pass anything, so `ƒ f(k•'': 'x')` does not let `a = k` narrow.
+
 ### _conflicts_
 
 - The condition is not boolean typed
@@ -894,6 +899,8 @@ sound ???
 ```
 
 If `sound` equals `'meow'`, this evaluates to `'cat'`; if `'woof'`, `'dog'`; otherwise `'unknown'`.
+
+A match **narrows** the value it matches on, the same way a conditional narrows what its condition checks (see [Conditional](#conditional)). Inside a key's value expression, the matched value is known to be that key; inside a later key's, it's known not to be any earlier one; and in the default expression, it's known to be none of them. Only keys whose value can be named — a number, none, or single-translation text literal, or a name bound to one — take part; a computed key rules nothing out, so the default keeps every type it might still have.
 
 ### _conflicts_
 

@@ -806,11 +806,16 @@
             "description": "$~Bedingung auf $condition",
             "emotion": "curious",
             "doc": [
-                "$~Soll ich Ihnen je nach Bedingung den einen oder anderen Wert nennen? Etwa so?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Aber haben Sie jemals darüber nachgedacht, wie wir Entscheidungen treffen?",
-                "Sollten Entscheidungen nicht differenzierter ausfallen als nur mit Ja oder Nein? Ist die Entscheidung zwischen \\⊤\\ und \\⊥\\ wirklich alles, was es gibt?",
-                "Befürchten Sie nicht, dass wir, wenn dies die einzigen Entscheidungen sind, die wir treffen können, wichtige Zusammenhänge über die Welt übersehen?"
+                "$~Soll ich dir das eine @value oder ein anderes geben, je nach einer @condition? So?",
+                "\\zahl: -100\nzahl < 0 ? 'negativ' 'positiv'\\",
+                "Aber hast du je darüber nachgedacht, wie wir entscheiden?",
+                "Sollten Entscheidungen nicht feiner sein als nur ja oder nein? Ist die Wahl zwischen \\⊤\\ und \\⊥\\ wirklich alles?",
+                "Machst du dir keine Sorgen, dass wir wichtige Zusammenhänge über die Welt verpassen, wenn wir nur solche Entscheidungen treffen können?",
+                "Es gibt noch eine Sache, die ich tue, und dafür bekomme ich nicht immer Anerkennung. Wenn mein @condition fragt, welchen /Typ/ ein Wert hat, antworte ich nicht nur mit ja oder nein. Ich merke mir die Antwort in jeder meiner Möglichkeiten.",
+                "\\größe•#|'': 5\ngröße•# ? größe + 1 'zu klein'\\",
+                "Für sich allein könnte dieser Wert ein @Number oder ein @Text sein, und etwas dazu zu addieren wäre ein Konflikt, denn diese werden ganz unterschiedlich addiert. Aber in meinem /ja/ haben wir gerade gefragt, ob es ein @Number ist, also ist es dort eines. In meinem /nein/ ist es das @Text.",
+                "Es ist egal, wie du fragst. Eine Typprüfung, ein Vergleich mit einem bestimmten Wert, eine Prüfung auf einen fehlenden Wert und eine Prüfung, die du unter einem Namen gespeichert hast, sagen mir alle dasselbe. Und @Boolean/and, @Boolean/or und @Boolean/not verbinden sie so, wie du es erwarten würdest.",
+                "Zwei Dinge kann ich dir nicht sagen. Wenn du mit @Text vergleichst, das mehrere Übersetzungen hat, lerne ich nichts, denn welche Übersetzung du bekommst, hängt davon ab, wer liest."
             ],
             "start": "$~mal sehen, ob $condition wahr ist",
             "afterthen": "$~fertig mit „Ja“, überspringen wir „Nein“?",
@@ -1201,12 +1206,15 @@
             "description": "$~vergleiche $value mit $#count[$count Fall|$count Fällen]",
             "emotion": "curious",
             "doc": [
-                "$~Ich bin die glorreichste aller bedingten Prüfungen: Ich nehme einen Wert, vergleiche ihn mit einer beliebigen Anzahl von Fällen und werte denjenigen aus, der übereinstimmt!",
-                "Wenn Sie beispielsweise eine @Number haben und diese in eine @Text konvertieren möchten, könnten Sie folgendermaßen vorgehen:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Falls keine Übereinstimmung vorliegt, werte ich den von Ihnen angegebenen Standardausdruck aus.",
-                "Ich bin sehr hilfreich, um einen von vielen möglichen @Number , @Text oder komplexeren Werten in etwas anderes umzuwandeln.",
-                "Man kann es für @Boolean oder @None verwenden, aber da diese nicht wirklich viele verschiedene Werte annehmen können, ist es für diese einfachen Werte nicht so nützlich."
+                "$~Ich bin die herrlichste aller Bedingungsprüfungen: Ich nehme ein @value, vergleiche es mit beliebig vielen Fällen und werte den passenden aus!",
+                "Wenn du zum Beispiel ein @Number hättest und es in ein @Text umwandeln wolltest, könntest du so etwas machen:",
+                "\\zahl: 2\nzahl ???\n\t1: 'eins'\n\t2: 'zwei'\n\t3: 'drei'\n\t'größer!'\\",
+                "Wenn keiner passt, werte ich das @expression aus, das du mir als Standard gibst.",
+                "Ich bin sehr hilfreich, um eines von vielen möglichen @Number, @Text oder komplexeren Werten in etwas anderes umzuwandeln.",
+                "Du kannst mich für @Boolean oder @None benutzen, aber die können nicht wirklich so viele Dinge sein, deshalb bin ich für diese einfachen Werte nicht so nützlich.",
+                "Wie @Conditional sage auch ich dir, was ich gelernt habe. In einem Fall weiß ich, dass das @value, das ich getroffen habe, dieser Fall ist; in einem späteren Fall weiß ich, dass es keiner der früheren ist; und in meinem Standard weiß ich, dass es keiner von ihnen ist.",
+                "\\antwort•#|'': 1\nantwort ???\n\t1: antwort + 1\n\t'nicht eins'\\",
+                "Ich kann Fälle ausschließen, die ein @Number, ein @None oder @Text mit einer einzigen Übersetzung sind, und andere einfache Fälle. Aber ein Fall, der etwas auswertet, schließt nichts aus, deshalb behält mein Standard alles, was das @value noch sein könnte."
             ],
             "start": "$~Mal sehen, wie hoch $value ist...",
             "case": "$~Lassen Sie uns diesen Zustand überprüfen",
@@ -1484,7 +1492,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~inkompatibler Schlüssel",
-                    "explanation": "$~Ich habe einen Schlüssel vom Typ $expected erwartet.",
+                    "explanation": "$~Ich habe einen Schlüssel vom Typ $expected erwartet, aber $given erhalten",
                     "resolution": "$~Konvertiere es in $expected , da $expected erforderlich ist.",
                     "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
                     "resolutionOtherwise": "$~Fehlende Werte werden mit ?? behandelt, da $expected keine ø zulässt.",

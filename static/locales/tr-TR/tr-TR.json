@@ -806,11 +806,16 @@
             "description": "$~$condition koşuluna bağlı",
             "emotion": "curious",
             "doc": [
-                "$~Şartlara bağlı olarak size bir değer mi yoksa başka bir değer mi vermeliyim? Mesela şöyle mi?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Peki, kararları nasıl verdiğimizi hiç düşündünüz mü?",
-                "Kararların sadece evet veya hayırdan ibaret olmaması, daha incelikli bir yaklaşım gerektirmesi gerekmez mi? Her şey \\⊤\\ ve \\⊥\\ arasında mı karar vermekten ibaret?",
-                "Eğer sadece bu tür kararlar alabilirsek, dünya hakkında önemli bir bağlamı kaçıracağımızdan endişelenmiyor musunuz?"
+                "$~Sana bir @value mı yoksa başka bir @condition mı vereyim, buna bağlı olarak mı karar vereyim? Böyle mi?",
+                "\\sayı: -100\nsayı < 0 ? 'negatif' 'pozitif'\\",
+                "Ama nasıl karar verdiğimizi hiç düşündün mü?",
+                "Kararların sadece evet ya da hayır olmaktan daha ince ayrıntılı olması gerektiği gibi görünmüyor mu? Kararlar sadece şunlar arasında seçim yapmaktan mı ibaret: \\⊤\\ ve \\⊥\\ arasında mı hepsi bu?",
+                "Eğer yapabileceğimiz tek karar türü bunlarsa, dünya hakkında önemli bir bağlamı kaçıracağımızdan endişelenmiyor musun?",
+                "Bir şey daha yapıyorum ve bunun için her zaman takdir görmüyorum. @condition bir değerin /ne tür/ bir değer olduğunu sorduğunda, sadece evet ya da hayır demiyorum. Cevabı her bir seçimimin içinde hatırlıyorum.",
+                "\\boyut•#|'': 5\nboyut•# ? boyut + 1 'çok küçük'\\",
+                "Tek başına, o değer bir @Number ya da bir @Text olabilir ve ona ekleme yapmak bir çakışma olurdu, çünkü bunlar çok farklı yollarla eklenir. Ama /evet/ seçimimin içinde bunun bir @Number olup olmadığını sormuşuzdur, yani orada odur. /hayır/ seçimimin içinde ise @Text olur.",
+                "Nasıl sorduğun önemli değil. Bir tip kontrolü, belirli bir değere karşı bir karşılaştırma, eksik bir değer kontrolü ve bir isim altında kaydettiğin bir kontrol bana aynı şeyi söyler. Ve @Boolean/and, @Boolean/or ve @Boolean/not bunları beklediğin şekilde birleştirir.",
+                "Sana söyleyemeyeceğim iki şey var. Birden fazla çevirisi olan bir @Text ile karşılaştırma yaparsan, hiçbir şey öğrenemem, çünkü hangi çeviriyi aldığın okuyanın kim olduğuna bağlıdır."
             ],
             "start": "$~Bakalım $condition doğru mu?",
             "else": "$~$jumping[kodun üzerinden atlama | kodun üzerinden atlamama]",
@@ -1213,12 +1218,15 @@
             "description": "$~$value değerini $#count[$count durumla|$count durumla] eşleştir",
             "emotion": "curious",
             "doc": [
-                "$~Ben, koşullu kontrollerin en muhteşemiyim: Bir değer alırım, onu herhangi bir sayıda durumla karşılaştırırım ve eşleşeni değerlendiririm!",
-                "Örneğin, bir @Number varsa ve bunu bir @Text Text'e dönüştürmek istiyorsanız, şöyle bir şey yapabilirsiniz:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Eğer hiçbiri eşleşmezse, bana verdiğiniz varsayılan ifadeyi değerlendiririm.",
-                "@Number , @Text veya daha karmaşık değerlerden birini başka bir şeye dönüştürmek konusunda gerçekten yardımcı oluyorum.",
-                "Bunu @Boolean veya @None için kullanabilirsiniz, ancak bunlar gerçekten çok fazla şey ifade edemez, bu nedenle bu basit değerler için o kadar kullanışlı değilim."
+                "$~Ben koşullu kontrollerin en görkemlisiyim: bir @value alırım, onu herhangi bir sayıda durumla karşılaştırırım ve eşleşeni değerlendiririm!",
+                "Örneğin, bir @Number değerin varsa ve onu bir @Text değere dönüştürmek istiyorsan, şöyle bir şey yapabilirsin:",
+                "\\sayı: 2\nsayı ???\n\t1: 'bir'\n\t2: 'iki'\n\t3: 'üç'\n\t'daha büyük!'\\",
+                "Hiçbiri eşleşmezse, bana verdiğin varsayılan @expression değerini değerlendiririm.",
+                "Olası birçok @Number, @Text ya da daha karmaşık değerden birini başka bir şeye dönüştürmek için gerçekten yararlıyım.",
+                "Onu @Boolean ya da @None için kullanabilirsin, ama bunlar gerçekten o kadar çok şey olamazlar, bu yüzden bu basit değerler için o kadar yararlı değilim.",
+                "@Conditional gibi, ben de öğrendiğim şeyi sana söylerim. Bir durumun içinde, eşleştirdiğim @value o durum olarak bilinir; sonraki bir durumun içinde, daha önceki hiçbiri olmadığı bilinir; ve varsayılanımda, hiçbiri olmadığı bilinir.",
+                "\\cevap•#|'': 1\ncevap ???\n\t1: cevap + 1\n\t'bir değil'\\",
+                "Bir @Number, bir @None ya da tek çevirisi olan bir @Text olan durumları ve diğer basit durumları eleyebilirim. Ama bir şeyi değerlendiren bir durum hiçbir şeyi elemez, bu yüzden varsayılanım @value değerin hâlâ olabileceği her şeyi tutar."
             ],
             "start": "$~Bakalım $value ne anlama geliyor...",
             "case": "$~Bu durumu kontrol edelim",
@@ -1496,7 +1504,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~uyumsuz anahtar",
-                    "explanation": "$~$expected tipinde bir anahtar bekliyordum.",
+                    "explanation": "$~$expected tipinde bir anahtar bekledim, ama $given aldım",
                     "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
                     "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",

@@ -41,14 +41,18 @@ import Reaction from '@nodes/Reaction';
 import SimpleExpression from '@nodes/SimpleExpression';
 import Source from '@nodes/Source';
 import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType from '@nodes/StreamType';
+import StreamType, { isStreamBind } from '@nodes/StreamType';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import TypeVariable from '@nodes/TypeVariable';
-import { checksTypes } from '@nodes/typeGuards';
+import {
+    checksTypes,
+    resolveToConstantLeaf,
+    guardsTypesAround,
+} from '@nodes/typeGuards';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import UnionType from '@nodes/UnionType';
 import UnknownType from '@nodes/UnknownType';
@@ -163,10 +167,12 @@ export default class Reference extends SimpleExpression {
                     const isOperator =
                         definition instanceof FunctionDefinition &&
                         definition.isOperator();
-                    // Is the type of the definition coming from a stream? We might generate a reference to the stream itself.
-                    const streamType = !(definition instanceof TypeVariable)
-                        ? context.getStreamType(definition.getType(context))
-                        : undefined;
+                    // Does the definition name a stream? We might generate a reference to the stream itself.
+                    const streamType =
+                        definition instanceof Bind &&
+                        isStreamBind(definition, context)
+                            ? StreamType.make(definition.getType(context))
+                            : undefined;
                     if (
                         // A source?
                         definition instanceof Source ||
@@ -416,10 +422,7 @@ export default class Reference extends SimpleExpression {
                     // And a reference to the same definition as this reference
                     definition === node.resolve(context)
                 ) {
-                    const parent = (
-                        context.getRoot(node) ?? context.source.root
-                    ).getParent(node);
-                    return parent instanceof Expression && parent.guardsTypes();
+                    return guardsTypesAround(node, context);
                 } else return false;
             });
 
@@ -430,7 +433,6 @@ export default class Reference extends SimpleExpression {
                 root.evaluateTypeGuards(possibleTypes, {
                     bind: definition,
                     key: this.getTypeGuardKey(),
-                    original: possibleTypes,
                     context,
                 });
             }
@@ -512,6 +514,20 @@ export default class Reference extends SimpleExpression {
         // Follow the bound value upstream to its leaf and check that.
         const leaf = this.resolveToLeaf(context);
         return leaf !== undefined && leaf.isProvablyNonZero(context);
+    }
+
+    /**
+     * A name for a literal collection has that collection's length, which is what lets
+     * `items.length()` prove a divisor non-zero the way `[1 2 3].length()` does. Naming
+     * the list is the ordinary way to write it, so without this the promise that a name
+     * bound to a literal counts was true only when the literal was written inline.
+     */
+    getConstantLength(context?: Context): number | undefined {
+        if (context === undefined) return undefined;
+        // Statement binds only: an input's value is a default a caller may override,
+        // so `ƒ f(items•[#]: [1 2 3])` proves nothing about the list f is given.
+        const leaf = resolveToConstantLeaf(this, context);
+        return leaf === this ? undefined : leaf.getConstantLength(context);
     }
 
     compile(): Step[] {

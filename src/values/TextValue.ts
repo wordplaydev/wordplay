@@ -85,15 +85,15 @@ export default class TextValue extends SimpleValue {
         return `"${this.text}"${this.language ? this.language.toWordplay() : ''}`;
     }
 
+    /**
+     * Two texts are equal when they say the same thing. A language tag records what
+     * language the text is written in, not which text it is, so it doesn't take part:
+     * comparing it made `'x' = 'x'/en` silently false forever, which meant any check of
+     * untagged input — a key press, a chat message — against a localized word could
+     * never be true.
+     */
     isEqualTo(text: Value) {
-        return (
-            text instanceof TextValue &&
-            this.text === text.text &&
-            ((this.language === undefined && text.language === undefined) ||
-                (this.language !== undefined &&
-                    text.language !== undefined &&
-                    this.language.isEqualTo(text.language)))
-        );
+        return text instanceof TextValue && this.text === text.text;
     }
 
     /**

@@ -778,11 +778,16 @@
             "description": "$~condicional sobre $condition",
             "emotion": "curious",
             "doc": [
-                "$~¿Debo darte un @value u otro, según una @condition? ¿Así?",
+                "$~¿Debo darte uno @value u otro, según una @condition? ¿Así?",
                 "\\número: -100\nnúmero < 0 ? 'negativo' 'positivo'\\",
-                "Pero, ¿alguna vez has pensado en cómo decidimos?",
+                "¿Pero alguna vez has pensado en cómo decidimos?",
                 "¿No parece que las decisiones deberían ser más sutiles que solo sí o no? ¿Decidir entre \\⊤\\ y \\⊥\\ es todo lo que hay?",
-                "¿No te preocupa que si estas son las únicas decisiones que podemos tomar, nos perdamos un contexto importante sobre el mundo?"
+                "¿No te preocupa que si estas son las únicas decisiones que podemos tomar, nos falte algún contexto importante sobre el mundo?",
+                "Hay una cosa más que hago, y no siempre me la reconocen. Cuando mi @condition pregunta qué /tipo/ de valor es algo, no solo respondo sí o no. Recuerdo la respuesta dentro de cada una de mis opciones.",
+                "\\tamaño•#|'': 5\ntamaño•# ? tamaño + 1 'demasiado pequeño'\\",
+                "Por sí solo, ese valor podría ser un @Number o algún @Text, y sumarlo sería un conflicto, ya que esos se suman de maneras muy distintas. Pero dentro de mi /sí/ acabamos de preguntar si es un @Number, así que ahí es uno. Dentro de mi /no/, es el @Text.",
+                "No importa cómo preguntes. Una revisión de tipo, una comparación contra un valor en particular, una revisión de un valor faltante y una revisión que guardaste bajo un nombre me dicen todas lo mismo. Y @Boolean/and, @Boolean/or y @Boolean/not las combinan como esperarías.",
+                "Hay dos cosas que no puedo decirte. Si comparas contra @Text que tiene varias traducciones, no aprendo nada, porque cuál traducción obtienes depende de quién esté leyendo."
             ],
             "start": "veamos si $condition es verdadero",
             "else": "$jumping[saltando sobre código | no saltando sobre código]",
@@ -1185,12 +1190,15 @@
             "description": "$~comparar $value con $#count[$#count caso|$count casos|$count casos]",
             "emotion": "curious",
             "doc": [
-                "$~Soy la más gloriosa de las verificaciones condicionales: tomo un @value, lo comparo con cualquier cantidad de casos, ¡y evalúo el que coincide!",
+                "$~Soy la más gloriosa de las revisiones de condición: tomo un @value, lo comparo contra cualquier cantidad de casos, ¡y evalúo el que coincide!",
                 "Por ejemplo, si tuvieras un @Number y quisieras convertirlo en un @Text, podrías hacer algo así:",
                 "\\número: 2\nnúmero ???\n\t1: 'uno'\n\t2: 'dos'\n\t3: 'tres'\n\t'¡más grande!'\\",
-                "Si ninguno coincide, evalúo la @expression predeterminada que me das.",
-                "Soy muy útil para convertir uno de muchos posibles valores @Number, @Text, o valores más complejos en otra cosa.",
-                "Puedes usarlo para @Boolean o @None, pero esos no pueden ser muchas cosas, así que no soy tan útil para esos valores simples."
+                "Si ninguno coincide, evalúo el @expression por defecto que me des.",
+                "Soy muy útil para convertir uno de muchos posibles @Number, @Text, o valores más complejos en otra cosa.",
+                "Puedes usarlo para @Boolean o @None, pero esos no pueden ser tantas cosas, así que no soy tan útil para esos valores simples.",
+                "Como @Conditional, también te digo lo que he aprendido. Dentro de un caso, se sabe que el @value que coincidí es ese caso; dentro de un caso posterior, se sabe que no es ninguno anterior; y en mi caso por defecto, se sabe que no es ninguno de ellos.",
+                "\\respuesta•#|'': 1\nrespuesta ???\n\t1: respuesta + 1\n\t'ninguno'\\",
+                "Puedo descartar casos que son un @Number, un @None, o @Text con una sola traducción, y otros casos simples. Pero un caso que evalúa algo no descarta nada, así que mi caso por defecto mantiene todo lo que el @value aún podría ser."
             ],
             "start": "$~Veamos qué es $value...",
             "case": "$~Verifiquemos esta condición",
@@ -1468,7 +1476,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~clave incompatible",
-                    "explanation": "$~Yo esperaba una clave de tipo $expected",
+                    "explanation": "$~Esperaba una clave de tipo $expected, pero recibí $given",
                     "resolution": "$~Conviértelo a $expected, ya que se requiere $expected",
                     "resolutionLiteral": "$~Marca la lista, conjunto o mapa como literal con !, para que sus valores se queden específicos en lugar de generalizarse — $expected necesita los valores exactos",
                     "resolutionOtherwise": "$~Maneja el valor faltante con ??, ya que $expected no permite ø",

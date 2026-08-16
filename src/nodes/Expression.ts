@@ -70,7 +70,7 @@ export default abstract class Expression extends Node {
      * collection (list, set, map, or table) whose size is fixed, otherwise
      * undefined. Used to prove a `.length()` divisor is non-zero.
      */
-    getConstantLength(): number | undefined {
+    getConstantLength(_?: Context): number | undefined {
         return undefined;
     }
 
@@ -197,7 +197,6 @@ export default abstract class Expression extends Node {
 export type GuardContext = {
     bind: Bind;
     key: string;
-    original: TypeSet;
     context: Context;
     /**
      * The binds whose values we're currently expanding, to evaluate a check held in a

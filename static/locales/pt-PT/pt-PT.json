@@ -810,11 +810,16 @@
                 "no": "Não"
             },
             "doc": [
-                "$~Devo dar-lhe um valor ou outro, dependendo de uma condição? Algo assim?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Mas já parou para pensar na forma como tomamos as nossas decisões?",
-                "Não parece que as decisões devam ser mais complexas do que simplesmente sim ou não? Será que decidir entre \\⊤\\ e \\⊥\\ é tudo o que existe?",
-                "Não se preocupa que, se este for o único tipo de decisão que podemos tomar, perderemos algum contexto importante sobre o mundo?"
+                "$~Devo dar-te um @value ou outro, dependendo de uma @condition? Assim?",
+                "\\número: -100\nnúmero < 0 ? 'negativo' 'positivo'\\",
+                "Mas já pensaste em como decidimos?",
+                "Não parece que as decisões deviam ser mais complexas do que apenas sim ou não? Decidir entre \\⊤\\ e \\⊥\\ é tudo o que existe?",
+                "Não te preocupa que, se estas forem as únicas decisões que podemos tomar, vamos perder algum contexto importante sobre o mundo?",
+                "Há mais uma coisa que faço, e nem sempre me dão crédito por ela. Quando a minha @condition pergunta que /tipo/ de valor algo é, não respondo só sim ou não. Guardo a resposta dentro de cada uma das minhas escolhas.",
+                "\\tamanho•#|'': 5\ntamanho•# ? tamanho + 1 'demasiado pequeno'\\",
+                "Por si só, esse valor podia ser um @Number ou algum @Text, e somar-lhe algo seria um conflito, pois esses somam-se de formas muito diferentes. Mas dentro do meu /sim/ acabámos de perguntar se é um @Number, por isso ali é um. Dentro do meu /não/, é o @Text.",
+                "Não importa como perguntas. Uma verificação de tipo, uma comparação com um valor específico, uma verificação de um valor em falta, e uma verificação que guardaste sob um nome dizem-me todas a mesma coisa. E @Boolean/and, @Boolean/or e @Boolean/not combinam-nas da forma que esperarias.",
+                "Há duas coisas que não te posso dizer. Se comparares com @Text que tem várias traduções, não aprendo nada, porque a tradução que recebes depende de quem está a ler."
             ],
             "start": "Vamos ver se $condition é verdade",
             "else": "$jumping[saltar sobre o código | não saltar sobre o código]",
@@ -1216,12 +1221,15 @@
                 "other": "predefinição"
             },
             "doc": [
-                "$~Sou a mais gloriosa das verificações condicionais: pego num valor, comparo-o com um número qualquer de casos e avalio aquele que corresponde!",
-                "Por exemplo, se tivesse um @Number e quisesse convertê-lo num @Text , poderia fazer algo do género:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Se nenhuma corresponder, avaliarei a expressão padrão que me fornecer.",
-                "Sou muito útil para converter um entre vários valores possíveis @Number , @Text ou valores mais complexos, em algo diferente.",
-                "Pode usá-lo para @Boolean ou @None , mas não podem realmente representar muitas coisas, por isso não sou tão útil para estes valores simples."
+                "$~Sou a mais gloriosa das verificações condicionais: pego num @value, comparo-o com qualquer número de casos, e avalio o que corresponde!",
+                "Por exemplo, se tivesses um @Number e quisesses convertê-lo num @Text, podias fazer algo assim:",
+                "\\número: 2\nnúmero ???\n\t1: 'um'\n\t2: 'dois'\n\t3: 'três'\n\t'maior!'\\",
+                "Se nenhum corresponder, avalio o @expression predefinido que me deres.",
+                "Sou muito útil para converter um de muitos @Number, @Text ou valores mais complexos possíveis noutra coisa.",
+                "Podes usar-me para @Boolean ou @None, mas esses não podem ser assim tantas coisas, por isso não sou tão útil para esses valores simples.",
+                "Tal como @Conditional, também te digo o que aprendi. Dentro de um caso, sabe-se que o @value que fiz corresponder é esse caso; dentro de um caso posterior, sabe-se que não é nenhum anterior; e na minha predefinição, sabe-se que não é nenhum deles.",
+                "\\resposta•#|'': 1\nresposta ???\n\t1: resposta + 1\n\t'nenhum'\\",
+                "Posso excluir casos que sejam um @Number, um @None, ou @Text com uma única tradução, e outros casos simples. Mas um caso que avalia algo não exclui nada, por isso a minha predefinição mantém tudo o que o @value ainda possa ser."
             ],
             "start": "Vamos ver o que é $value...",
             "case": "Vamos verificar essa condição.",
@@ -1495,7 +1503,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "chaveincompatível",
-                    "explanation": "Eu esperava uma chave do tipo $expected",
+                    "explanation": "$~Esperava uma chave do tipo $expected, mas recebi $given",
                     "resolution": "Converta para $expected , uma vez que $expected é obrigatório.",
                     "resolutionLiteral": "Marque a lista, o conjunto ou o mapa como literal com !, para que os seus valores permaneçam específicos em vez de serem generalizados — $expected precisa dos valores exatos.",
                     "resolutionOtherwise": "Trate o valor em falta com ??, uma vez que $expected não permite ø",

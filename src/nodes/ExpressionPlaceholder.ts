@@ -28,7 +28,6 @@ import { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
 import PlaceholderToken from '@nodes/PlaceholderToken';
 import type Root from '@nodes/Root';
 import SimpleExpression from '@nodes/SimpleExpression';
-import StreamType from '@nodes/StreamType';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
@@ -157,11 +156,6 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     }
 
     computeType(context: Context): Type {
-        // If it is a stream type, set the stream type in the context, so that other expressions like Changed
-        // know what it is.
-        if (this.type instanceof StreamType)
-            context.setStreamType(this.type, StreamType.make(this.type.type));
-
         // Is the type given? Return it.
         if (this.type) return this.type;
 

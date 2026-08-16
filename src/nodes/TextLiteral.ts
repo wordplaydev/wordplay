@@ -18,6 +18,7 @@ import type Context from '@nodes/Context';
 import ConceptLink, { codepointOfConceptRef } from '@nodes/ConceptLink';
 import Example from '@nodes/Example';
 import type Expression from '@nodes/Expression';
+import { type GuardContext } from '@nodes/Expression';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import type Language from '@nodes/Language';
 import Node from '@nodes/Node';
@@ -296,7 +297,11 @@ export default class TextLiteral extends Literal {
         return new TextValue(this, best.getText(), best.language);
     }
 
-    evaluateTypeGuards(current: TypeSet) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
+        // Text can interpolate code, and that code is where a narrowed name is most
+        // often used — `'score \points + 1\'`. Nothing visited it before this.
+        for (const expression of this.getDependencies())
+            expression.evaluateTypeGuards(current, guard);
         return current;
     }
 
