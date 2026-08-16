@@ -806,11 +806,16 @@
             "description": "$~villkorlig på $condition",
             "emotion": "curious",
             "doc": [
-                "$!Ska jag ge dig ett värde eller ett annat, beroende på ett visst villkor? Så här?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Men har du någonsin funderat på hur vi bestämmer oss?",
-                "Verkar det inte som att beslut borde vara mer nyanserade än bara ja eller nej? Är det allt som finns att välja mellan \\⊤\\ och \\⊥\\ ?",
-                "Är du inte orolig att om det här är de enda besluten vi kan fatta, så kommer vi att missa en del viktig information om världen?"
+                "$~Ska jag ge dig en @value eller en annan, beroende på ett @condition? Så här?",
+                "\\tal: -100\ntal < 0 ? 'negativ' 'positiv'\\",
+                "Men har du någonsin tänkt på hur vi bestämmer oss?",
+                "Verkar det inte som att beslut borde vara mer nyanserade än bara ja eller nej? Är det allt som finns att välja mellan \\⊤\\ och \\⊥\\?",
+                "Är du inte orolig att om detta är de enda beslut vi kan fatta, så missar vi något viktigt sammanhang om världen?",
+                "Det finns en sak till som jag gör, och jag får inte alltid uppskattning för det. När min @condition frågar vilken /sorts/ värde något är, svarar jag inte bara ja eller nej. Jag kommer ihåg svaret inuti vart och ett av mina val.",
+                "\\storlek•#|'': 5\nstorlek•# ? storlek + 1 'för liten'\\",
+                "För sig själv kan det värdet vara en @Number eller ett @Text, och att lägga till det skulle bli en konflikt, eftersom de läggs ihop på helt olika sätt. Men inuti mitt /ja/ har vi just frågat om det är en @Number, så där är det en. Inuti mitt /nej/ är det @Text.",
+                "Det spelar ingen roll hur du frågar. En typkontroll, en jämförelse mot ett visst värde, en kontroll av ett saknat värde, och en kontroll som du sparat under ett namn säger mig alla samma sak. Och @Boolean/and, @Boolean/or och @Boolean/not kombinerar dem som du förväntar dig.",
+                "Det finns två saker jag inte kan berätta för dig. Om du jämför mot @Text som har flera översättningar lär jag mig inget, eftersom vilken översättning du får beror på vem som läser."
             ],
             "start": "$~Låt oss se om $condition är sant",
             "else": "$~$jumping[hoppa över kod | hoppar inte över koden]",
@@ -1213,12 +1218,15 @@
             "description": "$~matcha $value mot $#count[$count fall|$count fall]",
             "emotion": "curious",
             "doc": [
-                "$!Jag är den mest ärorika av villkorliga kontroller: jag tar ett värde, jämför det med valfritt antal fall och utvärderar det som matchar!",
-                "Om du till exempel hade ett @Number och ville konvertera det till en @Text kan du göra något liknande:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Om ingen matchar utvärderar jag standarduttrycket du ger mig.",
-                "Jag är verkligen hjälpsam för att konvertera ett av många möjliga @Number , @Text eller mer komplexa värden till något annat.",
-                "Du kan använda den för @Boolean eller @None , men de kan egentligen inte vara så många saker, så jag är inte lika användbar för de enkla värdena."
+                "$~Jag är den mest storslagna av villkorskontroller: jag tar en @value, jämför den mot valfritt antal fall och utvärderar det som stämmer!",
+                "Om du till exempel hade en @Number och ville omvandla den till en @Text, kanske du skulle göra något så här:",
+                "\\tal: 2\ntal ???\n\t1: 'ett'\n\t2: 'två'\n\t3: 'tre'\n\t'större!'\\",
+                "Om inget stämmer utvärderar jag den standard-@expression du ger mig.",
+                "Jag är verkligen till hjälp för att omvandla ett av många möjliga @Number, @Text eller mer komplexa värden till något annat.",
+                "Du kan använda det för @Boolean eller @None, men de kan inte riktigt vara så många saker, så jag är inte lika användbar för de enkla värdena.",
+                "Liksom @Conditional berättar jag också vad jag har lärt mig. Inuti ett fall vet man att den @value jag matchade är just det fallet; inuti ett senare fall vet man att den inte är något tidigare fall; och i min standard vet man att den inte är något av dem.",
+                "\\svar•#|'': 1\nsvar ???\n\t1: svar + 1\n\t'inte en'\\",
+                "Jag kan utesluta fall som är en @Number, en @None eller @Text med en enda översättning, och andra enkla fall. Men ett fall som utvärderar något utesluter ingenting, så min standard behåller allt som @value fortfarande skulle kunna vara."
             ],
             "start": "$~Låt oss se vad $value är...",
             "case": "$~Låt oss kontrollera detta tillstånd",
@@ -1496,7 +1504,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~inkompatibel nyckel",
-                    "explanation": "$?I expected a key of type $expected, but received $given",
+                    "explanation": "$~Jag förväntade mig en nyckel av typen $expected, men fick $given",
                     "resolution": "$~Konvertera det till $expected , eftersom $expected är obligatoriskt.",
                     "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
                     "resolutionOtherwise": "$~Hantera det saknade värdet med ??, eftersom $expected inte tillåter ø",

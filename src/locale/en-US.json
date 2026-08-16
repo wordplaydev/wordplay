@@ -1606,7 +1606,7 @@
                 "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values.",
                 "Like @Conditional, I also tell you what I have learned. Inside a case, the @value I matched is known to be that case; inside a later case, it is known not to be any earlier one; and in my default, it is known to be none of them.",
                 "\\answer•#|'': 1\nanswer ??? 1: answer + 1\n'not one'\\",
-                "Only cases whose value I can name take part — a @Number, a @None, or @Text with a single translation, or a name bound to one of those. A case I have to compute rules nothing out, so my default keeps everything the @value might still be."
+                "I can rule out cases that are a @Number, a @None, or @Text with a single translation, and other simple cases. But a case that evaluates something doesn't rule anything out, so my default keeps everything the @value might still be."
             ],
             "start": "Let's see what $value is...",
             "case": "Let's check this condition",

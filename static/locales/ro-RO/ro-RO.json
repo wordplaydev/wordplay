@@ -812,11 +812,16 @@
                 "no": "$~nu"
             },
             "doc": [
-                "$!Ar trebui să vă dau o valoare sau alta, în funcție de condiție? Ca aceasta?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
+                "$~Să îți dau unul @value sau altul, în funcție de o @condition? Așa?",
+                "\\număr: -100\nnumăr < 0 ? 'negativ' 'pozitiv'\\",
                 "Dar te-ai gândit vreodată cum decidem?",
-                "Nu ți se pare că deciziile ar trebui să fie mai nuanțate decât un simplu da sau nu? Este oare vorba doar de a decide între \\⊤\\ și \\⊥\\ ?",
-                "Nu ești îngrijorat că, dacă acestea sunt singurele decizii pe care le putem lua, vom pierde un context important despre lume?"
+                "Nu ți se pare că deciziile ar trebui să fie mai nuanțate decât doar da sau nu? Oare a alege între \\⊤\\ și \\⊥\\ e tot ce există?",
+                "Nu te îngrijorează că, dacă acestea sunt singurele decizii pe care le putem lua, vom pierde un context important despre lume?",
+                "Mai fac un lucru, iar de multe ori nu primesc recunoaștere pentru el. Când @condition meu întreabă ce /fel/ de valoare este ceva, nu răspund doar da sau nu. Rețin răspunsul în fiecare dintre alegerile mele.",
+                "\\dimensiune•#|'': 5\ndimensiune•# ? dimensiune + 1 'prea mic'\\",
+                "Pe cont propriu, acea valoare ar putea fi un @Number sau niște @Text, iar adăugarea la ea ar fi un conflict, deoarece acestea se adună în moduri foarte diferite. Dar în interiorul lui /da/ tocmai am întrebat dacă este un @Number, deci acolo este unul. În interiorul lui /nu/, este @Text.",
+                "Nu contează cum întrebi. O verificare de tip, o comparație cu o anumită valoare, o verificare pentru o valoare lipsă și o verificare pe care ai salvat-o sub un nume îmi spun toate același lucru. Iar @Boolean/and, @Boolean/or și @Boolean/not le combină așa cum te-ai aștepta.",
+                "Sunt două lucruri pe care nu ți le pot spune. Dacă compari cu @Text care are mai multe traduceri, nu aflu nimic, deoarece traducerea pe care o primești depinde de cine citește."
             ],
             "start": "$~Să vedem dacă $condition este adevărată",
             "else": "$~$jumping[sărind peste cod | nu sărind peste cod]",
@@ -1218,12 +1223,15 @@
                 "other": "$~implicit"
             },
             "doc": [
-                "$!Sunt cea mai glorioasă dintre verificările condiționate: iau o valoare, o compar cu orice număr de cazuri și o evaluez pe cea care se potrivește!",
-                "De exemplu, dacă ai avea un @Number și vrei să-l converti într-un @Text , ai putea face ceva de genul:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Dacă nu se potrivește nimic, evaluez expresia implicită pe care mi-o dai.",
-                "Sunt de mare ajutor pentru convertirea uneia dintre numeroasele valori posibile @Number , @Text sau mai complexe în altceva.",
-                "Îl poți folosi pentru @Boolean sau @None , dar nu pot fi chiar atât de multe lucruri, așa că nu sunt la fel de util pentru acele valori simple."
+                "$~Eu sunt cea mai glorioasă dintre verificările condiționate: iau o @value, o compar cu oricâte cazuri și o evaluez pe cea care se potrivește!",
+                "De exemplu, dacă ai avea un @Number și ai vrea să îl convertești într-un @Text, ai putea face ceva de genul:",
+                "\\număr: 2\nnumăr ???\n\t1: 'unu'\n\t2: 'doi'\n\t3: 'trei'\n\t'mai mare!'\\",
+                "Dacă niciunul nu se potrivește, evaluez @expression implicit pe care mi-l dai.",
+                "Sunt cu adevărat de ajutor pentru a converti una dintre multele valori posibile @Number, @Text sau valori mai complexe în altceva.",
+                "Mă poți folosi pentru @Boolean sau @None, dar acestea nu pot fi chiar atât de multe lucruri, așa că nu sunt la fel de utilă pentru acele valori simple.",
+                "La fel ca @Conditional, îți spun și eu ce am aflat. În interiorul unui caz, @value pe care l-am potrivit este cunoscut ca fiind acel caz; într-un caz ulterior, se știe că nu este niciunul dintre cele anterioare; iar în cazul implicit, se știe că nu este niciunul dintre ele.",
+                "\\răspuns•#|'': 1\nrăspuns ???\n\t1: răspuns + 1\n\t'niciunul'\\",
+                "Pot exclude cazuri care sunt un @Number, un @None sau @Text cu o singură traducere, precum și alte cazuri simple. Dar un caz care evaluează ceva nu exclude nimic, așa că valoarea implicită păstrează tot ce ar mai putea fi @value."
             ],
             "start": "$~Să vedem ce este $value ...",
             "case": "$~Să verificăm această condiție",
@@ -1497,7 +1505,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~cheie incompatibilă",
-                    "explanation": "$?I expected a key of type $expected, but received $given",
+                    "explanation": "$~Am așteptat o cheie de tip $expected, dar am primit $given",
                     "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
                     "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
                     "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",

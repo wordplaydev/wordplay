@@ -811,11 +811,16 @@
                 "no": "$~TIDAK"
             },
             "doc": [
-                "$!Apakah saya harus memberikan nilai yang satu atau yang lain, tergantung pada suatu kondisi? Seperti ini?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Tapi pernahkah Anda berpikir tentang bagaimana kita mengambil keputusan?",
-                "Bukankah seharusnya keputusan lebih bernuansa daripada sekadar ya atau tidak? Apakah hanya itu saja yang ada dalam keputusan antara \\⊤\\ dan \\⊥\\ ?",
-                "Tidakkah Anda khawatir bahwa jika ini adalah satu-satunya jenis keputusan yang dapat kita buat, kita akan kehilangan beberapa konteks penting tentang dunia?"
+                "$~Haruskah aku memberimu satu @value atau yang lain, tergantung pada sebuah @condition? Seperti ini?",
+                "\\angka: -100\nangka < 0 ? 'negatif' 'positif'\\",
+                "Tapi pernahkah kamu berpikir tentang bagaimana kita memutuskan?",
+                "Bukankah tampaknya keputusan seharusnya lebih halus daripada sekadar ya atau tidak? Apakah memilih antara \\⊤\\ dan \\⊥\\ hanya itu saja?",
+                "Apakah kamu tidak khawatir bahwa jika hanya jenis keputusan ini yang bisa kita buat, kita akan kehilangan konteks penting tentang dunia?",
+                "Ada satu hal lagi yang aku lakukan, dan aku tidak selalu mendapat penghargaan untuknya. Ketika @condition ku bertanya /jenis/ nilai apa sesuatu itu, aku tidak hanya menjawab ya atau tidak. Aku mengingat jawabannya di dalam setiap pilihanku.",
+                "\\ukuran•#|'': 5\nukuran•# ? ukuran + 1 'terlalu kecil'\\",
+                "Sendirian, nilai itu bisa menjadi sebuah @Number atau beberapa @Text, dan menambahkannya akan menjadi konflik, karena keduanya ditambahkan dengan cara yang sangat berbeda. Tapi di dalam /ya/ ku, kita baru saja bertanya apakah itu sebuah @Number, jadi di sana itu adalah satu. Di dalam /tidak/ ku, itu adalah @Text.",
+                "Tidak masalah bagaimana kamu bertanya. Sebuah pemeriksaan jenis, perbandingan dengan nilai tertentu, pemeriksaan nilai yang hilang, dan pemeriksaan yang kamu simpan di bawah sebuah nama, semuanya memberitahuku hal yang sama. Dan @Boolean/and, @Boolean/or, serta @Boolean/not menggabungkannya sesuai yang kamu harapkan.",
+                "Ada dua hal yang tidak bisa kuberitahu. Jika kamu membandingkan dengan @Text yang memiliki beberapa terjemahan, aku tidak belajar apa pun, karena terjemahan mana yang kamu dapatkan tergantung pada siapa yang membaca."
             ],
             "start": "$~Mari kita lihat apakah $condition bernilai benar.",
             "else": "$~$jumping[melompati kode | tidak melompati kode]",
@@ -1217,12 +1222,15 @@
                 "other": "$~bawaan"
             },
             "doc": [
-                "$!Saya adalah pengecekan kondisi yang paling hebat: saya menerima sebuah nilai, membandingkannya dengan sejumlah kasus, dan mengevaluasi kasus yang cocok!",
-                "Sebagai contoh, jika Anda memiliki @Number dan ingin mengubahnya menjadi @Text , Anda dapat melakukan sesuatu seperti ini:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Jika tidak ada yang cocok, saya akan mengevaluasi ekspresi default yang Anda berikan.",
-                "Saya sangat membantu dalam mengkonversi salah satu dari banyak kemungkinan @Number , @Text , atau nilai yang lebih kompleks menjadi sesuatu yang lain.",
-                "Anda bisa menggunakannya untuk @Boolean atau @None , tetapi sebenarnya tidak banyak hal yang bisa diwakili oleh tipe data tersebut, jadi saya tidak terlalu berguna untuk nilai-nilai sederhana itu."
+                "$~Akulah pemeriksaan kondisi yang paling megah: aku mengambil sebuah @value, membandingkannya dengan sejumlah kasus, dan mengevaluasi yang cocok!",
+                "Misalnya, jika kamu punya sebuah @Number dan ingin mengubahnya menjadi sebuah @Text, kamu mungkin melakukan sesuatu seperti ini:",
+                "\\angka: 2\nangka ???\n\t1: 'satu'\n\t2: 'dua'\n\t3: 'tiga'\n\t'lebih besar!'\\",
+                "Jika tidak ada yang cocok, aku mengevaluasi @expression bawaan yang kamu berikan padaku.",
+                "Aku sangat membantu untuk mengubah salah satu dari banyak kemungkinan @Number, @Text, atau nilai yang lebih rumit menjadi sesuatu yang lain.",
+                "Kamu bisa menggunakannya untuk @Boolean atau @None, tapi keduanya tidak bisa menjadi banyak hal, jadi aku tidak begitu berguna untuk nilai sederhana itu.",
+                "Seperti @Conditional, aku juga memberitahumu apa yang telah kupelajari. Di dalam sebuah kasus, @value yang kucocokkan diketahui sebagai kasus itu; di dalam kasus berikutnya, ia diketahui bukan salah satu kasus sebelumnya; dan di dalam bawaanku, ia diketahui bukan salah satu dari mereka.",
+                "\\jawaban•#|'': 1\njawaban ???\n\t1: jawaban + 1\n\t'bukan satu'\\",
+                "Aku bisa menyingkirkan kasus yang berupa sebuah @Number, sebuah @None, atau @Text dengan satu terjemahan, serta kasus sederhana lainnya. Tapi kasus yang mengevaluasi sesuatu tidak menyingkirkan apa pun, jadi bawaanku menyimpan segala kemungkinan yang masih bisa dimiliki oleh @value."
             ],
             "start": "$~Mari kita lihat apa itu $value ...",
             "case": "$~Mari kita periksa kondisi ini",
@@ -1496,7 +1504,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~kunci tidak cocok",
-                    "explanation": "$?I expected a key of type $expected, but received $given",
+                    "explanation": "$~Aku mengharapkan sebuah kunci dengan jenis $expected, tapi menerima $given",
                     "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
                     "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
                     "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",

@@ -806,11 +806,16 @@
             "description": "$~conditionnel sur $condition",
             "emotion": "curious",
             "doc": [
-                "$!Dois-je vous donner une valeur plutôt qu'une autre, selon une condition ? Comme ceci ?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Mais avez-vous déjà réfléchi à la manière dont nous prenons nos décisions ?",
-                "N'a-t-on pas besoin de plus de nuances que de simples réponses par oui ou par non ? Se résume-t-il à choisir entre \\⊤\\ et \\⊥\\ ?",
-                "N'êtes-vous pas inquiet que, si ce sont les seules décisions que nous pouvons prendre, nous passions à côté d'éléments importants du contexte mondial ?"
+                "$~Dois-je te donner l'un @value ou l'autre, selon une @condition ? Comme ça ?",
+                "\\nombre: -100\nnombre < 0 ? 'négatif' 'positif'\\",
+                "Mais as-tu déjà réfléchi à la façon dont on décide ?",
+                "Ne semble-t-il pas que les décisions devraient être plus nuancées qu'un simple oui ou non ? Est-ce que choisir entre \\⊤\\ et \\⊥\\ est tout ce qu'il y a ?",
+                "N'as-tu pas peur que, si ce sont les seules décisions que l'on peut prendre, on passe à côté d'un contexte important du monde ?",
+                "Il y a une autre chose que je fais, et on ne me la reconnaît pas toujours. Quand mon @condition demande /quel/ genre de valeur est quelque chose, je ne réponds pas seulement oui ou non. Je garde en mémoire la réponse à l'intérieur de chacun de mes choix.",
+                "\\taille•#|'': 5\ntaille•# ? taille + 1 'trop petit'\\",
+                "Seule, cette valeur pourrait être un @Number ou du @Text, et y ajouter quelque chose serait un conflit, car ces choses s'ajoutent de façons très différentes. Mais à l'intérieur de mon /oui/, nous venons de demander si c'est un @Number, donc là c'en est un. À l'intérieur de mon /non/, c'est le @Text.",
+                "Peu importe comment tu demandes. Une vérification de taper, une comparaison avec une valeur précise, une vérification d'une valeur manquante, et une vérification que tu as enregistrée sous un nom me disent toutes la même chose. Et @Boolean/and, @Boolean/or et @Boolean/not les combinent comme tu t'y attends.",
+                "Il y a deux choses que je ne peux pas te dire. Si tu compares avec @Text qui a plusieurs traductions, je n'apprends rien, car la traduction que tu obtiens dépend de qui lit."
             ],
             "start": "$~Voyons si $condition est vrai",
             "afterthen": "$~fini avec le oui, sautons le non ?",
@@ -1213,12 +1218,15 @@
             "description": "$~associer $value à $#count[$#count cas|$count cas|$count cas]",
             "emotion": "curious",
             "doc": [
-                "$!Je suis le plus glorieux des contrôles conditionnels : je prends une valeur, je la compare à un nombre quelconque de cas, et j'évalue celui qui correspond !",
-                "Par exemple, si vous aviez un @Number et que vous vouliez le convertir en @Text , vous pourriez faire quelque chose comme ceci :",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Si aucune ne correspond, j'évalue l'expression par défaut que vous me fournissez.",
-                "Je suis très utile pour convertir l'une des nombreuses valeurs possibles @Number , @Text ou des valeurs plus complexes en autre chose.",
-                "Vous pouvez l'utiliser pour @Boolean ou @None , mais ces valeurs ne peuvent pas représenter beaucoup de choses, donc je ne suis pas aussi utile pour ces valeurs simples."
+                "$~Je suis la plus glorieuse des vérifications conditionnelles : je prends un @value, je le compare à autant de cas que tu veux, et j'évalue celui qui correspond !",
+                "Par exemple, si tu avais un @Number et que tu voulais le convertir en un @Text, tu pourrais faire quelque chose comme ça :",
+                "\\nombre: 2\nnombre ???\n\t1: 'un'\n\t2: 'deux'\n\t3: 'trois'\n\t'plus grand !'\\",
+                "Si aucun ne correspond, j'évalue le @expression par défaut que tu me donnes.",
+                "Je suis très utile pour convertir l'une de plusieurs valeurs possibles @Number, @Text ou plus complexes en autre chose.",
+                "Tu peux m'utiliser pour @Boolean ou @None, mais ces valeurs ne peuvent pas vraiment être beaucoup de choses, donc je suis moins utile pour ces valeurs simples.",
+                "Comme @Conditional, je te dis aussi ce que j'ai appris. À l'intérieur d'un cas, le @value que j'ai fait correspondre est connu comme étant ce cas ; à l'intérieur d'un cas plus tard, il est connu comme n'étant aucun cas précédent ; et dans mon cas par défaut, il est connu comme n'étant aucun d'eux.",
+                "\\réponse•#|'': 1\nréponse ???\n\t1: réponse + 1\n\t'pas un'\\",
+                "Je peux écarter les cas qui sont un @Number, un @None ou @Text avec une seule traduction, et d'autres cas simples. Mais un cas qui évalue quelque chose n'écarte rien, donc mon cas par défaut garde tout ce que le @value pourrait encore être."
             ],
             "start": "$~Voyons ce que vaut $value...",
             "case": "$~Vérifions cette condition",
@@ -1496,7 +1504,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~clé incompatible",
-                    "explanation": "$?I expected a key of type $expected, but received $given",
+                    "explanation": "$~J'attendais une clé de taper $expected, mais j'ai reçu $given",
                     "resolution": "$~Convertissez-le en $expected , car $expected est requis",
                     "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
                     "resolutionOtherwise": "$~Gérez la valeur manquante avec ??, car $expected n'autorise pas ø",

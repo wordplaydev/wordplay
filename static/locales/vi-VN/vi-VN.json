@@ -811,11 +811,16 @@
                 "no": "$~KHÔNG"
             },
             "doc": [
-                "$!Tôi nên cung cấp cho bạn giá trị này hay giá trị khác, tùy thuộc vào điều kiện? Kiểu như thế này?",
+                "$?Should I give you one @value or another, depending on a @condition? Like this?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Nhưng bạn đã bao giờ nghĩ về cách chúng ta đưa ra quyết định chưa?",
-                "Chẳng phải các quyết định nên phức tạp hơn là chỉ đơn giản là \"có\" hay \"không\" sao? Phải chăng chỉ có việc lựa chọn giữa \\⊤\\ và \\⊥\\ là tất cả?",
-                "Chẳng phải bạn lo lắng rằng nếu đây là những quyết định duy nhất chúng ta có thể đưa ra, chúng ta sẽ bỏ lỡ một số bối cảnh quan trọng về thế giới sao?"
+                "But have you ever thought about how we decide?",
+                "Doesn't it seem like decisions should be more nuanced than just yes or no? Is deciding between \\⊤\\ and \\⊥\\ all there is?",
+                "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?",
+                "There's one more thing I do, and I don't always get credit for it. When my @condition asks what /kind/ of value something is, I don't only answer yes or no. I remember the answer inside each of my choices.",
+                "\\size•#|'': 5\nsize•# ? size + 1 'too small'\\",
+                "On its own, that value could be a @Number or some @Text, and adding to it would be a conflict, since those are added in very different ways. But inside my /yes/ we have just asked whether it's a @Number, so there it is one. Inside my /no/, it's the @Text.",
+                "It doesn't matter how you ask. A type check, a comparison against a particular value, a check for a missing value, and a check you saved under a name all tell me the same thing. And @Boolean/and, @Boolean/or, and @Boolean/not combine them the way you would expect.",
+                "There are two things I can't tell you. If you compare against @Text that has several translations, I learn nothing, because which translation you get depends on who is reading."
             ],
             "start": "$~Hãy xem điều kiện $condition có đúng hay không.",
             "else": "$~$jumping[nhảy qua mã | không nhảy qua mã]",
@@ -1217,12 +1222,15 @@
                 "other": "$~mặc định"
             },
             "doc": [
-                "$!Tôi là phép kiểm tra điều kiện tuyệt vời nhất: Tôi nhận một giá trị, so sánh nó với bất kỳ số lượng trường hợp nào, và đánh giá trường hợp nào khớp!",
-                "Ví dụ, nếu bạn có một @Number và muốn chuyển đổi nó thành @Text , bạn có thể làm như sau:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Nếu không có biểu thức nào khớp, tôi sẽ đánh giá biểu thức mặc định mà bạn cung cấp.",
-                "Tôi thực sự hữu ích trong việc chuyển đổi một trong nhiều giá trị @Number , @Text hoặc các giá trị phức tạp hơn thành một dạng giá trị khác.",
-                "Bạn có thể sử dụng nó cho @Boolean hoặc @None , nhưng chúng không thể có quá nhiều giá trị, vì vậy nó không hữu ích lắm đối với những giá trị đơn giản đó."
+                "$~Tôi là lần kiểm tra điều kiện huy hoàng nhất: Tôi lấy một @value, so sánh nó với bao nhiêu trường hợp cũng được, và tính toán cái nào khớp!",
+                "Ví dụ, nếu bạn có một @Number và muốn chuyển nó thành một @Text, bạn có thể làm gì đó như thế này:",
+                "\\số: 2\nsố ???\n\t1: 'một'\n\t2: 'hai'\n\t3: 'ba'\n\t'lớn hơn!'\\",
+                "Nếu không cái nào khớp, tôi tính toán @expression mặc định mà bạn đưa cho tôi.",
+                "Tôi thực sự hữu ích để chuyển một trong nhiều @Number, @Text, hoặc các giá trị phức tạp hơn thành thứ khác.",
+                "Bạn có thể dùng tôi cho @Boolean hoặc @None, nhưng chúng không thể là nhiều thứ như vậy, nên tôi không hữu ích lắm cho những giá trị đơn giản đó.",
+                "Giống như @Conditional, tôi cũng nói cho bạn biết điều tôi đã học được. Bên trong một trường hợp, @value mà tôi đã khớp được biết là trường hợp đó; bên trong một trường hợp sau đó, nó được biết không phải là bất kỳ trường hợp nào trước; và trong mặc định của tôi, nó được biết không phải là cái nào trong số chúng.",
+                "\\câuTrảLời•#|'': 1\ncâuTrảLời ???\n\t1: câuTrảLời + 1\n\t'không phải một'\\",
+                "Tôi có thể loại trừ các trường hợp là một @Number, một @None, hoặc @Text có một bản dịch duy nhất, và các trường hợp đơn giản khác. Nhưng một trường hợp tính toán thứ gì đó thì không loại trừ điều gì cả, nên mặc định của tôi giữ lại mọi thứ mà @value vẫn có thể là."
             ],
             "start": "$~Hãy xem $value là gì...",
             "case": "$~Hãy kiểm tra điều kiện này",
@@ -1496,7 +1504,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~chìa khóa không tương thích",
-                    "explanation": "$?I expected a key of type $expected, but received $given",
+                    "explanation": "$~Tôi mong đợi một chìa khóa kiểu $expected, nhưng nhận được $given",
                     "resolution": "$~Hãy chuyển đổi nó thành $expected , vì $expected là bắt buộc.",
                     "resolutionLiteral": "$~Đánh dấu danh sách, tập hợp hoặc bản đồ là giá trị cố định bằng !, để các giá trị của chúng vẫn cụ thể thay vì bị khái quát hóa — $expected cần các giá trị chính xác.",
                     "resolutionOtherwise": "$~Xử lý giá trị thiếu bằng ??, vì $expected không cho phép ø",
