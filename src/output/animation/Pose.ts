@@ -77,25 +77,26 @@ export default class Pose extends Valued {
     getDescription(locales: Locales) {
         if (this._description === undefined) {
             this._description = locales
-                .concretize(
-                    (l) => l.output.Pose.description,
-                    {
-                        opacity: this.opacity !== undefined && this.opacity !== 1
-                        ? Math.round(this.opacity)
-                        : undefined,
-                        rotation: this.rotation !== undefined && this.rotation % 360
-                        ? Math.round(this.rotation)
-                        : undefined,
-                        scale: this.scale !== undefined && this.scale !== 1
-                        ? Math.round(this.scale)
-                        : undefined,
-                        flipx: this.flipx,
-                        flipy: this.flipy,
-                        blur: this.blur !== undefined && this.blur !== 0
-                        ? Math.round(this.blur)
-                        : undefined,
-                    },
-                )
+                .concretize((l) => l.output.Pose.description, {
+                    opacity:
+                        this.opacity !== undefined && this.opacity !== 1
+                            ? Math.round(this.opacity)
+                            : undefined,
+                    rotation:
+                        this.rotation !== undefined && this.rotation % 360
+                            ? Math.round(this.rotation)
+                            : undefined,
+                    scale:
+                        this.scale !== undefined && this.scale !== 1
+                            ? Math.round(this.scale)
+                            : undefined,
+                    flipx: this.flipx,
+                    flipy: this.flipy,
+                    blur:
+                        this.blur !== undefined && this.blur !== 0
+                            ? Math.round(this.blur)
+                            : undefined,
+                })
                 .toText();
         }
         return this._description;
@@ -140,12 +141,10 @@ export function toPose(
     project: Project,
     value: Value | undefined,
 ): Pose | undefined {
-    if (
-        !(
-            value instanceof StructureValue &&
-            value.type === project.shares.output.Pose
-        )
-    )
+    if (!(
+        value instanceof StructureValue &&
+        value.type === project.shares.output.Pose
+    ))
         return undefined;
 
     const [color, opacity, offset, tilt, scale, flipx, flipy] =

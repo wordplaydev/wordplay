@@ -64,7 +64,8 @@ function validateState(value: unknown): TutorialState | undefined {
     ) {
         const modeRaw =
             'mode' in value ? (value as { mode: unknown }).mode : null;
-        const mode = modeRaw == null ? null : (parseTutorialMode(modeRaw) ?? null);
+        const mode =
+            modeRaw == null ? null : (parseTutorialMode(modeRaw) ?? null);
         const progress: Partial<Record<TutorialMode, TutorialProgress>> = {};
         for (const [key, entry] of Object.entries(value.progress)) {
             const id = parseTutorialMode(key);

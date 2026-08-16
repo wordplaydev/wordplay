@@ -4,7 +4,11 @@ import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
 import { OutputBody } from '@output/physics/Physics';
 import { VelocityPxPerSecond } from '@output/physics/physicsCalibration';
-import { getRapier, loadRapier, onRapierLoaded } from '@output/physics/rapierLoader';
+import {
+    getRapier,
+    loadRapier,
+    onRapierLoaded,
+} from '@output/physics/rapierLoader';
 import Evaluator from '@runtime/Evaluator';
 import { beforeAll, expect, test } from 'vitest';
 import Motion from './Motion';

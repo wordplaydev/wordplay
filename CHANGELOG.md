@@ -11,6 +11,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🤝 We fixed errors that filled a teacher's browser when they opened a student's project. Teachers now see students' edits live as they type, and students can see their teacher's cursor when they visit.
 - 💾 For teachers with many galleries, the save light no longer flips between "Saved" and "Unsaved", the connection warning no longer comes and goes, and the [Teach](https://wordplay.dev/teach) page no longer goes blank.
 - 🔑 If the sign in page failed to load, it used to stay broken until you restarted your browser. Now it shows when it's loading, says when it can't connect, and works again when you reload.
+- ⌨️ When you press play while your code is still on screen, the keys you type now reach your project. Before, they could quietly change your code and drop you back into edit mode. (#1285)
+- 🚦 When you give a check a name and use it later, Wordplay now remembers what the check proved. Naming a check that a value isn't `ø` no longer shows an error that writing the same check out didn't. (#1285)
 
 ## 0.29.1 - 2026-08-13
 

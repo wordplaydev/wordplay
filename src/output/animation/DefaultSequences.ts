@@ -3,8 +3,7 @@ import type LocaleText from '@locale/LocaleText';
 import { type NameAndDoc } from '@locale/LocaleText';
 
 /** The animations available as `↑` static functions on the `Sequence` structure. */
-export type AnimationKey =
-    keyof LocaleText['output']['Sequence']['animations'];
+export type AnimationKey = keyof LocaleText['output']['Sequence']['animations'];
 
 type Animations = LocaleText['output']['Sequence']['animations'];
 

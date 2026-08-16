@@ -180,8 +180,7 @@ function renderParts(
             case 'era':
                 // Some calendars have no era for some dates; render nothing then.
                 if (fields.era !== undefined)
-                    text +=
-                        calendarData?.eras?.[fields.era] ?? fields.era;
+                    text += calendarData?.eras?.[fields.era] ?? fields.era;
                 break;
             case 'hour':
                 text += digits(

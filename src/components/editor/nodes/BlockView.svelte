@@ -58,7 +58,8 @@
                 empty="hide"
             /><FoldEllipsis {node} /><NodeView
                 node={[node, 'close']}
-                format={headerFormat} noSpace
+                format={headerFormat}
+                noSpace
                 empty="hide"
             /></Flow
         >
@@ -69,7 +70,8 @@
             foldToggleFor={node}
         /><FoldEllipsis {node} /><NodeView
             node={[node, 'close']}
-            format={headerFormat} noSpace
+            format={headerFormat}
+            noSpace
             empty="hide"
         />{/if}
 {:else if format.block}

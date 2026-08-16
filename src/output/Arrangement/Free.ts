@@ -63,12 +63,9 @@ export class Free extends Arrangement {
 
     getDescription(output: Output[], locales: Locales) {
         return locales
-            .concretize(
-                (l) => l.output.Free.description,
-                {
-                    count: output.length,
-                },
-            )
+            .concretize((l) => l.output.Free.description, {
+                count: output.length,
+            })
             .toText();
     }
 }

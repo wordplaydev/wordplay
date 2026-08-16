@@ -1,8 +1,5 @@
 import type LanguageCode from '@locale/LanguageCode';
-import {
-    getLocaleLanguages,
-    getLocaleRegions,
-} from '@locale/LocaleText';
+import { getLocaleLanguages, getLocaleRegions } from '@locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';
 
 export type Locale = {

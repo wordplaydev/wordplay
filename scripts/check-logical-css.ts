@@ -8,16 +8,56 @@ import path from 'path';
 
 /** Each physical property we forbid, with the logical property to use instead. */
 const RULES: { pattern: RegExp; physical: string; logical: string }[] = [
-    { pattern: /\bmargin-left\s*:/, physical: 'margin-left', logical: 'margin-inline-start' },
-    { pattern: /\bmargin-right\s*:/, physical: 'margin-right', logical: 'margin-inline-end' },
-    { pattern: /\bpadding-left\s*:/, physical: 'padding-left', logical: 'padding-inline-start' },
-    { pattern: /\bpadding-right\s*:/, physical: 'padding-right', logical: 'padding-inline-end' },
-    { pattern: /\bborder-left\b/, physical: 'border-left', logical: 'border-inline-start' },
-    { pattern: /\bborder-right\b/, physical: 'border-right', logical: 'border-inline-end' },
-    { pattern: /text-align\s*:\s*left\b/, physical: 'text-align: left', logical: 'text-align: start' },
-    { pattern: /text-align\s*:\s*right\b/, physical: 'text-align: right', logical: 'text-align: end' },
-    { pattern: /float\s*:\s*left\b/, physical: 'float: left', logical: 'float: inline-start' },
-    { pattern: /float\s*:\s*right\b/, physical: 'float: right', logical: 'float: inline-end' },
+    {
+        pattern: /\bmargin-left\s*:/,
+        physical: 'margin-left',
+        logical: 'margin-inline-start',
+    },
+    {
+        pattern: /\bmargin-right\s*:/,
+        physical: 'margin-right',
+        logical: 'margin-inline-end',
+    },
+    {
+        pattern: /\bpadding-left\s*:/,
+        physical: 'padding-left',
+        logical: 'padding-inline-start',
+    },
+    {
+        pattern: /\bpadding-right\s*:/,
+        physical: 'padding-right',
+        logical: 'padding-inline-end',
+    },
+    {
+        pattern: /\bborder-left\b/,
+        physical: 'border-left',
+        logical: 'border-inline-start',
+    },
+    {
+        pattern: /\bborder-right\b/,
+        physical: 'border-right',
+        logical: 'border-inline-end',
+    },
+    {
+        pattern: /text-align\s*:\s*left\b/,
+        physical: 'text-align: left',
+        logical: 'text-align: start',
+    },
+    {
+        pattern: /text-align\s*:\s*right\b/,
+        physical: 'text-align: right',
+        logical: 'text-align: end',
+    },
+    {
+        pattern: /float\s*:\s*left\b/,
+        physical: 'float: left',
+        logical: 'float: inline-start',
+    },
+    {
+        pattern: /float\s*:\s*right\b/,
+        physical: 'float: right',
+        logical: 'float: inline-end',
+    },
 ];
 
 /**
@@ -71,7 +111,9 @@ function styleSource(source: string): string | null {
     }
     const kept = lines.map((line, i) => (inStyle[i] ? line : ''));
     // Blank out /* ... */ comments while preserving newlines.
-    return kept.join('\n').replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
+    return kept
+        .join('\n')
+        .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
 }
 
 const root = path.join(process.cwd(), 'src');

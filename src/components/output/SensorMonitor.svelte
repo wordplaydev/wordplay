@@ -1,6 +1,12 @@
 <script lang="ts">
-    import { acquireAudioSource, type AudioSourceHandle } from '@input/AudioSource';
-    import { acquireCameraSource, type CameraSourceHandle } from '@input/CameraSource';
+    import {
+        acquireAudioSource,
+        type AudioSourceHandle,
+    } from '@input/AudioSource';
+    import {
+        acquireCameraSource,
+        type CameraSourceHandle,
+    } from '@input/CameraSource';
     import { getSensorPanelStack } from '@components/project/Contexts';
     import Emoji from '@components/app/Emoji.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
@@ -35,7 +41,8 @@
     let cameraHandle: CameraSourceHandle | undefined = $state(undefined);
     let canvasElement: HTMLCanvasElement | undefined = $state(undefined);
     let videoElement: HTMLVideoElement | undefined = $state(undefined);
-    let landmarkCanvasElement: HTMLCanvasElement | undefined = $state(undefined);
+    let landmarkCanvasElement: HTMLCanvasElement | undefined =
+        $state(undefined);
     let panelElement: HTMLDivElement | undefined = $state(undefined);
     let animationFrameId: number | undefined;
     let panelOffset = $state('0px');
@@ -75,8 +82,14 @@
             // Cap canvas size to prevent memory exhaustion (max 4096x4096 physical pixels)
             const dpr = window.devicePixelRatio || 1;
             const maxPhysicalSize = 4096;
-            const canvasWidth = Math.min(Math.ceil(rect.width * dpr), maxPhysicalSize);
-            const canvasHeight = Math.min(Math.ceil(rect.height * dpr), maxPhysicalSize);
+            const canvasWidth = Math.min(
+                Math.ceil(rect.width * dpr),
+                maxPhysicalSize,
+            );
+            const canvasHeight = Math.min(
+                Math.ceil(rect.height * dpr),
+                maxPhysicalSize,
+            );
             landmarkCanvasElement.width = canvasWidth;
             landmarkCanvasElement.height = canvasHeight;
 
@@ -125,12 +138,7 @@
             ctx.textBaseline = 'bottom';
             for (const box of objectBoxes) {
                 const mapped = toPreviewBox(box, width, height);
-                ctx.strokeRect(
-                    mapped.x,
-                    mapped.y,
-                    mapped.width,
-                    mapped.height,
-                );
+                ctx.strokeRect(mapped.x, mapped.y, mapped.width, mapped.height);
                 ctx.fillText(box.label, mapped.x, Math.max(12, mapped.y - 2));
             }
         } catch (e) {
@@ -153,7 +161,12 @@
 
     // Microphone monitoring: start once canvas element exists and handle is acquired
     $effect(() => {
-        if (!expanded || kind !== 'microphone' || !canvasElement || !audioHandle)
+        if (
+            !expanded ||
+            kind !== 'microphone' ||
+            !canvasElement ||
+            !audioHandle
+        )
             return;
 
         // Resume audio context (must happen in user-gesture context)
@@ -187,7 +200,9 @@
                     volumeAnalyzer = ctx.createAnalyser();
                     volumeAnalyzer.fftSize = VOLUME_FFT_SIZE;
                     sourceNode.connect(volumeAnalyzer);
-                    volumeDataArray = new Uint8Array(volumeAnalyzer.frequencyBinCount);
+                    volumeDataArray = new Uint8Array(
+                        volumeAnalyzer.frequencyBinCount,
+                    );
 
                     // Pitch analyzer (fftSize 1024)
                     pitchAnalyzer = ctx.createAnalyser();
@@ -198,7 +213,11 @@
                 }
             }
 
-            if (analyzer !== undefined && dataArray !== undefined && canvasElement) {
+            if (
+                analyzer !== undefined &&
+                dataArray !== undefined &&
+                canvasElement
+            ) {
                 analyzer.getByteTimeDomainData(dataArray as any);
 
                 const canvasContext = canvasElement.getContext('2d');
@@ -222,14 +241,8 @@
 
                 // Compute volume
                 let volume = 0;
-                if (
-                    volumeAnalyzer &&
-                    volumeDataArray &&
-                    context
-                ) {
-                    volumeAnalyzer.getByteFrequencyData(
-                        volumeDataArray as any,
-                    );
+                if (volumeAnalyzer && volumeDataArray && context) {
+                    volumeAnalyzer.getByteFrequencyData(volumeDataArray as any);
                     volume = computeVolume(
                         context.sampleRate,
                         volumeDataArray as any,
@@ -244,9 +257,7 @@
                     pitchDetector &&
                     context
                 ) {
-                    pitchAnalyzer.getFloatTimeDomainData(
-                        pitchDataArray as any,
-                    );
+                    pitchAnalyzer.getFloatTimeDomainData(pitchDataArray as any);
                     pitch = computePitch(
                         pitchDetector,
                         context.sampleRate,
@@ -264,7 +275,9 @@
 
                 for (let i = 0; i < dataArray.length; i++) {
                     const x = (i / dataArray.length) * width;
-                    const y = ((dataArray[i] - 128) / 128) * (height / 2) + height / 2;
+                    const y =
+                        ((dataArray[i] - 128) / 128) * (height / 2) +
+                        height / 2;
 
                     if (i === 0) canvasContext.moveTo(x, y);
                     else canvasContext.lineTo(x, y);
@@ -524,9 +537,7 @@
         >
             {#if kind === 'microphone'}
                 <div class="microphone-preview">
-                    <canvas
-                        bind:this={canvasElement}
-                        class="waveform-canvas"
+                    <canvas bind:this={canvasElement} class="waveform-canvas"
                     ></canvas>
                 </div>
             {:else}

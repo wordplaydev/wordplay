@@ -27,9 +27,9 @@ describe('exceedsMoveThreshold', () => {
 
     test('the boundary is inclusive', () => {
         expect(exceedsMoveThreshold(MouseMoveThreshold, 0, 'mouse')).toBe(true);
-        expect(exceedsMoveThreshold(MouseMoveThreshold - 0.01, 0, 'mouse')).toBe(
-            false,
-        );
+        expect(
+            exceedsMoveThreshold(MouseMoveThreshold - 0.01, 0, 'mouse'),
+        ).toBe(false);
     });
 
     test('touch and pen need more room than a mouse', () => {

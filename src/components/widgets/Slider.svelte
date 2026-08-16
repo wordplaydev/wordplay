@@ -1,6 +1,9 @@
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
-    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';

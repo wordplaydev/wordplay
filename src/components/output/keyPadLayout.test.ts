@@ -19,12 +19,7 @@ function keysOf(section: KeyPadSection): string[] {
 }
 
 test('Four arrows become one cluster', () => {
-    const sections = layout(
-        'ArrowUp',
-        'ArrowDown',
-        'ArrowLeft',
-        'ArrowRight',
-    );
+    const sections = layout('ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight');
     expect(sections).toHaveLength(1);
     expect(sections[0]).toEqual({
         kind: 'arrows',

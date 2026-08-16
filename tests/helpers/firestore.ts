@@ -62,7 +62,11 @@ export async function updateProjectSource(
 
     const projectData = projectSnap.data();
 
-    if (projectData?.sources && Array.isArray(projectData.sources) && projectData.sources.length > 0) {
+    if (
+        projectData?.sources &&
+        Array.isArray(projectData.sources) &&
+        projectData.sources.length > 0
+    ) {
         projectData.sources[0].code = sourceCode;
 
         await projectRef.update({
@@ -70,7 +74,9 @@ export async function updateProjectSource(
             timestamp: Date.now(),
         });
     } else {
-        throw new Error(`Could not update project source: project ${projectId} has missing or invalid sources field`);
+        throw new Error(
+            `Could not update project source: project ${projectId} has missing or invalid sources field`,
+        );
     }
 }
 
@@ -92,7 +98,9 @@ export async function waitForDocumentUpdate(
     page: Page,
     collectionName: string,
     documentId: string,
-    predicate: (data: FirebaseFirestore.DocumentData | null | undefined) => boolean,
+    predicate: (
+        data: FirebaseFirestore.DocumentData | null | undefined,
+    ) => boolean,
     timeout = 15000,
     interval = 100,
 ) {

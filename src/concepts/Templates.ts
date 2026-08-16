@@ -112,7 +112,10 @@ function patternConcepts(): Node[] {
     ]);
     for (const source of examples)
         for (const node of toExpression(source).nodes())
-            if (node instanceof PatternNode && !byKind.has(node.getDescriptor()))
+            if (
+                node instanceof PatternNode &&
+                !byKind.has(node.getDescriptor())
+            )
                 byKind.set(node.getDescriptor(), node);
     return [...byKind.values()];
 }

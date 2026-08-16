@@ -97,10 +97,7 @@
         /* Bounded on both axes so a long line wraps into the stage instead of
            running off it. The box grows upward from the floor, so the block cap
            cuts the tail rather than the opening words. */
-        max-inline-size: min(
-            calc(100% - 2 * var(--wordplay-spacing)),
-            40em
-        );
+        max-inline-size: min(calc(100% - 2 * var(--wordplay-spacing)), 40em);
         max-block-size: 100%;
         overflow: hidden;
     }

@@ -20,7 +20,8 @@
             const candidates = document.querySelectorAll(`[data-uiid="${id}"]`);
             const target =
                 Array.from(candidates).find(
-                    (el) => el.closest('[inert], [aria-hidden="true"]') === null,
+                    (el) =>
+                        el.closest('[inert], [aria-hidden="true"]') === null,
                 ) ?? candidates[0];
             bounds = target?.getBoundingClientRect();
             // Try again in a few seconds, in case there's some async rendering.

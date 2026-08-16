@@ -17,7 +17,10 @@ export const scrolling = readable<boolean>(false, (set) => {
     };
     // Capture + passive lets one cheap document-level listener catch scrolls from any nested
     // scroller (scroll doesn't bubble) without blocking the scroll itself.
-    document.addEventListener('scroll', handler, { capture: true, passive: true });
+    document.addEventListener('scroll', handler, {
+        capture: true,
+        passive: true,
+    });
     return () => {
         document.removeEventListener('scroll', handler, { capture: true });
         if (timer) clearTimeout(timer);

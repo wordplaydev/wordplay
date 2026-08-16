@@ -2,17 +2,14 @@ import { PitchDetector } from 'pitchy';
 
 export const VOLUME_FFT_SIZE = 32;
 
-export function computeVolume(
-    sampleRate: number,
-    buffer: Uint8Array,
-): number {
+export function computeVolume(sampleRate: number, buffer: Uint8Array): number {
     const frequencies = Array.from(buffer);
 
     let sumOfSquares = 0.0;
     let frequency = 0;
     let count = 0;
     for (const amplitude of frequencies) {
-        frequency += (sampleRate / 2 / frequencies.length);
+        frequency += sampleRate / 2 / frequencies.length;
         if (frequency >= 0 && frequency <= 4000) {
             sumOfSquares += amplitude * amplitude;
             count++;

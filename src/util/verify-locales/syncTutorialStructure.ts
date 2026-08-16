@@ -75,7 +75,10 @@ export type SyncChange = {
 };
 
 export type SyncReport = {
-    inserted: (SyncChange & { kind: 'act' | 'scene' | 'line'; strings: number })[];
+    inserted: (SyncChange & {
+        kind: 'act' | 'scene' | 'line';
+        strings: number;
+    })[];
     /** Translated content en-US no longer has: reported, never applied. */
     removed: (SyncChange & { kind: 'act' | 'scene' | 'line' })[];
     /** Performances and pauses en-US no longer has: removed, since they hold
@@ -196,8 +199,10 @@ export function align<T>(
             j++;
         }
     }
-    for (; i < a.length; i++) result.push({ kind: 'insert', source: source[i] });
-    for (; j < b.length; j++) result.push({ kind: 'remove', target: target[j] });
+    for (; i < a.length; i++)
+        result.push({ kind: 'insert', source: source[i] });
+    for (; j < b.length; j++)
+        result.push({ kind: 'remove', target: target[j] });
     return result;
 }
 
@@ -314,10 +319,7 @@ function markLine(line: Line): number {
  * A `$?` target is left alone. It is already queued and still holds English;
  * `$!` would say nothing new and would lose the fact that it was never written.
  */
-function propagate(
-    sourceText: string,
-    targetText: string,
-): string | undefined {
+function propagate(sourceText: string, targetText: string): string | undefined {
     if (!isRevised(sourceText)) return undefined;
     if (isUnwritten(targetText) || isRevised(targetText)) return undefined;
     return `${Revised}${withoutAnnotations(targetText)}`;
@@ -413,11 +415,7 @@ export function syncTutorialStructure(
         return lines;
     }
 
-    function syncScenes(
-        sourceAct: Act,
-        targetAct: Act,
-        act: number,
-    ): Scene[] {
+    function syncScenes(sourceAct: Act, targetAct: Act, act: number): Scene[] {
         const scenes: Scene[] = [];
         for (const step of align(
             sourceAct.scenes,
@@ -530,7 +528,9 @@ export function describeReport(report: SyncReport): string[] {
             `+ ${position(change)} "${withoutAnnotations(change.label)}" — inserted, ${change.strings} string(s) marked ${Unwritten}`,
         );
     for (const change of report.revised)
-        lines.push(`! ${position(change)} — marked ${Revised} (revised in en-US)`);
+        lines.push(
+            `! ${position(change)} — marked ${Revised} (revised in en-US)`,
+        );
     for (const change of report.dropped)
         lines.push(
             `− ${position(change)} "${withoutAnnotations(change.label)}" — absent in en-US: dropped`,

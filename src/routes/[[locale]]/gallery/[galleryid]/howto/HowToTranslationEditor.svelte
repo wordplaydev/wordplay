@@ -46,9 +46,6 @@
 <FormattedEditor
     placeholder={(l) => l.ui.howto.editor.editor.placeholder}
     description={(l) => l.ui.howto.editor.editor.description}
-    bind:text={
-        () => readCurrent(),
-        (v) => writeCurrent(v)
-    }
+    bind:text={() => readCurrent(), (v) => writeCurrent(v)}
     id="howto-prompt-{id}"
 />

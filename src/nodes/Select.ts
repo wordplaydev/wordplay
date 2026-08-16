@@ -159,13 +159,11 @@ export default class Select extends Expression {
         if (tableType instanceof TableType) {
             this.row.cells.forEach((cell) => {
                 const cellName = cell instanceof Reference ? cell : undefined;
-                if (
-                    !(
-                        cellName !== undefined &&
-                        tableType.getColumnNamed(cellName.name.getText()) !==
-                            undefined
-                    )
-                )
+                if (!(
+                    cellName !== undefined &&
+                    tableType.getColumnNamed(cellName.name.getText()) !==
+                        undefined
+                ))
                     conflicts.push(new UnknownColumn(tableType, cell));
             });
         }
@@ -315,8 +313,7 @@ export default class Select extends Expression {
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.table instanceof Expression)
             this.table.evaluateTypeGuards(current, guard);
-        if (this.row instanceof Expression)
-            this.row.evaluateTypeGuards(current, guard);
+        this.row.evaluateTypeGuards(current, guard);
         if (this.query instanceof Expression)
             this.query.evaluateTypeGuards(current, guard);
         return current;

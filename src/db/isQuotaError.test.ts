@@ -3,14 +3,16 @@ import isQuotaError from './isQuotaError';
 
 describe('isQuotaError', () => {
     it('matches a raw QuotaExceededError DOMException', () => {
-        expect(isQuotaError(new DOMException('full', 'QuotaExceededError'))).toBe(
-            true,
-        );
+        expect(
+            isQuotaError(new DOMException('full', 'QuotaExceededError')),
+        ).toBe(true);
     });
 
     it('matches the Firefox NS_ERROR_DOM_QUOTA_REACHED name', () => {
         expect(
-            isQuotaError(new DOMException('full', 'NS_ERROR_DOM_QUOTA_REACHED')),
+            isQuotaError(
+                new DOMException('full', 'NS_ERROR_DOM_QUOTA_REACHED'),
+            ),
         ).toBe(true);
     });
 

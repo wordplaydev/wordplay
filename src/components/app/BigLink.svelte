@@ -24,7 +24,8 @@
     <div class="link"
         ><Link nowrap {to} {external}>{@render children?.()}</Link></div
     >
-    {#if subtitle}<div class="subtitle"><MarkupHTMLView inline markup={subtitle} /></div
+    {#if subtitle}<div class="subtitle"
+            ><MarkupHTMLView inline markup={subtitle} /></div
         >{/if}</div
 >
 

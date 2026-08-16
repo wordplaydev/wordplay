@@ -428,53 +428,48 @@ export class CharactersDatabase {
                 const projects = await this.db.loadProjects();
 
                 // Collect all revision promises
-                const revisionPromises =
-                    projects.allEditableProjects.map(
-                        async (project) => {
-                            const revisions: [Node, Node | undefined][] = [];
+                const revisionPromises = projects.allEditableProjects.map(
+                    async (project) => {
+                        const revisions: [Node, Node | undefined][] = [];
 
-                            // Look through each source file in the project
-                            for (const source of project.getSources()) {
-                                // If the source contains a ConceptLink node that references the old character name,
-                                // update it with the new character name.
-                                source
-                                    .nodes()
-                                    .filter(
-                                        (node) => node instanceof ConceptLink,
-                                    )
-                                    .map((node) => {
-                                        const parsed = ConceptLink.parse(
-                                            node.getName(),
-                                        );
-                                        if (
-                                            parsed instanceof CharacterName &&
-                                            existingCharacter.name ===
-                                                `${parsed.username}/${parsed.name}`
-                                        ) {
-                                            // Revise the ConceptLink node with the new character name.
-                                            revisions.push([
-                                                node,
-                                                ConceptLink.make(
-                                                    `${character.name}`,
-                                                ),
-                                            ]);
-                                        }
-                                    });
-                            }
-
-                            if (revisions.length > 0) {
-                                const newProject =
-                                    project.withRevisedNodes(revisions);
-                                const failure =
-                                    await projects.reviseProject(
-                                        newProject,
+                        // Look through each source file in the project
+                        for (const source of project.getSources()) {
+                            // If the source contains a ConceptLink node that references the old character name,
+                            // update it with the new character name.
+                            source
+                                .nodes()
+                                .filter((node) => node instanceof ConceptLink)
+                                .map((node) => {
+                                    const parsed = ConceptLink.parse(
+                                        node.getName(),
                                     );
+                                    if (
+                                        parsed instanceof CharacterName &&
+                                        existingCharacter.name ===
+                                            `${parsed.username}/${parsed.name}`
+                                    ) {
+                                        // Revise the ConceptLink node with the new character name.
+                                        revisions.push([
+                                            node,
+                                            ConceptLink.make(
+                                                `${character.name}`,
+                                            ),
+                                        ]);
+                                    }
+                                });
+                        }
 
-                                if (failure !== undefined)
-                                    failedProjects.push(project);
-                            }
-                        },
-                    );
+                        if (revisions.length > 0) {
+                            const newProject =
+                                project.withRevisedNodes(revisions);
+                            const failure =
+                                await projects.reviseProject(newProject);
+
+                            if (failure !== undefined)
+                                failedProjects.push(project);
+                        }
+                    },
+                );
 
                 // Wait for all revision attempts to complete
                 await Promise.all(revisionPromises);

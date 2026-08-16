@@ -25,7 +25,12 @@ import { toMusic } from '@output/Music/Music';
 import { toSay } from '@output/Output/Say';
 import { toShape } from '@output/Output/Shape/Shape';
 import { toStack } from '@output/Arrangement/Stack';
-import { NameGenerator, toBoolean, toNumber, toStage } from '@output/Output/Stage';
+import {
+    NameGenerator,
+    toBoolean,
+    toNumber,
+    toStage,
+} from '@output/Output/Stage';
 import { getOutputInputs } from '@output/Output/Valued';
 
 export function toOutput(

@@ -1258,7 +1258,11 @@ export default class Caret {
             if (wrap !== undefined) {
                 // Wraps are grammar-built, but blocks mode still applies the standard gate so no
                 // edit path can slip a structural break through.
-                if (blocks && Array.isArray(wrap) && wrap[0] instanceof Source) {
+                if (
+                    blocks &&
+                    Array.isArray(wrap) &&
+                    wrap[0] instanceof Source
+                ) {
                     const conflicts = project.getNewConflicts(
                         this.source,
                         wrap[0],

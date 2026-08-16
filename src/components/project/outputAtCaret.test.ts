@@ -95,7 +95,7 @@ test('the caret inside a music selects it', () => {
     expect(at(code.indexOf('Track'))?.fun.toWordplay()).toBe('Music');
     // And a music inside a stage is still the innermost output found.
     const nested = "Stage([Phrase('hi') Music(Track([1]))])";
-    expect(
-        setup(nested).at(nested.indexOf('Track'))?.fun.toWordplay(),
-    ).toBe('Music');
+    expect(setup(nested).at(nested.indexOf('Track'))?.fun.toWordplay()).toBe(
+        'Music',
+    );
 });

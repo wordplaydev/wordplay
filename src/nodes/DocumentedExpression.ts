@@ -92,6 +92,15 @@ export default class DocumentedExpression extends SimpleExpression {
         return this.expression.evaluateTypeGuards(current, guard);
     }
 
+    /** A doc doesn't change what's being checked, so checks see through it. */
+    isGuardMatch(guard: GuardContext): boolean {
+        return this.expression.isGuardMatch(guard);
+    }
+
+    guardsTypes() {
+        return this.expression.guardsTypes();
+    }
+
     getStart() {
         return this.expression;
     }

@@ -126,12 +126,7 @@ export default class Assign extends Revision {
             ? undefined
             : [
                   newSource,
-                  new Caret(
-                      newSource,
-                      newCaretPosition,
-                      undefined,
-                      newNode,
-                  ),
+                  new Caret(newSource, newCaretPosition, undefined, newNode),
               ];
     }
 
@@ -141,12 +136,9 @@ export default class Assign extends Revision {
             first.node instanceof Refer
                 ? first.node.getNode(locales)
                 : this.getNewNode(locales);
-        return locales.concretize(
-            (l) => l.ui.edit.assign,
-            {
-                name: node?.getLabel(locales),
-            },
-        );
+        return locales.concretize((l) => l.ui.edit.assign, {
+            name: node?.getLabel(locales),
+        });
     }
 
     equals(transform: Revision) {

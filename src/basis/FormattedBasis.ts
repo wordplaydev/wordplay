@@ -199,9 +199,6 @@ export default function bootstrapFormatted(locales: Locales) {
 
 /** Wrap a text value's text as a formatted (markup) value, carrying its locale.
  *  Used by the Text → Formatted conversion registered in TextBasis. */
-export function textToFormatted(
-    requestor: Expression,
-    val: TextValue,
-): Value {
+export function textToFormatted(requestor: Expression, val: TextValue): Value {
     return new MarkupValue(requestor, Markup.words(val.text), val.language);
 }

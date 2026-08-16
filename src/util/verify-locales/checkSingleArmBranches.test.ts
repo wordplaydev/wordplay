@@ -11,9 +11,9 @@ test('accepts branches with both arms', () => {
 });
 
 test('flags a branch with only one arm', () => {
-    expect(checkSingleArmBranches('$blur[shadow blurred $blur pixels]')).toEqual(
-        ['$blur[shadow blurred $blur pixels]'],
-    );
+    expect(
+        checkSingleArmBranches('$blur[shadow blurred $blur pixels]'),
+    ).toEqual(['$blur[shadow blurred $blur pixels]']);
     // Every occurrence is reported, so one message covers the whole string.
     expect(
         checkSingleArmBranches('$before[start] and $after[end]'),
@@ -24,9 +24,9 @@ test('exempts count branches, whose arms are plural forms', () => {
     // Japanese has a single plural form, so one arm is correct.
     expect(checkSingleArmBranches('$#words[$words 語]')).toEqual([]);
     // English has two.
-    expect(checkSingleArmBranches('$#count[$count value|$count values]')).toEqual(
-        [],
-    );
+    expect(
+        checkSingleArmBranches('$#count[$count value|$count values]'),
+    ).toEqual([]);
 });
 
 test('reads a nested branch as belonging to the inner mention', () => {

@@ -1,9 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
-import type {
-    InsertContext,
-    ReplaceContext,
-} from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type Locales from '@locale/Locales';
 import NodeRef from '@locale/NodeRef';

@@ -143,7 +143,9 @@ export function expectedTypeAt(
         const field = parent.getFieldOfChild(child);
         if (field?.getType !== undefined) {
             const value = parent.getField(field.name);
-            const index = Array.isArray(value) ? value.indexOf(child) : undefined;
+            const index = Array.isArray(value)
+                ? value.indexOf(child)
+                : undefined;
             return field.getType(context, index === -1 ? undefined : index);
         }
         child = parent;

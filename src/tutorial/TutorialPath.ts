@@ -24,10 +24,7 @@
  * `tutorial` prefix prevents collisions.
  */
 
-import {
-    DEFAULT_TUTORIAL_MODE,
-    type TutorialMode,
-} from './TutorialMode';
+import { DEFAULT_TUTORIAL_MODE, type TutorialMode } from './TutorialMode';
 
 export const TUTORIAL_KEY_PREFIX = 'tutorial';
 

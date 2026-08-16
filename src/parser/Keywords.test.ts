@@ -69,7 +69,9 @@ test('with a keyword index, typed code words lex as dual-type (name + keyword)',
 });
 
 test('dual-type tokens: names shadow, typed construct keywords still parse as constructs', () => {
-    const index = buildKeywordIndex([{ function: 'función', number: 'número' }]);
+    const index = buildKeywordIndex([
+        { function: 'función', number: 'número' },
+    ]);
     // `número` (number-type keyword) is NOT an expression-start construct, so as a binding name it
     // shadows the keyword and parses as a Bind — existing names that collide keep working.
     const bind = parseProgram(toTokens('número: 1', index));

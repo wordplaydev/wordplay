@@ -238,11 +238,11 @@
             DB.loadProjects()
                 .then((db) => Promise.all(ids.map((id) => db.get(id))))
                 .then((projects) => {
-                allExampleProjects = projects.filter(
-                    (p): p is Project => p !== undefined,
-                );
-                loadingExamples = false;
-            });
+                    allExampleProjects = projects.filter(
+                        (p): p is Project => p !== undefined,
+                    );
+                    loadingExamples = false;
+                });
         }
     });
 

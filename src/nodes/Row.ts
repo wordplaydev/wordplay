@@ -13,12 +13,13 @@ import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
 import ValueException from '@values/ValueException';
-import Expression from '@nodes/Expression';
+import Expression, { type GuardContext } from '@nodes/Expression';
 import Input from '@nodes/Input';
 import type { Grammar, Replacement } from '@nodes/Node';
 import Node, { any, list, node } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import type TableType from '@nodes/TableType';
+import type TypeSet from '@nodes/TypeSet';
 import Token from '@nodes/Token';
 
 export default class Row extends Node {
@@ -104,6 +105,20 @@ export default class Row extends Node {
 
     allExpressions() {
         return this.cells.every((cell) => !(cell instanceof Input));
+    }
+
+    /**
+     * Pass type guards down to each cell. A Row isn't an Expression, so the table
+     * operations that hold one can't reach its cells through the usual
+     * `instanceof Expression` walk — which is why narrowing used to stop at a table.
+     */
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
+        for (const cell of this.cells)
+            (cell instanceof Input ? cell.value : cell).evaluateTypeGuards(
+                current,
+                guard,
+            );
+        return current;
     }
 
     computeConflicts() {

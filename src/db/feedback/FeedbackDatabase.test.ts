@@ -22,7 +22,10 @@ vi.mock('firebase/firestore', () => ({
     query: vi.fn(),
     where: vi.fn(),
     getDocs: vi.fn(async () => ({ docs: [] })),
-    getDocFromServer: vi.fn(async () => ({ exists: () => true, data: () => ({}) })),
+    getDocFromServer: vi.fn(async () => ({
+        exists: () => true,
+        data: () => ({}),
+    })),
 }));
 
 vi.mock('@db/firebase', () => ({

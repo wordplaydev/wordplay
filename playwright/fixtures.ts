@@ -14,7 +14,7 @@ export const test = baseTest.extend<
     { workerStorageState: string }
 >({
     // Provide the test username to all tests in this worker.
-    loggedInUsername: async ({ }, use) => {
+    loggedInUsername: async ({}, use) => {
         await use(getUsernameForWorker());
     },
     // Use the same storage state for all tests in this worker.
@@ -50,7 +50,10 @@ export const test = baseTest.extend<
             await page.getByTestId('login-button').click();
 
             const loggedIn = await page
-                .waitForURL(/\/profile$/, { waitUntil: 'domcontentloaded', timeout: 5000 })
+                .waitForURL(/\/profile$/, {
+                    waitUntil: 'domcontentloaded',
+                    timeout: 5000,
+                })
                 .then(() => true)
                 .catch(() => false);
 
@@ -59,10 +62,14 @@ export const test = baseTest.extend<
                 await page.goto('/en-US/join');
                 await page.getByTestId('username-field').fill(account.username);
                 await page.getByTestId('password-field').fill(account.password);
-                await page.getByTestId('password-repeat-field').fill(account.password);
+                await page
+                    .getByTestId('password-repeat-field')
+                    .fill(account.password);
                 await page.getByTestId('join-button').click();
 
-                await page.waitForURL(/\/profile$/, { waitUntil: 'domcontentloaded' });
+                await page.waitForURL(/\/profile$/, {
+                    waitUntil: 'domcontentloaded',
+                });
             }
 
             // Ask Playwright to save the indexedDB data stored by Firebase.

@@ -17,7 +17,10 @@ import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Context from '@nodes/Context';
-import Expression, { ExpressionKind } from '@nodes/Expression';
+import Expression, {
+    ExpressionKind,
+    type GuardContext,
+} from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import NoneType from '@nodes/NoneType';
@@ -25,7 +28,7 @@ import SimpleExpression from '@nodes/SimpleExpression';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+import TypeSet from '@nodes/TypeSet';
 import UnionType from '@nodes/UnionType';
 
 export default class Otherwise extends SimpleExpression {
@@ -160,8 +163,19 @@ export default class Otherwise extends SimpleExpression {
         return [this.left, this.right];
     }
 
-    evaluateTypeGuards(current: TypeSet): TypeSet {
-        return current;
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext): TypeSet {
+        // The left always evaluates, so it sees the incoming types.
+        const left = this.left.evaluateTypeGuards(current, guard);
+        // The right only evaluates when the left was ø, but that says nothing about
+        // any *other* name, so pass the incoming types down rather than a guess.
+        const right = this.right.evaluateTypeGuards(current, guard);
+        // Matching computeType: the value is the left without ø, or else the right.
+        return left
+            .difference(
+                new TypeSet([NoneType.make()], guard.context),
+                guard.context,
+            )
+            .union(right, guard.context);
     }
 
     getStart() {

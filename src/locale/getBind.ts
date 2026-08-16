@@ -37,9 +37,7 @@ export function getBind(
 
     const names = locales
         .getLocales()
-        .map(
-            (locale) => [locale, selectTranslation(locale, select)] as const,
-        );
+        .map((locale) => [locale, selectTranslation(locale, select)] as const);
     return (
         getFormattedWordplay(
             new Docs(

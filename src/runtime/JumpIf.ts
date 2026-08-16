@@ -35,11 +35,8 @@ export default class JumpIf extends Step {
 
     getExplanations(locales: Locales, evaluator: Evaluator) {
         const val = evaluator.peekValue();
-        return locales.concretize(
-            (l) => l.node.Conditional.else,
-            {
-                jumping: val instanceof BoolValue && val.bool === this.yes,
-            },
-        );
+        return locales.concretize((l) => l.node.Conditional.else, {
+            jumping: val instanceof BoolValue && val.bool === this.yes,
+        });
     }
 }

@@ -53,8 +53,7 @@ export default class ConceptIndex {
      *  markup — text @links and every node in its example programs — and resolving each to a
      *  concept; see {@link getHowTosForConcept}. */
     private cachedHowTosByConcept:
-        | Map<Concept, { how: Concept; count: number }[]>
-        | undefined;
+        Map<Concept, { how: Concept; count: number }[]> | undefined;
 
     /** A mapping of node ids to nodes, registered by examples that are generated. */
     readonly examples: Map<number, Node> = new Map();
@@ -63,7 +62,10 @@ export default class ConceptIndex {
      *  class and the concepts array is immutable for this index's lifetime, so
      *  this collapses the per-call linear concept scan to O(1) after the first
      *  lookup — hot when building a menu's revisions (one lookup per candidate). */
-    private readonly nodeConceptByKind = new Map<string, NodeConcept | undefined>();
+    private readonly nodeConceptByKind = new Map<
+        string,
+        NodeConcept | undefined
+    >();
 
     constructor(project: Project, concepts: Concept[], locales: Locales) {
         this.project = project;

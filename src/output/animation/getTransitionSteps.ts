@@ -3,7 +3,10 @@ import Markup from '@nodes/Markup';
 import TextValue from '@values/TextValue';
 import { getRandomTransition } from '@output/animation/getRandomTransition';
 import { getRewriteTransition } from '@output/animation/getRewriteTransition';
-import { getTextTransition, graphemes } from '@output/animation/getTextTransition';
+import {
+    getTextTransition,
+    graphemes,
+} from '@output/animation/getTextTransition';
 import {
     getMarkupRandomTransition,
     getMarkupRewriteTransition,

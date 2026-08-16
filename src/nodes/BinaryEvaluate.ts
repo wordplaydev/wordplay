@@ -40,19 +40,15 @@ import getConcreteExpectedType from '@nodes/Generics';
 import NeverType from '@nodes/NeverType';
 import type Node from '@nodes/Node';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
-import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
 import UnionType from '@nodes/UnionType';
 import findDivideByZeroSource from '@conflicts/findDivideByZeroSource';
 import { QUOTIENT_SYMBOL, REMAINDER_SYMBOL } from '@parser/Symbols';
-import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import Reference from '@nodes/Reference';
-import TextLiteral from '@nodes/TextLiteral';
-import TextType from '@nodes/TextType';
-import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import TypeSet from '@nodes/TypeSet';
+import { getEqualityTypes, narrowToEqual } from '@nodes/typeGuards';
 import UnknownNameType from '@nodes/UnknownNameType';
 
 export default class BinaryEvaluate extends Expression {
@@ -474,11 +470,23 @@ export default class BinaryEvaluate extends Expression {
             const right = this.right.evaluateTypeGuards(left, guard);
             return left.intersection(right, guard.context);
         }
-        // If disjunction of type checks, then we return the union.
-        // Note that we pass the left's possible types because we don't evaluate the right if the left is true.
+        // If disjunction, then either side being true makes the whole true, so the
+        // value is the union. The right only evaluates when the left was FALSE, so it
+        // sees the types the left ruled out — passing the unrevised set instead let
+        // `(a•#) | f(a)` treat `a` as possibly a number inside a branch that is only
+        // reached when it isn't one.
         else if (this.getOperator() === OR_SYMBOL) {
             const left = this.left.evaluateTypeGuards(current, guard);
-            const right = this.right.evaluateTypeGuards(current, guard);
+            // Only subtract when the left actually narrowed. It usually checks some
+            // other name and returns `current` unchanged, and subtracting that leaves
+            // nothing — which the right would then record as NeverType.
+            const guarded =
+                current.intersection(left, guard.context).size() <
+                current.size();
+            const right = this.right.evaluateTypeGuards(
+                guarded ? current.difference(left, guard.context) : current,
+                guard,
+            );
             return left.union(right, guard.context);
         }
         // If it's an equals check and one side is a number, text, or none literal, then reduce to the set to the literal checked
@@ -505,37 +513,21 @@ export default class BinaryEvaluate extends Expression {
                       ? this.left
                       : undefined;
 
-            let set: TypeSet | undefined = undefined;
+            const equality =
+                guardSide !== undefined && otherSide !== undefined
+                    ? getEqualityTypes(otherSide, guard.context)
+                    : undefined;
 
-            if (guardSide !== undefined && otherSide instanceof TextLiteral) {
-                // Find all of the single token translations, turn them into literal text types, and find the intersection between them and the current set.
-                const types: TextType[] = [];
-                for (const translation of otherSide.texts)
-                    if (
-                        translation.segments.length === 1 &&
-                        translation.segments[0] instanceof Token
-                    )
-                        types.push(
-                            TextType.make(translation.segments[0].getText()),
-                        );
-                set = new TypeSet(types, guard.context);
-            }
-
-            if (guardSide !== undefined && otherSide instanceof NoneLiteral) {
-                set = new TypeSet([NoneType.make()], guard.context);
-            }
-
-            if (guardSide !== undefined && otherSide instanceof NumberLiteral) {
-                set = new TypeSet(
-                    [new NumberType(otherSide.number, otherSide.unit)],
-                    guard.context,
-                );
-            }
-
-            if (set)
+            // Narrow only when we know exactly which value was compared. A
+            // multi-translation literal is the case that isn't: it evaluates to the
+            // reader's translation, and we can't tell statically which that is. The
+            // true branch alone would be sound ("one of the translations"), but a
+            // conditional takes the false branch to be the complement of the true one,
+            // and the complement of a maybe is not a fact. See getEqualityTypes.
+            if (equality && equality.exclusive)
                 return equals
-                    ? current.intersection(set, guard.context)
-                    : current.difference(set, guard.context);
+                    ? narrowToEqual(current, equality.types, guard.context)
+                    : current.difference(equality.types, guard.context);
         }
 
         // Otherwise, just pass the types down and return the original types.
@@ -561,12 +553,9 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.BinaryEvaluate.start,
-            {
-                left: new NodeRef(this.left, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.BinaryEvaluate.start, {
+            left: new NodeRef(this.left, locales, context),
+        });
     }
 
     getFinishExplanations(
@@ -574,12 +563,9 @@ export default class BinaryEvaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.BinaryEvaluate.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.BinaryEvaluate.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

@@ -33,7 +33,11 @@ import type { DefinitePose } from '@output/animation/Pose';
 import Pose from '@output/animation/Pose';
 import type RenderContext from '@output/RenderContext';
 import Sequence from '@output/animation/Sequence';
-import { CSSFallbackFaces, toNumber, type NameGenerator } from '@output/Output/Stage';
+import {
+    CSSFallbackFaces,
+    toNumber,
+    type NameGenerator,
+} from '@output/Output/Stage';
 import { splitCharacterRefs } from '@output/Output/splitCharacterRefs';
 import { getOutputInput } from '@output/Output/Valued';
 import getTextMetrics from '@output/Output/getTextMetrics';

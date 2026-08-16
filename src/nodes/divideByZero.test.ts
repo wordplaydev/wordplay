@@ -36,20 +36,18 @@ function divideByZeroConflicts(code: string): { fixes: string[] }[] {
                     .toText() ?? '';
             if (explanation.toLowerCase().includes('divide by zero'))
                 out.push({
-                    fixes: conflict
-                        .getResolutions(context, [])
-                        .map((r) => {
-                            if (r.kind !== 'repair') return '';
-                            try {
-                                return (
-                                    r
-                                        .mediator(context, DefaultLocales)
-                                        .newNode?.toWordplay() ?? ''
-                                );
-                            } catch {
-                                return '';
-                            }
-                        }),
+                    fixes: conflict.getResolutions(context, []).map((r) => {
+                        if (r.kind !== 'repair') return '';
+                        try {
+                            return (
+                                r
+                                    .mediator(context, DefaultLocales)
+                                    .newNode?.toWordplay() ?? ''
+                            );
+                        } catch {
+                            return '';
+                        }
+                    }),
                 });
         }
     return out;
@@ -84,9 +82,9 @@ test('unsafe division conflicts with a ?? fix', () => {
         'count: [].length()\nx: 10 ÷ count\nx + 1',
     );
     expect(conflicts.length).toBeGreaterThan(0);
-    expect(conflicts.some((c) => c.fixes.some((f) => f === '10÷count??1'))).toBe(
-        true,
-    );
+    expect(
+        conflicts.some((c) => c.fixes.some((f) => f === '10÷count??1')),
+    ).toBe(true);
 });
 
 // A provably-non-zero divisor never produces a divide-by-zero conflict.
@@ -120,7 +118,5 @@ test('safe reaction recurrence is not flagged', () => {
         (n): n is Reaction => n instanceof Reaction,
     );
     expect(reaction?.getType(context).toWordplay()).toBe('#');
-    expect(
-        divideByZeroConflicts('a: 1 … ∆ Time() … a + 1\na'),
-    ).toHaveLength(0);
+    expect(divideByZeroConflicts('a: 1 … ∆ Time() … a + 1\na')).toHaveLength(0);
 });

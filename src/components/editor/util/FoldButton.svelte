@@ -25,7 +25,9 @@
     const folded = getFolded();
     const announce = getAnnouncer();
     const caret = getCaret();
-    let isFolded = $derived(node !== undefined && ($folded?.has(node) ?? false));
+    let isFolded = $derived(
+        node !== undefined && ($folded?.has(node) ?? false),
+    );
 
     /** Move the editor caret to where this fold control appears (the node's first
      *  token), so keyboard users can step into the node's code straight from the

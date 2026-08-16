@@ -9,7 +9,9 @@ export default class ReadOnlyEditException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.getTextStructure((l) => l.output.Source.ReadOnlyEditException);
+        return locales.getTextStructure(
+            (l) => l.output.Source.ReadOnlyEditException,
+        );
     }
 
     getExplanation(locales: Locales) {

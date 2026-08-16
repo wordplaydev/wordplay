@@ -24,8 +24,7 @@ export default class Replace<NodeType extends Node> extends Revision {
         replacement: NodeType | Refer,
         /** True if this replacement completes an existing node */
         description:
-            | ((translation: LocaleText) => string)
-            | undefined = undefined,
+            ((translation: LocaleText) => string) | undefined = undefined,
     ) {
         super(parent, context);
 

@@ -154,7 +154,10 @@ test('two browser contexts, two users — edits propagate both ways', async ({
     const sessionA = await loginNewContext(browser, usernameA, password);
     const sessionB = await loginNewContext(browser, usernameB, password);
 
-    const projectId = await seedCollaborativeProject(sessionA.uid, sessionB.uid);
+    const projectId = await seedCollaborativeProject(
+        sessionA.uid,
+        sessionB.uid,
+    );
 
     await openProject(sessionA.page, projectId);
     await openProject(sessionB.page, projectId);
@@ -162,16 +165,18 @@ test('two browser contexts, two users — edits propagate both ways', async ({
     // A → B
     const fromA = `aa${uuidv4().slice(0, 6)}`;
     await typeInEditor(sessionA.page, fromA);
-    await expect(
-        sessionB.page.getByTestId('editor').first(),
-    ).toContainText(fromA, { timeout: PROPAGATION_TIMEOUT });
+    await expect(sessionB.page.getByTestId('editor').first()).toContainText(
+        fromA,
+        { timeout: PROPAGATION_TIMEOUT },
+    );
 
     // B → A
     const fromB = `bb${uuidv4().slice(0, 6)}`;
     await typeInEditor(sessionB.page, fromB);
-    await expect(
-        sessionA.page.getByTestId('editor').first(),
-    ).toContainText(fromB, { timeout: PROPAGATION_TIMEOUT });
+    await expect(sessionA.page.getByTestId('editor').first()).toContainText(
+        fromB,
+        { timeout: PROPAGATION_TIMEOUT },
+    );
 
     await sessionA.context.close();
     await sessionB.context.close();

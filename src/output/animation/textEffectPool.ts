@@ -111,9 +111,7 @@ export function choosePool(
     if (pool === undefined && dominant !== undefined)
         pool = scriptData.pools.get(dominant);
 
-    return pool === undefined
-        ? undefined
-        : filterPoolByCase(start + end, pool);
+    return pool === undefined ? undefined : filterPoolByCase(start + end, pool);
 }
 
 /**

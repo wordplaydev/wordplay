@@ -42,7 +42,7 @@ export function rotateAround(
     y: number,
     cx: number,
     cy: number,
-    radians: number
+    radians: number,
 ): Point {
     return {
         x: cx + (x - cx) * Math.cos(radians) - (y - cy) * Math.sin(radians),
@@ -56,7 +56,7 @@ export function rotateAround(
  */
 export function getSegmentIntersect(
     segment1: Segment,
-    segment2: Segment
+    segment2: Segment,
 ): Point | undefined {
     // If either line is a point, they don't intersect.
     if (isPoint(segment1) || isPoint(segment2)) return undefined;
@@ -101,7 +101,7 @@ export function isPoint(line: Segment) {
  */
 export function getPolygonIntersect(
     poly1: Polygon,
-    poly2: Polygon
+    poly2: Polygon,
 ): { segment1: Segment; segment2: Segment; point: Point }[] {
     // Keep a list of intersection points
     const intersections: {
@@ -127,7 +127,7 @@ export function getPolygonIntersect(
                 !intersections.some(
                     (i) =>
                         i.point.x === intersection.x &&
-                        i.point.y === intersection.y
+                        i.point.y === intersection.y,
                 )
             )
                 intersections.push({
@@ -152,7 +152,7 @@ export function getCollisionVelocities(
     mass2: number,
     elasticity2: number,
     collisionPoint1: Point,
-    collisionPoint2: Point
+    collisionPoint2: Point,
 ): [Velocity, Velocity] {
     // Compute relative velocity
     const relativeVelocity = {
@@ -166,8 +166,8 @@ export function getCollisionVelocities(
             -(collisionPoint2.y - collisionPoint1.y),
             collisionPoint2.x - collisionPoint1.x,
             collisionPoint2.y - collisionPoint1.y,
-            -(collisionPoint2.x - collisionPoint1.x)
-        )
+            -(collisionPoint2.x - collisionPoint1.x),
+        ),
     );
 
     // Compute the dot product of the collision normal and the relative velocity to get the relative velocity along the normal of the collision.

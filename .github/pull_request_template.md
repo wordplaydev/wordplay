@@ -9,8 +9,8 @@ For pull requests that relate or close an issue, please include them below.  We 
 request to issue 1234. And when we merge the pull request, Github will automatically close the issue.
 -->
 
--   Related Issue #
--   Closes #
+- Related Issue #
+- Closes #
 
 ## Verification
 

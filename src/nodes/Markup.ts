@@ -32,8 +32,7 @@ export default class Markup extends Content {
     readonly paragraphs: Paragraph[];
     readonly spaces: Spaces | undefined;
     readonly metadata:
-        | { unwritten: boolean; machineTranslated: boolean }
-        | undefined;
+        { unwritten: boolean; machineTranslated: boolean } | undefined;
 
     constructor(
         content: Paragraph[],
@@ -64,7 +63,9 @@ export default class Markup extends Content {
         characters: string[] | undefined,
     ): Markup[] {
         return [
-            Markup.words(locales.getMultilingualText((l) => l.node.Markup.name)),
+            Markup.words(
+                locales.getMultilingualText((l) => l.node.Markup.name),
+            ),
             ...(characters?.map((name) => Markup.words(`@${name}`)) ?? []),
         ];
     }
@@ -370,7 +371,11 @@ export default class Markup extends Content {
         const first = other.paragraphs[0];
         const merged = new Paragraph([...last.segments, ...first.segments]);
         return new Markup(
-            [...this.paragraphs.slice(0, -1), merged, ...other.paragraphs.slice(1)],
+            [
+                ...this.paragraphs.slice(0, -1),
+                merged,
+                ...other.paragraphs.slice(1),
+            ],
             spaces,
         );
     }

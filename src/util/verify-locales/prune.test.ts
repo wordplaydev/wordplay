@@ -121,9 +121,9 @@ describe('removeProperty', () => {
         ) as ts.TypeAliasDeclaration;
         const newMembers = (decl.type as ts.TypeLiteralNode).members;
         expect(newMembers.length).toBe(1);
-        expect((newMembers[0] as ts.PropertySignature).name.getText(reparsed)).toBe(
-            'a',
-        );
+        expect(
+            (newMembers[0] as ts.PropertySignature).name.getText(reparsed),
+        ).toBe('a');
     });
 });
 

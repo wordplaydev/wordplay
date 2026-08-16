@@ -661,6 +661,23 @@
     );
 
     /**
+     * Whether this project's code asks for keyboard input at all, read from the
+     * source rather than from streams the evaluator has created. The stage needs a
+     * focus target from the moment it's on screen: a program whose `Key()` hasn't
+     * evaluated yet has no stream, and without the sink below a keystroke lands in
+     * the editor and edits the source instead (#1285). Only the sink uses this —
+     * the on-screen keyboard and key pad still follow the live streams, so what a
+     * touch device offers stays tied to what's actually listening.
+     */
+    const listensForKeys = $derived(
+        evaluator.project.getReferences(evaluator.project.shares.input.Key)
+            .length > 0 ||
+            evaluator.project.getReferences(
+                evaluator.project.shares.input.Placement,
+            ).length > 0,
+    );
+
+    /**
      * Which keys this project listens for, when we're on a touch screen and
      * could offer them as buttons instead of the on-screen keyboard. Analysis
      * is cached per project revision, so this costs nothing to re-derive.
@@ -2313,7 +2330,7 @@
             </div>
         {/if}
         <!-- Stage controls dock: stream status chips (Hand/Face loading, sensors) + keyboard input -->
-        {#if musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
+        {#if musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || (interactive && listensForKeys)}
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Hand/Face loading indicators, sensor monitors -->
                 {#if musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
@@ -2379,7 +2396,7 @@
                     </div>
                 {/if}
                 <!-- Hidden focus sink that lets Key/Placement streams receive keyboard events -->
-                {#if keys || placements}
+                {#if interactive && listensForKeys}
                     <div class="keyboard">
                         <!-- With every key on screen, the on-screen keyboard
                              would only obstruct the stage; the field stays

@@ -463,11 +463,26 @@ export default class Block extends Expression {
      * since we use them for parentheticals in boolean logic.
      * */
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
-        if (this.statements.length === 0) return current;
-        const last = this.statements[this.statements.length - 1];
-        return last instanceof Expression
-            ? last.evaluateTypeGuards(current, guard)
-            : current;
+        // Every statement runs, in order, so a narrowing that holds when the block
+        // starts holds for all of them — walking only the last one left a narrowed
+        // name unnarrowed everywhere but the final line.
+        let types = current;
+        for (const statement of this.statements)
+            if (statement instanceof Expression)
+                types = statement.evaluateTypeGuards(types, guard);
+        // The block's own value is its last statement's, so that's what it reports.
+        return types;
+    }
+
+    /** A parenthetical is its last statement, for the purpose of being checked. */
+    isGuardMatch(guard: GuardContext): boolean {
+        const last = this.getLast();
+        return last instanceof Expression ? last.isGuardMatch(guard) : false;
+    }
+
+    guardsTypes() {
+        const last = this.getLast();
+        return last instanceof Expression ? last.guardsTypes() : false;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Block;

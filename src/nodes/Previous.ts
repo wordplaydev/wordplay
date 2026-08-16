@@ -26,7 +26,7 @@ import ListType from '@nodes/ListType';
 import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import NoneType from '@nodes/NoneType';
 import NumberType from '@nodes/NumberType';
-import StreamType from '@nodes/StreamType';
+import StreamType, { isStreamExpression } from '@nodes/StreamType';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
@@ -120,14 +120,18 @@ export default class Previous extends Expression {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        const valueType = this.stream.getType(context);
-        // Accept a `•…T`-typed stream (passed into a function) as well as a value
-        // whose type is registered as stream-derived. (#1237)
+        // Ask the expression, not its type; see streamProvenance.
         if (
-            !context.isStream(valueType) &&
+            !isStreamExpression(this.stream, context) &&
             !context.isUnknownDownstream(this.stream)
         )
-            return [new IncompatibleInput(this, valueType, StreamType.make())];
+            return [
+                new IncompatibleInput(
+                    this,
+                    this.stream.getType(context),
+                    StreamType.make(),
+                ),
+            ];
 
         const indexType = this.number.getType(context);
         if (

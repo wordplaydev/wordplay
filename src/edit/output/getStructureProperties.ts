@@ -107,12 +107,10 @@ export default function getStructureProperties(
 ): OutputProperty[] {
     const context = project.getNodeContext(evaluate);
     const definition = evaluate.getFunction(context);
-    if (
-        !(
-            definition instanceof StructureDefinition ||
-            definition instanceof StreamDefinition
-        )
-    )
+    if (!(
+        definition instanceof StructureDefinition ||
+        definition instanceof StreamDefinition
+    ))
         return [];
 
     const output = project.shares.output;

@@ -247,7 +247,7 @@ export function segment(frames: readonly Frame[]): Sung[] {
             held.level = Math.max(held.level, frame.level);
         }
     }
-    finish(silentSince ?? (frames[frames.length - 1]?.at ?? 0));
+    finish(silentSince ?? frames[frames.length - 1]?.at ?? 0);
 
     // Drop what was never sung. The detector finds a confident pitch in breath
     // and room noise, and those notes are the ones that wreck everything

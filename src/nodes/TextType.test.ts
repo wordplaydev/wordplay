@@ -55,17 +55,44 @@ test.each([
     [
         [en],
         ['straight', 'cautious', 'pokey', 'zippy'],
-        ['recto', 'cauteloso', 'lento', 'rápido', '直线', '谨慎', '慢吞吞', '迅速'],
+        [
+            'recto',
+            'cauteloso',
+            'lento',
+            'rápido',
+            '直线',
+            '谨慎',
+            '慢吞吞',
+            '迅速',
+        ],
     ],
     [
         [es],
         ['recto', 'cauteloso', 'lento', 'rápido'],
-        ['straight', 'cautious', 'pokey', 'zippy', '直线', '谨慎', '慢吞吞', '迅速'],
+        [
+            'straight',
+            'cautious',
+            'pokey',
+            'zippy',
+            '直线',
+            '谨慎',
+            '慢吞吞',
+            '迅速',
+        ],
     ],
     [
         [zh],
         ['直线', '谨慎', '慢吞吞', '迅速'],
-        ['straight', 'cautious', 'pokey', 'zippy', 'recto', 'cauteloso', 'lento', 'rápido'],
+        [
+            'straight',
+            'cautious',
+            'pokey',
+            'zippy',
+            'recto',
+            'cauteloso',
+            'lento',
+            'rápido',
+        ],
     ],
 ])(
     'Sequence style conflict with current locale %s lists only that locale',
@@ -74,7 +101,13 @@ test.each([
             'untitled',
             'Sequence({0%:Pose()} 5s "bogus")',
         );
-        const project = Project.make(null, 'untitled', source, [], [en, es, zh]);
+        const project = Project.make(
+            null,
+            'untitled',
+            source,
+            [],
+            [en, es, zh],
+        );
         const context = project.getContext(source);
         const locales = new Locales(concretize, current, DefaultLocale);
 

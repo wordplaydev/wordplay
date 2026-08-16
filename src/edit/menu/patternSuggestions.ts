@@ -199,7 +199,9 @@ function sequenceItems(action: InsertContext | ReplaceContext): PatternNode[] {
 }
 
 /** A backreference for each capture named in the enclosing pattern. */
-function captureBackrefs(action: InsertContext | ReplaceContext): PatternNode[] {
+function captureBackrefs(
+    action: InsertContext | ReplaceContext,
+): PatternNode[] {
     const anchor = 'node' in action ? action.node : action.parent;
     const pattern = action.context
         .getRoot(anchor)
@@ -233,7 +235,9 @@ function anchorDefaults(action: InsertContext | ReplaceContext): PatternNode[] {
     const anchors: PatternNode[] = [];
     if (action.index === 0)
         anchors.push(
-            new PatternAnchor(new Token(PATTERN_START_SYMBOL, Sym.PatternStart)),
+            new PatternAnchor(
+                new Token(PATTERN_START_SYMBOL, Sym.PatternStart),
+            ),
         );
     if (action.index === undefined || action.index >= count)
         anchors.push(

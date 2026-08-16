@@ -116,7 +116,9 @@ test('dorian sits between minor and major, on the one interval that differs', ()
     expect(scaleValence(Scales.dorian)).toBeGreaterThan(
         scaleValence(Scales.minor),
     );
-    expect(scaleValence(Scales.dorian)).toBeLessThan(scaleValence(Scales.major));
+    expect(scaleValence(Scales.dorian)).toBeLessThan(
+        scaleValence(Scales.major),
+    );
 });
 
 test('chromatic is ambivalent, because it holds both thirds', () => {
@@ -125,14 +127,20 @@ test('chromatic is ambivalent, because it holds both thirds', () => {
 
 test('scales with no fifth to stand on read dark', () => {
     // Locrian's tritone-for-a-fifth is what makes it unsettled, not its third.
-    expect(scaleValence(Scales.locrian)).toBeLessThan(scaleValence(Scales.minor));
+    expect(scaleValence(Scales.locrian)).toBeLessThan(
+        scaleValence(Scales.minor),
+    );
 });
 
 test('symmetric scales read as unsettled rather than as happy', () => {
     // Whole tone has a major third and no minor one, so a third-only reading
     // would call it cheerful. It has no tonic at all.
-    const whole = analyzeMood([music({ tracks: [track({ scale: Scales.wholeTone })] })]);
-    const major = analyzeMood([music({ tracks: [track({ scale: Scales.major })] })]);
+    const whole = analyzeMood([
+        music({ tracks: [track({ scale: Scales.wholeTone })] }),
+    ]);
+    const major = analyzeMood([
+        music({ tracks: [track({ scale: Scales.major })] }),
+    ]);
     expect(whole.edge).toBeGreaterThan(major.edge);
     expect(whole.spread).toBeGreaterThan(major.spread);
 });
@@ -153,7 +161,14 @@ test('percussion is angular and a pad is round', () => {
         music({ tracks: [track({ instrument: 'drums' })] }),
     ]);
     const pad = analyzeMood([
-        music({ tracks: [track({ instrument: 'synthPad', notes: [{ degrees: [1], beats: 4, volume: 1 }] })] }),
+        music({
+            tracks: [
+                track({
+                    instrument: 'synthPad',
+                    notes: [{ degrees: [1], beats: 4, volume: 1 }],
+                }),
+            ],
+        }),
     ]);
     expect(drums.edge).toBeGreaterThan(pad.edge);
 });
@@ -184,7 +199,9 @@ test('mixed note lengths spread the colour wider than even ones', () => {
 });
 
 test('the instrument reaches the colour, so two palettes differ', () => {
-    const piano = analyzeMood([music({ tracks: [track({ instrument: 'piano' })] })]);
+    const piano = analyzeMood([
+        music({ tracks: [track({ instrument: 'piano' })] }),
+    ]);
     const guitar = analyzeMood([
         music({ tracks: [track({ instrument: 'acousticGuitar' })] }),
     ]);
@@ -220,7 +237,8 @@ test('empty and degenerate music still produce a valid mood', () => {
 test('no music can brighten or darken the cloud: ink is conserved', () => {
     // A deterministic pseudo-random sweep of spectra and deformations.
     let seed = 7;
-    const next = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+    const next = () =>
+        (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
     for (let round = 0; round < 200; round++) {
         const raw = Array.from({ length: Lobes }, () => next() * next() * 4);
         const radii = normalizeInk(normalizeShares(raw));
@@ -258,7 +276,13 @@ test('a lobe can never pinch shut, so it cannot blink on and off', () => {
     for (let i = 0; i < 720; i++)
         smallest = Math.min(
             smallest,
-            lobeRadius(0.3, MaxDeform, harmonics, phases, (i / 720) * Math.PI * 2),
+            lobeRadius(
+                0.3,
+                MaxDeform,
+                harmonics,
+                phases,
+                (i / 720) * Math.PI * 2,
+            ),
         );
     expect(smallest).toBeGreaterThan(0.3 * 0.5);
 });
@@ -266,7 +290,9 @@ test('a lobe can never pinch shut, so it cannot blink on and off', () => {
 test('no lobe may lose all its share', () => {
     const shares = normalizeShares([1, 0, 0, 0, 0, 0, 0, 0, 0]);
     for (const share of shares) expect(share).toBeGreaterThan(0);
-    expect(deformOf(restingMood(), restingPulse())).toBeLessThanOrEqual(MaxDeform);
+    expect(deformOf(restingMood(), restingPulse())).toBeLessThanOrEqual(
+        MaxDeform,
+    );
 });
 
 /* ---------------------------------------------------------------- *

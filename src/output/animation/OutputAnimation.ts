@@ -2,9 +2,17 @@ import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import { Easings, type EasingName } from '@output/animation/easing';
 import type Animator from '@output/animation/Animator';
-import type { Orientation, OutputInfo, OutputName } from '@output/animation/Animator';
+import type {
+    Orientation,
+    OutputInfo,
+    OutputName,
+} from '@output/animation/Animator';
 import type Output from '@output/Output/Output';
-import { PX_PER_METER, sizeToPx, toOutputTransform } from '@output/Output/outputToCSS';
+import {
+    PX_PER_METER,
+    sizeToPx,
+    toOutputTransform,
+} from '@output/Output/outputToCSS';
 import Phrase from '@output/Output/Phrase';
 import Place from '@output/Place/Place';
 import Pose from '@output/animation/Pose';
@@ -754,8 +762,10 @@ export const TextEffects = ['edit', 'rewrite', 'random'] as const;
 export type TextEffect = (typeof TextEffects)[number];
 
 // A cache of localized effect names to canonical effect keys for each locale.
-const changingValueToKeyByLocale: Map<LocaleText, Map<string, string>> =
-    new Map();
+const changingValueToKeyByLocale: Map<
+    LocaleText,
+    Map<string, string>
+> = new Map();
 
 /**
  * Resolve a Phrase's changing name to a canonical text effect, mirroring

@@ -97,7 +97,9 @@ export function checkProvenance(lock: Lockfile): string[] {
     const problems: string[] = [];
     for (const instrument of Manifest)
         if ((lock.instruments[instrument.id] ?? []).length === 0)
-            problems.push(`${instrument.id} is in the manifest but has no zones`);
+            problems.push(
+                `${instrument.id} is in the manifest but has no zones`,
+            );
     for (const [id, zones] of Object.entries(lock.instruments))
         for (const zone of zones) {
             if (!zone.sourceUrl || !zone.license || !zone.author)

@@ -43,8 +43,7 @@ test('binds to the atomic expression, not the whole binary expression', () => {
 test('parenthesized expression tags the whole expression with Localized', () => {
     const program = parseProgram(toTokens('("a" + "b")/en'));
     const localized = program.nodes().find((n) => n instanceof Localized) as
-        | Localized
-        | undefined;
+        Localized | undefined;
     expect(localized).toBeDefined();
 });
 

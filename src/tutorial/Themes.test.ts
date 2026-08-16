@@ -39,7 +39,8 @@ function musicOf(spec: ThemeSpec) {
 }
 
 test('every theme evaluates to a Music', () => {
-    for (const [name, spec] of entries) expect(musicOf(spec), name).toBeDefined();
+    for (const [name, spec] of entries)
+        expect(musicOf(spec), name).toBeDefined();
 });
 
 /**
@@ -68,9 +69,10 @@ test('themes obey the authoring rules', () => {
             'volume',
         ).toEqual([name, true]);
         expect(ScaleKeys, `${name} scale`).toContain(spec.scale);
-        expect([name, spec.layers.length >= 1 && spec.layers.length <= 4]).toEqual(
-            [name, true],
-        );
+        expect([
+            name,
+            spec.layers.length >= 1 && spec.layers.length <= 4,
+        ]).toEqual([name, true]);
 
         for (const layer of spec.layers) {
             expect(InstrumentKeys, `${name} instrument`).toContain(
@@ -80,7 +82,10 @@ test('themes obey the authoring rules', () => {
             expect([name, layer.instrument]).not.toEqual([name, 'voice']);
             // At least a beat an entry: this is what keeps the fastest theme
             // under the 3Hz pulse band at the fastest tempo.
-            expect([name, (layer.beat ?? 1) >= 1], 'beat').toEqual([name, true]);
+            expect([name, (layer.beat ?? 1) >= 1], 'beat').toEqual([
+                name,
+                true,
+            ]);
             expect([name, Math.abs(layer.key ?? 0) <= 12], 'key').toEqual([
                 name,
                 true,
@@ -102,15 +107,19 @@ test('themes obey the authoring rules', () => {
             // There is no cross-fade: the theme is cut the moment you advance
             // past the title card, and a loop cut at a rest is not a jarring
             // cut. This is also what makes the loop point sound intentional.
-            expect([name, motif.at(-1)], 'ends on a rest').toEqual([name, null]);
+            expect([name, motif.at(-1)], 'ends on a rest').toEqual([
+                name,
+                null,
+            ]);
 
             for (const value of motif) {
                 if (value === null) continue;
                 const degrees = typeof value === 'number' ? [value] : value;
                 for (const degree of degrees)
-                    expect([name, degree >= 1 && degree <= 10], 'degree').toEqual(
-                        [name, true],
-                    );
+                    expect(
+                        [name, degree >= 1 && degree <= 10],
+                        'degree',
+                    ).toEqual([name, true]);
             }
         }
     }
@@ -158,14 +167,20 @@ test('every title card carries its theme onto the stage, risk-free', () => {
                 [],
                 DefaultLocale,
             );
-            const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
+            const evaluator = new Evaluator(
+                project,
+                DB,
+                [DefaultLocale],
+                false,
+            );
             const value = evaluator.getInitialValue();
             const stage = value ? toStage(evaluator, value) : undefined;
             const music = stage?.getMusic() ?? [];
             expect([parsed.theme, music.length]).toEqual([parsed.theme, 1]);
-            expect([parsed.theme, [...analyzeMusic(music[0].toData())]]).toEqual(
-                [parsed.theme, []],
-            );
+            expect([
+                parsed.theme,
+                [...analyzeMusic(music[0].toData())],
+            ]).toEqual([parsed.theme, []]);
         }
     }
 });

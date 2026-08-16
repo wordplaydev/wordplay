@@ -9,6 +9,5 @@
     viewBox="0 0 14 14"
     style="fill: currentColor; vertical-align: -0.125em; pointer-events: none;"
     aria-hidden="true"
-    focusable="false"
-    ><path d="M3.5,1.75 L12.25,7 L3.5,12.25 Z" /></svg
+    focusable="false"><path d="M3.5,1.75 L12.25,7 L3.5,12.25 Z" /></svg
 >

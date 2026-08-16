@@ -43,7 +43,8 @@ export function parseClipboardCode(text: string): {
                         text.slice(0, offset).trimEnd(),
                     ),
                     isCode,
-                    hidden: statements.length - MAX_CLIPBOARD_PREVIEW_STATEMENTS,
+                    hidden:
+                        statements.length - MAX_CLIPBOARD_PREVIEW_STATEMENTS,
                 };
         }
     }

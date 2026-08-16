@@ -1,6 +1,9 @@
 <script lang="ts">
     import { getTip } from '@components/project/Contexts';
-    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import { locales } from '@db/Database';
     import { getTermDefinitionString } from '@locale/Glossary';
     import type TermRef from '@locale/TermRef';

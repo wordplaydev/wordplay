@@ -15,7 +15,8 @@ export const ExpressionKind = {
     Evaluate: 'block',
     Definition: 'definition',
 } as const;
-export type ExpressionKind = (typeof ExpressionKind)[keyof typeof ExpressionKind];
+export type ExpressionKind =
+    (typeof ExpressionKind)[keyof typeof ExpressionKind];
 
 export default abstract class Expression extends Node {
     constructor() {
@@ -69,7 +70,7 @@ export default abstract class Expression extends Node {
      * collection (list, set, map, or table) whose size is fixed, otherwise
      * undefined. Used to prove a `.length()` divisor is non-zero.
      */
-    getConstantLength(): number | undefined {
+    getConstantLength(_?: Context): number | undefined {
         return undefined;
     }
 
@@ -196,6 +197,22 @@ export default abstract class Expression extends Node {
 export type GuardContext = {
     bind: Bind;
     key: string;
-    original: TypeSet;
     context: Context;
+    /**
+     * The binds whose values we're currently expanding, to evaluate a check held in a
+     * name (`ok: map{key} ≠ ø`, used as `ok ? …`). It does two jobs. It bounds the
+     * expansion, since binds can name each other — a conflict, not a parse error, so
+     * this analysis still runs on that code. And a non-empty set means we're inside a
+     * definition rather than at a use site, where a narrowed type must NOT be
+     * recorded: reference types are keyed by node identity and outlive the traversal,
+     * so one recorded inside a bind's value would leak a single branch's narrowing
+     * into every use of that bind.
+     */
+    expanding?: Set<Bind>;
 };
+
+/** Whether a narrowed type may be recorded: only at a use site, never inside a bind's
+ *  definition we're expanding. See GuardContext.expanding. */
+export function canRecordGuard(guard: GuardContext) {
+    return guard.expanding === undefined || guard.expanding.size === 0;
+}

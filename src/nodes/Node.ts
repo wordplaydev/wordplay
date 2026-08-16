@@ -212,9 +212,7 @@ export default abstract class Node {
             this._nodes = nodes;
         }
         return (
-            include === undefined
-                ? this._nodes
-                : this._nodes.filter(include)
+            include === undefined ? this._nodes : this._nodes.filter(include)
         ) as Kind[];
     }
 

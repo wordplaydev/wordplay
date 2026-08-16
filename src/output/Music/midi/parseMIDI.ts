@@ -54,7 +54,9 @@ function readVarLength(
     // Five bytes would already overflow the 28 bits SMF allows.
     for (let read = 0; read < 5; read++) {
         if (i >= bytes.length)
-            throw new MIDIFormatError('File ended inside a variable-length value.');
+            throw new MIDIFormatError(
+                'File ended inside a variable-length value.',
+            );
         const byte = bytes[i++];
         value = (value << 7) | (byte & 0x7f);
         if ((byte & 0x80) === 0) return { value, next: i };
@@ -119,7 +121,10 @@ export default function parseMIDI(bytes: Uint8Array): ParsedMIDI {
 
         const notes: MIDINote[] = [];
         /** Note-ons awaiting their note-off, keyed by pitch. */
-        const sounding = new Map<number, { ticks: number; velocity: number }[]>();
+        const sounding = new Map<
+            number,
+            { ticks: number; velocity: number }[]
+        >();
         let name: string | undefined;
         let channel: number | undefined;
         let program: number | undefined;

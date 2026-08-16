@@ -338,12 +338,10 @@ export default function bootstrapList(locales: Locales) {
                                 NumberType.make(),
                                 list,
                             );
-                        if (
-                            !(
-                                end instanceof NumberValue ||
-                                end instanceof NoneValue
-                            )
-                        )
+                        if (!(
+                            end instanceof NumberValue ||
+                            end instanceof NoneValue
+                        ))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 UnionType.make(

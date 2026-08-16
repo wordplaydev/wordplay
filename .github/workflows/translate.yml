@@ -43,6 +43,12 @@ jobs:
               env:
                   ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
+            # The translator writes JSON with inconsistent indentation/escapes;
+            # format before committing so this workflow can't introduce drift
+            # that the PR's prettier check would then fail.
+            - run: npx prettier --write static/locales src/locale/en-US.json
+              name: Format locale files
+
             - name: Commit translations to the PR branch
               run: |
                   git config user.name "github-actions[bot]"
