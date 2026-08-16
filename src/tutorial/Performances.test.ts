@@ -74,8 +74,9 @@ test('the finale carries no music risk', () => {
  * failure is a conflict, so nothing else here would notice.
  */
 test('every Music lesson evaluates and makes music', () => {
-    const scene = getDefaultTutorial('complete')
-        .acts[5].scenes.find((s) => s.concept === 'Music');
+    const scene = getDefaultTutorial('complete').acts[5].scenes.find(
+        (s) => s.concept === 'Music',
+    );
     expect(scene, 'the Music scene').toBeDefined();
 
     const programs = (scene?.lines ?? [])

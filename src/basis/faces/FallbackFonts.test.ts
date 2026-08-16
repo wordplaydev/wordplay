@@ -240,7 +240,9 @@ describe('CSS and TS artifacts stay in sync', () => {
                     // deduped is keyed by the served path without a leading '/'.
                     const narrowed = deduped.get(url.replace(/^\//, '')) ?? '';
                     if (narrowed === '') continue;
-                    expected.add(`${face.name}|${cssWeight}|${url}|${narrowed}`);
+                    expected.add(
+                        `${face.name}|${cssWeight}|${url}|${narrowed}`,
+                    );
                 }
             }
         }

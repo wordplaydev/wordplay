@@ -228,7 +228,7 @@ export default class Sequence extends Valued {
                             ? 0
                             : (this.duration *
                                   (current.percent - previous.percent)) /
-                              count,
+                                  count,
                         this.style,
                     ),
                 );
@@ -261,12 +261,10 @@ export default class Sequence extends Valued {
 }
 
 export function toSequence(project: Project, value: Value | undefined) {
-    if (
-        !(
-            value instanceof StructureValue &&
-            value.type === project.shares.output.Sequence
-        )
-    )
+    if (!(
+        value instanceof StructureValue &&
+        value.type === project.shares.output.Sequence
+    ))
         return undefined;
 
     const [poses, durationVal, style, countVal, description] =

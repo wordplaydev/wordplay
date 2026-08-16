@@ -218,9 +218,13 @@ export default class MapLiteral extends CompositeLiteral {
     }
 
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
+        // Entries are KeyValue, which extends Node rather than Expression, so an
+        // `instanceof Expression` filter here silently skipped every one of them.
         this.values.forEach((val) => {
-            if (val instanceof Expression)
-                val.evaluateTypeGuards(current, guard);
+            if (val instanceof KeyValue) {
+                val.key.evaluateTypeGuards(current, guard);
+                val.value.evaluateTypeGuards(current, guard);
+            } else val.evaluateTypeGuards(current, guard);
         });
         return current;
     }

@@ -119,7 +119,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'minorPentatonic',
         layers: [
             { instrument: 'flute', motif: [1, 3, 5, 8, 7, 5, null, null] },
-            { instrument: 'bell', motif: [1, null, 5, null], beat: 2, volume: 55 },
+            {
+                instrument: 'bell',
+                motif: [1, null, 5, null],
+                beat: 2,
+                volume: 55,
+            },
         ],
     },
     /** Small curious steps, nothing grand: the act of little things. */
@@ -129,7 +134,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'pentatonic',
         layers: [
             { instrument: 'piano', motif: [1, 2, 3, 5, 3, 2, null, null] },
-            { instrument: 'bell', motif: [null, null, 8, null], beat: 2, volume: 50 },
+            {
+                instrument: 'bell',
+                motif: [null, null, 8, null],
+                beat: 2,
+                volume: 50,
+            },
         ],
     },
     /** An ensemble, literally: a melody, a chord, and a pulse. */
@@ -139,8 +149,18 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'major',
         layers: [
             { instrument: 'flute', motif: [5, 6, 8, 6, 5, 3, 1, null] },
-            { instrument: 'synthPad', motif: [[1, 3, 5], null, [4, 6, 8], null], beat: 2, volume: 45 },
-            { instrument: 'drums', motif: [1, null, 2, null], beat: 2, volume: 50 },
+            {
+                instrument: 'synthPad',
+                motif: [[1, 3, 5], null, [4, 6, 8], null],
+                beat: 2,
+                volume: 45,
+            },
+            {
+                instrument: 'drums',
+                motif: [1, null, 2, null],
+                beat: 2,
+                volume: 50,
+            },
         ],
     },
     /** A party you can hear through a wall. */
@@ -149,8 +169,15 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         volume: 33,
         scale: 'mixolydian',
         layers: [
-            { instrument: 'acousticGuitar', motif: [1, 1, 3, 5, 6, 5, 3, null] },
-            { instrument: 'drums', motif: [1, 2, 1, 2, 1, 2, 1, null], volume: 50 },
+            {
+                instrument: 'acousticGuitar',
+                motif: [1, 1, 3, 5, 6, 5, 3, null],
+            },
+            {
+                instrument: 'drums',
+                motif: [1, 2, 1, 2, 1, 2, 1, null],
+                volume: 50,
+            },
         ],
     },
     /** Machinery, for the act where the world starts sending input. */
@@ -160,7 +187,13 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'dorian',
         layers: [
             { instrument: 'synth', motif: [1, 5, 4, 3, 5, 1, null, null] },
-            { instrument: 'synthBass', motif: [1, null, 4, null], beat: 2, key: -12, volume: 60 },
+            {
+                instrument: 'synthBass',
+                motif: [1, null, 4, null],
+                beat: 2,
+                key: -12,
+                volume: 60,
+            },
         ],
     },
     /** Showtime: a fanfare that actually climbs. */
@@ -170,8 +203,19 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'major',
         layers: [
             { instrument: 'trumpet', motif: [1, 3, 5, 8, 10, 8, null, null] },
-            { instrument: 'synthBass', motif: [1, null, 5, null], beat: 2, key: -12, volume: 60 },
-            { instrument: 'drums', motif: [1, null, 2, null], beat: 2, volume: 50 },
+            {
+                instrument: 'synthBass',
+                motif: [1, null, 5, null],
+                beat: 2,
+                key: -12,
+                volume: 60,
+            },
+            {
+                instrument: 'drums',
+                motif: [1, null, 2, null],
+                beat: 2,
+                volume: 50,
+            },
         ],
     },
     /** Memory. The saxophone is here and nowhere else in the tutorial, which
@@ -181,8 +225,17 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         volume: 29,
         scale: 'minor',
         layers: [
-            { instrument: 'saxophone', motif: [5, 3, 1, 2, 3, null, null, null] },
-            { instrument: 'piano', motif: [1, null, null, null], beat: 4, key: -12, volume: 55 },
+            {
+                instrument: 'saxophone',
+                motif: [5, 3, 1, 2, 3, null, null, null],
+            },
+            {
+                instrument: 'piano',
+                motif: [1, null, null, null],
+                beat: 4,
+                key: -12,
+                volume: 55,
+            },
         ],
     },
     /** Grief, resolving. The act opens on a frightened face. */
@@ -192,7 +245,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'harmonicMinor',
         layers: [
             { instrument: 'violin', motif: [8, 7, 5, 6, 5, 3, 1, null] },
-            { instrument: 'synthPad', motif: [[1, 3, 5], null], beat: 4, volume: 45 },
+            {
+                instrument: 'synthPad',
+                motif: [[1, 3, 5], null],
+                beat: 4,
+                volume: 45,
+            },
         ],
     },
     /** Brisk and neutral: the quick tour gets out of its own way. */
@@ -202,7 +260,13 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'mixolydian',
         layers: [
             { instrument: 'acousticGuitar', motif: [1, 5, 8, 5, 3, null] },
-            { instrument: 'synthBass', motif: [1, null, 5, null], beat: 2, key: -12, volume: 55 },
+            {
+                instrument: 'synthBass',
+                motif: [1, null, 5, null],
+                beat: 2,
+                key: -12,
+                volume: 55,
+            },
         ],
     },
 
@@ -217,21 +281,30 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 50,
         volume: 25,
         scale: 'wholeTone',
-        layers: [{ instrument: 'synthPad', motif: [1, null, null, null], beat: 4 }],
+        layers: [
+            { instrument: 'synthPad', motif: [1, null, null, null], beat: 4 },
+        ],
     },
     /** Small and exact: the scene where things start having values. */
     Values: {
         tempo: 88,
         volume: 27,
         scale: 'pentatonic',
-        layers: [{ instrument: 'bell', motif: [1, null, 3, null, 5, null, null, null] }],
+        layers: [
+            {
+                instrument: 'bell',
+                motif: [1, null, 3, null, 5, null, null, null],
+            },
+        ],
     },
     /** Repetition you can hear, for the scene about repetition. */
     Patterns: {
         tempo: 116,
         volume: 28,
         scale: 'chromatic',
-        layers: [{ instrument: 'synth', motif: [1, 2, 1, 2, 1, 2, null, null] }],
+        layers: [
+            { instrument: 'synth', motif: [1, 2, 1, 2, 1, 2, null, null] },
+        ],
     },
     /** Two voices, one answering the other: a community forming. */
     Collections: {
@@ -248,7 +321,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 108,
         volume: 29,
         scale: 'blues',
-        layers: [{ instrument: 'electricGuitar', motif: [1, null, 4, 3, null, null] }],
+        layers: [
+            {
+                instrument: 'electricGuitar',
+                motif: [1, null, 4, 3, null, null],
+            },
+        ],
     },
     /** The world arriving: a pulse, and something answering it. */
     Input: {
@@ -275,7 +353,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 70,
         volume: 26,
         scale: 'minor',
-        layers: [{ instrument: 'piano', motif: [5, 3, 2, 1, null, null, null, null] }],
+        layers: [
+            {
+                instrument: 'piano',
+                motif: [5, 3, 2, 1, null, null, null, null],
+            },
+        ],
     },
     /** The breakup. A figure that leans on a note and never resolves it. */
     Codependency: {
@@ -292,7 +375,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 84,
         volume: 28,
         scale: 'major',
-        layers: [{ instrument: 'piano', motif: [1, null, 5, null, 8, null, null, null] }],
+        layers: [
+            {
+                instrument: 'piano',
+                motif: [1, null, 5, null, 8, null, null, null],
+            },
+        ],
     },
     /** A whole-tone scale has no home, and a placeholder is a held space. */
     ExpressionPlaceholder: {
@@ -315,7 +403,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'major',
         layers: [
             { instrument: 'trumpet', motif: [1, 3, 5, 8, 5, 3, null, null] },
-            { instrument: 'drums', motif: [1, null, 1, null], beat: 2, volume: 45 },
+            {
+                instrument: 'drums',
+                motif: [1, null, 1, null],
+                beat: 2,
+                volume: 45,
+            },
         ],
     },
     /** A definition and its evaluation, one underneath the other. */
@@ -325,7 +418,13 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'major',
         layers: [
             { instrument: 'piano', motif: [1, 5, 3, 6, 5, null, null, null] },
-            { instrument: 'piano', motif: [1, null, null, null], beat: 4, key: -12, volume: 50 },
+            {
+                instrument: 'piano',
+                motif: [1, null, null, null],
+                beat: 4,
+                key: -12,
+                volume: 50,
+            },
         ],
     },
     /** Two operands, a symbol in the middle: one left, one right. */
@@ -343,7 +442,9 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 104,
         volume: 26,
         scale: 'major',
-        layers: [{ instrument: 'piano', motif: [1, null, null, null], beat: 2 }],
+        layers: [
+            { instrument: 'piano', motif: [1, null, null, null], beat: 2 },
+        ],
     },
     /** It enumerates; so does this. */
     Number: {
@@ -357,7 +458,9 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 96,
         volume: 28,
         scale: 'lydian',
-        layers: [{ instrument: 'flute', motif: [3, 5, 6, 8, 6, 5, null, null] }],
+        layers: [
+            { instrument: 'flute', motif: [3, 5, 6, 8, 6, 5, null, null] },
+        ],
     },
     /** Exactly two pitches: on, off. */
     Boolean: {
@@ -371,14 +474,21 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 104,
         volume: 29,
         scale: 'major',
-        layers: [{ instrument: 'acousticGuitar', motif: [1, 2, 3, 4, 5, 4, 3, null] }],
+        layers: [
+            {
+                instrument: 'acousticGuitar',
+                motif: [1, 2, 3, 4, 5, 4, 3, null],
+            },
+        ],
     },
     /** Each pitch once, never repeated. */
     Set: {
         tempo: 104,
         volume: 29,
         scale: 'pentatonic',
-        layers: [{ instrument: 'acousticGuitar', motif: [1, 3, 5, 8, null, null] }],
+        layers: [
+            { instrument: 'acousticGuitar', motif: [1, 3, 5, 8, null, null] },
+        ],
     },
     /** One to one: every left has exactly one right. */
     Map: {
@@ -395,14 +505,21 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 76,
         volume: 25,
         scale: 'minor',
-        layers: [{ instrument: 'piano', motif: [null, 1, null, 3, null, null] }],
+        layers: [
+            { instrument: 'piano', motif: [null, 1, null, 3, null, null] },
+        ],
     },
     /** A name, and then the thing it names. */
     Bind: {
         tempo: 92,
         volume: 28,
         scale: 'major',
-        layers: [{ instrument: 'bell', motif: [1, null, 1, null, 5, null, null, null] }],
+        layers: [
+            {
+                instrument: 'bell',
+                motif: [1, null, 1, null, 5, null, null, null],
+            },
+        ],
     },
     /** A rising figure that never resolves: it only ever asks questions. */
     Conditional: {
@@ -417,8 +534,16 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         volume: 32,
         scale: 'mixolydian',
         layers: [
-            { instrument: 'electricGuitar', motif: [1, 4, 5, 4, null, null, null, null] },
-            { instrument: 'drums', motif: [1, null, 2, null], beat: 2, volume: 45 },
+            {
+                instrument: 'electricGuitar',
+                motif: [1, 4, 5, 4, null, null, null, null],
+            },
+            {
+                instrument: 'drums',
+                motif: [1, null, 2, null],
+                beat: 2,
+                volume: 45,
+            },
         ],
     },
     /** Descending and unhurried: a director's note. */
@@ -426,7 +551,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 68,
         volume: 25,
         scale: 'major',
-        layers: [{ instrument: 'flute', motif: [5, null, 3, null, 1, null, null, null] }],
+        layers: [
+            {
+                instrument: 'flute',
+                motif: [5, null, 3, null, 1, null, null, null],
+            },
+        ],
     },
     /** On cue, on the beat. */
     Reaction: {
@@ -434,7 +564,11 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         volume: 31,
         scale: 'minorPentatonic',
         layers: [
-            { instrument: 'drums', motif: [1, null, 1, 1, null, 1, null, null], volume: 50 },
+            {
+                instrument: 'drums',
+                motif: [1, null, 1, 1, null, 1, null, null],
+                volume: 50,
+            },
             { instrument: 'synth', motif: [1, 3, 5, null], beat: 2 },
         ],
     },
@@ -464,9 +598,26 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         volume: 28,
         scale: 'major',
         layers: [
-            { instrument: 'synthPad', motif: [1, 3, 5, null], beat: 2, key: -12, volume: 60 },
-            { instrument: 'synthPad', motif: [1, 3, 5, null], beat: 2, volume: 60 },
-            { instrument: 'synthPad', motif: [1, 3, 5, null], beat: 2, key: 12, volume: 45 },
+            {
+                instrument: 'synthPad',
+                motif: [1, 3, 5, null],
+                beat: 2,
+                key: -12,
+                volume: 60,
+            },
+            {
+                instrument: 'synthPad',
+                motif: [1, 3, 5, null],
+                beat: 2,
+                volume: 60,
+            },
+            {
+                instrument: 'synthPad',
+                motif: [1, 3, 5, null],
+                beat: 2,
+                key: 12,
+                volume: 45,
+            },
         ],
     },
     /** ALL CAPS: the lowest, loudest, most immovable thing here. */
@@ -493,7 +644,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'major',
         layers: [
             { instrument: 'piano', motif: [1, null, 5, null], beat: 2 },
-            { instrument: 'synthPad', motif: [[1, 3, 5], null], beat: 4, volume: 45 },
+            {
+                instrument: 'synthPad',
+                motif: [[1, 3, 5], null],
+                beat: 4,
+                volume: 45,
+            },
         ],
     },
     /** The only theme that is a whole piece: on this card the theme is the
@@ -504,9 +660,24 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'major',
         layers: [
             { instrument: 'flute', motif: [1, 3, 5, 6, 5, 3, 2, null] },
-            { instrument: 'synthBass', motif: [1, null, 5, null], beat: 2, key: -12, volume: 55 },
-            { instrument: 'synthPad', motif: [[1, 3, 5], null, [1, 4, 6], null], beat: 2, volume: 35 },
-            { instrument: 'drums', motif: [1, null, 2, null, 1, null, 2, null], volume: 45 },
+            {
+                instrument: 'synthBass',
+                motif: [1, null, 5, null],
+                beat: 2,
+                key: -12,
+                volume: 55,
+            },
+            {
+                instrument: 'synthPad',
+                motif: [[1, 3, 5], null, [1, 4, 6], null],
+                beat: 2,
+                volume: 35,
+            },
+            {
+                instrument: 'drums',
+                motif: [1, null, 2, null, 1, null, 2, null],
+                volume: 45,
+            },
         ],
     },
 
@@ -524,7 +695,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 120,
         volume: 26,
         scale: 'major',
-        layers: [{ instrument: 'drums', motif: [1, null, 1, 1, null, 1, null, null] }],
+        layers: [
+            {
+                instrument: 'drums',
+                motif: [1, null, 1, 1, null, 1, null, null],
+            },
+        ],
     },
     /** "Hummmmmmm…" — the scene's literal title. */
     Pointer: {
@@ -538,14 +714,21 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 100,
         volume: 26,
         scale: 'major',
-        layers: [{ instrument: 'drums', motif: [1, null, null, null, null, null, null, null] }],
+        layers: [
+            {
+                instrument: 'drums',
+                motif: [1, null, null, null, null, null, null, null],
+            },
+        ],
     },
     /** Breath into a microphone. */
     Volume: {
         tempo: 66,
         volume: 28,
         scale: 'minorPentatonic',
-        layers: [{ instrument: 'didgeridoo', motif: [1, null, null, null], beat: 4 }],
+        layers: [
+            { instrument: 'didgeridoo', motif: [1, null, null, null], beat: 4 },
+        ],
     },
     /** Unpredictable, and a cat. */
     Random: {
@@ -559,7 +742,12 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         tempo: 96,
         volume: 26,
         scale: 'pentatonic',
-        layers: [{ instrument: 'piano', motif: [1, null, 3, null, 5, null, null, null] }],
+        layers: [
+            {
+                instrument: 'piano',
+                motif: [1, null, 3, null, 5, null, null, null],
+            },
+        ],
     },
     /** Continuous and gliding; the one theme that leans on fractional bends. */
     Motion: {
@@ -575,7 +763,11 @@ export const Themes: Record<ThemeName, ThemeSpec> = {
         scale: 'pentatonic',
         layers: [
             { instrument: 'pitchedCat', motif: [1, 3, null, null], pan: -0.6 },
-            { instrument: 'pitchedDog', motif: [null, null, 5, null], pan: 0.6 },
+            {
+                instrument: 'pitchedDog',
+                motif: [null, null, 5, null],
+                pan: 0.6,
+            },
         ],
     },
     /** A handshake tone. */

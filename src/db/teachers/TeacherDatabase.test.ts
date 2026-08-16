@@ -3,7 +3,11 @@ import type { Class } from './TeacherDatabase.svelte';
 
 // Helpers shared by writeBatch and runTransaction mocks: each one records its
 // queued operations so tests can assert on them.
-type BatchOp = { kind: 'set' | 'update' | 'delete'; ref: unknown; data?: unknown };
+type BatchOp = {
+    kind: 'set' | 'update' | 'delete';
+    ref: unknown;
+    data?: unknown;
+};
 let lastBatchOps: BatchOp[] = [];
 let lastTransactionOps: BatchOp[] = [];
 let transactionReadSnap: { exists: () => boolean; data: () => unknown } = {

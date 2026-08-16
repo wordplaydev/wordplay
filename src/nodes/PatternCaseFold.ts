@@ -1,12 +1,7 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Language from '@nodes/Language';
-import {
-    node,
-    optional,
-    type Grammar,
-    type Replacement,
-} from '@nodes/Node';
+import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import PatternAtom from '@nodes/PatternAtom';
 import PatternSequence from '@nodes/PatternSequence';
 import { Sym } from '@nodes/Sym';
@@ -47,7 +42,11 @@ export default class PatternCaseFold extends PatternAtom {
     getGrammar(): Grammar {
         return [
             { name: 'fold', kind: node(Sym.PatternFold), label: undefined },
-            { name: 'language', kind: optional(node(Language)), label: undefined },
+            {
+                name: 'language',
+                kind: optional(node(Language)),
+                label: undefined,
+            },
             { name: 'open', kind: node(Sym.EvalOpen), label: undefined },
             { name: 'body', kind: node(PatternSequence), label: undefined },
             { name: 'close', kind: node(Sym.EvalClose), label: undefined },

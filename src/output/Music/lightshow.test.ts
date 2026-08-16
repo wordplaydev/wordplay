@@ -55,7 +55,8 @@ test('the luminance it does move stays under the flash threshold', () => {
 test('what a note changes is colour: chroma swells with energy', () => {
     const quiet = tintToCSS({ hue: 200, energy: 0 });
     const loud = tintToCSS({ hue: 200, energy: 1 });
-    const chromaOf = (css: string) => Number(/lch\([\d.]+% (\d+)/.exec(css)?.[1]);
+    const chromaOf = (css: string) =>
+        Number(/lch\([\d.]+% (\d+)/.exec(css)?.[1]);
     expect(chromaOf(loud)).toBeGreaterThan(chromaOf(quiet) * 3);
 });
 

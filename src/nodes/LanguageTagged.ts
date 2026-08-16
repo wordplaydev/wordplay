@@ -26,7 +26,9 @@ export abstract class LanguageTagged extends Node {
      *  that need to treat a multilingual tag as a member of MULTIPLE language
      *  buckets — e.g. RootView's per-language editor filter. */
     getLanguages(): LanguageCode[] {
-        return this.language ? (this.language.getLanguageCodes() as LanguageCode[]) : [];
+        return this.language
+            ? (this.language.getLanguageCodes() as LanguageCode[])
+            : [];
     }
 }
 

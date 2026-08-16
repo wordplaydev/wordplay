@@ -151,7 +151,8 @@ export default class ListType extends BasisType {
         // A type per position is also a length, so reject a list we know is a different length.
         if (this.isTuple()) {
             const arity = that.getArity();
-            if (arity !== undefined && arity !== this.types.length) return false;
+            if (arity !== undefined && arity !== this.types.length)
+                return false;
         }
         // If the given type has no type specified, any items will do.
         if (that.types.length === 0) return true;

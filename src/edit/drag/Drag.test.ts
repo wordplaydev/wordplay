@@ -460,9 +460,7 @@ test('resolvePermittedDropTarget lands warned when nothing near is conflict-free
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('saddf'));
     const fun = source.find<Evaluate>(Evaluate, 0).fun;
-    expect(resolvePermittedDropTarget(project, source, dragged, fun)).toBe(
-        fun,
-    );
+    expect(resolvePermittedDropTarget(project, source, dragged, fun)).toBe(fun);
 });
 
 test('resolveStructuralReplacementTarget keeps a permitted direct target', () => {
@@ -484,7 +482,5 @@ test('resolveStructuralReplacementTarget does not elevate a permitted function-n
     const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
     const fun = stack.fun;
     expect(isDropPermitted(project, source, dragged, fun)).toBe(true);
-    expect(resolveStructuralReplacementTarget(project, dragged, fun)).toBe(
-        fun,
-    );
+    expect(resolveStructuralReplacementTarget(project, dragged, fun)).toBe(fun);
 });

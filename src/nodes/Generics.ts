@@ -45,12 +45,10 @@ export default function getConcreteExpectedType(
             return new StructureType(definition);
         }
         const functionType = definition.getType(context);
-        if (
-            !(
-                functionType instanceof FunctionType &&
-                functionType.definition !== undefined
-            )
-        )
+        if (!(
+            functionType instanceof FunctionType &&
+            functionType.definition !== undefined
+        ))
             return new UnknownVariableType(evaluation);
         type = functionType.output;
     }
@@ -100,10 +98,7 @@ export function concretizeType(
     let moreAbstractTypes = true;
     do {
         const abstractTypes: (
-            | NameType
-            | NumberType
-            | TextType
-            | FormattedType
+            NameType | NumberType | TextType | FormattedType
         )[] = type.nodes(
             (n): n is NameType | NumberType | TextType | FormattedType =>
                 (n instanceof NameType && n.isTypeVariable(context)) ||
@@ -180,7 +175,8 @@ function getConcreteTextInput(
     if (!type.hasDerivedLanguage()) return type;
     // Only binary operations and evaluates supply operand locales; otherwise
     // leave the locale unresolved (undefined) rather than guessing.
-    return evaluation instanceof BinaryEvaluate || evaluation instanceof Evaluate
+    return evaluation instanceof BinaryEvaluate ||
+        evaluation instanceof Evaluate
         ? type.withLanguage(type.withOp(evaluation).concreteLanguage(context))
         : type.withLanguage(undefined);
 }

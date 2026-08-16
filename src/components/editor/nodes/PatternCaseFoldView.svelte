@@ -46,12 +46,11 @@
     {#if foldable}<FoldToggle {node} />{/if}<NodeView
         node={[node, 'fold']}
         {format}
-    /><NodeView
-        node={[node, 'language']}
+    /><NodeView node={[node, 'language']} {format} empty="hide" /><NodeView
+        node={[node, 'open']}
         {format}
-        empty="hide"
-    /><NodeView node={[node, 'open']} {format} /><NodeView
-        node={[node, 'body']}
+    /><NodeView node={[node, 'body']} {format} /><NodeView
+        node={[node, 'close']}
         {format}
-    /><NodeView node={[node, 'close']} {format} />
+    />
 {/if}

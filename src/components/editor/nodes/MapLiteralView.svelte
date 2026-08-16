@@ -93,13 +93,8 @@
     {#if foldable}<FoldToggle {node} />{/if}<NodeView
         node={[node, 'open']}
         {format}
-    /><NodeSequenceView
-        {node}
-        field="values"
+    /><NodeSequenceView {node} field="values" {format} empty="label" /><NodeView
+        node={[node, 'close']}
         {format}
-        empty="label"
-    /><NodeView node={[node, 'close']} {format} /><NodeView
-        node={[node, 'literal']}
-        {format}
-    />
+    /><NodeView node={[node, 'literal']} {format} />
 {/if}

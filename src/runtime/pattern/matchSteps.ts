@@ -79,10 +79,9 @@ function narrateMatch(
     const pattern = new NodeRef(snapshot.node, locales, context);
     const position = snapshot.pos + 1; // 1-based for display
     if (snapshot.kind === 'scan')
-        return locales.concretize(
-            (l) => l.node.PatternLiteral.step.scan,
-            { position },
-        );
+        return locales.concretize((l) => l.node.PatternLiteral.step.scan, {
+            position,
+        });
     if (snapshot.kind === 'quantifier')
         return locales.concretize(
             (l) =>
@@ -106,10 +105,10 @@ function narrateMatch(
         );
     // A grapheme-consuming atom with no grapheme ran off the end of the text.
     if (snapshot.glyph === undefined)
-        return locales.concretize(
-            (l) => l.node.PatternLiteral.step.end,
-            { pattern, position },
-        );
+        return locales.concretize((l) => l.node.PatternLiteral.step.end, {
+            pattern,
+            position,
+        });
     // The matched grapheme(s) as a quoted text value view.
     const glyph = new ValueRef(
         new TextValue(creator, snapshot.glyph),

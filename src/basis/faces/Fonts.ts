@@ -40,7 +40,6 @@ export const loadedFonts = writable<Set<SupportedFace>>(new Set());
  *  re-measure text once lazily-loaded faces arrive. Mirrors loadGeneration. */
 export const fontsLoadedGeneration = writable(0);
 
-
 /** True if the face's metadata declares support for the given weight. */
 export function faceSupportsWeight(face: Face, weight: FontWeight): boolean {
     return Array.isArray(face.weights)

@@ -106,6 +106,21 @@ describe('TypeResolutions — type guard', () => {
         const { repairs } = getConflictAndRepairs(`x•''|#: 'hi'\ny•'': x`);
         expect(repairs.some((r) => r.node instanceof Conditional)).toBe(true);
     });
+
+    // The guard was offered for plain names only, on the grounds that only they
+    // narrowed — which stopped being true once properties and accesses did. That
+    // mattered most for a map access: `map{key} ≠ ø ? map{key} …` is the idiom the
+    // documentation recommends for a possibly-missing value, and it appears nowhere
+    // in the gallery's ninety programs, because nothing ever suggested it.
+    test.each([
+        ['a map access', `m: {1: 1 'a': 'b'}\ny•#: m{1}`],
+        ['a list access', `l•[#|'']: [1]\ny•#: l[1]`],
+        // Annotated, so constructing with a number doesn't refine the field away.
+        ['a property', `•C(v•#|'')\nc•C: C(1)\ny•#: c.v`],
+    ])('%s is offered a guard too', (_name, code) => {
+        const { repairs } = getConflictAndRepairs(code);
+        expect(repairs.some((r) => r.node instanceof Conditional)).toBe(true);
+    });
 });
 
 describe('TypeResolutions — placeholder fallback', () => {

@@ -27,7 +27,11 @@ export default class PatternComplement extends PatternNode {
 
     getGrammar(): Grammar {
         return [
-            { name: 'not', kind: node(Sym.PatternComplement), label: undefined },
+            {
+                name: 'not',
+                kind: node(Sym.PatternComplement),
+                label: undefined,
+            },
             { name: 'atom', kind: node(PatternAtom), label: undefined },
         ];
     }

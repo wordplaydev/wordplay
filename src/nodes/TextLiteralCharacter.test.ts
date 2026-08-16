@@ -98,7 +98,5 @@ test('a codepoint reference still resolves to its character', () => {
 test('a bare hex name is not a codepoint reference', () => {
     // Only the `@U/<hex>` namespace denotes a codepoint, so a hex-looking name
     // (a possible concept or character name, e.g. `Face` = 0xFACE) stays as-is.
-    expect(evaluateCode('"@1F600"', [], loc)?.toWordplay(loc)).toBe(
-        '"@1F600"',
-    );
+    expect(evaluateCode('"@1F600"', [], loc)?.toWordplay(loc)).toBe('"@1F600"');
 });

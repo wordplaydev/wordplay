@@ -16,7 +16,9 @@ test.each([
     // Single sentence with no terminator: returns the whole fragment.
     ['Just a title', 'Just a title'],
 ])('first sentence of "%s" is "%s"', (input, expected) => {
-    expect(Markup.words(input).getFirstSentence(DefaultLocales)?.toText()).toBe(expected);
+    expect(Markup.words(input).getFirstSentence(DefaultLocales)?.toText()).toBe(
+        expected,
+    );
 });
 
 test('empty markup has no first sentence', () => {
@@ -24,7 +26,9 @@ test('empty markup has no first sentence', () => {
 });
 
 test('whitespace-only markup has no first sentence', () => {
-    expect(Markup.words('   ').getFirstSentence(DefaultLocales)).toBeUndefined();
+    expect(
+        Markup.words('   ').getFirstSentence(DefaultLocales),
+    ).toBeUndefined();
 });
 
 test('example texts contain example code but not prose, and vice versa', () => {

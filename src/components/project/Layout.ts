@@ -1,7 +1,4 @@
-import {
-    Arrangement,
-    type ArrangementType,
-} from '@db/settings/Arrangement';
+import { Arrangement, type ArrangementType } from '@db/settings/Arrangement';
 import type Bounds from '@components/project/Bounds';
 import Tile, { TileMode } from '@components/project/Tile';
 import { TileKind } from '@components/project/TileKind';

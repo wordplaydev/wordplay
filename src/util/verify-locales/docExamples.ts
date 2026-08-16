@@ -1,9 +1,5 @@
 import Example from '@nodes/Example';
-import {
-    DEFECT_SYMBOL,
-    DOCS_SYMBOL,
-    HIGHLIGHT_SYMBOL,
-} from '@parser/Symbols';
+import { DEFECT_SYMBOL, DOCS_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
 import parseDoc from '@parser/parseDoc';
 import { Sym } from '@nodes/Sym';
 import { toTokens } from '@parser/toTokens';

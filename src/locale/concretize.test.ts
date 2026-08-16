@@ -72,9 +72,9 @@ test('a count branch selects the form for its value', () => {
         'list of 1 value',
     );
     for (const count of [0, 2, 11])
-        expect(
-            DefaultLocales.concretize(template, { count }).toText(),
-        ).toBe(`list of ${count} values`);
+        expect(DefaultLocales.concretize(template, { count }).toText()).toBe(
+            `list of ${count} values`,
+        );
 });
 
 test('a count branch follows the reading locale, not English', () => {
@@ -104,9 +104,9 @@ test('a count branch with too few arms degrades to its last form', () => {
     // A half-translated string should still say something, not render the
     // unparsable-template message.
     const polish = localesFor('pl');
-    expect(polish.concretize('$#count[jeden|inne]', { count: 5 }).toText()).toBe(
-        'inne',
-    );
+    expect(
+        polish.concretize('$#count[jeden|inne]', { count: 5 }).toText(),
+    ).toBe('inne');
 });
 
 test('an unmarked branch still tests presence, even for a number', () => {
@@ -130,12 +130,15 @@ test('a Markup input splices with links and spacing intact', () => {
     const doc = Markup.words(
         'I represent some text, with an optional @Language tag.',
     );
-    const markup = DefaultLocales.concretize('They say: \u201c$description\u201d', {
-        description: doc,
-    });
-    expect(
-        markup.nodes().some((node) => node instanceof ConceptLink),
-    ).toBe(true);
+    const markup = DefaultLocales.concretize(
+        'They say: \u201c$description\u201d',
+        {
+            description: doc,
+        },
+    );
+    expect(markup.nodes().some((node) => node instanceof ConceptLink)).toBe(
+        true,
+    );
     const text = markup.toText();
     expect(text).toContain('They say:');
     expect(text).toContain('some text, with an optional');
@@ -145,9 +148,9 @@ test('an unwritten marker with content renders the content, not TBD', () => {
     // Locale files carry the en-US text after the $? marker, and Locales.get
     // annotates fallback strings the same way; that content must render.
     // Only a bare marker is truly unwritten.
-    expect(DefaultLocales.concretize('$?number $number', { number: '5' }).toText()).toBe(
-        'number 5',
-    );
+    expect(
+        DefaultLocales.concretize('$?number $number', { number: '5' }).toText(),
+    ).toBe('number 5');
     expect(DefaultLocales.concretize('$?', {}).toText()).not.toBe('');
 });
 

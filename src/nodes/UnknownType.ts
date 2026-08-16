@@ -1,9 +1,5 @@
 import { Purpose } from '@concepts/Purpose';
-import {
-    MachineTranslated,
-    Revised,
-    Unwritten,
-} from '@locale/Annotations';
+import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '@basis/BasisConstants';

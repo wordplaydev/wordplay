@@ -4,7 +4,9 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import UnionType from '@nodes/UnionType';
 import type { OutputName } from '@output/animation/Animator';
-import OutputAnimation, { AnimationState } from '@output/animation/OutputAnimation';
+import OutputAnimation, {
+    AnimationState,
+} from '@output/animation/OutputAnimation';
 import { NameGenerator } from '@output/Output/Stage';
 import { toOutput } from '@output/Output/toOutput';
 import type Evaluation from '@runtime/Evaluation';

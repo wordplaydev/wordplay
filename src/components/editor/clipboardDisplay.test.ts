@@ -14,9 +14,12 @@ test.each([
     // Empty/whitespace is not code.
     ['', false],
     ['   ', false],
-])('parseClipboardCode(%j).isCode === %s', (text: string, expected: boolean) => {
-    expect(parseClipboardCode(text).isCode).toBe(expected);
-});
+])(
+    'parseClipboardCode(%j).isCode === %s',
+    (text: string, expected: boolean) => {
+        expect(parseClipboardCode(text).isCode).toBe(expected);
+    },
+);
 
 test('a sequence of more than the cap is truncated to the first few statements', () => {
     const parsed = parseClipboardCode('1\n2\n3\n4\n5');

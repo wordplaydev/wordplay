@@ -53,7 +53,9 @@
      * downstream of this store cares about a step index that hasn't changed, so don't say so
      * sixty times a second — the same reasoning as the step-decoupled context in Contexts.ts.
      */
-    let published: { evaluator: Evaluator; playing: boolean; stepIndex: number } | undefined;
+    let published:
+        | { evaluator: Evaluator; playing: boolean; stepIndex: number }
+        | undefined;
 
     function publish() {
         if (evaluator === undefined) return;

@@ -81,7 +81,10 @@ test('the mapping agrees with the scale the renderer uses', () => {
     // Guards against drift in PX_PER_METER/FOCAL_LENGTH or in rootScale itself.
     const z = -12;
     const scale = rootScale(0, z);
-    expect(stageToScreen(1, 0, 0, 0, z).x).toBeCloseTo(PX_PER_METER * scale, 10);
+    expect(stageToScreen(1, 0, 0, 0, z).x).toBeCloseTo(
+        PX_PER_METER * scale,
+        10,
+    );
     expect(stageToScreen(0, 1, 0, 0, z).y).toBeCloseTo(
         -PX_PER_METER * scale,
         10,

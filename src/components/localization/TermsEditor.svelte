@@ -121,8 +121,10 @@
                     <TextField
                         id={`term-phrase-${row.key}`}
                         text={row.value}
-                        description={(l) => l.ui.localize.terms.phrase.description}
-                        placeholder={(l) => l.ui.localize.terms.phrase.placeholder}
+                        description={(l) =>
+                            l.ui.localize.terms.phrase.description}
+                        placeholder={(l) =>
+                            l.ui.localize.terms.phrase.placeholder}
                         done={(text) =>
                             savePhrase(
                                 row.key,

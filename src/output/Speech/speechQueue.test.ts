@@ -65,9 +65,10 @@ describe('one utterance at a time', () => {
             say('say', 'three'),
         ]);
         expect(next.current?.utterance.text).toBe('one');
-        expect(
-            next.waiting.map((waiting) => waiting.utterance.text),
-        ).toEqual(['two', 'three']);
+        expect(next.waiting.map((waiting) => waiting.utterance.text)).toEqual([
+            'two',
+            'three',
+        ]);
     });
 });
 

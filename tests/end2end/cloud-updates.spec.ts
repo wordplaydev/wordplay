@@ -1,4 +1,3 @@
-
 import { expect, test } from '../../playwright/fixtures';
 import { createTestCharacter } from '../helpers/createCharacter';
 import { seedCollaborativeProject } from '../helpers/createCollaborativeProject';
@@ -10,7 +9,7 @@ import {
 } from '../helpers/firestore';
 
 test('editing a project saves it to the cloud', async ({ page }) => {
-    // Create test project - the page will be redirected to the new project page 
+    // Create test project - the page will be redirected to the new project page
     const projectId = await createTestProject(page);
 
     // Make an edit to the project
@@ -34,7 +33,6 @@ test('editing a project saves it to the cloud', async ({ page }) => {
     // Verify the edit was saved to the cloud
     expect(updatedProjectData?.name).toBe(newProjectName);
 });
-
 
 test('editing a custom character saves it to the cloud', async ({
     page,

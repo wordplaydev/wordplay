@@ -54,11 +54,11 @@ test.each([
     // A list of anything accepts anything, including a list of specific positions.
     ['[]', '[]', true],
     ['[]', '[#]', true],
-    ["[]", "[# '']", true],
+    ['[]', "[# '']", true],
     // A list of one type accepts a list of unknown items, as before.
     ['[#]', '[]', true],
     ['[#]', '[#]', true],
-    ["[#]", "['']", false],
+    ['[#]', "['']", false],
     ["[#|'']", '[#]', true],
     // Positions are compared one by one, and the number of them must match.
     ["[# '']", "[# '']", true],
@@ -67,8 +67,8 @@ test.each([
     ["[#|'' #|'']", "[# '']", true],
     // A list of one type stands in at every position.
     ["[#|'']", "[# '']", true],
-    ["[#]", "[# '']", false],
-    ["[# #]", '[#]', true],
+    ['[#]', "[# '']", false],
+    ['[# #]', '[#]', true],
     // When only one side says what's at each position, all that can be compared is what any item
     // can be, so this is lenient: the items are checked when the list is evaluated.
     ["[# '']", '[#]', true],
@@ -93,7 +93,7 @@ test.each([
     // But only when the number of items matches.
     ["pair•[# '']: [1 'hi' 2]\npair", "[#|'']"],
     // A spread makes the length unknown, so positions can't be known either.
-    ["rest: [2 3]\npair•[# #]: [1 :rest]\npair", '[#]'],
+    ['rest: [2 3]\npair•[# #]: [1 :rest]\npair', '[#]'],
     // Positions are also known through a type check, an evaluation, and a declared output type.
     ["[1 'hi']•[# '']", "[# '']"],
     ["f: ƒ(pair•[# '']) 1\nf([1 'hi'])", "[# '']"],
@@ -114,7 +114,7 @@ test.each([
     ["pair•[# '']: [1 'hi']\npair", "pair•[# '']: []\npair"],
     ["pair•[# '']: [1 'hi']\npair", "pair•[# '']: [1 'hi' 2]\npair"],
     // A list of a known length that isn't the declared one is a conflict, even without positions.
-    ["pair•[# #]: [1 2]\npair", 'pair•[# #]: [1 2 3]\npair'],
+    ['pair•[# #]: [1 2]\npair', 'pair•[# #]: [1 2 3]\npair'],
     // Nested lists are checked position by position, too.
     [
         "pairs•[[# ''] [# '']]: [[1 'a'] [2 'b']]\npairs",

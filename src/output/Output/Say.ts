@@ -98,12 +98,9 @@ export default class Say extends Output {
     getDescription(locales: Locales) {
         if (this._description === undefined) {
             this._description = locales
-                .concretize(
-                    (l) => l.output.Say.defaultDescription,
-                    {
-                        text: this.text.text,
-                    },
-                )
+                .concretize((l) => l.output.Say.defaultDescription, {
+                    text: this.text.text,
+                })
                 .toText()
                 .trim();
         }

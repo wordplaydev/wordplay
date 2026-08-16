@@ -34,7 +34,9 @@ test('set union combines two sets', () => {
 });
 
 test('set intersection finds common elements', () => {
-    expect(evaluateCode('{1 2 3}.intersection({2 3 4})')?.toString()).toBe('{2 3}');
+    expect(evaluateCode('{1 2 3}.intersection({2 3 4})')?.toString()).toBe(
+        '{2 3}',
+    );
 });
 
 test('set difference removes elements', () => {

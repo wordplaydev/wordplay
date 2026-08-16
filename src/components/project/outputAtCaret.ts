@@ -26,7 +26,8 @@ export default function outputAtCaret(
 ): Evaluate | undefined {
     const node = caret.getToken() ?? caret.getExpressionAt();
     if (node === undefined) return undefined;
-    const position = typeof caret.position === 'number' ? caret.position : undefined;
+    const position =
+        typeof caret.position === 'number' ? caret.position : undefined;
     return [node, ...caret.source.root.getAncestors(node)].find(
         (n): n is Evaluate => {
             if (

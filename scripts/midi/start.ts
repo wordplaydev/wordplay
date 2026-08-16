@@ -16,7 +16,9 @@
 
 import chalk from 'chalk';
 import { readFileSync, writeFileSync } from 'fs';
-import importMIDI, { isFormatError } from '../../src/output/Music/midi/importMIDI';
+import importMIDI, {
+    isFormatError,
+} from '../../src/output/Music/midi/importMIDI';
 import type { Finding } from '../../src/output/Music/midi/convert';
 import { ScaleKeys, type ScaleKey } from '../../src/output/Music/scales';
 

@@ -29,9 +29,7 @@ export type SearchableTutorial = {
             title: string;
             subtitle: string | null;
             lines: readonly (
-                | readonly string[]
-                | { [key: string]: unknown }
-                | null
+                readonly string[] | { [key: string]: unknown } | null
             )[];
         }[];
     }[];

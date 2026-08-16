@@ -29,13 +29,22 @@ import Docs from '@nodes/Docs';
 import EvalCloseToken from '@nodes/EvalCloseToken';
 import EvalOpenToken from '@nodes/EvalOpenToken';
 import Evaluate from '@nodes/Evaluate';
-import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression';
+import Expression, {
+    ExpressionKind,
+    type GuardContext,
+} from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Names from '@nodes/Names';
 import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
-import { list, node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import {
+    list,
+    node,
+    optional,
+    type Grammar,
+    type Replacement,
+} from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
@@ -158,10 +167,7 @@ export default class StructureDefinition extends DefinitionExpression {
         const statementSteps = block.statements
             .filter((s) => {
                 if (s instanceof Bind && s.isStatic(context)) return false;
-                if (
-                    s instanceof FunctionDefinition &&
-                    s.isStatic(context)
-                )
+                if (s instanceof FunctionDefinition && s.isStatic(context))
                     return false;
                 return true;
             })
@@ -533,7 +539,8 @@ export default class StructureDefinition extends DefinitionExpression {
                 this.expression instanceof Block &&
                 this.expression.statements.some(
                     (s) =>
-                        (s instanceof Bind || s instanceof FunctionDefinition) &&
+                        (s instanceof Bind ||
+                            s instanceof FunctionDefinition) &&
                         s.isStatic(context) &&
                         s.contains(node),
                 );

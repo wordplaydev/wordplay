@@ -681,7 +681,8 @@ export function moveCaretVisualVertical(
     const goalX = caret.visualColumn ?? (rtl ? origin.right : origin.left);
     // For a plain caret the span is its center (a single row); for a node it's
     // the node's full vertical extent (it may cover several rows).
-    const top = node !== undefined ? origin.top : (origin.top + origin.bottom) / 2;
+    const top =
+        node !== undefined ? origin.top : (origin.top + origin.bottom) / 2;
     const bottom =
         node !== undefined ? origin.bottom : (origin.top + origin.bottom) / 2;
     const target = targetRowPositionFromSpan(
@@ -771,8 +772,7 @@ export function getTokenPosition(
     if (!(tokenViewEl instanceof HTMLElement)) return undefined;
 
     // Find the token this corresponds to.
-    const [token, tokenView] =
-        getTokenFromElement(caret, tokenViewEl) ?? [];
+    const [token, tokenView] = getTokenFromElement(caret, tokenViewEl) ?? [];
 
     // If we found a token, find the position in it corresponding to the mouse position.
     if (!(token instanceof Token)) return undefined;
@@ -1017,8 +1017,8 @@ function getEndOfLinePosition(
             : closestToken.textRight < event.clientX;
         return afterLine
             ? source.getEndOfTokenLine(token)
-            : source.getTokenSpacePosition(token) ??
-              source.getStartOfTokenLine(token);
+            : (source.getTokenSpacePosition(token) ??
+                  source.getStartOfTokenLine(token));
     }
 
     // No token is directly under the pointer (cursor is over empty space).
@@ -1077,7 +1077,6 @@ function getTokenFromElement(
         ? undefined
         : [token, tokenView];
 }
-
 
 function getTokenByView(program: Program, tokenView: Element) {
     if (

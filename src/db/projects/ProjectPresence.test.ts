@@ -10,7 +10,16 @@ import {
 describe('pickColorForClient', () => {
     test('returns a chromatic basic-color term', () => {
         const color = pickColorForClient('writer-a');
-        expect(['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'brown']).toContain(color);
+        expect([
+            'red',
+            'orange',
+            'yellow',
+            'green',
+            'blue',
+            'purple',
+            'pink',
+            'brown',
+        ]).toContain(color);
     });
     test('is deterministic — same client always gets the same color', () => {
         const a1 = pickColorForClient('alice');
@@ -51,7 +60,9 @@ describe('isPresenceStale', () => {
     });
     test('old presence is stale', () => {
         const now = 1_000_000;
-        expect(isPresenceStale(payload(now - PRESENCE_STALE_MS - 100), now)).toBe(true);
+        expect(
+            isPresenceStale(payload(now - PRESENCE_STALE_MS - 100), now),
+        ).toBe(true);
     });
 });
 

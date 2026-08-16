@@ -1,7 +1,4 @@
-export default function segmentWraps(
-    text: string,
-    locale?: string,
-): string[] {
+export default function segmentWraps(text: string, locale?: string): string[] {
     const segmenter = new Intl.Segmenter(locale, { granularity: 'word' });
     const out: string[] = [];
     for (const { segment, isWordLike } of segmenter.segment(text)) {

@@ -53,7 +53,11 @@ function contextFor(direction: WritingDirection) {
     const locales = new Locales(
         concretize,
         // Arabic's dominant script is RTL; the default locale (English) is LTR.
-        [direction === 'rtl' ? { ...DefaultLocale, language: 'ar' } : DefaultLocale],
+        [
+            direction === 'rtl'
+                ? { ...DefaultLocale, language: 'ar' }
+                : DefaultLocale,
+        ],
         DefaultLocale,
     );
     expect(locales.getDirection()).toBe(direction);
@@ -73,7 +77,8 @@ function arrangementFrom(
 ) {
     const { value } = evalValue(code);
     const arrangement = to(value);
-    if (arrangement === undefined) throw new Error(`expected an arrangement from ${code}`);
+    if (arrangement === undefined)
+        throw new Error(`expected an arrangement from ${code}`);
     return arrangement;
 }
 

@@ -61,7 +61,10 @@ test('a list type names what it holds, at every position', () => {
     expect(describeFirst(`a•[#]: [1]\na`, byType('ListType'))).toContain(
         'number',
     );
-    const positions = describeFirst(`a•[# '']: [1 'hi']\na`, byType('ListType'));
+    const positions = describeFirst(
+        `a•[# '']: [1 'hi']\na`,
+        byType('ListType'),
+    );
     expect(positions).toContain('number');
     expect(positions).toContain('text');
     expect(describeFirst(`a•[]: [1]\na`, byType('ListType'))).toBe('list type');

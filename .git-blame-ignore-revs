@@ -1,0 +1,6 @@
+# Bulk, mechanical commits that git blame should skip. GitHub's blame view
+# reads this file automatically; local git does via blame.ignoreRevsFile,
+# set by scripts/setup-git-config.ts.
+
+# Normalize formatting with prettier --write across the repository.
+194d166b521afc4a985dfdfc711d3fb3bd0c847f

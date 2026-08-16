@@ -62,7 +62,8 @@ export class Stack extends Arrangement {
             layouts.reduce(
                 (height, layout) => height + (layout ? layout.height : 0),
                 0,
-            ) + this.padding * Math.max(0, spaced.length - 1),
+            ) +
+                this.padding * Math.max(0, spaced.length - 1),
         );
 
         // Start at the top and work our way down.
@@ -148,12 +149,9 @@ export class Stack extends Arrangement {
 
     getDescription(output: Output[], locales: Locales) {
         return locales
-            .concretize(
-                (l) => l.output.Stack.description,
-                {
-                    count: output.length,
-                },
-            )
+            .concretize((l) => l.output.Stack.description, {
+                count: output.length,
+            })
             .toText();
     }
 }

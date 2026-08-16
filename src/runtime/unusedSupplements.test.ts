@@ -95,13 +95,7 @@ test('a supplement that borrows is always re-evaluated', () => {
     // What it borrows may have changed even when it did not.
     const mainSource = new Source('start', '↑ a/en: 1');
     const extra = new Source('extra', '↓ start.a\na');
-    const project = Project.make(
-        'p',
-        'p',
-        mainSource,
-        [extra],
-        DefaultLocale,
-    );
+    const project = Project.make('p', 'p', mainSource, [extra], DefaultLocale);
     expect(project.isStableSource(extra)).toBe(false);
 });
 
@@ -109,13 +103,7 @@ test('a borrowed supplement is not carried, since it is not unused', () => {
     // It feeds main, so main's value depends on running it.
     const mainSource = new Source('start', '↓ extra\nextra');
     const extra = new Source('extra', '[1 2 3]');
-    const project = Project.make(
-        'p',
-        'p',
-        mainSource,
-        [extra],
-        DefaultLocale,
-    );
+    const project = Project.make('p', 'p', mainSource, [extra], DefaultLocale);
     expect(project.getUnusedSupplements()).toHaveLength(0);
     const { second } = rebuild(project);
     expect(second.carriedSourceValues.has(extra)).toBe(false);

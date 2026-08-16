@@ -25,7 +25,7 @@ import Expression, { type GuardContext } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import SimpleExpression from '@nodes/SimpleExpression';
-import StreamType from '@nodes/StreamType';
+import StreamType, { isStreamExpression } from '@nodes/StreamType';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
@@ -96,17 +96,20 @@ export default class Changed extends SimpleExpression {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        // The type of the stream will be the stream's value type of the stream, which doesn't help us verify the expression is a stream.
-        // Instead, we rely on Context.setStreamType() to be called, to cache the stream type.
-        // A `•…T`-typed expression (a stream passed into a function) already computes to a
-        // StreamType, which Context.isStream also recognizes. (#1237)
-        const valueType = this.stream.getType(context);
-
+        // Ask the expression, not its type: a stream's type is its *value* type, and a
+        // value type gets rebuilt by every transform that touches it (see
+        // streamProvenance).
         if (
-            !context.isStream(valueType) &&
+            !isStreamExpression(this.stream, context) &&
             !context.isUnknownDownstream(this.stream)
         )
-            return [new IncompatibleInput(this, valueType, StreamType.make())];
+            return [
+                new IncompatibleInput(
+                    this,
+                    this.stream.getType(context),
+                    StreamType.make(),
+                ),
+            ];
 
         return [];
     }

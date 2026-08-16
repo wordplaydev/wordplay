@@ -38,7 +38,17 @@ test('Test name conflicts', () => {
 });
 
 test('Basis-type delimiters count as symbolic names', () => {
-    for (const delimiter of ["''", '#', 'ø', '⊤⊥', '[]', '{}', '{:}', '⎡⎦', '`…`'])
+    for (const delimiter of [
+        "''",
+        '#',
+        'ø',
+        '⊤⊥',
+        '[]',
+        '{}',
+        '{:}',
+        '⎡⎦',
+        '`…`',
+    ])
         expect(Name.make(delimiter).isSymbolic()).toBe(true);
     // A word name or a lone letter is not symbolic.
     expect(Name.make('Text').isSymbolic()).toBe(false);

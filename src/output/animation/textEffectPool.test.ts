@@ -48,9 +48,10 @@ function scriptData(): ScriptData {
 }
 
 test('choosePool prefers the language pool when it writes the text script', () => {
-    expect(
-        choosePool('ab', 'ba', ['a', 'b', 'A', 'B'], scriptData()),
-    ).toEqual(['a', 'b']);
+    expect(choosePool('ab', 'ba', ['a', 'b', 'A', 'B'], scriptData())).toEqual([
+        'a',
+        'b',
+    ]);
 });
 
 test('choosePool rejects a language pool in the wrong script', () => {
@@ -75,11 +76,9 @@ test('choosePool is undefined for scriptless text with no language', () => {
 });
 
 test('choosePool case-filters whichever pool wins', () => {
-    expect(
-        choosePool('AB', 'BA', ['a', 'b', 'A', 'B'], scriptData()),
-    ).toEqual(['A', 'B']);
-    expect(choosePool('AB', 'BA', undefined, scriptData())).toEqual([
+    expect(choosePool('AB', 'BA', ['a', 'b', 'A', 'B'], scriptData())).toEqual([
         'A',
         'B',
     ]);
+    expect(choosePool('AB', 'BA', undefined, scriptData())).toEqual(['A', 'B']);
 });

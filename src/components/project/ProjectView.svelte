@@ -2535,9 +2535,11 @@
      * evaluator in sync. Modes never touch the layout: what's visible and
      * what's evaluating are deliberately independent, so switching modes with
      * the editor open leaves it open, and exiting fullscreen leaves the mode
-     * alone. The cause distinguishes who is asking: an exception announces
-     * itself, and the perform command announces (and starts) the fresh
-     * performance itself, so each transition has exactly one describer.
+     * alone. They do move keyboard focus to the mode's subject, though — see
+     * the focus block at the end. The cause distinguishes who is asking: an
+     * exception announces itself, and the perform command announces (and
+     * starts) the fresh performance itself, so each transition has exactly one
+     * describer.
      */
     function setUIMode(
         mode: ProjectMode,
@@ -2545,6 +2547,18 @@
     ) {
         if (mode === uiMode) return;
         uiMode = mode;
+
+        // Whether the creator's focus is in this project, captured before the
+        // surfacing below can move or unmount whatever holds it. A mode switch
+        // follows their focus to the mode's subject; a mode set while they're
+        // working somewhere else entirely must not yank it back. Nothing
+        // focused counts as eligible: Safari doesn't focus a button on click,
+        // so the mode switcher itself can leave the document unfocused.
+        const active = document.activeElement;
+        const focusHere =
+            active === null ||
+            active === document.body ||
+            (view?.contains(active) ?? false);
 
         const currentEvaluator = $evaluator;
         if (mode === 'play') {
@@ -2587,7 +2601,7 @@
 
         // Surface the tile the mode is about, so a mode switch always shows
         // its subject.
-        surfaceTileForMode(mode);
+        const surfaced = surfaceTileForMode(mode);
 
         // Not every transition broadcasts (e.g., edit to debug while already paused),
         // so sync the evaluation context explicitly.
@@ -2616,6 +2630,22 @@
                                 mode: getModeLabel(mode),
                             })
                             .toText(),
+            );
+
+        // Give the mode's subject keyboard focus, so the next keystroke reaches
+        // it. Without this, switching to play beside an open editor leaves focus
+        // in the editor's invisible textarea, where a keypress is a source edit
+        // that silently switches back to edit mode (its requestEditable escape
+        // hatch) instead of reaching the stage (#1285). Deferred a tick, since
+        // surfacing may have just expanded a tile that wasn't rendered — and
+        // deferred until after the announcement, so the mode reaches the paced
+        // live region before the focus change speaks, the same order the perform
+        // command uses. Only a deliberate switch moves focus: an exception's jump
+        // to debug is automatic and shouldn't move the creator, and a perform
+        // fullscreens and focuses the stage itself.
+        if (cause === 'switch' && focusHere)
+            tick().then(() =>
+                mode === 'play' ? focusStage() : focusTile(surfaced?.id),
             );
     }
 
@@ -2647,20 +2677,22 @@
      * single/split arrangements, which show only the most recently raised one
      * or two — and a fullscreen tile that ISN'T the subject is exited, since
      * it would cover the subject entirely (this is also what exits the stage's
-     * fullscreen when returning to edit). */
+     * fullscreen when returning to edit). Returns the tile it surfaced, so the
+     * caller can hand it focus without working out the subject a second time. */
     function surfaceTileForMode(mode: ProjectMode) {
         const tile =
             mode === 'play'
                 ? layout.getOutput()
                 : (layout.getSource(selectedSourceIndex) ??
                   layout.getTileWithID(Layout.getSourceID(0)));
-        if (tile === undefined) return;
+        if (tile === undefined) return undefined;
         if (
             layout.fullscreenID !== undefined &&
             layout.fullscreenID !== tile.id
         )
             setFullscreen(undefined);
         setMode(tile, TileMode.Expanded);
+        return tile;
     }
 
     /**
@@ -3256,6 +3288,7 @@
                                                 selected={source ===
                                                     selectedSource}
                                                 autofocus={autofocus &&
+                                                    uiMode !== 'play' &&
                                                     tile.isExpanded() &&
                                                     getSourceByTileID(
                                                         tile.id,

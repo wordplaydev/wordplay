@@ -7,7 +7,10 @@
      the panel both communicate. -->
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
-    import { canFocusTips, canHoverTips } from '@components/widgets/tipTriggers';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
         getFocusableOption,

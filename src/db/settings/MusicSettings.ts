@@ -6,11 +6,7 @@ import Setting from '@db/settings/Setting';
  * a rendering away, and the viewer can always switch or turn it off.
  */
 export type MusicVisualization =
-    | 'orchestra'
-    | 'lightshow'
-    | 'mood'
-    | 'sheet'
-    | 'off';
+    'orchestra' | 'lightshow' | 'mood' | 'sheet' | 'off';
 
 /** The chooser's order, and the order every parallel array below and every
  * locale `labels`/`tips` tuple must match. */

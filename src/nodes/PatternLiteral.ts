@@ -77,14 +77,22 @@ export default class PatternLiteral extends Literal {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Sym.PatternDelimiter), label: undefined },
+            {
+                name: 'open',
+                kind: node(Sym.PatternDelimiter),
+                label: undefined,
+            },
             {
                 name: 'body',
                 kind: optional(node(PatternSequence)),
                 label: undefined,
                 space: true,
             },
-            { name: 'close', kind: node(Sym.PatternDelimiter), label: undefined },
+            {
+                name: 'close',
+                kind: node(Sym.PatternDelimiter),
+                label: undefined,
+            },
         ];
     }
 

@@ -28,7 +28,12 @@ export type KeyPadSection =
           beside: KeyPadSlot[];
       }
     /** Two keys pushed to opposite edges, with anything else between them. */
-    | { kind: 'spread'; left: KeyPadSlot; right: KeyPadSlot; middle: KeyPadSlot[] }
+    | {
+          kind: 'spread';
+          left: KeyPadSlot;
+          right: KeyPadSlot;
+          middle: KeyPadSlot[];
+      }
     /** A centered row. */
     | { kind: 'row'; keys: KeyPadSlot[] };
 

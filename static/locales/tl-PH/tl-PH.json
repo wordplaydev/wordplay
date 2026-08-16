@@ -811,11 +811,16 @@
                 "no": "$~hindi"
             },
             "doc": [
-                "$~Dapat ba kitang bigyan ng isang halaga o iba pa, depende sa isang kondisyon? Ganito?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Pero naisip mo na ba kung paano tayo magdedesisyon?",
-                "Hindi ba't tila dapat maging mas detalyado ang mga desisyon kaysa sa oo o hindi lang? Ang pagpapasya ba sa pagitan ng \\⊤\\ at \\⊥\\ ang tanging kailangan?",
-                "Hindi ka ba nag-aalala na kung ito lang ang mga desisyong magagawa natin, may mapapalampas tayong mahahalagang konteksto tungkol sa mundo?"
+                "$~Dapat ba kitang bigyan ng isang @value o iba pa, depende sa isang @condition? Ganito?",
+                "\\numero: -100\nnumero < 0 ? 'negatibo' 'positibo'\\",
+                "Pero naisip mo na ba kung paano tayo nagdedesisyon?",
+                "Hindi ba dapat mas masalimuot ang mga desisyon kaysa sa oo o hindi lang? Ang pagpili ba sa pagitan ng \\⊤\\ at \\⊥\\ ang tanging mayroon?",
+                "Hindi ka ba nag-aalala na kung ito lang ang uri ng desisyong kaya nating gawin, may mahahalagang konteksto tayong makakaligtaan tungkol sa mundo?",
+                "May isa pang bagay akong ginagawa, at hindi ako palaging binibigyan ng pagkilala rito. Kapag ang aking @condition ay nagtanong kung anong /uri/ ng halaga ang isang bagay, hindi lang ako sumasagot ng oo o hindi. Naaalala ko ang sagot sa loob ng bawat isa sa aking mga pagpipilian.",
+                "\\laki•#|'': 5\nlaki•# ? laki + 1 'masyadong maliit'\\",
+                "Sa sarili nito, ang halagang iyon ay maaaring isang @Number o ilang @Text, at ang pagdaragdag dito ay magiging isang kondisyon, dahil magkaibang-magkaiba ang paraan ng pagdaragdag ng mga iyon. Pero sa loob ng aking /oo/ katatanong lang natin kung ito ay isang @Number, kaya doon ito ay isa. Sa loob ng aking /hindi/, ito ang @Text.",
+                "Hindi mahalaga kung paano ka magtanong. Ang pagsusuri ng uri, ang paghahambing laban sa isang partikular na halaga, ang pagsusuri para sa nawawalang halaga, at ang pagsusuring iniligpit mo sa ilalim ng isang pangalan ay lahat nagsasabi sa akin ng parehong bagay. At ang @Boolean/and, @Boolean/or, at @Boolean/not ay pinagsasama ang mga ito sa paraang inaasahan mo.",
+                "May dalawang bagay akong hindi kayang sabihin sa iyo. Kung ihahambing mo laban sa @Text na may ilang salin, wala akong natututuhan, dahil kung aling salin ang makukuha mo ay depende sa kung sino ang nagbabasa."
             ],
             "start": "$~Tingnan natin kung totoo ang $condition",
             "else": "$~$jumping[paglukso sa code | hindi paglukso sa code]",
@@ -1217,12 +1222,15 @@
                 "other": "$~paunang"
             },
             "doc": [
-                "$~Ako ang pinakamaluwalhati sa mga conditional check: Kumukuha ako ng halaga, inihahambing ito sa kahit ilang kaso, at sinusuri ang tumutugma!",
-                "Halimbawa, kung mayroon kang @Number at nais mong i-convert ito sa @Text , maaari mong gawin ang ganito:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Kung walang tugma, susuriin ko ang default na expression na ibinigay mo sa akin.",
-                "Malaking tulong talaga ako sa pag-convert ng isa sa maraming posibleng @Number , @Text , o mas kumplikadong mga halaga papunta sa ibang bagay.",
-                "Maaari mo itong gamitin para sa @Boolean o @None , ngunit hindi talaga sila maaaring maging ganoon karaming bagay, kaya hindi ako gaanong kapaki-pakinabang para sa mga simpleng halagang iyon."
+                "$~Ako ang pinakamaluwalhati sa mga pagsusuri ng kondisyon: kumukuha ako ng isang @value, inihahambing ko ito laban sa kahit ilang kaso, at sinusuri ko ang isang tumutugma!",
+                "Halimbawa, kung mayroon kang @Number at gusto mo itong gawing @Text, maaari kang gumawa ng ganito:",
+                "\\numero: 2\nnumero ???\n\t1: 'isa'\n\t2: 'dalawa'\n\t3: 'tatlo'\n\t'mas malaki!'\\",
+                "Kung walang tumugma, sinusuri ko ang default na @expression na ibinigay mo sa akin.",
+                "Talagang kapaki-pakinabang ako sa pagbabago ng isa sa maraming posibleng @Number, @Text, o mas masalimuot na halaga tungo sa iba.",
+                "Maaari mo itong gamitin para sa @Boolean o @None, pero hindi naman talaga sila maaaring maging ganoon karaming bagay, kaya hindi ako gaanong kapaki-pakinabang para sa simpleng halagang iyon.",
+                "Tulad ng @Conditional, sinasabi ko rin sa iyo ang aking natutuhan. Sa loob ng isang kaso, ang @value na tinugma ko ay kilalang siyang kasong iyon; sa loob ng isang susunod na kaso, kilalang hindi ito kahit alin sa mga naunang kaso; at sa aking default, kilalang wala ito sa kanila.",
+                "\\sagot•#|'': 1\nsagot ???\n\t1: sagot + 1\n\t'hindi isa'\\",
+                "Kaya kong isantabi ang mga kasong isang @Number, isang @None, o @Text na may iisang salin, at iba pang simpleng kaso. Pero ang isang kasong sumusuri ng isang bagay ay walang isinasantabi, kaya pinapanatili ng aking default ang lahat ng maaari pang maging ang @value."
             ],
             "start": "$~Tingnan natin kung ano ang $value...",
             "case": "$~Suriin natin ang kondisyong ito",
@@ -1496,7 +1504,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~hindi tugmang susi",
-                    "explanation": "$~Inaasahan ko ang isang susi na uri ng $expected",
+                    "explanation": "$~Umasa ako ng susi na may uri na $expected, pero nakatanggap ng $given",
                     "resolution": "$~I-convert ito sa $expected , dahil kinakailangan ang $expected",
                     "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
                     "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",

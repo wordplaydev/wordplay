@@ -89,7 +89,10 @@ export function parseChangelog(changelog: string): Update[] {
     let proseBuffer: string[] = [];
     const flushProse = () => {
         if (proseBuffer.length === 0) return;
-        const text = proseBuffer.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+        const text = proseBuffer
+            .join('\n')
+            .replace(/\n{3,}/g, '\n\n')
+            .trim();
         proseBuffer = [];
         if (text === '' || currentUpdate === null) return;
         if (currentType === null) {

@@ -32,12 +32,9 @@ export default function bootstrapStructure(locales: Locales) {
                     (requestor: Expression, evaluation: Evaluation) => {
                         const structure = evaluation.getClosure();
                         const other = evaluation.getInput(0);
-                        if (
-                            !(
-                                structure instanceof Value &&
-                                other instanceof Value
-                            )
-                        )
+                        if (!(
+                            structure instanceof Value && other instanceof Value
+                        ))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 new AnyType(),
@@ -59,12 +56,9 @@ export default function bootstrapStructure(locales: Locales) {
                     (requestor: Expression, evaluation: Evaluation) => {
                         const structure = evaluation.getClosure();
                         const other = evaluation.getInput(0);
-                        if (
-                            !(
-                                structure instanceof Value &&
-                                other instanceof Value
-                            )
-                        )
+                        if (!(
+                            structure instanceof Value && other instanceof Value
+                        ))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 new AnyType(),

@@ -1105,7 +1105,7 @@ type NodeTexts = {
              * A type of the key given doesn't match the type of the key in the set
              * Description inputs: $1: expected type, $2: given type
              */
-            IncompatibleKey: ConflictText<['expected']> &
+            IncompatibleKey: ConflictText<['expected', 'given']> &
                 TypeResolutionTemplates;
         }>;
     /**

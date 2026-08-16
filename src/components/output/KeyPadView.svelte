@@ -70,7 +70,8 @@
         const repeat = () => {
             press(key, true);
             const holding = held.get(event.pointerId);
-            if (holding) holding.timer = window.setTimeout(repeat, RepeatInterval);
+            if (holding)
+                holding.timer = window.setTimeout(repeat, RepeatInterval);
         };
         held.set(event.pointerId, {
             key,

@@ -17,7 +17,9 @@
 
     let { node, format }: Props = $props();
 
-    let isSlot = $derived(node.isPlaceholder() && format.block && format.editable);
+    let isSlot = $derived(
+        node.isPlaceholder() && format.block && format.editable,
+    );
 </script>
 
 {#if isSlot}
