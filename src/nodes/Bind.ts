@@ -584,16 +584,6 @@ export default class Bind extends Expression {
             ? type.concretize(context)
             : type;
 
-        // A bind annotated with a stream's *value* type still names a stream (`clk•#ms: Time(100ms)`),
-        // so carry the stream registration over to the type we return. Changed, Previous, and
-        // Reaction identify streams by Type node identity, and an annotation is a different node
-        // than the stream definition's output type the value's type resolved to. (#1232)
-        if (valueType !== undefined && type !== valueType) {
-            const streamType = context.getStreamType(valueType);
-            if (streamType !== undefined)
-                context.setStreamType(type, streamType);
-        }
-
         return type;
     }
 

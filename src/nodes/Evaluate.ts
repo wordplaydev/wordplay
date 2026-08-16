@@ -902,13 +902,9 @@ export default class Evaluate extends Expression {
             // it, or `Now().year` would look up `year` on a NameType and find nothing — silently,
             // since an unknown property type reports no conflict of its own.
             const output = fun.output.concretize(context);
-            const streamType = StreamType.make(fun.getType(context));
-            // Remember that this type came from this definition. Register the annotation too:
-            // Changed, Previous, and Reaction identify streams by Type node identity (#1232), and
-            // resolving a name produces a different node than the one they may already hold.
-            context.setStreamType(fun.output, streamType);
-            if (output !== fun.output) context.setStreamType(output, streamType);
-            // Return the type of this stream's output.
+            // Return the type of this stream's output. Stream-ness isn't recorded here
+            // any more: ∆, ←, and reactions ask the expression instead (see
+            // isStreamExpression), which survives the transforms a type node doesn't.
             return output;
         }
         // Otherwise, who knows.

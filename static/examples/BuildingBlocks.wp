@@ -281,10 +281,7 @@ tap: Button()
 
 ¶The heartbeat, driven by three inputs. While playing, a tick advances the world,
 keys do everything else, and a click swings. From the title or the win screen,
-Enter or a click starts a fresh round. Each ∆ test looks at a stream directly and
-every key comparison happens a level deeper — comparing a stream against a word
-in the same breath as testing it for change would narrow its type out from under
-the ∆.¶
+Enter or a click starts a fresh round.¶
 game•Game: Game(1 0 0 0 0 1 0 0 0 '🪵' 0 1 spawnGoal() spawnWorld() [])
 	… (∆ tick | ∆ key | ∆ tap) …
 	(game.phase = 2)
@@ -450,9 +447,8 @@ hitNotes: broke
 
 ¶The press that swung, and only that press. The hammer stays cocked until the
 next tick, so without this any key pressed in that window would sound the hit a
-second time. Testing the stream for change and comparing its value have to sit at
-different levels, for the same reason the reaction above splits them.¶
-swung: (∆ key ? (key = 'Space') ⊥) | (∆ tap)
+second time.¶
+swung: ((∆ key) & (key = 'Space')) | (∆ tap)
 
 hitSound: Music(
 	Track(hitNotes instrument: Instrument.drums loop: ⊥)

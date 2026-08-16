@@ -41,7 +41,7 @@ import Reaction from '@nodes/Reaction';
 import SimpleExpression from '@nodes/SimpleExpression';
 import Source from '@nodes/Source';
 import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType from '@nodes/StreamType';
+import StreamType, { isStreamBind } from '@nodes/StreamType';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
@@ -167,10 +167,12 @@ export default class Reference extends SimpleExpression {
                     const isOperator =
                         definition instanceof FunctionDefinition &&
                         definition.isOperator();
-                    // Is the type of the definition coming from a stream? We might generate a reference to the stream itself.
-                    const streamType = !(definition instanceof TypeVariable)
-                        ? context.getStreamType(definition.getType(context))
-                        : undefined;
+                    // Does the definition name a stream? We might generate a reference to the stream itself.
+                    const streamType =
+                        definition instanceof Bind &&
+                        isStreamBind(definition, context)
+                            ? StreamType.make(definition.getType(context))
+                            : undefined;
                     if (
                         // A source?
                         definition instanceof Source ||

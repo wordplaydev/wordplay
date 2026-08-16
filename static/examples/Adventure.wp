@@ -163,11 +163,7 @@ key: Key()
 a key that is not 1, 2, or 3 means nothing; a number past the count of doors in
 this room means nothing either; and only then is it a door. That third test is
 the one worth writing down, because list access wraps around — without it,
-pressing 3 in a room with two doors would quietly take the first one.
-
-The comparisons live in here rather than beside the ∆ in the reaction, because
-comparing a stream against a word in the same breath as testing it for change
-would narrow its type out from under the ∆.¶
+pressing 3 in a room with two doors would quietly take the first one.¶
 ƒ step(t•Trek k•'')•Trek (
 	here: go(t.room)
 	doors: ways(here t.pack)
