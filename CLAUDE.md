@@ -101,6 +101,12 @@ npx prettier --write '<changed files>'
 
 Translation tools (e.g. `npm run locales-translate`) and direct script edits often produce inconsistent indentation, trailing newlines, or escape styles that diverge from the rest of the codebase. Running prettier keeps diffs clean and avoids spurious churn on later edits.
 
+### Dependency overrides
+
+`package.json` is JSON, so an override can't carry its own comment (and a `"//"` key inside `overrides` would be read as an override for a package named `//`). The rationale lives here instead.
+
+**`cookie: ^0.7.0` must not move past `^0.7`.** It exists only to patch CVE-2024-47764 (cookie <0.7.0), and `npm audit` is already clean at 0.7.2. SvelteKit imports `{ parse, serialize }` in its server runtime and `CookieSerializeOptions` in `page/types.d.ts`; cookie 1.x renamed the type and cookie 2.x removed both functions (they became `parseCookie`/`stringifyCookie`). So bumping it has no security upside and breaks Kit. Revisit only when SvelteKit's own `cookie` range moves to `^1`/`^2`.
+
 ### Immutability convention
 
 Immutable data structures and pure functions are the norm everywhere except: Svelte components (internal state + global context), `Evaluator` (stack-based evaluation state), and `Database` (persistence). Most bugs will be in those three areas.

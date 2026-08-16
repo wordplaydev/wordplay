@@ -196,6 +196,34 @@ test('landing on a barrier reports collision starts and stops', () => {
     expect(body.rigidBody.translation().y).toBeGreaterThan(-33);
 });
 
+test('a settled body sleeps, and only a wake-up lets gravity reach it', () => {
+    const world = makeWorld();
+    addFloor(world);
+    const body = drop(world, 4.5, matter(0));
+    settle(world, body);
+    // 0.20.0 sleeps a settled body after ~0.37s; 0.19.3 took ~2s.
+    for (let step = 0; step < 200; step++) world.step();
+    expect(body.rigidBody.isSleeping()).toBe(true);
+
+    // Flipping gravity the way a stage does moves a sleeping body not at all,
+    // because Rapier's integrator skips sleeping islands. Physics.sync does
+    // not wake bodies on a gravity change, so this is a real hazard for a
+    // stage that flips gravity — but not one that bites today: everything
+    // sync touches per frame already passes wakeUp, which is why Hira.wp
+    // still responds. Verified in the browser both with and without an
+    // explicit wake. If a stage ever does sleep through a gravity change,
+    // this test says where to look.
+    const settled = body.rigidBody.translation().y;
+    world.gravity.y = -DefaultGravity * GravityPxPerS2PerUnit;
+    for (let step = 0; step < 120; step++) world.step();
+    expect(body.rigidBody.translation().y).toBeCloseTo(settled);
+
+    // Awake, the same gravity lifts it off the barrier.
+    body.rigidBody.wakeUp();
+    for (let step = 0; step < 120; step++) world.step();
+    expect(body.rigidBody.translation().y).toBeLessThan(settled - 100);
+});
+
 test('a kinematic sensor swept through a barrier still reports a collision', () => {
     const RAPIER = getRapier();
     const world = makeWorld(0);
