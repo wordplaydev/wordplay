@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~kunci tidak cocok",
-                    "explanation": "$~Saya mengharapkan kunci bertipe $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
                     "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
                     "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",

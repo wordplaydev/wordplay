@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~chìa khóa không tương thích",
-                    "explanation": "$~Tôi mong đợi một khóa thuộc loại $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~Hãy chuyển đổi nó thành $expected , vì $expected là bắt buộc.",
                     "resolutionLiteral": "$~Đánh dấu danh sách, tập hợp hoặc bản đồ là giá trị cố định bằng !, để các giá trị của chúng vẫn cụ thể thay vì bị khái quát hóa — $expected cần các giá trị chính xác.",
                     "resolutionOtherwise": "$~Xử lý giá trị thiếu bằng ??, vì $expected không cho phép ø",

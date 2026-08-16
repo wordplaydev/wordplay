@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~键不兼容",
-                    "explanation": "$~我期望一个类型为 $expected 的键",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~把它转换成 $expected，因为需要 $expected",
                     "resolutionLiteral": "$~用 ! 把列表、集合或映射标记为字面量，这样它的值会保持具体，而不被泛化——$expected 需要确切的值",
                     "resolutionOtherwise": "$~用 ?? 来处理缺失的值，因为 $expected 不允许 ø",

@@ -1486,7 +1486,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~合わないキー",
-                    "explanation": "$~$expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~$expected、それを$expected",
                     "resolutionLiteral": "$~リストや集合、マップに!を付けてリテラルとして印を付けてください。そうすれば値が一般化されず、そのまま特定の値のままになります。$expected",
                     "resolutionOtherwise": "$~$expected、??で値がないときの処理をしてください",

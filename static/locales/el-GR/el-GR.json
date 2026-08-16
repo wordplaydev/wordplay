@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~ασύμβατο κλειδί",
-                    "explanation": "$~Περίμενα ένα κλειδί τύπου $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~Μετατρέψτε το σε $expected , αφού απαιτείται $expected",
                     "resolutionLiteral": "$~Σημειώστε τη λίστα, το σύνολο ή τον χάρτη ως κυριολεκτική με !, έτσι ώστε οι τιμές του να παραμένουν συγκεκριμένες αντί να γενικεύονται — $expected χρειάζεται τις ακριβείς τιμές",
                     "resolutionOtherwise": "$~Χειριστείτε την τιμή που λείπει με ??, αφού $expected δεν επιτρέπει ø",

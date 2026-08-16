@@ -1486,7 +1486,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~न जुळणारी किल्ली",
-                    "explanation": "$~मला $expected प्रकाराची किल्ली अपेक्षित होती",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~ते $expected मध्ये रूपांतरित करा, कारण $expected आवश्यक आहे",
                     "resolutionLiteral": "$~यादी, संच किंवा नकाशाला ! ने शब्दशः म्हणून चिन्हांकित करा, जेणेकरून त्याची मूल्ये सामान्य न होता विशिष्ट राहतील — $expected ला नेमकी मूल्ये हवी आहेत",
                     "resolutionOtherwise": "$~?? वापरून हरवलेले मूल्य हाताळा, कारण $expected मध्ये ø ला परवानगी नाही",

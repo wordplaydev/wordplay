@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~مفتاح غير متوافق",
-                    "explanation": "$~توقعت مفتاحًا من نوع $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~حوّله إلى $expected، لأن $expected مطلوب",
                     "resolutionLiteral": "$~علّم القائمة أو المجموعة أو الخريطة كحرفية بـ !، لتبقى قيمها محددة بدلًا من أن تُعمَّم — يحتاج $expected إلى القيم الدقيقة",
                     "resolutionOtherwise": "$~عالج القيمة المفقودة بـ ??، لأن $expected لا يسمح بـ ø",

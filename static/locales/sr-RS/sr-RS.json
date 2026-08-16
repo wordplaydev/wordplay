@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~неусклађен кључ",
-                    "explanation": "$~Очекивао сам кључ типа $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~Конвертујте га у $expected , пошто је $expected обавезно",
                     "resolutionLiteral": "$~Означите листу, скуп или мапу као литералне помоћу !, тако да њихове вредности остану специфичне уместо да буду генерализоване — $expected захтева тачне вредности",
                     "resolutionOtherwise": "$~Обради недостајућу вредност са ??, пошто $expected не дозвољава ø",

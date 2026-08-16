@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~hindi tugmang susi",
-                    "explanation": "$~Inaasahan ko ang isang susi na uri ng $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~I-convert ito sa $expected , dahil kinakailangan ang $expected",
                     "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
                     "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",

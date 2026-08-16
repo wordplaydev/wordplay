@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~호환되지 않는 키",
-                    "explanation": "$~저는 $expected 타입의 키를 예상했습니다.",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~$expected 는 필수 값이므로 $expected 로 변환하세요.",
                     "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
                     "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",

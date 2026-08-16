@@ -1486,7 +1486,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~असंगत चाबी",
-                    "explanation": "$~मुझे $expected प्रकार की एक चाबी की उम्मीद थी",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~इसे $expected में बदलो, क्योंकि $expected जरूरी है",
                     "resolutionLiteral": "$~सूची, सेट या मैप को ! के साथ लिटरल के रूप में चिह्नित करो, ताकि इसकी चीज़ें सामान्यीकृत होने के बजाय खास बनी रहें — $expected को सटीक चीज़ें चाहिए",
                     "resolutionOtherwise": "$~गायब चीज़ को ?? के साथ संभालो, क्योंकि $expected ø की अनुमति नहीं देता",

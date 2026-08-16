@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~અસંગત ચાવી",
-                    "explanation": "$~મને $expected પ્રકારની ચાવીની અપેક્ષા હતી.",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~$expected જરૂરી હોવાથી, તેને $expected માં કન્વર્ટ કરો.",
                     "resolutionLiteral": "$~યાદી, સમૂહ અથવા નકશાને ! વડે શાબ્દિક તરીકે ચિહ્નિત કરો, જેથી તેના મૂલ્યો સામાન્યકૃત થવાને બદલે ચોક્કસ રહે — $expected ચોક્કસ મૂલ્યોની જરૂર હોય છે.",
                     "resolutionOtherwise": "$~ખૂટતા મૂલ્યને ?? વડે હેન્ડલ કરો, કારણ કે $expected ø ને મંજૂરી આપતું નથી.",

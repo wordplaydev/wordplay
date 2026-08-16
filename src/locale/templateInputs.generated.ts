@@ -411,7 +411,10 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.SetLiteral.description': ['#count'],
     'node.SetLiteral.finish': ['value'],
     'node.SetLiteral.start': [],
-    'node.SetOrMapAccess.conflict.IncompatibleKey.explanation': ['expected'],
+    'node.SetOrMapAccess.conflict.IncompatibleKey.explanation': [
+        'expected',
+        'given',
+    ],
     'node.SetOrMapAccess.conflict.IncompatibleKey.resolution': ['expected'],
     'node.SetOrMapAccess.conflict.IncompatibleKey.resolutionDeclaration': [
         'expected',

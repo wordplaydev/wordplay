@@ -1495,7 +1495,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~অসংগত চাবি",
-                    "explanation": "$~মই আশা কৰিছিলোঁ $expected ধৰণৰ চাবি এটা",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~ইয়াক $expected লৈ ৰূপান্তৰ কৰক, যিহেতু $expected ৰ প্ৰয়োজন",
                     "resolutionLiteral": "$~$expected !",
                     "resolutionOtherwise": "$~অনুপস্থিত মানটো ?? ৰ সৈতে নিয়ন্ত্ৰণ কৰক, যিহেতু $expected এ ø ৰ অনুমতি নিদিয়ে",

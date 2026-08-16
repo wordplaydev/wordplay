@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~ಹೊಂದಿಕೊಳ್ಳದ ಕೀ",
-                    "explanation": "$~ನಾನು $expected ಪ್ರಕಾರದ ಕೀಲಿಯನ್ನು ನಿರೀಕ್ಷಿಸಿದ್ದೆ.",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~$expected ಅಗತ್ಯವಿರುವುದರಿಂದ ಅದನ್ನು $expected ಗೆ ಪರಿವರ್ತಿಸಿ.",
                     "resolutionLiteral": "$~ಪಟ್ಟಿ, ಸೆಟ್ ಅಥವಾ ನಕ್ಷೆಯನ್ನು ! ನೊಂದಿಗೆ ಅಕ್ಷರಶಃ ಗುರುತಿಸಿ, ಆದ್ದರಿಂದ ಅದರ ಮೌಲ್ಯಗಳು ಸಾಮಾನ್ಯೀಕರಿಸುವ ಬದಲು ನಿರ್ದಿಷ್ಟವಾಗಿ ಉಳಿಯುತ್ತವೆ — $expected ನಿಖರವಾದ ಮೌಲ್ಯಗಳು ಬೇಕಾಗುತ್ತವೆ.",
                     "resolutionOtherwise": "$~ಕಾಣೆಯಾದ ಮೌಲ್ಯವನ್ನು ?? ನೊಂದಿಗೆ ನಿರ್ವಹಿಸಿ, ಏಕೆಂದರೆ $expected ø ಅನ್ನು ಅನುಮತಿಸುವುದಿಲ್ಲ",

@@ -1468,7 +1468,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~clave incompatible",
-                    "explanation": "$~Yo esperaba una clave de tipo $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~Conviértelo a $expected, ya que se requiere $expected",
                     "resolutionLiteral": "$~Marca la lista, conjunto o mapa como literal con !, para que sus valores se queden específicos en lugar de generalizarse — $expected necesita los valores exactos",
                     "resolutionOtherwise": "$~Maneja el valor faltante con ??, ya que $expected no permite ø",

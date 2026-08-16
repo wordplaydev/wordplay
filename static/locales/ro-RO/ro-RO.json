@@ -1497,7 +1497,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~cheie incompatibilă",
-                    "explanation": "$~Mă așteptam la o cheie de tip $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
                     "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
                     "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",

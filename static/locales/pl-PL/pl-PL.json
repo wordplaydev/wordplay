@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~niezgodny klawisz",
-                    "explanation": "$~Spodziewałem się klucza typu $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~Przekształć to na $expected , ponieważ $expected jest wymagane",
                     "resolutionLiteral": "$~Oznacz listę, zbiór lub mapę jako literał za pomocą !, dzięki czemu jej wartości pozostaną konkretne, a nie uogólnione — $expected wymaga dokładnych wartości",
                     "resolutionOtherwise": "$~Obsłuż brakującą wartość za pomocą ??, ponieważ $expected nie pozwala na ø",

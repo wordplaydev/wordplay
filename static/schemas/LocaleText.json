@@ -11174,7 +11174,7 @@
                       "description": "A type of the key given doesn't match the type of the key in the set Description inputs: $1: expected type, $2: given type",
                       "properties": {
                         "explanation": {
-                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%2C%22given%22%5D%3E",
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {

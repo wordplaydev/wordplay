@@ -1837,7 +1837,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~नमिल्ने कुञ्जी",
-                    "explanation": "$~मैले $expected type को एउटा key अपेक्षा गरेको थिएँ",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~यसलाई $expected मा रूपान्तरण गर्नुहोस्, किनभने $expected आवश्यक छ",
                     "resolutionLiteral": "$~! सँग सूची, सेट, वा म्यापलाई लिटरल भनी चिन्ह लगाउनुहोस्, ताकि यसका value हरू सामान्यीकृत नभई निश्चित रहून् — $expected लाई ठ्याक्कै ती value हरू चाहिन्छ",
                     "resolutionOtherwise": "$~?? सँग छुटेको value व्यवस्थापन गर्नुहोस्, किनभने $expected ले ø अनुमति दिँदैन",

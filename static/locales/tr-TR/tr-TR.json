@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~uyumsuz anahtar",
-                    "explanation": "$~$expected tipinde bir anahtar bekliyordum.",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
                     "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",

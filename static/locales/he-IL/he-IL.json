@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~מַפְתֵחַ לא תואם",
-                    "explanation": "$~ציפיתי למפתח מסוג $expected",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~המר אותו ל- $expected , מכיוון ש- $expected נדרש",
                     "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
                     "resolutionOtherwise": "$~טפל בערך החסר עם ??, מכיוון ש- $expected אינו מאפשר ø",

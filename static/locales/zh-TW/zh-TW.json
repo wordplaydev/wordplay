@@ -1486,7 +1486,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~不相容的鑰匙",
-                    "explanation": "$~我預期是 $expected 型別的鑰匙",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~把它轉成 $expected，因為 $expected 是必須的",
                     "resolutionLiteral": "$~用 ! 把清單、集合或對映標記為字面值，這樣它的值會保持明確而不會被一般化 —— $expected 需要確切的值",
                     "resolutionOtherwise": "$~用 ?? 處理缺少的值，因為 $expected 不允許 ø",

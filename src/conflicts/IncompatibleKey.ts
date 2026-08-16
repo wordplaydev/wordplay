@@ -33,6 +33,7 @@ export class IncompatibleKey extends Conflict {
                     (l) => IncompatibleKey.LocalePath(l).explanation,
                     {
                         expected: new NodeRef(this.expected, locales, context),
+                        given: new NodeRef(this.received, locales, context),
                     },
                 ),
         };

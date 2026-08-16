@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~సరిపడని కీ",
-                    "explanation": "$~నేను $expected రకం కీని ఆశించాను",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~దీనిని $expected గా మార్చండి, ఎందుకంటే $expected తప్పనిసరి.",
                     "resolutionLiteral": "$~జాబితా, సెట్ లేదా మ్యాప్‌ను ! తో లిటరల్‌గా గుర్తించండి, తద్వారా దాని విలువలు సాధారణీకరించబడకుండా నిర్దిష్టంగా ఉంటాయి — $expected ఖచ్చితమైన విలువలు అవసరం.",
                     "resolutionOtherwise": "$~లోపించిన విలువను ?? తో నిర్వహించండి, ఎందుకంటే $expected ø ను అనుమతించదు.",

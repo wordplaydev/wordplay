@@ -1496,7 +1496,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~பொருந்தாத முக்கிய",
-                    "explanation": "$~நான் $expected வகை சாவியை எதிர்பார்த்தேன்.",
+                    "explanation": "$?I expected a key of type $expected, but received $given",
                     "resolution": "$~$expected தேவைப்படுவதால், அதை $expected ஆக மாற்றவும்.",
                     "resolutionLiteral": "$~பட்டியல், கணம் அல்லது மேப்பை ! குறியீட்டைக் கொண்டு நேரடி மதிப்பாகக் குறிக்கவும், அதனால் அதன் மதிப்புகள் பொதுமைப்படுத்தப்படாமல் குறிப்பிட்டவையாக இருக்கும் — $expected துல்லியமான மதிப்புகள் தேவை.",
                     "resolutionOtherwise": "$~விடுபட்ட மதிப்பை ?? கொண்டு கையாளவும், ஏனெனில் $expected ø-வை அனுமதிக்காது.",
