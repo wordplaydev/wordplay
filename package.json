@@ -124,7 +124,7 @@
     },
     "dependencies": {
         "@anthropic-ai/sdk": "^0",
-        "@dimforge/rapier2d-compat": "^0.19.3",
+        "@dimforge/rapier2d-compat": "^0.20.0",
         "@mediapipe/tasks-vision": "^1",
         "@types/fontkit": "^2",
         "colorjs.io": "^0",

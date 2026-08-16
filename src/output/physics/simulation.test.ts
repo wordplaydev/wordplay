@@ -20,9 +20,9 @@ import { beforeAll, expect, test } from 'vitest';
  * Characterizes the engine behaviors our Matter.js-emulating calibration
  * depends on, so an engine upgrade shows up as a failing number instead of a
  * project that "feels wrong". The measured values in each comment came from
- * @dimforge/rapier2d-compat 0.19.3; assertions are deliberately behavioral
- * claims with tolerances, not float snapshots, so they survive a bump that
- * doesn't actually change the feel.
+ * @dimforge/rapier2d-compat 0.20.0, with the 0.19.3 numbers alongside where
+ * they differ; assertions are deliberately behavioral claims with tolerances,
+ * not float snapshots, so they survive a bump that doesn't change the feel.
  */
 
 beforeAll(async () => {
@@ -128,11 +128,11 @@ test('a dropped body falls, lands on a barrier, and comes to rest on it', () => 
     // Rests with its 32px half-height on the floor top at y = 0, sunk by
     // whatever penetration the solver allows; the gap is set by the engine's
     // contact tolerances, which scale with world.lengthUnit.
-    // 0.19.3: y = -30.22, settled in 36 steps.
+    // 0.20.0: y = -31.99 in 36 steps (0.19.3 sank to -30.22 in the same 36).
     expect(rest.y).toBeGreaterThan(-33);
     expect(rest.y).toBeLessThan(-28);
     expect(rest.steps).toBeLessThan(120);
-    // With no bounciness it never rises after contact. 0.19.3: peak = -33.6.
+    // With no bounciness it never rises after contact. Both: peak = -33.6.
     expect(rest.peak ?? 0).toBeGreaterThan(-40);
 });
 
@@ -157,13 +157,16 @@ test('a bouncy body rebounds off a barrier that has no bounce of its own', () =>
 
     // The barrier's restitution is 0, so a rebound at all proves the Max
     // combine rule is in force; Rapier's default would average it to 0.4.
-    // 0.19.3: peak = -175.6, a 145px rebound off a 288px drop.
+    // 0.20.0: peak = -176.2, a 144px rebound off a 288px drop (0.19.3: -175.6,
+    // so bounce height is the one thing the engine upgrade left alone).
     expect(rest.peak).toBeDefined();
     expect(rest.peak ?? 0).toBeLessThan(-80);
-    // It comes back down near rest rather than bouncing away (AirDamping).
-    // 0.19.3: y = -32.6 after 900 steps, still micro-bouncing.
+    // It comes back down to rest rather than bouncing away (AirDamping).
+    // 0.20.0: y = -32.04, settled in 156 steps; 0.19.3 was still
+    // micro-bouncing at -32.55 when the 900-step budget ran out.
     expect(rest.y).toBeGreaterThan(-35);
     expect(rest.y).toBeLessThan(-28);
+    expect(rest.steps).toBeLessThan(400);
 });
 
 test('landing on a barrier reports collision starts and stops', () => {
@@ -183,10 +186,12 @@ test('landing on a barrier reports collision starts and stops', () => {
         });
     }
 
-    // It lands, bounces off (ending that contact), and lands again. A bouncy
-    // body chatters against the floor for a long time, so 0.19.3 reports 192
-    // starts and 191 stops over these 900 steps; only the shape is asserted.
+    // It lands, bounces off (ending that contact), and lands again. How many
+    // times is the Collision stream's firing rate, and it is engine-sensitive:
+    // 0.20.0 reports 7 starts / 6 stops here where 0.19.3 chattered out
+    // 192 / 191, so only the shape is asserted.
     expect(started).toBeGreaterThanOrEqual(2);
+    expect(started).toBeLessThan(50);
     expect(stopped).toBeGreaterThanOrEqual(1);
     expect(body.rigidBody.translation().y).toBeGreaterThan(-33);
 });
