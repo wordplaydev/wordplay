@@ -48,7 +48,7 @@ import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import TypeVariable from '@nodes/TypeVariable';
-import { checksTypes } from '@nodes/typeGuards';
+import { checksTypes, resolveToConstantLeaf } from '@nodes/typeGuards';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import UnionType from '@nodes/UnionType';
 import UnknownType from '@nodes/UnknownType';
@@ -511,6 +511,20 @@ export default class Reference extends SimpleExpression {
         // Follow the bound value upstream to its leaf and check that.
         const leaf = this.resolveToLeaf(context);
         return leaf !== undefined && leaf.isProvablyNonZero(context);
+    }
+
+    /**
+     * A name for a literal collection has that collection's length, which is what lets
+     * `items.length()` prove a divisor non-zero the way `[1 2 3].length()` does. Naming
+     * the list is the ordinary way to write it, so without this the promise that a name
+     * bound to a literal counts was true only when the literal was written inline.
+     */
+    getConstantLength(context?: Context): number | undefined {
+        if (context === undefined) return undefined;
+        // Statement binds only: an input's value is a default a caller may override,
+        // so `ƒ f(items•[#]: [1 2 3])` proves nothing about the list f is given.
+        const leaf = resolveToConstantLeaf(this, context);
+        return leaf === this ? undefined : leaf.getConstantLength(context);
     }
 
     compile(): Step[] {

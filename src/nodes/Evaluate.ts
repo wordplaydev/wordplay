@@ -839,7 +839,7 @@ export default class Evaluate extends Expression {
         // `.length()` of a non-empty literal collection is always ≥ 1.
         if (this.fun instanceof PropertyReference) {
             const subject = this.fun.structure;
-            const count = subject.getConstantLength();
+            const count = subject.getConstantLength(context);
             if (count !== undefined && count > 0) {
                 const length = subject
                     .getType(context)

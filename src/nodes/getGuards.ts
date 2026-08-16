@@ -52,9 +52,16 @@ export default function getGuards(
                         // Don't include conditionals whose condition contain this; that would create a cycle
                         !a.condition.contains(reference) && // Some node in the condition must satisfy the given check
                         checks(a.condition, new Set())) ||
+                    // `&` and `|` short-circuit, so the right only evaluates once the
+                    // left has been decided — which makes the LEFT the check and the
+                    // right what it narrows. Testing the right instead only worked
+                    // because every binary operator reports that it guards types, so a
+                    // reference under any operator counted; one used as a plain
+                    // argument (`h(a)`) did not.
                     (a instanceof BinaryEvaluate &&
                         a.isLogicalOperator(context) &&
-                        checks(a.right, new Set())),
+                        !a.left.contains(reference) &&
+                        checks(a.left, new Set())),
             )
             .reverse() ?? []
     );

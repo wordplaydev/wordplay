@@ -78,7 +78,7 @@ export function checksTypes(
  * caller may override, so its literal isn't what the name holds at a comparison. Bounded,
  * since binds may name each other — a conflict, not a parse error, so this still runs.
  */
-function resolveToConstantLeaf(
+export function resolveToConstantLeaf(
     expression: Expression,
     context: Context,
     depth = 0,

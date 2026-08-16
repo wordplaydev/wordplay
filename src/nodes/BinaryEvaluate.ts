@@ -470,11 +470,23 @@ export default class BinaryEvaluate extends Expression {
             const right = this.right.evaluateTypeGuards(left, guard);
             return left.intersection(right, guard.context);
         }
-        // If disjunction of type checks, then we return the union.
-        // Note that we pass the left's possible types because we don't evaluate the right if the left is true.
+        // If disjunction, then either side being true makes the whole true, so the
+        // value is the union. The right only evaluates when the left was FALSE, so it
+        // sees the types the left ruled out — passing the unrevised set instead let
+        // `(a•#) | f(a)` treat `a` as possibly a number inside a branch that is only
+        // reached when it isn't one.
         else if (this.getOperator() === OR_SYMBOL) {
             const left = this.left.evaluateTypeGuards(current, guard);
-            const right = this.right.evaluateTypeGuards(current, guard);
+            // Only subtract when the left actually narrowed. It usually checks some
+            // other name and returns `current` unchanged, and subtracting that leaves
+            // nothing — which the right would then record as NeverType.
+            const guarded =
+                current.intersection(left, guard.context).size() <
+                current.size();
+            const right = this.right.evaluateTypeGuards(
+                guarded ? current.difference(left, guard.context) : current,
+                guard,
+            );
             return left.union(right, guard.context);
         }
         // If it's an equals check and one side is a number, text, or none literal, then reduce to the set to the literal checked

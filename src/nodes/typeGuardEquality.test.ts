@@ -100,3 +100,50 @@ test('a function input default does not narrow', () => {
         branchTypes(`ƒ f(a•'x'|'z' k•'': 'x') ((a = k) ? a a)\nf('z' 'z')`),
     ).toEqual([`'x'|'z'`, `'x'|'z'`]);
 });
+
+/**
+ * `&` and `|` short-circuit, so the right only runs once the left is decided: with `&`
+ * the left was true, with `|` it was false. Either way the left is the check and the
+ * right is what it narrows. `|` never narrowed its right at all, and the search for a
+ * guarding ancestor looked at the right rather than the left — which worked for `&` only
+ * because every binary operator reports that it guards types, so a reference under any
+ * operator counted while one passed as a plain argument did not.
+ */
+test.each([
+    [
+        '| narrows its right with the left being false',
+        `((a•#) | (h(a) = 'q')) ? 1 2`,
+    ],
+    [
+        '& narrows its right with the left being true',
+        `((a•'') & (h(a) = 'q')) ? 1 2`,
+    ],
+    ['| reaches a plain argument', `((a•#) | (h(a) ≠ 'q')) ? 1 2`],
+])('%s', (_name, program) => {
+    expect(conflictsIn(`a•#|'': 1\nƒ h(t•'') t\n` + program)).toEqual([]);
+});
+
+/** A left that decides nothing must leave the right's types alone rather than
+ *  subtracting everything, which would leave the right with no types at all. */
+test('a non-narrowing left leaves the right unnarrowed', () => {
+    expect(
+        conflictsIn(`a•#|'': 1\nb: ⊤\nƒ h(t•#|'') t\n(b | (h(a) = 1)) ? 1 2`),
+    ).toEqual([]);
+});
+
+/**
+ * A name for a literal collection has that collection's length, so `items.length()`
+ * proves a divisor non-zero the way `[1 2 3].length()` does — naming the list is the
+ * ordinary way to write it. An input's default doesn't count, since a caller may pass
+ * an empty list.
+ */
+test('a name for a literal collection has its length', () => {
+    expect(conflictsIn(`g: [1 2 3]\n(5 % g.length()) + 1`)).toEqual([]);
+    expect(conflictsIn(`(5 % [1 2 3].length()) + 1`)).toEqual([]);
+    // An empty list proves nothing, so the remainder may still be ø.
+    expect(conflictsIn(`g: []\n(5 % g.length()) + 1`)).not.toEqual([]);
+    // A default is not the value.
+    expect(
+        conflictsIn(`ƒ f(g•[#]: [1 2 3]) ((5 % g.length()) + 1)\nf([])`),
+    ).not.toEqual([]);
+});
