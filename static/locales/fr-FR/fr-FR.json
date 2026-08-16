@@ -806,7 +806,7 @@
             "description": "$~conditionnel sur $condition",
             "emotion": "curious",
             "doc": [
-                "$~Dois-je vous donner une valeur plutôt qu'une autre, selon une condition ? Comme ceci ?",
+                "$!Dois-je vous donner une valeur plutôt qu'une autre, selon une condition ? Comme ceci ?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Mais avez-vous déjà réfléchi à la manière dont nous prenons nos décisions ?",
                 "N'a-t-on pas besoin de plus de nuances que de simples réponses par oui ou par non ? Se résume-t-il à choisir entre \\⊤\\ et \\⊥\\ ?",
@@ -1213,7 +1213,7 @@
             "description": "$~associer $value à $#count[$#count cas|$count cas|$count cas]",
             "emotion": "curious",
             "doc": [
-                "$~Je suis le plus glorieux des contrôles conditionnels : je prends une valeur, je la compare à un nombre quelconque de cas, et j'évalue celui qui correspond !",
+                "$!Je suis le plus glorieux des contrôles conditionnels : je prends une valeur, je la compare à un nombre quelconque de cas, et j'évalue celui qui correspond !",
                 "Par exemple, si vous aviez un @Number et que vous vouliez le convertir en @Text , vous pourriez faire quelque chose comme ceci :",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Si aucune ne correspond, j'évalue l'expression par défaut que vous me fournissez.",

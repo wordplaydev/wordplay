@@ -806,7 +806,7 @@
             "description": "$~$condition koşuluna bağlı",
             "emotion": "curious",
             "doc": [
-                "$~Şartlara bağlı olarak size bir değer mi yoksa başka bir değer mi vermeliyim? Mesela şöyle mi?",
+                "$!Şartlara bağlı olarak size bir değer mi yoksa başka bir değer mi vermeliyim? Mesela şöyle mi?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Peki, kararları nasıl verdiğimizi hiç düşündünüz mü?",
                 "Kararların sadece evet veya hayırdan ibaret olmaması, daha incelikli bir yaklaşım gerektirmesi gerekmez mi? Her şey \\⊤\\ ve \\⊥\\ arasında mı karar vermekten ibaret?",
@@ -1213,7 +1213,7 @@
             "description": "$~$value değerini $#count[$count durumla|$count durumla] eşleştir",
             "emotion": "curious",
             "doc": [
-                "$~Ben, koşullu kontrollerin en muhteşemiyim: Bir değer alırım, onu herhangi bir sayıda durumla karşılaştırırım ve eşleşeni değerlendiririm!",
+                "$!Ben, koşullu kontrollerin en muhteşemiyim: Bir değer alırım, onu herhangi bir sayıda durumla karşılaştırırım ve eşleşeni değerlendiririm!",
                 "Örneğin, bir @Number varsa ve bunu bir @Text Text'e dönüştürmek istiyorsanız, şöyle bir şey yapabilirsiniz:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Eğer hiçbiri eşleşmezse, bana verdiğiniz varsayılan ifadeyi değerlendiririm.",

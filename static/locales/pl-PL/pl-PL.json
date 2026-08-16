@@ -806,7 +806,7 @@
             "description": "$~warunek na $condition",
             "emotion": "curious",
             "doc": [
-                "$~Czy mam podać jedną czy drugą wartość, w zależności od stanu? Tak?",
+                "$!Czy mam podać jedną czy drugą wartość, w zależności od stanu? Tak?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Ale czy kiedykolwiek zastanawiałeś się nad tym, jak podejmujemy decyzje?",
                 "Czy nie wydaje się, że decyzje powinny być bardziej złożone niż tylko „tak” lub „nie”? Czy decyzja między \\⊤\\ a \\⊥\\ to wszystko, co trzeba zrobić?",
@@ -1213,7 +1213,7 @@
             "description": "$~dopasuj $value do $#count[$count przypadku|$count przypadków|$count przypadków|$count przypadku]",
             "emotion": "curious",
             "doc": [
-                "$~Jestem najwspanialszym ze wszystkich testów warunkowych: biorę wartość, porównuję ją z dowolną liczbą przypadków i oceniam ten, który pasuje!",
+                "$!Jestem najwspanialszym ze wszystkich testów warunkowych: biorę wartość, porównuję ją z dowolną liczbą przypadków i oceniam ten, który pasuje!",
                 "Na przykład, jeśli masz @Number i chcesz go przekonwertować na @Text , możesz zrobić coś takiego:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Jeśli żadna nie pasuje, wykorzystuję domyślne wyrażenie, które mi podasz.",

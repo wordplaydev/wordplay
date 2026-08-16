@@ -806,7 +806,7 @@
             "description": "$~Bedingung auf $condition",
             "emotion": "curious",
             "doc": [
-                "$~Soll ich Ihnen je nach Bedingung den einen oder anderen Wert nennen? Etwa so?",
+                "$!Soll ich Ihnen je nach Bedingung den einen oder anderen Wert nennen? Etwa so?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Aber haben Sie jemals darüber nachgedacht, wie wir Entscheidungen treffen?",
                 "Sollten Entscheidungen nicht differenzierter ausfallen als nur mit Ja oder Nein? Ist die Entscheidung zwischen \\⊤\\ und \\⊥\\ wirklich alles, was es gibt?",
@@ -1201,7 +1201,7 @@
             "description": "$~vergleiche $value mit $#count[$count Fall|$count Fällen]",
             "emotion": "curious",
             "doc": [
-                "$~Ich bin die glorreichste aller bedingten Prüfungen: Ich nehme einen Wert, vergleiche ihn mit einer beliebigen Anzahl von Fällen und werte denjenigen aus, der übereinstimmt!",
+                "$!Ich bin die glorreichste aller bedingten Prüfungen: Ich nehme einen Wert, vergleiche ihn mit einer beliebigen Anzahl von Fällen und werte denjenigen aus, der übereinstimmt!",
                 "Wenn Sie beispielsweise eine @Number haben und diese in eine @Text konvertieren möchten, könnten Sie folgendermaßen vorgehen:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Falls keine Übereinstimmung vorliegt, werte ich den von Ihnen angegebenen Standardausdruck aus.",

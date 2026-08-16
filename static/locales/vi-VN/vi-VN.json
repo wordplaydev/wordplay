@@ -811,7 +811,7 @@
                 "no": "$~KHÔNG"
             },
             "doc": [
-                "$~Tôi nên cung cấp cho bạn giá trị này hay giá trị khác, tùy thuộc vào điều kiện? Kiểu như thế này?",
+                "$!Tôi nên cung cấp cho bạn giá trị này hay giá trị khác, tùy thuộc vào điều kiện? Kiểu như thế này?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Nhưng bạn đã bao giờ nghĩ về cách chúng ta đưa ra quyết định chưa?",
                 "Chẳng phải các quyết định nên phức tạp hơn là chỉ đơn giản là \"có\" hay \"không\" sao? Phải chăng chỉ có việc lựa chọn giữa \\⊤\\ và \\⊥\\ là tất cả?",
@@ -1217,7 +1217,7 @@
                 "other": "$~mặc định"
             },
             "doc": [
-                "$~Tôi là phép kiểm tra điều kiện tuyệt vời nhất: Tôi nhận một giá trị, so sánh nó với bất kỳ số lượng trường hợp nào, và đánh giá trường hợp nào khớp!",
+                "$!Tôi là phép kiểm tra điều kiện tuyệt vời nhất: Tôi nhận một giá trị, so sánh nó với bất kỳ số lượng trường hợp nào, và đánh giá trường hợp nào khớp!",
                 "Ví dụ, nếu bạn có một @Number và muốn chuyển đổi nó thành @Text , bạn có thể làm như sau:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Nếu không có biểu thức nào khớp, tôi sẽ đánh giá biểu thức mặc định mà bạn cung cấp.",

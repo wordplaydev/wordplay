@@ -810,7 +810,7 @@
                 "no": "Não"
             },
             "doc": [
-                "$~Devo dar-lhe um valor ou outro, dependendo de uma condição? Algo assim?",
+                "$!Devo dar-lhe um valor ou outro, dependendo de uma condição? Algo assim?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Mas já parou para pensar na forma como tomamos as nossas decisões?",
                 "Não parece que as decisões devam ser mais complexas do que simplesmente sim ou não? Será que decidir entre \\⊤\\ e \\⊥\\ é tudo o que existe?",
@@ -1216,7 +1216,7 @@
                 "other": "predefinição"
             },
             "doc": [
-                "$~Sou a mais gloriosa das verificações condicionais: pego num valor, comparo-o com um número qualquer de casos e avalio aquele que corresponde!",
+                "$!Sou a mais gloriosa das verificações condicionais: pego num valor, comparo-o com um número qualquer de casos e avalio aquele que corresponde!",
                 "Por exemplo, se tivesse um @Number e quisesse convertê-lo num @Text , poderia fazer algo do género:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Se nenhuma corresponder, avaliarei a expressão padrão que me fornecer.",

@@ -812,7 +812,7 @@
                 "no": "$~nu"
             },
             "doc": [
-                "$~Ar trebui să vă dau o valoare sau alta, în funcție de condiție? Ca aceasta?",
+                "$!Ar trebui să vă dau o valoare sau alta, în funcție de condiție? Ca aceasta?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Dar te-ai gândit vreodată cum decidem?",
                 "Nu ți se pare că deciziile ar trebui să fie mai nuanțate decât un simplu da sau nu? Este oare vorba doar de a decide între \\⊤\\ și \\⊥\\ ?",
@@ -1218,7 +1218,7 @@
                 "other": "$~implicit"
             },
             "doc": [
-                "$~Sunt cea mai glorioasă dintre verificările condiționate: iau o valoare, o compar cu orice număr de cazuri și o evaluez pe cea care se potrivește!",
+                "$!Sunt cea mai glorioasă dintre verificările condiționate: iau o valoare, o compar cu orice număr de cazuri și o evaluez pe cea care se potrivește!",
                 "De exemplu, dacă ai avea un @Number și vrei să-l converti într-un @Text , ai putea face ceva de genul:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Dacă nu se potrivește nimic, evaluez expresia implicită pe care mi-o dai.",

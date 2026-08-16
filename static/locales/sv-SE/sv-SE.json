@@ -806,7 +806,7 @@
             "description": "$~villkorlig på $condition",
             "emotion": "curious",
             "doc": [
-                "$~Ska jag ge dig ett värde eller ett annat, beroende på ett visst villkor? Så här?",
+                "$!Ska jag ge dig ett värde eller ett annat, beroende på ett visst villkor? Så här?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Men har du någonsin funderat på hur vi bestämmer oss?",
                 "Verkar det inte som att beslut borde vara mer nyanserade än bara ja eller nej? Är det allt som finns att välja mellan \\⊤\\ och \\⊥\\ ?",
@@ -1213,7 +1213,7 @@
             "description": "$~matcha $value mot $#count[$count fall|$count fall]",
             "emotion": "curious",
             "doc": [
-                "$~Jag är den mest ärorika av villkorliga kontroller: jag tar ett värde, jämför det med valfritt antal fall och utvärderar det som matchar!",
+                "$!Jag är den mest ärorika av villkorliga kontroller: jag tar ett värde, jämför det med valfritt antal fall och utvärderar det som matchar!",
                 "Om du till exempel hade ett @Number och ville konvertera det till en @Text kan du göra något liknande:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Om ingen matchar utvärderar jag standarduttrycket du ger mig.",

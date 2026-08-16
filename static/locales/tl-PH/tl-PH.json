@@ -811,7 +811,7 @@
                 "no": "$~hindi"
             },
             "doc": [
-                "$~Dapat ba kitang bigyan ng isang halaga o iba pa, depende sa isang kondisyon? Ganito?",
+                "$!Dapat ba kitang bigyan ng isang halaga o iba pa, depende sa isang kondisyon? Ganito?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Pero naisip mo na ba kung paano tayo magdedesisyon?",
                 "Hindi ba't tila dapat maging mas detalyado ang mga desisyon kaysa sa oo o hindi lang? Ang pagpapasya ba sa pagitan ng \\⊤\\ at \\⊥\\ ang tanging kailangan?",
@@ -1217,7 +1217,7 @@
                 "other": "$~paunang"
             },
             "doc": [
-                "$~Ako ang pinakamaluwalhati sa mga conditional check: Kumukuha ako ng halaga, inihahambing ito sa kahit ilang kaso, at sinusuri ang tumutugma!",
+                "$!Ako ang pinakamaluwalhati sa mga conditional check: Kumukuha ako ng halaga, inihahambing ito sa kahit ilang kaso, at sinusuri ang tumutugma!",
                 "Halimbawa, kung mayroon kang @Number at nais mong i-convert ito sa @Text , maaari mong gawin ang ganito:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Kung walang tugma, susuriin ko ang default na expression na ibinigay mo sa akin.",

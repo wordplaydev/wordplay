@@ -811,7 +811,7 @@
                 "no": "$~TIDAK"
             },
             "doc": [
-                "$~Apakah saya harus memberikan nilai yang satu atau yang lain, tergantung pada suatu kondisi? Seperti ini?",
+                "$!Apakah saya harus memberikan nilai yang satu atau yang lain, tergantung pada suatu kondisi? Seperti ini?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "Tapi pernahkah Anda berpikir tentang bagaimana kita mengambil keputusan?",
                 "Bukankah seharusnya keputusan lebih bernuansa daripada sekadar ya atau tidak? Apakah hanya itu saja yang ada dalam keputusan antara \\⊤\\ dan \\⊥\\ ?",
@@ -1217,7 +1217,7 @@
                 "other": "$~bawaan"
             },
             "doc": [
-                "$~Saya adalah pengecekan kondisi yang paling hebat: saya menerima sebuah nilai, membandingkannya dengan sejumlah kasus, dan mengevaluasi kasus yang cocok!",
+                "$!Saya adalah pengecekan kondisi yang paling hebat: saya menerima sebuah nilai, membandingkannya dengan sejumlah kasus, dan mengevaluasi kasus yang cocok!",
                 "Sebagai contoh, jika Anda memiliki @Number dan ingin mengubahnya menjadi @Text , Anda dapat melakukan sesuatu seperti ini:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "Jika tidak ada yang cocok, saya akan mengevaluasi ekspresi default yang Anda berikan.",

@@ -858,7 +858,12 @@
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "But have you ever thought about how we decide?",
                 "Doesn't it seem like decisions should be more nuanced than just yes or no? Is deciding between \\⊤\\ and \\⊥\\ all there is?",
-                "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?"
+                "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?",
+                "There's one more thing I do, and I don't always get credit for it. When my @condition asks what /kind/ of value something is, I don't only answer yes or no. I remember the answer inside each of my choices.",
+                "\\size•#|'': 5\nsize•# ? size + 1 'too small'\\",
+                "On its own, that value could be a @Number or some @Text, and adding to it would be a conflict, since those are added in very different ways. But inside my /yes/ we have just asked whether it's a @Number, so there it is one. Inside my /no/, it's the @Text.",
+                "It doesn't matter how you ask. A type check, a comparison against a particular value, a check for a missing value, and a check you saved under a name all tell me the same thing. And @Boolean/and, @Boolean/or, and @Boolean/not combine them the way you would expect.",
+                "There are two things I can't tell you. If you compare against @Text that has several translations, I learn nothing, because which translation you get depends on who is reading."
             ],
             "start": "Let's see if $condition is true",
             "else": "$jumping[jumping over code | not jumping over code]",
@@ -1598,7 +1603,10 @@
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "If none match, I evaluate the default @expression you give me.",
                 "I'm really helpful for converting one of many possible @Number, @Text, or more complex values into something else.",
-                "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values."
+                "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values.",
+                "Like @Conditional, I also tell you what I have learned. Inside a case, the @value I matched is known to be that case; inside a later case, it is known not to be any earlier one; and in my default, it is known to be none of them.",
+                "\\answer•#|'': 1\nanswer ??? 1: answer + 1\n'not one'\\",
+                "Only cases whose value I can name take part — a @Number, a @None, or @Text with a single translation, or a name bound to one of those. A case I have to compute rules nothing out, so my default keeps everything the @value might still be."
             ],
             "start": "Let's see what $value is...",
             "case": "Let's check this condition",

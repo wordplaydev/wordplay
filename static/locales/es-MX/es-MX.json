@@ -778,7 +778,7 @@
             "description": "$~condicional sobre $condition",
             "emotion": "curious",
             "doc": [
-                "$~¿Debo darte un @value u otro, según una @condition? ¿Así?",
+                "$!¿Debo darte un @value u otro, según una @condition? ¿Así?",
                 "\\número: -100\nnúmero < 0 ? 'negativo' 'positivo'\\",
                 "Pero, ¿alguna vez has pensado en cómo decidimos?",
                 "¿No parece que las decisiones deberían ser más sutiles que solo sí o no? ¿Decidir entre \\⊤\\ y \\⊥\\ es todo lo que hay?",
@@ -1185,7 +1185,7 @@
             "description": "$~comparar $value con $#count[$#count caso|$count casos|$count casos]",
             "emotion": "curious",
             "doc": [
-                "$~Soy la más gloriosa de las verificaciones condicionales: tomo un @value, lo comparo con cualquier cantidad de casos, ¡y evalúo el que coincide!",
+                "$!Soy la más gloriosa de las verificaciones condicionales: tomo un @value, lo comparo con cualquier cantidad de casos, ¡y evalúo el que coincide!",
                 "Por ejemplo, si tuvieras un @Number y quisieras convertirlo en un @Text, podrías hacer algo así:",
                 "\\número: 2\nnúmero ???\n\t1: 'uno'\n\t2: 'dos'\n\t3: 'tres'\n\t'¡más grande!'\\",
                 "Si ninguno coincide, evalúo la @expression predeterminada que me das.",
