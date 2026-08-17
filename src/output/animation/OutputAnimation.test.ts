@@ -3,10 +3,14 @@ import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import Source from '@nodes/Source';
+import { getPlacingMotion } from '@input/Motion/Motion';
 import {
     isPlaceOnlyTween,
     sameAnimatingNodes,
 } from '@output/animation/OutputAnimation';
+import type Output from '@output/Output/Output';
+import type Stage from '@output/Output/Stage';
+import { toStage } from '@output/Output/Stage';
 import type Pose from '@output/animation/Pose';
 import { toPose } from '@output/animation/Pose';
 import Transition from '@output/animation/Transition';
@@ -15,10 +19,10 @@ import ListValue from '@values/ListValue';
 import { expect, test } from 'vitest';
 
 /**
- * These two predicates decide whether OutputAnimation may retarget a running
- * Web Animation instead of cancelling and rebuilding it every frame. The
- * animation itself needs a DOM and vitest runs in node, so the decision is
- * factored out here where it can be tested directly.
+ * These predicates decide whether OutputAnimation tweens a move at all, and if
+ * so whether it may retarget the running Web Animation instead of cancelling
+ * and rebuilding it every frame. The animation itself needs a DOM and vitest
+ * runs in node, so the decisions are factored out here to be tested directly.
  */
 
 /** Build real Pose values from a Wordplay list literal, so each carries its own
@@ -109,4 +113,60 @@ test('tweens of different lengths animate different nodes', () => {
     expect(sameAnimatingNodes(tween(three), tween(three.slice(0, 2)))).toBe(
         false,
     );
+});
+
+/** The stage a program renders, with its evaluator still live so stream
+ *  resolution can be queried the way the animator does. */
+function stageOf(code: string) {
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    project.analyze();
+    const evaluator = new Evaluator(
+        project,
+        DB,
+        DefaultLocales.getLocales(),
+        false,
+    );
+    const value = evaluator.getInitialValue();
+    if (value === undefined) throw new Error('expected a value');
+    const stage = toStage(evaluator, value);
+    if (stage === undefined) throw new Error('expected a stage');
+    return { stage, evaluator };
+}
+
+function named(stage: Stage, name: string): Output {
+    const output = stage.content.find((out) => out?.getName() === name);
+    if (!output) throw new Error(`expected output named ${name}`);
+    return output;
+}
+
+test('physics computes the place of output placed by Motion', () => {
+    const { stage, evaluator } = stageOf(
+        `Stage([Phrase('a' name: 'flying' place: Motion(Place(0m 0m) Velocity(1m/s 0m/s)) matter: Matter())])`,
+    );
+    expect(
+        getPlacingMotion(evaluator, named(stage, 'flying')) !== undefined,
+    ).toBe(true);
+    evaluator.stop();
+});
+
+test('the program keeps the place of output that only has matter', () => {
+    // FootBall's keeper and Pears' Placement-driven girl are this shape: they
+    // are in the physics world for collisions, but the program moves them in
+    // discrete jumps, so their movement is still worth tweening.
+    const { stage, evaluator } = stageOf(
+        `Stage([Phrase('b' name: 'keeper' place: Place(1m 2m) matter: Matter())])`,
+    );
+    expect(
+        getPlacingMotion(evaluator, named(stage, 'keeper')) !== undefined,
+    ).toBe(false);
+    evaluator.stop();
+});
+
+test('output with no place at all is not simulated', () => {
+    const { stage, evaluator } = stageOf(`Stage([Phrase('c' name: 'still')])`);
+    expect(
+        getPlacingMotion(evaluator, named(stage, 'still')) !== undefined,
+    ).toBe(false);
+    evaluator.stop();
 });

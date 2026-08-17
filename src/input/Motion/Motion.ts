@@ -19,6 +19,8 @@ import { toVelocity } from '@output/physics/Velocity';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type Output from '@output/Output/Output';
+import type Evaluator from '@runtime/Evaluator';
 
 /** The raw payload Motion records for each value: the elapsed delta that
  *  triggered it plus the engine-produced placement. Recording the placement
@@ -291,4 +293,19 @@ export function createMotionDefinition(
         ),
         placeType.getTypeReference(),
     );
+}
+
+/** The Motion stream that authors this output's place, if any. Only a Motion
+ *  hands a place to the physics engine and reads the simulated result back each
+ *  frame; Placement and plain Places author the place themselves, so an output
+ *  that merely has matter is tracked for collisions but still moved by the
+ *  program. Asked per frame, since a program can swap an output between the two. */
+export function getPlacingMotion(
+    evaluator: Evaluator | undefined,
+    output: Output,
+): Motion | undefined {
+    const stream = output.place
+        ? evaluator?.getStreamResolved(output.place.value)
+        : undefined;
+    return stream instanceof Motion ? stream : undefined;
 }

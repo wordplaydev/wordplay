@@ -1,3 +1,4 @@
+import { getPlacingMotion } from '@input/Motion/Motion';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import { Easings, type EasingName } from '@output/animation/easing';
@@ -120,6 +121,15 @@ export default class OutputAnimation {
         // Otherwise, just let the move or exit finish and it will pick up the updates next time.
     }
 
+    /** Whether the simulation authors this output's place, so its own transform
+     *  already renders every change and there is nothing to smooth. An authored
+     *  moving:/resting: pose is an explicit ask to animate and still counts. */
+    simulated(): boolean {
+        return (
+            getPlacingMotion(this.animator.evaluator, this.output) !== undefined
+        );
+    }
+
     /** Change to the still state and start a transition to it. */
     rest(prior?: Output) {
         this.log('Changing state of ' + this.name + ' to rest');
@@ -127,9 +137,16 @@ export default class OutputAnimation {
         this.state = AnimationState.Rest;
         const priorPose = prior?.getRestOrDefaultPose();
         const currentPose = this.output.getRestOrDefaultPose();
+        // A simulated output with no authored resting pose falls back to its
+        // default one, which carries the rotation physics just computed — so it
+        // differs every frame, and tweening it would rebuild an animation every
+        // frame for a rotation the transform already renders.
+        const rotatingUnderPhysics =
+            this.output.resting === undefined && this.simulated();
         // If the rest pose changed to a new pose, or the size changed, animate to it.
         if (
             prior &&
+            !rotatingUnderPhysics &&
             priorPose instanceof Pose &&
             currentPose instanceof Pose &&
             (!priorPose.equals(currentPose) || prior.size !== this.output.size)
@@ -274,6 +291,16 @@ export default class OutputAnimation {
     }
 
     move(prior: Orientation, present: Orientation) {
+        // The simulation already places this output every frame, so there's no
+        // gap to smooth — a tween would only render it a frame behind where the
+        // physics actually put it. An authored moving: pose is an explicit ask
+        // to animate during moves, so it still tweens; the tween being skipped
+        // here is the unrequested one move() falls back to.
+        if (this.output.moving === undefined && this.simulated()) {
+            if (this.state === AnimationState.Moving) this.settle();
+            return;
+        }
+
         const move = this.output.moving ?? this.output.pose;
         const rest = this.output.getFirstRestPose();
 
@@ -513,6 +540,32 @@ export default class OutputAnimation {
         this.animation.onfinish = () => {
             this.finish();
         };
+    }
+
+    /** Stop a move tween early and return to rest. An output can become
+     *  simulated mid-run — BasketballStar's ball alternates between a pointer
+     *  place and a Motion on every click — and a tween left running would keep
+     *  overriding the element's own transform with a stale path. finish() can't
+     *  do this: it's written for an animation that already ended, so it would
+     *  leave this one running and let its onfinish finish it a second time. */
+    settle() {
+        // Drop the tween, so the element renders at its own transform again.
+        if (this.animation) {
+            this.animation.onfinish = null;
+            this.animation.cancel();
+            this.animation = undefined;
+        }
+        // Stop highlighting its nodes, as finish() and start() both do. Cleared
+        // before rest(), so a resting Sequence starting there doesn't end the
+        // sequence it just began.
+        if (this.sequence) {
+            this.animator.endingSequence(this.sequence);
+            this.sequence = undefined;
+        }
+        this.rest();
+        // A Scene may be waiting on this reaching rest, and finish() reports the
+        // same transition, so a move that ends early has to report it too.
+        this.animator.updatedAnimationState(this);
     }
 
     /** Point the animation already playing at new keyframes, instead of
