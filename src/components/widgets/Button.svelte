@@ -183,8 +183,15 @@
         if (active) pressed = true;
         if (active && onPress) {
             // Capture so the release still lands here if the finger slides off.
+            // A synthetic event has no active pointer to capture and throws;
+            // the press still stands, and callers that watch capture to detect
+            // a lost release read the absence rather than assuming it.
             if (event.currentTarget instanceof HTMLElement)
-                event.currentTarget.setPointerCapture(event.pointerId);
+                try {
+                    event.currentTarget.setPointerCapture(event.pointerId);
+                } catch {
+                    /* No pointer to capture; onPress still runs. */
+                }
             onPress(event);
         }
     }}

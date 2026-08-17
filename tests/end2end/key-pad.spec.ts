@@ -58,6 +58,73 @@ test('tapping a key drives the program', async ({ page }) => {
     await expect(stage).toContainText('2 of 10');
 });
 
+/** Long enough for the repeat delay and a couple of repeats, and long enough
+ *  afterwards that a key still repeating would be unmistakable. */
+const HoldMs = 540;
+const SettleMs = 700;
+
+/** SlideShow's `n of 10` counter, as a number. */
+async function slide(page: import('@playwright/test').Page): Promise<number> {
+    const text = (await page.locator('.value').textContent()) ?? '';
+    const match = text.match(/(\d+) of 10/);
+    expect(match).not.toBeNull();
+    return Number(match?.[1]);
+}
+
+/**
+ * Prove no key is still repeating. The counter stops at 10 rather than
+ * wrapping, so a hold that ran to the end would look stopped; nudging one slide
+ * back and watching it stay is what tells the two apart, at the end or anywhere
+ * else. Returns nothing — it asserts.
+ */
+async function expectNothingHeld(page: import('@playwright/test').Page) {
+    const before = await slide(page);
+    // The first key is ArrowLeft; a tap sends exactly one press and release.
+    await page.locator('.key-pad .key').first().tap();
+    const nudged = await slide(page);
+    expect(nudged).toBe(before - 1);
+    await page.waitForTimeout(SettleMs);
+    expect(await slide(page)).toBe(nudged);
+}
+
+test('holding a key repeats it, and releasing stops it', async ({ page }) => {
+    await page.goto(example('SlideShow'));
+    const pad = page.locator('.key-pad');
+    await pad.waitFor();
+    await expect(page.locator('.value')).toContainText('1 of 10');
+
+    // The last key is ArrowRight; a real pointer down and up is the only way to
+    // express a hold, and `tap()` can't.
+    await pad.locator('.key').last().hover();
+    await page.mouse.down();
+    await page.waitForTimeout(HoldMs);
+
+    // Repeat is what makes continuous movement work, so more than the single
+    // press a tap sends has to have landed.
+    expect(await slide(page)).toBeGreaterThan(2);
+
+    await page.mouse.up();
+    await expectNothingHeld(page);
+});
+
+test('a key whose release never arrives stops repeating', async ({ page }) => {
+    await page.goto(example('SlideShow'));
+    const pad = page.locator('.key-pad');
+    await pad.waitFor();
+
+    // Press and never release: what a system edge gesture or an app switch
+    // leaves behind. A blurred window is the backstop that has to notice.
+    await pad.locator('.key').last().hover();
+    await page.mouse.down();
+    await page.waitForTimeout(HoldMs);
+    await page.evaluate(() => window.dispatchEvent(new Event('blur')));
+
+    expect(await slide(page)).toBeGreaterThan(2);
+    await expectNothingHeld(page);
+
+    await page.mouse.up();
+});
+
 test('a partly-bounded project offers the keys it knows AND keeps the keyboard', async ({
     page,
 }) => {
