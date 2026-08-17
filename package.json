@@ -94,7 +94,7 @@
         "@axe-core/playwright": "^4",
         "@breezystack/lamejs": "^1.2.7",
         "@firebase/rules-unit-testing": "^5.0.1",
-        "@google-cloud/translate": "^9",
+        "@google-cloud/translate": "^10",
         "@playwright/test": "^1",
         "@resvg/resvg-js": "2.6.2",
         "@sveltejs/adapter-static": "^3",
@@ -124,8 +124,8 @@
     },
     "dependencies": {
         "@anthropic-ai/sdk": "^0",
-        "@dimforge/rapier2d-compat": "^0.19.3",
-        "@mediapipe/tasks-vision": "^0",
+        "@dimforge/rapier2d-compat": "^0.20.0",
+        "@mediapipe/tasks-vision": "^1",
         "@types/fontkit": "^2",
         "colorjs.io": "^0",
         "decimal.js": "^10",
@@ -143,10 +143,7 @@
         "zod": "^4"
     },
     "overrides": {
-        "cookie": "^0.7.0",
-        "jwks-rsa": {
-            "jose": "^5.10.0"
-        }
+        "cookie": "^0.7.0"
     },
     "browserslist": [
         "defaults",
