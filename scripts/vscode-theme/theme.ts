@@ -84,18 +84,27 @@ function getPalette(mode: Mode) {
         error: hex(`orange-text-${mode}`),
         /** Literals and the ƒ/→ evaluation markers. */
         literal: hex(`blue-text-${mode}`),
+        /**
+         * The window's identity color, used on chrome that carries no app
+         * meaning: title bar, cursors, badges, accent borders. Deliberately
+         * the gold rather than one of the semantic hues — pink and purple
+         * already mean evaluation and docs, and blue means literals and focus,
+         * so an identity accent in any of those reads as a status it isn't.
+         * The AA text variant, not the brighter --color-yellow, because a
+         * saturated frame around every pane is exactly what this replaced.
+         */
+        accent: hex(`gold-text-${mode}`),
     };
     return {
         ...p,
         /**
-         * The accent as a hairline rather than a fill. The palette lightens
-         * dark-mode pink so it stays legible as text, which makes it glaring
-         * as a 1px border on the dark background — 7.2:1, where WCAG 1.4.11
-         * asks only 3:1 of a non-text UI part. Accent borders are toned back
-         * to the contrast the palette targets for text; light-mode pink is
-         * already there, so it comes through untouched.
+         * The accent as a hairline rather than a fill. The palette tunes its
+         * colors to stay legible as *text*, which is more contrast than WCAG
+         * 1.4.11 asks of a non-text UI part (3:1), and reads as glaring on a
+         * 1px rule. Accent borders are toned back toward the background until
+         * they sit at the contrast the palette targets for text.
          */
-        accentBorder: subdue(p.evaluation, p.background, AA_TEXT),
+        accentBorder: subdue(p.accent, p.background, AA_TEXT),
     };
 }
 
@@ -154,7 +163,7 @@ function alpha(color: string, opacity: number): string {
 }
 
 /**
- * Workbench chrome. The identity colors — a pink title bar and a purple status
+ * Workbench chrome. The identity colors — a gold title bar and a purple status
  * bar — are the two surfaces visible in every window at a glance, which is the
  * whole point of theming this repo differently from other windows.
  */
@@ -173,11 +182,11 @@ function getWorkbenchColors(p: Palette, mode: Mode): Record<string, string> {
         'textCodeBlock.background': p.chrome,
         'textSeparator.foreground': p.border,
 
-        // Title bar: the app's evaluation pink, the loudest window identifier.
-        'titleBar.activeBackground': p.evaluation,
-        'titleBar.activeForeground': textOn(p.evaluation, mode),
-        'titleBar.inactiveBackground': alpha(p.evaluation, 0.6),
-        'titleBar.inactiveForeground': alpha(textOn(p.evaluation, mode), 0.7),
+        // Title bar: the identity accent, the loudest window identifier.
+        'titleBar.activeBackground': p.accent,
+        'titleBar.activeForeground': textOn(p.accent, mode),
+        'titleBar.inactiveBackground': alpha(p.accent, 0.6),
+        'titleBar.inactiveForeground': alpha(textOn(p.accent, mode), 0.7),
         'titleBar.border': p.border,
 
         // Status bar: the app's doc purple.
@@ -200,8 +209,8 @@ function getWorkbenchColors(p: Palette, mode: Mode): Record<string, string> {
         'activityBar.inactiveForeground': p.inactive,
         'activityBar.border': p.border,
         'activityBar.activeBorder': p.accentBorder,
-        'activityBarBadge.background': p.evaluation,
-        'activityBarBadge.foreground': textOn(p.evaluation, mode),
+        'activityBarBadge.background': p.accent,
+        'activityBarBadge.foreground': textOn(p.accent, mode),
 
         'sideBar.background': p.chrome,
         'sideBar.foreground': p.foreground,
@@ -226,7 +235,7 @@ function getWorkbenchColors(p: Palette, mode: Mode): Record<string, string> {
 
         'editor.background': p.background,
         'editor.foreground': p.foreground,
-        'editorCursor.foreground': p.evaluation,
+        'editorCursor.foreground': p.accent,
         'editor.selectionBackground': p.highlightTransparent,
         'editor.inactiveSelectionBackground': alpha(p.highlight, 0.15),
         'editor.selectionHighlightBackground': alpha(p.highlight, 0.15),
@@ -302,7 +311,7 @@ function getWorkbenchColors(p: Palette, mode: Mode): Record<string, string> {
         'terminal.background': p.background,
         'terminal.foreground': p.foreground,
         'terminal.selectionBackground': p.highlightTransparent,
-        'terminalCursor.foreground': p.evaluation,
+        'terminalCursor.foreground': p.accent,
 
         'list.activeSelectionBackground': p.focus,
         'list.activeSelectionForeground': textOn(p.focus, mode),
@@ -319,9 +328,9 @@ function getWorkbenchColors(p: Palette, mode: Mode): Record<string, string> {
         'button.hoverBackground': p.doc,
         'button.secondaryBackground': p.chrome,
         'button.secondaryForeground': p.foreground,
-        'badge.background': p.evaluation,
-        'badge.foreground': textOn(p.evaluation, mode),
-        'progressBar.background': p.evaluation,
+        'badge.background': p.accent,
+        'badge.foreground': textOn(p.accent, mode),
+        'progressBar.background': p.accent,
 
         'input.background': p.background,
         'input.foreground': p.foreground,

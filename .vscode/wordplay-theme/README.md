@@ -64,18 +64,24 @@ windows:
 
 | Surface | Color | App meaning |
 | --- | --- | --- |
-| Title bar, cursor, badges | pink | `--wordplay-evaluation-color` |
+| Title bar, cursor, badges, accent borders | gold | `--color-gold-text` |
 | Status bar | purple | `--wordplay-doc-color` |
 | Sidebar, activity bar, tabs | very light grey | `--wordplay-alternating-color` |
 | Selection, hover, find matches | yellow | `--wordplay-highlight-color` |
 
-Accent *borders* — the active tab's top rule, the activity bar's active
-marker, peek view — use a toned-down pink rather than the fill color. The
-palette lightens dark-mode pink so it stays legible as text, which makes it
-glaring as a hairline on the dark background (7.2:1, where WCAG 1.4.11 asks
-only 3:1 of a non-text UI part). The generator blends it toward the background
-until it sits at the contrast the palette targets for text; light-mode pink is
-already there, so it comes through essentially untouched.
+The identity accent is gold rather than one of the semantic hues on purpose:
+pink and purple already mean evaluation and docs in the app, and blue means
+literals and focus rings, so an identity accent in any of those reads as a
+status it isn't. It's the AA *text* variant rather than the brighter
+`--color-yellow`, because a saturated frame around every pane is what it
+replaced. Pink survives only where it carries meaning — invalid syntax,
+unmatched brackets, and Git conflicts.
+
+Accent *borders* — the active tab's top rule, the activity bar's marker, peek
+view — are toned further. The palette tunes its colors to be legible as
+*text*, which is more contrast than WCAG 1.4.11 asks of a non-text UI part
+(3:1) and reads as glaring on a 1px rule, so the generator blends the accent
+toward the background until it sits at the palette's text target.
 
 Syntax colors mirror the Wordplay editor's token categories one for one:
 
