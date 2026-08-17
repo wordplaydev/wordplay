@@ -11,7 +11,7 @@ import { get } from 'svelte/store';
 import { animationFactor } from '@db/Database';
 import type { ReboundEvent } from '@input/Collision/Collision';
 import Collision from '@input/Collision/Collision';
-import Motion from '@input/Motion/Motion';
+import { getPlacingMotion } from '@input/Motion/Motion';
 import type Evaluator from '@runtime/Evaluator';
 import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
 import { Circle } from '@output/Output/Shape/Circle';
@@ -45,7 +45,7 @@ const MaxSpeed = 6000;
  *  at 64 px/m — about 6× "real" g in stage units. All the example projects
  *  were tuned to that feel (earth-like on a ~10m stage), so we reproduce the
  *  same effective acceleration rather than a physically literal g × PX_PER_METER. */
-const GravityPxPerS2PerUnit = 1_000_000 / (20 * 2 * PX_PER_METER);
+export const GravityPxPerS2PerUnit = 1_000_000 / (20 * 2 * PX_PER_METER);
 
 /** Air-resistance calibration. Matter.js bodies default to frictionAir 0.01 —
  *  1% velocity loss per 16.7ms frame — which is what made bounces settle and
@@ -284,13 +284,11 @@ export default class Physics {
                         ? info.output.matter
                         : undefined;
 
-                // Is there a motion stream responsible for this output's place? Ask the
-                // Evaluator which stream the place value resolved from; Placement also
-                // produces places, and those outputs must stay position-driven below.
-                const stream = info.output.place
-                    ? this.evaluator.getStreamResolved(info.output.place.value)
-                    : undefined;
-                const motion = stream instanceof Motion ? stream : undefined;
+                // Is there a motion stream responsible for this output's place?
+                // Placement also produces places, and those outputs must stay
+                // position-driven below. The animator asks the same question to
+                // decide whether a move is worth tweening.
+                const motion = getPlacingMotion(this.evaluator, info.output);
 
                 // If the output has matter or is in motion, make sure it's in the physics world.
                 if (matter || motion) {
@@ -687,7 +685,7 @@ export default class Physics {
     }
 }
 
-const FIXED_STEP_MS = 16;
+export const FIXED_STEP_MS = 16;
 
 /** All active collision types, so events fire even between the kinematic /
  *  fixed pairs Rapier ignores by default (KINEMATIC_FIXED, KINEMATIC_KINEMATIC).

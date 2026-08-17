@@ -1,3 +1,4 @@
+import { getPlacingMotion } from '@input/Motion/Motion';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import { Easings, type EasingName } from '@output/animation/easing';
@@ -120,6 +121,15 @@ export default class OutputAnimation {
         // Otherwise, just let the move or exit finish and it will pick up the updates next time.
     }
 
+    /** Whether the simulation authors this output's place, so its own transform
+     *  already renders every change and there is nothing to smooth. An authored
+     *  moving:/resting: pose is an explicit ask to animate and still counts. */
+    simulated(): boolean {
+        return (
+            getPlacingMotion(this.animator.evaluator, this.output) !== undefined
+        );
+    }
+
     /** Change to the still state and start a transition to it. */
     rest(prior?: Output) {
         this.log('Changing state of ' + this.name + ' to rest');
@@ -127,9 +137,16 @@ export default class OutputAnimation {
         this.state = AnimationState.Rest;
         const priorPose = prior?.getRestOrDefaultPose();
         const currentPose = this.output.getRestOrDefaultPose();
+        // A simulated output with no authored resting pose falls back to its
+        // default one, which carries the rotation physics just computed — so it
+        // differs every frame, and tweening it would rebuild an animation every
+        // frame for a rotation the transform already renders.
+        const rotatingUnderPhysics =
+            this.output.resting === undefined && this.simulated();
         // If the rest pose changed to a new pose, or the size changed, animate to it.
         if (
             prior &&
+            !rotatingUnderPhysics &&
             priorPose instanceof Pose &&
             currentPose instanceof Pose &&
             (!priorPose.equals(currentPose) || prior.size !== this.output.size)
@@ -274,6 +291,16 @@ export default class OutputAnimation {
     }
 
     move(prior: Orientation, present: Orientation) {
+        // The simulation already places this output every frame, so there's no
+        // gap to smooth — a tween would only render it a frame behind where the
+        // physics actually put it. An authored moving: pose is an explicit ask
+        // to animate during moves, so it still tweens; the tween being skipped
+        // here is the unrequested one move() falls back to.
+        if (this.output.moving === undefined && this.simulated()) {
+            if (this.state === AnimationState.Moving) this.settle();
+            return;
+        }
+
         const move = this.output.moving ?? this.output.pose;
         const rest = this.output.getFirstRestPose();
 
@@ -283,8 +310,8 @@ export default class OutputAnimation {
 
         // If there's a pose, tween the prior and new place, posing while we do it, then transition to the still pose.
         // If the rest is an empty sequence, then just use the move pose.
-        if (move instanceof Pose)
-            this.start(AnimationState.Moving, [
+        if (move instanceof Pose) {
+            const transitions: TransitionSequence = [
                 // Start at the previous position, no transition
                 new Transition(
                     prior.place,
@@ -309,8 +336,18 @@ export default class OutputAnimation {
                     this.output.duration / 2,
                     this.output.style,
                 ),
-            ]);
-        // If move is a sequence, run it, but account for the resting pose.
+            ];
+            // Output driven by physics or a Motion stream moves every frame, so
+            // start() would cancel and rebuild a whole animation every ~16ms —
+            // work the browser resolves during style recalculation. Point the
+            // running animation at the new places instead when we can.
+            if (!this.retarget(AnimationState.Moving, transitions))
+                this.start(AnimationState.Moving, transitions);
+        }
+        // If move is a sequence, run it, but account for the resting pose. This
+        // deliberately doesn't retarget: a sequence sweeps through poses, which
+        // is exactly what retargeting can't preserve, and authored moving:
+        // sequences are driven by discrete events rather than every frame.
         else if (move instanceof Sequence) {
             const transitions = move.compile(undefined, rest);
 
@@ -503,6 +540,94 @@ export default class OutputAnimation {
         this.animation.onfinish = () => {
             this.finish();
         };
+    }
+
+    /** Stop a move tween early and return to rest. An output can become
+     *  simulated mid-run — BasketballStar's ball alternates between a pointer
+     *  place and a Motion on every click — and a tween left running would keep
+     *  overriding the element's own transform with a stale path. finish() can't
+     *  do this: it's written for an animation that already ended, so it would
+     *  leave this one running and let its onfinish finish it a second time. */
+    settle() {
+        // Drop the tween, so the element renders at its own transform again.
+        if (this.animation) {
+            this.animation.onfinish = null;
+            this.animation.cancel();
+            this.animation = undefined;
+        }
+        // Stop highlighting its nodes, as finish() and start() both do. Cleared
+        // before rest(), so a resting Sequence starting there doesn't end the
+        // sequence it just began.
+        if (this.sequence) {
+            this.animator.endingSequence(this.sequence);
+            this.sequence = undefined;
+        }
+        this.rest();
+        // A Scene may be waiting on this reaching rest, and finish() reports the
+        // same transition, so a move that ends early has to report it too.
+        this.animator.updatedAnimationState(this);
+    }
+
+    /** Point the animation already playing at new keyframes, instead of
+     *  cancelling it and building a replacement. Returns false when anything
+     *  differs enough to need a real start(). Output that moves every frame
+     *  would otherwise destroy and rebuild a whole animation every ~16ms, which
+     *  the browser resolves during style recalculation — the dominant cost of
+     *  running a program. Mirrors refocus(), which does the same for the camera. */
+    retarget(state: AnimationState, transitions: TransitionSequence): boolean {
+        // Only retarget an animation of the same kind that's still playing.
+        if (
+            this.state !== state ||
+            this.animation === undefined ||
+            this.animation.playState !== 'running'
+        )
+            return false;
+
+        const effect = this.animation.effect;
+        if (!(effect instanceof KeyframeEffect)) return false;
+
+        // setKeyframes() keeps the animation's progress, so a retargeted
+        // animation goes on sweeping its poses instead of restarting at the
+        // first one. That's only invisible when the tween moves the output
+        // without changing its pose — the physics and Motion case this exists
+        // for. An authored moving: pose must keep restarting, or it would fall
+        // back to the resting pose every duration instead of holding.
+        if (!isPlaceOnlyTween(transitions)) return false;
+
+        const info =
+            this.animator.scene.get(this.output.getName()) ??
+            this.animator.exitedInfo.get(this.output.getName());
+        if (info === undefined) return false;
+
+        const totalDuration =
+            this.context.animationFactor *
+            transitions.reduce(
+                (total, transition) => total + transition.duration,
+                0,
+            );
+        if (totalDuration <= 0) return false;
+
+        // setKeyframes() keeps the animation's timing, so a duration or easing
+        // the program changed mid-run has to go through start() instead.
+        if (effect.getTiming().duration !== totalDuration * 1000) return false;
+
+        const keyframes = this.buildKeyframes(transitions, totalDuration, info);
+        if (keyframes === undefined) return false;
+
+        effect.setKeyframes(keyframes);
+
+        // Only republish the animating nodes when they actually changed: this
+        // runs every frame, and each notification allocates and broadcasts a set.
+        if (
+            this.sequence === undefined ||
+            !sameAnimatingNodes(this.sequence, transitions)
+        ) {
+            if (this.sequence) this.animator.endingSequence(this.sequence);
+            this.animator.startingSequence(transitions);
+        }
+        this.sequence = transitions;
+
+        return true;
     }
 
     /** Convert the given transitions into Web Animation API keyframes using the
@@ -799,4 +924,33 @@ function getChangingValueToKey(locale: LocaleText) {
     changingValueToKeyByLocale.set(locale, mapping);
 
     return mapping;
+}
+
+/** Whether every transition holds the same pose, so the tween only moves the
+ *  output. Only such a tween can be retargeted, since setKeyframes() preserves
+ *  the animation's progress rather than restarting it at the first pose. Note
+ *  this compares poses within one tween, never across frames: a spinning body's
+ *  rotation changes every frame but is identical on all of its keyframes. */
+export function isPlaceOnlyTween(transitions: Transition[]): boolean {
+    return transitions.every((transition) =>
+        transition.pose.equals(transitions[0].pose),
+    );
+}
+
+/** Whether two tweens highlight the same nodes. Animator tracks animating nodes
+ *  by each transition's pose creator, so a move that repeats with the same pose
+ *  needs no new notification. Compared index-wise to avoid allocating a set per
+ *  output per frame. */
+export function sameAnimatingNodes(
+    before: Transition[],
+    after: Transition[],
+): boolean {
+    return (
+        before.length === after.length &&
+        before.every(
+            (transition, index) =>
+                transition.pose.value.creator ===
+                after[index].pose.value.creator,
+        )
+    );
 }
