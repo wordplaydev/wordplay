@@ -1,38 +1,239 @@
 ⚽
-"FootBall"/en"足球"/zh-CN"足球"/zh-TW
+"Football"/en"足球"/zh-CN"足球"/zh-TW
 === start/en
-¶A physics penalty shootout against a goalkeeper that slides side to side.¶
-hit/en,golpe/es: Collision('footy' 'ball')
+¶A top-down goalkeeping game. You are the glove in front of the goal on the
+left. One ball at a time is struck from somewhere down the pitch, aimed at a
+spot inside the mouth, and you move up and down to get in its way. The number
+counts the shots you have blocked: it stands up tall each time you save one,
+and swells and shakes when one gets past you.¶
 
-ballPlace/en,bolaLugar/es: Motion(Place(6m 1m) nextvelocity: hit•ø ? ø Velocity(Random(80m/s 100m/s)))
+¶Where a shot is aimed, and where the glove stands. A goal is about eight times
+the width of the keeper guarding it, which is why one person cannot simply stand
+in the middle of it and save everything.
 
-keeperPlace/en,porteroLugar/es: Place(34m 0m) … ∆ Time(1000ms) … (Time(1000ms) % 2) = 0ms ? Place(34m 0m) Place(34m 2.2m)
+A @Place is an output's bottom-left corner, not its middle, so everything aimed
+or clamped below is figured in centers and gives up half a size when it becomes
+a @Place. An emoji also draws a good deal larger than its size — a 0.6m ⚽ fills
+about 0.9m, a 1.2m 🧤 about 1.25m — so those halves are measured, not halved
+from the size. The glove's speed is how far it slides on each tick.¶
+goalX: -7m
+mouthEdge: 5.2m
+ballHalf: 0.45m
+keeperX: -6.5m
+keeperHalf: 0.62m
+keeperReach: 4.5m
+keeperSpeed: 0.55m
 
-ballObj/en,bolaObjeto/es: Phrase('⚽' 1m 
-		place: ballPlace
-		matter: Matter(1kg 0.5 0 )
-		name: 'ball')
+tick: Time(50ms)
+press: Key(down: ⊤)
+release: Key(down: ⊥)
 
-footObj/en,pieObjeto/es: Phrase('🦶🏻' 1.5m
-		matter: Matter(mass: 20kg 0.9)
-		place: Place(Volume() × 10m 0.1m)
-		name: 'footy')
+¶Which way the glove is travelling. An arrow pressed sets it going and letting
+that same arrow go stops it, so the glove slides for as long as you hold the
+key. Across a mouth this wide, a step per press would never get there in time.¶
+drift•#: 0 … ∆ press | ∆ release …
+	∆ press ?
+		((press = 'ArrowUp') ? 1 ((press = 'ArrowDown') ? -1 drift))
+		((release = 'ArrowUp') & (drift = 1)) ? 0
+			((release = 'ArrowDown') & (drift = -1)) ? 0
+				drift
 
-keeperObj/en,porteroObjeto/es: Phrase('🚶🏻‍♂️' 2m
-		matter: Matter(mass: 20kg 0.9)
-		place: keeperPlace
-		duration: 1s
-		name: 'keeper')
+¶The glove is not moved by physics, so it can be steered directly. It stops at
+the ends of its reach, so it can never wander off the goal.¶
+keeperY•#m: 0m … ∆ tick …
+	((keeperY + (drift × keeperSpeed)).max(keeperReach · -1)).min(keeperReach)
 
-Stage([
-		ballObj
-		footObj
-		keeperObj
+¶A save and a goal. Each @Collision reports a touch beginning and a touch
+ending, so both are paired with a check that this one is a beginning: without
+it every save and every goal would count twice.¶
+gloveHit: Collision('ball' 'keeper')
+netHit: Collision('ball' 'net')
+saved: (∆ gloveHit) & ~(gloveHit•ø)
+scored: (∆ netHit) & ~(netHit•ø)
 
-		Shape(Rectangle(-2m 0m 40m -1m))
-		Shape(Rectangle(-2m 8m -1m 0m))
-		Shape(Rectangle(40m 8m 39m 0m))
-		Shape(Rectangle(35m 8m 40m 7m))
+•Shot(sx•#m sy•#m slant•# speed•#m/s)
 
-	] background: Color(83% 50 122°)
+¶Somewhere to stand, somewhere in the mouth to aim, and the line between them.
+Working the slant out from the two ends is what puts every shot exactly on
+target, whatever direction it comes in from.¶
+ƒ newShot()•Shot (
+	x: Random(2m 6m)
+	y: Random(-5.5m 5.5m)
+	aim: Random(-4.7m 4.7m)
+	¶The slant is how much y the run gives up per metre of x. A division can have
+	no answer, so the ø case falls back to a shot straight down the pitch; the
+	kicker never stands on the goal line, so it never comes up.¶
+	drop: (aim - y) ÷ (goalX - x)
+	Shot(x y (drop•ø ? 0 drop) Random(16m/s 22m/s))
+)
+
+¶1 = the ball waits at the kicker's feet, 2 = it is on its way, 3 = it is being
+cleared. Ticks are counted rather than clocks subtracted, since each @Time
+starts from zero. The blocks are what you see; the serves are only there to
+give the number a new name every shot, which is what replays its animation.¶
+•Round(phase•# ticks•# blocks•# serves•# last•# shot•Shot)
+round•Round: Round(1 0 0 0 0 newShot()) …
+	∆ tick | saved | scored …
+	round.phase ???
+		1: (round.ticks ≥ 14)
+			? Round(2 0 round.blocks round.serves round.last round.shot)
+			Round(1 (round.ticks + (∆ tick ? 1 0)) round.blocks round.serves round.last round.shot)
+		2: saved ? Round(3 0 (round.blocks + 1) (round.serves + 1) 1 round.shot)
+			scored ? Round(3 0 round.blocks (round.serves + 1) 2 round.shot)
+				¶A ball that never arrives — knocked back into open play by a save,
+				say — is given up on after a few seconds, so the game can never wedge
+				waiting for an outcome that isn't coming.¶
+				(round.ticks ≥ 70)
+					? Round(3 0 round.blocks (round.serves + 1) 3 round.shot)
+					Round(2 (round.ticks + (∆ tick ? 1 0)) round.blocks round.serves round.last round.shot)
+		3: (round.ticks ≥ 16)
+			? Round(1 0 round.blocks round.serves round.last newShot())
+			Round(3 (round.ticks + (∆ tick ? 1 0)) round.blocks round.serves round.last round.shot)
+		round
+
+¶The one evaluation on which the ball leaves the kicker's foot. It has to be
+momentary: it is what strikes the ball, and striking it twice would double its
+speed.¶
+kicked: (∆ tick) & (round.phase = 2) & (round.ticks = 0)
+
+¶Held still while it waits, struck along its aimed line when it is kicked, and
+knocked back upfield by a save or by the back of the net — which is also what
+keeps a ball from rattling around inside the goal sounding the net over and
+over. The air slows a rolling ball, as grass would, so shots ease in.¶
+ballPlace: Motion(
+	Place((round.shot.sx - ballHalf) (round.shot.sy - ballHalf))
+	nextplace:
+		(round.phase = 1) ? Place((round.shot.sx - ballHalf) (round.shot.sy - ballHalf)) ø
+	nextvelocity:
+		(round.phase = 1) ? Velocity(0m/s 0m/s 0°/s)
+			kicked ? Velocity(
+					(round.shot.speed · -1)
+					((round.shot.speed · -1) × round.shot.slant)
+					Random(-45°/s 45°/s))
+				(saved | scored) ? Velocity(
+						Random(8m/s 14m/s)
+						Random(-5m/s 5m/s)
+						Random(-45°/s 45°/s))
+					ø
+)
+
+ball: Phrase('⚽' 0.6m
+	name: 'ball'
+	place: ballPlace
+	matter: Matter(0.45kg 0.7 0.02))
+
+¶The glove needs @Matter to be in the physical world at all, but it is placed
+by the program rather than by physics, so it passes through the ball instead of
+striking it; the save above is what sends the ball back. Its moves are not
+tweened, so it is exactly where you steered it rather than easing after you.¶
+keeper: Phrase('🧤' 1.2m
+	name: 'keeper'
+	place: Place(keeperX (keeperY - keeperHalf))
+	matter: Matter()
+	duration: 0s)
+
+¶Who is about to shoot, and from where. Only on the pitch while the ball waits.¶
+kicker: Phrase('🦵' 1.2m
+	place: Place((round.shot.sx + 0.5m) (round.shot.sy - 0.6m))
+	duration: 0s)
+kickerList: (round.phase = 1) ? [kicker] []
+
+¶The goal: the mouth, the net across the back of it, and a post above and below.
+Only the net is named, so only the net can score — a ball that struck a post
+would simply bounce. The net is deliberately thick: the fastest shot crosses
+about half a metre between physics steps, and a thinner one it could pass
+straight through without ever touching.¶
+netShape: Shape(Rectangle(-8m mouthEdge -7.2m (mouthEdge · -1)) name: 'net' background: Color(96% 0 0°))
+postTop: Shape(Rectangle(-8m 7m -7.2m mouthEdge) background: Color(35% 0 0°))
+postBottom: Shape(Rectangle(-8m (mouthEdge · -1) -7.2m -7m) background: Color(35% 0 0°))
+
+¶The touchlines, which keep a cleared ball on the pitch.¶
+wallTop: Shape(Rectangle(-8m 7m 8m 6.8m) background: Color(88% 5 130°))
+wallBottom: Shape(Rectangle(-8m -6.8m 8m -7m) background: Color(88% 5 130°))
+wallRight: Shape(Rectangle(7.8m 7m 8m -7m) background: Color(88% 5 130°))
+
+¶A save: the number pops up a little and stands there a moment before settling.¶
+saveFlex: Sequence({
+	0%: Pose(scale: 1)
+	30%: Pose(scale: 1.5 offset: Place(0m 0.4m))
+	65%: Pose(scale: 1.35 offset: Place(0m 0.25m))
+	100%: Pose(scale: 1)
+} 0.5s)
+
+¶A goal: the number swells to fill the screen and shakes, so a shot getting
+past you is never something you could miss.¶
+goalShake: Sequence({
+	0%: Pose(scale: 1)
+	8%: Pose(scale: 3.6 rotation: -10°)
+	24%: Pose(scale: 3.6 rotation: 10° offset: Place(0.4m 0m))
+	40%: Pose(scale: 3.6 rotation: -10° offset: Place(-0.4m 0m))
+	56%: Pose(scale: 3.6 rotation: 8° offset: Place(0.3m 0m))
+	72%: Pose(scale: 3.4 rotation: -6°)
+	100%: Pose(scale: 1)
+} 1s)
+
+¶The count of shots blocked. Its name carries the serve number, so every shot
+gives it a new identity and its animation plays again — a number whose name
+never changed would animate once and then sit still.¶
+scoreView: Phrase("🧤 \round.blocks\" 1.4m
+	name: "score\round.serves\"
+	place: Place(-1.4m 4m)
+	duration: 0.2s
+	entering: round.last ???
+		1: saveFlex
+		2: goalShake
+		Pose())
+
+¶The instructions ride on the pitch rather than in the overlay: the overlay's
+bottom edge is where the music rendering stands, and text there would be drawn
+over.¶
+instructions: Phrase("hold ⬆️ ⬇️ to move your glove — block every shot!" 0.55m
+	place: Place(-6.4m -6.4m))
+
+¶Three sounds: the strike, the save, the net. Each is put on stage for as long
+as the phase that causes it lasts, and taken off again afterwards. Reaching the
+stage is reason enough to sound, and a one-shot that has played out stays silent
+until it leaves and comes back — so none of these needs a @Music.replay, and
+none of them sounds when the program starts.
+
+Spelling them this way says something the notes alone would not: each sound
+belongs to a phase of the round, and lasts exactly as long as that phase does.
+@Music.replay is the other spelling, for a sound that answers a single moment
+rather than a stretch of one.¶
+kickSound: Music(
+	Track([1] instrument: Instrument.drums beat: 0.25beats volume: 60% loop: ⊥)
+	name: 'kick')
+
+saveSound: Music(
+	Track([8 12 15] instrument: Instrument.bell beat: 0.2beats volume: 70% loop: ⊥)
+	name: 'save')
+
+goalSound: Music(
+	Track([5 4 2 1] instrument: Instrument.trumpet beat: 0.3beats volume: 65% loop: ⊥)
+	name: 'goal')
+
+outcomeSound: round.last ???
+	1: [saveSound]
+	2: [goalSound]
+	[]
+
+soundList: round.phase ???
+	2: [kickSound]
+	3: outcomeSound
+	[]
+
+Stage(
+	[
+		ball keeper :kickerList
+		netShape postTop postBottom
+		wallTop wallBottom wallRight
+		instructions
+		:soundList
+	]
+	place: Place(0m 0m -14m)
+	frame: Rectangle(-8m 7m 8m -7m)
+	background: Color(62% 40 140°)
+	color: Color(20% 0 0°)
+	gravity: 0m/s^2
+	overlay: [scoreView]
 )

@@ -1,19 +1,94 @@
 📹
 "Video"/en"视频"/zh-CN"影片"/zh-TW
 ===
-¶Your camera feed painted as a grid of colored letters.¶
-colors: Camera(32px 24px 33ms)
+¶Your camera feed, repainted live: as colored letters, as ASCII shading, or as colored squares. Pick a style with the buttons at the bottom.¶
 
+¶Which style button was clicked last. Choice reports the name of the selectable
+phrase the viewer picked, and the style keeps whatever it last heard.¶
+choice: Choice()
+style: 'letters' … ∆ choice … choice
+
+¶Emoji are big, so the emoji style samples a coarser grid. Both grids cover the same
+16 by 12 metres, so changing style never resizes the picture or moves the camera.¶
+columns: (style = 'emoji') ? 16 32
+rows: (style = 'emoji') ? 12 24
+cell: (style = 'emoji') ? 1m 0.5m
+
+¶The middle of the grid, which is where the picture is centered.¶
+middleColumn: (columns + 1) ÷ 2
+middleRow: (rows + 1) ÷ 2
+
+¶One color per cell, straight from the camera.¶
+colors: Camera((columns × 1px) (rows × 1px) 33ms)
+
+¶Ten characters from dark to light. The ASCII style picks one by how bright the pixel is.¶
+ramp: "@%#*+=-:. " → []
+
+¶Twenty-four 15° bands around the hue circle, so each pixel takes the square nearest its color.¶
+squares: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
+
+¶What one pixel looks like in the current style. A pixel with almost no color has no hue
+worth showing, so it falls back to a light or a dark square.¶
+ƒ glyph(color•Color)
+	(style = 'ascii') ?
+		"\ramp[((color.lightness × 9).round()) + 1]\"
+		((style = 'emoji') ?
+			((color.chroma < 8) ?
+				((color.lightness < 50%) ? "⬛" "⬜")
+				"\squares[(((color.hue ÷ 1°) ÷ 15).roundDown()) + 1]\")
+			"a")
+
+¶The picture: one phrase per pixel, laid out from the middle out, so the camera has the
+same picture to frame however coarse the grid is, and mirrored left to right so it reads
+the way a mirror does.¶
+picture: colors.combined(
+	[]
+	ƒ(phrases•[Phrase] row•[Color] y•#)
+		phrases.append(
+			row.translate(
+				ƒ(color•Color x•#)
+					Phrase(
+						glyph(color)
+						place: Place(
+							((middleColumn - x) × cell)
+							((middleRow - y) × cell)
+						)
+						duration: 0s
+						size: (style = 'ascii') ? 0.75m ((style = 'emoji') ? 1.15m 1m)
+						face: (style = 'ascii') ? "Noto Sans Mono" ø
+						color: (style = 'letters') ? color ø
+					)
+			)
+		)
+)
+
+¶One style button, bright when it's the style showing. The name is what Choice reports
+when the button is clicked or chosen with the keyboard.¶
+ƒ button(id•'')
+	Phrase(
+		id
+		0.5m
+		name: id
+		selectable: ⊤
+		resting: (style = id) ? Pose() Pose(opacity: 40%)
+	)
+
+¶A row keeps the buttons evenly spaced and lined up however long their words are, and
+with no place of its own the row sits in the middle, so the offset is all it takes to
+drop it to the bottom of the screen. It carries its own backing, since words over a
+video are only legible by luck.¶
+buttons: Group(
+	➡(padding: 0.5m)
+	[button('letters') button('ascii') button('emoji')]
+	background: Color(100% 0 0°)
+	offset: Place(0m -4.5m)
+)
+
+¶The buttons ride in the stage's overlay, which is pinned flat to the screen: they stay
+the same size and place however the picture is framed, and the picture is framed as if
+they weren't there.¶
 Stage(
-    colors.combine(
-        [] 
-        ƒ(phrases•[Phrase] row•[Color] y•#) 
-            phrases.append(
-                row.translate(
-                    ƒ(color•Color x•#) 
-                        Phrase("a" place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s
-                )
-            )
-        )
-    )
+	picture
+	description: "camera video drawn with \style\"
+	overlay: [buttons]
 )

@@ -19,10 +19,12 @@ import ListValue from '@values/ListValue';
 import { expect, test } from 'vitest';
 
 /**
- * These predicates decide whether OutputAnimation tweens a move at all, and if
- * so whether it may retarget the running Web Animation instead of cancelling
- * and rebuilding it every frame. The animation itself needs a DOM and vitest
- * runs in node, so the decisions are factored out here to be tested directly.
+ * These predicates decide whether OutputAnimation may retarget the running Web
+ * Animation instead of cancelling and rebuilding it every frame, and which
+ * bodies the simulation places — which is what exempts a simulated body's
+ * default pose from being tweened every frame, and what makes it dynamic rather
+ * than kinematic. The animation itself needs a DOM and vitest runs in node, so
+ * the decisions are factored out here to be tested directly.
  */
 
 /** Build real Pose values from a Wordplay list literal, so each carries its own

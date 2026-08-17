@@ -258,7 +258,6 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'RainingLetters',
                 'Video',
                 'PitchNotes',
-                'ASCII',
                 'Hand',
                 'Face',
                 'FaceTalk',

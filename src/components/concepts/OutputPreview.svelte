@@ -305,6 +305,7 @@
                 {project}
                 {evaluator}
                 {value}
+                source={project.getMain()}
                 grid
                 editable={false}
                 wheel={false}

@@ -1,0 +1,27 @@
+{
+    "name": "wordplay-theme",
+    "displayName": "Wordplay",
+    "description": "The Wordplay app's own palette, as a VS Code theme.",
+    "version": "1.0.0",
+    "private": true,
+    "publisher": "wordplay",
+    "license": "MIT",
+    "engines": {
+        "vscode": "^1.75.0"
+    },
+    "categories": ["Themes"],
+    "contributes": {
+        "themes": [
+            {
+                "label": "Wordplay Light",
+                "uiTheme": "vs",
+                "path": "./themes/wordplay-light-color-theme.json"
+            },
+            {
+                "label": "Wordplay Dark",
+                "uiTheme": "vs-dark",
+                "path": "./themes/wordplay-dark-color-theme.json"
+            }
+        ]
+    }
+}

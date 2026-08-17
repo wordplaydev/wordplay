@@ -11,9 +11,9 @@
         type OutputInfoSet,
     } from '@output/animation/Animator';
     import Group from '@output/Output/Group';
-    import fitZ, {
+    import {
         composeZ,
-        growEnvelope,
+        refit,
         responsiveZ,
         type Box,
     } from '@components/output/fit';
@@ -167,6 +167,10 @@
 
     /** The verse focus that fits the framing box to the view. */
     let fitFocus: Place | undefined = $state(undefined);
+
+    /** Whether the camera has a frame it was already pointing at. Until it does, a change
+     *  isn't a camera move, so it snaps rather than eases; see the focus effect below. */
+    let focusStarted = false;
 
     /** The audience's pan/zoom, as an offset from whatever base focus is in play. Composing
      *  rather than replacing is what lets a viewer zoom out of a project that moves its own
@@ -381,37 +385,52 @@
 
     /** When the stage or viewport changes, grow the framing box and refit to it.
      *  Fitting a box that only grows rather than the instantaneous bounds is what stops
-     *  the camera chasing moving content; see growEnvelope. */
+     *  the camera chasing moving content; see growEnvelope.
+     *
+     *  The content bounds are read *tracked* so that content arriving after the stage
+     *  first renders is framed too — a @Camera's first frame is empty, so a stage fit only
+     *  at startup is a stage fit to nothing. Everything this effect writes is read inside
+     *  untrack, so it can't feed itself. */
     $effect(() => {
         if (view && fit && !selectedOutput?.adjusting) {
             // Leave some padding on the edges.
             const availableWidth = viewportWidth * (3 / 4);
             const availableHeight = viewportHeight * (3 / 4);
 
-            const box = untrack(() =>
-                growEnvelope(framing, {
-                    left: contentBounds.left,
-                    right: contentBounds.right,
-                    top: contentBounds.top,
-                    bottom: contentBounds.bottom,
-                }),
-            );
-            framing = box;
-            const width = box.right - box.left;
-            const height = box.top - box.bottom;
+            const bounds = {
+                left: contentBounds.left,
+                right: contentBounds.right,
+                top: contentBounds.top,
+                bottom: contentBounds.bottom,
+            };
 
-            // Undefined when the viewport isn't measured yet, or when content with no
-            // extent would put the camera in the output's own plane; see fit.ts.
-            const z = fitZ(width, height, availableWidth, availableHeight);
-            if (z === undefined) return;
-
-            // Now focus on the center of the framing box.
-            fitFocus = createPlace(
-                evaluator,
-                -(box.left + width / 2),
-                box.top - height / 2,
-                z,
+            const next = untrack(() =>
+                refit(
+                    framing,
+                    bounds,
+                    availableWidth,
+                    availableHeight,
+                    fitFocus,
+                ),
             );
+
+            // Neither the frame nor the fit moved, so leave the focus alone: a new one
+            // every frame restarts the camera's ease and re-renders everything reading it.
+            if (next === undefined) return;
+
+            framing = next.framing;
+
+            // The first frame with any extent is the opening shot rather than a camera
+            // move, so snap to it instead of panning there from an empty stage.
+            if (next.opening) focusStarted = false;
+
+            if (next.focus !== undefined)
+                fitFocus = createPlace(
+                    evaluator,
+                    next.focus.x,
+                    next.focus.y,
+                    next.focus.z,
+                );
         }
     });
 
@@ -439,7 +458,6 @@
 
     let focusRAF: number | undefined = undefined;
     let lastFocusFrame: number | undefined = undefined;
-    let focusStarted = false;
 
     /** The eased base camera. The audience's offset is composed onto this, never eased,
      *  so panning and zooming stay responsive while a program's camera still pans smoothly. */
@@ -807,13 +825,18 @@
         {#if overlayStage}
             <!-- The flat overlay/HUD layer: its own .stage.live container (so
                  its animations resolve to a distinct DOM scope), pinned over the
-                 world content and rendered flat (screen-fixed, no camera/z). -->
+                 world content and rendered flat (screen-fixed, no camera/z).
+                 Exposed to assistive tech rather than hidden: a HUD is where a
+                 project puts its score, its status, and its controls, and no
+                 describer covers it — StageView's announcements walk the stage
+                 content, which consciously skips the overlay. Hiding it also put
+                 any selectable HUD output behind an aria-hidden ancestor, which
+                 is both unreachable and an axe violation. -->
             <section
                 class="stage overlay-layer {interactive && !editing
                     ? 'live'
                     : 'inert'}"
                 data-id={overlayStage.getHTMLID()}
-                aria-hidden="true"
             >
                 <GroupView
                     group={overlayStage}

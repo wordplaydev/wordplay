@@ -45,6 +45,7 @@ Stage(
         Shape(Rectangle(-10m 10m 10m 11m))
         ball 
         kitty
+        Phrase("press ← → to play!" place: Place(-4m -2m) color: Color.white)
     ] 
     place: Place(y: 5m z: -10m)
 )
