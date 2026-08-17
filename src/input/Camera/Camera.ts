@@ -129,9 +129,12 @@ export default class Camera extends TemporalStreamValue<ListValue, LCHFrame> {
                     ColorType.inputs[1].names,
                     new NumberValue(this.creator, color.c),
                 );
+                // Hue is declared •#°, so it has to carry the unit: a program doing any
+                // arithmetic with a unitless hue gets an incompatible values exception,
+                // even though the same expression type checks against the declaration.
                 bindings.set(
                     ColorType.inputs[2].names,
-                    new NumberValue(this.creator, color.h),
+                    new NumberValue(this.creator, color.h, Unit.reuse(['°'])),
                 );
                 return createStructure(this.evaluator, ColorType, bindings);
             }),

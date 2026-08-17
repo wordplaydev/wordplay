@@ -3244,6 +3244,9 @@
                                         {project}
                                         evaluator={$evaluator}
                                         value={latestValue}
+                                        source={$evaluator.project.getSources()[
+                                            selectedSourceIndex
+                                        ]}
                                         bind:fit
                                         bind:grid
                                         bind:painting

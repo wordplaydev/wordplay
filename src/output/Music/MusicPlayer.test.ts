@@ -399,6 +399,50 @@ test('a sound effect whose notes empty a frame later still rings out', () => {
     expect(h.played[0].durationSeconds).toBe(1);
 });
 
+// Catch-up delivers the missed evaluation and the current one back to back,
+// with no frame between them. The restart installs a transport at `now`, and
+// the splice that follows lands at the next whole beat — strictly ahead of the
+// note just struck — so a zero gap must ring exactly like a 40ms one.
+test('a replay and the frame that empties it, delivered with no gap, still rings', () => {
+    const h = harness();
+    const silent = music([track([])], { name: 'fx' });
+    h.player.update([silent], true);
+    h.advance(0.04);
+
+    // Both in one task: the evaluation that carried the replay, then the one
+    // that emptied the notes again.
+    h.player.update(
+        [{ ...music([track([5])], { name: 'fx' }), replay: true }],
+        true,
+    );
+    h.player.update([silent], true);
+    h.advance(0.04);
+    for (let frame = 0; frame < 12; frame++) {
+        h.player.update([silent], true);
+        h.advance(0.04);
+    }
+
+    expect(h.played.map((note) => note.degree)).toEqual([5]);
+    expect(h.cancelled, 'the note was cut off').toHaveLength(0);
+    expect(h.played[0].durationSeconds).toBe(1);
+});
+
+// Why the catch-up limit is free: a burst of restarts cancels its own voices
+// before any of them schedules a note, so only the last was ever audible.
+test('several replays in one task sound once, not once each', () => {
+    const h = harness();
+    const struck = music([track([5])], { name: 'fx' });
+    h.player.update([struck], true);
+    h.advance(0.04);
+    const before = h.played.length;
+
+    for (let again = 0; again < 3; again++)
+        h.player.update([{ ...struck, replay: true }], true);
+    h.advance(0.04);
+
+    expect(h.played.length - before).toBe(1);
+});
+
 test('the same holds at a slower frame rate', () => {
     // Building Blocks' 150ms tick.
     const h = harness();

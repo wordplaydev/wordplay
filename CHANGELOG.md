@@ -15,6 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ⚡ We made programs with lots of moving output run three to five times more smoothly.
 - 🧲 We updated the physics engine. Things now rest on the ground instead of sinking into it, bouncy things settle instead of jittering forever, and output stops getting flung off the stage when it piles up.
 - 🧲 @Collision now reports far fewer bumps while something is settling — a handful instead of hundreds. A project that counts bumps will count differently than it used to.
+- 📹 The new Video example in the [galleries](https://wordplay.dev/galleries) paints your camera three ways — colored letters, ASCII shading, or colored squares.
 - 🛠️ We upgraded internal tooling for stability.
 
 ### Fixed
@@ -24,6 +25,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔑 If the sign in page failed to load, it used to stay broken until you restarted your browser. Now it shows when it's loading, says when it can't connect, and works again when you reload.
 - ⌨️ When you press play while your code is still on screen, the keys you type now reach your project. Before, they could quietly change your code and drop you back into edit mode. (#1285)
 - 🚦 When you give a check a name and use it later, Wordplay now remembers what the check proved. Naming a check that a value isn't `ø` no longer shows an error that writing the same check out didn't. (#1285)
+- 📐 Output that shows up a moment after your project starts now gets centered and sized to fit the stage. Before, it could start off to one side, slide into place, or stay too big until you resized the window or started over.
+- 🚦 Doing math with the hue of a color from the @Camera no longer stops your program with "incompatible values". Camera colors now carry the ° that hue is measured in.
+- 🗣️ Screen readers can now read what a project puts in front of the stage, like a score or a row of buttons. That whole layer used to be skipped, so anything a project put there was silent and buttons there couldn't be reached.
 
 ## 0.29.1 - 2026-08-13
 

@@ -156,6 +156,7 @@
         {project}
         {evaluator}
         value={latest}
+        source={project.getMain()}
         {fit}
         grid={false}
         editable={false}
