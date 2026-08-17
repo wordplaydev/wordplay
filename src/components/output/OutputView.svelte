@@ -950,6 +950,18 @@
             );
     }
 
+    /**
+     * A window that loses focus mid-hold never delivers the key up, which
+     * leaves the key latched and steers Placement the wrong way on the next
+     * press. Route through pressKey rather than clearing the map, so a program
+     * watching `Key(down: ⊥)` still sees the release; snapshot first, since
+     * pressKey mutates keysDown.
+     */
+    function releaseHeldKeys() {
+        for (const [key, down] of Array.from(keysDown))
+            if (down) pressKey(key, false);
+    }
+
     function handleKeyUp(event: KeyboardEvent) {
         // Tab is for keyboard navigation, but still stops being held.
         if (event.key === 'Tab') {
@@ -2205,8 +2217,11 @@
             document.activeElement === keyboardInputView
         )
             keyboardInputView.blur();
+        // A key held while the page is hidden never sends its key up.
+        if (document.hidden && interactive) releaseHeldKeys();
     }}
 />
+<svelte:window onblur={interactive ? releaseHeldKeys : null} />
 
 <section
     class="output"
