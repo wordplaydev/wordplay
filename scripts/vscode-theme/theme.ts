@@ -85,13 +85,13 @@ function getPalette(mode: Mode) {
         /** Literals and the ƒ/→ evaluation markers. */
         literal: hex(`blue-text-${mode}`),
         /**
-         * The window's identity color, used on chrome that carries no app
-         * meaning: title bar, cursors, badges, accent borders. Deliberately
-         * the gold rather than one of the semantic hues — pink and purple
-         * already mean evaluation and docs, and blue means literals and focus,
-         * so an identity accent in any of those reads as a status it isn't.
-         * The AA text variant, not the brighter --color-yellow, because a
-         * saturated frame around every pane is exactly what this replaced.
+         * The color that marks what's active, the way the app's tile toolbars
+         * fill their active toggle: cursors, badges, the active tab's rule, the
+         * active activity-bar marker. Deliberately the gold rather than one of
+         * the semantic hues — pink and purple already mean evaluation and docs,
+         * and blue means literals and focus, so an accent in any of those reads
+         * as a status it isn't. The AA text variant, not the brighter
+         * --color-yellow, since these are hairlines and small fills.
          */
         accent: hex(`gold-text-${mode}`),
     };
@@ -163,9 +163,17 @@ function alpha(color: string, opacity: number): string {
 }
 
 /**
- * Workbench chrome. The identity colors — a gold title bar and a purple status
- * bar — are the two surfaces visible in every window at a glance, which is the
- * whole point of theming this repo differently from other windows.
+ * Workbench chrome, laid out like the app's project view: every pane is the
+ * same --wordplay-background (white in light mode, black in dark), and the only
+ * thing separating them is a 1px --wordplay-border-color rule, the way tiles are
+ * separated in ProjectView. So every surface here is `p.background` and every
+ * seam is `p.border`; `p.chrome` is left for things that float above a pane
+ * (menus, hovers, suggestions) or that alternate within one, which is what the
+ * app's --wordplay-alternating-color means.
+ *
+ * The window's identity comes from that composition rather than from a colored
+ * bar — an editor that looks like the app it builds. The gold accent survives
+ * only where the app uses it: on what's currently active.
  */
 function getWorkbenchColors(p: Palette, mode: Mode): Record<string, string> {
     return {
@@ -182,29 +190,30 @@ function getWorkbenchColors(p: Palette, mode: Mode): Record<string, string> {
         'textCodeBlock.background': p.chrome,
         'textSeparator.foreground': p.border,
 
-        // Title bar: the identity accent, the loudest window identifier.
-        'titleBar.activeBackground': p.accent,
-        'titleBar.activeForeground': textOn(p.accent, mode),
-        'titleBar.inactiveBackground': alpha(p.accent, 0.6),
-        'titleBar.inactiveForeground': alpha(textOn(p.accent, mode), 0.7),
+        // Title bar and status bar are panes like any other: the app has no
+        // colored frame, and a saturated bar top and bottom is what this
+        // replaced. Only a genuine status (debugging, a remote) fills them.
+        'titleBar.activeBackground': p.background,
+        'titleBar.activeForeground': p.foreground,
+        'titleBar.inactiveBackground': p.background,
+        'titleBar.inactiveForeground': p.inactive,
         'titleBar.border': p.border,
 
-        // Status bar: the app's doc purple.
-        'statusBar.background': p.doc,
-        'statusBar.foreground': textOn(p.doc, mode),
+        'statusBar.background': p.background,
+        'statusBar.foreground': p.foreground,
         'statusBar.border': p.border,
-        'statusBar.noFolderBackground': p.doc,
+        'statusBar.noFolderBackground': p.background,
         'statusBar.debuggingBackground': p.orange,
         'statusBar.debuggingForeground': textOn(p.orange, mode),
         'statusBarItem.remoteBackground': p.doc,
         'statusBarItem.remoteForeground': textOn(p.doc, mode),
-        'statusBarItem.hoverBackground': alpha(textOn(p.doc, mode), 0.15),
+        'statusBarItem.hoverBackground': p.highlightTransparent,
         'statusBarItem.errorBackground': p.error,
         'statusBarItem.errorForeground': textOn(p.error, mode),
         'statusBarItem.warningBackground': p.highlight,
         'statusBarItem.warningForeground': textOn(p.highlight, mode),
 
-        'activityBar.background': p.chrome,
+        'activityBar.background': p.background,
         'activityBar.foreground': p.foreground,
         'activityBar.inactiveForeground': p.inactive,
         'activityBar.border': p.border,
@@ -212,22 +221,25 @@ function getWorkbenchColors(p: Palette, mode: Mode): Record<string, string> {
         'activityBarBadge.background': p.accent,
         'activityBarBadge.foreground': textOn(p.accent, mode),
 
-        'sideBar.background': p.chrome,
+        'sideBar.background': p.background,
         'sideBar.foreground': p.foreground,
         'sideBar.border': p.border,
         'sideBarTitle.foreground': p.inactive,
-        'sideBarSectionHeader.background': p.chrome,
+        'sideBarSectionHeader.background': p.background,
         'sideBarSectionHeader.foreground': p.foreground,
         'sideBarSectionHeader.border': p.border,
 
+        // Tabs are all one surface, separated by the same rule as the panes and
+        // told apart by the accent on the active one — the way the app's tile
+        // toolbars fill only the active toggle.
         'editorGroup.border': p.border,
-        'editorGroupHeader.tabsBackground': p.chrome,
+        'editorGroupHeader.tabsBackground': p.background,
         'editorGroupHeader.tabsBorder': p.border,
         'tab.activeBackground': p.background,
         'tab.activeForeground': p.foreground,
         'tab.activeBorderTop': p.accentBorder,
         'tab.activeBorder': p.background,
-        'tab.inactiveBackground': p.chrome,
+        'tab.inactiveBackground': p.background,
         'tab.inactiveForeground': p.inactive,
         'tab.hoverBackground': p.highlightTransparent,
         'tab.border': p.border,
@@ -307,11 +319,20 @@ function getWorkbenchColors(p: Palette, mode: Mode): Record<string, string> {
         'panelTitle.activeForeground': p.foreground,
         'panelTitle.inactiveForeground': p.inactive,
         'panelTitle.activeBorder': p.accentBorder,
+        'panelSection.border': p.border,
+        'panelSectionHeader.background': p.background,
+        'panelSectionHeader.border': p.border,
 
         'terminal.background': p.background,
         'terminal.foreground': p.foreground,
+        'terminal.border': p.border,
         'terminal.selectionBackground': p.highlightTransparent,
         'terminalCursor.foreground': p.accent,
+
+        // The draggable seams between panes. The app's tile separators are
+        // draggable too, and show the accent while you're on them.
+        'sash.hoverBorder': p.accentBorder,
+        'tree.indentGuidesStroke': alpha(p.border, 0.4),
 
         'list.activeSelectionBackground': p.focus,
         'list.activeSelectionForeground': textOn(p.focus, mode),

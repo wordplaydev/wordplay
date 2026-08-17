@@ -63,22 +63,30 @@ the only per-folder option in that case.
 
 ## What the colors mean
 
-The chrome uses the two colors that read at a glance across a screen full of
-windows:
+The chrome is laid out the way the app's project view is: every pane is the
+same surface, and the only thing between them is a hairline.
 
 | Surface | Color | App meaning |
 | --- | --- | --- |
-| Title bar, cursor, badges, accent borders | gold | `--color-gold-text` |
-| Status bar | purple | `--wordplay-doc-color` |
-| Sidebar, activity bar, tabs | very light grey | `--wordplay-alternating-color` |
+| Every pane — editor, sidebar, activity bar, tabs, panel, terminal, title bar, status bar | white in light mode, black in dark | `--wordplay-background` |
+| Every seam between them | grey hairline | `--wordplay-border-color` |
+| Menus, hovers, suggestions — things that float *above* a pane | very light grey | `--wordplay-alternating-color` |
+| Cursor, badges, active tab rule, active activity-bar marker | gold | `--color-gold-text` |
 | Selection, hover, find matches | yellow | `--wordplay-highlight-color` |
 
-The identity accent is gold rather than one of the semantic hues on purpose:
-pink and purple already mean evaluation and docs in the app, and blue means
-literals and focus rings, so an identity accent in any of those reads as a
-status it isn't. It's the AA *text* variant rather than the brighter
-`--color-yellow`, because a saturated frame around every pane is what it
-replaced. Pink survives only where it carries meaning — invalid syntax,
+So the window's identity is the composition, not a colored bar: an editor that
+looks like the app it builds. `ProjectView` separates its tiles with a 1px
+`--wordplay-border-color` rule and gives each one `--wordplay-background`, and
+that is exactly what every `*.border` and every pane background here is set to.
+Nothing is a colored frame — a saturated bar at the top and bottom of the window
+is what this replaced.
+
+Gold survives only where the app uses it: on what's currently active, the way a
+tile toolbar fills only its active toggle. It's gold rather than one of the
+semantic hues on purpose — pink and purple already mean evaluation and docs, and
+blue means literals and focus rings, so an accent in any of those reads as a
+status it isn't. Color otherwise appears only where it carries meaning: purple
+for a remote indicator, orange while debugging, pink for invalid syntax,
 unmatched brackets, and Git conflicts.
 
 Accent *borders* — the active tab's top rule, the activity bar's marker, peek
