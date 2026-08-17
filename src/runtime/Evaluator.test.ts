@@ -536,3 +536,74 @@ test('A source keeps its latest value when the size cap is exceeded', () => {
         ).toBeDefined();
     evaluator.stop();
 });
+
+// A view that reads only getLatestSourceValue sees one value per rendered frame,
+// but several evaluations can happen inside one browser task — a Collision or
+// Beat evaluates immediately, and queued changes chain. Anything consuming
+// per-evaluation state (a Music carrying replay) needs the ones it missed.
+test('getSourceValuesAfter returns every evaluation since a step, oldest first', () => {
+    const source = new Source('test', 'Time()');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
+    evaluator.start();
+
+    const before = evaluator.getStepIndex();
+    const stream = Array.from(evaluator.streamsByCreator.values())[0]?.[0];
+    expect(stream).not.toBeUndefined();
+
+    // Three evaluations, with nothing reading the value in between.
+    for (const time of [1, 2, 3]) {
+        stream!.add(Time.make(source, time), null);
+        evaluator.flush();
+    }
+
+    const missed = evaluator.getSourceValuesAfter(source, before);
+    expect(missed).toHaveLength(3);
+    // Oldest first, and each its own evaluation rather than one repeated.
+    expect(missed.map((indexed) => indexed.stepNumber)).toEqual(
+        [...missed].map((indexed) => indexed.stepNumber).sort((a, b) => a - b),
+    );
+    expect(new Set(missed.map((indexed) => indexed.stepNumber)).size).toBe(3);
+    // The last of them is what the ordinary path would have shown.
+    expect(missed[missed.length - 1].value).toBe(
+        evaluator.getLatestSourceValue(source),
+    );
+    // Asking again from the latest step yields nothing left to catch up on.
+    expect(
+        evaluator.getSourceValuesAfter(source, evaluator.getStepIndex()),
+    ).toHaveLength(0);
+
+    evaluator.stop();
+});
+
+// The trap this accessor exists to avoid: `reactions` stamps its step at the
+// START of an evaluation and `sourceValues` at the END, so joining the two
+// ledgers lands an evaluation early. Timeline.svelte works around it by adding
+// the next reaction's offset; anything else should ask getSourceValuesAfter.
+test('a reaction step index names the value BEFORE that reaction, not its result', () => {
+    const source = new Source('test', 'Time()');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
+    evaluator.start();
+
+    const stream = Array.from(evaluator.streamsByCreator.values())[0]?.[0];
+    const values: (unknown | undefined)[] = [];
+    for (const time of [1, 2]) {
+        stream!.add(Time.make(source, time), null);
+        evaluator.flush();
+        values.push(evaluator.getLatestSourceValue(source));
+    }
+
+    const reactions = evaluator.reactions;
+    expect(reactions.length).toBeGreaterThanOrEqual(2);
+    const second = reactions[reactions.length - 1];
+    // Querying with the reaction's own step index gives the PREVIOUS value.
+    expect(evaluator.getSourceValueBefore(source, second.stepIndex)).toBe(
+        values[0],
+    );
+    expect(evaluator.getSourceValueBefore(source, second.stepIndex)).not.toBe(
+        values[1],
+    );
+
+    evaluator.stop();
+});

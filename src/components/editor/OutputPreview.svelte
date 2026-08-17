@@ -50,6 +50,7 @@
                 {project}
                 {evaluator}
                 value={evaluator.getLatestSourceValue(source)}
+                {source}
                 mini
                 editable={false}
             />

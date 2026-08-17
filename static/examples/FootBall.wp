@@ -196,11 +196,10 @@ stage is reason enough to sound, and a one-shot that has played out stays silent
 until it leaves and comes back — so none of these needs a @Music.replay, and
 none of them sounds when the program starts.
 
-Being on stage for a whole phase is also what makes them reliable. @Music.replay
-asks for a flag true on a single evaluation, and a save is a collision, which is
-answered the instant it happens rather than on the next drawn frame; the flag can
-rise and fall again before anything reads it. A phase lasts many frames and
-cannot be missed.¶
+Spelling them this way says something the notes alone would not: each sound
+belongs to a phase of the round, and lasts exactly as long as that phase does.
+@Music.replay is the other spelling, for a sound that answers a single moment
+rather than a stretch of one.¶
 kickSound: Music(
 	Track([1] instrument: Instrument.drums beat: 0.25beats volume: 60% loop: ⊥)
 	name: 'kick')

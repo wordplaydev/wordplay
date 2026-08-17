@@ -94,7 +94,10 @@
     import referencedInstruments, {
         instrumentBinds,
     } from '@output/Music/referencedInstruments';
-    import { musicInstruments } from '@output/Music/musicData';
+    import type Source from '@nodes/Source';
+    import { musicInstruments, type MusicData } from '@output/Music/musicData';
+    import { missedReplays } from '@output/Music/missedReplays';
+    import projectReplaysMusic from '@output/Music/replayBinding';
     import audio, { musicSuspended } from '@output/Music/MusicAudio';
     import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
@@ -122,6 +125,11 @@
         project: Project;
         evaluator: Evaluator;
         value: Value | undefined;
+        /** The source whose value this is showing. Without it a stage cannot
+         * recover evaluations that happened and were overwritten inside a single
+         * frame, so a @Music.replay raised by one of them is never delivered.
+         * Hosts must pass the same source they read `value` from. */
+        source?: Source;
         editable: boolean;
         /** Whether output can be selected (for inspection or palette editing). Defaults to
          * editable; ProjectView passes it separately so debug mode can select without editing. */
@@ -163,6 +171,7 @@
         project,
         evaluator,
         value,
+        source = undefined,
         editable,
         selectable = editable,
         fit = $bindable(true),
@@ -2020,6 +2029,69 @@
      *  a discarded evaluator and @Beat never fires, while the sound plays on. */
     let musicEvaluator: Evaluator | undefined = undefined;
 
+    /** The step this stage has already told the player about. Everything the
+     *  evaluator recorded after it is an evaluation no frame ever showed. */
+    let lastMusicStep: number | undefined = undefined;
+
+    /** Whether this project ever writes a @Music.replay. Recovering missed
+     *  evaluations costs a stage rebuild each, and only replay can need them. */
+    let replays = $derived(
+        source !== undefined && projectReplaysMusic(project),
+    );
+
+    /** The viewer's volume scales every music; muting is volume 0. */
+    function scaleMusic(present: MusicData[]): MusicData[] {
+        return present.map((music) => ({
+            ...music,
+            volume: music.volume * $musicVolume,
+        }));
+    }
+
+    /**
+     * Deliver the evaluations this stage never got to show.
+     *
+     * @Music.replay is true on exactly one evaluation, but a stage renders once
+     * per frame and several evaluations can happen inside one — a @Collision or
+     * @Beat is answered the instant it happens, and queued changes chain. The
+     * flag would rise and fall between two frames and nothing would ever read
+     * it, which is why a save that sounded in Football did not.
+     *
+     * Content needs no catching up: the newest snapshot is already right, and
+     * replaying an older one would splice a stale edit over a current one. Only
+     * the replays are delivered, and only ahead of the current snapshot.
+     */
+    function catchUpMusic(audible: boolean) {
+        if (
+            source === undefined ||
+            musicHandle === undefined ||
+            lastMusicStep === undefined ||
+            evaluator.isInPast()
+        )
+            return;
+        const missed = evaluator.getSourceValuesAfter(source, lastMusicStep);
+        // The last is the one the current snapshot came from; it is delivered
+        // below, in full, rather than here.
+        const snapshots = missed.slice(0, -1).map((indexed) => ({
+            stepNumber: indexed.stepNumber,
+            musics:
+                indexed.value === undefined
+                    ? []
+                    : (toStage(evaluator, indexed.value)
+                          ?.getMusic()
+                          .map((music) => music.toData()) ?? []),
+        }));
+        for (const replaying of missedReplays(snapshots))
+            // Marked at the step it actually happened, so the editor's history
+            // shows where the music was then. Never `beginning`: that is the
+            // current snapshot's to report, and twice would restart it twice.
+            musicHandle.player.update(
+                scaleMusic(replaying.musics),
+                audible,
+                replaying.stepNumber,
+                false,
+            );
+    }
+
     $effect(() => {
         // Re-run when the audio context resumes, so sound recovers on the
         // unlock gesture rather than on the next evaluation.
@@ -2045,12 +2117,13 @@
         if (musicHandle === undefined) {
             musicHandle = acquireMusicPlayer(evaluator);
             musicEvaluator = evaluator;
-        }
-        // The viewer's volume scales every music; muting is volume 0.
-        const scaled = present.map((music) => ({
-            ...music,
-            volume: music.volume * $musicVolume,
-        }));
+            // No catching up on the first pass with a new player. An edit
+            // replays every recorded input into a replacement evaluator, so a
+            // stage that caught up from the start of that history would fire
+            // every past replay at once; the cursor below starts it from here.
+        } else if (replays && audible) untrack(() => catchUpMusic(audible));
+        lastMusicStep = evaluator.getStepIndex();
+        const scaled = scaleMusic(present);
         // The step index says where in its own history this evaluation sits, so
         // a creator stepping backwards can be shown where the music was then.
         // A new performance re-sounds a one-shot score, the way it re-speaks a

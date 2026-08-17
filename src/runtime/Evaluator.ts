@@ -602,6 +602,34 @@ export default class Evaluator {
         return undefined;
     }
 
+    /**
+     * Every value this source evaluated to strictly after the given step number,
+     * oldest first — one entry per evaluation, as `endEvaluation` records them.
+     *
+     * This exists because a view that reads only `getLatestSourceValue` sees one
+     * value per rendered frame, while several evaluations can happen in a single
+     * browser task: a `Collision` or `Beat` evaluates immediately, and a chain of
+     * queued changes can run up to `MAX_REACTION_CHAIN` times before yielding. A
+     * consumer of per-evaluation state (a `Music` carrying `replay`) asks for the
+     * evaluations it missed rather than assuming there was only one.
+     *
+     * The step numbers here are the count at the *end* of an evaluation, unlike
+     * `StreamChange.stepIndex`, which is the count at its *start*. Joining the two
+     * ledgers therefore lands an evaluation early; ask this for the values instead.
+     *
+     * History is only ever trimmed from the front, so an entry too old to still be
+     * held is absent rather than replaced by an older one.
+     */
+    getSourceValuesAfter(source: Source, stepNumber: number): IndexedValue[] {
+        const indexedValues = this.sourceValues.get(source);
+        if (indexedValues === undefined) return [];
+        const now = this.getStepIndex();
+        return indexedValues.filter(
+            (indexed) =>
+                indexed.stepNumber > stepNumber && indexed.stepNumber <= now,
+        );
+    }
+
     setLatestSourceValue(source: Source, value: Value) {
         const stepIndex = this.getStepIndex();
         const indexedValues = this.sourceValues.get(source);
