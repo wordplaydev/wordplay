@@ -14,12 +14,21 @@ declare global {
  * the browser resolves during style recalculation, which dominated the CPU while
  * any program ran (~73% of it on Layers).
  *
- * Two changes fixed it. OutputAnimation retargets a running animation through
- * KeyframeEffect.setKeyframes rather than replacing it, and it doesn't tween at
- * all when the simulation is what computes the place — the element's own
- * transform already renders every frame of that.
+ * OutputAnimation fixes that by retargeting through KeyframeEffect.setKeyframes
+ * rather than replacing — including replaying an animation that finished while
+ * its output kept moving, which is the state a simulated body spends most of its
+ * life in. Building an Animation is the expensive half; pointing an existing one
+ * at new keyframes is not.
  *
  * Measured on Layers: 30 animations built per frame, then 1.0, now 0.
+ *
+ * What this does NOT measure is whether anything tweens. An earlier version of
+ * this optimization also skipped the tween entirely for simulated output, which
+ * made @Phrase.duration and style silently inert for any phrase placed by a
+ * @Motion — contradicting their documented meaning — and exposed the fixed 16ms
+ * physics step as visible stepping on any display above ~62Hz. Duration decides
+ * again, and the engine interpolates between its own steps; both are covered by
+ * unit tests, since neither needs a browser.
  *
  * The pair of tests below is deliberate. The first proves the animations went
  * away; the second proves they went away for the right reason, because the
@@ -74,10 +83,10 @@ test('output the simulation places builds no animations per frame', async ({
     );
 
     expect(frames).toBeGreaterThan(10);
-    // 30 per frame originally and 1.0 with only retargeting; 0 now that a
-    // simulated place doesn't tween. Set below 1 so falling back to either
-    // earlier behavior fails, but not at 0, since an entrance or a resting
-    // Sequence elsewhere on the stage may legitimately build one.
+    // 30 per frame originally, and 1.0 when a finished animation had to be
+    // rebuilt rather than replayed; 0 now. Set below 1 so falling back to
+    // either earlier behavior fails, but not at 0, since an entrance or a
+    // resting Sequence elsewhere on the stage may legitimately build one.
     expect(animate / frames).toBeLessThan(0.5);
 
     // The output is still moving, so the win isn't just a stalled stage.

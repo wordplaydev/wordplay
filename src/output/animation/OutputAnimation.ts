@@ -291,12 +291,14 @@ export default class OutputAnimation {
     }
 
     move(prior: Orientation, present: Orientation) {
-        // The simulation already places this output every frame, so there's no
-        // gap to smooth — a tween would only render it a frame behind where the
-        // physics actually put it. An authored moving: pose is an explicit ask
-        // to animate during moves, so it still tweens; the tween being skipped
-        // here is the unrequested one move() falls back to.
-        if (this.output.moving === undefined && this.simulated()) {
+        // Duration decides, for simulated output as for anything else: it is
+        // documented as the time a move to a different place takes, and a
+        // @Motion place is still a place. Zero means go straight there, which
+        // is also the way out for output that would rather have no tween at
+        // all — a body the engine moves every frame renders exactly where the
+        // simulation put it, and the physics interpolates between its own
+        // fixed steps, so a tween is smoothing that is already smooth.
+        if (this.output.duration <= 0) {
             if (this.state === AnimationState.Moving) this.settle();
             return;
         }
@@ -575,11 +577,24 @@ export default class OutputAnimation {
      *  the browser resolves during style recalculation — the dominant cost of
      *  running a program. Mirrors refocus(), which does the same for the camera. */
     retarget(state: AnimationState, transitions: TransitionSequence): boolean {
-        // Only retarget an animation of the same kind that's still playing.
+        // Retarget an animation of the same kind that's still playing, or one
+        // that has run out while its output kept moving. The second case is
+        // what output the simulation moves spends most of its life in: a tween
+        // lasts a duration and a body moves every frame, so without it every
+        // output would rebuild an animation each time its last one ended —
+        // which for a stage of a hundred bodies is most of the saving. Nothing
+        // about the state machine changes: the animation still finishes and
+        // still reports it, this only reuses the object rather than the
+        // browser building another.
+        const replayable =
+            this.state === AnimationState.Rest &&
+            state === AnimationState.Moving &&
+            this.animation?.playState === 'finished' &&
+            this.sequence === undefined;
         if (
-            this.state !== state ||
+            (this.state !== state && !replayable) ||
             this.animation === undefined ||
-            this.animation.playState !== 'running'
+            (this.animation.playState !== 'running' && !replayable)
         )
             return false;
 
@@ -615,6 +630,13 @@ export default class OutputAnimation {
         if (keyframes === undefined) return false;
 
         effect.setKeyframes(keyframes);
+
+        // A finished animation has to be told to run again, and its state
+        // brought back to the one it is now animating.
+        if (replayable) {
+            this.animation.play();
+            this.state = state;
+        }
 
         // Only republish the animating nodes when they actually changed: this
         // runs every frame, and each notification allocates and broadcasts a set.

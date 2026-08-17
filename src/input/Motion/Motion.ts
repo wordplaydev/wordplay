@@ -139,8 +139,10 @@ export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
                 );
         }
 
-        // Did the place of the stream change? Reposition the body.
-        if (this.place)
+        // Did the place of the stream change? Reposition the body. A teleport
+        // is not a path, so forget where it came from: the next frame draws it
+        // where it now is rather than gliding it across the jump.
+        if (this.place) {
             body.setTranslation(
                 rect.getPosition(
                     this.place.x,
@@ -150,6 +152,8 @@ export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
                 ),
                 true,
             );
+            rect.resetInterpolation();
+        }
 
         this.applied = true;
     }
@@ -183,9 +187,7 @@ export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
         for (const output of this.getOutputs()) {
             const name = output.getName();
             // Ask the scene for the latest x, y, z, and angle from the physics engine.
-            const placement = this.evaluator.scene.physics
-                .getOutputBody(name)
-                ?.getPlace();
+            const placement = this.evaluator.scene.physics.getPlace(name);
             if (placement) {
                 const z = this.place?.z ?? this.initialPlace?.z ?? 0;
                 this.add(
