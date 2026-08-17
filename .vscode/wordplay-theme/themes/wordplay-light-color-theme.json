@@ -358,7 +358,8 @@
         {
             "name": "Placeholders",
             "scope": [
-                "comment.block.documentation storage.type.placeholder"
+                "comment.block.documentation storage.type.placeholder",
+                "variable.language.placeholder.wordplay"
             ],
             "settings": {
                 "foreground": "#6b6b6b"
@@ -421,6 +422,15 @@
             ],
             "settings": {
                 "foreground": "#3163d8"
+            }
+        },
+        {
+            "name": "Markup underline",
+            "scope": [
+                "markup.underline"
+            ],
+            "settings": {
+                "fontStyle": "underline"
             }
         },
         {

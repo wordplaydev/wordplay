@@ -1,15 +1,19 @@
-# Wordplay VS Code theme
+# Wordplay VS Code extension
 
 The app's own palette, as a VS Code theme, so this repo's window is
-recognizable among a dozen others.
+recognizable among a dozen others — plus syntax highlighting for `.wp` files,
+so a Wordplay program reads the way it does in the app.
 
-**The theme files in `themes/` are generated, never hand-edited.** They are
-derived from [`src/app.html`](../../src/app.html)'s palette and the editor's
-token colors in
-[`TokenView.svelte`](../../src/components/editor/tokens/TokenView.svelte) by
-[`scripts/vscode-theme/`](../../scripts/vscode-theme/). After a palette edit,
-run `npm run vscode-theme`; `vscodeThemeSync.test.ts` fails in `npm test` if
-the committed files are stale.
+**Everything here is generated, never hand-edited.** The themes in `themes/`
+are derived from [`src/app.html`](../../src/app.html)'s palette and the
+editor's token colors in
+[`TokenView.svelte`](../../src/components/editor/tokens/TokenView.svelte). The
+grammar in `syntaxes/` and `language-configuration.json` are derived from the
+app's own tokenizer and token categories. All four come from
+[`scripts/vscode-theme/`](../../scripts/vscode-theme/); after a palette or
+tokenizer edit, run `npm run vscode-theme`. `vscodeThemeSync.test.ts` and
+`vscodeGrammarSync.test.ts` fail in `npm test` if the committed files are
+stale.
 
 ## Installing
 
@@ -112,3 +116,71 @@ terminal ANSI colors to VS Code's defaults rather than inventing one, and Git's
 fill is picked by the same rule the app uses for `--wordplay-error-text-color`
 and checked against WCAG 2.2 AA at generation time — the generator throws
 rather than emitting an illegible pair.
+
+## Highlighting `.wp` files
+
+Opening a `.wp` file gets Wordplay highlighting automatically. The grammar
+gives every token a standard TextMate scope, so the file is colored sensibly
+under any theme; under this one, the scopes resolve to the same colors the
+app's own editor uses. `Ctrl+/` toggles elision (`*…*`), Wordplay's comment.
+
+Wordplay suits a static grammar unusually well, because nearly every construct
+is a single glyph and the tokenizer is a context stack — code, text, markup,
+and pattern — that maps onto TextMate's begin/end rule recursion. Each rule's
+pattern and its position in the rule order come from the tokenizer's own
+serialized rule lists, and each scope is chosen so its Wordplay token category
+matches the color this theme gives that scope; the sync test checks both.
+
+**Only the canonical glyphs are colored.** Localized keyword *words* are not,
+by design: which words lex as keywords depends on a project's declared locales,
+which a static grammar can't read, and a locale's short keyword words (Spanish
+`y`, `o`, `no`) would color ordinary variable names in every other project.
+Since copy and paste rewrites words back to symbols, most files are unaffected.
+
+### What the grammar can't do
+
+1. **The container preamble isn't special-cased.** `=== name/lang` source
+   headers are highlighted as headings, but the optional preview-glyph line and
+   the project-name line are highlighted as ordinary code. TextMate matches line
+   by line with no document position, so "line 1" isn't expressible, and any
+   shape heuristic would also fire on real code lines.
+2. **No bracket-depth coloring.** The app cycles colors by nesting depth
+   (`TokenView.svelte`'s `.bracket-depth-*`); a static grammar has no depth. VS
+   Code's own bracket pair colorization is a partial substitute.
+3. **No semantic or type-aware coloring.** The app knows a name is a function, a
+   structure, or an unresolved reference; the grammar knows only that it is a
+   name. Nothing turns pink from a *conflict* — only from a lexically
+   unrecognizable character.
+4. **Recovery from unclosed delimiters differs.** An unclosed text literal ends
+   at the newline in both, but an unclosed `¶`, `` ` ``, `⣿`, or `*` runs to the
+   end of the file here, whereas the real tokenizer pops contexts in ways
+   TextMate's rule stack can't express.
+5. **Markup branch and link gating is approximate.** The tokenizer tracks
+   "is a mention open?" and "is a tag open?" as state; the grammar uses a
+   one-character lookbehind and a same-line forward assertion, so a `[a|b]`
+   branch or a `<…@…>` tag split across lines isn't recognized.
+6. **Stray closing quotes don't open text.** The tokenizer lets `”`, `’`, `»`,
+   or `」` open a text literal; the grammar recognizes only the nine canonical
+   openers, since treating a stray close as an opener produces long runs of
+   wrongly-stringed code.
+
+Two scopes deliberately disagree with the app's token categories, because they
+follow what the app *renders* rather than what the category table says: a
+`/en` language tag is `delimiter` by category but is painted with the type
+color by a CSS override, and a bare URL in markup is drawn as a link, since a
+link that doesn't look like one is worse than a color mismatch.
+
+### Checking a change to the grammar
+
+The sync test verifies the Sym-to-scope mapping, not the regexes. After
+changing the grammar, open a few `.wp` files and put the caret on individual
+glyphs with `Developer: Inspect Editor Tokens and Scopes`, which shows both the
+scope and the theme rule that colored it. Worth checking:
+[`Patterns.wp`](../../static/examples/Patterns.wp) (a `⣿…⣿` pattern, and the
+`\…\` example inside a doc, which should *not* be doc-purple),
+[`Chamber.wp`](../../static/examples/Chamber.wp) (`"glyph\number\"`
+interpolation), [`Adventure.wp`](../../static/examples/Adventure.wp)
+(`` `*\here.ending\*` ``, which is a formatted literal and so string-blue, not
+purple), and any file in
+[`static/examples/zh-CN/`](../../static/examples/zh-CN/). Then switch to a stock
+theme and reopen one, which is the other half of the scope design.

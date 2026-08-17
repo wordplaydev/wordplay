@@ -537,7 +537,13 @@ function getTokenColors(p: Palette): TokenColor[] {
         },
         {
             name: 'Placeholders',
-            scope: ['comment.block.documentation storage.type.placeholder'],
+            scope: [
+                'comment.block.documentation storage.type.placeholder',
+                // Wordplay's `_`. The descendant selector above can never match
+                // one at the top level, and without this it falls to the
+                // `variable` rule below and renders as a name.
+                'variable.language.placeholder.wordplay',
+            ],
             settings: { foreground: p.inactive },
         },
         {
@@ -569,6 +575,13 @@ function getTokenColors(p: Palette): TokenColor[] {
             name: 'Markup code',
             scope: ['markup.inline.raw', 'markup.fenced_code'],
             settings: { foreground: p.literal },
+        },
+        {
+            // Wordplay markup's `_underline_`. Links are more specific, so they
+            // keep their own color below.
+            name: 'Markup underline',
+            scope: ['markup.underline'],
+            settings: { fontStyle: 'underline' },
         },
         {
             name: 'Markup links',

@@ -1362,6 +1362,22 @@ If any sequences of tokens cannot be parsed according to this grammar, all of th
 
 Programs create an evaluation scope, evaluate their binds and expressions in reading order, and then evaluate to their non-bind expressions' values: that expression's value if there is one, or a list of them in reading order if there are several.
 
+## Project files
+
+A program is one source. A project is several, and `.wp` is the plain-text file that holds one — the format the examples in `static/examples/` are written in, read by `parseSerializedProject`:
+
+> FILE → PREVIEW？ NAMES SOURCE＊  
+> PREVIEW → grapheme `\n`  
+> SOURCE → `===` `‹space›` NAMES？ `\n` PROGRAM
+
+The optional first line is a **preview glyph**: exactly one grapheme (`🧶`, `📏`, `W`), shown as the project's thumbnail. A first line that isn't a single grapheme is read as the project's name instead.
+
+The next line is the project's **name**, parsed with the same `NAMES` rule as any other name, so it may carry localized aliases: `"Pounce"/en"扑击"/zh-CN"撲擊"/zh-TW`. A bare name (`Between`) is equally valid.
+
+Every following line beginning `===` followed by a space starts a new **source**, whose name is the rest of that line and whose program is everything up to the next such line. The `/lang` tags in those names determine the project's locales, defaulting to `en-US`. Sources refer to each other with `BORROW`, so `↓ words` in one source binds a name shared by a source named `words`. The space after `===` is required; without it the line is not a source boundary and is read as part of the preceding program.
+
+There is no writer: `.wp` is a format the tooling reads, and a project's own persisted form is its database record.
+
 ## Documentation
 
 > DOC → `¶` MARKUP `¶` LANGUAGE？  

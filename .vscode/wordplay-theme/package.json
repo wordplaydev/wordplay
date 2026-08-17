@@ -1,7 +1,7 @@
 {
     "name": "wordplay-theme",
     "displayName": "Wordplay",
-    "description": "The Wordplay app's own palette, as a VS Code theme.",
+    "description": "The Wordplay app's own palette as a VS Code theme, and syntax highlighting for .wp files.",
     "version": "1.0.0",
     "private": true,
     "publisher": "wordplay",
@@ -9,8 +9,23 @@
     "engines": {
         "vscode": "^1.75.0"
     },
-    "categories": ["Themes"],
+    "categories": ["Themes", "Programming Languages"],
     "contributes": {
+        "languages": [
+            {
+                "id": "wordplay",
+                "aliases": ["Wordplay", "wordplay"],
+                "extensions": [".wp"],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "wordplay",
+                "scopeName": "source.wordplay",
+                "path": "./syntaxes/wordplay.tmLanguage.json"
+            }
+        ],
         "themes": [
             {
                 "label": "Wordplay Light",
