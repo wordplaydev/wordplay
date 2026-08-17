@@ -39,6 +39,84 @@ export function growEnvelope(envelope: Box | undefined, bounds: Box): Box {
     };
 }
 
+/** Where the auto-fit camera points, in metres. Plain numbers rather than a `Place`, so this
+ *  decision stays pure and the view keeps ownership of the evaluator-bound value. */
+export type Focus = { x: number; y: number; z: number };
+
+/** What the auto-fit camera should become: the frame to remember, where to point, and
+ *  whether this is the first frame of anything at all. */
+export type Fit = {
+    framing: Box;
+    /** Undefined when there's no viewport to fit into yet; see `fitZ`. */
+    focus: Focus | undefined;
+    /** The first frame with any extent, which the camera should snap to rather than ease
+     *  into: nothing was framed before it, so there is no camera move to make smooth. */
+    opening: boolean;
+};
+
+/** Whether a box has any size at all. An empty stage measures exactly 0x0, since
+ *  `Stage.getLayout` seeds its bounds at the origin and has nothing to union in. */
+function extent(box: Box | undefined): boolean {
+    return (
+        box !== undefined &&
+        (box.right - box.left > 0 || box.top - box.bottom > 0)
+    );
+}
+
+function sameBox(a: Box | undefined, b: Box): boolean {
+    return (
+        a !== undefined &&
+        a.left === b.left &&
+        a.right === b.right &&
+        a.top === b.top &&
+        a.bottom === b.bottom
+    );
+}
+
+function sameFocus(a: Focus | undefined, b: Focus | undefined): boolean {
+    return a === undefined || b === undefined
+        ? a === b
+        : a.x === b.x && a.y === b.y && a.z === b.z;
+}
+
+/**
+ * How the auto-fit camera should change, given the frame it has grown so far, the content it
+ * sees now, and where it currently points.
+ *
+ * The content has to be re-read on every stage change, because a stream can deliver its first
+ * content long after the stage first renders — a @Camera starts with an empty frame, so a
+ * stage fit once at startup is a stage fit to nothing.
+ *
+ * Returns undefined when neither the frame nor the fit moved, so the view can leave its focus
+ * object alone. Handing back an equal-but-new focus on every frame restarts the camera's ease
+ * and re-renders every output that reads it, which is the whole per-frame cost of watching
+ * the content this closely.
+ */
+export function refit(
+    envelope: Box | undefined,
+    bounds: Box,
+    availableWidth: number,
+    availableHeight: number,
+    current: Focus | undefined,
+): Fit | undefined {
+    const framing = growEnvelope(envelope, bounds);
+    const width = framing.right - framing.left;
+    const height = framing.top - framing.bottom;
+    const z = fitZ(width, height, availableWidth, availableHeight);
+    // x is negated because moving the camera right moves the world left.
+    const focus =
+        z === undefined
+            ? undefined
+            : {
+                  x: -(framing.left + width / 2),
+                  y: framing.top - height / 2,
+                  z,
+              };
+    if (sameBox(envelope, framing) && sameFocus(current, focus))
+        return undefined;
+    return { framing, focus, opening: !extent(envelope) && extent(framing) };
+}
+
 /**
  * The viewport an authored camera `z` is written against, per axis. A creator picks a `z`
  * by eye on whatever screen they happen to be using, and `z` alone decides scale — so the
