@@ -11,6 +11,7 @@
      */
     import { locales } from '@db/Database';
     import Button from '@components/widgets/Button.svelte';
+    import KeyHold from '@components/output/keyHold';
     import layoutKeyPad from '@components/output/keyPadLayout';
     import { localizeKeyName } from '@input/Key/Key';
     import type { KeyAnalysis } from '@input/Key/analyzeProjectKeys';
@@ -28,14 +29,10 @@
      * the space bar is the key least likely to mean something specific. */
     const AnyKey = ' ';
 
-    /** Held keys repeat, since a physical keyboard's auto-repeat is what
-     * makes continuous movement work; `Placement` steps once per event. */
-    const RepeatDelay = 400;
-    const RepeatInterval = 66;
-
-    /** What each pointer is holding, so several fingers can hold several
-     * keys — a chord is how a project is played with two thumbs. */
-    let held = new Map<number, { key: string; timer: number }>();
+    /** Held keys repeat, since a physical keyboard's auto-repeat is what makes
+     * continuous movement work; `Placement` steps once per event. Wrapped in a
+     * closure rather than passed directly so each call reads the current prop. */
+    const hold = new KeyHold({ press: (key, down) => press(key, down) });
 
     let sections = $derived(
         analysis.kind === 'specific' ? layoutKeyPad(analysis.keys) : [],
@@ -63,24 +60,21 @@
     function down(event: PointerEvent, key: string) {
         // Button already prevents the default, stops propagation so the stage's
         // own handling doesn't fire its Button and Pointer streams, and captures
-        // the pointer so a release still lands here.
-        release(event.pointerId);
-        press(key, true);
-
-        const repeat = () => {
-            press(key, true);
-            const holding = held.get(event.pointerId);
-            if (holding)
-                holding.timer = window.setTimeout(repeat, RepeatInterval);
-        };
-        held.set(event.pointerId, {
-            key,
-            timer: window.setTimeout(repeat, RepeatDelay),
-        });
+        // the pointer so a release still lands here. Read the element
+        // synchronously — currentTarget is nulled once dispatch completes — and
+        // only trust a capture that actually took, since that's what later
+        // tells us the finger is still down.
+        const element = event.currentTarget;
+        const capture =
+            element instanceof HTMLElement &&
+            element.hasPointerCapture(event.pointerId)
+                ? element
+                : undefined;
+        hold.down(event.pointerId, key, capture);
     }
 
     function up(event: PointerEvent) {
-        release(event.pointerId);
+        hold.up(event.pointerId);
     }
 
     /** A press with no pointer behind it — a click, or Enter/Space on a focused
@@ -91,18 +85,33 @@
         press(key, false);
     }
 
-    /** Stop repeating and report the key up, so nothing is left held. */
-    function release(pointer: number) {
-        const holding = held.get(pointer);
-        if (holding === undefined) return;
-        clearTimeout(holding.timer);
-        held.delete(pointer);
-        press(holding.key, false);
-    }
-
-    // A stage that unmounts mid-press must not leave a key down forever.
-    $effect(() => () => {
-        for (const pointer of Array.from(held.keys())) release(pointer);
+    // Nothing guarantees a pointer up reaches the button it started on: a
+    // system edge gesture can claim the touch, the element can lose capture,
+    // the app can be switched away — and a lost one used to leave the key
+    // repeating forever. Capture phase, because Button stops propagation at
+    // the target; releasing a pointer that isn't held is a no-op, so the
+    // backstop firing alongside Button's own handler costs nothing.
+    $effect(() => {
+        const lost = (event: PointerEvent) => hold.up(event.pointerId);
+        const all = () => hold.releaseAll();
+        const hidden = () => (document.hidden ? all() : undefined);
+        const capture = { capture: true };
+        window.addEventListener('pointerup', lost, capture);
+        window.addEventListener('pointercancel', lost, capture);
+        window.addEventListener('lostpointercapture', lost, capture);
+        window.addEventListener('blur', all);
+        window.addEventListener('pagehide', all);
+        document.addEventListener('visibilitychange', hidden);
+        // A stage that unmounts mid-press must not leave a key down forever.
+        return () => {
+            window.removeEventListener('pointerup', lost, capture);
+            window.removeEventListener('pointercancel', lost, capture);
+            window.removeEventListener('lostpointercapture', lost, capture);
+            window.removeEventListener('blur', all);
+            window.removeEventListener('pagehide', all);
+            document.removeEventListener('visibilitychange', hidden);
+            all();
+        };
     });
 </script>
 
