@@ -123,7 +123,7 @@ describe('ChatDatabase granular message operations', () => {
         it('arrayUnions the message and writes a recomputed unread list', async () => {
             const chat = makeChat();
 
-            await db.addMessage(chat, 'hello world');
+            await db.addMessage(chat, 'hello world', undefined);
 
             expect(updateDoc).toHaveBeenCalledTimes(1);
             const [ref, data] = (
@@ -165,7 +165,7 @@ describe('ChatDatabase granular message operations', () => {
         it('leaves the language field unset when no language is chosen', async () => {
             const chat = makeChat();
 
-            await db.addMessage(chat, 'hello world');
+            await db.addMessage(chat, 'hello world', undefined);
 
             const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
                 .mock.calls[0];

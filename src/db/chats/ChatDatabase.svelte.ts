@@ -887,7 +887,7 @@ export class ChatDatabase {
     async addChat(
         project: Project,
         gallery: Gallery | undefined,
-        language?: string,
+        language: string,
     ): Promise<string | undefined> {
         if (firestore === undefined) return undefined;
         if (project.getOwner() === null) return undefined;
@@ -910,7 +910,7 @@ export class ChatDatabase {
         );
     }
 
-    async addChatToHowTo(howTo: HowTo, gallery: Gallery | undefined, language?: string) {
+    async addChatToHowTo(howTo: HowTo, gallery: Gallery | undefined, language: string) {
         if (firestore === undefined) return undefined;
         if (howTo.getCreator() === null) return undefined;
 
@@ -1112,7 +1112,7 @@ export class ChatDatabase {
     async addMessage(
         chat: Chat,
         message: string,
-        language?: string,
+        language: string | undefined,
     ): Promise<SerializedMessage | undefined> {
         const user = this.db.getUser()?.uid;
         if (user === undefined) return;
