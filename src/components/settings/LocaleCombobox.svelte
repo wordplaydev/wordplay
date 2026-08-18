@@ -7,10 +7,12 @@
      * intended look; it never intercepts interaction.
      */
     import { locales } from '@db/Database';
-    import { Languages } from '@locale/LanguageCode';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { localeToString, type Locale } from '@locale/Locale';
-    import { getLocaleLanguages } from '@locale/LocaleText';
+    import {
+        getLocaleRegionNames,
+        getMultilingualLanguageLabel,
+    } from '@locale/LocaleText';
 
     interface Props {
         /** A unique id wired to the underlying <select>. */
@@ -31,12 +33,9 @@
 
     /** Plain-text name for a locale — mirrors what LocaleName renders. */
     function optionText(locale: Locale): string {
-        const names = getLocaleLanguages(locale)
-            .map((code) => Languages[code]?.name ?? code)
-            .join(' + ');
-        return locale.regions.length > 0
-            ? `${names} (${locale.regions.join('/')})`
-            : names;
+        const names = getMultilingualLanguageLabel(locale);
+        const regions = getLocaleRegionNames(locale);
+        return regions.length > 0 ? `${names} (${regions.join('/')})` : names;
     }
 </script>
 

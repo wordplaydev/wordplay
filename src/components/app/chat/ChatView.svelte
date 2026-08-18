@@ -25,14 +25,13 @@
         translateMarkupTexts,
         type MarkupTranslationInput,
     } from '@db/translateMarkup';
-    import { Languages } from '@locale/LanguageCode';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
     import {
         localeToString,
         localesAreEqual,
         stringToLocale,
     } from '@locale/Locale';
-    import { getLocaleLanguages } from '@locale/LocaleText';
+    import { getMultilingualLanguageLabel } from '@locale/LocaleText';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -106,9 +105,7 @@
         if (translateError === lastAnnouncedTranslateError) return;
         lastAnnouncedTranslateError = translateError;
         if (translateError && translateTo !== undefined) {
-            const toLang = getLocaleLanguages(translateTo)
-                .map((c) => Languages[c]?.name ?? c)
-                .join(' + ');
+            const toLang = getMultilingualLanguageLabel(translateTo);
             $announce(
                 'banner',
                 $locales.getLanguages()[0],
@@ -524,14 +521,12 @@
                             .concretize(
                                 (l) => l.ui.collaborate.translate.direction,
                                 {
-                                    from: getLocaleLanguages(msg.language)
-                                        .map((c) => Languages[c]?.name ?? c)
-                                        .join(' + '),
-                                    to: getLocaleLanguages(
+                                    from: getMultilingualLanguageLabel(
+                                        msg.language,
+                                    ),
+                                    to: getMultilingualLanguageLabel(
                                         translations[msg.id].language,
-                                    )
-                                        .map((c) => Languages[c]?.name ?? c)
-                                        .join(' + '),
+                                    ),
                                 },
                             )
                             .toText()}{:else}<LocaleName
@@ -637,10 +632,7 @@
                     },
                     ...translatableLocales.map((locale) => ({
                         value: localeToString(locale),
-                        label: (_l: any) =>
-                            getLocaleLanguages(locale)
-                                .map((c) => Languages[c]?.name ?? c)
-                                .join(' + '),
+                        label: (_l: any) => getMultilingualLanguageLabel(locale),
                     })),
                 ]}
                 change={(ls) => queueTranslateMessages(ls)}
@@ -651,9 +643,7 @@
                     .concretize((l) => l.ui.collaborate.translate.error, {
                         to:
                             translateTo !== undefined
-                                ? getLocaleLanguages(translateTo)
-                                      .map((c) => Languages[c]?.name ?? c)
-                                      .join(' + ')
+                                ? getMultilingualLanguageLabel(translateTo)
                                 : '—',
                     })
                     .toText()}</Notice>
@@ -688,10 +678,7 @@
                     },
                     ...translatableLocales.map((locale) => ({
                         value: localeToString(locale),
-                        label: (_l: any) =>
-                            getLocaleLanguages(locale)
-                                .map((c) => Languages[c]?.name ?? c)
-                                .join(' + '),
+                        label: (_l: any) => getMultilingualLanguageLabel(locale),
                     })),
                 ]}
                 change={(ls) => (messageLanguage = ls)}
