@@ -266,6 +266,12 @@
                 continue;
             }
 
+            // Don't re-translate messages whose cached translations were
+            // evicted to keep the chat within the translation budget. They
+            // would be evicted again on the next save, causing perpetual churn
+            // of the same LLM calls for no lasting benefit.
+            if (chat.evictedTranslationIDs.has(msg.id)) continue;
+
             // Fall back to the chat's language (set at creation), then the
             // viewer's locale as a last resort. This avoids wrongly declaring
             // every untagged pre-existing message as being in the viewer's
@@ -363,11 +369,9 @@
             return;
         }
 
-        // msg.translations is deliberately excluded from the key. Including it
-        // would create an unbounded feedback loop: translateMessages() caches
-        // results by calling saveMessageTranslations(), which writes back to
-        // Firestore; the snapshot arrives and updates `chat`; the key changes;
-        // the effect fires again and calls the LLM for the same messages.
+        //// msg.translations is deliberately excluded from the key. Including it would
+// cause translation updates to retrigger this effect, potentially creating a
+// Firestore → translation → Firestore cycle with repeated LLM calls.
         const contentKey = [
             chat.getProjectID(),
             translateTo,

@@ -191,6 +191,15 @@ export default class Chat {
     /** The data of the chat. */
     private readonly data: SerializedChat;
 
+    /**
+     * IDs of messages whose `translations` field was dropped during
+     * construction to keep the chat within `MAX_CHAT_TRANSLATIONS_BYTES`.
+     * Used by ChatView to avoid re-translating these messages: doing so would
+     * just save them back, trigger a snapshot, and evict a different message —
+     * paying for the same LLM calls indefinitely.
+     */
+    readonly evictedTranslationIDs: ReadonlySet<string>;
+
     constructor(data: SerializedChat) {
         this.data = data;
 
@@ -214,7 +223,21 @@ export default class Chat {
 
         // Cached translations are disposable: if they exceed their own budget,
         // drop the oldest ones until they fit, never touching message text.
+        // Track which IDs were evicted so translateMessages can skip them.
+        const preTrim = messages;
         messages = trimChatTranslations(messages);
+        const evictedIDs = new Set<string>();
+        if (messages !== preTrim) {
+            for (let i = 0; i < preTrim.length; i++) {
+                if (
+                    preTrim[i].translations !== undefined &&
+                    messages[i].translations === undefined
+                ) {
+                    evictedIDs.add(preTrim[i].id);
+                }
+            }
+        }
+        this.evictedTranslationIDs = evictedIDs;
 
         if (messages !== data.messages) this.data = { ...data, messages };
     }
