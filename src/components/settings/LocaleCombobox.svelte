@@ -64,7 +64,12 @@
         {/each}
     </select>
     <!-- Decorative chevron; the native select underneath owns all clicks. -->
-    <svg class="chevron" viewBox="0 0 12 8" aria-hidden="true" focusable="false">
+    <svg
+        class="chevron"
+        viewBox="0 0 12 8"
+        aria-hidden="true"
+        focusable="false"
+    >
         <path d="M1 1.5 L6 6.5 L11 1.5" />
     </svg>
 </div>

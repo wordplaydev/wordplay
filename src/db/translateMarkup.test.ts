@@ -5,7 +5,8 @@ import {
     markupToText,
     translateMarkup,
     translateMarkupText,
-    translateMarkupTexts, type MarkupTranslationInput,
+    translateMarkupTexts,
+    type MarkupTranslationInput,
     type RawTranslator,
 } from './translateMarkup';
 
@@ -48,7 +49,6 @@ test('translateMarkupText returns null when the translator fails', async () => {
     const failing: RawTranslator = async () => null;
     expect(await translateMarkupText('hello', en, es, failing)).toBeNull();
 });
-
 
 // ---------------------------------------------------------------------------
 // translateMarkupTexts

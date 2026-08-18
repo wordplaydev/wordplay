@@ -346,16 +346,19 @@ describe('ChatDatabase granular message operations', () => {
             const cb = vi.fn();
             db.subscribeChatTranslations('project-1', 'es', cb);
             expect(onSnapshot).toHaveBeenCalledTimes(1);
-            const [ref] = (
-                onSnapshot as unknown as ReturnType<typeof vi.fn>
-            ).mock.calls[0];
+            const [ref] = (onSnapshot as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
             expect(ref).toMatchObject({
                 _ref: { collection: 'chatTranslations', id: 'project-1~es' },
             });
         });
 
         it('returns an unsubscribe function from onSnapshot', () => {
-            const unsub = db.subscribeChatTranslations('project-1', 'ja', vi.fn());
+            const unsub = db.subscribeChatTranslations(
+                'project-1',
+                'ja',
+                vi.fn(),
+            );
             expect(typeof unsub).toBe('function');
         });
     });
@@ -465,20 +468,17 @@ describe('upgradeChat (upgrade-on-load)', () => {
 
 describe('Chat constructor', () => {
     it('evicts oversized cached translations instead of dropping the message', () => {
-        const oversizedChat = makeChat(
-            {},
-            [
-                {
-                    id: 'm1',
-                    time: 1,
-                    creator: 'user-1',
-                    text: '',
-                    translations: {
-                        es: 'x'.repeat(131072 + 1),
-                    },
+        const oversizedChat = makeChat({}, [
+            {
+                id: 'm1',
+                time: 1,
+                creator: 'user-1',
+                text: '',
+                translations: {
+                    es: 'x'.repeat(131072 + 1),
                 },
-            ],
-        );
+            },
+        ]);
 
         const messages = oversizedChat.getMessages();
         expect(messages).toHaveLength(1);
@@ -569,5 +569,4 @@ describe('Chat.withMessagesTranslations', () => {
         );
         expect(updated.getMessages()[0].translations).toBeUndefined();
     });
-
 });

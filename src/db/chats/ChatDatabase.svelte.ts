@@ -404,7 +404,7 @@ const ChatsCollection = Domain.Chats;
 
 /** Firestore collection that stores per-chat, per-language translation
  *  caches as small flat documents, separate from the main chat document.
-*/
+ */
 const ChatTranslationsCollection = 'chatTranslations';
 
 /** Stable Firestore document ID for the translation sidecar of a given chat
@@ -910,7 +910,11 @@ export class ChatDatabase {
         );
     }
 
-    async addChatToHowTo(howTo: HowTo, gallery: Gallery | undefined, language: string) {
+    async addChatToHowTo(
+        howTo: HowTo,
+        gallery: Gallery | undefined,
+        language: string,
+    ) {
         if (firestore === undefined) return undefined;
         if (howTo.getCreator() === null) return undefined;
 
