@@ -503,7 +503,17 @@
             </div>
         {/if}
         {#if messageErrors[msg.id]}
-            <Notice text={(l) => l.ui.collaborate.translate.messageError} />
+            <Notice>{$locales
+                    .concretize(
+                        (l) => l.ui.collaborate.translate.messageError,
+                        {
+                            sender:
+                                creators[msg.creator] != null
+                                    ? creators[msg.creator].getUsername(false)
+                                    : '—',
+                        },
+                    )
+                    .toText()}</Notice>
         {/if}
         {#if !($user?.uid === msg.creator) && galleryID && isVisibleMessage}
             <Dialog
@@ -588,7 +598,16 @@
             />
         </div>
         {#if translateError}
-            <Notice text={(l) => l.ui.collaborate.translate.error} />
+            <Notice>{$locales
+                    .concretize((l) => l.ui.collaborate.translate.error, {
+                        to:
+                            translateTo !== undefined
+                                ? getLocaleLanguages(translateTo)
+                                      .map((c) => Languages[c]?.name ?? c)
+                                      .join(' + ')
+                                : '—',
+                    })
+                    .toText()}</Notice>
         {/if}
         <div class="scroller" bind:this={scrollerView}>
             <div class="messages">
