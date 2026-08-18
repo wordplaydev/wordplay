@@ -26,6 +26,8 @@ import getTranslationsHandler, {
 } from './getTranslations.js';
 import getLLMTranslationsHandler from './getLLMTranslations.js';
 import analyzeLocalizationHandler from './analyzeLocalization.js';
+import getPagePreviewHandler from './getPagePreview.js';
+import getSitemapHandler from './getSitemap.js';
 import getWebpageHandler from './getWebpage.js';
 import postFeedbackHandler from './postFeedback.js';
 import purgeArchivedProjectsHandler from './purgeArchivedProjects.js';
@@ -94,6 +96,12 @@ export const analyzeLocalization = onCall<AnalyzeLocalizationInputs>(
 
 /** Given a URL that should refer to an HTML document, sends a GET request to the URL to try to get the document's text. */
 export const getWebpage = onRequest(cors, getWebpageHandler);
+
+/** Serves project/gallery URLs (hosting rewrite) as the SPA shell with injected title/og metadata for public docs (#1133). */
+export const getPagePreview = onRequest(cors, getPagePreviewHandler);
+
+/** Serves /sitemap.xml (hosting rewrite): static routes, examples, and public Firestore projects/galleries (#1133). */
+export const getSitemap = onRequest(cors, getSitemapHandler);
 
 /** Every day, delete projects that were archived more than 30 days ago. */
 export const purgeArchivedProjects = onSchedule(
