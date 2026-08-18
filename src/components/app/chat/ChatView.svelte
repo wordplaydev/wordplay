@@ -95,6 +95,11 @@
     // Ids of messages whose individual translation failed (shown next to each
     // message), when only some batches error out.
     let messageErrors = $state<Record<string, boolean>>({});
+
+    // Tracks what language the current `translations` object was built for so
+    // translateMessages can detect a target change without reading translateTo
+    // before it's been updated (the old source of the duplicate-pass bug).
+    let lastTranslationTarget: string | undefined = undefined;
     let lastAnnouncedTranslateError = false;
     let lastAnnouncedMessageErrors = '';
 
@@ -197,20 +202,17 @@
         else if (howTo) Chats.addChatToHowTo(howTo, gallery, language);
     }
 
+    // Only assigns translateTo (debounced). The content-key $effect below is
+    // the sole place that starts a translation pass — one trigger, no race.
     function queueTranslateMessages(target: string | undefined) {
         if (translateTargetTimeout !== undefined) {
             clearTimeout(translateTargetTimeout);
             translateTargetTimeout = undefined;
         }
 
-        if (target === undefined) {
-            void translateMessages(target);
-            return;
-        }
-
         translateTargetTimeout = setTimeout(() => {
             translateTargetTimeout = undefined;
-            void translateMessages(target);
+            translateTo = target;
         }, 300);
     }
 
@@ -218,14 +220,17 @@
      *  each translation beneath its original. Messages already carrying a cached
      *  translation for the target reuse it; the rest are handed to
      *  translateMarkupTexts, which groups them by source language and translates
-     *  in batches, then their results are cached on the message for next time. */
-    async function translateMessages(target: string | undefined) {
+     *  in batches, then their results are cached on the message for next time.
+     *  Always called from the content-key $effect — never directly — so
+     *  translateTo is already set and must not be re-assigned here. */
+    async function translateMessages() {
+        const target = translateTo; // capture; may change while async runs
         const request = ++translateRequest;
         // Only wipe existing translations when the target language changes.
         // When the same target is active and a new message arrives, we keep
         // existing cached translations visible and only fetch the new one.
-        const sameTarget = target !== undefined && target === translateTo;
-        translateTo = target;
+        const sameTarget = target !== undefined && target === lastTranslationTarget;
+        lastTranslationTarget = target;
         if (!sameTarget) translations = {};
         translateError = false;
         messageErrors = {};
@@ -347,6 +352,14 @@
     $effect(() => {
         if (!chat || translateTo === undefined) {
             lastTranslationContentKey = '';
+            // Clear translation UI when the user turns translation off; since
+            // translateMessages is no longer called for the undefined path,
+            // this is the only place that resets the visible state.
+            if (translateTo === undefined) {
+                translations = {};
+                translateError = false;
+                messageErrors = {};
+            }
             return;
         }
 
@@ -369,7 +382,7 @@
         lastTranslationContentKey = contentKey;
 
         untrack(() => {
-            void translateMessages(translateTo);
+            void translateMessages();
         });
     });
 
@@ -508,9 +521,8 @@
                         (l) => l.ui.collaborate.translate.messageError,
                         {
                             sender:
-                                creators[msg.creator] != null
-                                    ? creators[msg.creator].getUsername(false)
-                                    : '—',
+                                creators[msg.creator]?.getUsername(false) ??
+                                '—',
                         },
                     )
                     .toText()}</Notice>
