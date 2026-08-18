@@ -6606,6 +6606,13 @@
                         "音节用<国际音标@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>来拼写，这是一种字母表，其中每个字母是一个 /sound/，而不是一种拼写——所以 \\'ʃi'\\ 是 /she/ 开头的声音，不管你用什么语言写。按编辑器下方的 🤖，可以看到我能发出的每一个声音，并逐个听一听。"
                     ],
                     "names": ["$~声音"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~一把口琴，是侧面带按钮的半音阶口琴。它从一把真实的口琴录制而来，并调好了音高，所以用数字就能选择音符。",
+                        "\\音乐(\n\t音轨([1] beat: 4beats loop: ⊥ instrument: 乐器.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~口琴"]
                 }
             },
             "doc": [

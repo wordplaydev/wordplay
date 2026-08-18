@@ -6637,6 +6637,13 @@
                         "Les syllabes sont écrites dans l'<alphabet phonétique international@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alphabet où chaque lettre est un /son/ plutôt qu'une orthographe — donc \\'ʃi'\\ est le son au début de /elle/, quelle que soit la langue dans laquelle tu écris. Appuie sur 🤖 sous l'éditeur pour voir tous les sons que je peux faire et entendre chacun d'eux."
                     ],
                     "names": ["$~voix"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Un harmonica, le type chromatique avec un bouton sur le côté. Enregistré à partir d'un vrai, et accordé, donc les nombres choisissent les notes.",
+                        "\\Musique(\n\tPiste([1] beat: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~🌬️", "$~harmonica"]
                 }
             },
             "doc": [

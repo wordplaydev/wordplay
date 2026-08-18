@@ -6630,6 +6630,13 @@
                         "As sílabas escrevem-se no <Alfabeto Fonético Internacional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, um alfabeto onde cada letra é um /som/ em vez de uma escrita — por isso \\'ʃi'\\ é o som no início de /ela/, seja qual for o idioma em que escreves. Carrega em 🤖 por baixo do editor para veres todos os sons que consigo fazer e ouvir cada um."
                     ],
                     "names": ["$~voz"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Uma harmónica, do tipo cromático com um botão ao lado. Gravada a partir de uma real e afinada, por isso os números escolhem as notas.",
+                        "\\Música(\n\tFaixa([1] beat: 4beats loop: ⊥ instrument: Instrumento.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~harmónica"]
                 }
             },
             "doc": [

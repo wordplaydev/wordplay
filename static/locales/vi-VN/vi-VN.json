@@ -6630,6 +6630,13 @@
                         "Các âm tiết được viết bằng <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, một bảng chữ cái trong đó mỗi chữ cái là một /âm/ chứ không phải một cách viết — nên \\'ʃi'\\ là âm ở đầu từ /cô ấy/, dù bạn viết bằng ngôn ngữ nào. Nhấn 🤖 bên dưới trình soạn thảo để xem mọi âm mà tôi có thể tạo ra và nghe từng âm một."
                     ],
                     "names": ["$~giọngNói"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Một cây khẩu cầm, loại có nút bấm bên hông. Được thu âm từ một cây thật, và được chỉnh cao độ, nên các con số sẽ chọn nốt nhạc.",
+                        "\\ÂmNhạc(\n\tBảnNhạc([1] beat: 4beats loop: ⊥ instrument: NhạcCụ.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~kènHarmonica"]
                 }
             },
             "doc": [

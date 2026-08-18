@@ -6629,6 +6629,13 @@
                         "Die Silben sind im <Internationalen Phonetischen Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> geschrieben, einem Alphabet, in dem jeder Buchstabe ein /Laut/ statt einer Schreibweise ist – also \\'ʃi'\\ ist das Geräusch am Anfang von /sie/, egal in welcher Sprache du schreibst. Drücke 🤖 unter dem Editor, um jeden Laut zu sehen, den ich machen kann, und höre jeden einzelnen an."
                     ],
                     "names": ["$~Stimme"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Eine Mundharmonika, die chromatische Art mit einem Knopf an der Seite. Von einer echten aufgenommen und gestimmt, sodass Zahlen die Töne auswählen.",
+                        "\\Musik(\n\tSpur([1] beat: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~Mundharmonika"]
                 }
             },
             "doc": [

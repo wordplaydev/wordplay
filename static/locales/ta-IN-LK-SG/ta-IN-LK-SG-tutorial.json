@@ -4110,7 +4110,7 @@
                             "Music",
                             "kind",
                             "$~அந்த எட்டு எண்கள் மாறவில்லை. அவற்றை யார் இசைக்கிறார்கள் என்பதுதான் மாறியது.",
-                            "$~தேர்ந்தெடுக்க பதினெட்டு உள்ளன. முயற்சி செய்யவும் \\Instrument.violin\\, அல்லது \\Instrument.trumpet\\, அல்லது \\Instrument.dog\\."
+                            "$~தேர்ந்தெடுக்க பத்தொன்பது உள்ளன. முயற்சி செய் \\Instrument.violin\\, அல்லது \\Instrument.trumpet\\, அல்லது \\Instrument.dog\\."
                         ],
                         null,
                         ["FunctionDefinition", "curious", "$~எவ்வளவு வேகமாக?"],

@@ -1,11 +1,11 @@
 /**
  * General MIDI's instrument and percussion numbering, mapped onto our palette.
  *
- * GM names 128 instruments and 47 percussion sounds; we have fourteen
- * instruments, six drum pieces, and a cat. So this is lossy by construction,
- * and the point is to lose predictably: every GM family maps to the nearest
- * thing we actually have, and anything with no reasonable neighbour is
- * reported rather than quietly turned into a piano.
+ * GM names 128 instruments and 47 percussion sounds; our palette is a small
+ * fraction of that. So this is lossy by construction, and the point is to lose
+ * predictably: every GM family maps to the nearest thing we actually have, and
+ * anything with no reasonable neighbour is reported rather than quietly turned
+ * into a piano.
  *
  * Program and note numbers here are the GM standard's, which is a published
  * specification rather than anyone's musical work.
@@ -29,8 +29,12 @@ export function instrumentForProgram(program: number): InstrumentKey {
             return 'piano';
         case 1: // chromatic percussion: celesta, glockenspiel, tubular bells
             return 'bell';
-        case 2: // organ
-            return 'synthPad';
+        // GM's organ family ends in three free-reed instruments —
+        // accordion, harmonica, and tango accordion. All three are reeds
+        // driven by air, so they go to the harmonica rather than staying
+        // with the organs.
+        case 2:
+            return program >= 21 && program <= 23 ? 'harmonica' : 'synthPad';
         // GM's guitar family runs from a nylon acoustic through steel,
         // clean electric, overdrive, and distortion, so the family alone is
         // too coarse now that we have both kinds: program 24 is the nylon

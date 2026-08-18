@@ -105,6 +105,9 @@ export const Recipes: Record<InstrumentKey, SynthRecipe> = {
     flute: tone('sine', 0.06, 3000, 0.047),
     trumpet: tone('square', 0.05, 2800, 0.033),
     saxophone: tone('sawtooth', 0.06, 2000, 0.059),
+    // A reed like the saxophone's, but a free one: it speaks the instant
+    // air reaches it, and it is brighter and thinner.
+    harmonica: tone('sawtooth', 0.04, 2800, 0.0583),
     bell: pluck('sine', 1.2, 5000, 0.055),
     didgeridoo: tone('sawtooth', 0.08, 700, 0.068),
     cat: tone('sawtooth', 0.05, 2400, 0.058),

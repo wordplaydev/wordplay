@@ -6635,6 +6635,13 @@
                         "Silabele sunt scrise în <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabet în care fiecare literă este un /sunet/ în loc de o scriere — așa că \\'ʃi'\\ este sunetul de la începutul cuvântului /she/, indiferent de limba în care scrii. Apasă 🤖 sub editor ca să vezi toate sunetele pe care le pot face și să auzi fiecare sunet."
                     ],
                     "names": ["$~voce"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~O muzicuță, tipul cromatic cu un buton pe partea laterală. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
+                        "\\Muzică(\n\tPistă([1] beat: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~muzicuță"]
                 }
             },
             "doc": [

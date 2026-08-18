@@ -27,6 +27,7 @@ export const InstrumentKeys = [
     'flute',
     'trumpet',
     'saxophone',
+    'harmonica',
     'bell',
     'didgeridoo',
     'cat',
@@ -95,6 +96,9 @@ export const Instruments: Record<InstrumentKey, InstrumentSpec> = {
     flute: { emoji: '🪈', pitched: true, hue: 180 },
     trumpet: { emoji: '🎺', pitched: true, hue: 50 },
     saxophone: { emoji: '🎷', pitched: true, hue: 70 },
+    // Unicode has no harmonica, so a breath instead — the thing that makes
+    // it sound, the way the didgeridoo takes the wood it is made of.
+    harmonica: { emoji: '🌬️', pitched: true, hue: 150 },
     bell: { emoji: '🔔', pitched: true, hue: 55 },
     // A hollowed wooden tube; Unicode has no didgeridoo, and a horn would
     // read as brass, which this is not.

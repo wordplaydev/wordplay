@@ -6640,6 +6640,13 @@
                         "Sylaby są zapisane w <Międzynarodowym Alfabecie Fonetycznym@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, alfabecie, w którym każda litera to jeden /dźwięk/, a nie jeden zapis — więc \\'ʃi'\\ to dźwięk na początku słowa /ona/, w jakimkolwiek języku piszesz. Naciśnij 🤖 pod edytorem, aby zobaczyć każdy dźwięk, jaki potrafię wydać, i usłyszeć każdy z nich."
                     ],
                     "names": ["$~głos"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Harmonijka ustna, rodzaj chromatyczny z przyciskiem z boku. Nagrana z prawdziwej harmonijki i dostrojona, więc liczby wybierają nuty.",
+                        "\\Muzyka(\n\tŚcieżka([1] beat: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~harmonijka"]
                 }
             },
             "doc": [

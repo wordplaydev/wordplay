@@ -27,6 +27,7 @@ voices•[Voice]: [
 	Voice('flute' '🪈' 🔈.🪈 180°)
 	Voice('trumpet' '🎺' 🔈.🎺 50°)
 	Voice('sax' '🎷' 🔈.🎷 70°)
+	Voice('harmonica' '🌬️' 🔈.🌬️ 150°)
 	Voice('bell' '🔔' 🔈.🔔 55°)
 	Voice('drums' '🥁' 🔈.🥁 0°)
 	Voice('didgeridoo' '🎶' 🔈.didgeridoo 15°)

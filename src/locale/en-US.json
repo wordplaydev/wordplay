@@ -5564,6 +5564,13 @@
                     ],
                     "names": ["🎷", "saxophone", "sax"]
                 },
+                "harmonica": {
+                    "doc": [
+                        "A harmonica, the chromatic kind with a button on the side. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.harmonica) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🌬️", "harmonica"]
+                },
                 "bell": {
                     "doc": [
                         "A bell — orchestral chimes, the kind struck with a mallet. Recorded, and pitched, so numbers choose notes.",
