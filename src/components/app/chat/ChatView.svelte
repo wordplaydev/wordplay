@@ -68,9 +68,11 @@
     const translatableLocales = getTranslatableLocales();
 
     // The language the creator has chosen to tag their next message with.
-    // Intentionally unset by default: sending is blocked until the user
-    // explicitly picks the language the message was written in.
-    let messageLanguage = $state<string | undefined>(undefined);
+    // Defaults to the viewer's current UI locale (matching startChat) so
+    // the send button is usable immediately; the picker lets them override it.
+    let messageLanguage = $state<string | undefined>(
+        localeToString($locales.getLocale()),
+    );
 
     // The language the viewer chose to translate received messages into, or
     // undefined for no translation.
@@ -667,9 +669,6 @@
                 choose={(ls) => (messageLanguage = ls)}
             />
         </div>
-        {#if messageLanguage === undefined}
-            <Notice text={(l) => l.ui.collaborate.error.untaggedMessage} />
-        {/if}
         <form class="new" data-sveltekit-keepfocus>
             <div class="editor">
                 <FormattedEditor
@@ -686,8 +685,7 @@
                 <Button
                     submit
                     active={chat !== undefined &&
-                        newMessage.trim() !== '' &&
-                        messageLanguage !== undefined}
+                        newMessage.trim() !== ''}
                     tip={(l) => l.ui.collaborate.button.submit.tip}
                     action={submitMessage}
                     background
