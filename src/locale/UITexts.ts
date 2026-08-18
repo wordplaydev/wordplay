@@ -1607,6 +1607,8 @@ type UITexts = {
         };
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {
+            /** [plain] Invitation to pick a language, shown to a visitor who hasn't chosen one yet. Every locale's translation of this is shown at once, so keep it short. */
+            choose: string;
             /** [formatted] Banner at the top of the dialog prompting users to enter localization mode via the pencil icon in the app footer. */
             localizeHelp: FormattedText;
             /** Subheaders in the local chooser dialog. */
@@ -1637,6 +1639,10 @@ type UITexts = {
                 header: string;
                 /** [formatted] Short explanation of what the request form does. */
                 explanation: FormattedText;
+                /** [plain] Placeholder for the field that filters the language and region dropdowns. */
+                searchPlaceholder: string;
+                /** [plain] Description of the field that filters the language and region dropdowns. */
+                searchDescription: string;
                 /** [plain] Placeholder/label for the language dropdown. */
                 languageLabel: string;
                 /** [plain] Placeholder/label for the region dropdown. */
@@ -1647,6 +1653,8 @@ type UITexts = {
                 submitting: string;
                 /** [plain] Link text shown after a successful request; the link points to the GitHub issue. */
                 success: string;
+                /** [plain] Link text shown when someone had already requested this language; the link points to that issue. */
+                alreadyRequested: string;
                 /** [plain] Error message shown when the request fails. */
                 error: string;
                 /** [plain] Error message shown when the combination is already supported. */

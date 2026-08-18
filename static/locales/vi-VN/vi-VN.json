@@ -8150,8 +8150,12 @@
                     "success": "$~Hãy thảo luận yêu cầu này với chúng tôi trên GitHub!",
                     "error": "$~Đã xảy ra lỗi. Vui lòng thử lại.",
                     "alreadySupported": "$~Ngôn ngữ và khu vực đó đã được hỗ trợ.",
-                    "requiresLogin": "$~Bạn phải đăng nhập để yêu cầu chọn ngôn ngữ."
-                }
+                    "requiresLogin": "$~Bạn phải đăng nhập để yêu cầu chọn ngôn ngữ.",
+                    "searchPlaceholder": "$~ngôn ngữ hoặc quốc gia",
+                    "searchDescription": "$~Lọc các danh sách ngôn ngữ và quốc gia",
+                    "alreadyRequested": "$~Có người đã yêu cầu ngôn ngữ này rồi. Hãy tham gia thảo luận trên GitHub!"
+                },
+                "choose": "$~Chọn một ngôn ngữ"
             },
             "help": {
                 "header": "$~Phím tắt",

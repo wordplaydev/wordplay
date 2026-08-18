@@ -7871,8 +7871,12 @@
                     "success": "$~Besprechen Sie diese Anfrage mit uns auf GitHub!",
                     "error": "$~Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
                     "alreadySupported": "$~Diese Sprache und Region werden bereits unterstützt.",
-                    "requiresLogin": "$~Sie müssen angemeldet sein, um eine Sprache anzufordern."
-                }
+                    "requiresLogin": "$~Sie müssen angemeldet sein, um eine Sprache anzufordern.",
+                    "searchPlaceholder": "$~Sprache oder Land",
+                    "searchDescription": "$~Die Menüs für Sprache und Land filtern",
+                    "alreadyRequested": "$~Jemand hat diese Sprache schon gewünscht. Mach bei der Diskussion auf GitHub mit!"
+                },
+                "choose": "$~Wähle eine Sprache"
             },
             "help": {
                 "header": "$~Verknüpfungen",

@@ -7871,8 +7871,12 @@
                     "success": "$~Diskutera denna förfrågan med oss på GitHub!",
                     "error": "$~Något gick fel. Försök igen.",
                     "alreadySupported": "$~Det språket och den regionen stöds redan.",
-                    "requiresLogin": "$~Du måste vara inloggad för att begära ett språk."
-                }
+                    "requiresLogin": "$~Du måste vara inloggad för att begära ett språk.",
+                    "searchPlaceholder": "$~språk eller land",
+                    "searchDescription": "$~Filtrera menyerna för språk och land",
+                    "alreadyRequested": "$~Någon har redan begärt det här språket. Var med i diskussionen på GitHub!"
+                },
+                "choose": "$~Välj ett språk"
             },
             "help": {
                 "header": "$~Genvägar",

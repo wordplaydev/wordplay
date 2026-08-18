@@ -7831,8 +7831,12 @@
                     "success": "$~在 GitHub 上和我們討論這個請求！",
                     "error": "$~出了點問題，請再試一次。",
                     "alreadySupported": "$~該語言和地區已經支援了。",
-                    "requiresLogin": "$~你必須先登入才能請求新增語言。"
-                }
+                    "requiresLogin": "$~你必須先登入才能請求新增語言。",
+                    "searchPlaceholder": "$~語言或國家",
+                    "searchDescription": "$~篩選語言與國家選單",
+                    "alreadyRequested": "$~已經有人請求這個語言了。到 GitHub 上加入討論吧！"
+                },
+                "choose": "$~選擇一個語言"
             },
             "help": {
                 "header": "快速鍵",

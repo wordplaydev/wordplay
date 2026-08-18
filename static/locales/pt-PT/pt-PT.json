@@ -8144,8 +8144,12 @@
                     "success": "Discuta esta solicitação connosco no GitHub!",
                     "error": "Algo correu mal. Por favor, tente novamente.",
                     "alreadySupported": "Esse idioma e região já são suportados.",
-                    "requiresLogin": "Precisa de estar conectado para solicitar um idioma."
-                }
+                    "requiresLogin": "Precisa de estar conectado para solicitar um idioma.",
+                    "searchPlaceholder": "$~idioma ou país",
+                    "searchDescription": "$~filtrar os menus de idioma e país",
+                    "alreadyRequested": "$~Alguém já pediu este idioma. Junte-se à discussão no GitHub!"
+                },
+                "choose": "$~escolher um idioma"
             },
             "help": {
                 "header": "Atalhos",

@@ -8185,6 +8185,7 @@
             },
             "locale": {
                 "header": "Language",
+                "choose": "Choose a language",
                 "explanation": "Choose languages for the interface, tutorial, and documentation. Languages marked 🤖 are still largely machine translated, so some text may be unreadable or incorrect.",
                 "localizeHelp": "/To help improve translations in your language, click the ✎ pencil icon at the *bottom of the page* to turn on localization mode and suggest improvements./",
                 "subheader": {
@@ -8205,11 +8206,14 @@
                 "request": {
                     "header": "Don't see your language?",
                     "explanation": "Pick a language and region and we'll open a GitHub issue to discuss adding it.",
+                    "searchPlaceholder": "language or country",
+                    "searchDescription": "Filter the language and country menus",
                     "languageLabel": "language",
                     "regionLabel": "region",
                     "submit": "Request",
                     "submitting": "Sending request…",
                     "success": "Discuss this request with us on GitHub!",
+                    "alreadyRequested": "Someone already requested this language. Join the discussion on GitHub!",
                     "error": "Something went wrong. Please try again.",
                     "alreadySupported": "That language and region is already supported.",
                     "requiresLogin": "You must be signed in to request a language."

@@ -16545,6 +16545,10 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "choose": {
+                                            "description": "[plain] Invitation to pick a language, shown to a visitor who hasn't chosen one yet. Every locale's translation of this is shown at once, so keep it short.",
+                                            "type": "string"
+                                        },
                                         "explanation": {
                                             "anyOf": [
                                                 {
@@ -16571,6 +16575,10 @@
                                             "additionalProperties": false,
                                             "description": "Form to request support for a language/region not yet listed.",
                                             "properties": {
+                                                "alreadyRequested": {
+                                                    "description": "[plain] Link text shown when someone had already requested this language; the link points to that issue.",
+                                                    "type": "string"
+                                                },
                                                 "alreadySupported": {
                                                     "description": "[plain] Error message shown when the combination is already supported.",
                                                     "type": "string"
@@ -16599,6 +16607,14 @@
                                                     "description": "[plain] Error message shown when the user is not signed in.",
                                                     "type": "string"
                                                 },
+                                                "searchDescription": {
+                                                    "description": "[plain] Description of the field that filters the language and region dropdowns.",
+                                                    "type": "string"
+                                                },
+                                                "searchPlaceholder": {
+                                                    "description": "[plain] Placeholder for the field that filters the language and region dropdowns.",
+                                                    "type": "string"
+                                                },
                                                 "submit": {
                                                     "description": "[plain] Submit button label.",
                                                     "type": "string"
@@ -16615,11 +16631,14 @@
                                             "required": [
                                                 "header",
                                                 "explanation",
+                                                "searchPlaceholder",
+                                                "searchDescription",
                                                 "languageLabel",
                                                 "regionLabel",
                                                 "submit",
                                                 "submitting",
                                                 "success",
+                                                "alreadyRequested",
                                                 "error",
                                                 "alreadySupported",
                                                 "requiresLogin"
@@ -16652,6 +16671,7 @@
                                     },
                                     "required": [
                                         "button",
+                                        "choose",
                                         "explanation",
                                         "header",
                                         "localizeHelp",

@@ -7828,8 +7828,12 @@
                     "success": "$~在 GitHub 上和我们讨论这个请求！",
                     "error": "$~出了点问题。请再试一次。",
                     "alreadySupported": "$~那个语言和地区已经支持了。",
-                    "requiresLogin": "$~你必须登录才能请求一个语言。"
-                }
+                    "requiresLogin": "$~你必须登录才能请求一个语言。",
+                    "searchPlaceholder": "$~语言或国家",
+                    "searchDescription": "$~筛选语言和国家菜单",
+                    "alreadyRequested": "$~已经有人请求过这个语言了。到 GitHub 上加入讨论吧！"
+                },
+                "choose": "$~选择一种语言"
             },
             "help": {
                 "header": "快捷键",

@@ -8,11 +8,14 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- 🌐 If you've never chosen a language, Wordplay now asks which one you'd like when you first visit. It asks in all 30 languages it speaks, so you can find yours even if you don't read English. (#1256)
 - 🔠 We added a new example called Chamber to the [galleries](https://wordplay.dev/galleries). A hundred letters from four writing systems bounce around a sealed box, and you can turn gravity off or shake them all up again.
 - 🔗 When you share a link to a public project or gallery, it now shows its name and description in chat apps and on social media. We also added a site map so search engines can find public projects and [galleries](https://wordplay.dev/galleries). (#1133)
 
 ### Changed
 
+- 🌐 The [language chooser](https://wordplay.dev/) now spreads languages across the window instead of stacking them in one tall list, so you can see them all at once. (#1256)
+- 🔍 Asking for a language we don't have yet is easier. Type a language or a country and the menus fill themselves in. (#1256)
 - ⚡ We made programs with lots of moving output run three to five times more smoothly.
 - 🧲 We updated the physics engine. Things now rest on the ground instead of sinking into it, bouncy things settle instead of jittering forever, and output stops getting flung off the stage when it piles up.
 - 🧲 @Collision now reports far fewer bumps while something is settling — a handful instead of hundreds. A project that counts bumps will count differently than it used to.
@@ -22,6 +25,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🌐 When you ask for a language someone already asked for, we now send you to that conversation instead of starting a new one. (#1256)
+- 🐛 The “other languages” button on the front page no longer opens two language windows on top of each other. (#1256)
 - 🤝 We fixed errors that filled a teacher's browser when they opened a student's project. Teachers now see students' edits live as they type, and students can see their teacher's cursor when they visit.
 - 💾 For teachers with many galleries, the save light no longer flips between "Saved" and "Unsaved", the connection warning no longer comes and goes, and the [Teach](https://wordplay.dev/teach) page no longer goes blank.
 - 🔑 If the sign in page failed to load, it used to stay broken until you restarted your browser. Now it shows when it's loading, says when it can't connect, and works again when you reload.
