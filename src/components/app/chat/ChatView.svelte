@@ -5,7 +5,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import LocaleName from '@components/settings/LocaleName.svelte';
-    import LocaleCombobox from '@components/settings/LocaleCombobox.svelte';
+    import Options from '@components/widgets/Options.svelte';
     import { getAnnouncer, getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -182,7 +182,6 @@
     function submitMessage() {
         if (newMessage.trim() === '') return;
         if (!chat) return;
-        if (messageLanguage === undefined) return;
         Chats.addMessage(chat, newMessage, messageLanguage);
         newMessage = '';
         tick().then(() => {
@@ -612,10 +611,10 @@
             />
         {/if}
         <div class="translate-bar">
-            <span class="translate-label"
+            <label class="translate-label" for="translate-messages"
                 ><LocalizedText
                     path={(l) => l.ui.collaborate.translate.label}
-                /></span
+                /></label
             >
             {#if translating}<Spinning />{/if}
             {#if translateTo !== undefined}
@@ -627,12 +626,24 @@
                     /></Button
                 >
             {/if}
-            <LocaleCombobox
+            <Options
                 id="translate-messages"
-                candidates={translatableLocales}
-                selected={translateTo}
-                label={(l) => l.ui.collaborate.translate.label}
-                choose={(ls) => queueTranslateMessages(ls)}
+                value={translateTo}
+                label={(l) => l.ui.collaborate.translate.language}
+                options={[
+                    {
+                        value: undefined,
+                        label: () => 'Choose a language',
+                    },
+                    ...translatableLocales.map((locale) => ({
+                        value: localeToString(locale),
+                        label: (_l: any) =>
+                            getLocaleLanguages(locale)
+                                .map((c) => Languages[c]?.name ?? c)
+                                .join(' + '),
+                    })),
+                ]}
+                change={(ls) => queueTranslateMessages(ls)}
             />
         </div>
         {#if translateError}
@@ -661,12 +672,29 @@
             </div>
         </div>
         <div class="language">
-            <LocaleCombobox
+            <label class="language-label" for="new-message-language"
+                ><LocalizedText
+                    path={(l) => l.ui.collaborate.translate.language}
+                /></label
+            >
+            <Options
                 id="new-message-language"
-                candidates={translatableLocales}
-                selected={messageLanguage}
+                value={messageLanguage}
                 label={(l) => l.ui.collaborate.translate.language}
-                choose={(ls) => (messageLanguage = ls)}
+                options={[
+                    {
+                        value: undefined,
+                        label: () => 'Use current language',
+                    },
+                    ...translatableLocales.map((locale) => ({
+                        value: localeToString(locale),
+                        label: (_l: any) =>
+                            getLocaleLanguages(locale)
+                                .map((c) => Languages[c]?.name ?? c)
+                                .join(' + '),
+                    })),
+                ]}
+                change={(ls) => (messageLanguage = ls)}
             />
         </div>
         <form class="new" data-sveltekit-keepfocus>
@@ -745,7 +773,8 @@
         padding-block: calc(0.5 * var(--wordplay-spacing));
     }
 
-    .translate-label {
+    .translate-label,
+    .language-label {
         font-size: small;
     }
 
