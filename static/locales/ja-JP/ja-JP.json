@@ -7874,8 +7874,12 @@
                     "success": "$~このリクエストについて GitHub で話し合いましょう！",
                     "error": "$~問題が起きました。もう一度お試しください。",
                     "alreadySupported": "$~その言語と地域はすでに使えます。",
-                    "requiresLogin": "$~言語をリクエストするには、サインインする必要があります。"
-                }
+                    "requiresLogin": "$~言語をリクエストするには、サインインする必要があります。",
+                    "searchPlaceholder": "$~言語または国",
+                    "searchDescription": "$~言語と国のメニューをしぼりこむ",
+                    "alreadyRequested": "$~だれかがすでにこの言語をリクエストしています。GitHubで話し合いに参加しましょう！"
+                },
+                "choose": "$~言語をえらぶ"
             },
             "help": {
                 "header": "$~ショートカット",

@@ -7896,8 +7896,12 @@
                     "success": "$~Porozmawiaj z nami na ten temat na GitHub!",
                     "error": "$~Coś poszło nie tak. Spróbuj ponownie.",
                     "alreadySupported": "$~Ten język i region są już obsługiwane.",
-                    "requiresLogin": "$~Aby poprosić o wybór języka, musisz się zalogować."
-                }
+                    "requiresLogin": "$~Aby poprosić o wybór języka, musisz się zalogować.",
+                    "searchPlaceholder": "$~język lub kraj",
+                    "searchDescription": "$~Filtruj menu języka i kraju",
+                    "alreadyRequested": "$~Ktoś już poprosił o ten język. Dołącz do dyskusji na GitHubie!"
+                },
+                "choose": "$~Wybierz język"
             },
             "help": {
                 "header": "$~Skróty",

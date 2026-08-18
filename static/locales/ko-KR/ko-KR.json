@@ -7856,8 +7856,12 @@
                     "success": "$~GitHub에서 이 요청에 대해 저희와 함께 논의해 주세요!",
                     "error": "$~오류가 발생했습니다. 다시 시도해 주세요.",
                     "alreadySupported": "$~해당 언어와 지역은 이미 지원됩니다.",
-                    "requiresLogin": "$~언어를 요청하려면 로그인해야 합니다."
-                }
+                    "requiresLogin": "$~언어를 요청하려면 로그인해야 합니다.",
+                    "searchPlaceholder": "$~언어 또는 나라",
+                    "searchDescription": "$~언어와 나라 메뉴 거르기",
+                    "alreadyRequested": "$~누군가 이미 이 언어를 요청했습니다. GitHub에서 이야기에 함께해 주세요!"
+                },
+                "choose": "$~언어를 고르세요"
             },
             "help": {
                 "header": "$~단축키",

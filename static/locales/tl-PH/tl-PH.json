@@ -8142,8 +8142,12 @@
                     "success": "$~Talakayin sa amin ang kahilingang ito sa GitHub!",
                     "error": "$~May nangyaring mali. Pakisubukang muli.",
                     "alreadySupported": "$~Sinusuportahan na ang wikang iyon at rehiyon.",
-                    "requiresLogin": "$~Dapat kang naka-sign in para humiling ng wika."
-                }
+                    "requiresLogin": "$~Dapat kang naka-sign in para humiling ng wika.",
+                    "searchPlaceholder": "$~wika o bansa",
+                    "searchDescription": "$~Salain ang mga menu ng wika at bansa",
+                    "alreadyRequested": "$~May humiling na ng wikang ito. Sumali sa usapan sa GitHub!"
+                },
+                "choose": "$~Pumili ng wika"
             },
             "help": {
                 "header": "$~Mga Shortcut",

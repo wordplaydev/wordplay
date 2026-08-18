@@ -8159,8 +8159,12 @@
                     "success": "$~Diskusikan permintaan ini dengan kami di GitHub!",
                     "error": "$~Terjadi kesalahan. Silakan coba lagi.",
                     "alreadySupported": "$~Bahasa dan wilayah tersebut sudah didukung.",
-                    "requiresLogin": "$~Anda harus masuk terlebih dahulu untuk meminta bahasa."
-                }
+                    "requiresLogin": "$~Anda harus masuk terlebih dahulu untuk meminta bahasa.",
+                    "searchPlaceholder": "$~bahasa atau negara",
+                    "searchDescription": "$~Saring menu bahasa dan negara",
+                    "alreadyRequested": "$~Seseorang sudah meminta bahasa ini. Ikut diskusinya di GitHub!"
+                },
+                "choose": "$~Pilih sebuah bahasa"
             },
             "help": {
                 "header": "$~Jalan pintas",

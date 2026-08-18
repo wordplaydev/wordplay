@@ -7878,8 +7878,12 @@
                     "success": "$~Bu isteği GitHub üzerinden bizimle tartışın!",
                     "error": "$~Bir sorun oluştu. Lütfen tekrar deneyin.",
                     "alreadySupported": "$~Bu dil ve bölge zaten desteklenmektedir.",
-                    "requiresLogin": "$~Dil talebinde bulunmak için giriş yapmanız gerekmektedir."
-                }
+                    "requiresLogin": "$~Dil talebinde bulunmak için giriş yapmanız gerekmektedir.",
+                    "searchPlaceholder": "$~dil veya ülke",
+                    "searchDescription": "$~Dil ve ülke menülerini filtrele",
+                    "alreadyRequested": "$~Birisi bu dili zaten istedi. GitHub'daki tartışmaya katıl!"
+                },
+                "choose": "$~Bir dil seç"
             },
             "help": {
                 "header": "$~Kısayollar",

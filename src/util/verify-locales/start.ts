@@ -49,6 +49,7 @@ import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
 import generateEmojisForLocale from '@util/verify-locales/generateEmojis';
+import generateChoosePrompts from '@util/verify-locales/generateChoosePrompts';
 import generateNameIndex from '@util/verify-locales/generateNameIndex';
 import verifyDateTimes from '@util/verify-locales/verifyDateTimes';
 import writeFormatted from '@util/verify-locales/writeFormatted';
@@ -527,6 +528,16 @@ if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
 if (FocalLocale === null) {
     await generateNameIndex(
         log.scope('Language name index'),
+        allLocaleText,
+        FixRequested || TranslationRequested,
+    );
+}
+
+// Lift each locale's "choose a language" phrase into a bundled table, so the first-run
+// prompt can greet a visitor in their own language without fetching every locale (#1256).
+if (FocalLocale === null) {
+    await generateChoosePrompts(
+        log.scope('Language prompts'),
         allLocaleText,
         FixRequested || TranslationRequested,
     );

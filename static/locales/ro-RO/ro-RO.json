@@ -8162,8 +8162,12 @@
                     "success": "$~Discutați această solicitare cu noi pe GitHub!",
                     "error": "$~Ceva nu a mers bine. Vă rugăm să încercați din nou.",
                     "alreadySupported": "$~Limba și regiunea respectivă sunt deja acceptate.",
-                    "requiresLogin": "$~Trebuie să fii autentificat pentru a solicita o limbă."
-                }
+                    "requiresLogin": "$~Trebuie să fii autentificat pentru a solicita o limbă.",
+                    "searchPlaceholder": "$~limbă sau țară",
+                    "searchDescription": "$~Filtrează meniurile de limbă și țară",
+                    "alreadyRequested": "$~Cineva a cerut deja această limbă. Alătură-te discuției pe GitHub!"
+                },
+                "choose": "$~Alege o limbă"
             },
             "help": {
                 "header": "$~Scurtături",

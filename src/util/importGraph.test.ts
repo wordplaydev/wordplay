@@ -62,11 +62,18 @@ test('resolving a color needs no basis', () => {
  * Current reach, in files and source bytes. These are budgets, not targets:
  * they may only go down. The `true` expectations record which runtime modules
  * are still reachable today — as each door closes, flip it to `false`.
+ *
+ * The one exception is a feature that genuinely adds code to chrome every page
+ * already carries: the language chooser's request-form matching (#1256) added a
+ * few KB to LocaleSearch, which the footer's chooser imports. Raise a byte
+ * budget only for that, never to accommodate a new *module* leaking in — the
+ * file counts and the runtime-reachability test below are what guard the 2MB
+ * language runtime this file exists for.
  */
 test.each([
     ['src/routes/+layout.svelte', 475, 3.35],
-    ['src/components/app/Page.svelte', 495, 3.55],
-    ['src/routes/[[locale]]/+page.svelte', 510, 3.6],
+    ['src/components/app/Page.svelte', 495, 3.56],
+    ['src/routes/[[locale]]/+page.svelte', 510, 3.61],
     ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.65],
     ['src/routes/[[locale]]/projects/+page.svelte', 515, 3.65],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {

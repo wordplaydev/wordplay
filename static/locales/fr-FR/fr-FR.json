@@ -7875,8 +7875,12 @@
                     "success": "$~Discutez de cette demande avec nous sur GitHub !",
                     "error": "$~Une erreur s'est produite. Veuillez réessayer.",
                     "alreadySupported": "$~Cette langue et cette région sont déjà prises en charge.",
-                    "requiresLogin": "$~Vous devez être connecté pour demander une langue."
-                }
+                    "requiresLogin": "$~Vous devez être connecté pour demander une langue.",
+                    "searchPlaceholder": "$~langue ou pays",
+                    "searchDescription": "$~Filtrer les menus de langue et de pays",
+                    "alreadyRequested": "$~Quelqu'un a déjà demandé cette langue. Rejoins la discussion sur GitHub !"
+                },
+                "choose": "$~Choisis une langue"
             },
             "help": {
                 "header": "$~Raccourcis",

@@ -7855,8 +7855,12 @@
                     "success": "$~¡Habla con nosotras sobre esta solicitud en GitHub!",
                     "error": "$~Algo salió mal. Inténtalo de nuevo.",
                     "alreadySupported": "$~Ese idioma y esa región ya son compatibles.",
-                    "requiresLogin": "$~Debes iniciar sesión para solicitar un idioma."
-                }
+                    "requiresLogin": "$~Debes iniciar sesión para solicitar un idioma.",
+                    "searchPlaceholder": "$~idioma o país",
+                    "searchDescription": "$~filtrar los menús de idioma y país",
+                    "alreadyRequested": "$~Alguien ya pidió este idioma. ¡Únete a la conversación en GitHub!"
+                },
+                "choose": "$~elegir un idioma"
             },
             "help": {
                 "header": "Atajos",
