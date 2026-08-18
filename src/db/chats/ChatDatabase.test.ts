@@ -460,6 +460,33 @@ describe('upgradeChat (upgrade-on-load)', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Chat constructor
+// ---------------------------------------------------------------------------
+
+describe('Chat constructor', () => {
+    it('evicts oversized cached translations instead of dropping the message', () => {
+        const oversizedChat = makeChat(
+            {},
+            [
+                {
+                    id: 'm1',
+                    time: 1,
+                    creator: 'user-1',
+                    text: '',
+                    translations: {
+                        es: 'x'.repeat(131072 + 1),
+                    },
+                },
+            ],
+        );
+
+        const messages = oversizedChat.getMessages();
+        expect(messages).toHaveLength(1);
+        expect(messages[0].translations).toBeUndefined();
+    });
+});
+
+// ---------------------------------------------------------------------------
 // Chat.withMessagesTranslations
 // ---------------------------------------------------------------------------
 
@@ -543,24 +570,4 @@ describe('Chat.withMessagesTranslations', () => {
         expect(updated.getMessages()[0].translations).toBeUndefined();
     });
 
-    it('evicts oversized cached translations instead of dropping the message', () => {
-        const oversizedChat = makeChat(
-            {},
-            [
-                {
-                    id: 'm1',
-                    time: 1,
-                    creator: 'user-1',
-                    text: '',
-                    translations: {
-                        es: 'x'.repeat(131072 + 1),
-                    },
-                },
-            ],
-        );
-
-        const messages = oversizedChat.getMessages();
-        expect(messages).toHaveLength(1);
-        expect(messages[0].translations).toBeUndefined();
-    });
 });

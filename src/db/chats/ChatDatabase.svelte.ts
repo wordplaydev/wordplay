@@ -69,13 +69,13 @@ const MessageSchemaV2 = MessageSchemaV1.extend(
 
 const MessageSchemaV3 = MessageSchemaV2.extend(
     z.object({
-        /** The language the creator tagged this message with (a Wordplay
-         * language code, e.g. "en"). Optional because messages created before
-         * language tagging existed have no value; new messages set it from the
-         * creator's chosen language. */
+        /** The locale the creator tagged this message with (a Wordplay
+         * locale string, e.g. "en-US"). Optional because messages created
+         * before locale tagging existed have no value; new messages set it
+         * from the creator's chosen locale. */
         language: z.string().optional(),
         /** Cached translations of this message's text, keyed by target
-         * Wordplay language code (e.g. "es"). */
+         * Wordplay locale string (e.g. "es-MX"). */
         translations: z.record(z.string(), z.string()).optional(),
     }).shape,
 );
