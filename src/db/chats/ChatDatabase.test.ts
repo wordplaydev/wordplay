@@ -75,7 +75,7 @@ vi.mock('@db/Database', () => ({
     Projects: {},
 }));
 
-import { updateDoc } from 'firebase/firestore';
+import { onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import Chat, { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 
 function makeChat(
@@ -295,35 +295,9 @@ describe('ChatDatabase granular message operations', () => {
     });
 
     describe('saveMessageTranslations', () => {
-        it('writes several cached translations in one transaction', async () => {
-            const existingMessages: SerializedMessage[] = [
-                {
-                    id: 'm1',
-                    time: 1000,
-                    creator: 'user-1',
-                    text: 'hello',
-                },
-                {
-                    id: 'm2',
-                    time: 1001,
-                    creator: 'user-2',
-                    text: 'world',
-                },
-            ];
-            transactionReadSnap = {
-                exists: () => true,
-                data: () => ({
-                    v: 2,
-                    project: 'project-1',
-                    participants: ['user-1', 'user-2'],
-                    messages: existingMessages,
-                    unread: [],
-                    type: 'project',
-                }),
-            };
-
+        it('writes translated entries to the sidecar document with merge', async () => {
             await db.saveMessageTranslations(
-                makeChat({}, existingMessages),
+                makeChat(),
                 'es',
                 new Map([
                     ['m1', 'hola'],
@@ -331,101 +305,58 @@ describe('ChatDatabase granular message operations', () => {
                 ]),
             );
 
-            expect(lastTransactionOps).toHaveLength(1);
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
-            };
-            expect(data.messages).toHaveLength(2);
-            expect(data.messages[0]).toMatchObject({
-                id: 'm1',
-                translations: { es: 'hola' },
+            // No transaction on the main chat doc — translations go to the
+            // sidecar only.
+            expect(lastTransactionOps).toHaveLength(0);
+            expect(setDoc).toHaveBeenCalledTimes(1);
+            const [ref, data, options] = (
+                setDoc as unknown as ReturnType<typeof vi.fn>
+            ).mock.calls[0];
+            expect(ref).toMatchObject({
+                _ref: { collection: 'chatTranslations', id: 'project-1~es' },
             });
-            expect(data.messages[1]).toMatchObject({
-                id: 'm2',
-                translations: { es: 'mundo' },
+            expect(data).toEqual({ m1: 'hola', m2: 'mundo' });
+            expect(options).toEqual({ merge: true });
+        });
+
+        it('does nothing when the translation map is empty', async () => {
+            await db.saveMessageTranslations(makeChat(), 'es', new Map());
+            expect(setDoc).not.toHaveBeenCalled();
+            expect(lastTransactionOps).toHaveLength(0);
+        });
+
+        it('merging is delegated to Firestore — merge:true is always passed', async () => {
+            // setDoc with merge:true lets Firestore combine new entries with
+            // existing ones.  Confirm the flag is always present regardless of
+            // what was already cached in the sidecar doc.
+            await db.saveMessageTranslations(
+                makeChat(),
+                'fr',
+                new Map([['m1', 'bonjour']]),
+            );
+            const [, , options] = (
+                setDoc as unknown as ReturnType<typeof vi.fn>
+            ).mock.calls[0];
+            expect(options).toEqual({ merge: true });
+        });
+    });
+
+    describe('subscribeChatTranslations', () => {
+        it('opens a snapshot listener on the sidecar document', () => {
+            const cb = vi.fn();
+            db.subscribeChatTranslations('project-1', 'es', cb);
+            expect(onSnapshot).toHaveBeenCalledTimes(1);
+            const [ref] = (
+                onSnapshot as unknown as ReturnType<typeof vi.fn>
+            ).mock.calls[0];
+            expect(ref).toMatchObject({
+                _ref: { collection: 'chatTranslations', id: 'project-1~es' },
             });
         });
 
-        it('trims cached translations before persisting when they exceed the budget', async () => {
-            const existingMessages: SerializedMessage[] = [
-                {
-                    id: 'm1',
-                    time: 1000,
-                    creator: 'user-1',
-                    text: 'hello',
-                    translations: { fr: 'x'.repeat(131072) },
-                },
-                {
-                    id: 'm2',
-                    time: 1001,
-                    creator: 'user-2',
-                    text: 'world',
-                },
-            ];
-            transactionReadSnap = {
-                exists: () => true,
-                data: () => ({
-                    v: 2,
-                    project: 'project-1',
-                    participants: ['user-1', 'user-2'],
-                    messages: existingMessages,
-                    unread: [],
-                    type: 'project',
-                }),
-            };
-
-            await db.saveMessageTranslations(
-                makeChat({}, existingMessages),
-                'es',
-                new Map([['m2', 'hola']]),
-            );
-
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
-            };
-            expect(data.messages).toHaveLength(2);
-            expect(data.messages[0].translations).toBeUndefined();
-            expect(data.messages[1]).toMatchObject({
-                id: 'm2',
-                translations: { es: 'hola' },
-            });
-        });
-
-        it('merges new translations without dropping existing ones', async () => {
-            const existingMessages: SerializedMessage[] = [
-                {
-                    id: 'm1',
-                    time: 1000,
-                    creator: 'user-1',
-                    text: 'hello',
-                    translations: { fr: 'bonjour' },
-                },
-            ];
-            transactionReadSnap = {
-                exists: () => true,
-                data: () => ({
-                    v: 2,
-                    project: 'project-1',
-                    participants: ['user-1', 'user-2'],
-                    messages: existingMessages,
-                    unread: [],
-                    type: 'project',
-                }),
-            };
-
-            await db.saveMessageTranslations(
-                makeChat({}, existingMessages),
-                'es',
-                new Map([['m1', 'hola']]),
-            );
-
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
-            };
-            expect(data.messages[0]).toMatchObject({
-                id: 'm1',
-                translations: { fr: 'bonjour', es: 'hola' },
-            });
+        it('returns an unsubscribe function from onSnapshot', () => {
+            const unsub = db.subscribeChatTranslations('project-1', 'ja', vi.fn());
+            expect(typeof unsub).toBe('function');
         });
     });
 

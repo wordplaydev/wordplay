@@ -402,6 +402,18 @@ export default class Chat {
 
 const ChatsCollection = Domain.Chats;
 
+/** Firestore collection that stores per-chat, per-language translation
+ *  caches as small flat documents, separate from the main chat document.
+*/
+const ChatTranslationsCollection = 'chatTranslations';
+
+/** Stable Firestore document ID for the translation sidecar of a given chat
+ *  and target language.  UUIDs contain only hex digits and hyphens, so `~`
+ *  is safe as a separator with no collision risk. */
+function chatTranslationsDocID(chatID: string, language: string): string {
+    return `${chatID}~${language}`;
+}
+
 export class ChatDatabase {
     private readonly db: Database;
 
@@ -753,55 +765,50 @@ export class ChatDatabase {
         });
     }
 
-    /** Cache translations for several messages into the same language in one
-     *  transaction, so future viewers reuse them without re-calling the
-     *  translation service. */
+    /** Cache translations for several messages in a per-chat, per-language
+     *  sidecar document so future viewers reuse them without re-calling the
+     *  translation service.  Uses Firestore merge so concurrent viewers
+     *  writing the same language produce identical, non-conflicting results
+     *  with no contention on the main chat document. */
     async saveMessageTranslations(
         chat: Chat,
         language: string,
         translations: Map<string, string>,
     ) {
-        if (translations.size === 0) return;
-        this.chats.set(
-            chat.getProjectID(),
-            chat.withMessagesTranslations(translations, language),
+        if (translations.size === 0 || firestore === undefined) return;
+        const ref = doc(
+            firestore,
+            ChatTranslationsCollection,
+            chatTranslationsDocID(chat.getProjectID(), language),
         );
-        await this.modifyChatMessages(chat.getProjectID(), (m) => {
-            const text = translations.get(m.id);
-            if (text === undefined) return m;
-            return {
-                ...m,
-                translations: { ...m.translations, [language]: text },
-            };
+        await setDoc(ref, Object.fromEntries(translations), { merge: true });
+    }
+
+    /** Subscribe to the per-chat, per-language translation sidecar.  The
+     *  callback receives the full entry map ({messageId → text}) immediately
+     *  on subscribe and again whenever any viewer adds more translations for
+     *  this language. */
+    subscribeChatTranslations(
+        chatID: string,
+        language: string,
+        callback: (entries: Record<string, string>) => void,
+    ): () => void {
+        if (firestore === undefined) return () => {};
+        const ref = doc(
+            firestore,
+            ChatTranslationsCollection,
+            chatTranslationsDocID(chatID, language),
+        );
+        return onSnapshot(ref, (snap) => {
+            if (snap.exists()) callback(snap.data() as Record<string, string>);
         });
     }
 
-    private async modifyChatMessages(
-        chatID: string,
-        transform: (m: SerializedMessage) => SerializedMessage,
-    ) {
-        if (firestore === undefined) return;
-        const chatRef = doc(firestore, ChatsCollection, chatID);
-        await this.trackSave(
-            chatID,
-            runTransaction(firestore, async (tx) => {
-                const snap = await tx.get(chatRef);
-                if (!snap.exists()) return;
-                const current = upgradeChat(
-                    snap.data() as SerializedChatUnknownVersion,
-                );
-                const messages = trimChatTranslations(
-                    current.messages.map(transform),
-                );
-                tx.update(chatRef, { messages });
-            }),
-        );
-    }
-
     /** Drop a chat from in-memory state and clear its save tracking + durable
-     *  dirty row. Does NOT delete the Firestore doc or the cached row — callers
-     *  handle those (the cloud listener owns cache eviction). Shared by the
-     *  explicit delete and the listener's "removed" handler. */
+     *  dirty row.  Does NOT delete the Firestore doc, the translation sidecar,
+     *  or the cached row — callers handle those (the cloud listener owns cache
+     *  eviction).  Shared by the explicit delete and the listener's "removed"
+     *  handler. */
     private forgetChat(projectID: string) {
         this.chats.delete(projectID);
         this.saves.forget(projectID);

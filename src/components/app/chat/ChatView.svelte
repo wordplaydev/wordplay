@@ -96,10 +96,6 @@
     // message), when only some batches error out.
     let messageErrors = $state<Record<string, boolean>>({});
 
-    // Tracks what language the current `translations` object was built for so
-    // translateMessages can detect a target change without reading translateTo
-    // before it's been updated (the old source of the duplicate-pass bug).
-    let lastTranslationTarget: string | undefined = undefined;
     let lastAnnouncedTranslateError = false;
     let lastAnnouncedMessageErrors = '';
 
@@ -226,12 +222,6 @@
     async function translateMessages() {
         const target = translateTo; // capture; may change while async runs
         const request = ++translateRequest;
-        // Only wipe existing translations when the target language changes.
-        // When the same target is active and a new message arrives, we keep
-        // existing cached translations visible and only fetch the new one.
-        const sameTarget = target !== undefined && target === lastTranslationTarget;
-        lastTranslationTarget = target;
-        if (!sameTarget) translations = {};
         translateError = false;
         messageErrors = {};
         if (target === undefined || !chat) {
@@ -267,9 +257,7 @@
             }
 
             // Don't re-translate messages whose cached translations were
-            // evicted to keep the chat within the translation budget. They
-            // would be evicted again on the next save, causing perpetual churn
-            // of the same LLM calls for no lasting benefit.
+            // evicted to keep the chat within the translation budget.
             if (chat.evictedTranslationIDs.has(msg.id)) continue;
 
             // Fall back to the chat's language (set at creation), then the
@@ -352,6 +340,33 @@
             if (request === translateRequest) translating = false;
         }
     }
+
+    // Subscribe to the per-chat, per-language translation sidecar when a
+    // target is active.  When another viewer translates the same language
+    // first, their result arrives here via the snapshot, preventing a
+    // duplicate LLM call.  The subscription is torn down and rebuilt whenever
+    // the target language changes or translation is turned off.
+    $effect(() => {
+        if (!chat || translateTo === undefined) return;
+        const target = translateTo;
+        const unsub = Chats.subscribeChatTranslations(
+            chat.getProjectID(),
+            target,
+            (entries) => {
+                if (target !== translateTo) return;
+                translations = {
+                    ...translations,
+                    ...Object.fromEntries(
+                        Object.entries(entries).map(([id, text]) => [
+                            id,
+                            { language: target, text },
+                        ]),
+                    ),
+                };
+            },
+        );
+        return unsub;
+    });
 
     // Keep translation mode live: when message content changes (including newly
     // arrived messages), refresh translations for the active target.
