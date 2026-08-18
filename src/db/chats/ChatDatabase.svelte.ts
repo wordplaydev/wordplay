@@ -22,7 +22,6 @@ import {
     arrayRemove,
     arrayUnion,
     collection,
-    deleteField,
     deleteDoc,
     doc,
     getDoc,
@@ -701,22 +700,34 @@ export class ChatDatabase {
             chat.getProjectID(),
             chat.withModeratedMessage(message, action, moderatorID),
         );
-        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
-            ...m,
-            moderation: action,
-            moderator: moderatorID,
-            ...(action === 'approved' ? {} : { translations: deleteField() }),
-        }));
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => {
+            if (action === 'approved') {
+                return {
+                    ...m,
+                    moderation: action,
+                    moderator: moderatorID,
+                };
+            }
+
+            const { translations: _translations, ...withoutTranslations } = m;
+            return {
+                ...withoutTranslations,
+                moderation: action,
+                moderator: moderatorID,
+            };
+        });
     }
 
     /** Clear a message's text (soft delete that preserves the message slot). */
     async deleteMessage(chat: Chat, message: SerializedMessage) {
         this.chats.set(chat.getProjectID(), chat.withoutMessage(message));
-        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
-            ...m,
-            text: null,
-            translations: deleteField(),
-        }));
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => {
+            const { translations: _translations, ...withoutTranslations } = m;
+            return {
+                ...withoutTranslations,
+                text: null,
+            };
+        });
     }
 
     /** Cache translations for several messages into the same language in one

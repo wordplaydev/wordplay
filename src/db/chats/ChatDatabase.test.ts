@@ -75,7 +75,7 @@ vi.mock('@db/Database', () => ({
     Projects: {},
 }));
 
-import { deleteField, updateDoc } from 'firebase/firestore';
+import { updateDoc } from 'firebase/firestore';
 import Chat, { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 
 function makeChat(
@@ -290,7 +290,7 @@ describe('ChatDatabase granular message operations', () => {
                 moderation: 'removed',
                 moderator: 'mod-uid',
             });
-            expect(data.messages[0].translations).toEqual(deleteField());
+            expect('translations' in data.messages[0]).toBe(false);
         });
     });
 
@@ -462,7 +462,7 @@ describe('ChatDatabase granular message operations', () => {
                 id: 'm1',
                 text: null,
             });
-            expect(data.messages[0].translations).toEqual(deleteField());
+            expect('translations' in data.messages[0]).toBe(false);
         });
     });
 });
