@@ -78,6 +78,12 @@ current one is drawn brighter so you can see where you are.¶
 on its own, so left loose they would all sit on top of each other — the
 layout has to say they go one above the next.
 
+The buttons go in a Grid rather than a Row. All of them in one row is wider
+than a phone, and a Stage scales its contents down to fit, so the labels
+shrink until they can't be read. Only the columns are given: leave the rows
+out and the Grid works out how many it needs, so adding an instrument
+doesn't mean editing this.
+
 The music keeps one name the whole time rather than taking the instrument's.
 A 🎼's name is its identity: rename it and the player hears a different piece
 begin, so the melody would jump back to the top on every switch, and the score
@@ -91,7 +97,7 @@ away.¶
 				💬(current.icon 2.5m)
 				💬(current.label 1.2m)
 				🔳(
-					Row(padding: 0.4m)
+					Grid(columns: 5 padding: 0.4m)
 					voices.translate(ƒ(voice•Voice) button(voice))
 				)
 			]
