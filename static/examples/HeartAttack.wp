@@ -100,9 +100,11 @@ roaming a random way.¶
 ¶Start a new round: playing, camera at eye level, no heart, no score.¶
 ƒ newGame() Game(2 0m playingDepth ⊥ 0m 0m 0m 0 spawnZombies())
 
-¶Throw a heart down your current lane, unless one is already in the air.¶
+¶Throw a heart down your current lane, unless one is already in the air. It
+starts just ahead of where you stand, not of where the camera is, for the same
+reason the reach test does.¶
 ƒ throwHeart(game•Game)
-	game.heart ? game Game(game.phase game.cameraX game.cameraZ ⊤ game.cameraX (game.cameraZ + 1m) game.cameraZ game.score game.zombies)
+	game.heart ? game Game(game.phase game.cameraX game.cameraZ ⊤ game.cameraX (playingDepth + 1m) playingDepth game.score game.zombies)
 
 ¶Nudge your lane one step toward a spot, never past your limits. The pointer
 reports the world spot it's over, so its distance from your lane is how far it
@@ -143,9 +145,12 @@ the camera at the menu spot.¶
 			zombie)
 	convertedCount: livingCount(game.zombies) - livingCount(nextZombies)
 	nextHeart: heartActive & (struckFigure•ø)
-	¶Any living zombie that reaches the camera's depth ends the game — whatever
-	its lane — so one can never slip past you into an unwinnable state.¶
-	lost: nextZombies.filter(ƒ(zombie•Zombie) zombie.alive & (zombie.z ≤ (game.cameraZ + reachDistance))).length() > 0
+	¶Any living zombie that reaches your depth ends the game — whatever its lane —
+	so one can never slip past you into an unwinnable state. This measures against
+	\playingDepth\, where you stand, and never against the camera: the stage pulls
+	the camera back on small screens and the viewer can zoom it further still, and
+	none of that should change how close a zombie has to get.¶
+	lost: nextZombies.filter(ƒ(zombie•Zombie) zombie.alive & (zombie.z ≤ (playingDepth + reachDistance))).length() > 0
 	won: livingCount(nextZombies) = 0
 	nextPhase: won ? 3 (lost ? 4 2)
 	nextCameraX: (nextPhase = 2) ? game.cameraX 0m
@@ -187,8 +192,12 @@ smooth frames rather than a lagging catch-up.¶
 			Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 0.6s))
 
 ¶The floor: bars at rising depths that perspective reads as a ground plane
-receding to the horizon, fading green-to-teal for atmosphere.¶
+receding to the horizon, fading green-to-teal for atmosphere. The first bar is
+the line a zombie has to cross to end the game, drawn in warning red so the rule
+is visible: the camera pulls back on small screens and the viewer can zoom out,
+and a zombie that looks far away is still standing on this line when it gets you.¶
 floor: [
+	Phrase("▬▬▬▬▬▬▬▬▬▬" 1.4m duration: 0s place: Place(0m -2.8m (playingDepth + reachDistance)) color: Color(58% 55 25°))
 	Phrase("▬▬▬▬▬▬▬▬▬▬" 1.4m duration: 0s place: Place(0m -2.8m 4m) color: Color(56% 40 130°))
 	Phrase("▬▬▬▬▬▬▬▬▬▬" 1.4m duration: 0s place: Place(0m -2.8m 6m) color: Color(50% 36 136°))
 	Phrase("▬▬▬▬▬▬▬▬▬▬" 1.4m duration: 0s place: Place(0m -2.8m 8m) color: Color(45% 32 142°))

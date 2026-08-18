@@ -1,3 +1,4 @@
+import { Projects } from '@db/projects/Projects';
 import type Project from '@db/projects/Project';
 import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
@@ -55,7 +56,7 @@ export default function moveOutput(
 ) {
     const PlaceType = project.shares.output.Place;
 
-    db.Projects.revise(
+    Projects.revise(
         project,
         evaluates.map((evaluate) => {
             const ctx = project.getNodeContext(evaluate);
@@ -220,7 +221,7 @@ export function reviseContent(
     list: ListLiteral,
     newValues: (Expression | Spread)[],
 ) {
-    db.Projects.revise(project, [[list, ListLiteral.make(newValues)]]);
+    Projects.revise(project, [[list, ListLiteral.make(newValues)]]);
 }
 
 export function removeContent(
@@ -284,7 +285,7 @@ export function addStageContent(
         const newStage = Evaluate.make(StageType.getReference(locales), [
             ListLiteral.make([newContent]),
         ]);
-        database.Projects.reviseProject(
+        Projects.reviseProject(
             project.withRevisedNodes([[block, block.withStatement(newStage)]]),
         );
     }
@@ -382,7 +383,7 @@ function outputKindOfType(
             if (def === output.Phrase) return 'phrase';
             if (def === output.Shape) return 'shape';
             if (def === output.Say) return 'say';
-        if (def === output.Music) return 'music';
+            if (def === output.Music) return 'music';
             if (
                 def === output.Rectangle ||
                 def === output.Circle ||
@@ -422,10 +423,12 @@ function outputKindOfType(
 function listElementOutputKind(
     type: Type,
     project: Project,
+    context: Context,
 ): OutputKind | undefined {
-    if (!(type instanceof ListType) || type.type === undefined)
-        return undefined;
-    const elementKind = outputKindOfType(type.type, project);
+    if (!(type instanceof ListType)) return undefined;
+    const itemType = type.getItemType(context);
+    if (itemType === undefined) return undefined;
+    const elementKind = outputKindOfType(itemType, project);
     return elementKind === 'phrase' ||
         elementKind === 'group' ||
         elementKind === 'shape' ||
@@ -450,10 +453,12 @@ export function classifyOutput(project: Project): {
     // Two or more result statements: the block's value is a LIST of them. Classify by the list's
     // element kind and treat it as a list (wraps collect them all).
     if (results.length > 1) {
+        const blockContext = project.getNodeContext(block);
         const kind =
             listElementOutputKind(
-                block.getType(project.getNodeContext(block)),
+                block.getType(blockContext),
                 project,
+                blockContext,
             ) ?? 'value';
         return { kind, expression: undefined, isList: true };
     }
@@ -490,7 +495,7 @@ export function classifyOutput(project: Project): {
     const type = last.getType(context);
 
     // A single expression that is itself a list of outputs: classify by element kind, wrap the list.
-    const listKind = listElementOutputKind(type, project);
+    const listKind = listElementOutputKind(type, project, context);
     if (listKind !== undefined)
         return { kind: listKind, expression: last, isList: true };
 
@@ -618,7 +623,7 @@ export function addSoloPhrase(
     const revised = project.withRevisedNodes([
         last ? [last, phrase] : [block, block.withStatement(phrase)],
     ]);
-    db.Projects.reviseProject(revised);
+    Projects.reviseProject(revised);
     return revised;
 }
 
@@ -642,7 +647,7 @@ export function addShape(db: Database, project: Project): Project | undefined {
             [block, block.withStatement(shape)],
         ]);
     }
-    if (revised) db.Projects.reviseProject(revised);
+    if (revised) Projects.reviseProject(revised);
     return revised;
 }
 
@@ -668,7 +673,7 @@ export function addGroup(db: Database, project: Project): Project | undefined {
     );
 
     const revised = project.withRevisedNodes(target.replace(group));
-    db.Projects.reviseProject(revised);
+    Projects.reviseProject(revised);
     return revised;
 }
 
@@ -709,7 +714,7 @@ export function addStage(db: Database, project: Project): Project | undefined {
             [block, block.withStatement(stage)],
         ]);
     }
-    db.Projects.reviseProject(revised);
+    Projects.reviseProject(revised);
     return revised;
 }
 
@@ -757,7 +762,7 @@ export function addMusic(db: Database, project: Project): Project | undefined {
                   ],
               ]);
 
-    db.Projects.reviseProject(revised);
+    Projects.reviseProject(revised);
     return revised;
 }
 

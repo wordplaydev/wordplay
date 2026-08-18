@@ -104,13 +104,21 @@
             const gradient = context.createLinearGradient(0, top, 0, height);
             // A narrow opacity range, and a fixed lightness, so the bands
             // shimmer in colour rather than blinking.
-            gradient.addColorStop(0, `lch(62% ${30 + level * 70} ${hue}deg / 0)`);
+            gradient.addColorStop(
+                0,
+                `lch(62% ${30 + level * 70} ${hue}deg / 0)`,
+            );
             gradient.addColorStop(
                 1,
                 `lch(62% ${30 + level * 70} ${hue}deg / ${0.2 + level * 0.18})`,
             );
             context.fillStyle = gradient;
-            context.fillRect(band * bandWidth, top, bandWidth + 1, height - top);
+            context.fillRect(
+                band * bandWidth,
+                top,
+                bandWidth + 1,
+                height - top,
+            );
         }
     }
 

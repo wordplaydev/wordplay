@@ -4,8 +4,9 @@ import { type Database, type SaveCounts, type SaveError } from '@db/Database';
 import { Domain } from '@db/Domains';
 import exceedsDocLimit from '@db/exceedsDocLimit';
 import { firestore } from '@db/firebase';
+import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
 import type Gallery from '@db/galleries/Gallery';
-import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
+
 import isQuotaError from '@db/isQuotaError';
 import { PreviewContentSchema } from '@db/projects/ProjectSchemas';
 import SaveTracker from '@db/SaveTracker.svelte';
@@ -522,10 +523,9 @@ export class HowToDatabase {
             // (a no-op when it's already linked, as on a plain edit replay).
             const batch = writeBatch(db);
             batch.set(doc(db, HowTosCollection, id), howTo.getData());
-            batch.update(
-                doc(db, GalleriesCollection, howTo.getHowToGalleryId()),
-                { howTos: arrayUnion(id) },
-            );
+            batch.update(doc(db, Domain.Galleries, howTo.getHowToGalleryId()), {
+                howTos: arrayUnion(id),
+            });
             return { name: howTo.getTitle(), write: batch.commit() };
         });
     }
@@ -672,7 +672,7 @@ export class HowToDatabase {
                 const batch = writeBatch(firestore);
                 batch.delete(doc(firestore, HowTosCollection, howToId));
                 batch.update(
-                    doc(firestore, GalleriesCollection, gallery.getID()),
+                    doc(firestore, Domain.Galleries, gallery.getID()),
                     { howTos: arrayRemove(howToId) },
                 );
                 await this.db.write(batch.commit());
@@ -778,7 +778,7 @@ export class HowToDatabase {
             // overwriting each other.
             const batch = writeBatch(firestore);
             batch.set(doc(firestore, HowTosCollection, newHowTo.id), newHowTo);
-            batch.update(doc(firestore, GalleriesCollection, gallery.getID()), {
+            batch.update(doc(firestore, Domain.Galleries, gallery.getID()), {
                 howTos: arrayUnion(newHowTo.id),
             });
 
@@ -888,7 +888,9 @@ export class HowToDatabase {
         );
 
         // Listener 2: published how-tos in any of the user's editor/curator galleries.
-        // Chunked into groups of 30 because Firestore caps `in` at 30 values.
+        // Chunked because the read rule get()s each matched how-to's gallery and the
+        // rules document-access budget denies a whole query needing too many distinct
+        // get()s — see GALLERY_CHUNK_SIZE.
         // The `published == true` filter is required: the security rules only grant
         // gallery curators/collaborators read access to *published* how-tos (see the
         // read rule in firestore.rules). Other creators' unpublished drafts in these
@@ -898,9 +900,9 @@ export class HowToDatabase {
         const editorGalleryIds = Array.from(
             this.db.Galleries.accessibleGalleries.keys(),
         );
-        for (let i = 0; i < editorGalleryIds.length; i += 30) {
-            const chunk = editorGalleryIds.slice(i, i + 30);
-            const key = `gallery:${i / 30}`;
+        for (let i = 0; i < editorGalleryIds.length; i += GALLERY_CHUNK_SIZE) {
+            const chunk = editorGalleryIds.slice(i, i + GALLERY_CHUNK_SIZE);
+            const key = `gallery:${i / GALLERY_CHUNK_SIZE}`;
             const galleryQuery = query(
                 collection(firestore, HowTosCollection),
                 where('galleryId', 'in', chunk),

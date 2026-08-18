@@ -19,10 +19,16 @@ function analyze(code: string): KeyAnalysis {
 
 /** The canonical keys found, sorted, or the kind when not specific. */
 function keys(code: string): string[] | string {
-    const analysis = analyze(code);
-    return analysis.kind === 'specific'
-        ? Array.from(analysis.keys).sort()
-        : analysis.kind;
+    return describeAnalysis(analyze(code));
+}
+
+/** Keys when we bounded them; otherwise the kind, with any keys an unbounded
+ *  analysis still proved, since those are what the pad offers. */
+function describeAnalysis(analysis: KeyAnalysis): string[] | string {
+    if (analysis.kind === 'specific') return Array.from(analysis.keys).sort();
+    if (analysis.kind === 'unbounded' && analysis.keys.size > 0)
+        return `unbounded:${Array.from(analysis.keys).sort().join(',')}`;
+    return analysis.kind;
 }
 
 test('A literal filter names its key', () => {
@@ -72,7 +78,10 @@ hit: ø … ∆ key … chimes.find(ƒ(c•Chime) c.key = key)`),
     ).toEqual(['a', 'd', 's']);
 });
 
-test('A computed structure field is unbounded', () => {
+test('A computed structure field is unbounded, but keeps the keys it proved', () => {
+    // One of the two chimes is built from a computed name, so the field can't
+    // bound the key set — but 'a' is still provably compared against, and
+    // offering it beside the keyboard beats offering nothing.
     expect(
         keys(`
 •Chime(key•'')
@@ -80,7 +89,7 @@ letter: 'a'
 chimes•[Chime]: [Chime('a') Chime(letter)]
 key: Key()
 hit: ø … ∆ key … chimes.find(ƒ(c•Chime) c.key = key)`),
-    ).toBe('unbounded');
+    ).toBe('unbounded:a');
 });
 
 test('A stream only observed for change is any-key', () => {
@@ -161,8 +170,14 @@ test.each([
     ['Pounce', ['ArrowLeft', 'ArrowRight']],
     // A filter passed to the stream itself.
     ['ShowAndTell', ['ArrowRight']],
-    // Uses the key to index a map, so any key could matter.
-    ['Adventure', 'unbounded'],
+    // Guards on '1', '2', and '3' and then converts the key to a number to
+    // index with. The conversion could involve any key, so the keyboard stays —
+    // but the three it compares against are exactly what it's played with.
+    ['Adventure', 'unbounded:1,2,3'],
+    // Converts the key and compares the RESULT against a list access, so it
+    // never compares the key itself to anything — there is no key to recover,
+    // and it rightly keeps the keyboard alone.
+    ['FrenchNumbers', 'unbounded'],
 ])('%s analyzes as expected', async (name, expected) => {
     const serialized = readProjects('examples').find(
         (example) => example.id === name,
@@ -171,9 +186,5 @@ test.each([
     if (serialized === undefined) return;
     const project = await Project.deserialize(Locales, serialized);
     const analysis = analyzeProjectKeys(project);
-    expect(
-        analysis.kind === 'specific'
-            ? Array.from(analysis.keys).sort()
-            : analysis.kind,
-    ).toEqual(expected);
+    expect(describeAnalysis(analysis)).toEqual(expected);
 });

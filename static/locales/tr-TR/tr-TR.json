@@ -806,11 +806,16 @@
             "description": "$~$condition koşuluna bağlı",
             "emotion": "curious",
             "doc": [
-                "$~Şartlara bağlı olarak size bir değer mi yoksa başka bir değer mi vermeliyim? Mesela şöyle mi?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Peki, kararları nasıl verdiğimizi hiç düşündünüz mü?",
-                "Kararların sadece evet veya hayırdan ibaret olmaması, daha incelikli bir yaklaşım gerektirmesi gerekmez mi? Her şey \\⊤\\ ve \\⊥\\ arasında mı karar vermekten ibaret?",
-                "Eğer sadece bu tür kararlar alabilirsek, dünya hakkında önemli bir bağlamı kaçıracağımızdan endişelenmiyor musunuz?"
+                "$~Sana bir @value mı yoksa başka bir @condition mı vereyim, buna bağlı olarak mı karar vereyim? Böyle mi?",
+                "\\sayı: -100\nsayı < 0 ? 'negatif' 'pozitif'\\",
+                "Ama nasıl karar verdiğimizi hiç düşündün mü?",
+                "Kararların sadece evet ya da hayır olmaktan daha ince ayrıntılı olması gerektiği gibi görünmüyor mu? Kararlar sadece şunlar arasında seçim yapmaktan mı ibaret: \\⊤\\ ve \\⊥\\ arasında mı hepsi bu?",
+                "Eğer yapabileceğimiz tek karar türü bunlarsa, dünya hakkında önemli bir bağlamı kaçıracağımızdan endişelenmiyor musun?",
+                "Bir şey daha yapıyorum ve bunun için her zaman takdir görmüyorum. @condition bir değerin /ne tür/ bir değer olduğunu sorduğunda, sadece evet ya da hayır demiyorum. Cevabı her bir seçimimin içinde hatırlıyorum.",
+                "\\boyut•#|'': 5\nboyut•# ? boyut + 1 'çok küçük'\\",
+                "Tek başına, o değer bir @Number ya da bir @Text olabilir ve ona ekleme yapmak bir çakışma olurdu, çünkü bunlar çok farklı yollarla eklenir. Ama /evet/ seçimimin içinde bunun bir @Number olup olmadığını sormuşuzdur, yani orada odur. /hayır/ seçimimin içinde ise @Text olur.",
+                "Nasıl sorduğun önemli değil. Bir tip kontrolü, belirli bir değere karşı bir karşılaştırma, eksik bir değer kontrolü ve bir isim altında kaydettiğin bir kontrol bana aynı şeyi söyler. Ve @Boolean/and, @Boolean/or ve @Boolean/not bunları beklediğin şekilde birleştirir.",
+                "Sana söyleyemeyeceğim iki şey var. Birden fazla çevirisi olan bir @Text ile karşılaştırma yaparsan, hiçbir şey öğrenemem, çünkü hangi çeviriyi aldığın okuyanın kim olduğuna bağlıdır."
             ],
             "start": "$~Bakalım $condition doğru mu?",
             "else": "$~$jumping[kodun üzerinden atlama | kodun üzerinden atlamama]",
@@ -1213,12 +1218,15 @@
             "description": "$~$value değerini $#count[$count durumla|$count durumla] eşleştir",
             "emotion": "curious",
             "doc": [
-                "$~Ben, koşullu kontrollerin en muhteşemiyim: Bir değer alırım, onu herhangi bir sayıda durumla karşılaştırırım ve eşleşeni değerlendiririm!",
-                "Örneğin, bir @Number varsa ve bunu bir @Text Text'e dönüştürmek istiyorsanız, şöyle bir şey yapabilirsiniz:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Eğer hiçbiri eşleşmezse, bana verdiğiniz varsayılan ifadeyi değerlendiririm.",
-                "@Number , @Text veya daha karmaşık değerlerden birini başka bir şeye dönüştürmek konusunda gerçekten yardımcı oluyorum.",
-                "Bunu @Boolean veya @None için kullanabilirsiniz, ancak bunlar gerçekten çok fazla şey ifade edemez, bu nedenle bu basit değerler için o kadar kullanışlı değilim."
+                "$~Ben koşullu kontrollerin en görkemlisiyim: bir @value alırım, onu herhangi bir sayıda durumla karşılaştırırım ve eşleşeni değerlendiririm!",
+                "Örneğin, bir @Number değerin varsa ve onu bir @Text değere dönüştürmek istiyorsan, şöyle bir şey yapabilirsin:",
+                "\\sayı: 2\nsayı ???\n\t1: 'bir'\n\t2: 'iki'\n\t3: 'üç'\n\t'daha büyük!'\\",
+                "Hiçbiri eşleşmezse, bana verdiğin varsayılan @expression değerini değerlendiririm.",
+                "Olası birçok @Number, @Text ya da daha karmaşık değerden birini başka bir şeye dönüştürmek için gerçekten yararlıyım.",
+                "Onu @Boolean ya da @None için kullanabilirsin, ama bunlar gerçekten o kadar çok şey olamazlar, bu yüzden bu basit değerler için o kadar yararlı değilim.",
+                "@Conditional gibi, ben de öğrendiğim şeyi sana söylerim. Bir durumun içinde, eşleştirdiğim @value o durum olarak bilinir; sonraki bir durumun içinde, daha önceki hiçbiri olmadığı bilinir; ve varsayılanımda, hiçbiri olmadığı bilinir.",
+                "\\cevap•#|'': 1\ncevap ???\n\t1: cevap + 1\n\t'bir değil'\\",
+                "Bir @Number, bir @None ya da tek çevirisi olan bir @Text olan durumları ve diğer basit durumları eleyebilirim. Ama bir şeyi değerlendiren bir durum hiçbir şeyi elemez, bu yüzden varsayılanım @value değerin hâlâ olabileceği her şeyi tutar."
             ],
             "start": "$~Bakalım $value ne anlama geliyor...",
             "case": "$~Bu durumu kontrol edelim",
@@ -1431,7 +1439,8 @@
                         "explanation": "$~$name[Bu @Block'ta $name adında kimseyi tanımıyorum[$scope|bana bir isim verebilir misin?]"
                     },
                     "resolution": "$~*$suggestion* mı demek istediniz?",
-                    "staticResolution": "$~Şunu mu demek istedin *$owner.$suggestion?*"
+                    "staticResolution": "$~Şunu mu demek istedin *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name*, $language dilinde bir isimdir. Burada kullanmak için $language dilini projenin dillerine ekle."
                 },
                 "ReferenceCycle": {
                     "name": "$~kendine gönderme yapan değer",
@@ -1495,7 +1504,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~uyumsuz anahtar",
-                    "explanation": "$~$expected tipinde bir anahtar bekliyordum.",
+                    "explanation": "$~$expected tipinde bir anahtar bekledim, ama $given aldım",
                     "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
                     "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
@@ -1832,8 +1841,14 @@
             "description": "$~liste tipi $type[ türü $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~@List'in /çok/ hayranıyım. @Bind'e ne tür bir liste olduklarını söyleyebiliyorum! Şöyle ki, bunun bir @Number listesi olduğunu söylüyorum:",
-                "\\şeyler•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~@List hakkında /çok/ hayranım. @Bind öğesine nasıl bir liste olduğunu söyleyebiliyorum! İşte böyle, bunun bir @Number listesi olduğunu söylüyorum:",
+                "\\şeyler•[#]: [1 2 3 4 5]\\🪲",
+                "Bunu üç farklı şekilde söyleyebilirim. Hiç tip belirtmezsem, bir liste herhangi bir uzunlukta olabilir ve herhangi bir şeyi tutabilir:",
+                "\\şeyler•[]: [1 'iki' ø]\\🪲",
+                "Bir tip belirtirsem, liste yine herhangi bir uzunlukta olabilir, ama içindeki her şey o tek tipte olmalı, yukarıdaki @Number listesi gibi.",
+                "Ve birkaç tip belirtirsem, tam olarak o kadar şeyden oluşan bir liste demek isterim, her yeri için bir tip vardır. Bu, iki şeyden oluşan bir listedir: önce bir @Number, sonra biraz @Text.",
+                "\\çift•[# '']: [1 'iki']\\🪲",
+                "Sonuncusu en sevdiğim, çünkü o zaman herkes neyin nerede olduğunu bilir. @ListAccess ilk şeyin bir @Number ve ikincinin @Text olduğunu bilir, ve bana yanlış sayıda şey verirsen ya da onları yanlış sırada koyarsan, bunu söylerim!"
             ]
         },
         "MapType": {
@@ -2391,7 +2406,7 @@
                         "\\⊥ & ⊤\\",
                         "\\⊥ & ⊥\\"
                     ],
-                    "names": ["$~&", "$~Ve"],
+                    "names": ["$~Ve"],
                     "inputs": [
                         {
                             "doc": "$~Kontrol edilecek diğer @Boolean. Eğer ilki \\⊥\\ ise, bunun ne olduğu önemli değil, fonksiyon \\⊥\\ olarak değerlendirilecektir.",
@@ -2407,7 +2422,7 @@
                         "\\⊥ | ⊤\\",
                         "\\⊥ | ⊥\\"
                     ],
-                    "names": ["$~|", "$~veya"],
+                    "names": ["$~veya"],
                     "inputs": [
                         {
                             "doc": "$~Kontrol edilecek diğer @Boolean. Eğer ilki \\⊥\\ ise, fonksiyon yalnızca bu \\⊤\\ ise \\⊤\\ olarak değerlendirilecektir.",
@@ -2417,12 +2432,12 @@
                 },
                 "not": {
                     "doc": "$~Benim tam tersim oluyor: Eğer \\⊤\\ ise, \\⊥\\ veriyor, eğer \\⊥\\ ise, \\⊤\\ veriyor.",
-                    "names": ["$~~", "$~Olumsuz"],
+                    "names": ["$~Olumsuz"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ eğer ikisi de \\⊤\\ ise veya ikisi de \\⊥\\ ise.",
-                    "names": ["$~=", "$~eşittir"],
+                    "names": ["$~eşittir"],
                     "inputs": [
                         {
                             "doc": "$~Kontrol edilecek diğer değer.",
@@ -2432,7 +2447,7 @@
                 },
                 "notequal": {
                     "doc": "$~\\⊤\\ eğer ikisi de birbirinin zıttı ise.",
-                    "names": ["$~≠", "$~noteşit"],
+                    "names": ["$~noteşit"],
                     "inputs": [
                         {
                             "doc": "$~Kontrol edilecek diğer değer.",
@@ -2454,7 +2469,7 @@
             "function": {
                 "equals": {
                     "doc": "$~Başka bir değer de hiçbir şey mi? Öyle olması daha iyi, aksi takdirde, \\⊥\\.",
-                    "names": ["$~=", "$~eşittir"],
+                    "names": ["$~eşittir"],
                     "inputs": [
                         {
                             "doc": "$~Diğer değer.",
@@ -2464,7 +2479,7 @@
                 },
                 "notequals": {
                     "doc": "$~Başka bir değer /hiçbir şey/değil midir?",
-                    "names": ["$~≠", "$~noteşit"],
+                    "names": ["$~noteşit"],
                     "inputs": [
                         {
                             "doc": "$~Diğer değer.",
@@ -2494,7 +2509,7 @@
                 "192'nin @FunctionDefinition'a nasıl dönüştüğünü görüyor musunuz? Bu sayılara 'Unicode' dediğinizi duyuyorum.",
                 "Aksi takdirde, @FunctionDefinition'ın benim için kelimelerle her türlü şeyi yapmamı sağlayan o kadar çok muhteşem fonksiyonu var ki!"
             ],
-            "name": ["$~''", "$~Metin"],
+            "name": ["$~Metin"],
             "function": {
                 "length": {
                     "doc": [
@@ -2502,12 +2517,12 @@
                         "\\'merhaba'.length()\\",
                         "\\'🐈📚'.uzunluk()\\"
                     ],
-                    "names": ["$~📏", "$~uzunluk"],
+                    "names": ["$~uzunluk"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ eğer verilen @Text ile aynı karakter dizisiysem.",
-                    "names": ["$~=", "$~eşittir"],
+                    "names": ["$~eşittir"],
                     "inputs": [
                         {
                             "doc": "$~Karşılaştırılacak @Text.",
@@ -2530,7 +2545,7 @@
                         "$~\\⊤\\ eğer verilen @Text bende görünüyorsa.",
                         "\\'aradığınızı buldunuz mu?'.has('you')\\"
                     ],
-                    "names": ["$~⊆", "$~sahipolmak"],
+                    "names": ["$~sahipolmak"],
                     "inputs": [
                         {
                             "doc": "$~İçimde aranacak @Text.",
@@ -2576,7 +2591,7 @@
                         "\\'merhaba ' × -5\\",
                         "Yapabileceğim en uzun metin 65.535 karakterdir. Daha uzun bir metin yapmaya çalışırsanız, metni olabildiğince çok kez tekrarlarım."
                     ],
-                    "names": ["$~×", "$~🔁", "$~tekrarlandı", "$~tekrarlamak"],
+                    "names": ["$~tekrarlandı", "$~tekrarlamak"],
                     "inputs": [
                         {
                             "doc": "$~Yeni metinde kendimi tekrar edeceğim sayı.",
@@ -2591,7 +2606,7 @@
                         "Ayırıcı boş bir @Text ise kendimi karakterlere bölüyorum:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["$~÷", "$~parçalı", "$~bölüm"],
+                    "names": ["$~parçalı", "$~bölüm"],
                     "inputs": [
                         {
                             "doc": "$~Ayırıcı olarak kullanılacak @Text.",
@@ -2604,7 +2619,7 @@
                         "$~Bazen @Text'i birleştirmek faydalı olur. Bana başka bir @Text verin, bizi birleştiren yeni bir metin oluşturayım:",
                         "\\'merhaba ' + 'ayet'\\"
                     ],
-                    "names": ["$~+", "$~birleştirilmiş", "$~birleştirmek"],
+                    "names": ["$~birleştirilmiş", "$~birleştirmek"],
                     "inputs": [
                         {
                             "doc": "$~Eklenecek @Text.",
@@ -2617,7 +2632,7 @@
                         "$~\\⊤\\ metnin tamamının verilen kalıpla eşleştiği durumlarda kullanılır.",
                         "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
                     ],
-                    "names": ["$~≈", "$~maçlar"],
+                    "names": ["$~maçlar"],
                     "inputs": [
                         {
                             "doc": "$~Karşılaştırılacak model.",
@@ -2630,7 +2645,7 @@
                         "$~Verilen kalıbın bende eşleştiği her yeri @Result listesi olarak bulun.",
                         "\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~aramak"],
+                    "names": ["$~aramak"],
                     "inputs": [
                         {
                             "doc": "$~Aranacak desen.",
@@ -2669,7 +2684,7 @@
                 "2 tabanında '2' rakamı yoktur, bu nedenle geçerli bir sayı değildir. Sayı olmayan metni sayıya dönüştürmeye çalışırsanız NaN da görünecektir",
                 "\\'merhaba'→#\\"
             ],
-            "name": ["$~#", "$~Sayı"],
+            "name": ["$~Sayı"],
             "function": {
                 "add": {
                     "doc": [
@@ -2680,7 +2695,7 @@
                         "Eğer birimler uyuşmazsa gösteriyi durduruyorum.",
                         "\\3kedi + 5köpek\\🪲"
                     ],
-                    "names": ["$~+", "$~eklemek"],
+                    "names": ["$~eklemek"],
                     "inputs": [
                         {
                             "doc": "$~Eklenecek @Number.",
@@ -2697,7 +2712,7 @@
                         "Eğer birimler uyuşmazsa gösteriyi durduruyorum.",
                         "\\3kedi - 5köpek\\🪲"
                     ],
-                    "names": ["$~-", "$~çıkarmak"],
+                    "names": ["$~çıkarmak"],
                     "inputs": [
                         {
                             "doc": "$~Benden çıkarılacak @Number.",
@@ -2712,7 +2727,7 @@
                         "\\5m × 5m\\",
                         "\\5m × 1/sn\\"
                     ],
-                    "names": ["$~×", "$~çarpmak"],
+                    "names": ["$~çarpmak"],
                     "inputs": [
                         {
                             "doc": "$~Çarpılacak sayı.",
@@ -2727,7 +2742,7 @@
                         "\\5m ÷ 5m\\",
                         "\\5d ÷ 5sn\\"
                     ],
-                    "names": ["$~÷", "$~bölmek"],
+                    "names": ["$~bölmek"],
                     "inputs": [
                         {
                             "doc": "$~Beni bölecek @Number.",
@@ -2742,7 +2757,7 @@
                         "\\10m % 2\\",
                         "\\10m/sn % 3\\"
                     ],
-                    "names": ["$~%", "$~kalan"],
+                    "names": ["$~kalan"],
                     "inputs": [
                         {
                             "doc": "$~Beni bölecek @Number.",
@@ -2795,7 +2810,7 @@
                         "\\10 ^ -2\\",
                         "\\5 ^ -.5\\"
                     ],
-                    "names": ["$~^", "$~güç"],
+                    "names": ["$~güç"],
                     "inputs": [
                         {
                             "doc": "$~Beni yükseltecek üs.",
@@ -2809,7 +2824,7 @@
                         "\\4 √ 2\\",
                         "\\1000 √ 3\\"
                     ],
-                    "names": ["$~√", "$~kök"],
+                    "names": ["$~kök"],
                     "inputs": [
                         {
                             "doc": "$~Hesaplanacak kök.",
@@ -2823,7 +2838,7 @@
                         "\\1 < 2\\",
                         "\\2 < 1\\"
                     ],
-                    "names": ["$~<", "$~dahaaz"],
+                    "names": ["$~dahaaz"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @Number.",
@@ -2838,7 +2853,7 @@
                         "\\2 ≤ 1\\",
                         "\\2 ≤ 2\\"
                     ],
-                    "names": ["$~≤", "$~dahaazeşit"],
+                    "names": ["$~dahaazeşit"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @Number.",
@@ -2852,7 +2867,7 @@
                         "\\1 > 2\\",
                         "\\2 > 1\\"
                     ],
-                    "names": ["$~>", "$~dahabüyük"],
+                    "names": ["$~dahabüyük"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @Number.",
@@ -2867,7 +2882,7 @@
                         "\\2 ≥ 1\\",
                         "\\2 ≥ 2\\"
                     ],
-                    "names": ["$~≥", "$~dahabüyükeşit"],
+                    "names": ["$~dahabüyükeşit"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @Number.",
@@ -2881,7 +2896,7 @@
                         "\\1 = 2\\",
                         "\\2 = 2\\"
                     ],
-                    "names": ["$~=", "$~eşit"],
+                    "names": ["$~eşit"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @Number.",
@@ -2895,7 +2910,7 @@
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
-                    "names": ["$~≠", "$~noteşit"],
+                    "names": ["$~noteşit"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @Number.",
@@ -2941,7 +2956,7 @@
                 },
                 "tan": {
                     "doc": ["$~Benim tanjantımı hesapla.", "\\π.tan()\\"],
-                    "names": ["$~tan", "$~tanjant"],
+                    "names": ["$~tanjant"],
                     "inputs": []
                 },
                 "arcsin": {
@@ -3061,7 +3076,7 @@
                 "\\['elma' 'muz' 'mango']!\\",
                 "İşte bu kadar. Ama @FunctionDefinition'ımla heyecan verici şeyler çağırabiliyorum!"
             ],
-            "name": ["$~[]", "$~Liste"],
+            "name": ["$~Liste"],
             "kind": "$~Tür",
             "out": "$~Sonuç",
             "outofbounds": "$~sınırDışı",
@@ -3113,7 +3128,7 @@
                 },
                 "length": {
                     "doc": "$~İçimdeki @Number Sayısı.",
-                    "names": ["$~📏", "$~uzunluk"],
+                    "names": ["$~uzunluk"],
                     "inputs": []
                 },
                 "random": {
@@ -3219,7 +3234,7 @@
                         "$~Ben, ancak verilen değerin ilk oluşumları olmadan.",
                         "\\['elma' 'muz' 'mango' 'elma'].sans('elma')\\"
                     ],
-                    "names": ["$~olmadan", "$~sans"],
+                    "names": ["$~olmadan"],
                     "inputs": [
                         {
                             "doc": "$~İlk örneğinin kaldırılacağı değer.",
@@ -3232,7 +3247,7 @@
                         "$~Ben, ancak verilen değerin tüm oluşumları olmadan.",
                         "\\['elma' 'muz' 'mango' 'elma'].sans('elma')\\"
                     ],
-                    "names": ["$~hepsiolmadan", "$~sansAll"],
+                    "names": ["$~hepsiolmadan"],
                     "inputs": [
                         {
                             "doc": "$~Listeden tüm örneklerin kaldırılacağı değer.",
@@ -3253,7 +3268,7 @@
                         "$~\\⊤\\ eğer ürünlerim ve siparişim verilen @List ile birebir aynıysa.",
                         "\\['elma' 'muz' 'mango'] = ['elma' 'mango' 'muz']\\"
                     ],
-                    "names": ["$~=", "$~eşittir"],
+                    "names": ["$~eşittir"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @List.",
@@ -3266,7 +3281,7 @@
                         "$~\\⊤\\ eğer ürünlerim ve siparişim verilen @List ile aynı değilse.",
                         "\\['elma' 'muz' 'mango'] ≠ ['elma' 'mango' 'muz']\\"
                     ],
-                    "names": ["$~≠", "$~noteşit"],
+                    "names": ["$~noteşit"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @List.",
@@ -3496,7 +3511,7 @@
                 "\\{'hey' 'merhaba' 'merhaba'}!{'yo'}\\🪲",
                 "Benimle yapmak istediğin başka bir şey var mı? Sahip olduğum tüm harika @FunctionDefinition'a bir göz at!"
             ],
-            "name": ["$~{}", "$~Ayarlamak"],
+            "name": ["$~Ayarlamak"],
             "kind": "$~Tür",
             "out": "$~Sonuç",
             "function": {
@@ -3510,7 +3525,7 @@
                         "$~Verilen @Set ve ben aynı değerlere sahipsek \\⊤\\ olurum:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": ["$~=", "$~eşittir"],
+                    "names": ["$~eşittir"],
                     "inputs": [
                         {
                             "doc": "$~@Set'i karşılaştırın.",
@@ -3523,7 +3538,7 @@
                         "$~Verilen @Set ve I tam olarak aynı değerlere sahip değilse \\⊤\\ olurum:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": ["$~≠", "$~noteşit"],
+                    "names": ["$~noteşit"],
                     "inputs": [
                         {
                             "doc": "$~@Set'i karşılaştırın.",
@@ -3536,7 +3551,7 @@
                         "$~Bana ekleyeceğim bir öğe verin, öğelerim ve verilen öğeyle yeni bir @Set oluşturacağım.",
                         "\\{1 2 3} + 4\\"
                     ],
-                    "names": ["$~ile", "$~eklemek", "$~+"],
+                    "names": ["$~ile", "$~eklemek"],
                     "inputs": [
                         {
                             "doc": "$~Eklenecek öğe",
@@ -3550,7 +3565,7 @@
                         "\\{1 2 3} - 2\\",
                         "Eğer elimde yoksa, kendi kendime değerlendiririm."
                     ],
-                    "names": ["$~kaldırmak", "$~-"],
+                    "names": ["$~kaldırmak"],
                     "inputs": [
                         {
                             "doc": "$~Kaldırılacak öğe.",
@@ -3563,7 +3578,7 @@
                         "$~Bana @Set'i verin, ben de benim eşyalarımı ve setin eşyalarını içeren yeni bir @Set oluşturayım.",
                         "\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": ["$~birlik", "$~∪"],
+                    "names": ["$~birlik"],
                     "inputs": [
                         {
                             "doc": "$~@Set benimle birleşecek.",
@@ -3576,7 +3591,7 @@
                         "$~Bana @Set'i verin, sadece ortak noktalarımız olan öğelerden oluşan yeni bir @Set oluşturayım.",
                         "\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": ["$~kavşak", "$~∩"],
+                    "names": ["$~kavşak"],
                     "inputs": [
                         {
                             "doc": "$~Benimle karşılaştırılacak set.",
@@ -3669,7 +3684,7 @@
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
                 "Eşleşmelerimle ne kadar harika şeyler başarabileceğimi biliyorum."
             ],
-            "name": ["$~{:}", "$~Harita"],
+            "name": ["$~Harita"],
             "key": "$~Anahtar",
             "value": "$~Değer",
             "result": "$~Sonuç",
@@ -3684,7 +3699,7 @@
                         "$~\\{⊤}\\ eğer eşleştirmelerim verilen @Map'inkilerle aynıysa.",
                         "\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": ["$~=", "$~eşittir"],
+                    "names": ["$~eşittir"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @Map.",
@@ -3697,7 +3712,7 @@
                         "$~\\{⊤}\\ eğer eşleştirmelerim verilen @Map aynı değilse.",
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": ["$~≠", "$~noteşit"],
+                    "names": ["$~noteşit"],
                     "inputs": [
                         {
                             "doc": "$~Beni karşılaştıracağınız @Map.",
@@ -3827,12 +3842,12 @@
                 "Ve eğer benden belirli değerler almak isterseniz, herhangi bir tabloyu bir listeye dönüştürebilir ve @PropertyReference ile tek tek satırlara erişebilirsiniz.",
                 "\\kayalar: ⎡isim•'' renk•''⎦\n⎡'obsidiyen' 'siyah'⎦\n⎡'ponza' 'gri'⎦\n⎡'sitrin' 'sarı'⎦\n(kayalar → [])[1].isim\\"
             ],
-            "name": ["$~⎡⎦", "$~Masa"],
+            "name": ["$~Masa"],
             "row": "$~Sıra",
             "function": {
                 "equals": {
                     "doc": "$~Başka bir @Table ile aynı hücrelere sahip olup olmadığımı kontrol ediyorum.",
-                    "names": ["$~=", "$~eşittir"],
+                    "names": ["$~eşittir"],
                     "inputs": [
                         {
                             "doc": "$~Kontrol edilecek diğer tablo.",
@@ -3842,7 +3857,7 @@
                 },
                 "notequal": {
                     "doc": "$~Hücrelerimden herhangi birinin başka bir @Table'dan farklı veya farklı sırada olup olmadığını kontrol ediyorum.",
-                    "names": ["$~≠", "$~eşitdeğil"],
+                    "names": ["$~eşitdeğil"],
                     "inputs": [
                         {
                             "doc": "$~Kontrol edilecek diğer tablo.",
@@ -3862,7 +3877,7 @@
             "function": {
                 "equals": {
                     "doc": "$~Benim property'lerimin başka bir yapının property'leri ile aynı isim ve değerlere sahip olup olmadığını kontrol ederim.",
-                    "names": ["$~=", "$~eşittir"],
+                    "names": ["$~eşittir"],
                     "inputs": [
                         {
                             "doc": "$~Kontrol edilecek diğer yapı.",
@@ -3872,7 +3887,7 @@
                 },
                 "notequal": {
                     "doc": "$~Benim özelliklerimin başka bir yapının isminden ve değerlerinden herhangi bir şekilde farklı olup olmadığını kontrol ederim.",
-                    "names": ["$~≠", "$~eşitdeğil"],
+                    "names": ["$~eşitdeğil"],
                     "inputs": [
                         {
                             "doc": "$~Kontrol edilecek diğer yapı.",
@@ -3891,16 +3906,16 @@
                 "\\`I am **bold** and /italic/`\\",
                 "Ben de @Text gibi çalışıyorum, ancak biçimlendirme de taşıyabiliyorum. Beni birleştirebilir, tekrarlayabilir, içeriğimi kontrol edebilir ve düz @Text dönüştürebilirsiniz."
             ],
-            "name": ["$~`…`", "$~Biçimlendirilmiş"],
+            "name": ["$~Biçimlendirilmiş"],
             "function": {
                 "length": {
                     "doc": "$~Metnimdeki okunabilir karakter sayısını, biçimlendirme ve paragraf sonlarını dikkate almadan değerlendiriyorum.",
-                    "names": ["$~📏", "$~uzunluk"],
+                    "names": ["$~uzunluk"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ Eğer verilen değerle aynı biçimlendirilmiş metin isem.",
-                    "names": ["$~=", "$~eşittir"],
+                    "names": ["$~eşittir"],
                     "inputs": [
                         {
                             "doc": "$~Karşılaştırılacak biçimlendirilmiş metin.",
@@ -3950,13 +3965,7 @@
                 },
                 "repeat": {
                     "doc": "$~Kendim olan yeni, biçimlendirilmiş bir metni, belirtilen sayıda tekrarlıyorum. Birden fazla paragrafım varsa, kopyalar arasındaki satır sonları korunuyor.",
-                    "names": [
-                        "$~×",
-                        "$~·",
-                        "$~🔁",
-                        "$~tekrarlandı",
-                        "$~tekrarlamak"
-                    ],
+                    "names": ["$~tekrarlandı", "$~tekrarlamak"],
                     "inputs": [
                         {
                             "doc": "$~Kendimi tekrar etme sayısı.",
@@ -3966,7 +3975,7 @@
                 },
                 "combine": {
                     "doc": "$~Bana biçimlendirilmiş başka bir metin verin, ikisini birleştireyim. İkimizden birinin birden fazla paragrafı varsa, paragraf araları korunur.",
-                    "names": ["$~+", "$~birleşik", "$~birleştirmek"],
+                    "names": ["$~birleşik", "$~birleştirmek"],
                     "inputs": [
                         {
                             "doc": "$~Eklenecek biçimlendirilmiş metin.",
@@ -3997,7 +4006,7 @@
                 "Eğer ondalık noktasından sonra belirli sayıda anlamlı basamağa sahip sayılar verirseniz, bu hassasiyet korunacaktır.",
                 "\\Random(1.00 10.00)\\"
             ],
-            "names": ["$~🎲", "$~Rastgele"],
+            "names": ["$~Rastgele"],
             "inputs": [
                 {
                     "names": "$~dakika",
@@ -4018,7 +4027,7 @@
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "Bunu düzenleyiciye kopyalayın ve ardından iki @Phrase birini seçin. Üçüncü @Phrase seçilen adı gösterdiğini göreceksiniz."
             ],
-            "names": ["$~🔘", "$~Seçenek"]
+            "names": ["$~Seçenek"]
         },
         "Button": {
             "doc": [
@@ -4030,7 +4039,7 @@
                 "\\Phrase(Button() → '')\\",
                 "Bu, akışın değerini metin olarak içeren bir @Phrase oluşturur. Bunu düzenleyiciye kopyalayıp tıklarsanız, \\⊥\\ ve \\⊤\\ arasında geçiş yaptığını göreceksiniz."
             ],
-            "names": ["$~🖱️", "$~Düğme"],
+            "names": ["$~Düğme"],
             "down": {
                 "names": "$~aşağı",
                 "doc": "$~@None ise, akış hem yukarı hem aşağı değerlerini sağlar. Eğer bir \\⊤\\, yalnızca düğmeye basıldığında değişir. Eğer bir \\⊥\\, yalnızca düğme bırakıldığında değişir."
@@ -4045,7 +4054,7 @@
                 "\\Pointer()\\",
                 "Sağladığı @Place , işaretçinin @Stage üzerinde nereye işaret ettiğine karşılık gelir."
             ],
-            "names": ["$~👆🏻", "$~İşaretçi"]
+            "names": ["$~İşaretçi"]
         },
         "Key": {
             "doc": [
@@ -4061,7 +4070,7 @@
                 "Eğer yalnızca bir @Key basıldığını değil, bırakıldığını öğrenmek istiyorsanız, bir @Boolean değeri sağlayabilirsiniz:",
                 "\\Key('a' ⊥)\\"
             ],
-            "names": ["$~⌨️", "$~Anahtar"],
+            "names": ["$~Anahtar"],
             "key": {
                 "names": "$~anahtar",
                 "doc": "$~@None ise, tüm anahtarlar sağlanır. Belirli bir @Text ise, yalnızca o anahtar sağlanır."
@@ -4136,7 +4145,7 @@
                 "Ancak, @Program bir sonraki döngüye yanıt vermeden önce değerlendirme yapması gerektiğinden, bunun ne kadar küçük olabileceğinin de sınırları vardır.",
                 "En küçüğü muhtemelen yaklaşık \\20ms\\ civarındadır."
             ],
-            "names": ["$~🕕", "$~Zaman"],
+            "names": ["$~Zaman"],
             "frequency": {
                 "names": ["$~sıklık"],
                 "doc": "$~Bu, zamanın akması gereken frekanstır. Varsayılanı \\33ms\\'dir, bu da saniyede yaklaşık 30 kezdir."
@@ -4154,7 +4163,7 @@
                 "\\Volume()\\",
                 "Bu, dinleyicilerin ne kadar yüksek sesle konuştuğunu duymak için harika!"
             ],
-            "names": ["$~🎤", "$~Hacim"],
+            "names": ["$~Hacim"],
             "frequency": {
                 "names": ["$~sıklık"],
                 "doc": "$~Örneklemeler arasındaki zaman."
@@ -4168,7 +4177,7 @@
                 "\\Pitch()\\",
                 "Bu, birinin konuşma veya şarkı söyleme tonunu duymak için harika."
             ],
-            "names": ["$~🎵", "$~Saha"],
+            "names": ["$~Saha"],
             "frequency": {
                 "names": ["$~sıklık"],
                 "doc": "$~Örneklemeler arasındaki zaman."
@@ -4183,7 +4192,7 @@
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "Ancak renkleri analiz ederek bir ışığın açık mı kapalı mı olduğuna veya belirli bir rengin sık kullanılıp kullanılmadığına karar verebilir, böylece izleyicilerin gösterdikleri renklerle performansı etkilemelerini sağlayabilirsiniz."
             ],
-            "names": ["$~🎥", "$~Kamera"],
+            "names": ["$~Kamera"],
             "width": {
                 "names": ["$~Genişlik"],
                 "doc": "$~Bir satırda örneklenecek @Color sayısı."
@@ -4212,7 +4221,7 @@
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Her @Phrase sonra nasıl durakladığını ve ilerlemeden önce @Button değişmesini beklediğini görüyor musunuz?"
             ],
-            "names": ["$~🎬", "Gösteri"],
+            "names": ["Gösteri"],
             "outputs": {
                 "names": "$~çıktılar",
                 "doc": "$~Sırayla gösterilecek çıktıların listesi."
@@ -4228,7 +4237,7 @@
                 "\"O\" harfinin nasıl zıpladığını görüyor musunuz? İlk değerlendirmede, ona @Stage üzerinde yüksek bir yer veriyorsunuz, ancak daha sonra @None alıyorsunuz; bu da @Motion onu yerçekiminin yerleştireceği herhangi bir konuma değiştirmesine olanak tanıyor.",
                 "Aşağıda, yapılandırmanın diğer birçok yoluna göz atabilirsiniz."
             ],
-            "names": ["$~⚽️", "$~Hareket"],
+            "names": ["$~Hareket"],
             "place": {
                 "doc": "$~Başlangıç yeri.",
                 "names": "$~yer"
@@ -4253,7 +4262,7 @@
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "İşte bu kadar! Bununla sohbet botları, metin tabanlı macera oyunları veya diğer performans türleri için metin tabanlı kontrol şemaları gibi her türlü performansı oluşturabilirsiniz."
             ],
-            "names": ["$~🗣️", "$~Sohbet"]
+            "names": ["$~Sohbet"]
         },
         "Placement": {
             "doc": [
@@ -4266,7 +4275,7 @@
                 "Bunu programınıza kopyalayıp @Output Output'u fare imleci veya klavye ile hareket ettirmeyi deneyin.",
                 "@Placement özelliğini özelleştirerek, belirli boyutlarda hareketi etkinleştirebilir veya devre dışı bırakabilir, bir @Place ne kadar hareket edeceğini ve akışın başladığı ilk @Place değiştirebilirsiniz."
             ],
-            "names": ["$~✥", "$~Atama"],
+            "names": ["$~Atama"],
             "inputs": [
                 {
                     "doc": "$~Başlamak için ilk yer.",
@@ -4300,7 +4309,7 @@
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
                 "Bu işlemde birçok şey ters gidebilir. İnternet bağlantınız kesilirse, URL hiçbir şeye yönlendirilmezse, URL herkese açık değilse veya URL bir HTML sayfası değilse... Bunların hepsi istisnaya yol açabilir. Çalışan bir sayfa bulursanız, tamamlanma yüzdesini gösteren bir @Number ve ardından sayfadaki kelimelerin bir @List elde edersiniz."
             ],
-            "names": ["$~🔗", "$~Websayfası"],
+            "names": ["$~Websayfası"],
             "url": {
                 "doc": "$~Alınacak HTML web sayfası URL'si.",
                 "names": "$~url"
@@ -4389,7 +4398,7 @@
                 "doc": "$~Bir BCP 47 dil kodu (örneğin, 'en-US'). Tarayıcınızın konuşma tanıma özelliği tarafından desteklenmiyorsa hata alırsınız. Varsayılan olarak tercih ettiğiniz dile döner."
             },
             "limit": {
-                "names": ["$~limit", "$~kelimeler"],
+                "names": ["$~kelimeler"],
                 "doc": "$~Birikmiş konuşmada tutulacak maksimum kelime sayısı (kayan pencere). Ayarlandığında, yalnızca en son kelimeler tutulur ve daha eski kelimeler atılır. Belirtilmezse, tüm kelimeler süresiz olarak saklanır."
             },
             "error": {
@@ -4412,7 +4421,7 @@
                 "Şunu deneyin — gerçek elinizin olduğu yere karşılık gelen bir emoji gösterir:",
                 "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
-            "names": ["$~🖐️", "$~El"],
+            "names": ["$~El"],
             "frequency": {
                 "names": ["$~sıklık"],
                 "doc": "$~Örnekler arasındaki süre."
@@ -4432,7 +4441,7 @@
                 "Anahatı @Number metre ile ölçeklendirebilir, başlangıç noktasını @Place ile taşıyabilir, yazı tipi kalınlığı seçebilir, italik yazı tipini açabilir ve noktalar arasındaki `aralığı` metre cinsinden mesafe olarak ayarlayabilirsiniz. Daha küçük bir `aralık`, anahatı daha yakından takip eder ve hem çizgiler hem de eğriler boyunca eşit aralıklı noktalar oluşturur.",
                 "Renk emojileri gibi bazı karakterlerin kenar çizgisi yoktur, bu nedenle puan eklemezler. Yazı tipini getirirken size boş bir @List verecek, hazır olduğunda ise dolduracaktır."
             ],
-            "names": ["$~🖋️", "$~Kontur"],
+            "names": ["$~Kontur"],
             "inputs": [
                 {
                     "doc": "$~Harflerinin ana hatlarını çizmem gereken metin.",
@@ -4486,7 +4495,7 @@
                 "Bu girdiler değişirse — diyelim ki bir tepki bana farklı bir saat dilimi verir — yeni ayarlarla anlar oluşturmaya başlarım.",
                 "@Time'dan nasıl farklıyım? @Time bir program başladığından beri geçen milisaniyeleri sayar, bu animasyon için iyidir. Ben sana bir takvim ve saat diliminde duvar saati tarihini ve saatini söylerim, bu saatler ve takvimler için iyidir."
             ],
-            "names": ["$~⏰", "$~Şimdi"],
+            "names": ["$~Şimdi"],
             "frequency": {
                 "names": ["$~sıklık"],
                 "doc": "$~Yeni bir @Moment'i ne sıklıkta yaptığım, saniye, dakika veya saat cinsinden. Eğer \\ø\\, her \\1s\\ ilerlerim."
@@ -4515,7 +4524,7 @@
                 "@Moment.era, @Moment.week ve @Moment.weekday bilgi amaçlıdır: @Now, Moment yaparken bunları doldurur, ama biçimlendirirken göz ardı edilir.",
                 "Zaman geçtikçe güncellenen bir Moment akışı — bir saat — istersen, @Now'a bak. Programın başladığından beri geçen milisaniyeleri istersen — canlandırma için — @Time'a bak."
             ],
-            "names": ["$~📅", "$~An"],
+            "names": ["$~An"],
             "year": {
                 "names": ["$~yıl"],
                 "doc": "$~Yıl, benim takvimimde. Örneğin, Miladi yıl \\2026\\, İbrani yılı \\5786\\."
@@ -4582,7 +4591,7 @@
                 "Bu örnek, gerçek yüzün nerede olursa olsun yüzüne uyan bir emoji gösterir:",
                 "\\yüz: 🙂()\n💬((yüz.gülümseme ? '😀' yüz.ağızAçık ? '😮' '😐') place: yüz.yer)\\"
             ],
-            "names": ["$~🙂", "$~Yüz"],
+            "names": ["$~Yüz"],
             "frequency": {
                 "names": ["$~frekans"],
                 "doc": "$~Örnekler arasındaki süre."
@@ -4605,7 +4614,7 @@
                 "Ayrıca sadece tek bir çeşit şeyi arayıp geri kalanını yok sayabilirsin:",
                 "\\şeyler: 📦(category: 'cat')\n💬(şeyler.📏() > 0 ? '🐈' '…')\\"
             ],
-            "names": ["$~📦", "$~Nesneler"],
+            "names": ["$~Nesneler"],
             "inputs": [
                 {
                     "doc": "$~Örnekler arasındaki süre.",
@@ -4837,7 +4846,7 @@
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "İşleri tam olarak nasıl düzenleyeceğim, bana verdiğiniz @Arrangement Arrangement'a bağlıdır."
             ],
-            "names": ["$~🔳", "$~Grup"],
+            "names": ["$~Grup"],
             "layout": {
                 "doc": "$~@Output'u yerlerine koymak için kullanılacak düzenleme.",
                 "names": "$~düzen"
@@ -4894,7 +4903,7 @@
             },
             "rotation": {
                 "doc": "$~Merkezimin etrafında ne kadar eğimli olmam gerektiği @Pose'umda farklı.",
-                "names": ["$~📐", "$~rotasyon"]
+                "names": ["$~rotasyon"]
             },
             "scale": {
                 "doc": "$~Orijinal boyutuma göre ne kadar büyük olmam gerekiyor?",
@@ -4926,7 +4935,7 @@
             },
             "duration": {
                 "doc": "$~@Phrase.duration ile aynı!",
-                "names": ["$~⏳", "$~süre"]
+                "names": ["$~süre"]
             },
             "style": {
                 "doc": "$~@Phrase.style ile aynı!",
@@ -4943,7 +4952,7 @@
                 "Ayrıca isteğe bağlı olarak bana @Output yapabileceği her şeyi verebilirsiniz; boyutumu, yazı tipimi, döndürmeyi değiştirmek ve @Pose ve @Sequence ile inanılmaz danslarımı yapmak da dahil.",
                 "Ayrıca beni @Stage Stage'de seçebilir ve yan taraftaki paleti 🎨 kullanarak düzenleyebilirsiniz; bu, farklı yazı tiplerini denemek ve @Text Text'iniz için doğru yazı tipini seçmek için harika bir yöntemdir."
             ],
-            "names": ["$~💬", "$~İfadeetmek"],
+            "names": ["$~İfadeetmek"],
             "text": {
                 "doc": "$~@Stage'de gösterilecek karakterler.",
                 "names": "$~metin"
@@ -4962,7 +4971,7 @@
             },
             "wrap": {
                 "doc": "$~Sembolleri sarmam gereken kenar veya sarmamam gerekiyorsa \\ø\\.",
-                "names": ["$~↵", "$~dürüm"]
+                "names": ["$~dürüm"]
             },
             "alignment": {
                 "doc": "$~@Phrase.wrap sınır kümesi varsa, sembolleri kenarın başlangıcına, ortasına veya sonuna hizalamalı mıyım?",
@@ -5050,7 +5059,7 @@
             },
             "duration": {
                 "doc": "$~Sahnede farklı bir yere geçildiğinde uygulanacak süre.",
-                "names": ["$~⏳", "$~süre"]
+                "names": ["$~süre"]
             },
             "style": {
                 "doc": "$~Sahnede farklı bir yere geçerken kullanılacak animasyon stili.",
@@ -5064,11 +5073,11 @@
         },
         "Arrangement": {
             "doc": "$~Verse'deki @Row, @Stack, @Grid ve @Free gibi birçok diğer düzenleme türüne ilham kaynağıyım. @Group ile yakın bir şekilde çalışıyorum",
-            "names": ["$~⠿", "$~Ayarlama"]
+            "names": ["$~Ayarlama"]
         },
         "Row": {
             "doc": "$~Ben @Row'um, @Output'un yatay bir @Row, arada isteğe bağlı dolgu var. İkizim @Stack ile tanıştınız mı?",
-            "names": ["$~➡", "$~Sıra"],
+            "names": ["$~Sıra"],
             "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] satır",
             "alignment": {
                 "doc": "$~Her sütunun başında, ortasında veya sonunda metin hizalanacak mı?",
@@ -5081,7 +5090,7 @@
         },
         "Stack": {
             "doc": "$~Ben @Stack'im, @Output'un dikey @Stack, arada isteğe bağlı dolgu ile. İkizim @Row ile tanıştınız mı?",
-            "names": ["$~⬇", "$~Yığın"],
+            "names": ["$~Yığın"],
             "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] yığın",
             "alignment": {
                 "doc": "$~Metnin her satırın başına, ortasına veya sonuna hizalanıp hizalanmayacağı.",
@@ -5094,7 +5103,7 @@
         },
         "Grid": {
             "doc": "$~@Output'un grid'iyim. Bana satır ve sütun sayısını verin, isteğe bağlı dolgu ve hücre boyutlarıyla düzenli bir düzenleme yapayım.",
-            "names": ["$~▦", "$~Izgara"],
+            "names": ["$~Izgara"],
             "description": "$~$rows satır $columns sütun ızgarası",
             "rows": {
                 "doc": "$~Gridde kaç satır olacak.",
@@ -5127,7 +5136,7 @@
         },
         "Shape": {
             "doc": "$~Ben tüm şekillere ilham kaynağıyım. @Stage'e hangi şeklin olması gerektiğini söylemekte faydalıyım.",
-            "names": ["$~⬟", "$~Şekil"],
+            "names": ["$~Şekil"],
             "form": {
                 "doc": "$~Ben gösterişli bir şeklim. Her şekil, düzenlemesini tanımlamak için farklı bilgiler gerektirir.",
                 "names": "$~biçim"
@@ -5280,7 +5289,7 @@
                 "$~@Output tutması için bir @Pose yakalıyorum ve onların hareketlerinin yapı taşıyım. Birisi inanılmaz bir duruş sergilediğinde, bir an durakladığında ve herkes ona baktığında olan o anı biliyor musunuz? İşte o benim.",
                 "Bir pozun hazırlanmasında çok fazla emek var. Ne tür pozlar verebileceğinizi görmek için birçok farklı önerimi inceleyin!"
             ],
-            "names": ["$~🤪", "$~Poz"],
+            "names": ["$~Poz"],
             "style": {
                 "doc": "$~Bu poza geçerken kullanılacak animasyon stili.",
                 "names": "$~stil"
@@ -5336,7 +5345,7 @@
                 "\\Color.blue\\",
                 "Bu kısaltmalar sizin dilinizde de geçerlidir, bu nedenle Fransızca konuşan biri \\couleur.rouge\\🪲 ve Japonca konuşan biri \\色.赤\\🪲 yazabilir. Kısaltmalar şunlardır: kırmızı, turuncu, sarı, yeşil, mavi, mor, kahverengi, pembe, siyah, beyaz ve gri."
             ],
-            "names": ["$~🌈", "$~Renk"],
+            "names": ["$~Renk"],
             "lightness": {
                 "doc": "$~\\0\\ ile \\1\\ arasında ne kadar açık olmalıyım, \\0\\'da siyahtan, \\0.5\\'te griye, \\1\\'de beyaza.",
                 "names": ["$~hafiflik", "$~ben"]
@@ -5461,14 +5470,14 @@
                 "Bu, \"/başlangıçta (%0), 360 derece eğimle başla ve 0 derece eğimle bitir/\" anlamına geliyor. Bu da bizi sonsuza dek kendi etrafımızda döndürecek, çünkü ben @Phrase Phrase'in dinlenme pozisyonunda ayarlanmış durumdayım!",
                 "Diğer girdileri kullanarak kendi yaratıcı danslarınızı deneyin."
             ],
-            "names": ["$~💃", "$~Sekans"],
+            "names": ["$~Sekans"],
             "poses": {
                 "doc": "$~0% ile 100% arasındaki yüzdeliklerin @Map'i, her biri bir @Pose ile eşleştirilmiştir. Tüm yüzdeleri sağlamanız gerekmez; bana verdiğiniz yüzdeler arasında bir @Output'u sorunsuzca taşıyacağım.",
                 "names": "$~pozlar"
             },
             "duration": {
                 "doc": "$~Bu dansı ne kadar süre yapmalıyım? Tekrar edeceksem, süreye herhangi bir zaman eklemeyeceğim, sadece daha hızlı dans edeceğim.",
-                "names": ["$~⏳", "$~süre"]
+                "names": ["$~süre"]
             },
             "style": {
                 "doc": "$~Dans için hangi stili kullanmalıyım?",
@@ -5834,7 +5843,7 @@
         },
         "Place": {
             "doc": "$~@Stage'de bir konumum. Tüm girdilerim isteğe bağlıdır, çünkü varsayılan olarak merkezdeyim.",
-            "names": ["$~📍", "$~Yer"],
+            "names": ["$~Yer"],
             "x": {
                 "doc": "$~X ekseninde bir konum.",
                 "names": "$~X"
@@ -5849,12 +5858,12 @@
             },
             "rotation": {
                 "doc": "$~Bu pozisyonda dönüş",
-                "names": ["$~📐", "$~rotasyon"]
+                "names": ["$~rotasyon"]
             }
         },
         "Velocity": {
             "doc": "$~@Output @Stage üzerinde ne kadar hızlı hareket ettiğini ölçüyorum — x ve y eksenlerinde saniyede metre cinsinden ve dönüşte saniyede derece cinsinden. Girişlerim isteğe bağlıdır; varsayılan olarak hiçbir şey hareket etmez.",
-            "names": ["$~💨", "$~Hız"],
+            "names": ["$~Hız"],
             "x": {
                 "doc": "$~X ekseninde her saniye kaç metre hareket etmemiz gerekiyor.",
                 "names": "$~X"
@@ -5865,12 +5874,12 @@
             },
             "angle": {
                 "doc": "$~Her saniye kaç derece döndürülmeli",
-                "names": ["$~açı", "$~°"]
+                "names": ["$~açı"]
             }
         },
         "Matter": {
             "doc": "$~Sahnede diğer çıktılarla nasıl etkileşime girdiğimi etkileyen çıktının fiziksel özellikleriyim.",
-            "names": ["$~⚛️", "$~Konu"],
+            "names": ["$~Konu"],
             "mass": {
                 "doc": "$~Bir ağırlık, kilogram cinsinden",
                 "names": "$~yığın"
@@ -5928,7 +5937,7 @@
                 "İsterseniz çerçeve kenarı da verebilirsiniz, ben de onu kırpacağım.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": ["$~🎭", "$~Sahne"],
+            "names": ["$~Sahne"],
             "content": {
                 "doc": "$~Sahnede gösterilecek @Output listesi.",
                 "names": "$~içerik"
@@ -5981,7 +5990,7 @@
             },
             "rotation": {
                 "doc": "$~@Group.rotation ile AYNI",
-                "names": ["$~📐", "$~rotasyon"]
+                "names": ["$~rotasyon"]
             },
             "scale": {
                 "doc": "$~@Group.scale AYNI",
@@ -6013,7 +6022,7 @@
             },
             "duration": {
                 "doc": "$~@Phrase.duration ile AYNI!",
-                "names": ["$~⏳", "$~süre"]
+                "names": ["$~süre"]
             },
             "style": {
                 "doc": "$~@Phrase.style ile AYNI!",
@@ -6076,7 +6085,7 @@
                 "@TextLiteral TextLiteral'ın @Language özelliği varsa onu kullanacağım, yoksa seçilen dili kullanacağım.",
                 "Ayarlardan bir ses seçebilirsiniz."
             ],
-            "names": ["$~🔊", "$~Söylemek"],
+            "names": ["$~Söylemek"],
             "text": {
                 "doc": "$~Sesli olarak okumam gereken metin.",
                 "names": "$~metin"
@@ -6085,7 +6094,7 @@
         },
         "Gesture": {
             "doc": "$~Ben, @Hand akışından yayılan, kamera tarafından algılanan bir el pozunun anlık görüntüsüyüm. Yerim, elin sahnede nerede olduğunu gösterir; parmaklarım, kaç parmağın açık olduğunu gösterir; açık olma durumu, el açık olduğunda (3 veya daha fazla parmak açık olduğunda) doğrudur; başparmak, işaret parmağı, orta parmak, yüzük parmağı ve serçe parmağım ise hangi parmakların açık olduğunu gösterir. Avuç içi, avuç içi kameraya dönük olduğunda doğrudur, elin arkası dönük olduğunda yanlıştır.",
-            "names": ["$~✋", "$~Jestyapmak"],
+            "names": ["$~Jestyapmak"],
             "place": {
                 "doc": "$~Elin sahnede bulunduğu yer.",
                 "names": ["$~yer"]
@@ -6158,7 +6167,7 @@
         },
         "Expression": {
             "doc": "$~Ben, kameranın algıladığı ve @Face akışının yaydığı bir yüz ifadesinin anlık görüntüsüyüm. Yerim, yüzün sahnede nerede olduğunu söyler. @Expression.leftEyeOpen, @Expression.rightEyeOpen ve @Expression.eyesOpen özelliklerim gözlerin açık olup olmadığını söyler. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning ve @Expression.browsRaised özelliklerim yüzün ne yaptığını söyler. Her birinin, ne kadar güçlü olduğunu gösteren, 0 ile 1 arasında eşleşen bir miktarı vardır (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount). @Expression.turn ve @Expression.tilt özelliklerim başın hangi yöne baktığını derece cinsinden söyler.",
-            "names": ["$~😀", "$~İfade"],
+            "names": ["$~İfade"],
             "place": {
                 "doc": "$~Yüzün sahnede nerede olduğu.",
                 "names": ["$~yer"]
@@ -6218,7 +6227,7 @@
         },
         "Thing": {
             "doc": "$~Ben kameranın gördüğü bir şeyim. @Objects akışı beni bir @List içinde gönderir. İsmim ne olduğumu söyler, güvenim modelin ne kadar emin olduğunu söyler, yerim sahnede nerede olduğumu söyler, genişliğim ve yüksekliğim ise ne kadar büyük göründüğümü söyler.",
-            "names": ["$~🔎", "$~Şey"],
+            "names": ["$~Şey"],
             "name": {
                 "doc": "$~Şeyin ne olduğu, senin dilinde.",
                 "names": ["$~isim"]
@@ -6262,7 +6271,7 @@
                 "Biçimlendirilecek kendime ait bir görünüşüm yok, bu yüzden her zamanki görünüm girişlerinin hiçbirini almam — boyut, yer, renk ya da hareket yok. Nasıl göründüğüm izleyicinin seçimidir, ayarlarında yapılır ve senin yerleşimine yerleştirilmek yerine sahneye sabitlenir; hiç yer kaplamam, bu yüzden beni bir @Row ya da @Stack içine koymak yanımdaki hiçbir şeyi kıpırdatmaz. Müziği kendin çizmek için @Beat kullan: sana her vuruşu duyulduğu anda verir, istediğin çıktıyı yönlendirebilirsin.",
                 "Değerlendirmeler boyunca çalmayı sürdürürüm: ben çalarken notalarımı düzenle, değişiklik baştan başlamak yerine bir sonraki vuruşta araya eklenir; işte bir ezgiyi çalma sırasında değiştirmeyi müzikal yapan budur. Beni baştan yeniden çalmak için @Music/replay'e bak; beni yerinde durdurup aynı noktadan sürdürmek için @Music/pause'a bak."
             ],
-            "names": ["$~🎼", "$~Müzik"],
+            "names": ["$~Müzik"],
             "tracks": {
                 "doc": "$~Bir @Track ya da aynı anda çalınan bir liste. Her parça tek bir enstrümanla tek bir sestir, bu yüzden bir liste bir gruptur.",
                 "names": "$~parçalar"
@@ -6419,7 +6428,7 @@
                 "Eslerle doldurmak bir turun ihtiyacı olan tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirinden uzaklaşmak yerine adım adım kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\ her iki listenin de aynı türden şeyi tutmasına ihtiyaç duyar.",
                 "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlen: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlen] instrument: 🔈.🪈)\n\t\t🎶([:dinlen :melodi] instrument: 🔈.🎻)\n\t])\\"
             ],
-            "names": ["$~🎶", "$~Parça"],
+            "names": ["$~Parça"],
             "notes": {
                 "doc": "$~Sırayla çalınacak notalar: bir nota için bir sayı, bir es için \\ø\\, bir akor için \\{1 3 5}\\ gibi bir küme veya bir giriş kendi ses seviyesine ihtiyaç duyduğunda bir @Note. Bir sayıya yazılan bir nota değeri — \\3𝅗𝅥\\ — o girişin ne kadar sürdüğünü söyler.",
                 "names": "$~notalar"
@@ -6468,7 +6477,7 @@
                 "Bir triole dürüst aritmetiktir: \\♪(1 2beats ÷ 3)\\ bunlardan üçünün iki vuruş doldurduğunu söyler. Uzunluğum da bir nota değeri olabilir, yani \\♪(1 1𝅗𝅥)\\ ve \\♪(1 2beats)\\ aynı iki vuruştur.",
                 "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
-            "names": ["$~♪", "$~Nota"],
+            "names": ["$~Nota"],
             "degree": {
                 "doc": "$~Ne çalınacağı: bir nota için bir sayı, bir es için \\ø\\ veya bir akor için bir sayı kümesi, tıpkı bir @Track içindeki çıplak bir giriş gibi. Sayıdaki bir nota değeri — \\3𝅗𝅥\\ — ne kadar sürdüğümü söyler ve her ikisini de yazarsan @Note/beat'e üstün gelir.",
                 "names": "$~derece"
@@ -6483,7 +6492,7 @@
             }
         },
         "Instrument": {
-            "names": ["$~🔈", "$~Çalgı"],
+            "names": ["$~Çalgı"],
             "id": {
                 "doc": "$~Hangi palet girişi olduğum.",
                 "names": "$~kimlik"
@@ -6494,49 +6503,49 @@
                         "$~Bir piyano. Gerçek bir piyanodan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎹", "$~piyano"]
+                    "names": ["$~piyano"]
                 },
                 "violin": {
                     "doc": [
                         "$~Bir keman. Gerçek bir kemandan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎻", "$~keman"]
+                    "names": ["$~keman"]
                 },
                 "drums": {
                     "doc": [
                         "$~Bir davul seti. Kaydedildi ve perdelenmek yerine bir set: sayılar bir nota yerine setin bir parçasını seçer — \\1\\ bas davul, \\2\\ trampet, \\3\\ hi-hat, \\4\\ zil, \\5\\ tom tom, \\6\\ çan — ve \\7\\ tekrar bas davula döner.",
                         "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🥁", "$~davul"]
+                    "names": ["$~davul"]
                 },
                 "flute": {
                     "doc": [
                         "$~Bir flüt. Gerçek bir flütten kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🪈", "$~flüt"]
+                    "names": ["$~flüt"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Bir trompet. Gerçek bir trompetten kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎺", "$~trompet"]
+                    "names": ["$~trompet"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Bir saksofon, tenor. Gerçek bir saksofondan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎷", "$~saksofon", "$~saks"]
+                    "names": ["$~saksofon", "$~saks"]
                 },
                 "bell": {
                     "doc": [
                         "$~Bir çan — orkestra çanları, tokmakla vurulan türden. Kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🔔", "$~çan"]
+                    "names": ["$~çan"]
                 },
                 "didgeridoo": {
                     "doc": [
@@ -6546,14 +6555,14 @@
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
-                    "names": ["$~🐱", "$~kedi", "$~miyav"],
+                    "names": ["$~kedi", "$~miyav"],
                     "doc": [
                         "$~Bir kedi — aslında tek bir kediden oluşan koca bir set. Gerçek bir kediden kaydedildi ve perdelenmek yerine bir set: sayılar bir nota yerine kedinin ne söylediğini seçer — \\1\\ sinirli, \\2\\ yalvaran, \\3\\ aç, \\4\\ itiraz eden, \\5\\ yakaran, \\6\\ istekli, \\7\\ rahatsız, \\8\\ korkmuş, \\9\\ hassas, \\10\\ rahatlamış, \\11\\ yalnız, \\12\\ mırlama — ve \\13\\ tekrar sinirlenmişe dönüyor. Bunun yerine notalar çalan bir kedi için bkz. \\🔈.😺\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
-                    "names": ["$~🐶", "$~köpek", "$~havlama"],
+                    "names": ["$~köpek", "$~havlama"],
                     "doc": [
                         "$~Bir köpek — aslında tam bir takım. Gerçek köpeklerden kaydedildi ve perdelenmiş değil bir takım: sayılar bir nota yerine hangi havlamayı duyacağını seçer, en derinden en keskine doğru gider — \\1\\ boğuk, \\2\\ uyarıcı, \\3\\ koruyucu, \\4\\ tetikte, \\5\\ ısrarcı, \\6\\ talep eden, \\7\\ duyuran, \\8\\ istekli, \\9\\ heyecanlı, \\10\\ sabırsız, \\11\\ havlayan, \\12\\ tiz — ve \\13\\ tekrar boğuğa dönüyor. Bunun yerine notalar çalan bir köpek için bkz. \\🔈.🐕\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
@@ -6585,28 +6594,28 @@
                         "$~Aynı kedi, akort edilmiş. Takımın \\🔈.🐱\\ çaldığı on iki kayıt arasından, bu sabit bir perdeyi tutan tek olanı ve bir takım değil perdelenmiş, bu yüzden sayılar notaları seçer ve onunla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalındığında, bir miyavlama söylenmiş yerine gerilmiş gibi gelmeye başlar, bu yüzden ortanın bir oktav kadar yakınında en mutludur.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~😺", "$~perdeliKedi"]
+                    "names": ["$~perdeliKedi"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Aynı köpekler, ama akort edilmiş. Setin oluştuğu bütün havlamalar arasından bu, sabit bir perde tutan tek olanıdır. Ayrıca bu bir set değil, perdeli bir sestir. Yani sayılar notaları seçer ve onunla bir ezgi yazabilirsin. Kaydedildiği notadan uzakta çalındığında, bir havlama havlama gibi değil, gerilmiş gibi duyulmaya başlar. Bu yüzden orta perdenin bir oktav kadar yakınında en mutludur.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🐕", "$~perdeliKöpek"]
+                    "names": ["$~perdeliKöpek"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Bir klasik gitar. Naylon telleri pena yerine parmaklarla çekilir. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer. Sade \\guitar\\ bunu ifade eder. Yani gitar isteyen eski projeler bunu çalar.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎸", "$~akustikGitar", "$~gitar"]
+                    "names": ["$~akustikGitar", "$~gitar"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~Bir elektro-akustik gitar — içinde bir manyetik bulunan içi boş bir gövde. Çelik tellidir, bu yüzden naylon \\🔈.🎸\\ gitardan daha parlak ve daha uzun süre tınlar. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~⚡", "$~elektroGitar"]
+                    "names": ["$~elektroGitar"]
                 },
                 "voice": {
                     "doc": [
@@ -6616,7 +6625,7 @@
                         "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Heceler <Uluslararası Fonetik Alfabe@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ile yazılır; bu, her harfin bir yazım değil bir /ses/ olduğu bir alfabedir — yani \\'ʃi'\\ hangi dilde yazarsan yaz, /she/ kelimesinin başındaki sestir. Yapabileceğim tüm sesleri görmek ve her birini duymak için düzenleyicinin altındaki 🤖 düğmesine bas."
                     ],
-                    "names": ["$~🤖", "$~ses"]
+                    "names": ["$~ses"]
                 }
             },
             "doc": [
@@ -6750,6 +6759,14 @@
                 "remix": {
                     "tip": "$~değiştirmek için bu projenin kendi kopyanı oluştur",
                     "label": "$~yeniden düzenle"
+                },
+                "languages": "$~bu projenin hangi dillerde yazıldığını göster",
+                "addLanguage": "$~bu projeyi bu dilde de yaz",
+                "removeLanguage": "$~bu projeyi bu dilde yazmayı bırak",
+                "firstLanguage": "$~bunu projenin ilk dili yap",
+                "removeUnusedLanguages": {
+                    "tip": "$~bu projenin kodunun kullanmadığı dilleri kaldır",
+                    "label": "$~kullanılmayanları kaldır"
                 }
             },
             "field": {
@@ -6776,22 +6793,39 @@
                 "projectsNotSavingOnline": "$~Bazı projeler yalnızca bu cihazda, henüz çevrimiçi değil."
             },
             "dialog": {
-                "translate": {
-                    "header": "$~Çevir",
+                "languages": {
+                    "header": "$~Diller",
                     "explanation": [
-                        "$~Bunlar projenizin kullandığı dillerdir.",
-                        "Projenizi desteklenen diğer dillere çevirmek için, önce birincil kaynak dili, ardından yeni bir dil seçin.",
-                        "Çeviriler kusursuz olmayabilir, bu yüzden lütfen sonuçları gözden geçirin!"
+                        "$~Bunlar projenin yazıldığı dillerdir.",
+                        "Yazmak için bir dil ekleyebilir, kullanmadığın bir dili kaldırabilir veya tüm projeyi yeni bir dile çevirebilirsin."
                     ],
+                    "count": "$~$#count[$count dil|$count dil]",
+                    "meaning": [
+                        "$~Bir projenin dilleri, kodunun hangi isimleri ve kelimeleri kullanabileceğini belirler. Projen İspanyolca yazıldıysa, burada İspanyolcaya ihtiyacı vardır, yoksa şunun gibi isimler \\Frase\\ hiçbir anlam ifade etmez.",
+                        "Projeni açan herkes bu dilleri yükler ve ilk dil, çıktının nasıl düzenleneceğini belirler. İngilizce isimler her projede her zaman çalışır."
+                    ],
+                    "unused": "$~kullanılmıyor",
+                    "unloaded": "$~yüklenemedi",
+                    "checking": "$~Kodunun kullandığı diller aranıyor…",
+                    "complete": "$~Kodun, projenin eksik olan hiçbir dilini kullanmıyor.",
                     "search": {
                         "description": "$~Dilleri isme veya bölgeye göre filtrele",
                         "placeholder": "$~dil veya bölge"
+                    },
+                    "tab": {
+                        "label": "$~dil ayarları",
+                        "labels": ["$~Yazıldığı dil", "$~Çevir"],
+                        "tips": [
+                            "$~bu projenin yazıldığı dilleri gör ve değiştir",
+                            "$~bu projenin isimlerini, metnini ve dokümantasyonunu başka bir dile çevir"
+                        ]
                     }
                 }
             },
             "subheader": {
                 "source": "$~Kaynak",
-                "destination": "$~Varış noktası"
+                "destination": "$~Varış noktası",
+                "missing": "$~Belki eksik"
             },
             "defaults": {
                 "starterCode": "¶Boş projenize hoş geldiniz! Bu bir yorumdur.\n\nBunu projenizi açıklamak, not almak ve\nçalışmanız hakkında insanların bilmesini istediğiniz şeyleri açıklamak için kullanabilirsiniz.\n\n*Kalın*, /italik/, <links@https://wordplay.dev> ve daha fazlasını destekler.¶\nİfade('merhaba')"
@@ -6814,8 +6848,8 @@
                 "sourceToggle": "$~Bu /toggle/ düğmesi *kaynak dosyayı* gösterir veya gizler. Bu satırdaki *diğer /toggle/ düğmeleri* diğer kutucuklar için de aynı işlevi görür.",
                 "addSource": "$~Bazı projeler, verilerin birinde saklandığı ve *ana* kaynağa aktarıldığı *birden fazla* kaynak dosyasından faydalanır. \"/Kaynak ekle/\" düğmesi yeni bir dosya oluşturur.",
                 "share": "$~/paylaş/ iletişim kutusu, projenizi *galerilerle*, *herkesle* paylaşmanıza veya başka bir yerde paylaşmak üzere *metin* olarak kopyalamanıza olanak tanır.",
-                "translate": "$~/çevir/ düğmesi, projenizin *adlarını*, *metinlerini* ve *belgelerini* diğer dillere *çevirebilir*.",
-                "checkpoints": "$~/revisions/ paneli, projenizin önceki sürümlerine *geri dönmenizi* ve hatırlamak istediğiniz sürümlerin *anlık görüntüsünü* almanızı sağlar."
+                "checkpoints": "$~/revisions/ paneli, projenizin önceki sürümlerine *geri dönmenizi* ve hatırlamak istediğiniz sürümlerin *anlık görüntüsünü* almanızı sağlar.",
+                "languages": "$~/diller/ düğmesi projenin hangi dillerde yazıldığını gösterir, bir dil eklemene veya kaldırmana izin verir ve projenin *isimlerini*, *metnini* ve *dokümantasyonunu* yeni bir dile *çevirebilir*."
             },
             "options": {
                 "layout": {
@@ -7097,7 +7131,8 @@
                 "toggle": "$~açıklamaları göster ve gizle",
                 "highlightMajor": "$~bu hatanın kodunu düzenleyicide göster",
                 "highlightMinor": "$~bu uyarının kodunu düzenleyicide göster",
-                "highlightStep": "$~bu değerlendirme adımının kodunu düzenleyicide göster"
+                "highlightStep": "$~bu değerlendirme adımının kodunu düzenleyicide göster",
+                "elsewhere": "$~Bunun düzeltilebileceği yeri aç"
             },
             "nodeDescription": "$~$description .",
             "severity": {
@@ -7137,7 +7172,8 @@
                 "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın.",
                 "rotate": "$~döndür $name",
                 "resize": "$~$name yeniden boyutlandır",
-                "resetZoom": "$~Yakınlaştırmayı sahnenin yerine sıfırla"
+                "resetZoom": "$~Yakınlaştırmayı sahnenin yerine sıfırla",
+                "perform": "$~gerçekleştir: programı yeniden başlat, çalıştır ve ekranı sahneyle doldur"
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",
@@ -7146,7 +7182,7 @@
             "tour": {
                 "launch": "$~sahneyi gezin",
                 "stage": "$~/stage/, programınızın *mevcut değerini* gösterir. Bu değer, sayı veya liste gibi *ham bir değer*, görebileceğiniz *görsel çıktı* veya duyabileceğiniz *ses* olabilir.",
-                "reset": "$~/Sıfırla/ düğmesi, programınızın değerlendirmesini *başlangıca* geri sarar ve herhangi bir zamanı, tuşu veya giriş akışını sıfırdan yeniden oynatır.",
+                "reset": "$~/sıfırla/ düğmesi, programının değerlendirmesini her modda *baştan* başlatır: ▶️ *oynat* modunda en baştan yeniden çalışır, ✏️ *düzenle* modunda ilk değerlendirmeden sonra durur, böylece düzenlemelerinin ilk çıktıya etkisini görebilirsin, ⏸️ *hata ayıklama* modunda ise en ilk adımda durur.",
                 "zoom": "$~/zoom/ düğmeleri, sahneyi yakınlaştırmanıza ve uzaklaştırmanıza olanak tanıyarak çıktınızı daha net veya daha ayrıntılı bir şekilde görmenizi sağlar.",
                 "grid": "$~/grid/ düğmesi, tasarım yaparken nesneleri hassas bir şekilde yerleştirmenize yardımcı olacak şekilde sahnede bir *ızgara* gösterir.",
                 "lock": "$~/Kilit/ düğmesi, sahnenin görünümünü sabitler. *Kilitli* olduğunda, sahne sabit kalır; *kilitsiz* olduğunda ise serbestçe kaydırma ve yakınlaştırma yapabilirsiniz.",
@@ -7194,25 +7230,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~değerlendirme modu",
-                    "labels": ["$~düzenle", "$~oynat", "$~adım"],
+                    "labels": ["$~düzenle", "$~hata ayıkla", "$~oynat"],
                     "tips": [
-                        "$~düzenleme moduna geç: sahne mevcut karede donmuş kalırken programı değiştir",
-                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver",
-                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle"
+                        "$~düzenleme kipine geç: programı olduğu yerde duraklat ve değiştir; düzenlemeler bu noktada etkilerini göstermek için yeniden oynatılır",
+                        "$~hata ayıklama kipine geç: programın değerlendirmesini adım adım izle, değerler kodun yanında ve palette gösterilir",
+                        "$~oynatma kipine geç: programı olduğu yerden canlı çalıştır, girdilere gerçek zamanlı yanıt ver"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~değerlendirme modu",
-                    "labels": ["$~görüntüle", "$~oynat", "$~adım"],
+                    "labels": ["$~görüntüle", "$~hata ayıkla", "$~oynat"],
                     "tips": [
-                        "$~görüntüleme moduna geç: sahne mevcut karede donmuş kalırken programı oku",
-                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver",
-                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle"
+                        "$~görüntüleme kipine geç: programı olduğu yerde duraklat ve oku",
+                        "$~hata ayıklama kipine geç: programın değerlendirmesini adım adım izle, değerler kodun yanında ve palette gösterilir",
+                        "$~oynatma kipine geç: programı olduğu yerden canlı çalıştır, girdilere gerçek zamanlı yanıt ver"
                     ]
                 },
                 "announce": "$~$mode modu",
-                "exception": "$~Programda bir hata vardı, bu yüzden inceleyebilmen için adım moduna geçti.",
-                "toggle": "$~düzenleme ve oynatma modları arasında geçiş yap"
+                "exception": "$~Programda bir hata oluştu, bu yüzden onu inceleyebilmen için hata ayıklama kipine geçti.",
+                "toggle": "$~düzenleme ve oynatma modları arasında geçiş yap",
+                "resuming": "$~$position adımından devam ediliyor",
+                "performing": "$~gösteri $number, baştan"
             },
             "gate": {
                 "start": {
@@ -7256,12 +7294,12 @@
                 "reset": "$~yeniden başlatma performansı"
             },
             "tour": {
-                "timeline": "$~/Timeline/ özelliği, programınızın değerlendirme sürecini adım adım *ileri* ve *geri* olarak incelemenizi sağlar. Programınızın değerini *nasıl* hesapladığını görmek ve özellikle istediğiniz davranışı görmüyorsanız, @wordplay programlarının nasıl değerlendirildiğine dair zihinsel bir model oluşturmak için harika bir yoldur.",
+                "timeline": "$~/zaman çizelgesi/ programının değerlendirmesinde bir adım bir adım *ileri* ve *geri* gitmene olanak tanır. ✏️ *düzenle* ve ⏸️ *hata ayıklama* modlarında sahnenin araç çubuğunda görünür. Programının değerini *nasıl* hesapladığını görmek ve @wordplay programlarının nasıl değerlendirildiğine dair zihinsel bir model oluşturmak için harika bir yoldur, özellikle istediğin davranışı göremiyorsan.",
                 "annotations": "$~/annotations/ penceresi, her adımın açıklamalarının göründüğü yerdir. Programınızda adım adım ilerlerken, neler olduğunu burada okuyacaksınız.",
                 "editor": "$~/editör/ kodunuzu gösterir. Adım adım ilerlerken, programınızın her bölümünün *değeri*, değerlendirildikten *sonra* o bölümün yanında görünecektir; böylece program çalışırken değerlerin nasıl biriktiğini izleyebilirsiniz.",
                 "history": "$~/history/ dizini, programınızın aldığı her *girdiyi* gösterir; örneğin tuşlar, zaman işaretleri ve işaretçi olayları. *Sürüklenebilir* olduğundan, programın değerlendirme geçmişindeki herhangi bir ana sürükleyerek geri dönebilirsiniz.",
                 "stepControls": "$~/Adım kontrolleri/ değerlendirme sürecinde hassas bir şekilde ilerlemenizi sağlar. *Başlangıç* veya *son* noktaya atlayabilir, birer adım ileri veya geri gidebilir, *bir girdi* kadar atlayabilir, bir fonksiyonun dışına çıkabilir veya kodun *şu anda seçili* bölümüne atlayabilirsiniz.",
-                "modes": "$~/Mod değiştirici/ programının nasıl değerlendirileceğini seçer. ✏️ *düzenleme* modunda, sahne mevcut karede donmuş kalırken programı değiştirirsin. ⏸️ *adım* modunda — şu an bulunduğun yer — değerlendirmede *ileri* ve *geri* adım atarsın ve programının her parçasının *mevcut değeri* düzenleyicide yanında görünür. ▶️ *oynatma* modunda, programın canlı çalışır ve girişlere gerçek zamanlı yanıt verir."
+                "modes": "$~/mod değiştirici/ programının nasıl değerlendirildiğini seçer. ✏️ *düzenle* modunda program bulunduğu yerde durur ve onu değiştirebilirsin — düzenlemelerin o noktadaki etkisini göstermek için yeniden oynatılır. ⏸️ *hata ayıklama* modunda kod yalnızca okunabilir ve programının her parçasının *şimdiki değeri* düzenleyicide ve palette yanında görünür. ▶️ *oynat* modunda programın bulunduğu yerden canlı çalışır ve girdilere gerçek zamanlı yanıt verir. Değiştiricinin yanında, /performans/ düğmesi — tam ekran köşeleriyle sarılmış bir oynat üçgeni — en baştan bir performans başlatır ve ekranı sahneyle doldurur, ↻ ise programı her modda sıfırlar."
             }
         },
         "docs": {
@@ -7730,7 +7768,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~müzik",
+                        "label": "$~görselleştirme",
                         "labels": [
                             "$~ışık gösterisi",
                             "$~ruh hâli",
@@ -7747,7 +7785,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~müzik sesi",
+                        "label": "$~ses düzeyi",
                         "labels": ["$~kapalı", "$~kısık", "$~tam"],
                         "tips": [
                             "$~Tüm müziği sustur",
@@ -7756,7 +7794,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~konuşurken müzik",
+                        "label": "$~konuşurken",
                         "labels": ["$~kısık", "$~daha kısık", "$~sessiz"],
                         "tips": [
                             "$~Bir şey söylenirken müziği biraz kıs",
@@ -7771,14 +7809,44 @@
                             "$~Ritimde titreşme",
                             "$~Cihaz destekliyorsa ritimde titreş"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~altyazı boyutu",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Daha küçük altyazılar göster",
+                            "$~Altyazıları standart boyutta göster",
+                            "$~Altyazıları bir buçuk kat büyük göster",
+                            "$~Altyazıları iki kat büyük göster",
+                            "$~Altyazıları üç kat büyük göster"
+                        ]
                     }
                 },
                 "options": {
                     "face": "$~yazı tipi",
-                    "mic": "$~seçili mikrofon",
-                    "camera": "$~seçili kamera",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
                     "default": "$~varsayılan",
-                    "voice": "$~Say için seçilen ses"
+                    "voice": "$~Söyleme sesi"
+                },
+                "tab": {
+                    "label": "$~ayar grupları",
+                    "labels": [
+                        "$~Görünüm",
+                        "$~Kod",
+                        "$~Kamera + Mikrofon",
+                        "$~Ses + Müzik"
+                    ],
+                    "tips": [
+                        "$~Wordplay'in kendisinin nasıl göründüğü ve hissettirdiği: yazı tipi, renkler, döşemeler ve animasyon",
+                        "$~kodu yazarken nasıl göründüğü ve hissettirdiği",
+                        "$~programların hangi kameradan ve mikrofondan okuyacağı",
+                        "$~bir programın müziği, konuşması ve altyazıları sana nasıl ulaşır"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Müzik",
+                    "say": "$~Söyle"
                 }
             },
             "locale": {
@@ -7810,8 +7878,12 @@
                     "success": "$~Bu isteği GitHub üzerinden bizimle tartışın!",
                     "error": "$~Bir sorun oluştu. Lütfen tekrar deneyin.",
                     "alreadySupported": "$~Bu dil ve bölge zaten desteklenmektedir.",
-                    "requiresLogin": "$~Dil talebinde bulunmak için giriş yapmanız gerekmektedir."
-                }
+                    "requiresLogin": "$~Dil talebinde bulunmak için giriş yapmanız gerekmektedir.",
+                    "searchPlaceholder": "$~dil veya ülke",
+                    "searchDescription": "$~Dil ve ülke menülerini filtrele",
+                    "alreadyRequested": "$~Birisi bu dili zaten istedi. GitHub'daki tartışmaya katıl!"
+                },
+                "choose": "$~Bir dil seç"
             },
             "help": {
                 "header": "$~Kısayollar",
@@ -8093,7 +8165,7 @@
             },
             "tour": {
                 "launch": "$~Paletin bir turuna çıkın",
-                "palette": "$~Proje *duraklatıldığında*, *ifadeleri*, *grupları* ve *aşamaları* düzenlemek için /palette/ komutunu kullanabilirsiniz.",
+                "palette": "$~✏️ *düzenle* modunda *ifadeleri*, *grupları* ve *sahneyi* düzenlemek için /paleti/ kullanabilirsin; diğer modlarda kontrolleri yalnızca okunabilir ve ⏸️ *hata ayıklama* modunda her özellik *şimdiki değerini* de gösterir.",
                 "text": "$~Bir ifadenin tüm özellikleri burada düzenlenebilir. Bu, ifadenin *metnidir*, ancak diğer özelliklerin kendi kontrolleri vardır.",
                 "set": "$~Bir özellik şu anda varsayılan değerini kullanıyorsa, kalem simgesi düğmesi ona açık bir değer atamanıza olanak tanır.",
                 "unset": "$~Bir özelliğe açık bir değer atandığında, *X* düğmesi bu değeri kaldırır ve özelliği *varsayılan* değerine döndürür.",
@@ -8922,7 +8994,8 @@
                     "$~Wordplay logosu, içinde tek bir harf bulunan bir konuşma balonudur: balonun her şeyi söyleyebileceği küçük bir sahnedir — okuyucunun yazı sisteminden bir harf, bir emoji ya da bir şey yüklenirken bir daire, üçgen ve kare. Uygulamada harf, senin ana dilinin yazı sistemini takip eder; tarayıcı simgesi ve paylaşım görselleri gibi yazıdan bağımsız yerlerde balon, bir şey yapmak üzere olan üç şekli gösterir.",
                     "Çizimin kendisi asla hareketi göstermez. Hareket davranışsaldır — açılış sayfası, balonun söylediklerini dil seçici ile aynı adımda değiştirir ve yükleme sırasında şekiller sırayla zıplar, tıpkı Meksika dalgası yapan bir kalabalık gibi — ve her zaman animasyon hızı ayarına göre ölçeklenir, animasyon kapalıyken tamamen durur.",
                     "İşaret her zaman geçerli metin renginde çizilir, bu yüzden metnin kontrast gerekliliklerini karşıladığı her yerde logo da karşılar."
-                ]
+                ],
+                "copyvalue": "$~tam CSS değerini kopyala"
             },
             "thanks": {
                 "header": "$~Teşekkürler",
@@ -9466,7 +9539,7 @@
             "deleteFailed": "$~Bunu silemedik.",
             "saveFailed": "$~Onu kurtaramadık",
             "submitFailed": "$~Bunu gönderemedik.",
-            "loadFailed": "$~Bunu yükleyemedik.",
+            "loadFailed": "$~Bunu yükleyemedik. Biraz sonra tekrar dene.",
             "storageFull": "$~Bu cihazın depolama alanı dolu, bu nedenle buraya bir kopya kaydedemedik. Çalışmanız hala bulutta.",
             "storageNearFull": "$~Bu cihazın depolama alanı neredeyse doldu, bu nedenle Wordplay yakında kaydedemeyebilir. Buluta kaydedilen çalışmalar güvendedir; cihazınızda veya tarayıcınızda yer açmak, Wordplay'in buraya kaydetmeye devam etmesini sağlar.",
             "saveTooLarge": "$~Bu dosya kaydedilemeyecek kadar büyük. Bazı içerikleri silmeyi deneyin."

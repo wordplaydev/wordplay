@@ -11,11 +11,8 @@ export class NonFunctionType extends UnknownType<Expression> {
     }
 
     getReason(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.NonFunctionType.description,
-            {
-                type: new NodeRef(this.expression, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.NonFunctionType.description, {
+            type: new NodeRef(this.expression, locales, context),
+        });
     }
 }

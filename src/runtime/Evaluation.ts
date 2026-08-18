@@ -66,6 +66,9 @@ export type DefinitionNode =
     | Block
     | Source;
 
+/** Monotonic frame serial; only compared for equality within a single run. */
+let nextEvaluationId = 0;
+
 export default class Evaluation {
     /** The evaluator running the program. Some evaluations are created without running a program (e.g. stream structures). */
     readonly #evaluator: Evaluator;
@@ -106,6 +109,23 @@ export default class Evaluation {
     /** The step to execute next */
     #stepIndex = 0;
 
+    /** A serial identifying this frame, so activations can be compared without holding frame references. */
+    readonly #id: number;
+
+    /** The activation id inherited from the frame this one tail-replaced, so a
+     *  whole tail chain reads as one source-level activation (e.g., to stepOut).
+     *  A number rather than an Evaluation reference, so a long chain doesn't
+     *  retain a list of dead frames. */
+    #tailActivation: number | undefined = undefined;
+
+    /** How many frames this evaluation's tail chain has replaced. */
+    #tailCount = 0;
+
+    /** True if a host (basis/output) call is driving this frame by stepping
+     *  until the frame itself leaves the stack; such a frame must never be
+     *  tail-replaced out from under that loop. */
+    #hostRoot = false;
+
     constructor(
         evaluator: Evaluator,
         evaluation: EvaluationNode,
@@ -117,6 +137,7 @@ export default class Evaluation {
         this.#evaluation = evaluation;
         this.#definition = definition;
         this.#closure = closure;
+        this.#id = nextEvaluationId++;
 
         // Remember what step this was.
         this.#stepNumber = evaluator.getStepIndex();
@@ -177,6 +198,31 @@ export default class Evaluation {
 
     getStepNumber() {
         return this.#stepNumber;
+    }
+
+    /** The id of the source-level activation this frame continues: its own id,
+     *  unless it tail-replaced another frame, in which case the replaced
+     *  frame's activation id. */
+    getTailActivation(): number {
+        return this.#tailActivation ?? this.#id;
+    }
+
+    getTailCount(): number {
+        return this.#tailCount;
+    }
+
+    /** Adopt the activation identity of a frame this one is tail-replacing. */
+    inheritTailActivation(prior: Evaluation) {
+        this.#tailActivation = prior.getTailActivation();
+        this.#tailCount = prior.getTailCount() + 1;
+    }
+
+    markHostRoot() {
+        this.#hostRoot = true;
+    }
+
+    isTailReplaceable(): boolean {
+        return !this.#hostRoot;
     }
 
     /** Utility function for generating a missing value exception */
@@ -345,7 +391,7 @@ export default class Evaluation {
             return new ValueException(this.#evaluator, requestor);
         else if (
             expected !== undefined &&
-            !expected.accepts(value.getType(this.#context), this.#context)
+            !expected.acceptsValue(value, this.#context)
         )
             return new TypeException(
                 requestor,
@@ -450,12 +496,10 @@ export default class Evaluation {
 
     /** Given an input number in the evaluation's definition, get the corresponding input given to that input, if one was given. */
     getInput(index: number): Value | undefined {
-        if (
-            !(
-                this.#definition instanceof FunctionDefinition ||
-                this.#definition instanceof StructureDefinition
-            )
-        )
+        if (!(
+            this.#definition instanceof FunctionDefinition ||
+            this.#definition instanceof StructureDefinition
+        ))
             return undefined;
 
         const names = this.#definition.inputs[index]?.names;

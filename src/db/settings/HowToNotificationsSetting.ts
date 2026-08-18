@@ -1,10 +1,10 @@
-import { withMonoEmoji } from "@unicode/emoji";
-import Setting from "@db/settings/Setting";
+import { withMonoEmoji } from '@unicode/emoji';
+import Setting from '@db/settings/Setting';
 
 export const NotificationsIcons = ['🔔', '🔕'].map((i) => withMonoEmoji(i));
 
 export const HowToNotificationsSetting = new Setting<boolean>(
-    "howToNotifications",
+    'howToNotifications',
     false,
     true,
     (value) => (typeof value === 'boolean' ? value : false),

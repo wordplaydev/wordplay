@@ -115,9 +115,7 @@ export default class Hand extends CameraLandmarkStream<HandLandmarkerResult> {
     react(result: HandLandmarkerResult) {
         const landmarks = result.landmarks?.[0];
         const handedness = result.handedness?.[0]?.[0]?.categoryName as
-            | 'Left'
-            | 'Right'
-            | undefined;
+            'Left' | 'Right' | undefined;
 
         if (!landmarks || landmarks.length < 21) {
             // Miss — hold last emitted state for a few frames so brief detection
@@ -306,14 +304,8 @@ function isThumbExtended(landmarks: NormalizedLandmark[]): boolean {
 
     const palmCenter = landmarks[LM.MIDDLE_MCP];
     const wrist = landmarks[LM.WRIST];
-    const palmSize = Math.hypot(
-        palmCenter.x - wrist.x,
-        palmCenter.y - wrist.y,
-    );
-    const tipFromPalm = Math.hypot(
-        tip.x - palmCenter.x,
-        tip.y - palmCenter.y,
-    );
+    const palmSize = Math.hypot(palmCenter.x - wrist.x, palmCenter.y - wrist.y);
+    const tipFromPalm = Math.hypot(tip.x - palmCenter.x, tip.y - palmCenter.y);
     const farEnough = tipFromPalm > palmSize * 0.75;
 
     return straight && farEnough;

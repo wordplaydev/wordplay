@@ -7,6 +7,7 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Language from '@nodes/Language';
 import Node from '@nodes/Node';
 import TypeSet from '@nodes/TypeSet';
+import type Value from '@values/Value';
 
 export default abstract class Type extends Node {
     constructor() {
@@ -41,6 +42,15 @@ export default abstract class Type extends Node {
         context: Context,
         expression?: Expression,
     ): boolean;
+
+    /**
+     * True if the given value satisfies this type. Comparing the value's own type is enough for
+     * every type whose values can describe themselves completely; subclasses override when they
+     * constrain structure a value's type can't express (see {@link ListType}).
+     */
+    acceptsValue(value: Value, context: Context): boolean {
+        return this.accepts(value.getType(context), context);
+    }
 
     abstract getBasisTypeName(): BasisTypeName;
 

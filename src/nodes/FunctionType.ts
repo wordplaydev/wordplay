@@ -196,6 +196,9 @@ export default class FunctionType extends Type {
                 i.type ? i.withType(i.type.concretize(context)) : i,
             ),
             this.output.concretize(context),
+            // Carry the definition over: getConcreteExpectedType gives up and returns an
+            // unknown type when a function type has lost it.
+            this.definition,
         );
     }
 

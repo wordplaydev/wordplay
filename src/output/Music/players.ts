@@ -12,6 +12,7 @@ import MusicPlayer, { type PlayerDeps } from '@output/Music/MusicPlayer';
 import audio from '@output/Music/MusicAudio';
 import { get } from 'svelte/store';
 import { haptics } from '@db/Database';
+import supportsVibration from '@db/settings/supportsVibration';
 import { clearActivity, reportActivity } from '@output/Music/activity';
 
 export type MusicPlayerHandle = {
@@ -76,12 +77,7 @@ export function acquireMusicPlayer(
                 ),
             onSilent: (music) => clearActivity(music),
             vibrate: (ms: number) => {
-                if (
-                    get(haptics) &&
-                    typeof navigator !== 'undefined' &&
-                    navigator.vibrate
-                )
-                    navigator.vibrate(ms);
+                if (get(haptics) && supportsVibration()) navigator.vibrate(ms);
             },
             ...deps,
         });

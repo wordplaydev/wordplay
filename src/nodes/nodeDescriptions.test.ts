@@ -55,6 +55,21 @@ test('no literal description contains an action verb', () => {
     }
 });
 
+test('a list type names what it holds, at every position', () => {
+    // A list type of several positions can't point at a single node, so it names them all; a
+    // listener otherwise hears the same "list type" for `[#]` and `[# '']`.
+    expect(describeFirst(`a•[#]: [1]\na`, byType('ListType'))).toContain(
+        'number',
+    );
+    const positions = describeFirst(
+        `a•[# '']: [1 'hi']\na`,
+        byType('ListType'),
+    );
+    expect(positions).toContain('number');
+    expect(positions).toContain('text');
+    expect(describeFirst(`a•[]: [1]\na`, byType('ListType'))).toBe('list type');
+});
+
 test('an Evaluate is name-first with its first argument', () => {
     const description = describeFirst(
         `Phrase('hi' size: 2m)`,
@@ -354,6 +369,7 @@ test('every changed template renders without the unparsable fallback', () => {
         `'ab' ⌕ ⣿y:(4 #)⣿`,
         `'ab' ⌕ ⣿"-"⣿`,
         `'ab' ⌕ ⣿{"a"–"z"}⣿`,
+        `a•[# '']: [1 'hi']\na`,
     ];
     for (const code of programs) {
         const source = new Source('test', code);

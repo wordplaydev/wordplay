@@ -19,6 +19,7 @@
     import {
         type Command,
         handleKeyCommand,
+        Perform,
         Restart,
         StepBack,
         StepBackInput,
@@ -38,9 +39,13 @@
     import Menu from '@components/editor/menu/Menu.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import {
+        ProjectModeIcons,
         ProjectModes,
+        ProjectModeViewIcons,
         type ProjectMode,
     } from '@components/project/ProjectMode';
+    import { CatchUp } from '@components/project/catchUp';
+    import PerformIcon from '@components/project/PerformIcon.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Wellspring from '@components/wellspring/Wellspring.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -75,9 +80,9 @@
         locales,
         mic,
         musicVisualization,
-        Projects,
         Settings,
     } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import {
         MusicVisualizationIcons,
         MusicVisualizations,
@@ -95,26 +100,19 @@
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
-    import type Color from '@output/Color/Color';
+    import Color from '@output/Color/Color';
     import {
         CANCEL_SYMBOL,
-        EDIT_SYMBOL,
         EXCEPTION_SYMBOL,
         INFO_SYMBOL,
-        PAUSE_SYMBOL,
-        PLAY_SYMBOL,
-        VIEW_SYMBOL,
     } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
     import { debounced } from '@util/debounce.svelte';
+    import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import {
-        writable,
-        type Readable,
-        type Writable,
-    } from 'svelte/store';
+    import { writable, type Readable, type Writable } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -227,7 +225,8 @@
         /** Force the editor's annotation panel expanded (true) or collapsed (false); undefined uses
          * the creator's global annotation setting. Used by the tutorial to show or hide conflicts. */
         annotationsExpanded?: boolean | undefined;
-        /** True if the output should be fit to content */
+        /** Whether the platform keeps reframing the stage to its content. The toolbar
+         * toggles this, so it is bindable. */
         fit?: boolean;
         /** True if the project should focus the main editor source on mount */
         autofocus?: boolean;
@@ -256,7 +255,7 @@
         editable = true,
         showOutput = false,
         annotationsExpanded = undefined,
-        fit = true,
+        fit = $bindable(true),
         autofocus = true,
         guide = true,
         warn = true,
@@ -379,6 +378,8 @@
         const requested = params.get(PROJECT_PARAM_MODE);
         const known = ProjectModes.find((mode) => mode === requested);
         if (known !== undefined) return known;
+        // Links from before the step mode was renamed.
+        if (requested === 'step') return 'debug';
         if (params.get(PROJECT_PARAM_PLAY) !== null) return 'play';
         if (params.get(PROJECT_PARAM_EDIT) !== null) return 'edit';
         return showOutput ? 'play' : 'edit';
@@ -386,14 +387,16 @@
 
     const initialMode = parseModeParam(page.url.searchParams);
 
-    /** The current evaluation mode: edit (frozen frame, everything editable), step
-     * (debugger, everything read-only), or play (live, interactive, read-only).
-     * Change it only through setUIMode, which keeps the evaluator in sync. */
+    /** The current evaluation mode: edit (paused, everything editable), debug
+     * (same pause, read-only, with evaluation state shown), or play (live,
+     * interactive, read-only). Change it only through setUIMode, which keeps
+     * the evaluator in sync. */
     let uiMode = $state<ProjectMode>(initialMode);
 
-    /** Whether the play-mode layout (output fullscreen, all else collapsed) was requested at load.
-     * Only entering the page in play mode fullscreens; switching modes in-session does not. */
-    let playRequested = $state(initialMode === 'play');
+    /** Whether the page was entered in play mode, in which case the initial
+     * layout fullscreens the output tile so the performance is the whole show.
+     * Load-time only: switching modes in-session never touches the layout. */
+    const initialPlayLayout = initialMode === 'play';
 
     /** One-shot request from the legacy edit param to open in an editing layout. */
     let requestedEdit = $state(
@@ -401,7 +404,7 @@
     );
 
     /** Whether program edits are permitted right now: an editable project, on the
-     * current checkpoint, in edit mode. Step and play modes are read-only. */
+     * current checkpoint, in edit mode. Debug and play modes are read-only. */
     let editableNow = $derived(editableAndCurrent && uiMode === 'edit');
 
     /** The fullscreen context of the page that this is in. */
@@ -409,11 +412,18 @@
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
+        // Only set a background if it's the stage that's in fullscreen.
+        const background = layout.isStageFullscreen() ? outputBackground : null;
         pageFullscreen?.set({
             // Don't turn on fullscreen if we were requested to show output.
             on: layout.isFullscreen() && !showOutput,
-            // Only set a background if it's the stage that's in fullscreen
-            background: layout.isStageFullscreen() ? outputBackground : null,
+            // Resolved here rather than in Page, which every route renders.
+            background:
+                background instanceof Color ? background.toCSS() : background,
+            foreground:
+                background instanceof Color
+                    ? background.contrasting().toCSS()
+                    : null,
         });
     });
 
@@ -509,10 +519,14 @@
     /** The centralized announcer, for narrating mode changes to screen readers. */
     const announce = getAnnouncer();
 
-    /** The last exception we reacted to, so the exception auto-switch fires once per
-     * exception. Not reactive; it's bookkeeping for the evaluator observer. Declared
-     * before the project subscription below, which resets it on evaluator replacement. */
-    let lastSeenException: Value | undefined = undefined;
+    /** The failing expression of the last exception we witnessed, so the
+     * exception auto-switch fires once per distinct failure. Keyed by the
+     * creator NODE rather than the exception value: every re-evaluation (a
+     * scrub, a resume, a catch-up) mints a fresh ExceptionValue for the same
+     * failure, and identity comparison would treat each as news. Not reactive;
+     * it's bookkeeping for the evaluator observer. Declared before the project
+     * subscription below, which resets it on evaluator replacement. */
+    let lastSeenException: Node | undefined = undefined;
 
     /**
      * Invalidates these inputs, indicating that it shouldn't be used.
@@ -520,8 +534,32 @@
      * to itself that when creating a new Evaluator, it shouldn't mirror the prior Evaluator's inputs.
      */
     let replayInputs = $state(true);
+
+    /**
+     * Which run of the program the stage is showing. A performance begins when
+     * the evaluator is rebuilt from the top — the reset button, the perform
+     * button, a locale or checkpoint change — and continues across pause,
+     * resume, mode switches, and debugger navigation. Anything that should
+     * happen once per run (speaking a Say, sounding a one-shot score, playing
+     * an entrance animation) compares this number via EvaluationContext rather
+     * than keeping its own memory, which is how those three drifted apart
+     * before it existed.
+     */
+    let performance = $state(0);
+
+    /** Whether the next auto-started evaluator should rewind to step 0: a reset
+     *  taken from the debugger means "show me the beginning". Plain rather than
+     *  reactive — it's a one-shot message to the auto-start effect. */
+    let landAtStart = false;
+
     function resetInputs() {
         replayInputs = false;
+        landAtStart = uiMode === 'debug';
+        // A reset abandons any catch-up underway: what plays next is fresh.
+        catchUp.cancel();
+        // Rebuilding from the top begins a performance, from any mode: what
+        // plays next was begun rather than resumed.
+        performance += 1;
         updateEvaluator(project);
     }
 
@@ -529,6 +567,23 @@
      * Create a state to store the current evaluator.
      */
     const evaluator: Writable<Evaluator> = writable();
+
+    /**
+     * Fast-forwards through recorded history when play is pressed from a past
+     * position — the stage visibly replays how the present came to be, then
+     * goes live at the edge of history. Without it, play snaps to the present
+     * invisibly (Evaluator.play()), which reads as the stage teleporting.
+     * The closures read $evaluator at call time on purpose: if a collaborator
+     * edit replaces the evaluator mid-replay, the next frame simply finds the
+     * mirrored evaluator already at the present and goes live.
+     */
+    const catchUp = new CatchUp({
+        advance: () => {
+            $evaluator.stepToInput();
+            return $evaluator.isInPast();
+        },
+        live: () => $evaluator.play(),
+    });
 
     let latestValue = $state<Value | undefined>();
 
@@ -542,6 +597,12 @@
      *  scratch and the preview-write would race the fresh evaluation,
      *  leaving a visible delay (or worse, stamping EXCEPTION_SYMBOL). */
     let lastProjectForEvaluator: Project | undefined;
+
+    /** Whether the evaluation context store exists yet: the first
+     * updateEvaluator call runs during init (via the subscription below),
+     * before the store is created. */
+    let evaluationReady = false;
+
     projectStore.subscribe((newProject) => {
         if (
             lastProjectForEvaluator !== undefined &&
@@ -578,8 +639,13 @@
     }
 
     function updateEvaluator(newProject: Project) {
-        // Stop the old evaluator.
-        $evaluator?.stop();
+        // The prior is stopped *after* the replacement mirrors it, not before: stop() clears
+        // the raw input log, so stopping first left mirror() nothing to replay and every edit
+        // restarted the program from the top (and made mirror's carried-supplement
+        // optimization dead, since it reads the cleared source values). mirror() is
+        // synchronous and only reads, so no stream tick can interleave; the cost is that both
+        // evaluators' histories are live for that one call.
+        const prior = $evaluator;
 
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
@@ -589,8 +655,11 @@
             // Choose the selected evaluation locale or if not selected, the project's embedded locales
             evaluationLocale ? [evaluationLocale] : localesUsed,
             true,
-            replayInputs ? $evaluator : undefined,
+            replayInputs ? prior : undefined,
         );
+
+        // Now that the replacement has taken what it needs, release the prior.
+        prior?.stop();
 
         // Switch back to replay after the next input.
         replayInputs = true;
@@ -608,26 +677,50 @@
 
         // Mark the evaluator not stale.
         staleEvaluator = false;
+
+        // Sync the evaluation context to the replacement now. A mirrored
+        // evaluator arrives already started — its constructor replayed the
+        // history before the observer above was registered — so without this
+        // the context keeps describing the PRIOR evaluator until something
+        // else broadcasts: its streams (e.g. a Chat field's existence), and
+        // its exception, which must be witnessed here so an error made while
+        // editing doesn't read as news at the next play. (Skipped for the very
+        // first evaluator, which runs before the store exists; the store is
+        // created from it directly, just below.)
+        if (evaluationReady) updateEvaluatorStores();
     }
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation = writable(getEvaluationContext());
     setEvaluation(evaluation);
+    evaluationReady = true;
 
     function updateEvaluatorStores() {
         evaluation.set(getEvaluationContext());
 
-        // If an exception surfaced while playing, drop into step mode at the exception
-        // frame so the failure is explicit and inspectable, rather than silently
-        // stopping the streams that depended on the evaluation.
-        if (
-            uiMode === 'play' &&
-            $evaluator.exception !== undefined &&
-            $evaluator.exception !== lastSeenException
-        ) {
-            lastSeenException = $evaluator.exception;
-            setUIMode('step', true);
-        }
+        // If a NEW exception surfaced while playing, drop into debug mode at
+        // the exception frame so the failure is explicit and inspectable,
+        // rather than silently stopping the streams that depended on the
+        // evaluation. Exceptions are witnessed in every mode, though: one that
+        // appeared while editing (where the conflict annotations already
+        // explain it) must not yank the creator into debug on their next
+        // play — that reads as the play button breaking, and it disrupts the
+        // editing they were in the middle of.
+        // An exception is witnessed however it surfaces: `Evaluator.exception`
+        // is only assigned when a LIVE evaluation ends, but a paused edit
+        // shows the same failure as the program's latest value (which is how
+        // the stage and annotations already display it). Without reading the
+        // value, an error made while editing would be "new" at the next play.
+        const exception = $evaluator.exception;
+        const latest = $evaluator.getLatestSourceValue($evaluator.getMain());
+        const surfaced =
+            exception ??
+            (latest instanceof ExceptionValue ? latest : undefined);
+        const fresh =
+            surfaced !== undefined && surfaced.creator !== lastSeenException;
+        lastSeenException = surfaced?.creator ?? lastSeenException;
+        if (uiMode === 'play' && exception !== undefined && fresh)
+            setUIMode('debug', 'exception');
     }
 
     function getEvaluationContext() {
@@ -638,11 +731,13 @@
             playing: $evaluator.isPlaying(),
             streams: $evaluator.reactions,
             mode: uiMode,
+            performance,
         };
     }
 
     /** Clean up the evaluator when unmounting. */
     onDestroy(() => {
+        catchUp.cancel();
         // Cancel any pending debounced write — we're about to do it
         // synchronously below.
         if (pendingPreviewWrite !== undefined) {
@@ -787,34 +882,22 @@
         const newTiles: Tile[] = [];
 
         // Go through each tile and map it to a source file.
-        // If we don't find it, remove the tile.
+        // If we don't find it, remove the tile. Modes never reshape tiles:
+        // evaluation state and layout are deliberately independent, so the
+        // only adjustment here is the legacy edit param's request to open
+        // the main source.
         for (const tile of tiles) {
             if (tile.kind !== TileKind.Source) {
-                newTiles.push(
-                    // Playing? Expand output, collapse everything else
-                    playRequested
-                        ? tile.withMode(
-                              tile.kind === TileKind.Output
-                                  ? TileMode.Expanded
-                                  : TileMode.Collapsed,
-                          )
-                        : // Not playing? Whatever it's current mode is.
-                          tile,
-                );
+                newTiles.push(tile);
             } else {
                 const source = tile.getSource(project);
                 if (source)
                     newTiles.push(
-                        tile
-                            // If playing, keep the source files collapsed
-                            .withMode(
-                                playRequested
-                                    ? TileMode.Collapsed
-                                    : requestedEdit &&
-                                        source === project.getMain()
-                                      ? TileMode.Expanded
-                                      : tile.mode,
-                            ),
+                        tile.withMode(
+                            requestedEdit && source === project.getMain()
+                                ? TileMode.Expanded
+                                : tile.mode,
+                        ),
                     );
             }
         }
@@ -918,7 +1001,7 @@
                 project.getID(),
                 defaultTiles,
                 // If showing output or requested play was requested, we fullscreen on output
-                showOutput || playRequested ? TileKind.Output : undefined,
+                showOutput || initialPlayLayout ? TileKind.Output : undefined,
                 null,
             )
         );
@@ -934,17 +1017,26 @@
         }
     });
 
-    // If the URL requested play, set to full screen and focus on the stage. Skip in embedded
-    // views (e.g. the tutorial), where the surrounding lesson owns the layout and focus — matching
-    // the mode-change path in setUIMode.
-    onMount(() => {
-        if (playRequested && persistLayout) {
-            const output = layout.getOutput();
-            if (output) {
-                setFullscreen(output);
-                tick().then(focusStage);
-            }
+    /** Fill the screen with the stage and hand it focus: what a `?mode=play`
+     * load and the perform command both mean by "the performance is the whole
+     * show". Callers gate on `persistLayout`, since embedded views (e.g. the
+     * tutorial) own their layout and focus. */
+    function fullscreenStage() {
+        const output = layout.getOutput();
+        if (output) {
+            setFullscreen(output);
+            tick().then(focusStage);
         }
+    }
+
+    // A play-mode load focuses the stage so keys reach the performance
+    // immediately. Whether the stage is FULLSCREEN belongs to the layout, not
+    // the mode: a first visit defaults to a fullscreen stage (see
+    // getInitialLayout), while a refresh restores the persisted layout — so
+    // playing beside the editor survives a reload instead of snapping back to
+    // fullscreen.
+    onMount(() => {
+        if (initialPlayLayout && persistLayout) tick().then(focusStage);
 
         // After mounted, disable the requested edit.
         if (requestedEdit) requestedEdit = false;
@@ -1060,8 +1152,9 @@
             uiid: 'resetEvaluator',
             explanation: (l) => l.ui.output.tour.reset,
         },
-        // The stepping controls only appear in step mode; the Tour explains when a
-        // target isn't visible, so these steps still read sensibly in other modes.
+        // The stepping controls appear in edit and debug but not play; the Tour
+        // explains when a target isn't visible, so these steps still read
+        // sensibly there.
         {
             uiid: 'timeline',
             explanation: (l) => l.ui.timeline.tour.timeline,
@@ -1130,8 +1223,8 @@
             explanation: (l) => l.ui.project.tour.share,
         },
         {
-            uiid: 'translateButton',
-            explanation: (l) => l.ui.project.tour.translate,
+            uiid: 'languagesButton',
+            explanation: (l) => l.ui.project.tour.languages,
         },
         {
             uiid: 'checkpoints',
@@ -1547,9 +1640,16 @@
         if (gate.gated) return;
         if (!$evaluator.isStarted()) {
             $evaluator.start();
-            // In edit and step modes, freeze after the initial evaluation completes,
-            // so the stage shows the final frame rather than running live.
-            if (uiMode !== 'play' && $evaluator.isPlaying()) $evaluator.pause();
+            // In edit and debug modes, freeze after the initial evaluation
+            // completes, so the stage shows the final frame rather than running
+            // live. A debug-mode reset additionally rewinds to the first step —
+            // "show me the beginning" — while a mirrored rebuild (an edit)
+            // keeps its replayed position.
+            if (uiMode !== 'play' && $evaluator.isPlaying()) {
+                $evaluator.pause();
+                if (landAtStart) $evaluator.stepTo(0);
+            }
+            landAtStart = false;
         }
     });
 
@@ -1603,9 +1703,9 @@
         };
     });
 
-    /** When stepping and the current step changes, change the active source. */
+    /** When debugging and the current step changes, change the active source. */
     $effect(() => {
-        if (uiMode === 'step' && $evaluation.step) {
+        if (uiMode === 'debug' && $evaluation.step) {
             const source = project.getSourceOf($evaluation.step.node);
             const tile = source
                 ? untrack(() => layout).getSource(
@@ -1652,7 +1752,7 @@
     let hasStagePlace = $state(false);
 
     /** Tracks whether the audience has overridden the stage's computed focus, so the reset-zoom button can be disabled when there is nothing to reset. */
-    let focusOverridden = $state(false);
+    let focusAdjusted = $state(false);
 
     let adjusting = $state(false);
 
@@ -1673,24 +1773,20 @@
     let maxRight = $state(0);
     let maxBottom = $state(0);
 
-    /** Recompute the bounds based every time the layout changes. */
+    /** Recompute the bounds based every time the layout changes. Derived from the
+     *  current tiles only: seeding from the previous value made these monotonic, so
+     *  a canvas that was once wider (a bigger window, a since-closed tile) kept
+     *  scrolling into empty space forever. */
     $effect(() => {
-        maxRight = Math.max.apply(undefined, [
-            maxRight,
-            ...(layout
-                ? layout.tiles.map(
-                      (tile) => tile.position.left + tile.position.width,
-                  )
-                : []),
-        ]);
-        maxBottom = Math.max.apply(undefined, [
-            maxBottom,
-            ...(layout
-                ? layout.tiles.map(
-                      (tile) => tile.position.top + tile.position.height,
-                  )
-                : []),
-        ]);
+        const tiles = layout ? layout.tiles : [];
+        maxRight = Math.max(
+            0,
+            ...tiles.map((tile) => tile.position.left + tile.position.width),
+        );
+        maxBottom = Math.max(
+            0,
+            ...tiles.map((tile) => tile.position.top + tile.position.height),
+        );
     });
 
     /** When the program steps or locales change, get the latest value of the program's evaluation. */
@@ -1809,6 +1905,7 @@
         resetInputs,
         getMode: () => uiMode,
         setMode: (mode: ProjectMode) => setUIMode(mode),
+        performProject,
         toggleBlocks,
         foldAll: focusedEditorState?.foldAll,
         unfoldAll: focusedEditorState?.unfoldAll,
@@ -2047,8 +2144,6 @@
     }
 
     function setFullscreen(tile: Tile | undefined) {
-        if (tile === undefined && playRequested) restoreEditingLayout();
-
         if (tile) {
             layout = layout.withFullscreen(tile.id);
         } else {
@@ -2309,10 +2404,19 @@
         );
         if (editor === null) return undefined;
 
-        const project = document.querySelector('.project');
-        if (project === null) return undefined;
+        // The menu's containing block and clipping box is this view's own
+        // `.project` — not `document.querySelector('.project')`, which matches the
+        // project route's outer wrapper (also `.project`) first in document order,
+        // a taller box that includes the page footer.
+        if (view === undefined) return undefined;
 
-        const projectBounds = project.getBoundingClientRect();
+        const projectBounds = view.getBoundingClientRect();
+        // The box the menu must be clamped into, so a menu anchored near the
+        // bottom of a short project isn't placed past its `overflow: hidden` edge.
+        const container = {
+            width: view.clientWidth,
+            height: view.clientHeight,
+        };
 
         if (isFieldPosition(anchor)) {
             // Is it a field position? Position near the field.
@@ -2336,6 +2440,7 @@
                     triggerBounds.bottom -
                     triggerBounds.height / 4 -
                     projectBounds.top,
+                container,
             };
         } else {
             // Is it a node? Position near it's top left.
@@ -2348,6 +2453,7 @@
                 return {
                     left: nodeBounds.left - projectBounds.left,
                     top: nodeBounds.bottom - projectBounds.top,
+                    container,
                 };
             }
             // Is it a position? Position at the bottom right of the caret.
@@ -2359,6 +2465,7 @@
                 return {
                     left: caretBounds.left - projectBounds.left,
                     top: caretBounds.bottom - projectBounds.top,
+                    container,
                 };
             }
         }
@@ -2411,85 +2518,209 @@
         );
     }
 
-    /** Restore the editing layout after leaving the play-mode layout: expand the main source and exit fullscreen. */
-    function restoreEditingLayout() {
-        playRequested = false;
-        const main = layout.getTileWithID(Layout.getSourceID(0));
-        if (main) {
-            setMode(main, TileMode.Expanded);
-            layout = layout.withoutFullscreen();
-        }
-    }
-
-    /** Get the localized label for a mode, for announcements. */
+    /** Get the localized label for a mode, for announcements. Matches the
+     * switchers' editableAndCurrent gate, so what is announced is what is
+     * shown. */
     function getModeLabel(mode: ProjectMode): string {
         return withoutAnnotations(
             $locales.getTextStructure((l) =>
-                editable
+                editableAndCurrent
                     ? l.ui.output.mode.evaluation
                     : l.ui.output.mode.evaluationView,
             ).labels[ProjectModes.indexOf(mode)],
         );
     }
 
-    /** The single entry point for switching evaluation modes, keeping the evaluator in sync. */
-    function setUIMode(mode: ProjectMode, becauseOfException = false) {
+    /** The single entry point for switching evaluation modes, keeping the
+     * evaluator in sync. Modes never touch the layout: what's visible and
+     * what's evaluating are deliberately independent, so switching modes with
+     * the editor open leaves it open, and exiting fullscreen leaves the mode
+     * alone. They do move keyboard focus to the mode's subject, though — see
+     * the focus block at the end. The cause distinguishes who is asking: an
+     * exception announces itself, and the perform command announces (and
+     * starts) the fresh performance itself, so each transition has exactly one
+     * describer.
+     */
+    function setUIMode(
+        mode: ProjectMode,
+        cause: 'switch' | 'exception' | 'perform' = 'switch',
+    ) {
         if (mode === uiMode) return;
-        const wasPlayLayout = playRequested;
         uiMode = mode;
+
+        // Whether the creator's focus is in this project, captured before the
+        // surfacing below can move or unmount whatever holds it. A mode switch
+        // follows their focus to the mode's subject; a mode set while they're
+        // working somewhere else entirely must not yank it back. Nothing
+        // focused counts as eligible: Safari doesn't focus a button on click,
+        // so the mode switcher itself can leave the document unfocused.
+        const active = document.activeElement;
+        const focusHere =
+            active === null ||
+            active === document.body ||
+            (view?.contains(active) ?? false);
 
         const currentEvaluator = $evaluator;
         if (mode === 'play') {
             currentEvaluator.setIgnoringInputs(false);
-            currentEvaluator.play();
-            // Focus on the performance: fullscreen the output tile, a helpful
-            // default the creator can leave (exiting fullscreen keeps playing).
-            // Skip in embedded views (e.g. the tutorial), where the surrounding
-            // lesson needs the layout intact.
-            if (persistLayout) {
-                playRequested = true;
-                const output = layout.getOutput();
-                if (output) {
-                    setFullscreen(output);
-                    tick().then(focusStage);
-                }
+            // Switching to play always resumes from wherever the program is;
+            // beginning a fresh performance is the perform and reset buttons'
+            // job, and they say so explicitly. (A perform is about to replace
+            // this evaluator with a fresh one, so there is nothing to resume.)
+            // From a past frame, catch up first: fast-forward through the
+            // recorded history so the creator sees how the present came to
+            // be, then go live at its edge.
+            if (cause !== 'perform') {
+                if (currentEvaluator.isInPast())
+                    catchUp.start(
+                        currentEvaluator.reactions.filter(
+                            (reaction) =>
+                                reaction.stepIndex >
+                                currentEvaluator.getStepIndex(),
+                        ).length,
+                    );
+                else currentEvaluator.play();
             }
+            // Playing disables stage selection, and the palette can stay
+            // visible while playing now, so drop the selection rather than
+            // leaving an underline nothing can explain or clear.
+            if (!selectedOutput.dragging && !selectedOutput.interacting)
+                selectedOutput.empty();
         } else {
-            // Edit and step are both frozen worlds: new inputs must not extend the history.
+            // Leaving play abandons any catch-up underway: the creator asked
+            // to hold still before the present was reached.
+            catchUp.cancel();
+            // Edit and debug are both frozen worlds: new inputs must not extend the history.
             currentEvaluator.setIgnoringInputs(true);
             if (currentEvaluator.isPlaying()) currentEvaluator.pause();
-            // Entering the debugger with no history to navigate and no exception to
-            // inspect? Start at the beginning, rather than at the end of the initial evaluation.
-            if (
-                mode === 'step' &&
-                !currentEvaluator.hasInputHistory() &&
-                currentEvaluator.exception === undefined
-            )
-                currentEvaluator.stepTo(0);
+            // Both freeze exactly where the program is — even a past frame the
+            // creator scrubbed to. The always-visible timeline names the
+            // position, and `StepToStart` is how a creator asks for the
+            // beginning.
         }
 
-        // If the play-mode layout was active, restore the editing layout.
-        if (mode !== 'play' && wasPlayLayout) restoreEditingLayout();
+        // Surface the tile the mode is about, so a mode switch always shows
+        // its subject.
+        const surfaced = surfaceTileForMode(mode);
 
-        // Not every transition broadcasts (e.g., edit to step while already paused),
+        // Not every transition broadcasts (e.g., edit to debug while already paused),
         // so sync the evaluation context explicitly.
         updateEvaluatorStores();
 
-        // Announce the mode switch to screen readers.
-        if (announce && $announce)
-            $announce(
-                'project-mode',
-                $locales.getLanguages()[0],
-                becauseOfException
+        // Announce the mode switch to screen readers. The perform command
+        // announces its own beginning instead.
+        if (cause !== 'perform')
+            announceProjectMode(
+                cause === 'exception'
                     ? $locales.getPrimaryPlainText(
                           (l) => l.ui.output.mode.exception,
                       )
-                    : $locales
-                          .concretize((l) => l.ui.output.mode.announce, {
-                              mode: getModeLabel(mode),
-                          })
-                          .toText(),
+                    : mode === 'play'
+                      ? // Naming where it picked up isn't only informative: an
+                        // announcement whose text never changes is heard once
+                        // and then sounds broken, and "resuming" alone would be
+                        // identical on every play (see CLAUDE.md).
+                        $locales
+                            .concretize((l) => l.ui.output.mode.resuming, {
+                                position: $evaluator.getStepIndex(),
+                            })
+                            .toText()
+                      : $locales
+                            .concretize((l) => l.ui.output.mode.announce, {
+                                mode: getModeLabel(mode),
+                            })
+                            .toText(),
             );
+
+        // Give the mode's subject keyboard focus, so the next keystroke reaches
+        // it. Without this, switching to play beside an open editor leaves focus
+        // in the editor's invisible textarea, where a keypress is a source edit
+        // that silently switches back to edit mode (its requestEditable escape
+        // hatch) instead of reaching the stage (#1285). Deferred a tick, since
+        // surfacing may have just expanded a tile that wasn't rendered — and
+        // deferred until after the announcement, so the mode reaches the paced
+        // live region before the focus change speaks, the same order the perform
+        // command uses. Only a deliberate switch moves focus: an exception's jump
+        // to debug is automatic and shouldn't move the creator, and a perform
+        // fullscreens and focuses the stage itself.
+        if (cause === 'switch' && focusHere)
+            tick().then(() =>
+                mode === 'play' ? focusStage() : focusTile(surfaced?.id),
+            );
+    }
+
+    /** Announce on the project-mode lane, in the primary language, matching
+     * the live region's declared lang. */
+    function announceProjectMode(text: string) {
+        if (announce && $announce)
+            $announce('project-mode', $locales.getLanguages()[0], text);
+    }
+
+    /** Whether the output tile — home of the debugger's step controls and
+     * timeline — is not on screen: collapsed, zeroed out by a single/split
+     * arrangement, or covered by another tile's fullscreen. When it is hidden
+     * in debug mode, the controls float over whatever is visible instead. */
+    const outputTileHidden = $derived.by(() => {
+        const output = layout.getOutput();
+        return (
+            output === undefined ||
+            !output.isExpanded() ||
+            output.isInvisible() ||
+            (layout.fullscreenID !== undefined &&
+                layout.fullscreenID !== output.id)
+        );
+    });
+
+    /** Make the tile a mode is about visible: edit and debug are about the
+     * active source, play is about the stage. Expanding and raising it covers
+     * every way a tile can be hidden — collapsed by hand, or pushed out of the
+     * single/split arrangements, which show only the most recently raised one
+     * or two — and a fullscreen tile that ISN'T the subject is exited, since
+     * it would cover the subject entirely (this is also what exits the stage's
+     * fullscreen when returning to edit). Returns the tile it surfaced, so the
+     * caller can hand it focus without working out the subject a second time. */
+    function surfaceTileForMode(mode: ProjectMode) {
+        const tile =
+            mode === 'play'
+                ? layout.getOutput()
+                : (layout.getSource(selectedSourceIndex) ??
+                  layout.getTileWithID(Layout.getSourceID(0)));
+        if (tile === undefined) return undefined;
+        if (
+            layout.fullscreenID !== undefined &&
+            layout.fullscreenID !== tile.id
+        )
+            setFullscreen(undefined);
+        setMode(tile, TileMode.Expanded);
+        return tile;
+    }
+
+    /**
+     * The perform command: begin a fresh performance — restart the program,
+     * enter play mode, and fullscreen the stage — from any mode, including
+     * play, where starting over in fullscreen is just as useful. The
+     * complement to the mode switch, which always resumes: this is the
+     * trigger that always starts from the top. (Switching to edit is the way
+     * out, and it exits the stage's fullscreen itself.)
+     */
+    function performProject() {
+        // Enter play before resetting: the auto-start effect reads the
+        // mode when the fresh evaluator arrives, and leaves it running
+        // only if the mode is already play. (Already playing? setUIMode
+        // no-ops and the reset below does the work.)
+        setUIMode('play', 'perform');
+        resetInputs();
+        // The performance number varies every firing, so consecutive
+        // performances are each heard (an unchanging announcement is heard
+        // once and then sounds broken; see CLAUDE.md).
+        announceProjectMode(
+            $locales
+                .concretize((l) => l.ui.output.mode.performing, {
+                    number: performance,
+                })
+                .toText(),
+        );
+        if (persistLayout) fullscreenStage();
     }
 
     function revert() {
@@ -2553,6 +2784,115 @@
         {/if}
 
         {#key tileIDSequence}
+            <!-- The evaluation controls, declared here so three surfaces can
+                 render them: the output tile's toolbar, its subtoolbar, and
+                 the floating debug controls shown when that tile is hidden.
+                 None of them depend on the tile being iterated. -->
+            {#snippet outputMode()}
+                <!-- editableAndCurrent, not editable: browsing an
+                     old checkpoint is read-only, so the first mode
+                     says 👁 view there, matching the editor. -->
+                <Mode
+                    modes={editableAndCurrent
+                        ? (l) => l.ui.output.mode.evaluation
+                        : (l) => l.ui.output.mode.evaluationView}
+                    icons={editableAndCurrent
+                        ? ProjectModeIcons
+                        : ProjectModeViewIcons}
+                    choice={ProjectModes.indexOf(uiMode)}
+                    select={(index) => setUIMode(ProjectModes[index])}
+                    labeled={false}
+                    modeLabels={false}
+                    uiid="modeSwitcher"
+                />
+            {/snippet}
+            {#snippet outputRestart()}
+                <CommandButton background command={Restart} />
+            {/snippet}
+            {#snippet outputPerform()}
+                <CommandButton
+                    background
+                    command={Perform}
+                    icon={PerformIcon}
+                />
+            {/snippet}
+            <!-- Anchor the `stepControls` UI reference (tutorial highlight + tour)
+                 on the leftmost, most overflow-stable step button. -->
+            {#snippet stepToStartItem()}<CommandButton
+                    command={StepToStart}
+                    uiid="stepControls"
+                />{/snippet}
+            {#snippet stepBackInputItem()}<CommandButton
+                    command={StepBackInput}
+                />{/snippet}
+            {#snippet stepBackNodeItem()}<CommandButton
+                    command={StepBackNode}
+                />{/snippet}
+            {#snippet stepBackItem()}<CommandButton
+                    command={StepBack}
+                />{/snippet}
+            {#snippet stepOutItem()}<CommandButton
+                    command={StepOut}
+                />{/snippet}
+            {#snippet stepForwardItem()}<CommandButton
+                    command={StepForward}
+                />{/snippet}
+            {#snippet stepForwardNodeItem()}<CommandButton
+                    command={StepForwardNode}
+                />{/snippet}
+            {#snippet stepForwardInputItem()}<CommandButton
+                    command={StepForwardInput}
+                />{/snippet}
+            {#snippet stepToPresentItem()}<CommandButton
+                    command={StepToPresent}
+                />{/snippet}
+            <!-- In edit mode the timeline navigates the input
+                 history, so it snaps by reaction; debug stops at
+                 every step. -->
+            {#snippet timelineSlider()}<Timeline
+                    evaluator={$evaluator}
+                    granularity={uiMode === 'edit' ? 'input' : 'step'}
+                />{/snippet}
+            <!-- Edit mode shows the timeline alone: it names the
+                 paused position and snaps to prior inputs, which is
+                 useful while authoring, but the nine precise step
+                 buttons are debugger apparatus most editing never
+                 touches — showing them all the time reads as a
+                 cockpit. Debug mode adds them on their own line
+                 above the slider. With no reactions beyond the
+                 program's start, edit hides the row entirely:
+                 there is no history to navigate. -->
+            {#snippet outputTimelineRow()}
+                <div class="step-controls">
+                    {@render timelineSlider()}
+                </div>
+            {/snippet}
+            <!-- The debugger's controls: the step buttons on one
+                 line, the history slider on its own beneath them.
+                 Sharing one line meant the slider could only get
+                 wider by pushing step buttons into the overflow
+                 menu — measured at 73px of a 403px toolbar, which
+                 is not a scrubber anyone can aim at, and 240px of
+                 reserved width hid six of the nine buttons. On its
+                 own line it is full width and hides nothing. -->
+            {#snippet outputStepRow()}
+                <div class="step-controls">
+                    <OverflowToolbar
+                        items={[
+                            stepToStartItem,
+                            stepBackInputItem,
+                            stepBackNodeItem,
+                            stepBackItem,
+                            stepOutItem,
+                            stepForwardItem,
+                            stepForwardNodeItem,
+                            stepForwardInputItem,
+                            stepToPresentItem,
+                        ]}
+                    />
+                    {@render timelineSlider()}
+                </div>
+            {/snippet}
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">
@@ -2568,102 +2908,25 @@
                 <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
                 {#each $arrangement === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
                     {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
-                        <!-- The evaluation controls for the output tile, declared outside the
-                             TileView so both its toolbar (mode switcher, reset) and its step-mode
-                             subtoolbar (reset, step buttons, history slider) can render them. -->
-                        {#snippet outputMode()}
-                            <Mode
-                                modes={editable
-                                    ? (l) => l.ui.output.mode.evaluation
-                                    : (l) => l.ui.output.mode.evaluationView}
-                                icons={editable
-                                    ? [EDIT_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]
-                                    : [VIEW_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]}
-                                choice={ProjectModes.indexOf(uiMode)}
-                                select={(index) =>
-                                    setUIMode(ProjectModes[index])}
-                                labeled={false}
-                                modeLabels={false}
-                                uiid="modeSwitcher"
-                            />
-                        {/snippet}
-                        {#snippet outputRestart()}
-                            <CommandButton background command={Restart} />
-                        {/snippet}
-                        <!-- Anchor the `stepControls` UI reference (tutorial highlight + tour)
-                             on the leftmost, most overflow-stable step button. -->
-                        {#snippet stepToStartItem()}<CommandButton
-                                command={StepToStart}
-                                uiid="stepControls"
-                            />{/snippet}
-                        {#snippet stepBackInputItem()}<CommandButton
-                                command={StepBackInput}
-                            />{/snippet}
-                        {#snippet stepBackNodeItem()}<CommandButton
-                                command={StepBackNode}
-                            />{/snippet}
-                        {#snippet stepBackItem()}<CommandButton
-                                command={StepBack}
-                            />{/snippet}
-                        {#snippet stepOutItem()}<CommandButton
-                                command={StepOut}
-                            />{/snippet}
-                        {#snippet stepForwardItem()}<CommandButton
-                                command={StepForward}
-                            />{/snippet}
-                        {#snippet stepForwardNodeItem()}<CommandButton
-                                command={StepForwardNode}
-                            />{/snippet}
-                        {#snippet stepForwardInputItem()}<CommandButton
-                                command={StepForwardInput}
-                            />{/snippet}
-                        {#snippet stepToPresentItem()}<CommandButton
-                                command={StepToPresent}
-                            />{/snippet}
-                        {#snippet timelineSlider()}<Timeline
-                                evaluator={$evaluator}
-                            />{/snippet}
-                        <!-- The step-mode controls: reset and the step buttons on one line,
-                             the history slider on its own beneath them. Sharing one line meant
-                             the slider could only get wider by pushing step buttons into the
-                             overflow menu — measured at 73px of a 403px toolbar, which is not
-                             a scrubber anyone can aim at, and 240px of reserved width hid six
-                             of the nine buttons. On its own line it is full width and hides
-                             nothing. -->
-                        {#snippet outputStepRow()}
-                            <div class="step-controls">
-                                <OverflowToolbar
-                                    pinnedStart={[outputRestart]}
-                                    items={[
-                                        stepToStartItem,
-                                        stepBackInputItem,
-                                        stepBackNodeItem,
-                                        stepBackItem,
-                                        stepOutItem,
-                                        stepForwardItem,
-                                        stepForwardNodeItem,
-                                        stepForwardInputItem,
-                                        stepToPresentItem,
-                                    ]}
-                                />
-                                {@render timelineSlider()}
-                            </div>
-                        {/snippet}
                         <TileView
                             {project}
                             {tile}
                             {layout}
-                            subtoolbar={tile.kind === TileKind.Output &&
-                            uiMode === 'step'
-                                ? outputStepRow
-                                : undefined}
+                            subtoolbar={tile.kind !== TileKind.Output ||
+                            uiMode === 'play'
+                                ? undefined
+                                : uiMode === 'debug'
+                                  ? outputStepRow
+                                  : $evaluation.streams.length > 1
+                                    ? outputTimelineRow
+                                    : undefined}
                             editable={editableAndCurrent}
                             arrangement={$arrangement}
                             background={tile.kind === TileKind.Output
                                 ? outputBackground
                                 : null}
                             headerBackground={tile.kind === TileKind.Output &&
-                            uiMode === 'step'
+                            uiMode === 'debug'
                                 ? 'var(--wordplay-evaluation-color)'
                                 : null}
                             dragging={draggedTile?.id === tile.id}
@@ -2679,13 +2942,10 @@
                             scroll={repositionFloaters}
                             rename={(id, name) => renameSource(id, name)}
                             setFullscreen={(fullscreen) => {
-                                // Leaving output fullscreen also leaves the play-mode
-                                // layout, but keeps the current evaluation mode.
-                                if (
-                                    layout.isFullscreen() &&
-                                    tile.kind === TileKind.Output
-                                )
-                                    restoreEditingLayout();
+                                // Exiting fullscreen reveals the arrangement
+                                // exactly as it was, and keeps the current
+                                // evaluation mode — a playing stage keeps
+                                // playing beside the editor.
                                 setFullscreen(fullscreen ? tile : undefined);
                             }}
                         >
@@ -2745,6 +3005,16 @@
                             {/snippet}
 
                             {#snippet extra()}
+                                <!-- A third home for the evaluation mode switcher.
+                                     Fullscreen unmounts the project footer, which
+                                     holds the only copy whenever the output tile
+                                     isn't on screen — so fullscreening the editor
+                                     (a tap away in its own toolbar) left no way to
+                                     reach play or debug at all. The output tile
+                                     pins its own copy, so it's excluded here. -->
+                                {#if layout.fullscreenID === tile.id && tile.kind !== TileKind.Output}
+                                    {@render outputMode()}
+                                {/if}
                                 {#if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     <!-- Can't delete main. -->
@@ -2800,21 +3070,27 @@
                                                     l.ui.output.button.zoomIn}
                                                 ><Emoji text="+⌕" /></Button
                                             >
-                                            {#if hasStagePlace}
+                                            <!-- Shown whenever the audience has panned or
+                                                 zoomed, with or without a program camera,
+                                                 since it now means "clear my adjustment". -->
+                                            {#if focusAdjusted}
                                                 <Button
+                                                    uiid="stageZoomReset"
                                                     action={() =>
                                                         outputView?.resetZoom()}
                                                     tip={(l) =>
                                                         l.ui.output.button
                                                             .resetZoom}
                                                     background
-                                                    active={focusOverridden}
                                                     ><Emoji text="⟲⌕" /></Button
                                                 >
                                             {/if}
                                         </span>
                                     {/snippet}
                                     {#snippet outputGridFit()}
+                                        <!-- The fit toggle is inactive when the program sets
+                                             its own camera, since it is already framing the
+                                             stage and there is nothing for fitting to do. -->
                                         <span class="grid-fit">
                                             <Toggle
                                                 uiid="stageGrid"
@@ -2828,6 +3104,7 @@
                                                 tips={(l) =>
                                                     l.ui.output.toggle.fit}
                                                 on={fit}
+                                                active={!hasStagePlace}
                                                 toggle={() => (fit = !fit)}
                                                 ><Emoji
                                                     text={fit ? '🔒' : '🔓'}
@@ -2906,15 +3183,16 @@
                                             </label>
                                         {/if}
                                     {/snippet}
-                                    <!-- The mode switcher (and, outside step mode, its companion
-                                         reset button) is pinned so it never overflows into the
-                                         hamburger: it's the primary evaluation control for the
-                                         whole project. In step mode, reset moves to the second
-                                         row with the stepping controls. -->
+                                    <!-- The mode switcher, perform, and reset are pinned so they
+                                         never overflow into the hamburger: they are the evaluation
+                                         controls for the whole project, and they are the same three
+                                         in every mode so nothing jumps around on a mode switch. -->
                                     <OverflowToolbar
-                                        pinnedStart={uiMode === 'step'
-                                            ? [outputMode]
-                                            : [outputMode, outputRestart]}
+                                        pinnedStart={[
+                                            outputMode,
+                                            outputPerform,
+                                            outputRestart,
+                                        ]}
                                         items={[
                                             outputCopy,
                                             outputLocale,
@@ -2966,17 +3244,20 @@
                                         {project}
                                         evaluator={$evaluator}
                                         value={latestValue}
+                                        source={$evaluator.project.getSources()[
+                                            selectedSourceIndex
+                                        ]}
                                         bind:fit
                                         bind:grid
                                         bind:painting
                                         bind:hasStagePlace
-                                        bind:focusOverridden
+                                        bind:focusAdjusted
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                         editable={editableNow}
                                         selectable={editableAndCurrent &&
                                             uiMode !== 'play'}
-                                        pauseOverlay
+                                        pauseOverlay={uiMode !== 'play'}
                                         onretry={() => updateEvaluator(project)}
                                         warnings={gate.pending}
                                         blocks={gate.blocks}
@@ -3004,12 +3285,13 @@
                                                           return true;
                                                       }
                                                     : undefined}
-                                                values={uiMode === 'step'}
+                                                values={uiMode === 'debug'}
                                                 searchable
                                                 sourceID={tile.id}
                                                 selected={source ===
                                                     selectedSource}
                                                 autofocus={autofocus &&
+                                                    uiMode !== 'play' &&
                                                     tile.isExpanded() &&
                                                     getSourceByTileID(
                                                         tile.id,
@@ -3148,7 +3430,7 @@
                                             sourceID={tile.id}
                                             editable={editableNow}
                                             conflicts={visibleConflicts}
-                                            stepping={uiMode === 'step'}
+                                            stepping={uiMode === 'debug'}
                                             caret={$editors.get(tile.id)
                                                 ?.displayedCaret}
                                             expanded={localAnnotationsExpanded}
@@ -3190,10 +3472,21 @@
                     {/each}
                 {/if}
             {/if}
+            <!-- The debugger's controls, floated over whatever tile is
+                 visible when their home — the output tile's subtoolbar — is
+                 hidden (collapsed, pushed out by a single/split arrangement,
+                 or covered by another tile's fullscreen). Debug surfaced the
+                 editor, and on a phone's one-tile layout there would otherwise
+                 be no way to step at all. -->
+            {#if uiMode === 'debug' && outputTileHidden}
+                <div class="floating-debug">
+                    {@render outputStepRow()}
+                </div>
+            {/if}
         {/key}
     </div>
 
-    {#if !layout.isFullscreen() && !playRequested}
+    {#if !layout.isFullscreen()}
         <ProjectFooter
             {project}
             {layout}
@@ -3291,6 +3584,22 @@
 {/if}
 
 <style>
+    /* The debugger's controls when their home tile is hidden: pinned above
+       the footer, in the debug band's own color so they read as the same
+       instrument. */
+    .floating-debug {
+        position: absolute;
+        inset-block-end: var(--wordplay-spacing);
+        inset-inline: var(--wordplay-spacing);
+        z-index: 2;
+        background: var(--wordplay-evaluation-color);
+        color: var(--wordplay-background);
+        fill: var(--wordplay-background);
+        border-radius: var(--wordplay-border-radius);
+        padding: var(--wordplay-spacing);
+        box-shadow: 2px 2px 5px var(--wordplay-chrome);
+    }
+
     /* Plain block, not flex: the toolbar and the slider each take the full
        width on their own line, and the slider's own `flex: 1` is inert here. */
     .step-controls {
@@ -3299,10 +3608,6 @@
         display: flex;
         flex-direction: column;
         gap: calc(var(--wordplay-spacing) / 2);
-    }
-
-    :global(body) {
-        touch-action: none;
     }
 
     .project {
@@ -3317,8 +3622,13 @@
 
         /* So tiles absolute positions are relative to the project view. */
         position: relative;
+    }
 
-        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+    /* Suppress native touch gestures only while a tile is actually being dragged.
+       Applying it unconditionally reached every scroller inside the project —
+       effective touch-action is an inherited intersection, so a descendant can't
+       re-permit it — and left the editor unscrollable by touch. */
+    .project.dragging {
         touch-action: none;
     }
 

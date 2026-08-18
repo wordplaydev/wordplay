@@ -171,7 +171,7 @@
         }
     });
 
-    // Show a value if 1) it's an expression, 2) the project is in step mode (or, outside
+    // Show a value if 1) it's an expression, 2) the project is in debug mode (or, outside
     // a ProjectView, the evaluator is paused), 3) it's not involved in the evaluation stack
     // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
     // Note that this interacts with Editor.handleEdit(), which adjust caret positions if a value is rendered.
@@ -180,7 +180,7 @@
             $evaluation &&
             ($evaluation.mode === undefined
                 ? !$evaluation.playing
-                : $evaluation.mode === 'step') &&
+                : $evaluation.mode === 'debug') &&
             renderNode instanceof Expression &&
             !renderNode.isEvaluationInvolved()
             ? $evaluation.evaluator.getLatestExpressionValue(renderNode)
@@ -691,7 +691,8 @@
     .block.blockminor {
         /* Dotted, per the line vocabulary in app.html: line style carries
            severity, since warning gold doubles as the selection hue. */
-        border-bottom: var(--wordplay-focus-width) dotted var(--wordplay-warning);
+        border-bottom: var(--wordplay-focus-width) dotted
+            var(--wordplay-warning);
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
     }

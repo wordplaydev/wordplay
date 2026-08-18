@@ -141,12 +141,35 @@ test.each([
     // A branch immediately after a mention lexes as branch delimiters.
     [
         '¶this is $1[hi|no]¶',
-        [Sym.Doc, Sym.Words, Sym.Mention, Sym.ListOpen, Sym.Words, Sym.Union, Sym.Words, Sym.ListClose, Sym.Doc, Sym.End],
+        [
+            Sym.Doc,
+            Sym.Words,
+            Sym.Mention,
+            Sym.ListOpen,
+            Sym.Words,
+            Sym.Union,
+            Sym.Words,
+            Sym.ListClose,
+            Sym.Doc,
+            Sym.End,
+        ],
     ],
     // A space between the mention and the [ means no branch: all words.
     [
         '¶this is $1 [hi|no]¶',
-        [Sym.Doc, Sym.Words, Sym.Mention, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
+        [
+            Sym.Doc,
+            Sym.Words,
+            Sym.Mention,
+            Sym.Words,
+            Sym.Words,
+            Sym.Words,
+            Sym.Words,
+            Sym.Words,
+            Sym.Words,
+            Sym.Doc,
+            Sym.End,
+        ],
     ],
     // Bare list delimiters are words.
     [
@@ -167,7 +190,20 @@ test.each([
     // A union outside a branch is words even when a branch appears earlier.
     [
         '¶$1[a|b] | c¶',
-        [Sym.Doc, Sym.Mention, Sym.ListOpen, Sym.Words, Sym.Union, Sym.Words, Sym.ListClose, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
+        [
+            Sym.Doc,
+            Sym.Mention,
+            Sym.ListOpen,
+            Sym.Words,
+            Sym.Union,
+            Sym.Words,
+            Sym.ListClose,
+            Sym.Words,
+            Sym.Words,
+            Sym.Words,
+            Sym.Doc,
+            Sym.End,
+        ],
     ],
     // A bare tag close is words.
     ['¶a > b¶', [Sym.Doc, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End]],
@@ -179,7 +215,17 @@ test.each([
     // A link tag still lexes as tag delimiters.
     [
         '¶hello <link@https://amyjko.com>¶',
-        [Sym.Doc, Sym.Words, Sym.TagOpen, Sym.Words, Sym.Link, Sym.URL, Sym.TagClose, Sym.Doc, Sym.End],
+        [
+            Sym.Doc,
+            Sym.Words,
+            Sym.TagOpen,
+            Sym.Words,
+            Sym.Link,
+            Sym.URL,
+            Sym.TagClose,
+            Sym.Doc,
+            Sym.End,
+        ],
     ],
     // A bare URL still lexes as a URL so its // isn't treated as an escaped italic.
     [
@@ -196,15 +242,24 @@ test.each([
     // An unclosed branch ends at a paragraph break, so a later ] or | is words.
     [
         '¶$1[unclosed\n\nsecond ] paragraph | here¶',
-        [Sym.Doc, Sym.Mention, Sym.ListOpen, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
+        [
+            Sym.Doc,
+            Sym.Mention,
+            Sym.ListOpen,
+            Sym.Words,
+            Sym.Words,
+            Sym.Words,
+            Sym.Words,
+            Sym.Words,
+            Sym.Words,
+            Sym.Doc,
+            Sym.End,
+        ],
     ],
     // A reference's name ends where the script changes, so text attached to a
     // reference in a language that writes it that way stays words (#1245).
     // Korean particle:
-    [
-        '¶@Doc의 뜻¶',
-        [Sym.Doc, Sym.Concept, Sym.Words, Sym.Doc, Sym.End],
-    ],
+    ['¶@Doc의 뜻¶', [Sym.Doc, Sym.Concept, Sym.Words, Sym.Doc, Sym.End]],
     // Devanagari danda, and an Arabic comma:
     ['¶@language।¶', [Sym.Doc, Sym.Concept, Sym.Words, Sym.Doc, Sym.End]],
     ['¶@value،¶', [Sym.Doc, Sym.Concept, Sym.Words, Sym.Doc, Sym.End]],

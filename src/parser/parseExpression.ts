@@ -139,8 +139,7 @@ export function parseBlock(
             tokens.hasNext() &&
             (root
                 ? !doc || tokens.nextIsnt(Sym.Code)
-                : tokens.nextIsnt(Sym.EvalClose) &&
-                  tokens.nextIsnt(Sym.Code)),
+                : tokens.nextIsnt(Sym.EvalClose) && tokens.nextIsnt(Sym.Code)),
         () => {
             const next = nextIsBind(tokens, true)
                 ? parseBind(tokens)
@@ -274,12 +273,12 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                         // the construct rather than a reference. Pure tokens never carry both, so this
                         // is a no-op unless a keyword index is active. See LANGUAGE.md.
                         tokens.nextIsOneOf(Sym.Name, Sym.Operator) &&
-                        !tokens.nextIsOneOf(
-                            Sym.Function,
-                            Sym.Type,
-                            Sym.Convert,
-                            Sym.Boolean,
-                        )
+                          !tokens.nextIsOneOf(
+                              Sym.Function,
+                              Sym.Type,
+                              Sym.Convert,
+                              Sym.Boolean,
+                          )
                         ? parseReference(tokens)
                         : // Booleans
                           tokens.nextIs(Sym.Boolean)

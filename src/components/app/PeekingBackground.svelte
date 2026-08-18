@@ -50,7 +50,8 @@
     function placement() {
         const cx = width / 2;
         const cy = height / 2;
-        const along = (lo: number, hi: number) => lo + Math.random() * (hi - lo);
+        const along = (lo: number, hi: number) =>
+            lo + Math.random() * (hi - lo);
         const edge = Math.floor(Math.random() * 4);
         let ax: number;
         let ay: number;
@@ -150,7 +151,8 @@
             style:left="{left}px"
             style:top="{top}px"
             style:font-size="{size}pt"
-            style:transform="translate(-50%, -50%) rotate({angle}deg) translateY({offset}px)"
+            style:transform="translate(-50%, -50%) rotate({angle}deg)
+            translateY({offset}px)"
             >{withColorEmoji(symbol)}<Eyes
                 invert={false}
                 emotion={Emotion.neutral}
@@ -175,7 +177,8 @@
         font-family: var(--wordplay-code-font);
         user-select: none;
         color: var(--wordplay-foreground);
-        transition: transform calc(var(--animation-factor, 1) * 600ms) ease-in-out;
+        transition: transform calc(var(--animation-factor, 1) * 600ms)
+            ease-in-out;
         will-change: transform;
     }
 

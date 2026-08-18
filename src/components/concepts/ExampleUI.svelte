@@ -64,7 +64,7 @@
     let playing = $state(true);
 
     /** Whether the viewer has actually stepped. A paused example is otherwise a
-     *  frozen first frame — 'edit', not 'step' — so it reads as plain read-only
+     *  frozen first frame — 'edit', not 'debug' — so it reads as plain read-only
      *  code. Without this the Editor falls back to "paused means stepping" and
      *  every example shows inline intermediate values it was never asked for. */
     let stepped = $state(false);
@@ -211,7 +211,7 @@
             mode: evaluator.isPlaying()
                 ? ('play' as const)
                 : stepped
-                  ? ('step' as const)
+                  ? ('debug' as const)
                   : ('edit' as const),
         };
     }
@@ -412,7 +412,7 @@
                     ></Button>
                     {#if !playing}
                         <!-- Using a step control is what puts this example in
-                             step mode, and therefore what makes inline values
+                             debug mode, and therefore what makes inline values
                              appear. Capture the press here rather than in each
                              CommandButton, which dispatches the command itself. -->
                         <div

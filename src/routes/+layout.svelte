@@ -3,7 +3,6 @@
     // registry. Loaded once at app startup so the registry is populated by
     // the time any annotation asks for resolutions. See the file's header
     // for why it can't be imported by the conflict files directly.
-    import '@conflicts/registerTypeResolutions';
 
     // Notifications state lives in @db so the databases that write it don't
     // import from this route component (that cycle crashes WebKit hydration).
@@ -43,6 +42,7 @@
     import {
         animationFactor,
         appBanner,
+        authAttempted,
         dark,
         DB,
         howToNotifications,
@@ -51,6 +51,11 @@
         localesReady,
         Settings,
     } from '@db/Database';
+    import shouldPromptForLocale, {
+        hasBeenAsked,
+        loadLocalePrompt,
+        markAsked,
+    } from '@components/settings/localePrompt';
     import { getLanguageDirection } from '@locale/LanguageCode';
 
     interface Props {
@@ -132,12 +137,21 @@
         // Install browser online/offline + visibilitychange listeners.
         const cleanupNetworkListeners = DB.installNetworkListeners();
 
-        // Install best-effort save-on-unload handlers so local edits
-        // (especially in-memory CRDT state) survive a tab close that
-        // beats saveSoon's debounce. See
-        // ProjectsDatabase.installSaveOnUnloadListeners for what it
-        // catches and what it can't.
-        const cleanupSaveOnUnload = DB.Projects.installSaveOnUnloadListeners();
+        // Read the local project cache once the page is up rather than on
+        // import: hydration deserializes every cached project and each one
+        // builds a Basis, which is seconds of main-thread work on a phone and
+        // used to happen before first paint on every page. Only devices with
+        // project work to do pay for it at all — a first-time visitor reading
+        // the landing page never does. Pending edits aren't at risk while we
+        // wait; they live in a durable dirty table and replay when this runs.
+        const startProjects = () =>
+            void DB.shouldStartProjectWork().then((should) => {
+                if (should) void DB.startProjectWork();
+            });
+        const idleSupported = typeof window.requestIdleCallback === 'function';
+        const idle = idleSupported
+            ? window.requestIdleCallback(startProjects)
+            : window.setTimeout(startProjects, 200);
 
         // Warn before closing/reloading the tab when there are edits not yet
         // saved online (e.g. made offline). The save-on-unload handlers above
@@ -157,8 +171,9 @@
 
         // Have the Database cleanup database connections when this is unmounted.
         return () => {
+            if (idleSupported) window.cancelIdleCallback(idle);
+            else window.clearTimeout(idle);
             cleanupNetworkListeners();
-            cleanupSaveOnUnload();
             window.removeEventListener('beforeunload', warnUnsaved);
             DB.clean();
         };
@@ -232,8 +247,69 @@
                 .filter((l) =>
                     SupportedLocales.includes(l as SupportedLocale),
                 ) as SupportedLocale[];
-            if (valid.length > 0) DB.Locales.setLocales(valid);
+            if (valid.length > 0) {
+                DB.Locales.setLocales(valid);
+                // Arriving by a URL that names a language is a choice too, and it has to
+                // be recorded separately: setLocales skips the write when the value is
+                // unchanged, so picking the default (en-US) would otherwise store nothing
+                // and leave the prompt asking forever.
+                markAsked();
+            }
         }
+    });
+
+    /** Whether the language prompt is open. Backed by state rather than derived because
+     *  Dialog binds it, and because it must be latched: see `decided` below. */
+    let promptingLocale = $state(false);
+
+    /** Offer the language chooser to a visitor who has never picked one (#1256).
+     *
+     *  Decided exactly once per page. A re-running effect would reopen the dialog every
+     *  time it was dismissed, since `page.url` changes on every navigation and `$user`
+     *  is re-set on each hourly token refresh — so `decided` is a plain `let`, whose
+     *  assignment doesn't itself retrigger this. */
+    let decided = false;
+    $effect(() => {
+        if (decided) return;
+        if (
+            !browser ||
+            !shouldPromptForLocale({
+                urlLocale: page.params.locale,
+                routeId: page.route.id,
+                localesPersisted: Settings.settings.locales.isPersisted(),
+                asked: hasBeenAsked(),
+                authAttempted: $authAttempted,
+                user: $user,
+                // Nothing focused yet. Browsers disagree on what "nothing" is before
+                // the first focus — body in Chromium, sometimes the root element —
+                // so treat both as untouched rather than never prompting.
+                interacting:
+                    document.activeElement !== null &&
+                    document.activeElement !== document.body &&
+                    document.activeElement !== document.documentElement,
+            })
+        )
+            return;
+        decided = true;
+        promptingLocale = true;
+    });
+
+    /** Once the prompt closes — by a choice, Escape, the ✕, or a click outside — don't
+     *  ask again on this device. Without this a stray backdrop click would mean being
+     *  interrupted on every future visit, since declining stores nothing by itself. */
+    $effect(() => {
+        // `showing` is read before anything can short-circuit past it: `decided` is a
+        // plain `let`, so `decided && !promptingLocale` would skip the read entirely on
+        // the first run and leave this effect subscribed to nothing at all.
+        const showing = promptingLocale;
+        if (decided && !showing) markAsked();
+    });
+
+    /** Close the prompt if authentication resolves to a signed-in creator while it's
+     *  open. Auth normally reports a restored session in one go, but a slow restore can
+     *  report signed-out first, and their account already carries preferred locales. */
+    $effect(() => {
+        if (promptingLocale && $user) promptingLocale = false;
     });
 
     // Strip a `dialog` query param that no mounted dialog claims, so a shared or
@@ -307,16 +383,30 @@
     bind:announcer={() => $announcerStore, (fn) => announcerStore.set(fn)}
 />
 <Hint></Hint>
+<!-- Loaded and mounted only once we've decided to ask. Dialog renders its children
+     whether or not it's open, so a static import would build the chooser's several
+     hundred language and region options into every route — and into the prerendered
+     HTML of every static page — for a dialog most visitors never see. -->
+{#if promptingLocale}
+    {#await loadLocalePrompt() then LocalePrompt}
+        <LocalePrompt bind:show={promptingLocale} />
+    {:catch}<!-- The chunk didn't arrive. Say nothing rather than letting the
+        rejection tear down the layout; the language footer still works. -->{/await}
+{/if}
 
 <style>
-    /* Flex column at the viewport height so the banner can take its natural
-       space at the top and the content shrinks to fit — same pattern Page.svelte
-       uses for the Localizer header. Keeps the page itself non-scrolling. */
+    /* Flex column filling the pinned html/body (see app.html) so the banner can
+       take its natural space at the top and the content shrinks to fit — same
+       pattern Page.svelte uses for the Localizer header. `overflow: hidden` keeps
+       anything that escapes an inner pane from extending the document; sizing in
+       percent rather than `dvh` means an iOS URL-bar transition can't relayout the
+       app mid-scroll. */
     .root {
         display: flex;
         flex-direction: column;
-        height: 100dvh;
-        max-height: 100dvh;
+        height: 100%;
+        max-height: 100%;
+        overflow: hidden;
         font-family: var(--wordplay-app-font);
         font-weight: var(--wordplay-font-weight);
         font-size: var(--wordplay-font-size);

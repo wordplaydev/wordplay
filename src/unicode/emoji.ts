@@ -138,7 +138,9 @@ export function segmentEmoji(
     text: string,
 ): { text: string; kind: EmojiRunKind }[] {
     const runs: { text: string; kind: EmojiRunKind }[] = [];
-    const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+    const segmenter = new Intl.Segmenter(undefined, {
+        granularity: 'grapheme',
+    });
     for (const { segment } of segmenter.segment(text)) {
         const kind: EmojiRunKind = hasColorCombo(segment)
             ? 'keycap'

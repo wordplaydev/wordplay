@@ -37,14 +37,17 @@ test('Project builds revisions through revised(), not bare constructions', () =>
         // both pass `this` as the project to carry from.
         .filter(({ line }) => !line.includes('new Project(mergedData, this)'))
         .filter(
-            ({ line }) => !line.includes('new Project({ ...this.data, ...data }'),
+            ({ line }) =>
+                !line.includes('new Project({ ...this.data, ...data }'),
         );
 
     expect(
         bare.length,
         `Project.ts constructs a Project directly at line(s) ${bare
             .map((b) => b.number)
-            .join(', ')}. Instance methods must return this.revised({…}) so the ` +
+            .join(
+                ', ',
+            )}. Instance methods must return this.revised({…}) so the ` +
             `analysis of untouched sources carries over; only the static ` +
             `factories may construct one directly.`,
     ).toBe(STATIC_FACTORIES);

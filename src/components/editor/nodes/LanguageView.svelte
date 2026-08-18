@@ -17,26 +17,22 @@
     ><NodeView node={[node, 'slash']} {format} /><NodeView
         node={[node, 'language']}
         {format}
-    /><NodeSequenceView
-        {node}
-        field="extras"
+    /><NodeSequenceView {node} field="extras" {format} empty="hide" /><NodeView
+        node={[node, 'dash']}
         {format}
         empty="hide"
-    /><NodeView node={[node, 'dash']} {format} empty="hide" /><NodeView
+    /><NodeView
         node={[node, 'region']}
         {format}
         empty="hide"
-    /><NodeSequenceView
-        {node}
-        field="regionExtras"
-        {format}
-        empty="hide"
-    /></em
+    /><NodeSequenceView {node} field="regionExtras" {format} empty="hide" /></em
 >
 
 <style>
+    /* Relative, not the `small` keyword, so it tracks --wordplay-font-size and the
+       editor's --zoom rather than the browser's base size. */
     .language {
-        font-size: small;
+        font-size: 0.85em;
     }
 
     .language.blocks {

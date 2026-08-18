@@ -1,5 +1,9 @@
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -40,13 +44,11 @@
         }}
         onkeydown={(event) =>
             event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
-        onpointerenter={showTip}
+        onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
         onpointerleave={hideTip}
-        onfocus={showTip}
+        onfocus={(event) =>
+            canFocusTips(event.currentTarget) ? showTip() : undefined}
         onblur={hideTip}
-        ontouchstart={showTip}
-        ontouchend={hideTip}
-        ontouchcancel={hideTip}
         bind:this={view}
         >{#if expanded}{icons ? icons[0] : '▲'}{:else}{icons
                 ? icons[1]

@@ -1,7 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import type LocaleText from '../../src/locale/LocaleText';
-import { expect, test, type Locator, type Page } from '../../playwright/fixtures';
+import {
+    expect,
+    test,
+    type Locator,
+    type Page,
+} from '../../playwright/fixtures';
 
 /**
  * Localization mode's 💭 tip badges are pinned to their control's corner rather
@@ -30,15 +35,94 @@ const enUS: LocaleText = JSON.parse(
  * whenever another spec sharing this worker's account has created a project.
  */
 async function localizeOn(page: Page) {
-    await page
-        .getByRole('button', {
-            name: text(enUS.ui.localize.toggle.mode.off),
-        })
-        .click();
+    // Idempotent: these specs share an authenticated account, so the mode may
+    // already be on from a sibling test, and clicking again would turn it off.
+    // Wait for the toggle in either state first — `count()` doesn't wait, so
+    // asking before the footer renders reads zero and skips the click.
+    const enter = localizeButton(page, 'off');
+    const leave = localizeButton(page, 'on');
+    await expect(enter.or(leave)).toBeVisible({ timeout: 20000 });
+    if ((await leave.count()) === 0) await enter.click();
     await expect(page.getByText('Localize', { exact: true })).toBeVisible();
+    await settled(page);
+}
+
+/**
+ * Wait for markup that embeds code to finish arriving. Examples, node
+ * references, and values load the language runtime on demand and show a
+ * stand-in until it lands (see SegmentHTMLView), so a box measured before then
+ * is a layout that is still one chunk away from final.
+ */
+/** The footer's localize toggle button, found by accessible name rather than
+ *  by its ✎ glyph: project cards use the same glyph and precede the footer, so
+ *  a glyph locator silently measures a card instead. */
+function localizeButton(page: Page, state: 'on' | 'off') {
+    return page.getByRole('button', {
+        name: text(enUS.ui.localize.toggle.mode[state]),
+    });
+}
+
+/** The toggle whichever mode it's currently in, for measuring it. */
+function localizeButtonEitherState(page: Page) {
+    return page
+        .getByRole('button', {
+            name: new RegExp(
+                `${text(enUS.ui.localize.toggle.mode.off)}|${text(
+                    enUS.ui.localize.toggle.mode.on,
+                )}`.replace(/[.*+?^${}()|[\]\\]/g, (c) =>
+                    c === '|' ? '|' : `\\${c}`,
+                ),
+            ),
+        })
+        .first();
+}
+
+/** The group wrapping that button, which is what the badges pin to. */
+function localizeGroup(page: Page, state: 'on' | 'off') {
+    return localizeButton(page, state).locator(
+        'xpath=ancestor::span[contains(@class,"toggle-group")][1]',
+    );
+}
+
+async function settled(page: Page) {
+    await expect(page.locator('.rich-loading')).toHaveCount(0);
+}
+
+/**
+ * A bounding box read only once it has stopped changing.
+ *
+ * The footer's overflow toolbar measures itself and moves controls in and out as
+ * it settles, so a box read on the first paint is a layout still in progress —
+ * measured mid-compaction, the localize toggle sits about 50px right of where it
+ * ends up, which is enough to fail an assertion about where its badges pin.
+ */
+async function settledBox(locator: Locator) {
+    await expect(locator).toBeVisible({ timeout: 20000 });
+    let previous: string | undefined;
+    await expect
+        .poll(
+            async () => {
+                const box = await locator.boundingBox();
+                const current = JSON.stringify(box);
+                const stable = current === previous;
+                previous = current;
+                return stable && box !== null;
+            },
+            { timeout: 20000 },
+        )
+        .toBe(true);
+    const box = await locator.boundingBox();
+    expect(box).not.toBeNull();
+    return box!;
 }
 
 async function size(locator: Locator) {
+    // Wait for the element itself, not merely for the absence of loading
+    // markers: an "is nothing loading" check is satisfied before anything has
+    // rendered at all.
+    // Generous: the footer's overflow toolbar measures itself and can move
+    // controls in and out while the page around it is still settling.
+    await expect(locator).toBeVisible({ timeout: 20000 });
     const box = await locator.boundingBox();
     expect(box).not.toBeNull();
     // Width and height only: the mode's header banner shifts everything down the
@@ -50,15 +134,12 @@ test('turning on localization mode does not resize the controls it annotates', a
     page,
 }) => {
     await page.goto('/en-US/projects');
+    await settled(page);
 
     const gear = page.getByRole('button', { name: 'show settings dialog' });
-    const toggle = page
-        .locator('.toggle-group')
-        .filter({ hasText: '✎' })
-        .first()
-        // The toggle's own button, which precedes the badge buttons the mode adds.
-        .locator('button')
-        .first();
+    // Located by accessible name, not by the ✎ glyph: project cards use the
+    // same glyph and precede the footer, so a glyph locator measures a card.
+    const toggle = localizeButtonEitherState(page);
     const field = page.locator('#project-search');
 
     await expect(gear).toBeVisible();
@@ -78,20 +159,21 @@ test('turning on localization mode does not resize the controls it annotates', a
 test('a two-tip control pins one badge to each block-start corner', async ({
     page,
 }) => {
-    await page.goto('/en-US/projects');
+    // A page with no project-dependent content: this measures where the badges
+    // sit on the footer toggle, and on /projects the number of project cards
+    // the shared worker account happens to own reflows the footer around it.
+    await page.goto('/en-US/about');
     await localizeOn(page);
 
     // The localize toggle itself has an on tip and an off tip.
-    const group = page
-        .locator('.toggle-group')
-        .filter({ hasText: '✎' })
-        .first();
-    const groupBox = (await group.boundingBox())!;
+    const group = localizeGroup(page, 'on');
     const badges = group.locator('.tip-badge');
     await expect(badges).toHaveCount(2);
 
-    const first = (await badges.nth(0).boundingBox())!;
-    const second = (await badges.nth(1).boundingBox())!;
+    // Read all three only once the toolbar around them has stopped moving.
+    const groupBox = await settledBox(group);
+    const first = await settledBox(badges.nth(0));
+    const second = await settledBox(badges.nth(1));
 
     // One on each side, both at the block start, both overhanging the corner.
     expect(first.x).toBeLessThan(second.x);

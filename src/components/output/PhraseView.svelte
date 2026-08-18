@@ -27,7 +27,8 @@
     import type Place from '@output/Place/Place';
     import type RenderContext from '@output/RenderContext';
     import { tick, untrack } from 'svelte';
-    import { DB, Projects, locales } from '@db/Database';
+    import { DB, locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import Markup from '@nodes/Markup';
     import TextValue from '@values/TextValue';
     import { getLanguageDirection } from '@locale/LanguageCode';
@@ -60,7 +61,7 @@
         parentAscent: number;
         context: RenderContext;
         editable: boolean;
-        /** Whether the creator can select this output for inspection (edit or step mode). */
+        /** Whether the creator can select this output for inspection (edit or debug mode). */
         inspectable?: boolean;
         editing: boolean;
         frame: number;

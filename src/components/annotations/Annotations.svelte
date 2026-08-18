@@ -23,6 +23,10 @@
 </script>
 
 <script lang="ts">
+    // Populates the conflict-resolution registry read by getResolutions below.
+    // Imported here rather than in the root layout so its ~40 node and conflict
+    // classes load with the editor instead of with every page.
+    import '@conflicts/registerTypeResolutions';
     import getFocusNode from '@components/annotations/getFocusNode';
     import getMenuNoteMarkup from '@components/editor/menu/menuNote';
     import { describesOwnType } from '@nodes/conciseRef';
@@ -32,8 +36,8 @@
         DecrementLiteral,
         IncrementLiteral,
         ShowMenu,
-        toShortcut,
     } from '@components/editor/commands/Commands';
+    import { toShortcut } from '@components/editor/commands/shortcuts';
     import Speech from '@components/lore/Speech.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Sidebar from '@components/widgets/Sidebar.svelte';
@@ -43,7 +47,9 @@
         ConflictLocaleAccessor,
         Resolution,
     } from '@conflicts/Conflict';
+    import { UnknownName } from '@conflicts/UnknownName';
     import type Caret from '@edit/caret/Caret';
+    import { loadLocaleNameIndex } from '@locale/localeNameIndex';
     import NodeRef from '@locale/NodeRef';
     import Context from '@nodes/Context';
     import Expression from '@nodes/Expression';
@@ -114,7 +120,7 @@
 
     // While stepping, the annotations always show — they carry the step
     // explanations — and can't be toggled. The stored preference is untouched,
-    // so leaving step mode restores it.
+    // so leaving debug mode restores it.
     let isExpanded = $derived(
         stepping || (expanded !== undefined ? expanded : $showAnnotations),
     );
@@ -180,6 +186,14 @@
                 }
             }
         }
+
+        // A name can fail to resolve only because the project isn't written in the language
+        // that spells it that way. UnknownName offers to point at the languages dialog, but
+        // it reads the generated name index synchronously, so fetch it (once, and only when
+        // there's a name to explain) before the resolution thunks below are ever called.
+        if (sourceConflicts.some((conflict) => conflict instanceof UnknownName))
+            await loadLocaleNameIndex();
+        if (destroyed) return;
 
         // Map source conflicts to annotation infos.
         const infos: AnnotationInfo[] = sourceConflicts.map(

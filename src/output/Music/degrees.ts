@@ -44,8 +44,7 @@ function neighbors(degree: number): {
     const fraction = degree - lower;
     // Snap the near-whole cases so a rounding error can't produce a second
     // voice, and so `upper` is never a degree the note isn't really near.
-    if (fraction < DegreeEpsilon)
-        return { lower, upper: lower, fraction: 0 };
+    if (fraction < DegreeEpsilon) return { lower, upper: lower, fraction: 0 };
     if (fraction > 1 - DegreeEpsilon)
         return { lower: lower + 1, upper: lower + 1, fraction: 0 };
     return { lower, upper: lower + 1, fraction };

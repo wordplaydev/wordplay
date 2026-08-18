@@ -79,6 +79,7 @@ import type TypeSet from '@nodes/TypeSet';
 import TypeVariable from '@nodes/TypeVariable';
 import UnionType from '@nodes/UnionType';
 import { getEvaluationInputConflicts } from '@nodes/util';
+import { isTailCall } from '@nodes/tailCall';
 
 type Mapping = {
     expected: Bind;
@@ -679,31 +680,31 @@ export default class Evaluate extends Expression {
                         if (
                             lastType instanceof ListType &&
                             expectedType instanceof ListType &&
-                            (lastType.type === undefined ||
-                                expectedType.type === undefined ||
-                                expectedType.type.accepts(
-                                    lastType.type,
-                                    context,
-                                ))
+                            // A list type accepting a list type is exactly this leniency: either
+                            // side without item types accepts, and positions must be compatible.
+                            expectedType.accepts(lastType, context)
                         )
                             isVariableListInput = true;
                     }
 
                     // If it's not a list input for a variable length input, check every input to make sure it's valid.
                     if (!isVariableListInput) {
+                        const itemType =
+                            expectedType instanceof ListType
+                                ? expectedType.getItemType(context)
+                                : undefined;
                         for (const item of given) {
                             const givenType = item.getType(context);
                             if (
                                 !context.isUnknownDownstream(item) &&
-                                expectedType instanceof ListType &&
-                                expectedType.type &&
-                                !expectedType.type.accepts(givenType, context)
+                                itemType !== undefined &&
+                                !itemType.accepts(givenType, context)
                             )
                                 conflicts.push(
                                     new IncompatibleInput(
                                         item,
                                         givenType,
-                                        expectedType.type,
+                                        itemType,
                                     ),
                                 );
                         }
@@ -838,7 +839,7 @@ export default class Evaluate extends Expression {
         // `.length()` of a non-empty literal collection is always ≥ 1.
         if (this.fun instanceof PropertyReference) {
             const subject = this.fun.structure;
-            const count = subject.getConstantLength();
+            const count = subject.getConstantLength(context);
             if (count !== undefined && count > 0) {
                 const length = subject
                     .getType(context)
@@ -897,13 +898,14 @@ export default class Evaluate extends Expression {
                 refinements,
             );
         } else if (fun instanceof StreamDefinition) {
-            // Remember that this type came from this definition.
-            context.setStreamType(
-                fun.output,
-                StreamType.make(fun.getType(context)),
-            );
-            // Return the type of this stream's output.
-            return fun.output;
+            // A declared output is an annotation, so a name in it is still just a name. Resolve
+            // it, or `Now().year` would look up `year` on a NameType and find nothing — silently,
+            // since an unknown property type reports no conflict of its own.
+            const output = fun.output.concretize(context);
+            // Return the type of this stream's output. Stream-ness isn't recorded here
+            // any more: ∆, ←, and reactions ask the expression instead (see
+            // isStreamExpression), which survives the transforms a type node doesn't.
+            return output;
         }
         // Otherwise, who knows.
         else return new NonFunctionType(this.fun, this.fun.getType(context));
@@ -1036,12 +1038,12 @@ export default class Evaluate extends Expression {
             new Start(this),
             ...inputSteps.reduce((steps: Step[], s) => [...steps, ...s], []),
             ...this.fun.compile(evaluator, context),
-            new StartEvaluation(this),
+            new StartEvaluation(this, isTailCall(this, context)),
             new Finish(this),
         ];
     }
 
-    startEvaluation(evaluator: Evaluator) {
+    startEvaluation(evaluator: Evaluator, tail = false) {
         // Get the function off the stack and bail if it's not a function.
         const definitionValue = evaluator.popValue(this);
         if (!(
@@ -1094,15 +1096,17 @@ export default class Evaluate extends Expression {
                     body ?? definitionValue.definition,
                 );
 
-            evaluator.startEvaluation(
-                new Evaluation(
-                    evaluator,
-                    this,
-                    definition,
-                    definitionValue.context,
-                    bindings,
-                ),
+            const evaluation = new Evaluation(
+                evaluator,
+                this,
+                definition,
+                definitionValue.context,
+                bindings,
             );
+            // A tail call replaces the current function activation's frames
+            // instead of growing the stack.
+            if (tail) evaluator.startTailEvaluation(evaluation);
+            else evaluator.startEvaluation(evaluation);
         }
         // For structures, start evaluating its definition.
         else if (definitionValue instanceof StructureDefinitionValue) {
@@ -1142,9 +1146,12 @@ export default class Evaluate extends Expression {
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.fun instanceof Expression)
             this.fun.evaluateTypeGuards(current, guard);
+        // A named argument is an Input, which extends Node rather than Expression, so
+        // an `instanceof Expression` filter here skipped every named argument.
         this.inputs.forEach((input) => {
-            if (input instanceof Expression)
-                input.evaluateTypeGuards(current, guard);
+            if (input instanceof Input)
+                input.value.evaluateTypeGuards(current, guard);
+            else input.evaluateTypeGuards(current, guard);
         });
         return current;
     }

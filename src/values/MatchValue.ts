@@ -1,9 +1,6 @@
 import type Expression from '@nodes/Expression';
 import Internal from '@runtime/Internal';
-import type {
-    MatchSnapshot,
-    PatternMatch,
-} from '@runtime/pattern/match';
+import type { MatchSnapshot, PatternMatch } from '@runtime/pattern/match';
 
 /**
  * The scoped state of an in-progress pattern match (LANGUAGE.md): the matcher

@@ -139,48 +139,147 @@ export type KeywordSpec = {
 
 /** The structural map: keyword id → canonical glyph + Sym type(s). Words come from the active locale. */
 export const Keywords: Record<KeywordId, KeywordSpec> = {
-    function: { symbol: FUNCTION_SYMBOL, types: [Sym.Function], context: 'code' },
+    function: {
+        symbol: FUNCTION_SYMBOL,
+        types: [Sym.Function],
+        context: 'code',
+    },
     type: { symbol: TYPE_SYMBOL, types: [Sym.Type], context: 'code' },
-    number: { symbol: MEASUREMENT_SYMBOL, types: [Sym.NumberType], context: 'code' },
+    number: {
+        symbol: MEASUREMENT_SYMBOL,
+        types: [Sym.NumberType],
+        context: 'code',
+    },
     none: { symbol: NONE_SYMBOL, types: [Sym.None], context: 'code' },
     true: { symbol: TRUE_SYMBOL, types: [Sym.Boolean], context: 'code' },
     false: { symbol: FALSE_SYMBOL, types: [Sym.Boolean], context: 'code' },
     borrow: { symbol: BORROW_SYMBOL, types: [Sym.Borrow], context: 'code' },
     share: { symbol: SHARE_SYMBOL, types: [Sym.Share], context: 'code' },
     convert: { symbol: CONVERT_SYMBOL, types: [Sym.Convert], context: 'code' },
-    translate: { symbol: TRANSLATE_SYMBOL, types: [Sym.Translate], context: 'code' },
-    conditional: { symbol: QUESTION_SYMBOL, types: [Sym.Conditional], context: 'code' },
+    translate: {
+        symbol: TRANSLATE_SYMBOL,
+        types: [Sym.Translate],
+        context: 'code',
+    },
+    conditional: {
+        symbol: QUESTION_SYMBOL,
+        types: [Sym.Conditional],
+        context: 'code',
+    },
     // The `?` glyph is dual-typed: as a TYPE it's BooleanType ("truth"), as an expression it's a
     // Conditional ("then"). Two keywords share the one symbol; the render path picks the word by the
     // token's parent role (see TokenView). Typing either word is unambiguous (distinct Sym types).
-    booleantype: { symbol: QUESTION_SYMBOL, types: [Sym.BooleanType], context: 'code' },
-    otherwise: { symbol: COALESCE_SYMBOL, types: [Sym.Otherwise], context: 'code' },
+    booleantype: {
+        symbol: QUESTION_SYMBOL,
+        types: [Sym.BooleanType],
+        context: 'code',
+    },
+    otherwise: {
+        symbol: COALESCE_SYMBOL,
+        types: [Sym.Otherwise],
+        context: 'code',
+    },
     match: { symbol: MATCH_SYMBOL, types: [Sym.Match], context: 'code' },
     stream: { symbol: STREAM_SYMBOL, types: [Sym.Stream], context: 'code' },
     changed: { symbol: CHANGE_SYMBOL, types: [Sym.Change], context: 'code' },
     initial: { symbol: INITIAL_SYMBOL, types: [Sym.Initial], context: 'code' },
-    previous: { symbol: PREVIOUS_SYMBOL, types: [Sym.Previous], context: 'code' },
+    previous: {
+        symbol: PREVIOUS_SYMBOL,
+        types: [Sym.Previous],
+        context: 'code',
+    },
     this: { symbol: THIS_SYMBOL, types: [Sym.This], context: 'code' },
-    and: { symbol: AND_SYMBOL, types: [Sym.Operator], context: 'code', operator: true },
-    or: { symbol: OR_SYMBOL, types: [Sym.Operator], context: 'code', operator: true },
-    not: { symbol: NOT_SYMBOL, types: [Sym.Operator], context: 'code', operator: true },
+    and: {
+        symbol: AND_SYMBOL,
+        types: [Sym.Operator],
+        context: 'code',
+        operator: true,
+    },
+    or: {
+        symbol: OR_SYMBOL,
+        types: [Sym.Operator],
+        context: 'code',
+        operator: true,
+    },
+    not: {
+        symbol: NOT_SYMBOL,
+        types: [Sym.Operator],
+        context: 'code',
+        operator: true,
+    },
     // Pattern atoms: dedicated pattern Sym types, so they resolve only inside a pattern (⣿ ⣿).
-    letter: { symbol: PATTERN_LETTER_SYMBOL, types: [Sym.PatternLetter], context: 'pattern' },
-    digit: { symbol: MEASUREMENT_SYMBOL, types: [Sym.PatternDigit], context: 'pattern' },
-    patternspace: { symbol: PATTERN_SPACE_SYMBOL, types: [Sym.PatternSpace], context: 'pattern' },
-    patternword: { symbol: PATTERN_WORD_SYMBOL, types: [Sym.PatternWord], context: 'pattern' },
-    any: { symbol: PATTERN_ANY_SYMBOL, types: [Sym.PatternAny], context: 'pattern' },
-    start: { symbol: PATTERN_START_SYMBOL, types: [Sym.PatternStart], context: 'pattern' },
-    end: { symbol: PATTERN_END_SYMBOL, types: [Sym.PatternEnd], context: 'pattern' },
-    rest: { symbol: PATTERN_REST_SYMBOL, types: [Sym.PatternRest], context: 'pattern' },
+    letter: {
+        symbol: PATTERN_LETTER_SYMBOL,
+        types: [Sym.PatternLetter],
+        context: 'pattern',
+    },
+    digit: {
+        symbol: MEASUREMENT_SYMBOL,
+        types: [Sym.PatternDigit],
+        context: 'pattern',
+    },
+    patternspace: {
+        symbol: PATTERN_SPACE_SYMBOL,
+        types: [Sym.PatternSpace],
+        context: 'pattern',
+    },
+    patternword: {
+        symbol: PATTERN_WORD_SYMBOL,
+        types: [Sym.PatternWord],
+        context: 'pattern',
+    },
+    any: {
+        symbol: PATTERN_ANY_SYMBOL,
+        types: [Sym.PatternAny],
+        context: 'pattern',
+    },
+    start: {
+        symbol: PATTERN_START_SYMBOL,
+        types: [Sym.PatternStart],
+        context: 'pattern',
+    },
+    end: {
+        symbol: PATTERN_END_SYMBOL,
+        types: [Sym.PatternEnd],
+        context: 'pattern',
+    },
+    rest: {
+        symbol: PATTERN_REST_SYMBOL,
+        types: [Sym.PatternRest],
+        context: 'pattern',
+    },
     // Note: case-fold (`Aa`) is intentionally NOT here — it's a universal, unlocalized pattern token
     // (case exists only in bicameral scripts), tokenized directly. See PATTERN_FOLD_SYMBOL.
-    edge: { symbol: PATTERN_WORDEDGE_SYMBOL, types: [Sym.PatternWordEdge], context: 'pattern' },
-    ahead: { symbol: PATTERN_AHEAD_SYMBOL, types: [Sym.PatternAhead], context: 'pattern' },
-    behind: { symbol: PATTERN_BEHIND_SYMBOL, types: [Sym.PatternBehind], context: 'pattern' },
-    range: { symbol: PATTERN_RANGE_SYMBOL, types: [Sym.PatternRange], context: 'pattern' },
-    complement: { symbol: NOT_SYMBOL, types: [Sym.PatternComplement], context: 'pattern' },
-    alternation: { symbol: OR_SYMBOL, types: [Sym.PatternAlternation], context: 'pattern' },
+    edge: {
+        symbol: PATTERN_WORDEDGE_SYMBOL,
+        types: [Sym.PatternWordEdge],
+        context: 'pattern',
+    },
+    ahead: {
+        symbol: PATTERN_AHEAD_SYMBOL,
+        types: [Sym.PatternAhead],
+        context: 'pattern',
+    },
+    behind: {
+        symbol: PATTERN_BEHIND_SYMBOL,
+        types: [Sym.PatternBehind],
+        context: 'pattern',
+    },
+    range: {
+        symbol: PATTERN_RANGE_SYMBOL,
+        types: [Sym.PatternRange],
+        context: 'pattern',
+    },
+    complement: {
+        symbol: NOT_SYMBOL,
+        types: [Sym.PatternComplement],
+        context: 'pattern',
+    },
+    alternation: {
+        symbol: OR_SYMBOL,
+        types: [Sym.PatternAlternation],
+        context: 'pattern',
+    },
 };
 
 /**

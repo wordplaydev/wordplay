@@ -1,23 +1,30 @@
-Crear un vídeo desde la cámara
+Crear un video desde la cámara
 
-El @Camera La transmisión es una excelente manera de obtener una cuadrícula de colores del mundo.¿Qué pasa si queremos ver esos colores, recreando la imagen?@Camera¿Ves?
+El flujo  @Camera  es una gran manera de obtener una cuadrícula de colores del mundo. ¿Y si queremos ver esos colores, recreando la imagen que  @Camera  ve?
 
-Podemos utilizar el@Grid diseño para un@Group, y @List/combineFunción para convertir los colores en una lista de@Phrase que le damos a la@Grid.
+Podemos usar el diseño  @Grid  para un  @Group , y la función  @List/combine  para convertir los colores en una lista de  @Phrase  que le damos al  @Grid .
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+Stage(
+	[
+		Group(
+			Grid(height width 0m)
+			colors.combine(
+				[]
+				ƒ(phrases row) [
 						:phrases
 						:row ↦ Phrase("⬤" color: ⬚ duration: 0s)
-					]))
-	])
-\
+					]
+			)
+		)
+	]
+)\
 
-Este ejemplo crea una lista de frases, convirtiendo cada color en un círculo con el color específico.
+Este ejemplo construye una lista de frases, convirtiendo cada color en un círculo con ese color específico.
 
-Ten cuidado con@Camera Flujos: ¡Producen mucha información! Es recomendable mantener el ancho y la altura de la imagen pequeños.
+Ten cuidado con los flujos  @Camera : ¡producen muchas entradas! Es mejor mantener el ancho y el alto de la imagen pequeños.
 
 interactive-scene

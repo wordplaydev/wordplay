@@ -9,8 +9,9 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import { getUser } from '@components/project/Contexts';
-    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import { LocaleDialogID } from '@components/widgets/dialogIDs';
+    import { setDialogInURL } from '@components/widgets/dialogURL';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { animationFactor, DB, Settings } from '@db/Database';
     import { getLocaleLanguageName } from '@locale/LocaleText';
@@ -75,9 +76,11 @@
         };
     });
 
-    let showLocaleChooser = $state(false);
+    /** Open the footer's language chooser rather than mounting a second one here: two
+     *  dialogs sharing an id both match `?dialog=locale` and both open, stacking one
+     *  modal on top of another. */
     function openLocaleMenu() {
-        showLocaleChooser = true;
+        setDialogInURL(LocaleDialogID, true);
     }
 
     function switchToCurrentLocale() {
@@ -150,8 +153,6 @@
             </Speech>
         </div>
     </div>
-
-    <LocaleChooser bind:show={showLocaleChooser} showButton={false} />
 
     <MarkupHTMLView markup={(l) => l.ui.page.landing.description} />
     {#if $user === null}

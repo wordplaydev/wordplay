@@ -63,9 +63,11 @@ Stage([Phrase("⚽" size: 3m resting: Sequence.bounce(duration: 2s))])`,
     {
         id: 'seed-project-04',
         name: 'Follow Me',
-        code: `¶@Pointer is a stream of places, so the eyes track wherever you point.¶
+        code: `¶@Pointer is a stream of places, so the eyes track wherever you point.
+A @Place is a @Phrase's bottom left corner, so shifting back by half its size
+puts the eyes on the pointer instead of up and to the right of it.¶
 spot: Pointer()
 
-Stage([Phrase("👀" size: 2m place: Place(spot.x spot.y))])`,
+Stage([Phrase("👀" size: 2m place: Place(spot.x - 1m spot.y - 1m))])`,
     },
 ];

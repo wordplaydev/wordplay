@@ -271,6 +271,16 @@ type UITexts = {
             primary: string;
             /** [plain] The tooltip for the destination language button in the translate dialog */
             destination: string;
+            /** [plain] Show the project's languages dialog */
+            languages: string;
+            /** [plain] Add a language to the project, so its code can use that language's names and words */
+            addLanguage: string;
+            /** [plain] Remove a language from the project */
+            removeLanguage: string;
+            /** [plain] Make a language the project's first, deciding how its output is laid out */
+            firstLanguage: string;
+            /** Remove every language nothing in the project's code uses */
+            removeUnusedLanguages: ButtonText;
         };
         field: {
             /** [name] The project name text field */
@@ -315,13 +325,30 @@ type UITexts = {
             };
         };
         dialog: {
-            /** The content for the translation dialog */
-            translate: HeaderAndExplanationText & {
-                /** The field that filters destination languages by name or region */
+            /** The content for the project's languages dialog: which languages its code is
+             *  written in, which ones it looks like it needs, and translating it into another. */
+            languages: HeaderAndExplanationText & {
+                /** The tabs that switch between the languages the project is written in and translating it */
+                tab: ModeText<[string, string]>;
+                /** [plain] The dialog button's label, saying how many languages the project is written in */
+                count: Template<['#count']>;
+                /** [formatted] Explains what a project's languages decide, above the list of them */
+                meaning: FormattedText | FormattedText[];
+                /** [plain] Marks a language nothing in the project's code uses */
+                unused: string;
+                /** [plain] Marks a language whose words couldn't be loaded, so its names don't work right now */
+                unloaded: string;
+                /** [formatted] Shown while checking which languages the project's code needs */
+                checking: FormattedText;
+                /** [formatted] Shown when the code doesn't use any language the project is missing */
+                complete: FormattedText;
+                /** The field that filters languages by name or region */
                 search: FieldText;
             };
         };
         subheader: {
+            /** [formatted] The header for languages the project's code uses but doesn't have */
+            missing: FormattedText;
             /** [formatted] The header for the source language */
             source: FormattedText;
             /** [formatted] The header for the destination language */
@@ -358,8 +385,8 @@ type UITexts = {
             addSource: FormattedText;
             /** [formatted] Markup describing the share dialog button */
             share: FormattedText;
-            /** [formatted] Markup describing the translate button */
-            translate: FormattedText;
+            /** [formatted] Markup describing the languages button */
+            languages: FormattedText;
             /** [formatted] Markup describing the checkpoints/revisions panel */
             checkpoints: FormattedText;
         };
@@ -773,6 +800,8 @@ type UITexts = {
         button: {
             /** [formatted] How the resolution button should should be described */
             resolution: FormattedText;
+            /** [formatted] How the button that opens the dialog where a fix lives should be described */
+            elsewhere: FormattedText;
             /** [plain] The button to toggle the annotations */
             toggle: string;
             /** [plain] The collapsed-sidebar button that shows a major conflict's code in the editor */
@@ -853,8 +882,10 @@ type UITexts = {
             zoomIn: string;
             /** [plain] Zoom in output button */
             zoomOut: string;
-            /** [plain] Reset the zoom to the stage's computed place when one is set */
+            /** [plain] Clear the viewer's own pan and zoom, handing the camera back to the project */
             resetZoom: string;
+            /** [plain] The button that begins a fresh performance, from any mode: restarts the program, enters play mode, and fullscreens the stage */
+            perform: string;
             /** [plain] The rotation handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
             rotate: Template<['name']>;
             /** [plain] The size handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
@@ -868,15 +899,19 @@ type UITexts = {
         };
         /** The evaluation mode switcher in the output toolbar */
         mode: {
-            /** The edit/step/play mode switcher, shown for editable projects */
+            /** The edit/debug/play mode switcher, shown for editable projects */
             evaluation: ModeText<[string, string, string]>;
-            /** The view/step/play mode switcher, shown for read-only projects */
+            /** The view/debug/play mode switcher, shown for read-only projects */
             evaluationView: ModeText<[string, string, string]>;
             /** [plain] Announced when the evaluation mode changes. $mode is the new mode's label. */
             announce: Template<['mode']>;
-            /** [plain] Announced when an error pauses the program into step mode so it can be inspected */
+            /** [plain] Announced when switching to play mode, which resumes the performance from wherever it is. $position is the step it picked up at. */
+            resuming: Template<['position']>;
+            /** [plain] Announced when the perform command begins a fresh performance. $number is which performance this is. */
+            performing: Template<['number']>;
+            /** [plain] Announced when an error pauses the program into debug mode so it can be inspected */
             exception: string;
-            /** [plain] Description of the keyboard command that switches between edit and play mode */
+            /** [plain] Description of the keyboard command that cycles between edit, debug, and play modes */
             toggle: string;
         };
         /** Interactive tour explaining the stage tile */
@@ -1353,7 +1388,7 @@ type UITexts = {
             stage: FormattedText;
         };
     };
-    /** The evaluation-history timeline and stepping controls, hosted in the output toolbar in step mode */
+    /** The evaluation-history timeline and stepping controls, hosted in the output toolbar in edit and debug modes */
     timeline: {
         /** [plain] The description of the timeline slider */
         slider: string;
@@ -1491,6 +1526,17 @@ type UITexts = {
                 /** [plain] Show the settings dialog */
                 show: string;
             };
+            /** The tabs that switch between groups of settings */
+            tab: ModeText<[string, string, string, string]>;
+            /** Names the output each group of settings belongs to, so the labels
+             *  beneath them don't each have to repeat it. Both are the names of
+             *  Wordplay's own output types. */
+            subheader: {
+                /** [plain] Heads the settings for Music output */
+                music: string;
+                /** [plain] Heads the settings for Say output */
+                say: string;
+            };
             mode: {
                 /** The project tile layout mode */
                 layout: ModeText<
@@ -1540,6 +1586,8 @@ type UITexts = {
                 musicDucking: ModeText<[string, string, string]>;
                 /** Whether to vibrate on the beat where the device supports it */
                 haptics: ModeText<[string, string]>;
+                /** How big the caption of what Say is speaking is, as a multiple of the standard text size */
+                captionSize: ModeText<[string, string, string, string, string]>;
             };
             options: {
                 /** [plain] The label for the font face chooser */
@@ -1580,6 +1628,8 @@ type UITexts = {
         };
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {
+            /** [plain] Invitation to pick a language, shown to a visitor who hasn't chosen one yet. Every locale's translation of this is shown at once, so keep it short. */
+            choose: string;
             /** [formatted] Banner at the top of the dialog prompting users to enter localization mode via the pencil icon in the app footer. */
             localizeHelp: FormattedText;
             /** Subheaders in the local chooser dialog. */
@@ -1610,6 +1660,10 @@ type UITexts = {
                 header: string;
                 /** [formatted] Short explanation of what the request form does. */
                 explanation: FormattedText;
+                /** [plain] Placeholder for the field that filters the language and region dropdowns. */
+                searchPlaceholder: string;
+                /** [plain] Description of the field that filters the language and region dropdowns. */
+                searchDescription: string;
                 /** [plain] Placeholder/label for the language dropdown. */
                 languageLabel: string;
                 /** [plain] Placeholder/label for the region dropdown. */
@@ -1620,6 +1674,8 @@ type UITexts = {
                 submitting: string;
                 /** [plain] Link text shown after a successful request; the link points to the GitHub issue. */
                 success: string;
+                /** [plain] Link text shown when someone had already requested this language; the link points to that issue. */
+                alreadyRequested: string;
                 /** [plain] Error message shown when the request fails. */
                 error: string;
                 /** [plain] Error message shown when the combination is already supported. */
@@ -1774,7 +1830,11 @@ type UITexts = {
         saveFailed: string;
         /** [plain] Shown when submitting something (e.g. feedback) didn't reach the cloud */
         submitFailed: string;
-        /** [plain] Shown when loading/reading something from the cloud failed */
+        /** [plain] Shown when loading/reading something from the cloud failed.
+         *  Belongs inline, next to the missing content, or on the one page whose
+         *  content is the thing that failed — never as a floating banner, which
+         *  outlives the page that raised it and reads as an error about a page
+         *  that loaded fine. */
         loadFailed: string;
         /** [plain] Shown when a local (this-device) save failed because storage
          *  is full, but the data is still safe in the cloud */

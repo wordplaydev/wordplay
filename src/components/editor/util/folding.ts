@@ -8,7 +8,8 @@ import Conditional from '@nodes/Conditional';
 import Bind from '@nodes/Bind';
 import Reaction from '@nodes/Reaction';
 import Match from '@nodes/Match';
-import Docs from '@nodes/Docs';
+import Doc from '@nodes/Doc';
+import type Docs from '@nodes/Docs';
 import ListLiteral from '@nodes/ListLiteral';
 import SetLiteral from '@nodes/SetLiteral';
 import MapLiteral from '@nodes/MapLiteral';
@@ -149,10 +150,7 @@ export function isFoldableNode(
     return result;
 }
 
-function computeFoldableNode(
-    node: Node,
-    spaces: Spaces | undefined,
-): boolean {
+function computeFoldableNode(node: Node, spaces: Spaces | undefined): boolean {
     if (node instanceof Block)
         return !node.isRoot() && isBodyFoldable(node, spaces);
     // Containers fold when multi-line OR over the item threshold (so long
@@ -175,8 +173,10 @@ function computeFoldableNode(
             isFoldable(node, spaces) ||
             node.members.length > FOLD_ITEM_THRESHOLD
         );
-    // Docs fold on their own when they span more than one line.
-    if (node instanceof Docs) return isFoldable(node, spaces);
+    // A doc folds on its own when it spans more than one line. The fold is on the
+    // Doc, not its Docs parent: a Docs is a list of per-language translations, so
+    // only the Doc has a header (¶), a body (markup), and a closer to collapse to.
+    if (node instanceof Doc) return isFoldable(node, spaces);
     return (
         isBodyFoldable(node, spaces) &&
         (node instanceof FunctionDefinition ||

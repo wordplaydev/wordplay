@@ -9,7 +9,13 @@ import type Context from '@nodes/Context';
 import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import NameToken from '@nodes/NameToken';
-import Node, { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import Node, {
+    any,
+    node,
+    none,
+    type Grammar,
+    type Replacement,
+} from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 

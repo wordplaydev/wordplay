@@ -5,7 +5,12 @@ export default mergeConfig(
     viteConfig,
     defineConfig({
         test: {
-            exclude: [...configDefaults.exclude, 'tests/end2end/*'],
+            // Rules tests need the Firestore emulator; run them via `npm run test:rules`.
+            exclude: [
+                ...configDefaults.exclude,
+                'tests/end2end/*',
+                'tests/rules/*',
+            ],
             // Populate the conflict-resolution registry before any test runs.
             // The registration file imports node classes whose own imports
             // form a cycle with the conflict files, so it must load after the

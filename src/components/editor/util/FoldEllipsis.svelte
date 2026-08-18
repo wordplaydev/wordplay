@@ -12,8 +12,14 @@
 
     let { node, count = undefined }: Props = $props();
 
+    // Name the node in the action, like FoldToggle: the string is a template, so
+    // it has to be concretized — a plain-text read leaves the literal "$name".
     let label = $derived(
-        $locales.getPrimaryPlainText((l) => l.ui.source.fold.expand),
+        $locales
+            .concretize((l) => l.ui.source.fold.expand, {
+                name: node.getLabel($locales),
+            })
+            .toText(),
     );
 </script>
 

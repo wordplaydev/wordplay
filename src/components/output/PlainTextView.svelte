@@ -9,6 +9,7 @@
     // characters inline as SVG via CharacterView and text via EmojisRepaired.
     let chunks = $derived(splitCharacterRefs(text));
 </script>
+
 {#each chunks as chunk}{#if chunk.kind === 'character'}<CharacterView
             name={chunk.name}
         />{:else}<EmojisRepaired text={chunk.text} />{/if}{/each}

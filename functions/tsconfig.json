@@ -8,6 +8,7 @@
         "sourceMap": true,
         "strict": true,
         "target": "es2017",
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
         "rootDir": "src"
     },
     "compileOnSave": true,

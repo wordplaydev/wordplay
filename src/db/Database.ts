@@ -6,8 +6,14 @@ import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import { type SupportedLocale } from '@locale/SupportedLocales';
 // Value symbols from firebase/auth are dynamically imported at use so the auth
 // SDK stays out of the eager chunk; only the erased types are imported here.
-import { type Unsubscribe, type User } from 'firebase/auth';
-import { deleteDoc, doc, getDocFromServer, setDoc } from 'firebase/firestore';
+import { type Auth, type Unsubscribe, type User } from 'firebase/auth';
+import {
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocFromServer,
+    setDoc,
+} from 'firebase/firestore';
 import {
     derived,
     get,
@@ -27,10 +33,12 @@ import CreatorDatabase, {
 import GalleryDatabase from '@db/galleries/GalleryDatabase.svelte';
 import { HowToDatabase } from '@db/howtos/HowToDatabase.svelte';
 import LocalesDatabase from '@db/locales/LocalesDatabase';
-import ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
+import type ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
 import { Domain, SyncDomains, type SyncDomain } from '@db/Domains';
+import { ProjectSchema } from '@db/projects/ProjectSchemas';
 import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
+import retryableLoad from '@util/retryableLoad';
 
 // Intercept console.log and console.error
 
@@ -123,6 +131,18 @@ export { Domain, SyncDomains, type SyncDomain };
 export type SyncStatus = 'initializing' | 'syncing' | 'updated' | 'failed';
 export type SyncDomainState = { status: SyncStatus; count: number };
 
+/** Whether an auth event carries a different signed-in identity than the one
+ *  last broadcast to the user store (`undefined` = nothing broadcast yet).
+ *  Token refreshes re-deliver the same identity and must not re-notify —
+ *  see the rationale in {@link Database.login}. Exported for unit testing;
+ *  `login` itself needs a browser-initialized Firebase app. */
+export function authIdentityChanged(
+    lastUid: string | null | undefined,
+    user: Pick<User, 'uid'> | null,
+): boolean {
+    return (user === null ? null : user.uid) !== lastUid;
+}
+
 export class Database {
     /** The database of local persisted settings */
     readonly Settings: SettingsDatabase;
@@ -136,8 +156,15 @@ export class Database {
      *  schemas for the same DB name conflict). */
     readonly localDB = new WordplayDexie();
 
-    /** An IndexedDB backed database of projects, allowing for scalability of local persistence. */
-    readonly Projects: ProjectsDatabase;
+    /** The projects database, once the language runtime it needs has loaded.
+     *  Undefined until then; see loadProjects(). */
+    private projects: ProjectsDatabase | undefined = undefined;
+    /** The same value as a store, so views that list projects re-render when
+     *  the database arrives. A plain field can't do that: a `$derived` reading
+     *  it captures `undefined` and never re-runs, which silently leaves the
+     *  projects page empty forever. */
+    private readonly projectsStore: Writable<ProjectsDatabase | undefined> =
+        writable(undefined);
 
     /** A collection of Galleries loaded from the database */
     readonly Galleries: GalleryDatabase;
@@ -242,7 +269,6 @@ export class Database {
             concretize,
             this.Settings.settings.locales,
         );
-        this.Projects = new ProjectsDatabase(this);
         this.Galleries = new GalleryDatabase(this);
         this.Creators = new CreatorDatabase(this);
         this.Chats = new ChatDatabase(this);
@@ -262,7 +288,7 @@ export class Database {
      *  that would discard local-only edits. */
     getUnsavedCount(): number {
         return (
-            this.Projects.saveCounts.unsaved +
+            (this.projects?.saveCounts.unsaved ?? 0) +
             this.Galleries.saveCounts.unsaved +
             this.Characters.saveCounts.unsaved +
             this.HowTos.saveCounts.unsaved +
@@ -350,22 +376,20 @@ export class Database {
         }, Database.BANNER_TIMEOUT_MS);
     }
 
-    /** Surface an automatic (non-user-action) load failure as a banner. A
-     *  non-connectivity cause (bad schema, denied read) is a real one-off
-     *  failure, so it banners immediately.
+    /** Record an automatic (non-user-action) load failure. Never banners: a read
+     *  the user didn't ask for has no antecedent in an app-wide strip, and the
+     *  page that raised it can't take the message with it when it leaves — so a
+     *  denied background read showed up as an unexplained error over pages that
+     *  had loaded fine. Callers that need to tell the user show an inline notice
+     *  next to the missing content instead.
      *
-     *  A connectivity cause does NOT banner here. One failed read is no evidence
-     *  of an outage — a tab that's been frozen fails its first read on wake and
-     *  reconnects a second later — so it feeds {@link markFirebaseFailed}
-     *  instead, and the banner is raised from {@link confirmDisconnect} only if
-     *  the disconnection actually persists. */
+     *  A connectivity cause additionally feeds {@link markFirebaseFailed}. One
+     *  failed read is no evidence of an outage — a tab that's been frozen fails
+     *  its first read on wake and reconnects a second later — so the banner is
+     *  raised from {@link confirmDisconnect} only if the disconnection persists. */
     reportLoadFailure(error: unknown) {
-        if (this.isConnectivityError(error)) {
-            console.error(error);
-            this.markFirebaseFailed();
-            return;
-        }
-        this.reportBanner((l) => l.ui.banner.loadFailed, error);
+        console.error(error);
+        if (this.isConnectivityError(error)) this.markFirebaseFailed();
     }
 
     /** Ask the browser to make this origin's storage persistent, so it's exempt
@@ -504,11 +528,122 @@ export class Database {
         if (recovered) this.flushUnsavedWork();
     }
 
+    /**
+     * Bring the project subsystem online: read the local cache and, if signed
+     * in, start syncing. Kept off the import path and out of the constructor
+     * because hydration deserializes every cached project, and each one builds
+     * a `Basis` — seconds of main-thread work on a phone, spent before first
+     * paint on pages that show no projects at all. Idempotent.
+     *
+     * Waiting is safe for unsaved work: edits are recorded in a durable dirty
+     * table, so anything pending replays once this runs.
+     */
+    /**
+     * Load the language runtime and the projects database that needs it, once.
+     *
+     * The dynamic import lives inside this method on purpose: a module-level
+     * await anywhere in the app graph reorders WebKit's module evaluation
+     * across the route/db import cycle and crashes hydration (see
+     * src/util/getTemporal.ts).
+     *
+     * Memoized across successes but not failures — this is the app's largest
+     * chunk, so a single failed fetch on a flaky connection would otherwise
+     * leave every project view broken for the life of the tab.
+     */
+    private readonly loadProjectsOnce = retryableLoad(async () => {
+        const { Projects } = await import('@db/projects/Projects');
+        this.projects = Projects;
+        this.projectsStore.set(Projects);
+        return Projects;
+    });
+
+    loadProjects(): Promise<ProjectsDatabase> {
+        return this.loadProjectsOnce();
+    }
+
+    /** The projects database if the runtime has already loaded, else
+     *  undefined. For synchronous paths that must not force a load — unsaved
+     *  counts read from `beforeunload`, reconnect flushes, locale re-sync —
+     *  where "not loaded" correctly means "nothing in memory to act on". */
+    get MaybeProjects(): ProjectsDatabase | undefined {
+        return this.projects;
+    }
+
+    /** {@link MaybeProjects} as a store, for views that must re-render when the
+     *  projects database finishes loading. */
+    get LoadedProjects(): Readable<ProjectsDatabase | undefined> {
+        return this.projectsStore;
+    }
+
+    /** Whether the projects database is loaded and usable synchronously. */
+    get projectsReady(): boolean {
+        return this.projects !== undefined;
+    }
+
+    /**
+     * A project's name and gallery, read straight from its stored document.
+     *
+     * For paths that need to label a project rather than work with it — chat
+     * notifications, moderation lists. Constructing a `Project` to ask its
+     * name would build a `Basis` and pull the whole language runtime into the
+     * footer, which renders on every page.
+     */
+    async getProjectSummary(
+        id: string,
+    ): Promise<{ name: string; gallery: string | null } | undefined> {
+        try {
+            const local = await this.localDB.getProject(id);
+            if (local !== undefined)
+                return { name: local.name, gallery: local.gallery };
+        } catch {
+            // Fall through to the cloud copy below.
+        }
+        if (firestore === undefined) return undefined;
+        try {
+            const remote = await getDoc(doc(firestore, Domain.Projects, id));
+            const data = remote.data();
+            if (data === undefined) return undefined;
+            const serialized = ProjectSchema.safeParse(data);
+            return serialized.success
+                ? {
+                      name: serialized.data.name,
+                      gallery: serialized.data.gallery,
+                  }
+                : undefined;
+        } catch {
+            return undefined;
+        }
+    }
+
+    async startProjectWork(): Promise<void> {
+        const projects = await this.loadProjects();
+        await projects.start();
+        // Installed here rather than at page load: these handlers flush
+        // project edits on unload, and until projects are in memory there is
+        // nothing for them to flush.
+        this.cleanupSaveOnUnload ??= projects.installSaveOnUnloadListeners();
+        if (this.user !== null) projects.saveSoon();
+    }
+
+    /** Removes the save-on-unload handlers installed by startProjectWork. */
+    private cleanupSaveOnUnload: (() => void) | undefined = undefined;
+
+    /** Whether this device has project work worth starting: a signed-in
+     *  creator, or projects cached locally from a previous visit. */
+    async shouldStartProjectWork(): Promise<boolean> {
+        if (this.user !== null) return true;
+        try {
+            return (await this.localDB.projects.count()) > 0;
+        } catch {
+            return false;
+        }
+    }
+
     /** Re-push every domain's unsaved edits to the cloud. Each call is a no-op
      *  when that domain has nothing unsaved, so it's safe to fire on any
      *  reconnect signal (browser `online` or Firebase reachability recovery). */
     private flushUnsavedWork() {
-        this.Projects.saveSoon();
+        this.projects?.saveSoon();
         void this.Galleries.flushUnsaved();
         void this.Characters.flushUnsaved();
         void this.HowTos.flushUnsaved();
@@ -554,6 +689,30 @@ export class Database {
             ].includes(error.code);
         // Our timeout rejection, or any non-Firebase network error.
         return error instanceof Error;
+    }
+
+    /** Shared handler for realtime listener (`onSnapshot`) errors. Always
+     *  terminal for the domain's sync state, so the save-status button stops
+     *  its "loading" spinner and the dialog shows "failed". Only a
+     *  connectivity error additionally feeds the offline/unreachable state;
+     *  a permission or index error is the server answering — treating it as
+     *  a disconnection made the connection banner flap whenever one denied
+     *  listener alternated with healthy ones. Non-connectivity errors instead
+     *  surface through the optional save-status message. */
+    reportListenerError(
+        domain: SyncDomain,
+        error: unknown,
+        message?: (locale: LocaleText) => FormattedText,
+    ) {
+        if (error instanceof FirebaseError)
+            console.error(error.code, error.message);
+        else console.error(error);
+        this.markSyncFailed(domain);
+        if (this.isConnectivityError(error)) {
+            this.markFirebaseFailed();
+            return;
+        }
+        if (message !== undefined) this.setStatus(SaveStatus.Error, message);
     }
 
     /** Wrap a one-time Firebase read (`getDoc`/`getDocs`) so it fails fast
@@ -765,7 +924,18 @@ export class Database {
      *  calls this fire-and-forget from onMount, so auth listeners attach shortly
      *  after first paint rather than blocking it. */
     async login(callback: (use: User | null) => void) {
-        const auth = await ensureAuth();
+        let auth: Auth | undefined;
+        try {
+            auth = await ensureAuth();
+        } catch (error) {
+            // The auth SDK failed to load (offline, blocked chunk fetch). The
+            // layout calls login() fire-and-forget, so swallow the rejection
+            // here and release the banner gate; ensureAuth clears its memo on
+            // rejection, so a later call genuinely retries.
+            console.error(error);
+            authAttempted.set(true);
+            return;
+        }
         if (auth === undefined) {
             // No Firebase Auth configured — release the banner gate so the
             // browser-online signal still works in this environment.
@@ -774,11 +944,24 @@ export class Database {
         }
         const { onAuthStateChanged, onIdTokenChanged } =
             await import('firebase/auth');
+        // Notify the app's user store only when the signed-in identity
+        // actually changes. Both auth listeners fire on every hourly (or
+        // forced) ID-token refresh, and a writable store notifies every
+        // subscriber on every set — which remounted user-gated UI (e.g. the
+        // Teach area's claim check) and tore down and resubscribed realtime
+        // listeners on each refresh. Consumers that need a post-refresh
+        // profile update re-set the store themselves (see Profile.svelte).
+        let lastNotifiedUid: string | null | undefined = undefined;
+        const notify = (newUser: User | null) => {
+            if (!authIdentityChanged(lastNotifiedUid, newUser)) return;
+            lastNotifiedUid = newUser === null ? null : newUser.uid;
+            callback(newUser);
+        };
         // Keep the user store in sync.
         this.authUnsubscribe = onAuthStateChanged(auth, async (newUser) => {
             // First Auth resolution releases the connection-banner gate.
             authAttempted.set(true);
-            callback(newUser);
+            notify(newUser);
             // Update every domain with the new user. updateUser now owns the
             // galleries listener too, bringing each domain online serially in
             // priority order (see startSync) rather than firing them all at once.
@@ -787,7 +970,7 @@ export class Database {
         this.authRefreshUnsubscribe = onIdTokenChanged(
             auth,
             async (newUser) => {
-                callback(newUser);
+                notify(newUser);
             },
         );
     }
@@ -820,7 +1003,7 @@ export class Database {
             // Logout (or an involuntary auth drop): tear down every realtime
             // listener and reset the per-domain sync status. These syncUser
             // calls are no-ops/ignores when the user is null.
-            this.Projects.syncUser(remove);
+            this.projects?.syncUser(remove);
             this.Characters.syncUser();
             this.HowTos.syncUser();
             this.Chats.syncUser();
@@ -858,12 +1041,17 @@ export class Database {
         const superseded = () =>
             sequence !== this.syncSequence || this.user === null;
 
-        this.Projects.syncUser(remove);
+        // Being signed in IS having project work, so this deliberately loads
+        // the projects database rather than skipping when it isn't there —
+        // skipping would mean a creator's projects never arrive from the
+        // cloud. It does NOT wait for local hydration: reading the cache is a
+        // separate concern, and blocking sync behind it stalls every domain.
+        (await this.loadProjects()).syncUser(remove);
         // Now that the user is known, flush any project edits whose cloud write
         // didn't confirm before the last reload (durable dirty flag → unsaved on
         // hydrate). persist() only writes unsaved histories, so this is a no-op
         // when everything is saved.
-        this.Projects.saveSoon();
+        this.projects?.saveSoon();
         await this.domainSettled(Domain.Projects);
         if (superseded()) return;
 
@@ -931,7 +1119,7 @@ export class Database {
      *  a null user, so an involuntary auth drop (a flaky connection that can't
      *  refresh the token) can't erase a creator's local projects. */
     async logout() {
-        await this.Projects.deleteLocal();
+        await (await this.loadProjects()).deleteLocal();
         await this.Characters.clearLocal();
         await this.Chats.clearLocal();
         await this.Galleries.clearLocal();
@@ -950,10 +1138,12 @@ export class Database {
 
     /** Clean up listeners */
     clean() {
+        this.cleanupSaveOnUnload?.();
+        this.cleanupSaveOnUnload = undefined;
         if (this.authUnsubscribe) this.authUnsubscribe();
         if (this.authRefreshUnsubscribe) this.authRefreshUnsubscribe();
 
-        this.Projects.unmount();
+        this.projects?.unmount();
         this.Galleries.clean();
         this.Chats.ignore();
         this.Characters.ignore();
@@ -984,7 +1174,7 @@ export class Database {
         if (firestore === undefined) return 'failed';
 
         try {
-            await this.Projects.deleteOwnedProjects();
+            await (await this.loadProjects()).deleteOwnedProjects();
         } catch (err) {
             this.reportBanner((l) => l.ui.banner.deleteFailed, err);
             return 'failed';
@@ -1042,8 +1232,8 @@ export const DB = new Database(
     DefaultLocale,
 );
 
+export const LoadedProjects = DB.LoadedProjects;
 export const Settings = DB.Settings;
-export const Projects = DB.Projects;
 export const Locales = DB.Locales;
 export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;
@@ -1101,6 +1291,7 @@ export const musicVisualization = Settings.settings.musicVisualization.value;
 export const musicVolume = Settings.settings.musicVolume.value;
 export const musicDucking = Settings.settings.musicDucking.value;
 export const haptics = Settings.settings.haptics.value;
+export const captionSize = Settings.settings.captionSize.value;
 export const status = DB.Status;
 
 /** Per-domain cloud-sync state, updated by each domain's realtime listener via

@@ -117,12 +117,14 @@ export default class BooleanLiteral extends Literal {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.BooleanLiteral.start,
-            {
-                value: new NodeRef(this.value, locales, context, this.value.getText()),
-            },
-        );
+        return locales.concretize((l) => l.node.BooleanLiteral.start, {
+            value: new NodeRef(
+                this.value,
+                locales,
+                context,
+                this.value.getText(),
+            ),
+        });
     }
 
     getDescriptionInputs() {

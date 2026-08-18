@@ -1,5 +1,9 @@
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -92,13 +96,11 @@
         oninput={handleChange}
         onpointerup={() => release?.(value)}
         disabled={!editable}
-        onpointerenter={showTip}
+        onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
         onpointerleave={hideTip}
-        onfocus={showTip}
+        onfocus={(event) =>
+            canFocusTips(event.currentTarget) ? showTip() : undefined}
         onblur={hideTip}
-        ontouchstart={showTip}
-        ontouchend={hideTip}
-        ontouchcancel={hideTip}
     />
     <div class="text">
         {#if value === undefined}

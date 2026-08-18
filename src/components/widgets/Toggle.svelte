@@ -1,20 +1,25 @@
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { TemplateInputs } from '@locale/Locales';
     import { untrack, type Snippet } from 'svelte';
     import type { ToggleText } from '@locale/UITexts';
-    import {
-        toShortcut,
-        type Command,
-    } from '@components/editor/commands/Commands';
+    // Type-only, so this widget carries no runtime edge to the command table.
+    import type { Command } from '@components/editor/commands/Commands';
+    import { toShortcut } from '@components/editor/commands/shortcuts';
 
     interface Props {
         tips: (locale: LocaleText) => ToggleText;
         on: boolean;
-        toggle: () => void;
+        /** Receives the activating event, so a caller can tell a keyboard
+         *  activation (a click with `detail === 0`) from a pointer press. */
+        toggle: (event?: Event) => void;
         active?: boolean;
         uiid?: string | undefined;
         testid?: string | undefined;
@@ -42,7 +47,7 @@
 
     async function doToggle(event: Event) {
         if (active) {
-            toggle();
+            toggle(event);
             event?.stopPropagation();
         }
     }
@@ -132,13 +137,11 @@
         ondblclick={(event) => event.stopPropagation()}
         onmousedown={(event) => event.preventDefault()}
         bind:this={view}
-        onpointerenter={showTip}
+        onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
         onpointerleave={hideTip}
-        onfocus={showTip}
+        onfocus={(event) =>
+            canFocusTips(event.currentTarget) ? showTip() : undefined}
         onblur={hideTip}
-        ontouchstart={showTip}
-        ontouchend={hideTip}
-        ontouchcancel={hideTip}
         onclick={(event) =>
             event.button === 0 && active ? doToggle(event) : undefined}
     >

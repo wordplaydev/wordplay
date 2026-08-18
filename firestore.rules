@@ -2,74 +2,84 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /projects/{project} {
-      function isInGalleryNotRestricted(uid, galleryID) {
-        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery != null && (gallery.public || uid in gallery.creators || uid in gallery.curators) && 
-          (!("restrictedGallery" in resource.data) || !resource.data.restrictedGallery);
+      // Whether the given project data's gallery grants `uid` read access:
+      // restricted projects admit only that gallery's curators; unrestricted
+      // ones also admit the gallery's creators and anyone if the gallery is
+      // public. Takes project data as a parameter (rather than reading
+      // `resource.data`) so the nested `updates`/`presence` matches can apply
+      // it to their parent project. Costs one get() per distinct gallery per
+      // evaluation; the client keeps its `gallery in [...]` query chunks small
+      // enough that a query never needs more than the rules' document-access
+      // budget (10 per query request) of distinct gallery get()s.
+      function galleryGrantsRead(uid, data) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(data.gallery)).data;
+        return gallery != null && (
+          ("restrictedGallery" in data && data.restrictedGallery && uid in gallery.curators) ||
+          ((gallery.public || uid in gallery.creators || uid in gallery.curators) &&
+            (!("restrictedGallery" in data) || !data.restrictedGallery))
+        );
       }
 
-      function isInGalleryRestricted(uid, galleryID) {
-        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery != null && "restrictedGallery" in resource.data && resource.data.restrictedGallery && uid in gallery.curators;
-      }
-
-      function isCuratorOfProjectInGallery(uid, galleryID) {
+      function isCuratorOf(uid, galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
         return gallery != null && (uid in gallery.curators);
       }
 
-      allow create: if request.auth != null;
       // Projects are readable if:
       // 1) They are public
-      // 2) The requestor is the owner or a collaborator
+      // 2) The requestor is the owner, a collaborator, a commenter, or a viewer
       // 3) The requestor is a curator or creator of the gallery that the project is in, or that gallery is public, and access to the project has not been restricted by its owner
       // 4) The requestor is a curator of the gallery that the project is in and access to the project is restricted
-      allow read: if 
-        (resource.data != null && 'public' in resource.data && resource.data.public) || 
-        (resource.data != null && request.auth != null && 
-          ( 
-            ("mod" in request.auth.token && request.auth.token.mod) ||
-            ('owner' in resource.data && resource.data.owner == request.auth.uid) || 
-            ('collaborators' in resource.data && request.auth.uid in resource.data.collaborators) || 
-            ('commenters' in resource.data && request.auth.uid in resource.data.commenters) ||
-            ('viewers' in resource.data && request.auth.uid in resource.data.viewers) ||
-            ('gallery' in resource.data && resource.data.gallery != null && (isInGalleryRestricted(request.auth.uid, resource.data.gallery) || isInGalleryNotRestricted(request.auth.uid, resource.data.gallery)))
-          )
-        );
-      allow update: 
-        if request.auth != null && 
+      // Shared by the project doc's read rule and the `updates`/`presence`
+      // subcollections below, so that subcollection read access is always
+      // exactly parent project read access.
+      function canReadProject(data) {
+        return
+          (data != null && 'public' in data && data.public) ||
+          (data != null && request.auth != null &&
+            (
+              ("mod" in request.auth.token && request.auth.token.mod) ||
+              ('owner' in data && data.owner == request.auth.uid) ||
+              ('collaborators' in data && request.auth.uid in data.collaborators) ||
+              ('commenters' in data && request.auth.uid in data.commenters) ||
+              ('viewers' in data && request.auth.uid in data.viewers) ||
+              ('gallery' in data && data.gallery != null && galleryGrantsRead(request.auth.uid, data))
+            )
+          );
+      }
+
+      allow create: if request.auth != null;
+      allow read: if canReadProject(resource.data);
+      allow update:
+        if request.auth != null &&
           (
-            resource.data.owner == request.auth.uid || 
-            request.auth.uid in resource.data.collaborators || 
+            resource.data.owner == request.auth.uid ||
+            request.auth.uid in resource.data.collaborators ||
             ("mod" in request.auth.token && request.auth.token.mod) ||
-            (resource.data.gallery != null && isCuratorOfProjectInGallery(request.auth.uid, resource.data.gallery))
+            (resource.data.gallery != null && isCuratorOf(request.auth.uid, resource.data.gallery))
           );
       allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
 
       // Realtime CRDT updates for collaborative editing (#135). Each doc is
       // a small Yjs binary update (base64) emitted by one collaborator's
-      // editor and consumed by all others. Anyone with read access to the
-      // parent project can read its updates; only collaborators + owner
-      // can append updates tagged with their own writer ID.
+      // editor and consumed by all others. Anyone who can read the parent
+      // project can read its updates (canReadProject, so gallery curators,
+      // creators, and public viewers are included); only collaborators +
+      // owner can append updates tagged with their own writer ID.
       //
       // Every field access on parent() is guarded with `'X' in parent()`
-      // for the same reason the project-doc rule above guards every
-      // field access on resource.data: pre-v5 project docs predate
-      // `commenters` and `viewers`, and `request.auth.uid in null` is
-      // a CEL evaluation error that fails closed but in a confusing
-      // way. Guarding short-circuits cleanly before any null reach.
+      // for the same reason canReadProject guards every field access on
+      // its data: pre-v5 project docs predate `commenters` and `viewers`,
+      // and `request.auth.uid in null` is a CEL evaluation error that
+      // fails closed but in a confusing way. Guarding short-circuits
+      // cleanly before any null reach.
       match /updates/{updateID} {
         function parent() {
           return get(/databases/$(database)/documents/projects/$(project)).data;
         }
-        allow read: if
-          request.auth != null && (
-            ("mod" in request.auth.token && request.auth.token.mod) ||
-            ('owner' in parent() && parent().owner == request.auth.uid) ||
-            ('collaborators' in parent() && request.auth.uid in parent().collaborators) ||
-            ('commenters' in parent() && request.auth.uid in parent().commenters) ||
-            ('viewers' in parent() && request.auth.uid in parent().viewers)
-          );
+        // parent() + gallery get = 2 distinct document accesses per
+        // evaluation, well within the rules budget.
+        allow read: if canReadProject(parent());
         allow create: if
           request.auth != null && (
             ('owner' in parent() && parent().owner == request.auth.uid) ||
@@ -86,24 +96,21 @@ service cloud.firestore {
       }
 
       // Presence: one doc per collaborator's clientID, with their caret
-      // position and a heartbeat lastSeen. Readable by anyone with project
-      // read access; only the writer can write/delete their own doc.
+      // position and a heartbeat lastSeen. Readable by anyone who can read
+      // the parent project (canReadProject, so gallery curators, creators,
+      // and public viewers are included); writable by anyone who can edit
+      // the project (owner, collaborators, and gallery curators — who can
+      // already update the project doc itself), and only as themselves.
       match /presence/{clientID} {
         function parent() {
           return get(/databases/$(database)/documents/projects/$(project)).data;
         }
-        allow read: if
-          request.auth != null && (
-            ('public' in parent() && parent().public) ||
-            ('owner' in parent() && parent().owner == request.auth.uid) ||
-            ('collaborators' in parent() && request.auth.uid in parent().collaborators) ||
-            ('commenters' in parent() && request.auth.uid in parent().commenters) ||
-            ('viewers' in parent() && request.auth.uid in parent().viewers)
-          );
+        allow read: if canReadProject(parent());
         allow write: if
           request.auth != null && (
             ('owner' in parent() && parent().owner == request.auth.uid) ||
-            ('collaborators' in parent() && request.auth.uid in parent().collaborators)
+            ('collaborators' in parent() && request.auth.uid in parent().collaborators) ||
+            ('gallery' in parent() && parent().gallery != null && isCuratorOf(request.auth.uid, parent().gallery))
           ) && 'userID' in request.resource.data
             && request.resource.data.userID == request.auth.uid;
         allow delete: if

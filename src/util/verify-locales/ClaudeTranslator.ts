@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LanguageCode from '@locale/LanguageCode';
 import { TranslatableLocales } from '@locale/LanguageCode';
+import { getConventionsForPrompt } from '@locale/getConventionsForPrompt';
 import { getGlossaryForPrompt } from '@locale/Glossary';
 import { getPluralRulesForPrompt } from '@locale/plurals';
 import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
@@ -174,15 +175,19 @@ export default class ClaudeTranslator implements Translator {
     }
 
     /** The cached system prompt: preservation rules + reading-level target +
-     *  glossary. Stable across all batches of a run (per source/target/glossary)
-     *  so it caches. `targetText` supplies the target locale's translated glossary
-     *  words so bare key terms localize; omit it (e.g. before the glossary itself
-     *  is translated) for the en-only glossary form. */
+     *  glossary + the locale's own conventions. Stable across all batches of a
+     *  run (per source/target/glossary) so it caches. `targetText` supplies the
+     *  target locale's translated glossary words so bare key terms localize, and
+     *  its `guidance`/`terms`; omit it (e.g. before the glossary itself is
+     *  translated) for the en-only glossary form and no conventions. */
     private buildSystem(
         sourceLocale: string,
         targetLocale: string,
         targetText: LocaleText | undefined,
     ): string {
+        // Empty for a locale that declares no conventions, so its prompt is
+        // unchanged (and still cached) by this section existing.
+        const conventions = getConventionsForPrompt(targetText);
         return `You are an expert localizer for Wordplay, a programming language for interactive typography. Translate each given string from ${sourceLocale} to ${targetLocale}.
 
 Rules:
@@ -197,7 +202,7 @@ ${getPluralRulesForPrompt(targetLocale)}
 - Key terms — the glossary below. When one of these words appears as ordinary text (a bare word, NOT a $name mention or @Concept link above), translate it to its listed target-language word and use that same word consistently. Where a line shows only an English word, translate it naturally and keep that choice consistent.
 ${getGlossaryForPrompt(targetText)}
 
-${PLAIN_LANGUAGE_GUIDANCE}`;
+${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`;
     }
 
     /** Translate one chunk of markup segments. Returns a same-length array; a

@@ -22,8 +22,12 @@ import Characters from '../lore/BasisCharacters';
 import AnyType from '@nodes/AnyType';
 import Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
-import Expression, { type GuardContext } from '@nodes/Expression';
+import Expression, {
+    canRecordGuard,
+    type GuardContext,
+} from '@nodes/Expression';
 import getGuards from '@nodes/getGuards';
+import { guardsTypesAround } from '@nodes/typeGuards';
 import ListCloseToken from '@nodes/ListCloseToken';
 import ListOpenToken from '@nodes/ListOpenToken';
 import ListType from '@nodes/ListType';
@@ -163,10 +167,13 @@ export default class ListAccess extends Expression {
         const listType = this.list.getType(context);
         if (listType instanceof ListType) {
             // No type specified? It could be anything.
-            if (listType.type === undefined) return new AnyType();
+            const elementType = listType.getItemType(context);
+            if (elementType === undefined) return new AnyType();
 
-            // Get the type specified.
-            const itemType = listType.type;
+            // Get the type specified, preferring the one at this position if the list type gives
+            // a type per position and the index is a constant in range.
+            const itemType =
+                this.getPositionType(listType, indexType) ?? elementType;
 
             // See if there are any type guards on list accesses with equivalent expressions.
             // Find any type guards that are also list accesses that have an equivalent index expression.
@@ -178,8 +185,7 @@ export default class ListAccess extends Expression {
                     node.index.isEqualTo(this.index)
                 ) {
                     // If the parent of the list access is an expression and it guards types, then return it.
-                    const parent = context.source.root.getParent(node);
-                    return parent instanceof Expression && parent.guardsTypes();
+                    return guardsTypesAround(node, context);
                 } else return false;
             });
 
@@ -195,7 +201,6 @@ export default class ListAccess extends Expression {
                     root.evaluateTypeGuards(possibleTypes, {
                         bind,
                         key: this.index.toWordplay(),
-                        original: possibleTypes,
                         context,
                     });
                     // Get the narrowed type of this index. Use the expression as the key.
@@ -211,6 +216,21 @@ export default class ListAccess extends Expression {
         }
         // Not a list? Give a more precise unknown type.
         else return new NotAType(this, listType, ListType.make());
+    }
+
+    /**
+     * The type at a constant index of a list type that specifies a type per position. Indices out of
+     * range fall back to the item type, since a list access wraps around at runtime.
+     */
+    private getPositionType(
+        listType: ListType,
+        indexType: NumberType,
+    ): Type | undefined {
+        if (!listType.isTuple() || !indexType.isLiteral()) return undefined;
+        const index = indexType.getLiteral().getValue().num;
+        return index.isInteger()
+            ? listType.getTypeAt(index.toNumber() - 1)
+            : undefined;
     }
 
     getReference(): Reference | PropertyReference | undefined {
@@ -256,6 +276,7 @@ export default class ListAccess extends Expression {
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // We're evaluating the bind this list refers to, cache the possible values of this index at this point.
         if (
+            canRecordGuard(guard) &&
             (this.list instanceof Reference ||
                 this.list instanceof PropertyReference) &&
             this.isGuardMatch(guard)

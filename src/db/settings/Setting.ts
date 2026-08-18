@@ -53,6 +53,17 @@ export default class Setting<Type> {
         return get(this.value);
     }
 
+    /** Whether this setting has ever been written on this device. `load()` can't answer
+     *  this — it returns the default for a missing key just as it does for an invalid
+     *  one — and "never chosen" is a different thing from "chose the default". */
+    isPersisted(): boolean {
+        return (
+            typeof window !== 'undefined' &&
+            typeof window.localStorage !== 'undefined' &&
+            window.localStorage.getItem(this.key) !== null
+        );
+    }
+
     set(database: Database, value: Type) {
         if (this.equal(this.get(), value)) return;
 

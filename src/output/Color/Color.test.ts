@@ -27,7 +27,9 @@ test('Color.random(a) keeps lightness and chroma but randomizes hue', () => {
 test('Color.random(a b) chooses each channel within the two colors range', () => {
     // black is l=0,c=0,h=0; white is l=1,c=0,h=0 — so lightness ranges 0–1
     // while chroma and hue are pinned to 0.
-    const color = toColor(evaluateCode('Color.random(Color.black Color.white)'));
+    const color = toColor(
+        evaluateCode('Color.random(Color.black Color.white)'),
+    );
     expect(color).toBeDefined();
     expect(color?.lightness.toNumber()).toBeGreaterThanOrEqual(0);
     expect(color?.lightness.toNumber()).toBeLessThanOrEqual(1);
@@ -58,6 +60,10 @@ test('Color.darker() lowers lightness by 5%', () => {
 test('Color.lighter()/darker() clamp lightness to [0,1]', () => {
     // white is already l=1, so lightening stays at 1; black is l=0, so
     // darkening stays at 0.
-    expect(toColor(evaluateCode('Color.white.lighter()'))?.lightness.toNumber()).toBe(1);
-    expect(toColor(evaluateCode('Color.black.darker()'))?.lightness.toNumber()).toBe(0);
+    expect(
+        toColor(evaluateCode('Color.white.lighter()'))?.lightness.toNumber(),
+    ).toBe(1);
+    expect(
+        toColor(evaluateCode('Color.black.darker()'))?.lightness.toNumber(),
+    ).toBe(0);
 });

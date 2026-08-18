@@ -4,7 +4,102 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.29.2 - 2026-08-16
+
+### Added
+
+- 🌐 If you've never chosen a language, Wordplay now asks which one you'd like when you first visit. It asks in all 30 languages it speaks, so you can find yours even if you don't read English. (#1256)
+- 🔠 We added a new example called Chamber to the [galleries](https://wordplay.dev/galleries). A hundred letters from four writing systems bounce around a sealed box, and you can turn gravity off or shake them all up again.
+- 🔗 When you share a link to a public project or gallery, it now shows its name and description in chat apps and on social media. We also added a site map so search engines can find public projects and [galleries](https://wordplay.dev/galleries). (#1133)
+
+### Changed
+
+- 🌐 The [language chooser](https://wordplay.dev/) now spreads languages across the window instead of stacking them in one tall list, so you can see them all at once. (#1256)
+- 🔍 Asking for a language we don't have yet is easier. Type a language or a country and the menus fill themselves in. (#1256)
+- ⚡ We made programs with lots of moving output run three to five times more smoothly.
+- 🧲 We updated the physics engine. Things now rest on the ground instead of sinking into it, bouncy things settle instead of jittering forever, and output stops getting flung off the stage when it piles up.
+- 🧲 @Collision now reports far fewer bumps while something is settling — a handful instead of hundreds. A project that counts bumps will count differently than it used to.
+- 📹 The new Video example in the [galleries](https://wordplay.dev/galleries) paints your camera three ways — colored letters, ASCII shading, or colored squares.
+- 🛠️ We upgraded internal tooling for stability.
+- 🌐 Each language can now write down its own rules for how it should be written (e.g,. how to address the reader, which words to prefer, how to punctuate), and the helper that drafts new translations now follows them. (#939)
+
+### Fixed
+
+- 🌐 When you ask for a language someone already asked for, we now send you to that conversation instead of starting a new one. (#1256)
+- 🐛 The “other languages” button on the front page no longer opens two language windows on top of each other. (#1256)
+- 🤝 We fixed errors that filled a teacher's browser when they opened a student's project. Teachers now see students' edits live as they type, and students can see their teacher's cursor when they visit.
+- 💾 For teachers with many galleries, the save light no longer flips between "Saved" and "Unsaved", the connection warning no longer comes and goes, and the [Teach](https://wordplay.dev/teach) page no longer goes blank.
+- 🔑 If the sign in page failed to load, it used to stay broken until you restarted your browser. Now it shows when it's loading, says when it can't connect, and works again when you reload.
+- ⌨️ When you press play while your code is still on screen, the keys you type now reach your project. Before, they could quietly change your code and drop you back into edit mode. (#1285)
+- 🚦 When you give a check a name and use it later, Wordplay now remembers what the check proved. Naming a check that a value isn't `ø` no longer shows an error that writing the same check out didn't. (#1285)
+- 📐 Output that shows up a moment after your project starts now gets centered and sized to fit the stage. Before, it could start off to one side, slide into place, or stay too big until you resized the window or started over.
+- 🚦 Doing math with the hue of a color from the @Camera no longer stops your program with "incompatible values". Camera colors now carry the ° that hue is measured in.
+- 🗣️ Screen readers can now read what a project puts in front of the stage, like a score or a row of buttons. That whole layer used to be skipped, so anything a project put there was silent and buttons there couldn't be reached.
+- 🌐 We fixed many wrong and confusing words in Spanish. @Stage and @Beat have better names, tutorial titles that meant nothing now make sense, and questions and exclamations open with ¿ and ¡ the way Spanish is written. (#939)
+- 📖 We fixed the Spanish how-to guides. In half of them the spaces had gone missing, running words together and breaking the example code so it wouldn't run. (#939)
+
+## 0.29.1 - 2026-08-13
+
+This week we launched a new logo, improved the edit, debug, and play modes for more flexibility, and better organized the growing settings dialog.
+
+### Added
+
+- 🔣 The [Design](https://wordplay.dev/design) page now shows the new logo speaking fifteen writing systems, and lets you download it. (#414)
+- 📱 On phones and tablets, a project that listens for certain keys now shows those keys as buttons on the stage, instead of opening the keyboard that covers your work. Wordplay reads your project to find which keys it uses, so arrow keys come out as an arrow pad you can steer with and letters come out as a row.
+- 🚦 A list type can now say what goes in each place: `[# '']` means a list of exactly two things, a @Number and then some @Text. Wordplay checks that a list is that long and in that order, and it knows that the first thing in it is a number and the second is text.
+- 💬 When a project speaks with @Say, the words now appear on the stage as a caption, white on black, so viewers who can't hear can read what was said. It fades a few seconds after the speaking ends, replacing the little icon that used to stay on the stage even after @Say went quiet.
+- 🔠 You can choose how big captions are in settings, from three-quarters size to three times as big. The choice is saved on your device, since text size is about the screen you're using.
+- ▶️ We added a perform button above the stage — a play triangle wrapped in full screen corners. It starts your program from the top, plays it, and fills the screen with the stage, and pressing it again starts the show over. Switching back to edit closes the full screen stage and brings your windows back just as you left them.
+
+### Changed
+
+- 💬 We gave Wordplay a new logo: a speech bubble that can say anything. On the [home page](https://wordplay.dev/) it speaks the letter of each language as the language chooser names it; while things load it holds a circle, a triangle, and a square that take turns hopping, like a crowd doing the wave; and it holds still if you turn animation off. (#414)
+- ⚙️ We better organized the settings dialog, since it was getting log. It should be easier to find the setting you're looking for.
+- 🖱️ The slider that moves through your program now gets a whole row to itself. While editing, it appears once your program has reacted to input and snaps between those moments; in debug mode it stops at every step, with the precise step buttons above it.
+- 🐛 The pause mode is now called debug, keeping its two-bar pause icon, and the mode buttons above the stage go edit, debug, play. In debug, the value of each part of your program shows next to its code in the editor and next to its control in the palette.
+- ⌨️ Ctrl-Enter switches between edit and play, and ctrl-alt-5, 6, and 7 jump straight to a mode. Ctrl-alt-Enter resets your program, in any mode.
+- 📐 Switching modes no longer moves your windows around. You can keep the editor open while your project plays — the code wears a colored border so you know it's running — and leaving full screen gives you back exactly the windows you had.
+- ▶️ Pressing play now always continues from wherever your program is, even after you edit — speech, music, and animations pick up where they left off instead of starting over. The perform and reset buttons are how you start from the beginning.
+- ⏩ If you dragged back into your program's past, pressing play first fast-forwards through what already happened, so you can see how the present came to be, and then keeps going live.
+- 📱 On small screens that show one tile at a time, switching modes now brings the right tile forward: play shows the stage, and edit and debug show your code. Entering a mode also expands its tile if you had collapsed it.
+- ⏯️ When the stage tile is hidden — like on a phone showing one tile at a time — debug mode floats the step buttons and timeline over your code, so you can still step through your program.
+- 👆 Tooltips no longer pop up and stay stuck on the screen when you tap on a touch screen. They appear on hover and on keyboard focus, where they can also go away.
+- 🚦 A program with an error no longer jumps into debug mode when you press play. Only a new error that happens while playing does; one you can already see while editing stays where you can fix it.
+- 🎨 The palette now stays on screen in every mode, with controls you can read but not change outside edit mode.
+- 🎼 Captions and the touch keys now sit above the sheet music and the orchestra instead of covering them.
+
+### Fixed
+
+- 🐛 When you add something that listens for input — like a @Chat box — its controls now appear as soon as you finish typing, instead of waiting for the program's next change.
+- 🐛 Refreshing the page while playing next to the editor no longer jumps back to full screen. The page comes back just as you left it.
+- 🎨 A text box that isn't taking input right now, like the stage's chat box outside play mode, is dimmed with a dotted underline instead of looking just like an active one.
+- 🔊 Restarting a project now speaks its @Say again and replays one-time music and entrance animations. Before, restarting stayed silent unless the words had changed.
+- 🧲 Pausing no longer stops falling things cold. When you press play again, a moving object keeps the speed it had instead of starting its fall from rest.
+- 🌐 If you picked a favorite voice for speech, words in other languages no longer come out garbled. Your voice is used only for the language it speaks.
+- 🔊 Long speech no longer cuts off after about fifteen seconds in Chrome.
+- 🔊 On iPhones and iPads, music stayed silent even after you tapped "Tap for sound". It now plays, even with the ringer switch set to silent, and it comes back after a phone call cuts it off.
+- 🎤 On Android phones, a project that listens to sound kept asking to use the microphone over and over, even after you said yes. Now it asks once.
+- 🖱️ Pages no longer scroll past their end. The bottom bar used to slide away and leave an empty screen if you kept scrolling on a long page like [Design](https://wordplay.dev/design).
+- 📱 On iPhones and iPads, scrolling fast could leave the page blank until you reloaded, and the code could jump back down to your cursor while you were trying to scroll up. The page itself no longer scrolls, so Safari stops resizing everything while you swipe.
+- ⌨️ Page Up, Page Down, Home, End, and the space bar scroll the page again, and they move it the same distance a browser does, smoothly, no matter what you clicked on last. If you asked for less motion, they jump instead.
+- 🔠 On iPhones and iPads, the words in a doc sometimes came out a different size than the code around them. They now match, and they grow and shrink with the rest of your code when you zoom.
+- 💡 You can now scroll the list of code suggestions with your finger. Picking one happens when you lift your finger, so sliding through the list no longer chooses something by accident.
+- 💡 The list of suggestions no longer opens past the edge of your project, where you couldn't see it at all.
+- 🎨 Tapping in the editor no longer paints a grey box behind what you tapped.
+- 📐 The buttons for edit, debug, and play are now reachable when a window is full screen. Before, going full screen on your code left no way back to play.
+- 🖱️ On iPhones and iPads, menus that let you choose one thing, like the layout chooser, showed a long run-on line cut off in the middle. They now show a short label.
+- 🖱️ Tapping the ☰ button above your code no longer opens the first thing inside it right away, and the menu no longer covers the button you just tapped.
+- 📱 On a phone, the box that explains your code took almost the whole screen. It now takes at most half, leaving room for the code itself.
+- 📱 The project name at the bottom of the screen no longer takes a fifth of a phone's width.
+- ⌨️ Home and End now jump the cursor to the start and end of the line in every text box in Wordplay. On a Mac, browsers treat those two keys as scroll keys, so our boxes now handle them; Command-Left and Command-Right still work too.
+- 🖱️ Holding Page Down or Page Up now keeps turning pages smoothly. Before, holding one barely moved and stopped after about a page.
+- 📱 You can now scroll your code with your finger in text mode. To pick out a stretch of code, hold your finger still for a moment and then drag — before, the smallest swipe selected text instead of scrolling.
+- 🎨 The gold shape around selected code is now one clean outline per line, instead of growing little hooks, notches, and stray marks off the side. Blank lines you select show a small block, so you can see they're part of your selection.
+- 📱 On iPhones and iPads, selecting code no longer leaves a grey smear and two round handles over your work.
+
 ## 0.29.0 - 2026-08-08
+
+Lots of music and animation polish this week!
 
 ### Added
 
@@ -27,12 +122,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎶 The dance at the end of Learn now has a band playing. The cast used to move to a clock; now they move to the beat of the music, and you still light them up by making noise. (#390)
 - 🤖 We added Chatterbox, a little robot you can talk to, inspired by Eliza, the very first chatbot from 1966. It shows how to keep a chat log, spot patterns in what you type, and echo your words back with the pronouns flipped — find it with the other example projects in [galleries](https://wordplay.dev/galleries). (#380)
 - 🎨 The [Design](https://wordplay.dev/design) page now explains our color rules — like never using color as the only clue — and its color table shows how strongly each color stands out against the background. (#1183)
-- 🔣 The [Design](https://wordplay.dev/design) page now shows the new logo speaking fifteen writing systems, and lets you download it. (#414)
-- 📱 On phones and tablets, a project that listens for certain keys now shows those keys as buttons on the stage, instead of opening the keyboard that covers your work. Wordplay reads your project to find which keys it uses, so arrow keys come out as an arrow pad you can steer with and letters come out as a row.
 
 ### Changed
 
-- 💬 We gave Wordplay a new logo: a speech bubble that can say anything. On the [home page](https://wordplay.dev/) it speaks the letter of each language as the language chooser names it; while things load it holds a circle, a triangle, and a square that take turns hopping, like a crowd doing the wave; and it holds still if you turn animation off. (#414)
 - 🎞️ The ready-made animations now belong to @Sequence, so you write `Sequence.sway()` where you used to write `Sequence(sway())`, and each one makes a whole animation by itself. You can still set how long it takes, how it eases, how many times it repeats, and what to call it, the same way as before. If you have a project that uses the old names, Wordplay will offer to fix it for you.
 - 📖 Every ready-made animation now says what its motion looks like and when to reach for it, and comes with an example you can run in the [Guide](https://wordplay.dev/guide).
 - 🎨 The stage stays clean while you work: the outlines around your output only show up when the palette is open. Double-click anything on the stage to open the palette and pick it, and the things you haven't picked now have a dashed outline, so the one you did pick stands out.
@@ -54,8 +146,6 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🎮 We fixed the Where's Waldough game: the 🔁 button now shuffles everyone to new hiding spots, and finding Waldough only scores one point per round. (#1095)
-- 🔊 On iPhones and iPads, music stayed silent even after you tapped "Tap for sound". It now plays, even with the ringer switch set to silent, and it comes back after a phone call cuts it off.
-- 🎤 On Android phones, a project that listens to sound kept asking to use the microphone over and over, even after you said yes. Now it asks once.
 - ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
 - 🐛 Removing a `↓` borrow from a program used to leave the code mangled instead of removing it. Same for adding one.
 - 💡 Some menu suggestions used to save different code than they showed — like putting `1 + _` inside a function's inputs, where it reads as separate inputs. Wordplay now checks every suggestion and only offers ones that mean what they say.

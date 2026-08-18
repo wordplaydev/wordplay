@@ -11,9 +11,10 @@
         setProject,
     } from '@components/project/Contexts';
     import ProjectView from '@components/project/ProjectView.svelte';
-    import { Galleries, Projects } from '@db/Database';
+    import { DB, Galleries } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
-    import { untrack } from 'svelte';
+    import { untrack, onMount } from 'svelte';
     import { writable } from 'svelte/store';
     import Writing from '@components/app/Writing.svelte';
 
@@ -113,6 +114,10 @@
         if (project === undefined) return false;
         else return isAuthenticated($user) && project.hasCommenter($user.uid);
     });
+
+    // This page reads projects straight away, so ask for them rather than
+    // waiting for the layout's idle warm-up.
+    onMount(() => void DB.startProjectWork());
 </script>
 
 <svelte:head>
@@ -120,7 +125,9 @@
 </svelte:head>
 
 {#if project}
-    <Page>
+    <!-- The project view fills the page and scrolls its own tiles, so the page's
+         scroller would only ever be a way to pan the whole layout out of view. -->
+    <Page scroll={false}>
         <!-- When the project ID changes, create a fresh project view. -->
         {#key project.getID()}
             <ProjectView

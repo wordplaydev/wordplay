@@ -22,7 +22,6 @@
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import Color from '@output/Color/Color';
     import {
         DOCUMENTATION_SYMBOL,
         LEARN_SYMBOL,
@@ -31,6 +30,13 @@
         SYMBOL_SYMBOL,
         TEACH_SYMBOL,
     } from '@parser/Symbols';
+    import scrollKeyAction, {
+        nextScrollTarget,
+        scrollBehaviorFor,
+        scrollDuration,
+        scrollPosition,
+    } from '@components/app/scrollKeys';
+    import { animationFactor } from '@db/Database';
     import { localeGoto } from '@util/localeGoto';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
@@ -39,16 +45,22 @@
     interface Props {
         children: Snippet;
         footer?: boolean;
+        /** False for pages that fill the viewport and scroll internally (the
+         *  project view), so the page's own scroller can't be panned. */
+        scroll?: boolean;
     }
 
-    let { children, footer = true }: Props = $props();
+    let { children, footer = true, scroll = true }: Props = $props();
 
     let main: HTMLElement | undefined = $state();
     let scrollY = $state(0);
     let showBackToTop = $derived(scrollY > 200);
 
     function scrollToTop() {
-        main?.scrollTo({ top: 0, behavior: 'smooth' });
+        main?.scrollTo({
+            top: 0,
+            behavior: scrollBehaviorFor($animationFactor),
+        });
     }
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
@@ -57,6 +69,7 @@
     let fullscreen: FullscreenContext = writable({
         on: false,
         background: null,
+        foreground: null,
     });
     setFullscreen(fullscreen);
 
@@ -66,17 +79,131 @@
     $effect(() => {
         if (typeof document !== 'undefined' && $fullscreen) {
             document.body.style.background = $fullscreen.on
-                ? $fullscreen.background instanceof Color
-                    ? $fullscreen.background.toCSS()
-                    : ($fullscreen.background ?? '')
+                ? ($fullscreen.background ?? '')
                 : '';
             document.body.style.color = $fullscreen.on
-                ? $fullscreen.background instanceof Color
-                    ? $fullscreen.background.contrasting().toCSS()
-                    : ''
+                ? ($fullscreen.foreground ?? '')
                 : '';
         }
     });
+
+    /** Where a run of scroll keys is heading, so auto-repeat accumulates instead of
+     *  restarting the animation each press. Undefined once the scroll settles or
+     *  the reader scrolls by some other means. */
+    let scrollTarget: number | undefined = undefined;
+    let scrollFrame: number | undefined = undefined;
+
+    /** The reader took over — a wheel, a drag, a touch. Abandon our animation and
+     *  the target with it, so the next key press resumes from where they are. */
+    function forgetScrollTarget() {
+        if (scrollFrame !== undefined) cancelAnimationFrame(scrollFrame);
+        scrollFrame = undefined;
+        scrollTarget = undefined;
+    }
+
+    /** A scroll finished. Ours emit these too — every frame we write is a scroll
+     *  that can end — so ignore it while our own animation is still running,
+     *  which would otherwise cancel it after a single frame. */
+    function handleScrollSettled() {
+        if (scrollFrame === undefined) scrollTarget = undefined;
+    }
+
+    /** Animate to `to` ourselves rather than using `behavior: 'smooth'`, whose
+     *  duration grows with distance — a target several pages away crawled, and
+     *  its ease-in start made even the first page feel like it lagged. */
+    function scrollTowards(element: HTMLElement, to: number) {
+        if (scrollFrame !== undefined) cancelAnimationFrame(scrollFrame);
+        if (scrollBehaviorFor($animationFactor) === 'auto') {
+            scrollFrame = undefined;
+            element.scrollTop = to;
+            scrollTarget = undefined;
+            return;
+        }
+        const from = element.scrollTop;
+        const duration = scrollDuration(to - from);
+        const started = performance.now();
+        const step = () => {
+            const elapsed = performance.now() - started;
+            element.scrollTop = scrollPosition(from, to, elapsed, duration);
+            if (elapsed < duration) scrollFrame = requestAnimationFrame(step);
+            else {
+                scrollFrame = undefined;
+                scrollTarget = undefined;
+            }
+        };
+        scrollFrame = requestAnimationFrame(step);
+    }
+
+    /** Elements that consume the document-scrolling keys themselves: text entry,
+     *  pickers and menus that move a selection, and the code editor, which binds
+     *  every one of them to a caret movement. */
+    const KeyOwners =
+        'input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="listbox"], [role="menu"], [role="radiogroup"], [data-testid="editor"]';
+
+    /**
+     * Whether something other than the page should answer a scroll key: a control
+     * that binds them, or a scrollable region the reader is actually inside.
+     * Walks only as far as `main` — beyond it, the page is the scroller.
+     */
+    function ownsScrollKeys(element: Element | null): boolean {
+        if (element === null || element === document.body || main === undefined)
+            return false;
+        if (element.closest(KeyOwners) !== null) return true;
+        for (
+            let ancestor: Element | null = element;
+            ancestor !== null && ancestor !== main;
+            ancestor = ancestor.parentElement
+        ) {
+            const overflow = getComputedStyle(ancestor).overflowY;
+            if (
+                (overflow === 'auto' || overflow === 'scroll') &&
+                ancestor.scrollHeight > ancestor.clientHeight
+            )
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * The app shell is pinned so the document never scrolls (see app.html), which
+     * leaves the browser's document-scrolling keys with nothing to act on: on a
+     * freshly loaded page, Page Down did nothing until you clicked. Route them to
+     * `main` ourselves.
+     *
+     * This runs whatever has focus, not just the body. Left to the browser, the
+     * page scrolled a different distance and instantly once the reader had tabbed
+     * to a link — so how far a page key moved depended on what happened to be
+     * focused. It bails only when something else genuinely owns the key: a text
+     * field, a picker, the editor, or a scrollable region inside the page, each
+     * of which keeps its own behavior. Returns whether it handled the keystroke.
+     */
+    function handleScrollKey(event: KeyboardEvent): boolean {
+        if (main === undefined || !scroll) return false;
+        // A modified key is someone else's shortcut, not a scroll.
+        if (event.metaKey || event.ctrlKey || event.altKey) return false;
+        if (event.defaultPrevented) return false;
+        if (ownsScrollKeys(document.activeElement)) return false;
+        // Nothing to scroll: leave the key alone rather than swallowing it.
+        if (main.scrollHeight <= main.clientHeight) return false;
+        const action = scrollKeyAction(
+            event.key,
+            event.shiftKey,
+            main.clientHeight,
+        );
+        if (action === undefined) return false;
+        // Accumulate against the position we're already heading toward, not the
+        // live scrollTop — see nextScrollTarget for why a held key otherwise
+        // barely moves. Animated, like the document scrolling this replaces:
+        // paging that jumps loses the reader's place.
+        const target = nextScrollTarget(
+            scrollTarget ?? main.scrollTop,
+            action,
+            main.scrollHeight - main.clientHeight,
+        );
+        scrollTarget = target;
+        scrollTowards(main, target);
+        return true;
+    }
 
     function handleKey(event: KeyboardEvent) {
         if (
@@ -85,7 +212,7 @@
             page.route.id !== null
         ) {
             localeGoto('/');
-        }
+        } else if (handleScrollKey(event)) event.preventDefault();
     }
 </script>
 
@@ -95,9 +222,16 @@
     {#if localizing.on}
         <header transition:slide><Localizer /></header>
     {/if}
+    <!-- The scroll target lasts only until this scroll settles, or until the
+         reader scrolls by some other means — after that a key press should
+         resume from where they actually are, not a stale target. -->
     <main
         bind:this={main}
+        class:fixed={!scroll}
         onscroll={(e) => (scrollY = e.currentTarget.scrollTop)}
+        onscrollend={handleScrollSettled}
+        onwheel={forgetScrollTarget}
+        onpointerdown={forgetScrollTarget}
     >
         {@render children()}
     </main>
@@ -230,8 +364,7 @@
                         tips={(l) => l.ui.localize.toggle.mode}
                         toggle={() => (localizing.on = !localizing.on)}
                         highlight={page.route.id?.endsWith('/localize') ===
-                            true && !localizing.on}
-                        >✎</Toggle
+                            true && !localizing.on}>✎</Toggle
                     >
                 {/if}
             {/snippet}
@@ -284,7 +417,7 @@
 
 <style>
     .page {
-        width: 100dvw;
+        width: 100%;
         height: 100%;
         max-width: 100%;
         max-height: 100%;
@@ -297,8 +430,17 @@
         flex-direction: column;
         align-items: start;
         overflow: auto;
+        /* Rubber-banding the content shouldn't chain out to the document. */
+        overscroll-behavior: contain;
         flex: 1;
         min-height: 0;
+    }
+
+    /* Pages that manage their own layout at full size (ProjectView) must not sit
+       in a scrollable box: a stray pixel of overflow lets a touch pan the whole
+       page sideways, leaving a blank margin where the content used to be. */
+    main.fixed {
+        overflow: hidden;
     }
 
     main:focus {
@@ -310,6 +452,10 @@
         width: 100%;
         max-width: 100%;
         overflow: auto;
+        /* The rigid ends of the column: without this, `overflow: auto` zeroes their
+           automatic minimum size and any height pressure squeezes them instead of
+           the scrolling content between them. */
+        flex-shrink: 0;
         z-index: 1;
         color: var(--wordplay-foreground);
         background: var(--wordplay-background);

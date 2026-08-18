@@ -2547,7 +2547,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Fark etmiş olabileceğiniz başka bir şey daha var: Çıktının altında bir zaman çizelgesi olan bir alan var. Program her yeniden değerlendirdiğinde, yani bir akış her değiştiğinde güncelleniyor. @Time her tik attığında gösteriliyor."
+                            "$~Keşfedilecek başka bir şey daha var: çıktının altındaki zaman çizelgesi, programın her yeniden değerlendirildiği anı kaydeder. Bu, bir akışın her değiştiği andır — burada, @Time her tıkladığında olur. Zaman çizelgesini daha yakından incelemek için mod değiştiricideki @UI/modeSwitcher ⏸️ hata ayıklama düğmesine basın. Böylece her expression yanında değeriyle gösterilir."
                         ],
                         [
                             "Time",
@@ -5860,7 +5860,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Ah evet, tabii ki! Onların odayı aydınlatmasına ne dersin? @Phrase, @Volume ögesini dinleyip onu kendi renginde @Color.lightness ve @Color.chroma ögelerine bağlayabilir misin? Böylece yönetmenimiz ses çıkardığında bembeyaz parlayacağız!"
+                            "$~Ah evet, tabii ki! Peki ya odayı onların aydınlatmasına izin versek? @Phrase, @Volume değerini dinleyip onu kendi renginde @Color.lightness ve @Color.chroma değerlerine bağlayabilir misin? Böylece yönetmenimiz ses çıkardığında bembeyaz parlarız!"
                         ],
                         ["Phrase", "kind", "$~Harika fikir!"],
                         { "edit": "#EvaluateDance14" },

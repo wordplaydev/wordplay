@@ -1,3 +1,4 @@
+import { Projects } from '@db/projects/Projects';
 import type { CommandFeedback } from '@components/editor/commands/feedback';
 import Caret from '@edit/caret/Caret';
 import type { InsertContext } from '@edit/insertContext';
@@ -59,7 +60,8 @@ import {
     TRUE_SYMBOL,
     TYPE_SYMBOL,
     UNDO_SYMBOL,
-    PAUSE_SYMBOL,
+    DEBUG_SYMBOL,
+    PERFORM_SYMBOL,
     PLAY_SYMBOL,
 } from '@parser/Symbols';
 
@@ -232,25 +234,38 @@ export type CommandContext = {
     getMode?: (() => ProjectMode) | undefined;
     /** Switch the project's evaluation mode, when in a ProjectView */
     setMode?: ((mode: ProjectMode) => void) | undefined;
+    /** Begin (or, from play mode, end) a performance: restart the program,
+     * enter play mode, and fullscreen the stage, when in a ProjectView */
+    performProject?: (() => void) | undefined;
 };
 
-/** Step commands work from any mode: using one enters step mode first, so stepping
- * while editing or playing lands the creator in the debugger rather than doing
- * something inconsistent with the mode they were in. */
-function enterStepMode(context: CommandContext) {
-    if (context.setMode !== undefined && context.getMode?.() !== 'step')
-        context.setMode('step');
+/** Step-level movement enters the debugger from any mode: landing on an
+ * intermediate step of the evaluation is only legible with the step shown —
+ * the inline values, the step controls, the highlighted node — which is
+ * exactly what debug mode is. */
+function enterDebug(context: CommandContext) {
+    if (context.setMode !== undefined && context.getMode?.() !== 'debug')
+        context.setMode('debug');
 }
 
-/** True when a modal ProjectView is in edit or play mode, where a step command's
- * primary effect is entering step mode — so it stays active even when its step
+/** Input-level movement is navigation of the output history, not inspection —
+ * every stop is a whole frame a viewer saw — so from edit it stays in edit.
+ * Only play enters the debugger, since play has no timeline to explain a
+ * paused position. */
+function enterDebugFromPlay(context: CommandContext) {
+    if (context.setMode !== undefined && context.getMode?.() === 'play')
+        context.setMode('debug');
+}
+
+/** True when a modal ProjectView is playing, where a step command's primary
+ * effect is pausing into the debugger — so it stays active even when its step
  * action isn't currently possible. */
-function outsideStepMode(context: CommandContext): boolean {
-    return context.getMode !== undefined && context.getMode() !== 'step';
+function inPlayMode(context: CommandContext): boolean {
+    return context.getMode !== undefined && context.getMode() === 'play';
 }
 
 /** Where stepping landed. Shared by every step command: without it, stepping
- * inside step mode is silent (the mode announcement only fires when the mode
+ * inside debug mode is silent (the mode announcement only fires when the mode
  * actually changes). Coalesced, so holding a step key doesn't queue a backlog. */
 const stepFeedback: CommandFeedback = (context) => {
     const step = context.step;
@@ -286,51 +301,6 @@ export const Category = {
     Fallback: 'fallback',
 } as const;
 export type Category = (typeof Category)[keyof typeof Category];
-
-/** Whether the current device uses macOS/iOS modifier-key conventions, which
- *  label modifiers with symbols rather than words. */
-export function onMacOS() {
-    return (
-        typeof navigator !== 'undefined' &&
-        navigator.userAgent.indexOf('Mac') !== -1
-    );
-}
-
-/** Platform-specific labels for the modifier keys, reused wherever we summarize a
- *  keyboard shortcut (toShortcut and in-editor instructions like the Tab notice). */
-export function controlKeyLabel() {
-    return onMacOS() ? '⌘' : 'Ctrl';
-}
-export function altKeyLabel() {
-    return onMacOS() ? '⎇' : 'Alt';
-}
-export function shiftKeyLabel() {
-    return onMacOS() ? '⇧' : 'Shift';
-}
-
-export function toShortcut(
-    command: {
-        control: boolean | undefined;
-        alt: boolean | undefined;
-        shift: boolean | undefined;
-        key?: string;
-        keySymbol?: string;
-    },
-    hideControl = false,
-    hideShift = false,
-    hideAlt = false,
-) {
-    const mac = onMacOS();
-    return `${command.control && !hideControl ? (mac ? controlKeyLabel() : controlKeyLabel() + '+') : ''}${
-        command.alt && !hideAlt
-            ? mac
-                ? altKeyLabel()
-                : altKeyLabel() + ' + '
-            : ''
-    }${command.shift && !hideShift ? (mac ? shiftKeyLabel() : shiftKeyLabel() + ' + ') : ''}${
-        command.keySymbol ?? command.key ?? '-'
-    }`;
-}
 
 export function handleKeyCommand(
     event: KeyboardEvent,
@@ -564,11 +534,9 @@ export const StepBack: Command = {
     // so the dispatcher still consumes Ctrl/Cmd+← — otherwise the browser would
     // navigate back.
     active: (context) =>
-        outsideStepMode(context) || !context.evaluator.isAtBeginning()
-            ? true
-            : null,
+        inPlayMode(context) || !context.evaluator.isAtBeginning() ? true : null,
     execute: (context) => {
-        enterStepMode(context);
+        enterDebug(context);
         if (!context.evaluator.isAtBeginning())
             context.evaluator.stepBackWithinProgram();
         return true;
@@ -590,14 +558,14 @@ export const StepForward: Command = {
     // Null (not undefined) when inactive, so the matched shortcut is consumed
     // rather than bubbling to the browser as a forward-navigation.
     active: (context) =>
-        outsideStepMode(context) ||
+        inPlayMode(context) ||
         (context.evaluator.isInPast() &&
             context.evaluator.getStepIndex() !== undefined &&
             context.evaluator.getStepIndex() < context.evaluator.getStepCount())
             ? true
             : null,
     execute: (context) => {
-        enterStepMode(context);
+        enterDebug(context);
         if (context.evaluator.isInPast()) context.evaluator.stepWithinProgram();
         return true;
     },
@@ -617,11 +585,9 @@ export const StepBackInput: Command = {
     keySymbol: '←',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        outsideStepMode(context) || !context.evaluator.isAtBeginning()
-            ? true
-            : null,
+        inPlayMode(context) || !context.evaluator.isAtBeginning() ? true : null,
     execute: (context) => {
-        enterStepMode(context);
+        enterDebugFromPlay(context);
         if (!context.evaluator.isAtBeginning())
             context.evaluator.stepBackToInput();
         return true;
@@ -642,9 +608,9 @@ export const StepForwardInput: Command = {
     keySymbol: '→',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        outsideStepMode(context) || context.evaluator.isInPast() ? true : null,
+        inPlayMode(context) || context.evaluator.isInPast() ? true : null,
     execute: (context) => {
-        enterStepMode(context);
+        enterDebugFromPlay(context);
         if (context.evaluator.isInPast()) context.evaluator.stepToInput();
         return true;
     },
@@ -667,7 +633,7 @@ export const StepBackNode: Command = {
     execute: (context) => {
         const target = context.caret?.getExpressionAt();
         if (target) {
-            enterStepMode(context);
+            enterDebug(context);
             context.evaluator.stepBackToNode(target);
         }
         return true;
@@ -691,7 +657,7 @@ export const StepForwardNode: Command = {
     execute: (context) => {
         const target = context.caret?.getExpressionAt();
         if (target) {
-            enterStepMode(context);
+            enterDebug(context);
             context.evaluator.stepToNode(target);
         }
         return true;
@@ -706,14 +672,36 @@ export const Restart: Command = {
     visible: Visibility.Visible,
     category: Category.Evaluate,
     key: 'Enter',
-    shift: true,
-    alt: false,
+    shift: false,
+    alt: true,
     control: true,
     execute: ({ resetInputs }) => {
         // Don't handle this if we don't have access to the reset function.
         if (resetInputs === undefined) return false;
         // Reset the project's inputs.
         resetInputs();
+        return true;
+    },
+};
+
+export const Perform: Command = {
+    uiid: 'performProject',
+    symbol: PERFORM_SYMBOL,
+    description: (l) => l.ui.output.button.perform,
+    feedback: 'delegated',
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    key: 'Enter',
+    shift: true,
+    alt: false,
+    control: true,
+    // Active in every mode, including play: starting the show over from the
+    // top, fullscreen, is just as useful mid-performance. Switching to edit
+    // is the way out, and it exits the stage's fullscreen itself.
+    active: (context) => (context.performProject !== undefined ? true : false),
+    execute: (context) => {
+        if (context.performProject === undefined) return false;
+        context.performProject();
         return true;
     },
 };
@@ -731,11 +719,9 @@ export const StepToStart: Command = {
     key: 'Home',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        outsideStepMode(context) || !context.evaluator.isAtBeginning()
-            ? true
-            : null,
+        inPlayMode(context) || !context.evaluator.isAtBeginning() ? true : null,
     execute: (context) => {
-        enterStepMode(context);
+        enterDebug(context);
         context.evaluator.stepTo(0);
         return true;
     },
@@ -754,9 +740,9 @@ export const StepToPresent: Command = {
     key: 'End',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        outsideStepMode(context) || context.evaluator.isInPast() ? true : null,
+        inPlayMode(context) || context.evaluator.isInPast() ? true : null,
     execute: (context) => {
-        enterStepMode(context);
+        enterDebugFromPlay(context);
         if (context.evaluator.isInPast()) context.evaluator.stepToEnd();
         return true;
     },
@@ -778,13 +764,13 @@ export const StepOut: Command = {
     // required isPlaying(), which made the button inert exactly when stepping.)
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        outsideStepMode(context) ||
+        inPlayMode(context) ||
         (context.evaluator.getCurrentStep() !== undefined &&
             context.evaluator.getCurrentEvaluation() !== undefined)
             ? true
             : null,
     execute: (context) => {
-        enterStepMode(context);
+        enterDebug(context);
         if (context.evaluator.getCurrentEvaluation() !== undefined)
             context.evaluator.stepOut();
         return true;
@@ -803,9 +789,11 @@ export const ModeToggle: Command = {
     control: true,
     key: 'Enter',
     execute: (context) => {
-        // Toggle only edit ⇄ play: these are the two modes creators move between
-        // constantly, and routing through step on the way made every switch two
-        // presses. Step has its own shortcut.
+        // Toggle only edit ⇄ play: these are the two modes creators move
+        // between constantly, and routing through debug on the way would make
+        // the most frequent switch two presses. Debug is a destination a
+        // creator chooses via its own shortcut or the switcher, not a stop on
+        // the way. (From debug, this goes to play.)
         if (context.setMode !== undefined && context.getMode !== undefined)
             context.setMode(context.getMode() === 'play' ? 'edit' : 'play');
         // Otherwise (e.g., a doc example's evaluator) just toggle play/pause.
@@ -838,25 +826,26 @@ export const ModeEdit: Command = {
     },
 };
 
-export const ModeStep: Command = {
-    uiid: 'modeStep',
-    symbol: PAUSE_SYMBOL,
+export const ModeDebug: Command = {
+    uiid: 'modeDebug',
+    symbol: DEBUG_SYMBOL,
     description: (l) =>
-        l.ui.output.mode.evaluation.tips[ProjectModes.indexOf('step')],
+        l.ui.output.mode.evaluation.tips[ProjectModes.indexOf('debug')],
     feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
     alt: true,
     control: true,
-    key: 'KeyP',
-    keySymbol: 'P',
+    // 5/6/7 for edit/debug/play, matching the mode switcher's order.
+    key: 'Digit6',
+    keySymbol: '6',
     active: (context) =>
-        context.setMode !== undefined && context.getMode?.() !== 'step'
+        context.setMode !== undefined && context.getMode?.() !== 'debug'
             ? true
             : undefined,
     execute: (context) => {
-        context.setMode?.('step');
+        context.setMode?.('debug');
         return true;
     },
 };
@@ -904,6 +893,8 @@ export const ShowMenu: Command = {
     },
 };
 
+// No shortcut: its old ctrl/meta+alt+Enter now belongs to Restart. The footer's
+// browser-fullscreen Toggle is its remaining trigger, and Escape still exits.
 export const EnterFullscreen: Command = {
     uiid: 'enterFullscreen',
     symbol: '▶',
@@ -912,9 +903,8 @@ export const EnterFullscreen: Command = {
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
-    alt: true,
-    control: true,
-    key: 'Enter',
+    alt: false,
+    control: false,
     execute: ({ setFullscreen }) => {
         if (setFullscreen) {
             setFullscreen(true);
@@ -1158,13 +1148,11 @@ export const Undo: Command = {
     keySymbol: 'Z',
     important: true,
     active: ({ database, evaluator }) =>
-        database.Projects.getHistory(
-            evaluator.project.getID(),
-        )?.isUndoable() === true
+        Projects.getHistory(evaluator.project.getID())?.isUndoable() === true
             ? true
             : undefined,
     execute: ({ database, evaluator, clearLargeDeletionNotification }) => {
-        database.Projects.undoRedo(evaluator.project.getID(), -1);
+        Projects.undoRedo(evaluator.project.getID(), -1);
         // Clear large deletion notification when user undoes
         clearLargeDeletionNotification?.();
         // Always swallow the shortcut to avoid the browser or OS from handling it.
@@ -1185,13 +1173,11 @@ export const Redo: Command = {
     keySymbol: 'Z',
     important: true,
     active: ({ evaluator, database }) =>
-        database.Projects.getHistory(
-            evaluator.project.getID(),
-        )?.isRedoable() === true
+        Projects.getHistory(evaluator.project.getID())?.isRedoable() === true
             ? true
             : undefined,
     execute: ({ database, evaluator }) => {
-        database.Projects.undoRedo(evaluator.project.getID(), 1);
+        Projects.undoRedo(evaluator.project.getID(), 1);
         // Always swallow the shortcut to avoid the browser or OS from handling it.
         return true;
     },
@@ -2318,12 +2304,13 @@ const Commands: Command[] = [
     StepForward,
     StepForwardInput,
     Restart,
+    Perform,
     StepToStart,
     StepToPresent,
     StepOut,
     ModeToggle,
     ModeEdit,
-    ModeStep,
+    ModeDebug,
     ModePlay,
     EnterFullscreen,
     ExitFullscreen,

@@ -1,10 +1,7 @@
 import conciseRef from '@nodes/conciseRef';
 import type { TemplateInput } from '@locale/Locales';
 import type Locales from '@locale/Locales';
-import type {
-    InsertContext,
-    ReplaceContext,
-} from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import getConceptName from '@locale/getConceptName';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -53,11 +50,7 @@ export default class Spread extends Node {
     static getPossibleInsertions({ parent, field }: InsertContext) {
         const kind = parent.getGrammar().find((f) => f.name === field)?.kind;
         return kind !== undefined && kind.allowsKind(Spread)
-            ? [
-                  Spread.make(
-                      ExpressionPlaceholder.make(ListType.make()),
-                  ),
-              ]
+            ? [Spread.make(ExpressionPlaceholder.make(ListType.make()))]
             : [];
     }
 

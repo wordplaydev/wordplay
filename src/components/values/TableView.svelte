@@ -32,7 +32,9 @@
         symbol={TABLE_CLOSE_SYMBOL}
         type={Sym.TableClose}
     /><Expandable count={value.rows.length} {start}
-        >{#snippet content(limit)}{#each value.rows.slice(0, limit) as item}<RowView
+        >{#snippet content(
+            limit,
+        )}{#each value.rows.slice(0, limit) as item}<RowView
                     type={value.type}
                     row={item}
                 />{/each}{/snippet}</Expandable
@@ -58,7 +60,9 @@
                 {start}
                 layout="row"
                 columns={value.type.columns.length}
-                >{#snippet content(limit)}{#each value.rows.slice(0, limit) as row}<tr>
+                >{#snippet content(
+                    limit,
+                )}{#each value.rows.slice(0, limit) as row}<tr>
                             {#each value.type.columns as col}
                                 {@const cell = row.resolve(col.names)}
                                 <td

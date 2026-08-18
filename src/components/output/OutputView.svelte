@@ -39,13 +39,8 @@
     // Named to avoid colliding with the Button input stream imported below.
     import ButtonWidget from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import {
-        animationFactor,
-        DB,
-        locales,
-        Projects,
-        voice,
-    } from '@db/Database';
+    import { animationFactor, DB, locales, voice } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import Button from '@input/Button/Button';
     import Camera from '@input/Camera/Camera';
@@ -80,9 +75,17 @@
     import Evaluate from '@nodes/Evaluate';
     import { describeColorLocalized } from '@output/Color/BasicColors';
     import Color, { toColor } from '@output/Color/Color';
-    import { PX_PER_METER, rootScale } from '@output/Output/outputToCSS';
+    import {
+        PX_PER_METER,
+        rootScale,
+        screenToStage,
+    } from '@output/Output/outputToCSS';
     import Say from '@output/Output/Say';
-    import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
+    import { shouldDuckMusic } from '@output/Music/ducking';
+    import speech, { SaySource } from '@output/Speech/speech';
+    import Caption from '@components/output/Caption.svelte';
+    import { musicVisualization } from '@db/Database';
+    import { musicFloorHeight } from '@db/settings/MusicSettings';
     import { acquireMusicPlayer } from '@output/Music/players';
     import { isPreviewing } from '@output/Music/previewPlayer';
     import samples from '@output/Music/InstrumentSamples';
@@ -91,7 +94,10 @@
     import referencedInstruments, {
         instrumentBinds,
     } from '@output/Music/referencedInstruments';
-    import { musicInstruments } from '@output/Music/musicData';
+    import type Source from '@nodes/Source';
+    import { musicInstruments, type MusicData } from '@output/Music/musicData';
+    import { missedReplays } from '@output/Music/missedReplays';
+    import projectReplaysMusic from '@output/Music/replayBinding';
     import audio, { musicSuspended } from '@output/Music/MusicAudio';
     import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
@@ -119,9 +125,14 @@
         project: Project;
         evaluator: Evaluator;
         value: Value | undefined;
+        /** The source whose value this is showing. Without it a stage cannot
+         * recover evaluations that happened and were overwritten inside a single
+         * frame, so a @Music.replay raised by one of them is never delivered.
+         * Hosts must pass the same source they read `value` from. */
+        source?: Source;
         editable: boolean;
         /** Whether output can be selected (for inspection or palette editing). Defaults to
-         * editable; ProjectView passes it separately so step mode can select without editing. */
+         * editable; ProjectView passes it separately so debug mode can select without editing. */
         selectable?: boolean;
         fit?: boolean;
         grid?: boolean;
@@ -141,8 +152,8 @@
         wheel?: boolean;
         /** Reflects whether the current stage value has an explicit place set. */
         hasStagePlace?: boolean;
-        /** Reflects whether the audience has overridden the stage's computed focus via zoom/pan controls. */
-        focusOverridden?: boolean;
+        /** Reflects whether the audience has panned or zoomed away from the base focus. */
+        focusAdjusted?: boolean;
         /** Whether to blur the output while the user is typing in the project's editor. True for the main stage; false for embedded examples that are unaffected by the user's typing. */
         blurOnTyping?: boolean;
         /** Called when the viewer clicks Retry after a PermissionException. The host should restart the evaluator so failed streams can re-attempt getUserMedia. */
@@ -160,6 +171,7 @@
         project,
         evaluator,
         value,
+        source = undefined,
         editable,
         selectable = editable,
         fit = $bindable(true),
@@ -172,7 +184,7 @@
         background = $bindable(null),
         wheel = true,
         hasStagePlace = $bindable(false),
-        focusOverridden = $bindable(false),
+        focusAdjusted = $bindable(false),
         blurOnTyping = true,
         onretry = undefined,
         warnings = [],
@@ -299,7 +311,14 @@
 
     /** The state of dragging the adjusted focus. A location or nothing. */
     let drag = $state<
-        { startPlace: Place; left: number; top: number } | undefined
+        | {
+              startPlace: Place;
+              /** The audience's pan/zoom when the drag began, so a pan can anchor on it. */
+              startOffset: { x: number; y: number; z: number } | undefined;
+              left: number;
+              top: number;
+          }
+        | undefined
     >();
 
     /** Whether this press has travelled far enough to be a move rather than a click.
@@ -356,8 +375,14 @@
 
     /** Event cache for touch panning and zooming */
     let pointersByIndex = $state<PointerEvent[]>([]);
+    /** Whether the in-progress gesture is panning the camera, so it must not also feed
+     *  the Pointer stream. */
+    let panningCamera = $state(false);
     let startDifference = $state<number | undefined>();
-    let startGesturePlace = $state<Place | undefined>();
+    let startMidpoint = $state<{ x: number; y: number } | undefined>();
+    let startGestureOffset = $state<
+        { x: number; y: number; z: number } | undefined
+    >();
 
     let keyboardInputView = $state<HTMLInputElement | undefined>();
     let chatInputView = $state<HTMLInputElement | undefined>();
@@ -645,6 +670,23 @@
     );
 
     /**
+     * Whether this project's code asks for keyboard input at all, read from the
+     * source rather than from streams the evaluator has created. The stage needs a
+     * focus target from the moment it's on screen: a program whose `Key()` hasn't
+     * evaluated yet has no stream, and without the sink below a keystroke lands in
+     * the editor and edits the source instead (#1285). Only the sink uses this —
+     * the on-screen keyboard and key pad still follow the live streams, so what a
+     * touch device offers stays tied to what's actually listening.
+     */
+    const listensForKeys = $derived(
+        evaluator.project.getReferences(evaluator.project.shares.input.Key)
+            .length > 0 ||
+            evaluator.project.getReferences(
+                evaluator.project.shares.input.Placement,
+            ).length > 0,
+    );
+
+    /**
      * Which keys this project listens for, when we're on a touch screen and
      * could offer them as buttons instead of the on-screen keyboard. Analysis
      * is cached per project revision, so this costs nothing to re-derive.
@@ -654,19 +696,31 @@
             ? analyzeProjectKeys(evaluator.project)
             : undefined,
     );
-    /** A project whose keys we couldn't bound keeps the keyboard. */
+    /** The pad to show, if any. A project we couldn't fully bound still gets one
+     *  for the keys it provably compares against — those are the keys it's
+     *  played with — and keeps the keyboard for the rest. */
     const keyPad = $derived(
-        keyAnalysis !== undefined && keyAnalysis.kind !== 'unbounded'
-            ? keyAnalysis
-            : undefined,
+        keyAnalysis === undefined
+            ? undefined
+            : keyAnalysis.kind !== 'unbounded'
+              ? keyAnalysis
+              : keyAnalysis.keys.size > 0
+                ? ({ kind: 'specific', keys: keyAnalysis.keys } as const)
+                : undefined,
+    );
+
+    /** Only a project whose keys we bounded completely can have the on-screen
+     *  keyboard taken away; anything else would strand the keys we can't see. */
+    const keyboardSuppressed = $derived(
+        keyAnalysis !== undefined && keyAnalysis.kind !== 'unbounded',
     );
 
     /** Interactive stage inputs (like the chat field) are only live in play mode;
-     *  both edit and step map to playing === false. */
+     *  both edit and debug map to playing === false. */
     const playing = $derived($evaluation?.playing === true);
     /** Stepping through a paused program: each step's output is news, so it's
      *  announced even though the program isn't running. */
-    const stepping = $derived($evaluation?.mode === 'step');
+    const stepping = $derived($evaluation?.mode === 'debug');
 
     /** Keep track of active sensor streams */
     const hasMicrophoneStream = $derived(
@@ -894,6 +948,18 @@
                     z: keysDown.get('-') ? 1 : keysDown.get('=') ? -1 : 0,
                 }),
             );
+    }
+
+    /**
+     * A window that loses focus mid-hold never delivers the key up, which
+     * leaves the key latched and steers Placement the wrong way on the next
+     * press. Route through pressKey rather than clearing the map, so a program
+     * watching `Key(down: ⊥)` still sees the release; snapshot first, since
+     * pressKey mutates keysDown.
+     */
+    function releaseHeldKeys() {
+        for (const [key, down] of Array.from(keysDown))
+            if (down) pressKey(key, false);
     }
 
     function handleKeyUp(event: KeyboardEvent) {
@@ -1221,7 +1287,7 @@
 
         // If there's a Placement, send it some navigation events based on position.
         // Only while playing — Placement is a live input, so clicking output to select it
-        // in edit/step mode must not also nudge its placement.
+        // in edit/debug mode must not also nudge its placement.
         if (evaluator.isPlaying() && valueView && stageValue) {
             evaluator.singletonReact(Placement, (placement) => {
                 // First, find the output on stage that this placement is placing,
@@ -1308,21 +1374,17 @@
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
             const dy = event.clientY - rect.top;
-            const { x: mx, y: my } = pixelsToMeters(
+            const { x: mx, y: my } = screenToStage(
                 dx - rect.width / 2,
-                -(dy - rect.height / 2),
-                0,
+                dy - rect.height / 2,
+                renderedFocus.x,
+                renderedFocus.y,
                 renderedFocus.z,
             );
             const place =
                 // If painting, the start place is where the click was
                 painting
-                    ? new Place(
-                          renderedFocus.value,
-                          mx - renderedFocus.x,
-                          my + renderedFocus.y,
-                          0,
-                      )
+                    ? new Place(renderedFocus.value, mx, my, 0)
                     : // If moving a selected output, start from its place.
                       movable
                       ? getOrCreatePlace(
@@ -1334,10 +1396,24 @@
                       : // Otherwise we're panning: start from the rendered focus.
                         renderedFocus;
 
-            if (place) {
-                fit = false;
+            // While playing, a plain drag belongs to the program: it is how Pointer and
+            // Placement receive input, and panning with it moves the stage under content
+            // that is chasing the pointer. Shift opts into panning, mirroring shift+wheel
+            // to zoom; two fingers pan on touch. Paused, a drag pans as it always has.
+            const panning = !painting && !movable;
+            // A gesture that drives the camera is the camera's alone: letting it also feed
+            // Pointer moves the stage under content that is chasing the pointer, which is
+            // what made panning run away in the first place. Only a gesture that actually
+            // pans counts — a plain drag while playing is the program's, and must still
+            // reach Pointer.
+            panningCamera = panning && mayPan(event) && evaluator.isPlaying();
+            if (place && !(panning && !mayPan(event))) {
                 drag = {
                     startPlace: place,
+                    // Panning adjusts the audience's offset, so anchor it here. A press
+                    // that never becomes a drag leaves it untouched, which is why fitting
+                    // is no longer switched off on every click.
+                    startOffset: stage?.getOffset(),
                     left: dx,
                     top: dy,
                 };
@@ -1369,37 +1445,58 @@
         // Replace it with this new event
         if (index >= 0) pointersByIndex[index] = event;
 
-        // If there are two pointers down, check for a pinch
+        // If there are two pointers down, this is a pinch: zoom by their distance and pan
+        // by their midpoint. Panning here rather than on a single-finger drag is what makes
+        // the stage pannable on a touch screen at all — a one-finger drag is how Pointer
+        // streams receive input, so panning with it would fight the program, and it is
+        // gated on `editable` so an audience never gets it. This block runs before that
+        // gate, so a two-finger gesture works for an audience too.
         if (pointersByIndex.length === 2) {
             // Find the Euclidean distance between the two pointers
             const currentPointerDifference = Math.hypot(
                 pointersByIndex[0].clientX - pointersByIndex[1].clientX,
                 pointersByIndex[0].clientY - pointersByIndex[1].clientY,
             );
-            // No differences yet? Initialize to the current difference, which
-            // is the anchor difference. Also initialize to the current rendered focus.
+            const currentMidpoint = {
+                x:
+                    (pointersByIndex[0].clientX + pointersByIndex[1].clientX) /
+                    2,
+                y:
+                    (pointersByIndex[0].clientY + pointersByIndex[1].clientY) /
+                    2,
+            };
+            // No anchor yet? Anchor the gesture on the current distance, midpoint, and the
+            // audience's offset, so the whole gesture is measured from where it started.
             if (
                 startDifference === undefined ||
-                startGesturePlace === undefined
+                startMidpoint === undefined ||
+                startGestureOffset === undefined
             ) {
                 startDifference = currentPointerDifference;
-                startGesturePlace = renderedFocus;
-            } else {
+                startMidpoint = currentMidpoint;
+                startGestureOffset = stage?.getOffset() ?? {
+                    x: 0,
+                    y: 0,
+                    z: 0,
+                };
+            } else if (stage) {
                 const delta = currentPointerDifference - startDifference;
-                const scale = rootScale(0, startGesturePlace.z);
-                const newZ = startGesturePlace.z + delta / PX_PER_METER / scale;
-                const boundedNewZ =
-                    newZ > -1 || newZ === Infinity
-                        ? -1
-                        : newZ < -40 || newZ === -Infinity
-                          ? -40
-                          : newZ;
-
-                if (!isNaN(boundedNewZ) && stage)
-                    stage.setFocus(
-                        startGesturePlace.x,
-                        startGesturePlace.y,
-                        boundedNewZ,
+                const scale = rootScale(0, renderedFocus.z);
+                const dz = delta / PX_PER_METER / scale;
+                // Screen pixels to metres at the current scale, and in the same sign
+                // convention the mouse drag-pan uses: a larger focus x/y translates content
+                // right/down, so content follows the fingers.
+                const dx =
+                    (currentMidpoint.x - startMidpoint.x) /
+                    (PX_PER_METER * scale);
+                const dy =
+                    (currentMidpoint.y - startMidpoint.y) /
+                    (PX_PER_METER * scale);
+                if (!isNaN(dz) && !isNaN(dx) && !isNaN(dy))
+                    stage.setOffset(
+                        startGestureOffset.x + dx,
+                        startGestureOffset.y + dy,
+                        startGestureOffset.z + dz,
                     );
             }
         }
@@ -1520,13 +1617,15 @@
                             scheduleMove(newX, newY);
                             event.stopPropagation();
                         }
-                    } else if (stage) {
+                    } else if (stage && drag.startOffset && mayPan(event)) {
                         const scale = rootScale(0, renderedFocus.z);
                         // Scale down the mouse delta and offset by the drag starting point.
-                        stage.setFocus(
-                            renderedDeltaX / scale + drag.startPlace.x,
-                            renderedDeltaY / scale + drag.startPlace.y,
-                            drag.startPlace.z,
+                        // This adjusts the audience's offset rather than the camera itself,
+                        // so panning composes with a program that moves its own camera.
+                        stage.setOffset(
+                            renderedDeltaX / scale + drag.startOffset.x,
+                            renderedDeltaY / scale + drag.startOffset.y,
+                            drag.startOffset.z,
                         );
                         event.stopPropagation();
                     }
@@ -1534,7 +1633,16 @@
             }
         }
 
-        reactPointerStream(event);
+        // A gesture that is driving the camera doesn't also drive the program.
+        if (!panningCamera) reactPointerStream(event);
+    }
+
+    /** Whether this drag may pan the camera. While playing, a plain drag is the program's
+     *  input (Pointer, Placement), so panning with it would fight the project; shift opts
+     *  in, matching shift+wheel to zoom, and two fingers pan on touch. Consulted by both
+     *  the pointer-down setup and the move handler, which must agree. */
+    function mayPan(event: PointerEvent) {
+        return !evaluator.isPlaying() || event.shiftKey;
     }
 
     /** Report the pointer's stage position to any Pointer stream. Called on both
@@ -1545,26 +1653,16 @@
         if (valueView && evaluator.isPlaying() && pointerStreams.length > 0) {
             const valueRect = valueView.getBoundingClientRect();
             if (valueRect !== undefined) {
-                // First, get the position of the pointer relative to the tile bounds.
-                const tileX =
-                    event.clientX - valueRect.left - valueRect.width / 2;
-                const tileY = -(
-                    event.clientY -
-                    valueRect.top -
-                    valueRect.height / 2
-                );
-
-                // Now translate the position into stage coordinates.
-                const position = pixelsToMeters(
-                    tileX,
-                    tileY,
-                    0,
+                // Pointer position in pixels from the centre of the tile, then through the
+                // renderer's own inverse transform. Doing this arithmetic by hand here is
+                // what previously reported y off by twice the camera's y.
+                const position = screenToStage(
+                    event.clientX - valueRect.left - valueRect.width / 2,
+                    event.clientY - valueRect.top - valueRect.height / 2,
+                    renderedFocus?.x ?? 0,
+                    renderedFocus?.y ?? 0,
                     renderedFocus?.z ?? 0,
                 );
-
-                // Now translate the position relative to the stage focus.
-                position.x -= renderedFocus?.x ?? 0;
-                position.y -= renderedFocus?.y ?? 0;
 
                 evaluator.singletonReact(Pointer, (stream) =>
                     stream.react(position),
@@ -1601,8 +1699,10 @@
     }
 
     function cancelGesture() {
+        panningCamera = false;
         startDifference = undefined;
-        startGesturePlace = undefined;
+        startMidpoint = undefined;
+        startGestureOffset = undefined;
         pointersByIndex = [];
     }
 
@@ -1803,7 +1903,15 @@
                 )[0].view;
                 if (candidate instanceof HTMLElement) output = candidate;
             }
-            if (output)
+            // A program that reads keys needs the sink focused, not the stage:
+            // focusing the stage instead is what leaves the on-screen keyboard
+            // down after a stray blur.
+            if (keyboardInputView && (keys || placements))
+                setKeyboardFocus(
+                    keyboardInputView,
+                    'Output lost focus, restoring the keyboard sink',
+                );
+            else if (output)
                 setKeyboardFocus(
                     output,
                     'Output lost focus, focusing on the closest focusbale output on stage',
@@ -1824,11 +1932,23 @@
         ),
     );
 
-    // Index of the utterance currently being spoken; -1 when nothing is playing.
-    let speakingIndex = $state(-1);
+    // Keep the bus in step with the viewer's chosen voice. It lives here
+    // because the bus deliberately can't read settings itself — it's reachable
+    // from the music player, which must not pull in the database.
+    $effect(() => {
+        speech.prefer($voice ?? undefined);
+    });
 
     /** Text of the utterances we most recently started speaking, to avoid restarting them. */
     let lastSpoken = '';
+
+    /** The performance that text was spoken for. A newly begun performance — the
+     *  program restarted, or played again after an edit — speaks even when its text is
+     *  identical; resuming a paused one, or returning from the debugger, does not. This
+     *  lives beside the text rather than replacing it because both are needed: text alone
+     *  misses a restart, and the performance alone misses a stream that changes what is
+     *  said. */
+    let lastSpokenPerformance: number | undefined = undefined;
 
     // Speak the queued Say outputs, but only when the text actually changes.
     // Programs driven by streams re-evaluate constantly, so restarting speech
@@ -1836,7 +1956,9 @@
     $effect(() => {
         const currentSays = says;
 
-        if (typeof speechSynthesis === 'undefined') return;
+        // A new performance can land on identical text and the same evaluator, so the
+        // performance is the only thing that changed; the evaluation store carries it.
+        const performance = $evaluation?.performance;
 
         const signature = currentSays
             .map(
@@ -1845,59 +1967,42 @@
             )
             .join('\n');
 
-        // Speech is a live output, so only speak while playing; the initial
-        // (paused) evaluation still populates says. Cancel anything mid-flight
-        // when paused, but leave lastSpoken untouched so pressing play speaks
-        // the current says once. (Every other input here guards the same way.)
+        // Speech is a live output, so only speak while playing; the initial (paused)
+        // evaluation still populates says. Cancel anything mid-flight when paused and record
+        // nothing — recording here is what would break a rewind, since a scrub fires many
+        // replays while paused and only the state on resuming play should decide.
+        // (Every other input here guards the same way.)
         if (!playing) {
-            if (speakingIndex >= 0 || speechSynthesis.speaking) {
-                speechSynthesis.cancel();
-                speakingIndex = -1;
-            }
+            speech.cancel(SaySource);
             return;
         }
 
-        // Same text as last time? Let whatever is speaking continue.
-        if (signature === lastSpoken) return;
+        // Same text, and still the same performance? Let whatever is speaking continue.
+        if (signature === lastSpoken && performance === lastSpokenPerformance)
+            return;
         lastSpoken = signature;
+        lastSpokenPerformance = performance;
 
         // Nothing to say now, but don't interrupt what's still being spoken.
         // Resetting the signature means the same text can be spoken again later.
         if (currentSays.length === 0) return;
 
-        speakingIndex = -1;
-        speechSynthesis.cancel();
-
         const lang = $locales.getLanguages()[0];
-        const currentVoiceURI = $voice;
 
-        // Build all utterances up front so onend closures can reference them.
-        const utterances = currentSays.map((say, i) => {
-            const u = new SpeechSynthesisUtterance(say.text.text);
-            u.lang = say.text.language?.getBCP47() ?? lang;
-            if (currentVoiceURI) {
-                const v = speechSynthesis
-                    .getVoices()
-                    .find((v) => v.voiceURI === currentVoiceURI);
-                if (v) u.voice = v;
-            }
-            u.onstart = () => {
-                speakingIndex = i;
-            };
-            u.onend = () => {
-                speakingIndex = -1;
-                if (i + 1 < utterances.length)
-                    speechSynthesis.speak(utterances[i + 1]);
-            };
-            return u;
-        });
-
-        speechSynthesis.speak(utterances[0]);
-    });
-
-    // Say is the other voice in the room, so music ducks against it too.
-    $effect(() => {
-        saySpeaking.set(speakingIndex >= 0);
+        // The bus chains these itself and cancels what this source had
+        // pending, which is what the hand-rolled `onend` chain here used to do
+        // — except that it cancelled every other source's speech along with it.
+        speech.speak(
+            SaySource,
+            currentSays.map((say) => ({
+                source: SaySource,
+                text: say.text.text,
+                lang: say.text.language?.getBCP47() ?? lang,
+                rate: 1,
+                volume: 1,
+                priority: 'flow' as const,
+            })),
+        );
     });
 
     // Collect the music on stage each evaluation, the way says are collected
@@ -1908,6 +2013,25 @@
         (stageValue?.getMusic() ?? []).map((music) => music.toData()),
     );
 
+    /** Tracks as well as musics, because the renderings disagree about what
+     *  counts as present — see `musicFloorHeight`. */
+    let musicTracks = $derived(
+        musics.reduce((total, music) => total + music.tracks.length, 0),
+    );
+
+    /** How far above the stage floor the caption and key pad stand: clear of a
+     *  rendering that must not be drawn over, flush with the floor otherwise. */
+    let bandFloor = $derived(
+        musicFloorHeight($musicVisualization, {
+            musics: musics.length,
+            tracks: musicTracks,
+        }),
+    );
+
+    /** The performance the music was last reconciled for, so a new one restarts a
+     *  piece that already played to its end. */
+    let lastSoundedPerformance: number | undefined = undefined;
+
     /** Acquired lazily, so a stage with no music never builds an AudioContext. */
     let musicHandle: ReturnType<typeof acquireMusicPlayer> | undefined =
         undefined;
@@ -1916,6 +2040,69 @@
      *  viewer presses play — so a handle held past that swap sends every beat to
      *  a discarded evaluator and @Beat never fires, while the sound plays on. */
     let musicEvaluator: Evaluator | undefined = undefined;
+
+    /** The step this stage has already told the player about. Everything the
+     *  evaluator recorded after it is an evaluation no frame ever showed. */
+    let lastMusicStep: number | undefined = undefined;
+
+    /** Whether this project ever writes a @Music.replay. Recovering missed
+     *  evaluations costs a stage rebuild each, and only replay can need them. */
+    let replays = $derived(
+        source !== undefined && projectReplaysMusic(project),
+    );
+
+    /** The viewer's volume scales every music; muting is volume 0. */
+    function scaleMusic(present: MusicData[]): MusicData[] {
+        return present.map((music) => ({
+            ...music,
+            volume: music.volume * $musicVolume,
+        }));
+    }
+
+    /**
+     * Deliver the evaluations this stage never got to show.
+     *
+     * @Music.replay is true on exactly one evaluation, but a stage renders once
+     * per frame and several evaluations can happen inside one — a @Collision or
+     * @Beat is answered the instant it happens, and queued changes chain. The
+     * flag would rise and fall between two frames and nothing would ever read
+     * it, which is why a save that sounded in Football did not.
+     *
+     * Content needs no catching up: the newest snapshot is already right, and
+     * replaying an older one would splice a stale edit over a current one. Only
+     * the replays are delivered, and only ahead of the current snapshot.
+     */
+    function catchUpMusic(audible: boolean) {
+        if (
+            source === undefined ||
+            musicHandle === undefined ||
+            lastMusicStep === undefined ||
+            evaluator.isInPast()
+        )
+            return;
+        const missed = evaluator.getSourceValuesAfter(source, lastMusicStep);
+        // The last is the one the current snapshot came from; it is delivered
+        // below, in full, rather than here.
+        const snapshots = missed.slice(0, -1).map((indexed) => ({
+            stepNumber: indexed.stepNumber,
+            musics:
+                indexed.value === undefined
+                    ? []
+                    : (toStage(evaluator, indexed.value)
+                          ?.getMusic()
+                          .map((music) => music.toData()) ?? []),
+        }));
+        for (const replaying of missedReplays(snapshots))
+            // Marked at the step it actually happened, so the editor's history
+            // shows where the music was then. Never `beginning`: that is the
+            // current snapshot's to report, and twice would restart it twice.
+            musicHandle.player.update(
+                scaleMusic(replaying.musics),
+                audible,
+                replaying.stepNumber,
+                false,
+            );
+    }
 
     $effect(() => {
         // Re-run when the audio context resumes, so sound recovers on the
@@ -1942,15 +2129,25 @@
         if (musicHandle === undefined) {
             musicHandle = acquireMusicPlayer(evaluator);
             musicEvaluator = evaluator;
-        }
-        // The viewer's volume scales every music; muting is volume 0.
-        const scaled = present.map((music) => ({
-            ...music,
-            volume: music.volume * $musicVolume,
-        }));
+            // No catching up on the first pass with a new player. An edit
+            // replays every recorded input into a replacement evaluator, so a
+            // stage that caught up from the start of that history would fire
+            // every past replay at once; the cursor below starts it from here.
+        } else if (replays && audible) untrack(() => catchUpMusic(audible));
+        lastMusicStep = evaluator.getStepIndex();
+        const scaled = scaleMusic(present);
         // The step index says where in its own history this evaluation sits, so
         // a creator stepping backwards can be shown where the music was then.
-        musicHandle.player.update(scaled, audible, evaluator.getStepIndex());
+        // A new performance re-sounds a one-shot score, the way it re-speaks a
+        // Say; resuming a paused one picks the piece up mid-phrase instead.
+        const beginning = $evaluation?.performance !== lastSoundedPerformance;
+        lastSoundedPerformance = $evaluation?.performance;
+        musicHandle.player.update(
+            scaled,
+            audible,
+            evaluator.getStepIndex(),
+            beginning,
+        );
     });
 
     $effect(() => {
@@ -1995,13 +2192,36 @@
     });
 
     onDestroy(() => {
-        if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
-        saySpeaking.set(false);
+        // Only this view's says: a cancel that reached every source would
+        // silence music still playing elsewhere on the page.
+        speech.cancel(SaySource);
         musicHandle?.release();
         musicHandle = undefined;
         musicEvaluator = undefined;
     });
 </script>
+
+<!--
+    iOS Safari keeps document.activeElement across a backgrounded tab (switching
+    apps, locking the device) even though the on-screen keyboard is gone. On
+    return, setKeyboardFocus's "already focused" short-circuit skips .focus(), so
+    the keyboard never comes back until the creator taps something else first.
+    Blurring on visibility change resets that so the next tap focuses cleanly.
+    Same fix as the editor's textarea.
+-->
+<svelte:document
+    onvisibilitychange={() => {
+        if (
+            document.hidden &&
+            keyboardInputView &&
+            document.activeElement === keyboardInputView
+        )
+            keyboardInputView.blur();
+        // A key held while the page is hidden never sends its key up.
+        if (document.hidden && interactive) releaseHeldKeys();
+    }}
+/>
+<svelte:window onblur={interactive ? releaseHeldKeys : null} />
 
 <section
     class="output"
@@ -2044,6 +2264,17 @@
         onpointerdown={(event) => {
             event.stopPropagation();
             if (interactive) handlePointerDown(event);
+        }}
+        onmousedown={(event) => {
+            // iOS Safari fires a synthetic mousedown after touchend even though
+            // we handled the gesture with pointer events, and that mousedown's
+            // default action blurs the programmatically focused keyboard sink —
+            // which is what dismisses the on-screen keyboard a moment after a
+            // tap. preventDefault on pointerdown does not suppress it, so it has
+            // to be cancelled here. Real mouse and pen input is already handled
+            // by pointerdown, so in practice only touch reaches this. Same fix
+            // as the editor's textarea.
+            event.preventDefault();
         }}
         onpointerup={interactive ? handlePointerUp : null}
         onpointermove={interactive ? handlePointerMove : null}
@@ -2144,8 +2375,9 @@
                 bind:painting
                 bind:this={stage}
                 bind:renderedFocus
-                bind:focusOverridden
+                bind:focusAdjusted
                 interactive={!mini}
+                {mini}
                 {editable}
                 inspectable={inspecting}
             />
@@ -2163,11 +2395,33 @@
                 <span class="pause-glyph"><Emoji text={PAUSE_SYMBOL} /></span>
             </div>
         {/if}
-        <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
-        {#if says.length > 0 || musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
+        <!-- One band along the stage floor holding everything that has to stay
+             clear of the music: the Say caption, and the touch key pad under it.
+             Stacked in one column rather than positioned separately, because
+             both are variable height — the pad by how many keys a project uses,
+             the caption by the viewer's size setting — and no pair of hand-tuned
+             offsets survives both. Spanning the full stage rather than hugging
+             its contents is what gives it a definite height, which is what lets
+             the caption be capped as a fraction of the stage instead of in em
+             that grow with the setting.
+
+             Not in a mini preview, whose .value is position:static — an
+             absolutely positioned band there would escape to an unrelated
+             ancestor. Previews share the one global speech source with the real
+             stage, and a pad there was never tappable anyway. -->
+        {#if !mini}
+            <div class="stage-floor-band" style:--floor={bandFloor}>
+                <Caption />
+                {#if keyPad !== undefined}
+                    <KeyPadView analysis={keyPad} press={pressKey} />
+                {/if}
+            </div>
+        {/if}
+        <!-- Stage controls dock: stream status chips (Hand/Face loading, sensors) + keyboard input -->
+        {#if musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || (interactive && listensForKeys)}
             <div class="stage-controls-dock">
-                <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
-                {#if says.length > 0 || musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
+                <!-- Corner status chips: Hand/Face loading indicators, sensor monitors -->
+                {#if musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
                     <div class="stage-controls-row">
                         <!-- Sensor monitors (camera before microphone in visual order) -->
                         {#if hasCameraStream}
@@ -2227,37 +2481,24 @@
                                 aria-label={label}><Emoji text="📦" /></span
                             >
                         {/if}
-                        <!-- Speech synthesis queue -->
-                        {#each says as say, i (say.text.text + i)}
-                            <span
-                                class="stage-control-chip"
-                                title={say.text.text}
-                                aria-label={say.text.text}
-                                >{#if i < speakingIndex}
-                                    <Emoji text="🔇" />
-                                {:else if i === speakingIndex}
-                                    <Emoji text="🔊" />
-                                {:else}
-                                    <Emoji text="🔈" />
-                                {/if}</span
-                            >
-                        {/each}
                     </div>
                 {/if}
                 <!-- Hidden focus sink that lets Key/Placement streams receive keyboard events -->
-                {#if keys || placements}
+                {#if interactive && listensForKeys}
                     <div class="keyboard">
-                        <!-- With a key pad on screen, the on-screen keyboard
+                        <!-- With every key on screen, the on-screen keyboard
                              would only obstruct the stage; the field stays
-                             focused so physical keyboards still work. -->
+                             focused so physical keyboards still work. A project
+                             we couldn't fully bound keeps the keyboard even when
+                             it has a pad, since the pad can't offer every key. -->
                         <input
                             type="text"
                             class="keyboard-input"
                             data-defaultfocus
-                            inputmode={keyPad !== undefined
-                                ? 'none'
-                                : undefined}
+                            inputmode={keyboardSuppressed ? 'none' : undefined}
                             aria-autocomplete="none"
+                            autocapitalize="none"
+                            spellcheck="false"
                             aria-label={$locales.getPrimaryPlainText(
                                 (l) => l.ui.output.field.key.description,
                             )}
@@ -2268,10 +2509,6 @@
                     </div>
                 {/if}
             </div>
-            <!-- Tappable keys in place of the on-screen keyboard. -->
-            {#if keyPad !== undefined}
-                <KeyPadView analysis={keyPad} press={pressKey} />
-            {/if}
         {/if}
     </div>
     <!-- Chat stream message field. It lives OUTSIDE .value so it escapes the pinned
@@ -2336,6 +2573,10 @@
         width: 1px;
         overflow: hidden;
         position: absolute;
+        /* Anchored so the box can't sit at a static position outside its
+           scrolling pane and extend the document (see Announcer.svelte). */
+        top: 0;
+        left: 0;
         white-space: nowrap;
     }
 
@@ -2552,6 +2793,31 @@
         margin-top: 0.75em;
         display: flex;
         justify-content: flex-start;
+    }
+
+    .stage-floor-band {
+        position: absolute;
+        inset-inline: 0;
+        inset-block-start: 0;
+        /* --floor is the height of a rendering that must not be drawn over, or
+           0% when what's showing is ambient, off, or absent. */
+        inset-block-end: var(--floor, 0%);
+        display: flex;
+        flex-direction: column;
+        /* Contents pile on the floor; the band's height is only there to cap
+           them. The caption sits above the pad because that is DOM order, and
+           column layout is why they can never overlap however tall either is. */
+        justify-content: flex-end;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        /* Deliberately no align-items: the default stretch is what gives the
+           key pad's `.spread` row a full-stage width to space keys across. */
+        /* Above the stage HUD (`.overlay-layer`, z-index 10 in StageView), or a
+           project that draws there would bury its own caption and controls. */
+        z-index: 11;
+        /* The band covers the playfield, so it must not eat a tap; the keys
+           inside opt back in themselves. */
+        pointer-events: none;
     }
 
     .stage-controls-dock {

@@ -9,6 +9,14 @@ type BatchOp = {
 };
 let lastBatchOps: BatchOp[] = [];
 
+/** What the mocked `getDoc` does next. Routed through a variable rather than
+ *  `vi.mocked(getDoc).mockResolvedValueOnce(...)` because the real `exists()` is
+ *  a type predicate, which a plain `() => false` can't satisfy. */
+let getDocResult: () => Promise<{
+    exists: () => boolean;
+    data: () => unknown;
+}> = async () => ({ exists: () => false, data: () => ({}) });
+
 vi.mock('firebase/firestore', () => ({
     and: vi.fn(),
     or: vi.fn(),
@@ -46,7 +54,7 @@ vi.mock('firebase/firestore', () => ({
     collection: vi.fn(),
     query: vi.fn(),
     where: vi.fn(),
-    getDoc: vi.fn(async () => ({ exists: () => false })),
+    getDoc: vi.fn(() => getDocResult()),
     getDocs: vi.fn(async () => ({ docs: [] })),
 }));
 
@@ -73,6 +81,7 @@ vi.mock('@db/projects/ProjectsDatabase.svelte', () => ({
 
 import GalleryDatabase from './GalleryDatabase.svelte';
 import type { SerializedGallery } from './Gallery';
+import { getDoc } from 'firebase/firestore';
 
 function makeGallery(
     id: string,
@@ -151,11 +160,19 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 getLocaleSet: () => ({ getMultilingualText: () => 'Test' }),
                 locales: { subscribe: () => () => {} },
             },
-            Projects: {
+            // Awaited calls go through loadProjects(); best-effort
+            // bookkeeping reads MaybeProjects. Both point at one fake.
+            projectsFake: {
                 edit: projectsEditMock,
                 getHistory: getHistoryMock,
                 get: vi.fn(async () => undefined),
                 refreshGallery: vi.fn(),
+                saveSoon: vi.fn(),
+                syncUser: vi.fn(),
+            },
+            loadProjects: vi.fn(async () => mockDatabase.projectsFake),
+            get MaybeProjects() {
+                return mockDatabase.projectsFake;
             },
         };
 
@@ -299,7 +316,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             });
             db.accessibleGalleries.set('g1', gallery);
 
-            mockDatabase.Projects.get = vi.fn(async (id: string) => {
+            mockDatabase.projectsFake.get = vi.fn(async (id: string) => {
                 if (id === 'p1') return project1;
                 if (id === 'p2') return project2;
                 if (id === 'p3') return project3;
@@ -354,7 +371,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 projects: [],
             });
             db.accessibleGalleries.set('g1', gallery);
-            mockDatabase.Projects.get = vi.fn(async () => undefined);
+            mockDatabase.projectsFake.get = vi.fn(async () => undefined);
 
             await db.removeCurator(gallery, 'teacher-uid');
 
@@ -368,5 +385,73 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 curators: { _op: 'arrayRemove', elements: ['teacher-uid'] },
             });
         });
+    });
+});
+
+describe('find distinguishes a gallery we cannot reach from one that is not there', () => {
+    let db: GalleryDatabase;
+    let mockDatabase: any;
+    let isConnectivityError: ReturnType<typeof vi.fn>;
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+        getDocResult = async () => ({ exists: () => false, data: () => ({}) });
+        isConnectivityError = vi.fn(() => false);
+        mockDatabase = {
+            getUser: vi.fn(() => null),
+            track: vi.fn(<T>(p: Promise<T>) => p),
+            read: vi.fn(<T>(p: Promise<T>) => p),
+            isConnectivityError,
+            Locales: {
+                getLocaleSet: () => ({ getMultilingualText: () => 'Test' }),
+                locales: { subscribe: () => () => {} },
+            },
+            loadProjects: vi.fn(async () => ({})),
+            get MaybeProjects() {
+                return {};
+            },
+        };
+        db = new GalleryDatabase(mockDatabase);
+        vi.spyOn(console, 'error').mockImplementation(() => {});
+    });
+
+    it('answers from the cache without reading', async () => {
+        const gallery = makeGallery('g1');
+        db.accessibleGalleries.set('g1', gallery);
+
+        expect(await db.find('g1')).toEqual({ kind: 'found', gallery });
+        expect(getDoc).not.toHaveBeenCalled();
+    });
+
+    it('reports a successful lookup of an absent document as missing', async () => {
+        expect(await db.find('nope')).toEqual({ kind: 'missing' });
+    });
+
+    it('reports a read that never got an answer as unreachable', async () => {
+        // The regression: an 8s read timeout used to look exactly like a
+        // gallery that doesn't exist, so an accessible gallery was reported as
+        // nonexistent for as long as the connection stayed bad.
+        isConnectivityError.mockReturnValue(true);
+        getDocResult = () => Promise.reject(new Error('read-timeout'));
+
+        expect(await db.find('g1')).toEqual({ kind: 'unreachable' });
+    });
+
+    it('reports a denied read as missing, so a private gallery stays private', async () => {
+        // Telling someone "we couldn't reach it" for a gallery they're simply
+        // not allowed to see would confirm that it exists.
+        isConnectivityError.mockReturnValue(false);
+        getDocResult = () => Promise.reject(new Error('permission-denied'));
+
+        expect(await db.find('secret')).toEqual({ kind: 'missing' });
+    });
+
+    it('get() still collapses both failures for callers that do not care', async () => {
+        isConnectivityError.mockReturnValue(true);
+        getDocResult = () => Promise.reject(new Error('read-timeout'));
+        expect(await db.get('g1')).toBeUndefined();
+
+        getDocResult = async () => ({ exists: () => false, data: () => ({}) });
+        expect(await db.get('g1')).toBeUndefined();
     });
 });

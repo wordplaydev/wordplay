@@ -28,7 +28,8 @@ async function verify() {
 async function rebuild() {
     console.log('Building instrument zones…');
     const problems = await build();
-    for (const problem of problems) console.log(chalk.yellow('    ! ' + problem));
+    for (const problem of problems)
+        console.log(chalk.yellow('    ! ' + problem));
     const remaining = await verifyAll();
     if (remaining.length > 0) {
         for (const problem of remaining.slice(0, 40))

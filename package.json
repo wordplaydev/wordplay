@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.29.0",
+    "version": "0.29.2",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -8,11 +8,14 @@
         "postinstall:default": "npm run sync && cp .env.template .env && npm run updates && npm run fonts-build && npm run git-config",
         "postinstall:windows": "npm run sync && copy .env.template .env && npm run updates && npm run fonts-build && npm run git-config",
         "git-config": "npx tsx scripts/setup-git-config.ts",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
         "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings --watch .svelte-kit",
         "check:now": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings .svelte-kit",
         "test": "vitest",
         "test:run": "vitest run",
         "test:coverage": "vitest run --coverage",
+        "test:rules": "firebase emulators:exec --only firestore \"npx vitest run --config vitest.rules.config.ts\" --project=demo-wordplay --log-verbosity QUIET",
         "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay --log-verbosity QUIET",
         "dev": "vite dev",
         "emu": "npx tsx scripts/seed.ts & firebase emulators:start --project=demo-wordplay",
@@ -28,7 +31,7 @@
         "tutorial-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/schemas/Tutorial.json",
         "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/LocaleText.ts' --type 'LocaleText' --out static/schemas/LocaleText.json && npx tsx src/util/verify-locales/generate-template-inputs.ts",
         "datetime-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/dateTimeFormats.ts' --type 'DateTimeData' --out static/schemas/DateTimeData.json",
-        "create-schemas": "npm run tutorial-schema && npm run locale-schema && npm run datetime-schema",
+        "create-schemas": "npm run tutorial-schema && npm run locale-schema && npm run datetime-schema && npx prettier --write static/schemas",
         "locales": "npx tsx src/util/verify-locales/start.ts verify",
         "locales-fix": "npx tsx src/util/verify-locales/start.ts fix",
         "locales-link-definitions": "npx tsx src/util/verify-locales/linkGlossaryDefinitions.ts",
@@ -53,6 +56,7 @@
         "midi": "npx tsx scripts/midi/start.ts",
         "instruments-build": "npx tsx scripts/instruments/start.ts build && npx prettier --write src/output/Music/samples.generated.ts scripts/instruments/instruments.lock.json",
         "rtl": "npx tsx scripts/check-logical-css.ts",
+        "vscode-theme": "npx tsx scripts/vscode-theme/generate.ts",
         "schemas": "npm-watch create-schemas",
         "merge": "git checkout main && git merge dev && git push origin main && git checkout dev",
         "outdated": "npx check-outdated --ignore-pre-releases --columns name,type,current,latest,changes",
@@ -63,6 +67,9 @@
     },
     "engines": {
         "node": "^22.0.0"
+    },
+    "lint-staged": {
+        "*": "prettier --write --ignore-unknown"
     },
     "watch": {
         "verify-locales": {
@@ -87,7 +94,8 @@
     "devDependencies": {
         "@axe-core/playwright": "^4",
         "@breezystack/lamejs": "^1.2.7",
-        "@google-cloud/translate": "^9",
+        "@firebase/rules-unit-testing": "^5.0.1",
+        "@google-cloud/translate": "^10",
         "@playwright/test": "^1",
         "@resvg/resvg-js": "2.6.2",
         "@sveltejs/adapter-static": "^3",
@@ -100,6 +108,7 @@
         "chalk": "^6",
         "firebase-admin": "^14",
         "firebase-tools": "^15",
+        "lint-staged": "^17.3.0",
         "npm-watch": "^0",
         "prettier": "^3",
         "prettier-plugin-svelte": "^4",
@@ -116,8 +125,8 @@
     },
     "dependencies": {
         "@anthropic-ai/sdk": "^0",
-        "@dimforge/rapier2d-compat": "^0.19.3",
-        "@mediapipe/tasks-vision": "^0",
+        "@dimforge/rapier2d-compat": "^0.20.0",
+        "@mediapipe/tasks-vision": "^1",
         "@types/fontkit": "^2",
         "colorjs.io": "^0",
         "decimal.js": "^10",
@@ -135,10 +144,7 @@
         "zod": "^4"
     },
     "overrides": {
-        "cookie": "^0.7.0",
-        "jwks-rsa": {
-            "jose": "^5.10.0"
-        }
+        "cookie": "^0.7.0"
     },
     "browserslist": [
         "defaults",

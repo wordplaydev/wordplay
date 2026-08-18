@@ -13,10 +13,10 @@ Data-protection config (what you're recovering _from_) is codified in
 
 `wordplay-prod` protection (as of 2026-07-10):
 
-| Mechanism | Granularity | Horizon |
-| --- | --- | --- |
-| **PITR** (point-in-time recovery) | any whole minute | last **7 days** |
-| **Daily** backup schedule | one snapshot/day | last **7 days** |
+| Mechanism                            | Granularity       | Horizon           |
+| ------------------------------------ | ----------------- | ----------------- |
+| **PITR** (point-in-time recovery)    | any whole minute  | last **7 days**   |
+| **Daily** backup schedule            | one snapshot/day  | last **7 days**   |
 | **Weekly** backup schedule (Sundays) | one snapshot/week | last **14 weeks** |
 
 `wordplay-dev` has **no backups by design** — it has no recovery path.
@@ -131,6 +131,7 @@ _Examples: the database is deleted, or a ransomware-style mass-overwrite corrupt
 ```
 
 Then choose:
+
 - **Fastest:** repoint the app at `recovery-full` (a Firebase Web SDK `getFirestore(app, id)`
   change + redeploy), verify, and keep it as the new primary. `(default)` cannot be overwritten.
 - **Keep `(default)`:** bulk-export `recovery-full` to the bucket and `import` it into a freshly

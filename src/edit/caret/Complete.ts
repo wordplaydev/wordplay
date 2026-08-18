@@ -341,8 +341,7 @@ function completeDelimiter({
                 text === ELISION_SYMBOL)) ||
             // Formatting only has meaning in markup words, not text literal words.
             // The cheap includes check gates the ancestor walk.
-            (FormattingSymbols.includes(text) &&
-                caret.isInsideMarkupWords()) ||
+            (FormattingSymbols.includes(text) && caret.isInsideMarkupWords()) ||
             // A code delimiter opens an example or an interpolation, which is exactly what it
             // means inside words, in both markup and text literals. Leaving it unclosed here
             // would strand every delimiter typed inside the code that follows.

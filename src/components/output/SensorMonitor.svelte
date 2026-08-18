@@ -1,6 +1,12 @@
 <script lang="ts">
-    import { acquireAudioSource, type AudioSourceHandle } from '@input/AudioSource';
-    import { acquireCameraSource, type CameraSourceHandle } from '@input/CameraSource';
+    import {
+        acquireAudioSource,
+        type AudioSourceHandle,
+    } from '@input/AudioSource';
+    import {
+        acquireCameraSource,
+        type CameraSourceHandle,
+    } from '@input/CameraSource';
     import { getSensorPanelStack } from '@components/project/Contexts';
     import Emoji from '@components/app/Emoji.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
@@ -10,8 +16,15 @@
     import Hand from '@input/Hand/Hand';
     import Face from '@input/Face/Face';
     import Objects from '@input/Objects/Objects';
-    import { VOLUME_FFT_SIZE, computeVolume, PITCH_FFT_SIZE, computePitch } from '@input/AudioAnalysisMath';
+    import {
+        VOLUME_FFT_SIZE,
+        computeVolume,
+        PITCH_FFT_SIZE,
+        computePitch,
+        createPitchDetector,
+    } from '@input/AudioAnalysisMath';
     import { PitchDetector } from 'pitchy';
+    import { toPreviewPoint, toPreviewBox } from './cameraPreview';
 
     type SensorKind = 'microphone' | 'camera';
 
@@ -28,7 +41,8 @@
     let cameraHandle: CameraSourceHandle | undefined = $state(undefined);
     let canvasElement: HTMLCanvasElement | undefined = $state(undefined);
     let videoElement: HTMLVideoElement | undefined = $state(undefined);
-    let landmarkCanvasElement: HTMLCanvasElement | undefined = $state(undefined);
+    let landmarkCanvasElement: HTMLCanvasElement | undefined =
+        $state(undefined);
     let panelElement: HTMLDivElement | undefined = $state(undefined);
     let animationFrameId: number | undefined;
     let panelOffset = $state('0px');
@@ -68,8 +82,14 @@
             // Cap canvas size to prevent memory exhaustion (max 4096x4096 physical pixels)
             const dpr = window.devicePixelRatio || 1;
             const maxPhysicalSize = 4096;
-            const canvasWidth = Math.min(Math.ceil(rect.width * dpr), maxPhysicalSize);
-            const canvasHeight = Math.min(Math.ceil(rect.height * dpr), maxPhysicalSize);
+            const canvasWidth = Math.min(
+                Math.ceil(rect.width * dpr),
+                maxPhysicalSize,
+            );
+            const canvasHeight = Math.min(
+                Math.ceil(rect.height * dpr),
+                maxPhysicalSize,
+            );
             landmarkCanvasElement.width = canvasWidth;
             landmarkCanvasElement.height = canvasHeight;
 
@@ -80,14 +100,6 @@
             // Use the original rect dimensions for coordinate calculations (not the capped canvas size)
             const width = rect.width;
             const height = rect.height;
-
-            // Calculate transform for object-fit: cover
-            const scale = Math.max(
-                width / videoElement.videoWidth,
-                height / videoElement.videoHeight,
-            );
-            const offsetX = (width - videoElement.videoWidth * scale) / 2;
-            const offsetY = (height - videoElement.videoHeight * scale) / 2;
 
             // Get foreground color for landmarks and compute CSS functions
             let fgColor = '#ffff00';
@@ -104,25 +116,18 @@
             // Draw hand points (larger, opaque)
             ctx.fillStyle = fgColor;
             for (let i = 0; i < handPoints.length; i++) {
-                const point = handPoints[i];
-                const pixelX =
-                    point.x * videoElement.videoWidth * scale + offsetX;
-                const pixelY =
-                    point.y * videoElement.videoHeight * scale + offsetY;
+                const { x, y } = toPreviewPoint(handPoints[i], width, height);
                 ctx.beginPath();
-                ctx.arc(pixelX, pixelY, 5, 0, Math.PI * 2);
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
                 ctx.fill();
             }
 
             // Draw face points (smaller, opaque)
             ctx.fillStyle = fgColor;
             for (const point of facePoints) {
-                const pixelX =
-                    point.x * videoElement.videoWidth * scale + offsetX;
-                const pixelY =
-                    point.y * videoElement.videoHeight * scale + offsetY;
+                const { x, y } = toPreviewPoint(point, width, height);
                 ctx.beginPath();
-                ctx.arc(pixelX, pixelY, 1.5, 0, Math.PI * 2);
+                ctx.arc(x, y, 1.5, 0, Math.PI * 2);
                 ctx.fill();
             }
 
@@ -132,13 +137,9 @@
             ctx.font = '12px sans-serif';
             ctx.textBaseline = 'bottom';
             for (const box of objectBoxes) {
-                const pixelX = box.x * videoElement.videoWidth * scale + offsetX;
-                const pixelY =
-                    box.y * videoElement.videoHeight * scale + offsetY;
-                const pixelWidth = box.width * videoElement.videoWidth * scale;
-                const pixelHeight = box.height * videoElement.videoHeight * scale;
-                ctx.strokeRect(pixelX, pixelY, pixelWidth, pixelHeight);
-                ctx.fillText(box.label, pixelX, Math.max(12, pixelY - 2));
+                const mapped = toPreviewBox(box, width, height);
+                ctx.strokeRect(mapped.x, mapped.y, mapped.width, mapped.height);
+                ctx.fillText(box.label, mapped.x, Math.max(12, mapped.y - 2));
             }
         } catch (e) {
             // Silently catch any canvas errors to prevent breaking the hand detection
@@ -160,7 +161,12 @@
 
     // Microphone monitoring: start once canvas element exists and handle is acquired
     $effect(() => {
-        if (!expanded || kind !== 'microphone' || !canvasElement || !audioHandle)
+        if (
+            !expanded ||
+            kind !== 'microphone' ||
+            !canvasElement ||
+            !audioHandle
+        )
             return;
 
         // Resume audio context (must happen in user-gesture context)
@@ -194,18 +200,24 @@
                     volumeAnalyzer = ctx.createAnalyser();
                     volumeAnalyzer.fftSize = VOLUME_FFT_SIZE;
                     sourceNode.connect(volumeAnalyzer);
-                    volumeDataArray = new Uint8Array(volumeAnalyzer.frequencyBinCount);
+                    volumeDataArray = new Uint8Array(
+                        volumeAnalyzer.frequencyBinCount,
+                    );
 
                     // Pitch analyzer (fftSize 1024)
                     pitchAnalyzer = ctx.createAnalyser();
                     pitchAnalyzer.fftSize = PITCH_FFT_SIZE;
                     sourceNode.connect(pitchAnalyzer);
                     pitchDataArray = new Float32Array(pitchAnalyzer.fftSize);
-                    pitchDetector = PitchDetector.forFloat32Array(PITCH_FFT_SIZE);
+                    pitchDetector = createPitchDetector();
                 }
             }
 
-            if (analyzer !== undefined && dataArray !== undefined && canvasElement) {
+            if (
+                analyzer !== undefined &&
+                dataArray !== undefined &&
+                canvasElement
+            ) {
                 analyzer.getByteTimeDomainData(dataArray as any);
 
                 const canvasContext = canvasElement.getContext('2d');
@@ -229,14 +241,8 @@
 
                 // Compute volume
                 let volume = 0;
-                if (
-                    volumeAnalyzer &&
-                    volumeDataArray &&
-                    context
-                ) {
-                    volumeAnalyzer.getByteFrequencyData(
-                        volumeDataArray as any,
-                    );
+                if (volumeAnalyzer && volumeDataArray && context) {
+                    volumeAnalyzer.getByteFrequencyData(volumeDataArray as any);
                     volume = computeVolume(
                         context.sampleRate,
                         volumeDataArray as any,
@@ -251,9 +257,7 @@
                     pitchDetector &&
                     context
                 ) {
-                    pitchAnalyzer.getFloatTimeDomainData(
-                        pitchDataArray as any,
-                    );
+                    pitchAnalyzer.getFloatTimeDomainData(pitchDataArray as any);
                     pitch = computePitch(
                         pitchDetector,
                         context.sampleRate,
@@ -271,7 +275,9 @@
 
                 for (let i = 0; i < dataArray.length; i++) {
                     const x = (i / dataArray.length) * width;
-                    const y = ((dataArray[i] - 128) / 128) * (height / 2) + height / 2;
+                    const y =
+                        ((dataArray[i] - 128) / 128) * (height / 2) +
+                        height / 2;
 
                     if (i === 0) canvasContext.moveTo(x, y);
                     else canvasContext.lineTo(x, y);
@@ -531,9 +537,7 @@
         >
             {#if kind === 'microphone'}
                 <div class="microphone-preview">
-                    <canvas
-                        bind:this={canvasElement}
-                        class="waveform-canvas"
+                    <canvas bind:this={canvasElement} class="waveform-canvas"
                     ></canvas>
                 </div>
             {:else}
@@ -608,6 +612,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        /* Show a mirror, so a creator positioning a hand or face in frame moves
+           the image the way they expect, and the way the stage places it. The
+           overlay canvas is not mirrored — cameraPreview.ts mirrors the points
+           instead, so object labels drawn on it stay readable. */
+        transform: scaleX(-1);
     }
 
     .landmark-overlay {

@@ -3,7 +3,7 @@
     import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
     import Switch from '@components/widgets/Switch.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { Projects } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import type { SerializedPreview } from '@db/projects/ProjectSchemas';
     import UnicodeString from '@unicode/UnicodeString';

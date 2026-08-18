@@ -5,6 +5,7 @@
     import type { Auth } from 'firebase/auth';
     import Feedback from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Title from '@components/widgets/Title.svelte';
     import Writing from '@components/app/Writing.svelte';
     import Login from './Login.svelte';
@@ -14,10 +15,21 @@
 
     // Auth loads lazily; resolve it into local reactive state so the offline vs.
     // login branch below reacts once the SDK is ready (the module binding isn't
-    // reactive).
+    // reactive). Track rejection too: without it a failed SDK load left this
+    // page permanently blank (`$user` never resolves past undefined), and
+    // ensureAuth retries a failed load on the next call, so a reload recovers.
     let auth = $state<Auth | undefined>(undefined);
+    let authState = $state<'pending' | 'ready' | 'failed'>('pending');
     $effect(() => {
-        if (browser) void ensureAuth().then((a) => (auth = a));
+        if (browser)
+            void ensureAuth()
+                .then((a) => {
+                    auth = a;
+                    authState = 'ready';
+                })
+                .catch(() => {
+                    authState = 'failed';
+                });
     });
 
     /** Go to profile if logged in. */
@@ -30,13 +42,18 @@
 
 <Writing>
     <PageHeader />
-    <!-- Do we have a connection to the servers? -->
-    {#if $user === null}
+    {#if authState === 'failed'}
+        <!-- The auth SDK couldn't load (offline or blocked). -->
+        <Feedback text={(l) => l.ui.page.login.error.offline} />
+    {:else if $user === undefined || authState === 'pending'}
+        <!-- Auth is still resolving; never render a blank page. -->
+        <Spinning />
+    {:else if $user === null}
         {#if auth}
-            <!-- Otherwise, show the login page. -->
+            <!-- Show the login page. -->
             <Login />
         {:else}
-            <!-- No connection? Give some feedback. -->
+            <!-- Auth resolved but isn't configured in this environment. -->
             <Feedback text={(l) => l.ui.page.login.error.offline} />
         {/if}
     {/if}

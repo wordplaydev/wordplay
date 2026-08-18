@@ -2531,7 +2531,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Det finns en annan sak som du kanske har lagt märke till: det finns ett område under utgången som är en tidslinje. Den uppdateras varje gång programmet omvärderas, vilket är varje gång en ström ändras. Det visas varje gång @Time tickar."
+                            "$~Det finns en sak till att upptäcka: tidslinjen under utdatan visar varje gång programmet utvärderades på nytt, vilket är varje gång en ström ändrades — här, varje gång @Time tickade. Tryck på felsöknings-knappen ⏸️ i lägesväxlaren @UI/modeSwitcher för att undersöka den närmare, med varje uttrycks värde visat bredvid det."
                         ],
                         [
                             "Time",
@@ -5856,7 +5856,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Åh ja, självklart! Vad sägs om att vi låter dem lysa upp rummet? @Phrase, kan du lyssna på @Volume och koppla det till @Color.lightness och @Color.chroma i din färg? På så sätt blir vi vitglödgade när vår regissör låter höra sig!"
+                            "$~Åh ja, självklart! Vad sägs om att vi låter dem lysa upp rummet? @Phrase, kan du lyssna på @Volume och koppla den till @Color.lightness och @Color.chroma i din färg? På så sätt blir vi vitglödande när vår regissör låter!"
                         ],
                         ["Phrase", "kind", "$~Utmärkt idé!"],
                         { "edit": "#EvaluateDance14" },

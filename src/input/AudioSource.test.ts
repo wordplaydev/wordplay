@@ -57,6 +57,17 @@ afterEach(async () => {
     vi.unstubAllGlobals();
 });
 
+// Automatic gain control ramps a silent room up until its noise reads as
+// sound, which is what made Pitch report notes in silence.
+test('Acquisition asks the browser not to auto-gain the microphone', async () => {
+    const handle = acquireAudioSource(settings('gain'));
+    await flush();
+    expect(getUserMedia).toHaveBeenCalledWith({
+        audio: { deviceId: 'gain', autoGainControl: false },
+    });
+    handle.release();
+});
+
 test('Reacquiring within the grace period reuses the live stream', async () => {
     const first = acquireAudioSource(settings('reuse'));
     await flush();

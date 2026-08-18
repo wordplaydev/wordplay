@@ -92,7 +92,6 @@
         }
     }
 
-
     /* Position selections relative to the node view */
     .highlight {
         position: absolute;
@@ -307,5 +306,4 @@
         transform-box: fill-box;
         animation: shake calc(var(--animation-factor) * 250ms) linear;
     }
-
 </style>

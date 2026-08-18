@@ -45,7 +45,10 @@ test('splitDocParagraphs never splits inside example code', () => {
     ]);
     // Embedded expressions inside a text literal don't end the example.
     const nested = '\\"sums \\1 + 2\\, \\2 + 3\\"\\';
-    expect(splitDocParagraphs(`a\n\n${nested} b`)).toEqual(['a', `${nested} b`]);
+    expect(splitDocParagraphs(`a\n\n${nested} b`)).toEqual([
+        'a',
+        `${nested} b`,
+    ]);
 });
 
 test('splitDocParagraphs treats an unclosed trailing example as code', () => {

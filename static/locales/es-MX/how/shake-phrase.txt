@@ -1,27 +1,32 @@
-Hacer temblar a un personaje
+Haz que un carácter tiemble
 
-A veces es útil que parezca que un personaje está temblando.Hay algunas maneras en las que podemos lograr que esto suceda.
+A veces es útil que un carácter parezca que tiembla. Hay varias maneras de lograr eso.
 
-Podemos utilizar@Phrase/offset con @Random y @Time para que esto suceda.
+Podemos usar  @Phrase/offset  con  @Random  y  @Time  para lograr eso.
 
 \
 offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('hi' offset: Place(offset 0m))
+Phrase('hola' offset: Place(offset 0m))\
+
+Esto crea un valor llamado \
+offset\ que cambia a un nuevo valor aleatorio cada vez que el reloj avanza. Luego, usa ese desplazamiento para mostrar el  @Phrase  desplazado por esa cantidad.
+
+Si quisiéramos controlar el temblor con más precisión, podríamos usar una  @Sequence  para hacer una animación de temblor aleatorio que se repite.
+
 \
-
-Esto crea un valor llamado\offset\que cambia a un nuevo valor aleatorio cada vez que el reloj avanza.Luego, utiliza ese desplazamiento para mostrar el@Phrase compensado por esa cantidad.
-
-Si quisiéramos controlar el temblor con más precisión, podríamos utilizar un@Sequence para hacer una animación de temblor aleatorio que se repite.
-
-\
-Phrase('hi' resting: Sequence({
+Phrase(
+	'hola'
+	resting: Sequence(
+		{
 			0%: Pose(offset: Place(Random(-.2m .2m)))
 			15%: Pose(offset: Place(Random(-.2m .2m)))
 			60%: Pose(offset: Place(Random(-.2m .2m)))
 			75%: Pose(offset: Place(Random(-.2m .2m)))
-		} 0.1s))
-\
+		}
+		0.1s
+	)
+)\
 
-Este ejemplo solo selecciona valores aleatorios una vez, pero los convierte en una secuencia repetida.
+Este ejemplo solo elige valores aleatorios una vez, pero los convierte en una secuencia que se repite.
 
 move-phrase

@@ -1,4 +1,3 @@
-import { Basis } from '@basis/Basis';
 import Fonts from '@basis/faces/Fonts';
 import type HowTo from '@concepts/HowTo';
 import {
@@ -300,7 +299,11 @@ export default class LocalesDatabase {
                                 response.ok ? await response.json() : undefined,
                             )
                             .catch(() => undefined),
-                        fetch(versioned(`/locales/${lang}/${lang}-datetimes.json`))
+                        fetch(
+                            versioned(
+                                `/locales/${lang}/${lang}-datetimes.json`,
+                            ),
+                        )
                             .then(async (response) =>
                                 response.ok ? await response.json() : undefined,
                             )
@@ -347,10 +350,6 @@ export default class LocalesDatabase {
         return selected.length === 0 ? [this.defaultLocale] : selected;
     }
 
-    getLocaleBasis(): Basis {
-        return Basis.getLocalizedBasis(this.getLocaleSet());
-    }
-
     getLanguages(): LanguageCode[] {
         return this.getLocales().map((locale) => locale.language);
     }
@@ -363,7 +362,15 @@ export default class LocalesDatabase {
         return get(this.locales).getLayout();
     }
 
-    /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
+    /**
+     * Set the languages, load all locales if they aren't loaded, and save the new
+     * configuration.
+     *
+     * This deliberately does *not* touch any project's declared languages. Those say what
+     * a project is written in, not what its reader speaks; adding the reader's UI language
+     * to every open project made a project's basis — and so its conflicts — depend on who
+     * last opened it (#1246). A creator adds a language through the languages dialog.
+     */
     async setLocales(
         preferredLocales: SupportedLocale[],
     ): Promise<LocaleText[]> {
@@ -372,9 +379,6 @@ export default class LocalesDatabase {
 
         // Try to load locales for the requested languages
         const locales = await this.loadLocales(preferredLocales);
-
-        // Revise all projects to have the new locale
-        this.database.Projects.localize(locales);
 
         // Sync the locales store to update all uses of the current locales.
         this.syncLocales();

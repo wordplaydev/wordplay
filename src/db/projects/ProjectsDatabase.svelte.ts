@@ -11,6 +11,7 @@ import {
 import { Domain } from '@db/Domains';
 import { ensureAuth, firestore } from '@db/firebase';
 import firebaseErrorDetail from '@db/firebaseErrorDetail';
+import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
 import type Gallery from '@db/galleries/Gallery';
 import isQuotaError from '@db/isQuotaError';
 import { chunkWrites, serializedByteSize } from '@db/projects/chunkWrites';
@@ -341,13 +342,38 @@ export default class ProjectsDatabase {
      *  during the brief window between mount and first emission. */
     hydrated: boolean = $state(false);
 
+    /** The in-flight or finished hydration, so start() is idempotent. */
+    private starting: Promise<void> | undefined = undefined;
+
     constructor(database: Database) {
         this.database = database;
         this.localDB = database.localDB;
-
-        // Hydrate the editable projects from disk
-        this.hydrate();
     }
+
+    /**
+     * Read the local projects and begin tracking them. Called by
+     * `Database.startProjectWork()` rather than from the constructor: every
+     * cached project is deserialized into a `Project`, and each of those builds
+     * a `Basis`, so doing it on import made every page — including ones with no
+     * projects on them — pay for it before first paint.
+     */
+    start(): Promise<void> {
+        // Resolves when projects are actually IN MEMORY, not merely when the
+        // subscription is set up: hydrate() returns as soon as it has
+        // subscribed, but the first emission — which deserializes the cached
+        // projects — lands later. Callers ask for this because they want to
+        // read projects, and returning early let a character rename iterate an
+        // empty set and silently rewrite nothing.
+        return (this.starting ??= this.hydrate().then(
+            () => this.firstHydration,
+        ));
+    }
+
+    /** Resolves once the first hydration pass has put projects in memory. */
+    private readonly firstHydration: Promise<void> = new Promise((resolve) => {
+        this.resolveFirstHydration = resolve;
+    });
+    private resolveFirstHydration: (() => void) | undefined = undefined;
 
     async hydrate() {
         // Local DB support?
@@ -366,18 +392,21 @@ export default class ProjectsDatabase {
                         if (firstEmission) {
                             firstEmission = false;
                             this.hydrated = true;
+                            this.resolveFirstHydration?.();
                         }
                     });
                 });
             } else {
                 // Observable didn't materialize — nothing to wait for.
                 this.hydrated = true;
+                this.resolveFirstHydration?.();
             }
         } else {
             // No IndexedDB at all (e.g. private-window mode in some
             // browsers). Nothing to hydrate; the page should show
             // whatever's in memory immediately.
             this.hydrated = true;
+            this.resolveFirstHydration?.();
         }
 
         // We don't pull projects from the cloud. That's handled by syncUser() when the user changes.
@@ -529,16 +558,16 @@ export default class ProjectsDatabase {
             // Unknown/absent gallery falls here too — the safer, filtered path.
             else creatorGalleryIDs.push(id);
 
-        // Chunk gallery membership across listeners: Firestore caps both `in`
-        // (≤ 30 values) and `or` (≤ 30 disjunctions), so a single
-        // `or(owner, ..., gallery in [all galleries])` query is rejected once a
-        // user belongs to ~27+ galleries. A base listener covers owned/shared
-        // projects; one listener per 30-gallery chunk covers gallery projects,
-        // split into curator (unfiltered) and creator (restricted excluded) sets.
+        // Chunk gallery membership across listeners: the read rule get()s each
+        // matched project's gallery doc, and the rules document-access budget
+        // denies a whole query that needs too many distinct get()s — see
+        // GALLERY_CHUNK_SIZE. A base listener covers owned/shared projects;
+        // one listener per gallery chunk covers gallery projects, split into
+        // curator (unfiltered) and creator (restricted excluded) sets.
         const chunk = (ids: string[]) => {
             const chunks: string[][] = [];
-            for (let i = 0; i < ids.length; i += 30)
-                chunks.push(ids.slice(i, i + 30));
+            for (let i = 0; i < ids.length; i += GALLERY_CHUNK_SIZE)
+                chunks.push(ids.slice(i, i + GALLERY_CHUNK_SIZE));
             return chunks;
         };
         const curatorChunks = chunk(curatorGalleryIDs);
@@ -549,24 +578,16 @@ export default class ProjectsDatabase {
         // `includeMetadataChanges: true` lets us observe Firestore's connection
         // state passively via snapshot.metadata.fromCache.
         const options = { includeMetadataChanges: true };
-        const onError = (error: unknown) => {
-            if (error instanceof FirebaseError) console.error(error.message);
-            this.database.markSyncFailed(Domain.Projects);
-            if (this.database.isConnectivityError(error)) {
-                // A connectivity error goes through the confirmation window, so
-                // a listener that drops during a reconnect doesn't immediately
-                // flip the save-status button to "unsaved" — the window decides.
-                this.database.markFirebaseFailed();
-                return;
-            }
-            // A permission or index error is terminal: the listener isn't coming
-            // back on its own, so say so now.
-            this.database.markFirebaseDisconnected();
-            this.database.setStatus(
-                SaveStatus.Error,
+        // A permission or index error is terminal for the listener but is NOT
+        // a disconnection: with several chunked listeners, one denied chunk
+        // alternating with healthy ones (which mark Firebase reachable) made
+        // the connection banner and save status flap.
+        const onError = (error: unknown) =>
+            this.database.reportListenerError(
+                Domain.Projects,
+                error,
                 (l) => l.ui.project.save.projectsNotLoadingOnline,
             );
-        };
 
         // Base listener: projects owned by or shared with the user.
         this.projectsQueryUnsubscribes.push(
@@ -697,15 +718,20 @@ export default class ProjectsDatabase {
 
             // If the Firestore doc was at an older schema version, mark the
             // history as unsaved so persist() backfills the upgraded shape on
-            // the next saveSoon tick. Only valid for editable projects — a
-            // read-only viewer doesn't have permission to rewrite the doc.
+            // the next saveSoon tick. Only contributors (owner/collaborators)
+            // backfill — a curator's browser tracking a whole gallery would
+            // otherwise enqueue rewrites of every student's older-schema doc
+            // on every snapshot round (a mass-write storm at teacher scale);
+            // each student's own client backfills their doc on next open, and
+            // upgrade-on-read serves everyone meanwhile.
+            const contributor = project.hasContributor(user.uid);
             const history = this.track(
                 project,
                 editable,
                 PersistenceType.Online,
-                editable ? !upgraded : true,
+                contributor ? !upgraded : true,
             );
-            if (editable && upgraded) {
+            if (contributor && upgraded) {
                 // track() may have merged into a pre-existing history whose
                 // `saved=true` wasn't touched by the `saved` arg above (that
                 // only seeds the new-history path). Force the bit so persist()
@@ -1552,7 +1578,9 @@ export default class ProjectsDatabase {
                 if (projectDoc.exists()) {
                     const user = this.database.getUser();
 
-                    const project = await this.parseProject(projectDoc.data());
+                    const raw = projectDoc.data();
+                    const upgraded = needsSchemaUpgrade(raw);
+                    const project = await this.parseProject(raw);
                     if (project !== undefined) {
                         const galleryID = project.getGallery();
                         const isOwnerOrCollaborator =
@@ -1571,7 +1599,12 @@ export default class ProjectsDatabase {
                                     gallery !== undefined &&
                                     gallery.hasCurator(user.uid)),
                             PersistenceType.Online,
-                            false,
+                            // Just read from the cloud, so it's saved — unless
+                            // it needs the schema-upgrade backfill, which only
+                            // contributors perform (mirrors
+                            // handleProjectsSnapshot: a curator opening a
+                            // student's doc must not rewrite it).
+                            isOwnerOrCollaborator ? !upgraded : true,
                         );
                     }
                     return project;
@@ -2287,12 +2320,6 @@ export default class ProjectsDatabase {
                 (l) => l.ui.project.save.projectsNotSavingOnline,
             );
         else this.database.setStatus(SaveStatus.Saved, undefined);
-    }
-
-    /** Revise all editable projects to use the specified locales */
-    localize(locales: LocaleText[]) {
-        for (const [, history] of this.projectHistories)
-            history.withLocales(locales);
     }
 
     /** Shorthand for revising nodes in a project */

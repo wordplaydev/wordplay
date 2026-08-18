@@ -108,7 +108,10 @@ function track(degrees: number[], options: Partial<TrackData> = {}): TrackData {
     };
 }
 
-function music(tracks: TrackData[], options: Partial<MusicData> = {}): MusicData {
+function music(
+    tracks: TrackData[],
+    options: Partial<MusicData> = {},
+): MusicData {
     return {
         name: 'song',
         tempo: 60,
@@ -337,9 +340,9 @@ test('a looping music that exits stops; a one-shot finishes', () => {
     // every sound effect in the gallery cut off a frame after it began.
     expect(h.cancelled).toHaveLength(0);
     h.advance(1);
-    expect(h.played.some((note) => note.music === 'ding' && note.startBeat === 1)).toBe(
-        true,
-    );
+    expect(
+        h.played.some((note) => note.music === 'ding' && note.startBeat === 1),
+    ).toBe(true);
 });
 
 test('ducking passes through to the audio layer only on change', () => {
@@ -356,9 +359,7 @@ test('ducking passes through to the audio layer only on change', () => {
 test('the voice cap steals rather than letting voices grow without bound', () => {
     const h = harness();
     // 40 tracks striking every beat exceeds the 32-voice cap.
-    const tracks = Array.from({ length: 40 }, () =>
-        track([1], { loop: true }),
-    );
+    const tracks = Array.from({ length: 40 }, () => track([1], { loop: true }));
     h.player.update([music(tracks)], true);
     h.advance(0);
     expect(h.cancelled.length).toBeGreaterThan(0);
@@ -398,6 +399,50 @@ test('a sound effect whose notes empty a frame later still rings out', () => {
     expect(h.played[0].durationSeconds).toBe(1);
 });
 
+// Catch-up delivers the missed evaluation and the current one back to back,
+// with no frame between them. The restart installs a transport at `now`, and
+// the splice that follows lands at the next whole beat — strictly ahead of the
+// note just struck — so a zero gap must ring exactly like a 40ms one.
+test('a replay and the frame that empties it, delivered with no gap, still rings', () => {
+    const h = harness();
+    const silent = music([track([])], { name: 'fx' });
+    h.player.update([silent], true);
+    h.advance(0.04);
+
+    // Both in one task: the evaluation that carried the replay, then the one
+    // that emptied the notes again.
+    h.player.update(
+        [{ ...music([track([5])], { name: 'fx' }), replay: true }],
+        true,
+    );
+    h.player.update([silent], true);
+    h.advance(0.04);
+    for (let frame = 0; frame < 12; frame++) {
+        h.player.update([silent], true);
+        h.advance(0.04);
+    }
+
+    expect(h.played.map((note) => note.degree)).toEqual([5]);
+    expect(h.cancelled, 'the note was cut off').toHaveLength(0);
+    expect(h.played[0].durationSeconds).toBe(1);
+});
+
+// Why the catch-up limit is free: a burst of restarts cancels its own voices
+// before any of them schedules a note, so only the last was ever audible.
+test('several replays in one task sound once, not once each', () => {
+    const h = harness();
+    const struck = music([track([5])], { name: 'fx' });
+    h.player.update([struck], true);
+    h.advance(0.04);
+    const before = h.played.length;
+
+    for (let again = 0; again < 3; again++)
+        h.player.update([{ ...struck, replay: true }], true);
+    h.advance(0.04);
+
+    expect(h.played.length - before).toBe(1);
+});
+
 test('the same holds at a slower frame rate', () => {
     // Building Blocks' 150ms tick.
     const h = harness();
@@ -408,7 +453,10 @@ test('the same holds at a slower frame rate', () => {
 
 test('a looping music that leaves the stage rings out but schedules no more', () => {
     const h = harness();
-    h.player.update([music([track([1, 2, 3], { loop: true })], { name: 'loop' })], true);
+    h.player.update(
+        [music([track([1, 2, 3], { loop: true })], { name: 'loop' })],
+        true,
+    );
     h.advance(0);
     const before = h.played.length;
     expect(before).toBeGreaterThan(0);
@@ -449,10 +497,18 @@ test('pausing still cuts everything immediately', () => {
  * an estimate, and it has to survive a tempo change.
  * ---------------------------------------------------------------- */
 
-test('position advances with the clock at the music\'s tempo', () => {
+test("position advances with the clock at the music's tempo", () => {
     const h = harness();
     // 60bpm is one beat a second, so the clock and the beat agree.
-    h.player.update([music([track([1, 2, 3, 4], { loop: true })], { name: 'song', tempo: 60 })], true);
+    h.player.update(
+        [
+            music([track([1, 2, 3, 4], { loop: true })], {
+                name: 'song',
+                tempo: 60,
+            }),
+        ],
+        true,
+    );
     h.advance(0);
     expect(h.player.positions().get('song')?.beat).toBeCloseTo(0);
     h.advance(2);
@@ -463,14 +519,20 @@ test('position advances with the clock at the music\'s tempo', () => {
 
 test('position runs at double speed at double tempo', () => {
     const h = harness();
-    h.player.update([music([track([1], { loop: true })], { name: 'fast', tempo: 120 })], true);
+    h.player.update(
+        [music([track([1], { loop: true })], { name: 'fast', tempo: 120 })],
+        true,
+    );
     h.advance(2);
     expect(h.player.positions().get('fast')?.beat).toBeCloseTo(4);
 });
 
 test('position stays continuous across a tempo change', () => {
     const h = harness();
-    const slow = music([track([1, 2, 3, 4], { loop: true })], { name: 'song', tempo: 60 });
+    const slow = music([track([1, 2, 3, 4], { loop: true })], {
+        name: 'song',
+        tempo: 60,
+    });
     h.player.update([slow], true);
     h.advance(2.5);
     const before = h.player.positions().get('song')?.beat ?? 0;
@@ -492,7 +554,9 @@ test('position reports the version that is sounding, not the one just written', 
     // An edit splices at the next beat, so until then the sounding version is
     // still the old one — which is what a score should draw.
     h.player.update([music([track([1, 2, 3, 4])], { name: 'song' })], true);
-    expect(h.player.positions().get('song')?.data.tracks[0].notes).toHaveLength(2);
+    expect(h.player.positions().get('song')?.data.tracks[0].notes).toHaveLength(
+        2,
+    );
 });
 
 test('a music that never started has no position', () => {
@@ -574,12 +638,7 @@ test('one unready track holds the whole piece, not just its own part', () => {
     const h = harness();
     h.hold('piano');
     h.player.update(
-        [
-            music([
-                track([1, 2, 3]),
-                track([1, 2, 3], { instrument: 'drums' }),
-            ]),
-        ],
+        [music([track([1, 2, 3]), track([1, 2, 3], { instrument: 'drums' })])],
         true,
     );
     h.advance(0.1);

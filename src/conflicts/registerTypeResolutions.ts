@@ -3,7 +3,10 @@
  * `Conflict`. This file is loaded as a top-level side effect:
  *
  * - Tests: imported by `vitest.config.ts` via `setupFiles`.
- * - App: side-effect-imported by `src/routes/+layout.svelte`.
+ * - App: side-effect-imported by `src/components/annotations/Annotations.svelte`,
+ *   the only caller of `Conflict.getResolutions`. It lives there rather than in
+ *   the root layout so the node classes it pulls load with the editor rather
+ *   than with every page.
  *
  * Loading order matters: this file imports a slew of node classes that
  * themselves import the conflict classes. Routing resolution through the

@@ -7,7 +7,8 @@
     import Evaluate from '@nodes/Evaluate';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
-    import { Projects, locales } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
 
     interface Props {
         project: Project;

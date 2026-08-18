@@ -1,0 +1,70 @@
+文
+"Chamber"/en
+=== start
+¶A hundred letters from four writing systems bouncing in a sealed box; flip gravity or shake them up.¶
+count: 100
+
+¶The four alphabets the letters are drawn from.¶
+latin: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" → ['']
+greek: "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ" → ['']
+arabic: "ابتثجحخدذرزسشصضطظعغفقكلمنهوي" → ['']
+cjk: "日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪" → ['']
+
+¶Which control was last clicked.¶
+choice: Choice()
+
+¶Shuffle all four alphabets together once, when the program starts, and then
+keep that order forever. A shuffle written as a plain bind would deal every
+letter a new character on every frame.¶
+glyphs: [:latin :greek :arabic :cjk].shuffled() … ∆ choice … glyphs
+
+¶True only on the evaluation the shake button caused, so the letters get one
+push per click instead of being shoved every frame.¶
+shaking: (∆ choice) & (choice = 'shake')
+
+¶The switch flips between earth gravity and none.¶
+falling: ⊤ … ∆ choice … (choice = 'gravity') ? ~falling falling
+
+¶A random speed, direction, and spin.¶
+ƒ launch() Velocity(Random(-12m/s 12m/s) Random(-12m/s 12m/s) Random(-120°/s 120°/s))
+
+letters: count → [].translate(
+	ƒ(number)
+		Phrase(
+			glyphs[number]
+			name: "glyph\number\"
+			place: Motion(
+				Place(Random(-7.5m 7.5m) Random(-5.5m 5.5m))
+				launch()
+				nextvelocity: shaking ? launch() ø
+			)
+			matter: Matter(bounciness: 0.7 friction: 0)
+		)
+)
+
+¶The two controls. They have no matter and their place is not a Motion, so the
+physics engine leaves them alone.¶
+switch: Phrase(
+	falling ? "⬇️ gravity" "🌌 floating"
+	0.7m
+	name: 'gravity'
+	selectable: ⊤
+	place: Place(-13m 1m)
+)
+
+shaker: Phrase("🎲 shake" 0.7m name: 'shake' selectable: ⊤ place: Place(-13m -1m))
+
+Stage(
+	[
+		¶Four walls, thick enough that nothing tunnels through at speed.¶
+		Shape(Rectangle(-8.6m 6.6m 8.6m 6m))
+		Shape(Rectangle(-8.6m -6m 8.6m -6.6m))
+		Shape(Rectangle(-8.6m 6.6m -8m -6.6m))
+		Shape(Rectangle(8m 6.6m 8.6m -6.6m))
+		:letters
+		switch
+		shaker
+	]
+	gravity: falling ? 9.8m/s^2 0m/s^2
+	place: Place(-2.5m 0m -11m)
+)

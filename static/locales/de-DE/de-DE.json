@@ -806,11 +806,16 @@
             "description": "$~Bedingung auf $condition",
             "emotion": "curious",
             "doc": [
-                "$~Soll ich Ihnen je nach Bedingung den einen oder anderen Wert nennen? Etwa so?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Aber haben Sie jemals darüber nachgedacht, wie wir Entscheidungen treffen?",
-                "Sollten Entscheidungen nicht differenzierter ausfallen als nur mit Ja oder Nein? Ist die Entscheidung zwischen \\⊤\\ und \\⊥\\ wirklich alles, was es gibt?",
-                "Befürchten Sie nicht, dass wir, wenn dies die einzigen Entscheidungen sind, die wir treffen können, wichtige Zusammenhänge über die Welt übersehen?"
+                "$~Soll ich dir das eine @value oder ein anderes geben, je nach einer @condition? So?",
+                "\\zahl: -100\nzahl < 0 ? 'negativ' 'positiv'\\",
+                "Aber hast du je darüber nachgedacht, wie wir entscheiden?",
+                "Sollten Entscheidungen nicht feiner sein als nur ja oder nein? Ist die Wahl zwischen \\⊤\\ und \\⊥\\ wirklich alles?",
+                "Machst du dir keine Sorgen, dass wir wichtige Zusammenhänge über die Welt verpassen, wenn wir nur solche Entscheidungen treffen können?",
+                "Es gibt noch eine Sache, die ich tue, und dafür bekomme ich nicht immer Anerkennung. Wenn mein @condition fragt, welchen /Typ/ ein Wert hat, antworte ich nicht nur mit ja oder nein. Ich merke mir die Antwort in jeder meiner Möglichkeiten.",
+                "\\größe•#|'': 5\ngröße•# ? größe + 1 'zu klein'\\",
+                "Für sich allein könnte dieser Wert ein @Number oder ein @Text sein, und etwas dazu zu addieren wäre ein Konflikt, denn diese werden ganz unterschiedlich addiert. Aber in meinem /ja/ haben wir gerade gefragt, ob es ein @Number ist, also ist es dort eines. In meinem /nein/ ist es das @Text.",
+                "Es ist egal, wie du fragst. Eine Typprüfung, ein Vergleich mit einem bestimmten Wert, eine Prüfung auf einen fehlenden Wert und eine Prüfung, die du unter einem Namen gespeichert hast, sagen mir alle dasselbe. Und @Boolean/and, @Boolean/or und @Boolean/not verbinden sie so, wie du es erwarten würdest.",
+                "Zwei Dinge kann ich dir nicht sagen. Wenn du mit @Text vergleichst, das mehrere Übersetzungen hat, lerne ich nichts, denn welche Übersetzung du bekommst, hängt davon ab, wer liest."
             ],
             "start": "$~mal sehen, ob $condition wahr ist",
             "afterthen": "$~fertig mit „Ja“, überspringen wir „Nein“?",
@@ -1201,12 +1206,15 @@
             "description": "$~vergleiche $value mit $#count[$count Fall|$count Fällen]",
             "emotion": "curious",
             "doc": [
-                "$~Ich bin die glorreichste aller bedingten Prüfungen: Ich nehme einen Wert, vergleiche ihn mit einer beliebigen Anzahl von Fällen und werte denjenigen aus, der übereinstimmt!",
-                "Wenn Sie beispielsweise eine @Number haben und diese in eine @Text konvertieren möchten, könnten Sie folgendermaßen vorgehen:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Falls keine Übereinstimmung vorliegt, werte ich den von Ihnen angegebenen Standardausdruck aus.",
-                "Ich bin sehr hilfreich, um einen von vielen möglichen @Number , @Text oder komplexeren Werten in etwas anderes umzuwandeln.",
-                "Man kann es für @Boolean oder @None verwenden, aber da diese nicht wirklich viele verschiedene Werte annehmen können, ist es für diese einfachen Werte nicht so nützlich."
+                "$~Ich bin die herrlichste aller Bedingungsprüfungen: Ich nehme ein @value, vergleiche es mit beliebig vielen Fällen und werte den passenden aus!",
+                "Wenn du zum Beispiel ein @Number hättest und es in ein @Text umwandeln wolltest, könntest du so etwas machen:",
+                "\\zahl: 2\nzahl ???\n\t1: 'eins'\n\t2: 'zwei'\n\t3: 'drei'\n\t'größer!'\\",
+                "Wenn keiner passt, werte ich das @expression aus, das du mir als Standard gibst.",
+                "Ich bin sehr hilfreich, um eines von vielen möglichen @Number, @Text oder komplexeren Werten in etwas anderes umzuwandeln.",
+                "Du kannst mich für @Boolean oder @None benutzen, aber die können nicht wirklich so viele Dinge sein, deshalb bin ich für diese einfachen Werte nicht so nützlich.",
+                "Wie @Conditional sage auch ich dir, was ich gelernt habe. In einem Fall weiß ich, dass das @value, das ich getroffen habe, dieser Fall ist; in einem späteren Fall weiß ich, dass es keiner der früheren ist; und in meinem Standard weiß ich, dass es keiner von ihnen ist.",
+                "\\antwort•#|'': 1\nantwort ???\n\t1: antwort + 1\n\t'nicht eins'\\",
+                "Ich kann Fälle ausschließen, die ein @Number, ein @None oder @Text mit einer einzigen Übersetzung sind, und andere einfache Fälle. Aber ein Fall, der etwas auswertet, schließt nichts aus, deshalb behält mein Standard alles, was das @value noch sein könnte."
             ],
             "start": "$~Mal sehen, wie hoch $value ist...",
             "case": "$~Lassen Sie uns diesen Zustand überprüfen",
@@ -1419,7 +1427,8 @@
                         "explanation": "$~$name[Ich kenne niemanden namens $name in $scope[$scope|diesem @Block]|Kannst du mir einen Namen nennen?]"
                     },
                     "resolution": "$~Meinten Sie *$suggestion?*",
-                    "staticResolution": "$~Meintest du *$owner.$suggestion?*"
+                    "staticResolution": "$~Meintest du *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name* ist ein Name in $language. Füge $language zu den Sprachen deines Projekts hinzu, um ihn hier zu verwenden."
                 },
                 "ReferenceCycle": {
                     "name": "$~selbstbezüglicher Wert",
@@ -1483,7 +1492,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~inkompatibler Schlüssel",
-                    "explanation": "$~Ich habe einen Schlüssel vom Typ $expected erwartet.",
+                    "explanation": "$~Ich habe einen Schlüssel vom Typ $expected erwartet, aber $given erhalten",
                     "resolution": "$~Konvertiere es in $expected , da $expected erforderlich ist.",
                     "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
                     "resolutionOtherwise": "$~Fehlende Werte werden mit ?? behandelt, da $expected keine ø zulässt.",
@@ -1812,8 +1821,14 @@
             "description": "$~Listentyp $type[ aus $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~Ich bin /so/ ein Fan von @List. Ich kann @Bind sagen, was für eine Art Liste das ist! So sage ich, dass es eine Liste von @Number ist:",
-                "\\Dinge•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~Ich bin /so ein/ Fan von @List. Ich darf @Bind sagen, welche Art von Liste sie sind! So wie hier sage ich, dass es eine Liste von @Number ist:",
+                "\\dinge•[#]: [1 2 3 4 5]\\🪲",
+                "Ich kann es auf drei verschiedene Arten sagen. Wenn ich gar keinen Typ nenne, dann kann eine Liste beliebig lang sein und alles enthalten:",
+                "\\zeug•[]: [1 'zwei' ø]\\🪲",
+                "Wenn ich einen Typ nenne, kann die Liste immer noch beliebig lang sein, aber alles darin muss dieser eine Typ sein, wie die Liste von @Number da oben.",
+                "Und wenn ich mehrere Typen nenne, meine ich eine Liste mit genau so vielen Dingen, mit einem Typ für jede Stelle darin. Diese hier ist eine Liste mit zwei Dingen: zuerst ein @Number, dann ein @Text.",
+                "\\paar•[# '']: [1 'zwei']\\🪲",
+                "Die letzte ist meine Lieblingsversion, denn dann weiß jeder, was wo ist. @ListAccess weiß, dass das erste Ding ein @Number ist und das zweite @Text, und wenn du mir die falsche Anzahl von Dingen gibst oder sie in der falschen Reihenfolge anordnest, sage ich es dir!"
             ]
         },
         "MapType": {
@@ -2381,7 +2396,7 @@
                 "Manche benutzen die Tastatur (/Strg+9/ für \\⊤\\ und /Strg+0/ für \\⊥\\). Manche benutzen die Zeichensuche unten im Editor. Oder Sie ziehen uns von hier.",
                 "Schauen Sie sich unten unsere @FunctionDefinition an. Sie sind sehr logisch."
             ],
-            "name": ["$~⊤⊥", "$~BoolescherWert"],
+            "name": ["$~BoolescherWert"],
             "function": {
                 "and": {
                     "doc": [
@@ -2407,7 +2422,7 @@
                         "\\⊥ | ⊤\\",
                         "\\⊥ | ⊥\\"
                     ],
-                    "names": ["$~|", "$~oder"],
+                    "names": ["$~oder"],
                     "inputs": [
                         {
                             "doc": "$~Der andere zu prüfende @Boolean. Wenn der erste \\⊥\\ ist, wird die Funktion nur dann als \\⊤\\ ausgewertet, wenn dies \\⊤\\ ist.",
@@ -2417,12 +2432,12 @@
                 },
                 "not": {
                     "doc": "$~Ich erhalte das Gegenteil von mir selbst: wenn \\⊤\\, ergibt es \\⊥\\, wenn \\⊥\\, ergibt es \\⊤\\.",
-                    "names": ["$~~", "$~nicht"],
+                    "names": ["$~nicht"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ wenn beide \\⊤\\ sind oder beide \\⊥\\ sind.",
-                    "names": ["$~=", "$~istgleich"],
+                    "names": ["$~istgleich"],
                     "inputs": [
                         {
                             "doc": "$~Der andere zu prüfende Wert.",
@@ -2432,7 +2447,7 @@
                 },
                 "notequal": {
                     "doc": "$~\\⊤\\ wenn beides Gegensätze sind.",
-                    "names": ["$~≠", "$~nichtgleich"],
+                    "names": ["$~nichtgleich"],
                     "inputs": [
                         {
                             "doc": "$~Der andere zu prüfende Wert.",
@@ -2464,7 +2479,7 @@
                 },
                 "notequals": {
                     "doc": "$~Ist ein anderer Wert /nicht/ nichts?",
-                    "names": ["$~≠", "$~nichtgleich"],
+                    "names": ["$~nichtgleich"],
                     "inputs": [
                         {
                             "doc": "$~Der andere Wert.",
@@ -2502,7 +2517,7 @@
                         "\\'hallo'.length()\\",
                         "\\'🐈📚'.Länge()\\"
                     ],
-                    "names": ["$~📏", "$~Länge"],
+                    "names": ["$~Länge"],
                     "inputs": []
                 },
                 "equals": {
@@ -2535,7 +2550,7 @@
                         "\\'hallo ' × -5\\",
                         "Der längste Text, den ich erstellen kann, ist 65.535 Zeichen lang. Wenn Sie versuchen, einen längeren Text zu erstellen, wiederhole ich den Text so oft wie möglich."
                     ],
-                    "names": ["$~×", "$~🔁", "$~wiederholen"],
+                    "names": ["$~wiederholen"],
                     "inputs": [
                         {
                             "doc": "$~Die Anzahl der Wiederholungen im neuen Text.",
@@ -2550,7 +2565,7 @@
                         "Wenn der Trenner ein leerer @Text ist, teile ich mich in Zeichen auf:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["$~÷", "$~segmentiert", "$~Segment"],
+                    "names": ["$~segmentiert", "$~Segment"],
                     "inputs": [
                         {
                             "doc": "$~Der als Trennzeichen zu verwendende @Text.",
@@ -2563,7 +2578,7 @@
                         "$~Manchmal ist es hilfreich, zwei @Text zu einem einzigen zusammenzufassen. Gib mir einen weiteren @Text und ich erstelle einen neuen Text, der uns verbindet:",
                         "\\'hallo ' + 'vers'\\"
                     ],
-                    "names": ["$~+", "$~kombinieren"],
+                    "names": ["$~kombinieren"],
                     "inputs": [
                         {
                             "doc": "$~Der anzuhängende @Text.",
@@ -2576,7 +2591,7 @@
                         "$~\\⊤\\ wenn der angegebene @Text in mir vorkommt.",
                         "\\'Haben Sie gefunden, wonach Sie gesucht haben?'.has('Sie')\\"
                     ],
-                    "names": ["$~⊆", "$~hat"],
+                    "names": ["$~hat"],
                     "inputs": [
                         {
                             "doc": "$~Der @Text, nach dem in mir gesucht werden soll.",
@@ -2617,7 +2632,7 @@
                         "$~\\⊤\\ wenn der gesamte Text dem vorgegebenen Muster entspricht.",
                         "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
                     ],
-                    "names": ["$~≈", "$~Spiele"],
+                    "names": ["$~Spiele"],
                     "inputs": [
                         {
                             "doc": "$~Das Muster, mit dem man es vergleichen kann.",
@@ -2630,7 +2645,7 @@
                         "$~Finde alle Stellen in mir, an denen das gegebene Muster übereinstimmt, als Liste von @Result .",
                         "\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~suchen"],
+                    "names": ["$~suchen"],
                     "inputs": [
                         {
                             "doc": "$~Das zu suchende Muster.",
@@ -2669,7 +2684,7 @@
                 "Es gibt keine Ziffer '2' in Basis 2, also ist es keine gültige Zahl. NaN wird auch angezeigt, wenn Sie versuchen, einen nicht-numerischen Text in eine Zahl umzuwandeln",
                 "\\'hallo'→#\\"
             ],
-            "name": ["$~#", "$~Nummer"],
+            "name": ["$~Nummer"],
             "function": {
                 "add": {
                     "doc": [
@@ -2680,7 +2695,7 @@
                         "Wenn die Einheiten nicht übereinstimmen, breche ich die Show ab.",
                         "\\3Katze + 5Hund\\🪲"
                     ],
-                    "names": ["$~+", "$~hinzufügen"],
+                    "names": ["$~hinzufügen"],
                     "inputs": [
                         {
                             "doc": "$~Die hinzuzufügende @Number.",
@@ -2697,7 +2712,7 @@
                         "Wenn die Einheiten nicht übereinstimmen, breche ich die Show ab.",
                         "\\3Katze - 5Hund\\🪲"
                     ],
-                    "names": ["$~-", "$~subtrahieren"],
+                    "names": ["$~subtrahieren"],
                     "inputs": [
                         {
                             "doc": "$~Die @Number, die von mir abgezogen werden soll.",
@@ -2712,7 +2727,7 @@
                         "\\5m × 5m\\",
                         "\\5m × 1/s\\"
                     ],
-                    "names": ["$~×", "$~multiplizieren"],
+                    "names": ["$~multiplizieren"],
                     "inputs": [
                         {
                             "doc": "$~Die zu multiplizierende Zahl.",
@@ -2742,7 +2757,7 @@
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
-                    "names": ["$~%", "$~Rest"],
+                    "names": ["$~Rest"],
                     "inputs": [
                         {
                             "doc": "$~Die @Number, durch die ich dividieren soll.",
@@ -2881,7 +2896,7 @@
                         "\\1 = 2\\",
                         "\\2 = 2\\"
                     ],
-                    "names": ["$~=", "$~gleich"],
+                    "names": ["$~gleich"],
                     "inputs": [
                         {
                             "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
@@ -2895,7 +2910,7 @@
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
-                    "names": ["$~≠", "$~nichtgleich"],
+                    "names": ["$~nichtgleich"],
                     "inputs": [
                         {
                             "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
@@ -2944,7 +2959,7 @@
                 },
                 "tan": {
                     "doc": ["$~Berechne den Tangens von mir.", "\\π.tan()\\"],
-                    "names": ["$~tan", "$~Tangens"],
+                    "names": ["$~Tangens"],
                     "inputs": []
                 },
                 "arcsin": {
@@ -3064,7 +3079,7 @@
                 "\\['Apfel' 'Banane' 'Mango']!\\",
                 "Das ist so ziemlich alles. Aber ich kann mit meiner @FunctionDefinition allerlei spannende Dinge aufrufen!"
             ],
-            "name": ["$~[]", "$~Aufführen"],
+            "name": ["$~Aufführen"],
             "kind": "$~Art",
             "out": "$~Ergebnis",
             "outofbounds": "$~außerhalbDerGrenzen",
@@ -3116,7 +3131,7 @@
                 },
                 "length": {
                     "doc": "$~Die @Number der Elemente in mir.",
-                    "names": ["$~📏", "$~Länge"],
+                    "names": ["$~Länge"],
                     "inputs": []
                 },
                 "random": {
@@ -3206,7 +3221,7 @@
                         "$~Ich erstelle eine Liste ohne mein erstes Element.",
                         "\\['Apfel' 'Banane' 'Mango'].sansFirst()\\"
                     ],
-                    "names": ["$~ohneVor", "$~sansFirst"],
+                    "names": ["$~ohneVor"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3214,7 +3229,7 @@
                         "$~Ich erstelle eine Liste ohne mein letztes Element.",
                         "\\['Apfel' 'Banane' 'Mango'].sansLast()\\"
                     ],
-                    "names": ["$~ohneLetzte", "$~sansLast"],
+                    "names": ["$~ohneLetzte"],
                     "inputs": []
                 },
                 "sans": {
@@ -3269,7 +3284,7 @@
                         "$~\\⊤\\ wenn meine Artikel und meine Reihenfolge /nicht/ genau mit der angegebenen @List übereinstimmen.",
                         "\\['Apfel' 'Banane' 'Mango'] ≠ ['Apfel' 'Mango' 'Banane']\\"
                     ],
-                    "names": ["$~≠", "$~nichtgleich"],
+                    "names": ["$~nichtgleich"],
                     "inputs": [
                         {
                             "doc": "$~Die @List, mit der ich mich vergleichen kann.",
@@ -3499,7 +3514,7 @@
                 "\\{'hey' 'hi' 'hallo'}!{'yo'}\\🪲",
                 "Gibt es noch etwas, das du mit mir machen möchtest? Sieh dir all die tollen @FunctionDefinition an, die ich habe!"
             ],
-            "name": ["$~{}", "$~Satz"],
+            "name": ["$~Satz"],
             "kind": "$~Art",
             "out": "$~Ergebnis",
             "function": {
@@ -3526,7 +3541,7 @@
                         "$~Ich bin \\⊤\\, wenn das gegebene @Set und ich nicht die exakt gleichen Werte haben:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": ["$~≠", "$~nichtgleich"],
+                    "names": ["$~nichtgleich"],
                     "inputs": [
                         {
                             "doc": "$~Das zu vergleichende @Set.",
@@ -3672,7 +3687,7 @@
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
                 "Ich kann mit meinen Paarungen viele wunderbare Dinge erreichen."
             ],
-            "name": ["$~{:}", "$~Karte"],
+            "name": ["$~Karte"],
             "key": "$~Schlüssel",
             "value": "$~Wert",
             "result": "$~Ergebnis",
@@ -3700,7 +3715,7 @@
                         "$~\\{⊤}\\ wenn meine Paarungen /nicht/ genau dieselben sind wie die der angegebenen @Map.",
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": ["$~≠", "$~nichtgleich"],
+                    "names": ["$~nichtgleich"],
                     "inputs": [
                         {
                             "doc": "$~Die @Map zum Vergleichen.",
@@ -3830,12 +3845,12 @@
                 "Und wenn Sie jemals bestimmte Werte von mir erhalten möchten, können Sie jede Tabelle in eine Liste umwandeln und mit @PropertyReference auf einzelne Zeilen zugreifen",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
             ],
-            "name": ["$~⎡⎦", "$~Tisch"],
+            "name": ["$~Tisch"],
             "row": "$~Reihe",
             "function": {
                 "equals": {
                     "doc": "$~Ich überprüfe, ob ich genau dieselben Zellen in genau derselben Reihenfolge wie eine andere @Table habe.",
-                    "names": ["$~=", "$~istgleich"],
+                    "names": ["$~istgleich"],
                     "inputs": [
                         {
                             "doc": "$~Die andere zu prüfende Tabelle.",
@@ -3845,7 +3860,7 @@
                 },
                 "notequal": {
                     "doc": "$~Ich überprüfe, ob meine Zellen anders sind oder eine andere Reihenfolge als eine andere @Table aufweisen.",
-                    "names": ["$~≠", "$~nichtgleich"],
+                    "names": ["$~nichtgleich"],
                     "inputs": [
                         {
                             "doc": "$~Die andere zu prüfende Tabelle.",
@@ -3865,7 +3880,7 @@
             "function": {
                 "equals": {
                     "doc": "$~Ich überprüfe, ob meine Eigenschaften dieselben Namen und Werte haben wie die Eigenschaften einer anderen Struktur.",
-                    "names": ["$~=", "$~istgleich"],
+                    "names": ["$~istgleich"],
                     "inputs": [
                         {
                             "doc": "$~Die andere zu prüfende Struktur.",
@@ -3875,7 +3890,7 @@
                 },
                 "notequal": {
                     "doc": "$~Ich überprüfe, ob sich meine Eigenschaften hinsichtlich Name und Werten in irgendeiner Weise von denen einer anderen Struktur unterscheiden.",
-                    "names": ["$~≠", "$~nichtgleich"],
+                    "names": ["$~nichtgleich"],
                     "inputs": [
                         {
                             "doc": "$~Die andere zu prüfende Struktur.",
@@ -3894,16 +3909,16 @@
                 "\\`I am **bold** and /italic/`\\",
                 "Ich funktioniere ähnlich wie @Text , kann aber Formatierungen übertragen. Sie können mich kombinieren, wiederholen, meinen Inhalt überprüfen und mich in einfachen @Text umwandeln."
             ],
-            "name": ["$~`…`", "$~Formatiert"],
+            "name": ["$~Formatiert"],
             "function": {
                 "length": {
                     "doc": "$~Ich bewerte die Anzahl der lesbaren Zeichen in meinem Text, wobei Formatierungen und Absatzumbrüche außer Acht gelassen werden.",
-                    "names": ["$~📏", "$~Länge"],
+                    "names": ["$~Länge"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ wenn ich den gleichen formatierten Text wie der angegebene Wert habe.",
-                    "names": ["$~=", "$~gleich"],
+                    "names": ["$~gleich"],
                     "inputs": [
                         {
                             "doc": "$~Der formatierte Text zum Vergleichen.",
@@ -3953,13 +3968,7 @@
                 },
                 "repeat": {
                     "doc": "$~Ich erstelle einen neuen formatierten Text, der meinen Text enthält und die angegebene Anzahl an Malen wiederholt wird. Bei mehreren Absätzen bleiben die Absätze zwischen den Kopien erhalten.",
-                    "names": [
-                        "$~×",
-                        "$~·",
-                        "$~🔁",
-                        "$~wiederholt",
-                        "$~wiederholen"
-                    ],
+                    "names": ["$~wiederholt", "$~wiederholen"],
                     "inputs": [
                         {
                             "doc": "$~Wie oft ich mich wiederholen muss.",
@@ -3969,7 +3978,7 @@
                 },
                 "combine": {
                     "doc": "$~Gib mir einen weiteren formatierten Text, und ich füge unsere beiden zusammen. Falls einer von uns mehr als einen Absatz hat, bleiben die Absatzumbrüche erhalten.",
-                    "names": ["$~+", "$~kombiniert", "$~kombinieren"],
+                    "names": ["$~kombiniert", "$~kombinieren"],
                     "inputs": [
                         {
                             "doc": "$~Der formatierte Text, der angehängt werden soll.",
@@ -4000,7 +4009,7 @@
                 "Und wenn Sie Zahlen mit einer bestimmten Anzahl signifikanter Stellen nach dem Komma angeben, bleibt diese Genauigkeit erhalten.",
                 "\\Random(1.00 10.00)\\"
             ],
-            "names": ["$~🎲", "$~Zufällig"],
+            "names": ["$~Zufällig"],
             "inputs": [
                 {
                     "names": "$~Mindest",
@@ -4021,7 +4030,7 @@
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "Kopiere dies in den Editor und wähle dann eine der beiden @Phrase Anweisungen aus. Die dritte @Phrase zeigt dann den ausgewählten Namen an."
             ],
-            "names": ["$~🔘", "$~Auswahl"]
+            "names": ["$~Auswahl"]
         },
         "Button": {
             "doc": [
@@ -4033,7 +4042,7 @@
                 "\\Phrase(Button() → '')\\",
                 "Dadurch wird lediglich eine @Phrase erstellt, die den Wert des Streams als Text darstellt. Wenn Sie diese in den Editor kopieren und klicken, sehen Sie, wie sie zwischen \\⊥\\ und \\⊤\\ hin und her wechselt."
             ],
-            "names": ["$~🖱️", "$~Taste"],
+            "names": ["$~Taste"],
             "down": {
                 "names": "$~runter",
                 "doc": "$~Wenn @None, liefert der Strom sowohl Auf- als auch Ab-Werte. Wenn ein \\⊤\\, ändert es sich nur, wenn der Knopf gedrückt wird. Wenn ein \\⊥\\ gegeben ist, ändert es sich nur, wenn der Knopf losgelassen wird."
@@ -4048,7 +4057,7 @@
                 "\\Pointer()\\",
                 "Der von ihm angegebene @Place entspricht der Position des Zeigers auf @Stage ."
             ],
-            "names": ["$~👆🏻", "$~Zeiger"]
+            "names": ["$~Zeiger"]
         },
         "Key": {
             "doc": [
@@ -4064,7 +4073,7 @@
                 "Und wenn Sie nur wissen möchten, wann eine @Key losgelassen statt gedrückt wird, können Sie einen @Boolean angeben:",
                 "\\Key('a' ⊥)\\"
             ],
-            "names": ["$~⌨️", "$~Schlüssel"],
+            "names": ["$~Schlüssel"],
             "key": {
                 "names": "$~Schlüssel",
                 "doc": "$~Wenn @None, werden alle Schlüssel bereitgestellt. Wenn es sich um einen bestimmten @Text handelt, wird nur dieser Schlüssel bereitgestellt."
@@ -4139,7 +4148,7 @@
                 "Allerdings gibt es Grenzen, wie klein es sein kann, da @Program Zeit zum Auswerten benötigt, bevor es auf den nächsten Tick reagieren kann.",
                 "Der kleinste Wert liegt wahrscheinlich bei etwa \\20ms\\ ."
             ],
-            "names": ["$~🕕", "$~Zeit"],
+            "names": ["$~Zeit"],
             "frequency": {
                 "names": ["$~Frequenz"],
                 "doc": "$~Dies ist die Frequenz, mit der die Zeit ticken soll. Der Standardwert ist \\33ms\\, was etwa 30 Mal pro Sekunde entspricht."
@@ -4157,7 +4166,7 @@
                 "\\Volume()\\",
                 "Das eignet sich hervorragend, um die Lautstärke des Publikums zu messen!"
             ],
-            "names": ["$~🎤", "$~Volumen"],
+            "names": ["$~Volumen"],
             "frequency": {
                 "names": ["$~Frequenz"],
                 "doc": "$~Die Zeit zwischen den Probenahmen."
@@ -4171,7 +4180,7 @@
                 "\\Pitch()\\",
                 "Das eignet sich hervorragend, um den Tonfall einer Person beim Sprechen oder Singen zu hören."
             ],
-            "names": ["$~🎵", "$~Tonhöhe"],
+            "names": ["$~Tonhöhe"],
             "frequency": {
                 "names": ["$~Frequenz"],
                 "doc": "$~Die Zeit zwischen den Probenahmen."
@@ -4201,7 +4210,7 @@
             }
         },
         "Motion": {
-            "names": ["$~⚽️", "$~Bewegung"],
+            "names": ["$~Bewegung"],
             "doc": [
                 "$~Es bewegt eine @Phrase unter Einbeziehung von Schwerkraft und Physik.",
                 "/boing boing boing/",
@@ -4243,7 +4252,7 @@
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Beachten Sie, wie nach jeder @Phrase eine Pause eingelegt wird und gewartet wird, bis sich @Button ändert, bevor es fortfährt?"
             ],
-            "names": ["$~🎬", "$~Szene"],
+            "names": ["$~Szene"],
             "outputs": {
                 "names": "$~Ausgänge",
                 "doc": "$~Die Liste der nacheinander anzuzeigenden Ausgaben."
@@ -4256,7 +4265,7 @@
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "Das war's! Damit lassen sich alle möglichen Darbietungen realisieren, zum Beispiel Chatbots, Textadventures oder textbasierte Steuerungssysteme für andere Darbietungsformen."
             ],
-            "names": ["$~🗣️", "$~Plaudern"]
+            "names": ["$~Plaudern"]
         },
         "Placement": {
             "doc": [
@@ -4269,7 +4278,7 @@
                 "Versuchen Sie, dies in Ihr Programm zu kopieren und @Output mit dem Mauszeiger oder der Tastatur zu verschieben.",
                 "Sie können die @Placement anpassen, indem Sie die Bewegung in bestimmten Dimensionen aktivieren und deaktivieren, die Bewegungsdistanz einer @Place ändern und die anfängliche @Place festlegen, mit der der Stream beginnt."
             ],
-            "names": ["$~✥", "$~Platzierung"],
+            "names": ["$~Platzierung"],
             "inputs": [
                 {
                     "doc": "$~Der erste Ort, an dem man beginnen kann.",
@@ -4303,7 +4312,7 @@
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
                 "Hierbei kann vieles schiefgehen. Wenn Ihre Internetverbindung abbricht, die URL nicht aufgelöst werden kann, nicht öffentlich ist oder es sich nicht um eine HTML-Seite handelt, kann dies zu einer Ausnahme führen. Wenn Sie eine funktionierende Seite finden, erhalten Sie eine @Number , die den Fortschritt in Prozent angibt, und anschließend eine @List der Wörter auf der Seite."
             ],
-            "names": ["$~🔗", "$~Website"],
+            "names": ["$~Website"],
             "url": {
                 "doc": "$~Die abzurufende URL der HTML-Webseite.",
                 "names": "$~url"
@@ -4388,7 +4397,7 @@
                 "doc": "$~Wenn sich dieser Wert ändert, löschen Sie die gespeicherte Sprache und beginnen Sie von vorn."
             },
             "language": {
-                "names": ["$~Sprache", "$~lang"],
+                "names": ["$~Sprache"],
                 "doc": "$~Ein BCP-47-Sprachcode (z. B. „en-US“). Falls dieser von der Spracherkennung Ihres Browsers nicht unterstützt wird, erhalten Sie eine Fehlermeldung. Standardmäßig wird Ihre bevorzugte Sprache verwendet."
             },
             "limit": {
@@ -4435,7 +4444,7 @@
                 "Du kannst den Umriss mit einer @Number von Metern skalieren, seinen Ursprung mit einem @Place verschieben, eine Schriftstärke wählen, Kursivschrift einschalten und den `spacing` zwischen Punkten als Abstand in Metern festlegen. Ein kleinerer `spacing` zeichnet den Umriss genauer nach, mit gleichmäßig verteilten Punkten entlang von Linien und Kurven.",
                 "Manche Schriftzeichen, wie farbige Emojis, haben keinen Umriss, also fügen sie keine Punkte hinzu. Während es die Schriftart abruft, gibt es dir eine leere @List und füllt sie auf, wenn es bereit ist."
             ],
-            "names": ["$~🖋️", "$~Kontur"],
+            "names": ["$~Kontur"],
             "inputs": [
                 {
                     "doc": "$~Der Text, dessen Glyphenumrisse ich nachzeichnen soll.",
@@ -4489,7 +4498,7 @@
                 "Wenn sich diese Eingaben ändern – etwa wenn eine Reaktion mir eine andere Zeitzone gibt – erzeuge ich Momente mit den neuen Einstellungen.",
                 "Wie unterscheide ich mich von @Time? @Time zählt die Millisekunden seit dem Start eines Programms, was gut für Animationen ist. Ich nenne dir das Datum und die Zeit der Uhr an der Wand in einem Kalender und einer Zeitzone, was gut für Uhren und Kalender ist."
             ],
-            "names": ["$~⏰", "$~Jetzt"],
+            "names": ["$~Jetzt"],
             "frequency": {
                 "names": ["$~Häufigkeit"],
                 "doc": "$~Wie oft ich einen neuen @Moment erzeuge, in Sekunden, Minuten oder Stunden. Wenn \\ø\\, zähle ich jede \\1s\\."
@@ -4585,7 +4594,7 @@
                 "Dieses Beispiel zeigt ein Emoji, das zu deinem Gesicht passt, egal wo dein echtes Gesicht ist:",
                 "\\gesicht: 🙂()\n💬((gesicht.lächelnd ? '😀' gesicht.mundOffen ? '😮' '😐') place: gesicht.Ort)\\"
             ],
-            "names": ["$~🙂", "$~Gesicht"],
+            "names": ["$~Gesicht"],
             "frequency": {
                 "names": ["$~Häufigkeit"],
                 "doc": "$~Die Zeit zwischen den Messungen."
@@ -4608,7 +4617,7 @@
                 "Du kannst auch nur nach einer einzigen Art von Ding suchen und den Rest ignorieren:",
                 "\\dinge: 📦(category: 'cat')\n💬(dinge.📏() > 0 ? '🐈' '…')\\"
             ],
-            "names": ["$~📦", "$~Objekte"],
+            "names": ["$~Objekte"],
             "inputs": [
                 {
                     "doc": "$~Die Zeit zwischen den Aufnahmen.",
@@ -4833,7 +4842,7 @@
             ]
         },
         "Stage": {
-            "names": ["$~🎭", "$~Bühne"],
+            "names": ["$~Bühne"],
             "doc": [
                 "$~Ich präsentiere dem Publikum eure @Output . Hallo. Bühne hier. Sagt mir, was ich zeigen soll, und ich zeige es.",
                 "\\Stage([Phrase('stufffffff')])\\",
@@ -4894,7 +4903,7 @@
             },
             "rotation": {
                 "doc": "$~DAS GLEICHE WIE @Group.rotation",
-                "names": ["$~📐", "$~Drehung"]
+                "names": ["$~Drehung"]
             },
             "scale": {
                 "doc": "$~DAS GLEICHE WIE @Group.scale",
@@ -4926,7 +4935,7 @@
             },
             "duration": {
                 "doc": "$~GLEICH WIE @Phrase.duration!",
-                "names": ["$~⏳", "$~Dauer"]
+                "names": ["$~Dauer"]
             },
             "style": {
                 "doc": "$~DAS GLEICHE WIE @Phrase.style!",
@@ -4943,7 +4952,7 @@
             }
         },
         "Group": {
-            "names": ["$~🔳", "$~Gruppe"],
+            "names": ["$~Gruppe"],
             "doc": [
                 "$~Ich arrangiere @Phrase und @Group zusammen auf @Stage mit einem @Arrangement . Oh hallo, wie geht es dir? Mir geht es immer gut, wenn andere da sind, also ist es schön, mit dir zusammen zu sein!",
                 "Damit das funktioniert, benötige ich von Ihnen ein @Arrangement und anschließend eine @List von @Output die ich anordnen soll.",
@@ -5007,7 +5016,7 @@
             },
             "rotation": {
                 "doc": "$~Wie geneigt sollte ich um meinen Mittelpunkt sein, meine @Pose hat eine andere.",
-                "names": ["$~📐", "$~Drehung"]
+                "names": ["$~Drehung"]
             },
             "scale": {
                 "doc": "$~Wie groß ich im Verhältnis zu meiner Originalgröße sein sollte.",
@@ -5039,7 +5048,7 @@
             },
             "duration": {
                 "doc": "$~Dasselbe wie @Phrase.duration!",
-                "names": ["$~⏳", "$~Dauer"]
+                "names": ["$~Dauer"]
             },
             "style": {
                 "doc": "$~Dasselbe wie @Phrase.style!",
@@ -5048,7 +5057,7 @@
             "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
-            "names": ["💬", "Satzglied"],
+            "names": ["Satzglied"],
             "doc": [
                 "$~Ich repräsentiere die Liebste von @Text auf @Stage . Hallo, hallo! Erinnert ihr euch an mich? Wie könnte man mich vergessen?",
                 "Mach mich einfach so, und ich werde auf @Stage erscheinen:",
@@ -5081,7 +5090,7 @@
             },
             "wrap": {
                 "doc": "$~Die Kante, an der ich Symbole umbrechen soll oder \\ø\\, wenn ich sie nicht umbrechen soll.",
-                "names": ["$~↵", "$~wickeln"]
+                "names": ["$~wickeln"]
             },
             "alignment": {
                 "doc": "$~Wenn eine @Phrase.wrap festgelegt ist, ob ich Symbole am Anfang, in der Mitte oder am Ende der Kante ausrichten soll.",
@@ -5163,7 +5172,7 @@
             },
             "duration": {
                 "doc": "$~Die anzuwendende Dauer beim Wechsel an eine andere Stelle auf der Bühne.",
-                "names": ["$~⏳", "$~Dauer"]
+                "names": ["$~Dauer"]
             },
             "style": {
                 "doc": "$~Der zu verwendende Animationsstil beim Wechsel an eine andere Stelle auf der Bühne.",
@@ -5180,7 +5189,7 @@
             "doc": "$~Ich bin eine Inspiration für die vielen anderen Arten der Anordnung im Verse, einschließlich @Row, @Stack, @Grid und @Free. Ich arbeite eng mit @Group zusammen, um"
         },
         "Row": {
-            "names": ["$~➡", "$~Reihe"],
+            "names": ["$~Reihe"],
             "doc": "$~Ich bin @Row, eine horizontale @Arrangement von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Stack?",
             "description": "$~Zeile mit $#count[$count Phrase oder Gruppe|$count Phrasen und Gruppen]",
             "alignment": {
@@ -5193,7 +5202,7 @@
             }
         },
         "Stack": {
-            "names": ["$~⬇", "$~Stapel"],
+            "names": ["$~Stapel"],
             "doc": "$~Ich bin @Stack, eine vertikale @Arrangement von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Row?",
             "description": "$~Stapel mit $#count[$count Phrase oder Gruppe|$count Phrasen und Gruppen]",
             "padding": {
@@ -5206,7 +5215,7 @@
             }
         },
         "Grid": {
-            "names": ["$~▦", "$~Netz"],
+            "names": ["$~Netz"],
             "doc": "$~Ich bin das Raster von @Output. Geben Sie mir die Zeilen- und Spaltenanzahl und ich erstelle eine übersichtliche Anordnung mit optionaler Polsterung und Zellengrößen.",
             "description": "$~$rows Zeile $columns Spaltenraster",
             "rows": {
@@ -5239,7 +5248,7 @@
             "description": "$~freie $#count[$count Ausgabe|$count Ausgaben]"
         },
         "Shape": {
-            "names": ["$~⬟", "$~Gestalt"],
+            "names": ["$~Gestalt"],
             "doc": "$~Ich bin eine Inspiration für alle Formen. Ich bin nützlich, um @Stage zu sagen, welche Form es haben soll.",
             "form": {
                 "doc": "$~Ich bin die Art von Form, die angezeigt werden soll. Jede Form erfordert andere Informationen, um ihre Anordnung zu definieren.",
@@ -5429,7 +5438,7 @@
             "description": "$~$opacity[transparent $opacity|] $rotation[um $rotation Grad gedreht|] $scale[3 skaliert|] $flipx[horizontal gespiegelt|] $flipy[vertikal gespiegelt|] $blur[Schatten unscharf $blur Pixel|]"
         },
         "Color": {
-            "names": ["$~🌈", "$~Farbe"],
+            "names": ["$~Farbe"],
             "doc": [
                 "$~Ich bin eine sichtbare Farbe, bestehend aus drei essentiellen Dimensionen.",
                 "Hier sind einige gängige Farben aus dem Farbkreis, bei mittlerer Helligkeit und hoher Farbsättigung:",
@@ -5456,7 +5465,7 @@
             },
             "chroma": {
                 "doc": "$~Wie viel Farbe soll ich haben, von \\0\\ bis \\∞\\. Keine Farbe bedeutet grau, höhere Zahlen bedeuten mehr Farbe.",
-                "names": ["$~Chroma", "$~c"]
+                "names": ["$~Chroma"]
             },
             "hue": {
                 "doc": "$~Welche Farbe sollte ich auf einem Farbkreis haben, von Magenta \\0\\, Rot \\30\\, Grün \\120\\ bis Blau \\270\\.",
@@ -5566,7 +5575,7 @@
             }
         },
         "Sequence": {
-            "names": ["$~💃", "$~Reihenfolge"],
+            "names": ["$~Reihenfolge"],
             "doc": [
                 "$~Ich animiere @Output durch eine Reihe von @Pose im Laufe der Zeit! Möchtest du mit mir tanzen? Ganz einfach.",
                 "Du musst mir nur eine @Map geben, wobei jeder Schlüssel angibt, in welchem Prozentsatz wir uns im Tanz befinden, und jeder Wert dieser Schlüssel eine @Pose ist, die sein soll.",
@@ -5581,7 +5590,7 @@
             },
             "duration": {
                 "doc": "$~Wie lange soll ich diesen Tanz machen? Wenn ich ihn wiederhole, verlängere ich die Dauer nicht, sondern tanze einfach schneller.",
-                "names": ["$~⏳", "$~Dauer"]
+                "names": ["$~Dauer"]
             },
             "style": {
                 "doc": "$~Welchen Stil soll ich zum Tanzen verwenden?",
@@ -5946,7 +5955,7 @@
             }
         },
         "Place": {
-            "names": ["$~📍", "$~Ort"],
+            "names": ["$~Ort"],
             "doc": "$~Ich bin ein Standort auf @Stage. Alle meine Eingaben sind optional, da ich standardmäßig in der Mitte bin.",
             "x": {
                 "doc": "$~Eine Position auf der x-Achse.",
@@ -5962,12 +5971,12 @@
             },
             "rotation": {
                 "doc": "$~Drehung an dieser Stelle",
-                "names": ["$~📐", "$~Drehung"]
+                "names": ["$~Drehung"]
             }
         },
         "Velocity": {
             "doc": "$~Ich bestimme die Geschwindigkeit, mit der sich @Output auf @Stage bewegt – Meter pro Sekunde entlang der x- und y-Achse sowie Grad pro Sekunde Rotation. Meine Eingaben sind optional; standardmäßig bewegt sich nichts.",
-            "names": ["$~💨", "$~Geschwindigkeit"],
+            "names": ["$~Geschwindigkeit"],
             "x": {
                 "doc": "$~Wie viele Meter pro Sekunde auf der X-Achse zurückgelegt werden sollen.",
                 "names": "$~X"
@@ -5978,12 +5987,12 @@
             },
             "angle": {
                 "doc": "$~Um wie viele Grad soll pro Sekunde gedreht werden?",
-                "names": ["$~Winkel", "$~°"]
+                "names": ["$~Winkel"]
             }
         },
         "Matter": {
             "doc": "$~Ich bin die physikalischen Eigenschaften der Ausgabe, die beeinflussen, wie ich mit anderen Ausgaben auf der Bühne interagiere.",
-            "names": ["$~⚛️", "$~Gegenstand"],
+            "names": ["$~Gegenstand"],
             "mass": {
                 "doc": "$~Ein Gewicht in Kilogramm",
                 "names": "$~Masse"
@@ -6079,7 +6088,7 @@
                 "Ich verwende die @Language des @TextLiteral , falls vorhanden, andernfalls die ausgewählte Sprache.",
                 "Sie können in den Einstellungen eine Stimme auswählen."
             ],
-            "names": ["$~🔊", "$~Sagen"],
+            "names": ["$~Sagen"],
             "text": {
                 "doc": "$~Der Text, den ich laut vorlesen sollte.",
                 "names": "$~Text"
@@ -6088,7 +6097,7 @@
         },
         "Gesture": {
             "doc": "$~Ich bin eine Momentaufnahme der von der Kamera erfassten Handpose, ausgegeben vom @Hand Stream. Meine Position gibt an, wo sich die Hand auf der Bühne befindet, meine Fingeranzahl zeigt an, wie viele Finger ausgestreckt sind, meine Offenheit ist wahr, wenn die Hand geöffnet ist (mindestens drei Finger ausgestreckt), und Daumen, Zeigefinger, Mittelfinger, Ringfinger und kleiner Finger geben jeweils an, welche Finger genau ausgestreckt sind. Meine Handfläche ist wahr, wenn die Handfläche zur Kamera zeigt, und falsch, wenn der Handrücken zur Kamera zeigt.",
-            "names": ["$~✋", "$~Geste"],
+            "names": ["$~Geste"],
             "place": {
                 "doc": "$~Wo sich die Hand auf der Bühne befindet.",
                 "names": ["$~Ort"]
@@ -6161,7 +6170,7 @@
         },
         "Expression": {
             "doc": "$~Ich bin eine Momentaufnahme eines Gesichtsausdrucks, den die Kamera erkennt und den der @Face-Datenstrom aussendet. Mein Platz sagt dir, wo das Gesicht auf der Bühne ist. Meine @Expression.leftEyeOpen, @Expression.rightEyeOpen und @Expression.eyesOpen sagen, ob die Augen offen sind. Meine @Expression.mouthOpen, @Expression.smiling, @Expression.frowning und @Expression.browsRaised sagen, was das Gesicht tut, und jede hat einen passenden Betrag (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) von 0 bis 1 dafür, wie stark es ist. Meine @Expression.turn und @Expression.tilt sagen, in welche Richtung der Kopf zeigt, in Grad.",
-            "names": ["$~😀", "$~Ausdruck"],
+            "names": ["$~Ausdruck"],
             "place": {
                 "doc": "$~Wo das Gesicht auf der Bühne ist.",
                 "names": ["$~Ort"]
@@ -6221,7 +6230,7 @@
         },
         "Thing": {
             "doc": "$~Ich bin ein Ding, das die Kamera gesehen hat. Der @Objects-Strom gibt mich in einer @List aus. Mein Name sagt, was ich bin. Meine Sicherheit sagt, wie sicher sich das Modell ist. Mein Ort sagt, wo ich auf der Bühne war. Meine Breite und Höhe sagen, wie groß ich aussah.",
-            "names": ["$~🔎", "$~Ding"],
+            "names": ["$~Ding"],
             "name": {
                 "doc": "$~Was das Ding ist, in deiner Sprache.",
                 "names": ["$~Name"]
@@ -6265,7 +6274,7 @@
                 "Ich habe kein eigenes Aussehen, das man gestalten könnte, also nehme ich keine der üblichen Aussehen-Eingaben — keine Größe, keinen Ort, keine Farbe und keine Animation. Wie ich erscheine, ist die Wahl des Betrachters, in seinen Einstellungen getroffen, und ich bin an die Bühne verankert, nicht in dein Layout gesetzt; ich nehme keinen Platz ein, also verschiebt es nie etwas neben mir, wenn du mich in eine @Row oder einen @Stack setzt. Um die Musik selbst zu zeichnen, nutze @Beat: Es gibt dir jeden Schlag, wenn er klingt, um jede beliebige Ausgabe zu steuern.",
                 "Ich spiele über Auswertungen hinweg weiter: Bearbeite meine Noten, während ich spiele, und die Änderung fügt sich beim nächsten Schlag ein, statt neu zu starten. Das lässt das Ändern einer Melodie während des Spiels musikalisch wirken. Um mich von vorn wieder zu spielen, siehe @Music/replay; um mich anzuhalten und an derselben Stelle weiterzumachen, siehe @Music/pause."
             ],
-            "names": ["$~🎼", "$~Musik"],
+            "names": ["$~Musik"],
             "tracks": {
                 "doc": "$~Eine @Track oder eine Liste von ihnen, zur gleichen Zeit gespielt. Jede Spur ist eine Stimme mit einem Instrument, also ist eine Liste von ihnen eine Band.",
                 "names": "$~Spuren"
@@ -6422,7 +6431,7 @@
                 "Das Auffüllen mit Pausen ist alles, was ein Kanon braucht: Beide Teile halten dieselbe Anzahl Schläge, so bleiben sie im Takt, statt auseinanderzudriften. Zwei Listen mit : zu einer zusammenzuführen, ist der Weg, wie sie entstehen, denn \\append\\ braucht, dass beide Listen dieselbe Art von Sache enthalten.",
                 "\\melodie: [1 2 3 1 1 2 3 1 3 4 5 ø]\npause: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodie :pause] instrument: 🔈.🪈)\n\t\t🎶([:pause :melodie] instrument: 🔈.🎻)\n\t])\\"
             ],
-            "names": ["$~🎶", "$~Spur"],
+            "names": ["$~Spur"],
             "notes": {
                 "doc": "$~Die Noten, die gespielt werden, der Reihe nach: eine Zahl für eine Note, \\ø\\ für eine Pause, eine Menge wie \\{1 3 5}\\ für einen Akkord, oder eine @Note, wenn ein Eintrag seine eigene Lautstärke braucht. Ein Notenwert auf einer Zahl — \\3𝅗𝅥\\ — sagt, wie lange dieser eine Eintrag dauert.",
                 "names": "$~Noten"
@@ -6497,66 +6506,66 @@
                         "$~Ein Klavier. Von einem echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎹", "$~Klavier"]
+                    "names": ["$~Klavier"]
                 },
                 "violin": {
                     "doc": [
                         "$~Eine Geige. Von einer echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎻", "$~Geige"]
+                    "names": ["$~Geige"]
                 },
                 "drums": {
                     "doc": [
                         "$~Ein Schlagzeug. Aufgenommen, und ein Set statt gestimmt: Zahlen wählen ein Teil des Sets statt einer Note — \\1\\ Bassdrum, \\2\\ Snare, \\3\\ Hi-Hat, \\4\\ Becken, \\5\\ Tomtom, \\6\\ Kuhglocke — und \\7\\ führt zurück zur Bassdrum.",
                         "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🥁", "$~Schlagzeug"]
+                    "names": ["$~Schlagzeug"]
                 },
                 "flute": {
                     "doc": [
                         "$~Eine Flöte. Von einer echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🪈", "$~Flöte"]
+                    "names": ["$~Flöte"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Eine Trompete. Von einer echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎺", "$~Trompete"]
+                    "names": ["$~Trompete"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Ein Saxophon, ein Tenor. Von einem echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎷", "$~Saxophon", "$~Sax"]
+                    "names": ["$~Saxophon", "$~Sax"]
                 },
                 "bell": {
                     "doc": [
                         "$~Eine Glocke — Orchesterglocken, die man mit einem Schlägel anschlägt. Aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🔔", "$~Glocke"]
+                    "names": ["$~Glocke"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~Ein Didgeridoo, aus dem Australien der Aborigines. Von einem echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen, doch es ist ein Bordun-Instrument und bleibt tief.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
                     ],
-                    "names": ["🪵", "$~Didgeridoo"]
+                    "names": ["$~Didgeridoo"]
                 },
                 "cat": {
-                    "names": ["$~🐱", "$~Katze", "$~Miau"],
+                    "names": ["$~Katze", "$~Miau"],
                     "doc": [
                         "$~Eine Katze — eigentlich ein ganzes Set aus einer. Von einer echten Katze aufgenommen, und ein Set statt gestimmt: Zahlen wählen, was die Katze sagt, statt einer Note — \\1\\ gereizt, \\2\\ bettelnd, \\3\\ hungrig, \\4\\ protestierend, \\5\\ flehend, \\6\\ wünschend, \\7\\ genervt, \\8\\ ängstlich, \\9\\ empfindlich, \\10\\ getröstet, \\11\\ einsam, \\12\\ schnurrend – und \\13\\ kehrt zurück zu gereizt. Eine Katze, die stattdessen Töne spielt, findest du unter \\🔈.😺\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
-                    "names": ["$~🐶", "$~Hund", "$~bellen"],
+                    "names": ["$~Hund", "$~bellen"],
                     "doc": [
                         "$~Ein Hund – eigentlich ein ganzes Set davon. Von echten Hunden aufgenommen, und ein Set statt gestimmt: Zahlen wählen aus, welches Bellen du hörst, nicht einen Ton. Es geht vom tiefsten bis zum schärfsten – \\1\\ grimmig, \\2\\ warnend, \\3\\ bewachend, \\4\\ wachsam, \\5\\ beharrlich, \\6\\ fordernd, \\7\\ ankündigend, \\8\\ eifrig, \\9\\ aufgeregt, \\10\\ ungeduldig, \\11\\ kläffend, \\12\\ schrill – und \\13\\ kehrt zurück zu grimmig. Einen Hund, der stattdessen Töne spielt, findest du unter \\🔈.🐕\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
@@ -6588,28 +6597,28 @@
                         "$~Dieselbe Katze, gestimmt. Von den zwölf Aufnahmen, die das Set \\🔈.🐱\\ spielt, ist dies die einzige, die einen gleichmäßigen Ton hält. Sie ist gestimmt statt ein Set, deshalb wählen Zahlen Töne und du kannst damit eine Melodie schreiben. Wird sie weit von dem Ton entfernt gespielt, bei dem sie aufgenommen wurde, klingt ein Miauen eher gedehnt als gesungen. Am besten klingt sie also ungefähr innerhalb einer Oktave um die Mitte.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~😺", "$~tonhöheKatze"]
+                    "names": ["$~tonhöheKatze"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Die gleichen Hunde, aber gestimmt. Von allen Bellgeräuschen im Set hält dieses eine gleichmäßige Tonhöhe. Es ist gestimmt und kein Set, daher wählen Zahlen die Töne aus, und du kannst damit eine Melodie schreiben. Wird ein Bellen weit von seinem aufgenommenen Ton gespielt, klingt es eher gedehnt als gebellt. Deshalb passt es am besten innerhalb etwa einer Oktave rund um die Mitte.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🐕", "$~tonhöheHund"]
+                    "names": ["$~tonhöheHund"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Eine klassische Gitarre mit Nylonsaiten, die mit den Fingern gezupft werden statt mit einem Plektrum. Von einer echten aufgenommen und gestimmt, daher wählen Zahlen die Töne aus. Das ist das schlichte \\guitar\\, das gemeint ist, daher spielen ältere Projekte, die nach einer Gitarre gefragt haben, dieses.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎸", "$~akustikGitarre", "$~Gitarre"]
+                    "names": ["$~akustikGitarre", "$~Gitarre"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~Eine elektroakustische Gitarre — ein hohler Körper mit einem Tonabnehmer darin, mit Stahlsaiten, daher klingt sie heller und länger als die Nylon-\\🔈.🎸\\. Von einer echten aufgenommen und gestimmt, daher wählen Zahlen die Töne aus.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~⚡", "$~elektroGitarre"]
+                    "names": ["$~elektroGitarre"]
                 },
                 "voice": {
                     "doc": [
@@ -6619,7 +6628,7 @@
                         "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Die Silben sind im <Internationalen Phonetischen Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> geschrieben, einem Alphabet, in dem jeder Buchstabe ein /Laut/ statt einer Schreibweise ist – also \\'ʃi'\\ ist das Geräusch am Anfang von /sie/, egal in welcher Sprache du schreibst. Drücke 🤖 unter dem Editor, um jeden Laut zu sehen, den ich machen kann, und höre jeden einzelnen an."
                     ],
-                    "names": ["$~🤖", "$~Stimme"]
+                    "names": ["$~Stimme"]
                 }
             },
             "doc": [
@@ -6753,6 +6762,14 @@
                 "remix": {
                     "tip": "$~erstelle deine eigene Kopie dieses Projekts, um es zu ändern",
                     "label": "$~remixen"
+                },
+                "languages": "$~zeige die Sprachen, in denen dieses Projekt geschrieben ist",
+                "addLanguage": "$~schreibe dieses Projekt auch in dieser Sprache",
+                "removeLanguage": "$~höre auf, dieses Projekt in dieser Sprache zu schreiben",
+                "firstLanguage": "$~mache dies zur ersten Sprache des Projekts",
+                "removeUnusedLanguages": {
+                    "tip": "$~entferne die Sprachen, die der Code dieses Projekts nicht verwendet",
+                    "label": "$~unbenutzte entfernen"
                 }
             },
             "field": {
@@ -6779,22 +6796,39 @@
                 "projectsNotSavingOnline": "$~Einige Projekte sind nur auf diesem Gerät, noch nicht online."
             },
             "dialog": {
-                "translate": {
+                "languages": {
                     "header": "$~Sprachen",
                     "explanation": [
-                        "$~Dies sind die Sprachen, die in Ihrem Projekt verwendet werden.",
-                        "Um Ihr Projekt in andere unterstützte Sprachen zu übersetzen, wählen Sie eine primäre Ausgangssprache und anschließend eine neue Sprache.",
-                        "Die Übersetzungen werden nicht perfekt sein, überprüfen Sie daher bitte die Ergebnisse!"
+                        "$~Dies sind die Sprachen, in denen dein Projekt geschrieben ist.",
+                        "Du kannst eine Sprache zum Schreiben hinzufügen, eine entfernen, die du nicht verwendest, oder das ganze Projekt in eine neue Sprache übersetzen."
                     ],
+                    "count": "$~$#count[$count Sprache|$count Sprachen]",
+                    "meaning": [
+                        "$~Die Sprachen eines Projekts entscheiden, welche Namen und Wörter der Code verwenden kann. Wenn dein Projekt auf Spanisch geschrieben ist, braucht es hier Spanisch, sonst bedeuten Namen wie \\Frase\\ nichts.",
+                        "Jeder, der dein Projekt öffnet, lädt diese Sprachen, und die erste entscheidet, wie deine Ausgabe angeordnet wird. Englische Namen funktionieren immer, in jedem Projekt."
+                    ],
+                    "unused": "$~nicht verwendet",
+                    "unloaded": "$~konnte nicht geladen werden",
+                    "checking": "$~Suche nach Sprachen, die dein Code verwendet…",
+                    "complete": "$~Dein Code verwendet keine Sprache, die deinem Projekt fehlt.",
                     "search": {
                         "description": "$~Sprachen nach Namen oder Region filtern",
                         "placeholder": "$~Sprache oder Region"
+                    },
+                    "tab": {
+                        "label": "$~Spracheinstellungen",
+                        "labels": ["$~Geschrieben in", "$~Übersetzen"],
+                        "tips": [
+                            "$~sieh und ändere die Sprachen, in denen dieses Projekt geschrieben ist",
+                            "$~übersetze die Namen, den Text und die Dokumentation dieses Projekts in eine andere Sprache"
+                        ]
                     }
                 }
             },
             "subheader": {
                 "source": "$~Quelle",
-                "destination": "$~Ziel"
+                "destination": "$~Ziel",
+                "missing": "$~Vielleicht fehlend"
             },
             "defaults": {
                 "starterCode": "¶Willkommen zu deinem leeren Projekt! Dies ist ein Kommentar.\n\nDu kannst ihn verwenden, um dein Projekt zu beschreiben, Notizen zu machen und\nzu erklären, was andere über deine Arbeit wissen sollen.\nEr unterstützt *fett*, /kursiv/, <links@https://wordplay.dev> und mehr.¶\nSatzglied('hi')"
@@ -6817,8 +6851,8 @@
                 "sourceToggle": "$~Dieser Schalter blendet die *Quelldatei* ein oder aus. Die *anderen Schalter* in dieser Zeile bewirken dasselbe für die anderen Kacheln.",
                 "addSource": "$~Manche Projekte profitieren von *mehreren* Quelldateien, in denen die Daten in einer Datei gespeichert und in die *Hauptquelldatei* importiert werden. Mit der Schaltfläche „Quelle hinzufügen“ wird eine neue Quelldatei erstellt.",
                 "share": "$~Über den Dialog „Teilen“ können Sie Ihr Projekt mit *Galerien*, mit der *Öffentlichkeit* teilen oder es als *Text* kopieren, um es an anderer Stelle zu teilen.",
-                "translate": "$~Mit der Schaltfläche „/translate/“ können Sie *Übersetzungen* der *Namen*, *Texte* und *Dokumentation* Ihres Projekts in andere Sprachen hinzufügen.",
-                "checkpoints": "$~Über das Panel /revisions/ können Sie zu früheren Versionen Ihres Projekts zurückkehren und Momentaufnahmen von Versionen erstellen, die Sie sich merken möchten."
+                "checkpoints": "$~Über das Panel /revisions/ können Sie zu früheren Versionen Ihres Projekts zurückkehren und Momentaufnahmen von Versionen erstellen, die Sie sich merken möchten.",
+                "languages": "$~Die Schaltfläche /Sprachen/ zeigt, in welchen Sprachen dein Projekt geschrieben ist, lässt dich eine hinzufügen oder entfernen und kann die *Namen*, den *Text* und die *Dokumentation* deines Projekts in eine neue Sprache *übersetzen*."
             },
             "options": {
                 "layout": {
@@ -7083,7 +7117,8 @@
                 "toggle": "$~Anmerkungen ein- und ausblenden",
                 "highlightMajor": "$~zeige den Code dieses Fehlers im Editor",
                 "highlightMinor": "$~zeige den Code dieser Warnung im Editor",
-                "highlightStep": "$~zeige den Code dieses Auswertungsschritts im Editor"
+                "highlightStep": "$~zeige den Code dieses Auswertungsschritts im Editor",
+                "elsewhere": "$~Öffne dort, wo dies behoben werden kann"
             },
             "nodeDescription": "$~Sie $description.",
             "severity": {
@@ -7123,7 +7158,8 @@
                 "zoomOut": "$~Zoomen Sie von der Bühne heraus.",
                 "rotate": "$~rotate $name",
                 "resize": "$~resize $name",
-                "resetZoom": "$~Zoom auf die Bühne zurücksetzen"
+                "resetZoom": "$~Zoom auf die Bühne zurücksetzen",
+                "perform": "$~aufführen: das Programm neu starten, abspielen und den Bildschirm mit der Bühne füllen"
             },
             "options": {
                 "locale": "$~Wählen Sie die Sprache für die Ausgabe",
@@ -7132,7 +7168,7 @@
             "tour": {
                 "launch": "$~Machen Sie einen Rundgang über die Bühne",
                 "stage": "$~Die Variable /stage/ zeigt den *aktuellen Wert* Ihres Programms an. Dieser Wert kann ein *Rohwert* wie eine Zahl oder Liste, eine *visuelle Ausgabe*, die Sie sehen können, oder sogar ein *Ton*, den Sie hören können, sein.",
-                "reset": "$~Mit der Schaltfläche „Zurücksetzen“ wird die Auswertung Ihres Programms bis zum *Anfang* zurückgespult, wobei alle Zeit-, Tasten- oder Eingabeströme von Grund auf neu abgespielt werden.",
+                "reset": "$~Die Schaltfläche /Zurücksetzen/ startet die Auswertung deines Programms wieder von *vorne*, in jedem Modus: In ▶️ *Wiedergabe* läuft es wieder von oben, in ✏️ *Bearbeiten* pausiert es nach der ersten Auswertung, damit du siehst, wie sich deine Änderungen auf die erste Ausgabe auswirken, und in ⏸️ *Fehlersuche* pausiert es beim allerersten Schritt.",
                 "zoom": "$~Mit den /zoom/-Tasten können Sie in die Bühne hinein- und herauszoomen, um Ihre Ausgabe klarer oder detaillierter zu sehen.",
                 "grid": "$~Die Schaltfläche /grid/ zeigt ein *Raster* auf der Bühne an, das beim Entwerfen hilfreich ist, um Elemente präzise zu platzieren.",
                 "lock": "$~Die Schaltfläche „Sperren“ fixiert die Bühnenansicht. Im gesperrten Zustand bleibt die Bühne still; im entsperrten Zustand können Sie frei schwenken und zoomen.",
@@ -7180,25 +7216,31 @@
             "mode": {
                 "evaluation": {
                     "label": "$~Auswertungsmodus",
-                    "labels": ["$~bearbeiten", "$~abspielen", "$~Schritt"],
+                    "labels": [
+                        "$~bearbeiten",
+                        "$~Fehler suchen",
+                        "$~abspielen"
+                    ],
                     "tips": [
-                        "$~in den Bearbeitungsmodus wechseln: ändere das Programm, während die Bühne im aktuellen Bild eingefroren bleibt",
-                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren",
-                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms"
+                        "$~in den Bearbeitungsmodus wechseln: das Programm an seiner Stelle anhalten und ändern; Änderungen werden erneut abgespielt, um ihre Wirkung an dieser Stelle zu zeigen",
+                        "$~in den Fehlersuch-Modus wechseln: die Auswertung des Programms Schritt für Schritt durchgehen, wobei die Werte neben dem Code und in der Palette angezeigt werden",
+                        "$~in den Abspielmodus wechseln: das Programm live von seiner Stelle aus laufen lassen und in Echtzeit auf Eingaben reagieren"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~Auswertungsmodus",
-                    "labels": ["$~ansehen", "$~abspielen", "$~Schritt"],
+                    "labels": ["$~ansehen", "$~Fehler suchen", "$~abspielen"],
                     "tips": [
-                        "$~in den Ansichtsmodus wechseln: lies das Programm, während die Bühne im aktuellen Bild eingefroren bleibt",
-                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren",
-                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms"
+                        "$~in den Ansichtsmodus wechseln: das Programm an seiner Stelle anhalten und lesen",
+                        "$~in den Fehlersuch-Modus wechseln: die Auswertung des Programms Schritt für Schritt durchgehen, wobei die Werte neben dem Code und in der Palette angezeigt werden",
+                        "$~in den Abspielmodus wechseln: das Programm live von seiner Stelle aus laufen lassen und in Echtzeit auf Eingaben reagieren"
                     ]
                 },
                 "announce": "$~$mode-Modus",
-                "exception": "$~Das Programm hatte einen Fehler, deshalb ist es in den Schrittmodus gewechselt, damit du ihn untersuchen kannst.",
-                "toggle": "$~zwischen Bearbeiten- und Spielmodus wechseln"
+                "exception": "$~Das Programm hatte einen Fehler, deshalb ist es in den Fehlersuch-Modus gewechselt, damit du es untersuchen kannst.",
+                "toggle": "$~zwischen Bearbeiten- und Wiedergabe-Modus wechseln",
+                "resuming": "$~weiter bei Schritt $position",
+                "performing": "$~Aufführung $number, von Anfang an"
             },
             "gate": {
                 "start": {
@@ -7242,12 +7284,12 @@
                 "reset": "$~Leistung neu starten"
             },
             "tour": {
-                "timeline": "$~Die Zeitleiste ermöglicht es Ihnen, die Auswertung Ihres Programms Schritt für Schritt vorwärts und rückwärts zu verfolgen. So können Sie optimal nachvollziehen, wie Ihr Programm seinen Wert berechnet und sich ein Bild davon machen, wie @wordplay-Programme ausgewertet werden – insbesondere, wenn Sie nicht die gewünschten Ergebnisse erzielen.",
+                "timeline": "$~Mit der /Zeitleiste/ kannst du *vorwärts* und *rückwärts* durch die Auswertung deines Programms gehen, einen Schritt nach dem anderen. Sie erscheint in der Werkzeugleiste der Bühne im ✏️ *Bearbeiten*- und ⏸️ *Fehlersuche*-Modus. Sie ist eine gute Möglichkeit zu sehen, *wie* dein Programm seinen Wert berechnet, und um eine Vorstellung davon aufzubauen, wie @wordplay-Programme auswerten – besonders, wenn du nicht das Verhalten siehst, das du möchtest.",
                 "annotations": "$~Im Fenster „/annotations/“ werden die Erläuterungen zu jedem einzelnen Schritt angezeigt. Während Sie Ihr Programm schrittweise ausführen, können Sie hier nachlesen, was gerade passiert ist.",
                 "editor": "$~Der Editor zeigt Ihren Code an. Beim schrittweisen Ausführen wird der *Wert* jedes Programmteils neben diesem Teil angezeigt, *nachdem* er ausgewertet wurde. So können Sie beobachten, wie sich die Werte während der Programmausführung ansammeln.",
                 "history": "$~Das Verzeichnis /history/ zeigt alle *Eingaben* an, die Ihr Programm erhalten hat, wie z. B. Tastatureingaben, Zeitstempel und Mausereignisse. Es ist *verschiebbar*, sodass Sie durch einfaches Ziehen zu jedem beliebigen Zeitpunkt in der Programmhistorie zurückkehren können.",
                 "stepControls": "$~Die Schrittsteuerung ermöglicht eine präzise Navigation durch die Auswertung. Sie können zum *Anfang* oder *Ende* springen, schrittweise *vorwärts* oder *rückwärts* gehen, um *eine Eingabe* springen, eine Funktion *verlassen* oder zum *aktuell ausgewählten* Teil des Codes springen.",
-                "modes": "$~Der /Modus-Umschalter/ wählt aus, wie dein Programm ausgewertet wird. Im ✏️ *Bearbeitungsmodus* änderst du das Programm, während die Bühne im aktuellen Bild eingefroren bleibt. Im ⏸️ *Schrittmodus* — wo du gerade bist — gehst du *vorwärts* und *rückwärts* durch die Auswertung, und der *aktuelle Wert* jedes Teils deines Programms erscheint daneben im Editor. Im ▶️ *Abspielmodus* läuft dein Programm live und reagiert auf Eingaben in Echtzeit."
+                "modes": "$~Der /Modus-Umschalter/ wählt aus, wie dein Programm auswertet. Im ✏️ *Bearbeiten*-Modus pausiert das Programm dort, wo es gerade ist, und du kannst es ändern – deine Änderungen laufen erneut, um ihre Wirkung an dieser Stelle zu zeigen. Im ⏸️ *Fehlersuche*-Modus ist der Code nur lesbar, und der *aktuelle Wert* jedes Teils deines Programms erscheint daneben im Editor und in der Palette. Im ▶️ *Wiedergabe*-Modus läuft dein Programm live von dort, wo es ist, und reagiert in Echtzeit auf Eingaben. Neben dem Umschalter beginnt die Schaltfläche /Vorführen/ – ein Wiedergabe-Dreieck, umgeben von Vollbild-Ecken – eine Vorführung von oben und füllt den Bildschirm mit der Bühne, und ↻ setzt das Programm in jedem Modus zurück."
             }
         },
         "docs": {
@@ -7719,7 +7761,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~Musik",
+                        "label": "$~Darstellung",
                         "labels": [
                             "$~Orchester",
                             "$~Lichtshow",
@@ -7736,7 +7778,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~Musiklautstärke",
+                        "label": "$~Lautstärke",
                         "labels": ["$~aus", "$~leise", "$~voll"],
                         "tips": [
                             "$~Alle Musik stummschalten",
@@ -7745,7 +7787,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~Musik beim Sprechen",
+                        "label": "$~beim Sprechen",
                         "labels": ["$~leise", "$~leiser", "$~still"],
                         "tips": [
                             "$~Musik ein wenig leiser machen, während etwas gesprochen wird",
@@ -7760,14 +7802,44 @@
                             "$~Nicht im Takt vibrieren",
                             "$~Im Takt vibrieren, wenn das Gerät es unterstützt"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~Untertitelgröße",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Kleinere Untertitel anzeigen",
+                            "$~Untertitel in der Standardgröße anzeigen",
+                            "$~Untertitel eineinhalbmal so groß anzeigen",
+                            "$~Untertitel doppelt so groß anzeigen",
+                            "$~Untertitel dreimal so groß anzeigen"
+                        ]
                     }
                 },
                 "options": {
-                    "mic": "$~ausgewähltes Mikrofon",
-                    "camera": "$~ausgewählte Kamera",
+                    "mic": "$~Mikrofon",
+                    "camera": "$~Kamera",
                     "face": "$~Schriftart",
                     "default": "$~Standard",
-                    "voice": "$~ausgewählte Stimme für Say"
+                    "voice": "$~Sprich mit Stimme"
+                },
+                "tab": {
+                    "label": "$~Einstellungsgruppen",
+                    "labels": [
+                        "$~Aussehen",
+                        "$~Code",
+                        "$~Kamera + Mikrofon",
+                        "$~Ton + Musik"
+                    ],
+                    "tips": [
+                        "$~wie Wordplay selbst aussieht und wirkt: Schrift, Farben, Kacheln und Animation",
+                        "$~wie Code aussieht und wirkt, während du ihn schreibst",
+                        "$~von welcher Kamera und welchem Mikrofon Programme lesen",
+                        "$~wie die Musik, die Sprache und die Untertitel eines Programms zu dir gelangen"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Sprich"
                 }
             },
             "locale": {
@@ -7799,8 +7871,12 @@
                     "success": "$~Besprechen Sie diese Anfrage mit uns auf GitHub!",
                     "error": "$~Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
                     "alreadySupported": "$~Diese Sprache und Region werden bereits unterstützt.",
-                    "requiresLogin": "$~Sie müssen angemeldet sein, um eine Sprache anzufordern."
-                }
+                    "requiresLogin": "$~Sie müssen angemeldet sein, um eine Sprache anzufordern.",
+                    "searchPlaceholder": "$~Sprache oder Land",
+                    "searchDescription": "$~Die Menüs für Sprache und Land filtern",
+                    "alreadyRequested": "$~Jemand hat diese Sprache schon gewünscht. Mach bei der Diskussion auf GitHub mit!"
+                },
+                "choose": "$~Wähle eine Sprache"
             },
             "help": {
                 "header": "$~Verknüpfungen",
@@ -7996,7 +8072,7 @@
             },
             "tour": {
                 "launch": "$~Machen Sie einen Rundgang durch die Farbpalette",
-                "palette": "$~Wenn das Projekt *pausiert* ist, können Sie über die /Palette/ *Phrasen*, *Gruppen* und die *Phase* bearbeiten.",
+                "palette": "$~Du kannst die /Palette/ verwenden, um *Phrasen*, *Gruppen* und die *Bühne* im ✏️ *Bearbeiten*-Modus zu bearbeiten. In anderen Modi sind ihre Steuerungen nur lesbar, und im ⏸️ *Fehlersuche*-Modus zeigt jede Eigenschaft auch ihren *aktuellen Wert*.",
                 "text": "$~Alle Eigenschaften eines Satzes können hier bearbeitet werden. Dies ist der *Text* des Satzes, aber andere Eigenschaften haben ihre eigenen Steuerelemente.",
                 "set": "$~Wenn eine Eigenschaft aktuell ihren Standardwert verwendet, können Sie mit der *Stift*-Schaltfläche einen *expliziten* Wert dafür festlegen.",
                 "unset": "$~Wenn für eine Eigenschaft ein /expliziter/ Wert festgelegt ist, entfernt die Schaltfläche *X* diesen Wert und stellt die Eigenschaft auf ihren *Standardwert* zurück.",
@@ -8834,7 +8910,8 @@
                     "$~Das Wordplay-Logo ist eine Sprechblase mit einem einzigen Zeichen darin: eine winzige Bühne, auf der die Blase alles sagen kann — ein Zeichen aus dem Schriftsystem der Leserin oder des Lesers, ein Emoji oder einen Kreis, ein Dreieck und ein Quadrat, während etwas lädt. In der App folgt das Zeichen dem Schriftsystem deiner Hauptsprache; auf schriftneutralen Flächen wie dem Browser-Symbol und den Teilbildern zeigt die Blase die drei Formen, kurz bevor sie etwas macht.",
                     "Die Zeichnung selbst zeigt niemals Bewegung. Bewegung entsteht durch Verhalten — die Startseite wechselt das, was die Blase sagt, im Takt mit der Sprachauswahl, und beim Laden hüpfen die Formen der Reihe nach, wie eine Menschenmenge, die eine La-Ola-Welle macht — und richtet sich immer nach der Einstellung für die Animationsgeschwindigkeit. Sie hört ganz auf, wenn Animationen aus sind.",
                     "Das Zeichen wird immer in der aktuellen Textfarbe gezeichnet. So erfüllt das Logo überall dort die Kontrastanforderungen, wo auch der Text sie erfüllt."
-                ]
+                ],
+                "copyvalue": "$~kopiere den vollständigen CSS-Wert"
             },
             "thanks": {
                 "header": "$~Danke",
@@ -9476,7 +9553,7 @@
             "deleteFailed": "$~Das konnten wir nicht löschen.",
             "saveFailed": "$~Das konnten wir nicht retten.",
             "submitFailed": "$~Wir konnten das nicht einreichen.",
-            "loadFailed": "$~Das konnten wir nicht laden.",
+            "loadFailed": "$~Wir konnten das nicht laden. Versuche es gleich noch einmal.",
             "storageFull": "$~Der Speicher dieses Geräts ist voll, daher konnten wir hier keine Kopie speichern. Ihre Arbeit befindet sich weiterhin in der Cloud.",
             "storageNearFull": "$~Der Speicherplatz auf diesem Gerät ist fast voll, daher kann Wordplay möglicherweise bald keine Daten mehr darauf speichern. Ihre in der Cloud gespeicherten Daten sind sicher; wenn Sie Speicherplatz auf Ihrem Gerät oder Browser freigeben, können Sie weiterhin Daten hier speichern.",
             "saveTooLarge": "$~Diese Datei ist zu groß zum Speichern. Versuchen Sie, etwas Inhalt zu entfernen."

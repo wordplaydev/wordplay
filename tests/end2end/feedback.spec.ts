@@ -78,9 +78,7 @@ async function openFeedbackDialog(page: import('@playwright/test').Page) {
     await page.goto('/en-US/');
     // The Feedback dialog button is rendered by Page.svelte's Settings toolbar
     // and is identified by its tooltip ("Show the feedback form.").
-    await page
-        .getByRole('button', { name: 'Show the feedback form.' })
-        .click();
+    await page.getByRole('button', { name: 'Show the feedback form.' }).click();
     // The feedback list renders inside the dialog; wait for the "ideas" tab to
     // appear and switch to it — the seeded feedback uses type='idea', and the
     // dialog defaults to type='defect'. The Tabbed widget uses role="tab", and
@@ -99,9 +97,7 @@ test('voting on feedback atomically increments the votes counter', async ({
 
     // Scope the like click to the row whose title matches our seeded feedback;
     // other rows from prior tests may still be in the emulator.
-    const row = page
-        .locator('.feedback')
-        .filter({ hasText: title });
+    const row = page.locator('.feedback').filter({ hasText: title });
     // Use the aria-label attribute directly rather than getByRole, because the
     // row's header element is also role=button and its computed accessible
     // name encompasses the like button's label, which would otherwise match.
@@ -132,9 +128,7 @@ test('adding a comment on feedback appends to the comments array', async ({
     // The header div has onkeydown for Enter; we can't reliably click it as a
     // visible-text target because the title is rendered inside an input when
     // the row is editable.
-    const row = page
-        .locator('.feedback')
-        .filter({ hasText: title });
+    const row = page.locator('.feedback').filter({ hasText: title });
     const header = row.locator('.header');
     await header.focus();
     await header.press('Enter');
@@ -187,9 +181,7 @@ test('deleting a comment removes it from the comments array', async ({
 
     await openFeedbackDialog(page);
 
-    const row = page
-        .locator('.feedback')
-        .filter({ hasText: title });
+    const row = page.locator('.feedback').filter({ hasText: title });
     const header = row.locator('.header');
     await header.focus();
     await header.press('Enter');
@@ -207,8 +199,7 @@ test('deleting a comment removes it from the comments array', async ({
         page,
         'feedback',
         feedbackId,
-        (data) =>
-            Array.isArray(data?.comments) && data.comments.length === 0,
+        (data) => Array.isArray(data?.comments) && data.comments.length === 0,
     );
     expect(updated?.comments).toEqual([]);
 

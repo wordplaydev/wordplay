@@ -11,7 +11,12 @@
         type OutputInfoSet,
     } from '@output/animation/Animator';
     import Group from '@output/Output/Group';
-    import fitZ from '@components/output/fit';
+    import {
+        composeZ,
+        refit,
+        responsiveZ,
+        type Box,
+    } from '@components/output/fit';
     import {
         PX_PER_METER,
         getColorCSS,
@@ -58,18 +63,21 @@
         stage: Stage;
         interactive: boolean;
         editable: boolean;
-        /** Whether the creator can select output for inspection (edit or step mode).
+        /** Whether the creator can select output for inspection (edit or debug mode).
          * Defaults to editable, so read-only stages behave as before. */
         inspectable?: boolean;
         fit: boolean;
         grid: boolean;
         painting: boolean;
         background: boolean;
-        /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
-         * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
+        /** The camera actually rendered: the program's or the platform's base focus, with the
+         * audience's pan/zoom offset composed onto it. Read by OutputView for hit testing. */
         renderedFocus: Place;
-        /** Reflects whether the audience has overridden the stage's place via zoom/pan controls. */
-        focusOverridden?: boolean;
+        /** Reflects whether the audience has panned or zoomed away from the base focus. */
+        focusAdjusted?: boolean;
+        /** Whether this is a thumbnail-sized preview, which opts out of the automatic
+         * pull-back on small viewports — a thumbnail is small on purpose. */
+        mini?: boolean;
     }
 
     let {
@@ -84,7 +92,8 @@
         painting = $bindable(),
         background,
         renderedFocus = $bindable(),
-        focusOverridden = $bindable(false),
+        focusAdjusted = $bindable(false),
+        mini = false,
     }: Props = $props();
 
     const evaluation = getEvaluation();
@@ -151,14 +160,22 @@
     const announcer = getAnnouncer();
     const selectedOutput = getSelectedOutput();
 
-    /** The verse focus that fits the content to the view*/
+    /** The framing box the auto-fit camera fits. It only ever grows, so it settles instead
+     *  of chasing moving content. Reset whenever the evaluator changes; see resetAnimator's
+     *  effect. */
+    let framing: Box | undefined = $state(undefined);
+
+    /** The verse focus that fits the framing box to the view. */
     let fitFocus: Place | undefined = $state(undefined);
 
-    /** The creator or audience adjusted focus. */
-    let adjustedFocus: Place = $state(createPlace(evaluator, 0, 0, -12));
+    /** Whether the camera has a frame it was already pointing at. Until it does, a change
+     *  isn't a camera move, so it snaps rather than eases; see the focus effect below. */
+    let focusStarted = false;
 
-    /** Whether the audience has overridden the stage's place via zoom/pan controls. */
-    let focusOverride = $state(false);
+    /** The audience's pan/zoom, as an offset from whatever base focus is in play. Composing
+     *  rather than replacing is what lets a viewer zoom out of a project that moves its own
+     *  camera without freezing it. */
+    let offset = $state({ x: 0, y: 0, z: 0 });
 
     /** A stage to manage entries, exits, animations. A new one each time the for each project. */
     let animator = $state<Animator | undefined>();
@@ -194,26 +211,23 @@
     let viewportHeight = $state(0);
     let changed = $state(false);
 
+    /** Nudge the audience's pan/zoom. Relative, so it rides on top of a moving base focus
+     *  instead of replacing it. */
     export const adjustFocus = (dx: number, dy: number, dz: number) => {
-        setFocus(
-            renderedFocus.x + dx,
-            renderedFocus.y + dy,
-            renderedFocus.z + dz,
-        );
+        setOffset(offset.x + dx, offset.y + dy, offset.z + dz);
     };
 
-    export const setFocus = (x: number, y: number, z: number) => {
-        // Set the new adjusted focus (updating the rendered focus, and thus the animator focus)
-        adjustedFocus = createPlace(evaluator, x, y, z);
-        // Stop fitting
-        fit = false;
-        // The audience has taken control of the focus; override any stage.place.
-        focusOverride = true;
+    /** Set the audience's pan/zoom outright, for gestures that anchor at their start. */
+    export const setOffset = (x: number, y: number, z: number) => {
+        offset = { x, y, z };
     };
 
-    /** Clear any audience override so the stage's computed focus is used again. */
+    /** The audience's pan/zoom at the start of a gesture, so a drag or pinch can anchor. */
+    export const getOffset = () => offset;
+
+    /** Hand the camera back to the program or the platform. */
     export const resetFocus = () => {
-        focusOverride = false;
+        offset = { x: 0, y: 0, z: 0 };
     };
 
     let editing = $derived($evaluation?.playing === false);
@@ -221,7 +235,7 @@
     /** Whether the stage should describe itself, matching the condition
      *  OutputView uses for value announcements. */
     let speaking = $derived(
-        $evaluation?.playing === true || $evaluation?.mode === 'step',
+        $evaluation?.playing === true || $evaluation?.mode === 'debug',
     );
 
     // When interactive or stage changes, update the announcement timeout and timer.
@@ -287,22 +301,50 @@
     $effect(() => {
         evaluator;
         // Previous scene? Stop it.
-        untrack(() => resetAnimator());
+        untrack(() => {
+            resetAnimator();
+            // A new evaluator is a new scene, so the box it grew to no longer describes
+            // anything. Start framing over rather than inheriting a box sized for the
+            // previous project.
+            framing = undefined;
+        });
     });
 
-    // When the evaluator is playing but the animator is stopped, create a new animator.
+    /** The performance the scene belongs to. A new one is a new scene — every
+     *  output enters again — while pausing and playing within one only holds the
+     *  scene and lets it go. */
+    let animatedPerformance: number | undefined = undefined;
+
+    // Follow the evaluation: hold the scene while paused, continue it on play,
+    // and start a fresh one only when a new performance begins.
     $effect(() => {
-        if (animator) {
-            // If there's an evaluation context, adjust the animator state based on it.
-            if ($evaluation) {
-                if ($evaluation.playing) {
-                    if (animator.isStopped()) untrack(() => resetAnimator());
-                } else {
-                    animator.stop();
-                    overlayAnimator?.stop();
+        if (animator === undefined || $evaluation === undefined) return;
+        const performance = $evaluation.performance;
+        const playing = $evaluation.playing;
+        untrack(() => {
+            if (animator === undefined) return;
+            // A new performance means the creator asked to watch the program
+            // again, so entrances play again. Pausing is not that.
+            if (performance !== animatedPerformance) {
+                animatedPerformance = performance;
+                resetAnimator();
+                if (!playing) {
+                    animator?.suspend();
+                    overlayAnimator?.suspend();
                 }
+                return;
             }
-        }
+            if (playing) {
+                if (animator.isStopped()) resetAnimator();
+                else {
+                    animator.resume();
+                    overlayAnimator?.resume();
+                }
+            } else {
+                animator.suspend();
+                overlayAnimator?.suspend();
+            }
+        });
     });
 
     // The effective writing layout for output: an explicit setting, or the
@@ -341,82 +383,102 @@
             });
     });
 
-    /** When verse or viewport changes, update the autofit focus. */
+    /** When the stage or viewport changes, grow the framing box and refit to it.
+     *  Fitting a box that only grows rather than the instantaneous bounds is what stops
+     *  the camera chasing moving content; see growEnvelope.
+     *
+     *  The content bounds are read *tracked* so that content arriving after the stage
+     *  first renders is framed too — a @Camera's first frame is empty, so a stage fit only
+     *  at startup is a stage fit to nothing. Everything this effect writes is read inside
+     *  untrack, so it can't feed itself. */
     $effect(() => {
         if (view && fit && !selectedOutput?.adjusting) {
             // Leave some padding on the edges.
             const availableWidth = viewportWidth * (3 / 4);
             const availableHeight = viewportHeight * (3 / 4);
 
-            // Undefined when the viewport isn't measured yet, or when content with no
-            // extent would put the camera in the output's own plane; see fit.ts.
-            const z = fitZ(
-                contentBounds.width,
-                contentBounds.height,
-                availableWidth,
-                availableHeight,
-            );
-            if (z === undefined) return;
+            const bounds = {
+                left: contentBounds.left,
+                right: contentBounds.right,
+                top: contentBounds.top,
+                bottom: contentBounds.bottom,
+            };
 
-            // Now focus the content on the center of the content.
-            fitFocus = createPlace(
-                evaluator,
-                -(contentBounds.left + contentBounds.width / 2),
-                contentBounds.top - contentBounds.height / 2,
-                z,
+            const next = untrack(() =>
+                refit(
+                    framing,
+                    bounds,
+                    availableWidth,
+                    availableHeight,
+                    fitFocus,
+                ),
             );
-            // If we're currently fitting to content, just make the adjusted focus the same in case the setting is inactive.
-            // This ensures we start from where we left off.
-            untrack(() => {
-                if (fitFocus) adjustedFocus = fitFocus;
-            });
+
+            // Neither the frame nor the fit moved, so leave the focus alone: a new one
+            // every frame restarts the camera's ease and re-renders everything reading it.
+            if (next === undefined) return;
+
+            framing = next.framing;
+
+            // The first frame with any extent is the opening shot rather than a camera
+            // move, so snap to it instead of panning there from an empty stage.
+            if (next.opening) focusStarted = false;
+
+            if (next.focus !== undefined)
+                fitFocus = createPlace(
+                    evaluator,
+                    next.focus.x,
+                    next.focus.y,
+                    next.focus.z,
+                );
         }
     });
 
-    /** Turning fitting back on is the audience handing the camera back, so it
-     *  clears any pan/zoom override. There are only two states worth having:
-     *  the audience drives the camera, or the platform does — and when the
-     *  platform does, a stage @Place from the program wins over fitting. Without
-     *  this, a zoom's override outlived the gesture: re-locking would fit the
-     *  content once and then keep ignoring a moving stage.place forever. */
-    $effect(() => {
-        if (fit) focusOverride = false;
+    /** The camera the program or the platform wants, before the audience's adjustment.
+     *  A program @Place wins over fitting; otherwise the platform frames the content.
+     *  A program's z is pulled back on viewports smaller than it was authored for, so a
+     *  narrow screen still shows what the creator framed. */
+    let baseFocus = $derived.by(() => {
+        if (stage.place) {
+            const place = stage.place.flipX();
+            if (mini) return place;
+            const z = responsiveZ(place.z, viewportWidth, viewportHeight);
+            return z === place.z
+                ? place
+                : createPlace(evaluator, place.x, place.y, z);
+        }
+        return fitFocus ?? createPlace(evaluator, 0, 0, -12);
     });
 
-    /** The focus the stage wants right now, computed instantly from the stage's
-     *  place, fit, and override states. The rendered focus eases toward this. */
-    let targetFocus = $derived(
-        focusOverride
-            ? adjustedFocus
-            : stage.place
-              ? stage.place.flipX()
-              : fit && fitFocus && $evaluation?.playing === true
-                ? fitFocus
-                : adjustedFocus,
-    );
-
-    /** Ease the camera toward the target over the stage's duration, so a moving
-     *  stage.place pans smoothly instead of snapping — matching how every other
-     *  output animates its place change. We only ease the creator-set camera
-     *  while playing; audience pan/zoom and fit stay instant so dragging and
-     *  layout changes remain responsive. */
-    let easeFocus = $derived(
-        stage.place !== undefined &&
-            !focusOverride &&
-            $evaluation?.playing === true,
-    );
+    /** Ease the base camera over the stage's duration, so a moving camera pans smoothly
+     *  instead of snapping — matching how every other output animates its place change.
+     *  Only while playing: a creator editing wants the frame to track their edits crisply,
+     *  and the audience's own pan/zoom is applied instantly on top either way. */
+    let easeFocus = $derived($evaluation?.playing === true);
 
     let focusRAF: number | undefined = undefined;
     let lastFocusFrame: number | undefined = undefined;
-    let focusStarted = false;
+
+    /** The eased base camera. The audience's offset is composed onto this, never eased,
+     *  so panning and zooming stay responsive while a program's camera still pans smoothly. */
+    let renderedBase: Place = $state(createPlace(evaluator, 0, 0, -12));
+
+    /** Compose the audience's pan/zoom onto a base camera, bounding only how near the
+     *  audience may come; zooming out is unbounded. */
+    function compose(base: Place) {
+        const z = composeZ(base.z, offset.z);
+        return offset.x === 0 && offset.y === 0 && z === base.z
+            ? base
+            : createPlace(evaluator, base.x + offset.x, base.y + offset.y, z);
+    }
 
     function stepFocus() {
         focusRAF = undefined;
-        const target = targetFocus;
+        const target = baseFocus;
         const duration = (stage.duration ?? 0) * $animationFactor;
         if (!easeFocus || duration <= 0) {
             lastFocusFrame = undefined;
-            renderedFocus = target;
+            renderedBase = target;
             return;
         }
         const now = performance.now();
@@ -426,9 +488,9 @@
         // Exponential approach: ~99% of the way there after `duration` seconds,
         // frame-rate independent, with a natural decelerating (ease-out) feel.
         const alpha = dt <= 0 ? 0 : 1 - Math.exp((-5 * dt) / duration);
-        const nx = renderedFocus.x + (target.x - renderedFocus.x) * alpha;
-        const ny = renderedFocus.y + (target.y - renderedFocus.y) * alpha;
-        const nz = renderedFocus.z + (target.z - renderedFocus.z) * alpha;
+        const nx = renderedBase.x + (target.x - renderedBase.x) * alpha;
+        const ny = renderedBase.y + (target.y - renderedBase.y) * alpha;
+        const nz = renderedBase.z + (target.z - renderedBase.z) * alpha;
         // Landed on every axis? Snap exactly and stop the loop.
         if (
             Math.abs(target.x - nx) < 0.001 &&
@@ -436,33 +498,39 @@
             Math.abs(target.z - nz) < 0.001
         ) {
             lastFocusFrame = undefined;
-            renderedFocus = target;
+            renderedBase = target;
             return;
         }
-        renderedFocus = createPlace(evaluator, nx, ny, nz);
+        renderedBase = createPlace(evaluator, nx, ny, nz);
         focusRAF = requestAnimationFrame(stepFocus);
     }
 
-    /** When the target focus or ease conditions change, snap or kick the ease
+    /** When the base focus or ease conditions change, snap or kick the ease
      *  loop. First render, non-easing states, and non-browser contexts (no
-     *  requestAnimationFrame, e.g. tests/SSR) snap instantly to preserve the
-     *  prior behavior. */
+     *  requestAnimationFrame, e.g. tests/SSR) snap instantly. A viewport resize snaps
+     *  too, matching the CSS transition the resize already suppresses. */
     $effect(() => {
-        const target = targetFocus;
+        const target = baseFocus;
         const ease = easeFocus;
+        const resizing = changed;
         const canAnimate = typeof requestAnimationFrame !== 'undefined';
-        if (!focusStarted || !ease || !canAnimate) {
+        if (!focusStarted || !ease || resizing || !canAnimate) {
             focusStarted = true;
             lastFocusFrame = undefined;
-            renderedFocus = target;
+            renderedBase = target;
             return;
         }
         if (focusRAF === undefined) focusRAF = requestAnimationFrame(stepFocus);
     });
 
-    /** Mirror the override flag out to the parent so the toolbar can reflect it. */
+    /** The camera actually rendered: the eased base with the audience's offset on top. */
     $effect(() => {
-        focusOverridden = focusOverride;
+        renderedFocus = compose(renderedBase);
+    });
+
+    /** Mirror the adjustment out to the parent so the toolbar can reflect it. */
+    $effect(() => {
+        focusAdjusted = offset.x !== 0 || offset.y !== 0 || offset.z !== 0;
     });
 
     /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
@@ -757,13 +825,18 @@
         {#if overlayStage}
             <!-- The flat overlay/HUD layer: its own .stage.live container (so
                  its animations resolve to a distinct DOM scope), pinned over the
-                 world content and rendered flat (screen-fixed, no camera/z). -->
+                 world content and rendered flat (screen-fixed, no camera/z).
+                 Exposed to assistive tech rather than hidden: a HUD is where a
+                 project puts its score, its status, and its controls, and no
+                 describer covers it — StageView's announcements walk the stage
+                 content, which consciously skips the overlay. Hiding it also put
+                 any selectable HUD output behind an aria-hidden ancestor, which
+                 is both unreachable and an axe violation. -->
             <section
                 class="stage overlay-layer {interactive && !editing
                     ? 'live'
                     : 'inert'}"
                 data-id={overlayStage.getHTMLID()}
-                aria-hidden="true"
             >
                 <GroupView
                     group={overlayStage}

@@ -10384,6 +10384,10 @@
                                                 "conflict": {
                                                     "$ref": "#/definitions/ConflictText%3C%5B%22name%22%2C%22scope%22%5D%3E"
                                                 },
+                                                "languageResolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22language%22%5D%3E",
+                                                    "description": "[formatted] Suggested fix when the name is what another language calls something, but the project isn't written in that language"
+                                                },
                                                 "resolution": {
                                                     "$ref": "#/definitions/Template%3C%5B%22suggestion%22%5D%3E",
                                                     "description": "[formatted] Suggested fix when a name doesn't resolve to a bind in scope"
@@ -10396,7 +10400,8 @@
                                             "required": [
                                                 "conflict",
                                                 "resolution",
-                                                "staticResolution"
+                                                "staticResolution",
+                                                "languageResolution"
                                             ],
                                             "type": "object"
                                         }
@@ -10809,7 +10814,7 @@
                                             "description": "A type of the key given doesn't match the type of the key in the set Description inputs: $1: expected type, $2: given type",
                                             "properties": {
                                                 "explanation": {
-                                                    "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                                                    "$ref": "#/definitions/Template%3C%5B%22expected%22%2C%22given%22%5D%3E",
                                                     "description": "[formatted] The text that describes this conflict on the node which generated it."
                                                 },
                                                 "name": {
@@ -15767,6 +15772,10 @@
                                 "button": {
                                     "additionalProperties": false,
                                     "properties": {
+                                        "elsewhere": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] How the button that opens the dialog where a fix lives should be described"
+                                        },
                                         "highlightMajor": {
                                             "description": "[plain] The collapsed-sidebar button that shows a major conflict's code in the editor",
                                             "type": "string"
@@ -15790,6 +15799,7 @@
                                     },
                                     "required": [
                                         "resolution",
+                                        "elsewhere",
                                         "toggle",
                                         "highlightMajor",
                                         "highlightMinor",
@@ -15874,7 +15884,7 @@
                                     "type": "string"
                                 },
                                 "loadFailed": {
-                                    "description": "[plain] Shown when loading/reading something from the cloud failed",
+                                    "description": "[plain] Shown when loading/reading something from the cloud failed. Belongs inline, next to the missing content, or on the one page whose content is the thing that failed — never as a floating banner, which outlives the page that raised it and reads as an error about a page that loaded fine.",
                                     "type": "string"
                                 },
                                 "saveFailed": {
@@ -16590,6 +16600,10 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "choose": {
+                                            "description": "[plain] Invitation to pick a language, shown to a visitor who hasn't chosen one yet. Every locale's translation of this is shown at once, so keep it short.",
+                                            "type": "string"
+                                        },
                                         "explanation": {
                                             "anyOf": [
                                                 {
@@ -16616,6 +16630,10 @@
                                             "additionalProperties": false,
                                             "description": "Form to request support for a language/region not yet listed.",
                                             "properties": {
+                                                "alreadyRequested": {
+                                                    "description": "[plain] Link text shown when someone had already requested this language; the link points to that issue.",
+                                                    "type": "string"
+                                                },
                                                 "alreadySupported": {
                                                     "description": "[plain] Error message shown when the combination is already supported.",
                                                     "type": "string"
@@ -16644,6 +16662,14 @@
                                                     "description": "[plain] Error message shown when the user is not signed in.",
                                                     "type": "string"
                                                 },
+                                                "searchDescription": {
+                                                    "description": "[plain] Description of the field that filters the language and region dropdowns.",
+                                                    "type": "string"
+                                                },
+                                                "searchPlaceholder": {
+                                                    "description": "[plain] Placeholder for the field that filters the language and region dropdowns.",
+                                                    "type": "string"
+                                                },
                                                 "submit": {
                                                     "description": "[plain] Submit button label.",
                                                     "type": "string"
@@ -16660,11 +16686,14 @@
                                             "required": [
                                                 "header",
                                                 "explanation",
+                                                "searchPlaceholder",
+                                                "searchDescription",
                                                 "languageLabel",
                                                 "regionLabel",
                                                 "submit",
                                                 "submitting",
                                                 "success",
+                                                "alreadyRequested",
                                                 "error",
                                                 "alreadySupported",
                                                 "requiresLogin"
@@ -16697,6 +16726,7 @@
                                     },
                                     "required": [
                                         "button",
+                                        "choose",
                                         "explanation",
                                         "header",
                                         "localizeHelp",
@@ -16841,6 +16871,10 @@
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                                                     "description": "The blocks on/off mode"
                                                 },
+                                                "captionSize": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                                    "description": "How big the caption of what Say is speaking is, as a multiple of the standard text size"
+                                                },
                                                 "dark": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "The dark on/off/automatic mode"
@@ -16905,7 +16939,8 @@
                                                 "musicVisualization",
                                                 "musicVolume",
                                                 "musicDucking",
-                                                "haptics"
+                                                "haptics",
+                                                "captionSize"
                                             ],
                                             "type": "object"
                                         },
@@ -16941,6 +16976,26 @@
                                                 "default"
                                             ],
                                             "type": "object"
+                                        },
+                                        "subheader": {
+                                            "additionalProperties": false,
+                                            "description": "Names the output each group of settings belongs to, so the labels beneath them don't each have to repeat it. Both are the names of Wordplay's own output types.",
+                                            "properties": {
+                                                "music": {
+                                                    "description": "[plain] Heads the settings for Music output",
+                                                    "type": "string"
+                                                },
+                                                "say": {
+                                                    "description": "[plain] Heads the settings for Say output",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["music", "say"],
+                                            "type": "object"
+                                        },
+                                        "tab": {
+                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                            "description": "The tabs that switch between groups of settings"
                                         }
                                     },
                                     "required": [
@@ -16948,7 +17003,9 @@
                                         "explanation",
                                         "header",
                                         "mode",
-                                        "options"
+                                        "options",
+                                        "subheader",
+                                        "tab"
                                     ],
                                     "type": "object"
                                 },
@@ -18839,8 +18896,12 @@
                                 "button": {
                                     "additionalProperties": false,
                                     "properties": {
+                                        "perform": {
+                                            "description": "[plain] The button that begins a fresh performance, from any mode: restarts the program, enters play mode, and fullscreens the stage",
+                                            "type": "string"
+                                        },
                                         "resetZoom": {
-                                            "description": "[plain] Reset the zoom to the stage's computed place when one is set",
+                                            "description": "[plain] Clear the viewer's own pan and zoom, handing the camera back to the project",
                                             "type": "string"
                                         },
                                         "resize": {
@@ -18869,6 +18930,7 @@
                                         "zoomIn",
                                         "zoomOut",
                                         "resetZoom",
+                                        "perform",
                                         "rotate",
                                         "resize"
                                     ],
@@ -19009,18 +19071,26 @@
                                         },
                                         "evaluation": {
                                             "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
-                                            "description": "The edit/step/play mode switcher, shown for editable projects"
+                                            "description": "The edit/debug/play mode switcher, shown for editable projects"
                                         },
                                         "evaluationView": {
                                             "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
-                                            "description": "The view/step/play mode switcher, shown for read-only projects"
+                                            "description": "The view/debug/play mode switcher, shown for read-only projects"
                                         },
                                         "exception": {
-                                            "description": "[plain] Announced when an error pauses the program into step mode so it can be inspected",
+                                            "description": "[plain] Announced when an error pauses the program into debug mode so it can be inspected",
                                             "type": "string"
                                         },
+                                        "performing": {
+                                            "$ref": "#/definitions/Template%3C%5B%22number%22%5D%3E",
+                                            "description": "[plain] Announced when the perform command begins a fresh performance. $number is which performance this is."
+                                        },
+                                        "resuming": {
+                                            "$ref": "#/definitions/Template%3C%5B%22position%22%5D%3E",
+                                            "description": "[plain] Announced when switching to play mode, which resumes the performance from wherever it is. $position is the step it picked up at."
+                                        },
                                         "toggle": {
-                                            "description": "[plain] Description of the keyboard command that switches between edit and play mode",
+                                            "description": "[plain] Description of the keyboard command that cycles between edit, debug, and play modes",
                                             "type": "string"
                                         }
                                     },
@@ -19028,6 +19098,8 @@
                                         "evaluation",
                                         "evaluationView",
                                         "announce",
+                                        "resuming",
+                                        "performing",
                                         "exception",
                                         "toggle"
                                     ],
@@ -20027,6 +20099,10 @@
                                             "description": "[plain] Subheader for the components section",
                                             "type": "string"
                                         },
+                                        "copyvalue": {
+                                            "description": "[plain] Tooltip for the button that copies a font stack's full CSS value to the clipboard",
+                                            "type": "string"
+                                        },
                                         "demo": {
                                             "additionalProperties": false,
                                             "description": "Placeholder text used in live component demos",
@@ -20197,6 +20273,7 @@
                                         "logo",
                                         "logoDescription",
                                         "components",
+                                        "copyvalue",
                                         "col",
                                         "demo"
                                     ],
@@ -22571,6 +22648,10 @@
                                 "button": {
                                     "additionalProperties": false,
                                     "properties": {
+                                        "addLanguage": {
+                                            "description": "[plain] Add a language to the project, so its code can use that language's names and words",
+                                            "type": "string"
+                                        },
                                         "addSource": {
                                             "description": "[plain] Add a source file",
                                             "type": "string"
@@ -22581,6 +22662,10 @@
                                         },
                                         "destination": {
                                             "description": "[plain] The tooltip for the destination language button in the translate dialog",
+                                            "type": "string"
+                                        },
+                                        "firstLanguage": {
+                                            "description": "[plain] Make a language the project's first, deciding how its output is laid out",
                                             "type": "string"
                                         },
                                         "focusCycle": {
@@ -22603,6 +22688,10 @@
                                             "description": "[plain] Keyboard shortcut to focus source tiles",
                                             "type": "string"
                                         },
+                                        "languages": {
+                                            "description": "[plain] Show the project's languages dialog",
+                                            "type": "string"
+                                        },
                                         "primary": {
                                             "description": "[plain] The tooltip for the source language button in the translate dialog",
                                             "type": "string"
@@ -22614,6 +22703,14 @@
                                         "removeCollaborator": {
                                             "description": "[plain] Remove a collaborator that has been shared with",
                                             "type": "string"
+                                        },
+                                        "removeLanguage": {
+                                            "description": "[plain] Remove a language from the project",
+                                            "type": "string"
+                                        },
+                                        "removeUnusedLanguages": {
+                                            "$ref": "#/definitions/ButtonText",
+                                            "description": "Remove every language nothing in the project's code uses"
                                         },
                                         "revert": {
                                             "description": "[plain] Revert project to original code",
@@ -22657,7 +22754,12 @@
                                         "unsaved",
                                         "translate",
                                         "primary",
-                                        "destination"
+                                        "destination",
+                                        "languages",
+                                        "addLanguage",
+                                        "removeLanguage",
+                                        "firstLanguage",
+                                        "removeUnusedLanguages"
                                     ],
                                     "type": "object"
                                 },
@@ -22679,10 +22781,22 @@
                                 "dialog": {
                                     "additionalProperties": false,
                                     "properties": {
-                                        "translate": {
+                                        "languages": {
                                             "additionalProperties": false,
-                                            "description": "The content for the translation dialog",
+                                            "description": "The content for the project's languages dialog: which languages its code is written in, which ones it looks like it needs, and translating it into another.",
                                             "properties": {
+                                                "checking": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Shown while checking which languages the project's code needs"
+                                                },
+                                                "complete": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Shown when the code doesn't use any language the project is missing"
+                                                },
+                                                "count": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                                    "description": "[plain] The dialog button's label, saying how many languages the project is written in"
+                                                },
                                                 "explanation": {
                                                     "anyOf": [
                                                         {
@@ -22701,20 +22815,53 @@
                                                     "description": "[plain] The header to be shown at the top of the dialog",
                                                     "type": "string"
                                                 },
+                                                "meaning": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$ref": "#/definitions/FormattedText"
+                                                        },
+                                                        {
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        }
+                                                    ],
+                                                    "description": "[formatted] Explains what a project's languages decide, above the list of them"
+                                                },
                                                 "search": {
                                                     "$ref": "#/definitions/FieldText",
-                                                    "description": "The field that filters destination languages by name or region"
+                                                    "description": "The field that filters languages by name or region"
+                                                },
+                                                "tab": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "The tabs that switch between the languages the project is written in and translating it"
+                                                },
+                                                "unloaded": {
+                                                    "description": "[plain] Marks a language whose words couldn't be loaded, so its names don't work right now",
+                                                    "type": "string"
+                                                },
+                                                "unused": {
+                                                    "description": "[plain] Marks a language nothing in the project's code uses",
+                                                    "type": "string"
                                                 }
                                             },
                                             "required": [
+                                                "checking",
+                                                "complete",
+                                                "count",
                                                 "explanation",
                                                 "header",
-                                                "search"
+                                                "meaning",
+                                                "search",
+                                                "tab",
+                                                "unloaded",
+                                                "unused"
                                             ],
                                             "type": "object"
                                         }
                                     },
-                                    "required": ["translate"],
+                                    "required": ["languages"],
                                     "type": "object"
                                 },
                                 "error": {
@@ -22891,12 +23038,20 @@
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] The header for the destination language"
                                         },
+                                        "missing": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] The header for languages the project's code uses but doesn't have"
+                                        },
                                         "source": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] The header for the source language"
                                         }
                                     },
-                                    "required": ["source", "destination"],
+                                    "required": [
+                                        "missing",
+                                        "source",
+                                        "destination"
+                                    ],
                                     "type": "object"
                                 },
                                 "toggle": {
@@ -22930,6 +23085,10 @@
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] Markup describing the project controls bar overall"
                                         },
+                                        "languages": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Markup describing the languages button"
+                                        },
                                         "launch": {
                                             "description": "[plain] Tooltip on the help button that opens the tour",
                                             "type": "string"
@@ -22945,10 +23104,6 @@
                                         "sourceToggle": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] Markup describing the source-tile toggles"
-                                        },
-                                        "translate": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] Markup describing the translate button"
                                         }
                                     },
                                     "required": [
@@ -22958,7 +23113,7 @@
                                         "sourceToggle",
                                         "addSource",
                                         "share",
-                                        "translate",
+                                        "languages",
                                         "checkpoints"
                                     ],
                                     "type": "object"
@@ -24088,7 +24243,7 @@
                         },
                         "timeline": {
                             "additionalProperties": false,
-                            "description": "The evaluation-history timeline and stepping controls, hosted in the output toolbar in step mode",
+                            "description": "The evaluation-history timeline and stepping controls, hosted in the output toolbar in edit and debug modes",
                             "properties": {
                                 "button": {
                                     "additionalProperties": false,
@@ -25307,6 +25462,9 @@
         "Template<[\"name\",\"input\"]>": {
             "type": "string"
         },
+        "Template<[\"name\",\"language\"]>": {
+            "type": "string"
+        },
         "Template<[\"name\",\"layout\",\"pose\",\"color\"]>": {
             "type": "string"
         },
@@ -25332,6 +25490,9 @@
             "type": "string"
         },
         "Template<[\"number\",\"unit\"]>": {
+            "type": "string"
+        },
+        "Template<[\"number\"]>": {
             "type": "string"
         },
         "Template<[\"omitted\"]>": {

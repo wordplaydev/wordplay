@@ -4,6 +4,7 @@ import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import evaluateCode from '@runtime/evaluate';
+import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import SetOrMapAccess from '@nodes/SetOrMapAccess';
 
@@ -22,6 +23,24 @@ test.each([
         Reference,
         UnknownName,
         2,
+    ],
+    // The shape from #1285: a map access checked against ø in a bind, used as
+    // the condition. The good program narrows the true branch to '' and the bad
+    // one narrows the false branch to ø, so each proves one direction.
+    [
+        `ƒ f(t•'') t
+notemap: {'a': 'do' 'b': 're'}
+pressed: 'a'
+validNote: notemap{pressed} ≠ ø
+validNote ? f(notemap{pressed}) 'x'`,
+        `ƒ f(t•'') t
+notemap: {'a': 'do' 'b': 're'}
+pressed: 'a'
+validNote: notemap{pressed} ≠ ø
+validNote ? 'x' f(notemap{pressed})`,
+        Evaluate,
+        IncompatibleInput,
+        0,
     ],
 ])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
     testConflict(good, bad, node, conflict, index);

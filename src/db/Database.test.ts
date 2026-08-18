@@ -9,6 +9,7 @@ import {
     SyncDomains,
     appBanner,
     authAttempted,
+    authIdentityChanged,
     disconnected,
     firebaseEverConnected,
     firebaseFailed,
@@ -323,17 +324,20 @@ test('a window the browser deferred while the tab was frozen reports nothing yet
     expect(get(firebaseFailed)).toBe(true);
 });
 
-test('reportLoadFailure banners a real load error now, a connectivity one only if it persists', () => {
+test('reportLoadFailure never banners; a connectivity one reports only if it persists', () => {
     vi.useFakeTimers();
+    // The failure is logged, not shown; keep it out of the test output.
+    vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    // A permission denial is a one-off the user should see immediately.
+    // A denied background read has no antecedent in an app-wide strip, and the
+    // page that asked can't take the message with it when the user navigates —
+    // so it showed up as an unexplained error over pages that had loaded fine.
     DB.reportLoadFailure(new FirebaseError('permission-denied', 'not allowed'));
-    expect(bannerText()).toBe(DefaultLocale.ui.banner.loadFailed);
+    expect(bannerText()).toBeUndefined();
+    // A denial is also no evidence about the connection.
+    expect(get(firebaseFailed)).toBe(false);
 
-    appBanner.set(undefined);
-    DB.markFirebaseReachable();
-
-    // A connectivity failure waits out the window instead.
+    // A connectivity failure still waits out the window, then reports.
     DB.reportLoadFailure(new Error('read-timeout'));
     expect(bannerText()).toBeUndefined();
     vi.advanceTimersByTime(CONFIRM_MS);
@@ -352,6 +356,70 @@ test('a read whose timeout fires after a suspension does not report a failure', 
 
     expect(get(firebaseFailed)).toBe(false);
     expect(bannerText()).toBeUndefined();
+});
+
+test('a permission-denied listener error fails the domain but never the connection', () => {
+    // The teacher-scale bug: one denied chunk listener alternating with
+    // healthy ones (which mark reachable) made the connection banner and
+    // save status flap. A denial is the server answering, not an outage.
+    vi.useFakeTimers();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    DB.markFirebaseReachable();
+    DB.resetSync();
+
+    DB.reportListenerError(
+        Domain.Projects,
+        new FirebaseError('permission-denied', 'not allowed'),
+        noopMessage,
+    );
+    expect(get(syncState).projects.status).toBe('failed');
+    expect(get(status).status).toBe(SaveStatus.Error);
+    expect(get(firebaseReachable)).toBe(true);
+    // Even after the confirmation window: no disconnection, no banner.
+    vi.advanceTimersByTime(CONFIRM_MS * 2);
+    expect(get(disconnected)).toBe(false);
+    expect(get(firebaseFailed)).toBe(false);
+    expect(bannerText()).toBeUndefined();
+});
+
+test('a connectivity listener error fails the domain and reports after the window', () => {
+    vi.useFakeTimers();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    DB.markFirebaseReachable();
+    DB.resetSync();
+    DB.setStatus(SaveStatus.Saved, undefined);
+
+    DB.reportListenerError(
+        Domain.Projects,
+        new FirebaseError('unavailable', 'backend unreachable'),
+        noopMessage,
+    );
+    expect(get(syncState).projects.status).toBe('failed');
+    // The connectivity path defers to the confirmation window rather than
+    // flipping the save status immediately — a dropped listener during a
+    // reconnect must not flash "unsaved".
+    expect(get(status).status).toBe(SaveStatus.Saved);
+    vi.advanceTimersByTime(CONFIRM_MS);
+    expect(get(disconnected)).toBe(true);
+    expect(bannerText()).toBe(DefaultLocale.ui.connection.unreachable);
+});
+
+test('authIdentityChanged fires on identity changes, not token refreshes', () => {
+    // Initial resolution: both a signed-out (null) and signed-in first event
+    // must notify from the never-broadcast state.
+    expect(authIdentityChanged(undefined, null)).toBe(true);
+    expect(authIdentityChanged(undefined, { uid: 'a' })).toBe(true);
+
+    // A token refresh re-delivers the same identity: no notification. This is
+    // what kept forced token refreshes (denied writes during the teacher-scale
+    // incident) from remounting user-gated UI on every refresh.
+    expect(authIdentityChanged('a', { uid: 'a' })).toBe(false);
+    expect(authIdentityChanged(null, null)).toBe(false);
+
+    // Sign-out, sign-in, and account switches all notify.
+    expect(authIdentityChanged('a', null)).toBe(true);
+    expect(authIdentityChanged(null, { uid: 'a' })).toBe(true);
+    expect(authIdentityChanged('a', { uid: 'b' })).toBe(true);
 });
 
 test('banner is fully suppressed before authAttempted, even when offline', () => {

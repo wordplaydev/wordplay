@@ -8,6 +8,7 @@
  *
  * Output
  *  - `issueUrl`: URL of the resulting GitHub Issue on success.
+ *  - `existing`: true when that issue already existed rather than being created.
  *
  * Modeled on `submitLocalization.ts`. Uses the same `GITHUB_TOKEN` env var
  * and the same CORS allow-list.
@@ -36,6 +37,9 @@ export type SubmitLocaleRequestInputs = {
 
 export type SubmitLocaleRequestOutput = {
     issueUrl: string;
+    /** True when an open or closed issue already requested this locale, and
+     *  `issueUrl` points at that one rather than a newly created issue. */
+    existing?: boolean;
 };
 
 /** ISO 639-1 alpha-2: two lowercase letters. */
@@ -73,6 +77,51 @@ function nameOf(type: 'language' | 'region', code: string): string {
     } catch {
         return code;
     }
+}
+
+/** An issue this repo's own request form created, as the issues endpoint returns it.
+ *  `pull_request` is present only on pull requests, which that endpoint also lists. */
+type IssueSummary = {
+    title?: unknown;
+    html_url?: unknown;
+    pull_request?: unknown;
+};
+
+/**
+ * The URL of an existing request for this locale, if there is one. We match on the
+ * parenthesized locale code the title already carries rather than the language name,
+ * because `Intl.DisplayNames` output shifts with ICU updates while the code does not.
+ *
+ * Both states are searched: a closed request is still the right place to discuss the
+ * locale, and reopening beats filing a second issue. Failing to find one is not an
+ * error — we would rather post a duplicate than lose the request, so callers treat a
+ * throw here as "no match".
+ */
+async function findExistingRequest(
+    token: string,
+    locale: string,
+): Promise<string | undefined> {
+    // Two pages is plenty: only this form applies both labels, and it would take 200
+    // locale requests to overflow. Stopping early keeps a slow GitHub from timing out
+    // the callable.
+    for (let page = 1; page <= 2; page++) {
+        const issues = await githubFetch(
+            token,
+            `${GITHUB_BASE}/issues?state=all&labels=localization,request&per_page=100&page=${page}`,
+        );
+        if (!Array.isArray(issues) || issues.length === 0) return undefined;
+        for (const issue of issues as IssueSummary[]) {
+            if (issue.pull_request !== undefined) continue;
+            if (
+                typeof issue.title === 'string' &&
+                issue.title.includes(`(${locale})`) &&
+                typeof issue.html_url === 'string'
+            )
+                return issue.html_url;
+        }
+        if (issues.length < 100) return undefined;
+    }
+    return undefined;
 }
 
 function composeIssueBody(args: {
@@ -174,8 +223,17 @@ export const submitLocaleRequest = onCall<
                 '',
             ].join('\n'),
         );
-        return { issueUrl: `emulator://dry-run/${locale}` };
+        return { issueUrl: `emulator://dry-run/${locale}`, existing: false };
     }
+
+    // Don't open a second issue for a locale someone already asked for; point the
+    // requester at the existing discussion instead. A failed search falls through to
+    // creating one, since losing the request is worse than a duplicate.
+    const existing = await findExistingRequest(token, locale).catch((error) => {
+        console.error('Locale request duplicate check failed', error);
+        return undefined;
+    });
+    if (existing !== undefined) return { issueUrl: existing, existing: true };
 
     const issue = (await githubFetch(token, `${GITHUB_BASE}/issues`, {
         method: 'POST',

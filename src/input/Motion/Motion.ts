@@ -19,6 +19,8 @@ import { toVelocity } from '@output/physics/Velocity';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type Output from '@output/Output/Output';
+import type Evaluator from '@runtime/Evaluator';
 
 /** The raw payload Motion records for each value: the elapsed delta that
  *  triggered it plus the engine-produced placement. Recording the placement
@@ -137,8 +139,10 @@ export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
                 );
         }
 
-        // Did the place of the stream change? Reposition the body.
-        if (this.place)
+        // Did the place of the stream change? Reposition the body. A teleport
+        // is not a path, so forget where it came from: the next frame draws it
+        // where it now is rather than gliding it across the jump.
+        if (this.place) {
             body.setTranslation(
                 rect.getPosition(
                     this.place.x,
@@ -148,6 +152,8 @@ export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
                 ),
                 true,
             );
+            rect.resetInterpolation();
+        }
 
         this.applied = true;
     }
@@ -181,9 +187,7 @@ export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
         for (const output of this.getOutputs()) {
             const name = output.getName();
             // Ask the scene for the latest x, y, z, and angle from the physics engine.
-            const placement = this.evaluator.scene.physics
-                .getOutputBody(name)
-                ?.getPlace();
+            const placement = this.evaluator.scene.physics.getPlace(name);
             if (placement) {
                 const z = this.place?.z ?? this.initialPlace?.z ?? 0;
                 this.add(
@@ -291,4 +295,19 @@ export function createMotionDefinition(
         ),
         placeType.getTypeReference(),
     );
+}
+
+/** The Motion stream that authors this output's place, if any. Only a Motion
+ *  hands a place to the physics engine and reads the simulated result back each
+ *  frame; Placement and plain Places author the place themselves, so an output
+ *  that merely has matter is tracked for collisions but still moved by the
+ *  program. Asked per frame, since a program can swap an output between the two. */
+export function getPlacingMotion(
+    evaluator: Evaluator | undefined,
+    output: Output,
+): Motion | undefined {
+    const stream = output.place
+        ? evaluator?.getStreamResolved(output.place.value)
+        : undefined;
+    return stream instanceof Motion ? stream : undefined;
 }

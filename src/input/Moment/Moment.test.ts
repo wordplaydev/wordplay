@@ -34,9 +34,7 @@ test('Time-only Moment formats as a time', () => {
 });
 
 test('Moment in the Hebrew calendar formats with Hebrew month names', () => {
-    const value = evaluateCode(
-        "Moment(5786 10 4 calendar: 'hebrew') → ''",
-    );
+    const value = evaluateCode("Moment(5786 10 4 calendar: 'hebrew') → ''");
     expect(value instanceof TextValue ? value.text : undefined).toBe(
         '4 Tamuz 5786',
     );

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Emoji from '@components/app/Emoji.svelte';
     import Layout, { LayoutIcons } from '@components/project/Layout';
     import Options from '@components/widgets/Options.svelte';
     import { locales, Settings } from '@db/Database';
@@ -80,7 +81,7 @@
     {#snippet item(option, localized)}
         <span class="option">
             <span class="name"
-                >{withMonoEmoji(option.icon)}
+                ><Emoji text={withMonoEmoji(option.icon)} />
                 {@render localized(option.label)}</span
             >
             <span class="description">{$locales.getPlainText(option.tip)}</span>
@@ -101,6 +102,9 @@
     .pair {
         display: inline-flex;
         align-items: center;
+        /* The mono chain, so these monochrome icons don't match a color emoji
+           slice and download it. The FE0E selector alone doesn't prevent that. */
+        font-family: var(--wordplay-emoji-mono-font);
     }
 
     /* When the layout is automatic, "auto" sits beside the layout it resolved to.

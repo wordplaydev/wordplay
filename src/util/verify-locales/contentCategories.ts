@@ -82,8 +82,7 @@ function parseFlag(token: string): ParsedFlag | string {
             return `A specifier is only valid with + (include): "${token}".`;
         if (category === 'emoji' || category === 'datetimes')
             return `"${category}" takes no specifier: "${token}".`;
-        if (specifier.length === 0)
-            return `Empty specifier in "${token}".`;
+        if (specifier.length === 0) return `Empty specifier in "${token}".`;
         if (
             (category === 'tutorial' || category === 'quick') &&
             parseTutorialTarget(specifier) === undefined
@@ -112,7 +111,8 @@ export function parseCategorySelection(args: string[]): Selection | string {
     if (hasInclude && hasExclude)
         return 'Cannot mix + (include) and - (exclude) category flags.';
 
-    const mode = !hasInclude && !hasExclude ? 'all' : hasInclude ? 'include' : 'exclude';
+    const mode =
+        !hasInclude && !hasExclude ? 'all' : hasInclude ? 'include' : 'exclude';
     const listed = new Set(parsed.map((f) => f.category));
     const specifiersOf = (category: ContentCategory): string[] =>
         parsed
@@ -127,7 +127,9 @@ export function parseCategorySelection(args: string[]): Selection | string {
         flags,
         isIncluded(category) {
             if (mode === 'all') return true;
-            return mode === 'include' ? listed.has(category) : !listed.has(category);
+            return mode === 'include'
+                ? listed.has(category)
+                : !listed.has(category);
         },
         localePrefixes: () => specifiersOf('locale'),
         tutorialTargets: () => targetsOf('tutorial'),

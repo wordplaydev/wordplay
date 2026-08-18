@@ -2480,7 +2480,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~您可能還注意到了另一件事：輸出下方有一個時間軸區域。每次程式重新評估時（也就是每次流發生變化時），它都會更新。每當 @Time 滴答時它就會顯示。"
+                            "$~還有一件事可以發現：輸出下方的時間軸記錄了程式每次重新求值的時刻，也就是每次串流改變的時刻——在這裡，就是 @Time 每次跳動的時候。按下模式切換器 @UI/modeSwitcher 裡的 ⏸️ 除錯按鈕，就能更仔細地檢視它，每個 expression 的 value 都會顯示在它旁邊。"
                         ],
                         ["Time", "neutral", "$~滴答…滴答…滴答…滴答…滴答…"],
                         null,
@@ -5713,7 +5713,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~喔對，當然！我們讓它們來照亮房間好不好？@Phrase，你可以聽 @Volume，然後用你的顏色把它接到 @Color.lightness 和 @Color.chroma 嗎？這樣，當我們的導演發出聲音時，我們就會變成火熱的白色！"
+                            "$~喔對，當然可以！我們讓他們來照亮房間怎麼樣？@Phrase，你可以聽 @Volume 並把它連接到你顏色裡的 @Color.lightness 和 @Color.chroma 嗎？這樣一來，當我們的導演發出聲音時，我們就會變成白熱的顏色！"
                         ],
                         ["Phrase", "kind", "好主意！"],
                         { "edit": "#EvaluateDance14" },

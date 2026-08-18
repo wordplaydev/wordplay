@@ -161,8 +161,7 @@
         class:fixed={!toggleable}
         data-uiid={uiid}
         style:width={expanded ? `${renderedWidth}px` : null}
-        style:min-width={expanded ? `${renderedWidth}px` : null}
-        style:max-width={expanded ? `${renderedWidth}px` : null}
+        style:max-width={expanded ? '100%' : null}
         onpointerdown={handlePointerDown}
         onpointerover={handlePointerOver}
         onpointerleave={hideTip}
@@ -204,6 +203,9 @@
         position: relative;
         height: 100%;
         display: flex;
+        /* The frame can't outgrow the margin that caps it (see TileView). */
+        max-width: 100%;
+        min-width: 0;
     }
 
     section {
@@ -270,6 +272,16 @@
         min-height: 0;
         overflow-y: auto;
         overflow-x: hidden;
+    }
+
+    /* The content's width is pinned to the *requested* width so it lays out once
+       and the expand transition just reveals it. The section may be capped at
+       half the tile though (see TileView's .margin), so clamp to what it
+       actually got. Uncapped — every desktop — the pinned width still wins and
+       the layout-once property holds. */
+    .header,
+    .scroll {
+        max-width: 100%;
     }
 
     /* When collapsed, the scroll region centers its items (e.g. conflict dots). */

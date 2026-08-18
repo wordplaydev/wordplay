@@ -379,6 +379,10 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
         'name',
         'scope',
     ],
+    'node.Reference.conflict.UnknownName.languageResolution': [
+        'name',
+        'language',
+    ],
     'node.Reference.conflict.UnknownName.resolution': ['suggestion'],
     'node.Reference.conflict.UnknownName.staticResolution': [
         'owner',
@@ -407,7 +411,10 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.SetLiteral.description': ['#count'],
     'node.SetLiteral.finish': ['value'],
     'node.SetLiteral.start': [],
-    'node.SetOrMapAccess.conflict.IncompatibleKey.explanation': ['expected'],
+    'node.SetOrMapAccess.conflict.IncompatibleKey.explanation': [
+        'expected',
+        'given',
+    ],
     'node.SetOrMapAccess.conflict.IncompatibleKey.resolution': ['expected'],
     'node.SetOrMapAccess.conflict.IncompatibleKey.resolutionDeclaration': [
         'expected',
@@ -655,6 +662,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.output.download.percent': ['percent'],
     'ui.output.manyChanged': ['#count', 'container', 'example'],
     'ui.output.mode.announce': ['mode'],
+    'ui.output.mode.performing': ['number'],
+    'ui.output.mode.resuming': ['position'],
     'ui.output.moved': ['name', 'direction', 'place'],
     'ui.output.options.default': ['#count'],
     'ui.output.selected': ['name', 'count'],
@@ -694,6 +703,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.phonemes.play': ['symbol'],
     'ui.presence.joined': ['name'],
     'ui.presence.left': ['name'],
+    'ui.project.dialog.languages.count': ['#count'],
     'ui.project.options.layout.auto': ['layout'],
     'ui.source.cursor.selected': ['#count', 'text'],
     'ui.source.cursor.tab': ['alt'],

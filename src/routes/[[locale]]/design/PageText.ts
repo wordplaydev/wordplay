@@ -29,6 +29,8 @@ type PageText = {
     logoDescription: FormattedText | FormattedText[];
     /** [plain] Subheader for the components section */
     components: string;
+    /** [plain] Tooltip for the button that copies a font stack's full CSS value to the clipboard */
+    copyvalue: string;
     /** Column header labels for data tables */
     col: {
         /** [plain] Column header for the component name */

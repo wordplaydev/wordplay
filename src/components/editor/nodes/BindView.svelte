@@ -105,8 +105,10 @@
         node={[node, 'names']}
         {format}
         foldToggleFor={foldable ? node : undefined}
-    /><NodeView node={[node, 'etc']} {format} />{#if !(node.type instanceof AnyType)}<span
-            class="type"
+    /><NodeView
+        node={[node, 'etc']}
+        {format}
+    />{#if !(node.type instanceof AnyType)}<span class="type"
             ><NodeView node={[node, 'dot']} {format} /><NodeView
                 node={[node, 'type']}
                 {format}

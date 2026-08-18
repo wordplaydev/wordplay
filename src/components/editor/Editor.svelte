@@ -15,10 +15,10 @@
         type Edit,
         InsertSymbol,
         type ProjectRevision,
-        altKeyLabel,
         handleKeyCommand,
         resetVisualColumnAfter,
     } from '@components/editor/commands/Commands';
+    import { altKeyLabel } from '@components/editor/commands/shortcuts';
     import { resolveFeedback } from '@components/editor/commands/feedback';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
     import {
@@ -75,6 +75,7 @@
         type CaretTokenSummary,
         type EditorState,
         IdleKind,
+        deriveSteppedEvaluation,
         getAnimatingNodes,
         getAnnouncer,
         getConceptIndex,
@@ -104,12 +105,12 @@
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
+    import { canHoverTips } from '@components/widgets/tipTriggers';
     import Templates from '@concepts/Templates';
     import type Conflict from '@conflicts/Conflict';
     import {
         CharactersDB,
         DB,
-        Projects,
         Settings,
         animationFactor,
         blockDensity,
@@ -119,6 +120,7 @@
         showLines,
         wrap,
     } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import {
         type RemoteCaret,
         decodeRemoteCaret,
@@ -615,33 +617,22 @@
     const projectCommandContext = getProjectCommandContext();
 
     /** Whether the editor should behave like a debugger right now (step-node scrolling,
-     * value hovers): step mode inside a ProjectView, otherwise simply paused. */
+     * value hovers): debug mode inside a ProjectView, otherwise simply paused. */
     function inStepMode(): boolean {
         const ev = evaluation !== undefined ? get(evaluation) : undefined;
-        if (ev?.mode !== undefined) return ev.mode === 'step';
+        if (ev?.mode !== undefined) return ev.mode === 'debug';
         return !evaluator.isPlaying();
     }
     // Forward a play-rate-decoupled copy of the evaluation context for this
-    // editor's NodeViews (see Contexts.getSteppedEvaluation): while PLAYING,
+    // editor's NodeViews (see Contexts.deriveSteppedEvaluation): while PLAYING,
     // broadcasts arrive ~60 Hz and every rendered NodeView's inline-value derived
-    // would re-run per frame for nothing (values only display while paused). Skip
-    // consecutive while-playing updates from the same evaluator.
+    // would re-run per frame for nothing (values only display while paused).
     const steppedEvaluation =
-        evaluation !== undefined ? writable(get(evaluation)) : undefined;
+        evaluation !== undefined
+            ? deriveSteppedEvaluation(evaluation)
+            : undefined;
     if (steppedEvaluation !== undefined)
         setSteppedEvaluation(steppedEvaluation);
-    $effect(() => {
-        const ev = $evaluation;
-        if (steppedEvaluation === undefined || ev === undefined) return;
-        untrack(() => {
-            const prev = get(steppedEvaluation);
-            if (
-                !(ev.playing && prev.playing) ||
-                ev.evaluator !== prev.evaluator
-            )
-                steppedEvaluation.set(ev);
-        });
-    });
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
@@ -691,7 +682,7 @@
         // hit-testing and rendered-token sets would otherwise reflect a stale window.
         $effectiveFolded;
         $evaluation?.playing;
-        // The project mode also determines whether value views render (step mode only),
+        // The project mode also determines whether value views render (debug mode only),
         // so a mode switch re-renders tokens just like a play/pause flip.
         $evaluation?.mode;
         $windowRevision;
@@ -866,6 +857,43 @@
             dragLongPressTimer = undefined;
         }
     }
+
+    // Text mode's counterpart to the drag long-press above: a touch drag scrolls
+    // by default, and only selects a range once the finger has dwelled. Without
+    // this, the first 10px of any swipe selected text instead of scrolling. The
+    // two gestures never compete — range selection is text mode only, node drag
+    // is blocks mode only — so this dwell can be the longer one a touch OS uses
+    // for selecting text.
+    let selectLongPressTimer: NodeJS.Timeout | undefined;
+    /** Whether a touch has dwelled long enough to be selecting rather than
+     *  scrolling. */
+    let touchSelecting = $state(false);
+    /** ms a touch must be held still before it selects instead of scrolling */
+    const SELECT_LONG_PRESS_MS = 500;
+
+    function clearSelectLongPress() {
+        if (selectLongPressTimer !== undefined) {
+            clearTimeout(selectLongPressTimer);
+            selectLongPressTimer = undefined;
+        }
+        touchSelecting = false;
+    }
+
+    // Once a dwell has decided this gesture is a selection or a drag, the browser
+    // must stop panning — and changing `touch-action` mid-gesture doesn't do that,
+    // because the engine latched its decision when the touch began. Cancelling
+    // touchmove does, which is why this listener has to be non-passive and can't
+    // be an `ontouchmove` attribute (Svelte adds those as passive).
+    $effect(() => {
+        const element = editor;
+        if (element === null) return;
+        function suppressPan(event: TouchEvent) {
+            if (touchSelecting || $dragged !== undefined)
+                event.preventDefault();
+        }
+        element.addEventListener('touchmove', suppressPan, { passive: false });
+        return () => element.removeEventListener('touchmove', suppressPan);
+    });
 
     // The caret position resolved at pointer-down, used as the anchor for drag-to-select.
     let dragStartPosition: CaretPosition | undefined = $state(undefined);
@@ -1205,6 +1233,7 @@
 
         // Cancel any pending touch long-press.
         clearDragLongPress();
+        clearSelectLongPress();
 
         // Reset the insertion points.
         insertion.set(undefined);
@@ -1212,7 +1241,10 @@
         // Restore native touch behavior (scroll, etc.) for the next gesture.
         // We only set touch-action on actual drag-start so this is a no-op
         // for non-drag pointerups, but it keeps the editor in a clean state.
-        if (editor) editor.style.removeProperty('touchAction');
+        // The CSS property name, not the DOM one: removeProperty looks the name
+        // up as authored, so 'touchAction' silently removed nothing and left the
+        // editor unscrollable for the rest of the session after any drag.
+        if (editor) editor.style.removeProperty('touch-action');
     }
 
     async function drop() {
@@ -1603,6 +1635,19 @@
         // suppression is deferred to the moment a drag actually starts (in
         // handleEditHover for mouse, or the long-press timer for touch).
         dragPoint = { x: event.clientX, y: event.clientY };
+
+        // Text mode: arm the selection dwell. Until it fires, a moving finger is a
+        // scroll and the range-select branch stays out of the way. This sits
+        // outside the drag-candidate block below on purpose — in text mode there
+        // is never a candidate, so arming it in there never fired at all.
+        if (event.pointerType === 'touch' && !$blocks) {
+            clearSelectLongPress();
+            selectLongPressTimer = setTimeout(() => {
+                selectLongPressTimer = undefined;
+                touchSelecting = true;
+            }, SELECT_LONG_PRESS_MS);
+        }
+
         // Drag requires the editor to be editable, or an explicit drag source
         // (a read-only example you can still drag nodes out of). The previous
         // condition (`editable ? $blocks || event.shiftKey : $blocks`)
@@ -1678,17 +1723,20 @@
         // Touch input: if the finger drifts during the long-press window,
         // the user is scrolling, not pressing-and-holding. Cancel the
         // pending drag so subsequent moves go to the browser as scroll.
-        if (
-            dragLongPressTimer !== undefined &&
+        const drifted =
             dragPoint !== undefined &&
             Math.sqrt(
                 Math.pow(event.clientX - dragPoint.x, 2) +
                     Math.pow(event.clientY - dragPoint.y, 2),
-            ) >= DRAG_LONG_PRESS_CANCEL_PX
-        ) {
+            ) >= DRAG_LONG_PRESS_CANCEL_PX;
+        if (dragLongPressTimer !== undefined && drifted) {
             clearDragLongPress();
             dragCandidate = undefined;
         }
+        // Same for the selection dwell: a finger that moves before it fires is
+        // scrolling, so give the gesture back to the browser.
+        if (selectLongPressTimer !== undefined && drifted)
+            clearSelectLongPress();
 
         // Handle an edit
         handleEditHover(event);
@@ -1701,6 +1749,9 @@
             $dragged === undefined &&
             dragPoint !== undefined &&
             !$blocks &&
+            // A finger only selects once it has dwelled; before that the swipe
+            // belongs to the scroller. Mouse and pen keep the pixel threshold.
+            (event.pointerType !== 'touch' || touchSelecting) &&
             exceededDragThreshold(event)
         ) {
             // Dragging to select. What's under the pointer?
@@ -1918,6 +1969,18 @@
                 ? undefined
                 : evaluator.getEvaluableNode(node);
         if (next !== get(hovered)) hovered.set(next);
+    }
+
+    /** The browser took the gesture — as a scroll, most often. Drop everything we
+     *  were tracking; without this the editor keeps a stale drag point and any
+     *  imperative touch-action, and the next tap behaves as if mid-drag. */
+    function handlePointerCancel() {
+        clearDragLongPress();
+        clearSelectLongPress();
+        dragCandidate = undefined;
+        dragPoint = undefined;
+        dragStartPosition = undefined;
+        if (editor) editor.style.removeProperty('touch-action');
     }
 
     function handlePointerLeave() {
@@ -2393,8 +2456,16 @@
         // A range's anchor can follow its focus; the field needs them ordered.
         const low = Math.min(start, end);
         const high = Math.max(start, end);
-        if (input.selectionStart !== low || input.selectionEnd !== high)
-            input.setSelectionRange(low, high);
+        // iOS draws a focused field's selection as native UI — a grey band and
+        // round drag handles — painted above the page, which `opacity: 0` doesn't
+        // suppress. The mirror lays the source out as plain wrapped text, so that
+        // UI lands near, but not on, the node the editor has outlined. Collapse
+        // the range on a touch-primary device: the caret and the native typing
+        // echo are unaffected (they follow the value and the caret), and only the
+        // selection bounds VoiceOver could derive from a range are lost there.
+        const to = canHoverTips() ? high : low;
+        if (input.selectionStart !== low || input.selectionEnd !== to)
+            input.setSelectionRange(low, to);
     }
 
     // Keep the mirror in sync with every model change. Handlers whose native
@@ -2829,7 +2900,7 @@
         // is restored by the sync effect when composing ends.
         if (input) input.value = '';
 
-        if (insertedSymbol) DB.Projects.undoRedo(evaluator.project.getID(), -1);
+        if (insertedSymbol) Projects.undoRedo(evaluator.project.getID(), -1);
     }
 
     function handleCompositionEnd() {
@@ -3293,6 +3364,13 @@
     // undefined so the 'evaluating' highlight doesn't flicker every frame.
     let projectStepNode = $derived.by(() => {
         if ($evaluation === undefined || $evaluation.playing) return undefined;
+        // Only the debugger annotates the current step: edit mode is for
+        // reading and writing the program, not watching its evaluation, so a
+        // paused edit shows no evaluating highlight and does no step-following
+        // scrolling. (Outside a ProjectView mode is undefined, and a stepped
+        // doc example still shows its step.)
+        if ($evaluation.mode !== undefined && $evaluation.mode !== 'debug')
+            return undefined;
         return $evaluation.evaluator.getStepNode();
     });
 
@@ -3807,6 +3885,8 @@
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"
+    class:evaluation-mode={$evaluation?.mode === 'play' ||
+        $evaluation?.mode === 'debug'}
     class:readonly={!editable}
     class:focused
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
@@ -3833,6 +3913,7 @@
     onpointerdown={handlePointerDown}
     onpointerup={handleRelease}
     onpointermove={handlePointerMove}
+    onpointercancel={handlePointerCancel}
     onpointerleave={handlePointerLeave}
     onmousedown={(event) => {
         // iOS Safari fires synthetic mousedown after a touchend even though
@@ -4182,8 +4263,21 @@
         background-size: 6px 6px;
     }
 
+    /* In play and debug modes the program's evaluation is on display — live,
+       or held mid-step — and an evaluation-color border says so, which is
+       otherwise invisible from the editor when the stage is in another tile.
+       Inset so nothing shifts. Gated on the project mode (not `playing`) so
+       doc examples' editors don't light up when their previews run. */
+    .editor.evaluation-mode {
+        box-shadow: inset 0 0 0 2px var(--wordplay-evaluation-color);
+    }
+
+    /* No `touch-action: none` here: this class turns on as soon as there's a drag
+       *candidate*, i.e. at pointer-down, which would commit the browser to "this
+       isn't a scroll" before we know the gesture's intent — the very thing the
+       long-press gate exists to avoid. Suppression is set imperatively at real
+       drag start instead (see handlePointerDown and handleEditHover). */
     .editor.dragging {
-        touch-action: none;
         cursor: grabbing;
     }
 
@@ -4199,6 +4293,18 @@
     .editor.dragging.invalid-drop,
     .editor.dragging.invalid-drop :global(*) {
         cursor: no-drop !important;
+    }
+
+    /* The mirror holds a real, non-collapsed selection whenever a node or range
+       is selected, so screen readers can derive selection bounds from it. iOS
+       paints a focused field's selection as an overlay above the page, which
+       `opacity: 0` doesn't suppress — and because the mirror lays the source out
+       as plain wrapped text, that grey band lands near, but not on, the node the
+       editor has drawn its own highlight around. Make its selection paint
+       nothing; the range itself, and so the accessibility bounds, are untouched. */
+    .keyboard-input::selection {
+        background-color: transparent;
+        color: transparent;
     }
 
     .keyboard-input {

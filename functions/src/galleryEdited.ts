@@ -3,20 +3,14 @@ import type {
     DocumentSnapshot,
 } from 'firebase-admin/firestore';
 import { getFirestore } from 'firebase-admin/firestore';
-import type {
-    Change,
-    FirestoreEvent,
-} from 'firebase-functions/v2/firestore';
+import type { Change, FirestoreEvent } from 'firebase-functions/v2/firestore';
 
 /** Firestore caps a batched write at 500 operations. Flush below that so a
  *  gallery referenced by many others doesn't overflow a single commit. */
 const BATCH_LIMIT = 450;
 
 export default async function galleryEdited(
-    event: FirestoreEvent<
-        Change<DocumentSnapshot> | undefined,
-        { id: string }
-    >,
+    event: FirestoreEvent<Change<DocumentSnapshot> | undefined, { id: string }>,
 ): Promise<unknown> {
     const before = event.data?.before.data();
     const after = event.data?.after.data();

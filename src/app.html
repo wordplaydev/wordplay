@@ -341,6 +341,15 @@
                 --wordplay-widget-height: 1.5em;
                 --wordplay-min-line-height: 3ex;
 
+                /* How much of the stage floor the two renderings that must not
+                   be overlapped stand on (see MusicVisualizationOverlap).
+                   Declared here rather than in each rendering because the floor
+                   band has to clear whichever one the viewer chose, and separate
+                   copies of these numbers drift. The ambient renderings have no
+                   height here because nothing has to clear them. */
+                --music-orchestra-height: 15%;
+                --music-sheet-height: 34%;
+
                 --bounce-height: 0.2em;
                 --wobble-rotation: 2deg;
 
@@ -778,8 +787,34 @@
                 margin: 0;
             }
 
+            /* The app is a fixed-height shell whose panes scroll internally, so the
+               document itself must never scroll. Without this, anything that escapes
+               a pane (e.g. an absolutely positioned visually-hidden box) extends the
+               document and the whole app — footer included — scrolls away. On iOS it
+               also means Safari never collapses the URL bar, so `dvh` never changes
+               mid-scroll and the app is never relaid out while the user is scrolling. */
+            html,
+            body,
+            /* The wrapper SvelteKit's body renders into; the app's root is sized
+               in percent, so this link in the chain needs a height too. */
+            #wordplay-app {
+                height: 100%;
+                overflow: hidden;
+                overscroll-behavior: none;
+            }
+
             html {
                 box-sizing: border-box;
+                /* iOS Safari's text autosizing inflates some blocks and not others,
+                   which showed up as doc text rendering at a different size than the
+                   code around it. Opt out; our sizes are already responsive. */
+                -webkit-text-size-adjust: 100%;
+                text-size-adjust: 100%;
+                /* iOS paints a translucent grey rectangle over the whole box of
+                   whatever it considers tappable. Every control here already has
+                   its own hover, active, focus, and selection feedback, so the
+                   platform default only ever adds a stray box on top. */
+                -webkit-tap-highlight-color: transparent;
             }
 
             * {
@@ -982,23 +1017,20 @@
                  because the %wordplay.*% substitutions are HTML-escaped text
                  only. Keep in sync with src/components/app/logoMark.ts. -->
             <h1>
-                <svg viewBox="0 0 96 96" aria-hidden="true"><path
+                <svg viewBox="0 0 96 96" aria-hidden="true">
+                    <path
                         d="M48 14C67.9 14 84 27.4 84 44C84 60.6 67.9 74 48 74C44.6 74 41.1 73.6 37.8 72.8C33 79 25 84 16 86C20.5 80.5 25 67.4 22 64.8C15.6 59.2 12 51.7 12 44C12 27.4 28.1 14 48 14Z"
                         fill="none"
                         stroke="currentColor"
                         stroke-width="3.5"
                         stroke-linejoin="round"
                         stroke-linecap="round"
-                    /><g fill="currentColor" transform="rotate(-8 48 44)"
-                        ><circle cx="29.25" cy="41" r="7" /><polygon
-                            points="41.25,41 56.25,41 48.75,28"
-                        /><rect
-                            x="61.25"
-                            y="38.5"
-                            width="12.5"
-                            height="12.5"
-                        /></g
-                    ></svg
+                    />
+                    <g fill="currentColor" transform="rotate(-8 48 44)">
+                        <circle cx="29.25" cy="41" r="7" />
+                        <polygon points="41.25,41 56.25,41 48.75,28" />
+                        <rect x="61.25" y="38.5" width="12.5" height="12.5" />
+                    </g></svg
                 >%wordplay.wordplay%
             </h1>
             <p>%wordplay.system.noscript%</p>

@@ -14,7 +14,12 @@ function enCodes(): Map<string, Set<string>> {
     const m = new Map<string, Set<string>>();
     for (const p of getKeyTemplatePairs(en)) {
         if (p.key !== 'doc') continue;
-        m.set(p.toString(), new Set(getDocExamples(toDocString(p.value as any)).map((e) => e.code)));
+        m.set(
+            p.toString(),
+            new Set(
+                getDocExamples(toDocString(p.value as any)).map((e) => e.code),
+            ),
+        );
     }
     return m;
 }

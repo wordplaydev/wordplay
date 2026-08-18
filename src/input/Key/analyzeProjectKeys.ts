@@ -35,8 +35,14 @@ export type KeyAnalysis =
     | { kind: 'specific'; keys: Set<string> }
     /** Key events matter, but the key itself is never inspected. */
     | { kind: 'any' }
-    /** The key's text flows somewhere we can't bound; keep the soft keyboard. */
-    | { kind: 'unbounded' };
+    /**
+     * The key's text flows somewhere we can't bound, so the soft keyboard has to
+     * stay reachable. `keys` still holds any the project provably compares
+     * against: a program can guard on a couple of literals and then convert or
+     * index with the key, and offering the keys we did prove is far better than
+     * offering none, as long as we don't also take the keyboard away.
+     */
+    | { kind: 'unbounded'; keys: Set<string> };
 
 /**
  * More buttons than this would occlude the stage and shrink below a usable
@@ -111,16 +117,29 @@ function compute(project: Project): KeyAnalysis {
         else if (filter === undefined || filter instanceof NoneLiteral)
             traceUse(evaluate, trace, 0);
         else collector.unbounded = true;
-        if (collector.unbounded) return { kind: 'unbounded' };
+        if (collector.unbounded)
+            return {
+                kind: 'unbounded',
+                keys: bounded(collector.keys),
+            };
     }
 
     if (project.getReferences(project.shares.input.Placement).length > 0)
         for (const key of PlacementKeys) collector.keys.add(key);
 
-    if (collector.keys.size > MaxKeyPadKeys) return { kind: 'unbounded' };
+    // More keys than fit is its own kind of unbounded, and the pad is exactly
+    // what we can't offer, so report none rather than an arbitrary subset.
+    if (collector.keys.size > MaxKeyPadKeys)
+        return { kind: 'unbounded', keys: new Set() };
     return collector.keys.size > 0
         ? { kind: 'specific', keys: collector.keys }
         : { kind: 'any' };
+}
+
+/** The keys worth offering alongside an unbounded verdict: none, if there are
+ *  more than a pad can show. */
+function bounded(keys: Set<string>): Set<string> {
+    return keys.size > MaxKeyPadKeys ? new Set() : keys;
 }
 
 /**

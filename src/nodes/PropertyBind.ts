@@ -25,7 +25,7 @@ import Reference from '@nodes/Reference';
 import BindToken from '@nodes/BindToken';
 import type Context from '@nodes/Context';
 import { buildBindings } from '@nodes/Evaluate';
-import Expression from '@nodes/Expression';
+import Expression, { type GuardContext } from '@nodes/Expression';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import PropertyReference from '@nodes/PropertyReference';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
@@ -217,7 +217,9 @@ export default class PropertyBind extends Expression {
         return evaluator.popValue(this);
     }
 
-    evaluateTypeGuards(current: TypeSet) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
+        this.reference.evaluateTypeGuards(current, guard);
+        this.value.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -242,15 +244,12 @@ export default class PropertyBind extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.PropertyBind.finish,
-            {
-                property: this.reference.name
+        return locales.concretize((l) => l.node.PropertyBind.finish, {
+            property: this.reference.name
                 ? new NodeRef(this.reference.name, locales, context)
                 : undefined,
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

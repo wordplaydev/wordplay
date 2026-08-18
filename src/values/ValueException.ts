@@ -11,7 +11,9 @@ export default class ValueException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.getTextStructure((l) => l.node.Program.exception.ValueException);
+        return locales.getTextStructure(
+            (l) => l.node.Program.exception.ValueException,
+        );
     }
 
     getExplanation(locales: Locales) {

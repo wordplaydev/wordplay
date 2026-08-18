@@ -1,10 +1,11 @@
+import { Domain } from '@db/Domains';
 // Provide schemas and database access for all teaching functionality.
 // By design, we get all data on demand here, rather than caching, using a
 // more transactional model.
 
 import { DB, Galleries } from '@db/Database';
 import { firestore as db } from '@db/firebase';
-import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
+
 import {
     arrayRemove,
     arrayUnion,
@@ -59,6 +60,11 @@ export const ClassesCollection = 'classes';
 /** Find all classes associated with this gallery. */
 export async function getClasses(galleryID: string) {
     if (db === undefined) return [];
+
+    // Listing classes requires auth (firestore.rules), so asking while signed
+    // out is a guaranteed permission-denied. Not reactive — callers still wait
+    // for auth; this only stops a read that can never succeed.
+    if (DB.getUser() === null) return [];
 
     // Wrap in read() so an unreachable backend fails fast (and feeds the
     // connection state, which reports only if the outage persists) instead of hanging; on failure return no classes.
@@ -142,7 +148,7 @@ export async function addTeacher(classy: Class, uid: string): Promise<boolean> {
         teachers: arrayUnion(uid),
     });
     for (const galleryID of classy.galleries) {
-        batch.update(doc(db, GalleriesCollection, galleryID), {
+        batch.update(doc(db, Domain.Galleries, galleryID), {
             curators: arrayUnion(uid),
         });
     }
@@ -202,7 +208,7 @@ export async function addStudent(
         info: arrayUnion(learner),
     });
     for (const galleryID of classy.galleries) {
-        batch.update(doc(db, GalleriesCollection, galleryID), {
+        batch.update(doc(db, Domain.Galleries, galleryID), {
             creators: arrayUnion(uid),
         });
     }

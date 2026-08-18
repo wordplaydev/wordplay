@@ -54,13 +54,13 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
                                 tokens.read(Sym.PatternDelimiter),
                             )
                           : tokens.nextIs(Sym.Function)
-                          ? parseFunctionType(tokens)
-                          : tokens.nextIs(Sym.Stream)
-                            ? parseStreamType(tokens)
-                            : // We use the doc symbol because it looks like an empty formatted
-                              tokens.nextIs(Sym.FormattedType)
-                              ? parseFormattedType(tokens)
-                              : new UnparsableType(tokens.readLine());
+                            ? parseFunctionType(tokens)
+                            : tokens.nextIs(Sym.Stream)
+                              ? parseStreamType(tokens)
+                              : // We use the doc symbol because it looks like an empty formatted
+                                tokens.nextIs(Sym.FormattedType)
+                                ? parseFormattedType(tokens)
+                                : new UnparsableType(tokens.readLine());
 
     tokens.whileDo(
         () => tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace(),
@@ -75,7 +75,11 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
     // (`value→type`, which can chain) and must be left for the expression parser.
     if (!isExpression && tokens.nextIs(Sym.Convert)) {
         const convert = tokens.read(Sym.Convert);
-        left = new ConversionType(left, convert, parseType(tokens, isExpression));
+        left = new ConversionType(
+            left,
+            convert,
+            parseType(tokens, isExpression),
+        );
     }
 
     return left;
@@ -137,13 +141,49 @@ function parseStreamType(tokens: Tokens): StreamType {
     return new StreamType(stream, type);
 }
 
+/** True if the next token can begin a type, mirroring parseType's dispatch. */
+export function nextIsType(tokens: Tokens): boolean {
+    return (
+        tokens.nextIsOneOf(
+            Sym.Placeholder,
+            Sym.Name,
+            Sym.BooleanType,
+            Sym.Percent,
+            Sym.Number,
+            Sym.NumberType,
+            Sym.Text,
+            Sym.None,
+            Sym.ListOpen,
+            Sym.SetOpen,
+            Sym.TableOpen,
+            Sym.PatternDelimiter,
+            Sym.Function,
+            Sym.Stream,
+        ) || tokens.nextIs(Sym.FormattedType)
+    );
+}
+
 function parseListType(tokens: Tokens): ListType {
     const open = tokens.read(Sym.ListOpen);
-    const type = tokens.nextIsnt(Sym.ListClose) ? parseType(tokens) : undefined;
-    const close = tokens.nextIs(Sym.ListClose)
-        ? tokens.read(Sym.ListClose)
-        : undefined;
-    return new ListType(open, type, close);
+    const types: Type[] = [];
+    let first = true;
+    tokens.whileDo(
+        () =>
+            tokens.hasNext() &&
+            tokens.nextIsnt(Sym.Code) &&
+            tokens.nextIsnt(Sym.ListClose) &&
+            // Only the first type may be unparsable or follow a line break, so that a half-typed
+            // `[#` can't swallow what follows it via parseType's readLine() fallback.
+            (first ||
+                (nextIsType(tokens) &&
+                    tokens.nextHasPrecedingLineBreak() !== true)),
+        () => {
+            types.push(parseType(tokens));
+            first = false;
+        },
+    );
+    const close = tokens.readIf(Sym.ListClose);
+    return new ListType(open, types, close);
 }
 
 function parseSetOrMapType(tokens: Tokens): SetType | MapType {

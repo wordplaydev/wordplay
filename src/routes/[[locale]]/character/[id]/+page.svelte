@@ -45,7 +45,7 @@
     } from '@db/characters/Character';
     import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import { CharactersDB, disconnected, locales } from '@db/Database';
+    import { DB, CharactersDB, disconnected, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Locales from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
@@ -68,7 +68,7 @@
     import { NameRegExPattern } from '@parser/Tokenizer';
     import UnicodeString from '@unicode/UnicodeString';
     import { localeGoto } from '@util/localeGoto';
-    import { untrack } from 'svelte';
+    import { untrack, onMount } from 'svelte';
 
     const DrawingMode = {
         Select: 0,
@@ -1615,6 +1615,11 @@
             }
         }
     }
+
+    // Renaming a character rewrites the projects that reference it, which
+    // reads the loaded projects — so bring them in when the page opens
+    // rather than making the rename itself wait.
+    onMount(() => void DB.startProjectWork());
 </script>
 
 <svelte:head>

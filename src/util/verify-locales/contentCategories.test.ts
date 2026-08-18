@@ -61,10 +61,7 @@ describe('parseCategorySelection — specifiers', () => {
 
     test('tutorial act and act/scene targets (1-based)', () => {
         const s = sel(['+tutorial:1', '+tutorial:2/3']);
-        expect(s.tutorialTargets()).toEqual([
-            { act: 1 },
-            { act: 2, scene: 3 },
-        ]);
+        expect(s.tutorialTargets()).toEqual([{ act: 1 }, { act: 2, scene: 3 }]);
     });
 
     test('quick targets are separate from tutorial targets', () => {
@@ -109,7 +106,9 @@ describe('parseCategorySelection — usage errors', () => {
 
 describe('localePrefixMatches', () => {
     test('exact and descendant match; sibling-with-shared-prefix does not', () => {
-        expect(localePrefixMatches('output.Phrase', 'output.Phrase')).toBe(true);
+        expect(localePrefixMatches('output.Phrase', 'output.Phrase')).toBe(
+            true,
+        );
         expect(localePrefixMatches('output.Phrase.doc', 'output.Phrase')).toBe(
             true,
         );

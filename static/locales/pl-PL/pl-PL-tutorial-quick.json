@@ -271,7 +271,7 @@
                             "happy",
                             "$~Większość języków programowania oferuje jakieś narzędzia do szukania błędów, które pomagają twórcom zrozumieć i rozwiązać problemy w kodzie. Ale wiele po prostu używa instrukcji wypisania, aby sprawdzić wartości zmiennych w konsoli:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~@wordplay daje bardziej zaawansowany sposób szukania błędów, pozwalając krok po kroku przechodzić *w przód* i *w tył* przez jego obliczenia. @UI/stepControls przesuwają obliczenia w dowolnym kierunku, więc możesz obserwować, jak budowana jest wartość.",
+                            "$~@wordplay zapewnia bardziej zaawansowany sposób szukania błędów. Pozwala krok po kroku iść *do przodu* i *do tyłu* przez obliczenia. Naciśnij przycisk ⏸️ w przełączniku trybów @UI/modeSwitcher nad sceną, aby wejść w tryb *szukania błędów*: wartość każdego wyrażenia pojawi się obok niego w kodzie, a @UI/stepControls przechodzą przez obliczenia w każdym kierunku, więc możesz zobaczyć, jak powstaje wartość.",
                             "$~Chcesz więcej wskazówek? Przycisk @UI/debugtour w obszarze szukania błędów daje przewodnik po tych przyciskach."
                         ]
                     ]

@@ -72,7 +72,11 @@ export function blastFor(
 }
 
 /** Move toward a note's colour over the rise time. */
-export function strike(current: Tint, blast: Tint, elapsedSeconds: number): Tint {
+export function strike(
+    current: Tint,
+    blast: Tint,
+    elapsedSeconds: number,
+): Tint {
     const step = Math.min(1, elapsedSeconds / RiseSeconds);
     // Hue takes the short way around, so a jump from red to purple doesn't
     // sweep through the whole wheel.

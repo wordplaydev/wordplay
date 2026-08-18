@@ -1,5 +1,9 @@
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
+    import {
+        canFocusTips,
+        canHoverTips,
+    } from '@components/widgets/tipTriggers';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -58,14 +62,15 @@
             toggle(false);
         }}
         onpointerenter={(event) =>
-            showTip(event.target as HTMLSpanElement, offTip)}
+            canHoverTips()
+                ? showTip(event.target as HTMLSpanElement, offTip)
+                : undefined}
         onpointerleave={hideTip}
-        onfocus={(event) => showTip(event.target as HTMLSpanElement, offTip)}
+        onfocus={(event) =>
+            canFocusTips(event.currentTarget)
+                ? showTip(event.target as HTMLSpanElement, offTip)
+                : undefined}
         onblur={hideTip}
-        ontouchstart={(event) =>
-            showTip(event.target as HTMLSpanElement, offTip)}
-        ontouchend={hideTip}
-        ontouchcancel={hideTip}
         onkeydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(false)
@@ -78,9 +83,14 @@
         tabindex="0"
         onpointerdown={(event) => event.preventDefault()}
         onpointerenter={(event) =>
-            showTip(event.target as HTMLSpanElement, onTip)}
+            canHoverTips()
+                ? showTip(event.target as HTMLSpanElement, onTip)
+                : undefined}
         onpointerleave={hideTip}
-        onfocus={(event) => showTip(event.target as HTMLSpanElement, onTip)}
+        onfocus={(event) =>
+            canFocusTips(event.currentTarget)
+                ? showTip(event.target as HTMLSpanElement, onTip)
+                : undefined}
         onblur={hideTip}
         onclick={(event) => {
             event.stopPropagation();

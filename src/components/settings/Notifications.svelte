@@ -32,16 +32,15 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import {
+        DB,
         Chats,
         Galleries,
         howToNotifications,
         HowTos,
         locales,
-        Projects,
         Settings,
     } from '@db/Database';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
-    import type Project from '@db/projects/Project';
     import { NotificationsIcons } from '@db/settings/HowToNotificationsSetting';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { docToMarkup } from '@locale/LocaleText';
@@ -90,13 +89,16 @@
 
         [...Chats.chats.values()].forEach(async (chat) => {
             let galleryID: string | null = null;
-            let project: Project | undefined;
+            // Name and gallery read from the stored document rather than a
+            // constructed Project: this renders in the footer on every page,
+            // and building a Project would pull in the language runtime.
+            let project: { name: string; gallery: string | null } | undefined;
             let howTo: HowTo | undefined | false;
             const itemID = chat.getProjectID();
 
             if (chat.getType() === 'project') {
-                project = await Projects.get(itemID);
-                if (project) galleryID = project.getGallery();
+                project = await DB.getProjectSummary(itemID);
+                if (project) galleryID = project.gallery;
             } else {
                 howTo = await HowTos.getHowTo(itemID);
                 if (howTo) galleryID = howTo.getHowToGalleryId();
@@ -122,7 +124,7 @@
                         title:
                             chat.getType() === 'project'
                                 ? project
-                                    ? project.getName()
+                                    ? project.name
                                     : ''
                                 : howTo
                                   ? howTo.getTitle()

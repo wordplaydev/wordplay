@@ -1,9 +1,6 @@
 import CameraFeed from '@input/CameraFeed';
 import { denyConsent, Permission } from '@input/permissions';
-import {
-    isWebKit,
-    nextDetectTimestamp,
-} from '@input/createLandmarkerRuntime';
+import { isWebKit, nextDetectTimestamp } from '@input/createLandmarkerRuntime';
 import type StreamDefinition from '@nodes/StreamDefinition';
 import NumberType from '@nodes/NumberType';
 import type Type from '@nodes/Type';

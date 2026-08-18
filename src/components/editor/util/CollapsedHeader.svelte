@@ -17,4 +17,5 @@
     let { block, header }: Props = $props();
 </script>
 
-{#if block}<Flow direction="row">{@render header()}</Flow>{:else}{@render header()}{/if}
+{#if block}<Flow direction="row">{@render header()}</Flow
+    >{:else}{@render header()}{/if}

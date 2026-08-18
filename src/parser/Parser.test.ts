@@ -140,6 +140,19 @@ test('Unparsable runaways', () => {
     );
 });
 
+test('A half-typed list type stops at the end of its line', () => {
+    // A list type reads several types, but only the first may follow a line break, so an unclosed
+    // `[#` can't swallow what comes after it.
+    const program = toProgram('a•[#\nb: 1');
+    const type = program
+        .nodes()
+        .find((node): node is ListType => node instanceof ListType);
+    expect(type?.types.length).toBe(1);
+    expect(type?.close).toBeUndefined();
+    expect(program.expression.statements.length).toBe(2);
+    expect(program.expression.statements[1]).toBeInstanceOf(Bind);
+});
+
 test.each([
     ['(\nhi\n)', Block],
     ['¶Nothing¶\n(hi)', Block],
@@ -283,7 +296,14 @@ test.each([
     ['a•""', Bind, 'type', TextType],
     ['a•"hi"', Bind, 'type', TextType],
     ['a•ø', Bind, 'type', NoneType],
+    ['a•[]', Bind, 'type', ListType, '[]'],
     ['a•[#]', Bind, 'type', ListType, '[#]'],
+    // Several types are a list of exactly that many items, one type per position.
+    ["a•[# '']", Bind, 'type', ListType, "[# '']"],
+    ['a•[# # #]', Bind, 'type', ListType, '[# # #]'],
+    ["a•[[# ''] #]", Bind, 'type', ListType, "[[# ''] #]"],
+    // A `|` with no space before it is still a union, not a second position.
+    ["a•[#|'']", Bind, 'type', ListType, "[#|'']"],
     ['a•{#}', Bind, 'type', SetType, '{#}'],
     ['a•{#:""}', Bind, 'type', MapType, '{#:""}'],
     ['a•⎡a•# b•"" c•Cat⎦', Bind, 'type', TableType, '⎡a•# b•"" c•Cat⎦'],
@@ -447,9 +467,9 @@ test('an unmarked mention is not a plural branch', () => {
 
 test('stray markup delimiters do not leak into code', () => {
     const program = parseProgram(toTokens('¶Hello [list]¶\n1'));
-    expect(
-        program.nodes().some((n) => n instanceof UnparsableExpression),
-    ).toBe(false);
+    expect(program.nodes().some((n) => n instanceof UnparsableExpression)).toBe(
+        false,
+    );
     expect(program.nodes().some((n) => n instanceof ListLiteral)).toBe(false);
 });
 

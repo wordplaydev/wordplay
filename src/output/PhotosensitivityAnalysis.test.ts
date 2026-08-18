@@ -27,9 +27,9 @@ test('flags the built-in flash sequence (~8 Hz opacity strobe)', () => {
 test('flags a bare reference to a fast built-in even when dormant', () => {
     // The output walk sees no sequence in the initial frame, but the source
     // scan still catches the reference to the fast built-in.
-    expect(
-        risksOf(`fast: Sequence.flash()\nPhrase('A')`).has('flashing'),
-    ).toBe(true);
+    expect(risksOf(`fast: Sequence.flash()\nPhrase('A')`).has('flashing')).toBe(
+        true,
+    );
 });
 
 test('flags a fast black↔white color sequence (~5 Hz)', () => {

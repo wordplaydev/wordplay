@@ -7,7 +7,6 @@ import type Node from '@nodes/Node';
 import type PropertyReference from '@nodes/PropertyReference';
 import type Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
-import type StreamType from '@nodes/StreamType';
 import type Type from '@nodes/Type';
 import UnknownType from '@nodes/UnknownType';
 
@@ -26,10 +25,8 @@ export default class Context {
      * some expression on which the reference is guarded. For regular References or PropertyReferences,
      * there is only one key, but for List, Set, and Map references, there is a list index or key.
      */
-    referenceUnions: Map<
-        PropertyReference | Reference,
-        Map<string, Type>
-    > = new Map();
+    referenceUnions: Map<PropertyReference | Reference, Map<string, Type>> =
+        new Map();
 
     definitions: Map<Node, Definition[]> = new Map();
 
@@ -37,7 +34,6 @@ export default class Context {
      * Computed types that actually stem from streams. Used by expressions like Changed, Previous, and Reaction,
      * which rely on knowing the stream type from which a value type emerged.
      */
-    streamTypes: Map<Type, StreamType> = new Map();
 
     constructor(project: Project, source: Source, adopt?: Context) {
         this.project = project;
@@ -48,7 +44,6 @@ export default class Context {
             this.types = adopt.types;
             this.referenceUnions = adopt.referenceUnions;
             this.definitions = adopt.definitions;
-            this.streamTypes = adopt.streamTypes;
         }
     }
 
@@ -134,23 +129,6 @@ export default class Context {
         const keys = this.referenceUnions.get(ref) ?? new Map<string, Type>();
         keys.set(key, type);
         return this.referenceUnions.set(ref, keys);
-    }
-
-    setStreamType(type: Type, streamType: StreamType) {
-        this.streamTypes.set(type, streamType);
-    }
-
-    getStreamType(type: Type): StreamType | undefined {
-        return this.streamTypes.get(type);
-    }
-
-    /** True if `type` denotes a stream — either a `•…T` stream type, or a value type
-     *  registered as stream-derived (e.g. the output of `Time()`). Used by ∆/←/reaction. (#1237) */
-    isStream(type: Type): boolean {
-        return (
-            type.getStreamValueType(this) !== undefined ||
-            this.getStreamType(type) !== undefined
-        );
     }
 
     /**

@@ -58,8 +58,16 @@ export default class PatternQuantifier extends PatternNode {
                 label: undefined,
             },
             { name: 'low', kind: node(Sym.Number), label: undefined },
-            { name: 'dash', kind: optional(node(Sym.PatternRange)), label: undefined },
-            { name: 'high', kind: optional(node(Sym.Number)), label: undefined },
+            {
+                name: 'dash',
+                kind: optional(node(Sym.PatternRange)),
+                label: undefined,
+            },
+            {
+                name: 'high',
+                kind: optional(node(Sym.Number)),
+                label: undefined,
+            },
         ];
     }
 

@@ -1,5 +1,4 @@
 import type { ProjectID } from '@db/projects/ProjectSchemas';
-import { FirebaseError } from 'firebase/app';
 import {
     and,
     arrayRemove,
@@ -30,7 +29,7 @@ import isQuotaError from '@db/isQuotaError';
 import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import type Project from '@db/projects/Project';
-import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
+
 import {
     ClassesCollection,
     ClassSchema,
@@ -45,6 +44,15 @@ import Gallery, {
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = Domain.Galleries;
+
+/** Why a gallery isn't available: 'missing' means the lookup succeeded and
+ *  there's nothing here for this viewer; 'unreachable' means we never got an
+ *  answer. Only the second is worth asking someone to check their connection. */
+export type GalleryFailure = 'missing' | 'unreachable';
+
+/** The outcome of looking a gallery up. See {@link GalleryDatabase.find}. */
+export type GalleryResult =
+    { kind: 'found'; gallery: Gallery } | { kind: GalleryFailure };
 
 /** The in-memory representation of a Gallery, for type safe manipulation and analysis. */
 export default class GalleryDatabase {
@@ -328,7 +336,7 @@ export default class GalleryDatabase {
                         this.accessibleGalleries.set(gallery.getID(), gallery);
 
                         // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
-                        this.database.Projects.refreshGallery(gallery);
+                        this.database.MaybeProjects?.refreshGallery(gallery);
                     } else {
                         // user is only a how-to viewer, which means they have expanded scope access only
                         this.expandedScopeGalleries.set(
@@ -366,7 +374,7 @@ export default class GalleryDatabase {
                     .join(',');
                 if (watchedKey !== this.watchedGalleryKey) {
                     this.watchedGalleryKey = watchedKey;
-                    this.database.Projects.syncUser(false);
+                    this.database.MaybeProjects?.syncUser(false);
                 }
 
                 // Mark the database loaded.
@@ -378,17 +386,7 @@ export default class GalleryDatabase {
             },
             (error) => {
                 this.status = 'noaccess';
-                // Always terminal so the save-status button stops its "loading"
-                // spinner and the dialog shows "failed" — even for a permission
-                // or index error. Only a connectivity error additionally flips
-                // the offline/unreachable state.
-                this.database.markSyncFailed(Domain.Galleries);
-                if (this.database.isConnectivityError(error))
-                    this.database.markFirebaseFailed();
-                if (error instanceof FirebaseError) {
-                    console.error(error.code);
-                    console.error(error.message);
-                }
+                this.database.reportListenerError(Domain.Galleries, error);
             },
         );
     }
@@ -471,37 +469,59 @@ export default class GalleryDatabase {
         return id;
     }
 
-    /** Get a gallery with this ID */
-    async get(id: string): Promise<Gallery | undefined> {
+    /**
+     * Get a gallery with this ID, saying why when there isn't one.
+     *
+     * 'missing' and 'unreachable' are genuinely different things to tell
+     * someone — "this isn't here" versus "we couldn't go look" — and collapsing
+     * them into `undefined` meant a timed-out read reported an accessible
+     * gallery as nonexistent.
+     *
+     * A denied read maps to 'missing' on purpose: whether a private gallery
+     * exists is not ours to reveal, so "doesn't exist or isn't public" is both
+     * the true answer available to this viewer and the discreet one.
+     */
+    async find(id: string): Promise<GalleryResult> {
         // See if we have it cached.
         const cache = this.accessibleGalleries.get(id);
-        if (cache) return cache;
+        if (cache) return { kind: 'found', gallery: cache };
         const expandedCache = this.expandedScopeGalleries.get(id);
-        if (expandedCache) return expandedCache;
+        if (expandedCache) return { kind: 'found', gallery: expandedCache };
 
         // See if it's a public gallery.
         const publicGallery = this.publicGalleries.get(id);
-        if (publicGallery) return publicGallery;
+        if (publicGallery) return { kind: 'found', gallery: publicGallery };
 
-        // Didn't find it locally? See if we get read it from the database.
-        if (firestore) {
-            try {
-                const galDoc = await this.database.read(
-                    getDoc(doc(firestore, GalleriesCollection, id)),
-                );
-                if (galDoc.exists()) {
-                    const gallery = deserializeGallery(galDoc.data());
-                    this.publicGalleries.set(id, gallery);
-                    return gallery;
-                }
-            } catch (err) {
-                console.error(`Couldn't get gallery with ID ${id}:`, err);
-                return undefined;
+        // Didn't find it locally? See if we can read it from the database.
+        // No backend at all means we never got to look, not that it's absent.
+        if (firestore === undefined) return { kind: 'unreachable' };
+
+        try {
+            const galDoc = await this.database.read(
+                getDoc(doc(firestore, GalleriesCollection, id)),
+            );
+            if (galDoc.exists()) {
+                const gallery = deserializeGallery(galDoc.data());
+                this.publicGalleries.set(id, gallery);
+                return { kind: 'found', gallery };
             }
+        } catch (err) {
+            console.error(`Couldn't get gallery with ID ${id}:`, err);
+            return this.database.isConnectivityError(err)
+                ? { kind: 'unreachable' }
+                : { kind: 'missing' };
         }
 
-        // Didn't find it.
-        return undefined;
+        // Read succeeded and the document isn't there.
+        return { kind: 'missing' };
+    }
+
+    /** Get a gallery with this ID, for callers that treat "couldn't reach it"
+     *  and "isn't there" the same way. See {@link find} when the difference is
+     *  something the user should be told. */
+    async get(id: string): Promise<Gallery | undefined> {
+        const result = await this.find(id);
+        return result.kind === 'found' ? result.gallery : undefined;
     }
 
     /** Update the given gallery in the cloud. */
@@ -598,7 +618,9 @@ export default class GalleryDatabase {
 
         // Remove all projects from the gallery.
         for (const projectID of gallery.getProjects()) {
-            const project = await this.database.Projects.get(projectID);
+            const project = await (
+                await this.database.loadProjects()
+            ).get(projectID);
             if (project) await this.removeProjectFromGallery(project);
         }
 
@@ -660,7 +682,9 @@ export default class GalleryDatabase {
         // Update the in-memory project to reflect the new gallery. Pass persist=false
         // so we can include the project doc write in our atomic batch below rather than
         // letting the project history's separate persist() race with it.
-        const editResult = await this.database.Projects.edit(
+        const editResult = await (
+            await this.database.loadProjects()
+        ).edit(
             project.withGallery(galleryID),
             false,
             false,
@@ -671,7 +695,7 @@ export default class GalleryDatabase {
 
         // Get the just-edited project so we can serialize its latest form into the batch.
         const updated =
-            this.database.Projects.getHistory(projectID)?.getCurrent();
+            this.database.MaybeProjects?.getHistory(projectID)?.getCurrent();
         if (updated === undefined) return;
 
         // If a concurrent share/unshare ran between our history edit and now,
@@ -686,7 +710,7 @@ export default class GalleryDatabase {
         // so concurrent shares to the same gallery accumulate rather than clobber.
         const batch = writeBatch(firestore);
         batch.set(
-            doc(firestore, ProjectsCollection, projectID),
+            doc(firestore, Domain.Projects, projectID),
             updated.asPersisted().serialize(),
         );
         batch.update(doc(firestore, GalleriesCollection, galleryID), {
@@ -716,8 +740,10 @@ export default class GalleryDatabase {
         void this.trackSave(galleryID, galleryName, batch.commit()).then(
             (ok) => {
                 if (ok)
-                    this.database.Projects.getHistory(projectID)?.markSaved();
-                else this.database.Projects.saveSoon();
+                    this.database.MaybeProjects?.getHistory(
+                        projectID,
+                    )?.markSaved();
+                else this.database.MaybeProjects?.saveSoon();
             },
         );
     }
@@ -730,17 +756,13 @@ export default class GalleryDatabase {
         const targetGalleryID = galleryID ?? project.getGallery();
 
         // Update the in-memory project to clear its gallery field (no persist; batched below).
-        const editResult = await this.database.Projects.edit(
-            project.withGallery(null),
-            false,
-            false,
-            false,
-            'immediate',
-        );
+        const editResult = await (
+            await this.database.loadProjects()
+        ).edit(project.withGallery(null), false, false, false, 'immediate');
         if (editResult !== undefined) return;
 
         const updated =
-            this.database.Projects.getHistory(projectID)?.getCurrent();
+            this.database.MaybeProjects?.getHistory(projectID)?.getCurrent();
         if (updated === undefined) return;
 
         // Same race-collapsing check as addProject: if a concurrent share ran after
@@ -751,7 +773,7 @@ export default class GalleryDatabase {
         // Atomic batch: clear project.gallery and remove from the gallery's projects array.
         const batch = writeBatch(firestore);
         batch.set(
-            doc(firestore, ProjectsCollection, projectID),
+            doc(firestore, Domain.Projects, projectID),
             updated.asPersisted().serialize(),
         );
         if (targetGalleryID !== null) {
@@ -773,8 +795,10 @@ export default class GalleryDatabase {
                 batch.commit(),
             ).then((ok) => {
                 if (ok)
-                    this.database.Projects.getHistory(projectID)?.markSaved();
-                else this.database.Projects.saveSoon();
+                    this.database.MaybeProjects?.getHistory(
+                        projectID,
+                    )?.markSaved();
+                else this.database.MaybeProjects?.saveSoon();
             });
         } else {
             // No gallery doc in the batch — it's just the project write; let the
@@ -782,22 +806,20 @@ export default class GalleryDatabase {
             void this.database
                 .track(batch.commit())
                 .then(() =>
-                    this.database.Projects.getHistory(projectID)?.markSaved(),
+                    this.database.MaybeProjects?.getHistory(
+                        projectID,
+                    )?.markSaved(),
                 )
-                .catch(() => this.database.Projects.saveSoon());
+                .catch(() => this.database.MaybeProjects?.saveSoon());
         }
     }
 
     // Remove the project from whatever gallery it is in, but only the project side
     // (used by gallery deletion, where the gallery doc itself is about to be deleted).
     async removeProjectFromGallery(project: Project) {
-        await this.database.Projects.edit(
-            project.withGallery(null),
-            false,
-            true,
-            false,
-            'immediate',
-        );
+        await (
+            await this.database.loadProjects()
+        ).edit(project.withGallery(null), false, true, false, 'immediate');
     }
 
     /**
@@ -866,7 +888,9 @@ export default class GalleryDatabase {
         const projectsToRemove: string[] = [];
         for (const projectID of gallery.getProjects()) {
             try {
-                const project = await this.database.Projects.get(projectID);
+                const project = await (
+                    await this.database.loadProjects()
+                ).get(projectID);
                 if (project !== undefined && project.getOwner() === uid)
                     projectsToRemove.push(projectID);
             } catch (err) {
@@ -876,7 +900,7 @@ export default class GalleryDatabase {
 
         const batch = writeBatch(firestore);
         for (const projectID of projectsToRemove) {
-            batch.update(doc(firestore, ProjectsCollection, projectID), {
+            batch.update(doc(firestore, Domain.Projects, projectID), {
                 gallery: null,
             });
         }

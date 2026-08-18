@@ -66,7 +66,10 @@
 
                 const current = next.get(bar.key) ?? 0;
                 let height = current;
-                if (strike !== undefined && seen.get(bar.key) !== strike.strike) {
+                if (
+                    strike !== undefined &&
+                    seen.get(bar.key) !== strike.strike
+                ) {
                     // A new note, even if it's the same loudness as the last.
                     seen.set(bar.key, strike.strike);
                     height = Math.max(current, strike.level);
@@ -143,7 +146,7 @@
         position: absolute;
         inset-inline: 0;
         bottom: 0;
-        height: 15%;
+        height: var(--music-orchestra-height);
         display: flex;
         align-items: flex-end;
         justify-content: center;

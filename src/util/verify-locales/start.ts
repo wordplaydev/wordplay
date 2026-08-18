@@ -49,6 +49,8 @@ import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
 import generateEmojisForLocale from '@util/verify-locales/generateEmojis';
+import generateChoosePrompts from '@util/verify-locales/generateChoosePrompts';
+import generateNameIndex from '@util/verify-locales/generateNameIndex';
 import verifyDateTimes from '@util/verify-locales/verifyDateTimes';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import {
@@ -517,6 +519,27 @@ if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
 ) {
     log.say(
         `Translated ${revisedStrings.length} revised en-US string(s) into ${FocalLocale}. Their "$!" markers stay in en-US until every locale is done; clear them once "npm run locales" is clean.`,
+    );
+}
+
+// Build the word → locale index the languages dialog uses to find languages a project needs
+// but doesn't declare (#1246). It reads every locale's basis, so it can only be built on a
+// full run; a focal run leaves the committed artifact alone.
+if (FocalLocale === null) {
+    await generateNameIndex(
+        log.scope('Language name index'),
+        allLocaleText,
+        FixRequested || TranslationRequested,
+    );
+}
+
+// Lift each locale's "choose a language" phrase into a bundled table, so the first-run
+// prompt can greet a visitor in their own language without fetching every locale (#1256).
+if (FocalLocale === null) {
+    await generateChoosePrompts(
+        log.scope('Language prompts'),
+        allLocaleText,
+        FixRequested || TranslationRequested,
     );
 }
 

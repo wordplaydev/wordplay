@@ -1,4 +1,7 @@
-import { GoogleTranslateCodeOverrides, TranslatableLocales } from '@locale/LanguageCode';
+import {
+    GoogleTranslateCodeOverrides,
+    TranslatableLocales,
+} from '@locale/LanguageCode';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import { localeToString } from '@locale/Locale';

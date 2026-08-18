@@ -258,7 +258,9 @@ test('static function body can see a name bound outside the structure', () => {
 });
 
 test('static function body can see a global', () => {
-    const value = evaluateStatic('•W() (\n\t↑ ƒ f() Pose(opacity: 50%)\n)\nW.f()');
+    const value = evaluateStatic(
+        '•W() (\n\t↑ ƒ f() Pose(opacity: 50%)\n)\nW.f()',
+    );
     expect(value?.toString()).toContain('opacity: 0.5');
 });
 
@@ -274,12 +276,7 @@ test('autocomplete on Definition.| suggests static members only', () => {
     const code = '•Math() (\n\t↑ pi: 3.14\n)\nMath.';
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const caret = new Caret(
-        source,
-        code.length,
-        undefined,
-        undefined,
-    );
+    const caret = new Caret(source, code.length, undefined, undefined);
     const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
     const suggested = transforms
         .map((t) => t.getNewNode(DefaultLocales)?.toWordplay() ?? '')
@@ -291,12 +288,7 @@ test('autocomplete on instance.| also suggests static members', () => {
     const code = '•Math() (\n\t↑ pi: 3.14\n)\nm: Math()\nm.';
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const caret = new Caret(
-        source,
-        code.length,
-        undefined,
-        undefined,
-    );
+    const caret = new Caret(source, code.length, undefined, undefined);
     const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
     const suggested = transforms
         .map((t) => t.getNewNode(DefaultLocales)?.toWordplay() ?? '')
@@ -310,12 +302,7 @@ test('autocomplete on Definition.| does not suggest a non-static instance bind',
     const code = '•Math() (\n\tpi: 3.14\n)\nMath.';
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const caret = new Caret(
-        source,
-        code.length,
-        undefined,
-        undefined,
-    );
+    const caret = new Caret(source, code.length, undefined, undefined);
     const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
     const suggested = transforms
         .map((t) => t.getNewNode(DefaultLocales)?.toWordplay() ?? '')

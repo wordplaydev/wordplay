@@ -35,12 +35,7 @@ test('Translating a table rebuilds a table from the revised rows', () => {
 });
 
 test('The left side of a translate must be a collection', () => {
-    testConflict(
-        '[1 2 3] ↦ ⬚ + 1',
-        '1 ↦ ⬚ + 1',
-        Translate,
-        ExpectedCollection,
-    );
+    testConflict('[1 2 3] ↦ ⬚ + 1', '1 ↦ ⬚ + 1', Translate, ExpectedCollection);
 });
 
 test('A translate body without ⬚ warns', () => {

@@ -20,7 +20,13 @@ export default class Volume extends AudioStream {
     frequencies: Uint8Array<ArrayBuffer> = new Uint8Array(VOLUME_FFT_SIZE);
 
     constructor(evaluation: Evaluation, frequency: number | undefined) {
-        super(evaluation, frequency, undefined, VOLUME_FFT_SIZE);
+        super(
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Volume,
+            frequency,
+            undefined,
+            VOLUME_FFT_SIZE,
+        );
     }
 
     react(percent: number) {

@@ -1,13 +1,13 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { tick } from 'svelte';
+    import { tick, type Component } from 'svelte';
     import { tokenize } from '@parser/Tokenizer';
     import {
         resetVisualColumnAfter,
-        toShortcut,
         type Command,
     } from '@components/editor/commands/Commands';
+    import { toShortcut } from '@components/editor/commands/shortcuts';
     import { resolveFeedback } from '@components/editor/commands/feedback';
     import TokenView from '@components/editor/tokens/TokenView.svelte';
     import {
@@ -25,7 +25,14 @@
         command: Command;
         token?: boolean;
         focusAfter?: boolean;
-        background?: boolean;
+        /** Matches Button's: `'salient'` for a command the moment calls
+         *  attention to. */
+        background?: boolean | 'salient' | 'circular';
+        /** A drawn icon component rendered in place of the command's symbol,
+         *  for marks whose codepoints render unpredictably across platforms.
+         *  The symbol string remains the command's identity elsewhere (the
+         *  shortcuts dialog, tests). */
+        icon?: Component | undefined;
         /** Override for the rendered `data-uiid`. Use when the same Command
          * is rendered in more than one place and each instance needs a
          * unique id (e.g. Restart appears in both the timeline and the
@@ -39,6 +46,7 @@
         token = false,
         focusAfter = false,
         background = false,
+        icon = undefined,
         uiid = undefined,
     }: Props = $props();
 
@@ -86,7 +94,8 @@
     );
 </script>
 
-{#snippet symbol()}{#if token}<TokenView
+{#snippet symbol()}{#if icon}{@const Icon = icon}<Icon
+        />{:else if token}<TokenView
             node={tokenize(command.symbol).getTokens()[0]}
             format={{
                 block: false,

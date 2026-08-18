@@ -2547,7 +2547,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Có một điều khác mà bạn có thể đã nhận thấy: có một khu vực bên dưới phần hiển thị kết quả là một dòng thời gian. Nó cập nhật mỗi khi chương trình đánh giá lại, tức là mỗi khi một luồng dữ liệu thay đổi. Nó hiển thị mỗi khi biến @Time được cập nhật."
+                            "$~Còn một điều nữa để khám phá: dòng thời gian bên dưới kết quả ghi lại mỗi lần chương trình chạy lại, tức là mỗi lần một luồng thay đổi — ở đây, mỗi lần @Time đếm nhịp. Hãy nhấn nút gỡ lỗi ⏸️ trong bộ chuyển chế độ @UI/modeSwitcher để xem xét kỹ hơn, với value của mỗi expression được hiển thị bên cạnh nó."
                         ],
                         [
                             "Time",
@@ -5892,7 +5892,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Ồ vâng, tất nhiên rồi! Chúng ta hãy để chúng thắp sáng căn phòng nhé? @Phrase, bạn có thể lắng nghe @Volume rồi kết nối nó với @Color.lightness và @Color.chroma theo màu của bạn không? Bằng cách đó, chúng ta sẽ chuyển sang màu trắng nóng khi đạo diễn của chúng ta tạo ra tiếng động!"
+                            "$~Ồ đúng rồi! Hay là chúng ta để chúng thắp sáng căn phòng nhé? @Phrase, bạn có thể lắng nghe @Volume rồi kết nối nó với @Color.lightness và @Color.chroma theo màu của bạn không? Bằng cách đó, chúng ta sẽ chuyển sang màu trắng nóng khi đạo diễn của chúng ta tạo ra âm thanh!"
                         ],
                         ["Phrase", "kind", "$~Ý tưởng tuyệt vời!"],
                         { "edit": "#EvaluateDance14" },

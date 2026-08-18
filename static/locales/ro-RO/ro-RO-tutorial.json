@@ -2527,7 +2527,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Mai este un lucru pe care probabil l-ați observat: există o zonă sub rezultat care reprezintă o cronologie. Se actualizează de fiecare dată când programul reevaluează, adică de fiecare dată când un flux se modifică. Se afișează de fiecare dată când bifează @Time."
+                            "$~Mai este ceva de descoperit: linia timpului de sub rezultat înregistrează de fiecare dată când programul s-a reevaluat, adică de fiecare dată când un flux s-a schimbat — aici, de fiecare dată când @Time a bătut. Apasă butonul de depanare ⏸️ din comutatorul de mod @UI/modeSwitcher ca să îl examinezi mai atent, cu valoarea fiecărei expresii arătată alături de ea."
                         ],
                         [
                             "Time",
@@ -5852,7 +5852,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~O, da, sigur! Ce zici să îi lăsăm pe ei să lumineze camera? @Phrase, poți să asculți @Volume și să îl legi la @Color.lightness și @Color.chroma în culoarea ta? Așa, vom deveni alb strălucitor când regizorul nostru face zgomot!"
+                            "$~O, da, desigur! Ce-ar fi să îi lăsăm să lumineze camera? @Phrase, poți să asculți pe @Volume și să îl legi la @Color.lightness și @Color.chroma în culoarea ta? Așa, vom deveni alb strălucitor când regizorul nostru face zgomot!"
                         ],
                         ["Phrase", "kind", "$~Excelentă idee!"],
                         { "edit": "#EvaluateDance14" },

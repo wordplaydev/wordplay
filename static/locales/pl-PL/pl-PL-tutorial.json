@@ -2527,7 +2527,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Jest jeszcze jedna rzecz, którą mogłeś zauważyć: jest obszar pod wyjściem, który jest osią czasu. Aktualizuje się za każdym razem, gdy program ponownie ocenia, czyli za każdym razem, gdy zmienia się strumień. Jest wyświetlany za każdym razem, gdy @Time tyka."
+                            "$~Jest jeszcze coś do odkrycia: oś czasu pod wyjściem zapisuje każdą chwilę, gdy program ponownie się przeliczył. Dzieje się to za każdym razem, gdy zmienia się strumień — tutaj za każdym razem, gdy @Time tyka. Naciśnij przycisk debugowania ⏸️ w przełączniku trybów @UI/modeSwitcher, aby przyjrzeć się temu dokładniej. Obok każdego wyrażenia zobaczysz wtedy jego wartość."
                         ],
                         [
                             "Time",
@@ -5848,7 +5848,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~O tak, oczywiście! A może pozwolimy im oświetlić pokój? @Phrase, czy możesz posłuchać @Volume i połączyć to z @Color.lightness oraz @Color.chroma w twoim kolorze? W ten sposób staniemy się rozgrzani do białości, gdy nasza reżyserka zrobi hałas!"
+                            "$~O tak, oczywiście! Może pozwolimy im oświetlić pokój? @Phrase, czy możesz posłuchać @Volume i połączyć to z @Color.lightness oraz @Color.chroma w swoim kolorze? Wtedy staniemy się białe i gorące, gdy nasz reżyser zrobi hałas!"
                         ],
                         ["Phrase", "kind", "$~Świetny pomysł!"],
                         { "edit": "#EvaluateDance14" },

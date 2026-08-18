@@ -34,7 +34,7 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import StreamToken from '@nodes/StreamToken';
-import StreamType from '@nodes/StreamType';
+import StreamType, { isStreamExpression } from '@nodes/StreamType';
 import { Sym } from '@nodes/Sym';
 import type Token from '@nodes/Token';
 import type Type from '@nodes/Type';
@@ -190,14 +190,13 @@ export default class Reaction extends Expression {
                     new ExpectedBooleanCondition(this, conditionType),
                 );
 
-            // At least one dependency of the condition must be a stream — either a
-            // value registered as stream-derived, or a `•…T`-typed stream reference
-            // (a stream passed into a function). (#1237)
+            // At least one expression the condition depends on must be a stream, or
+            // there is nothing for the reaction to react to. (#1237)
             if (
                 !Array.from(this.condition.getAllDependencies(context)).some(
-                    (node) => context.isStream(node.getType(context)),
+                    (node) => isStreamExpression(node, context),
                 ) &&
-                !context.isStream(this.condition.getType(context))
+                !isStreamExpression(this.condition, context)
             )
                 conflicts.push(new ExpectedStream(this));
         }
@@ -327,10 +326,11 @@ export default class Reaction extends Expression {
                     ?.root.getAncestors(this)
                     .find((ancestor) => ancestor instanceof Bind);
                 if (bind) {
-                    // Find the evaluation that has a step that evaluates this bind.
+                    // Find the innermost evaluation that has a step that evaluates
+                    // this bind. The stack is bottom-first, so search from the end.
                     const evaluation = evaluator
                         .getEvaluations()
-                        .find((evaluation) =>
+                        .findLast((evaluation) =>
                             evaluation.getStepThat(
                                 (step) => step.node === bind,
                             ),

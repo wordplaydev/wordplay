@@ -25,7 +25,10 @@ import Conditional from '@nodes/Conditional';
 import Is from '@nodes/Is';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Bind from '@nodes/Bind';
+import ListAccess from '@nodes/ListAccess';
+import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
+import SetOrMapAccess from '@nodes/SetOrMapAccess';
 import KeyValue from '@nodes/KeyValue';
 import Evaluate from '@nodes/Evaluate';
 import type Source from '@nodes/Source';
@@ -257,10 +260,15 @@ function generateOtherwiseResolution(
 }
 
 /**
- * Type-guard edit. When the symptom is a `Reference` whose type is a
- * multi-member union and exactly one member satisfies the expected type,
- * wrap the reference in `ref•T ? ref _` (Conditional with Is). Restricted
- * to References because Wordplay only type-narrows known-named binds.
+ * Type-guard edit. When the symptom's type is a multi-member union and exactly one
+ * member satisfies the expected type, wrap it in `x•T ? x _` (Conditional with Is).
+ *
+ * Offered for every kind of expression that can actually be narrowed — a name, a
+ * property, a list index, a map key. It used to be names only, on the grounds that
+ * only they narrowed, which stopped being true once the accesses learned to. That
+ * mattered more than it sounds: `map{key} ≠ ø ? map{key} …` is the idiom the language
+ * documentation recommends for a possibly-missing value, and it appears nowhere in the
+ * ninety programs of the gallery — because the editor never once suggested it.
  */
 function generateGuardResolution(
     givenNode: Expression,
@@ -269,15 +277,21 @@ function generateGuardResolution(
     context: Context,
     templates: TemplatesAccessor,
 ): Resolution | undefined {
-    if (!(givenNode instanceof Reference)) return undefined;
+    if (!(
+        givenNode instanceof Reference ||
+        givenNode instanceof PropertyReference ||
+        givenNode instanceof ListAccess ||
+        givenNode instanceof SetOrMapAccess
+    ))
+        return undefined;
     const members = givenType.getPossibleTypes(context);
     if (members.length < 2) return undefined;
     const accepted = members.filter((m) => expectedType.accepts(m, context));
     if (accepted.length !== 1) return undefined;
 
-    // Use a fresh Reference for the yes branch so the same Node isn't shared
-    // across two AST positions.
-    const yes = Reference.make(givenNode.getName());
+    // A fresh copy for the yes branch, so the same node isn't shared across two AST
+    // positions.
+    const yes = givenNode.clone();
     const revised = Conditional.make(
         Is.make(givenNode, accepted[0]),
         yes,
@@ -351,10 +365,10 @@ function generateWrapResolution(
     templates: TemplatesAccessor,
 ): Resolution | undefined {
     if (expectedType instanceof ListType) {
-        if (
-            expectedType.type !== undefined &&
-            !expectedType.type.accepts(givenType, context)
-        )
+        // A list of one value can't satisfy a type that specifies several positions.
+        if (expectedType.isTuple()) return undefined;
+        const itemType = expectedType.getItemType(context);
+        if (itemType !== undefined && !itemType.accepts(givenType, context))
             return undefined;
         const wrapped = ListLiteral.make([givenNode]);
         return makeResolution(

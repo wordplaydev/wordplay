@@ -11,7 +11,7 @@ import { get } from 'svelte/store';
 import { animationFactor } from '@db/Database';
 import type { ReboundEvent } from '@input/Collision/Collision';
 import Collision from '@input/Collision/Collision';
-import Motion from '@input/Motion/Motion';
+import { getPlacingMotion } from '@input/Motion/Motion';
 import type Evaluator from '@runtime/Evaluator';
 import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
 import { Circle } from '@output/Output/Shape/Circle';
@@ -45,7 +45,7 @@ const MaxSpeed = 6000;
  *  at 64 px/m — about 6× "real" g in stage units. All the example projects
  *  were tuned to that feel (earth-like on a ~10m stage), so we reproduce the
  *  same effective acceleration rather than a physically literal g × PX_PER_METER. */
-const GravityPxPerS2PerUnit = 1_000_000 / (20 * 2 * PX_PER_METER);
+export const GravityPxPerS2PerUnit = 1_000_000 / (20 * 2 * PX_PER_METER);
 
 /** Air-resistance calibration. Matter.js bodies default to frictionAir 0.01 —
  *  1% velocity loss per 16.7ms frame — which is what made bounces settle and
@@ -90,6 +90,13 @@ export default class Physics {
      *  We feed Rapier fixed-size sub-steps to keep collision detection
      *  frame-rate-independent (variable elapsed values cause tunneling). */
     private accumulator = 0;
+
+    /** How far the current frame sits past the last completed step, 0–1.
+     *  Bodies are rendered that far along from where they were, so motion is
+     *  smooth however far the display's refresh rate and the fixed step drift
+     *  apart. 1 means "exactly at the last step", which is the honest answer
+     *  before the first tick and whenever the simulation is frozen. */
+    private alpha = 1;
 
     /** Bodies whose Placement-driven displacement this frame is large enough
      *  to risk tunneling. tick() interpolates them across sub-steps so the
@@ -284,13 +291,11 @@ export default class Physics {
                         ? info.output.matter
                         : undefined;
 
-                // Is there a motion stream responsible for this output's place? Ask the
-                // Evaluator which stream the place value resolved from; Placement also
-                // produces places, and those outputs must stay position-driven below.
-                const stream = info.output.place
-                    ? this.evaluator.getStreamResolved(info.output.place.value)
-                    : undefined;
-                const motion = stream instanceof Motion ? stream : undefined;
+                // Is there a motion stream responsible for this output's place?
+                // Placement also produces places, and those outputs must stay
+                // position-driven below. The animator asks the same question to
+                // decide whether a move is worth tweening.
+                const motion = getPlacingMotion(this.evaluator, info.output);
 
                 // If the output has matter or is in motion, make sure it's in the physics world.
                 if (matter || motion) {
@@ -338,13 +343,17 @@ export default class Physics {
                     const isDynamic =
                         shape.rigidBody.bodyType() ===
                         RAPIER.RigidBodyType.Dynamic;
-                    if (wantDynamic !== isDynamic)
+                    if (wantDynamic !== isDynamic) {
                         shape.rigidBody.setBodyType(
                             wantDynamic
                                 ? RAPIER.RigidBodyType.Dynamic
                                 : RAPIER.RigidBodyType.KinematicPositionBased,
                             true,
                         );
+                        // Whatever it did as the other kind of body is not a
+                        // path it is part-way along now.
+                        shape.resetInterpolation();
+                    }
 
                     // No motion but has matter? Either teleport directly or,
                     // if the displacement is large enough to risk skipping
@@ -377,12 +386,24 @@ export default class Physics {
                     // Did we make or find a corresponding body? Apply any Place or Velocity overrides in the Motion.
                     if (motion) motion.updateBody(shape);
 
-                    // Set the body's current angle if it has one, otherwise leave it alone.
-                    if (info.output.pose.rotation !== undefined)
+                    // Set the body's current angle if the program gave it one.
+                    // An output's pose rotation defaults to its place's, and a
+                    // simulated place carries the angle the engine just
+                    // computed — so writing that back is at best a no-op, and
+                    // once places are interpolated it would feed a part-way
+                    // angle in as truth and drag every spin backwards. A place
+                    // with no rotation of its own is still the program's to set,
+                    // which is how an authored rotation reaches a new body.
+                    if (
+                        info.output.place?.rotation === undefined &&
+                        info.output.pose.rotation !== undefined
+                    ) {
                         shape.rigidBody.setRotation(
                             (info.output.pose.rotation * Math.PI) / 180,
                             true,
                         );
+                        shape.resetInterpolation();
+                    }
 
                     // Set matter properties if available.
                     if (matter) {
@@ -484,6 +505,8 @@ export default class Physics {
         // trigger the load — only sync() does, when physics output appears.
         if (!rapierLoaded()) return;
         const RAPIER = getRapier();
+        // Nothing is part-way anywhere until the simulation runs again.
+        this.alpha = 1;
 
         const factor = get(animationFactor);
 
@@ -496,37 +519,39 @@ export default class Physics {
             return;
         }
 
-        // Convert wall-clock elapsed to simulated elapsed. animationFactor
-        // is an inverse-speed multiplier (4 = ¼ speed, 0.1 = 10× speed).
-        // Cap the per-call delta so a long pause / hidden tab doesn't dump
-        // huge time into the accumulator.
-        this.accumulator += Math.min(elapsed / factor, 100);
-
         // Run as many fixed sub-steps as fit. Cap iterations so very slow
         // machines don't spiral; better to let simulated time fall behind
         // real time than feed huge variable steps to the engine, which
         // causes tunneling and missed collisions.
+        //
+        // The accumulator is assigned BEFORE the step loop, not after.
+        // world.step fires collision events that the Collision-stream
+        // handler eventually lands in Evaluator.end(), which calls
+        // physics.tick(0) "just in case" there are pending collisions to
+        // surface. With a post-loop assignment, that reentrant tick(0) saw
+        // the same accumulator value, computed the same `steps`, and
+        // re-stepped — infinite recursion. Assigning first means the
+        // reentrant tick(0) sees the accumulator already drained for this
+        // batch, computes steps=0, and returns cleanly.
         const MAX_STEPS = 4;
-        const steps = Math.min(
-            Math.floor(this.accumulator / FIXED_STEP_MS),
-            MAX_STEPS,
-        );
+        const plan = planSteps(this.accumulator, elapsed, factor, MAX_STEPS);
+        const steps = plan.steps;
+        this.accumulator = plan.accumulator;
+        // How far past the last completed step this frame sits, so getPlace
+        // can report where a body is *now* rather than where it was when the
+        // engine last moved. Kept even on a frame that takes no step: that is
+        // the frame this exists for.
+        this.alpha = plan.alpha;
 
         if (steps > 0) {
-            // Decrement the accumulator BEFORE the step loop, not after.
-            // world.step fires collision events that the Collision-stream
-            // handler eventually lands in Evaluator.end(), which calls
-            // physics.tick(0) "just in case" there are pending collisions to
-            // surface. With a post-loop decrement, that reentrant tick(0) saw
-            // the same accumulator value, computed the same `steps`, and
-            // re-stepped — infinite recursion. Pre-decrementing means the
-            // reentrant tick(0) sees the accumulator already drained for this
-            // batch, computes steps=0, and returns cleanly.
-            this.accumulator -= steps * FIXED_STEP_MS;
-            // Drop remainder when we hit the cap so it doesn't grow forever.
-            if (steps === MAX_STEPS) this.accumulator = 0;
             const events = this.getEvents(RAPIER);
             for (let i = 1; i <= steps; i++) {
+                // Remember where every simulated body starts the final step,
+                // so a frame landing between steps can be drawn between them.
+                // Only the last iteration can be the one interpolated from.
+                if (i === steps)
+                    for (const body of this.bodyByName.values())
+                        body.snapshot();
                 // Interpolate sweeping bodies along their path so the engine
                 // can detect overlaps at intermediate positions. Kinematic
                 // bodies move via setNextKinematicTranslation so the step
@@ -663,6 +688,14 @@ export default class Physics {
         return this.bodyByName.get(name);
     }
 
+    /** Where this body is on this frame — between the last two simulated steps
+     *  when the frame lands between them, which above ~62Hz, or at any animation
+     *  factor above 1, is most frames. Keeps the render phase in here rather
+     *  than making every caller remember to ask for it. */
+    getPlace(name: string) {
+        return this.bodyByName.get(name)?.getPlace(this.alpha);
+    }
+
     /** Report the given collisions to the evaluator's collision streams */
     report(rebounds: ReboundEvent[]) {
         // Get the streams.
@@ -687,7 +720,70 @@ export default class Physics {
     }
 }
 
-const FIXED_STEP_MS = 16;
+export const FIXED_STEP_MS = 16;
+
+/** A body's placement in engine space: pixels, and an angle in radians. */
+export type BodyTransform = { x: number; y: number; angle: number };
+
+/**
+ * How far to advance the simulation this frame, and how far past the last
+ * completed step the frame itself sits.
+ *
+ * Split out from `tick` because the arithmetic is the whole of the smoothness
+ * problem and needs testing without Rapier or a browser. The engine only ever
+ * moves in whole `FIXED_STEP_MS` jumps, so what a frame lands between two of
+ * them has to be rendered by interpolating rather than by rounding down — at
+ * 120Hz, or at any animation factor above 1, most frames take no step at all
+ * and would otherwise repeat the previous position exactly.
+ */
+export function planSteps(
+    accumulator: number,
+    elapsed: number,
+    factor: number,
+    maxSteps: number,
+): { steps: number; accumulator: number; alpha: number } {
+    // animationFactor is an inverse-speed multiplier, so this is already
+    // simulated time — the right clock for a render of simulated state. Cap
+    // the per-call delta so a long pause or hidden tab doesn't dump huge time
+    // into the accumulator.
+    let remaining = accumulator + Math.min(elapsed / factor, 100);
+    const steps = Math.min(Math.floor(remaining / FIXED_STEP_MS), maxSteps);
+    if (steps > 0) remaining -= steps * FIXED_STEP_MS;
+    if (steps === maxSteps)
+        // Simulated time is being dropped on the floor to stop a spiral, so
+        // there is no partial step left to be part-way through: show the state
+        // the engine actually reached rather than rewinding a step to it.
+        return { steps, accumulator: 0, alpha: 1 };
+    return { steps, accumulator: remaining, alpha: remaining / FIXED_STEP_MS };
+}
+
+/**
+ * Where a body is `alpha` of the way from its previous step to its current one.
+ *
+ * Angles take the shortest arc, since Rapier reports a normalized angle in
+ * (-π, π] and a body crossing that seam would otherwise appear to spin most of
+ * the way back around. A spin fast enough to turn more than half a circle in
+ * one step is genuinely ambiguous and comes out as the short way regardless;
+ * the engine caps rotation well below that, and a characterization test pins it.
+ */
+export function interpolateTransform(
+    previous: BodyTransform | undefined,
+    current: BodyTransform,
+    alpha: number,
+): BodyTransform {
+    if (previous === undefined || alpha >= 1) return current;
+    if (alpha <= 0) return previous;
+    const turn =
+        ((((current.angle - previous.angle + Math.PI) % (2 * Math.PI)) +
+            2 * Math.PI) %
+            (2 * Math.PI)) -
+        Math.PI;
+    return {
+        x: previous.x + (current.x - previous.x) * alpha,
+        y: previous.y + (current.y - previous.y) * alpha,
+        angle: previous.angle + turn * alpha,
+    };
+}
 
 /** All active collision types, so events fire even between the kinematic /
  *  fixed pairs Rapier ignores by default (KINEMATIC_FIXED, KINEMATIC_KINEMATIC).
@@ -840,17 +936,50 @@ export class OutputBody {
         };
     }
 
-    /** Convert the engine position into stage Place values. */
-    getPlace() {
+    /** Where this body was when the engine last began a step, so a frame that
+     *  lands between steps can be drawn between them. Undefined until it has
+     *  been stepped at least once, and cleared whenever the program moves the
+     *  body itself — there is no path to be part-way along across a teleport. */
+    private previous: BodyTransform | undefined = undefined;
+
+    /** Remember the current transform as the one to interpolate from. */
+    snapshot() {
         const position = this.rigidBody.translation();
-        const angle = this.rigidBody.rotation();
+        this.previous = {
+            x: position.x,
+            y: position.y,
+            angle: this.rigidBody.rotation(),
+        };
+    }
+
+    /** Forget it, so the next frame draws this body where it now is rather than
+     *  gliding it there from wherever it used to be. */
+    resetInterpolation() {
+        this.previous = undefined;
+    }
+
+    /** Convert the engine position into stage Place values, `alpha` of the way
+     *  from the last step to the current one. */
+    getPlace(alpha = 1) {
+        const position = this.rigidBody.translation();
+        const at = interpolateTransform(
+            this.previous,
+            {
+                x: position.x,
+                y: position.y,
+                angle: this.rigidBody.rotation(),
+            },
+            alpha,
+        );
         return {
-            x: position.x / PX_PER_METER - this.width / 2,
-            y: -position.y / PX_PER_METER - this.height / 2,
+            x: at.x / PX_PER_METER - this.width / 2,
+            y: -at.y / PX_PER_METER - this.height / 2,
             angle:
-                (isNaN(angle) || angle === Infinity || angle === -Infinity
+                (isNaN(at.angle) ||
+                at.angle === Infinity ||
+                at.angle === -Infinity
                     ? 0
-                    : angle * 180) / Math.PI,
+                    : at.angle * 180) / Math.PI,
         };
     }
 }

@@ -2,7 +2,8 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
-    import { HowTos, Projects } from '@db/Database';
+    import { HowTos } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';

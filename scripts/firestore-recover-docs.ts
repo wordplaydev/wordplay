@@ -70,16 +70,39 @@ function parseArgs(argv: string[]): Args {
             return v;
         };
         switch (arg) {
-            case '--project': a.project = next(); break;
-            case '--source': a.source = next(); break;
-            case '--target': a.target = next(); break;
-            case '--docs': a.docs = next().split(',').map((s) => s.trim()).filter(Boolean); break;
-            case '--owner': a.owner = next(); break;
-            case '--gallery': a.gallery = next(); break;
-            case '--reconcile-refs': a.reconcileRefs = true; break;
-            case '--confirm': a.confirm = true; break;
-            case '--help': case '-h': usage(); break;
-            default: die(`unknown argument: ${arg}`);
+            case '--project':
+                a.project = next();
+                break;
+            case '--source':
+                a.source = next();
+                break;
+            case '--target':
+                a.target = next();
+                break;
+            case '--docs':
+                a.docs = next()
+                    .split(',')
+                    .map((s) => s.trim())
+                    .filter(Boolean);
+                break;
+            case '--owner':
+                a.owner = next();
+                break;
+            case '--gallery':
+                a.gallery = next();
+                break;
+            case '--reconcile-refs':
+                a.reconcileRefs = true;
+                break;
+            case '--confirm':
+                a.confirm = true;
+                break;
+            case '--help':
+            case '-h':
+                usage();
+                break;
+            default:
+                die(`unknown argument: ${arg}`);
         }
     }
     return a;
@@ -93,22 +116,26 @@ function die(msg: string): never {
 function usage(): never {
     console.error(
         `Copy specific docs from a scratch SOURCE database into a live TARGET.\n\n` +
-        `  --source <db-id>            (required) historical scratch database to read from\n` +
-        `  --project <id>             GCP project (default wordplay-prod)\n` +
-        `  --target <db-id>           database to write into (default '(default)')\n` +
-        `  Exactly one selector:\n` +
-        `  --docs c/id,c/id,...       explicit collection/id document paths\n` +
-        `  --owner <uid>              all projects + characters owned by <uid>\n` +
-        `  --gallery <id>             a gallery + its projects, howtos, and their chats\n` +
-        `  --reconcile-refs           re-add project/howto membership into surviving galleries\n` +
-        `  --confirm                  perform writes (default is a dry run)\n`,
+            `  --source <db-id>            (required) historical scratch database to read from\n` +
+            `  --project <id>             GCP project (default wordplay-prod)\n` +
+            `  --target <db-id>           database to write into (default '(default)')\n` +
+            `  Exactly one selector:\n` +
+            `  --docs c/id,c/id,...       explicit collection/id document paths\n` +
+            `  --owner <uid>              all projects + characters owned by <uid>\n` +
+            `  --gallery <id>             a gallery + its projects, howtos, and their chats\n` +
+            `  --reconcile-refs           re-add project/howto membership into surviving galleries\n` +
+            `  --confirm                  perform writes (default is a dry run)\n`,
     );
     process.exit(1);
 }
 
 /** Resolve the set of source doc paths to copy, per the chosen selector. */
 async function collectPaths(source: Firestore, a: Args): Promise<string[]> {
-    const selectors = [a.docs.length > 0, a.owner !== null, a.gallery !== null].filter(Boolean);
+    const selectors = [
+        a.docs.length > 0,
+        a.owner !== null,
+        a.gallery !== null,
+    ].filter(Boolean);
     if (selectors.length !== 1)
         die('choose exactly one of --docs, --owner, --gallery');
 
@@ -116,23 +143,33 @@ async function collectPaths(source: Firestore, a: Args): Promise<string[]> {
 
     if (a.docs.length > 0) {
         for (const p of a.docs) {
-            if (!/^[^/]+\/[^/]+$/.test(p)) die(`--docs entries must be "collection/id", got "${p}"`);
+            if (!/^[^/]+\/[^/]+$/.test(p))
+                die(`--docs entries must be "collection/id", got "${p}"`);
             paths.add(p);
         }
     }
 
     if (a.owner !== null) {
         for (const col of [Domain.Projects, Domain.Characters]) {
-            const snap = await source.collection(col).where('owner', '==', a.owner).get();
+            const snap = await source
+                .collection(col)
+                .where('owner', '==', a.owner)
+                .get();
             snap.forEach((d) => paths.add(`${col}/${d.id}`));
         }
     }
 
     if (a.gallery !== null) {
         paths.add(`${Domain.Galleries}/${a.gallery}`);
-        const projSnap = await source.collection(Domain.Projects).where('gallery', '==', a.gallery).get();
+        const projSnap = await source
+            .collection(Domain.Projects)
+            .where('gallery', '==', a.gallery)
+            .get();
         projSnap.forEach((d) => paths.add(`${Domain.Projects}/${d.id}`));
-        const howSnap = await source.collection(Domain.HowTos).where('galleryId', '==', a.gallery).get();
+        const howSnap = await source
+            .collection(Domain.HowTos)
+            .where('galleryId', '==', a.gallery)
+            .get();
         howSnap.forEach((d) => paths.add(`${Domain.HowTos}/${d.id}`));
     }
 
@@ -150,64 +187,110 @@ async function collectPaths(source: Firestore, a: Args): Promise<string[]> {
 }
 
 /** Top-level keys whose JSON differs between two docs (for the dry-run plan). */
-function changedKeys(before: DocumentData | undefined, after: DocumentData): string[] {
+function changedKeys(
+    before: DocumentData | undefined,
+    after: DocumentData,
+): string[] {
     if (before === undefined) return [];
     const keys = new Set([...Object.keys(before), ...Object.keys(after)]);
-    return [...keys].filter((k) => JSON.stringify(before[k]) !== JSON.stringify(after[k]));
+    return [...keys].filter(
+        (k) => JSON.stringify(before[k]) !== JSON.stringify(after[k]),
+    );
 }
 
 async function main() {
     const a = parseArgs(process.argv.slice(2));
     if (!a.source) die('--source <scratch-db-id> is required');
-    if (a.source === '(default)') die('--source must be a scratch database, not (default)');
+    if (a.source === '(default)')
+        die('--source must be a scratch database, not (default)');
 
-    const app = initializeApp({ projectId: a.project, credential: applicationDefault() });
+    const app = initializeApp({
+        projectId: a.project,
+        credential: applicationDefault(),
+    });
     const source = getFirestore(app, a.source);
-    const target = a.target === '(default)' ? getFirestore(app) : getFirestore(app, a.target);
+    const target =
+        a.target === '(default)'
+            ? getFirestore(app)
+            : getFirestore(app, a.target);
 
-    console.log(`Recover docs: ${a.project}  source='${a.source}' -> target='${a.target}'`);
-    console.log(a.confirm ? '*** CONFIRM: writes WILL be performed ***' : '(dry run — no writes; pass --confirm to apply)');
+    console.log(
+        `Recover docs: ${a.project}  source='${a.source}' -> target='${a.target}'`,
+    );
+    console.log(
+        a.confirm
+            ? '*** CONFIRM: writes WILL be performed ***'
+            : '(dry run — no writes; pass --confirm to apply)',
+    );
 
     const paths = await collectPaths(source, a);
     if (paths.length === 0) die('no matching documents found in source');
     console.log(`Matched ${paths.length} document(s).\n`);
 
     // Load source + current target state, build the plan.
-    type Plan = { path: string; data: DocumentData; action: 'CREATE' | 'OVERWRITE' | 'IDENTICAL'; changed: string[] };
+    type Plan = {
+        path: string;
+        data: DocumentData;
+        action: 'CREATE' | 'OVERWRITE' | 'IDENTICAL';
+        changed: string[];
+    };
     const plan: Plan[] = [];
-    const galleryMembers = new Map<string, { projects: string[]; howTos: string[] }>();
+    const galleryMembers = new Map<
+        string,
+        { projects: string[]; howTos: string[] }
+    >();
 
     for (const path of paths) {
         const src = await source.doc(path).get();
-        if (!src.exists) { console.warn(`  skip (missing in source): ${path}`); continue; }
+        if (!src.exists) {
+            console.warn(`  skip (missing in source): ${path}`);
+            continue;
+        }
         const data = src.data() as DocumentData;
         const cur = await target.doc(path).get();
         const before = cur.exists ? (cur.data() as DocumentData) : undefined;
         const changed = changedKeys(before, data);
-        const action: Plan['action'] = before === undefined ? 'CREATE' : changed.length === 0 ? 'IDENTICAL' : 'OVERWRITE';
+        const action: Plan['action'] =
+            before === undefined
+                ? 'CREATE'
+                : changed.length === 0
+                  ? 'IDENTICAL'
+                  : 'OVERWRITE';
         plan.push({ path, data, action, changed });
 
         const [col, id] = path.split('/');
         if (a.reconcileRefs) {
             const g =
-                col === Domain.Projects && typeof data.gallery === 'string' ? data.gallery :
-                col === Domain.HowTos && typeof data.galleryId === 'string' ? data.galleryId : null;
+                col === Domain.Projects && typeof data.gallery === 'string'
+                    ? data.gallery
+                    : col === Domain.HowTos &&
+                        typeof data.galleryId === 'string'
+                      ? data.galleryId
+                      : null;
             if (g) {
                 const m = galleryMembers.get(g) ?? { projects: [], howTos: [] };
-                if (col === Domain.Projects) m.projects.push(id); else m.howTos.push(id);
+                if (col === Domain.Projects) m.projects.push(id);
+                else m.howTos.push(id);
                 galleryMembers.set(g, m);
             }
         }
     }
 
     for (const p of plan) {
-        const detail = p.action === 'OVERWRITE' ? ` (fields differ: ${p.changed.join(', ')})` : '';
+        const detail =
+            p.action === 'OVERWRITE'
+                ? ` (fields differ: ${p.changed.join(', ')})`
+                : '';
         console.log(`  ${p.action.padEnd(9)} ${p.path}${detail}`);
     }
     if (a.reconcileRefs && galleryMembers.size > 0) {
-        console.log('\n  Reference reconciliation (arrayUnion into surviving galleries):');
+        console.log(
+            '\n  Reference reconciliation (arrayUnion into surviving galleries):',
+        );
         for (const [g, m] of galleryMembers)
-            console.log(`    galleries/${g}: +projects[${m.projects.length}] +howTos[${m.howTos.length}]`);
+            console.log(
+                `    galleries/${g}: +projects[${m.projects.length}] +howTos[${m.howTos.length}]`,
+            );
     }
 
     if (!a.confirm) {
@@ -220,7 +303,8 @@ async function main() {
     let written = 0;
     for (let i = 0; i < plan.length; i += 400) {
         const batch = target.batch();
-        for (const p of plan.slice(i, i + 400)) batch.set(target.doc(p.path), p.data);
+        for (const p of plan.slice(i, i + 400))
+            batch.set(target.doc(p.path), p.data);
         await batch.commit();
         written += Math.min(400, plan.length - i);
     }
@@ -229,16 +313,25 @@ async function main() {
     if (a.reconcileRefs) {
         for (const [g, m] of galleryMembers) {
             const ref = target.doc(`${Domain.Galleries}/${g}`);
-            if (!(await ref.get()).exists) { console.warn(`  gallery missing in target, skipping refs: ${g}`); continue; }
+            if (!(await ref.get()).exists) {
+                console.warn(
+                    `  gallery missing in target, skipping refs: ${g}`,
+                );
+                continue;
+            }
             await ref.update({
                 projects: FieldValue.arrayUnion(...m.projects),
                 howTos: FieldValue.arrayUnion(...m.howTos),
             });
         }
-        console.log(`Reconciled membership for ${galleryMembers.size} gallery(ies).`);
+        console.log(
+            `Reconciled membership for ${galleryMembers.size} gallery(ies).`,
+        );
     }
 
-    console.log('\nDone. Verify in the app and re-check dependent flattened fields if a CF normally maintains them.');
+    console.log(
+        '\nDone. Verify in the app and re-check dependent flattened fields if a CF normally maintains them.',
+    );
 }
 
 main().catch((e) => die(e instanceof Error ? e.message : String(e)));

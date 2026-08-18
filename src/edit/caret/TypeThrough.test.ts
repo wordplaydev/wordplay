@@ -102,7 +102,7 @@ describe('typing a syntactically correct program produces exactly that program',
 
 describe('typing a delimiter before its close types over it instead of doubling it', () => {
     test.each([
-        ["symmetric quote", "'a'"],
+        ['symmetric quote', "'a'"],
         ['asymmetric quote', '“a”'],
         ['quote whose close opens another pair', '„a“'],
         ['formatted literal', '`a`'],
@@ -114,7 +114,7 @@ describe('typing a delimiter before its close types over it instead of doubling 
         ['escaped formatting in a doc', '¶a //b// c¶1'],
         ['full width parentheses', '（1）'],
         ['table', '⎡a•#⎦⎡1⎦'],
-        ['table select', "t: ⎡a•#⎦⎡1⎦\nt ⎡? a a > 0⊤⎦"],
+        ['table select', 't: ⎡a•#⎦⎡1⎦\nt ⎡? a a > 0⊤⎦'],
         ['type inputs', 'ƒ id⸨T⸩(v•T) v'],
     ])('%s', (_, program) => {
         expect(typeProgram(program)).toBe(program);

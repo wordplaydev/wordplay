@@ -9,18 +9,23 @@
     import { getUser } from '@components/project/Contexts';
     import LocaleName from '@components/settings/LocaleName.svelte';
     import LocaleSearch, {
+        allLanguageOptions,
+        allRegionOptions,
+        bestMatch,
         filterLocalesByQuery,
+        matchLanguages,
+        matchRegions,
     } from '@components/settings/LocaleSearch.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
+    import { LocaleDialogID } from '@components/widgets/dialogIDs';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
+    import type { Snippet } from 'svelte';
     import { locales } from '@db/Database';
     import { getFunctionsInstance } from '@db/firebase';
-    import { Languages } from '@locale/LanguageCode';
     import { localeToString, stringToLocale } from '@locale/Locale';
     import { getLocaleLanguageName, isLocaleDraft } from '@locale/LocaleText';
-    import { Regions } from '@locale/Regions';
     import {
         SupportedLocales,
         type SupportedLocale,
@@ -35,9 +40,21 @@
         /** Determines whether to show locale menu button (footer vs. speech bubble) */
         show?: boolean;
         showButton?: boolean;
+        /** Greet a visitor who hasn't chosen a language yet (#1256): drop the sections
+         *  that assume a choice was already made, and close once they choose. */
+        prompt?: boolean;
+        /** Shown in place of the header and the "Selected" section in prompt mode. Passed
+         *  in rather than built here so that the phrase table and its rotation load with
+         *  the prompt, not with every page that mounts the chooser. */
+        banner?: Snippet;
     }
 
-    let { show = $bindable(false), showButton = true }: Props = $props();
+    let {
+        show = $bindable(false),
+        showButton = true,
+        prompt = false,
+        banner,
+    }: Props = $props();
 
     let selectedLocales = $state<string[]>([]);
     $effect(() => {
@@ -51,8 +68,11 @@
 
     let availableLocales = $derived(
         filterLocalesByQuery(
+            // Nothing is really "selected" yet when we're asking, so offer every
+            // language — otherwise the one currently in force, English, is the single
+            // language a first-time visitor can't pick.
             SupportedLocales.filter(
-                (supported) => !selectedLocales.includes(supported),
+                (supported) => prompt || !selectedLocales.includes(supported),
             ),
             query,
             (code) => stringToLocale(code),
@@ -68,23 +88,45 @@
         'idle',
     );
     let requestIssueUrl = $state<string | undefined>(undefined);
+    /** Whether the returned issue already existed, so we can say so rather than
+     *  implying the request opened a new discussion. */
+    let requestExisting = $state(false);
     let requestErrorKey = $state<
         'error' | 'alreadySupported' | 'requiresLogin' | undefined
     >(undefined);
 
-    /** Language dropdown options: every language in our metadata, alphabetized
-     *  by native name. The submit guard rejects already-supported combinations. */
-    const languageOptions = Object.entries(Languages)
-        .map(([code, meta]) => ({
-            value: code,
-            label: `${meta.name} (${meta.en})`,
-        }))
-        .sort((a, b) => a.label.localeCompare(b.label));
+    /** One search box filters both dropdowns: several hundred languages and regions are
+     *  unnavigable as plain menus (#1256). Each falls back to its full list when the
+     *  query matches nothing on that axis, so a region query doesn't empty the
+     *  language menu. */
+    let requestQuery = $state('');
+    let languageMatches = $derived(
+        matchLanguages(requestQuery, $locales.getLanguages()),
+    );
+    let regionMatches = $derived(
+        matchRegions(requestQuery, $locales.getLanguages()),
+    );
+    // A query that names a country shouldn't empty the language menu, and vice versa:
+    // an axis the query says nothing about keeps its full list, so the other dropdown
+    // is still usable without clearing the box.
+    let languageOptions = $derived(
+        languageMatches.length > 0 ? languageMatches : allLanguageOptions(),
+    );
+    let regionOptions = $derived(
+        regionMatches.length > 0 ? regionMatches : allRegionOptions(),
+    );
 
-    /** Region dropdown options: every ISO 3166 alpha-2 code, sorted by English name. */
-    const regionOptions = Object.entries(Regions)
-        .map(([code, meta]) => ({ value: code, label: `${meta.en} (${code})` }))
-        .sort((a, b) => a.label.localeCompare(b.label));
+    /** Auto-select the best prefix match, but only when the query itself changes, so
+     *  that picking a different option from either menu afterwards sticks. */
+    let autoSelectedFor: string | undefined = undefined;
+    $effect(() => {
+        const query = requestQuery;
+        if (query === autoSelectedFor) return;
+        autoSelectedFor = query;
+        const best = bestMatch(query, $locales.getLanguages());
+        if (best.language !== undefined) requestLanguage = best.language;
+        if (best.region !== undefined) requestRegion = best.region;
+    });
 
     let requestedLocale = $derived(
         requestLanguage && requestRegion
@@ -123,17 +165,19 @@
         requestStatus = 'submitting';
         requestErrorKey = undefined;
         requestIssueUrl = undefined;
+        requestExisting = false;
         try {
             const { httpsCallable } = await import('firebase/functions');
             const submit = httpsCallable<
                 { language: string; region: string },
-                { issueUrl: string }
+                { issueUrl: string; existing?: boolean }
             >(functions, 'submitLocaleRequest');
             const response = await submit({
                 language: requestLanguage,
                 region: requestRegion,
             });
             requestIssueUrl = response.data.issueUrl;
+            requestExisting = response.data.existing === true;
             requestStatus = 'success';
         } catch (e) {
             console.error('Locale request failed', e);
@@ -175,15 +219,23 @@
         goto(
             `/${localeParam}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}${page.url.search}`,
         );
+
+        // The prompt covers the page it's asking about, so get out of the way once
+        // there's an answer. The layout records that we asked, however it ended.
+        if (prompt) show = false;
     }
 </script>
 
+<!-- No `id` in prompt mode: the id syncs the dialog's open state into `?dialog=locale`,
+     which would both dirty a first-time visitor's URL and force the picker open for
+     anyone they shared that link with. -->
 <Dialog
-    id="locale"
+    id={prompt ? undefined : LocaleDialogID}
     bind:show
+    wide
     height="75vh"
-    header={(l) => l.ui.dialog.locale.header}
-    explanation={(l) => l.ui.dialog.locale.explanation}
+    header={prompt ? undefined : (l) => l.ui.dialog.locale.header}
+    explanation={prompt ? undefined : (l) => l.ui.dialog.locale.explanation}
     button={showButton
         ? {
               tip: (l) => l.ui.dialog.locale.button.show,
@@ -197,33 +249,52 @@
           }
         : undefined}
 >
-    <MarkupHTMLView markup={(l) => l.ui.dialog.locale.localizeHelp} />
+    {#if prompt}
+        {@render banner?.()}
+    {:else}
+        <MarkupHTMLView markup={(l) => l.ui.dialog.locale.localizeHelp} />
 
-    <h2
-        >{$locales
-            .concretize((l) => l.ui.dialog.locale.subheader.selected)
-            .toText()}</h2
-    >
-
-    <div class="languages">
-        {#each selectedLocales as selected (selected)}
-            <Button
-                action={() => select(selected, 'remove')}
-                tip={(l) => l.ui.dialog.locale.button.remove}
-                active={selectedLocales.length > 1}
-                icon={selectedLocales.length > 1 ? CANCEL_SYMBOL : undefined}
-                background
-            >
-                <LocaleName locale={selected} supported /></Button
-            >
-        {/each}
-    </div>
-    <div class="available-header">
         <h2
             >{$locales
-                .concretize((l) => l.ui.dialog.locale.subheader.supported)
+                .concretize((l) => l.ui.dialog.locale.subheader.selected)
                 .toText()}</h2
         >
+        <LocaleSearch
+            id="locale-available-search"
+            placeholder={(l) => l.ui.dialog.locale.search.placeholder}
+            description={(l) => l.ui.dialog.locale.search.description}
+            bind:query
+        />
+
+        <div class="languages">
+            {#each selectedLocales as selected (selected)}
+                {#if selectedLocales.length > 1}
+                    <Button
+                        action={() => select(selected, 'remove')}
+                        tip={(l) => l.ui.dialog.locale.button.remove}
+                        icon={CANCEL_SYMBOL}
+                        background
+                    >
+                        <LocaleName locale={selected} supported /></Button
+                    >
+                {:else}
+                    <!-- The last remaining language can never be removed, so a disabled
+                         button only makes it harder to read. Show the name plainly. -->
+                    <span class="only"
+                        ><LocaleName locale={selected} supported /></span
+                    >
+                {/if}
+            {/each}
+        </div>
+    {/if}
+    <div class="available-header">
+        {#if !prompt}
+            <h2
+                >{$locales
+                    .concretize((l) => l.ui.dialog.locale.subheader.supported)
+                    .toText()}</h2
+            >
+        {/if}
         <LocaleSearch
             id="locale-available-search"
             placeholder={(l) => l.ui.dialog.locale.search.placeholder}
@@ -253,73 +324,95 @@
         {/each}
     </div>
 
-    <h2
-        >{$locales
-            .concretize((l) => l.ui.dialog.locale.request.header)
-            .toText()}</h2
-    >
-    <MarkupHTMLView markup={(l) => l.ui.dialog.locale.request.explanation} />
+    <!-- Not while prompting: the request form and its dropdowns of language and
+         country names are English-only, so they're no help to the very reader
+         this is asking, who may not read the English page it covers. -->
+    {#if !prompt}
+        <h2
+            >{$locales
+                .concretize((l) => l.ui.dialog.locale.request.header)
+                .toText()}</h2
+        >
+        <MarkupHTMLView
+            markup={(l) => l.ui.dialog.locale.request.explanation}
+        />
 
-    <div class="request-form">
-        <Options
-            label={(l) => l.ui.dialog.locale.request.languageLabel}
-            value={requestLanguage}
-            options={[
-                {
-                    value: undefined,
-                    label: (l) => l.ui.dialog.locale.request.languageLabel,
-                },
-                ...languageOptions,
-            ]}
-            change={(value) => (requestLanguage = value)}
+        <LocaleSearch
+            id="locale-request-search"
+            bind:query={requestQuery}
+            placeholder={(l) => l.ui.dialog.locale.request.searchPlaceholder}
+            description={(l) => l.ui.dialog.locale.request.searchDescription}
         />
-        <Options
-            label={(l) => l.ui.dialog.locale.request.regionLabel}
-            value={requestRegion}
-            options={[
-                {
-                    value: undefined,
-                    label: (l) => l.ui.dialog.locale.request.regionLabel,
-                },
-                ...regionOptions,
-            ]}
-            change={(value) => (requestRegion = value)}
-        />
-        <Button
-            action={submitRequest}
-            tip={(l) => l.ui.dialog.locale.request.submit}
-            active={!requestSubmitDisabled}
-        >
-            <LocalizedText path={(l) => l.ui.dialog.locale.request.submit} />
-        </Button>
-    </div>
-    {#if requestStatus === 'submitting'}
-        <p class="request-status"
-            ><Spinning></Spinning>
-            <LocalizedText
-                path={(l) => l.ui.dialog.locale.request.submitting}
-            /></p
-        >
-    {:else if requestStatus === 'success' && requestIssueUrl}
-        <p class="request-status">
-            <Link external to={requestIssueUrl}>
+        <div class="request-form">
+            <Options
+                label={(l) => l.ui.dialog.locale.request.languageLabel}
+                value={requestLanguage}
+                options={[
+                    {
+                        value: undefined,
+                        label: (l) => l.ui.dialog.locale.request.languageLabel,
+                    },
+                    ...languageOptions,
+                ]}
+                change={(value) => (requestLanguage = value)}
+            />
+            <Options
+                label={(l) => l.ui.dialog.locale.request.regionLabel}
+                value={requestRegion}
+                options={[
+                    {
+                        value: undefined,
+                        label: (l) => l.ui.dialog.locale.request.regionLabel,
+                    },
+                    ...regionOptions,
+                ]}
+                change={(value) => (requestRegion = value)}
+            />
+            <Button
+                action={submitRequest}
+                tip={(l) => l.ui.dialog.locale.request.submit}
+                active={!requestSubmitDisabled}
+            >
                 <LocalizedText
-                    path={(l) => l.ui.dialog.locale.request.success}
+                    path={(l) => l.ui.dialog.locale.request.submit}
                 />
-            </Link>
-        </p>
-    {:else if requestStatus === 'error' && requestErrorKey}
-        <p class="request-status request-error">
-            <LocalizedText
-                path={(l) => l.ui.dialog.locale.request[requestErrorKey!]}
-            />
-        </p>
-    {:else if requestedAlreadySupported}
-        <p class="request-status request-error">
-            <LocalizedText
-                path={(l) => l.ui.dialog.locale.request.alreadySupported}
-            />
-        </p>
+            </Button>
+        </div>
+        {#if requestStatus === 'submitting'}
+            <p class="request-status"
+                ><Spinning></Spinning>
+                <LocalizedText
+                    path={(l) => l.ui.dialog.locale.request.submitting}
+                /></p
+            >
+        {:else if requestStatus === 'success' && requestIssueUrl}
+            <p class="request-status">
+                <Link external to={requestIssueUrl}>
+                    {#if requestExisting}
+                        <LocalizedText
+                            path={(l) =>
+                                l.ui.dialog.locale.request.alreadyRequested}
+                        />
+                    {:else}
+                        <LocalizedText
+                            path={(l) => l.ui.dialog.locale.request.success}
+                        />
+                    {/if}
+                </Link>
+            </p>
+        {:else if requestStatus === 'error' && requestErrorKey}
+            <p class="request-status request-error">
+                <LocalizedText
+                    path={(l) => l.ui.dialog.locale.request[requestErrorKey!]}
+                />
+            </p>
+        {:else if requestedAlreadySupported}
+            <p class="request-status request-error">
+                <LocalizedText
+                    path={(l) => l.ui.dialog.locale.request.alreadySupported}
+                />
+            </p>
+        {/if}
     {/if}
 </Dialog>
 
@@ -332,10 +425,13 @@
         gap: calc(2 * var(--wordplay-spacing));
     }
 
+    /* A wrapping grid rather than a single column: the dialog is as wide as the
+       window allows, and thirty stacked rows left the whole right side empty. */
     .supported {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
         gap: calc(2 * var(--wordplay-spacing));
+        align-items: start;
     }
 
     .languages {
@@ -346,6 +442,15 @@
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
+    }
+
+    /* The one remaining language, which has no remove action. Matches a background
+       button's box so it sits level with them, without the affordance. */
+    .only {
+        display: inline-block;
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .request-form {

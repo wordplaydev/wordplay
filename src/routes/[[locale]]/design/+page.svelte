@@ -21,8 +21,10 @@
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
+    import { toClipboard } from '@components/editor/commands/Clipboard';
     import { dark, locales, Settings } from '@db/Database';
     import { Scripts, type ScriptMetadata } from '@locale/Scripts';
+    import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import { contrast } from '@util/colorContrast';
 
     // Demo state for interactive component examples
@@ -49,6 +51,9 @@
     let spacingPx = $state<Record<string, string>>({});
     let appFontStack = $state('');
     let codeFontStack = $state('');
+    let fallbackFonts = $state('');
+    /** The font variable whose value was most recently copied, for the ✓ confirmation. */
+    let copiedStack = $state<string | undefined>(undefined);
 
     // Derive localized switch labels from the existing dark-mode locale strings
     let lightLabel = $derived(
@@ -111,12 +116,9 @@
         }
         colorHex = newColors;
 
-        appFontStack = getComputedStyle(document.documentElement)
-            .getPropertyValue('--wordplay-app-font')
-            .trim();
-        codeFontStack = getComputedStyle(document.documentElement)
-            .getPropertyValue('--wordplay-code-font')
-            .trim();
+        appFontStack = resolveFontStack('--wordplay-app-font');
+        codeFontStack = resolveFontStack('--wordplay-code-font');
+        fallbackFonts = resolveFontStack('--wordplay-fallback-fonts');
 
         const newSpacing: Record<string, string> = {};
         for (const v of spacingVariables) {
@@ -125,8 +127,28 @@
         spacingPx = newSpacing;
     });
 
+    /** A font chain's computed value on one line: custom properties keep the
+     *  line breaks and indentation they were authored with, which would
+     *  otherwise end up in the copied CSS. */
+    function resolveFontStack(name: string): string {
+        return getComputedStyle(document.documentElement)
+            .getPropertyValue(name)
+            .trim()
+            .replace(/\s+/g, ' ');
+    }
+
     function primaryFont(stack: string): string {
         return stack.split(',')[0].trim().replace(/['"]/g, '');
+    }
+
+    /** Custom properties resolve their `var()`s at computed-value time, so a
+     *  font stack arrives with the ~150-family fallback list inlined. Put the
+     *  variable back so the cell shows the chain as it's authored; if the value
+     *  isn't found verbatim, show the stack unchanged rather than guessing. */
+    function collapseFallback(stack: string): string {
+        return fallbackFonts.length > 0 && stack.includes(fallbackFonts)
+            ? stack.replace(fallbackFonts, 'var(--wordplay-fallback-fonts)')
+            : stack;
     }
 
     /** The color's live contrast ratio against the page background, or a dash
@@ -273,6 +295,28 @@
 
 <Title text={(l) => l.ui.page.design.header} />
 
+<!-- The value cell for a font variable: the chain with the fallback list
+     collapsed back to its variable, and a button to copy the full one.
+     Declared outside <Writing> so it's a page snippet, not a prop of it. -->
+{#snippet fontValue(name: string, stack: string)}
+    <td class="font-value">
+        <code class="font-stack">{collapseFallback(stack) || '…'}</code>
+        {#if stack}
+            <Button
+                tip={(l) => l.ui.page.design.copyvalue}
+                icon={COPY_SYMBOL}
+                action={() => {
+                    copiedStack = undefined;
+                    toClipboard(stack);
+                    // In case it's already pressed, show it again.
+                    setTimeout(() => (copiedStack = name), 100);
+                }}
+                >{#if copiedStack === name}{CONFIRM_SYMBOL}{/if}</Button
+            >
+        {/if}
+    </td>
+{/snippet}
+
 <Writing>
     <PageHeader header={(l) => l.ui.page.design.header} />
     <div class="section-content">
@@ -313,47 +357,62 @@
 
     <h3><LocalizedText path={(l) => l.ui.page.design.semantic} /></h3>
     <div class="section-content">
-        <table>
-            <thead>
-                <tr>
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.variable}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.color}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.hex}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.contrast}
-                        /></th
-                    >
-                </tr>
-            </thead>
-            <tbody>
-                {#each semanticColors as color}
+        <!-- See the fonts table for why this is unconditionally focusable. -->
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <div
+            class="scroller"
+            role="group"
+            tabindex="0"
+            aria-label={$locales.getPrimaryPlainText(
+                (l) => l.ui.page.design.semantic,
+            )}
+        >
+            <table>
+                <thead>
                     <tr>
-                        <td><code>{color.name}</code></td>
-                        <td>
-                            <div
-                                class="swatch small"
-                                style:background={color.value}
-                            ></div>
-                        </td>
-                        <td><code>{colorHex[color.name] ?? '–'}</code></td>
-                        <td><code>{contrastWithBackground(color.name)}</code></td>
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.variable}
+                            /></th
+                        >
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.color}
+                            /></th
+                        >
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.hex}
+                            /></th
+                        >
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.contrast}
+                            /></th
+                        >
                     </tr>
-                {/each}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {#each semanticColors as color}
+                        <tr>
+                            <td><code>{color.name}</code></td>
+                            <td>
+                                <div
+                                    class="swatch small"
+                                    style:background={color.value}
+                                ></div>
+                            </td>
+                            <td><code>{colorHex[color.name] ?? '–'}</code></td>
+                            <td
+                                ><code
+                                    >{contrastWithBackground(color.name)}</code
+                                ></td
+                            >
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Accessibility -->
@@ -366,134 +425,165 @@
     <Subheader text={(l) => l.ui.page.design.fonts} />
 
     <div class="section-content">
-        <table>
-            <thead>
-                <tr>
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.variable}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.cssvalue}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.primaryface}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.preview}
-                        /></th
-                    >
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>--wordplay-app-font</code></td>
-                    <td
-                        ><code class="font-stack">{appFontStack || '…'}</code
-                        ></td
-                    >
-                    <td
-                        ><code
-                            >{appFontStack
-                                ? primaryFont(appFontStack)
-                                : '…'}</code
-                        ></td
-                    >
-                    <td
-                        ><span class="font-preview app-font"
-                            >Aa 0123 The quick brown fox</span
-                        ></td
-                    >
-                </tr>
-                <tr>
-                    <td><code>--wordplay-code-font</code></td>
-                    <td
-                        ><code class="font-stack">{codeFontStack || '…'}</code
-                        ></td
-                    >
-                    <td
-                        ><code
-                            >{codeFontStack
-                                ? primaryFont(codeFontStack)
-                                : '…'}</code
-                        ></td
-                    >
-                    <td
-                        ><span class="font-preview code-font"
-                            >Aa 0123 The quick brown fox</span
-                        ></td
-                    >
-                </tr>
-            </tbody>
-        </table>
+        <!-- Focusable unconditionally: a table that scrolls may hold no
+             focusable content at all, which fails WCAG 2.1.1 and axe's
+             scrollable-region-focusable; measuring the overflow instead would
+             go stale on the next resize. -->
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <div
+            class="scroller"
+            role="group"
+            tabindex="0"
+            aria-label={$locales.getPrimaryPlainText(
+                (l) => l.ui.page.design.fonts,
+            )}
+        >
+            <table>
+                <thead>
+                    <tr>
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.variable}
+                            /></th
+                        >
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.cssvalue}
+                            /></th
+                        >
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.primaryface}
+                            /></th
+                        >
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.preview}
+                            /></th
+                        >
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>--wordplay-app-font</code></td>
+                        {@render fontValue('--wordplay-app-font', appFontStack)}
+                        <td
+                            ><code
+                                >{appFontStack
+                                    ? primaryFont(appFontStack)
+                                    : '…'}</code
+                            ></td
+                        >
+                        <td
+                            ><span class="font-preview app-font"
+                                >Aa 0123 The quick brown fox</span
+                            ></td
+                        >
+                    </tr>
+                    <tr>
+                        <td><code>--wordplay-code-font</code></td>
+                        {@render fontValue(
+                            '--wordplay-code-font',
+                            codeFontStack,
+                        )}
+                        <td
+                            ><code
+                                >{codeFontStack
+                                    ? primaryFont(codeFontStack)
+                                    : '…'}</code
+                            ></td
+                        >
+                        <td
+                            ><span class="font-preview code-font"
+                                >Aa 0123 The quick brown fox</span
+                            ></td
+                        >
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Spacing -->
     <Subheader text={(l) => l.ui.page.design.spacing} />
     <div class="section-content">
-        <table>
-            <thead>
-                <tr>
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.variable}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.cssvalue}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.computed}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.preview}
-                        /></th
-                    >
-                </tr>
-            </thead>
-            <tbody>
-                {#each spacingVariables as v}
+        <!-- See the fonts table for why this is unconditionally focusable. -->
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <div
+            class="scroller"
+            role="group"
+            tabindex="0"
+            aria-label={$locales.getPrimaryPlainText(
+                (l) => l.ui.page.design.spacing,
+            )}
+        >
+            <table>
+                <thead>
                     <tr>
-                        <td><code>{v.name}</code></td>
-                        <td><code>{v.cssValue}</code></td>
-                        <td
-                            ><code
-                                >{v.canCompute
-                                    ? (spacingPx[v.name] ?? '…')
-                                    : '–'}</code
-                            ></td
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.variable}
+                            /></th
                         >
-                        <td>
-                            {#if v.canCompute}
-                                <div class="spacing-bar-wrap">
-                                    <div
-                                        class="spacing-bar"
-                                        style:width={`var(${v.name})`}
-                                        style:height={`var(${v.name})`}
-                                    ></div>
-                                </div>
-                            {/if}
-                        </td>
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.cssvalue}
+                            /></th
+                        >
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.computed}
+                            /></th
+                        >
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.preview}
+                            /></th
+                        >
                     </tr>
-                {/each}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {#each spacingVariables as v}
+                        <tr>
+                            <td><code>{v.name}</code></td>
+                            <td><code>{v.cssValue}</code></td>
+                            <td
+                                ><code
+                                    >{v.canCompute
+                                        ? (spacingPx[v.name] ?? '…')
+                                        : '–'}</code
+                                ></td
+                            >
+                            <td>
+                                {#if v.canCompute}
+                                    <div class="spacing-bar-wrap">
+                                        <div
+                                            class="spacing-bar"
+                                            style:width={`var(${v.name})`}
+                                            style:height={`var(${v.name})`}
+                                        ></div>
+                                    </div>
+                                {/if}
+                            </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <Subheader text={(l) => l.ui.page.design.typography} />
 
-    <div class="type-specimen">
+    <!-- See the fonts table for why this is unconditionally focusable. -->
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <div
+        class="type-specimen scroller"
+        role="group"
+        tabindex="0"
+        aria-label={$locales.getPrimaryPlainText(
+            (l) => l.ui.page.design.typography,
+        )}
+    >
         <table>
             <tbody>
                 <tr>
@@ -604,181 +694,196 @@
     <!-- Components -->
     <Subheader text={(l) => l.ui.page.design.components} />
     <div class="section-content">
-        <table>
-            <thead>
-                <tr>
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.component}
-                        /></th
-                    >
-                    <th
-                        ><LocalizedText
-                            path={(l) => l.ui.page.design.col.preview}
-                        /></th
-                    >
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>Button.svelte</code></td>
-                    <td>
-                        <Button
-                            tip={() =>
-                                $locales.getPlainText(
-                                    (l) => l.ui.page.design.demo.button,
-                                )}
-                            action={() => {}}
-                            background
+        <!-- See the fonts table for why this is unconditionally focusable. -->
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <div
+            class="scroller"
+            role="group"
+            tabindex="0"
+            aria-label={$locales.getPrimaryPlainText(
+                (l) => l.ui.page.design.components,
+            )}
+        >
+            <table>
+                <thead>
+                    <tr>
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.component}
+                            /></th
                         >
-                            <LocalizedText
-                                path={(l) => l.ui.page.design.demo.button}
+                        <th
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.col.preview}
+                            /></th
+                        >
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Button.svelte</code></td>
+                        <td>
+                            <Button
+                                tip={() =>
+                                    $locales.getPlainText(
+                                        (l) => l.ui.page.design.demo.button,
+                                    )}
+                                action={() => {}}
+                                background
+                            >
+                                <LocalizedText
+                                    path={(l) => l.ui.page.design.demo.button}
+                                />
+                            </Button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>Mode.svelte</code></td>
+                        <td>
+                            <Mode
+                                modes={() => ({
+                                    label: 'Label',
+                                    labels: ['One', 'Two', 'Three'] as const,
+                                    tips: [
+                                        'Option one',
+                                        'Option two',
+                                        'Option three',
+                                    ] as const,
+                                })}
+                                choice={modeChoice}
+                                select={(i) => (modeChoice = i)}
                             />
-                        </Button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>Mode.svelte</code></td>
-                    <td>
-                        <Mode
-                            modes={() => ({
-                                label: 'Example mode',
-                                labels: ['One', 'Two', 'Three'] as const,
-                                tips: [
-                                    'Option one',
-                                    'Option two',
-                                    'Option three',
-                                ] as const,
-                            })}
-                            choice={modeChoice}
-                            select={(i) => (modeChoice = i)}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>Tabbed.svelte</code></td>
-                    <td>
-                        <Tabbed
-                            tabs={() => ({
-                                label: 'Example tabs',
-                                labels: ['One', 'Two', 'Three'] as const,
-                                tips: [
-                                    'The first panel',
-                                    'The second panel',
-                                    'The third panel',
-                                ] as const,
-                            })}
-                            choice={tabbedChoice}
-                            select={(i) => (tabbedChoice = i)}
-                        >
-                            {#snippet children()}
-                                <p
-                                    >Panel {['one', 'two', 'three'][
-                                        tabbedChoice
-                                    ]}. The selected tab joins this panel.</p
-                                >
-                            {/snippet}
-                        </Tabbed>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>Switch.svelte</code></td>
-                    <td>
-                        <Switch
-                            on={switchOn}
-                            toggle={(on) => (switchOn = on)}
-                            offLabel={`☼ ${lightLabel}`}
-                            onLabel={`☽ ${darkLabel}`}
-                            offTip={(l) =>
-                                l.ui.dialog.settings.mode.dark.tips[0]}
-                            onTip={(l) =>
-                                l.ui.dialog.settings.mode.dark.tips[1]}
-                            shortcut={undefined}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>Toggle.svelte</code></td>
-                    <td>
-                        <Toggle
-                            tips={(l) => ({
-                                on: l.ui.page.design.demo.toggleon,
-                                off: l.ui.page.design.demo.toggleoff,
-                            })}
-                            on={toggleOn}
-                            toggle={() => (toggleOn = !toggleOn)}
-                        >
-                            <LocalizedText
-                                path={(l) => l.ui.page.design.demo.button}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>Tabbed.svelte</code></td>
+                        <td>
+                            <Tabbed
+                                tabs={() => ({
+                                    label: 'Example tabs',
+                                    labels: ['One', 'Two', 'Three'] as const,
+                                    tips: [
+                                        'The first panel',
+                                        'The second panel',
+                                        'The third panel',
+                                    ] as const,
+                                })}
+                                choice={tabbedChoice}
+                                select={(i) => (tabbedChoice = i)}
+                            >
+                                {#snippet children()}
+                                    <p
+                                        >Panel {['one', 'two', 'three'][
+                                            tabbedChoice
+                                        ]}. The selected tab joins this panel.</p
+                                    >
+                                {/snippet}
+                            </Tabbed>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>Switch.svelte</code></td>
+                        <td>
+                            <Switch
+                                on={switchOn}
+                                toggle={(on) => (switchOn = on)}
+                                offLabel={`☼ ${lightLabel}`}
+                                onLabel={`☽ ${darkLabel}`}
+                                offTip={(l) =>
+                                    l.ui.dialog.settings.mode.dark.tips[0]}
+                                onTip={(l) =>
+                                    l.ui.dialog.settings.mode.dark.tips[1]}
+                                shortcut={undefined}
                             />
-                        </Toggle>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>Options.svelte</code></td>
-                    <td>
-                        <Options
-                            value={optionsValue}
-                            label={(l) => l.ui.page.design.demo.optionslabel}
-                            options={[
-                                {
-                                    value: 'a',
-                                    label: (l) => l.ui.page.design.demo.optiona,
-                                },
-                                {
-                                    value: 'b',
-                                    label: (l) => l.ui.page.design.demo.optionb,
-                                },
-                                {
-                                    value: 'c',
-                                    label: (l) => l.ui.page.design.demo.optionc,
-                                },
-                            ]}
-                            change={(v) => (optionsValue = v)}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>Slider.svelte</code></td>
-                    <td>
-                        <Slider
-                            value={sliderValue}
-                            min={0}
-                            max={100}
-                            unit="%"
-                            increment={1}
-                            tip={() => 'Adjust value'}
-                            change={(v) => (sliderValue = v.toNumber())}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>TextField.svelte</code></td>
-                    <td>
-                        <TextField
-                            text={textValue}
-                            placeholder={(l) =>
-                                l.ui.page.design.demo.textfieldplaceholder}
-                            description={(l) =>
-                                l.ui.page.design.demo.textfielddescription}
-                            id="design-textfield"
-                            changed={(t) => (textValue = t)}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>Checkbox.svelte</code></td>
-                    <td>
-                        <Checkbox
-                            on={checkboxOn}
-                            label={() => 'Example checkbox'}
-                            id="design-checkbox"
-                            changed={(v) => (checkboxOn = v)}
-                        />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>Toggle.svelte</code></td>
+                        <td>
+                            <Toggle
+                                tips={(l) => ({
+                                    on: l.ui.page.design.demo.toggleon,
+                                    off: l.ui.page.design.demo.toggleoff,
+                                })}
+                                on={toggleOn}
+                                toggle={() => (toggleOn = !toggleOn)}
+                            >
+                                <LocalizedText
+                                    path={(l) => l.ui.page.design.demo.button}
+                                />
+                            </Toggle>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>Options.svelte</code></td>
+                        <td>
+                            <Options
+                                value={optionsValue}
+                                label={(l) =>
+                                    l.ui.page.design.demo.optionslabel}
+                                options={[
+                                    {
+                                        value: 'a',
+                                        label: (l) =>
+                                            l.ui.page.design.demo.optiona,
+                                    },
+                                    {
+                                        value: 'b',
+                                        label: (l) =>
+                                            l.ui.page.design.demo.optionb,
+                                    },
+                                    {
+                                        value: 'c',
+                                        label: (l) =>
+                                            l.ui.page.design.demo.optionc,
+                                    },
+                                ]}
+                                change={(v) => (optionsValue = v)}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>Slider.svelte</code></td>
+                        <td>
+                            <Slider
+                                value={sliderValue}
+                                min={0}
+                                max={100}
+                                unit="%"
+                                increment={1}
+                                tip={() => 'Adjust value'}
+                                change={(v) => (sliderValue = v.toNumber())}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>TextField.svelte</code></td>
+                        <td>
+                            <TextField
+                                text={textValue}
+                                placeholder={(l) =>
+                                    l.ui.page.design.demo.textfieldplaceholder}
+                                description={(l) =>
+                                    l.ui.page.design.demo.textfielddescription}
+                                id="design-textfield"
+                                changed={(t) => (textValue = t)}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>Checkbox.svelte</code></td>
+                        <td>
+                            <Checkbox
+                                on={checkboxOn}
+                                label={() => 'Example checkbox'}
+                                id="design-checkbox"
+                                changed={(v) => (checkboxOn = v)}
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </Writing>
 
@@ -857,9 +962,26 @@
         font-family: var(--wordplay-code-font);
     }
 
+    /* `break-all`, not `overflow-wrap: anywhere`: the latter shrinks the
+       column to its min-content width, which starves it down to about a word
+       per line and makes the cell far taller than the value it holds. */
     .font-stack {
         word-break: break-all;
         white-space: normal;
+    }
+
+    /* A floor on the value column, so the table's auto layout gives the stack
+       a readable measure instead of a narrow ribbon; the table scrolls itself
+       when that doesn't fit. */
+    .font-value {
+        min-width: 10em;
+    }
+
+    /* Tables hold content that can't wrap (the component previews) or that's
+       simply wider than a phone's text column, so they scroll themselves
+       rather than forcing the whole page to scroll horizontally. */
+    .scroller {
+        overflow-x: auto;
     }
 
     .spacing-bar-wrap {

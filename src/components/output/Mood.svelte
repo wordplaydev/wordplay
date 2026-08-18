@@ -111,7 +111,8 @@
             mood = easeMood(mood, target, elapsed);
             pulse = advance(pulse, mood, bands, elapsed, reduced);
             const blow = summarize(fresh);
-            if (blow !== undefined && !reduced) pulse = strike(pulse, mood, blow);
+            if (blow !== undefined && !reduced)
+                pulse = strike(pulse, mood, blow);
 
             paint();
             frame = requestAnimationFrame(step);
@@ -174,7 +175,14 @@
             context.closePath();
 
             const reach = radii[lobe] * scale * 1.25;
-            const gradient = context.createRadialGradient(cx, cy, 0, cx, cy, reach);
+            const gradient = context.createRadialGradient(
+                cx,
+                cy,
+                0,
+                cx,
+                cy,
+                reach,
+            );
             gradient.addColorStop(0, colorToCSS(colour));
             gradient.addColorStop(
                 0.6,
@@ -204,6 +212,8 @@
         position: absolute;
         inset-inline: 0;
         bottom: 0;
+        /* Its own, not a shared token: the floor band is allowed to sit on
+           top of this rendering, so nothing else needs to know how tall it is. */
         height: 42%;
         z-index: 0;
         pointer-events: none;

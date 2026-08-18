@@ -34,7 +34,8 @@
 
     /** The tutorial scene that teaches this concept, if any: its URL and its title (used as the
      *  link label). Found by matching the concept's character name to a scene in the locale's tutorial. */
-    let tutorial: { url: string; title: string } | undefined = $state(undefined);
+    let tutorial: { url: string; title: string } | undefined =
+        $state(undefined);
 
     async function getConceptTutorial(locale: LocaleText) {
         const character = concept.getCharacterName($locales);

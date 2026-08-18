@@ -473,7 +473,10 @@ export function summarize(
         seconds = Math.max(seconds, entry.seconds ?? 0);
         pan += entry.pan;
         degree += entry.degree;
-        hues.push({ hue: spec?.hue ?? 250, weight: Math.max(0.001, entry.level) });
+        hues.push({
+            hue: spec?.hue ?? 250,
+            weight: Math.max(0.001, entry.level),
+        });
     }
     return {
         level,
@@ -554,7 +557,10 @@ export function advance(
             ? pulse.phases
             : pulse.phases.map(
                   (phase, k) =>
-                      phase + elapsedSeconds * (0.12 + k * 0.04) * (0.4 + mood.turbulence),
+                      phase +
+                      elapsedSeconds *
+                          (0.12 + k * 0.04) *
+                          (0.4 + mood.turbulence),
               ),
         drive: approach(pulse.drive, drive, 0.1, elapsedSeconds),
         hit: approach(pulse.hit, 0, HitFallSeconds, elapsedSeconds),
@@ -617,14 +623,18 @@ export function normalizeShares(raw: readonly number[]): number[] {
     const shares = raw.map((value) =>
         total <= 0 ? even : Math.max(0, value) / total,
     );
-    return shares.map((share) => MinShare + (1 - raw.length * MinShare) * share);
+    return shares.map(
+        (share) => MinShare + (1 - raw.length * MinShare) * share,
+    );
 }
 
 /** Mean radii for a set of shares, holding `Σ r²` at `InkBudget` exactly. */
 export function normalizeInk(shares: readonly number[]): number[] {
     let sum = 0;
     for (const share of shares) sum += share;
-    const target = shares.map((share) => (sum <= 0 ? 1 / shares.length : share / sum));
+    const target = shares.map((share) =>
+        sum <= 0 ? 1 / shares.length : share / sum,
+    );
     let squares = 0;
     for (const share of target) squares += share * share;
     const scale = Math.sqrt(InkBudget / squares);
@@ -641,8 +651,7 @@ export function inkOf(radii: readonly number[]): number {
 /** How deep the outline deforms this frame, bounded so a lobe can never
  * pinch shut. Sustained music smooths it; a percussive hit shatters it. */
 export function deformOf(mood: Mood, pulse: Pulse): number {
-    const raw =
-        0.1 + mood.edge * 0.5 + pulse.hit * 0.5 - pulse.sustain * 0.25;
+    const raw = 0.1 + mood.edge * 0.5 + pulse.hit * 0.5 - pulse.sustain * 0.25;
     return Math.min(MaxDeform, Math.max(0, raw));
 }
 
@@ -687,8 +696,7 @@ export function lobeColor(
             PeakChroma,
             mood.chroma + (PeakChroma - mood.chroma) * clamp01(pulse.drive),
         ),
-        hue:
-            (mood.hue + offset * mood.spread + pulse.driftHue + 720) % 360,
+        hue: (mood.hue + offset * mood.spread + pulse.driftHue + 720) % 360,
         alpha: LobeAlpha,
     };
 }
@@ -718,7 +726,10 @@ export function lobeCentre(
     return {
         x: clamp01(base + Math.cos(phase) * swing),
         y: clamp01(
-            0.15 + mood.lift * 0.5 + Math.sin(phase * ratio) * swing + pulse.drive * 0.1,
+            0.15 +
+                mood.lift * 0.5 +
+                Math.sin(phase * ratio) * swing +
+                pulse.drive * 0.1,
         ),
     };
 }

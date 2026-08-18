@@ -219,6 +219,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             [
                 'Hira',
                 'Layers',
+                'Chamber',
                 'Pounce',
                 'FootBall',
                 'Christmas',
@@ -256,7 +257,6 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'RainingLetters',
                 'Video',
                 'PitchNotes',
-                'ASCII',
                 'Hand',
                 'Face',
                 'FaceTalk',

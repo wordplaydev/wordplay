@@ -14,7 +14,9 @@ const es = stringToLocale('es-ES');
 /** A fake translator that only rewrites known prose words, so embedded `\code\`
  *  (which contains none of them) passes through verbatim — no network needed. */
 const wordTranslator: RawTranslator = async (texts) =>
-    texts.map((t) => t.replaceAll('hello', 'hola').replaceAll('world', 'mundo'));
+    texts.map((t) =>
+        t.replaceAll('hello', 'hola').replaceAll('world', 'mundo'),
+    );
 
 test('translateMarkup translates prose and preserves embedded code and spaces', async () => {
     if (en === undefined || es === undefined) throw new Error('bad locale');

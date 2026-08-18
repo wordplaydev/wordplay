@@ -9,7 +9,7 @@ export default class OutputPropertyRange {
         max: number,
         step: number,
         unit: string,
-        precision = 0
+        precision = 0,
     ) {
         this.min = min;
         this.max = max;

@@ -858,7 +858,12 @@
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "But have you ever thought about how we decide?",
                 "Doesn't it seem like decisions should be more nuanced than just yes or no? Is deciding between \\⊤\\ and \\⊥\\ all there is?",
-                "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?"
+                "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?",
+                "There's one more thing I do, and I don't always get credit for it. When my @condition asks what /kind/ of value something is, I don't only answer yes or no. I remember the answer inside each of my choices.",
+                "\\size•#|'': 5\nsize•# ? size + 1 'too small'\\",
+                "On its own, that value could be a @Number or some @Text, and adding to it would be a conflict, since those are added in very different ways. But inside my /yes/ we have just asked whether it's a @Number, so there it is one. Inside my /no/, it's the @Text.",
+                "It doesn't matter how you ask. A type check, a comparison against a particular value, a check for a missing value, and a check you saved under a name all tell me the same thing. And @Boolean/and, @Boolean/or, and @Boolean/not combine them the way you would expect.",
+                "There are two things I can't tell you. If you compare against @Text that has several translations, I learn nothing, because which translation you get depends on who is reading."
             ],
             "start": "Let's see if $condition is true",
             "else": "$jumping[jumping over code | not jumping over code]",
@@ -1598,7 +1603,10 @@
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "If none match, I evaluate the default @expression you give me.",
                 "I'm really helpful for converting one of many possible @Number, @Text, or more complex values into something else.",
-                "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values."
+                "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values.",
+                "Like @Conditional, I also tell you what I have learned. Inside a case, the @value I matched is known to be that case; inside a later case, it is known not to be any earlier one; and in my default, it is known to be none of them.",
+                "\\answer•#|'': 1\nanswer ??? 1: answer + 1\n'not one'\\",
+                "I can rule out cases that are a @Number, a @None, or @Text with a single translation, and other simple cases. But a case that evaluates something doesn't rule anything out, so my default keeps everything the @value might still be."
             ],
             "start": "Let's see what $value is...",
             "case": "Let's check this condition",
@@ -1807,7 +1815,8 @@
                         "explanation": "$name[I don't know anyone named $name in $scope[$scope|this @Block]|Can you give me a name?]"
                     },
                     "resolution": "Did you mean *$suggestion?*",
-                    "staticResolution": "Did you mean *$owner.$suggestion?*"
+                    "staticResolution": "Did you mean *$owner.$suggestion?*",
+                    "languageResolution": "*$name* is a name in $language. Add $language to your project's languages to use it here."
                 },
                 "ReferenceCycle": {
                     "name": "self-referencing value",
@@ -1871,7 +1880,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "incompatible key",
-                    "explanation": "I expected a key of type $expected",
+                    "explanation": "I expected a key of type $expected, but received $given",
                     "resolution": "Convert it to $expected, since $expected is required",
                     "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
                     "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
@@ -2209,7 +2218,13 @@
             "emotion": "cheerful",
             "doc": [
                 "I am /such/ a fan of @List. I get to tell @Bind what kind of list they are! Like this, I'm saying that it's a list of @Number:",
-                "\\things•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "\\things•[#]: [ 1 2 3 4 5 ]\\🪲",
+                "I can say it three different ways. If I don't name a type at all, then a list can be any length and hold anything:",
+                "\\stuff•[]: [ 1 'two' ø ]\\🪲",
+                "If I name one type, the list can still be any length, but everything in it has to be that one type, like the list of @Number up there.",
+                "And if I name several types, I mean a list of exactly that many things, with a type for each place in it. This one is a list of two things: a @Number first, then some @Text.",
+                "\\pair•[# '']: [ 1 'two' ]\\🪲",
+                "That last one is my favorite, because then everyone knows what's where. @ListAccess knows the first thing is a @Number and the second is @Text, and if you give me the wrong number of things, or put them in the wrong order, I'll say so!"
             ]
         },
         "MapType": {
@@ -6775,7 +6790,15 @@
                     "label": "translate"
                 },
                 "primary": "translate text in this language",
-                "destination": "translate to this language"
+                "destination": "translate to this language",
+                "languages": "show the languages this project is written in",
+                "addLanguage": "write this project in this language too",
+                "removeLanguage": "stop writing this project in this language",
+                "firstLanguage": "make this the project's first language",
+                "removeUnusedLanguages": {
+                    "tip": "remove the languages this project's code doesn't use",
+                    "label": "remove unused"
+                }
             },
             "field": {
                 "name": {
@@ -6801,13 +6824,29 @@
                 }
             },
             "dialog": {
-                "translate": {
-                    "header": "Translate",
+                "languages": {
+                    "header": "Languages",
+                    "tab": {
+                        "label": "language settings",
+                        "labels": ["Written in", "Translate"],
+                        "tips": [
+                            "see and change the languages this project is written in",
+                            "translate this project's names, text, and documentation into another language"
+                        ]
+                    },
                     "explanation": [
-                        "These are the languages your project is using.",
-                        "To translate your project into other supported languages, choose a primary source language and then choose a new language.",
-                        "/Translations will be imperfect, so review the results!/"
+                        "These are the languages your project is written in.",
+                        "You can add a language to write in, remove one you aren't using, or translate the whole project into a new language."
                     ],
+                    "count": "$#count[$count language|$count languages]",
+                    "meaning": [
+                        "A project's languages decide which names and words its code can use. If your project is written in Spanish, it needs Spanish here, or names like \\Frase\\ won't mean anything.",
+                        "Everyone who opens your project loads these languages, and the first one decides how your output is laid out. English names always work, in every project."
+                    ],
+                    "unused": "not used",
+                    "unloaded": "couldn't load",
+                    "checking": "Looking for languages your code uses…",
+                    "complete": "Your code doesn't use any language your project is missing.",
                     "search": {
                         "description": "Filter languages by name or region",
                         "placeholder": "language or region"
@@ -6815,6 +6854,7 @@
                 }
             },
             "subheader": {
+                "missing": "Maybe missing",
                 "source": "Source",
                 "destination": "Destination"
             },
@@ -6843,7 +6883,7 @@
                 "sourceToggle": "This /toggle/ shows or hides the *source file*. The *other toggles* on this row do the same for the other tiles.",
                 "addSource": "Some projects benefit from *multiple* source files, where data is stored in one and imported into the *main* source. The /add source/ button creates a new one.",
                 "share": "The /share/ dialog lets you share your project with *galleries*, with the *public*, or copy it as *text* to share elsewhere.",
-                "translate": "The /translate/ button can add *translations* of your project's *names*, *text*, and *documentation* into other languages.",
+                "languages": "The /languages/ button shows which languages your project is written in, lets you add or remove one, and can *translate* your project's *names*, *text*, and *documentation* into a new language.",
                 "checkpoints": "The /revisions/ panel lets you go *back* to previous versions of your project, and *snapshot* versions you want to remember."
             }
         },
@@ -7385,6 +7425,7 @@
             "conflictLabel": "$severity: $conflict",
             "button": {
                 "resolution": "Resolve this conflict",
+                "elsewhere": "Open where this can be fixed",
                 "toggle": "show and hide annotations",
                 "highlightMajor": "show this error's code in the editor",
                 "highlightMinor": "show this warning's code in the editor",
@@ -7454,7 +7495,8 @@
                 "submit": "submit this chat message",
                 "zoomIn": "zoom into the stage",
                 "zoomOut": "zoom out from the stage",
-                "resetZoom": "reset zoom to the stage's place",
+                "resetZoom": "clear your pan and zoom",
+                "perform": "perform: restart the program, play it, and fill the screen with the stage",
                 "rotate": "rotate $name",
                 "resize": "resize $name"
             },
@@ -7465,30 +7507,32 @@
             "mode": {
                 "evaluation": {
                     "label": "evaluation mode",
-                    "labels": ["edit", "play", "step"],
+                    "labels": ["edit", "debug", "play"],
                     "tips": [
-                        "switch to edit mode: change the program while the stage stays frozen on the current frame",
-                        "switch to play mode: run the program live, responding to inputs in real time",
-                        "switch to step mode: pause and step through the program's evaluation, one step at a time"
+                        "switch to edit mode: pause the program wherever it is and change it; edits replay to show their effect at this point",
+                        "switch to debug mode: step through the program's evaluation, with values shown beside the code and in the palette",
+                        "switch to play mode: run the program live from where it is, responding to inputs in real time"
                     ]
                 },
                 "evaluationView": {
                     "label": "evaluation mode",
-                    "labels": ["view", "play", "step"],
+                    "labels": ["view", "debug", "play"],
                     "tips": [
-                        "switch to view mode: read the program while the stage stays frozen on the current frame",
-                        "switch to play mode: run the program live, responding to inputs in real time",
-                        "switch to step mode: pause and step through the program's evaluation, one step at a time"
+                        "switch to view mode: pause the program wherever it is and read it",
+                        "switch to debug mode: step through the program's evaluation, with values shown beside the code and in the palette",
+                        "switch to play mode: run the program live from where it is, responding to inputs in real time"
                     ]
                 },
                 "announce": "$mode mode",
-                "exception": "The program had an error, so it switched to step mode so you can inspect it.",
+                "resuming": "resuming at step $position",
+                "performing": "performance $number, from the top",
+                "exception": "The program had an error, so it switched to debug mode so you can inspect it.",
                 "toggle": "switch between edit and play modes"
             },
             "tour": {
                 "launch": "take a tour of the stage",
                 "stage": "The /stage/ shows your program's *current value*. That value might be a *raw value* like a number or list, *visual output* you can see, or even *sound* you can hear.",
-                "reset": "The /reset/ button rewinds your program's evaluation back to the *beginning*, replaying any time, key, or input streams from scratch.",
+                "reset": "The /reset/ button starts your program's evaluation over from the *beginning*, in any mode: in ▶️ *play* it performs again from the top, in ✏️ *edit* it pauses after the first evaluation so you can see your edits' effect on the initial output, and in ⏸️ *debug* it pauses at the very first step.",
                 "zoom": "The /zoom/ buttons let you zoom *in* and *out* on the stage so you can see your output more clearly or in greater detail.",
                 "grid": "The /grid/ button shows a *grid* on the stage, helpful for placing things precisely while you design.",
                 "lock": "The /lock/ button locks the stage's view in place. When *locked*, the stage stays still; when *unlocked*, you can pan and zoom freely.",
@@ -7553,8 +7597,8 @@
                 "reset": "restart performance"
             },
             "tour": {
-                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ⏸️ *step* mode, and it's a great way to see *how* your program computes its value, and to build a mental model of how @wordplay programs evaluate, especially if you're not seeing the behavior you want.",
-                "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, you change the program while the stage stays frozen on the current frame. In ▶️ *play* mode, your program runs live, responding to inputs in real time. In ⏸️ *step* mode — where you are now — you step *forward* and *backward* through evaluation, and the *current value* of each part of your program appears next to it in the editor.",
+                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ✏️ *edit* and ⏸️ *debug* modes, and it's a great way to see *how* your program computes its value, and to build a mental model of how @wordplay programs evaluate, especially if you're not seeing the behavior you want.",
+                "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, the program pauses wherever it is and you can change it — your edits replay to show their effect at that point. In ⏸️ *debug* mode, the code is read-only and the *current value* of each part of your program appears next to it in the editor and in the palette. In ▶️ *play* mode, your program runs live from where it is, responding to inputs in real time. Beside the switcher, the /perform/ button — a play triangle wrapped in full screen corners — begins a performance from the top and fills the screen with the stage, and ↻ resets the program in any mode.",
                 "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
                 "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
                 "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging.",
@@ -7904,9 +7948,28 @@
             },
             "settings": {
                 "header": "Settings",
-                "explanation": "Change layout, device, and theme settings.",
+                "explanation": "Change how Wordplay looks, how you write code, and how programs use your devices.",
                 "button": {
                     "show": "show settings dialog"
+                },
+                "tab": {
+                    "label": "settings groups",
+                    "labels": [
+                        "Appearance",
+                        "Code",
+                        "Camera + Mic",
+                        "Sound + Music"
+                    ],
+                    "tips": [
+                        "how Wordplay itself looks and feels: font, colors, tiles, and animation",
+                        "how code looks and feels while you write it",
+                        "which camera and microphone programs read from",
+                        "how a program's music, speech, and captions reach you"
+                    ]
+                },
+                "subheader": {
+                    "music": "Music",
+                    "say": "Say"
                 },
                 "mode": {
                     "layout": {
@@ -7977,7 +8040,7 @@
                         ]
                     },
                     "space": {
-                        "label": "space, tab, and new line markers",
+                        "label": "space markers",
                         "labels": ["hide", "show"],
                         "tips": [
                             "do not show space and tab indicators",
@@ -8032,7 +8095,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "music",
+                        "label": "visualization",
                         "labels": [
                             "orchestra",
                             "light show",
@@ -8049,7 +8112,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "music volume",
+                        "label": "volume",
                         "labels": ["off", "quiet", "full"],
                         "tips": [
                             "Mute all music",
@@ -8058,7 +8121,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "music while speaking",
+                        "label": "while speaking",
                         "labels": ["quiet", "quieter", "silent"],
                         "tips": [
                             "Lower music a little while something is spoken",
@@ -8073,13 +8136,24 @@
                             "Don't vibrate on the beat",
                             "Vibrate on the beat, where the device supports it"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "caption size",
+                        "labels": ["¾", "1x", "1½", "2x", "3x"],
+                        "tips": [
+                            "Show smaller captions",
+                            "Show captions at the standard size",
+                            "Show captions half again as large",
+                            "Show captions twice as large",
+                            "Show captions three times as large"
+                        ]
                     }
                 },
                 "options": {
                     "face": "font face",
-                    "mic": "selected microphone",
-                    "camera": "selected camera",
-                    "voice": "selected voice for Say",
+                    "mic": "microphone",
+                    "camera": "camera",
+                    "voice": "Say voice",
                     "default": "default"
                 }
             },
@@ -8111,6 +8185,7 @@
             },
             "locale": {
                 "header": "Language",
+                "choose": "Choose a language",
                 "explanation": "Choose languages for the interface, tutorial, and documentation. Languages marked 🤖 are still largely machine translated, so some text may be unreadable or incorrect.",
                 "localizeHelp": "/To help improve translations in your language, click the ✎ pencil icon at the *bottom of the page* to turn on localization mode and suggest improvements./",
                 "subheader": {
@@ -8131,11 +8206,14 @@
                 "request": {
                     "header": "Don't see your language?",
                     "explanation": "Pick a language and region and we'll open a GitHub issue to discuss adding it.",
+                    "searchPlaceholder": "language or country",
+                    "searchDescription": "Filter the language and country menus",
                     "languageLabel": "language",
                     "regionLabel": "region",
                     "submit": "Request",
                     "submitting": "Sending request…",
                     "success": "Discuss this request with us on GitHub!",
+                    "alreadyRequested": "Someone already requested this language. Join the discussion on GitHub!",
                     "error": "Something went wrong. Please try again.",
                     "alreadySupported": "That language and region is already supported.",
                     "requiresLogin": "You must be signed in to request a language."
@@ -8464,7 +8542,7 @@
             },
             "tour": {
                 "launch": "take a tour of the palette",
-                "palette": "In ✏️ *edit* mode, you can use the /palette/ to edit *phrases*, *groups*, and the *stage*.",
+                "palette": "You can use the /palette/ to edit *phrases*, *groups*, and the *stage* in ✏️ *edit* mode; in other modes its controls are read-only, and in ⏸️ *debug* mode each property also shows its *current value*.",
                 "text": "All the /properties/ of a phrase can be edited here. This is the *text* of the phrase, but other properties have their own controls.",
                 "set": "When a property is currently using its /default/ value, the *pencil* button lets you set an *explicit* value for it.",
                 "unset": "When a property has an /explicit/ value set, the *X* button removes that value, returning the property to its *default*.",
@@ -8512,7 +8590,7 @@
             "deleteFailed": "We couldn't delete that.",
             "saveFailed": "We couldn't save that",
             "submitFailed": "We couldn't submit that",
-            "loadFailed": "We couldn't load that.",
+            "loadFailed": "We couldn't load this. Try again in a moment.",
             "storageFull": "This device's storage is full, so we couldn't save a copy here. Your work is still in the cloud.",
             "storageNearFull": "This device is almost out of storage, so Wordplay may soon be unable to save on it. Work saved in the cloud is safe; freeing up space on your device or browser lets it keep saving here.",
             "saveTooLarge": "This is too big to save. Try removing some content."
@@ -9409,6 +9487,7 @@
                     "The mark is always drawn in the current text color, so wherever text meets contrast requirements, the logo does too."
                 ],
                 "components": "Components",
+                "copyvalue": "copy the full CSS value",
                 "col": {
                     "component": "Component",
                     "preview": "Preview",

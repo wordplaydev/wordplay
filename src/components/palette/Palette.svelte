@@ -18,7 +18,9 @@
     import PaletteProperty from '@components/palette/PaletteProperty.svelte';
     import TextStyleEditor from '@components/palette/TextStyleEditor.svelte';
     import {
+        deriveSteppedEvaluation,
         getConceptIndex,
+        getEvaluation,
         getPaletteOpen,
         getSelectedOutput,
         type EditorState,
@@ -33,6 +35,8 @@
     import type OutputProperty from '@edit/output/OutputProperty';
     import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
+    import type Expression from '@nodes/Expression';
+    import type Value from '@values/Value';
     import {
         GROUP_SYMBOL,
         PALETTE_SYMBOL,
@@ -64,6 +68,17 @@
     let index = $derived(indexContext?.index);
 
     let selection = getSelectedOutput();
+
+    /** A play-rate-decoupled view of the evaluation, for the debug-mode values
+     *  below. The palette isn't inside an Editor, so it derives its own copy
+     *  rather than using the editor-subtree context; the decoupling matters for
+     *  the same reason (values are hidden while playing, so ~60 Hz broadcasts
+     *  would re-run the derivation for nothing). */
+    const evaluation = getEvaluation();
+    const stepped =
+        evaluation !== undefined
+            ? deriveSteppedEvaluation(evaluation)
+            : undefined;
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     let outputs = $derived(
@@ -142,6 +157,37 @@
     // the text style editor's weight/italic options to what the face supports.
     let sharedFaceName = $derived(phraseFaceValues?.getText());
 
+    /** Each property's source expression, resolved once per selection change.
+     *  Kept apart from the per-step value lookup below because getExpression()
+     *  deep-compares the expression across every selected output — fine once
+     *  per selection, wasteful on every scrub event. Only given expressions
+     *  qualify: a default lives in the shared output definition, so its latest
+     *  value could belong to any output on stage, not the selected one. */
+    let debugExpressions = $derived.by(() => {
+        const found = new Map<OutputProperty, Expression>();
+        for (const [property, values] of propertyValues) {
+            if (!values.areSet()) continue;
+            const expression = values.getExpression();
+            if (expression !== undefined) found.set(property, expression);
+        }
+        return found;
+    });
+
+    /** In debug mode, the latest evaluated value of each property's expression,
+     *  mirroring the editor's inline values. Recomputed per step; each entry is
+     *  a single evaluator history lookup. */
+    let debugValues = $derived.by(() => {
+        const context = stepped !== undefined ? $stepped : undefined;
+        if (context === undefined || context.mode !== 'debug') return undefined;
+        const found = new Map<OutputProperty, Value>();
+        for (const [property, expression] of debugExpressions) {
+            const value =
+                context.evaluator.getLatestExpressionValue(expression);
+            if (value !== undefined) found.set(property, value);
+        }
+        return found;
+    });
+
     /** The localized name of the output input the caret is inside — a pure function of the
      *  caret, so it always reflects the current position (undefined when the caret isn't in
      *  a property). Used to reactively highlight and scroll to the matching palette property. */
@@ -214,11 +260,12 @@
     });
 
     /** The palette is the only thing on screen that explains an output selection, and this
-     *  component is unmounted whenever its tile isn't visible (collapsed, play mode, another
-     *  tile fullscreen, or a one-tile-at-a-time arrangement). Clear the selection as it goes,
+     *  component is unmounted whenever its tile isn't visible (collapsed, another tile
+     *  fullscreen, or a one-tile-at-a-time arrangement). Clear the selection as it goes,
      *  so a stale one can't keep underlining code with nothing to explain it. Tying this to
      *  the component's lifetime rather than to a visibility test keeps it correct for every
-     *  route that hides the tile. */
+     *  route that hides the tile. (Entering play mode no longer hides this tile; setUIMode
+     *  clears the selection for that route, since playing disables selection.) */
     $effect(() => () => {
         if (selection && !selection.dragging && !selection.interacting)
             selection.empty();
@@ -308,6 +355,7 @@
                 {property}
                 {values}
                 {editable}
+                value={debugValues?.get(property)}
                 highlighted={property.getName($locales) === caretBind}
             />
             <!-- Add the text style editor just below the face chooser. -->

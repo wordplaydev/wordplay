@@ -3,7 +3,9 @@ import type Node from '@nodes/Node';
 import type Evaluator from '@runtime/Evaluator';
 import type StreamValue from '@values/StreamValue';
 import type Output from '@output/Output/Output';
-import OutputAnimation, { AnimationState } from '@output/animation/OutputAnimation';
+import OutputAnimation, {
+    AnimationState,
+} from '@output/animation/OutputAnimation';
 import Physics from '@output/physics/Physics';
 import Place, { createPlace } from '@output/Place/Place';
 import Pose from '@output/animation/Pose';
@@ -101,6 +103,18 @@ export default class Animator {
     /** If true, the scene has been stopped and will no longer be animated */
     private stopped = false;
 
+    /**
+     * True while the stage is paused.
+     *
+     * Distinct from `stopped`, which is teardown: this keeps the scene, the
+     * animations, and the physics world, so playing again continues the
+     * performance instead of restarting it. Destroying the animator on pause is
+     * what used to make every output read as newly entered on the next play —
+     * entrances replayed while `Say` and a finished score stayed silent, which
+     * is the inconsistency this exists to remove.
+     */
+    private suspended = false;
+
     /** A physics engine for managing motion and collisions of output. */
     readonly physics: Physics;
 
@@ -148,7 +162,7 @@ export default class Animator {
         height: number,
         context: RenderContext,
     ) {
-        if (this.stopped) return undefined;
+        if (this.stopped || this.suspended) return undefined;
 
         this.priorStagePlace = this.stage?.place;
 
@@ -402,6 +416,24 @@ export default class Animator {
         return done;
     }
 
+    /** Hold the scene where it is; see `suspended`. */
+    suspend() {
+        if (this.suspended) return;
+        this.suspended = true;
+        this.animations.forEach((animation) => animation.suspend());
+    }
+
+    /** Continue a scene held by `suspend`. */
+    resume() {
+        if (!this.suspended) return;
+        this.suspended = false;
+        this.animations.forEach((animation) => animation.resume());
+    }
+
+    isSuspended() {
+        return this.suspended;
+    }
+
     stop() {
         this.stopped = true;
         this.animations.forEach((animation) => animation.done());
@@ -419,8 +451,7 @@ export default class Animator {
         // sides lets the cycle collapse even when one half is still weakly
         // retained from outside.
         if (this.evaluator) {
-            if (this.evaluator.scene === this)
-                this.evaluator.scene = undefined;
+            if (this.evaluator.scene === this) this.evaluator.scene = undefined;
             this.evaluator = undefined;
         }
     }

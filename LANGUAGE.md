@@ -61,6 +61,7 @@ Layered on top of this is an optional **localized-keyword** facility (see [Local
 Each built-in construct (`ƒ`, `•`, `#`, `ø`, `⊤`/`⊥`, `↓`, `↑`, `→`, `↦`, `?`, `??`, `???`, `…`, `∆`, `◆`, `←`, `⬚`) and the logical connectives (`&`, `|`, `~`) has a localized **keyword** word per locale (stored in each locale's `keyword` block; see `Keywords.ts`). Each keyword must be a **single token** — no spaces or hyphens — since the tokenizer matches it as one whole name-run. Punctuation and delimiters (`( ) [ ] { } , : . / _` quotes, etc.) are never localized, because they have no spaces and would be indistinguishable from names.
 
 - **Reading.** A per-user setting toggles display between symbols (default) and words; in words mode each construct renders as its locale word, and conversely a word-typed construct renders as its symbol in symbols mode. This is render-only — the stored source is unchanged.
+- **Which words are recognized.** Only those of the languages the project **declares** it is written in — the list a creator edits in the languages dialog, which is also what decides which localized names bind. A keyword word is therefore a _parse_ dependency, not just a name lookup: removing a language degrades its words to plain names. The tooling accounts for that (`Project.getKeywordLocalesUsed` treats a language whose keyword words the code uses as used, so nothing suggests removing it), but it is the reason a project's declared languages are its own data and never follow the reader's.
 - **Writing.** When a program declares locales, typing a keyword word lexes it as a **dual-type** token carrying both `Name` and the construct's canonical `Sym`. The parser picks by position: the construct where the grammar expects one (e.g. `función(x) x` is a function definition), a plain name elsewhere. So a binding named like a keyword (e.g. `número`) still works — it _shadows_ the keyword rather than being reserved. A name that shadows a keyword whose construct wins at expression start raises a low-severity advisory.
 - **Copy/paste.** Copying rewrites keyword constructs to their canonical symbols, so copied code is locale-neutral and pastes into any project (and renders in the reader's words).
 
@@ -380,6 +381,7 @@ Text values, unlike in other programming languages, are not a single sequence of
 - They can have multiple translations, allowing for one to be selected at runtime using the environment's list of preferred locales.
 - They can contain `concept` references (the same `@…` tokens used in markup), so that codepoints (e.g. `@U/1F600`) and creator-defined characters (e.g. `@username/charactername`) can be written in plain text and rendered. A codepoint reference evaluates to its character; a custom-character reference is kept in the text as-is and rendered as a glyph by the output. To avoid mistaking an email's domain for a reference, an `@` that directly follows an ASCII email-local-part character (`A–Z a–z 0–9 . _ % + -`) is treated as literal text rather than a reference — _unless_ the reference uses a `/` separator (e.g. `@username/charactername`), which an email domain never does. So references are recognized at the start of the text, after whitespace, after non-ASCII text (making the rule work in scripts without inter-word spaces), and — for the `/` form — even mid-word in Latin text (e.g. `hi@amy/cat`); only `.`-style references that follow an email-local-part character (e.g. the `@example.com` in `jdoe@example.com`) stay literal.
 - Language tags are a language
+- A language tag says what language text is written in, not which text it is, so it takes no part in equality: `'hi' = 'hi'/en` is `⊤`, and so is `'hi'/en = 'hi'/es`. Only the graphemes decide. The same rule governs membership in lists, sets, and maps, so a plain key finds a language-tagged one.
 
 For example, these are all valid text values:
 
@@ -563,6 +565,8 @@ And this is also `1`:
 ```
 
 Because indices wrap, no index is ever out of range. There are only three ways a list access evaluates to `ø`: an index of `0`, since lists are indexed from `1`; an index that isn't a whole number; and any index into an empty list, which has no values to wrap onto. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners. It also means `??` on a list access is a conflict, since the access's type doesn't include `ø` for it to coalesce.
+
+A list access's type is usually the type of any item in the list. But when the list's type gives a type per position (see `LISTTYPE` under [Types](#types)) and the index is a constant in range, the access has the type of exactly that position.
 
 Lists have a wide range of higher order functions. For example, `translate` can map a list's values to different values, and `combine` can reduce a list of values into some value:
 
@@ -753,6 +757,8 @@ Inputs may be given positionally or by name (`name: value`). A named input whose
 
 Evaluation expressions first evaluate their function value, and if one was not found, then generate a value exception, halting the program. Next, they evaluate their inputs, in reading order. If required inputs were not provided, a value exception is generated and the program halts. If an input is not of the required type, then a type exception is generated and the program halts. Otherwise, a new evaluation is added to the evaluator's evaluation stack, the inputs are bound to all of the names given in the function's binds, and the function's expression is evaluated in the context of the new evaluation scope. After the function's expression is done evaluating, then the evaluation finishes evaluating, evaluating to the value of the evaluated function.
 
+Function evaluations in **tail position** are handled specially. A call is in tail position when its value is necessarily the value of the nearest enclosing function evaluation: it is the function's body expression, either branch (but not the condition) of a conditional in tail position, or the last statement of a block in tail position when every other statement is a bind or type definition (so that statement is the block's sole result — a block with several results evaluates to a list of them, and then no single statement is in tail position). For such a call, the evaluator _replaces_ the enclosing function's evaluation (and any block evaluations above it) on the evaluation stack with the new evaluation instead of adding to the stack, and the new evaluation delivers its value directly to the enclosing function's original caller. The value is identical either way; the consequence is that tail recursion — self- or mutual — does not grow the evaluation stack, so its depth is bounded by the evaluator's step budget rather than its evaluation depth limit, and a function that tail-calls forever halts with an evaluation limit exception naming it when that step budget is exhausted. Only function evaluations are replaced this way; structure and stream evaluations, and operator (binary/unary) evaluations, always push.
+
 ### Binary Evaluate
 
 > BINARYEVALUATE → ATOMIC （operator ATOMIC）＊
@@ -836,6 +842,21 @@ Conditionals have operator precedence over all other expressions. Unlike all oth
 
 Note that there's no separator between the true anf false cases in this synatax (e.g., `:` in JavaScript, for example). This was partly to reduce overloading of other symbols, but also to encourage use of new lines to convey structure.
 
+A condition that checks a type (`x•#`) or compares against a literal (`x = 'a'`, `map{key} ≠ ø`) **narrows** what it checks inside the branches: the true branch sees only the checked type, and the false branch only the rest of the union. `&`, `|`, and `~` combine checks as intersection, union, and complement. What narrows is the expression the check names — a name, a property, a list index, or a map key — matched by how it's written, so `map{key}` narrows another `map{key}` but not `map{other}`.
+
+The check doesn't have to be written inline. A name bound to it works the same, since the condition is followed through the definitions it names:
+
+```
+valid: notes{pressed} ≠ ø
+valid ? Phrase(notes{pressed}) Phrase('')
+```
+
+Only the names that _decide_ the condition are followed, not every name in it: in `game.phase = 2`, `game` is the subject being asked about rather than the question, so its definition isn't consulted. And it's the _check_ that a name may stand for, not the value being checked — binding `n: map{key}` and testing `n ≠ ø` narrows `n`, not `map{key}`.
+
+Parentheses and docs don't change what a check asks, so `(x)•#` narrows exactly as `x•#` does.
+
+A name bound to a literal narrows like the literal written inline, so `k: 'x'` and then `a = k` refines `a` just as `a = 'x'` does. Two things deliberately do not narrow. A comparison against a text literal with **several translations** refines nothing, because the literal evaluates to the reader's translation and which one that is isn't known while checking — the comparison being false rules out only the one that was compared. And an input's default is not its value, since a caller may pass anything, so `ƒ f(k•'': 'x')` does not let `a = k` narrow.
+
 ### _conflicts_
 
 - The condition is not boolean typed
@@ -878,6 +899,8 @@ sound ???
 ```
 
 If `sound` equals `'meow'`, this evaluates to `'cat'`; if `'woof'`, `'dog'`; otherwise `'unknown'`.
+
+A match **narrows** the value it matches on, the same way a conditional narrows what its condition checks (see [Conditional](#conditional)). Inside a key's value expression, the matched value is known to be that key; inside a later key's, it's known not to be any earlier one; and in the default expression, it's known to be none of them. Only keys whose value can be named — a number, none, or single-translation text literal, or a name bound to one — take part; a computed key rules nothing out, so the default keeps every type it might still have.
 
 ### _conflicts_
 
@@ -929,7 +952,7 @@ Conversions can be extended with conversion definitions. This defines a global c
 
 Conversions first evaluate their input value. Then, all conversions in scope are retrieved, including all of the conversions defined on the input value, and any defined external to the value. Finally, a graph is built of all of the conversion paths, the shortest path is found betwen the input and output types. If no path is found, a conversion exception is generated, halting the program. Otherwise, the conversion function is evaluated on the input, and its result is provided as the convert's value.
 
-When the input expression's static type is a name type referring to a structure (as with a structure-valued stream like `Now()`, whose declared output type names `Moment`), the named structure's own conversions are consulted just as if the type were the structure type itself, before generic conversions apply.
+When the input expression's static type is a name type referring to a structure, the named structure's own conversions are consulted just as if the type were the structure type itself, before generic conversions apply.
 
 ### Translate
 
@@ -1339,6 +1362,22 @@ If any sequences of tokens cannot be parsed according to this grammar, all of th
 
 Programs create an evaluation scope, evaluate their binds and expressions in reading order, and then evaluate to their non-bind expressions' values: that expression's value if there is one, or a list of them in reading order if there are several.
 
+## Project files
+
+A program is one source. A project is several, and `.wp` is the plain-text file that holds one — the format the examples in `static/examples/` are written in, read by `parseSerializedProject`:
+
+> FILE → PREVIEW？ NAMES SOURCE＊  
+> PREVIEW → grapheme `\n`  
+> SOURCE → `===` `‹space›` NAMES？ `\n` PROGRAM
+
+The optional first line is a **preview glyph**: exactly one grapheme (`🧶`, `📏`, `W`), shown as the project's thumbnail. A first line that isn't a single grapheme is read as the project's name instead.
+
+The next line is the project's **name**, parsed with the same `NAMES` rule as any other name, so it may carry localized aliases: `"Pounce"/en"扑击"/zh-CN"撲擊"/zh-TW`. A bare name (`Between`) is equally valid.
+
+Every following line beginning `===` followed by a space starts a new **source**, whose name is the rest of that line and whose program is everything up to the next such line. The `/lang` tags in those names determine the project's locales, defaulting to `en-US`. Sources refer to each other with `BORROW`, so `↓ words` in one source binds a name shared by a source named `words`. The space after `===` is required; without it the line is not a source boundary and is read as part of the preceding program.
+
+There is no writer: `.wp` is a format the tooling reads, and a project's own persisted form is its database record.
+
 ## Documentation
 
 > DOC → `¶` MARKUP `¶` LANGUAGE？  
@@ -1368,7 +1407,7 @@ Documented expressions simply evaluate to their expression's value.
 > NUMBERTYPE → （`#` （`!` ｜ UNIT）？） ｜ numeral  
 > TEXTTYPE → （textopen textclose LANGUAGE？） ｜ TEXT  
 > NONETYPE → `ø`  
-> LISTTYPE → `[` TYPE `]`  
+> LISTTYPE → `[` TYPE＊ `]`  
 > SETTYPE → `{` TYPE `}`  
 > MAPTYPE → `{` TYPE `:` TYPE `}`  
 > STREAMTYPE → `…` TYPE  
@@ -1387,7 +1426,9 @@ num•1
 text•''
 text•'hello'
 none•ø
+list•[]
 list•[#]
+pair•[# '']
 set•{''}
 map•{'':#}
 stream•…#
@@ -1396,6 +1437,16 @@ name•Kitty
 function•ƒ(message•'')•#
 union•#|''
 ```
+
+A list type says how many types it has, and that means three different things:
+
+- No type (`[]`) is a list of anything, of any length.
+- One type (`[#]`) is a list of any length whose every item is that type.
+- Several types (`[# '']`) is a list of exactly that many items, with a type for each position: `[# '']` is a list of two items, a number then some text.
+
+When a list type says what's at each position, a list access with a constant index in range has the type of that position, so `pair[1]` is a `#` and `pair[2]` is a `''` for `pair•[# '']`. Any other index (out of range, negative, or not a constant) could be any item, because indices wrap around.
+
+A list of values takes a type per position only where a type declares them — as the value of a bind, an input to an evaluation, the body of a function with a declared output type, or an item of another such list. So `[1 'hi']` on its own is a `[#|'']`, and `pair•[# '']: [1 'hi']` is a `[# '']`. That's why the order of a list is only checked where a declaration says what the order should be.
 
 Types are also used in "is" expressions:
 
@@ -1412,7 +1463,7 @@ Type compatibility is defined as follows:
 - Boolean types are only compatible with other boolean types
 - Number types are compatible if they are a concrete number and the other number type is the same concrete number, or they have equivalent units
 - Text types are compatible if they are concrete text and the other text type is the same text and language, or they are both generic text with the same language
-- List types are only compatible if their element types are compatible
+- List types are only compatible if their element types are compatible. A list type with no element type accepts any list. A list type with a type per position additionally requires a matching length, and accepts another such type only if every position accepts the corresponding one. When only one of the two types says what's at each position, only their element types are compared, since the order of the other list can't be known until it's evaluated — an `is` expression checks the items of the value itself, so `['hi' 1]•[# '']` is `⊥`.
 - Set types are only compatible if their element types are compatible
 - Map types are only compatible if their key types are compatible and their value types are compatible
 - Stream types are only compatible if their element types are compatible; a stream type additionally accepts its element type (a stream dereferences to its latest value), and accepts a value whose type is known to come from a stream (which is how stream-ness passes into a function through a `•…T` parameter)
@@ -1448,3 +1499,15 @@ While we've generally alluded to how Wordplay programs evaluate through examples
     - An unparsable sequence of tokens was found
     - The evaluator evaluated too many steps within a single function
     - The evaluator evaluated too many functions (stack overflow)
+
+## Stage camera
+
+A `Stage`'s optional `place` (`📍|ø`, defaulting to `ø`) is a camera rather than a position: it says where the stage is viewed from, and its `z` is the zoom, since output is scaled by its distance in front of the focus. Its `x` is negated relative to output places, so a camera moving right slides the world left.
+
+Three things decide what is finally seen, and they compose rather than override one another:
+
+- **The program.** When `place` is set, it is the camera. A camera whose `place` changes over time eases toward each new value over the stage's `duration`, so it pans rather than snaps. A `z` at or beyond `0` would put the camera in the output's own plane, where nothing draws and the scene inverts, so keep it comfortably negative.
+- **The platform.** When `place` is `ø`, the stage is framed automatically so its content fits the view. The frame expands immediately to cover content and tightens back in only after content has stayed well inside it, so a stage whose content moves settles into a still frame instead of following the motion. A program-set camera is additionally pulled back on viewports smaller than it was authored for, so a narrow screen still shows what the creator framed; it is never pulled closer, so larger screens see exactly what was written.
+- **The audience.** Panning and zooming (scroll, pinch, two-finger drag, the zoom controls) apply as an offset on top of whichever of the two above is in play. Because it is an offset and not a replacement, a viewer may zoom out of a project that moves its own camera without freezing it. Zooming out is unbounded; zooming in stops before the camera would reach the output plane.
+
+A stage's `overlay` is exempt from all of this: it is pinned flat to the screen and is unaffected by the camera.

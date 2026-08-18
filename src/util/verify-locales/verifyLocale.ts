@@ -20,6 +20,7 @@ import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkNames from '@util/verify-locales/checkNames';
+import checkRedundantNames from '@util/verify-locales/checkRedundantNames';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import checkTerms from '@util/verify-locales/checkTerms';
 import classifyLocalePath, {
@@ -43,6 +44,7 @@ import {
     checkPluralBranches,
     checkTemplateInputs,
     getDeclaredInputs,
+    resolveTerms,
     withoutCountMarker,
 } from '@util/verify-locales/templateInputs';
 import { getPluralCategories, getPluralCount } from '@locale/plurals';
@@ -152,6 +154,10 @@ export async function verifyLocale(
     // below, so fix-mode repairs land first.
     revisedText = checkStringArrays(log, DefaultLocale, revisedText, fix);
     revisedText = checkNames(log, DefaultLocale, revisedText, fix);
+    // After checkNames, so a name repaired to its en-US value is recognized as the duplicate
+    // it now is rather than surviving until the next run.
+    if (locale !== 'en-US')
+        revisedText = checkRedundantNames(log, DefaultLocale, revisedText, fix);
 
     // Validate the per-locale word list: key shape, no collision with template
     // input names, and no term-in-term references.
@@ -210,9 +216,10 @@ async function checkLocale(
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
 
-    // This locale's terminology keys, so a `$term` reference in a template isn't
-    // flagged as an unknown input.
-    const termKeys = new Set(Object.keys(revised.terms ?? {}));
+    // This locale's word list, and its keys, so a `$term` reference both resolves
+    // to its phrase and isn't flagged as an unknown input while checking below.
+    const terms = revised.terms ?? {};
+    const termKeys = new Set(Object.keys(terms));
 
     // If we're translating, find every unwritten/revised string the user
     // wants Google Translate to fill in, then dispatch a batch request. In
@@ -429,14 +436,19 @@ async function checkLocale(
                 inputs[withoutCountMarker(name)] = name.startsWith('#')
                     ? 1
                     : 'test';
+            // Expand this locale's `$term` word-list references first, as the
+            // runtime does. `DefaultLocales` is en-US, whose `terms` can't
+            // resolve a term defined only in this locale, which would leave an
+            // unresolvable mention and make the whole template read as
+            // unparsable (#1284).
             const description = concretizeOrUndefined(
                 DefaultLocales,
-                path.value,
+                resolveTerms(path.value, terms),
                 inputs,
             );
             if (description === undefined)
                 log.bad(
-                    `String at ${path.toString()} is has unparsable template string "${
+                    `String at ${path.toString()} has an unparsable template string "${
                         path.value
                     }"`,
                 );

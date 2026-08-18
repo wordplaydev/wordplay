@@ -27,13 +27,10 @@ export default class NextValue extends Step {
 
     getExplanations(locales: Locales, evaluator: Evaluator) {
         const item = evaluator.resolve(PROPERTY_SYMBOL);
-        return locales.concretize(
-            (l) => l.node.Translate.next,
-            {
-                value: item
-                    ? new ValueRef(item, locales, evaluator.getCurrentContext())
-                    : undefined,
-            },
-        );
+        return locales.concretize((l) => l.node.Translate.next, {
+            value: item
+                ? new ValueRef(item, locales, evaluator.getCurrentContext())
+                : undefined,
+        });
     }
 }

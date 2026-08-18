@@ -169,7 +169,6 @@
                 class="shape"
                 class:wave={pulse}
                 points="{LOGO_SHAPE_TRIANGLE.left},{LOGO_SHAPE_LINE_Y} {LOGO_SHAPE_TRIANGLE.right},{LOGO_SHAPE_LINE_Y} {LOGO_SHAPE_TRIANGLE.apexX},{LOGO_SHAPE_TRIANGLE.apexY}"
-                style:animation-delay="calc(var(--animation-factor) * 0.16s)"
             />
             <rect
                 class="shape"
@@ -178,7 +177,6 @@
                 y={LOGO_SHAPE_SQUARE.top}
                 width={LOGO_SHAPE_SQUARE.side}
                 height={LOGO_SHAPE_SQUARE.side}
-                style:animation-delay="calc(var(--animation-factor) * 0.32s)"
             />
         </g>
     {:else}
@@ -195,6 +193,9 @@
 
 <style>
     svg {
+        /* One source for the bob's period, since the shapes' phase offsets
+           below are fractions of it and would drift if duplicated. */
+        --logo-bob-duration: calc(var(--animation-factor) * 1.2s);
         display: inline-block;
         /* Sit on the text baseline like the glyph it is (with a slight
            descender, like an emoji), rather than vertical-align: middle,
@@ -228,32 +229,68 @@
        factor 0 (reduced motion), leaving a still bubble with all three
        shapes in place, matching the convention in Spinning.svelte. */
 
-    /* Loading as a crowd doing the wave: each shape hops in turn, by
-       position rather than opacity so the face never fades. The CSS
-       translate composes with the group's tilt, so the hop travels along
+    /* Loading as a crowd doing the wave: each shape rides a continuous bob,
+       by position rather than opacity so the face never fades. The CSS
+       translate composes with the group's tilt, so the bob travels along
        the tilted alignment line's normal. */
     .shape.wave {
-        animation: wave infinite ease-in-out;
-        animation-duration: calc(var(--animation-factor) * 1.3s);
+        animation: wave var(--logo-bob-duration) linear infinite;
     }
 
-    /* A gentle throb of the whole bubble while loading, for visibility at
-       small sizes. */
+    /* The trio is a third of a cycle apart, so the three together read as a
+       wave traveling across the bubble. The offsets are negative: a positive
+       delay would hold two of the shapes still until their turn came around,
+       which is exactly the stall this is avoiding. */
+    polygon.shape.wave {
+        animation-delay: calc(var(--logo-bob-duration) / -3);
+    }
+
+    rect.shape.wave {
+        animation-delay: calc(var(--logo-bob-duration) / -1.5);
+    }
+
+    /* A throb of the whole bubble while loading, for visibility at small
+       sizes, on a period that doesn't divide the bob's — so the mark's two
+       motions never settle into a shared rhythm and read as one repeating
+       beat. */
     .bubble.throb {
         transform-box: fill-box;
         transform-origin: center;
-        animation: throb infinite ease-in-out;
-        animation-duration: calc(var(--animation-factor) * 1.3s);
+        animation: throb calc(var(--animation-factor) * 1.7s) ease-in-out
+            infinite;
     }
 
+    /* Sampled from a sine and played linearly rather than eased between two
+       extremes: constant speed keeps the shapes visibly moving in every
+       frame, where an ease's slow tails read as a pause when frames are
+       scarce. Up further than down, so the hop still leads. */
     @keyframes wave {
-        0%,
-        50%,
-        100% {
+        0% {
             translate: 0 0;
         }
-        20% {
-            translate: 0 -5px;
+        12.5% {
+            translate: 0 -4.2px;
+        }
+        25% {
+            translate: 0 -6px;
+        }
+        37.5% {
+            translate: 0 -4.2px;
+        }
+        50% {
+            translate: 0 0;
+        }
+        62.5% {
+            translate: 0 2.8px;
+        }
+        75% {
+            translate: 0 4px;
+        }
+        87.5% {
+            translate: 0 2.8px;
+        }
+        100% {
+            translate: 0 0;
         }
     }
 
@@ -262,8 +299,8 @@
         100% {
             transform: scale(1);
         }
-        40% {
-            transform: scale(1.06);
+        50% {
+            transform: scale(1.09);
         }
     }
 </style>

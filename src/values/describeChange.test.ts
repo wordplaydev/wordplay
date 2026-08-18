@@ -44,9 +44,9 @@ test('speaks booleans as words, not symbols', () => {
 });
 
 test('recurses to name the leaf that changed', () => {
-    expect(
-        described('•P(x•# y•#)\n•Q(p•P)\n[Q(P(1 2)) Q(P(1.2 2))]'),
-    ).toBe('p x 1.2');
+    expect(described('•P(x•# y•#)\n•Q(p•P)\n[Q(P(1 2)) Q(P(1.2 2))]')).toBe(
+        'p x 1.2',
+    );
 });
 
 test('stays silent for a change too small to hear', () => {
@@ -146,8 +146,12 @@ describe('renderValueForSpeech', () => {
     });
 
     test('words the boolean and none symbols', () => {
-        expect(renderValueForSpeech(DefaultLocales, evaluate('⊤'))).toBe('true');
-        expect(renderValueForSpeech(DefaultLocales, evaluate('ø'))).toBe('none');
+        expect(renderValueForSpeech(DefaultLocales, evaluate('⊤'))).toBe(
+            'true',
+        );
+        expect(renderValueForSpeech(DefaultLocales, evaluate('ø'))).toBe(
+            'none',
+        );
     });
 
     test('names a structure by its type, never by its symbol', () => {

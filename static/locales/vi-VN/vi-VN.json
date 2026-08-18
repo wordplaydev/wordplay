@@ -811,11 +811,16 @@
                 "no": "$~KHÔNG"
             },
             "doc": [
-                "$~Tôi nên cung cấp cho bạn giá trị này hay giá trị khác, tùy thuộc vào điều kiện? Kiểu như thế này?",
-                "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
-                "Nhưng bạn đã bao giờ nghĩ về cách chúng ta đưa ra quyết định chưa?",
-                "Chẳng phải các quyết định nên phức tạp hơn là chỉ đơn giản là \"có\" hay \"không\" sao? Phải chăng chỉ có việc lựa chọn giữa \\⊤\\ và \\⊥\\ là tất cả?",
-                "Chẳng phải bạn lo lắng rằng nếu đây là những quyết định duy nhất chúng ta có thể đưa ra, chúng ta sẽ bỏ lỡ một số bối cảnh quan trọng về thế giới sao?"
+                "$~Mình có nên cho bạn một @value hay một cái khác, tùy theo một @condition không? Như thế này nhé?",
+                "\\số: -100\nsố < 0 ? 'âm' 'dương'\\",
+                "Nhưng bạn đã từng nghĩ về cách chúng ta quyết định chưa?",
+                "Có vẻ như các quyết định nên tinh tế hơn là chỉ có đúng hay sai, phải không? Chỉ có việc chọn giữa \\⊤\\ và \\⊥\\ thôi sao?",
+                "Bạn có lo rằng nếu đây là loại quyết định duy nhất chúng ta có thể đưa ra, thì chúng ta sẽ bỏ lỡ một số bối cảnh quan trọng về thế giới không?",
+                "Có một điều nữa mình làm, và mình không phải lúc nào cũng được ghi nhận vì nó. Khi @condition của mình hỏi rằng một thứ gì đó thuộc /kiểu/ giá trị nào, mình không chỉ trả lời đúng hay sai. Mình ghi nhớ câu trả lời bên trong mỗi lựa chọn của mình.",
+                "\\kíchThước•#|'': 5\nkíchThước•# ? kíchThước + 1 'quá nhỏ'\\",
+                "Tự thân nó, giá trị đó có thể là một @Number hoặc một ít @Text, và việc cộng thêm vào nó sẽ là một xung đột, vì những thứ đó được cộng theo những cách rất khác nhau. Nhưng bên trong phần /đúng/ của mình, chúng ta vừa hỏi liệu nó có phải là một @Number không, nên ở đó nó là một cái. Bên trong phần /sai/ của mình, nó là @Text.",
+                "Bạn hỏi theo cách nào cũng không quan trọng. Một phép kiểm tra kiểu, một phép so sánh với một giá trị cụ thể, một phép kiểm tra giá trị bị thiếu, và một phép kiểm tra bạn lưu dưới một tên đều nói với mình cùng một điều. Và @Boolean/and, @Boolean/or, và @Boolean/not kết hợp chúng theo cách bạn mong đợi.",
+                "Có hai điều mình không thể nói với bạn. Nếu bạn so sánh với @Text có nhiều bản dịch, mình không biết được gì cả, vì bản dịch bạn nhận được tùy thuộc vào ai đang đọc."
             ],
             "start": "$~Hãy xem điều kiện $condition có đúng hay không.",
             "else": "$~$jumping[nhảy qua mã | không nhảy qua mã]",
@@ -1217,12 +1222,15 @@
                 "other": "$~mặc định"
             },
             "doc": [
-                "$~Tôi là phép kiểm tra điều kiện tuyệt vời nhất: Tôi nhận một giá trị, so sánh nó với bất kỳ số lượng trường hợp nào, và đánh giá trường hợp nào khớp!",
-                "Ví dụ, nếu bạn có một @Number và muốn chuyển đổi nó thành @Text , bạn có thể làm như sau:",
-                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "Nếu không có biểu thức nào khớp, tôi sẽ đánh giá biểu thức mặc định mà bạn cung cấp.",
-                "Tôi thực sự hữu ích trong việc chuyển đổi một trong nhiều giá trị @Number , @Text hoặc các giá trị phức tạp hơn thành một dạng giá trị khác.",
-                "Bạn có thể sử dụng nó cho @Boolean hoặc @None , nhưng chúng không thể có quá nhiều giá trị, vì vậy nó không hữu ích lắm đối với những giá trị đơn giản đó."
+                "$~Tôi là lần kiểm tra điều kiện huy hoàng nhất: Tôi lấy một @value, so sánh nó với bao nhiêu trường hợp cũng được, và tính toán cái nào khớp!",
+                "Ví dụ, nếu bạn có một @Number và muốn chuyển nó thành một @Text, bạn có thể làm gì đó như thế này:",
+                "\\số: 2\nsố ???\n\t1: 'một'\n\t2: 'hai'\n\t3: 'ba'\n\t'lớn hơn!'\\",
+                "Nếu không cái nào khớp, tôi tính toán @expression mặc định mà bạn đưa cho tôi.",
+                "Tôi thực sự hữu ích để chuyển một trong nhiều @Number, @Text, hoặc các giá trị phức tạp hơn thành thứ khác.",
+                "Bạn có thể dùng tôi cho @Boolean hoặc @None, nhưng chúng không thể là nhiều thứ như vậy, nên tôi không hữu ích lắm cho những giá trị đơn giản đó.",
+                "Giống như @Conditional, tôi cũng nói cho bạn biết điều tôi đã học được. Bên trong một trường hợp, @value mà tôi đã khớp được biết là trường hợp đó; bên trong một trường hợp sau đó, nó được biết không phải là bất kỳ trường hợp nào trước; và trong mặc định của tôi, nó được biết không phải là cái nào trong số chúng.",
+                "\\câuTrảLời•#|'': 1\ncâuTrảLời ???\n\t1: câuTrảLời + 1\n\t'không phải một'\\",
+                "Tôi có thể loại trừ các trường hợp là một @Number, một @None, hoặc @Text có một bản dịch duy nhất, và các trường hợp đơn giản khác. Nhưng một trường hợp tính toán thứ gì đó thì không loại trừ điều gì cả, nên mặc định của tôi giữ lại mọi thứ mà @value vẫn có thể là."
             ],
             "start": "$~Hãy xem $value là gì...",
             "case": "$~Hãy kiểm tra điều kiện này",
@@ -1431,7 +1439,8 @@
                         "explanation": "$~$name[Tôi không biết ai tên là $name ở $scope[$scope|khối này]|Bạn có thể cho tôi biết tên của người đó không?]"
                     },
                     "resolution": "$~Bạn có ý muốn nói *$suggestion?*",
-                    "staticResolution": "$~Bạn có ý muốn nói *$owner.$suggestion?*"
+                    "staticResolution": "$~Bạn có ý muốn nói *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name* là một tên trong $language. Hãy thêm $language vào các ngôn ngữ của dự án để dùng nó ở đây."
                 },
                 "ReferenceCycle": {
                     "name": "$~giá trị tự tham chiếu",
@@ -1495,7 +1504,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~chìa khóa không tương thích",
-                    "explanation": "$~Tôi mong đợi một khóa thuộc loại $expected",
+                    "explanation": "$~Tôi mong đợi một chìa khóa kiểu $expected, nhưng nhận được $given",
                     "resolution": "$~Hãy chuyển đổi nó thành $expected , vì $expected là bắt buộc.",
                     "resolutionLiteral": "$~Đánh dấu danh sách, tập hợp hoặc bản đồ là giá trị cố định bằng !, để các giá trị của chúng vẫn cụ thể thay vì bị khái quát hóa — $expected cần các giá trị chính xác.",
                     "resolutionOtherwise": "$~Xử lý giá trị thiếu bằng ??, vì $expected không cho phép ø",
@@ -1832,8 +1841,14 @@
             "description": "$~kiểu danh sách $type[ của $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~Tôi là một fan cuồng của @List. Tôi có thể cho @Bind biết chúng là loại danh sách nào! Ví dụ như thế này, tôi đang nói rằng đó là một danh sách gồm các @Number:",
-                "\\things•[#]: [ 1 2 3 4 5 ]\\🪲"
+                "$~Tôi /rất/ hâm mộ @List. Tôi được nói cho @Bind biết chúng là loại danh sách nào! Như thế này, tôi đang nói rằng đây là một danh sách các @Number:",
+                "\\đồVật•[#]: [1 2 3 4 5]\\🪲",
+                "Tôi có thể nói theo ba cách khác nhau. Nếu tôi không nêu tên kiểu nào cả, thì một danh sách có thể dài bao nhiêu cũng được và chứa bất cứ thứ gì:",
+                "\\đồVật•[]: [1 'hai' ø]\\🪲",
+                "Nếu tôi nêu tên một kiểu, danh sách vẫn có thể dài bao nhiêu cũng được, nhưng mọi thứ trong đó phải là kiểu đó, giống như danh sách các @Number ở trên kia.",
+                "Và nếu tôi nêu tên nhiều kiểu, tôi muốn nói đến một danh sách có đúng bấy nhiêu thứ, với một kiểu cho mỗi vị trí trong đó. Cái này là một danh sách hai thứ: một @Number trước, rồi đến một @Text.",
+                "\\cặp•[# '']: [1 'hai']\\🪲",
+                "Cái cuối cùng đó là cái tôi thích nhất, vì khi ấy ai cũng biết cái gì ở đâu. @ListAccess biết thứ đầu tiên là một @Number và thứ thứ hai là @Text, và nếu bạn đưa cho tôi sai số lượng thứ, hoặc đặt chúng sai thứ tự, tôi sẽ nói ra ngay!"
             ]
         },
         "MapType": {
@@ -2391,7 +2406,7 @@
                         "\\⊥ & ⊤\\",
                         "\\⊥ & ⊥\\"
                     ],
-                    "names": ["$~&", "$~Và"],
+                    "names": ["$~Và"],
                     "inputs": [
                         {
                             "doc": "$~Biến @Boolean khác cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, thì giá trị của biến này không quan trọng, hàm sẽ trả về \\⊥\\.",
@@ -2407,7 +2422,7 @@
                         "\\⊥ | ⊤\\",
                         "\\⊥ | ⊥\\"
                     ],
-                    "names": ["$~|", "$~hoặc"],
+                    "names": ["$~hoặc"],
                     "inputs": [
                         {
                             "doc": "$~Biến @Boolean còn lại cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, hàm sẽ chỉ trả về \\⊤\\ nếu biến này cũng là \\⊤\\.",
@@ -2417,12 +2432,12 @@
                 },
                 "not": {
                     "doc": "$~Tôi lấy giá trị ngược lại của chính mình: nếu \\⊤\\, nó cho ra \\⊥\\, nếu \\⊥\\, nó cho ra \\⊤\\.",
-                    "names": ["$~~", "$~không"],
+                    "names": ["$~không"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ nếu cả hai đều là \\⊤\\ hoặc cả hai đều là \\⊥\\.",
-                    "names": ["$~=", "$~bằng"],
+                    "names": ["$~bằng"],
                     "inputs": [
                         {
                             "doc": "$~Giá trị khác cần kiểm tra.",
@@ -2432,7 +2447,7 @@
                 },
                 "notequal": {
                     "doc": "$~\\⊤\\ nếu cả hai đều trái dấu.",
-                    "names": ["$~≠", "$~khôngbằng"],
+                    "names": ["$~khôngbằng"],
                     "inputs": [
                         {
                             "doc": "$~Giá trị khác cần kiểm tra.",
@@ -2450,11 +2465,11 @@
                 "$~Tôi biểu thị sự vắng mặt của một giá trị, được viết là \\ø\\ .",
                 "Tôi là @None . Hãy gọi tôi bằng \\ø\\ ."
             ],
-            "name": ["$~ø", "$~Khôngcó"],
+            "name": ["$~Khôngcó"],
             "function": {
                 "equals": {
                     "doc": "$~Liệu một giá trị khác cũng là không có gì? Tốt hơn hết là vậy, nếu không thì \\⊥\\.",
-                    "names": ["$~=", "$~bằng"],
+                    "names": ["$~bằng"],
                     "inputs": [
                         {
                             "doc": "$~Giá trị còn lại.",
@@ -2464,7 +2479,7 @@
                 },
                 "notequals": {
                     "doc": "$~Liệu một giá trị khác /không phải/ là không có gì?",
-                    "names": ["$~≠", "$~khôngbằng"],
+                    "names": ["$~khôngbằng"],
                     "inputs": [
                         {
                             "doc": "$~Giá trị còn lại.",
@@ -2494,7 +2509,7 @@
                 "Thấy 192 biến thành @FunctionDefinition chứ? Tôi nghe nói bạn gọi những con số này là 'Unicode'.",
                 "Ngoài ra, có rất nhiều hàm tuyệt vời mà @FunctionDefinition tạo ra cho tôi để làm đủ thứ với từ ngữ!"
             ],
-            "name": ["$~''", "$~Chữ"],
+            "name": ["$~Chữ"],
             "function": {
                 "length": {
                     "doc": [
@@ -2502,12 +2517,12 @@
                         "\\'xin chào'.📏()\\",
                         "\\'🐈📚'.📏()\\"
                     ],
-                    "names": ["$~📏", "$~chiềudài"],
+                    "names": ["$~chiềudài"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ nếu tôi có cùng chuỗi ký tự với @Text đã cho.",
-                    "names": ["$~=", "$~bằng"],
+                    "names": ["$~bằng"],
                     "inputs": [
                         {
                             "doc": "$~Đoạn văn bản @Text cần so sánh.",
@@ -2530,7 +2545,7 @@
                         "$~\\⊤\\ nếu @Text đã cho xuất hiện trong tôi.",
                         "\\'bạn đã tìm thấy thứ mình đang tìm chưa?'.⊆('bạn')\\"
                     ],
-                    "names": ["$~⊆", "$~có"],
+                    "names": ["$~có"],
                     "inputs": [
                         {
                             "doc": "$~@Text cần tìm kiếm trong tôi.",
@@ -2576,7 +2591,7 @@
                         "\\'hi ' × -5\\",
                         "Văn bản dài nhất tôi có thể tạo ra là 65.535 ký tự. Nếu bạn cố gắng tạo một văn bản dài hơn, tôi sẽ lặp lại văn bản đó nhiều lần nhất có thể."
                     ],
-                    "names": ["$~×", "$~·", "$~🔁", "$~lặplại", "$~lặplại"],
+                    "names": ["$~lặplại", "$~lặplại"],
                     "inputs": [
                         {
                             "doc": "$~Số lần lặp lại ý trong văn bản mới.",
@@ -2591,7 +2606,7 @@
                         "Nếu dấu phân cách là một @Text rỗng, tôi sẽ tự chia mình thành các ký tự:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["$~÷", "$~phânđoạn", "$~phânđoạn"],
+                    "names": ["$~phânđoạn", "$~phânđoạn"],
                     "inputs": [
                         {
                             "doc": "$~Thuộc tính @Text được sử dụng làm dấu phân cách.",
@@ -2604,7 +2619,7 @@
                         "$~Đôi khi sẽ hữu ích khi gộp hai @Text thành một. Đưa cho tôi một @Text khác và tôi sẽ tạo ra một văn bản mới nối chúng tôi lại với nhau:",
                         "\\'xin chào ' + 'câu thơ'\\"
                     ],
-                    "names": ["$~+", "$~kếthợp", "$~kếthợp"],
+                    "names": ["$~kếthợp", "$~kếthợp"],
                     "inputs": [
                         {
                             "doc": "$~@Text cần thêm vào.",
@@ -2617,7 +2632,7 @@
                         "$~\\⊤\\ nếu toàn bộ văn bản khớp với mẫu đã cho.",
                         "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
                     ],
-                    "names": ["$~≈", "$~cáctrậnđấu"],
+                    "names": ["$~cáctrậnđấu"],
                     "inputs": [
                         {
                             "doc": "$~Mẫu cần so sánh.",
@@ -2630,7 +2645,7 @@
                         "$~Tìm tất cả các vị trí mà mẫu đã cho khớp với tôi, dưới dạng danh sách @Result .",
                         "\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~tìmkiếm"],
+                    "names": ["$~tìmkiếm"],
                     "inputs": [
                         {
                             "doc": "$~Mẫu hình cần tìm kiếm.",
@@ -2669,7 +2684,7 @@
                 "Không có chữ số '2' trong hệ cơ số 2, nên nó không phải là một số hợp lệ. NaN cũng sẽ xuất hiện nếu bạn cố chuyển văn bản không phải số thành số",
                 "\\'chào' → #\\"
             ],
-            "name": ["$~#", "$~Consố"],
+            "name": ["$~Consố"],
             "function": {
                 "add": {
                     "doc": [
@@ -2680,7 +2695,7 @@
                         "Nếu các đơn vị không khớp, tôi sẽ dừng chương trình.",
                         "\\3 con mèo + 5 con chó\\🪲"
                     ],
-                    "names": ["$~+", "$~thêmvào"],
+                    "names": ["$~thêmvào"],
                     "inputs": [
                         {
                             "doc": "$~Số cần thêm.",
@@ -2697,7 +2712,7 @@
                         "Nếu các đơn vị không khớp, tôi sẽ dừng chương trình.",
                         "\\3 mèo - 5 chó\\🪲"
                     ],
-                    "names": ["$~-", "$~trừ"],
+                    "names": ["$~trừ"],
                     "inputs": [
                         {
                             "doc": "$~Số cần trừ khỏi tôi.",
@@ -2712,7 +2727,7 @@
                         "\\5m × 5m\\",
                         "\\5m × 1/s\\"
                     ],
-                    "names": ["$~×", "$~·", "$~nhân"],
+                    "names": ["$~nhân"],
                     "inputs": [
                         {
                             "doc": "$~Số cần nhân.",
@@ -2727,7 +2742,7 @@
                         "\\5m ÷ 5m\\",
                         "\\5m ÷ 5s\\"
                     ],
-                    "names": ["$~÷", "$~chia"],
+                    "names": ["$~chia"],
                     "inputs": [
                         {
                             "doc": "$~@Number để chia tôi.",
@@ -2742,7 +2757,7 @@
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
-                    "names": ["$~%", "$~phầncònlại"],
+                    "names": ["$~phầncònlại"],
                     "inputs": [
                         {
                             "doc": "$~@Number để chia tôi.",
@@ -2795,7 +2810,7 @@
                         "\\10 ^ -2\\",
                         "\\5 ^ -.5\\"
                     ],
-                    "names": ["$~^", "$~quyềnlực"],
+                    "names": ["$~quyềnlực"],
                     "inputs": [
                         {
                             "doc": "$~Số mũ cần nâng lên để nâng tôi lên.",
@@ -2809,7 +2824,7 @@
                         "\\4 √ 2\\",
                         "\\1000 √ 3\\"
                     ],
-                    "names": ["$~√", "$~gốc"],
+                    "names": ["$~gốc"],
                     "inputs": [
                         {
                             "doc": "$~Căn bậc hai cần tính toán.",
@@ -2823,7 +2838,7 @@
                         "\\1 < 2\\",
                         "\\2 < 1\\"
                     ],
-                    "names": ["$~<", "$~íthơn"],
+                    "names": ["$~íthơn"],
                     "inputs": [
                         {
                             "doc": "$~@Number điện thoại để so sánh tôi với.",
@@ -2838,7 +2853,7 @@
                         "\\2 ≤ 1\\",
                         "\\2 ≤ 2\\"
                     ],
-                    "names": ["$~≤", "$~nhỏhơnbằng"],
+                    "names": ["$~nhỏhơnbằng"],
                     "inputs": [
                         {
                             "doc": "$~@Number điện thoại để so sánh tôi với.",
@@ -2852,7 +2867,7 @@
                         "\\1 > 2\\",
                         "\\2 > 1\\"
                     ],
-                    "names": ["$~>", "$~lớnhơn"],
+                    "names": ["$~lớnhơn"],
                     "inputs": [
                         {
                             "doc": "$~@Number điện thoại để so sánh tôi với.",
@@ -2867,7 +2882,7 @@
                         "\\2 ≥ 1\\",
                         "\\2 ≥ 2\\"
                     ],
-                    "names": ["$~≥", "$~lớnhơnhoặcbằng"],
+                    "names": ["$~lớnhơnhoặcbằng"],
                     "inputs": [
                         {
                             "doc": "$~@Number điện thoại để so sánh tôi với.",
@@ -2881,7 +2896,7 @@
                         "\\1 = 2\\",
                         "\\2 = 2\\"
                     ],
-                    "names": ["$~=", "$~bìnhđẳng"],
+                    "names": ["$~bìnhđẳng"],
                     "inputs": [
                         {
                             "doc": "$~@Number điện thoại để so sánh tôi với.",
@@ -2895,7 +2910,7 @@
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
-                    "names": ["$~≠", "$~khôngbằng"],
+                    "names": ["$~khôngbằng"],
                     "inputs": [
                         {
                             "doc": "$~@Number điện thoại để so sánh tôi với.",
@@ -2905,12 +2920,12 @@
                 },
                 "cos": {
                     "doc": ["$~Tính cosin của tôi.", "\\π.cos()\\"],
-                    "names": ["$~cos", "$~côsin"],
+                    "names": ["$~côsin"],
                     "inputs": []
                 },
                 "sin": {
                     "doc": ["$~Tính sin của tôi.", "\\π.cos()\\"],
-                    "names": ["$~tộilỗi", "$~sin"],
+                    "names": ["$~tộilỗi"],
                     "inputs": []
                 },
                 "min": {
@@ -2941,7 +2956,7 @@
                 },
                 "tan": {
                     "doc": ["$~Tính tang của tôi.", "\\π.tan()\\"],
-                    "names": ["$~tan", "$~tang"],
+                    "names": ["$~tang"],
                     "inputs": []
                 },
                 "arcsin": {
@@ -3061,7 +3076,7 @@
                 "\\['táo' 'chuối' 'xoài']!\\",
                 "Đại khái là vậy. Nhưng tôi có thể làm được nhiều việc thú vị với @FunctionDefinition!"
             ],
-            "name": ["$~[]", "$~Danhsách"],
+            "name": ["$~Danhsách"],
             "kind": "$~Loại",
             "out": "$~KếtQuả",
             "outofbounds": "$~ngoàiGiớiHạn",
@@ -3086,7 +3101,7 @@
                         "Sử dụng @Spread sẽ dễ hơn một chút, như thế này:",
                         "\\['táo' 'chuối' 'xoài' :['dưa hấu' 'quả khế']]\\"
                     ],
-                    "names": ["$~withList", "$~thêm"],
+                    "names": ["$~thêm"],
                     "inputs": [
                         {
                             "doc": "$~Danh sách các giá trị cần thêm vào.",
@@ -3113,7 +3128,7 @@
                 },
                 "length": {
                     "doc": "$~Số lượng vật phẩm trong tôi.",
-                    "names": ["$~📏", "$~chiềudài"],
+                    "names": ["$~chiềudài"],
                     "inputs": []
                 },
                 "random": {
@@ -3203,7 +3218,7 @@
                         "$~Tôi tạo một danh sách mà không có mục đầu tiên.",
                         "\\['apple' 'banana' 'mango'].sansFirst()\\"
                     ],
-                    "names": ["$~khôngcóFirst", "$~sansFirst"],
+                    "names": ["$~khôngcóFirst"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3211,7 +3226,7 @@
                         "$~Tôi tạo một danh sách mà không có mục cuối cùng.",
                         "\\['apple' 'banana' 'mango'].sansLast()\\"
                     ],
-                    "names": ["$~khôngcócuốicùng", "$~sansLast"],
+                    "names": ["$~khôngcócuốicùng"],
                     "inputs": []
                 },
                 "sans": {
@@ -3232,7 +3247,7 @@
                         "$~Tôi, nhưng không bao gồm tất cả các lần xuất hiện của giá trị đã cho.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": ["$~khôngcótấtcả", "$~sansAll"],
+                    "names": ["$~khôngcótấtcả"],
                     "inputs": [
                         {
                             "doc": "$~Giá trị cần thiết để loại bỏ tất cả các lần xuất hiện của mục đó khỏi danh sách.",
@@ -3253,7 +3268,7 @@
                         "$~\\⊤\\ nếu các mặt hàng và đơn đặt hàng của tôi hoàn toàn giống với @List đã cho.",
                         "\\['apple' 'banana' 'mango'] = ['apple' 'mango' 'banana']\\"
                     ],
-                    "names": ["$~=", "$~bằng"],
+                    "names": ["$~bằng"],
                     "inputs": [
                         {
                             "doc": "$~@List để so sánh tôi với.",
@@ -3266,7 +3281,7 @@
                         "$~\\⊤\\ nếu các mặt hàng và đơn đặt hàng của tôi /không/ hoàn toàn giống với @List đã cho.",
                         "\\['táo' 'chuối' 'xoài'] ≠ ['táo' 'xoài' 'chuối']\\"
                     ],
-                    "names": ["$~≠", "$~khôngbằng"],
+                    "names": ["$~khôngbằng"],
                     "inputs": [
                         {
                             "doc": "$~@List để so sánh tôi với.",
@@ -3496,7 +3511,7 @@
                 "\\{'hey' 'hi' 'hello'}!{'yo'}\\🪲",
                 "Bạn còn muốn làm gì khác với tôi không? Hãy xem tất cả những @FunctionDefinition tuyệt vời mà tôi có!"
             ],
-            "name": ["$~{}", "$~Bộ"],
+            "name": ["$~Bộ"],
             "kind": "$~Loại",
             "out": "$~KếtQuả",
             "function": {
@@ -3510,7 +3525,7 @@
                         "$~Tôi là \\⊤\\ nếu @Set đã cho và tôi có cùng các giá trị chính xác:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": ["$~=", "$~bằng"],
+                    "names": ["$~bằng"],
                     "inputs": [
                         {
                             "doc": "$~Bộ @Set dùng để so sánh.",
@@ -3523,7 +3538,7 @@
                         "$~Tôi \\⊤\\ nếu @Set đã cho và tôi không có các giá trị hoàn toàn giống nhau:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": ["$~≠", "$~khôngbằng"],
+                    "names": ["$~khôngbằng"],
                     "inputs": [
                         {
                             "doc": "$~Bộ @Set dùng để so sánh.",
@@ -3536,7 +3551,7 @@
                         "$~Hãy cho tôi một mục để thêm vào và tôi sẽ tạo một @Set mới với các mục của tôi và mục được cung cấp.",
                         "\\{1 2 3} + 4\\"
                     ],
-                    "names": ["$~với", "$~thêmvào", "$~+"],
+                    "names": ["$~với", "$~thêmvào"],
                     "inputs": [
                         {
                             "doc": "$~Mục cần thêm",
@@ -3550,7 +3565,7 @@
                         "\\{1 2 3} - 2\\",
                         "Nếu tôi không có món đồ đó, tôi sẽ tự đánh giá."
                     ],
-                    "names": ["$~didời", "$~-"],
+                    "names": ["$~didời"],
                     "inputs": [
                         {
                             "doc": "$~Vật cần loại bỏ.",
@@ -3563,7 +3578,7 @@
                         "$~Hãy đưa cho tôi @Set và tôi sẽ tạo một @Set mới chứa các mục của tôi và các mục của bộ đó.",
                         "\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": ["$~côngđoàn", "$~∪"],
+                    "names": ["$~côngđoàn"],
                     "inputs": [
                         {
                             "doc": "$~@Set sẽ kết hợp với tôi.",
@@ -3576,7 +3591,7 @@
                         "$~Hãy đưa cho tôi @Set và tôi sẽ tạo một @Set mới chỉ chứa những mục mà chúng ta có chung.",
                         "\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": ["$~giaolộ", "$~∩"],
+                    "names": ["$~giaolộ"],
                     "inputs": [
                         {
                             "doc": "$~Bộ này dùng để so sánh với tôi.",
@@ -3669,7 +3684,7 @@
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
                 "Tôi biết cách tạo ra nhiều điều tuyệt vời bằng cách kết hợp các nguyên liệu với nhau."
             ],
-            "name": ["$~{:}", "$~Bảnđồ"],
+            "name": ["$~Bảnđồ"],
             "key": "$~ChìaKhóa",
             "value": "$~GiáTrị",
             "result": "$~KếtQuả",
@@ -3684,7 +3699,7 @@
                         "$~\\{⊤}\\ nếu các cặp ghép của tôi hoàn toàn giống với các cặp ghép của @Map đã cho.",
                         "\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": ["$~=", "$~bằng"],
+                    "names": ["$~bằng"],
                     "inputs": [
                         {
                             "doc": "$~@Map là cái tên mà người ta dùng để so sánh tôi.",
@@ -3697,7 +3712,7 @@
                         "$~\\{⊤}\\ nếu các cặp ghép của tôi /không/ hoàn toàn giống với các cặp ghép của @Map đã cho.",
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": ["$~≠", "$~khôngbằng"],
+                    "names": ["$~khôngbằng"],
                     "inputs": [
                         {
                             "doc": "$~@Map là cái tên mà người ta dùng để so sánh tôi.",
@@ -3827,12 +3842,12 @@
                 "Và nếu bạn muốn lấy các giá trị cụ thể từ tôi, bạn có thể chuyển đổi bất kỳ bảng nào thành danh sách và truy cập từng hàng riêng lẻ bằng @PropertyReference.",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'đen'⎦\n⎡'pumice' 'xám'⎦\n⎡'citrine' 'vàng'⎦\n(rocks → [])[1].name\\"
             ],
-            "name": ["$~⎡⎦", "$~Bàn"],
+            "name": ["$~Bàn"],
             "row": "$~HàngNgang",
             "function": {
                 "equals": {
                     "doc": "$~Tôi kiểm tra xem mình có các ô giống hệt nhau và được sắp xếp theo cùng một thứ tự như trong một bảng @Table khác hay không.",
-                    "names": ["$~=", "$~bằng"],
+                    "names": ["$~bằng"],
                     "inputs": [
                         {
                             "doc": "$~Cần kiểm tra bảng còn lại.",
@@ -3842,7 +3857,7 @@
                 },
                 "notequal": {
                     "doc": "$~Tôi kiểm tra xem có ô nào trong bảng của tôi khác biệt hoặc có thứ tự khác biệt so với bảng @Table khác hay không.",
-                    "names": ["$~≠", "$~khôngbằng"],
+                    "names": ["$~khôngbằng"],
                     "inputs": [
                         {
                             "doc": "$~Cần kiểm tra bảng còn lại.",
@@ -3862,7 +3877,7 @@
             "function": {
                 "equals": {
                     "doc": "$~Tôi kiểm tra xem các thuộc tính của mình có cùng tên và giá trị với các thuộc tính của một cấu trúc khác hay không.",
-                    "names": ["$~=", "$~bằng"],
+                    "names": ["$~bằng"],
                     "inputs": [
                         {
                             "doc": "$~Cấu trúc khác cần kiểm tra.",
@@ -3872,7 +3887,7 @@
                 },
                 "notequal": {
                     "doc": "$~Tôi kiểm tra xem các thuộc tính của mình có khác biệt gì về tên và giá trị so với các cấu trúc khác hay không.",
-                    "names": ["$~≠", "$~khôngbằng"],
+                    "names": ["$~khôngbằng"],
                     "inputs": [
                         {
                             "doc": "$~Cấu trúc khác cần kiểm tra.",
@@ -3891,16 +3906,16 @@
                 "\\`I am **bold** and /italic/`\\",
                 "Tôi hoạt động khá giống với @Text , nhưng tôi có thể mang theo định dạng. Bạn có thể kết hợp tôi, lặp lại tôi, kiểm tra nội dung của tôi và chuyển đổi tôi thành @Text thuần túy."
             ],
-            "name": ["$~`…`", "$~Đãđịnhdạng"],
+            "name": ["$~Đãđịnhdạng"],
             "function": {
                 "length": {
                     "doc": "$~Tôi đánh giá dựa trên số lượng ký tự dễ đọc trong văn bản của mình, bỏ qua định dạng và ngắt đoạn.",
-                    "names": ["$~📏", "$~chiềudài"],
+                    "names": ["$~chiềudài"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ nếu tôi có cùng định dạng văn bản với giá trị đã cho.",
-                    "names": ["$~=", "$~bằng"],
+                    "names": ["$~bằng"],
                     "inputs": [
                         {
                             "doc": "$~Văn bản được định dạng để so sánh.",
@@ -3950,7 +3965,7 @@
                 },
                 "repeat": {
                     "doc": "$~Tôi tạo ra một đoạn văn bản mới được định dạng theo đúng định dạng của tôi, được lặp lại số lần đã cho. Nếu tôi có nhiều hơn một đoạn văn, các dấu ngắt câu sẽ được giữ nguyên giữa các bản sao.",
-                    "names": ["$~×", "$~·", "$~🔁", "$~lặplại", "$~lặplại"],
+                    "names": ["$~lặplại", "$~lặplại"],
                     "inputs": [
                         {
                             "doc": "$~Số lần phải lặp lại lời nói.",
@@ -3960,7 +3975,7 @@
                 },
                 "combine": {
                     "doc": "$~Hãy đưa cho tôi một đoạn văn bản khác đã được định dạng và tôi sẽ ghép chúng lại thành một. Nếu một trong hai bên có nhiều hơn một đoạn văn, các dấu ngắt đoạn sẽ được giữ nguyên.",
-                    "names": ["$~+", "$~kếthợp", "$~kếthợp"],
+                    "names": ["$~kếthợp", "$~kếthợp"],
                     "inputs": [
                         {
                             "doc": "$~Văn bản được định dạng để thêm vào.",
@@ -3991,7 +4006,7 @@
                 "Và nếu bạn cung cấp các số với số chữ số có nghĩa cụ thể sau dấu thập phân, độ chính xác đó sẽ được bảo toàn.",
                 "\\Random(1.00 10.00)\\"
             ],
-            "names": ["$~🎲", "$~Ngẫunhiên"],
+            "names": ["$~Ngẫunhiên"],
             "inputs": [
                 {
                     "names": "$~phút",
@@ -4012,7 +4027,7 @@
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "Sao chép đoạn mã này vào trình soạn thảo rồi chọn một trong hai @Phrase . Bạn sẽ thấy @Phrase thứ ba hiển thị tên đã được chọn."
             ],
-            "names": ["$~🔘", "$~Sựlựachọn"]
+            "names": ["$~Sựlựachọn"]
         },
         "Button": {
             "doc": [
@@ -4024,7 +4039,7 @@
                 "\\Phrase(Button() → '')\\",
                 "Thao tác này chỉ tạo ra một @Phrase có giá trị là văn bản của luồng. Nếu bạn sao chép nó vào trình soạn thảo và nhấp chuột, bạn sẽ thấy nó chuyển đổi qua lại giữa \\⊥\\ và \\⊤\\ ."
             ],
-            "names": ["$~🖱️", "$~Cáinút"],
+            "names": ["$~Cáinút"],
             "down": {
                 "names": "$~xuống",
                 "doc": "$~Nếu là @None, luồng dữ liệu sẽ cung cấp cả giá trị lên và xuống. Nếu là \\⊤\\, giá trị chỉ thay đổi khi nút được nhấn. Nếu là \\⊥\\, giá trị chỉ thay đổi khi nút được nhả ra."
@@ -4039,7 +4054,7 @@
                 "\\Pointer()\\",
                 "Thuộc @Place mà nó cung cấp sẽ tương ứng với vị trí mà con trỏ đang trỏ tới trên @Stage ."
             ],
-            "names": ["$~👆🏻", "$~Contrỏ"]
+            "names": ["$~Contrỏ"]
         },
         "Key": {
             "doc": [
@@ -4055,7 +4070,7 @@
                 "Và nếu bạn chỉ muốn biết khi nào một @Key được nhả ra thay vì được nhấn, bạn có thể cung cấp một giá @Boolean :",
                 "\\Key('a' ⊥)\\"
             ],
-            "names": ["$~⌨️", "$~Chìakhóa"],
+            "names": ["$~Chìakhóa"],
             "key": {
                 "names": "$~chìakhóa",
                 "doc": "$~Nếu là @None, thì tất cả các khóa đều được cung cấp. Nếu là @Text cụ thể, thì chỉ khóa đó được cung cấp."
@@ -4130,7 +4145,7 @@
                 "Tuy nhiên, kích thước đó có thể bị giới hạn, vì @Program cần thời gian để đánh giá trước khi có thể phản hồi lại tick tiếp theo.",
                 "Giá trị nhỏ nhất có lẽ vào khoảng \\20ms\\ ."
             ],
-            "names": ["$~🕕", "$~Thờigian"],
+            "names": ["$~Thờigian"],
             "frequency": {
                 "names": ["$~Tínhthườngxuyên"],
                 "doc": "$~Đây là tần suất thời gian nên tích tắc. Mặc định là \\33ms\\, tức khoảng 30 lần mỗi giây."
@@ -4148,7 +4163,7 @@
                 "\\Volume()\\",
                 "Đây là công cụ tuyệt vời để nghe xem khán giả hò reo lớn đến mức nào!"
             ],
-            "names": ["$~🎤", "$~Âmlượng"],
+            "names": ["$~Âmlượng"],
             "frequency": {
                 "names": ["$~Tínhthườngxuyên"],
                 "doc": "$~Khoảng thời gian giữa các lần lấy mẫu."
@@ -4162,7 +4177,7 @@
                 "\\Pitch()\\",
                 "Đây là công cụ tuyệt vời để nghe rõ giọng điệu khi ai đó nói hoặc hát."
             ],
-            "names": ["$~🎵", "$~Sânbóngđá"],
+            "names": ["$~Sânbóngđá"],
             "frequency": {
                 "names": ["$~Tínhthườngxuyên"],
                 "doc": "$~Khoảng thời gian giữa các lần lấy mẫu."
@@ -4177,7 +4192,7 @@
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "Nhưng bạn cũng có thể phân tích màu sắc để quyết định xem đèn có bật hay tắt, hoặc liệu một màu cụ thể có phổ biến hay không, cho phép khán giả tác động đến màn trình diễn bằng màu sắc mà họ thể hiện."
             ],
-            "names": ["$~🎥", "$~Máyảnh"],
+            "names": ["$~Máyảnh"],
             "width": {
                 "names": ["$~chiềurộng"],
                 "doc": "$~Số lượng @Color cần lấy mẫu trong một hàng."
@@ -4206,7 +4221,7 @@
                 "\\nhấp: ∆ 🖱()\n🎬([\n\t\tCụmtừ('Xin chào')\n\t\tnhấp\n\t\tCụmtừ('Bạn khỏe không?' duration: 0.25s rotation: 5° entering: 🤪(rotation: 0°))\n\t\tnhấp\n\t\tCụmtừ('Mình khỏe')\n\t])\\",
                 "Thấy nó tạm dừng sau mỗi @Phrase, và chờ @Button thay đổi trước khi tiến tới chứ?"
             ],
-            "names": ["$~🎬", "$~Bốicảnh"],
+            "names": ["$~Bốicảnh"],
             "outputs": {
                 "names": "$~đầura",
                 "doc": "$~Danh sách các kết quả cần hiển thị theo trình tự."
@@ -4222,7 +4237,7 @@
                 "Bạn thấy chữ o nảy lên không? Trong lần đánh giá đầu tiên, bạn đặt nó ở vị trí cao trên @Stage , nhưng sau đó, nó được đặt trên @None , cho phép @Motion thay đổi vị trí của nó đến bất kỳ vị trí nào mà trọng lực đặt nó vào.",
                 "Hãy xem các cách cấu hình khác bên dưới."
             ],
-            "names": ["$~⚽️", "$~Cửđộng"],
+            "names": ["$~Cửđộng"],
             "place": {
                 "doc": "$~Điểm xuất phát.",
                 "names": "$~địađiểm"
@@ -4247,7 +4262,7 @@
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "Vậy là xong! Bạn có thể tạo ra đủ loại hình trình diễn với công cụ này, chẳng hạn như chatbot, trò chơi phiêu lưu bằng văn bản, hoặc các sơ đồ điều khiển dựa trên văn bản cho các loại hình trình diễn khác."
             ],
-            "names": ["$~🗣️", "$~Tròchuyện"]
+            "names": ["$~Tròchuyện"]
         },
         "Placement": {
             "doc": [
@@ -4260,7 +4275,7 @@
                 "Hãy thử sao chép đoạn mã này vào chương trình của bạn và di chuyển chú thích @Output bằng con trỏ hoặc bàn phím.",
                 "Bạn có thể tùy chỉnh @Placement , bật và tắt chuyển động theo một số chiều nhất định, thay đổi khoảng cách di chuyển của @Place và @Place ban đầu mà luồng bắt đầu."
             ],
-            "names": ["$~✥", "$~Vịtrí"],
+            "names": ["$~Vịtrí"],
             "inputs": [
                 {
                     "doc": "$~Điểm khởi đầu đầu tiên.",
@@ -4294,7 +4309,7 @@
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
                 "Rất nhiều thứ có thể xảy ra lỗi với việc này. Nếu bạn mất kết nối internet, hoặc URL không hiển thị, hoặc URL không công khai, hoặc URL không phải là trang HTML… Tất cả những điều này đều có thể dẫn đến lỗi. Nếu bạn tìm được một trang hoạt động, bạn sẽ nhận được một số @Number cho biết phần trăm hoàn thành và sau đó là một @List kê các từ trên trang."
             ],
-            "names": ["$~🔗", "$~Trangweb"],
+            "names": ["$~Trangweb"],
             "url": {
                 "doc": "$~URL trang web HTML cần lấy.",
                 "names": "$~URL"
@@ -4373,13 +4388,13 @@
                 "Nếu không chỉ định ngôn ngữ, hệ thống sẽ mặc định sử dụng ngôn ngữ bạn ưu tiên.",
                 "Tính năng nhận dạng giọng nói yêu cầu quyền truy cập micro và kết nối Internet (vui lòng cấp quyền truy cập!). Ngoài ra, có thể có giới hạn sử dụng, vì vậy đừng để nó hoạt động quá lâu (tuyệt đối không!)."
             ],
-            "names": ["$~🎙️", "$~Lờinói", "$~Tiếngnói"],
+            "names": ["$~Lờinói", "$~Tiếngnói"],
             "reset": {
                 "names": ["$~càilại", "$~thôngthoáng"],
                 "doc": "$~Khi giá trị này thay đổi, hãy xóa toàn bộ dữ liệu đã lưu và bắt đầu lại từ đầu."
             },
             "language": {
-                "names": ["$~ngônngữ", "$~lang"],
+                "names": ["$~ngônngữ"],
                 "doc": "$~Mã ngôn ngữ BCP 47 (ví dụ: 'en-US'). Nếu trình duyệt của bạn không hỗ trợ nhận dạng giọng nói, bạn sẽ nhận được thông báo lỗi. Ngôn ngữ mặc định sẽ là ngôn ngữ bạn ưu tiên."
             },
             "limit": {
@@ -4406,7 +4421,7 @@
                 "Hãy thử cách này — nó sẽ hiển thị biểu tượng cảm xúc phù hợp với tư thế tay của bạn bất kể tay thật của bạn đang ở đâu:",
                 "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
-            "names": ["$~🖐️", "$~Tay"],
+            "names": ["$~Tay"],
             "frequency": {
                 "names": ["$~Tínhthườngxuyên"],
                 "doc": "$~Khoảng thời gian giữa các lần lấy mẫu."
@@ -4426,7 +4441,7 @@
                 "Bạn có thể điều chỉnh kích thước đường viền bằng @Number of meters, di chuyển điểm gốc bằng @Place , chọn độ đậm phông chữ, bật chế độ in nghiêng và đặt `spacing` giữa các điểm theo khoảng cách tính bằng mét. `spacing` nhỏ hơn sẽ vẽ đường viền sát hơn, với các điểm cách đều nhau dọc theo cả đường thẳng và đường cong.",
                 "Một số ký tự, như biểu tượng cảm xúc màu sắc, không có đường viền, vì vậy chúng không được tính điểm. Trong khi tải phông chữ, nó sẽ trả về một @List trống, sau đó sẽ điền thông tin vào khi hoàn tất."
             ],
-            "names": ["$~🖋️", "$~Đườngviền"],
+            "names": ["$~Đườngviền"],
             "inputs": [
                 {
                     "doc": "$~Văn bản mà tôi cần đồ lại đường viền của các ký tự.",
@@ -4576,7 +4591,7 @@
                 "Ví dụ này cho thấy một biểu tượng cảm xúc khớp với khuôn mặt của bạn ở bất cứ nơi nào khuôn mặt thật của bạn ở đó:",
                 "\\khuônMặt: 🙂()\nCụmtừ((khuônMặt.cườiTươi ? '😀' khuônMặt.miệngMở ? '😮' '😐') place: khuônMặt.vịTrí)\\"
             ],
-            "names": ["$~🙂", "$~KhuônMặt"],
+            "names": ["$~KhuônMặt"],
             "frequency": {
                 "names": ["$~tầnSố"],
                 "doc": "$~Khoảng thời gian giữa các mẫu."
@@ -4599,7 +4614,7 @@
                 "Bạn cũng có thể chỉ tìm một loại đồ vật, và bỏ qua những thứ còn lại:",
                 "\\nhữngThứ: 📦(category: 'cat')\nCụmtừ(nhữngThứ.📏() > 0 ? '🐈' '…')\\"
             ],
-            "names": ["$~📦", "$~ĐốiTượng"],
+            "names": ["$~ĐốiTượng"],
             "inputs": [
                 {
                     "doc": "$~Khoảng thời gian giữa các lần lấy mẫu.",
@@ -4835,7 +4850,7 @@
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "Cách tôi sắp xếp mọi thứ cụ thể phụ thuộc vào @Arrangement mà bạn cung cấp cho tôi."
             ],
-            "names": ["$~🔳", "$~Nhóm"],
+            "names": ["$~Nhóm"],
             "layout": {
                 "doc": "$~Cách sắp xếp để đặt các @Output vào đúng vị trí của chúng.",
                 "names": "$~cáchtrìnhbày"
@@ -4892,7 +4907,7 @@
             },
             "rotation": {
                 "doc": "$~Tôi nên nghiêng người bao nhiêu quanh trọng tâm cơ thể? Tư thế của tôi có tư thế khác.",
-                "names": ["$~📐", "$~xoay"]
+                "names": ["$~xoay"]
             },
             "scale": {
                 "doc": "$~Tôi nên có kích thước như thế nào so với kích thước ban đầu của mình?",
@@ -4924,7 +4939,7 @@
             },
             "duration": {
                 "doc": "$~Tương tự như @Phrase.duration!",
-                "names": ["$~⏳", "$~khoảngthờigian"]
+                "names": ["$~khoảngthờigian"]
             },
             "style": {
                 "doc": "$~Giống như @Phrase.style!",
@@ -4960,7 +4975,7 @@
             },
             "wrap": {
                 "doc": "$~Vị trí mà tôi nên xuống dòng các ký hiệu hoặc \\ø\\ nếu tôi không nên xuống dòng chúng.",
-                "names": ["$~↵", "$~bọc"]
+                "names": ["$~bọc"]
             },
             "alignment": {
                 "doc": "$~Nếu có thiết lập ranh giới @Phrase.wrap, tôi nên căn chỉnh các ký hiệu vào đầu, giữa hay cuối cạnh?",
@@ -5048,7 +5063,7 @@
             },
             "duration": {
                 "doc": "$~Thời gian áp dụng khi di chuyển đến vị trí khác trên sân khấu.",
-                "names": ["$~⏳", "$~khoảngthờigian"]
+                "names": ["$~khoảngthờigian"]
             },
             "style": {
                 "doc": "$~Phong cách hoạt hình được sử dụng khi di chuyển đến một vị trí khác trên sân khấu.",
@@ -5062,11 +5077,11 @@
         },
         "Arrangement": {
             "doc": "$~Tôi là nguồn cảm hứng cho nhiều kiểu sắp xếp khác trong Verse, bao gồm @Row, @Stack, @Grid và @Free. Tôi hợp tác chặt chẽ với @Group để",
-            "names": ["$~⠿", "$~Sắpxếp"]
+            "names": ["$~Sắpxếp"]
         },
         "Row": {
             "doc": "$~Tôi là @Row, một @Arrangement nằm ngang gồm các @Output, với khoảng đệm tùy chọn ở giữa. Bạn đã gặp người anh em song sinh của tôi, @Stack chưa?",
-            "names": ["$~➡", "$~Hàngngang"],
+            "names": ["$~Hàngngang"],
             "description": "$~hàng gồm $#count[$count cụm từ hoặc nhóm]",
             "alignment": {
                 "doc": "$~Chọn căn chỉnh văn bản ở đầu, giữa hoặc cuối mỗi cột.",
@@ -5079,7 +5094,7 @@
         },
         "Stack": {
             "doc": "$~Tôi là @Stack, một @Arrangement thẳng đứng của @Output, với khoảng đệm tùy chọn ở giữa. Bạn đã gặp người anh em song sinh của tôi, @Row chưa?",
-            "names": ["$~⬇", "$~Ngănxếp"],
+            "names": ["$~Ngănxếp"],
             "description": "$~chồng gồm $#count[$count cụm từ hoặc nhóm]",
             "alignment": {
                 "doc": "$~Chọn căn chỉnh văn bản ở đầu, giữa hoặc cuối mỗi dòng.",
@@ -5092,7 +5107,7 @@
         },
         "Grid": {
             "doc": "$~Tôi là một lưới của @Output. Hãy cho tôi biết số hàng và số cột, và tôi sẽ tạo ra một bố cục gọn gàng với tùy chọn khoảng cách lề và kích thước ô.",
-            "names": ["$~▦", "$~Lưới"],
+            "names": ["$~Lưới"],
             "description": "$~$rows hàng $columns cột lưới",
             "rows": {
                 "doc": "$~Lưới này có bao nhiêu hàng?",
@@ -5125,7 +5140,7 @@
         },
         "Shape": {
             "doc": "$~Tôi là nguồn cảm hứng cho mọi hình dáng. Tôi hữu ích trong việc hướng dẫn @Stage nên có hình dáng như thế nào.",
-            "names": ["$~⬟", "$~Hìnhdạng"],
+            "names": ["$~Hìnhdạng"],
             "form": {
                 "doc": "$~Tôi là kiểu hình dạng cần được thể hiện. Mỗi hình dạng đòi hỏi những thông tin khác nhau để xác định cách sắp xếp của nó.",
                 "names": "$~hìnhthức"
@@ -5278,7 +5293,7 @@
                 "$~Tôi ghi lại một @Pose để @Output giữ, và tôi là nền tảng cho chuyển động của họ. Bạn biết đấy, khi ai đó đứng ở một tư thế vô cùng ấn tượng, dừng lại một chút, và mọi người đều nhìn? Đó chính là tôi.",
                 "Có rất nhiều yếu tố tạo nên một tư thế. Hãy xem nhiều gợi ý của tôi để xem bạn có thể tạo ra những kiểu tư thế nào!"
             ],
-            "names": ["$~🤪", "$~Tưthế"],
+            "names": ["$~Tưthế"],
             "style": {
                 "doc": "$~Kiểu hoạt ảnh cần sử dụng khi chuyển sang tư thế này.",
                 "names": "$~phongcách"
@@ -5334,18 +5349,18 @@
                 "\\Color.blue\\",
                 "Các phím tắt này cũng hoạt động với ngôn ngữ của bạn, vì vậy người nói tiếng Pháp có thể viết \\couleur.rouge\\🪲 và người nói tiếng Nhật có thể viết \\色.赤\\🪲 . Các phím tắt là: đỏ, cam, vàng, xanh lá cây, xanh dương, tím, nâu, hồng, đen, trắng và xám."
             ],
-            "names": ["$~🌈", "$~Màusắc"],
+            "names": ["$~Màusắc"],
             "lightness": {
                 "doc": "$~Tôi nên sáng như thế nào từ \\0\\ đến \\1\\, từ màu đen tại \\0\\, đến màu xám tại \\0.5\\, đến màu trắng tại \\1\\.",
-                "names": ["$~ánhsáng", "$~l"]
+                "names": ["$~ánhsáng"]
             },
             "chroma": {
                 "doc": "$~Tôi nên có bao nhiêu màu sắc, từ \\0\\ đến \\∞\\. Không có màu nghĩa là màu xám, số càng cao thì màu càng nhiều.",
-                "names": ["$~màusắc", "$~c"]
+                "names": ["$~màusắc"]
             },
             "hue": {
                 "doc": "$~Tôi nên có màu gì trên vòng tròn màu, từ màu đỏ tươi \\0\\, đỏ \\30\\, xanh lá cây \\120\\, đến xanh dương \\270\\?",
-                "names": ["$~sắcđộ", "$~h"]
+                "names": ["$~sắcđộ"]
             },
             "colors": {
                 "black": {
@@ -5459,14 +5474,14 @@
                 "Điều này có nghĩa là, /lúc bắt đầu (0%), bắt đầu ở độ nghiêng 360 và kết thúc ở độ nghiêng 0/. Điều đó sẽ khiến chúng ta quay vòng mãi mãi, vì tôi được đặt ở tư thế nghỉ của @Phrase !",
                 "Hãy thử sáng tạo những điệu nhảy của riêng bạn bằng cách kết hợp với các yếu tố đầu vào khác."
             ],
-            "names": ["$~💃", "$~Sựliêntiếp"],
+            "names": ["$~Sựliêntiếp"],
             "poses": {
                 "doc": "$~Một @Map hiển thị tỷ lệ phần trăm từ 0% đến 100%, mỗi tỷ lệ được ghép nối với một @Pose. Bạn không cần phải cung cấp tất cả các tỷ lệ phần trăm; tôi sẽ tự động di chuyển một @Output giữa các tỷ lệ bạn cung cấp.",
                 "names": "$~tưthế"
             },
             "duration": {
                 "doc": "$~Tôi nên nhảy điệu nhảy này trong bao lâu? Nếu tôi nhảy lại, tôi sẽ không tăng thêm thời gian, mà chỉ nhảy nhanh hơn thôi.",
-                "names": ["$~⏳", "$~khoảngthờigian"]
+                "names": ["$~khoảngthờigian"]
             },
             "style": {
                 "doc": "$~Tôi nên sử dụng phong cách nào cho điệu nhảy này?",
@@ -5832,7 +5847,7 @@
         },
         "Place": {
             "doc": "$~Tôi là một vị trí trên @Stage. Tất cả các đầu vào của tôi đều là tùy chọn, vì theo mặc định tôi ở vị trí trung tâm.",
-            "names": ["$~📍", "$~Địađiểm"],
+            "names": ["$~Địađiểm"],
             "x": {
                 "doc": "$~Vị trí trên trục x.",
                 "names": "$~x"
@@ -5847,12 +5862,12 @@
             },
             "rotation": {
                 "doc": "$~Xoay tại vị trí này",
-                "names": ["$~📐", "$~xoay"]
+                "names": ["$~xoay"]
             }
         },
         "Velocity": {
             "doc": "$~Tôi xác định tốc độ di chuyển @Output trên @Stage — mét mỗi giây dọc theo trục x và y, và độ mỗi giây quay. Các đầu vào của tôi là tùy chọn; theo mặc định, không có gì di chuyển.",
-            "names": ["$~💨", "$~Vậntốc"],
+            "names": ["$~Vậntốc"],
             "x": {
                 "doc": "$~Mỗi giây di chuyển bao nhiêu mét trên trục x?",
                 "names": "$~x"
@@ -5863,12 +5878,12 @@
             },
             "angle": {
                 "doc": "$~Mỗi giây quay bao nhiêu độ?",
-                "names": ["$~góc", "$~°"]
+                "names": ["$~góc"]
             }
         },
         "Matter": {
             "doc": "$~Tôi là những thuộc tính vật lý của đầu ra, ảnh hưởng đến cách tôi tương tác với các đầu ra khác trên sân khấu.",
-            "names": ["$~⚛️", "$~Vấnđề"],
+            "names": ["$~Vấnđề"],
             "mass": {
                 "doc": "$~Khối lượng, tính bằng kilogam.",
                 "names": "$~khối"
@@ -5899,7 +5914,7 @@
                 "$~Tôi làm cho @Phrase tỏa sáng! Tôi là một HÀO QUANG. Giống như thế này:",
                 "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\🪲"
             ],
-            "names": ["$~🔮", "$~Hàoquang"],
+            "names": ["$~Hàoquang"],
             "color": {
                 "doc": "$~Màu sắc mà @Aura nên có.",
                 "names": "$~màusắc"
@@ -5926,7 +5941,7 @@
                 "Bạn cũng có thể cung cấp cho tôi khung viền và tôi sẽ cắt ảnh.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": ["$~🎭", "$~Sânkhấu"],
+            "names": ["$~Sânkhấu"],
             "content": {
                 "doc": "$~Danh sách các @Output cần hiển thị trên sân khấu.",
                 "names": "$~nộidung"
@@ -5979,7 +5994,7 @@
             },
             "rotation": {
                 "doc": "$~Tương tự như @Group.rotation",
-                "names": ["$~📐", "$~xoay"]
+                "names": ["$~xoay"]
             },
             "scale": {
                 "doc": "$~Tương tự như @Group.scale",
@@ -6011,7 +6026,7 @@
             },
             "duration": {
                 "doc": "$~Tương tự như @Phrase.duration!",
-                "names": ["$~⏳", "$~khoảngthờigian"]
+                "names": ["$~khoảngthờigian"]
             },
             "style": {
                 "doc": "$~Tương tự như @Phrase.style!",
@@ -6074,7 +6089,7 @@
                 "Tôi sẽ sử dụng @Language của @TextLiteral nếu nó có thuộc tính đó, nếu không, tôi sẽ sử dụng ngôn ngữ đã chọn.",
                 "Bạn có thể chọn giọng nói trong phần cài đặt."
             ],
-            "names": ["$~🔊", "$~Nói"],
+            "names": ["$~Nói"],
             "text": {
                 "doc": "$~Đoạn văn tôi nên đọc to.",
                 "names": "$~chữ"
@@ -6083,7 +6098,7 @@
         },
         "Gesture": {
             "doc": "$~Tôi là ảnh chụp nhanh tư thế bàn tay được camera phát hiện, được phát ra từ luồng @Hand . Vị trí của tôi cho biết bàn tay đang ở đâu trên sân khấu, các ngón tay cho biết có bao nhiêu ngón đang duỗi ra, \"open\" là true khi bàn tay mở (3 ngón trở lên duỗi ra), và ngón cái, ngón trỏ, ngón giữa, ngón áp út và ngón út lần lượt cho biết ngón nào đang duỗi ra. Lòng bàn tay là true khi lòng bàn tay hướng về phía camera, false khi mu bàn tay hướng về phía camera.",
-            "names": ["$~✋", "$~Cửchỉ"],
+            "names": ["$~Cửchỉ"],
             "place": {
                 "doc": "$~Vị trí bàn tay trên sân khấu.",
                 "names": ["$~địađiểm"]
@@ -6156,7 +6171,7 @@
         },
         "Expression": {
             "doc": "$~Tôi là một ảnh chụp nhanh của một biểu cảm khuôn mặt được máy ảnh phát hiện, phát ra từ luồng @Face. Vị trí của tôi cho bạn biết khuôn mặt ở đâu trên sân khấu. @Expression.leftEyeOpen, @Expression.rightEyeOpen, và @Expression.eyesOpen của tôi cho biết mắt có mở hay không. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, và @Expression.browsRaised của tôi cho biết khuôn mặt đang làm gì, và mỗi cái có một lượng tương ứng (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) từ 0 đến 1 cho biết nó mạnh đến mức nào. @Expression.turn và @Expression.tilt của tôi cho biết đầu đang hướng về phía nào, tính bằng độ.",
-            "names": ["$~😀", "$~BiểuCảm"],
+            "names": ["$~BiểuCảm"],
             "place": {
                 "doc": "$~Khuôn mặt ở đâu trên sân khấu.",
                 "names": ["$~vịTrí"]
@@ -6216,7 +6231,7 @@
         },
         "Thing": {
             "doc": "$~Tôi là một thứ mà máy ảnh nhìn thấy, được gửi ra trong một @List bởi luồng @Objects. Tên của tôi cho biết tôi là gì, độ tin cậy của tôi cho biết mô hình chắc chắn đến mức nào, vị trí của tôi cho biết tôi ở đâu trên sân khấu, còn chiều rộng và chiều cao của tôi cho biết tôi trông lớn cỡ nào.",
-            "names": ["$~🔎", "$~Vật"],
+            "names": ["$~Vật"],
             "name": {
                 "doc": "$~Thứ đó là gì, bằng ngôn ngữ của bạn.",
                 "names": ["$~tên"]
@@ -6260,7 +6275,7 @@
                 "Tôi không có vẻ ngoài riêng để tạo kiểu, nên tôi không nhận các đầu vào về vẻ ngoài thông thường — không kích thước, vị trí, màu sắc, hay hoạt ảnh. Cách tôi xuất hiện là lựa chọn của người xem, thực hiện trong phần cài đặt của họ, và nó được neo vào sân khấu chứ không đặt trong bố cục của bạn; tôi không chiếm chỗ, nên đặt tôi trong một @Row hay một @Stack không bao giờ làm dịch chuyển bất cứ thứ gì bên cạnh tôi. Để tự vẽ nhạc, hãy dùng @Beat: nó trao cho bạn mỗi nhịp khi nó vang lên, để điều khiển bất kỳ đầu ra nào bạn thích.",
                 "Tôi tiếp tục phát qua các lần đánh giá: chỉnh sửa các nốt của tôi trong khi tôi đang phát và thay đổi sẽ ghép vào ở nhịp tiếp theo thay vì khởi động lại, đó là điều khiến việc thay đổi một giai điệu giữa lúc phát nghe có tính âm nhạc. Để phát tôi lại từ đầu, xem @Music/replay; để giữ tôi đứng yên và tiếp tục ở cùng chỗ, xem @Music/pause."
             ],
-            "names": ["$~🎼", "$~ÂmNhạc"],
+            "names": ["$~ÂmNhạc"],
             "tracks": {
                 "doc": "$~Một @Track, hoặc một danh sách các bản chơi cùng lúc. Mỗi bản là một giọng với một nhạc cụ, nên một danh sách các bản là một ban nhạc.",
                 "names": "$~bảnNhạc"
@@ -6417,7 +6432,7 @@
                 "Thêm các dấu lặng vào là tất cả những gì một vòng cần: cả hai phần giữ cùng số nhịp, nên chúng đi cùng bước thay vì trôi xa nhau. Trải hai danh sách thành một bằng : là cách chúng được tạo nên, vì \\append\\ cần cả hai danh sách giữ cùng một kiểu thứ.",
                 "\\giaiĐiệu: [1 2 3 1 1 2 3 1 3 4 5 ø]\nnghỉ: [ø ø ø ø]\n🎼([\n\t\t🎶([:giaiĐiệu :nghỉ] instrument: 🔈.🪈)\n\t\t🎶([:nghỉ :giaiĐiệu] instrument: 🔈.🎻)\n\t])\\"
             ],
-            "names": ["$~🎶", "$~BảnNhạc"],
+            "names": ["$~BảnNhạc"],
             "notes": {
                 "doc": "$~Các nốt cần chơi, theo thứ tự: một số cho một nốt, \\ø\\ cho một dấu lặng, một tập hợp như \\{1 3 5}\\ cho một hợp âm, hoặc một @Note khi một mục cần âm lượng riêng. Một giá trị nốt viết trên một số — \\3𝅗𝅥\\ — cho biết mục đó kéo dài bao lâu.",
                 "names": "$~nốtNhạc"
@@ -6466,7 +6481,7 @@
                 "Một chùm ba là phép tính trung thực: \\♪(1 2beats ÷ 3)\\ cho biết ba nốt này lấp đầy hai phách. Độ dài của tôi cũng có thể là một giá trị nốt, nên \\♪(1 1𝅗𝅥)\\ và \\♪(1 2beats)\\ là cùng hai phách đó.",
                 "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
-            "names": ["$~♪", "$~NốtNhạc"],
+            "names": ["$~NốtNhạc"],
             "degree": {
                 "doc": "$~Chơi gì: một số cho một nốt, \\ø\\ cho một dấu lặng, hoặc một tập hợp các số cho một hợp âm, đúng như một mục trần trong một @Track. Một giá trị nốt trên con số — \\3𝅗𝅥\\ — cho biết tôi kéo dài bao lâu, và thắng @Note/beat nếu bạn viết cả hai.",
                 "names": "$~bậc"
@@ -6481,7 +6496,7 @@
             }
         },
         "Instrument": {
-            "names": ["$~🔈", "$~NhạcCụ"],
+            "names": ["$~NhạcCụ"],
             "id": {
                 "doc": "$~Tôi là mục nào trong bảng màu.",
                 "names": "$~id"
@@ -6492,66 +6507,66 @@
                         "$~Một cây đàn piano. Được ghi âm từ đàn thật, và có cao độ, nên các con số chọn nốt nhạc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎹", "$~đànPiano"]
+                    "names": ["$~đànPiano"]
                 },
                 "violin": {
                     "doc": [
                         "$~Một cây đàn violin. Được ghi âm từ đàn thật, và có cao độ, nên các con số chọn nốt nhạc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎻", "$~đànVĩCầm"]
+                    "names": ["$~đànVĩCầm"]
                 },
                 "drums": {
                     "doc": [
                         "$~Một bộ trống. Được ghi âm, và là một bộ trống chứ không có cao độ: các con số chọn một phần của bộ trống thay vì một nốt nhạc — \\1\\ trống bass, \\2\\ trống snare, \\3\\ chũm chọe hi-hat, \\4\\ chũm chọe, \\5\\ trống tom tom, \\6\\ chuông bò — và \\7\\ quay vòng trở lại trống bass.",
                         "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🥁", "$~trống"]
+                    "names": ["$~trống"]
                 },
                 "flute": {
                     "doc": [
                         "$~Một cây sáo. Được ghi âm từ sáo thật, và có cao độ, nên các con số chọn nốt nhạc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🪈", "$~sáo"]
+                    "names": ["$~sáo"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Một cây kèn trumpet. Được ghi âm từ kèn thật, và có cao độ, nên các con số chọn nốt nhạc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎺", "$~kènTrumpet"]
+                    "names": ["$~kènTrumpet"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Một cây kèn saxophone, loại tenor. Được ghi âm từ kèn thật, và có cao độ, nên các con số chọn nốt nhạc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎷", "$~kènSaxophone", "$~sax"]
+                    "names": ["$~kènSaxophone"]
                 },
                 "bell": {
                     "doc": [
                         "$~Một cái chuông — chuông dàn nhạc, loại được gõ bằng dùi. Được ghi âm, và có cao độ, nên các con số chọn nốt nhạc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🔔", "$~chuông"]
+                    "names": ["$~chuông"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~Một cây didgeridoo, từ người bản địa Úc. Được ghi âm từ nhạc cụ thật, và có cao độ, nên các con số chọn nốt nhạc, dù đây là nhạc cụ tạo âm ngân dài và luôn ở âm trầm.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
                     ],
-                    "names": ["🪵", "$~kènDidgeridoo"]
+                    "names": ["$~kènDidgeridoo"]
                 },
                 "cat": {
-                    "names": ["$~🐱", "$~mèo", "$~meoMeo"],
+                    "names": ["$~mèo", "$~meoMeo"],
                     "doc": [
                         "$~Một con mèo — thật ra là cả một bộ tiếng mèo. Được ghi âm từ mèo thật, và là một bộ tiếng chứ không có cao độ: các con số chọn điều con mèo đang nói thay vì một nốt nhạc — \\1\\ bực bội, \\2\\ nài nỉ, \\3\\ đói bụng, \\4\\ phản đối, \\5\\ van xin, \\6\\ ao ước, \\7\\ khó chịu, \\8\\ sợ hãi, \\9\\ nhạy cảm, \\10\\ được an ủi, \\11\\ cô đơn, \\12\\ kêu gừ gừ — và \\13\\ quay trở lại thành khó chịu. Để xem một chú mèo chơi nốt nhạc thay vào đó, hãy xem \\🔈.😺\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
-                    "names": ["$~🐶", "$~chó", "$~sủa"],
+                    "names": ["$~chó", "$~sủa"],
                     "doc": [
                         "$~Một chú chó — thật ra là cả một bộ chúng. Được thu âm từ những chú chó thật, và là một bộ chứ không theo cao độ: các con số chọn tiếng sủa mà bạn nghe thấy thay vì một nốt nhạc, chạy từ trầm nhất đến chói nhất — \\1\\ cộc cằn, \\2\\ cảnh báo, \\3\\ canh giữ, \\4\\ báo động, \\5\\ khăng khăng, \\6\\ đòi hỏi, \\7\\ thông báo, \\8\\ hăng hái, \\9\\ phấn khích, \\10\\ nôn nóng, \\11\\ sủa oăng oẳng, \\12\\ the thé — và \\13\\ quay trở lại thành cộc cằn. Để xem một chú chó chơi nốt nhạc thay vào đó, hãy xem \\🔈.🐕\\.",
                         "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
@@ -6562,49 +6577,49 @@
                         "$~Một tiếng dẫn của bộ tổng hợp: sáng và rè, và không ngại ngùng về việc được tạo từ các bộ dao động. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎛️", "$~đànTổngHợp"]
+                    "names": ["$~đànTổngHợp"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Một tiếng trầm của bộ tổng hợp: dày và thấp. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
                     ],
-                    "names": ["🎚️", "$~đànBassTổngHợp"]
+                    "names": ["$~đànBassTổngHợp"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Một tiếng đệm của bộ tổng hợp: nhẹ nhàng, đến chậm rãi, và hợp để giữ một hợp âm bên dưới mọi thứ khác. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
                     ],
-                    "names": ["☁️", "$~đànPadTổngHợp"]
+                    "names": ["$~đànPadTổngHợp"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Vẫn chú mèo đó, nhưng đã chỉnh cao độ. Trong mười hai bản thu mà bộ \\🔈.🐱\\ chơi, đây là bản giữ một cao độ ổn định, và nó theo cao độ chứ không phải một bộ, nên các con số chọn nốt nhạc và bạn có thể viết một giai điệu với nó. Khi chơi xa nốt mà nó được thu âm, tiếng meo bắt đầu nghe như bị kéo giãn thay vì được hát, nên nó dễ chịu nhất trong khoảng một quãng tám quanh nốt giữa.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~😺", "$~mèoTheoCaoĐộ"]
+                    "names": ["$~mèoTheoCaoĐộ"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Vẫn những chú chó đó, nhưng đã được chỉnh âm. Trong tất cả tiếng sủa mà bộ âm được lấy ra, đây là tiếng giữ cao độ ổn định, và nó có cao độ chứ không phải là một bộ âm, nên các số sẽ chọn nốt và bạn có thể viết một giai điệu bằng nó. Nếu chơi cách xa nốt mà nó được ghi âm, tiếng sủa bắt đầu nghe như bị kéo dãn thay vì sủa, nên nó hay nhất khi ở trong khoảng một quãng tám gần nốt giữa.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🐕", "$~chóTheoCaoĐộ"]
+                    "names": ["$~chóTheoCaoĐộ"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được ghi âm từ một cây đàn thật, và có cao độ, nên các số sẽ chọn nốt. Đây là loại mà chữ \\guitar\\ đơn giản ám chỉ, nên các dự án cũ yêu cầu một cây ghi-ta sẽ chơi loại này.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~🎸", "$~ghiTaThùng", "$~ghiTa"]
+                    "names": ["$~ghiTaThùng", "$~ghiTa"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~Một cây ghi-ta điện-mộc — thân rỗng có bộ thu âm bên trong, dây thép, nên nó vang sáng hơn và lâu hơn cây đàn ni-lông \\🔈.🎸\\. Được ghi âm từ một cây đàn thật, và có cao độ, nên các số sẽ chọn nốt.",
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
-                    "names": ["$~⚡", "$~ghiTaĐiện"]
+                    "names": ["$~ghiTaĐiện"]
                 },
                 "voice": {
                     "doc": [
@@ -6614,7 +6629,7 @@
                         "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Các âm tiết được viết bằng <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, một bảng chữ cái trong đó mỗi chữ cái là một /âm/ chứ không phải một cách viết — nên \\'ʃi'\\ là âm ở đầu từ /cô ấy/, dù bạn viết bằng ngôn ngữ nào. Nhấn 🤖 bên dưới trình soạn thảo để xem mọi âm mà tôi có thể tạo ra và nghe từng âm một."
                     ],
-                    "names": ["$~🤖", "$~giọngNói"]
+                    "names": ["$~giọngNói"]
                 }
             },
             "doc": [
@@ -6751,6 +6766,14 @@
                 "remix": {
                     "tip": "$~tạo bản sao của riêng bạn từ dự án này để thay đổi",
                     "label": "$~phối lại"
+                },
+                "languages": "$~hiển thị các ngôn ngữ mà dự án này được viết bằng",
+                "addLanguage": "$~viết dự án này bằng ngôn ngữ này nữa",
+                "removeLanguage": "$~ngừng viết dự án này bằng ngôn ngữ này",
+                "firstLanguage": "$~đặt đây làm ngôn ngữ đầu tiên của dự án",
+                "removeUnusedLanguages": {
+                    "tip": "$~xóa các ngôn ngữ mà mã số của dự án này không dùng",
+                    "label": "$~xóa cái chưa dùng"
                 }
             },
             "field": {
@@ -6777,22 +6800,39 @@
                 "projectsNotSavingOnline": "$~Một số dự án chỉ có trên thiết bị này, chưa được lưu trực tuyến."
             },
             "dialog": {
-                "translate": {
-                    "header": "$~Dịch",
+                "languages": {
+                    "header": "$~Ngôn ngữ",
                     "explanation": [
-                        "$~Đây là các ngôn ngữ mà dự án của bạn đang sử dụng.",
-                        "Để dịch dự án của bạn sang các ngôn ngữ được hỗ trợ khác, hãy chọn ngôn ngữ nguồn chính rồi chọn ngôn ngữ mới.",
-                        "Bản dịch có thể không hoàn hảo, vì vậy hãy xem lại kết quả!"
+                        "$~Đây là các ngôn ngữ mà dự án của bạn được viết bằng.",
+                        "Bạn có thể thêm một ngôn ngữ để viết, xóa một ngôn ngữ bạn không dùng, hoặc dịch cả dự án sang một ngôn ngữ mới."
                     ],
+                    "count": "$~$#count[$count ngôn ngữ]",
+                    "meaning": [
+                        "$~Các ngôn ngữ của một dự án quyết định những tên và từ mà mã số của nó có thể dùng. Nếu dự án của bạn được viết bằng tiếng Tây Ban Nha, thì nó cần tiếng Tây Ban Nha ở đây, nếu không những tên như \\Frase\\ sẽ không có ý nghĩa gì.",
+                        "Mọi người mở dự án của bạn đều tải các ngôn ngữ này, và ngôn ngữ đầu tiên quyết định cách sắp xếp đầu ra của bạn. Các tên tiếng Anh luôn hoạt động, trong mọi dự án."
+                    ],
+                    "unused": "$~không dùng",
+                    "unloaded": "$~không thể tải",
+                    "checking": "$~Đang tìm các ngôn ngữ mà mã số của bạn dùng…",
+                    "complete": "$~Mã số của bạn không dùng ngôn ngữ nào mà dự án của bạn còn thiếu.",
                     "search": {
                         "description": "$~Lọc ngôn ngữ theo tên hoặc khu vực",
                         "placeholder": "$~ngôn ngữ hoặc khu vực"
+                    },
+                    "tab": {
+                        "label": "$~cài đặt ngôn ngữ",
+                        "labels": ["$~Được viết bằng", "$~Dịch"],
+                        "tips": [
+                            "$~xem và thay đổi các ngôn ngữ mà dự án này được viết bằng",
+                            "$~dịch các tên, văn bản và tài liệu của dự án này sang một ngôn ngữ khác"
+                        ]
                     }
                 }
             },
             "subheader": {
                 "source": "$~Nguồn",
-                "destination": "$~Điểm đến"
+                "destination": "$~Điểm đến",
+                "missing": "$~Có thể còn thiếu"
             },
             "toggle": {
                 "fullscreen": {
@@ -6812,8 +6852,8 @@
                 "sourceToggle": "$~Nút /toggle/ này hiển thị hoặc ẩn *tệp nguồn*. *Các nút toggle khác* trên hàng này thực hiện chức năng tương tự đối với các ô khác.",
                 "addSource": "$~Một số dự án sẽ hiệu quả hơn nếu sử dụng *nhiều* tập tin nguồn, trong đó dữ liệu được lưu trữ trong một tập tin và được nhập vào tập tin nguồn *chính*. Nút /thêm nguồn/ sẽ tạo một tập tin nguồn mới.",
                 "share": "$~Hộp thoại /share/ cho phép bạn chia sẻ dự án của mình với *các thư viện ảnh*, với *công chúng*, hoặc sao chép nó dưới dạng *văn bản* để chia sẻ ở nơi khác.",
-                "translate": "$~Nút /translate/ cho phép bạn thêm bản dịch các *tên*, *văn bản* và *tài liệu* của dự án sang các ngôn ngữ khác.",
-                "checkpoints": "$~Mục /revisions/ cho phép bạn quay lại các phiên bản trước đó của dự án và chụp ảnh màn hình các phiên bản mà bạn muốn lưu lại."
+                "checkpoints": "$~Mục /revisions/ cho phép bạn quay lại các phiên bản trước đó của dự án và chụp ảnh màn hình các phiên bản mà bạn muốn lưu lại.",
+                "languages": "$~Nút /languages/ hiển thị dự án của bạn được viết bằng những ngôn ngữ nào, cho phép bạn thêm hoặc xóa một ngôn ngữ, và có thể *dịch* các *tên*, *văn bản* và *tài liệu* của dự án sang một ngôn ngữ mới."
             },
             "options": {
                 "layout": {
@@ -7333,7 +7373,8 @@
                 "toggle": "$~hiển thị và ẩn chú thích",
                 "highlightMajor": "$~hiển thị mã số của lỗi này trong trình soạn thảo",
                 "highlightMinor": "$~hiển thị mã số của cảnh báo này trong trình soạn thảo",
-                "highlightStep": "$~hiển thị mã số của bước chạy này trong trình soạn thảo"
+                "highlightStep": "$~hiển thị mã số của bước chạy này trong trình soạn thảo",
+                "elsewhere": "$~Mở nơi có thể sửa được cái này"
             },
             "nodeDescription": "$~Họ $description.",
             "severity": {
@@ -7373,7 +7414,8 @@
                 "zoomOut": "$~thu nhỏ tầm nhìn sân khấu",
                 "rotate": "$~xoay $name",
                 "resize": "$~thay đổi kích thước $name",
-                "resetZoom": "$~Đặt lại mức thu phóng về vị trí của sân khấu."
+                "resetZoom": "$~Đặt lại mức thu phóng về vị trí của sân khấu.",
+                "perform": "$~trình diễn: khởi động lại chương trình, chạy nó và làm đầy màn hình bằng sân khấu"
             },
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",
@@ -7382,7 +7424,7 @@
             "tour": {
                 "launch": "$~tham quan sân khấu",
                 "stage": "$~Khung /stage/ hiển thị *giá trị hiện tại* của chương trình. Giá trị đó có thể là *giá trị thô* như số hoặc danh sách, *kết quả trực quan* mà bạn có thể nhìn thấy, hoặc thậm chí là *âm thanh* mà bạn có thể nghe thấy.",
-                "reset": "$~Nút /reset/ sẽ tua lại quá trình đánh giá chương trình về *đầu tiên*, phát lại bất kỳ luồng thời gian, phím hoặc đầu vào nào từ đầu.",
+                "reset": "$~Nút /đặt lại/ khởi động lại quá trình tính toán của chương trình từ *đầu*, ở bất kỳ chế độ nào: ở chế độ ▶️ *chạy* chương trình thực hiện lại từ đầu, ở chế độ ✏️ *chỉnh sửa* nó tạm dừng sau lần tính toán đầu tiên để bạn thấy tác động của các chỉnh sửa lên kết quả ban đầu, và ở chế độ ⏸️ *gỡ lỗi* nó tạm dừng ngay ở bước đầu tiên.",
                 "zoom": "$~Các nút /zoom/ cho phép bạn phóng to và thu nhỏ khung hình để xem kết quả rõ ràng hơn hoặc chi tiết hơn.",
                 "grid": "$~Nút /grid/ hiển thị một *lưới* trên khung làm việc, hữu ích để đặt các đối tượng một cách chính xác trong quá trình thiết kế.",
                 "lock": "$~Nút /khóa/ khóa khung nhìn của sân khấu. Khi *khóa*, sân khấu sẽ đứng yên; khi *mở khóa*, bạn có thể lia và phóng to thu nhỏ tự do.",
@@ -7430,25 +7472,27 @@
             "mode": {
                 "evaluation": {
                     "label": "$~chế độ chạy",
-                    "labels": ["$~chỉnh sửa", "$~chạy", "$~từng bước"],
+                    "labels": ["$~chỉnh sửa", "$~gỡ lỗi", "$~chạy"],
                     "tips": [
-                        "$~chuyển sang chế độ chỉnh sửa: thay đổi chương trình trong khi sân khấu đứng yên ở khung hình hiện tại",
-                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực",
-                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước"
+                        "$~chuyển sang chế độ chỉnh sửa: tạm dừng chương trình ở bất cứ đâu và thay đổi nó; các chỉnh sửa sẽ chạy lại để cho thấy hiệu ứng của chúng tại điểm này",
+                        "$~chuyển sang chế độ gỡ lỗi: đi qua từng bước tính toán của chương trình, với các giá trị hiển thị bên cạnh mã số và trong bảng màu",
+                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp từ nơi nó đang ở, phản hồi các đầu vào ngay lập tức"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~chế độ chạy",
-                    "labels": ["$~xem", "$~chạy", "$~từng bước"],
+                    "labels": ["$~xem", "$~gỡ lỗi", "$~chạy"],
                     "tips": [
-                        "$~chuyển sang chế độ xem: đọc chương trình trong khi sân khấu đứng yên ở khung hình hiện tại",
-                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực",
-                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước"
+                        "$~chuyển sang chế độ xem: tạm dừng chương trình ở bất cứ đâu và đọc nó",
+                        "$~chuyển sang chế độ gỡ lỗi: đi qua từng bước tính toán của chương trình, với các giá trị hiển thị bên cạnh mã số và trong bảng màu",
+                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp từ nơi nó đang ở, phản hồi các đầu vào ngay lập tức"
                     ]
                 },
                 "announce": "$~chế độ $mode",
-                "exception": "$~Chương trình gặp lỗi, nên nó chuyển sang chế độ từng bước để bạn có thể xem xét lỗi đó.",
-                "toggle": "$~chuyển giữa chế độ chỉnh sửa và chế độ chơi"
+                "exception": "$~Chương trình bị lỗi, nên nó chuyển sang chế độ gỡ lỗi để bạn có thể kiểm tra nó.",
+                "toggle": "$~chuyển đổi giữa chế độ chỉnh sửa và chế độ chạy",
+                "resuming": "$~tiếp tục ở bước $position",
+                "performing": "$~buổi trình diễn $number, từ đầu"
             },
             "gate": {
                 "start": {
@@ -7492,12 +7536,12 @@
                 "reset": "$~hiệu suất khởi động lại"
             },
             "tour": {
-                "timeline": "$~Công cụ /timeline/ cho phép bạn tiến *về phía trước* và lùi *về phía sau* trong quá trình đánh giá chương trình của mình, từng bước một. Đây là một cách tuyệt vời để xem *cách* chương trình tính toán giá trị của nó, và để xây dựng mô hình tư duy về cách các chương trình @wordplay đánh giá, đặc biệt nếu bạn không thấy hành vi mình mong muốn.",
+                "timeline": "$~/dòng thời gian/ cho phép bạn bước *tới* và *lui* qua quá trình tính toán của chương trình, mỗi lần một bước. Nó hiện ra trong thanh công cụ của sân khấu ở chế độ ✏️ *chỉnh sửa* và ⏸️ *gỡ lỗi*, và đây là cách tuyệt vời để thấy chương trình tính giá trị của nó *ra sao*, và để xây dựng một mô hình trong đầu về cách các chương trình @wordplay tính toán, nhất là khi bạn chưa thấy hành vi mà bạn muốn.",
                 "annotations": "$~Cửa sổ /annotations/ là nơi hiển thị giải thích cho từng bước. Khi bạn thực thi chương trình từng bước, đây là nơi bạn sẽ đọc những gì vừa xảy ra.",
                 "editor": "$~Cửa sổ /editor/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
                 "history": "$~Cửa sổ /history/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận được, chẳng hạn như phím bấm, thời gian cập nhật và sự kiện con trỏ. Cửa sổ này *có thể kéo thả*, vì vậy bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử thực thi của chương trình chỉ bằng cách kéo.",
                 "stepControls": "$~Các điều khiển /step/ cho phép bạn di chuyển chính xác trong quá trình đánh giá. Bạn có thể nhảy đến *đầu* hoặc *cuối*, tiến *về* hoặc lùi *về* từng bước một, nhảy theo *một đầu vào*, thoát khỏi *một hàm* hoặc nhảy đến phần mã *đang được chọn*.",
-                "modes": "$~/Bộ chuyển chế độ/ chọn cách chương trình của bạn chạy. Ở chế độ ✏️ *chỉnh sửa*, bạn thay đổi chương trình trong khi sân khấu đứng yên ở khung hình hiện tại. Ở chế độ ⏸️ *từng bước* — nơi bạn đang ở — bạn đi *tới* và *lùi* qua quá trình chạy, và *giá trị hiện tại* của mỗi phần trong chương trình sẽ hiện ra bên cạnh nó trong trình chỉnh sửa. Ở chế độ ▶️ *chạy*, chương trình của bạn chạy trực tiếp, phản hồi các đầu vào theo thời gian thực."
+                "modes": "$~/bộ chuyển chế độ/ chọn cách chương trình của bạn tính toán. Ở chế độ ✏️ *chỉnh sửa*, chương trình tạm dừng ở chỗ nó đang chạy và bạn có thể thay đổi nó — các chỉnh sửa của bạn chạy lại để thể hiện tác động tại điểm đó. Ở chế độ ⏸️ *gỡ lỗi*, mã số chỉ được đọc và *giá trị hiện tại* của từng phần trong chương trình hiện ra ngay bên cạnh nó trong trình chỉnh sửa và trong bảng màu. Ở chế độ ▶️ *chạy*, chương trình của bạn chạy trực tiếp từ chỗ nó đang ở, phản hồi các đầu vào theo thời gian thực. Bên cạnh bộ chuyển, nút /biểu diễn/ — một hình tam giác chạy bọc trong các góc toàn màn hình — bắt đầu một buổi biểu diễn từ đầu và lấp đầy màn hình bằng sân khấu, và nút ↻ đặt lại chương trình ở bất kỳ chế độ nào."
             }
         },
         "docs": {
@@ -7970,7 +8014,7 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$~nhạc",
+                        "label": "$~trực quan hóa",
                         "labels": [
                             "$~dàn nhạc",
                             "$~trình diễn ánh sáng",
@@ -7987,7 +8031,7 @@
                         ]
                     },
                     "musicVolume": {
-                        "label": "$~âm lượng nhạc",
+                        "label": "$~âm lượng",
                         "labels": ["$~tắt", "$~nhỏ", "$~lớn nhất"],
                         "tips": [
                             "$~Tắt tiếng tất cả nhạc",
@@ -7996,7 +8040,7 @@
                         ]
                     },
                     "musicDucking": {
-                        "label": "$~nhạc khi đang nói",
+                        "label": "$~khi nói",
                         "labels": ["$~nhỏ", "$~nhỏ hơn", "$~im lặng"],
                         "tips": [
                             "$~Giảm nhạc một chút khi có ai đó nói",
@@ -8011,14 +8055,44 @@
                             "$~Đừng rung theo nhịp",
                             "$~Rung theo nhịp, nếu thiết bị hỗ trợ điều đó"
                         ]
+                    },
+                    "captionSize": {
+                        "label": "$~kích thước phụ đề",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Hiển thị phụ đề nhỏ hơn",
+                            "$~Hiển thị phụ đề ở kích thước chuẩn",
+                            "$~Hiển thị phụ đề lớn gấp rưỡi",
+                            "$~Hiển thị phụ đề lớn gấp đôi",
+                            "$~Hiển thị phụ đề lớn gấp ba"
+                        ]
                     }
                 },
                 "options": {
                     "face": "$~kiểu chữ",
-                    "mic": "$~micro đã chọn",
-                    "camera": "$~máy ảnh đã chọn",
+                    "mic": "$~micrô",
+                    "camera": "$~máy quay",
                     "default": "$~mặc định",
-                    "voice": "$~giọng nói được chọn cho Say"
+                    "voice": "$~Giọng nói"
+                },
+                "tab": {
+                    "label": "$~nhóm cài đặt",
+                    "labels": [
+                        "$~Giao diện",
+                        "$~Mã số",
+                        "$~Máy quay + Micrô",
+                        "$~Âm thanh + Nhạc"
+                    ],
+                    "tips": [
+                        "$~cách chính Wordplay trông và cảm nhận: phông chữ, màu sắc, ô, và chuyển động",
+                        "$~cách mã số trông và cảm nhận khi bạn viết nó",
+                        "$~chương trình đọc từ máy quay và micrô nào",
+                        "$~cách nhạc, lời nói, và phụ đề của một chương trình đến với bạn"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Nhạc",
+                    "say": "$~Nói"
                 }
             },
             "notifications": {
@@ -8076,8 +8150,12 @@
                     "success": "$~Hãy thảo luận yêu cầu này với chúng tôi trên GitHub!",
                     "error": "$~Đã xảy ra lỗi. Vui lòng thử lại.",
                     "alreadySupported": "$~Ngôn ngữ và khu vực đó đã được hỗ trợ.",
-                    "requiresLogin": "$~Bạn phải đăng nhập để yêu cầu chọn ngôn ngữ."
-                }
+                    "requiresLogin": "$~Bạn phải đăng nhập để yêu cầu chọn ngôn ngữ.",
+                    "searchPlaceholder": "$~ngôn ngữ hoặc quốc gia",
+                    "searchDescription": "$~Lọc các danh sách ngôn ngữ và quốc gia",
+                    "alreadyRequested": "$~Có người đã yêu cầu ngôn ngữ này rồi. Hãy tham gia thảo luận trên GitHub!"
+                },
+                "choose": "$~Chọn một ngôn ngữ"
             },
             "help": {
                 "header": "$~Phím tắt",
@@ -8333,7 +8411,7 @@
             },
             "tour": {
                 "launch": "$~Hãy cùng khám phá bảng màu.",
-                "palette": "$~Khi dự án *tạm dừng*, bạn có thể sử dụng bảng màu để chỉnh sửa *cụm từ*, *nhóm* và *giai đoạn*.",
+                "palette": "$~Bạn có thể dùng /bảng màu/ để chỉnh sửa *cụm từ*, *nhóm*, và *sân khấu* ở chế độ ✏️ *chỉnh sửa*; ở các chế độ khác, các nút điều khiển của nó chỉ được đọc, và ở chế độ ⏸️ *gỡ lỗi* mỗi thuộc tính cũng hiện *giá trị hiện tại* của nó.",
                 "text": "$~Tất cả các thuộc tính của một cụm từ đều có thể được chỉnh sửa ở đây. Đây là *văn bản* của cụm từ, nhưng các thuộc tính khác có các điều khiển riêng.",
                 "set": "$~Khi một thuộc tính hiện đang sử dụng giá trị mặc định, nút *hình bút chì* cho phép bạn đặt một giá trị cụ thể cho thuộc tính đó.",
                 "unset": "$~Khi một thuộc tính có giá trị được thiết lập rõ ràng, nút *X* sẽ xóa giá trị đó, đưa thuộc tính trở về giá trị *mặc định* của nó.",
@@ -9171,7 +9249,8 @@
                     "$~Biểu tượng của Wordplay là một bong bóng lời nói chứa một chữ cái: một sân khấu nhỏ mà bong bóng có thể nói bất cứ điều gì — một chữ cái trong hệ thống chữ viết của người đọc, một biểu tượng cảm xúc, hoặc một hình tròn, hình tam giác và hình vuông trong khi thứ gì đó đang tải. Trong ứng dụng, chữ cái theo hệ thống chữ viết của ngôn ngữ chính của bạn; trên các bề mặt không phụ thuộc chữ viết như biểu tượng trình duyệt và hình ảnh chia sẻ, bong bóng hiển thị ba hình dạng, sắp tạo ra một thứ gì đó.",
                     "Bản vẽ tự nó không bao giờ thể hiện chuyển động. Chuyển động là hành vi — trang chủ luân chuyển những gì bong bóng nói theo bộ chọn ngôn ngữ, và trong khi tải các hình dạng lần lượt nhảy, giống như một đám đông làm sóng người — và luôn thay đổi theo cài đặt tốc độ hoạt hình, dừng hoàn toàn khi tắt hoạt hình.",
                     "Dấu hiệu này luôn được vẽ bằng màu chữ hiện tại, vì vậy bất cứ nơi nào chữ đáp ứng yêu cầu tương phản, biểu tượng cũng vậy."
-                ]
+                ],
+                "copyvalue": "$~sao chép toàn bộ giá trị CSS"
             },
             "thanks": {
                 "header": "$~Cảm ơn",
@@ -9480,7 +9559,7 @@
             "deleteFailed": "$~Chúng tôi không thể xóa nó.",
             "saveFailed": "$~Chúng tôi không thể cứu vãn được điều đó.",
             "submitFailed": "$~Chúng tôi không thể gửi tài liệu đó.",
-            "loadFailed": "$~Chúng tôi không thể tải được dữ liệu đó.",
+            "loadFailed": "$~Chúng tôi không thể tải cái này. Hãy thử lại sau một lát.",
             "storageFull": "$~Bộ nhớ của thiết bị này đã đầy, vì vậy chúng tôi không thể lưu bản sao ở đây. Công việc của bạn vẫn được lưu trữ trên đám mây.",
             "storageNearFull": "$~Thiết bị này gần hết dung lượng lưu trữ, vì vậy Wordplay có thể sớm không thể lưu được nữa. Công việc đã lưu trên đám mây thì an toàn; việc giải phóng dung lượng trên thiết bị hoặc trình duyệt của bạn cho phép nó tiếp tục được lưu ở đây.",
             "saveTooLarge": "$~Tệp này quá lớn để lưu. Hãy thử xóa bớt nội dung."

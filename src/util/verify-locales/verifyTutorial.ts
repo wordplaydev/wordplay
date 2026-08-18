@@ -29,10 +29,7 @@ import TutorialSchema, {
 import Validator from '@util/verify-locales/Validator';
 import { alignTutorialLines } from '@util/verify-locales/syncTutorialStructure';
 import getTranslator from '@util/verify-locales/getTranslator';
-import {
-    Performances,
-    performanceSource,
-} from '../../tutorial/Performances';
+import { Performances, performanceSource } from '../../tutorial/Performances';
 import { Themes, themeSource } from '../../tutorial/Themes';
 import {
     DEFAULT_TUTORIAL_MODE,
@@ -492,7 +489,8 @@ async function translateTutorial(
         .map((path) => {
             const english = path.resolve(source);
             const match =
-                typeof english === 'string' && withoutAnnotations(english) !== ''
+                typeof english === 'string' &&
+                withoutAnnotations(english) !== ''
                     ? english
                     : path.resolve(tutorial);
             return match === undefined || Array.isArray(match)

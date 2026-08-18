@@ -747,7 +747,8 @@ type NodeTexts = {
      * Description inputs: $1 = item count
      * Finish inputs: $1 = resulting value
      */
-    ListLiteral: DescriptiveNodeText<['#count']> & ExpressionText<[], ['value']>;
+    ListLiteral: DescriptiveNodeText<['#count']> &
+        ExpressionText<[], ['value']>;
     /**
      * Applies a locale tag to a computed text value, e.g., `(greeting + name)/en`
      * Start inputs: $1 = the expression being tagged
@@ -1052,6 +1053,8 @@ type NodeTexts = {
                     resolution: Template<['suggestion']>;
                     /** [formatted] Suggested fix when the name is a static member of a structure in scope, reachable as $owner.$suggestion */
                     staticResolution: Template<['owner', 'suggestion']>;
+                    /** [formatted] Suggested fix when the name is what another language calls something, but the project isn't written in that language */
+                    languageResolution: Template<['name', 'language']>;
                 };
                 /** When a name refers to itself outside a reaction */
                 ReferenceCycle: ConflictText<['name']> & {
@@ -1102,7 +1105,7 @@ type NodeTexts = {
              * A type of the key given doesn't match the type of the key in the set
              * Description inputs: $1: expected type, $2: given type
              */
-            IncompatibleKey: ConflictText<['expected']> &
+            IncompatibleKey: ConflictText<['expected', 'given']> &
                 TypeResolutionTemplates;
         }>;
     /**

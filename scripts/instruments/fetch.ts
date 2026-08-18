@@ -48,17 +48,16 @@ async function get(url: string, range?: [number, number]): Promise<Buffer> {
             return Buffer.from(await response.arrayBuffer());
         } catch (error) {
             lastError = error;
-            await new Promise((resolve) => setTimeout(resolve, 500 * (attempt + 1)));
+            await new Promise((resolve) =>
+                setTimeout(resolve, 500 * (attempt + 1)),
+            );
         }
     }
     throw new Error(`failed to fetch ${url}: ${String(lastError)}`);
 }
 
 /** Fetch a file, caching it on disk so repeated builds don't re-download. */
-export async function fetchCached(
-    url: string,
-    key: string,
-): Promise<Buffer> {
+export async function fetchCached(url: string, key: string): Promise<Buffer> {
     const file = path.join(CacheDir, key);
     if (existsSync(file)) return readFile(file);
     const bytes = await get(url);

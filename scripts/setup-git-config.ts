@@ -13,6 +13,11 @@
 //   rerere.enabled=true         records a resolution and replays it, so the same
 //                               conflict isn't resolved by hand at every stop.
 //
+// It also points core.hooksPath at the committed .githooks directory (pre-commit
+// auto-formats staged files with prettier, and checks the generated locale
+// artifacts when a locale source is staged) and blame.ignoreRevsFile at
+// .git-blame-ignore-revs (so bulk formatting commits don't clutter git blame).
+//
 // Never fails the install: no git, no work tree (tarball/zip checkout), or a
 // read-only config are all normal situations that must not break `npm install`.
 
@@ -29,6 +34,16 @@ const SETTINGS: { key: string; value: string; why: string }[] = [
         key: 'rerere.enabled',
         value: 'true',
         why: 'reuse conflict resolutions across rebase steps',
+    },
+    {
+        key: 'core.hooksPath',
+        value: '.githooks',
+        why: 'format staged files and check generated locale artifacts before each commit',
+    },
+    {
+        key: 'blame.ignoreRevsFile',
+        value: '.git-blame-ignore-revs',
+        why: 'skip bulk formatting commits in git blame',
     },
 ];
 

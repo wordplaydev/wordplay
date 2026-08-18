@@ -24,13 +24,15 @@
     import Shortcuts from '@components/project/Shortcuts.svelte';
     import SourceTileToggle from '@components/project/SourceTileToggle.svelte';
     import {
+        ProjectModeIcons,
         ProjectModes,
+        ProjectModeViewIcons,
         type ProjectMode,
     } from '@components/project/ProjectMode';
     import type Tile from '@components/project/Tile';
     import { TileMode } from '@components/project/Tile';
     import { TileKind } from '@components/project/TileKind';
-    import Translate from '@components/project/Translate.svelte';
+    import Languages from '@components/project/Languages.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
@@ -40,7 +42,8 @@
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { locales, Projects } from '@db/Database';
+    import { locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import { MAX_NAME_LENGTH } from '@db/limits';
     import {
         getLocalizedProjectName,
@@ -56,10 +59,7 @@
         EDIT_SYMBOL,
         INFO_SYMBOL,
         PROJECT_SYMBOL,
-        PAUSE_SYMBOL,
-        PLAY_SYMBOL,
         REMIX_SYMBOL,
-        VIEW_SYMBOL,
     } from '@parser/Symbols';
     import Characters from '../../lore/BasisCharacters';
 
@@ -157,6 +157,11 @@
             ),
     );
 
+    /** Whether the first evaluation mode is truthfully "edit" right now: an
+     *  editable project on its current version. Browsing an old checkpoint is
+     *  read-only, so the switcher says 👁 view there, matching the editor. */
+    const editableAndCurrent = $derived(editable && checkpoint === -1);
+
     // Indices in the toggle-group items list:
     //   0..addSourceOffset-1     : add-source button (when editable)
     //   addSourceOffset..sourcesEnd-1 : SourceTileToggle per source
@@ -221,15 +226,15 @@
     {/if}
 {/snippet}
 
-{#snippet translateItem()}
-    <span data-uiid="translateButton">
-        <Translate
+{#snippet languagesItem()}
+    <span data-uiid="languagesButton">
+        <Languages
             {project}
             showAll={() => {
                 for (const id of Object.keys(editorLocales))
                     editorLocales[id] = null;
             }}
-        ></Translate>
+        ></Languages>
     </span>
 {/snippet}
 
@@ -299,7 +304,7 @@
                                     Projects.reviseProject(
                                         project.withName(name),
                                     )}
-                                max="5em"
+                                max={narrow ? '3rem' : '5em'}
                                 maxlength={MAX_NAME_LENGTH}
                             />
                         {/if}
@@ -387,7 +392,7 @@
                 {:else if localIdx === 1}
                     {@render shareItem()}
                 {:else if localIdx === 2}
-                    {@render translateItem()}
+                    {@render languagesItem()}
                 {:else if localIdx === 3}
                     {@render checkpointsItem()}
                 {:else}
@@ -403,15 +408,14 @@
         </div>
         <div class="right-section">
             <!-- A second home for the evaluation mode switcher, since the output
-                 tile's switcher disappears when that tile is collapsed. It sits
-                 before the layout switcher since it also changes the layout. -->
+                 tile's switcher disappears when that tile is collapsed. -->
             <Mode
-                modes={editable
+                modes={editableAndCurrent
                     ? (l) => l.ui.output.mode.evaluation
                     : (l) => l.ui.output.mode.evaluationView}
-                icons={editable
-                    ? [EDIT_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]
-                    : [VIEW_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]}
+                icons={editableAndCurrent
+                    ? ProjectModeIcons
+                    : ProjectModeViewIcons}
                 choice={ProjectModes.indexOf(mode)}
                 select={(index) => setMode(ProjectModes[index])}
                 labeled={false}
@@ -436,7 +440,7 @@
     {#if showSecondRow}
         <div class="footer-row second-row">
             <OverflowToolbar
-                items={[creatorItem, shareItem, translateItem, checkpointsItem]}
+                items={[creatorItem, shareItem, languagesItem, checkpointsItem]}
             />
             {@render shortcutsItem()}
         </div>
@@ -534,6 +538,16 @@
     @container (max-width: 900px) {
         .toggle-group :global(.toggle-label) {
             display: none;
+        }
+
+        /* The name field's width resolves against Subheader's `min(4vw, 16pt)`
+           font, so on a phone `5em` is a fifth of the screen and the toggles in
+           the 1fr track get nothing. The `max` prop above drops to a
+           root-relative 3rem here; TextField's own `min-width: 3em` scales the
+           same viewport-relative way and, since min-width beats max-width,
+           would defeat that cap on its own. */
+        .left-section :global(#project-name) {
+            min-width: 2rem;
         }
     }
 </style>

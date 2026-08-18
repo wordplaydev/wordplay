@@ -3,7 +3,10 @@
  *  family), which tokenize as operators and split a name into multiple
  *  tokens. */
 const Separators = /[ _\-‐-―]/;
-const Leading = new RegExp(`^${Separators.source}+|${Separators.source}+$`, 'gu');
+const Leading = new RegExp(
+    `^${Separators.source}+|${Separators.source}+$`,
+    'gu',
+);
 const Internal = new RegExp(`${Separators.source}+(.)`, 'gu');
 
 /** Fold separators into camelCase so a machine-translated name stays a single

@@ -8,12 +8,7 @@ test.each([
     // A glued translation fragment truncates to the valid property.
     ['Boolean.andXYZ', [], ['and', 'or', 'not'], 'Boolean.and'],
     // The default tutorial's link at the same position wins, even for full translations.
-    [
-        'Pose.опацити',
-        ['Phrase.exiting', 'Pose.opacity'],
-        [],
-        'Pose.opacity',
-    ],
+    ['Pose.опацити', ['Phrase.exiting', 'Pose.opacity'], [], 'Pose.opacity'],
     // Ambiguous defaults (two links on the same concept) fall back to the prefix rule.
     [
         'Pose.rotationXY',

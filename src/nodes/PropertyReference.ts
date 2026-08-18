@@ -20,9 +20,13 @@ import BasisType from '@nodes/BasisType';
 import Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
-import Expression, { type GuardContext } from '@nodes/Expression';
+import Expression, {
+    canRecordGuard,
+    type GuardContext,
+} from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import getGuards from '@nodes/getGuards';
+import { guardsTypesAround } from '@nodes/typeGuards';
 import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
@@ -292,10 +296,7 @@ export default class PropertyReference extends Expression {
                                 n.getSubjectType(context) as StructureType
                             ).getDefinition(this.name.getName())
                     ) {
-                        const parent = context.source.root.getParent(n);
-                        return (
-                            parent instanceof Expression && parent.guardsTypes()
-                        );
+                        return guardsTypesAround(n, context);
                     } else return false;
                 });
 
@@ -309,7 +310,6 @@ export default class PropertyReference extends Expression {
                     root.evaluateTypeGuards(possibleTypes, {
                         bind: def,
                         key: this.getTypeGuardKey(),
-                        original: possibleTypes,
                         context,
                     });
                 }
@@ -354,6 +354,7 @@ export default class PropertyReference extends Expression {
         // Filter the types of the structure.
         const possibleTypes = this.structure.evaluateTypeGuards(current, guard);
         if (
+            canRecordGuard(guard) &&
             this.resolve(guard.context) === guard.bind &&
             guard.key === this.getTypeGuardKey()
         )
@@ -397,15 +398,12 @@ export default class PropertyReference extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.PropertyReference.finish,
-            {
-                property: this.name
+        return locales.concretize((l) => l.node.PropertyReference.finish, {
+            property: this.name
                 ? new NodeRef(this.name, locales, context, this.name?.getName())
                 : undefined,
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {
