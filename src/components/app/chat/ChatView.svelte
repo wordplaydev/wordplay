@@ -363,6 +363,11 @@
             return;
         }
 
+        // msg.translations is deliberately excluded from the key. Including it
+        // would create an unbounded feedback loop: translateMessages() caches
+        // results by calling saveMessageTranslations(), which writes back to
+        // Firestore; the snapshot arrives and updates `chat`; the key changes;
+        // the effect fires again and calls the LLM for the same messages.
         const contentKey = [
             chat.getProjectID(),
             translateTo,
