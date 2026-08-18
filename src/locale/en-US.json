@@ -8308,7 +8308,7 @@
                 "messageError": "A message from $sender couldn't be translated.",
                 "messageErrors": "$#count[$count message couldn't be translated.|$count messages couldn't be translated.]",
                 "direction": "$from → $to",
-                "results": "$#count[$count language matches|$count languages match]"
+                "messageLanguageLabel": "Message language"
             },
             "role": {
                 "owner": "owner",

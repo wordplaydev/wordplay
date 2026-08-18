@@ -16276,13 +16276,13 @@
                                             "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
                                             "description": "[plain] Shown when multiple messages couldn't be translated; $count is the number of failed messages"
                                         },
+                                        "messageLanguageLabel": {
+                                            "description": "[plain] Visible label for the message language picker",
+                                            "type": "string"
+                                        },
                                         "off": {
                                             "description": "[plain] Button label and tip to clear the current translation target",
                                             "type": "string"
-                                        },
-                                        "results": {
-                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
-                                            "description": "[plain] Announced to screen readers with the number of languages matching the search; $count is the match count"
                                         }
                                     },
                                     "required": [
@@ -16293,7 +16293,7 @@
                                         "messageError",
                                         "messageErrors",
                                         "direction",
-                                        "results"
+                                        "messageLanguageLabel"
                                     ],
                                     "type": "object"
                                 }

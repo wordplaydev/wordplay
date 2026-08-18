@@ -674,7 +674,7 @@
         <div class="language">
             <label class="language-label" for="new-message-language"
                 ><LocalizedText
-                    path={(l) => l.ui.collaborate.translate.language}
+                    path={(l) => l.ui.collaborate.translate.messageLanguageLabel}
                 /></label
             >
             <Options
