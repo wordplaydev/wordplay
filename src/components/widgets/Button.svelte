@@ -395,8 +395,10 @@
         background: var(--wordplay-focus-color);
         color: var(--wordplay-background);
         border-color: var(--wordplay-border-color);
-        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-border-color);
+        box-shadow:
+            var(--wordplay-border-width) var(--wordplay-border-width) 0
+                var(--wordplay-border-color),
+            var(--wordplay-focus-band, 0 0 0 0 transparent);
         text-shadow: 0 var(--wordplay-border-width) var(--wordplay-border-width)
             var(--color-shadow);
         color: var(--wordplay-foreground);
@@ -428,12 +430,17 @@
         transform: translate(-1px, -1px);
     }
 
-    /* Hover on background buttons: lift with larger shadow */
+    /* Hover on background buttons: lift with larger shadow. These buttons
+       declare their own shadow, which would replace the focus band a
+       saturated surface hands down (see app.html), so append it here; the
+       no-op default means nothing changes on ordinary surfaces. */
     button.background:hover:not(.pressed)[aria-disabled='false'],
     button.background:focus {
         border-color: var(--wordplay-border-color);
-        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-border-color);
+        box-shadow:
+            var(--wordplay-border-width) var(--wordplay-border-width) 0
+                var(--wordplay-border-color),
+            var(--wordplay-focus-band, 0 0 0 0 transparent);
     }
 
     button.pressed {

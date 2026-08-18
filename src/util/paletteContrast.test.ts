@@ -156,6 +156,70 @@ describe.each(['light', 'dark'] as const)('%s mode', (mode) => {
         ).toBeGreaterThanOrEqual(AA_TEXT);
     });
 
+    /**
+     * The fills the app paints behind controls, by palette pair name. These
+     * are the surfaces that must carry `saturated-surface` (app.html): the
+     * focus ring is a luminance match for each of them, so the ring alone is
+     * not a discernible indicator there.
+     */
+    const SATURATED_FILLS = ['orange-text', 'yellow', 'pink'];
+
+    test.each(SATURATED_FILLS)(
+        `the focus ring misses ${NON_TEXT}:1 on --%s, so that fill needs a band`,
+        (name) => {
+            // Asserts the hazard, like the link-on-gold test above: if the
+            // palette ever moves so the ring passes on one of these on its
+            // own, that surface can drop `saturated-surface`.
+            const fill = getPaletteHex(`${name}-${mode}`);
+            expect(
+                contrast(getPaletteHex(`focus-blue-${mode}`), fill),
+                `--focus-blue-${mode} on --${name}-${mode} ${fill}`,
+            ).toBeLessThan(NON_TEXT);
+        },
+    );
+
+    test(`the focus band is discernible against the ring and every saturated fill`, () => {
+        // `.saturated-surface` draws its second band in --wordplay-background.
+        // That works as a universal band only if it clears 1.4.11 against both
+        // the ring it sits inside and every fill it sits on — which is what
+        // makes the two-band indicator survive a surface the ring can't reach,
+        // and survive greyscale, where the ring's hue difference is gone.
+        const band = getPaletteHex(`white-${mode}`);
+        expect(
+            contrast(band, getPaletteHex(`focus-blue-${mode}`)),
+            `the band ${band} against the focus ring`,
+        ).toBeGreaterThanOrEqual(NON_TEXT);
+        for (const name of SATURATED_FILLS) {
+            const fill = getPaletteHex(`${name}-${mode}`);
+            expect(
+                contrast(band, fill),
+                `the band ${band} on --${name}-${mode} ${fill}`,
+            ).toBeGreaterThanOrEqual(NON_TEXT);
+        }
+    });
+
+    test(`the chrome grey is the one fill the band can't rescue in light mode`, () => {
+        // --wordplay-chrome is where both halves of the scheme run out: the
+        // ring misses 1.4.11 on it in both modes, and in light mode so does a
+        // page-background band (2.65:1), so `saturated-surface` would not
+        // rescue it there. Dark mode's darker grey does take a band (4.06:1).
+        // Only SensorMonitor paints this fill and nothing focusable sits on it
+        // today; this records the gap so a control landing there later is a
+        // decision rather than an accident.
+        const chrome = getPaletteHex(`light-grey-${mode}`);
+        expect(
+            contrast(getPaletteHex(`focus-blue-${mode}`), chrome),
+            `--focus-blue-${mode} on the chrome grey`,
+        ).toBeLessThan(NON_TEXT);
+        const banded = contrast(getPaletteHex(`white-${mode}`), chrome);
+        if (mode === 'light')
+            expect(
+                banded,
+                'a band now works on the light chrome grey; it could host controls',
+            ).toBeLessThan(NON_TEXT);
+        else expect(banded).toBeGreaterThanOrEqual(NON_TEXT);
+    });
+
     test(`the border grey's 1.4.11 status is as documented`, () => {
         // --wordplay-border-color deliberately keeps --color-light-grey even
         // though it misses 1.4.11's 3:1 in light mode (2.65:1; app.html says

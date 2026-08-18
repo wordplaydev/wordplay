@@ -101,7 +101,7 @@
 </script>
 
 <div class="start-gate" data-uiid="start-gate">
-    <div class="card">
+    <div class="card saturated-surface">
         <!-- Pinned above the scroll: in a small preview the reason for the gate
              is the one thing that must be readable without scrolling. Exactly
              one heading carries the id in every renderable state, so the body's

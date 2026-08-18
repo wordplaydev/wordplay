@@ -95,6 +95,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'Chimes',
             'Fireworks',
             'Lyrics',
+            'VirtualPiano',
         ],
     },
     AV: {

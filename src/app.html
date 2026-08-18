@@ -996,6 +996,60 @@
                 --wordplay-link-color: currentColor;
                 --wordplay-link-underline-color: var(--color-orange);
             }
+
+            /* Two-band focus ring for surfaces the ring can't contrast with.
+
+               CSS can't ask what color is painted behind a control, and
+               background-color doesn't inherit, so there is nothing a control
+               can query. The surface declares instead, and inheritance carries
+               it down: any container that fills itself with a color the focus
+               ring lands within 3:1 of adds this class, and every control
+               inside gets a second band. The band is the page background,
+               which contrasts with the focus blue at 4.0:1 light and 4.3:1
+               dark no matter what the fill is, so the two bands together stay
+               discernible on any surface — including in greyscale, where the
+               blue-on-orange ring disappears entirely.
+
+               It's drawn inset rather than as an outer shadow because 36
+               components have an `overflow: hidden` ancestor that would clip
+               an outer one; an inset band is inside the element and can't be
+               clipped. Surfaces the ring already reaches 3:1 on (the page
+               background, alternating rows, --wordplay-header) don't take this
+               class and are unchanged.
+
+               paletteContrast.test.ts lists which fills need it. */
+            .saturated-surface,
+            .highlight-surface {
+                --wordplay-focus-band: inset 0 0 0 3px
+                    var(--wordplay-background);
+            }
+
+            .saturated-surface :focus,
+            .highlight-surface :focus {
+                box-shadow: var(--wordplay-focus-band);
+            }
+
+            /* Links are the exception: their indicator is the thick underline
+               above, not a ring, and an inset band on an inline box crops the
+               glyphs it's drawn around. So they keep the underline and change
+               only its color — currentColor is what the surface paints its
+               prose in, so it's already at least 4.5:1 on the fill, where the
+               focus blue is a luminance match for it.
+
+               A filled surface needs a resting underline too (the link color
+               is the prose color there, so the underline is the only thing
+               marking it as a link), which leaves thickness alone carrying the
+               state change — 2px to 4px, subtler than the invisible-to-4px
+               change a link makes on the page background. Detaching the focus
+               bar and running it solid through the descenders restores the
+               difference without borrowing a ring's shape. */
+            .saturated-surface a:focus,
+            .highlight-surface a:focus {
+                box-shadow: none;
+                text-decoration-color: currentColor;
+                text-decoration-skip-ink: none;
+                text-underline-offset: 0.16em;
+            }
         </style>
 
         %sveltekit.head%

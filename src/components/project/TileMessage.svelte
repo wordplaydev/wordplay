@@ -5,7 +5,9 @@
         $props();
 </script>
 
-<div class="message" class:error>{@render children()}</div>
+<div class="message" class:error class:saturated-surface={error}>
+    {@render children()}
+</div>
 
 <style>
     .message {
@@ -13,6 +15,9 @@
         height: 100%;
     }
 
+    /* Orange is a luminance match for the focus ring, and callers put
+       Buttons in here, so the error variant takes `saturated-surface`
+       (app.html) to give them a second band. */
     .error {
         background: var(--wordplay-error);
         color: var(--wordplay-background);

@@ -24,6 +24,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📹 The new Video example in the [galleries](https://wordplay.dev/galleries) paints your camera three ways — colored letters, ASCII shading, or colored squares.
 - 🛠️ We upgraded internal tooling for stability.
 - 🌐 Each language can now write down its own rules for how it should be written (e.g,. how to address the reader, which words to prefer, how to punctuate), and the helper that drafts new translations now follows them. (#939)
+- 🎨 The message that shows up when we release a new version now looks like the other messages at the top of the page. It's grey instead of orange, since a new version isn't a problem, and its button and link sit at the end of the strip instead of floating in the middle.
 
 ### Fixed
 
@@ -38,6 +39,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🚦 Doing math with the hue of a color from the @Camera no longer stops your program with "incompatible values". Camera colors now carry the ° that hue is measured in.
 - 🗣️ Screen readers can now read what a project puts in front of the stage, like a score or a row of buttons. That whole layer used to be skipped, so anything a project put there was silent and buttons there couldn't be reached.
 - 🌐 We fixed many wrong and confusing words in Spanish. @Stage and @Beat have better names, tutorial titles that meant nothing now make sense, and questions and exclamations open with ¿ and ¡ the way Spanish is written. (#939)
+- ⌨️ When you move around with the Tab key, the outline showing where you are is blue, and it used to disappear against orange and gold backgrounds that are just as bright. It now gets a second outline in a color that stands out, so you can always tell where you've landed.
+- 🔗 When you share a link to the new Virtual Piano example, it now shows its name and description the way our other examples do. (#1288)
 - 📖 We fixed the Spanish how-to guides. In half of them the spaces had gone missing, running words together and breaking the example code so it wouldn't run. (#939)
 
 ## 0.29.1 - 2026-08-13

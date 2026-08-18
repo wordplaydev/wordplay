@@ -3479,7 +3479,7 @@
                  editor, and on a phone's one-tile layout there would otherwise
                  be no way to step at all. -->
             {#if uiMode === 'debug' && outputTileHidden}
-                <div class="floating-debug">
+                <div class="floating-debug saturated-surface">
                     {@render outputStepRow()}
                 </div>
             {/if}

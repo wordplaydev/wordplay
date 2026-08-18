@@ -55,6 +55,7 @@
 
 <div
     class="banner {variant}"
+    class:saturated-surface={variant === 'error'}
     data-testid="app-banner"
     transition:slide={{ duration: $animationDuration }}
 >
@@ -90,7 +91,10 @@
         --wordplay-link-underline-color: currentColor;
     }
 
-    /* Error-colored to read as a problem the user should see. */
+    /* Error-colored to read as a problem the user should see. The fill is a
+       1.32:1 luminance match for the focus ring, so this variant also takes
+       `saturated-surface` (app.html) to give controls a second band; the
+       notice variant's chrome fill clears 3:1 on its own and doesn't. */
     .banner.error {
         background: var(--wordplay-error);
         color: var(--wordplay-background);

@@ -22,9 +22,11 @@
     }: Props = $props();
 </script>
 
-{#if inline}<span class="feedback">{@render children?.()}</span>{:else}
+{#if inline}<span class="feedback saturated-surface"
+        >{@render children?.()}</span
+    >{:else}
     <div
-        class="feedback"
+        class="feedback saturated-surface"
         data-testid={testid}
         transition:slide={{ duration: $animationDuration }}
         >{#if children}{@render children()}{:else if text}<LocalizedText
@@ -34,6 +36,9 @@
     >{/if}
 
 <style>
+    /* `saturated-surface` (app.html) rides along on the class: the orange
+       fill is a luminance match for the focus ring, and callers put buttons
+       and links in here. */
     .feedback {
         font-family: var(--wordplay-app-font);
         font-weight: normal;
