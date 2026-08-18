@@ -6,7 +6,7 @@ Elige algo al azar de una lista.
 
 \emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\
 
-También puedes usar @Random con dos números, que elige un número entero entre ellos.Por ejemplo, para elegir un/nuevo/Emoji aleatorio cada segundo, mezclar @Time y un @Reaction :
+También puedes usar @Random con dos números, que elige un número entero entre ellos. Por ejemplo, para elegir un/nuevo/Emoji aleatorio cada segundo, mezclar @Time y un @Reaction :
 
 \emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
 pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]

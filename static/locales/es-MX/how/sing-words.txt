@@ -1,41 +1,120 @@
 Haz que la voz cante palabras
 
-De cada  @Instrument  en la paleta, \🔈.🤖\ es el único que puede decir algo. Dale a su  @Track  un  @Track/words  y las canta, una sílaba por nota:
+De cada  @Instrument  en la paleta, \
+Instrumento.voz\ es la única que puede decir algo. Dale a su  @Track  un  @Track/words  y las canta, una sílaba por nota:
 
-\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+\
+Music(
+	Track(
+		[1 2 3 5 3 1]
+		words: 'la la la la la la'
+		instrument: Instrument.voice
+	)
+	tempo: 120beats/min
+)\
 
-Seis sílabas, seis notas. Los espacios son toda la gramática aquí: dicen dónde termina una sílaba y empieza la siguiente. Los silencios no toman ninguna sílaba, así que las palabras caen en las notas que de verdad escuchas. Escribe menos sílabas que notas y empiezan de nuevo desde el principio; no escribas ninguna y la voz sostiene un sonido /uh/, así que siempre canta algo.
+Seis sílabas, seis notas. Los espacios son toda la gramática aquí: dicen dónde termina una sílaba y empieza la siguiente. Los silencios no toman ninguna sílaba, así que las palabras caen en las notas que de verdad escuchas. Si escribes menos sílabas que notas, vuelven a empezar desde el principio; si no escribes ninguna, la voz mantiene un sonido /a/, así que siempre canta algo.
 
-La escritura no es en inglés. Es el <Alfabeto Fonético Internacional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, donde cada letra es exactamente un sonido y cada sonido tiene exactamente una letra. La escritura del inglés no puede hacer eso: la \o\ en /go/, /do/ y /women/ es tres sonidos diferentes, así que una voz que lea la escritura del inglés tendría que adivinar, y adivinaría mal. También significa que una letra de canción funciona igual en cualquier idioma que escribas, porque las letras describen tu boca en lugar de tu alfabeto.
+La escritura no es en inglés. Es el <Alfabeto Fonético Internacional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, donde cada letra es exactamente un sonido y cada sonido tiene exactamente una letra. La escritura del inglés no puede hacer eso: la \
+o\ en /go/, /do/ y /women/ son tres sonidos distintos, así que una voz que leyera la escritura del inglés tendría que adivinar, y adivinaría mal. También significa que una letra de canción funciona igual sin importar en qué idioma la escribas, porque las letras describen tu boca en lugar de tu alfabeto.
 
-No hay una tecla en tu teclado para la mayoría de estos, así que presiona 🤖 debajo del editor. Muestra cada sonido que la voz puede hacer, con una palabra que lo contiene y un botón que lo reproduce; al presionar la letra misma, se escribe en tu código. Escuchar un sonido es la única forma de conocerlo de verdad, y ese panel es la referencia; lo que sigue es suficiente para empezar.
+No hay una tecla en tu teclado para la mayoría de estos, así que presiona 🤖 debajo del editor. Enumera cada sonido que la voz puede hacer, con una palabra que lo contiene y un botón que lo reproduce; al presionar la letra misma se escribe en tu código. Escuchar un sonido es la única forma de conocerlo de verdad, y ese panel es la referencia; lo que sigue es suficiente para empezar.
 
-Empieza con las vocales. Estas doce cubren la mayoría de lo que querrás, cada una mostrada dentro de una palabra en inglés que la contiene:
+Empieza con las vocales. Estas doce cubren la mayor parte de lo que querrás, cada una mostrada dentro de una palabra en inglés que la contiene:
 
-\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+\
+a\ f/a/ther, \
+e\ b/e/d, \
+i\ s/ee/, \
+o\ g/o/, \
+u\ b/oo/t, \
+ɛ\ h/ea/d, \
+ɪ\ b/i/t, \
+ɔ\ b/ou/ght, \
+ʊ\ b/oo/k, \
+æ\ c/a/t, \
+ʌ\ c/u/p, \
+ə\ /a/cerca de
 
-Una vocal por sí sola es una sílaba perfecta. Cantarlas en fila es la forma más clara de distinguir una de otra:
+Una vocal sola es una sílaba perfectamente buena. Cantarlas en fila es la forma más clara de oír una y distinguirla de otra:
 
-\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+\
+Music(
+	Track(
+		[1 2 3 4 5]
+		words: 'a e i o u'
+		instrument: Instrument.voice
+	)
+	tempo: 90beats/min
+)\
 
-Las consonantes se ven casi como esperas: \pbtdkmnsflrw\ suenan casi igual que en inglés. Vale la pena aprender los sonidos que en inglés se escriben con dos letras, más una letra que cambió. \ʃ\ es /sh/, \ʒ\ es la /s/ en /measure/, \θ\ es la /th/ en /thin/, \ð\ es la /th/ en /this/, \ŋ\ es el /ng/ en /sing/, y \j\ es la /y/ en /yes/. Pon una antes de una vocal y tienes una palabra:
+Las consonantes se parecen mucho a lo que esperarías: \
+p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ suenan casi igual que en inglés. Las que vale la pena aprender son los sonidos que el inglés escribe con dos letras, más una letra que cambió. \
+ʃ\ es /sh/, \
+ʒ\ es la /s/ en /measure/, \
+θ\ es el /th/ en /thin/, \
+ð\ es el /th/ en /this/, \
+ŋ\ es la /ng/ en /sing/, y \
+j\ es la /y/ en /yes/. Pon una delante de una vocal y tendrás una palabra:
 
-\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+\
+Music(
+	Track(
+		[5 5 3 3 1]
+		words: 'ʃi si mi lo ʌp'
+		instrument: Instrument.voice
+	)
+	tempo: 100beats/min
+)\
 
-Una sílaba también puede extenderse a varias notas. Termínala con un guion y se mantiene una nota más por cada guion. Así se forma la serie de notas sobre una sola sílaba que da forma a los himnos y a las canciones de cuna:
+Una sílaba también puede extenderse a lo largo de varias notas. Termínala con un guion y se mantiene por una nota más por cada guion: la serie de notas sobre una sola sílaba que da su forma a los himnos y las canciones de cuna:
 
-\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+\
+Music(
+	Track(
+		[1 2 3 2 1]
+		words: 'glo--- ri'
+		instrument: Instrument.voice
+	)
+	tempo: 140beats/min
+)\
 
-Los tres guiones llevan \glo\ a lo largo de cuatro notas antes de que \ri\ caiga en la última. La voz salta todo lo que no reconoce en lugar de rechazarlo, así que puedes probar cosas sin romper la melodía.
+Los tres guiones llevan \
+glo\ a lo largo de cuatro notas antes de que \
+ri\ caiga en la última. Todo lo que la voz no reconoce lo salta en vez de negarse, así que puedes experimentar sin romper la melodía.
 
-Para mostrar las palabras tal como se cantan, léelas de nuevo desde  @Beat .  @Downbeat/words  lleva lo que se canta en ese momento, así que una sola frase es toda una pantalla de karaoke:
+Para mostrar las palabras tal como se cantan, léelas de nuevo desde  @Beat .  @Downbeat/words  lleva lo que se esté cantando en ese momento, así que una frase es toda una pantalla de karaoke:
 
-\beat: Beat()
-Stage([
-		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
-		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
-	])\
+\
+beat: Beat()
+Stage(
+	[
+		Phrase(
+			((beat.words.length() = 0) ? '' beat.words[1])
+			3m
+		)
+		Music(
+			Track(
+				[1 2 3 5 3 1]
+				words: 'ðɪs ɪz ə soŋ tə si'
+				instrument: Instrument.voice
+			)
+			tempo: 100beats/min
+		)
+	]
+)\
 
-@Downbeat/parts  tiene las mismas sílabas pista por pista, si quieres separar a dos cantantes en lugar de juntarlos.
+@Downbeat/parts  tiene las mismas sílabas pista por pista, si quieres dibujar a dos cantantes por separado en vez de juntos.
 
 choose-an-instrument, write-rhythm, draw-the-music

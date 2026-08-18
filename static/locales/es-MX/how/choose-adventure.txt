@@ -1,11 +1,44 @@
 Crea una aventura de texto
 
-Un tipo de juego divertido es unelige tu propia aventurajuego, donde un jugador navega por una serie de opciones y trata de encontrar una manera de llegar a un final feliz.
+Un tipo divertido de juego es un juego de /elige tu propia aventura/, donde una persona jugadora avanza por una serie de opciones e intenta encontrar el camino a un final feliz. 
 
-Para hacer uno de estos, podemos utilizar@Structure,@Key,@Reaction, y @List juntos para tomar una colección de decisiones, cada una con un conjunto de opciones, como esta:
+Para crear uno de estos, podemos usar  @Structure ,  @Key ,  @Reaction  y  @List  juntos para crear un conjunto de decisiones, cada una con un grupo de opciones, así:
 
-\¶Esto crea una estructura de datos que almacena una elección y a qué decisión navegará.¶•Option(text•''decision•#)¶Esta estructura de datos almacena una lista de opciones¶•Decision(options:[Option])¶¡Este es el contenido del juego! Cambia el texto en las Opciones para crear ambiente y tomar decisiones difíciles.Añade opciones para crear una red de decisiones complicadas.¶decisions:[Decision([Option('comenzar'2)])Decision([Option('izquierda'3)Option('derecho'4)Option('bien'4)])Decision([Option('ganar'1)])Decision([Option('perder'1)])]¶Convierte la clave en un número, si es uno¶key:Key()choice:key→#¶Este valor representa la decisión actual en la lista anterior.Cuando se presiona la tecla, realizamos una de las siguientes acciones.Si solo hay una opción para esta decisión, entonces cambiamos la decisión actual.a la decisión de destino de la opción sin importar qué tecla se presionó.Si la tecla presionada está entre 1 y el número de opciones, entonces vamos a la decisión de destino de esa opción.De lo contrario, simplemente mantendremos la decisión actual igual.¶current•#:1…∆key…decisions[current].options.length()=1?decisions[current].options[1].decision((choice≥1)&(choice≤decisions[current].options.length()))?decisions[current].options[choice].decisioncurrent¶Esto solo muestra las opciones como una pila de frases. Puedes cambiarlo para añadir instrucciones, animaciones y otros detalles interesantes.¶Stage([Group(Stack()decisions[current].options.translate(ƒ(option)Phrase(option.text)))])\
+\
+¶ Esto crea una estructura de datos que guarda una opción y a qué decisión llevará ¶•Option(text•'' decision•#)
+¶ Esta estructura de datos guarda una lista de opciones ¶•Decision(options: [
+			Option
+		])
+¶ ¡Este es el contenido del juego! Cambia el texto de las opciones para crear ambiente y decisiones difíciles. Agrega opciones para crear una red de decisiones complicadas. ¶
+decisions: [
+		Decision([Option('inicio' 2)])
+		Decision(
+			[
+				Option('izquierda' 3)
+				Option('recto' 4)
+				Option('derecha' 4)
+			]
+		)
+		Decision([Option('ganar' 1)])
+		Decision([Option('perder' 1)])
+	]
+¶ Convierte la tecla en un número, si lo es ¶
+key: Key()
+choice: key → #
+¶ Este valor representa la decisión actual en la lista de arriba. Cuando se presiona la tecla, hacemos una de las siguientes cosas. Si solo hay una opción para esta decisión, entonces cambiamos la decisión actual a la decisión de destino de esa opción sin importar qué tecla se presionó. Si la tecla presionada está entre 1 y el número de opciones, entonces vamos a la decisión de destino de esa opción. Si no, dejamos la decisión actual igual. ¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length(
+							))) ? decisions[current].options[choice].decision current
+¶ Esto solo muestra las opciones como una pila de frases. ¡Puedes cambiar esto para agregar instrucciones, animaciones y otras cosas divertidas! ¶Stage(
+	[
+		Group(
+			Stack()
+			decisions[current].options.translate(
+				ƒ(option) Phrase(option.text)
+			)
+		)
+	]
+)\
 
-Este patrón parece complejo, pero en realidad solo muestra el conjunto de opciones actual y, cada vez que cambia una tecla, se pasa a la decisión de la opción elegida. ¡Diseñar un juego se trata de cambiar el contenido en la parte superior!
+Este patrón parece complejo, pero lo único que hace en realidad es mostrar el conjunto actual de opciones y, cada vez que cambia una tecla, ir a la decisión de la opción elegida. ¡Diseñar un juego se trata de cambiar el contenido de arriba!
 
 offer-choices

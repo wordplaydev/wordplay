@@ -1,35 +1,43 @@
 Crea una serie interactiva de escenas
 
-A veces queremos contar historias que esperen a que el espectador haga algo antes de pasar al siguiente contenido.
+A veces queremos contar historias que esperan a que la persona que mira haga algo antes de pasar al siguiente contenido.
 
-Para ello podemos utilizar un@Scene, pero poner@Boolean valores entre el contenido que queremos mostrar. Por ejemplo, aquí hay un clic que avanzará al siguiente contenido, usando un@Button:
-
-\
-Scene([
-		Phrase('click me')
-		Button()
-		Phrase('click me again' duration: 1s)
-		Button()
-		Phrase('no really, click me as hard as you can!!' duration: 1s)
-		Button()
-		Phrase('have you clicked me yet?' duration: 1s)
-	])
-\
-
-El @Scene muestra el primero@Phrase, luego espera a que@Button para ser verdad, y una vez que lo es, avanza a la siguiente@Phrase.
-
-Puedes usar cualquier cosa que quieras para avanzar, siempre que sea verdadera o falsa.Por ejemplo ¡podríamos usar nuestra voz!Si gritamos lo suficientemente fuerte la escena avanzará:
+Para hacer esto, podemos usar un  @Scene , pero poner valores  @Boolean  entre el contenido que queremos mostrar. Por ejemplo, aquí un clic avanzará a cada siguiente contenido, usando un  @Button :
 
 \
-Scene([
-		Phrase('is anyone there?')
+Scene(
+	[
+		Phrase('haz clic en mí')
+		Button()
+		Phrase('haz clic en mí otra vez' duration: 1s)
+		Button()
+		Phrase(
+			'¡¡en serio, haz clic en mí lo más fuerte que puedas!!'
+			duration: 1s
+		)
+		Button()
+		Phrase('¿ya me hiciste clic?' duration: 1s)
+	]
+)\
+
+El  @Scene  muestra el primer  @Phrase , luego espera a que el  @Button  sea verdadero, y una vez que lo es, avanza al siguiente  @Phrase .
+
+Puedes usar cualquier cosa que quieras para avanzar, siempre y cuando sea verdadero o falso. ¡Por ejemplo, podríamos usar nuestra voz! Si gritamos lo suficientemente fuerte, la escena avanzará:
+
+\
+Scene(
+	[
+		Phrase('¿hay alguien ahí?')
 		Volume() > .5
-		Phrase("I can't hear you, say again?" duration: 1s)
+		Phrase(
+			"no te escucho, ¿lo dices otra vez?"
+			duration: 1s
+		)
 		Volume() > .7
-		Phrase('louder please...' duration: 1s)
+		Phrase('más fuerte por favor...' duration: 1s)
 		Volume() > .9
-		Phrase('oh, hi!' duration: 1s)
-	])
-\
+		Phrase('¡ah, hola!' duration: 1s)
+	]
+)\
 
 animated-scene

@@ -1,17 +1,26 @@
-Cuenta mientras pasa el tiempo
+Contar hacia arriba mientras pasa el tiempo
 
-Muchos proyectos necesitan algo que evolucione con el tiempo: un temporizador, una puntuación, una cuenta atrás.Podemos construir un contador combinando el @Time   stream con un @Reaction .
+Muchos proyectos necesitan algo que crezca con el tiempo: un cronómetro, un puntaje o una cuenta regresiva.
+Podemos crear un contador al combinar el flujo @Time con un @Reaction.
 
-A  @Reaction Consta de tres partes: un valor inicial, un elemento a observar y un nuevo valor cuando ese elemento cambia.Aquí comenzamos en\0\, mirar  @Time y añade uno cada vez que el reloj marque la hora:
+Un @Reaction tiene tres partes: un valor inicial, una cosa que observar y un nuevo valor cuando esa cosa cambia.
+Aquí empezamos en \0\, observamos @Time y sumamos uno cada vez que el reloj avanza:
 
-\count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
+\
+contar: 0 … ∆ Tiempo(1000ms) … contar + 1
+Phrase(contar → '')
+\
 
-Cada segundo, @Time incendios, el @Reaction avisos con\∆ Time(1000ms)\, y \count\se convierte\count + 1\.El \→ ''\al final convierte el número en texto, así que @Phrase puede mostrarlo.
+Cada segundo, @Time se activa, el @Reaction lo nota con \∆ Tiempo(1000ms)\, y \contar\ se convierte en \contar + 1\.
+El \→ ''\ al final convierte el número en texto para que @Phrase pueda mostrarlo.
 
-Puedes usar cualquier entrada que desees, no solo el tiempo. Este contador cuenta el número de veces que se pulsa el botón:
+Puedes usar cualquier entrada que quieras, no solo el tiempo. Este contador cuenta el número de veces que se presiona Button():
 
-\count: 0 … ∆ Button() … count + 1 Phrase(count → '')\
+\
+contar: 0 … ∆ Botón() … contar + 1
+Phrase(contar → '')
+\
 
-Cada vez que el @Button Al cambiar la transmisión con un clic o un toque, el contador aumenta en uno.
+Cada vez que el flujo @Button cambia con un clic o un toque, la cuenta aumenta en uno.
 
 track-points, pick-from-a-list

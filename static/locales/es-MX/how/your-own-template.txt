@@ -1,8 +1,8 @@
 Crea tu propia plantilla de personaje
 
-A veces uno quiere muchos personajes que se parezcan mucho, pero con pequeñas diferencias.En lugar de escribir lo mismo @Phrase Una y otra vez, puedes crear tu propia plantilla con una @Structure .
+A veces uno quiere muchos personajes que se parezcan mucho, pero con pequeñas diferencias. En lugar de escribir lo mismo @Phrase Una y otra vez, puedes crear tu propia plantilla con una @Structure .
 
-A  @Structure Es como una receta con espacios en blanco para rellenar.Aquí tienes una plantilla de globo que toma un color y una etiqueta, y sabe cómo mostrarse:
+A  @Structure Es como una receta con espacios en blanco para rellenar. Aquí tienes una plantilla de globo que toma un color y una etiqueta, y sabe cómo mostrarse:
 
 \•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
 )
