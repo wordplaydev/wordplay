@@ -103,6 +103,8 @@ npx prettier --write '<changed files>'
 
 Translation tools (e.g. `npm run locales-translate`) and direct script edits often produce inconsistent indentation, trailing newlines, or escape styles that diverge from the rest of the codebase. Running prettier keeps diffs clean and avoids spurious churn on later edits.
 
+**Two locale artifacts are generated, never hand-edited**, and both hard-fail `npm run locales`: [static/locales/names.json](static/locales/names.json), the word → locale index the languages dialog uses (built from each locale's *basis*, so it changes whenever a locale renames a definition), and each locale's `<code>-how.json` bundle, built from its `how/*.txt` sources. `npm run locales-fix` regenerates both. Because the `unit / locales` CI job runs `npm ci` without a build, nothing regenerates them there — a stale artifact is a red deploy, not a self-healing one. [localeArtifactsSync.test.ts](src/util/verify-locales/localeArtifactsSync.test.ts) runs the same two checks in `npm test` (read-only, via the generators' `write: false` path), and the pre-commit hook runs that one file when anything under `static/locales/` or `src/locale/en-US.json` is staged, so drift is caught before the push rather than after.
+
 ### Dependency overrides
 
 `package.json` is JSON, so an override can't carry its own comment (and a `"//"` key inside `overrides` would be read as an override for a package named `//`). The rationale lives here instead.

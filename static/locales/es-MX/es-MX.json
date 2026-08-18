@@ -2622,7 +2622,7 @@
                         "$~\\⊤\\ si todo el texto coincide con el patrón dado.",
                         "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
                     ],
-                    "names": ["$~≈", "$~coincide"],
+                    "names": ["$~coincide"],
                     "inputs": [
                         {
                             "doc": "$~El patrón con el que comparar.",
@@ -2635,7 +2635,7 @@
                         "$~Encuentra cada lugar donde el patrón dado coincide en mí, como una lista de @Result.",
                         "\\'a1 b2' ⌕ ⣿ _ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~buscar"],
+                    "names": ["$~buscar"],
                     "inputs": [
                         {
                             "doc": "$~El patrón que buscar.",
@@ -2946,7 +2946,7 @@
                 },
                 "tan": {
                     "doc": ["$~Calcula mi tangente.", "\\π.tan()\\"],
-                    "names": ["$~tan", "$~tangente"],
+                    "names": ["$~tangente"],
                     "inputs": []
                 },
                 "arcsin": {
@@ -3897,12 +3897,12 @@
             "function": {
                 "length": {
                     "doc": "$~Doy como valor el número de caracteres legibles en mi texto, sin contar el formato ni los saltos de párrafo.",
-                    "names": ["$~📏", "$~longitud"],
+                    "names": ["$~longitud"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ si soy el mismo texto con formato que el @value dado.",
-                    "names": ["$~=", "$~igual"],
+                    "names": ["$~igual"],
                     "inputs": [
                         {
                             "doc": "$~El texto con formato que se va a comparar.",
@@ -3952,7 +3952,7 @@
                 },
                 "repeat": {
                     "doc": "$~Hago un texto nuevo con formato que soy yo, repetido el número de veces dado. Si tengo más de un párrafo, los saltos se conservan entre las copias.",
-                    "names": ["$~×", "$~·", "$~🔁", "$~repetido", "$~repetir"],
+                    "names": ["$~repetido", "$~repetir"],
                     "inputs": [
                         {
                             "doc": "$~El número de veces que me voy a repetir.",
@@ -3962,7 +3962,7 @@
                 },
                 "combine": {
                     "doc": "$~Dame otro texto con formato y nos uniré en uno solo. Si alguno de los dos tiene más de un párrafo, los saltos de párrafo se conservan.",
-                    "names": ["$~+", "$~combinado", "$~combinar"],
+                    "names": ["$~combinado", "$~combinar"],
                     "inputs": [
                         {
                             "doc": "$~El texto con formato que se va a añadir.",
@@ -4208,7 +4208,7 @@
                 "\\clic: ∆ Botón()\n🎬(\n\t[\n\t\tFrase('Hola')\n\t\tclic\n\t\tFrase(\n\t\t\t'¿Cómo estás?'\n\t\t\tduration: 0.25s\n\t\t\trotation: 5°\n\t\t\tentering: 🤪(rotation: 0°)\n\t\t)\n\t\tclic\n\t\tFrase('Estoy bien')\n\t]\n)\\",
                 "¿Ves cómo se pausa después de cada @Phrase, y espera a que @Button cambie antes de avanzar?"
             ],
-            "names": ["$~🎬", "$~Escena"],
+            "names": ["$~Escena"],
             "outputs": {
                 "names": "$~salidas",
                 "doc": "$~La lista de salidas para mostrar en secuencia."
@@ -4375,7 +4375,7 @@
                 "Si no indicas ningún idioma, se usa tu idioma preferido de forma predeterminada.",
                 "El reconocimiento de voz necesita acceso al micrófono y conexión a Internet (¡por favor da acceso!). Además, puede haber límites de uso, así que ¡no lo dejes encendido demasiado tiempo (nooooo)!"
             ],
-            "names": ["$~🎙️", "$~Habla", "$~Voz"],
+            "names": ["$~Habla", "$~Voz"],
             "reset": {
                 "names": ["$~reiniciar", "$~limpiar"],
                 "doc": "$~Cuando este @value cambia, borra el habla acumulada y comienza de nuevo."
@@ -4408,7 +4408,7 @@
                 "Prueba esto: muestra un emoji que combina con la pose de tu mano dondequiera que esté tu mano real:",
                 "\\mano: 🖐()\nFrase((mano.abierta ? '🖐' '✊') place: mano.lugar)\\"
             ],
-            "names": ["$~🖐️", "$~Mano"],
+            "names": ["$~Mano"],
             "frequency": {
                 "names": ["$~frecuencia"],
                 "doc": "$~El tiempo entre muestras."
@@ -4428,7 +4428,7 @@
                 "Puedes escalar el contorno con un @Number de metros, mover su origen con un @Place, elegir un grosor de fuente, activar la cursiva y definir el `spacing` entre puntos como una distancia en metros. Un `spacing` más pequeño traza el contorno con más detalle, con puntos separados de forma pareja tanto en las líneas como en las curvas.",
                 "Algunos glifos, como los emoji de color, no tienen contorno, así que no agregan puntos. Mientras obtiene la fuente, te dará un @List vacío, y luego lo llenará cuando esté listo."
             ],
-            "names": ["$~🖋️", "$~Contorno"],
+            "names": ["$~Contorno"],
             "inputs": [
                 {
                     "doc": "$~El texto cuyos contornos de glifo debo trazar.",
@@ -4482,7 +4482,7 @@
                 "Si esas entradas cambian —por ejemplo, una reacción me da una zona horaria distinta— empiezo a crear Momentos con los nuevos ajustes.",
                 "¿En qué me diferencio de @Time? @Time cuenta los milisegundos desde que empezó un programa, lo cual sirve para animación. Yo te digo la fecha y la hora de reloj en un calendario y una zona horaria, lo cual sirve para relojes y calendarios."
             ],
-            "names": ["$~⏰", "$~Ahora"],
+            "names": ["$~Ahora"],
             "frequency": {
                 "names": ["$~frecuencia"],
                 "doc": "$~Con qué frecuencia creo un nuevo @Moment, en segundos, minutos u horas. Si \\ø\\, marco cada \\1s\\."
@@ -4511,7 +4511,7 @@
                 "Mis @Moment.era, @Moment.week y @Moment.weekday son informativos: @Now los llena cuando hace Momentos, pero se ignoran al dar formato.",
                 "Si quieres un flujo de Momentos que se actualice conforme pasa el tiempo —un reloj— mira @Now. Si quieres los milisegundos transcurridos desde que empezó tu programa —para animación— mira @Time."
             ],
-            "names": ["$~📅", "$~Momento"],
+            "names": ["$~Momento"],
             "year": {
                 "names": ["$~año"],
                 "doc": "$~El año, en mi calendario. Por ejemplo, el año gregoriano \\2026\\ es el año hebreo \\5786\\."
@@ -4578,7 +4578,7 @@
                 "Este ejemplo muestra un emoji que coincide con tu rostro dondequiera que esté tu rostro real:",
                 "\\cara: 🙂()\nFrase(\n\t(cara.sonriendo ? '😀' cara.bocaAbierta ? '😮' '😐')\n\tplace: cara.lugar\n)\\"
             ],
-            "names": ["$~🙂", "$~Cara"],
+            "names": ["$~Cara"],
             "frequency": {
                 "names": ["$~frecuencia"],
                 "doc": "$~El tiempo entre muestras."
@@ -4601,7 +4601,7 @@
                 "También puedes buscar solo un tipo de cosa e ignorar el resto:",
                 "\\cosas: 📦(category: 'cat')\nFrase(cosas.longitud() > 0 ? '🐈' '…')\\"
             ],
-            "names": ["$~📦", "$~Objetos"],
+            "names": ["$~Objetos"],
             "inputs": [
                 {
                     "doc": "$~El tiempo entre muestras.",
@@ -6076,7 +6076,7 @@
                 "Usaré el @Language de la @TextLiteral si tiene uno, si no, usaré la @language seleccionada.",
                 "Puedes elegir una voz en la configuración."
             ],
-            "names": ["$~🔊", "$~decir"],
+            "names": ["$~decir"],
             "text": {
                 "doc": "$~El texto que debo decir en voz alta.",
                 "names": "$~texto"
@@ -6085,7 +6085,7 @@
         },
         "Gesture": {
             "doc": "$~Soy una captura de una pose de la mano detectada por la cámara, emitida por el flujo @Hand. Mi lugar te dice dónde está la mano en el escenario, mis dedos te dicen cuántos están extendidos, mi abierta es verdadera cuando la mano está abierta (3 o más dedos extendidos), y mi pulgar, @index, medio, anular y meñique cada uno dice qué dedos específicos están extendidos. Mi palma es verdadera cuando la palma mira a la cámara, falsa cuando lo hace el dorso de la mano.",
-            "names": ["$~✋", "$~gesto"],
+            "names": ["$~gesto"],
             "place": {
                 "doc": "$~Dónde está la mano en el escenario.",
                 "names": ["$~lugar"]
@@ -6158,7 +6158,7 @@
         },
         "Expression": {
             "doc": "$~!Soy una captura de una expresión facial detectada por la cámara, emitida por el flujo @Face. Mi lugar te dice dónde está la cara en el escenario. Mis @Expression.leftEyeOpen, @Expression.rightEyeOpen y @Expression.eyesOpen dicen si los ojos están abiertos. Mis @Expression.mouthOpen, @Expression.smiling, @Expression.frowning y @Expression.browsRaised dicen qué hace la cara, y cada uno tiene una cantidad correspondiente (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) de 0 a 1 para indicar qué tan fuerte es. Mis @Expression.turn y @Expression.tilt dicen hacia dónde mira la cabeza, en grados.",
-            "names": ["$~😀", "$~Expresión"],
+            "names": ["$~Expresión"],
             "place": {
                 "doc": "$~Dónde está la cara en el escenario.",
                 "names": ["$~lugar"]
@@ -6218,7 +6218,7 @@
         },
         "Thing": {
             "doc": "$~Soy una cosa que vio la cámara, emitida en un @List por el flujo @Objects. Mi nombre dice qué soy, mi confianza dice qué tan segura está el modelo, mi lugar dice dónde estaba en el escenario, y mi ancho y alto dicen qué tan grande me veía.",
-            "names": ["$~🔎", "$~Cosa"],
+            "names": ["$~Cosa"],
             "name": {
                 "doc": "$~Qué es la cosa, en tu idioma.",
                 "names": ["$~nombre"]
@@ -6262,7 +6262,7 @@
                 "No tengo un aspecto propio que estilizar, así que no tomo ninguna de las entradas de apariencia habituales — nada de tamaño, lugar, color ni animación. Mi aspecto lo elige quien mira, en su configuración, y estoy anclado al escenario en vez de colocado en tu diseño; no ocupo espacio, así que ponerme en un @Row o un @Stack nunca mueve nada a mi lado. Para dibujar la música tú misma, usa @Beat: te entrega cada pulso conforme suena, para mover la salida que quieras.",
                 "Sigo tocando entre evaluaciones: edita mis notas mientras estoy tocando y el cambio se une en el siguiente pulso en vez de reiniciar, y eso es lo que hace que cambiar una melodía en medio de la reproducción se sienta musical. Para tocarme de nuevo desde el principio, mira @Music/replay; para detenerme y retomar en el mismo lugar, mira @Music/pause."
             ],
-            "names": ["$~🎼", "$~Música"],
+            "names": ["$~Música"],
             "tracks": {
                 "doc": "$~Una @Track, o una lista de ellas que suenan al mismo tiempo. Cada pista es una voz con un instrumento, así que una lista de ellas es una banda.",
                 "names": "$~pistas"
@@ -6419,7 +6419,7 @@
                 "Rellenar con silencios es todo lo que necesita una ronda: ambas partes mantienen el mismo número de pulsos, así que van al mismo paso en vez de separarse. Unir dos listas en una con : es como se construyen, porque \\append\\ necesita que ambas listas contengan el mismo tipo de cosa.",
                 "\\melodía: [1 2 3 1 1 2 3 1 3 4 5 ø]\nsilencio: [ø ø ø ø]\n🎼(\n\t[\n\t\t🎶([:melodía :silencio] instrument: 🔈.🪈)\n\t\t🎶([:silencio :melodía] instrument: 🔈.🎻)\n\t]\n)\\"
             ],
-            "names": ["$~🎶", "$~Pista"],
+            "names": ["$~Pista"],
             "notes": {
                 "doc": "$~Las notas a tocar, en orden: un número para una nota, \\ø\\ para un silencio, un conjunto como \\{1 3 5}\\ para un acorde, o un @Note cuando una entrada necesita su propio volumen. Un valor de nota escrito en un número —\\3𝅗𝅥\\— dice cuánto dura esa entrada.",
                 "names": "$~notas"
@@ -6468,7 +6468,7 @@
                 "Un tresillo es aritmética honesta: \\♪(1 2beats ÷ 3)\\ dice que tres de estos llenan dos tiempos. Mi duración también puede ser un valor de nota, así que \\♪(1 1𝅗𝅥)\\ y \\♪(1 2beats)\\ son los mismos dos tiempos.",
                 "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
-            "names": ["$~♪", "$~Nota"],
+            "names": ["$~Nota"],
             "degree": {
                 "doc": "$~Qué tocar: un número para una nota, \\ø\\ para un silencio, o un conjunto de números para un acorde, exactamente como sería una entrada simple en un @Track. Un valor de nota sobre el número — \\3𝅗𝅥\\ — dice cuánto duro, y gana sobre @Note/beat si escribes ambos.",
                 "names": "$~grado"
@@ -6483,7 +6483,7 @@
             }
         },
         "Instrument": {
-            "names": ["$~🔈", "$~Instrumento"],
+            "names": ["$~Instrumento"],
             "id": {
                 "doc": "$~Qué entrada de la paleta soy.",
                 "names": "$~id"
@@ -6501,42 +6501,42 @@
                         "$~Un violín. Grabado de uno real, y afinado, así que los números eligen notas.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🎻", "$~violín"]
+                    "names": ["$~violín"]
                 },
                 "drums": {
                     "doc": [
                         "$~Una batería. Grabada, y es un kit en lugar de estar afinada: los números eligen una pieza del kit en lugar de una nota — \\1\\ bombo, \\2\\ tarola, \\3\\ charles, \\4\\ platillo, \\5\\ tom, \\6\\ cencerro — y \\7\\ vuelve otra vez al bombo.",
                         "\\🎼(\n\t🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🥁", "$~tambores"]
+                    "names": ["$~tambores"]
                 },
                 "flute": {
                     "doc": [
                         "$~Una flauta. Grabada de una real, y afinada, así que los números eligen notas.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🪈", "$~flauta"]
+                    "names": ["$~flauta"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Una trompeta. Grabada de una real, y afinada, así que los números eligen notas.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🎺", "$~trompeta"]
+                    "names": ["$~trompeta"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Un saxofón, uno tenor. Grabado de uno real, y afinado, así que los números eligen notas.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🎷", "$~saxofón", "$~sax"]
+                    "names": ["$~saxofón"]
                 },
                 "bell": {
                     "doc": [
                         "$~Una campana — campanas de orquesta, del tipo que se golpea con un mazo. Grabada, y afinada, así que los números eligen notas.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🔔", "$~campana"]
+                    "names": ["$~campana"]
                 },
                 "didgeridoo": {
                     "doc": [
@@ -6546,14 +6546,14 @@
                     "names": ["$~🪵", "$~didgeridoo"]
                 },
                 "cat": {
-                    "names": ["$~🐱", "$~gato", "$~miau"],
+                    "names": ["$~gato", "$~miau"],
                     "doc": [
                         "$~Un gato — en realidad todo un kit de uno solo. Grabado de un gato real, y es un kit en lugar de estar afinado: los números eligen lo que el gato dice en lugar de una nota — \\1\\ irritado, \\2\\ suplicando, \\3\\ hambriento, \\4\\ protestando, \\5\\ suplicante, \\6\\ anhelante, \\7\\ molesto, \\8\\ asustado, \\9\\ sensible, \\10\\ reconfortado, \\11\\ solitario, \\12\\ ronroneando — y \\13\\ vuelve otra vez a irritado. Para un gato que toca notas en su lugar, mira \\🔈.😺\\.",
                         "\\🎼(\n\t🎶(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\tbeat: 2beats\n\t\tloop: ⊥\n\t\tinstrument: 🔈.🐱\n\t)\n\ttempo: 60beats/min\n)\\"
                     ]
                 },
                 "dog": {
-                    "names": ["$~🐶", "$~perro", "$~guau"],
+                    "names": ["$~perro", "$~guau"],
                     "doc": [
                         "$~Un perro — todo un conjunto de ellos, en realidad. Grabados de perros reales, y es un conjunto, no algo afinado: los números eligen qué ladrido escuchas en vez de una nota, del más grave al más agudo — \\1\\ áspero, \\2\\ advirtiendo, \\3\\ vigilando, \\4\\ alerta, \\5\\ insistiendo, \\6\\ exigiendo, \\7\\ anunciando, \\8\\ ansioso, \\9\\ emocionado, \\10\\ impaciente, \\11\\ ladrando fuerte, \\12\\ chillón — y \\13\\ vuelve otra vez a áspero. Para un perro que toca notas en su lugar, mira \\🔈.🐕\\.",
                         "\\🎼(\n\t🎶(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\tbeat: 2beats\n\t\tloop: ⊥\n\t\tinstrument: 🔈.🐶\n\t)\n\ttempo: 60beats/min\n)\\"
@@ -6564,49 +6564,49 @@
                         "$~Una melodía de sintetizador: brillante y zumbona, sin pena de estar hecha de osciladores. Es sintetizada, no grabada, y afinada, así que los números eligen las notas.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🎛️", "$~sintetizador"]
+                    "names": ["$~sintetizador"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Un bajo de sintetizador: grueso y bajo. Es sintetizado, no grabado, y afinado, así que los números eligen las notas.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🎚️", "$~bajoSintetizador"]
+                    "names": ["$~bajoSintetizador"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Un pad de sintetizador: suave, tarda en llegar y sirve para sostener un acorde debajo de todo lo demás. Es sintetizado, no grabado, y afinado, así que los números eligen las notas.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~☁️", "$~padSintetizador"]
+                    "names": ["$~padSintetizador"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~El mismo gato, afinado. De las doce grabaciones que toca el kit \\🔈.🐱\\, esta es la que mantiene un tono constante, y es afinada en lugar de un kit, así que los números eligen las notas y puedes escribir una melodía con ella. Si se toca lejos de la nota en que se grabó, un maullido empieza a sonar estirado en vez de cantado, así que se siente mejor dentro de una octava más o menos del centro.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~😺", "$~gatoAfinado"]
+                    "names": ["$~gatoAfinado"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Los mismos perros, afinados. De todos los ladridos de los que se sacó el kit, este es el que mantiene un tono constante, y es afinado en lugar de un kit, así que los números eligen las notas y puedes escribir una melodía con él. Si se toca lejos de la nota en que se grabó, un ladrido empieza a sonar estirado en vez de ladrado, así que se siente mejor dentro de una octava más o menos del centro.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🐕", "$~perroAfinado"]
+                    "names": ["$~perroAfinado"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Una guitarra clásica, con cuerdas de nylon que se tocan con los dedos y no con una púa. Grabada de una guitarra real, y afinada, así que los números eligen las notas. Esta es la que significa \\guitar\\ a secas, así que los proyectos más viejos que pidieron una guitarra tocan esta.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~🎸", "$~guitarraAcustica", "$~guitarra"]
+                    "names": ["$~guitarraAcustica", "$~guitarra"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~Una guitarra electroacústica: un cuerpo hueco con una pastilla dentro, con cuerdas de acero, así que suena más brillante y por más tiempo que la de nylon \\🔈.🎸\\. Grabada de una guitarra real, y afinada, así que los números eligen las notas.",
                         "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~⚡", "$~guitarraElectrica"]
+                    "names": ["$~guitarraElectrica"]
                 },
                 "voice": {
                     "doc": [
@@ -6616,7 +6616,7 @@
                         "\\🎼(\n\t🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖)\n\ttempo: 120beats/min\n)\\",
                         "Las sílabas se escriben en el <Alfabeto Fonético Internacional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabeto donde cada letra es un /sonido/ y no una forma de escribir, así que \\'ʃi'\\ es el ruido al inicio de /she/, en el idioma que escribas. Presiona 🤖 debajo del editor para ver cada sonido que puedo hacer y oír cada uno."
                     ],
-                    "names": ["$~🤖", "$~voz"]
+                    "names": ["$~voz"]
                 }
             },
             "doc": [

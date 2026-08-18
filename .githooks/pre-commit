@@ -3,4 +3,19 @@
 # never reaches CI's `prettier --check` gate. lint-staged formats only the
 # staged files and re-stages them. Installed via core.hooksPath by
 # scripts/setup-git-config.ts (run from postinstall).
-npx lint-staged
+npx lint-staged || exit 1
+
+# static/locales carries two generated artifacts — names.json and each locale's
+# how-to bundle — that go stale when a locale file or how-to source changes.
+# Only `npm run locales` notices, and the CI job that runs it does no build, so
+# before this the first sign of a missed regeneration was a red deploy. Run the
+# same drift checks (~8s) whenever a source they are built from is staged.
+#
+# Runs after lint-staged so it reads the formatted, re-staged content. The match
+# is deliberately broad: a needless run costs seconds, a missed one costs a
+# blocked deploy. Regenerate with `npm run locales-fix`; bypass with --no-verify.
+if git diff --cached --name-only |
+	grep -qE '^(static/locales/|src/locale/en-US\.json$)'; then
+	echo "Locale sources staged; checking generated locale artifacts..."
+	npx vitest run src/util/verify-locales/localeArtifactsSync.test.ts || exit 1
+fi
