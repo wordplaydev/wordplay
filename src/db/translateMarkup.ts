@@ -122,50 +122,61 @@ export async function translateMarkupTexts(
     const translated = new Map<string, string>();
     const failed = new Set<string>();
 
-    // Group by source locale so each language is one batched call.
+    // Group by source locale so each language is one batched call, and
+    // deduplicate identical source texts within each group so repeated
+    // messages (e.g. the same greeting sent by many students) cost one
+    // translator token budget entry instead of N.
     const grouped = new Map<
         string,
-        { from: Locale; ids: string[]; texts: string[] }
+        { from: Locale; textToIds: Map<string, string[]> }
     >();
     for (const input of inputs) {
         const key = localeToString(input.from);
         const normalized = normalizeSoftBreaks(input.text);
-        const existing = grouped.get(key);
-        if (existing) {
-            existing.ids.push(input.id);
-            existing.texts.push(normalized);
+        let group = grouped.get(key);
+        if (group === undefined) {
+            group = { from: input.from, textToIds: new Map() };
+            grouped.set(key, group);
+        }
+        const ids = group.textToIds.get(normalized);
+        if (ids !== undefined) {
+            ids.push(input.id);
         } else {
-            grouped.set(key, {
-                from: input.from,
-                ids: [input.id],
-                texts: [normalized],
-            });
+            group.textToIds.set(normalized, [input.id]);
         }
     }
 
     await Promise.all(
         Array.from(grouped.values()).map(async (group) => {
+            const uniqueTexts = Array.from(group.textToIds.keys());
             try {
                 const result = await translate(
-                    group.texts,
+                    uniqueTexts,
                     group.from,
                     to,
                     context,
                 );
                 if (result === null) {
-                    for (const id of group.ids) failed.add(id);
+                    for (const ids of group.textToIds.values())
+                        for (const id of ids) failed.add(id);
                     return;
                 }
-                for (let i = 0; i < group.ids.length; i += 1) {
+                for (let i = 0; i < uniqueTexts.length; i += 1) {
                     const value = result[i];
-                    if (typeof value === 'string')
-                        translated.set(group.ids[i], value);
-                    else failed.add(group.ids[i]);
+                    // Every id that had this exact source text gets the same
+                    // translation; if the entry is bad, all of them fail.
+                    const ids = group.textToIds.get(uniqueTexts[i])!;
+                    if (typeof value === 'string') {
+                        for (const id of ids) translated.set(id, value);
+                    } else {
+                        for (const id of ids) failed.add(id);
+                    }
                 }
             } catch (_) {
                 // This batch failed; mark its ids so callers can flag each one
                 // rather than failing the whole pass.
-                for (const id of group.ids) failed.add(id);
+                for (const ids of group.textToIds.values())
+                    for (const id of ids) failed.add(id);
             }
         }),
     );

@@ -147,3 +147,25 @@ test('translateMarkupTexts returns empty maps for empty input', async () => {
     expect(translated.size).toBe(0);
     expect(failed.size).toBe(0);
 });
+
+test('translateMarkupTexts deduplicates identical source texts — one translator entry per unique string', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const calls: string[][] = [];
+    const spy: RawTranslator = async (texts) => {
+        calls.push([...texts]);
+        return texts.map((t) => t + '_translated');
+    };
+    const inputs: MarkupTranslationInput[] = [
+        { id: 'a', text: 'hello', from: en },
+        { id: 'b', text: 'hello', from: en }, // exact duplicate
+        { id: 'c', text: 'world', from: en },
+    ];
+    const { translated, failed } = await translateMarkupTexts(inputs, es, spy);
+    // Only 2 unique texts sent to the translator, not 3.
+    expect(calls).toHaveLength(1);
+    expect(calls[0]).toHaveLength(2);
+    // All three ids succeeded; duplicates share the same result.
+    expect(failed.size).toBe(0);
+    expect(translated.size).toBe(3);
+    expect(translated.get('a')).toBe(translated.get('b'));
+});
