@@ -8740,7 +8740,8 @@
                 "search": {
                     "description": "$~Tìm kiếm dự án và tệp nguồn",
                     "noResults": "$~Không tìm thấy kết quả nào."
-                }
+                },
+                "installedprompt": "$~Bạn đang dùng Wordplay như một ứng dụng đã cài đặt, và nó giữ các dự án riêng, tách biệt với các dự án trong trình duyệt web của bạn. Bất kỳ dự án nào bạn đã tạo trong trình duyệt vẫn còn ở đó. <Đăng nhập@://login> để xem tất cả dự án của bạn ở cả hai nơi."
             },
             "galleries": {
                 "header": "$~Phòng trưng bày",
@@ -9065,7 +9066,8 @@
                     "confirm": "$~Hãy kiểm tra lại địa chỉ email cũ để xác nhận địa chỉ email mới của bạn.",
                     "delete": "$~Bạn muốn chúng tôi quên hết những gì bạn đã tạo ra ở đây sao? Chuyện này không thể nào đảo ngược được.",
                     "reallyDelete": "$~Bạn có chắc chắn không? Tài khoản và cài đặt của bạn sẽ bị xóa ngay lập tức và các dự án của bạn sẽ được lên lịch xóa. Những người cộng tác trong dự án của bạn sẽ ngay lập tức mất quyền truy cập vào chúng. Vui lòng nhập email hoặc tên người dùng của bạn để xác nhận rằng đây là điều bạn muốn.",
-                    "name": "$~Chọn một biểu tượng cảm xúc hoặc ký tự tùy chỉnh để đại diện cho bạn với người khác."
+                    "name": "$~Chọn một biểu tượng cảm xúc hoặc ký tự tùy chỉnh để đại diện cho bạn với người khác.",
+                    "paste": "$~Liên kết có mở ở nơi khác không? Các ứng dụng đã cài đặt đôi khi mở liên kết email trong trình duyệt web thay vì trong ứng dụng. Hãy sao chép liên kết từ email của bạn và dán vào đây để hoàn tất việc đăng nhập."
                 },
                 "error": {
                     "expired": "$~Liên kết này đã hết hạn.",
@@ -9108,6 +9110,10 @@
                     "newPassword": {
                         "description": "$~mật khẩu mới của bạn",
                         "placeholder": "$~mật khẩu mới"
+                    },
+                    "link": {
+                        "description": "$~dán liên kết đăng nhập",
+                        "placeholder": "$~liên kết"
                     }
                 },
                 "button": {
@@ -9796,7 +9802,8 @@
         "noscript": "$~Wordplay sử dụng JavaScript. Trình duyệt của bạn không hỗ trợ hoặc đã tắt JavaScript.",
         "unsupportedHeading": "$~Trình duyệt không được hỗ trợ",
         "unsupportedBody": "$~Trình duyệt của bạn không hỗ trợ một số chức năng quan trọng. Để sử dụng Wordplay, bạn cần nâng cấp lên phiên bản mới hơn.",
-        "imageDescription": "$~Biểu tượng Wordplay — một bong bóng thoại chứa một hình tròn, một hình tam giác và một hình vuông — bên cạnh cái tên Wordplay, được bao quanh bởi một đám ký hiệu mờ nhạt cho mọi thứ mà các chương trình Wordplay có thể cảm nhận và nói ra."
+        "imageDescription": "$~Biểu tượng Wordplay — một bong bóng thoại chứa một hình tròn, một hình tam giác và một hình vuông — bên cạnh cái tên Wordplay, được bao quanh bởi một đám ký hiệu mờ nhạt cho mọi thứ mà các chương trình Wordplay có thể cảm nhận và nói ra.",
+        "appDescription": "$~Kiểu chữ dễ tiếp cận, đa ngôn ngữ, và có thể lập trình."
     },
     "keyword": {
         "function": "hàm",

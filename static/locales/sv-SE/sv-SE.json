@@ -8487,7 +8487,8 @@
                 "search": {
                     "description": "$~Sök i projekt och källfiler",
                     "noResults": "$~Inga resultat hittades."
-                }
+                },
+                "installedprompt": "$~Du använder Wordplay som en installerad app. Den har sina egna projekt, skilda från dem i din webbläsare. Alla projekt du gjorde i din webbläsare finns kvar. <Logga in@://login> för att se alla dina projekt på båda ställena."
             },
             "galleries": {
                 "header": "$~Gallerier",
@@ -8564,7 +8565,8 @@
                     "confirm": "$~Kontrollera din gamla e-postadress för att bekräfta din nya adress.",
                     "delete": "$~Vill du att vi ska glömma allt du har gjort här? Detta kan inte ångras.",
                     "reallyDelete": "$~Är du säker? Ditt konto och dina inställningar kommer att raderas omedelbart och dina projekt kommer att schemaläggas för radering. Samarbetspartners i dina projekt förlorar omedelbart åtkomst till dem. Skriv din e-postadress eller ditt användarnamn för att bekräfta att det är detta du vill ha.",
-                    "name": "$~Välj en emoji eller ett eget tecken som visar dig för andra."
+                    "name": "$~Välj en emoji eller ett eget tecken som visar dig för andra.",
+                    "paste": "$~Öppnades länken någon annanstans? Installerade appar öppnar ibland e-postlänkar i en webbläsare i stället. Kopiera länken från din e-post och klistra in den här för att slutföra inloggningen."
                 },
                 "error": {
                     "expired": "$~Denna länk har upphört att gälla.",
@@ -8607,6 +8609,10 @@
                     "newPassword": {
                         "description": "$~ditt nya lösenord",
                         "placeholder": "$~nytt lösenord"
+                    },
+                    "link": {
+                        "description": "$~klistra in inloggningslänk",
+                        "placeholder": "$~länk"
                     }
                 },
                 "button": {
@@ -9770,7 +9776,8 @@
         "noscript": "$~Wordplay använder JavaScript. Din webbläsare stöder det inte, eller så är det inaktiverat.",
         "unsupportedHeading": "$~Webbläsare som inte stöds",
         "unsupportedBody": "$~Din webbläsare stöder inte viktiga funktioner. För att använda Wordplay måste du uppgradera till en nyare version.",
-        "imageDescription": "$~Wordplay-logotypen — en pratbubbla med en cirkel, en triangel och en fyrkant — bredvid namnet Wordplay, omgiven av en blek folkmassa av symboler för allt som Wordplay-program kan känna av och säga."
+        "imageDescription": "$~Wordplay-logotypen — en pratbubbla med en cirkel, en triangel och en fyrkant — bredvid namnet Wordplay, omgiven av en blek folkmassa av symboler för allt som Wordplay-program kan känna av och säga.",
+        "appDescription": "$~Tillgänglig, flerspråkig, programmerbar typografi."
     },
     "keyword": {
         "function": "funktion",

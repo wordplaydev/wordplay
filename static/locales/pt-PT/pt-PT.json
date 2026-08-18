@@ -8816,7 +8816,8 @@
                     "newgallery": "Não foi possível criar uma nova galeria.",
                     "nodeletes": "Necessita de estar <logado em@://login> para eliminar projetos arquivados.",
                     "delete": "Ups, não conseguimos apagar o projeto!"
-                }
+                },
+                "installedprompt": "$~Está a usar o Wordplay como uma aplicação instalada, e ela mantém os seus próprios projetos, separados dos que estão no seu navegador de internet. Todos os projetos que criou no navegador continuam lá. <Inicie sessão@://login> para ver todos os seus projetos nos dois lugares."
             },
             "galleries": {
                 "header": "Galerias",
@@ -9141,7 +9142,8 @@
                     "confirm": "Verifique o seu endereço de e-mail antigo para confirmar o seu novo endereço.",
                     "delete": "Quer que esqueçamos tudo o que fez aqui? Isto não tem volta a dar.",
                     "reallyDelete": "Tem a certeza? A sua conta e definições serão eliminadas imediatamente e os seus projetos serão agendados para eliminação. Os colaboradores dos seus projetos perderão o acesso aos mesmos de imediato. Introduza o seu e-mail ou nome de utilizador para confirmar que é isso que pretende.",
-                    "name": "Escolhaumemojiouumapersonagempersonalizadaparaserepresentaraosoutros."
+                    "name": "Escolhaumemojiouumapersonagempersonalizadaparaserepresentaraosoutros.",
+                    "paste": "$~O ligação abriu noutro lugar? As aplicações instaladas às vezes abrem as ligações de correio eletrónico num navegador de internet. Copie a ligação do seu correio eletrónico e cole-a aqui para terminar de iniciar sessão."
                 },
                 "error": {
                     "expired": "Este link expirou.",
@@ -9184,6 +9186,10 @@
                     "newPassword": {
                         "description": "a sua nova senha",
                         "placeholder": "nova Senha"
+                    },
+                    "link": {
+                        "description": "$~colar ligação de início de sessão",
+                        "placeholder": "$~ligação"
                     }
                 },
                 "button": {
@@ -9787,7 +9793,8 @@
         "noscript": "O Wordplay utiliza JavaScript. O seu navegador não o suporta ou está desativado.",
         "unsupportedHeading": "Navegador não compatível",
         "unsupportedBody": "O seu navegador não suporta funcionalidades essenciais. Para utilizar o Wordplay, precisa de atualizar para uma versão mais recente.",
-        "imageDescription": "$~O logótipo do Wordplay — um balão de fala com um círculo, um triângulo e um quadrado — ao lado do nome Wordplay, rodeado por um grupo esbatido de símbolos para tudo o que os programas do Wordplay podem sentir e dizer."
+        "imageDescription": "$~O logótipo do Wordplay — um balão de fala com um círculo, um triângulo e um quadrado — ao lado do nome Wordplay, rodeado por um grupo esbatido de símbolos para tudo o que os programas do Wordplay podem sentir e dizer.",
+        "appDescription": "$~Tipografia acessível, multilingue e programável."
     },
     "keyword": {
         "function": "função",

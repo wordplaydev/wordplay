@@ -1,6 +1,7 @@
 import type LocaleText from '@locale/LocaleText';
 import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
 import generateChoosePrompts from '@util/verify-locales/generateChoosePrompts';
+import generateManifests from '@util/verify-locales/generateManifests';
 import generateNameIndex from '@util/verify-locales/generateNameIndex';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
 import { collectingLog } from '@util/verify-locales/Log';
@@ -88,5 +89,20 @@ test('src/locale/choosePrompts.generated.ts matches the locales’ phrases', asy
     expect(
         drifted,
         'run `npm run locales-fix` and commit src/locale/choosePrompts.generated.ts',
+    ).toBe(false);
+});
+
+test('static/manifests matches the locales’ names and directions', async () => {
+    const { log, lines } = collectingLog();
+    const locales: LocaleText[] = Locales.map((locale) =>
+        JSON.parse(fs.readFileSync(getLocalePath(locale), 'utf8')),
+    );
+
+    const drifted = await generateManifests(log, locales, false);
+
+    expect(log.errorCount, lines.join('\n')).toBe(0);
+    expect(
+        drifted,
+        'run `npm run locales-fix` and commit static/manifests',
     ).toBe(false);
 });

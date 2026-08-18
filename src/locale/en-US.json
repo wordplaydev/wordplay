@@ -8985,6 +8985,7 @@
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
+                "installedprompt": "You're using Wordplay as an installed app, and it keeps its own projects, separate from the ones in your web browser. Any projects you made in your browser are still there. <Log in@://login> to see all of your projects in both places.",
                 "subheader": {
                     "shared": "Shared",
                     "archived": "Archived"
@@ -9323,6 +9324,7 @@
                     "join": "Or, <create an account@://join> to start.",
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
+                    "paste": "Did the link open somewhere else? Installed apps sometimes open email links in a web browser instead. Copy the link from your email and paste it here to finish signing in.",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
                     "passwordrule": "Passwords must be at least 6 characters long; if you're not using a password manager, choose three long words you'll remember.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
@@ -9361,6 +9363,10 @@
                     "email": {
                         "description": "edit login email",
                         "placeholder": "email"
+                    },
+                    "link": {
+                        "description": "paste login link",
+                        "placeholder": "link"
                     },
                     "username": {
                         "description": "login username, don't use personally identifiable information",
@@ -9825,7 +9831,8 @@
         "imageDescription": "The Wordplay logo — a speech bubble holding a circle, a triangle, and a square — beside the name Wordplay, surrounded by a faded crowd of symbols for everything Wordplay programs can sense and say.",
         "noscript": "Wordplay uses JavaScript. Your browser doesn't support it, or it is disabled.",
         "unsupportedHeading": "Unsupported Browser",
-        "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version."
+        "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version.",
+        "appDescription": "Accessible, multilingual, programmable typography."
     },
     "keyword": {
         "function": "function",

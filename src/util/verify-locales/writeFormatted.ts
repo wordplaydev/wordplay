@@ -5,7 +5,10 @@ import type Log from '@util/verify-locales/Log';
 /** The Prettier parser for a file extension, or undefined if Prettier has no
  *  parser for it (e.g. the custom how-to text format) — those are written raw. */
 function parserFor(filePath: string): string | undefined {
-    if (filePath.endsWith('.json')) return 'json';
+    // .webmanifest is JSON, and Prettier's own `--write .` formats it as JSON,
+    // so generated manifests have to match or they'd drift on the next format run.
+    if (filePath.endsWith('.json') || filePath.endsWith('.webmanifest'))
+        return 'json';
     if (filePath.endsWith('.ts')) return 'typescript';
     if (filePath.endsWith('.js')) return 'babel';
     return undefined;
