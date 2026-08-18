@@ -6617,6 +6617,13 @@
                         "Las sílabas se escriben en el <Alfabeto Fonético Internacional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabeto donde cada letra es un /sonido/ y no una forma de escribir, así que \\'ʃi'\\ es el ruido al inicio de /she/, en el idioma que escribas. Presiona 🤖 debajo del editor para ver cada sonido que puedo hacer y oír cada uno."
                     ],
                     "names": ["$~voz"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Una armónica, del tipo cromático que tiene un botón a un lado. Se grabó de una armónica real y se afinó, así que los números eligen las notas.",
+                        "\\Música(\n\tPista([1] beat: 4beats loop: ⊥ instrument: Instrumento.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~armónica"]
                 }
             },
             "doc": [

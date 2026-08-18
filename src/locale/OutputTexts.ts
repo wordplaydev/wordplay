@@ -280,6 +280,8 @@ type OutputTexts = {
             trumpet: NameAndDoc;
             /** A saxophone */
             saxophone: NameAndDoc;
+            /** A harmonica */
+            harmonica: NameAndDoc;
             /** A bell */
             bell: NameAndDoc;
             /** A didgeridoo, from Aboriginal Australia */

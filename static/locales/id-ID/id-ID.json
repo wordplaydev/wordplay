@@ -6635,6 +6635,13 @@
                         "Suku kata dieja dalam <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, sebuah alfabet di mana setiap huruf adalah satu /bunyi/ dan bukan satu ejaan — jadi \\'ʃi'\\ adalah bunyi di awal kata /she/, dalam bahasa apa pun yang kamu tulis. Tekan 🤖 di bawah editor untuk melihat setiap bunyi yang bisa aku buat dan mendengar setiap bunyinya."
                     ],
                     "names": ["$~suara"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Sebuah harmonika, jenis kromatik dengan tombol di sisinya. Direkam dari harmonika asli, dan disetel nada, sehingga angka memilih nada.",
+                        "\\Musik(\n\tTrek([1] beat: 4beats loop: ⊥ instrument: AlatMusik.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~harmonika"]
                 }
             },
             "doc": [

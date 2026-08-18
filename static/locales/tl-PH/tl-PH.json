@@ -6626,6 +6626,13 @@
                         "Ang mga pantig ay binabaybay sa <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, isang alpabeto kung saan ang bawat titik ay isang /sound/ sa halip na isang pagbabaybay — kaya \\'ʃi'\\ ay ang tunog sa simula ng /she/, kahit anong wika ang isinusulat mo. Pindutin ang 🤖 sa ilalim ng editor upang makita ang bawat tunog na kaya kong gawin at marinig ang bawat isa."
                     ],
                     "names": ["$~boses"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Isang harmonika, ang uring chromatic na may pindutan sa gilid. Kinuha mula sa isang tunay, at may tono, kaya pumipili ng mga nota ang mga numero.",
+                        "\\Musika(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: Instrumento.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~harmonika"]
                 }
             },
             "doc": [

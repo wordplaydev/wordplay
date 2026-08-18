@@ -225,6 +225,13 @@ test('General MIDI families map to instruments we have', () => {
     expect(instrumentForProgram(25)).toBe('electricGuitar');
     expect(instrumentForProgram(30)).toBe('electricGuitar');
     expect(instrumentForProgram(33)).toBe('synthBass');
+    // The organ family ends in free reeds — accordion, harmonica, tango
+    // accordion — which are the harmonica's, while the organs proper are
+    // not.
+    expect(instrumentForProgram(16)).toBe('synthPad');
+    expect(instrumentForProgram(21)).toBe('harmonica');
+    expect(instrumentForProgram(22)).toBe('harmonica');
+    expect(instrumentForProgram(23)).toBe('harmonica');
     expect(instrumentForProgram(40)).toBe('violin');
     expect(instrumentForProgram(56)).toBe('trumpet');
     expect(instrumentForProgram(73)).toBe('flute');

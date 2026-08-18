@@ -13227,6 +13227,10 @@
                                             "$ref": "#/definitions/NameAndDoc",
                                             "description": "A flute"
                                         },
+                                        "harmonica": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "A harmonica"
+                                        },
                                         "piano": {
                                             "$ref": "#/definitions/NameAndDoc",
                                             "description": "A piano"
@@ -13277,6 +13281,7 @@
                                         "flute",
                                         "trumpet",
                                         "saxophone",
+                                        "harmonica",
                                         "bell",
                                         "didgeridoo",
                                         "cat",

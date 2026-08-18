@@ -6619,6 +6619,13 @@
                         "Stavelserna stavas i det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, ett alfabet där varje bokstav är ett /ljud/ istället för en stavning — så \\'ʃi'\\ är ljudet i början av /she/, oavsett vilket språk du skriver på. Tryck på 🤖 under redigeraren för att se alla ljud jag kan göra och höra vart och ett."
                     ],
                     "names": ["$~röst"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~En munspel, av den kromatiska sorten med en knapp på sidan. Inspelad från en riktig, och stämd, så att siffror väljer toner.",
+                        "\\Musik(\n\tSpår([1] beat: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~munspel"]
                 }
             },
             "doc": [
