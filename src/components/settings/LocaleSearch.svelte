@@ -1,7 +1,7 @@
 <script module lang="ts">
     import type LanguageCode from '@locale/LanguageCode';
     import { Languages } from '@locale/LanguageCode';
-    import { localeToString, type Locale } from '@locale/Locale';
+    import type { Locale } from '@locale/Locale';
     import { Regions } from '@locale/Regions';
 
     /** Filter a list of locale-bearing items by a query that matches an item's
@@ -23,8 +23,6 @@
             const haystack = [
                 info?.name ?? '', // native name, e.g. "español", "日本語"
                 info?.en ?? '', // Latin name, e.g. "Spanish"
-                locale.language, // language code, e.g. "zh"
-                localeToString(locale), // full locale code, e.g. "zh-CN"
                 ...locale.regions, // region code, e.g. "MX"
                 ...locale.regions.map((r) => Regions[r]?.en ?? ''), // region name, e.g. "Mexico"
             ]
@@ -191,17 +189,15 @@
         query: string;
         /** A unique id for the underlying text field. */
         id: string;
-        /** Placeholder text shown in the search field. */
-        placeholder: LocaleTextAccessor;
-        /** ARIA label/description for the search field. */
-        description: LocaleTextAccessor;
+        placeholder?: LocaleTextAccessor;
+        description?: LocaleTextAccessor;
     }
 
     let {
         query = $bindable(''),
         id,
-        placeholder,
-        description,
+        placeholder = (l) => l.ui.dialog.locale.search.placeholder,
+        description = (l) => l.ui.dialog.locale.search.description,
     }: Props = $props();
 </script>
 
