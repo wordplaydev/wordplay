@@ -8935,7 +8935,8 @@
                     "newgallery": "$~Kami tidak bisa membuat galeri baru.",
                     "nodeletes": "$~Anda pasti<logged in@://login> untuk menghapus proyek yang diarsipkan.",
                     "delete": "$~Ups, kami tidak dapat menghapus proyek tersebut!"
-                }
+                },
+                "installedprompt": "$~Kamu menggunakan Wordplay sebagai aplikasi yang terpasang, dan aplikasi ini menyimpan proyeknya sendiri, terpisah dari proyek di peramban webmu. Semua proyek yang kamu buat di peramban masih ada di sana. <Masuk@://login> untuk melihat semua proyekmu di kedua tempat."
             },
             "galleries": {
                 "header": "$~Galeri",
@@ -9260,7 +9261,8 @@
                     "confirm": "$~Periksa alamat email lama Anda untuk mengkonfirmasi alamat email baru Anda.",
                     "delete": "$~Apakah Anda ingin kami melupakan semua yang telah Anda buat di sini? Ini tidak bisa diubah.",
                     "reallyDelete": "$~Apakah Anda yakin? Akun dan pengaturan Anda akan segera dihapus dan proyek Anda akan dijadwalkan untuk dihapus. Kolaborator pada proyek Anda akan segera kehilangan akses ke proyek tersebut. Ketik email atau nama pengguna Anda untuk mengkonfirmasi bahwa ini yang Anda inginkan.",
-                    "name": "$~Pilih emoji atau karakter khusus untuk mewakili dirimu kepada orang lain."
+                    "name": "$~Pilih emoji atau karakter khusus untuk mewakili dirimu kepada orang lain.",
+                    "paste": "$~Apakah tautan terbuka di tempat lain? Aplikasi yang terpasang kadang membuka tautan email di peramban web. Salin tautan dari emailmu dan tempel di sini untuk menyelesaikan proses masuk."
                 },
                 "error": {
                     "expired": "$~Tautan ini telah kedaluwarsa.",
@@ -9303,6 +9305,10 @@
                     "newPassword": {
                         "description": "$~kata sandi baru Anda",
                         "placeholder": "$~kata sandi baru"
+                    },
+                    "link": {
+                        "description": "$~tempel tautan masuk",
+                        "placeholder": "$~tautan"
                     }
                 },
                 "button": {
@@ -9792,7 +9798,8 @@
         "noscript": "$~Wordplay menggunakan JavaScript. Browser Anda tidak mendukungnya, atau fitur tersebut dinonaktifkan.",
         "unsupportedHeading": "$~Browser yang tidak didukung",
         "unsupportedBody": "$~Browser Anda tidak mendukung fungsi penting. Untuk menggunakan Wordplay, Anda perlu memperbarui ke versi yang lebih baru.",
-        "imageDescription": "$~Logo Wordplay — sebuah gelembung ucapan yang berisi lingkaran, segitiga, dan persegi — di samping nama Wordplay, dikelilingi oleh kerumunan simbol yang samar untuk semua hal yang dapat dirasakan dan dikatakan oleh program Wordplay."
+        "imageDescription": "$~Logo Wordplay — sebuah gelembung ucapan yang berisi lingkaran, segitiga, dan persegi — di samping nama Wordplay, dikelilingi oleh kerumunan simbol yang samar untuk semua hal yang dapat dirasakan dan dikatakan oleh program Wordplay.",
+        "appDescription": "$~Tipografi yang mudah diakses, banyak bahasa, dan dapat diprogram."
     },
     "keyword": {
         "function": "fungsi",

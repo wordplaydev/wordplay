@@ -2,6 +2,7 @@ import type { Handle } from '@sveltejs/kit';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
+    getManifestPath,
     SupportedLocales,
     type SupportedLocale,
 } from '@locale/SupportedLocales';
@@ -97,6 +98,9 @@ export const handle: Handle = async ({ event, resolve }) => {
     const noscript = escapeHtml(strings.noscript);
     const unsupportedHeading = escapeHtml(strings.unsupportedHeading);
     const unsupportedBody = escapeHtml(strings.unsupportedBody);
+    // pickLocale already reduced this to a supported code, so it names a
+    // manifest the locale generator wrote.
+    const manifest = escapeHtml(getManifestPath(locale));
 
     return resolve(event, {
         transformPageChunk: ({ html }) =>
@@ -114,6 +118,7 @@ export const handle: Handle = async ({ event, resolve }) => {
                 .replaceAll(
                     '%wordplay.system.unsupportedBody%',
                     unsupportedBody,
-                ),
+                )
+                .replaceAll('%wordplay.system.manifest%', manifest),
     });
 };

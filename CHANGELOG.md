@@ -12,6 +12,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔠 We added a new example called Chamber to the [galleries](https://wordplay.dev/galleries). A hundred letters from four writing systems bounce around a sealed box, and you can turn gravity off or shake them all up again.
 - 🔗 When you share a link to a public project or gallery, it now shows its name and description in chat apps and on social media. We also added a site map so search engines can find public projects and [galleries](https://wordplay.dev/galleries). (#1133)
 - 🔊 We added a harmonica, and like most of our instruments it's a real recording rather than a synthesizer. Ask for it with `Instrument.harmonica` or `🔈.🌬️`.
+- 📱 If you install Wordplay on an iPhone or iPad, it keeps its own projects, separate from the ones in your web browser. When you open the installed app and don't see your projects, Wordplay now explains where they are. (#564)
+- 🔑 If your sign in link opens in your web browser instead of the Wordplay you installed, you can now paste the link into Wordplay to finish signing in. This also helps when you read your email on a different device. (#564)
 
 ### Changed
 
@@ -25,6 +27,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🛠️ We upgraded internal tooling for stability.
 - 🌐 Each language can now write down its own rules for how it should be written (e.g,. how to address the reader, which words to prefer, how to punctuate), and the helper that drafts new translations now follows them. (#939)
 - 🎨 The message that shows up when we release a new version now looks like the other messages at the top of the page. It's grey instead of orange, since a new version isn't a problem, and its button and link sit at the end of the strip instead of floating in the middle.
+- 🌐 When you install Wordplay as an app, it now shows up with its name and description in your language, and reads right to left in languages that do. (#564)
 
 ### Fixed
 

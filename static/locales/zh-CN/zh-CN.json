@@ -8253,7 +8253,8 @@
                 "search": {
                     "description": "$~搜索项目和源文件",
                     "noResults": "未找到结果。"
-                }
+                },
+                "installedprompt": "$~你正在使用安装好的 Wordplay 应用程序。它会保存自己的项目，和你在网页浏览器里的项目分开存放。你在浏览器里做的项目都还在。<登录@://login> 就能看到这两个地方的所有项目。"
             },
             "galleries": {
                 "header": "画廊",
@@ -8324,7 +8325,8 @@
                     "reallyDelete": "你确定吗？你的账户和设置将立即被删除，你的项目将被安排删除。与你的项目合作的人将立即失去对它们的访问权限。输入你的电子邮件或用户名以确认这是你想要的。",
                     "name": "选择一个表情符号代表你自己。",
                     "login": "$~登录以保存你的项目、合作和分享：",
-                    "join": "$~或者，<创建一个账号@://join> 来开始。"
+                    "join": "$~或者，<创建一个账号@://join> 来开始。",
+                    "paste": "$~链接是不是在别的地方打开了？安装好的应用程序有时会把电子邮件里的链接放到网页浏览器里打开。请把电子邮件里的链接复制下来，粘贴到这里，完成登录。"
                 },
                 "error": {
                     "expired": "此链接已过期。",
@@ -8367,6 +8369,10 @@
                     "newPassword": {
                         "description": "你的新密码",
                         "placeholder": "新密码"
+                    },
+                    "link": {
+                        "description": "$~粘贴登录链接",
+                        "placeholder": "$~链接"
                     }
                 },
                 "button": {
@@ -9731,7 +9737,8 @@
         "noscript": "$~Wordplay 使用 JavaScript。你的浏览器不支持它，或者它被禁用了。",
         "unsupportedHeading": "$~不支持的浏览器",
         "unsupportedBody": "$~你的浏览器不支持关键功能。要使用 Wordplay，你需要升级到更新的版本。",
-        "imageDescription": "$~Wordplay 标志——一个对话气泡，里面装着一个圆形、一个三角形和一个正方形——旁边写着 Wordplay 这个名字，周围环绕着一群淡淡的符号，代表 Wordplay 程序能感知和表达的一切。"
+        "imageDescription": "$~Wordplay 标志——一个对话气泡，里面装着一个圆形、一个三角形和一个正方形——旁边写着 Wordplay 这个名字，周围环绕着一群淡淡的符号，代表 Wordplay 程序能感知和表达的一切。",
+        "appDescription": "$~人人可用、支持多语言、可编程的字体排版。"
     },
     "keyword": {
         "function": "函数",

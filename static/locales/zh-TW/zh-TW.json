@@ -8256,7 +8256,8 @@
                 "search": {
                     "description": "$~搜尋工程和來源檔案",
                     "noResults": "未找到結果。"
-                }
+                },
+                "installedprompt": "$~你正在以安裝好的應用程式使用 Wordplay，它會保存自己的工程，和你在網路瀏覽器裡的工程分開。你在瀏覽器裡做的工程都還在。<登入@://login> 就能看到你在兩個地方的所有工程。"
             },
             "galleries": {
                 "header": "畫廊",
@@ -8327,7 +8328,8 @@
                     "reallyDelete": "你確定嗎？您的帳戶和設定將立即被刪除，您的項目將被安排刪除。與您的專案合作的人將立即失去對它們的存取權限。輸入您的電子郵件或用戶名以確認這是您想要的。",
                     "name": "選擇一個表情符號代表自己。",
                     "login": "登入以保存您的項目、協作與共享。",
-                    "join": "或者從 <create an account@://join> 開始。"
+                    "join": "或者從 <create an account@://join> 開始。",
+                    "paste": "$~連結是不是在別的地方打開了呢？安裝好的應用程式有時候會用網路瀏覽器打開電子郵件裡的連結。從你的電子郵件複製連結，貼到這裡完成登入吧。"
                 },
                 "error": {
                     "expired": "此連結已過期。",
@@ -8370,6 +8372,10 @@
                     "newPassword": {
                         "description": "您的新密碼",
                         "placeholder": "新密碼"
+                    },
+                    "link": {
+                        "description": "$~貼上登入連結",
+                        "placeholder": "$~連結"
                     }
                 },
                 "button": {
@@ -9734,7 +9740,8 @@
         "noscript": "$~Wordplay 使用 JavaScript。你的瀏覽器不支援它，或它被停用了。",
         "unsupportedHeading": "$~不支援的瀏覽器",
         "unsupportedBody": "$~你的瀏覽器不支援重要的功能。要使用 Wordplay，你需要升級到較新的版本。",
-        "imageDescription": "$~Wordplay 的標誌——一個對話框，裡面裝著一個圓形、一個三角形和一個正方形——旁邊是 Wordplay 這個名字，四周圍繞著一群淡淡的符號，代表 Wordplay 程式能夠感知和表達的所有事物。"
+        "imageDescription": "$~Wordplay 的標誌——一個對話框，裡面裝著一個圓形、一個三角形和一個正方形——旁邊是 Wordplay 這個名字，四周圍繞著一群淡淡的符號，代表 Wordplay 程式能夠感知和表達的所有事物。",
+        "appDescription": "$~無障礙、多語言、可程式化的字型排版。"
     },
     "keyword": {
         "function": "函數",

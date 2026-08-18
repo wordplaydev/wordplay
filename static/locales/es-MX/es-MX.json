@@ -8286,7 +8286,8 @@
                 "search": {
                     "description": "$~Buscar proyectos y fuentes",
                     "noResults": "$~No se encontraron resultados."
-                }
+                },
+                "installedprompt": "$~Estás usando Wordplay como una aplicación instalada, y guarda sus propios proyectos, aparte de los que tienes en tu navegador web. Todos los proyectos que hiciste en tu navegador siguen ahí. <Inicia sesión@://login> para ver todos tus proyectos en ambos lugares."
             },
             "galleries": {
                 "header": "Galerías",
@@ -8362,7 +8363,8 @@
                     "reallyDelete": "¿Estás segura? Tu cuenta y configuraciones se eliminarán inmediatamente, y tus proyectos se programarán para su eliminación. Las colaboradoras en tus proyectos perderán de inmediato el acceso a ellos. Escribe tu correo electrónico o nombre de usuario para confirmar que esto es lo que deseas.",
                     "name": "Elige un emoji para representarte a ti mismo ante los demás.",
                     "login": "$~Inicia sesión para guardar tus proyectos, colaborar y compartir:",
-                    "join": "$~O bien, <crea una cuenta@://join> para comenzar."
+                    "join": "$~O bien, <crea una cuenta@://join> para comenzar.",
+                    "paste": "$~¿El enlace se abrió en otro lugar? A veces las aplicaciones instaladas abren los enlaces del correo electrónico en un navegador web. Copia el enlace de tu correo electrónico y pégalo aquí para terminar de iniciar sesión."
                 },
                 "error": {
                     "expired": "Este enlace ha expirado.",
@@ -8405,6 +8407,10 @@
                     "newPassword": {
                         "description": "tu nueva contraseña",
                         "placeholder": "nueva contraseña"
+                    },
+                    "link": {
+                        "description": "$~pegar enlace de inicio de sesión",
+                        "placeholder": "$~enlace"
                     }
                 },
                 "button": {
@@ -9779,7 +9785,8 @@
         "noscript": "$~Wordplay usa JavaScript. Tu navegador no lo admite o está desactivado.",
         "unsupportedHeading": "$~Navegador no compatible",
         "unsupportedBody": "$~Tu navegador no admite funciones esenciales. Para usar Wordplay, necesitarás actualizar a una versión más reciente.",
-        "imageDescription": "$~El logotipo de Wordplay — un globo de diálogo que sostiene un círculo, un triángulo y un cuadrado — junto al nombre Wordplay, rodeado de una multitud tenue de símbolos que representan todo lo que los programas de Wordplay pueden percibir y decir."
+        "imageDescription": "$~El logotipo de Wordplay — un globo de diálogo que sostiene un círculo, un triángulo y un cuadrado — junto al nombre Wordplay, rodeado de una multitud tenue de símbolos que representan todo lo que los programas de Wordplay pueden percibir y decir.",
+        "appDescription": "$~Tipografía accesible, multilingüe y programable."
     },
     "keyword": {
         "function": "función",

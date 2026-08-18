@@ -8935,7 +8935,8 @@
                     "newgallery": "$~Nu am putut crea o galerie nouă.",
                     "nodeletes": "$~Trebuie să fii<logged in@://login> pentru a șterge proiectele arhivate.",
                     "delete": "$~Oops, nu am putut șterge proiectul!"
-                }
+                },
+                "installedprompt": "$~Folosești Wordplay ca aplicație instalată, iar aceasta își păstrează propriile proiecte, separate de cele din navigatorul tău web. Orice proiect făcut în navigator este încă acolo. <Autentifică-te@://login> ca să vezi toate proiectele tale din ambele locuri."
             },
             "galleries": {
                 "header": "$~Galerii",
@@ -9260,7 +9261,8 @@
                     "confirm": "$~Verificați vechea adresă de e-mail pentru a confirma noua adresă.",
                     "delete": "$~Vrei să uităm tot ce ai făcut aici? Asta nu poate fi anulată.",
                     "reallyDelete": "$~Sigur? Contul și setările dvs. vor fi șterse imediat, iar proiectele dvs. vor fi programate pentru ștergere. Colaboratorii la proiectele dvs. vor pierde imediat accesul la acestea. Introduceți adresa de e-mail sau numele de utilizator pentru a confirma că doriți acest lucru.",
-                    "name": "$~Alege un emoji sau un caracter personalizat care să te reprezinte în fața celorlalți."
+                    "name": "$~Alege un emoji sau un caracter personalizat care să te reprezinte în fața celorlalți.",
+                    "paste": "$~S-a deschis linkul în altă parte? Aplicațiile instalate deschid uneori linkurile din e-mail într-un navigator web. Copiază linkul din e-mailul tău și lipește-l aici ca să termini autentificarea."
                 },
                 "error": {
                     "expired": "$~Acest link a expirat.",
@@ -9303,6 +9305,10 @@
                     "newPassword": {
                         "description": "$~noua ta parolă",
                         "placeholder": "$~Parolă Nouă"
+                    },
+                    "link": {
+                        "description": "$~lipește linkul de autentificare",
+                        "placeholder": "$~link"
                     }
                 },
                 "button": {
@@ -9792,7 +9798,8 @@
         "noscript": "$~Jocul de cuvinte folosește JavaScript. Browserul dvs. nu îl acceptă sau este dezactivat.",
         "unsupportedHeading": "$~Browser neacceptat",
         "unsupportedBody": "$~Browserul dvs. nu acceptă funcționalități esențiale. Pentru a utiliza Wordplay, va trebui să faceți upgrade la o versiune mai recentă.",
-        "imageDescription": "$~Sigla Wordplay — un balon de vorbire care ține un cerc, un triunghi și un pătrat — lângă numele Wordplay, înconjurat de o mulțime estompată de simboluri pentru tot ce pot simți și spune programele Wordplay."
+        "imageDescription": "$~Sigla Wordplay — un balon de vorbire care ține un cerc, un triunghi și un pătrat — lângă numele Wordplay, înconjurat de o mulțime estompată de simboluri pentru tot ce pot simți și spune programele Wordplay.",
+        "appDescription": "$~Tipografie accesibilă, multilingvă și programabilă."
     },
     "keyword": {
         "function": "funcţie",

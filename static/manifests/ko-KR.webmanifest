@@ -1,0 +1,31 @@
+{
+    "id": "/",
+    "name": "Wordplay",
+    "short_name": "Wordplay",
+    "description": "누구나 쓸 수 있고, 여러 언어를 지원하며, 프로그래밍할 수 있는 타이포그래피.",
+    "lang": "ko",
+    "dir": "ltr",
+    "start_url": "/ko-KR",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/maskable-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

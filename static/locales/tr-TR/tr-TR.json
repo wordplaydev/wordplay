@@ -8485,7 +8485,8 @@
                 "search": {
                     "description": "$~Projeleri ve kaynak dosyalarını arayın.",
                     "noResults": "$~Hiçbir sonuç bulunamadı."
-                }
+                },
+                "installedprompt": "$~Wordplay'i yüklenmiş bir uygulama olarak kullanıyorsun. Bu uygulama kendi projelerini tutar. Bunlar web tarayıcındaki projelerden ayrıdır. Tarayıcında yaptığın projeler hâlâ oradadır. Her iki yerdeki tüm projelerini görmek için <giriş yap@://login>."
             },
             "galleries": {
                 "header": "$~Galeriler",
@@ -8562,7 +8563,8 @@
                     "confirm": "$~Yeni adresinizi doğrulamak için eski e-posta adresinizi kontrol edin.",
                     "delete": "$~Burada yaptığınız her şeyi unutmamızı mı istiyorsunuz? Bu geri alınamaz.",
                     "reallyDelete": "$~Emin misiniz? Hesabınız ve ayarlarınız hemen silinecek ve projeleriniz silinmek üzere planlanacak. Projelerinizdeki işbirlikçiler bunlara erişimi hemen kaybedecek. Bunu istediğinizi onaylamak için e-postanızı veya kullanıcı adınızı yazın.",
-                    "name": "$~Kendinizi başkalarına göstermek için bir emoji ya da özel karakter seçin."
+                    "name": "$~Kendinizi başkalarına göstermek için bir emoji ya da özel karakter seçin.",
+                    "paste": "$~Bağlantı başka bir yerde mi açıldı? Yüklenmiş uygulamalar bazen e-posta bağlantılarını bunun yerine bir web tarayıcısında açar. E-postandaki bağlantıyı kopyala ve girişi tamamlamak için buraya yapıştır."
                 },
                 "error": {
                     "expired": "$~Bu bağlantının süresi doldu.",
@@ -8605,6 +8607,10 @@
                     "newPassword": {
                         "description": "$~yeni şifreniz",
                         "placeholder": "$~Yeni Şifre"
+                    },
+                    "link": {
+                        "description": "$~giriş bağlantısını yapıştır",
+                        "placeholder": "$~bağlantı"
                     }
                 },
                 "button": {
@@ -9776,7 +9782,8 @@
         "noscript": "$~Wordplay JavaScript kullanıyor. Tarayıcınız JavaScript'i desteklemiyor veya devre dışı bırakılmış.",
         "unsupportedHeading": "$~Desteklenmeyen Tarayıcı",
         "unsupportedBody": "$~Tarayıcınız kritik işlevleri desteklemiyor. Wordplay'i kullanmak için daha yeni bir sürüme yükseltmeniz gerekecek.",
-        "imageDescription": "$~Wordplay logosu — bir daire, bir üçgen ve bir kare tutan bir konuşma balonu — Wordplay isminin yanında; Wordplay programlarının algılayıp söyleyebileceği her şeyin sembollerinden oluşan solgun bir kalabalıkla çevrili."
+        "imageDescription": "$~Wordplay logosu — bir daire, bir üçgen ve bir kare tutan bir konuşma balonu — Wordplay isminin yanında; Wordplay programlarının algılayıp söyleyebileceği her şeyin sembollerinden oluşan solgun bir kalabalıkla çevrili.",
+        "appDescription": "$~Erişilebilir, çok dilli, programlanabilir tipografi."
     },
     "keyword": {
         "function": "işlev",

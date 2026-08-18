@@ -16,6 +16,8 @@
     import { onMount } from 'svelte';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from './search';
+    import shouldExplainInstalledStorage from './installedStorage';
+    import isStandalone from '@util/isStandalone';
     import { CANCEL_SYMBOL, EDIT_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
     import { debounced } from '@util/debounce.svelte';
@@ -45,6 +47,28 @@
     );
 
     let commenterViewerProjects: Project[] = $state([]);
+
+    /** Whether this is the installed app rather than a browser tab. Not reactive:
+     *  a window doesn't become installed while it's open, and the gate below only
+     *  reads it once the client has hydrated. */
+    const standalone = isStandalone();
+
+    /** Everything this creator has anywhere. Shared and read-only projects are
+     *  necessarily empty in the signed-out case the notice is for, so the two
+     *  the page owns are the whole count. */
+    let projectCount = $derived(
+        ($LoadedProjects?.allEditableProjects.length ?? 0) +
+            ($LoadedProjects?.allArchivedProjects.length ?? 0),
+    );
+
+    let explainInstalledStorage = $derived(
+        shouldExplainInstalledStorage({
+            standalone,
+            signedIn: isAuthenticated($user),
+            hydrated: $LoadedProjects?.hydrated ?? false,
+            projectCount,
+        }),
+    );
 
     $effect(() => {
         if (!isAuthenticated($user)) return;
@@ -120,6 +144,16 @@
         header={(l) => l.ui.page.projects.header}
         description={(l) => l.ui.page.projects.projectprompt}
     />
+
+    <!-- An installed app's projects live in a container separate from the
+         browser's, so an empty page here is otherwise indistinguishable from
+         lost work. See installedStorage.ts. -->
+    {#if explainInstalledStorage}
+        <Notice
+            testid="installed-storage-message"
+            text={(l) => l.ui.page.projects.installedprompt}
+        />
+    {/if}
 
     <div class="controls">
         <TextField

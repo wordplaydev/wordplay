@@ -1,0 +1,31 @@
+{
+    "id": "/",
+    "name": "Wordplay",
+    "short_name": "Wordplay",
+    "description": "அணுகக்கூடிய, பன்மொழி, நிரல் செய்யக்கூடிய எழுத்துவடிவமைப்பு.",
+    "lang": "ta",
+    "dir": "ltr",
+    "start_url": "/ta-IN-LK-SG",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/maskable-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

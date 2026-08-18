@@ -8814,7 +8814,8 @@
                     "newgallery": "$~Hindi kami makagawa ng bagong gallery.",
                     "nodeletes": "$~Dapat ay <login@://login> ka para mabura ang mga naka-archive na proyekto.",
                     "delete": "$~Naku, hindi namin mabura ang proyekto!"
-                }
+                },
+                "installedprompt": "$~Ginagamit mo ang Wordplay bilang isang naka-install na app, at may sariling mga proyekto ito, hiwalay sa mga nasa iyong web browser. Nandiyan pa rin ang anumang proyekto na ginawa mo sa iyong browser. <Mag-log in@://login> para makita ang lahat ng iyong proyekto sa dalawang lugar."
             },
             "galleries": {
                 "header": "$~Mga Galeriya",
@@ -9139,7 +9140,8 @@
                     "confirm": "$~Suriin ang iyong lumang email address upang kumpirmahin ang iyong bagong address.",
                     "delete": "$~Gusto mo bang kalimutan namin lahat ng ginawa mo rito? Hindi na ito maaaring bawiin.",
                     "reallyDelete": "$~Sigurado ka ba? Ang iyong account at mga setting ay agad na buburahin at ang iyong mga proyekto ay iiskedyul para sa pagbura. Ang mga kasama sa iyong mga proyekto ay agad na mawawalan ng access sa mga ito. I-type ang iyong email o username upang kumpirmahin na ito ang gusto mo.",
-                    "name": "$~Pumili ng isang emoji o custom na karakter na kakatawan sa iyo sa iba."
+                    "name": "$~Pumili ng isang emoji o custom na karakter na kakatawan sa iyo sa iba.",
+                    "paste": "$~Nagbukas ba ang link sa ibang lugar? Minsan ang mga naka-install na app ay nagbubukas ng mga link sa email sa isang web browser. Kopyahin ang link mula sa iyong email at i-paste dito para matapos ang pag-sign in."
                 },
                 "error": {
                     "expired": "$~Nag-expire na ang link na ito.",
@@ -9182,6 +9184,10 @@
                     "newPassword": {
                         "description": "$~ang iyong bagong password",
                         "placeholder": "$~bagong password"
+                    },
+                    "link": {
+                        "description": "$~i-paste ang login link",
+                        "placeholder": "$~link"
                     }
                 },
                 "button": {
@@ -9788,7 +9794,8 @@
         "noscript": "$~Gumagamit ang Wordplay ng JavaScript. Hindi ito sinusuportahan ng iyong browser, o hindi ito pinagana.",
         "unsupportedHeading": "$~Hindi Sinusuportahang Browser",
         "unsupportedBody": "$~Hindi sinusuportahan ng iyong browser ang mahahalagang functionality. Para magamit ang Wordplay, kakailanganin mong mag-upgrade sa mas bagong bersyon.",
-        "imageDescription": "$~Ang logo ng Wordplay — isang speech bubble na may hawak na bilog, tatsulok, at parisukat — sa tabi ng pangalang Wordplay, na napapaligiran ng malabong pulutong ng mga simbolo para sa lahat ng bagay na kayang maramdaman at sabihin ng mga programa ng Wordplay."
+        "imageDescription": "$~Ang logo ng Wordplay — isang speech bubble na may hawak na bilog, tatsulok, at parisukat — sa tabi ng pangalang Wordplay, na napapaligiran ng malabong pulutong ng mga simbolo para sa lahat ng bagay na kayang maramdaman at sabihin ng mga programa ng Wordplay.",
+        "appDescription": "$~Naa-access, maraming wika, at maipoprogramang typography."
     },
     "keyword": {
         "function": "punsyon",

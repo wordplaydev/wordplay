@@ -56,7 +56,11 @@
             sizes="16x16"
             href="%sveltekit.assets%/icons/favicon-16x16.png"
         />
-        <link rel="manifest" href="%sveltekit.assets%/site.webmanifest" />
+        <!-- One manifest per locale, so an installed Wordplay is named in the
+             language it was installed from. Substituted per prerendered page by
+             hooks.server.ts, and kept current on unprefixed routes by the
+             layout's language effect. -->
+        <link rel="manifest" href="%wordplay.system.manifest%" />
         <meta
             name="theme-color"
             media="(prefers-color-scheme: light)"
