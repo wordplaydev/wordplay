@@ -30,6 +30,7 @@ import Validator from '@util/verify-locales/Validator';
 import { alignTutorialLines } from '@util/verify-locales/syncTutorialStructure';
 import getTranslator from '@util/verify-locales/getTranslator';
 import { TranslationFailedAdvice } from '@util/verify-locales/getTranslator';
+import type Translator from '@util/verify-locales/Translator';
 import { Performances, performanceSource } from '../../tutorial/Performances';
 import { Themes, themeSource } from '../../tutorial/Themes';
 import {
@@ -61,6 +62,10 @@ export async function verifyTutorial(
     targets?: TutorialTarget[],
     /** Which tutorial this is, so checks can compare against the same default tutorial. */
     mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
+    /** The run's shared translation backend, so its caches (localized examples)
+     *  and usage accounting span the whole locale run. Undefined = the
+     *  env-selected backend, constructed on demand. */
+    translator?: Translator,
 ): Promise<Tutorial | undefined> {
     const validate = Validator.compile(TutorialSchema);
     const valid = validate(tutorial);
@@ -97,10 +102,12 @@ export async function verifyTutorial(
     if (translate)
         tutorial = await translateTutorial(
             log,
+            locale,
             tutorial,
             override,
             targets,
             mode,
+            translator,
         );
 
     // What's still unwritten once everything that was going to run has run.
@@ -459,10 +466,15 @@ export function createUnwrittenTutorial(
  */
 async function translateTutorial(
     log: Log,
+    /** The tutorial's locale text, passed to the backend as the target so the
+     *  tutorial shares the locale run's system prompt (one cache entry, not
+     *  two) and the locale's own `guidance` conventions apply here too. */
+    localeText: LocaleText,
     tutorial: Tutorial,
     override: boolean,
     targets: TutorialTarget[] = [],
     mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
+    translator: Translator = getTranslator(),
 ): Promise<Tutorial> {
     // Get the key/value pairs to translate, narrowed to the requested act/scene
     // scope (if any).
@@ -502,7 +514,6 @@ async function translateTutorial(
         .flat();
 
     // See if the region of the target language is supported and append it if so.
-    const translator = getTranslator();
     const targetLocale = await translator.getTargetLocale(
         tutorial.language,
         tutorial.regions,
@@ -518,6 +529,7 @@ async function translateTutorial(
         sourceStrings,
         sourceLocale,
         targetLocale,
+        localeText,
     );
 
     if (translations === undefined) {

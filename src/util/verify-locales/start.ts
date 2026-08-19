@@ -55,6 +55,11 @@ import {
 import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
 import findUntaggedStrings from '@util/verify-locales/findUntaggedStrings';
 import getTranslator from '@util/verify-locales/getTranslator';
+import type Translator from '@util/verify-locales/Translator';
+import {
+    describeUsage,
+    UsageLineMarker,
+} from '@util/verify-locales/Translator';
 import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
@@ -151,9 +156,14 @@ log.say(
 
 // The translation backend must be chosen explicitly (no silent default), so a
 // long run can't quietly use the wrong one. Validate and report it up front.
+// One instance serves the whole run — the locale file, both tutorials, and
+// every how-to — so its caches (localized examples, loaded locale texts) and
+// its usage accounting span everything rather than one call.
+let translator: Translator | undefined;
 if (TranslationRequested) {
     try {
-        log.say(`Using the "${getTranslator().id}" translation backend.`);
+        translator = getTranslator();
+        log.say(`Using the "${translator.id}" translation backend.`);
     } catch (error) {
         log.exit(error instanceof Error ? error.message : String(error));
     }
@@ -190,6 +200,7 @@ async function handleLocale(
         globals,
         translatedPaths,
         localeFilter,
+        translator,
     );
 
     // If the locale was revised, write the results (Prettier-formatted).
@@ -294,6 +305,7 @@ async function handleLocale(
                 FixRequested || TranslationRequested,
                 targets,
                 mode,
+                translator,
             );
 
             // If the tutorial was revised, write the results (Prettier-formatted).
@@ -323,6 +335,10 @@ async function handleLocale(
         TranslationRequested && selection.isIncluded('howto'),
         OverrideMachineTranslations,
         selection.howtoIds(),
+        translator,
+        // The revised locale, not the one loaded at startup: how-tos retarget
+        // example references against names this run may have just translated.
+        revisedLocale,
     );
 
     // Regenerate the per-locale how-to bundle the runtime loads. Only fix/translate
@@ -726,6 +742,24 @@ if (
         globals,
         translatedPaths,
     );
+}
+
+// Report what the run consumed and roughly cost, so a change in the pipeline's
+// efficiency is visible from one run to the next. The machine-readable line at
+// the end is for batch.ts, which sums it across its per-locale children — it
+// bypasses Log on purpose so its format is stable regardless of log styling.
+if (translator?.getUsage !== undefined) {
+    const usage = translator.getUsage();
+    if (usage.length > 0) {
+        const usageLog = log.scope('API usage');
+        for (const entry of usage) usageLog.say(describeUsage(entry));
+        const known = usage.filter((entry) => entry.cost !== undefined);
+        if (known.length > 0)
+            usageLog.say(
+                `Estimated cost: $${known.reduce((sum, entry) => sum + (entry.cost ?? 0), 0).toFixed(2)}`,
+            );
+        console.log(`${UsageLineMarker}${JSON.stringify(usage)}`);
+    }
 }
 
 // Exit non-zero if any errors were reported, so `verify` fails the run

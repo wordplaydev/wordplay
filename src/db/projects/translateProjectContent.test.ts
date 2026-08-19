@@ -105,3 +105,90 @@ test('add mode keeps the source name and adds the target as another option', asy
     expect(out).toContain('cat');
     expect(out).toContain('gato');
 });
+
+// The pooled example path in ClaudeTranslator depends on extraction being
+// deterministic: it runs translateProjectContent once with a recording
+// translator (which returns null, aborting the pass before any tree rewriting)
+// to learn what would be requested, translates the union of all examples'
+// texts in shared chunks, then runs again resolving from that pool. If the two
+// passes ever requested different texts, examples would silently keep English.
+test('a gather pass then a lookup pass equals one direct pass', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const code = 'cat: "meow"\ncat';
+    const dictionary: Record<string, string> = { cat: 'gato', meow: 'miau' };
+    const make = () =>
+        Project.make(
+            null,
+            'test',
+            new Source('start', code),
+            [],
+            DefaultLocale,
+        );
+
+    const direct = await translateProjectContent(
+        make(),
+        en,
+        es,
+        fakeTranslator(dictionary),
+        undefined,
+        true,
+    );
+
+    // Gather: record what was requested; returning null aborts the pass.
+    const requested: string[] = [];
+    const gathered = await translateProjectContent(
+        make(),
+        en,
+        es,
+        (texts) => {
+            requested.push(...texts);
+            return Promise.resolve(null);
+        },
+        undefined,
+        true,
+    );
+    expect(gathered).toBeNull();
+    expect(requested.length).toBeGreaterThan(0);
+
+    // Apply: resolve the recorded texts from a prebuilt pool.
+    const pool = new Map(requested.map((t) => [t, dictionary[t] ?? t]));
+    const applied = await translateProjectContent(
+        make(),
+        en,
+        es,
+        (texts) => Promise.resolve(texts.map((t) => pool.get(t) ?? t)),
+        undefined,
+        true,
+    );
+
+    expect(applied).not.toBeNull();
+    expect(applied?.getSources()[0].toWordplay()).toBe(
+        direct?.getSources()[0].toWordplay(),
+    );
+});
+
+// An emoji- or symbol-only name isn't translatable prose: sending it invites
+// the model to invent a word for it (which is how 🔈 once became a spelled-out
+// noun). Such a bind keeps its name; its references still resolve.
+test('a name with no letters is never sent for translation', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const source = new Source('start', '🔈: "meow"\n🔈');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const requested: string[] = [];
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        (texts) => {
+            requested.push(...texts);
+            return Promise.resolve(texts.map((t) => `X${t}`));
+        },
+        undefined,
+        true,
+    );
+
+    expect(requested).not.toContain('🔈');
+    const out = result?.getSources()[0].toWordplay() ?? '';
+    expect(out).toContain('🔈');
+});

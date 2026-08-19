@@ -200,3 +200,104 @@ test('a $term reference resolves against this locale, but an unknown $name still
     expect(lines[0]).toContain('glossary.type.definition');
     expect(lines[0]).toContain('unparsable template string');
 }, 30000);
+
+// A path is selected for translation when ANY element needs it, but the other
+// elements may hold good translations — re-sending them re-bills the API and
+// replaces them with fresh machine output for nothing. The predicate narrows a
+// non-markup array to just the elements that need work; the rest stay verbatim.
+test('translateLocale sends only the array elements that need translation', async () => {
+    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    source.ui.howto.editor.notification.labels = ['alpha', 'beta'];
+    const target = JSON.parse(JSON.stringify(source)) as LocaleText;
+    // Element 0 already has a reviewed translation; element 1 is unwritten.
+    target.ui.howto.editor.notification.labels = ['uno', '$?beta'];
+
+    const path = new LocalePath(
+        ['ui', 'howto', 'editor', 'notification'],
+        'labels',
+        source.ui.howto.editor.notification.labels,
+    );
+
+    const sent: string[] = [];
+    const stub: Translator = {
+        id: 'stub',
+        async translate(_log, text) {
+            sent.push(...text);
+            return text.map((t) => `X${t}`);
+        },
+        getTargetLocale: (language) => Promise.resolve(language),
+        getSupportedLocales: () => Promise.resolve([] as Locale[]),
+    };
+
+    const revised = await translateLocale(
+        collectingLog().log,
+        source,
+        target,
+        [path],
+        new Set<string>(),
+        stub,
+        (_path, existing) =>
+            existing === undefined || existing.startsWith(Unwritten),
+    );
+
+    // Only the unwritten element was sent…
+    expect(sent).toEqual(['beta']);
+    // …the translated element replaced it, and the good one was kept verbatim.
+    expect(revised.ui.howto.editor.notification.labels).toEqual([
+        'uno',
+        '$~Xbeta',
+    ]);
+});
+
+// Identifier phases carry `options.names` so a backend can route them to a
+// stronger model — names are a sliver of a run's tokens, and a bad one is a
+// cross-locale collision rather than an awkward sentence.
+test('translateLocale marks glossary and construct-name phases as names', async () => {
+    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    source.output.Phrase.names = 'Phrase';
+    source.glossary.value.word = 'value';
+    source.ui.howto.editor.notification.labels = ['alpha', 'beta'];
+    const target = JSON.parse(JSON.stringify(source)) as LocaleText;
+
+    const calls: { texts: string[]; names: boolean }[] = [];
+    const stub: Translator = {
+        id: 'stub',
+        async translate(_log, text, _from, _to, _target, options) {
+            calls.push({ texts: [...text], names: options?.names === true });
+            return [...text];
+        },
+        getTargetLocale: (language) => Promise.resolve(language),
+        getSupportedLocales: () => Promise.resolve([] as Locale[]),
+    };
+
+    await translateLocale(
+        collectingLog().log,
+        source,
+        target,
+        [
+            new LocalePath(['glossary', 'value'], 'word', 'value'),
+            new LocalePath(['output', 'Phrase'], 'names', 'Phrase'),
+            new LocalePath(
+                ['ui', 'howto', 'editor', 'notification'],
+                'labels',
+                source.ui.howto.editor.notification.labels,
+            ),
+        ],
+        new Set<string>(),
+        stub,
+    );
+
+    const named = calls.filter((call) => call.names);
+    const prose = calls.filter((call) => !call.names);
+    // The glossary word and the construct name each rode a names call…
+    expect(named.flatMap((call) => call.texts)).toEqual(
+        expect.arrayContaining(['value', 'Phrase']),
+    );
+    // …and the plain labels did not.
+    expect(prose.flatMap((call) => call.texts)).toEqual(
+        expect.arrayContaining(['alpha', 'beta']),
+    );
+    expect(named.flatMap((call) => call.texts)).not.toEqual(
+        expect.arrayContaining(['alpha']),
+    );
+});
