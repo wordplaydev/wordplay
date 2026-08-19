@@ -1,5 +1,6 @@
 import {
     mismatchedConceptLinks,
+    hasResidualLinkMask,
     protectConceptLinks,
     restoreConceptLinks,
 } from '@util/verify-locales/protect';
@@ -99,5 +100,71 @@ describe('mismatchedConceptLinks', () => {
             '@Program showed an @UI/exception because of @ExpressionPlaceholder.';
         const translation = '@Програм показао @UI/exception.';
         expect(mismatchedConceptLinks(source, translation)).toBe('@Program');
+    });
+});
+
+describe('resilience to a roughened-up placeholder', () => {
+    const text = 'Give me a @value and I will use the @Number you name.';
+
+    /** What the model hands back, standing in for a translation. */
+    function roundTrip(mutate: (masked: string) => string): string {
+        const { masked, links } = protectConceptLinks(text);
+        return restoreConceptLinks(mutate(masked), links);
+    }
+
+    test('digits transliterated into the target script still restore', () => {
+        // Kannada, Telugu, Devanagari, Arabic-Indic. `\d` under /u matches only
+        // ASCII, so each of these used to leave the placeholder unmatched — the
+        // link was dropped, or the raw `⟦೦⟧` shipped to a reader.
+        for (const [zero, one] of [
+            ['೦', '೧'],
+            ['౦', '౧'],
+            ['०', '१'],
+            ['٠', '١'],
+        ]) {
+            const restored = roundTrip((m) =>
+                m.replace('0', zero).replace('1', one),
+            );
+            expect(restored).toContain('@value');
+            expect(restored).toContain('@Number');
+            expect(hasResidualLinkMask(restored)).toBe(false);
+        }
+    });
+
+    test('padding inside the brackets still restores', () => {
+        const restored = roundTrip((m) => m.replace(/⟦(\d+)⟧/g, '⟦ $1 ⟧'));
+        expect(restored).toContain('@value');
+        expect(restored).toContain('@Number');
+    });
+
+    test('a look-alike bracket still restores', () => {
+        for (const [open, close] of [
+            ['〚', '〛'],
+            ['【', '】'],
+        ]) {
+            const restored = roundTrip((m) =>
+                m.replaceAll('⟦', open).replaceAll('⟧', close),
+            );
+            expect(restored).toContain('@value');
+        }
+    });
+
+    test('ASCII brackets are left alone, since markup uses them', () => {
+        // `$value[true|false]` is a real template branch — eating it would
+        // corrupt the string far worse than a lost link.
+        expect(hasResidualLinkMask('$value[true|false]')).toBe(false);
+        expect(hasResidualLinkMask('a [0] b')).toBe(false);
+    });
+
+    test('a placeholder with no link to restore is reported, not shipped', () => {
+        // The failure mode that put seven raw placeholders in gu-IN's tutorial.
+        const { masked } = protectConceptLinks(text);
+        expect(hasResidualLinkMask(restoreConceptLinks(masked, []))).toBe(true);
+    });
+
+    test('a dropped placeholder is still detectable as a lost link', () => {
+        const restored = roundTrip((m) => m.replace(/⟦0⟧/, ''));
+        expect(restored).not.toContain('@value');
+        expect(hasResidualLinkMask(restored)).toBe(false);
     });
 });

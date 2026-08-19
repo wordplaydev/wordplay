@@ -101,4 +101,44 @@ describe('describeClaudeError', () => {
         );
         expect(message).toContain('check the network');
     });
+
+    // A spend cap arrives as a 400, so it reads as "bad request" — the one
+    // thing it isn't — and it's the only failure that resolves on a date
+    // rather than by changing something.
+    test('names a spent usage limit rather than calling it a bad request', () => {
+        const message = describeClaudeError(
+            new Anthropic.BadRequestError(
+                400,
+                {
+                    type: 'error',
+                    error: {
+                        type: 'invalid_request_error',
+                        message:
+                            'You have reached your specified API usage limits. You will regain access on 2026-09-01 at 00:00 UTC.',
+                    },
+                },
+                'msg',
+                new Headers(),
+            ),
+        );
+        expect(message).toContain('usage limit');
+        expect(message).not.toMatch(/^bad request/);
+        // The reset date is the actionable part; don't swallow it.
+        expect(message).toContain('2026-09-01');
+    });
+
+    test('an ordinary 400 is still reported as a bad request', () => {
+        const message = describeClaudeError(
+            new Anthropic.BadRequestError(
+                400,
+                {
+                    type: 'error',
+                    error: { type: 'invalid_request_error', message: 'oops' },
+                },
+                'msg',
+                new Headers(),
+            ),
+        );
+        expect(message).toMatch(/^bad request/);
+    });
 });

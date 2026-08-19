@@ -1269,6 +1269,14 @@ export default class Project {
 
         // Go through each replacement and generate a new source.
         for (const [original, replacement] of nodes) {
+            // Replacing a node with itself is a no-op by definition, but doing
+            // the work is not: each `replace` rebuilds the source, which
+            // orphans every other node the caller gathered up front. A caller
+            // that passes "leave this one alone" pairs alongside real ones —
+            // `translateProjectContent` does, for every doc it decides not to
+            // translate — then silently loses the real replacements that come
+            // after them.
+            if (original === replacement) continue;
             const source = this.getSourceOf(original);
             if (source === undefined) {
                 console.error(

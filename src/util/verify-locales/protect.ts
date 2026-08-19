@@ -287,7 +287,43 @@ export const MentionPattern = new RegExp(MentionRegEx, 'ug');
  *  a model leaves them alone rather than trying to render them. */
 const LinkMaskOpen = '⟦';
 const LinkMaskClose = '⟧';
-const LinkMaskPattern = /⟦(\d+)⟧/gu;
+/**
+ * Recognize a placeholder the translation may have roughened up.
+ *
+ * A model rewriting a sentence into another script does not always hand the
+ * placeholder back exactly: it can transliterate the digit into the target
+ * script's numerals (`⟦೦⟧` in Kannada), pad it with spaces, or swap the
+ * brackets for a look-alike. `\d` under `/u` matches only ASCII 0-9, so any of
+ * those left the placeholder unmatched — the link was then dropped, or the raw
+ * placeholder shipped into the locale file (seven of them are sitting in
+ * gu-IN's tutorial). Only the unusual bracket forms are accepted: ASCII `[…]`
+ * appears in real markup (`$value[true|false]`) and must never be eaten.
+ */
+const LinkMaskPattern = /[⟦〚【]\s*(\p{Nd}+)\s*[⟧〛】]/gu;
+
+/** ASCII value of a Unicode decimal digit run. Decimal digits come in aligned
+ *  blocks of ten, so walking down to the block's zero gives the value. */
+function digitsToAscii(digits: string): string {
+    let out = '';
+    for (const character of digits) {
+        const code = character.codePointAt(0) ?? 0;
+        let zero = code;
+        while (
+            code - zero < 9 &&
+            /\p{Nd}/u.test(String.fromCodePoint(zero - 1))
+        )
+            zero--;
+        out += String(code - zero);
+    }
+    return out;
+}
+
+/** Whether any placeholder survived restoration — a restore that silently
+ *  failed. Shipping one puts `⟦0⟧` in front of a reader, so the caller treats
+ *  it as a failed translation rather than trusting the text. */
+export function hasResidualLinkMask(text: string): boolean {
+    return new RegExp(LinkMaskPattern.source, 'u').test(text);
+}
 
 /**
  * Replace every `@Concept` link with an indexed placeholder, returning the
@@ -322,7 +358,7 @@ export function protectConceptLinks(text: string): {
  *  notices and refuses the string. */
 export function restoreConceptLinks(masked: string, links: string[]): string {
     return masked.replace(LinkMaskPattern, (placeholder, index: string) => {
-        const link = links[Number(index)];
+        const link = links[Number(digitsToAscii(index))];
         return link ?? placeholder;
     });
 }
