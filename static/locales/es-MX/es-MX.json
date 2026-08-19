@@ -199,7 +199,7 @@
         "Light": "ligero",
         "Bold": "negrita",
         "Extra": "extra",
-        "Concept": "enlace conceptual",
+        "Concept": "$~enlace de carácter",
         "URL": "URL",
         "Code": "codigo",
         "Mention": "mencionar",
@@ -210,7 +210,7 @@
         "Literal": "literal",
         "TypeOpen": "input para escribir abierto",
         "TypeClose": "input para escribrir cerrado",
-        "Separator": "separadora de nombres",
+        "Separator": "$~separador",
         "Language": "etiqueta de idioma",
         "Region": "guión de región",
         "BooleanType": "tipo booleano",
@@ -242,7 +242,7 @@
         "Boolean": "booleano",
         "Name": "nombre",
         "Unknown": "desconocido",
-        "Locale": "lugar local",
+        "Locale": "$~idioma",
         "End": "final",
         "Highlight": "$~ejemplo resaltado",
         "ThaiNumeral": "$~numeral tailandés",
@@ -453,7 +453,7 @@
             "description": "$~formato $#count[$#count párrafo|$count párrafos|$count párrafos]",
             "emotion": "serious",
             "doc": [
-                "Soy una lista de párrafos, utilizando los diversos tipos de marcado disponibles en explicaciones, como @Words, @WebLink, @ConceptLink y @Example."
+                "$~Soy una lista de párrafos, que usa los muchos tipos de @markup disponibles en las explicaciones, como @Words, @WebLink, @ConceptLink y @Example."
             ],
             "label": {
                 "paragraphs": "$~párrafos"
@@ -482,7 +482,7 @@
             ]
         },
         "ConceptLink": {
-            "name": "concepto",
+            "name": "$~carácter",
             "description": "$~enlace a $concept",
             "emotion": "serious",
             "doc": [
@@ -526,9 +526,9 @@
             "description": "$~ejemplo de código $code",
             "emotion": "serious",
             "doc": [
-                "$~Guardo un pequeño ejemplo de código dentro de un @Doc, así:",
+                "$~Guardo un ejemplo de código dentro de un @Doc, así:",
                 "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "El ejemplo resaltado se muestra como la vista previa en el espacio @how y el @guide."
+                "El ejemplo resaltado se muestra como la vista previa en el espacio @how y en el @guide."
             ]
         },
         "Mention": {
@@ -536,8 +536,8 @@
             "description": "$~mencionar $name",
             "emotion": "serious",
             "doc": [
-                "$~Soy una referencia a un término \\¶@project¶\\ o a una entrada dinámica \\¶$name¶\\.",
-                "Sin embargo, esto es sobre todo una función interna, así que no deberías necesitar saberlo."
+                "$~Soy una referencia, ya sea a un término \\¶@project¶\\ o a una entrada dinámica \\¶$name¶\\.",
+                "Esta es sobre todo una función interna, así que no deberías necesitar conocerla."
             ]
         },
         "Branch": {
@@ -701,7 +701,7 @@
                 "\\(\n\ta: 1\n\tb: 2\n\ta + b\n\ta × b\n)\\",
                 "Eso da \\[3 2]\\: solo los valores de las dos expresiones que no son @Bind."
             ],
-            "start": "primera expresión",
+            "start": "$~Primera expresión",
             "finish": "listo, obtuve $value",
             "conflict": {
                 "ExpectedEndingExpression": {
@@ -819,7 +819,7 @@
                 "¿Ves cómo convertí gatitos en gatos? ¡Genial!",
                 "Quizás te preguntes qué hace ese \\⬚\\ ahí. Eso representa el @value que se está convirtiendo. Lo uso porque de otra forma el valor no tiene nombre."
             ],
-            "start": "¡increíble, una nueva conversión!",
+            "start": "$~¡Genial, una nueva conversión!",
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~conversión mal ubicada",
@@ -872,7 +872,7 @@
                 "\\jugadoras: ⎡nombre•'' equipo•'' puntos•#⎦\n\t⎡'jen' 'rojo' 8⎦\n\t⎡'juana' 'azul' 11⎦\n\t⎡'jeff' 'rojo' 9⎦\n\t⎡'janet' 'azul' 7⎦\njugadoras ⎡- nombre = 'jeff'\\",
                 "Uf, Jeff se fue. ADIÓS, JEFF. Solo recuerda que yo no cambio la tabla original, hago una nueva, sin JEFF. Tú decides a dónde va."
             ],
-            "start": "vamos a obtener primero la tabla",
+            "start": "$~Primero obtengamos la tabla",
             "finish": "¡Hice una nueva tabla sin las filas coincidentes!"
         },
         "DocumentedExpression": {
@@ -880,11 +880,11 @@
             "description": "$~$expression documentado",
             "emotion": "eager",
             "doc": [
-                "$~¡Soy cualquier @expression, pero con una @Doc!",
+                "$~¡Soy cualquier @expression, pero con un @Doc!",
                 "Para crearme, solo pon un @Doc antes de una expresión, y me obtendrás:",
                 "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
             ],
-            "start": "evaluemos la expresión"
+            "start": "$~Evaluemos la expresión"
         },
         "Evaluate": {
             "name": "evaluar",
@@ -901,7 +901,7 @@
                 "\\'gatito'.tiene('itty')\\",
                 "Claro, no soy nada sin @FunctionDefinition. Todo lo que hago es darles entradas y luego seguir sus pasos."
             ],
-            "start": "evaluemos los inputs primero",
+            "start": "$~Primero evaluemos las entradas",
             "evaluate": "vamos a evaluar la función ahora",
             "finish": "Evalué a $value",
             "conflict": {
@@ -1000,7 +1000,7 @@
                 "\\_(1 2 3)\\🪲",
                 "¡No me gusta estar en @Stage!"
             ],
-            "start": "¡ay!, no sé qué hacer",
+            "start": "$~No sé qué hacer aquí. ¿Me puedes ayudar?",
             "conflict": {
                 "Placeholder": {
                     "name": "$~marcador de posición",
@@ -1011,7 +1011,7 @@
             "exception": {
                 "UnimplementedException": {
                     "description": "sin implementar",
-                    "explanation": "¡No sé qué hacer!"
+                    "explanation": "$~No sé qué hacer aquí. ¿Me puedes ayudar?"
                 }
             },
             "label": {
@@ -1038,7 +1038,7 @@
                 "Quizás notes un problema con esta: dice que evalúa a @Text, pero toma dos @Number. ¡Puedo avisarte cuando las cosas no coinciden!",
                 "Por supuesto, no soy útil en absoluto sin @Evaluate; ellos me dan vida."
             ],
-            "start": "¡vamos a crear esta función!",
+            "start": "$~¡Hagamos esta función!",
             "conflict": {
                 "NoExpression": {
                     "name": "$~falta una expresión",
@@ -1057,14 +1057,14 @@
             "description": "$~iteración interna",
             "emotion": "kind",
             "doc": "Soy un tipo muy especial de @FunctionDefinition que opera en listas de cosas. No necesitas saber nada sobre mí, excepto que hago funciones como @List.translate posibles.",
-            "start": "evaluando la función dada",
+            "start": "$~Evaluando la función dada",
             "initialize": "preparándome para recorrer los elementos",
             "next": "pasando al siguiente elemento",
             "check": "decidiendo si continuar",
             "finish": "Me evalué como $value"
         },
         "Initial": {
-            "name": "inicio",
+            "name": "$~comenzar",
             "description": "$~verdadero en la primera evaluación",
             "emotion": "curious",
             "doc": [
@@ -1084,7 +1084,7 @@
                 "\\jugadoras: ⎡nombre•'' equipo•'' puntos•#⎦\n\t⎡'jen' 'rojo' 1⎦\n\t⎡'juana' 'azul' 0⎦\n\t⎡'jeff' 'rojo' 3⎦\n\t⎡'janet' 'azul' 2⎦\njugadoras ⎡+'jasón' 'rojo' 0⎦\\",
                 "Solo recuerda, como todo en el Verso, no cambio una tabla, la reviso. Así que necesitas averiguar dónde quieres poner la tabla revisada que creas. Lo más probable es que quieras revisar una tabla en un @Reaction a alguna entrada, y guardarla en un @Bind."
             ],
-            "start": "encontremos la tabla a actualizar",
+            "start": "$~Busquemos la tabla que vamos a actualizar",
             "finish": "¡Hice una nueva tabla con filas revisadas!"
         },
         "Is": {
@@ -1118,7 +1118,7 @@
             }
         },
         "IsLocale": {
-            "name": "es localización",
+            "name": "$~es idioma",
             "description": "$~is locale $locale[$locale|any]",
             "emotion": "kind",
             "doc": [
@@ -1145,11 +1145,11 @@
             "description": "$~list of $#count[$#count value|$count values|$count values]",
             "emotion": "eager",
             "doc": "Soy una @List específica de valores. Consulta @List para aprender más sobre lo que puedes hacer conmigo.",
-            "start": "evaluemos primero los elementos",
+            "start": "$~Primero evaluemos los elementos",
             "finish": "¡Creé una lista! $value"
         },
         "Spread": {
-            "name": "expansión de lista",
+            "name": "$~esparcir",
             "description": "$~spread of $list[$list|a list]",
             "emotion": "serious",
             "doc": [
@@ -1158,11 +1158,11 @@
             ]
         },
         "MapLiteral": {
-            "name": "mapa",
+            "name": "$~literal de mapa",
             "description": "$~map of $#count[$#count key-value pair|$count key-value pairs|$count key-value pairs]",
             "emotion": "kind",
             "doc": "Soy un @Map específico entre claves y valores. Consulta @Map para aprender más sobre cómo soy útil.",
-            "start": "evaluemos primero las claves y los valores",
+            "start": "$~Primero evaluemos las claves y los valores",
             "finish": "Conecté a todos, $value",
             "conflict": {
                 "NotAKeyValue": {
@@ -1217,7 +1217,7 @@
             "description": "$~expresión integrada",
             "emotion": "neutral",
             "doc": "$~Soy una @expression que solo usan las creadoras originales. ¿Cómo me encontraste? Para saber más sobre mí, necesitas hablar con ellas.",
-            "start": "expresión secreta"
+            "start": "$~expresión secreta"
         },
         "NoneLiteral": {
             "name": "simplemente ninguna",
@@ -1264,13 +1264,13 @@
             "description": "$~programa con $#count[$#count instrucción|$count instrucciones|$count instrucciones]",
             "emotion": "serious",
             "doc": [
-                "Soy donde comienza y termina una actuación, conteniendo a todos los demás personajes que coreografían un espectáculo.",
-                "¿Sabes cómo @Block evalúa una lista de expresiones y se evalúa como la última en su lista?",
-                "Soy lo mismo, pero en lugar de dar mi valor a cualquier expresión en la que esté, pongo el valor en @Stage.",
+                "$~Soy donde una actuación comienza y termina, y contengo a todos los demás caracteres que dirigen un espectáculo.",
+                "¿Sabes cómo @Block evalúa una lista de expresiones y da como resultado la última de su lista?",
+                "Yo soy igual, pero en lugar de dar mi @value a la @expression en la que estoy, pongo el valor en el @Stage.",
                 "El valor puede ser cualquier cosa: un @Number, @Text o @Boolean, un @List, @Set, @Map, o incluso algo más complejo, como un @Phrase, @Group o @Stage.",
-                "Si no me das un valor para mostrar en el escenario, te preguntaré por uno.",
+                "Si no me das un valor para mostrar en el escenario, te pediré uno.",
                 "Si hay un problema durante una actuación, mostraré ese problema.",
-                "Y si tu actuación depende de un *flujo*, lo reevaluaré cada vez que ese flujo cambie."
+                "Y si tu actuación depende de un *flujo*, volveré a evaluar cada vez que ese flujo cambie."
             ],
             "unevaluated": "el nodo que elegiste no se evaluó",
             "start": "$~$stream[¡el flujo $stream cambió a $value!|Es mi primera evaluación]",
@@ -1288,7 +1288,7 @@
                 },
                 "StepLimitException": {
                     "description": "límite de pasos",
-                    "explanation": "hay tantos. pasos. -- ¡demasiados para terminar! ¿Puedes hacer que la actuación sea más sencilla?"
+                    "explanation": "$~Hay tantos. muchos. pasos... ¡demasiados para terminar! ¿Puedes hacer la actuación más simple?"
                 },
                 "ValueException": {
                     "description": "valor faltante",
@@ -1318,7 +1318,7 @@
                 "\\•gato(nombre•'' color•'' pasatiempo•'')\n\ngatito: gato('chispas' 'naranja' 'lamer')\ngatito.pasatiempo:'ronronear'\\",
                 "Eso es mucho más fácil que hacer un \\Cat\\ completamente nuevo con los mismos valores excepto el pasatiempo, ¿no crees?"
             ],
-            "start": "primero obtengamos el valor",
+            "start": "$~Primero obtengamos el valor",
             "finish": "Copié la estructura, pero con $property como $value",
             "conflict": {
                 "InvalidProperty": {
@@ -1341,7 +1341,7 @@
                 "Como si tuvieras una estructura sobre ciudades, podrías obtener sus valores conmigo así:",
                 "\\•ciudad(nombre•'' población•#people)\n\nportland: ciudad('Portland' 800000people)\n\nportland.población\\"
             ],
-            "start": "primero obtengamos el valor",
+            "start": "$~Primero obtengamos el valor",
             "finish": "se encontró la propiedad $property, es $value",
             "label": {
                 "property": "$~propiedad"
@@ -1432,7 +1432,7 @@
                 "\\jugadoras: ⎡nombre•'' equipo•'' puntos•#⎦\n\t⎡'jen' 'rojo' 8⎦\n\t⎡'juana' 'azul' 11⎦\n\t⎡'jeff' 'rojo' 9⎦\n\t⎡'janet' 'azul' 7⎦\njugadoras ⎡?nombre⎦ puntos ≥ 10\\",
                 "¡Así de fácil obtuve una lista de filas con las ganadoras! Solo recuerda que yo no cambio la tabla, hago una nueva. Tú decidirás dónde guardarla."
             ],
-            "start": "primero obtengamos la tabla",
+            "start": "$~Obtengamos la tabla primero",
             "finish": "¡Hice una nueva tabla solo con las filas y columnas seleccionadas!",
             "conflict": {
                 "ExpectedSelectName": {
@@ -1446,8 +1446,8 @@
             "name": "conjunto específico",
             "description": "$~conjunto de $#count[$#count valor|$count valores|$count valores]",
             "emotion": "eager",
-            "doc": "Soy un @Set específico de valores específicos. Mira @Set para aprender más sobre cómo trabajar conmigo.",
-            "start": "¡evaluemos los valores primero!",
+            "doc": "$~Soy un @Set específico de valores específicos. Consulta @Set para aprender más sobre cómo trabajar conmigo.",
+            "start": "$~¡Evaluemos primero los valores!",
             "finish": "¡Hice un conjunto $value!"
         },
         "SetOrMapAccess": {
@@ -1461,7 +1461,7 @@
                 "O así, con un @Map:",
                 "\\favoritos: {\n\t\t'macarrones con queso': 5stars\n\t\t'cereal': 2stars\n\t\t'papilla': 1stars\n\t}\nfavoritos{'papilla'}\\"
             ],
-            "start": "¿cuál es el conjunto o mapa?",
+            "start": "$~¿Cuál es el conjunto o el mapa?",
             "finish": "el valor es $value",
             "conflict": {
                 "IncompatibleKey": {
@@ -1515,7 +1515,7 @@
                 "Marca una función o @value con ↑ para que pertenezca a la estructura misma, no a las instancias. Después puedes usar el @name de la estructura para llegar a ella, sin crear una.",
                 "\\•matemáticas() (\n\t↑\n\tpi: 3.14159\n\t↑ƒ cuadrado(n•#) n · n\n)\n\nmatemáticas.pi\nmatemáticas.cuadrado(5)\\"
             ],
-            "start": "definamos esta encantadora estructura",
+            "start": "$~Definamos esta encantadora estructura",
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~no se permiten entradas",
@@ -1558,15 +1558,15 @@
             "description": "$~tabla de $#count[$#count fila|$count filas|$count filas]",
             "emotion": "angry",
             "doc": "Soy una tabla específica con filas específicas. Mira @Table para saber cómo puedo ayudar.",
-            "start": "primero evalúa las filas",
+            "start": "$~Primero evalúa las filas",
             "finish": "evaluado como nueva tabla $value"
         },
         "TextLiteral": {
             "name": "texto específico",
             "description": "$~texto '$text'",
             "emotion": "serious",
-            "doc": "Represento una o más traducciones específicas de texto. ¡Consulta @Text para aprender más sobre lo que puedo hacer!",
-            "start": "creemos texto en el idioma actual",
+            "doc": "$~Represento uno o más @Translation específicos de texto. ¡Mira @Text para aprender más sobre lo que puedo hacer!",
+            "start": "$~Hagamos texto en el idioma actual",
             "label": {
                 "texts": "$~texto"
             }
@@ -1575,7 +1575,7 @@
             "name": "traducción",
             "description": "$~texto '$text'",
             "emotion": "serious",
-            "doc": "Represento algún texto, con una etiqueta @Language. ¡Consulta @Text para aprender más!",
+            "doc": "$~Represento algún texto, con una etiqueta @Language opcional. ¡Consulta @Text para aprender más!",
             "conflict": {
                 "phone": {
                     "name": "$~posible número de teléfono",
@@ -1610,15 +1610,15 @@
             }
         },
         "FormattedLiteral": {
-            "name": "texto formateado",
+            "name": "$~texto con formato",
             "description": "$~texto con formato $text",
             "emotion": "serious",
             "doc": "Represento muchas @FormattedTranslation diferentes de texto formateado. Cuando evalúo, elegiré la mejor coincidencia según los idiomas seleccionados por la audiencia.",
-            "start": "creemos texto en el idioma actual"
+            "start": "$~Hagamos texto en el idioma actual"
         },
         "FormattedTranslation": {
             "name": "texto formateado",
-            "description": "texto $language",
+            "description": "$~Traducir texto con formato a $language",
             "emotion": "serious",
             "doc": [
                 "$~Represento un texto con formato, con una etiqueta @Language.",
@@ -1671,7 +1671,7 @@
                 "No tienes que escribirme así, pero podría ser más fácil en general.",
                 "Solo hay una regla: no puedes poner ningún espacio entre el nombre y el valor. Si no, podrías estar haciendo un @Reference o un @BinaryEvaluate."
             ],
-            "start": "¿cuál es el valor?",
+            "start": "$~¿Cuál es el valor?",
             "finish": "Lo hice $value",
             "label": {
                 "input": "$~input"
@@ -1709,7 +1709,7 @@
             "exception": {
                 "UnparsableException": {
                     "description": "???",
-                    "explanation": "/¡Hola, @FunctionDefinition aquí! Tuvimos que detener la actuación porque no sabíamos qué tipo de instrucción es esta./"
+                    "explanation": "$~¡Hola, aquí @FunctionDefinition! No estamos seguras de qué significa esta instrucción, así que nos detuvimos."
                 }
             }
         },
@@ -1723,8 +1723,8 @@
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
                 "Puedes usar una @Bind para decir qué columnas cambiar, y puedes usar cualquiera de los nombres de columna u otros nombres en @scope dentro de la condición."
             ],
-            "start": "vamos a obtener la tabla primero",
-            "finish": "¡evaluado como una nueva tabla con filas revisadas!",
+            "start": "$~Obtengamos la tabla primero",
+            "finish": "$~¡Se evaluó a una nueva tabla con filas revisadas!",
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~falta el valor de la columna",
@@ -1752,10 +1752,10 @@
             "name": "cualquier tipo",
             "description": "$~cualquier cosa",
             "emotion": "curious",
-            "doc": "Represento cualquier tipo posible. A veces aparezco porque no sé qué tipo de valor es algo, así que podría ser cualquier cosa."
+            "doc": "$~Represento cualquier @type posible. A veces aparezco porque no sé qué clase de @value es algo, así que podría ser cualquier cosa."
         },
         "BooleanType": {
-            "name": "booleano",
+            "name": "$~tipo booleano",
             "description": "$~tipo booleano",
             "emotion": "kind",
             "doc": [
@@ -1765,7 +1765,7 @@
             ]
         },
         "ConversionType": {
-            "name": "conversión",
+            "name": "$~tipo de conversión",
             "description": "$~tipo de conversión",
             "emotion": "serious",
             "doc": [
@@ -1774,7 +1774,7 @@
             ]
         },
         "FormattedType": {
-            "name": "formateado",
+            "name": "$~tipo de texto con formato",
             "description": "$~tipo de texto con formato",
             "emotion": "serious",
             "doc": [
@@ -1787,10 +1787,10 @@
             "name": "excepción",
             "description": "$~excepción",
             "emotion": "neutral",
-            "doc": "Represento una excepción. No hay forma de decirle a @Bind que soy una, porque las excepciones solo detienen @Program, así que no puedes usarlas como valores."
+            "doc": "$~Represento una excepción. No hay forma de decirle a bind que soy una, porque las excepciones solo detienen @Program, así que no puedes usarlas como valores."
         },
         "FunctionType": {
-            "name": "tipo de función",
+            "name": "$~tipo de función",
             "description": "$~función con $inputs entradas",
             "emotion": "curious",
             "doc": [
@@ -1799,7 +1799,7 @@
             ]
         },
         "ListType": {
-            "name": "tipo de lista",
+            "name": "$~tipo de lista",
             "description": "$~tipo de lista$type[ de $type|]",
             "emotion": "cheerful",
             "doc": [
@@ -1823,7 +1823,7 @@
             ]
         },
         "NumberType": {
-            "name": "tipo de número",
+            "name": "$~número",
             "description": "$~tipo de número$unit[ en $unit|]",
             "emotion": "precise",
             "doc": [
@@ -1832,7 +1832,7 @@
             ]
         },
         "NameType": {
-            "name": "tipo de nombre",
+            "name": "$~estructura",
             "description": "$~tipo de estructura $name",
             "emotion": "curious",
             "doc": [
@@ -1851,10 +1851,10 @@
             "name": "tipo nunca",
             "description": "$~tipo imposible",
             "emotion": "curious",
-            "doc": "Represento un tipo que es imposible. Como cuando preguntas a @Is si algo es un @Number, pero nunca puede ser un número."
+            "doc": "$~Represento un @type que es imposible. Como cuando le preguntas a @Is si algo es un @Number, pero nunca puede ser un número."
         },
         "NoneType": {
-            "name": "tipo nulo",
+            "name": "$~tipo ninguno",
             "description": "$~tipo ninguno",
             "emotion": "neutral",
             "doc": [
@@ -1863,7 +1863,7 @@
             ]
         },
         "SetType": {
-            "name": "tipo de conjunto",
+            "name": "$~tipo de conjunto",
             "description": "$~set type$type[ of $type|]",
             "emotion": "kind",
             "doc": [
@@ -1872,13 +1872,13 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "tipo de definición de flujo",
+            "name": "$~tipo de definición de flujo",
             "description": "$~tipo de definición de flujo",
             "emotion": "angry",
             "doc": "Represento un flujo que has definido, lo cual no es posible, así que ¿por qué incluso estás leyendo esto?"
         },
         "StreamType": {
-            "name": "tipo de flujo",
+            "name": "$~tipo de flujo",
             "description": "$~tipo de flujo",
             "emotion": "curious",
             "doc": [
@@ -1887,10 +1887,10 @@
             ]
         },
         "StructureType": {
-            "name": "tipo de estructura",
+            "name": "$~tipo de estructura",
             "description": "$~tipo de estructura $name",
             "emotion": "kind",
-            "doc": "Soy un tipo interno para representar el tipo de tipos de valores predeterminados."
+            "doc": "$~Soy un @type interno que representa el tipo de los tipos @value predeterminados."
         },
         "UnknownType": {
             "name": "tipo desconocido",
@@ -1900,7 +1900,7 @@
             "doc": "$~Soy un @type que nadie ha descifrado todavía. Mmm… ¿sabes qué represento? Tal vez necesites decírnoslo si no logramos descubrirlo."
         },
         "TableType": {
-            "name": "tipo de tabla",
+            "name": "$~tipo de tabla",
             "description": "$~tabla",
             "emotion": "angry",
             "doc": "Represento una tabla.",
@@ -1913,7 +1913,7 @@
             }
         },
         "TextType": {
-            "name": "tipo de texto",
+            "name": "$~tipo de texto",
             "description": "$~$text['$text'|text type]",
             "emotion": "happy",
             "doc": [
@@ -1922,13 +1922,13 @@
             ]
         },
         "TypePlaceholder": {
-            "name": "tipo de marcador de posición",
+            "name": "$~marcador de posición",
             "description": "$~marcador de posición de tipo",
             "emotion": "eager",
-            "doc": "Espero representar un tipo algún día, ¡algo así como mi mejor amigo @ExpressionPlaceholder representa una expresión! ¿Me ayudarás a decidir qué tipo ser?"
+            "doc": "$~¡Espero representar un @type algún día, así como mi mejor amiga @ExpressionPlaceholder representa un @expression! ¿Me ayudas a decidir de qué tipo?"
         },
         "UnionType": {
-            "name": "tipo de opción",
+            "name": "$~opción",
             "description": "$~tipo uno de $first o $second",
             "emotion": "curious",
             "doc": [
@@ -1957,7 +1957,7 @@
             "name": "variable de tipo",
             "description": "$~variable de tipo $name",
             "emotion": "curious",
-            "doc": "Soy un tipo misterioso en @FunctionDefinition o @StructureDefinition, proporcionado por @TypeInputs cuando se evalúa cualquiera de ellos. @Set, @List y @Map me utilizan.",
+            "doc": "$~Soy un @type misterioso sobre @FunctionDefinition o @StructureDefinition, que @TypeInputs da cuando se evalúa cualquiera de los dos. @Set, @List y @Map me usan.",
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~variable de tipo duplicada",
@@ -1979,7 +1979,7 @@
             "name": "tipo no interpretable",
             "description": "$~tipo no analizable",
             "emotion": "curious",
-            "doc": "Represento el tipo de una expresión desconocida. Aparezco cuando intentas usar esa expresión para algo."
+            "doc": "$~Represento el @type de una @expression desconocida. Aparezco cuando intentas usar esa expresión para algo."
         },
         "VariableType": {
             "name": "tipo de variable",
@@ -1988,7 +1988,7 @@
             "doc": "$~Represento un @TypeVariable, un tipo desconocido de @value, en todas las negociaciones entre valores."
         },
         "CycleType": {
-            "name": "tipo de ciclo",
+            "name": "$~ciclo",
             "description": "$~dependencia cíclica",
             "emotion": "curious",
             "doc": "$~Represento un @value cuyo @type depende de sí mismo, así que no podemos saber qué tipo de valor es."
@@ -1997,7 +1997,7 @@
             "name": "tipo de variable desconocida",
             "description": "$~variable de tipo desconocida",
             "emotion": "curious",
-            "doc": "A veces intentamos adivinar qué tipo de valor es algo; aparezco cuando no lo sabemos."
+            "doc": "$~A veces intentamos adivinar qué @value es algo; yo aparezco cuando no lo sabemos."
         },
         "NotAType": {
             "name": "tipo inesperado",
@@ -2006,7 +2006,7 @@
             "doc": "$~Represento un @value cuyo @type no es el que esperábamos, como cuando @ListAccess necesita un @Number pero recibe algo más."
         },
         "NoExpressionType": {
-            "name": "tipo sin expresión",
+            "name": "$~sin expresión",
             "description": "$~tipo de bloque vacío",
             "emotion": "angry",
             "doc": "$~Soy el @type que obtienes cuando un @Block no tiene ningún @expression dentro. Sabes que necesita al menos uno, ¡así que dale uno!"
@@ -2021,7 +2021,7 @@
             "name": "no implementado",
             "description": "$~sin implementar",
             "emotion": "curious",
-            "doc": "Cuando usas @ExpressionPlaceholder, pero no dices de qué tipo son, soy el tipo que obtienes. ¡Lídia con ello!"
+            "doc": "$~Cuando usas @ExpressionPlaceholder, pero no dices de qué @type son, yo soy el tipo que obtienes. ¡Aguántate!"
         },
         "UnknownNameType": {
             "name": "nombre desconocido",
@@ -2430,7 +2430,7 @@
                     "names": ["igual"],
                     "inputs": [
                         {
-                            "doc": "El otro valor para evaluar",
+                            "doc": "$~El otro @value a revisar.",
                             "names": "value"
                         }
                     ]
@@ -2440,7 +2440,7 @@
                     "names": "noIgual",
                     "inputs": [
                         {
-                            "doc": "El otro valor para evalar.",
+                            "doc": "$~El otro @value a revisar.",
                             "names": "valor"
                         }
                     ]
@@ -2462,7 +2462,7 @@
                     "names": ["igual"],
                     "inputs": [
                         {
-                            "doc": "El otro valor",
+                            "doc": "$~El otro @value.",
                             "names": "valor"
                         }
                     ]
@@ -2472,7 +2472,7 @@
                     "names": ["noIgual"],
                     "inputs": [
                         {
-                            "doc": "El otro valor",
+                            "doc": "$~El otro @value.",
                             "names": "valor"
                         }
                     ]
@@ -2612,7 +2612,7 @@
                     "names": ["combinar"],
                     "inputs": [
                         {
-                            "doc": "El texto para adjuntar",
+                            "doc": "$~El @Text que se va a agregar.",
                             "names": "texto"
                         }
                     ]
@@ -2646,7 +2646,7 @@
             },
             "conversion": {
                 "list": "Divide el @Text en una isto con los caracteres individuales",
-                "number": "Convierte el @Text en un @Number, y si no es un numero, resultara en un valor no numeral",
+                "number": "$~Convierte el texto en un @Number, y si no es un número, en un valor que no es un número.",
                 "formatted": "$~Convierte texto en texto con formato, interpretando cualquier formato que contenga."
             }
         },
@@ -2999,13 +2999,16 @@
             },
             "conversion": {
                 "text": "Una representacion Arabe de mis digitos en @Text",
-                "list": "Una lista the numeros de 1 a cualquier nomero dado, por ejemplo \n\\10→[]\\.",
+                "list": [
+                    "$~Convierto un número en una lista de los números desde \\1\\ hasta el número que se me dé. Por ejemplo:",
+                    "\\10→[]\\"
+                ],
                 "s2m": "Segundos a minutos",
                 "s2h": "Segunados a horas",
                 "s2day": "Segundos a dias",
                 "s2wk": "Segundos a semanas",
                 "s2year": "Segundos a años",
-                "s2ms": "Segundos a milisegundos",
+                "s2ms": "$~Segundos a milisegundos",
                 "ms2s": "Millisegundos a segundos",
                 "min2s": "Minutos a segundos",
                 "h2s": "Horas a segundos",
@@ -3016,7 +3019,7 @@
                 "m2nm": "Metros a nanometros",
                 "m2micro": "Metros a micrometers",
                 "m2mm": "Metros a milimetros",
-                "m2cm": "Metros a centimetros",
+                "m2cm": "$~Metros a centímetros",
                 "m2dm": "Metros a decimetros",
                 "m2km": "Metros a kilometros",
                 "m2Mm": "Metros a megametros",
@@ -3076,7 +3079,7 @@
                     "names": "agregar",
                     "inputs": [
                         {
-                            "doc": "El valor que tu quiera agregar",
+                            "doc": "$~Soy el @value que quieres agregar.",
                             "names": "elemento"
                         }
                     ]
@@ -3104,11 +3107,11 @@
                     "names": ["reemplazar"],
                     "inputs": [
                         {
-                            "doc": "El valor del índice a reemplazar",
+                            "doc": "$~El @index del @value que se va a reemplazar",
                             "names": "índice"
                         },
                         {
-                            "doc": "El valor de reemplazo",
+                            "doc": "$~El @value de reemplazo",
                             "names": "valor"
                         }
                     ]
@@ -3158,7 +3161,7 @@
                     "names": "tiene",
                     "inputs": [
                         {
-                            "doc": "El valor a buscar",
+                            "doc": "$~El @value que se va a buscar.",
                             "names": "elemento"
                         }
                     ]
@@ -3191,11 +3194,11 @@
                     "names": "subsecuencia",
                     "inputs": [
                         {
-                            "doc": "El indice del primero elemento de la subsecuencia que tu quieras.",
+                            "doc": "$~El @index del primer elemento de la subsecuencia que quieres.",
                             "names": "comienzo"
                         },
                         {
-                            "doc": "La indice opcional de el ultimo elemento de la subsecuencia que tu quieras. Si me das algo, tu lista va a terminar con el ultimo valor en la lista original",
+                            "doc": "$~El @index opcional del último elemento de la subsecuencia que quieres. Si no das ninguno, tu lista terminará con el último elemento de la lista.",
                             "names": "final"
                         }
                     ]
@@ -3224,7 +3227,7 @@
                     "names": "sin",
                     "inputs": [
                         {
-                            "doc": "El valor a eliminar en la primara occurencia",
+                            "doc": "$~El @value del que se va a quitar la primera aparición.",
                             "names": "valor"
                         }
                     ]
@@ -3237,7 +3240,7 @@
                     "names": "sinTodo",
                     "inputs": [
                         {
-                            "doc": "El valor a eliminar todas la occurencias de las lista",
+                            "doc": "$~El @value del que se van a quitar todas las apariciones de la lista.",
                             "names": "valor"
                         }
                     ]
@@ -3295,7 +3298,7 @@
                             "names": "elemento"
                         },
                         {
-                            "doc": "El indice del elemento que va a traducir",
+                            "doc": "$~El @index del elemento que se está traduciendo.",
                             "names": "indice"
                         },
                         {
@@ -3323,7 +3326,7 @@
                             "names": "Elemento"
                         },
                         {
-                            "doc": "El indice del el elemento siendo verificado",
+                            "doc": "$~El @index del elemento que se está revisando.",
                             "names": "indice"
                         },
                         {
@@ -3351,7 +3354,7 @@
                             "names": "Elemento"
                         },
                         {
-                            "doc": "El indice del el elemento siendo verificado",
+                            "doc": "$~El @index del elemento que se está revisando.",
                             "names": "indice"
                         },
                         {
@@ -3379,7 +3382,7 @@
                             "names": "Elemento"
                         },
                         {
-                            "doc": "El indice del el elemento siendo verificado",
+                            "doc": "$~El @index del elemento que se está revisando.",
                             "names": "indice"
                         },
                         {
@@ -3407,7 +3410,7 @@
                             "names": "Elemento"
                         },
                         {
-                            "doc": "El indice del el elemento siendo verificado",
+                            "doc": "$~El @index del elemento que se está revisando.",
                             "names": "indice"
                         },
                         {
@@ -3429,7 +3432,7 @@
                             "names": "inicial"
                         },
                         {
-                            "doc": "El siguiento elemento a combinar",
+                            "doc": "$~El @FunctionDefinition que toma la última combinación y el siguiente @value y produce la siguiente combinación.",
                             "names": "combinador"
                         }
                     ],
@@ -3443,7 +3446,7 @@
                             "names": "siguiente"
                         },
                         {
-                            "doc": "El indice del siguiente elemento",
+                            "doc": "$~El @index del siguiente elemento",
                             "names": "índice"
                         },
                         {
@@ -3464,13 +3467,13 @@
                     "names": "ordenado",
                     "inputs": [
                         {
-                            "doc": "La @FunctionDefinition opcionla para ordenar elementos en la listo. La definicion deberia de combertir el elemento a un @Number que puede ser usado para ordenar una lista",
+                            "doc": "$~El @FunctionDefinition opcional que se usa para ordenar una lista @value. Debe convertir el valor en un @Number que se pueda usar para ordenar la lista.",
                             "names": "sequenciador"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "El valor a combertir en un @Number",
+                            "doc": "$~El @value que se va a convertir en un @Number.",
                             "names": "valor"
                         }
                     ]
@@ -3650,7 +3653,7 @@
             },
             "conversion": {
                 "text": "Una representacion de @Text de un @Set",
-                "list": "Una representacion de los elementos en un @Set en una @List"
+                "list": "$~Una representación en @List de los elementos del conjunto."
             }
         },
         "Map": {
@@ -3715,11 +3718,11 @@
                     "names": "emparejar",
                     "inputs": [
                         {
-                            "doc": "La llave para emparejar con el valor",
+                            "doc": "$~@key para emparejar con un @value.",
                             "names": "llave"
                         },
                         {
-                            "doc": "El valor para empajar con la llave",
+                            "doc": "$~El @value que se va a emparejar con el @key",
                             "names": "valor"
                         }
                     ]
@@ -3732,7 +3735,7 @@
                     "names": "desemparejar",
                     "inputs": [
                         {
-                            "doc": "La llave a remover",
+                            "doc": "$~El @key que se va a olvidar.",
                             "names": "llave"
                         }
                     ]
@@ -3745,7 +3748,7 @@
                     "names": "remover",
                     "inputs": [
                         {
-                            "doc": "El valor a remover, junto a las llaves con las que estan emparejadas",
+                            "doc": "$~El @value que se quita de mí, junto con las claves con las que está emparejado.",
                             "names": "valor"
                         }
                     ]
@@ -3765,11 +3768,11 @@
                     ],
                     "checker": [
                         {
-                            "doc": "La llave siendo verificada",
+                            "doc": "$~El @key que se revisa.",
                             "names": "llave"
                         },
                         {
-                            "doc": "El valor siendo verificado",
+                            "doc": "$~El @value que se revisa.",
                             "names": "valor"
                         },
                         {
@@ -3787,17 +3790,17 @@
                     "names": "traducir",
                     "inputs": [
                         {
-                            "doc": "La @FunctionDefinition  que traduce cada valor",
+                            "doc": "$~El @FunctionDefinition que traduce cada @value.",
                             "names": "traductor"
                         }
                     ],
                     "translator": [
                         {
-                            "doc": "La llave siendo traducida",
+                            "doc": "$~El @key del @value que se traduce.",
                             "names": "llave"
                         },
                         {
-                            "doc": "El valor siendo traducido",
+                            "doc": "$~El @value que se traduce.",
                             "names": "valor"
                         },
                         {
@@ -3855,7 +3858,7 @@
             },
             "conversion": {
                 "list": "Yo convierto una @Table a una lista de filas, donde cada fila es una @Structure con sus nombre de columna como una propiedad.",
-                "text": "Yo simplemento converito una @Table a @Text"
+                "text": "$~Solo convierto un @Table en texto."
             }
         },
         "Structure": {
@@ -4186,7 +4189,7 @@
             },
             "height": {
                 "names": ["altura"],
-                "doc": "El número de @Color para mostrar en una columna."
+                "doc": "$~La cantidad de @Color que se toman como muestra en un @column."
             },
             "frequency": {
                 "names": ["frecuencia"],
@@ -4302,7 +4305,7 @@
                 "names": "url"
             },
             "query": {
-                "doc": "La consulta de selección de CSS para evaluar en el HTML",
+                "doc": "$~El @query de CSS que se evalúa en el HTML",
                 "names": "consulta"
             },
             "frequency": {
@@ -4889,7 +4892,7 @@
                 "names": "opacidad"
             },
             "offset": {
-                "doc": "Un @Place que indica qué tan alejado debe estar de mi @Place normal, a menos que lo anule un @Pose diferente. Útil para moverse en su lugar.",
+                "doc": "$~Un @Place que indica cuánto debe desplazarse de mi @Place normal, a menos que otro @Pose lo cambie. Sirve para moverse en el mismo lugar.",
                 "names": "desplazamiento"
             },
             "rotation": {
@@ -4909,19 +4912,19 @@
                 "names": "volteary"
             },
             "entering": {
-                "doc": "¡Igual que @Group.entering!",
+                "doc": "$~¡Igual que @Phrase.entering!",
                 "names": "entrando"
             },
             "resting": {
-                "doc": "¡Igual que @Group.resting!",
+                "doc": "$~¡Igual que @Phrase.resting!",
                 "names": "inmóvil"
             },
             "moving": {
-                "doc": "¡Igual que @Group.moving!",
+                "doc": "$~¡Igual que @Phrase.moving!",
                 "names": "moviendo"
             },
             "exiting": {
-                "doc": "¡Igual que @Group.exiting!",
+                "doc": "$~¡Igual que @Phrase.exiting!",
                 "names": "saliendo"
             },
             "duration": {
@@ -4946,7 +4949,7 @@
             ],
             "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|]",
             "text": {
-                "doc": "Los personajes a mostrar en el @Stage",
+                "doc": "$~Los caracteres que se muestran en @Stage, un @TextLiteral o @FormattedLiteral.",
                 "names": "texto"
             },
             "size": {
@@ -4983,11 +4986,11 @@
             },
             "name": {
                 "doc": [
-                    "¡Un nombre que me das! Esto es muy útil para muchas cosas.",
-                    "Primero, si tengo un nombre, yo lo usare para describirme en descripciones de lectoras de pantalla.",
-                    "Segundo, cuando animas, puedes tener muchas expresiones que representan el mismo contenido en el escenario; darles el mismo nombre y ellos animarán como uno.",
-                    "Finalmente, yo soy útil con @Choice: los nombres que me das aparecen en esa sequencia.",
-                    "Puedes darme mucho nombres diferentes, cada uno en una idioma diferente, si es útil. Yo siempre usara el nombre en la idioma seleccionada primero."
+                    "$~¡Un nombre que me das! Esto sirve para muchas cosas.",
+                    "Primero, si tengo un nombre, lo usaré para describirme en las descripciones para lectores de pantalla.",
+                    "Segundo, al animar, puedes tener varias expresiones distintas que representan el mismo contenido en el escenario; dales el mismo nombre y se animarán como una sola.",
+                    "Por último, soy útil con @Choice: los nombres que me das aparecen en ese flujo.",
+                    "Puedes darme muchos nombres distintos, cada uno en un @language diferente, si te sirve. Siempre usaré el nombre del primer idioma seleccionado."
                 ],
                 "names": "nombre"
             },
@@ -5002,7 +5005,7 @@
                 "names": "seleccionable"
             },
             "color": {
-                "doc": "El @Color que debo hacer por defecto, a menos que sea anulado por una @Pose diferente.",
+                "doc": "$~El @Color que debo ser de manera predeterminada, a menos que otro @Pose lo cambie.",
                 "names": "color"
             },
             "background": {
@@ -5014,23 +5017,23 @@
                 "names": "opacidad"
             },
             "offset": {
-                "doc": "Un @Place indicando qué tan compensado debe estar de mi @Place, a menos que fuera anulado por una @Pose diferente.",
+                "doc": "$~Un @Place que indica cuánto debe desplazarse de mi @Place, a menos que otro @Pose lo cambie. Sirve para moverse en el mismo lugar.",
                 "names": "desplazamiento"
             },
             "rotation": {
-                "doc": "La cantidad en grados que debo rotar alrededor del centro, a menos que fuera anulado por una @Pose diferente.",
+                "doc": "$~La cantidad en grados que debo girar alrededor de mi centro, a menos que otro @Pose lo cambie.",
                 "names": "rotación"
             },
             "scale": {
-                "doc": "Qué magnificado debo ser en relación a el tamaño original, a menos que fuera anulado por una @Pose diferente.",
+                "doc": "$~Cuánto debo agrandarme respecto a mi tamaño original, a menos que otro @Pose lo cambie.",
                 "names": "escala"
             },
             "flipx": {
-                "doc": "Si debería reflejarme en el eje x, a menos que fuera anulado por una @Pose diferente. ",
+                "doc": "$~Si debo reflejarme en el eje x, a menos que otro @Pose lo cambie.",
                 "names": "voltearx"
             },
             "flipy": {
-                "doc": "Si debería reflejarme en el eje y, a menos que fuera anulado por una @Pose diferente.",
+                "doc": "$~Si debo reflejarme en el eje y, a menos que otro @Pose lo cambie.",
                 "names": "volteary"
             },
             "entering": {
@@ -5064,14 +5067,14 @@
         },
         "Arrangement": {
             "names": ["Arreglo"],
-            "doc": "Soy una inspiración para muchos otros tipos de arreglos en Verse, incluidos @Row, @Stack, @Grid y @Free. Trabajo estrechamente con @Group."
+            "doc": "$~Soy una inspiración para muchos otros tipos de arreglo en el Verso, como @Row, @Stack, @Grid y @Free. Trabajo de cerca con @Group para"
         },
         "Row": {
             "names": ["Fila"],
             "doc": "$~Soy @Row, un @Arrangement horizontal de @Output, con espacio opcional en medio. ¿Ya conociste a mi gemelo, @Stack?",
             "description": "$~fila de $#count[$#count frase o grupo|$count frases y grupos|$count frases y grupos]",
             "alignment": {
-                "doc": "Si alinear el texto al inicio, al centro o al final de cada columna.",
+                "doc": "$~Si el texto se alinea al inicio, al centro o al final en cada @column.",
                 "names": "alineación"
             },
             "padding": {
@@ -5094,10 +5097,10 @@
         },
         "Grid": {
             "names": ["Cuadrícula"],
-            "doc": "Soy cuadrícula de @Output. Dame un recuento de filas y columnas y haré un arreglo ordenado con relleno y tamaños de celda opcionales. ",
+            "doc": "$~Soy una cuadrícula de @Output. Dame una cantidad de filas y @column y haré un arreglo ordenado con relleno opcional y tamaños de @cell.",
             "description": "cuadrícula de $rows fila, $columns columnas",
             "rows": {
-                "doc": "Cuantas filas hacer en la cuadrícula.",
+                "doc": "$~Cuántas filas hacer en la cuadrícula.",
                 "names": "fila"
             },
             "columns": {
@@ -5209,7 +5212,7 @@
         },
         "Rectangle": {
             "names": "Rectángulo",
-            "doc": "Soy un @Rectangle, útil para hacer un border de tu elección para el @Stage.",
+            "doc": "$~Soy un rectángulo, útil para que @Stage tenga un borde del tamaño que elijas.",
             "left": {
                 "doc": "Soy la orilla izquierda del escenario en el eje x.",
                 "names": "izquierda"
@@ -6020,7 +6023,7 @@
                 "names": "estilo"
             },
             "gravity": {
-                "doc": "La gravedad a aplicar a la salida cuyo lugar está en @Motion.",
+                "doc": "$~La gravedad que se aplica a la salida cuyo lugar está en @Motion.",
                 "names": "gravedad"
             },
             "defaultDescription": "$~escenario $name[$name |]de $#count[$#count salida|$count salidas|$count salidas]$frame[con marco $frame|] $pose $color[$color|]",
@@ -6650,7 +6653,7 @@
                 "close": "cerrar"
             },
             "loading": {
-                "message": "Cargando fuentes y texto, ¡gracias por esperar! "
+                "message": "$~¡Cargando, gracias por esperar!"
             },
             "home": "ir a la página de inicio",
             "table": {
@@ -6698,8 +6701,8 @@
         "tile": {
             "toggle": {
                 "fullscreen": {
-                    "on": "salir de pantalla completa",
-                    "off": "exapandir teja a pantalla completa"
+                    "on": "$~salir de pantalla completa",
+                    "off": "$~expandir la teja de la ventana a pantalla completa"
                 },
                 "show": {
                     "on": "$~ocultar $name",
@@ -6723,7 +6726,7 @@
         },
         "project": {
             "error": {
-                "unknown": "Esta actuación no existe o no es pública.",
+                "unknown": "$~Este proyecto no existe o no tienes acceso a él.",
                 "translate": "$~Hubo un problema al traducir tu proyecto.",
                 "tile": "$~Ups, hubo un error",
                 "reset": "$~Intentar reiniciar..."
@@ -6864,15 +6867,18 @@
             "subheader": {
                 "curators": {
                     "header": "Curadoras",
-                    "explanation": "Creadoras que gestionan esta galería."
+                    "explanation": [
+                        "$~Las curadoras pueden editar los proyectos y la configuración de la galería, y chatear en todos los proyectos.",
+                        "/Las curadoras se encargan de moderar el contenido de los chats de los proyectos y las guías prácticas de la galería. Los chats que las creadoras reporten aparecen en el <panel de moderación de la galería@://galleries/moderation>./"
+                    ]
                 },
                 "creators": {
                     "header": "Creadoras",
-                    "explanation": "Creadoras que contribuyen a esta galería."
+                    "explanation": "$~Las creadoras pueden ver todos los proyectos de la galería y agregar proyectos nuevos."
                 },
                 "delete": {
                     "header": "Borrar",
-                    "explanation": "Borrar esta galería no borrará sus proyectos. La galería se borrará para siempre."
+                    "explanation": "$~Borrar esta galería no borrará sus proyectos. Sí borrará sus guías prácticas. La galería se borrará para siempre."
                 },
                 "classes": {
                     "header": "$~Clases",
@@ -6906,7 +6912,7 @@
             "projects": "$~$#count[$#count proyecto|$count proyectos|$count proyectos]"
         },
         "source": {
-            "label": "editora de programas",
+            "label": "$~fuente",
             "empty": [
                 "$~¡Vamos a comenzar! Puedes …",
                 "• Abrir 📕 y arrastrarnos 🖱️ hasta este programa.",
@@ -6923,11 +6929,11 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "esconder los fondos de los bloques"
+                    "on": "$~editar como texto"
                 },
                 "characters": {
-                    "on": "colapsar los glifos coincidentes",
-                    "off": "expandir los glifos coincidentes"
+                    "on": "$~ocultar el selector de emoji y símbolos",
+                    "off": "$~mostrar el selector de emoji y símbolos"
                 },
                 "expandSequence": {
                     "on": "$~contraer elementos",
@@ -6979,7 +6985,7 @@
                 "insertFalse": "insertar falsa",
                 "insertNone": "insertar ningún símbolo",
                 "insertNotEqual": "insertar no igual",
-                "insertProduct": "insertar símbolo de multiplicación",
+                "insertProduct": "$~insertar símbolo de multiplicación",
                 "insertDot": "$~insertar el símbolo de producto punto",
                 "insertQuotient": "insertar símbolo de cociente",
                 "insertDegree": "insertar símbolo de grado",
@@ -6991,11 +6997,11 @@
                 "insertConvert": "insertar símbolo de conversión",
                 "insertPrevious": "insertar símbolo de anterior",
                 "insertType": "insertar símbolo de tipo",
-                "insertTable": "insertar símbolo de tabla",
+                "insertTable": "$~insertar símbolo de apertura de tabla",
                 "insertBorrow": "insertar préstamo",
                 "insertShare": "insertar compartir",
                 "insertLine": "insertar salto de línea",
-                "backspace": "borrar selección o carácter anterior",
+                "backspace": "$~borrar la selección o el símbolo anterior",
                 "delete": "eliminar selección o carácter siguiente",
                 "cut": "corte lo que esté seleccionado",
                 "copy": "copiar lo que esté  seleccionado",
@@ -7104,7 +7110,7 @@
             "cursor": "$~Esto es *$node*$type[ y es un $type|].",
             "cursorDoc": "$~Dicen: “$description”",
             "cursorParent": "$~Están dentro de un *$node*$type[ de tipo $type|].",
-            "learn": "¿Quieres aprender más?",
+            "learn": "$~/Aprender más/",
             "evaluating": "¡Oh, qué divertido, evaluemos!",
             "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?",
             "button": {
@@ -7123,7 +7129,7 @@
             "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
-            "label": "salida del programa",
+            "label": "$~escenario",
             "toggle": {
                 "grid": {
                     "on": "esconder líneas de cuadrícula ",
@@ -7262,16 +7268,16 @@
         "timeline": {
             "slider": "deslizador de tiempo",
             "button": {
-                "play": "evaluar el programa hasta el final, respondiendo a las entradas en tiempo real",
+                "play": "$~evaluar el programa y responder a las entradas en tiempo real",
                 "backStep": "retroceder uno",
-                "backNode": "retroceder a la evaluación del nodo anterior",
+                "backNode": "$~ir a la evaluación anterior del cursor",
                 "backInput": "retroceder una entrada",
                 "out": "salir de esta función",
                 "forwardStep": "avanzar uno",
-                "forwardNode": "avanzar a la siguiente evaluación del nodo",
+                "forwardNode": "$~ir a la siguiente evaluación del cursor",
                 "forwardInput": "avanzar a la siguiente entrada del flujo",
-                "present": "al presente",
-                "start": "al principio",
+                "present": "$~hasta el final",
+                "start": "$~Hasta el inicio",
                 "reset": "reiniciar la actuación"
             },
             "tour": {
@@ -7284,7 +7290,7 @@
             }
         },
         "docs": {
-            "label": "navegador de documentación",
+            "label": "$~guía",
             "link": "mostrar concepto $name en la documentación",
             "nodoc": "¿Quién soy? ¿Qué soy? ¿Cuál es mi propósito?",
             "button": {
@@ -7293,7 +7299,7 @@
                 "toggle": "$~expandir y contraer este grupo de conceptos"
             },
             "field": {
-                "search": "buscar conceptos con palabras"
+                "search": "$~palabras clave"
             },
             "header": {
                 "inputs": {
@@ -7528,7 +7534,7 @@
         "dialog": {
             "share": {
                 "header": "Compartir",
-                "explanation": "Controla quién puede editar y ver este proyecto.",
+                "explanation": "$~Comparte este proyecto con galerías o con el mundo.",
                 "subheader": {
                     "gallery": {
                         "explanation": "Agrega este proyecto a una galería junto con otros creadores, o crea una galería en tu página de <projects@://projects>. Si añades un proyecto a una galería pública, tu proyecto se volverá público."
@@ -7575,7 +7581,7 @@
                 },
                 "error": {
                     "unknown": "No conocemos a una creadora con este correo electrónico.",
-                    "anonymous": "Debes iniciar sesión para compartir.",
+                    "anonymous": "$~Debes <iniciar sesión@://login> para compartir.",
                     "self": "$~No puedes agregarte a ti misma.",
                     "invalidPreview": "$~Elige exactamente un carácter o emoji."
                 },
@@ -7618,7 +7624,7 @@
             },
             "settings": {
                 "header": "Configuración",
-                "explanation": "Cambia la configuración de diseño, dispositivo y tema.",
+                "explanation": "$~Cambia cómo se ve Wordplay, cómo escribes código y cómo los programas usan tus dispositivos.",
                 "button": {
                     "show": "mostrar configuración"
                 },
@@ -7677,7 +7683,7 @@
                         ]
                     },
                     "space": {
-                        "label": "indicador de espacio",
+                        "label": "$~marcadores de espacio",
                         "labels": ["$~ocultar", "$~mostrar"],
                         "tips": [
                             "$~no mostrar indicadores de espacio y tabulación",
@@ -7835,7 +7841,7 @@
             },
             "locale": {
                 "header": "Idioma",
-                "explanation": "Elige tus idiomas y regiones.",
+                "explanation": "$~Elige los idiomas de la interfaz, el tutorial y la documentación. Los idiomas marcados con 🤖 todavía están traducidos en gran parte por máquina, así que algunos textos pueden ser difíciles de leer o incorrectos.",
                 "subheader": {
                     "selected": "Seleccionado",
                     "supported": "Disponible"
@@ -7845,10 +7851,10 @@
                     "placeholder": "$~idioma o región"
                 },
                 "button": {
-                    "show": "cambiar idiomas",
-                    "replace": "reemplazar idomas",
-                    "add": "añadir idioma",
-                    "remove": "quitar idioma",
+                    "show": "$~elige el o los idiomas para el sitio web",
+                    "replace": "$~usar este idioma",
+                    "add": "$~usar este idioma junto con los actuales",
+                    "remove": "$~quitar este idioma",
                     "menu": "$~otros idiomas"
                 },
                 "localizeHelp": "$~/Para ayudar a mejorar las traducciones en tu idioma, haz clic en el ícono del lápiz ✎ en la *parte inferior de la página* para activar el modo de localización y sugerir mejoras./",
@@ -8003,7 +8009,7 @@
                 "up": "mover este contenido hacia arriba",
                 "down": "mover este contenido hacia abajo",
                 "edit": "editar este contenido",
-                "sequence": "convertir en una secuencia",
+                "sequence": "$~convertir a Secuencia",
                 "createPhrase": "crear una Frase, mostrando el valor existente como texto",
                 "createGroup": "crear un Grupo, envolviendo cualquier Frase existente",
                 "createStage": "crear un Escenario, envolviendo cualquier Grupo o Frase existente",
@@ -8136,8 +8142,8 @@
         },
         "save": {
             "saving": "guardando",
-            "saved": "guardado en línea",
-            "local": "guardado localmente",
+            "saved": "$~guardado",
+            "local": "$~guardado",
             "unsaved": "no guardado",
             "sync": {
                 "projects": "$~Proyectos",
@@ -8193,7 +8199,7 @@
                     "about": "¿Por qué existe este lugar?",
                     "learn": "Un tutorial dramático, con personajes aun mas dramáticos.",
                     "guide": "Busca y explora por la referencia del idioma",
-                    "projects": "Crea y comparte actuaciones",
+                    "projects": "$~crea y comparte actuaciones",
                     "galleries": "Experimenta las actuaciones de otros",
                     "rights": "Responsabilidades, las nuestras y las tuyas",
                     "community": {
@@ -8265,7 +8271,7 @@
                 },
                 "confirm": {
                     "archive": {
-                        "description": "archivar esta actuación",
+                        "description": "$~archivar esta actuación para borrarla después",
                         "prompt": "archivar"
                     },
                     "delete": {
@@ -8276,7 +8282,7 @@
                 "error": {
                     "noaccess": "No pudimos conectarnos a internet.",
                     "newgallery": "No pudimos crear una nueva galería.",
-                    "nodeletes": "Debes iniciar sesión para eliminar proyectos archivados.",
+                    "nodeletes": "$~Debes <iniciar sesión@://login> para borrar proyectos archivados.",
                     "delete": "Oops, no pudimos eliminar el proyecto."
                 },
                 "subheader": {
@@ -8291,7 +8297,7 @@
             },
             "galleries": {
                 "header": "Galerías",
-                "prompt": "Estas son actuaciones que otros han creado. Exprímentalas, estúdialas o adáptalas para hacer tu propia declaración.",
+                "prompt": "$~Las galerías son colecciones de proyectos, a menudo reunidos alrededor de un tema, y organizados por ti o por otras creadoras.",
                 "button": {
                     "more": {
                         "label": "$~más...",
@@ -8334,14 +8340,14 @@
             "about": {
                 "header": "Acerca de...",
                 "content": [
-                    "¿Alguna vez has sentido que la programación era sólo para occidentales sin discapacidades que hablan inglés y que esten obsesionados con las computadoras?",
-                    "Sí, nosotros también.",
-                    "Esto no es casualidad. Desde los inicios de la computación, los lenguajes de programación han sido diseñados y construidos principalmente por el mismo grupo de personas: hombres blancos, cisgénero, de habla inglesa, en el ámbito académico e industrial de Estados Unidos y Europa, y algunas mujeres matemáticas increíbles. Hicieron su trabajo en una época poscolonial en la que el ganador se llevaba todo el poder, y los lenguajes de programación fueron una herramienta clave para asegurar ese poder.",
-                    "Ya sea intencional o no, esta historia ha llevado a una visión de la computación que se centra principalmente en la velocidad, la lógica, la ganancia y la dominación.",
-                    "Esto es una injusticia. Porque la computación, para bien y para mal, ahora sustenta la vida diaria de formas visibles e invisibles, y las personas que tienen acceso para crear con ella son las que más se parecen a sus creadores. El resto de la humanidad sigue siendo endeudado de este poder, porque imaginar algo diferente requiere acceso, obstaculizado por barreras de idioma, barreras de accesibilidad, barreras económicas y desigualdades en la educación pública.",
-                    "*Wordplay* aspira a ser algo diferente. Una plataforma de programación diseñada para ser global, que admita /todos/ los idiomas del mundo, pero también que sea /sobre/ los idiomas del mundo. Una plataforma en la que todas puedan crear, con las habilidades que tengan, para compartir contenido interactivo que cualquiera pueda experimentar, con cualquier habilidad que tenga. Para jóvenes y adultas jóvenes que deseen expresarse de manera *juguetona*, *artística* e *interactiva*. No con el objetivo de aprovechar el poder, sino de crear una comunidad diversa que reconozca la increíble fuerza que proviene de nuestras hermosas diferencias.",
-                    "Somos una comunidad de diseñadoras, educadoras y desarrolladoras que intentan dar vida a esta visión. Somos personas de color, somos transgénero, somos queer, somos discapacitadas y venimos de todo el mundo. Estamos centradas en la <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> en Seattle, Washington, USA, un lugar que aspira a dar la bienvenida a todas y deshacer los estragos del colonialismo que continúan hoy. Crear este lenguaje de programación y plataforma es parte de esa misión.",
-                    "Consulta nuestros <milestones@https://github.com/amyjko/wordplay/milestones> para ver en qué estamos trabajando, y si deseas ayudar, aprende <cómo contribuir@https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md>. O escribe a nuestra organizadora comunitaria <Amy@https://amyjko.phd> con preguntas."
+                    "$~¿Alguna vez sentiste que programar era solo para personas occidentales que hablan inglés con fluidez, sin discapacidad y que crecieron con computadoras?",
+                    "Sí, nosotras también.",
+                    "Esto no es casualidad. Desde el inicio de la computación, los lenguajes de programación fueron diseñados y creados casi por el mismo grupo de personas: en su mayoría hombres blancos, cisgénero y de habla inglesa en la academia y la industria de Estados Unidos y Europa, y unas pocas matemáticas increíbles. Hicieron su trabajo en una época de poder poscolonial en la que el ganador se lo lleva todo, y los lenguajes de programación fueron una herramienta clave para asegurar ese poder.",
+                    "Esta historia llevó a una visión de la computación centrada sobre todo en la velocidad, la lógica, la ganancia y el dominio.",
+                    "Esto es una injusticia. Porque la computación, para bien y para mal, ahora sostiene la vida diaria de formas visibles e invisibles, y las personas que pueden crear con ella son las que más se parecen a quienes la crearon. El resto de la humanidad sigue sometida a ese poder, porque imaginar algo distinto exige saber leer y escribir código, algo bloqueado por barreras de idioma, barreras de accesibilidad, barreras económicas y desigualdades en la educación pública.",
+                    "*Wordplay* aspira a ayudar a cambiar esto. Es una plataforma de programación diseñada para ser global, que admite /todos/ los idiomas del mundo, pero que también trata /sobre/ los idiomas del mundo. Una plataforma en la que todas pueden crear, con las habilidades que tengan, para compartir contenido interactivo que cualquiera puede experimentar. Para jóvenes y jóvenes adultos que quieren expresarse con palabras, emojis y tipografía interactivos, de forma juguetona y artística. No con la meta de conseguir poder para sí, sino de crear un mundo computacional que reconozca la fuerza increíble y la necesidad de nuestras hermosas diferencias.",
+                    "Somos una comunidad de diseñadoras, educadoras y desarrolladoras que intenta dar vida a esta visión. Somos personas de color, somos trans, somos queer, tenemos discapacidad, somos migrantes, somos refugiadas. Nuestro centro está en la <Escuela de Información@https://ischool.uw.edu/> de la <Universidad de Washington@https://washington.edu> en Seattle, Washington, Estados Unidos, un lugar que aspira a dar la bienvenida a todas y a deshacer los estragos capacitistas y racistas del colonialismo que continúan hoy. Hacer este lenguaje de programación y esta plataforma es una pequeña parte de esa misión, que ofrece un vistazo a un futuro de la computación en el que /todas/ pertenecemos.",
+                    "Nos encantaría contar con tu ayuda. Aprende <cómo contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute>, <dona@://donate> o sigue nuestro <avance@https://github.com/amyjko/wordplay/milestones>. Escribe a nuestra organizadora comunitaria <Amy@https://amyjko.phd> si tienes preguntas."
                 ]
             },
             "login": {
@@ -8354,14 +8360,14 @@
                     "passwordrule": "Las contraseñas deben tener al menos 6 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
-                    "email": "¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
+                    "email": "$~¿Tienes una cuenta solo con correo electrónico? Inicia sesión con tu correo y, si hay una cuenta asociada a él, te enviaremos un correo con un enlace para entrar. No se admiten nuevas cuentas solo con correo, para proteger la privacidad.",
                     "sent": "Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
-                    "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
+                    "logout": "$~¿Usas un dispositivo compartido y quieres mantener tus proyectos privados? Cierra sesión y *borraremos tus proyectos* de este dispositivo, pero seguirán guardados en línea.",
                     "success": "¡Cuenta creada!",
-                    "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
+                    "confirm": "$~Revisa tu correo electrónico anterior para confirmar tu nueva dirección.",
                     "delete": "¿Quieres que olvidemos todo lo que has creado aquí? Esto no se puede deshacer.",
                     "reallyDelete": "¿Estás segura? Tu cuenta y configuraciones se eliminarán inmediatamente, y tus proyectos se programarán para su eliminación. Las colaboradoras en tus proyectos perderán de inmediato el acceso a ellos. Escribe tu correo electrónico o nombre de usuario para confirmar que esto es lo que deseas.",
-                    "name": "Elige un emoji para representarte a ti mismo ante los demás.",
+                    "name": "$~Elige un emoji o un carácter personalizado para representarte ante las demás.",
                     "login": "$~Inicia sesión para guardar tus proyectos, colaborar y compartir:",
                     "join": "$~O bien, <crea una cuenta@://join> para comenzar.",
                     "paste": "$~¿El enlace se abrió en otro lugar? A veces las aplicaciones instaladas abren los enlaces del correo electrónico en un navegador web. Copia el enlace de tu correo electrónico y pégalo aquí para terminar de iniciar sesión."
@@ -8369,7 +8375,7 @@
                 "error": {
                     "expired": "Este enlace ha expirado.",
                     "invalid": "Este enlace no es válido.",
-                    "email": "Este correo electrónico no era válido.",
+                    "email": "$~No es un correo electrónico válido.",
                     "failure": "No se puede iniciar sesión :(",
                     "offline": "Pareces estar desconectado.",
                     "wrongPassword": "Nombre de usuario y contraseña no son válidos. O tu contraseña es incorrecta o alguien más tiene este nombre de usuario.",
@@ -8418,7 +8424,7 @@
                         "tip": "cerrar sesión de tu cuenta",
                         "label": "cerrar sesión"
                     },
-                    "login": "iniciar sesión con este correo electrónico, enviando un enlace de inicio de sesión",
+                    "login": "$~crear una cuenta con este nombre de usuaria y contraseña",
                     "updateEmail": "cambiar tu correo electrónico",
                     "delete": {
                         "tip": "borrar tu cuenta",
@@ -8449,25 +8455,25 @@
             "rights": {
                 "header": "Derechos",
                 "content": [
-                    "¡Hola!",
-                    "Aquí establecemos algunas expectativas sobre tus derechos y los nuestros (también en vista de políticas como el <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> y <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
-                    "Lo primero que debes saber es que no somos una entidad comercial. Somos un proyecto de investigación basado en la comunidad alojado en una universidad sin fines de lucro. Nuestro objetivo es crear una plataforma que te brinde alegría y nos ayude a hacer descubrimientos sobre un mundo de computación más equitativo y justo. No tenemos interés en ganar dinero con esta plataforma; cualquier dinero que recolectemos (generalmente a través de financiamiento público) se utiliza para sostener la plataforma, no para enriquecer a nadie que trabaje en ella (o contribuya a ella).",
-                    "Como no buscamos obtener ganancias, esto también significa que no podemos hacer ninguna promesa sobre la confiabilidad, disponibilidad o longevidad de esta plataforma. Dicho esto, <Amy@https://amyjko.phd> está comprometida a largo plazo con su sostenibilidad, y como profesora titular, tiene un trabajo bastante estable.",
-                    "Eso nos lleva a *datos*. Esto es lo que recopilamos y almacenamos en la nube:",
-                    "• Tus *proyectos*. Almacenamos cualquier proyecto que contribuyas. Esto incluye cualquier información personal identificable que pongas en tus proyectos (¡que podría ser cualquier cosa, ya que todo es texto!)",
-                    "• Tus *configuraciones*. Esto incluye los idiomas que elijas, tus preferencias de animación y el progreso en los tutoriales. Todo lo demás se almacena en tu dispositivo.",
-                    "• *Tráfico*. Usamos <Google Analytics@https://en.wikipedia.org/wiki/Google_Analytics> básico para recopilar datos agregados y anónimos sobre qué páginas y proyectos visita la gente y cuántas veces. Usamos esto para ayudar a recaudar fondos para sostener la plataforma.",
-                    "No almacenamos nada más. Ninguna 'cookie' que no sea la utilizada por Google Analytics, ningún identificador de seguimiento, ninguna grabación de entrada de cámara o micrófono. Nuestro <código fuente@https://github.com/amyjko/wordplay/tree/main/src> es público, así que puedes verificar esto en cualquier momento si lo deseas.",
-                    "*Tú* eres dueño de tus datos, no nosotros. Eso significa:",
-                    "• Tú controlas quién puede acceder a tus proyectos. Son privados por defecto, pero puedes compartirlos con individuos, grupos o hacerlos completamente públicos.",
-                    "• Puedes eliminar completamente cualquier proyecto o tu propia cuenta en cualquier momento.",
+                    "$~¡Hola!",
+                    "Vamos a dejar claras algunas expectativas sobre tus derechos y los nuestros (también a la luz de normas como la <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> y el <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Lo primero que debes saber es que no somos una entidad comercial. Somos un proyecto de investigación basado en la comunidad, alojado en una universidad sin fines de lucro. Nuestra meta es crear una plataforma que te dé alegría y nos ayude a hacer descubrimientos sobre un mundo de la computación más justo y equitativo. No tenemos interés en ganar dinero con esta plataforma; todo el dinero que reunimos (por lo general con fondos públicos) se usa para sostener la plataforma, no para enriquecer a quien trabaja en ella (o contribuye a ella).",
+                    "Como no buscamos ganancias, esto también significa que no podemos hacer ninguna promesa sobre la fiabilidad, la disponibilidad o la duración de esta plataforma. Dicho eso, <Amy@https://amyjko.phd> tiene un compromiso a largo plazo de sostenerla, y como es profesora con plaza fija, tiene un trabajo bastante estable.",
+                    "Esto nos lleva a los *datos*. Esto es lo que reunimos y guardamos en la nube:",
+                    "• Tus *proyectos*. Guardamos cualquier proyecto que aportes y tus cambios en ellos, a menos que esos proyectos parezcan tener información que te identifique personalmente, como números de teléfono, correos electrónicos, nombres de usuaria, identificadores fiscales o direcciones.",
+                    "• Tu *configuración*. Esto incluye los idiomas que eliges, tus preferencias de animación y tu avance en el tutorial. Todo lo demás se guarda solo en tu dispositivo.",
+                    "• *Actividad* en conjunto. Registramos los inicios de sesión y las páginas que visitas, pero no de una forma que pueda identificarte, seguirte por el sitio o seguirte por otros sitios. Usamos Google Analytics en modo de 'consentimiento denegado', que solo reúne información mínima y no identificable sobre las vistas de página, sin guardar cookies ni enviar información de dirección IP a Google. Usamos esta información en conjunto para ayudar a conseguir fondos, informando cuánto se usa la plataforma.",
+                    "No guardamos nada más. Nuestro <código fuente@https://github.com/amyjko/wordplay/tree/main/src> es público, así que cualquiera puede verificar esto e informar sobre cualquier seguimiento no intencionado.",
+                    "*Tú* eres dueña de tus datos, no nosotras. Eso significa:",
+                    "• Tú controlas quién puede acceder a tus proyectos. Son privados de forma predeterminada, pero puedes compartirlos con personas, con grupos o hacerlos completamente públicos.",
+                    "• Puedes borrar por completo cualquier proyecto o tu propia cuenta en cualquier momento.",
                     "• Puedes obtener una exportación de cualquier proyecto o de toda tu cuenta en cualquier momento.",
-                    "Así es como usaremos y no usaremos tus datos:",
-                    "• No compartiremos tus datos con nadie, a menos que la ley lo requiera explícitamente. Siempre es posible que tus datos se tomen sin nuestro permiso (una 'violación de datos'). Si descubrimos que esto ha sucedido, te notificaremos que esto ha sucedido mediante el correo electrónico que has compartido con nosotros.",
-                    "• No te contactaremos a través de tu dirección de correo electrónico a menos que 1) realices un cambio en la cuenta que lo requiera, 2) nos des consentimiento explícito para comunicarnos, o 3) en el caso de la violación de datos anterior.",
-                    "• Podemos analizar proyectos en la plataforma para entender qué están haciendo todos y cómo lo están haciendo. Podemos compartir estas ideas agregadas y anonimizadas en publicaciones académicas. Solo haremos esto bajo la supervisión de una junta de revisión institucional, según lo exige la ley federal de EE. UU.",
-                    "Finalmente, una nota sobre el discurso. Puedes decir lo que quieras en esta plataforma en *privado*. Los proyectos son privados por defecto, y si los compartes con direcciones de correo electrónico específicas, aún se consideran privados. No moderaremos nada en proyectos privados.",
-                    "Pero hacer un proyecto *público*, o incluirlo en una galería pública, es un privilegio. Esta es una plataforma hecha por amor, afirmación, respeto y dignidad. Por lo tanto, esperamos que ninguno de su *público*::"
+                    "Así usaremos y no usaremos tus datos:",
+                    "• No compartiremos tus datos con nadie, salvo que la ley lo exija de forma explícita. Siempre es posible que tus datos se tomen sin permiso (una 'violación de datos'). Si descubrimos que esto pasó, te avisaremos usando el correo electrónico que compartiste con nosotras.",
+                    "• No te contactaremos por tu correo electrónico a menos que 1) hagas un cambio de cuenta que nos obligue a hacerlo, 2) nos des permiso explícito para comunicarnos contigo, o 3) en el caso de violación de datos mencionado arriba.",
+                    "• Podemos analizar los proyectos, las galerías y las guías prácticas de la plataforma para entender qué está creando cada quien y cómo lo hace. Podemos compartir estas ideas en conjunto y anónimas en publicaciones académicas. Solo haremos esto bajo la supervisión de un comité de revisión institucional, como lo exige la ley federal de Estados Unidos.",
+                    "Por último, una nota sobre la expresión. Puedes decir lo que quieras en esta plataforma en *privado*. Los proyectos son privados de forma predeterminada, y si los compartes con correos electrónicos específicos, siguen siendo privados. No moderaremos nada en los proyectos privados.",
+                    "Pero hacer un proyecto *público*, o incluirlo en una galería pública, es un privilegio. Esta es una plataforma hecha para el amor, la afirmación, el respeto y la dignidad. Por eso, esperamos que ninguno de tu contenido *público*:"
                 ],
                 "consequences": [
                     "$~Los chats de los proyectos y las guías prácticas que están en galerías públicas o privadas están sujetos a la moderación de las curadoras de la galería. Puedes reportar a las curadoras los mensajes que violen estas normas de la comunidad usando el botón de reporte junto a cada mensaje, y las curadoras pueden aprobar o quitar los mensajes.",
@@ -9737,11 +9743,11 @@
         "progress": "*$moderated* moderado, *$remaining* restante",
         "button": {
             "submit": {
-                "tip": "Guardar estas configuraciones de moderación",
+                "tip": "$~guardar esta configuración de moderación",
                 "label": "guardar"
             },
             "skip": {
-                "tip": "Omitir este proyecto",
+                "tip": "$~saltar este proyecto",
                 "label": "omitir"
             },
             "property": "$~Si el proyecto tiene esta propiedad"
