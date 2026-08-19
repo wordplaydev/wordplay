@@ -20,12 +20,22 @@ import {
     getLocalePath,
     LocaleValidator,
 } from '@util/verify-locales/LocaleSchema';
+import {
+    driftSince,
+    getCheckablePathKinds,
+    getDriftBase,
+    getTranslatableTutorialPathKinds,
+    markStale,
+    readJSON,
+    type Stale,
+} from '@util/verify-locales/drift';
 import Log from '@util/verify-locales/Log';
 import {
     getDefaultTutorial,
     getTutorialJSON,
     getTutorialPath,
 } from '@util/verify-locales/TutorialSchema';
+import type Tutorial from '../../tutorial/Tutorial';
 import {
     describeReport,
     isEmptyReport,
@@ -521,6 +531,85 @@ if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
     log.say(
         `Translated ${revisedStrings.length} revised en-US string(s) into ${FocalLocale}. Their "$!" markers stay in en-US until every locale is done; clear them once "npm run locales" is clean.`,
     );
+}
+
+// Translations left behind by an en-US rewording this branch made (#1144). This is
+// the cheap half of drift detection — two blob reads per file against the branch
+// point, about a second — so it can run on every verify, including the watch-mode
+// one, instead of waiting for CI. The full history census stays in
+// `npm run locales-drift`, which is far too slow to run on every save.
+if (FocalLocale === null) {
+    const base = getDriftBase();
+    if (base !== undefined && sourceLocaleText !== undefined) {
+        const driftLog = log.scope('Drift from en-US');
+        const sourceTutorial = readJSON<Tutorial>(getTutorialPath('en-US'));
+        const localeKinds = getCheckablePathKinds(sourceLocaleText);
+        const tutorialKinds =
+            sourceTutorial === undefined
+                ? new Map()
+                : getTranslatableTutorialPathKinds(sourceTutorial);
+        const behind: Stale[] = [];
+        for (const localeText of allLocaleText) {
+            const locale = toLocaleString(localeText);
+            if (locale === SourceLocale) continue;
+            for (const [source, target, kinds] of [
+                [
+                    getLocalePath(SourceLocale),
+                    getLocalePath(locale),
+                    localeKinds,
+                ],
+                [
+                    getTutorialPath(SourceLocale),
+                    getTutorialPath(locale),
+                    tutorialKinds,
+                ],
+            ] as const)
+                behind.push(
+                    ...driftSince(base, source, target, locale, kinds).map(
+                        (entry) => ({ ...entry }) as Stale,
+                    ),
+                );
+        }
+        const queueable = behind.filter((entry) => entry.kind !== 'name');
+        if (queueable.length > 0) {
+            if (FixRequested || TranslationRequested) {
+                // Mark here so the ordinary repair step queues the work and the
+                // translate step that follows fixes it, rather than drift
+                // waiting on someone remembering to run a separate command.
+                let marked = 0;
+                for (const localeText of allLocaleText) {
+                    const locale = toLocaleString(localeText);
+                    if (locale === SourceLocale) continue;
+                    for (const [file, kinds] of [
+                        [getLocalePath(locale), localeKinds],
+                        [getTutorialPath(locale), tutorialKinds],
+                    ] as const) {
+                        const entries = queueable.filter(
+                            (entry) =>
+                                entry.locale === locale && entry.file === file,
+                        );
+                        if (entries.length === 0) continue;
+                        const text = readJSON(file);
+                        if (text === undefined) continue;
+                        const count = markStale(entries, kinds, text);
+                        if (count === 0) continue;
+                        await writeFormatted(
+                            file,
+                            JSON.stringify(text, null, 4),
+                        );
+                        marked += count;
+                    }
+                }
+                if (marked > 0)
+                    driftLog.good(
+                        `Marked ${marked} translation(s) "$!" whose en-US source this branch reworded; they will be re-translated.`,
+                    );
+            } else
+                driftLog.warning(
+                    `${queueable.length} translation(s) are behind en-US strings this branch reworded. Run "npm run locales-fix" to queue them.`,
+                );
+        }
+    }
 }
 
 // Build the word → locale index the languages dialog uses to find languages a project needs
