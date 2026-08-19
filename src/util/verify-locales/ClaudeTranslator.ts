@@ -22,6 +22,7 @@ import {
     hasUnclosedText,
     mismatchedConceptLinks,
     mismatchedDelimiter,
+    hasResidualLinkMask,
     protectConceptLinks,
     repairMentionsPositional,
     restoreConceptLinks,
@@ -43,6 +44,48 @@ const MODEL = 'claude-opus-4-8';
  * is what made a working run indistinguishable from a wedged one.
  */
 const CHUNK_SIZE = 25;
+/**
+ * Characters per request, alongside the segment cap.
+ *
+ * Segment count alone is the wrong bound: a request's cost is the text in it,
+ * and 25 short segments and 25 long ones differ by an order of magnitude.
+ * Measured on the slowest scripts (Gujarati, Kannada), a chunk runs about
+ * 0.045s per source character — so 4,400 characters took ~200s and 8,000
+ * blew through the 600s timeout three times before failing, losing the whole
+ * chunk after half an hour. This keeps the worst case near 200s. Latin-script
+ * locales rarely reach it (their chunks run 1,000–3,000 characters), so they
+ * keep filling all 25 segments.
+ */
+const CHUNK_CHARACTERS = 4_000;
+
+/**
+ * Group units into requests bounded by both segment count and character budget.
+ * A single unit larger than the budget goes alone rather than being dropped.
+ */
+export function chunkUnits(
+    units: string[],
+    maxUnits = CHUNK_SIZE,
+    maxCharacters = CHUNK_CHARACTERS,
+): string[][] {
+    const chunks: string[][] = [];
+    let current: string[] = [];
+    let characters = 0;
+    for (const unit of units) {
+        if (
+            current.length > 0 &&
+            (current.length >= maxUnits ||
+                characters + unit.length > maxCharacters)
+        ) {
+            chunks.push(current);
+            current = [];
+            characters = 0;
+        }
+        current.push(unit);
+        characters += unit.length;
+    }
+    if (current.length > 0) chunks.push(current);
+    return chunks;
+}
 /** Output cap; structured JSON of a chunk this size stays well under this. */
 const MAX_TOKENS = 16000;
 /**
@@ -134,8 +177,14 @@ export function describeClaudeError(error: unknown): string {
         return "the API key lacks permission for this model, or the org can't use it";
     if (error instanceof Anthropic.RateLimitError)
         return 'rate limited even after retries — lower concurrency or wait';
+    // A spend cap arrives as a 400, so it lands here rather than in
+    // RateLimitError — and reads as a malformed request, which is the one thing
+    // it isn't. It is also the only failure that resolves on a date rather than
+    // by changing anything, so say so plainly.
     if (error instanceof Anthropic.BadRequestError)
-        return `bad request — ${error.message}`;
+        return /usage limit/i.test(error.message)
+            ? `the account's API usage limit is spent, so nothing more will translate until it resets or is raised — ${error.message}`
+            : `bad request — ${error.message}`;
     // Before APIConnectionError, which it extends. Getting this order wrong
     // reports a deadline we set as a network we can't reach, and sends whoever
     // reads it looking at their connection and their API key — neither of
@@ -147,6 +196,66 @@ export function describeClaudeError(error: unknown): string {
     if (error instanceof Anthropic.APIError)
         return `Anthropic API error ${error.status ?? ''} — ${error.message}`;
     return String(error);
+}
+
+/**
+ * Translate text that may contain Wordplay markup, keeping the model away from
+ * anything it shouldn't rewrite.
+ *
+ * `translateChunk` is the unprotected entry point — the splitting and masking
+ * live in `translate()`, above it — so anything calling it directly hands the
+ * model raw markup. Localizing an embedded example did exactly that, and a doc
+ * whose text carries its own `\code\` came back with the code translated and
+ * the backslashes gone, which fails `mismatchedDelimiter` and costs the entire
+ * example. Only markup segments are sent; code is passed through untouched and
+ * `@Concept` links are masked across the round trip.
+ *
+ * An element whose translation failed is returned unchanged, so a partial
+ * failure costs a name or a sentence rather than a valid program.
+ */
+export async function translateProtectedMarkup(
+    texts: string[],
+    translateUnits: (units: string[]) => Promise<(string | null)[]>,
+): Promise<string[]> {
+    const segmented = texts.map(splitMarkupAndCode);
+    const units: string[] = [];
+    const unitLinks: string[][] = [];
+    for (const segments of segmented)
+        for (const segment of segments)
+            if (segment.kind === 'markup' && segment.text.trim().length > 0) {
+                const { masked, links } = protectConceptLinks(segment.text);
+                units.push(masked);
+                unitLinks.push(links);
+            }
+    if (units.length === 0) return texts;
+    const out = await translateUnits(units);
+    let unit = 0;
+    return segmented.map((segments, index) => {
+        let failed = false;
+        const rebuilt = segments
+            .map((segment) => {
+                if (segment.kind === 'code' || segment.text.trim().length === 0)
+                    return segment.text;
+                const translated = out[unit];
+                const links = unitLinks[unit] ?? [];
+                unit++;
+                if (translated === null || translated === undefined) {
+                    failed = true;
+                    return segment.text;
+                }
+                const restored = restoreConceptLinks(translated, links);
+                // `splitMarkupAndCode` already took every `\…\` and `` `…` ``
+                // out of this unit, so a delimiter in what came back is one the
+                // model invented. Left in, it unbalances the rebuilt example and
+                // the caller discards the whole thing; dropping just this unit
+                // costs one sentence instead.
+                if (mismatchedDelimiter(segment.text, restored))
+                    return segment.text;
+                return restored;
+            })
+            .join('');
+        return failed ? texts[index] : rebuilt;
+    });
 }
 
 export default class ClaudeTranslator implements Translator {
@@ -401,17 +510,15 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             const rawTranslator: RawTranslator = async (texts) => {
                 if (texts.length === 0) return [];
                 try {
-                    const out = await this.translateChunk(
-                        log,
-                        texts,
-                        system,
-                        sourceLocale,
-                        targetLocale,
+                    return await translateProtectedMarkup(texts, (units) =>
+                        this.translateChunk(
+                            log,
+                            units,
+                            system,
+                            sourceLocale,
+                            targetLocale,
+                        ),
                     );
-                    // Keep the original for any element that couldn't translate, so
-                    // the example stays a valid program (a partial failure here just
-                    // means a name/text isn't localized, not a broken example).
-                    return out.map((t, i) => t ?? texts[i]);
                 } catch {
                     return null;
                 }
@@ -561,12 +668,13 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         // timed out is a worse trade than a locale that finishes in two passes.
         const translatedUnits: (string | null)[] = [];
         let failures = 0;
-        for (let i = 0; i < units.length; i += CHUNK_SIZE) {
-            const chunk = units.slice(i, i + CHUNK_SIZE);
+        let done = 0;
+        for (const chunk of chunkUnits(units)) {
             const characters = chunk.reduce(
                 (total, unit) => total + unit.length,
                 0,
             );
+            done += chunk.length;
             const started = Date.now();
             const elapsed = () => ((Date.now() - started) / 1000).toFixed(1);
             try {
@@ -580,7 +688,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                     )),
                 );
                 log.say(
-                    `${Math.min(i + CHUNK_SIZE, units.length)}/${units.length} text segments, ${characters} chars in ${elapsed()}s`,
+                    `${done}/${units.length} text segments, ${characters} chars in ${elapsed()}s`,
                 );
             } catch (error) {
                 failures++;
@@ -643,61 +751,159 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                 );
         }
 
+        // Reassemble one string from its translated units, validating it. A
+        // `null` means the translation is unusable and the caller keeps the
+        // source unwritten rather than shipping something broken.
+        const reassemble = (
+            segments: { kind: 'markup' | 'code'; text: string }[],
+            source: string,
+            unitsFor: (string | null)[],
+            linksFor: string[][],
+            quiet: boolean,
+        ): string | null => {
+            let failed = false;
+            let index = 0;
+            const rebuilt = segments
+                .map((seg) => {
+                    if (seg.kind === 'code')
+                        return codeMap.get(seg.text) ?? seg.text;
+                    if (seg.text.trim().length === 0) return seg.text;
+                    const at = index++;
+                    const unit = unitsFor[at];
+                    if (unit === null) failed = true;
+                    // Put the masked links back where the translation left
+                    // their placeholders — which may not be where they
+                    // started, since grammar reorders sentences.
+                    return unit === null || unit === undefined
+                        ? ''
+                        : restoreConceptLinks(unit, linksFor[at] ?? []);
+                })
+                .join('');
+            // A markup unit couldn't be translated → signal null so the caller
+            // keeps the source unwritten ($?) rather than shipping English.
+            if (failed) return null;
+            // Safety belt (cross-backend repair): restore mangled @Concept
+            // links and $name mentions. If the `\…\`/`` `…` `` delimiters no
+            // longer match the source, the string would break tokenization —
+            // signal null instead of shipping a corrupt (or English) string.
+            const repaired = repairMentionsPositional(
+                source,
+                restoreReferences(source, rebuilt, ConceptPattern),
+            );
+            const complain = (message: string) => {
+                if (!quiet) log.warning(message);
+                return null;
+            };
+            if (mismatchedDelimiter(source, repaired) !== undefined)
+                return complain(
+                    `A translation left an unbalanced delimiter; marking it unwritten (${targetLocale}).`,
+                );
+            // Masking should mean the links came back untouched. If one is
+            // renamed or missing anyway — a dropped placeholder, or a link
+            // the model invented — the string would render as the
+            // unknown-character glyph, so keep the source unwritten and let
+            // a re-run retry it. This is what makes "the translator can't
+            // break links" true rather than merely likely (#1263).
+            const link = mismatchedConceptLinks(source, repaired);
+            if (link !== undefined)
+                return complain(
+                    `A translation altered the concept link ${link}; marking it unwritten (${targetLocale}).`,
+                );
+            // A placeholder that outlived restoration means the restore
+            // silently failed, and `mismatchedConceptLinks` can't always
+            // see it: when the source carries no links of its own, source
+            // and translation both count zero and the raw `⟦0⟧` sails
+            // through into the locale file. Seven did.
+            if (hasResidualLinkMask(repaired))
+                return complain(
+                    `A translation kept a link placeholder instead of the link; marking it unwritten (${targetLocale}).`,
+                );
+            return repaired;
+        };
+
         // Reassemble each string: translated markup in place, localized code.
         let unitIndex = 0;
+        const unitRange: { start: number; count: number }[] = [];
         const result: (string | null)[] = allSegments.map(
             (segments, stringIndex) => {
-                let failed = false;
-                const rebuilt = segments
-                    .map((seg) => {
-                        if (seg.kind === 'code')
-                            return codeMap.get(seg.text) ?? seg.text;
-                        if (seg.text.trim().length === 0) return seg.text;
-                        const index = unitIndex++;
-                        const unit = translatedUnits[index];
-                        if (unit === null) failed = true;
-                        // Put the masked links back where the translation left
-                        // their placeholders — which may not be where they
-                        // started, since grammar reorders sentences.
-                        return unit === null || unit === undefined
-                            ? ''
-                            : restoreConceptLinks(unit, unitLinks[index] ?? []);
-                    })
-                    .join('');
-                // A markup unit couldn't be translated → signal null so the caller
-                // keeps the source unwritten ($?) rather than shipping English.
-                if (failed) return null;
-                // Safety belt (cross-backend repair): restore mangled @Concept
-                // links and $name mentions. If the `\…\`/`` `…` `` delimiters no
-                // longer match the source, the string would break tokenization —
-                // signal null instead of shipping a corrupt (or English) string.
-                const source = text[stringIndex];
-                const repaired = repairMentionsPositional(
-                    source,
-                    restoreReferences(source, rebuilt, ConceptPattern),
+                const start = unitIndex;
+                const count = segments.filter(
+                    (seg) =>
+                        seg.kind === 'markup' && seg.text.trim().length > 0,
+                ).length;
+                unitIndex += count;
+                unitRange.push({ start, count });
+                return reassemble(
+                    segments,
+                    text[stringIndex],
+                    translatedUnits.slice(start, start + count),
+                    unitLinks.slice(start, start + count),
+                    // Stay quiet on the first attempt: a retry may well fix it,
+                    // and warning twice about one string reads as two problems.
+                    true,
                 );
-                if (mismatchedDelimiter(source, repaired) !== undefined) {
-                    log.warning(
-                        `A translation left an unbalanced delimiter; marking it unwritten (${targetLocale}).`,
-                    );
-                    return null;
-                }
-                // Masking should mean the links came back untouched. If one is
-                // renamed or missing anyway — a dropped placeholder, or a link
-                // the model invented — the string would render as the
-                // unknown-character glyph, so keep the source unwritten and let
-                // a re-run retry it. This is what makes "the translator can't
-                // break links" true rather than merely likely (#1263).
-                const link = mismatchedConceptLinks(source, repaired);
-                if (link !== undefined) {
-                    log.warning(
-                        `A translation altered the concept link ${link}; marking it unwritten (${targetLocale}).`,
-                    );
-                    return null;
-                }
-                return repaired;
             },
         );
+
+        // Retry the strings that came back unusable, one string per request.
+        //
+        // Every rejection above is the model losing track of a `⟦n⟧` placeholder
+        // or a delimiter, and it does that far more readily in a 25-segment
+        // request than in one holding a single string. Retrying only the
+        // failures costs a handful of small requests and recovers most of them;
+        // without it the same strings fail every run forever, which is exactly
+        // where 42 of them ended up.
+        const retryable = result
+            .map((value, index) => ({ value, index }))
+            .filter(
+                ({ value, index }) =>
+                    value === null && unitRange[index].count > 0,
+            );
+        if (retryable.length > 0) {
+            const retryLog = log.pending(
+                `Retrying ${retryable.length} string(s) the model garbled, one at a time`,
+            );
+            let recovered = 0;
+            for (const { index } of retryable) {
+                const { start, count } = unitRange[index];
+                const segments = allSegments[index];
+                const links = unitLinks.slice(start, start + count);
+                let units: (string | null)[];
+                try {
+                    units = await this.translateChunk(
+                        log,
+                        // Re-mask from the source so the retry is independent of
+                        // whatever the first attempt did to the placeholders.
+                        segments
+                            .filter(
+                                (seg) =>
+                                    seg.kind === 'markup' &&
+                                    seg.text.trim().length > 0,
+                            )
+                            .map((seg) => protectConceptLinks(seg.text).masked),
+                        system,
+                        sourceLocale,
+                        targetLocale,
+                    );
+                } catch {
+                    continue;
+                }
+                const second = reassemble(
+                    segments,
+                    text[index],
+                    units,
+                    links,
+                    false,
+                );
+                if (second !== null) {
+                    result[index] = second;
+                    recovered++;
+                }
+            }
+            retryLog.good(
+                `Recovered ${recovered} of ${retryable.length} on retry.`,
+            );
+        }
 
         log.good(`Translated ${text.length} strings with Claude.`);
         return result;

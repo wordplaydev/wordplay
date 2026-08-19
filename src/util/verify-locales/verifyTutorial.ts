@@ -29,6 +29,7 @@ import TutorialSchema, {
 import Validator from '@util/verify-locales/Validator';
 import { alignTutorialLines } from '@util/verify-locales/syncTutorialStructure';
 import getTranslator from '@util/verify-locales/getTranslator';
+import { TranslationFailedAdvice } from '@util/verify-locales/getTranslator';
 import { Performances, performanceSource } from '../../tutorial/Performances';
 import { Themes, themeSource } from '../../tutorial/Themes';
 import {
@@ -520,9 +521,7 @@ async function translateTutorial(
     );
 
     if (translations === undefined) {
-        translating.bad(
-            'Unable to translate. Make sure gcloud cli is installed, you are logged in, and your project is wordplay-prod.',
-        );
+        translating.bad(TranslationFailedAdvice);
         return revised;
     }
 

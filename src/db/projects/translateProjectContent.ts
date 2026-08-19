@@ -10,6 +10,7 @@ import Input from '@nodes/Input';
 import Language from '@nodes/Language';
 import Markup from '@nodes/Markup';
 import Names from '@nodes/Names';
+import type WordplayNode from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import TextLiteral from '@nodes/TextLiteral';
@@ -227,12 +228,29 @@ export default async function translateProjectContent(
                         docToTranslate === undefined
                             ? undefined
                             : docToTranslate instanceof Translation
-                              ? docToTranslate.segments
-                                    .filter(
-                                        (t): t is Token => t instanceof Token,
-                                    )
-                                    .map((t) => t.toWordplay())
-                                    .join('')
+                              ? // Only plain text can be handed over and put
+                                // back. A text literal's segments are not all
+                                // tokens — an interpolation (`'hi \name\'`) is
+                                // an expression, and a `@Concept` inside the
+                                // text is a link node — and dropping them to
+                                // read the text meant the translation written
+                                // back *replaced* them. `'hello \name\'` came
+                                // back as `'hello '`, which unbalances the
+                                // example's delimiters and costs the caller the
+                                // whole example; `'@U/192'` came back as `''`.
+                                // Leaving such a literal untranslated costs one
+                                // string of localization instead.
+                                docToTranslate.segments.every(
+                                    (t) => t instanceof Token,
+                                )
+                                  ? docToTranslate.segments
+                                        .filter(
+                                            (t): t is Token =>
+                                                t instanceof Token,
+                                        )
+                                        .map((t) => t.toWordplay())
+                                        .join('')
+                                  : undefined
                               : docToTranslate.markup.paragraphs
                                     .map((p) =>
                                         normalizeSoftBreaks(p.toWordplay()),
@@ -250,6 +268,35 @@ export default async function translateProjectContent(
 
         // Keep a record of the revised project to return.
         let newProject = project;
+
+        /**
+         * The node in `newProject` corresponding to one collected from `project`.
+         *
+         * Every pass below replaces nodes gathered before any replacement ran,
+         * but replacing a node rebuilds all of its ancestors — so a `Docs` whose
+         * embedded `\code\` example held a reference the retargeting pass
+         * rewrote is no longer the object sitting in the tree. `getSourceOf`
+         * then fails, `withRevisedNodes` logs and *skips* the replacement, and
+         * the content is silently left untranslated; downstream, the example's
+         * delimiters no longer match its source and the whole example is
+         * discarded in favour of the English one. Structural paths survive that,
+         * since replacing a node with one of the same shape leaves the path to
+         * its container intact.
+         */
+        const current = (node: WordplayNode): WordplayNode => {
+            const source = project.getSourceOf(node);
+            if (source === undefined) return node;
+            const resolved = newProject.resolvePath(
+                project.getSources().indexOf(source),
+                source.root.getPath(node),
+            );
+            // A path that resolves to a different kind of node isn't the same
+            // node in a new tree; leaving the original alone is the safe miss.
+            return resolved !== undefined &&
+                resolved.getDescriptor() === node.getDescriptor()
+                ? resolved
+                : node;
+        };
 
         // Build a map from each unique original text to its translation, so lookups don't depend on positional indexes (which break when originalTexts has duplicates).
         let translationByOriginal: Map<string, string> | null = null;
@@ -295,6 +342,91 @@ export default async function translateProjectContent(
         // First, revise the project to contain the target locale, so we have names from the locale.
         if (targetLocaleText)
             newProject = newProject.withPrimaryLocale(targetLocaleText);
+
+        // The text/doc pass runs BEFORE reference retargeting on purpose. It
+        // rebuilds a doc from its translation, and that translation was made
+        // from the source-language text — so any reference the retargeting
+        // pass had already renamed inside the doc's embedded `\code\` would be
+        // reverted, leaving the example naming a bind that no longer exists.
+        // That reads as a new conflict, and the caller then throws the whole
+        // localized example away. Retargeting after this pass fixes up the
+        // references inside whatever text landed, since it collects from the
+        // current project rather than the original.
+        // Add the translated text to the project.
+        newProject = newProject.withRevisedNodes(
+            textToTranslate.map((textToTranslate) => {
+                const { names: markups, original } = textToTranslate;
+                const target = current(markups);
+                let translation = textToTranslate.translation;
+
+                // Already have a translation? No change.
+                if (translationByOriginal === null || translation !== undefined)
+                    return [target, target];
+
+                if (original === undefined) return [target, target];
+                const translated = translationByOriginal.get(original);
+                if (translated === undefined) return [target, target];
+
+                translation = translated;
+
+                const [markup] = toMarkup(translation);
+
+                // In replace mode the text becomes a single target-language
+                // option (so the program reads natively); otherwise the target
+                // is added as another option alongside the source.
+                // Built from `target`, not `markups`: an earlier pass may have
+                // rewritten a reference inside this doc's embedded example, and
+                // rebuilding from the node collected beforehand would throw
+                // that away.
+                return [
+                    target,
+                    target instanceof TextLiteral
+                        ? replace
+                            ? TextLiteral.make(translation)
+                            : target.withOption(
+                                  Translation.make(
+                                      translation,
+                                      Language.make(targetLanguage),
+                                  ),
+                              )
+                        : target instanceof Docs
+                          ? replace
+                              ? Docs.make([
+                                    withFormattedMarkupSpaces(
+                                        Doc.make(markup.paragraphs),
+                                    ),
+                                ])
+                              : target.withOption(
+                                    withFormattedMarkupSpaces(
+                                        Doc.make(
+                                            markup.paragraphs,
+                                            Language.make(targetLanguage),
+                                        ),
+                                    ),
+                                )
+                          : replace
+                            ? FormattedLiteral.make([
+                                  withFormattedMarkupSpaces(
+                                      FormattedTranslation.make(
+                                          markup.paragraphs,
+                                      ),
+                                  ),
+                              ])
+                            : target instanceof FormattedLiteral
+                              ? target.withOption(
+                                    withFormattedMarkupSpaces(
+                                        FormattedTranslation.make(
+                                            markup.paragraphs,
+                                            Language.make(targetLanguage),
+                                        ),
+                                    ),
+                                )
+                              : // A path that resolved to some other kind of
+                                // node isn't this one; leave it be.
+                                target,
+                ];
+            }),
+        );
 
         // Revise the project to include the new translated names and updated references to those new names.
         // Compute the target-language name for each bind (camel-cased,
@@ -415,80 +547,14 @@ export default async function translateProjectContent(
         // otherwise the target name is added alongside the source.
         newProject = newProject.withRevisedNodes(
             bindsToTranslate.map(({ names }) => {
+                const target = current(names);
                 const translation = targetNameByNames.get(names);
-                if (translation === undefined) return [names, names];
+                if (translation === undefined) return [target, target];
                 return [
-                    names,
+                    target,
                     replace
                         ? Names.make([translation])
                         : names.withName(translation, targetLanguage),
-                ];
-            }),
-        );
-
-        // Add the translated text to the project.
-        newProject = newProject.withRevisedNodes(
-            textToTranslate.map((textToTranslate) => {
-                const { names: markups, original } = textToTranslate;
-                let translation = textToTranslate.translation;
-
-                // Already have a translation? No change.
-                if (translationByOriginal === null || translation !== undefined)
-                    return [markups, markups];
-
-                if (original === undefined) return [markups, markups];
-                const translated = translationByOriginal.get(original);
-                if (translated === undefined) return [markups, markups];
-
-                translation = translated;
-
-                const [markup] = toMarkup(translation);
-
-                // In replace mode the text becomes a single target-language
-                // option (so the program reads natively); otherwise the target
-                // is added as another option alongside the source.
-                return [
-                    markups,
-                    markups instanceof TextLiteral
-                        ? replace
-                            ? TextLiteral.make(translation)
-                            : markups.withOption(
-                                  Translation.make(
-                                      translation,
-                                      Language.make(targetLanguage),
-                                  ),
-                              )
-                        : markups instanceof Docs
-                          ? replace
-                              ? Docs.make([
-                                    withFormattedMarkupSpaces(
-                                        Doc.make(markup.paragraphs),
-                                    ),
-                                ])
-                              : markups.withOption(
-                                    withFormattedMarkupSpaces(
-                                        Doc.make(
-                                            markup.paragraphs,
-                                            Language.make(targetLanguage),
-                                        ),
-                                    ),
-                                )
-                          : replace
-                            ? FormattedLiteral.make([
-                                  withFormattedMarkupSpaces(
-                                      FormattedTranslation.make(
-                                          markup.paragraphs,
-                                      ),
-                                  ),
-                              ])
-                            : markups.withOption(
-                                  withFormattedMarkupSpaces(
-                                      FormattedTranslation.make(
-                                          markup.paragraphs,
-                                          Language.make(targetLanguage),
-                                      ),
-                                  ),
-                              ),
                 ];
             }),
         );
