@@ -138,6 +138,10 @@ export async function verifyLocale(
      *  `+locale:<prefix>` scope). Verification still runs over everything;
      *  only the translation pass is filtered. Undefined = translate all. */
     localeFilter?: (path: LocalePath) => boolean,
+    /** The run's shared translation backend, so its caches (localized examples,
+     *  locale texts) and usage accounting span the whole locale run rather than
+     *  one call. Undefined = the env-selected backend, constructed on demand. */
+    translator?: Translator,
 ): Promise<[LocaleText, boolean]> {
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
@@ -182,6 +186,7 @@ export async function verifyLocale(
         globalNames,
         translatedPaths,
         localeFilter,
+        translator,
     );
 
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
@@ -215,6 +220,8 @@ async function checkLocale(
     translatedPaths?: Set<string>,
     /** Optional predicate to narrow which paths get translated; see verifyLocale. */
     localeFilter?: (path: LocalePath) => boolean,
+    /** The run's shared translation backend; see verifyLocale. */
+    translator?: Translator,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
@@ -270,6 +277,22 @@ async function checkLocale(
             });
 
         if (pairsToTranslate.length > 0) {
+            // Which elements of a non-markup array still need translation. A
+            // path is selected when ANY element is queued, but the other
+            // elements may hold good translations — re-sending them re-bills
+            // and replaces them with fresh machine output for nothing. A path
+            // reset by an en-US `$!` re-translates every element, since the
+            // source's meaning changed for all of them.
+            const revisedPathStrings = new Set(
+                revisedStrings.map((rev) => rev.path.toString()),
+            );
+            const itemNeedsTranslation = (
+                path: LocalePath,
+                existing: string | undefined,
+            ): boolean =>
+                existing === undefined ||
+                revisedPathStrings.has(path.toString()) ||
+                shouldStringBeMachineTranslated(existing, override);
             // Progress, not an error: logging this as bad() counted an error and
             // so exited non-zero, which made every successfully translated locale
             // report as failed in the batch runner's summary. The strings here are
@@ -282,6 +305,8 @@ async function checkLocale(
                 revised,
                 pairsToTranslate,
                 translatedPaths,
+                translator,
+                itemNeedsTranslation,
             );
         }
     }
@@ -631,8 +656,41 @@ export async function translateLocale(
     /** Injectable backend; defaults to the env-selected one. Tests pass a stub to
      *  observe the translate-call ordering without hitting a real API. */
     translator: Translator = getTranslator(),
+    /** Which elements of a non-markup array to translate, given each element's
+     *  current target value. A path is selected when ANY of its elements is
+     *  queued, but its other elements may already hold good translations —
+     *  re-sending those re-bills and replaces them for nothing. Undefined =
+     *  every element (the caller has no per-element knowledge). Markup arrays
+     *  are unaffected: they are one document translated atomically. */
+    itemNeedsTranslation?: (
+        path: LocalePath,
+        existing: string | undefined,
+    ) => boolean,
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
+
+    // Which element indices of each non-markup array to send, memoized so the
+    // request builder and the write-back below consume the translation stream
+    // in lockstep — they must agree exactly on what was sent.
+    const itemIndices = new Map<LocalePath, number[]>();
+    const indicesFor = (path: LocalePath, match: string[]): number[] => {
+        let indices = itemIndices.get(path);
+        if (indices === undefined) {
+            const existing = path.resolve(revised);
+            const existingItems = Array.isArray(existing)
+                ? existing
+                : undefined;
+            indices = match
+                .map((_, index) => index)
+                .filter(
+                    (index) =>
+                        itemNeedsTranslation === undefined ||
+                        itemNeedsTranslation(path, existingItems?.[index]),
+                );
+            itemIndices.set(path, indices);
+        }
+        return indices;
+    };
 
     // Strip Unwritten/Revised prefixes so the translator doesn't see them as
     // part of the input (e.g. "$!duplicate" coming back with the marker embedded).
@@ -653,19 +711,24 @@ export async function translateLocale(
         targetText: LocaleText | undefined,
         /** The phase's logger, so the translator's progress nests under it. */
         phaseLog: Log,
+        /** Passed through to the backend; `names` marks identifier phases. */
+        options?: { names?: boolean },
     ): Promise<boolean> => {
         // A markup ([formatted]) array is one logical document whose items are
         // paragraphs (an editing convenience, see toDocString) → translate
         // atomically as one joined string so the translator can organize
         // paragraphs naturally for the target language. Other arrays (names,
-        // tips, …) are distinct items, translated per element.
+        // tips, …) are distinct items, translated per element — and only the
+        // elements that still need it.
         const sourceStrings = paths.flatMap((path) => {
             const match = path.resolve(source);
             if (match === undefined) return [];
             if (Array.isArray(match))
                 return classifyPair(path) === 'markup'
                     ? [match.map(stripMarkers).join('\n\n')]
-                    : match.map(stripMarkers);
+                    : indicesFor(path, match).map((index) =>
+                          stripMarkers(match[index]),
+                      );
             return [stripMarkers(match)];
         });
         if (sourceStrings.length === 0) return true;
@@ -676,6 +739,7 @@ export async function translateLocale(
             toLocaleString(source),
             targetLocale,
             targetText,
+            options,
         );
         if (translations === undefined) {
             phaseLog.bad(TranslationFailedAdvice);
@@ -731,9 +795,21 @@ export async function translateLocale(
                     const existingItems = Array.isArray(existing)
                         ? existing
                         : undefined;
+                    const translated = new Set(indicesFor(path, match));
                     const value: string[] = [];
                     let wroteAny = false;
                     for (let count = 0; count < match.length; count++) {
+                        // An element that wasn't sent keeps its existing
+                        // translation verbatim, markers and all.
+                        if (!translated.has(count)) {
+                            const kept = existingItems?.[count];
+                            value.push(
+                                kept === undefined
+                                    ? keepOrPlacehold(undefined, match[count])
+                                    : kept,
+                            );
+                            continue;
+                        }
                         const next = translations.shift();
                         if (next != null) {
                             const t = nameify ? toValidName(next) : next;
@@ -790,16 +866,21 @@ export async function translateLocale(
         label: string,
         paths: LocalePath[],
         targetText: LocaleText | undefined,
+        options?: { names?: boolean },
     ): Promise<boolean> =>
         paths.length === 0
             ? Promise.resolve(true)
-            : apply(paths, targetText, log.pending(label));
+            : apply(paths, targetText, log.pending(label), options);
 
+    // Glossary words and construct names ride the backend's stronger model
+    // (`names`): they are a sliver of the run's tokens, and a bad one is a
+    // cross-locale name collision rather than an awkward sentence.
     if (
         !(await phase(
             `${glossaryWords.length} glossary terms`,
             glossaryWords,
             undefined,
+            { names: true },
         ))
     )
         return revised;
@@ -820,6 +901,7 @@ export async function translateLocale(
             `${namePaths.length} construct names`,
             namePaths,
             revised,
+            { names: true },
         ))
     )
         return revised;

@@ -134,14 +134,25 @@ export default async function translateProjectContent(
                     .getNameInLanguage(targetLanguage, false)
                     ?.getName();
 
+                // Convert the camel cased name into separated words for better translation performance.
+                const original = nameToTranslate
+                    .getName()
+                    ?.replace(SeparateWords, ' $&')
+                    .trim();
+
                 return {
                     names,
-                    // The original text to translate, or undefined if there is no text to translate.
-                    // Convert the camel cased name into separated words for better translation performance.
-                    original: nameToTranslate
-                        .getName()
-                        ?.replace(SeparateWords, ' $&')
-                        .trim(),
+                    // The original text to translate, or undefined if there is
+                    // no text to translate. A name with no letter in any script
+                    // (an emoji or operator name like 🔈 or ≠) isn't
+                    // translatable prose — sending it invites the model to
+                    // invent a word for it, so it keeps its name instead. The
+                    // locale verifier makes the same exclusion for symbolic
+                    // basis names.
+                    original:
+                        original !== undefined && /\p{L}/u.test(original)
+                            ? original
+                            : undefined,
                     // The translation, or undefined if there is no translation yet.
                     translation: targetName,
                 };
