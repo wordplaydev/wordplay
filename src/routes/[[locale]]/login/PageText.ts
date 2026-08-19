@@ -39,7 +39,7 @@ type PageText = {
         delete: string;
         /** [plain] Offers to really delete account forever */
         reallyDelete: string;
-        /** [name] Pick an emoji as a name */
+        /** [plain] Prompt inviting the creator to pick an emoji or character as their name */
         name: string;
     };
     /** [plain] Shown in the footer a creator is not logged in. */

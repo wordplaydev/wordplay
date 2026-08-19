@@ -19473,7 +19473,7 @@
                                                     "type": "string"
                                                 },
                                                 "name": {
-                                                    "description": "[name] When the name isn't a valid Wordplay name",
+                                                    "description": "[plain] Error shown when the character's name isn't a valid Wordplay name",
                                                     "type": "string"
                                                 },
                                                 "notfound": {
@@ -21175,7 +21175,7 @@
                                                     "description": "[formatted] Offers to log out the creator."
                                                 },
                                                 "name": {
-                                                    "description": "[name] Pick an emoji as a name",
+                                                    "description": "[plain] Prompt inviting the creator to pick an emoji or character as their name",
                                                     "type": "string"
                                                 },
                                                 "passwordrule": {

@@ -105,7 +105,7 @@ type PageText = {
         dismissError: ButtonText;
     };
     feedback: {
-        /** [name] When the name isn't a valid Wordplay name */
+        /** [plain] Error shown when the character's name isn't a valid Wordplay name */
         name: string;
         /** [plain] When the description is empty */
         description: string;

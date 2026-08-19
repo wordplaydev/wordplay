@@ -21,6 +21,7 @@ import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkNames from '@util/verify-locales/checkNames';
 import checkRedundantNames from '@util/verify-locales/checkRedundantNames';
+import checkAnnotations from '@util/verify-locales/checkAnnotations';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import checkTerms from '@util/verify-locales/checkTerms';
 import classifyLocalePath, {
@@ -49,6 +50,7 @@ import {
 } from '@util/verify-locales/templateInputs';
 import { getPluralCategories, getPluralCount } from '@locale/plurals';
 import getTranslator from '@util/verify-locales/getTranslator';
+import { TranslationFailedAdvice } from '@util/verify-locales/getTranslator';
 import type Translator from '@util/verify-locales/Translator';
 import toValidName from '@util/verify-locales/toValidName';
 
@@ -153,6 +155,7 @@ export async function verifyLocale(
     // breaks) and name validity before the doc-parse checks and translation
     // below, so fix-mode repairs land first.
     revisedText = checkStringArrays(log, DefaultLocale, revisedText, fix);
+    revisedText = checkAnnotations(log, revisedText, fix);
     revisedText = checkNames(log, DefaultLocale, revisedText, fix);
     // After checkNames, so a name repaired to its en-US value is recognized as the duplicate
     // it now is rather than surviving until the next run.
@@ -569,6 +572,34 @@ async function checkLocale(
     return revised;
 }
 
+/** Drop the markers a source string carries before it is sent for translation. */
+export function stripMarkers(text: string): string {
+    return text.replace(Unwritten, '').replace(Revised, '');
+}
+
+/**
+ * What to write when the translator couldn't produce a translation.
+ *
+ * A string that already had one keeps it, re-queued with `$!`: it is stale, not
+ * missing, and overwriting it with English takes the reader's language away in
+ * order to say so. That only became the common case once drift detection began
+ * re-translating existing strings (#1144) — before, this path was reached almost
+ * only for strings never translated at all, and it silently replaced 20 real
+ * translations with English the first time a drift-marked run failed. A string
+ * with nothing to keep still becomes `$?` plus the English source, which falls
+ * back to English anyway and fails the unwritten gate loudly.
+ */
+export function keepOrPlacehold(
+    existing: string | undefined,
+    english: string,
+): string {
+    const kept =
+        existing === undefined ? '' : withoutAnnotations(existing).trim();
+    return kept.length === 0
+        ? `${Unwritten}${stripMarkers(english)}`
+        : `${Revised}${kept}`;
+}
+
 /** Add missing keys and remove extra ones from a given locale, relative to a source locale. */
 function repairLocale(
     log: Log,
@@ -605,8 +636,6 @@ export async function translateLocale(
 
     // Strip Unwritten/Revised prefixes so the translator doesn't see them as
     // part of the input (e.g. "$!duplicate" coming back with the marker embedded).
-    const stripMarkers = (s: string) =>
-        s.replace(Unwritten, '').replace(Revised, '');
 
     const targetLocale = await translator.getTargetLocale(
         target.language,
@@ -649,9 +678,7 @@ export async function translateLocale(
             targetText,
         );
         if (translations === undefined) {
-            phaseLog.bad(
-                'Unable to translate. Check ANTHROPIC_API_KEY (claude) or gcloud auth (google).',
-            );
+            phaseLog.bad(TranslationFailedAdvice);
             return false;
         }
 
@@ -677,19 +704,33 @@ export async function translateLocale(
                             translatedPaths?.add(path.toString());
                         }
                     } else {
+                        const existing = path.resolve(revised);
+                        const kept = Array.isArray(existing)
+                            ? existing
+                            : undefined;
                         path.repair(
                             revised,
-                            match.map((s, index) =>
-                                index === 0
-                                    ? `${Unwritten}${stripMarkers(s)}`
-                                    : stripMarkers(s),
-                            ),
+                            kept === undefined
+                                ? match.map((s, index) =>
+                                      index === 0
+                                          ? `${Unwritten}${stripMarkers(s)}`
+                                          : stripMarkers(s),
+                                  )
+                                : kept.map((s, index) =>
+                                      index === 0
+                                          ? keepOrPlacehold(s, match[0] ?? '')
+                                          : s,
+                                  ),
                         );
                     }
                 } else {
                     // Only identifier fields (NameText-typed) get folded into
                     // valid names; display labels tagged [name] keep their spaces.
                     const nameify = isNameTextPath([...path.path, path.key]);
+                    const existing = path.resolve(revised);
+                    const existingItems = Array.isArray(existing)
+                        ? existing
+                        : undefined;
                     const value: string[] = [];
                     let wroteAny = false;
                     for (let count = 0; count < match.length; count++) {
@@ -700,7 +741,10 @@ export async function translateLocale(
                             wroteAny = true;
                         } else {
                             value.push(
-                                `${Unwritten}${stripMarkers(match[count])}`,
+                                keepOrPlacehold(
+                                    existingItems?.[count],
+                                    match[count],
+                                ),
                             );
                         }
                     }
@@ -716,7 +760,14 @@ export async function translateLocale(
                     path.repair(revised, `${MachineTranslated}${t.trim()}`);
                     translatedPaths?.add(path.toString());
                 } else {
-                    path.repair(revised, `${Unwritten}${stripMarkers(match)}`);
+                    const existing = path.resolve(revised);
+                    path.repair(
+                        revised,
+                        keepOrPlacehold(
+                            typeof existing === 'string' ? existing : undefined,
+                            match,
+                        ),
+                    );
                 }
             }
         }
