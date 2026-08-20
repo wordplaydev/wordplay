@@ -143,7 +143,7 @@
         "temporal-polyfill": "^1",
         "uuid": "^14",
         "yjs": "^13",
-        "zod": "^4"
+        "zod": "^4.3"
     },
     "overrides": {
         "cookie": "^0.7.0"

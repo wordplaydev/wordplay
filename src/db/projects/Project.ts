@@ -342,6 +342,16 @@ export default class Project {
         return new Project({ ...this.data, ...data }, this);
     }
 
+    /**
+     * A revision with `preview` removed. Firestore rejects an undefined field
+     * value, so "no preview" is an absent key — which a `revised()` spread
+     * can't express. Carries caches exactly as `revised()` does.
+     */
+    private withoutPreview(): Project {
+        const { preview: _, ...rest } = this.data;
+        return new Project(rest, this);
+    }
+
     private adoptCaches(carry: Project) {
         if (carry.basis !== this.basis) return;
         for (const source of this.getSources()) {
@@ -1569,7 +1579,10 @@ export default class Project {
             restrictedGallery: project.restrictedGallery,
             viewers: project.viewers,
             commenters: project.commenters,
-            preview: project.preview,
+            // Omit the key when absent; `preview` is exactly optional, so
+            // assigning undefined would put a value Firestore rejects into
+            // memory. Same reasoning as the crdt/remixOf coalescing below.
+            ...(project.preview !== undefined && { preview: project.preview }),
             stamps: {
                 lamport: project.stamps.lamport,
                 fields: { ...project.stamps.fields },
@@ -1925,7 +1938,9 @@ export default class Project {
     }
 
     withPreview(preview: SerializedPreview | undefined): Project {
-        return this.revised({ preview });
+        return preview === undefined
+            ? this.withoutPreview()
+            : this.revised({ preview });
     }
 
     /** The ID of the project this was remixed from, or null if it's an original. */
@@ -2241,7 +2256,6 @@ export default class Project {
             restrictedGallery: pick('restrictedGallery'),
             viewers: pick('viewers'),
             commenters: pick('commenters'),
-            preview: pick('preview'),
             // Source structure stays local. The Yjs CRDT
             // (ProjectCRDT.ts) is the authoritative merge for code and
             // source names; ProjectsDatabase.foldRemoteCRDT applies the
@@ -2259,6 +2273,13 @@ export default class Project {
             persisted: this.data.persisted || other.data.persisted,
             stamps: mergeStamps(localStamps, remoteStamps),
         };
+        // `preview` is the only stamped field that can be absent, and it's
+        // exactly optional, so set-or-delete it rather than letting the
+        // `...this.data` base carry a stale one past a merge that dropped it.
+        const mergedPreview = pick('preview');
+        if (mergedPreview === undefined) delete mergedData.preview;
+        else mergedData.preview = mergedPreview;
+
         // Sources and carets come from `this` (see above), so its caches
         // still describe them.
         return new Project(mergedData, this);

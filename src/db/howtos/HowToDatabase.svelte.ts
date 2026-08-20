@@ -129,7 +129,7 @@ export type HowToPreview = z.infer<typeof HowToPreviewSchema>;
 const HowToSchemaV3 = HowToSchemaV2.extend({
     v: z.literal(3),
     /** Cached preview computed by the author's browser on save, so readers skip evaluation */
-    preview: HowToPreviewSchema.optional(),
+    preview: HowToPreviewSchema.exactOptional(),
 });
 
 export const HowToSchemaLatestVersion = 3;

@@ -139,7 +139,7 @@ const PreviewSchema = PreviewContentSchema.extend({
 const ProjectSchemaV6 = ProjectSchemaV5.omit({ v: true }).extend(
     z.object({
         v: z.literal(6),
-        preview: PreviewSchema.optional(),
+        preview: PreviewSchema.exactOptional(),
     }).shape,
 );
 
@@ -329,10 +329,11 @@ export function upgradeProject(
                 commenters: [],
             });
         case 5:
-            // Leave `preview: undefined` — the first read after migration
-            // triggers an on-demand compute via the preview queue (see
-            // src/db/projects/previewQueue.ts).
-            return upgradeProject({ ...project, v: 6, preview: undefined });
+            // Leave `preview` absent rather than undefined — the schema's
+            // exactOptional forbids the latter, and Firestore rejects it. The
+            // first read after migration triggers an on-demand compute via the
+            // preview queue (see src/db/projects/previewQueue.ts).
+            return upgradeProject({ ...project, v: 6 });
         case 6:
             // v6→v7: initialize empty stamps. The existing scalar `timestamp`
             // is kept as a fallback when both sides' stamps are NeverWritten

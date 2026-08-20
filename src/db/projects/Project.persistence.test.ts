@@ -174,7 +174,9 @@ describe('Project.remix — provenance', () => {
         // which would block every save for the whole batch, not just this doc.
         const serialized = makeBase().serialize();
         expect(serialized.remixOf).toBeNull();
-        expect(Object.values(serialized).includes(undefined)).toBe(false);
+        expect(Object.values(serialized).some((v) => v === undefined)).toBe(
+            false,
+        );
     });
 
     test('mergeWith preserves provenance from either side', () => {
@@ -383,6 +385,27 @@ describe('Project.serialize — Firestore-compatible output', () => {
         expect(p.getPreview()).toBeUndefined();
         const serialized = p.serialize();
         expect('preview' in serialized).toBe(false);
+    });
+
+    test('withPreview(undefined) removes the key rather than setting it undefined', () => {
+        // Unpinning a preview (ProjectsDatabase.clearPreview) used to write
+        // `preview: undefined` into the project data, which serialize() then
+        // had to filter back out. The schema's exactOptional makes the absent
+        // key the only representable "no preview".
+        const pinned = makeBase().withPreview({
+            mode: 'manual',
+            text: 'a',
+            foreground: null,
+            background: null,
+            face: null,
+            characterName: null,
+        });
+        expect(pinned.getPreview()?.text).toBe('a');
+
+        const cleared = pinned.withPreview(undefined);
+        expect(cleared.getPreview()).toBeUndefined();
+        expect('preview' in cleared.serialize()).toBe(false);
+        expect(() => ProjectSchema.parse(cleared.serialize())).not.toThrow();
     });
 
     test('serialize always stamps the latest schema version — old docs get migrated forward on next save', () => {

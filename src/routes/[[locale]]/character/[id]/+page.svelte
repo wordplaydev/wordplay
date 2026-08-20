@@ -285,18 +285,6 @@
         // Get the raw, non-proxied value.
         const raw = $state.snapshot(editedCharacter) as Character;
 
-        // Remove any undefined fields that accidentally slipped in due to optional properties in Zod permitting undefined values.
-        const removeEmpty = (obj: Record<any, any>) => {
-            let newObj: Record<any, any> = {};
-            Object.keys(obj).forEach((key) => {
-                if (obj[key] === Object(obj[key]))
-                    newObj[key] = removeEmpty(obj[key]);
-                else if (obj[key] !== undefined) newObj[key] = obj[key];
-            });
-            return newObj;
-        };
-        removeEmpty(raw);
-
         // Save the character.
         const result = await CharactersDB.updateCharacter(
             {
@@ -572,6 +560,10 @@
     }
 
     function getCurrentRect(): CharacterRectangle {
+        // Null fill means "inherit currentColor" — a real value — so test
+        // definedness, not truthiness, and omit the key when there is none.
+        const fill = getCurrentFill();
+        const stroke = getCurrentStroke();
         return {
             ...{
                 type: 'rect',
@@ -582,8 +574,8 @@
                 width: 1,
                 height: 1,
             },
-            ...(getCurrentFill() && { fill: getCurrentFill() }),
-            ...(getCurrentStroke() && { stroke: getCurrentStroke() }),
+            ...(fill !== undefined && { fill }),
+            ...(stroke !== undefined && { stroke }),
             ...(currentCorner !== 1 && { corner: currentCorner }),
             ...(currentAngle !== 0 && { angle: currentAngle }),
         };
@@ -608,6 +600,8 @@
     }
 
     function getCurrentEllipse(): CharacterEllipse {
+        const fill = getCurrentFill();
+        const stroke = getCurrentStroke();
         return {
             ...{
                 type: 'ellipse',
@@ -618,29 +612,23 @@
                 width: 1,
                 height: 1,
             },
-            ...(getCurrentFill() && {
-                fill: getCurrentFill(),
-            }),
-            ...(getCurrentStroke() && {
-                stroke: getCurrentStroke(),
-            }),
+            ...(fill !== undefined && { fill }),
+            ...(stroke !== undefined && { stroke }),
             ...(currentAngle !== 0 && { angle: currentAngle }),
         };
     }
 
     function getCurrentPath(): CharacterPath {
+        const fill = getCurrentFill();
+        const stroke = getCurrentStroke();
         return {
             type: 'path',
             points: [
                 { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
             ],
             closed: currentClosed,
-            ...(getCurrentFill() && {
-                fill: getCurrentFill(),
-            }),
-            ...(getCurrentStroke() && {
-                stroke: getCurrentStroke(),
-            }),
+            ...(fill !== undefined && { fill }),
+            ...(stroke !== undefined && { stroke }),
             ...(currentAngle !== 0 && { angle: currentAngle }),
         };
     }
