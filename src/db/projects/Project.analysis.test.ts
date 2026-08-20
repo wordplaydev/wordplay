@@ -180,6 +180,14 @@ describe('the shipped examples', () => {
     const dir = path.join(process.cwd(), 'static', 'examples');
     const names = fs.readdirSync(dir).filter((f) => f.endsWith('.wp'));
 
+    /**
+     * Enough for `Lyrics.wp`, which is a 198KB machine-generated outlier: it
+     * spends about 3s here on a dev machine, most of it parsing, and CI runs
+     * roughly three times slower — 8.2s when it first tripped the 5s default.
+     * The rest of the examples finish in under 300ms.
+     */
+    const SlowestExample = 30_000;
+
     test.each(names)(
         '%s reports the same conflicts during and after analysis',
         (name) => {
@@ -195,6 +203,7 @@ describe('the shipped examples', () => {
                 .sort();
             expect(during).toEqual(after);
         },
+        SlowestExample,
     );
 });
 
