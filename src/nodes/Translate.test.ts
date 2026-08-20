@@ -6,6 +6,8 @@ import { ExpectedThis } from '@conflicts/ExpectedThis';
 import { MisplacedThis } from '@conflicts/MisplacedThis';
 import Translate from '@nodes/Translate';
 import This from '@nodes/This';
+import ListValue from '@values/ListValue';
+import StructureValue from '@values/StructureValue';
 
 test.each([
     // Lists
@@ -25,6 +27,25 @@ test.each([
     ['[1 2 3] ↤ ⬚ + 1', '[2 3 4]'],
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
+});
+
+test('A translate body can construct structures with named inputs', () => {
+    // The #1296 surface: named inputs on an Evaluate inside a translate body
+    // must bind, including ones after unset optional inputs.
+    const value = evaluateCode('"AB" → [] ↦ Phrase(⬚ selectable: ⊤ name: ⬚)');
+    expect(value).toBeInstanceOf(ListValue);
+    if (!(value instanceof ListValue)) return;
+    expect(value.values.length).toBe(2);
+    for (const phrase of value.values) {
+        expect(phrase).toBeInstanceOf(StructureValue);
+        if (!(phrase instanceof StructureValue)) return;
+        const selectable = phrase.type.inputs.find((input) =>
+            input.hasName('selectable'),
+        );
+        expect(selectable).toBeDefined();
+        if (selectable === undefined) return;
+        expect(phrase.resolve(selectable.names)?.toString()).toBe('⊤');
+    }
 });
 
 test('Translating a table rebuilds a table from the revised rows', () => {

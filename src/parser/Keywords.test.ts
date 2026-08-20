@@ -8,6 +8,7 @@ import {
     Keywords,
     KeywordIds,
     type KeywordId,
+    type KeywordIndex,
 } from '@parser/Keywords';
 import { toTokens } from '@parser/toTokens';
 import { tokenize } from '@parser/Tokenizer';
@@ -16,6 +17,12 @@ import canonicalizeKeywords from '@parser/canonicalizeKeywords';
 import Bind from '@nodes/Bind';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Source from '@nodes/Source';
+import { DB } from '@db/Database';
+import Project from '@db/projects/Project';
+import DefaultLocale from '@locale/DefaultLocale';
+import Evaluator from '@runtime/Evaluator';
+import ListValue from '@values/ListValue';
+import StructureValue from '@values/StructureValue';
 
 test('every KeywordId has a spec and the list and record agree', () => {
     expect(KeywordIds.length).toBe(Object.keys(Keywords).length);
@@ -142,6 +149,62 @@ test('canonicalize-on-copy leaves keyword words inside text and docs alone', () 
 test('without an index, keyword words stay names (default behavior)', () => {
     expect(toTokens('función').read().isSymbol(Sym.Name)).toBe(true);
     expect(toTokens('function').read().isSymbol(Sym.Name)).toBe(true);
+});
+
+/** Evaluate keyword-enabled code and return its final value's Wordplay text. */
+function evaluateWithKeywords(code: string, index: KeywordIndex) {
+    const source = new Source('test', code, index);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    return new Evaluator(project, DB, [DefaultLocale]).getInitialValue();
+}
+
+test('keyword words evaluate with their construct meaning, not just parse shape', () => {
+    // A typed keyword word for a boolean must carry its truth: `true` used to
+    // evaluate as ⊥ because BooleanLiteral compared the token's text to `⊤` (#1296).
+    const index = buildKeywordIndex([
+        { true: 'true', false: 'false', and: 'and', or: 'or' },
+    ]);
+    expect(evaluateWithKeywords('true', index)?.toString()).toBe('⊤');
+    expect(evaluateWithKeywords('false', index)?.toString()).toBe('⊥');
+    expect(evaluateWithKeywords('true and true', index)?.toString()).toBe('⊤');
+    expect(evaluateWithKeywords('true and false', index)?.toString()).toBe('⊥');
+    // Localized words carry the same meaning: nothing is en-specific.
+    const spanish = buildKeywordIndex([{ true: 'verdadero' }]);
+    expect(evaluateWithKeywords('verdadero', spanish)?.toString()).toBe('⊤');
+});
+
+test('word-form logical operators short-circuit like their symbols', () => {
+    const index = buildKeywordIndex([{ and: 'and', or: 'or' }]);
+    // The right side is an unbound name, so it throws if evaluated; the word
+    // form must skip it exactly as `&`/`|` do.
+    expect(evaluateWithKeywords('(1 = 2) and nope', index)?.toString()).toBe(
+        '⊥',
+    );
+    expect(evaluateWithKeywords('(1 = 1) or nope', index)?.toString()).toBe(
+        '⊤',
+    );
+});
+
+test('a keyword-word boolean flows into structure inputs (#1296)', () => {
+    // The reported case: a translate building Phrases with `selectable: true`.
+    const index = buildKeywordIndex([{ true: 'true' }]);
+    const value = evaluateWithKeywords(
+        '"AB" → [] ↦ Phrase(⬚ selectable: true name: ⬚)',
+        index,
+    );
+    expect(value).toBeInstanceOf(ListValue);
+    if (!(value instanceof ListValue)) return;
+    expect(value.values.length).toBe(2);
+    for (const phrase of value.values) {
+        expect(phrase).toBeInstanceOf(StructureValue);
+        if (!(phrase instanceof StructureValue)) return;
+        const selectable = phrase.type.inputs.find((input) =>
+            input.hasName('selectable'),
+        );
+        expect(selectable).toBeDefined();
+        if (selectable === undefined) return;
+        expect(phrase.resolve(selectable.names)?.toString()).toBe('⊤');
+    }
 });
 
 test('pattern keyword words lex only inside a pattern, by context', () => {

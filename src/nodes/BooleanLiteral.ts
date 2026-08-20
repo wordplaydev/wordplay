@@ -97,7 +97,8 @@ export default class BooleanLiteral extends Literal {
     }
 
     bool(): boolean {
-        return this.value.text.toString() === TRUE_SYMBOL;
+        // Canonical text, so a typed keyword word for true (e.g. `true`) is true, not just `⊤` (#1296).
+        return this.value.getCanonicalText() === TRUE_SYMBOL;
     }
 
     evaluateTypeGuards(current: TypeSet) {

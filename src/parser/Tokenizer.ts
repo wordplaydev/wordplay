@@ -1276,7 +1276,13 @@ function getNextToken(
                     ).get(match[0]);
                     if (entry !== undefined)
                         return [
-                            new Token(match[0], [Sym.Name, ...entry.types]),
+                            new Token(
+                                match[0],
+                                [Sym.Name, ...entry.types],
+                                // The canonical symbol carries the word's meaning, since one
+                                // Sym can have two words of opposite meaning (⊤/⊥).
+                                entry.symbol,
+                            ),
                             space,
                         ];
                 }

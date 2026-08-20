@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.29.3 - 2026-08-19
+
+### Fixed
+
+- 🐛 Writing the word `true` instead of the symbol `⊤` was quietly treated as false. Words like `true` now mean what they say, and `and` and `or` written as words now behave exactly like `&` and `|`. (#1296)
+
 ## 0.29.2 - 2026-08-16
 
 ### Added

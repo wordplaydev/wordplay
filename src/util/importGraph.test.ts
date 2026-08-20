@@ -65,7 +65,8 @@ test('resolving a color needs no basis', () => {
  *
  * The one exception is a feature that genuinely adds code to chrome every page
  * already carries: the language chooser's request-form matching (#1256) added a
- * few KB to LocaleSearch, which the footer's chooser imports. Raise a byte
+ * few KB to LocaleSearch, which the footer's chooser imports, and the keyword
+ * canonical-symbol fix (#1296) added ~1KB to Token/Tokenizer. Raise a byte
  * budget only for that, never to accommodate a new *module* leaking in — the
  * file counts and the runtime-reachability test below are what guard the 2MB
  * language runtime this file exists for.
@@ -73,7 +74,7 @@ test('resolving a color needs no basis', () => {
 test.each([
     ['src/routes/+layout.svelte', 475, 3.35],
     ['src/components/app/Page.svelte', 495, 3.56],
-    ['src/routes/[[locale]]/+page.svelte', 510, 3.61],
+    ['src/routes/[[locale]]/+page.svelte', 510, 3.62],
     ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.65],
     ['src/routes/[[locale]]/projects/+page.svelte', 515, 3.65],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
