@@ -209,12 +209,19 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getFunction(context: Context): FunctionDefinition | undefined {
-        // Find the function on the left's type.
+        // Find the function on the left's type: the typed name first (a creator-defined
+        // name wins), then the canonical symbol — several locales' keyword word for a
+        // connective isn't a name of the basis function (id `dan` vs `Dan`), and the
+        // symbol is a name in every locale.
         const leftType = this.getLeftType(context);
-        const fun = leftType.getDefinitionOfNameInScope(
-            this.getOperator(),
-            context,
-        );
+        const fun =
+            leftType.getDefinitionOfNameInScope(this.getOperator(), context) ??
+            (this.getCanonicalOperator() !== this.getOperator()
+                ? leftType.getDefinitionOfNameInScope(
+                      this.getCanonicalOperator(),
+                      context,
+                  )
+                : undefined);
         return fun instanceof FunctionDefinition ? fun : undefined;
     }
 
@@ -430,8 +437,17 @@ export default class BinaryEvaluate extends Expression {
         const right = evaluator.popValue(this);
         const left = evaluator.popValue(this);
 
-        // Resolve the function on the value.
-        const functionValue = left.resolve(this.getOperator(), evaluator);
+        // Resolve the function on the value: the typed name first, then the canonical
+        // symbol, matching getFunction's static resolution.
+        let functionValue = left.resolve(this.getOperator(), evaluator);
+        if (
+            !(functionValue instanceof FunctionValue) &&
+            this.getCanonicalOperator() !== this.getOperator()
+        )
+            functionValue = left.resolve(
+                this.getCanonicalOperator(),
+                evaluator,
+            );
 
         // Verify that it's a function.
         if (

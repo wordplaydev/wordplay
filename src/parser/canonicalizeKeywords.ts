@@ -25,11 +25,28 @@ export default function canonicalizeKeywords(
 ): string {
     const root = new Root(node);
     let out = '';
+    // After rewriting a unary keyword word (`not` → `~`), drop the operand's space:
+    // the symbol's unary parse is space-sensitive, so `~ ⊤` doesn't reparse as unary
+    // while `~⊤` does. Operand spaces are same-line by the word's parse rule, and
+    // operator tokens are single characters, so nothing can merge.
+    let suppressSpace = false;
     for (const leaf of node.leaves()) {
         if (!(leaf instanceof Token)) continue;
-        out += spaces.getSpace(leaf);
-        out +=
-            getCanonicalKeyword(leaf, root, keywords)?.symbol ?? leaf.getText();
+        if (!suppressSpace) out += spaces.getSpace(leaf);
+        suppressSpace = false;
+        const entry = getCanonicalKeyword(leaf, root, keywords);
+        out += entry?.symbol ?? leaf.getText();
+        if (entry !== undefined) {
+            const parent = root.getParent(leaf);
+            const grandparent =
+                parent === undefined ? undefined : root.getParent(parent);
+            if (
+                parent instanceof Reference &&
+                grandparent instanceof UnaryEvaluate &&
+                grandparent.fun === parent
+            )
+                suppressSpace = true;
+        }
     }
     return out;
 }

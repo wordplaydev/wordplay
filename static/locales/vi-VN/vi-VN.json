@@ -2401,7 +2401,7 @@
                         "\\⊥ & ⊤\\",
                         "\\⊥ & ⊥\\"
                     ],
-                    "names": ["$~Và"],
+                    "names": ["$~Và", "và"],
                     "inputs": [
                         {
                             "doc": "$~Biến @Boolean khác cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, thì giá trị của biến này không quan trọng, hàm sẽ trả về \\⊥\\.",

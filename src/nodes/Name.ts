@@ -6,7 +6,7 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { type SymType } from '@nodes/Sym';
 import { ExpressionStartKeywordSyms } from '@parser/Keywords';
-import { BasisTypeSymbols, COMMA_SYMBOL } from '@parser/Symbols';
+import { BasisTypeSymbols, COMMA_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
 import { EmojiTestRegex } from '@unicode/emoji';
 import { Purpose } from '@concepts/Purpose';
@@ -195,6 +195,13 @@ export default class Name extends LanguageTagged {
     getShadowedKeyword(): SymType | undefined {
         for (const sym of ExpressionStartKeywordSyms)
             if (this.name.isSymbol(sym)) return sym;
+        // A word for ~ wins at expression start too (prefix negation); other operator
+        // words (and/or) never win over a name, so they aren't shadows.
+        if (
+            this.name.isSymbol(Sym.Operator) &&
+            this.name.getCanonicalText() === NOT_SYMBOL
+        )
+            return Sym.Operator;
         return undefined;
     }
 

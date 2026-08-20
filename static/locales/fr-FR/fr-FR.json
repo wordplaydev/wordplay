@@ -2422,7 +2422,7 @@
                 },
                 "not": {
                     "doc": "$~J'obtiens l'inverse de moi-même : si \\⊤\\, cela donne \\⊥\\, si \\⊥\\, cela donne \\⊤\\.",
-                    "names": ["$~pas"],
+                    "names": ["$~pas", "non"],
                     "inputs": []
                 },
                 "equals": {

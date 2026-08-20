@@ -60,7 +60,12 @@ export function getKeywordShadowConflicts(
     for (const name of names.names) {
         const sym = name.getShadowedKeyword();
         if (sym === undefined) continue;
-        const glyph = getKeywordGlyph(sym);
+        // The token's canonical text is the exact construct the word shadows;
+        // getKeywordGlyph(sym) can only guess (e.g. Sym.Operator would show &
+        // for a shadowed `not`). Fall back to it when the token has no canonical.
+        const canonical = name.name.getCanonicalText();
+        const glyph =
+            canonical !== name.getName() ? canonical : getKeywordGlyph(sym);
         if (glyph !== undefined)
             conflicts.push(new ShadowsKeyword(definition, glyph));
     }

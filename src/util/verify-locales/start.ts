@@ -183,7 +183,7 @@ async function handleLocale(
     localeIsNew: boolean,
     globals: Map<string, { locale: string; path: LocalePath }[]>,
     translatedPaths: Set<string>,
-) {
+): Promise<LocaleText> {
     const locale = toLocaleString(localeText);
 
     // Validate, repair, and translate the locale file.
@@ -368,6 +368,12 @@ async function handleLocale(
         FixRequested ||
             (TranslationRequested && selection.isIncluded('datetimes')),
     );
+
+    // Hand the revision back so the caller can keep its in-memory locale set
+    // current: the artifact generators after the locale loop (names.json, choose
+    // prompts, manifests) read that set, and building them from pre-repair text
+    // left name-changing repairs out of the artifacts until a second run.
+    return revisedLocale;
 }
 
 /** Generate this locale's emoji translations in-process. Best-effort — it does
@@ -484,8 +490,10 @@ if (sourceLocaleText !== undefined) {
 const translatedPaths = new Set<string>();
 
 // Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
-for (const localeText of allLocaleText) {
-    await handleLocale(
+// Keep the revised text, so the artifact generators below build from what was just written.
+for (let index = 0; index < allLocaleText.length; index++) {
+    const localeText = allLocaleText[index];
+    allLocaleText[index] = await handleLocale(
         log.scope(`Checking ${toLocaleString(localeText)}`),
         localeText,
         revisedStrings,

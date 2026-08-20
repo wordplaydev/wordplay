@@ -17,6 +17,7 @@ import canonicalizeKeywords from '@parser/canonicalizeKeywords';
 import Bind from '@nodes/Bind';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Source from '@nodes/Source';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { DB } from '@db/Database';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -205,6 +206,74 @@ test('a keyword-word boolean flows into structure inputs (#1296)', () => {
         if (selectable === undefined) return;
         expect(phrase.resolve(selectable.names)?.toString()).toBe('⊤');
     }
+});
+
+/** The conflicts of keyword-enabled code, for asserting narrowing behavior. */
+function conflictsWithKeywords(code: string, index: KeywordIndex) {
+    const source = new Source('test', code, index);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    return source.expression.getAllConflicts(project.getContext(source));
+}
+
+test('the word for ~ parses and evaluates as prefix negation (#1298)', () => {
+    const index = buildKeywordIndex([{ not: 'not', and: 'and' }]);
+    // Parse shape: the word starts a UnaryEvaluate...
+    const source = new Source('test', 'not ⊤', index);
+    expect(
+        source.expression.nodes((n) => n instanceof UnaryEvaluate).length,
+    ).toBe(1);
+    // ...but without a keyword index it stays a plain name.
+    const plain = new Source('test', 'not ⊤');
+    expect(
+        plain.expression.nodes((n) => n instanceof UnaryEvaluate).length,
+    ).toBe(0);
+    // Meaning.
+    expect(evaluateWithKeywords('not ⊤', index)?.toString()).toBe('⊥');
+    expect(evaluateWithKeywords('not ⊥', index)?.toString()).toBe('⊤');
+    // Composed with a binary word: ⊤ and (not ⊥).
+    expect(evaluateWithKeywords('⊤ and not ⊥', index)?.toString()).toBe('⊤');
+});
+
+test('operator words resolve by canonical symbol when the word is not a function name', () => {
+    // The fr-FR shape: the keyword word (`non`) is not a name of Boolean's not
+    // function, so resolution must fall back to the canonical ~.
+    const french = buildKeywordIndex([{ not: 'non' }]);
+    expect(evaluateWithKeywords('non ⊤', french)?.toString()).toBe('⊥');
+    // Same for binary connectives (the id-ID shape: `dan` vs the name `Dan`).
+    const indonesian = buildKeywordIndex([{ and: 'dan' }]);
+    expect(evaluateWithKeywords('⊤ dan ⊥', indonesian)?.toString()).toBe('⊥');
+});
+
+test('a word for ~ needs its operand on the same line, so shadows stay usable', () => {
+    // `no` here is a binding: at the end of a line it parses as a name, so the
+    // next line's bind is not swallowed as an operand.
+    const index = buildKeywordIndex([{ not: 'no' }]);
+    expect(evaluateWithKeywords('no: ⊤\nx: no\nx', index)?.toString()).toBe(
+        '⊤',
+    );
+});
+
+test('a word for ~ flips type narrowing like the symbol', () => {
+    // `x + 1` only type-checks when the negation narrows `x` to a number in the
+    // true branch; the word form must narrow exactly as the symbol does.
+    const index = buildKeywordIndex([{ not: 'not' }]);
+    const symbol = conflictsWithKeywords('x•#|ø: 1\n~(x = ø) ? x + 1 0', index);
+    const word = conflictsWithKeywords(
+        'x•#|ø: 1\nnot (x = ø) ? x + 1 0',
+        index,
+    );
+    expect(symbol.length).toBe(0);
+    expect(word.length).toBe(0);
+});
+
+test('canonicalize-on-copy makes a word negation reparseable', () => {
+    // `not ⊤` must copy as `~⊤`, not `~ ⊤` — the symbol's unary parse is
+    // space-sensitive, so the spaced form wouldn't reparse as a negation.
+    const index = buildKeywordIndex([{ not: 'not' }]);
+    const src = new Source('test', 'not ⊤', index);
+    expect(canonicalizeKeywords(src.expression, src.spaces, index).trim()).toBe(
+        '~⊤',
+    );
 });
 
 test('pattern keyword words lex only inside a pattern, by context', () => {

@@ -36,7 +36,7 @@ export function logicalLeaves(
         if (last instanceof Expression) logicalLeaves(last, context, leaves);
     } else if (
         expression instanceof UnaryEvaluate &&
-        expression.getOperator() === NOT_SYMBOL
+        expression.getCanonicalOperator() === NOT_SYMBOL
     )
         logicalLeaves(expression.input, context, leaves);
     else if (

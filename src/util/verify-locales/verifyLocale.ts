@@ -20,6 +20,7 @@ import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkNames from '@util/verify-locales/checkNames';
+import checkOperatorKeywords from '@util/verify-locales/checkOperatorKeywords';
 import checkRedundantNames from '@util/verify-locales/checkRedundantNames';
 import checkAnnotations from '@util/verify-locales/checkAnnotations';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
@@ -165,6 +166,10 @@ export async function verifyLocale(
     // it now is rather than surviving until the next run.
     if (locale !== 'en-US')
         revisedText = checkRedundantNames(log, DefaultLocale, revisedText, fix);
+
+    // After checkRedundantNames, so an alias this check adds isn't judged (and
+    // possibly removed) as an en-US duplicate in the same run.
+    revisedText = checkOperatorKeywords(log, DefaultLocale, revisedText, fix);
 
     // Validate the per-locale word list: key shape, no collision with template
     // input names, and no term-in-term references.

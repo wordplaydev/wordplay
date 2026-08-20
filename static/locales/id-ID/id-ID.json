@@ -2401,7 +2401,7 @@
                         "\\⊥ & ⊤\\",
                         "\\⊥ & ⊥\\"
                     ],
-                    "names": ["$~Dan"],
+                    "names": ["$~Dan", "dan"],
                     "inputs": [
                         {
                             "doc": "$~@Boolean lain yang perlu diperiksa. Jika yang pertama adalah \\⊥\\, tidak masalah apa pun nilainya, fungsi akan dievaluasi menjadi \\⊥\\.",

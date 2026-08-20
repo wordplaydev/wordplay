@@ -10,6 +10,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🐛 Writing the word `true` instead of the symbol `⊤` was quietly treated as false. Words like `true` now mean what they say, and `and` and `or` written as words now behave exactly like `&` and `|`. (#1296)
 - 🌐 In a brand new project, or right after adding or removing a language, keyword words like `verdadero` weren't recognized until you reloaded the page. They now work the moment you type them. (#1296)
+- 🐛 Writing the word for `~` in front of a value, like `not ⊤` or `no ⊤` in Spanish, did nothing. It now negates, exactly like the symbol. (#1298)
+- 🌐 In nine languages, the words for `and`, `or`, and `not` didn't match the names of the functions they stand for, so writing them could fail. They now work in every language, and our checks keep it that way. (#1298)
 
 ## 0.29.2 - 2026-08-16
 
