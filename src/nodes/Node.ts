@@ -27,6 +27,9 @@ import type Type from '@nodes/Type';
 let NODE_ID_COUNTER = 0;
 
 export default abstract class Node {
+    /** @deprecated Not a real property — a compile-time signpost for the DOM `Node` name collision (#816), declared first so a missing-import assignability error leads with the fix. `declare` emits nothing at runtime. */
+    declare readonly "🛑 This is a Wordplay AST node — a bare `Node` type is the DOM's; import Node from '@nodes/Node'": undefined;
+
     /* A unique ID to represent this node in memory. */
     readonly id: number;
 
