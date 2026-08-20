@@ -1171,7 +1171,7 @@ export default class Project {
         return this.revised({
             locales: [...this.data.locales, ...added.map(localeToString)],
             localeTexts: [...this.data.localeTexts, ...added],
-        });
+        }).withKeywordedSources();
     }
 
     /** Copies this project without the given declared locales. Refuses to empty the
@@ -1188,7 +1188,23 @@ export default class Project {
             localeTexts: this.data.localeTexts.filter((l) =>
                 remaining.includes(localeToString(l)),
             ),
-        });
+        }).withKeywordedSources();
+    }
+
+    /** Re-tokenize every source with this project's keyword index, so a language change
+     * takes effect immediately instead of at the next reload: an added language's keyword
+     * words become constructs, and a removed language's words degrade to plain names.
+     * Routed through withSources so carets follow their replaced sources. */
+    private withKeywordedSources(): Project {
+        const keywords = this.getKeywordIndex();
+        const replacements: [Source, Source][] = [];
+        for (const source of this.getSources()) {
+            const rekeyed = source.withKeywords(keywords);
+            if (rekeyed !== source) replacements.push([source, rekeyed]);
+        }
+        return replacements.length === 0
+            ? this
+            : this.withSources(replacements);
     }
 
     withCaret(source: Source, caret: CaretPosition) {

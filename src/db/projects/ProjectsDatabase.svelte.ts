@@ -19,6 +19,7 @@ import { shouldReplayRemotePlainCode } from '@db/projects/crdtFold';
 import { EditFailure } from '@db/projects/EditFailure';
 import isSweepable from '@db/projects/isSweepable';
 import { unknownFlags } from '@db/projects/Moderation';
+import { buildKeywordIndex } from '@parser/Keywords';
 import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
 import Project from '@db/projects/Project';
 import ProjectCRDT, {
@@ -1492,7 +1493,14 @@ export default class ProjectsDatabase {
         const newProject = Project.make(
             null,
             '',
-            new Source(locales[0].glossary.start.word, code),
+            // Recognize typed keyword words from the very first keystroke, just as
+            // deserialization does — without this, words like `true` stay plain
+            // names until the project is reloaded.
+            new Source(
+                locales[0].glossary.start.word,
+                code,
+                buildKeywordIndex(locales.map((l) => l.keyword)),
+            ),
             [],
             // The project starts with all of the locales currently selected in the config.
             locales,

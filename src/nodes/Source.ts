@@ -623,6 +623,14 @@ export default class Source extends Expression {
         return new Source(this.names, new UnicodeString(code), this.keywords);
     }
 
+    /** This source re-tokenized with the given keyword index, so typed keyword words are
+     * recognized as constructs; identity-preserving when the index is already this one. */
+    withKeywords(keywords: KeywordIndex | undefined) {
+        return keywords === this.keywords
+            ? this
+            : new Source(this.names, this.code, keywords);
+    }
+
     withProgram(program: Program, spaces: Spaces) {
         return new Source(this.names, [program, spaces], this.keywords);
     }
