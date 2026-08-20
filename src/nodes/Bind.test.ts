@@ -1,3 +1,5 @@
+import DuplicateName from '@conflicts/DuplicateName';
+import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import { MisplacedShare } from '@conflicts/MisplacedShare';
@@ -140,4 +142,13 @@ test('Anonymous fn input in a HOF call infers its type without a cycle (#680)', 
         );
     if (aRef === undefined) throw new Error('expected to find a reference');
     expect(aRef.getType(context)).toBeInstanceOf(NumberType);
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([
+    ['a: 1\nb: 2\na + b', 'a: 1\na: 2\na', Bind, DuplicateName, 1],
+    ['(b•#: 1\nb)', '(b…•#: 1\nb)', Bind, UnexpectedEtc, 0],
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
+    testConflict(good, bad, node, conflict, index);
 });

@@ -302,7 +302,9 @@ function evaluate(result: Conversion) {
         DefaultLocale,
     );
     project.analyze();
-    const conflicts = Array.from(project.getConflictedNodes().values()).flat();
+    const conflicts = Array.from(
+        project.analyze().conflictedNodes.values(),
+    ).flat();
     for (const c of conflicts) console.log('CONFLICT:', c.constructor.name);
     const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
     const value = evaluator.getInitialValue();

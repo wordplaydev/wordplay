@@ -27,10 +27,11 @@ test.each(SEED_PROJECTS)('$name has no conflicts', (seed) => {
     const { name } = seed;
     const project = makeProject(seed);
     project.analyze();
-    project.getAnalysis();
 
     const context = project.getContext(project.getMain());
-    const conflicts = Array.from(project.getConflictedNodes().values()).flat();
+    const conflicts = Array.from(
+        project.analyze().conflictedNodes.values(),
+    ).flat();
     const messages = conflicts.map((conflict) =>
         conflict
             .getMessage(context, Templates)

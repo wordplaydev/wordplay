@@ -2089,11 +2089,12 @@ export default class ProjectsDatabase {
             const sendable: typeof unsaved = [];
             for (const history of unsaved) {
                 const current = history.getCurrent();
-                current.analyze();
                 if (
                     current
-                        .getConflicts()
-                        .some((conflict) => conflict instanceof PossiblePII)
+                        .analyze()
+                        .conflicts.some(
+                            (conflict) => conflict instanceof PossiblePII,
+                        )
                 )
                     failures.push(
                         projectFailure(

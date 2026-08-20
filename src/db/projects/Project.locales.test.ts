@@ -193,7 +193,7 @@ test('a symbolic name only en-US declares still binds everywhere', () => {
     // And the operator names, which were the bulk of what came out.
     const math = new Source('math', '1 = 1');
     const mathProject = Project.make('p', 'p', math, [], [es]);
-    expect(mathProject.getAnalysis().conflicts).toHaveLength(0);
+    expect(mathProject.analyze().conflicts).toHaveLength(0);
 });
 
 test('a language named only by the code is used; one named nowhere is not', () => {

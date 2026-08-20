@@ -1672,12 +1672,11 @@
 
         // Analyzed? Update the conflicts immediately.
         if (project.analyzed === 'analyzed') {
-            conflicts.set(project.getConflicts());
+            conflicts.set(project.getConflicts() ?? []);
         }
         // Not yet analyzed? Run analysis now and publish.
         else if (project.analyzed === 'unanalyzed') {
-            project.analyze();
-            conflicts.set(project.getConflicts());
+            conflicts.set(project.analyze().conflicts);
         }
         // Still analyzing (re-entrant case)? Try again shortly.
         else {

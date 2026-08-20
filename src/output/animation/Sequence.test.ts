@@ -24,7 +24,7 @@ function analyzeAndEvaluate(code: string) {
     return {
         project,
         value,
-        conflicts: project.getAnalysis().conflicts.map((c) => `${c}`),
+        conflicts: project.analyze().conflicts.map((c) => `${c}`),
     };
 }
 

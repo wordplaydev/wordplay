@@ -23,7 +23,7 @@ test('The conflict offers a click-to-fix repair that resolves it', () => {
     project.analyze();
     const context = project.getContext(source);
     const conflicts = project
-        .getAnalysis()
+        .analyze()
         .conflicts.filter((conflict) => conflict instanceof UnknownTimeZone);
     expect(conflicts).toHaveLength(1);
     const resolutions = conflicts[0].getResolutions(context, []);
@@ -38,7 +38,7 @@ test('The conflict offers a click-to-fix repair that resolves it', () => {
     newProject.analyze();
     expect(
         newProject
-            .getAnalysis()
+            .analyze()
             .conflicts.filter((c) => c instanceof UnknownTimeZone),
     ).toHaveLength(0);
     expect(newProject.getSources()[0].toWordplay()).toContain('Asia/Tokyo');

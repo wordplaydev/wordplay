@@ -1,3 +1,5 @@
+import ReferenceCycle from '@conflicts/ReferenceCycle';
+import { testConflict } from '@conflicts/TestUtilities';
 import Reference from '@nodes/Reference';
 import Source from '@nodes/Source';
 import { Sym } from '@nodes/Sym';
@@ -24,3 +26,12 @@ test('a reference to a name still satisfies its own grammar', () => {
     const field = reference.getGrammar().find((f) => f.name === 'name');
     expect(field?.kind.allows(reference.name)).toBe(true);
 });
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([['a: 1\na', 'a: a\na', Reference, ReferenceCycle, 0]])(
+    '%s => no conflict, %s => conflict',
+    (good, bad, node, conflict, index) => {
+        testConflict(good, bad, node, conflict, index);
+    },
+);

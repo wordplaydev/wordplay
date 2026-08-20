@@ -61,10 +61,9 @@ test.each([...testable])(
     async (example: SerializedProject) => {
         const project = await Project.deserialize(Locales, example);
         project.analyze();
-        project.getAnalysis();
         const context = project.getContext(project.getMain());
         const conflicts = Array.from(
-            project.getConflictedNodes().values(),
+            project.analyze().conflictedNodes.values(),
         ).flat();
         const messages: string[] = [];
         for (const conflict of conflicts) {

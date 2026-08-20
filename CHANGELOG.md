@@ -6,8 +6,15 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.29.3 - 2026-08-19
 
+### Changed
+
+- ⚡ Checking your program for mistakes is faster, especially in long programs and while you're partway through typing something. (#808)
+
 ### Fixed
 
+- 🚦 When you made the same mistake in more than one place — like spelling a name wrong ten times — we only marked one or two of them. We now mark every one. (#808)
+- 🚦 A reaction that watches a stream handed to it by a function was told it had nothing to react to. That wrong warning is gone. (#808)
+- 🐛 When one source shared a function and another source called it, reactions inside that function stopped reacting. They keep working now. (#808)
 - 🐛 Writing the word `true` instead of the symbol `⊤` was quietly treated as false. Words like `true` now mean what they say, and `and` and `or` written as words now behave exactly like `&` and `|`. (#1296)
 - 🌐 In a brand new project, or right after adding or removing a language, keyword words like `verdadero` weren't recognized until you reloaded the page. They now work the moment you type them. (#1296)
 - 🐛 Writing the word for `~` in front of a value, like `not ⊤` or `no ⊤` in Spanish, did nothing. It now negates, exactly like the symbol. (#1298)

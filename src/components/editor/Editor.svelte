@@ -3237,7 +3237,9 @@
                     // 1) Find any conflicted node whose first position is at the caret.
                     //    Iterate the conflicted-nodes map directly instead of walking
                     //    every node in the source.
-                    for (const node of project.getConflictedNodes().keys()) {
+                    for (const node of (
+                        project.getConflictedNodes() ?? new Map()
+                    ).keys()) {
                         if (
                             source.has(node) &&
                             source.getNodeFirstPosition(node) ===

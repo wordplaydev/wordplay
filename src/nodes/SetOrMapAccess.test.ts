@@ -1,3 +1,4 @@
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import { testConflict } from '@conflicts/TestUtilities';
 import { UnknownName } from '@conflicts/UnknownName';
@@ -54,3 +55,12 @@ test.each([
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
 });
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([['{1}{1}', '{1}{1', SetOrMapAccess, UnclosedDelimiter, 0]])(
+    '%s => no conflict, %s => conflict',
+    (good, bad, node, conflict, index) => {
+        testConflict(good, bad, node, conflict, index);
+    },
+);

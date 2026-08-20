@@ -34,9 +34,9 @@ Stage(things.translate(ƒ(thing) Phrase(thing.name place: thing.place)))`;
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     project.analyze();
 
-    expect(
-        project.getAnalysis().conflicts.map((c) => c.constructor.name),
-    ).toEqual([]);
+    expect(project.analyze().conflicts.map((c) => c.constructor.name)).toEqual(
+        [],
+    );
 
     expect(project.shares.input.Objects).toBeDefined();
     expect(project.shares.output.Thing).toBeDefined();
@@ -50,9 +50,9 @@ test('a category filter in the creator locale type checks', () => {
     const source = new Source('main', `Objects(category: 'cat').length()`);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     project.analyze();
-    expect(
-        project.getAnalysis().conflicts.map((c) => c.constructor.name),
-    ).toEqual([]);
+    expect(project.analyze().conflicts.map((c) => c.constructor.name)).toEqual(
+        [],
+    );
 });
 
 test('Thing.name is typed as the union of localized category literals', () => {

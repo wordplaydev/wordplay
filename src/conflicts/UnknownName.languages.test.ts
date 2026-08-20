@@ -34,9 +34,8 @@ function resolutionsFor(
     const source = new Source('start', code);
     const project = Project.make('p', 'p', source, [], declared);
     const context = project.getContext(source);
-    project.analyze();
     const conflict = project
-        .getAnalysis()
+        .analyze()
         .conflicts.find((c): c is UnknownName => c instanceof UnknownName);
     expect(conflict).toBeDefined();
     return conflict!

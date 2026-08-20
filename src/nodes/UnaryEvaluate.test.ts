@@ -1,3 +1,4 @@
+import MissingInput from '@conflicts/MissingInput';
 import { testConflict } from '@conflicts/TestUtilities';
 import { expect, test } from 'vitest';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
@@ -27,4 +28,18 @@ test('a prefix operator needs a space after a binary one', () => {
     expect(
         tight.nodes().find((node) => node instanceof BinaryEvaluate),
     ).toBeUndefined();
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([
+    [
+        '•T() (ƒ -() 1)\n-T()',
+        '•T() (ƒ -(a•#) 1)\n-T()',
+        UnaryEvaluate,
+        MissingInput,
+        0,
+    ],
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
+    testConflict(good, bad, node, conflict, index);
 });

@@ -655,8 +655,8 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
 
     /** Analyze a project and count its conflicted nodes (mirrors verifyTutorial). */
     private countConflicts(project: Project): number {
-        project.analyze();
-        return Array.from(project.getConflictedNodes().values()).flat().length;
+        return Array.from(project.analyze().conflictedNodes.values()).flat()
+            .length;
     }
 
     /**

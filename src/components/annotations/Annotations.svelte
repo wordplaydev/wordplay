@@ -176,7 +176,9 @@
         // Filter conflicts to those relevant to the source.
         const sourceConflicts: Conflict[] = [];
         const seen = new Set<Conflict>();
-        for (const [node, conflicts] of project.getConflictedNodes()) {
+        // Nothing to annotate until an analysis has finished; the effect
+        // re-runs when one does.
+        for (const [node, conflicts] of project.getConflictedNodes() ?? []) {
             if (source.root.has(node)) {
                 for (const conflict of conflicts) {
                     if (!seen.has(conflict)) {

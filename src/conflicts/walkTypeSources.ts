@@ -1,3 +1,4 @@
+import type { CallGraph } from '@db/projects/Analysis';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
@@ -27,6 +28,7 @@ const MAX_DEPTH = 4;
 export default function walkTypeSources(
     given: Expression,
     context: Context,
+    calls?: CallGraph,
 ): TypeSource[] {
     const results: TypeSource[] = [];
     const visited = new Set<number>();
@@ -45,7 +47,7 @@ export default function walkTypeSources(
             // getType can throw on partially-constructed trees; skip those.
         }
         if (depth >= MAX_DEPTH) continue;
-        for (const dep of node.getDependencies(context)) {
+        for (const dep of node.getExtendedDependencies(context, calls)) {
             if (dep instanceof Expression && !visited.has(dep.id))
                 queue.push({ node: dep, depth: depth + 1 });
         }

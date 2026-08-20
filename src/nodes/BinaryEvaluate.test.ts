@@ -1,3 +1,6 @@
+import MissingInput from '@conflicts/MissingInput';
+import OrderOfOperations from '@conflicts/OrderOfOperations';
+import UnexpectedInput from '@conflicts/UnexpectedInput';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import { testConflict } from '@conflicts/TestUtilities';
 import Project from '@db/projects/Project';
@@ -75,4 +78,26 @@ test('A zero-input operator function still labels the right placeholder', () => 
     expect(project.getLocales().getUnannotatedPrimaryText(accessor)).toBe(
         DefaultLocale.node.BinaryEvaluate.right,
     );
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([
+    [
+        '•T() (ƒ ×(a•#) 1)\nT() × 1',
+        '•T() (ƒ ×(a•# b•#) 1)\nT() × 1',
+        BinaryEvaluate,
+        MissingInput,
+        0,
+    ],
+    ['(1 + 2) · 3', '1 + 2 · 3', BinaryEvaluate, OrderOfOperations, 1],
+    [
+        '•T() (ƒ ×(a•#) 1)\nT() × 1',
+        '•T() (ƒ ×() 1)\nT() × 1',
+        BinaryEvaluate,
+        UnexpectedInput,
+        0,
+    ],
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
+    testConflict(good, bad, node, conflict, index);
 });

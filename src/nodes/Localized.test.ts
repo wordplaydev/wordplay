@@ -1,3 +1,5 @@
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import { testConflict } from '@conflicts/TestUtilities';
 import { describe, expect, test } from 'vitest';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -94,4 +96,12 @@ describe('Localized.getPossibleReplacements', () => {
         expect(inserts).toHaveLength(1);
         expect(inserts[0]).toBeInstanceOf(Localized);
     });
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([
+    ["x: 'hi'\n(x)/en", 'x: 1\n(x)/en', Localized, IncompatibleInput, 0],
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
+    testConflict(good, bad, node, conflict, index);
 });
