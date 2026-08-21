@@ -208,6 +208,14 @@ function alreadyExists(e: unknown): boolean {
     return e instanceof Error && e.message.includes('GitHub API 422');
 }
 
+/** The generated file is committed, so it has to come out of here already
+ * matching the repo's prettier config (4-space indent, trailing newline) — the
+ * bot's PR can't run the formatter, and an unformatted file fails the PR's
+ * format check. `contributorsFormat.test.ts` checks this against prettier. */
+export function serializeContributors(data: ContributorsData): string {
+    return `${JSON.stringify(data, null, 4)}\n`;
+}
+
 export async function createContributorsPR(
     token: string,
     data: ContributorsData,
@@ -219,9 +227,7 @@ export async function createContributorsPR(
     // than each minting a unique timestamped branch.
     const branch = `contributors-update-${data.created.slice(0, 10)}`;
     const filePath = 'src/routes/[[locale]]/thanks/contributors.json';
-    const content = Buffer.from(JSON.stringify(data, null, 2)).toString(
-        'base64',
-    );
+    const content = Buffer.from(serializeContributors(data)).toString('base64');
 
     // Bail if any auto-generated contributors PR is already open. Matching by
     // title (not just this branch's head) catches a duplicate opened by a
@@ -282,7 +288,7 @@ export async function createContributorsPR(
                 title: PR_TITLE,
                 head: branch,
                 base: 'main',
-                body: `Automated refresh of \`static/contributors.json\` generated on ${data.created}.`,
+                body: `Automated refresh of \`${filePath}\` generated on ${data.created}.`,
             }),
         });
     } catch (e) {
