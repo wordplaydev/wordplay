@@ -76,18 +76,20 @@ test('clearing the audience zoom returns the program its camera', async ({
     const byAudience = await restingWidth();
     expect(byAudience).not.toBe(byProgram);
 
-    // The reset only appears once there is an adjustment to clear, which is
-    // itself the signal that the zoom took effect.
+    // The reset control is always present — it carries the zoom gauge, and a control
+    // that came and went changed the toolbar's width and sent its neighbours into the
+    // overflow menu. It becomes *enabled* once there is an adjustment to clear, which
+    // is itself the signal that the zoom took effect.
     const reset = page.locator('[data-uiid="stageZoomReset"]');
-    await expect(reset).toBeVisible();
+    await expect(reset).not.toHaveAttribute('aria-disabled', 'true');
 
     // Clearing the offset leaves the program's camera alone underneath, so the
     // view returns to exactly the size the program asked for. Both sizes are
     // computed rather than measured, so comparing them exactly is stable.
     await reset.click();
     expect(await restingWidth()).toBe(byProgram);
-    // And with nothing left to clear, the control goes away again.
-    await expect(reset).toBeHidden();
+    // And with nothing left to clear, it goes inactive rather than away.
+    await expect(reset).toHaveAttribute('aria-disabled', 'true');
 });
 
 /**
@@ -235,9 +237,12 @@ test('zooming out and back in returns the program its camera', async ({
     for (let i = 0; i < 3; i++) await zoomIn(page).click();
     expect(await restingWidthOf(page, player)).toBe(byProgram);
 
-    // Landing exactly home is what clears the adjustment, so the control goes away
+    // Landing exactly home is what clears the adjustment, so the control goes inactive
     // without ever having been pressed.
-    await expect(page.locator('[data-uiid="stageZoomReset"]')).toBeHidden();
+    await expect(page.locator('[data-uiid="stageZoomReset"]')).toHaveAttribute(
+        'aria-disabled',
+        'true',
+    );
 });
 
 /**
@@ -352,9 +357,13 @@ test.describe('an emptied stage', () => {
         await expect(hint).toBeVisible();
         await expectNoAxeViolations(page);
 
-        // And the way out actually works: pressing it hands the camera back.
+        // And the way out actually works: pressing it hands the camera back. The hint
+        // going away is the proof — it only exists while the viewer's own adjustment is
+        // what is hiding things, so it cannot be hidden unless that adjustment is gone.
+        // The reset control isn't asserted on here: at this viewport the stage toolbar
+        // collapses the zoom group into its overflow menu, so its state says more about
+        // the menu than about the camera.
         await page.locator('[data-uiid="stageShowEverything"]').click();
         await expect(hint).toBeHidden();
-        await expect(page.locator('[data-uiid="stageZoomReset"]')).toBeHidden();
     });
 });
