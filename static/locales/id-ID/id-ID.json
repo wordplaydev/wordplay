@@ -6743,7 +6743,8 @@
                 "unknown": "$~Proyek ini tidak ada atau Anda tidak memiliki akses ke proyek tersebut.",
                 "translate": "$~Terdapat masalah saat menerjemahkan proyek Anda.",
                 "tile": "$~Ups, terjadi kesalahan.",
-                "reset": "$~Upaya untuk mengatur ulang..."
+                "reset": "$~Upaya untuk mengatur ulang...",
+                "translateBroken": "$~Menerjemahkan akan menyebabkan kesalahan pada program kamu, jadi tidak ada yang diubah. Coba bahasa lain, atau terjemahkan lagi."
             },
             "button": {
                 "share": {
@@ -6833,6 +6834,15 @@
                         "tips": [
                             "$~lihat dan ubah bahasa yang dipakai untuk menulis proyek ini",
                             "$~terjemahkan nama, teks, dan dokumentasi proyek ini ke bahasa lain"
+                        ]
+                    },
+                    "prompt": "$~terjemahkan",
+                    "mode": {
+                        "label": "$~apa yang dilakukan penerjemahan",
+                        "labels": ["$~tambah", "$~tulis ulang"],
+                        "tips": [
+                            "$~menambahkan bahasa baru ke proyekmu, sambil menyimpan semua yang sudah kamu tulis",
+                            "$~menulis ulang proyekmu dalam bahasa baru, menggantikan apa yang sudah kamu tulis"
                         ]
                     }
                 }
@@ -9727,6 +9737,20 @@
             ],
             "play": "$~Dengarkan $symbol",
             "insert": "$~Ketik $symbol"
+        },
+        "translation": {
+            "used": "$~Kamu sudah menerjemahkan $used dari $#limit[$limit karakter] hari ini",
+            "meter": "$~terjemahan yang digunakan hari ini",
+            "exhaustedHours": "$~Kamu sudah memakai semua jatah menerjemahkan untuk hari ini. Coba lagi sekitar $#hours[$hours jam] lagi.",
+            "exhaustedMinutes": "$~Kamu sudah memakai semua jatah menerjemahkan untuk hari ini. Coba lagi sekitar $#minutes[$minutes menit] lagi.",
+            "signIn": "$~Menerjemahkan membutuhkan akun, supaya semua orang mendapat bagian yang adil. <Masuk atau daftar@/login> untuk menerjemahkan proyek kamu.",
+            "progressLabel": "$~kemajuan terjemahan",
+            "analyzing": "$~Membaca program kamu…",
+            "revising": "$~Memasukkan kata-kata baru…",
+            "started": "$~Menerjemahkan $#count[$count frasa] ke $language…",
+            "progress": "$~Sudah menerjemahkan $done dari $#total[$total frasa]",
+            "finished": "$~Proyek kamu sekarang berbahasa $language.",
+            "finishedPartial": "$~Proyek kamu sekarang berbahasa $language, tetapi $#kept[$kept frasa] tetap menggunakan kata-kata asli."
         }
     },
     "moderation": {

@@ -6728,7 +6728,8 @@
                 "unknown": "$~Hindi umiiral ang proyektong ito o wala kang access dito.",
                 "translate": "$~Nagkaroon ng problema sa pagsasalin ng iyong proyekto.",
                 "tile": "$~Naku, may error",
-                "reset": "$~Subukang i-reset..."
+                "reset": "$~Subukang i-reset...",
+                "translateBroken": "$~Kung isinalin namin ito, magkakaroon ng mga error sa iyong programa, kaya walang binago. Subukan ang ibang wika, o isalin muli."
             },
             "button": {
                 "share": {
@@ -6818,6 +6819,15 @@
                         "tips": [
                             "$~tingnan at baguhin ang mga wikang ginamit sa proyektong ito",
                             "$~isalin ang mga pangalan, teksto, at dokumentasyon ng proyektong ito sa ibang wika"
+                        ]
+                    },
+                    "prompt": "$~isalin",
+                    "mode": {
+                        "label": "$~kung ano ang ginagawa ng pagsasalin",
+                        "labels": ["$~idagdag", "$~isulat muli"],
+                        "tips": [
+                            "$~idagdag ang bagong wika sa iyong proyekto, habang nananatili ang lahat ng isinulat mo",
+                            "$~isulat muli ang iyong proyekto sa bagong wika, na papalitan ang isinulat mo"
                         ]
                     }
                 }
@@ -9718,6 +9728,20 @@
             ],
             "play": "$~Pakinggan ang $symbol",
             "insert": "$~I-type ang $symbol"
+        },
+        "translation": {
+            "used": "$~Nagamit mo na ang $used sa $#limit[$limit karakter|$limit na karakter] ngayong araw",
+            "meter": "$~nagamit na pagsasalin ngayong araw",
+            "exhaustedHours": "$~Naubos mo na ang pagsasalin para ngayong araw. Subukan muli sa mga $#hours[$hours oras|$hours na oras].",
+            "exhaustedMinutes": "$~Naubos mo na ang pagsasalin para ngayong araw. Subukan muli sa mga $#minutes[$minutes minuto|$minutes na minuto].",
+            "signIn": "$~Kailangan ng account para makapagsalin, para pantay ang bahagi ng lahat dito. <Mag-sign in o sumali@/login> para isalin ang iyong proyekto.",
+            "progressLabel": "$~progreso ng pagsasalin",
+            "analyzing": "$~Binabasa ang iyong programa…",
+            "revising": "$~Inilalagay ang mga bagong salita…",
+            "started": "$~Isinasalin ang $#count[$count parirala|$count na parirala] sa $language…",
+            "progress": "$~Naisalin na ang $done sa $#total[$total parirala|$total na parirala]",
+            "finished": "$~Ang iyong proyekto ay nagsasalita na ngayon ng $language.",
+            "finishedPartial": "$~Ang iyong proyekto ay nagsasalita na ngayon ng $language, pero ang $#kept[$kept parirala|$kept na parirala] ay nanatili sa orihinal na mga salita."
         }
     },
     "moderation": {

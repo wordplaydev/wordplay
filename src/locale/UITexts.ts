@@ -231,6 +231,8 @@ type UITexts = {
             unknown: string;
             /** [plain] The error to show if translation wasn't possible */
             translate: string;
+            /** [plain] The error to show when translating would have introduced errors in the program, so nothing changed */
+            translateBroken: string;
             /** [plain] The message for an error in a tile */
             tile: string;
             /** [plain] The button label for an error reset */
@@ -332,6 +334,10 @@ type UITexts = {
                 tab: ModeText<[string, string]>;
                 /** [plain] The dialog button's label, saying how many languages the project is written in */
                 count: Template<['#count']>;
+                /** [plain] The dialog button's label when the project has just one language, inviting translation instead of counting */
+                prompt: string;
+                /** Whether translating adds the new language alongside what's written, or rewrites the program in it */
+                mode: ModeText<[string, string]>;
                 /** [formatted] Explains what a project's languages decide, above the list of them */
                 meaning: FormattedText | FormattedText[];
                 /** [plain] Marks a language nothing in the project's code uses */
@@ -399,6 +405,34 @@ type UITexts = {
     gallerymoderation: GalleryModerationPageText;
     /** How-to space page labels */
     howto: HowToPageText;
+    /** Text shared by everything that machine translates — a project, and later
+     *  chat and how-tos — including the daily budget meter (#1073). */
+    translation: {
+        /** [plain] How much of today's translation budget has been used */
+        used: Template<['used', '#limit']>;
+        /** [plain] The ARIA label for the translation budget meter */
+        meter: string;
+        /** [plain] Shown when today's translation budget is spent and resets in $#hours hours */
+        exhaustedHours: Template<['#hours']>;
+        /** [plain] Shown when today's translation budget is spent and resets in $#minutes minutes */
+        exhaustedMinutes: Template<['#minutes']>;
+        /** [formatted] Explains that translating requires an account, with a link to sign in */
+        signIn: FormattedText;
+        /** [plain] The ARIA label for the translation progress bar */
+        progressLabel: string;
+        /** [plain] Shown and announced while the project is being prepared for translation */
+        analyzing: string;
+        /** [plain] Shown and announced while the translated text is being put back into the project */
+        revising: string;
+        /** [plain] Announced when translation starts, naming how much and into which language */
+        started: Template<['#count', 'language']>;
+        /** [plain] Announced as translation proceeds */
+        progress: Template<['done', '#total']>;
+        /** [plain] Announced when translation finishes */
+        finished: Template<['language']>;
+        /** [plain] Announced when translation finishes but some text kept its original wording */
+        finishedPartial: Template<['language', '#kept']>;
+    };
     /** Source file controls */
     source: {
         /** [plain] The ARIA label for the source file section */

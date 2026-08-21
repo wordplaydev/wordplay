@@ -192,3 +192,70 @@ test('a name with no letters is never sent for translation', async () => {
     const out = result?.getSources()[0].toWordplay() ?? '';
     expect(out).toContain('🔈');
 });
+
+test('validation leaves a clean translation alone', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', 'cat: "meow"\ncat');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ cat: 'gato', meow: 'miau' }),
+        undefined,
+        true,
+        { validate: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].toWordplay() ?? '';
+    expect(out).toContain('gato');
+    expect(out).toContain('miau');
+});
+
+test('phases are reported in order', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', 'cat: "meow"\ncat');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const phases: string[] = [];
+    await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ cat: 'gato' }),
+        undefined,
+        true,
+        { phase: (phase) => phases.push(phase) },
+    );
+
+    expect(phases).toEqual(['analyzing', 'revising']);
+});
+
+test('strings the translator leaves undefined keep their source', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // What a partly-failed chunked translation looks like from here: some
+    // entries translated, some undefined. The undefined ones must not blank
+    // anything out.
+    const source = new Source('start', 'cat: "meow"\ncat');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        async (texts) => texts.map((t) => (t === 'cat' ? 'gato' : undefined)),
+        undefined,
+        true,
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].toWordplay() ?? '';
+    expect(out).toContain('gato');
+    // The text kept its source rather than becoming empty.
+    expect(out).toContain('meow');
+});

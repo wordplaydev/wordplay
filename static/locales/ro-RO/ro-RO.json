@@ -6737,7 +6737,8 @@
                 "unknown": "$~Acest proiect nu există sau nu aveți acces la el.",
                 "translate": "$~A apărut o problemă la traducerea proiectului dumneavoastră.",
                 "tile": "$~Oops, a apărut o eroare",
-                "reset": "$~Încercare de resetare..."
+                "reset": "$~Încercare de resetare...",
+                "translateBroken": "$~Traducerea ar fi cauzat erori în programul tău, așa că nu s-a schimbat nimic. Încearcă o altă limbă sau tradu din nou."
             },
             "button": {
                 "share": {
@@ -6827,6 +6828,15 @@
                         "tips": [
                             "$~vezi și schimbă limbile în care este scris acest proiect",
                             "$~tradu numele, textul și documentarea acestui proiect în altă limbă"
+                        ]
+                    },
+                    "prompt": "$~tradu",
+                    "mode": {
+                        "label": "$~ce face traducerea",
+                        "labels": ["$~adaugă", "$~rescrie"],
+                        "tips": [
+                            "$~adaugă limba nouă la proiectul tău, păstrând tot ce ai scris",
+                            "$~rescrie proiectul tău în limba nouă, înlocuind ce ai scris"
                         ]
                     }
                 }
@@ -9721,6 +9731,20 @@
             ],
             "play": "$~Ascultă $symbol",
             "insert": "$~Scrie $symbol"
+        },
+        "translation": {
+            "used": "$~Ai tradus $used din $#limit[$#limit caracter|$limit caractere|$limit de caractere] astăzi",
+            "meter": "$~traducere folosită astăzi",
+            "exhaustedHours": "$~Ai folosit toată traducerea de azi. Încearcă din nou peste aproximativ $#hours[$#hours oră|$hours ore|$hours de ore].",
+            "exhaustedMinutes": "$~Ai folosit toată traducerea de azi. Încearcă din nou peste aproximativ $#minutes[$#minutes minut|$minutes minute|$minutes de minute].",
+            "signIn": "$~Traducerea are nevoie de un cont, ca toată lumea să aibă parte în mod echitabil de ea. <Conectează-te sau înscrie-te@/login> pentru a-ți traduce proiectul.",
+            "progressLabel": "$~progresul traducerii",
+            "analyzing": "$~Se citește programul tău…",
+            "revising": "$~Se pun cuvintele noi…",
+            "started": "$~Se traduc $#count[$#count frază|$count fraze|$count de fraze] în $language…",
+            "progress": "$~S-au tradus $done din $#total[$#total frază|$total fraze|$total de fraze]",
+            "finished": "$~Proiectul tău vorbește acum $language.",
+            "finishedPartial": "$~Proiectul tău vorbește acum $language, dar $#kept[$#kept frază a păstrat|$kept fraze au păstrat|$kept de fraze au păstrat] cuvintele originale."
         }
     },
     "moderation": {

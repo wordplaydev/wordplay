@@ -6729,7 +6729,8 @@
                 "unknown": "$~Este proyecto no existe o no tienes acceso a él.",
                 "translate": "$~Hubo un problema al traducir tu proyecto.",
                 "tile": "$~Ups, hubo un error",
-                "reset": "$~Intentar reiniciar..."
+                "reset": "$~Intentar reiniciar...",
+                "translateBroken": "$~Traducir habría causado errores en tu programa, así que no se cambió nada. Prueba con otro idioma, o traduce de nuevo."
             },
             "button": {
                 "removeCollaborator": "quitar colaboradora",
@@ -6819,6 +6820,15 @@
                         "tips": [
                             "$~ver y cambiar los idiomas en los que está escrito este proyecto",
                             "$~traducir los nombres, el texto y la documentación de este proyecto a otro idioma"
+                        ]
+                    },
+                    "prompt": "$~traducir",
+                    "mode": {
+                        "label": "$~qué hace traducir",
+                        "labels": ["$~agregar", "$~reescribir"],
+                        "tips": [
+                            "$~agrega el nuevo idioma a tu proyecto, conservando todo lo que escribiste",
+                            "$~reescribe tu proyecto en el nuevo idioma, reemplazando lo que escribiste"
                         ]
                     }
                 }
@@ -9725,6 +9735,20 @@
             ],
             "play": "$~escuchar $symbol",
             "insert": "$~escribir $symbol"
+        },
+        "translation": {
+            "used": "$~Has traducido $used de $#limit[$#limit carácter|$limit caracteres|$limit caracteres] hoy",
+            "meter": "$~traducción usada hoy",
+            "exhaustedHours": "$~Ya usaste todas tus traducciones de hoy. Intenta de nuevo en aproximadamente $#hours[$#hours hora|$hours horas|$hours horas].",
+            "exhaustedMinutes": "$~Ya usaste todas tus traducciones de hoy. Intenta de nuevo en aproximadamente $#minutes[$#minutes minuto|$minutes minutos|$minutes minutos].",
+            "signIn": "$~Traducir necesita una cuenta, así que todas reciben una parte justa de este servicio. <Inicia sesión o únete@/login> para traducir tu proyecto.",
+            "progressLabel": "$~progreso de traducción",
+            "analyzing": "$~Leyendo tu programa…",
+            "revising": "$~Poniendo las palabras nuevas…",
+            "started": "$~Traduciendo $#count[$#count frase|$count frases|$count frases] al $language…",
+            "progress": "$~Traducidas $done de $#total[$#total frase|$total frases|$total frases]",
+            "finished": "$~Tu proyecto ahora habla $language.",
+            "finishedPartial": "$~Tu proyecto ahora habla $language, pero $#kept[$#kept frase mantuvo|$kept frases mantuvieron|$kept frases mantuvieron] las palabras originales."
         }
     },
     "moderation": {

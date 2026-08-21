@@ -6725,7 +6725,8 @@
                 "unknown": "$~Bu proje mevcut değil veya projeye erişiminiz yok.",
                 "translate": "$~Projenizi çevirirken bir sorun oluştu.",
                 "tile": "$~Oops, bir hata oluştu",
-                "reset": "$~Sıfırlamayı deneyin..."
+                "reset": "$~Sıfırlamayı deneyin...",
+                "translateBroken": "$~Çeviri yapmak programında hatalara yol açacaktı, bu yüzden hiçbir şey değişmedi. Başka bir dil dene ya da yeniden çevir."
             },
             "button": {
                 "share": {
@@ -6815,6 +6816,15 @@
                         "tips": [
                             "$~bu projenin yazıldığı dilleri gör ve değiştir",
                             "$~bu projenin isimlerini, metnini ve dokümantasyonunu başka bir dile çevir"
+                        ]
+                    },
+                    "prompt": "$~çevir",
+                    "mode": {
+                        "label": "$~çeviri yapmak ne işe yarar",
+                        "labels": ["$~ekle", "$~yeniden yaz"],
+                        "tips": [
+                            "$~yeni dili projene ekle, yazdığın her şeyi koru",
+                            "$~projeni yeni dilde yeniden yaz, yazdıklarının yerine geçsin"
                         ]
                     }
                 }
@@ -9718,6 +9728,20 @@
             ],
             "play": "$~$symbol öğesini duy",
             "insert": "$~$symbol öğesini yaz"
+        },
+        "translation": {
+            "used": "$~Bugün $#limit[$limit karakter|$limit karakter] üzerinden $used karakter çevirdin",
+            "meter": "$~bugün kullanılan çeviri",
+            "exhaustedHours": "$~Bugünkü çeviri hakkını kullandın. Yaklaşık $#hours[$hours saat|$hours saat] sonra tekrar dene.",
+            "exhaustedMinutes": "$~Bugünkü çeviri hakkını kullandın. Yaklaşık $#minutes[$minutes dakika|$minutes dakika] sonra tekrar dene.",
+            "signIn": "$~Çeviri yapmak için bir hesap gerekir, böylece herkes hakkını adil şekilde kullanır. Projeni çevirmek için <Giriş yap ya da katıl@/login>.",
+            "progressLabel": "$~çeviri ilerlemesi",
+            "analyzing": "$~Programın okunuyor…",
+            "revising": "$~Yeni sözcükler yerleştiriliyor…",
+            "started": "$~$#count[$count cümle|$count cümle] $language diline çevriliyor…",
+            "progress": "$~$#total[$total cümleden|$total cümleden] $done tanesi çevrildi",
+            "finished": "$~Projen artık $language konuşuyor.",
+            "finishedPartial": "$~Projen artık $language konuşuyor, ama $#kept[$kept cümle|$kept cümle] özgün sözcüklerini korudu."
         }
     },
     "moderation": {

@@ -6710,7 +6710,8 @@
                 "unknown": "$~这个项目不存在，或者你没有访问权限。",
                 "translate": "翻译你的项目时出现问题。",
                 "tile": "$~哎呀，出错了",
-                "reset": "$~尝试重置……"
+                "reset": "$~尝试重置……",
+                "translateBroken": "$~翻译会让你的程序出错，所以没有做任何更改。试试别的语言，或者重新翻译一次吧。"
             },
             "button": {
                 "removeCollaborator": "移除合作者",
@@ -6800,6 +6801,15 @@
                         "tips": [
                             "$~查看并更改这个项目使用的语言",
                             "$~把这个项目的名字、文本和文档翻译成另一种语言"
+                        ]
+                    },
+                    "prompt": "$~翻译",
+                    "mode": {
+                        "label": "$~翻译是做什么的",
+                        "labels": ["$~添加", "$~重写"],
+                        "tips": [
+                            "$~把新语言添加到你的项目中，保留你已经写的内容",
+                            "$~用新语言重写你的项目，替换掉你已经写的内容"
                         ]
                     }
                 }
@@ -9669,6 +9679,20 @@
             ],
             "play": "$~听 $symbol",
             "insert": "$~输入 $symbol"
+        },
+        "translation": {
+            "used": "$~你今天已经翻译了 $#limit[$limit 个字符]中的 $used 个",
+            "meter": "$~今日已用翻译额度",
+            "exhaustedHours": "$~你今天的翻译额度已经用完啦。大约 $#hours[$hours 小时]后再试试吧。",
+            "exhaustedMinutes": "$~你今天的翻译额度已经用完啦。大约 $#minutes[$minutes 分钟]后再试试吧。",
+            "signIn": "$~翻译功能需要账号才能使用，这样大家才能公平地分享它。<登录或注册@/login> 来翻译你的项目吧。",
+            "progressLabel": "$~翻译进度",
+            "analyzing": "$~正在读取你的程序……",
+            "revising": "$~正在填入新的词语……",
+            "started": "$~正在把 $#count[$count 个短语]翻译成 $language……",
+            "progress": "$~已翻译 $#total[$total 个短语]中的 $done 个",
+            "finished": "$~你的项目现在说 $language 啦。",
+            "finishedPartial": "$~你的项目现在说 $language 啦，不过 $#kept[$kept 个短语]保留了原来的词语。"
         }
     },
     "moderation": {

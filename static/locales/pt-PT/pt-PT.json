@@ -6732,7 +6732,8 @@
                 "unknown": "Este projeto não existe ou não tem acesso a ele.",
                 "translate": "Ocorreu um problema ao traduzir o seu projeto.",
                 "tile": "Ups, ocorreu um erro.",
-                "reset": "Tentativa de reinicialização..."
+                "reset": "Tentativa de reinicialização...",
+                "translateBroken": "$~Traduzir teria causado erros no seu programa, por isso nada foi alterado. Experimente outro idioma ou traduza novamente."
             },
             "button": {
                 "share": {
@@ -6822,6 +6823,15 @@
                         "tips": [
                             "$~ver e mudar os idiomas em que este projeto está escrito",
                             "$~traduzir os nomes, o texto e a documentação deste projeto para outro idioma"
+                        ]
+                    },
+                    "prompt": "$~traduzir",
+                    "mode": {
+                        "label": "$~o que faz a tradução",
+                        "labels": ["$~adicionar", "$~reescrever"],
+                        "tips": [
+                            "$~adiciona o novo idioma ao seu projeto, mantendo tudo o que escreveu",
+                            "$~reescreve o seu projeto no novo idioma, substituindo o que escreveu"
                         ]
                     }
                 }
@@ -9717,6 +9727,20 @@
             ],
             "play": "$~Ouvir $symbol",
             "insert": "$~Escrever $symbol"
+        },
+        "translation": {
+            "used": "$~Já traduziu $used de $#limit[$#limit carácter|$limit milhões de carateres|$limit carateres] hoje",
+            "meter": "$~tradução usada hoje",
+            "exhaustedHours": "$~Já usou o limite de tradução de hoje. Tente novamente daqui a cerca de $#hours[$#hours hora|$hours milhões de horas|$hours horas].",
+            "exhaustedMinutes": "$~Já usou o limite de tradução de hoje. Tente novamente daqui a cerca de $#minutes[$#minutes minuto|$minutes milhões de minutos|$minutes minutos].",
+            "signIn": "$~Traduzir requer uma conta, para que todos tenham uma parte justa. <Inicie sessão ou registe-se@/login> para traduzir o seu projeto.",
+            "progressLabel": "$~progresso da tradução",
+            "analyzing": "$~A ler o seu programa…",
+            "revising": "$~A colocar as novas palavras…",
+            "started": "$~A traduzir $#count[$#count frase|$count milhões de frases|$count frases] para $language…",
+            "progress": "$~Traduzidas $done de $#total[$#total frase|$total milhões de frases|$total frases]",
+            "finished": "$~O seu projeto agora fala $language.",
+            "finishedPartial": "$~O seu projeto agora fala $language, mas $#kept[$#kept frase manteve|$kept milhões de frases mantiveram|$kept frases mantiveram] as palavras originais."
         }
     },
     "moderation": {

@@ -6705,7 +6705,8 @@
                 "unknown": "該演出不存在或未公開",
                 "translate": "$~翻譯你的工程時發生問題。",
                 "tile": "$~糟糕，發生錯誤了",
-                "reset": "$~嘗試重置……"
+                "reset": "$~嘗試重置……",
+                "translateBroken": "$~翻譯後會讓你的程式出現錯誤，所以沒有做任何更動。試試別的語言，或是再翻譯一次。"
             },
             "button": {
                 "removeCollaborator": "移除合作者",
@@ -6795,6 +6796,15 @@
                         "tips": [
                             "$~查看並更改這個工程使用的語言",
                             "$~把這個工程的名字、文字和說明文件翻譯成另一種語言"
+                        ]
+                    },
+                    "prompt": "$~翻譯",
+                    "mode": {
+                        "label": "$~翻譯做了什麼",
+                        "labels": ["$~新增", "$~重寫"],
+                        "tips": [
+                            "$~把新語言加進你的工程，並保留你原本寫的內容",
+                            "$~用新語言重寫你的工程，取代你原本寫的內容"
                         ]
                     }
                 }
@@ -9677,6 +9687,20 @@
             ],
             "play": "$~聆聽 $symbol",
             "insert": "$~輸入 $symbol"
+        },
+        "translation": {
+            "used": "$~你今天已經翻譯了 $used 個字，總共 $#limit[$limit 個字]",
+            "meter": "$~今天已用的翻譯量",
+            "exhaustedHours": "$~你今天的翻譯額度用完了。請大約 $#hours[$hours 小時]後再試一次。",
+            "exhaustedMinutes": "$~你今天的翻譯額度用完了。請大約 $#minutes[$minutes 分鐘]後再試一次。",
+            "signIn": "$~翻譯功能需要帳號才能使用，這樣才能讓每個人公平使用。<登入或加入@/login>來翻譯你的工程。",
+            "progressLabel": "$~翻譯進度",
+            "analyzing": "$~正在讀取你的程式……",
+            "revising": "$~正在放入新的文字……",
+            "started": "$~正在把 $#count[$count 個片語]翻譯成 $language……",
+            "progress": "$~已翻譯 $done 個，總共 $#total[$total 個片語]",
+            "finished": "$~你的工程現在會說 $language 了。",
+            "finishedPartial": "$~你的工程現在會說 $language 了，但有 $#kept[$kept 個片語]保留了原本的文字。"
         }
     },
     "moderation": {

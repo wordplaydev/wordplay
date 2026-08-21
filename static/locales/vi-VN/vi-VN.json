@@ -6737,7 +6737,8 @@
                 "unknown": "$~Dự án này không tồn tại hoặc bạn không có quyền truy cập vào nó.",
                 "translate": "$~Đã xảy ra lỗi khi dịch dự án của bạn.",
                 "tile": "$~Ồ, đã xảy ra lỗi.",
-                "reset": "$~Thử thiết lập lại..."
+                "reset": "$~Thử thiết lập lại...",
+                "translateBroken": "$~Việc dịch có thể làm chương trình của bạn bị lỗi, nên không có gì thay đổi cả. Hãy thử một ngôn ngữ khác, hoặc dịch lại."
             },
             "button": {
                 "share": {
@@ -6827,6 +6828,15 @@
                         "tips": [
                             "$~xem và thay đổi các ngôn ngữ mà dự án này được viết bằng",
                             "$~dịch các tên, văn bản và tài liệu của dự án này sang một ngôn ngữ khác"
+                        ]
+                    },
+                    "prompt": "$~dịch",
+                    "mode": {
+                        "label": "$~dịch làm gì",
+                        "labels": ["$~thêm", "$~viết lại"],
+                        "tips": [
+                            "$~thêm ngôn ngữ mới vào dự án của bạn, giữ nguyên mọi thứ bạn đã viết",
+                            "$~viết lại dự án của bạn bằng ngôn ngữ mới, thay thế những gì bạn đã viết"
                         ]
                     }
                 }
@@ -9731,6 +9741,20 @@
             ],
             "play": "$~Nghe $symbol",
             "insert": "$~Gõ $symbol"
+        },
+        "translation": {
+            "used": "$~Hôm nay bạn đã dịch $used trên $#limit[$limit ký tự]",
+            "meter": "$~lượt dịch đã dùng hôm nay",
+            "exhaustedHours": "$~Bạn đã dùng hết lượt dịch hôm nay. Hãy thử lại sau khoảng $#hours[$hours giờ].",
+            "exhaustedMinutes": "$~Bạn đã dùng hết lượt dịch hôm nay. Hãy thử lại sau khoảng $#minutes[$minutes phút].",
+            "signIn": "$~Việc dịch cần có tài khoản, để ai cũng được chia phần công bằng. <Đăng nhập hoặc tham gia@/login> để dịch dự án của bạn.",
+            "progressLabel": "$~tiến trình dịch",
+            "analyzing": "$~Đang đọc chương trình của bạn…",
+            "revising": "$~Đang thêm những từ mới vào…",
+            "started": "$~Đang dịch $#count[$count cụm từ] sang $language…",
+            "progress": "$~Đã dịch $done trên $#total[$total cụm từ]",
+            "finished": "$~Giờ đây dự án của bạn nói $language.",
+            "finishedPartial": "$~Giờ đây dự án của bạn nói $language, nhưng $#kept[$kept cụm từ] vẫn giữ nguyên từ gốc."
         }
     },
     "moderation": {

@@ -1156,8 +1156,11 @@ export default class Project {
     /** Re-tokenize every source with this project's keyword index, so a language change
      * takes effect immediately instead of at the next reload: an added language's keyword
      * words become constructs, and a removed language's words degrade to plain names.
-     * Routed through withSources so carets follow their replaced sources. */
-    private withKeywordedSources(): Project {
+     * Routed through withSources so carets follow their replaced sources.
+     *
+     * Rebuilds every source, so a caller holding nodes gathered from the old tree must
+     * call this last — which is why `withPrimaryLocale` doesn't do it for you. */
+    withKeywordedSources(): Project {
         const keywords = this.getKeywordIndex();
         const replacements: [Source, Source][] = [];
         for (const source of this.getSources()) {

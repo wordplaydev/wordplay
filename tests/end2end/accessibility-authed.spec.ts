@@ -61,6 +61,38 @@ for (const scheme of ['light', 'dark'] as const) {
             }
         });
 
+        test(`languages dialog has no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            // The translate tab carries a progress bar and a budget meter, both
+            // of which need an accessible name and AA-contrast text in both
+            // schemes, and neither is reachable from the editor scan above.
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                await page.goto('/en-US/project/seed-collab-project');
+                await expect(page.locator('#project-name')).toHaveValue(
+                    'Shared Sketch',
+                    { timeout: LOAD_TIMEOUT },
+                );
+                await page
+                    .locator('[data-uiid="languagesButton"] button')
+                    .first()
+                    .click();
+                await page.getByRole('tab').nth(1).click();
+                await expect(
+                    page.locator('#languages-tabs-panel'),
+                ).toBeVisible();
+                await expectNoAxeViolations(page);
+            } finally {
+                await context.close();
+            }
+        });
+
         test(`character editor has no WCAG 2.2 AA violations`, async ({
             browser,
         }) => {

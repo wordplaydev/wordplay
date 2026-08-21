@@ -6718,7 +6718,8 @@
                 "unknown": "$~Det här projektet finns inte eller så har du inte tillgång till det.",
                 "translate": "$~Det uppstod ett problem med att översätta ditt projekt.",
                 "tile": "$~Hoppsan, det uppstod ett fel",
-                "reset": "$~Försök att återställa..."
+                "reset": "$~Försök att återställa...",
+                "translateBroken": "$~Att översätta skulle ha orsakat fel i ditt projekt, så inget ändrades. Prova ett annat språk, eller översätt igen."
             },
             "button": {
                 "share": {
@@ -6808,6 +6809,15 @@
                         "tips": [
                             "$~se och ändra språken som detta projekt är skrivet på",
                             "$~översätt detta projekts namn, text och dokumentation till ett annat språk"
+                        ]
+                    },
+                    "prompt": "$~översätt",
+                    "mode": {
+                        "label": "$~vad översättning gör",
+                        "labels": ["$~lägg till", "$~skriv om"],
+                        "tips": [
+                            "$~lägg till det nya språket i ditt projekt, och behåll allt du skrev",
+                            "$~skriv om ditt projekt på det nya språket, och ersätt det du skrev"
                         ]
                     }
                 }
@@ -9703,6 +9713,20 @@
             ],
             "play": "$~Hör $symbol",
             "insert": "$~Skriv $symbol"
+        },
+        "translation": {
+            "used": "$~Du har översatt $used av $#limit[$limit tecken|$limit tecken] idag",
+            "meter": "$~översättning använd idag",
+            "exhaustedHours": "$~Du har använt dagens översättningar. Försök igen om ungefär $#hours[$hours timme|$hours timmar].",
+            "exhaustedMinutes": "$~Du har använt dagens översättningar. Försök igen om ungefär $#minutes[$minutes minut|$minutes minuter].",
+            "signIn": "$~Att översätta kräver ett konto, så att alla får en rättvis del av det. <Logga in eller bli medlem@/login> för att översätta ditt projekt.",
+            "progressLabel": "$~översättningsförlopp",
+            "analyzing": "$~Läser ditt projekt…",
+            "revising": "$~Sätter in de nya orden…",
+            "started": "$~Översätter $#count[$count fras|$count fraser] till $language…",
+            "progress": "$~Översatt $done av $#total[$total fras|$total fraser]",
+            "finished": "$~Ditt projekt talar nu $language.",
+            "finishedPartial": "$~Ditt projekt talar nu $language, men $#kept[$kept fras|$kept fraser] behöll de ursprungliga orden."
         }
     },
     "moderation": {

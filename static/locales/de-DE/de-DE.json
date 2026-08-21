@@ -6728,7 +6728,8 @@
                 "unknown": "$~Dieses Projekt gibt es nicht, oder du hast keinen Zugriff darauf.",
                 "translate": "$~Beim Übersetzen Ihres Projekts ist ein Problem aufgetreten.",
                 "tile": "$~Hoppla, da ist ein Fehler aufgetreten.",
-                "reset": "$~Versuch zum Zurücksetzen..."
+                "reset": "$~Versuch zum Zurücksetzen...",
+                "translateBroken": "$~Übersetzen hätte Fehler in deinem Programm verursacht. Deshalb wurde nichts geändert. Probiere eine andere Sprache oder übersetze noch einmal."
             },
             "button": {
                 "removeCollaborator": "$~Mitarbeiter entfernen",
@@ -6818,6 +6819,15 @@
                         "tips": [
                             "$~sieh und ändere die Sprachen, in denen dieses Projekt geschrieben ist",
                             "$~übersetze die Namen, den Text und die Dokumentation dieses Projekts in eine andere Sprache"
+                        ]
+                    },
+                    "prompt": "$~übersetzen",
+                    "mode": {
+                        "label": "$~was das Übersetzen bewirkt",
+                        "labels": ["$~hinzufügen", "$~neu schreiben"],
+                        "tips": [
+                            "$~die neue Sprache zu deinem Projekt hinzufügen, ohne etwas von dem zu verlieren, was du geschrieben hast",
+                            "$~dein Projekt in der neuen Sprache neu schreiben und dabei das Geschriebene ersetzen"
                         ]
                     }
                 }
@@ -9723,6 +9733,20 @@
             ],
             "play": "$~Höre $symbol",
             "insert": "$~Tippe $symbol"
+        },
+        "translation": {
+            "used": "$~Du hast heute $used von $#limit[$limit Zeichen|$limit Zeichen] übersetzt",
+            "meter": "$~heute genutzte Übersetzung",
+            "exhaustedHours": "$~Du hast dein Übersetzungslimit für heute erreicht. Versuche es in etwa $#hours[$hours Stunde|$hours Stunden] wieder.",
+            "exhaustedMinutes": "$~Du hast dein Übersetzungslimit für heute erreicht. Versuche es in etwa $#minutes[$minutes Minute|$minutes Minuten] wieder.",
+            "signIn": "$~Zum Übersetzen brauchst du ein Konto, damit alle einen fairen Anteil bekommen. <Melde dich an oder registriere dich@/login>, um dein Projekt zu übersetzen.",
+            "progressLabel": "$~Übersetzungsfortschritt",
+            "analyzing": "$~Dein Programm wird gelesen …",
+            "revising": "$~Die neuen Wörter werden eingefügt …",
+            "started": "$~$#count[$count Phrase|$count Phrasen] werden nach $language übersetzt …",
+            "progress": "$~$done von $#total[$total Phrase|$total Phrasen] übersetzt",
+            "finished": "$~Dein Projekt spricht jetzt $language.",
+            "finishedPartial": "$~Dein Projekt spricht jetzt $language, aber $#kept[$kept Phrase|$kept Phrasen] blieb bei den ursprünglichen Wörtern|$#kept[$kept Phrase|$kept Phrasen] blieben bei den ursprünglichen Wörtern"
         }
     },
     "moderation": {

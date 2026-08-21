@@ -6,6 +6,7 @@ import { getConventionsForPrompt } from '@locale/getConventionsForPrompt';
 import { getGlossaryForPrompt } from '@locale/Glossary';
 import { getPluralRulesForPrompt } from '@locale/plurals';
 import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
+import { chunkUnits } from '@util/chunkUnits';
 import type Locale from '@locale/Locale';
 import { stringToLocale } from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -98,58 +99,11 @@ export async function translateDeduped(
     );
     return units.map((unit) => byText.get(unit) ?? null);
 }
-/**
- * How many markup segments to send per request.
- *
- * Kept small on purpose. Segments are not uniform: a chunk of UI labels is a
- * few hundred characters, while a chunk of `@Music` documentation is thousands,
- * and at 100 segments the latter asked for ~11,000 characters of output in one
- * request — minutes of generation, with nothing printed until it landed. That
- * is what made a working run indistinguishable from a wedged one.
- */
-const CHUNK_SIZE = 25;
-/**
- * Characters per request, alongside the segment cap.
- *
- * Segment count alone is the wrong bound: a request's cost is the text in it,
- * and 25 short segments and 25 long ones differ by an order of magnitude.
- * Measured on the slowest scripts (Gujarati, Kannada), a chunk runs about
- * 0.045s per source character — so 4,400 characters took ~200s and 8,000
- * blew through the 600s timeout three times before failing, losing the whole
- * chunk after half an hour. This keeps the worst case near 200s. Latin-script
- * locales rarely reach it (their chunks run 1,000–3,000 characters), so they
- * keep filling all 25 segments.
- */
-const CHUNK_CHARACTERS = 4_000;
+// The request-chunking policy lives in a dependency-free module so browser code
+// (the in-app project translator) can share the same bounds; re-exported here so
+// this file's importers and chunkUnits.test.ts are unchanged.
+export { chunkUnits };
 
-/**
- * Group units into requests bounded by both segment count and character budget.
- * A single unit larger than the budget goes alone rather than being dropped.
- */
-export function chunkUnits(
-    units: string[],
-    maxUnits = CHUNK_SIZE,
-    maxCharacters = CHUNK_CHARACTERS,
-): string[][] {
-    const chunks: string[][] = [];
-    let current: string[] = [];
-    let characters = 0;
-    for (const unit of units) {
-        if (
-            current.length > 0 &&
-            (current.length >= maxUnits ||
-                characters + unit.length > maxCharacters)
-        ) {
-            chunks.push(current);
-            current = [];
-            characters = 0;
-        }
-        current.push(unit);
-        characters += unit.length;
-    }
-    if (current.length > 0) chunks.push(current);
-    return chunks;
-}
 /** Output cap; structured JSON of a chunk this size stays well under this. */
 const MAX_TOKENS = 16000;
 /**

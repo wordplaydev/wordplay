@@ -22842,6 +22842,14 @@
                                                     ],
                                                     "description": "[formatted] Explains what a project's languages decide, above the list of them"
                                                 },
+                                                "mode": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether translating adds the new language alongside what's written, or rewrites the program in it"
+                                                },
+                                                "prompt": {
+                                                    "description": "[plain] The dialog button's label when the project has just one language, inviting translation instead of counting",
+                                                    "type": "string"
+                                                },
                                                 "search": {
                                                     "$ref": "#/definitions/FieldText",
                                                     "description": "The field that filters languages by name or region"
@@ -22866,6 +22874,8 @@
                                                 "explanation",
                                                 "header",
                                                 "meaning",
+                                                "mode",
+                                                "prompt",
                                                 "search",
                                                 "tab",
                                                 "unloaded",
@@ -22893,6 +22903,10 @@
                                             "description": "[plain] The error to show if translation wasn't possible",
                                             "type": "string"
                                         },
+                                        "translateBroken": {
+                                            "description": "[plain] The error to show when translating would have introduced errors in the program, so nothing changed",
+                                            "type": "string"
+                                        },
                                         "unknown": {
                                             "description": "[plain] Shown when a project doesn't exist or the user doesn't have access",
                                             "type": "string"
@@ -22901,6 +22915,7 @@
                                     "required": [
                                         "unknown",
                                         "translate",
+                                        "translateBroken",
                                         "tile",
                                         "reset"
                                     ],
@@ -24407,6 +24422,75 @@
                             ],
                             "type": "object"
                         },
+                        "translation": {
+                            "additionalProperties": false,
+                            "description": "Text shared by everything that machine translates — a project, and later chat and how-tos — including the daily budget meter (#1073).",
+                            "properties": {
+                                "analyzing": {
+                                    "description": "[plain] Shown and announced while the project is being prepared for translation",
+                                    "type": "string"
+                                },
+                                "exhaustedHours": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23hours%22%5D%3E",
+                                    "description": "[plain] Shown when today's translation budget is spent and resets in $#hours hours"
+                                },
+                                "exhaustedMinutes": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23minutes%22%5D%3E",
+                                    "description": "[plain] Shown when today's translation budget is spent and resets in $#minutes minutes"
+                                },
+                                "finished": {
+                                    "$ref": "#/definitions/Template%3C%5B%22language%22%5D%3E",
+                                    "description": "[plain] Announced when translation finishes"
+                                },
+                                "finishedPartial": {
+                                    "$ref": "#/definitions/Template%3C%5B%22language%22%2C%22%23kept%22%5D%3E",
+                                    "description": "[plain] Announced when translation finishes but some text kept its original wording"
+                                },
+                                "meter": {
+                                    "description": "[plain] The ARIA label for the translation budget meter",
+                                    "type": "string"
+                                },
+                                "progress": {
+                                    "$ref": "#/definitions/Template%3C%5B%22done%22%2C%22%23total%22%5D%3E",
+                                    "description": "[plain] Announced as translation proceeds"
+                                },
+                                "progressLabel": {
+                                    "description": "[plain] The ARIA label for the translation progress bar",
+                                    "type": "string"
+                                },
+                                "revising": {
+                                    "description": "[plain] Shown and announced while the translated text is being put back into the project",
+                                    "type": "string"
+                                },
+                                "signIn": {
+                                    "$ref": "#/definitions/FormattedText",
+                                    "description": "[formatted] Explains that translating requires an account, with a link to sign in"
+                                },
+                                "started": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22language%22%5D%3E",
+                                    "description": "[plain] Announced when translation starts, naming how much and into which language"
+                                },
+                                "used": {
+                                    "$ref": "#/definitions/Template%3C%5B%22used%22%2C%22%23limit%22%5D%3E",
+                                    "description": "[plain] How much of today's translation budget has been used"
+                                }
+                            },
+                            "required": [
+                                "used",
+                                "meter",
+                                "exhaustedHours",
+                                "exhaustedMinutes",
+                                "signIn",
+                                "progressLabel",
+                                "analyzing",
+                                "revising",
+                                "started",
+                                "progress",
+                                "finished",
+                                "finishedPartial"
+                            ],
+                            "type": "object"
+                        },
                         "update": {
                             "additionalProperties": false,
                             "description": "Notification shown when a newer version of the app has been deployed while the tab was open.",
@@ -24711,6 +24795,7 @@
                         "gallery",
                         "gallerymoderation",
                         "howto",
+                        "translation",
                         "source",
                         "feedback",
                         "annotations",
@@ -25256,6 +25341,9 @@
         "Template<[\"#count\",\"extra\"]>": {
             "type": "string"
         },
+        "Template<[\"#count\",\"language\"]>": {
+            "type": "string"
+        },
         "Template<[\"#count\",\"name\",\"frame\",\"pose\",\"color\"]>": {
             "type": "string"
         },
@@ -25278,6 +25366,12 @@
             "type": "string"
         },
         "Template<[\"#count\"]>": {
+            "type": "string"
+        },
+        "Template<[\"#hours\"]>": {
+            "type": "string"
+        },
+        "Template<[\"#minutes\"]>": {
             "type": "string"
         },
         "Template<[\"#total\",\"new\"]>": {
@@ -25346,6 +25440,9 @@
         "Template<[\"description\"]>": {
             "type": "string"
         },
+        "Template<[\"done\",\"#total\"]>": {
+            "type": "string"
+        },
         "Template<[\"duplicate\"]>": {
             "type": "string"
         },
@@ -25407,6 +25504,9 @@
             "type": "string"
         },
         "Template<[\"label\",\"text\"]>": {
+            "type": "string"
+        },
+        "Template<[\"language\",\"#kept\"]>": {
             "type": "string"
         },
         "Template<[\"language\",\"#words\"]>": {
@@ -25638,6 +25738,9 @@
             "type": "string"
         },
         "Template<[\"url\"]>": {
+            "type": "string"
+        },
+        "Template<[\"used\",\"#limit\"]>": {
             "type": "string"
         },
         "Template<[\"value\",\"#count\"]>": {

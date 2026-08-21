@@ -6736,7 +6736,8 @@
                 "unknown": "$~Ce projet n'existe pas ou n'est pas public.",
                 "translate": "$~Il y a eu un problème lors de la traduction de votre projet.",
                 "tile": "$~Oups, il y a eu une erreur.",
-                "reset": "$~Tenter de réinitialiser..."
+                "reset": "$~Tenter de réinitialiser...",
+                "translateBroken": "$~La traduction aurait causé des erreurs dans ton programme, donc rien n’a changé. Essaie une autre langue, ou traduis à nouveau."
             },
             "button": {
                 "removeCollaborator": "$~supprimer un collaborateur",
@@ -6826,6 +6827,15 @@
                         "tips": [
                             "$~voir et changer les langues dans lesquelles ce projet est écrit",
                             "$~traduire les noms, le texte et la documentation de ce projet dans une autre langue"
+                        ]
+                    },
+                    "prompt": "$~traduire",
+                    "mode": {
+                        "label": "$~ce que fait la traduction",
+                        "labels": ["$~ajouter", "$~réécrire"],
+                        "tips": [
+                            "$~ajouter la nouvelle langue à ton projet, en gardant tout ce que tu as écrit",
+                            "$~réécrire ton projet dans la nouvelle langue, en remplaçant ce que tu as écrit"
                         ]
                     }
                 }
@@ -9732,6 +9742,20 @@
             ],
             "play": "$~Écoute $symbol",
             "insert": "$~Tape $symbol"
+        },
+        "translation": {
+            "used": "$~Tu as traduit $used sur $#limit[$#limit caractère|$limit caractères|$limit caractères] aujourd’hui",
+            "meter": "$~traduction utilisée aujourd’hui",
+            "exhaustedHours": "$~Tu as utilisé toute ta traduction du jour. Réessaie dans environ $#hours[$#hours heure|$hours heures|$hours heures].",
+            "exhaustedMinutes": "$~Tu as utilisé toute ta traduction du jour. Réessaie dans environ $#minutes[$#minutes minute|$minutes minutes|$minutes minutes].",
+            "signIn": "$~Traduire nécessite un compte, pour que chacun ait une part juste. <Connecte-toi ou inscris-toi@/login> pour traduire ton projet.",
+            "progressLabel": "$~avancement de la traduction",
+            "analyzing": "$~Lecture de ton programme…",
+            "revising": "$~Ajout des nouveaux mots…",
+            "started": "$~Traduction de $#count[$#count phrase|$count phrases|$count phrases] en $language…",
+            "progress": "$~Traduit $done sur $#total[$#total phrase|$total phrases|$total phrases]",
+            "finished": "$~Ton projet parle maintenant $language.",
+            "finishedPartial": "$~Ton projet parle maintenant $language, mais $#kept[$#kept phrase a gardé|$kept phrases ont gardé|$kept phrases ont gardé] les mots d’origine."
         }
     },
     "moderation": {

@@ -8,18 +8,32 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- 🌐 When you translate a project, Wordplay now shows how far it's got instead of just spinning, and counts the phrases as they're done. Big projects used to look stuck, and sometimes gave up partway through. (#1276)
+- 🌐 When you translate a project, you now choose what that means: add the new language to what you wrote, or rewrite your project in it. Adding is the default, and it leaves your code exactly as you typed it. (#1276)
+- 🔒 Translating now has a daily limit, shown as a small bar with how much you have left today and when it fills back up. Machine translation costs real money, and this keeps anyone from running up the bill. (#1073)
 - 🔍 The stage now shows how far you've zoomed, as a small bar that fills up and down with a line across the middle for the project's own view. Press it to go back to that view. (#1175)
 - 🧭 If you zoom or pan until nothing is left on the stage, Wordplay now tells you so and gives you a button to bring everything back. (#1175)
 - 🗣️ Screen readers now say the zoom level as you change it, and say when the stage has nothing left on it. (#1175)
 
 ### Changed
 
+- 🔑 You now need an account to translate a project. That's how everyone gets their own fair share of translating each day. (#1073)
+- 🌐 The languages button now says "translate" when your project is written in just one language, instead of telling you it has one. Once it has more, it counts them again. (#1276)
+- 🎨 The translate button now stands out as soon as you pick a language to translate into, so it's easier to find. (#1276)
 - 🖱️ Zooming the stage now moves by the same amount every time, so one zoom out is undone by exactly one zoom in. Before, a single flick of the scroll wheel could take hundreds of clicks to undo. (#1175)
 - 🔍 How close you can zoom in now depends on what's on the stage, instead of one fixed limit. On most projects you can get much closer, and things placed near you no longer disappear when you zoom all the way in. (#1175)
 - ⚡ Checking your program for mistakes is faster, especially in long programs and while you're partway through typing something. (#808)
 
 ### Fixed
 
+- 🌐 Translating a project replaced your words instead of adding to them. A name you wrote with no language on it, like `speed`, was thrown away to make room for the new one, and the rest of your code was rewritten in the new language whether you wanted that or not. (#1276)
+- 🌐 Sentences with an apostrophe in them, which is most French and Italian writing, quietly didn't translate at all. Your writing stayed in the language you started in with no explanation. (#1276)
+- 🐛 Translating sometimes swapped a name for a picture, like turning `Phrase` into 💬, because it grabbed whichever name came first instead of a word. (#1276)
+- 🐛 Rewriting a project in a new language only changed part of it: names like `size:` and `duration:` stayed in the old language, so the code ended up in neither one. (#1276)
+- 🐛 Translating a project could break it. Words your program compares against, like the key name `'ArrowLeft'`, and pictures like `'🫀'`, were being translated too, so the program stopped working. They now stay exactly as you wrote them. (#1276)
+- 🚦 When you translated a project, the names of your own structures weren't changed everywhere they were used, so your program filled up with errors. They're all changed now, and if translating would still cause errors, we leave your program alone and say so instead. (#1276)
+- 🌐 A translated name could turn out to be a word your language already uses for something built in, which broke the program. We now pick a different name. (#1276)
+- 🐛 Once translating failed, the message about it stayed on screen forever, even after translating worked again. It goes away now. (#1276)
 - 🖱️ On mice that scroll line by line, the scroll wheel didn't zoom the stage at all. It works now. (#1175)
 - 🖱️ After scrolling past the closest the stage can go, scrolling back out did nothing for a moment. It now zooms out right away. (#1175)
 - 🎨 The controls above the stage no longer jump in and out of the extra controls menu while you zoom. (#1175)

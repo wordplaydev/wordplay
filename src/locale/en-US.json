@@ -6765,6 +6765,7 @@
             "error": {
                 "unknown": "This project doesn't exist or you don't have access to it.",
                 "translate": "There was a problem translating your project.",
+                "translateBroken": "Translating would have caused errors in your program, so nothing changed. Try a different language, or translate again.",
                 "tile": "Oops, there was an error",
                 "reset": "Attempt to reset..."
             },
@@ -6846,6 +6847,15 @@
                         "You can add a language to write in, remove one you aren't using, or translate the whole project into a new language."
                     ],
                     "count": "$#count[$count language|$count languages]",
+                    "prompt": "translate",
+                    "mode": {
+                        "label": "what translating does",
+                        "labels": ["add", "rewrite"],
+                        "tips": [
+                            "add the new language to your project, keeping everything you wrote",
+                            "rewrite your project in the new language, replacing what you wrote"
+                        ]
+                    },
                     "meaning": [
                         "A project's languages decide which names and words its code can use. If your project is written in Spanish, it needs Spanish here, or names like \\Frase\\ won't mean anything.",
                         "Everyone who opens your project loads these languages, and the first one decides how your output is laid out. English names always work, in every project."
@@ -7195,6 +7205,20 @@
             "error": {
                 "unknown": "This how-to space doesn't exist or isn't public."
             }
+        },
+        "translation": {
+            "used": "You have translated $used of $#limit[$limit character|$limit characters] today",
+            "meter": "translation used today",
+            "exhaustedHours": "You've used up today's translating. Try again in about $#hours[$hours hour|$hours hours].",
+            "exhaustedMinutes": "You've used up today's translating. Try again in about $#minutes[$minutes minute|$minutes minutes].",
+            "signIn": "Translating needs an account, so everyone gets a fair share of it. <Sign in or join@/login> to translate your project.",
+            "progressLabel": "translation progress",
+            "analyzing": "Reading your program\u2026",
+            "revising": "Putting the new words in\u2026",
+            "started": "Translating $#count[$count phrase|$count phrases] into $language\u2026",
+            "progress": "Translated $done of $#total[$total phrase|$total phrases]",
+            "finished": "Your project now speaks $language.",
+            "finishedPartial": "Your project now speaks $language, but $#kept[$kept phrase|$kept phrases] kept the original words."
         },
         "source": {
             "label": "source",
