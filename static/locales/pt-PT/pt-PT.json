@@ -7410,7 +7410,8 @@
                 "rotate": "$~rodar $name",
                 "resize": "$~redimensionar $name",
                 "resetZoom": "$~limpar o deslocamento e o zoom",
-                "perform": "$~atuar: reiniciar o programa, executá-lo e preencher o ecrã com o palco"
+                "perform": "$~atuar: reiniciar o programa, executá-lo e preencher o ecrã com o palco",
+                "resetZoomAt": "$~limpar o seu deslocamento e zoom, agora a $percent por cento da vista do próprio projeto"
             },
             "options": {
                 "locale": "idioma preferido para a saída",
@@ -7513,6 +7514,15 @@
             "keypad": {
                 "label": "$~Teclas que este projeto usa",
                 "any": "$~Toca para jogar"
+            },
+            "announce": {
+                "zoom": "$~zoom do palco $percent por cento",
+                "hidden": "$~nada está no palco a $percent por cento; limpe o seu zoom para mostrar tudo",
+                "shown": "$~tudo está de volta ao palco"
+            },
+            "hidden": {
+                "message": "$~Tudo está fora do palco.",
+                "show": "$~mostrar tudo"
             }
         },
         "timeline": {

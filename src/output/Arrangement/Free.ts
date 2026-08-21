@@ -26,6 +26,9 @@ export class Free extends Arrangement {
             right = 0,
             bottom = 0,
             top = 0;
+        // Infinity, not 0: an arrangement has no z of its own — the parent that placed
+        // this group does — so with no children there is nothing to report.
+        let nearest = Infinity;
         for (const child of children) {
             if (child) {
                 const layout = child.getLayout(context);
@@ -42,6 +45,10 @@ export class Free extends Arrangement {
                 if (place.y < bottom) bottom = place.y;
                 if (place.y + layout.ascent > top)
                     top = place.y + layout.ascent;
+                // Both the child's own z and whatever it reports from inside itself,
+                // since z is absolute rather than relative to this arrangement.
+                if (place.z < nearest) nearest = place.z;
+                if (layout.nearest < nearest) nearest = layout.nearest;
             }
         }
 
@@ -54,6 +61,7 @@ export class Free extends Arrangement {
             width: right - left,
             height: top - bottom,
             places,
+            nearest,
         };
     }
 

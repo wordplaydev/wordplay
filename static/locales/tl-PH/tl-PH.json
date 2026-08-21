@@ -7408,7 +7408,8 @@
                 "resetZoom": "$~i-clear ang iyong pan at zoom",
                 "rotate": "$~paikutin $name",
                 "resize": "$~baguhin ang laki $name",
-                "perform": "$~gawin: simulan muli ang programa, patakbuhin ito, at punuin ang screen ng entablado"
+                "perform": "$~gawin: simulan muli ang programa, patakbuhin ito, at punuin ang screen ng entablado",
+                "resetZoomAt": "$~burahin ang iyong pan at zoom, ngayon ay $percent porsyento ng sariling view ng proyekto"
             },
             "options": {
                 "locale": "$~ginustong wika para sa output",
@@ -7511,6 +7512,15 @@
             "keypad": {
                 "label": "$~Mga susi na ginagamit ng proyektong ito",
                 "any": "$~Pindutin para maglaro"
+            },
+            "announce": {
+                "zoom": "$~stage zoom $percent porsyento",
+                "hidden": "$~walang laman sa stage sa $percent porsyento; burahin ang iyong zoom para ipakita ang lahat",
+                "shown": "$~nasa stage na ulit ang lahat"
+            },
+            "hidden": {
+                "message": "$~Wala sa stage ang lahat.",
+                "show": "$~ipakita ang lahat"
             }
         },
         "timeline": {

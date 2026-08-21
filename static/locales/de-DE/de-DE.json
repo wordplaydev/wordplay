@@ -7159,7 +7159,8 @@
                 "rotate": "$~rotate $name",
                 "resize": "$~resize $name",
                 "resetZoom": "$~Verschieben und Zoomen zurücksetzen",
-                "perform": "$~aufführen: das Programm neu starten, abspielen und den Bildschirm mit der Bühne füllen"
+                "perform": "$~aufführen: das Programm neu starten, abspielen und den Bildschirm mit der Bühne füllen",
+                "resetZoomAt": "$~Setze Verschiebung und Zoom zurück, jetzt $percent Prozent der eigenen Ansicht des Projekts"
             },
             "options": {
                 "locale": "$~bevorzugte Sprache für die Ausgabe",
@@ -7266,6 +7267,15 @@
             "keypad": {
                 "label": "$~Schlüssel, die dieses Projekt verwendet",
                 "any": "$~Tippe zum Spielen"
+            },
+            "announce": {
+                "zoom": "$~Bühnenzoom $percent Prozent",
+                "hidden": "$~Bei $percent Prozent ist nichts auf der Bühne zu sehen. Setze den Zoom zurück, um alles zu zeigen",
+                "shown": "$~Alles ist wieder auf der Bühne"
+            },
+            "hidden": {
+                "message": "$~Alles ist von der Bühne verschwunden.",
+                "show": "$~Alles anzeigen"
             }
         },
         "timeline": {

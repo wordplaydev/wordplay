@@ -143,6 +143,9 @@ export class Grid extends Arrangement {
 
         // Next, position each child in a cell, iterating through each row from left to right.
         const places: [Output, Place][] = [];
+        // Infinity, not 0: an arrangement has no z of its own — the parent that placed
+        // this group does — so with no children there is nothing to report.
+        let nearest = Infinity;
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
                 // Get the output in this cell.
@@ -170,6 +173,11 @@ export class Grid extends Arrangement {
                         0,
                     );
                     places.push([cell.output.output, place]);
+                    // A grid cell is always on the stage plane (the z above is hardcoded),
+                    // but something nested inside it may not be.
+                    if (place.z < nearest) nearest = place.z;
+                    if (cell.output.nearest < nearest)
+                        nearest = cell.output.nearest;
                 }
             }
         }
@@ -182,6 +190,7 @@ export class Grid extends Arrangement {
             width,
             height,
             places,
+            nearest,
         };
     }
 

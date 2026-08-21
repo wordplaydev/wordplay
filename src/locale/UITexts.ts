@@ -884,12 +884,30 @@ type UITexts = {
             zoomOut: string;
             /** [plain] Clear the viewer's own pan and zoom, handing the camera back to the project */
             resetZoom: string;
+            /** [plain] Clear the viewer's own pan and zoom, when they have zoomed away from the project's own view. $percent is how large the view is now, as a percentage of the project's own. */
+            resetZoomAt: Template<['percent']>;
             /** [plain] The button that begins a fresh performance, from any mode: restarts the program, enters play mode, and fullscreens the stage */
             perform: string;
             /** [plain] The rotation handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
             rotate: Template<['name']>;
             /** [plain] The size handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
             resize: Template<['name']>;
+        };
+        /** What the stage says to screen readers as the viewer moves the camera. */
+        announce: {
+            /** [plain] Announced as the viewer zooms the stage. $percent is how large the view is now, as a percentage of the project's own view. */
+            zoom: Template<['percent']>;
+            /** [plain] Announced when the viewer's own zoom or pan has left nothing on the stage. $percent is how large the view is now, as a percentage of the project's own view. */
+            hidden: Template<['percent']>;
+            /** [plain] Announced when the stage's content comes back into view */
+            shown: string;
+        };
+        /** What the stage shows when the viewer's own pan or zoom has hidden everything. */
+        hidden: {
+            /** [plain] Explains that the viewer's pan or zoom has moved everything out of view */
+            message: string;
+            /** [plain] The button that returns the camera to the project's own view */
+            show: string;
         };
         options: {
             /** [plain] The label for the locale chooser in output */

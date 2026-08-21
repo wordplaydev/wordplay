@@ -80,6 +80,9 @@ const Lanes = {
     update: 'queued',
     'delete-account-confirm': 'queued',
     'move-mode': 'queued',
+    /** Whether the camera has left anything on the stage — a discrete state change on
+     *  both edges, not the latest of a stream. */
+    'stage-visibility': 'queued',
     /** Confirmations that a command did something (see Command.feedback). */
     command: 'queued',
     // coalesce
@@ -91,6 +94,10 @@ const Lanes = {
     'stage-entered': 'coalesce',
     'stage-changed': 'coalesce',
     'stage-moved': 'coalesce',
+    /** The stage zoom level, which a held key, a wheel, or a pinch streams; only the
+     *  latest matters. Its own kind rather than 'command-state', whose single slot the
+     *  editor's step feedback owns — a stage zoom would overwrite a step. */
+    'stage-zoom': 'coalesce',
     'character-selection': 'coalesce',
     'drawing-cursor': 'coalesce',
     'canvas-moved': 'coalesce',

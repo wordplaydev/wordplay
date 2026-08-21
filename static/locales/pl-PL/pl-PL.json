@@ -7187,7 +7187,8 @@
                 "rotate": "$~obróć $name",
                 "resize": "$~zmień rozmiar $name",
                 "resetZoom": "$~wyczyść przesunięcie i przybliżenie",
-                "perform": "$~wykonaj: uruchom program od nowa, odtwórz go i wypełnij ekran sceną"
+                "perform": "$~wykonaj: uruchom program od nowa, odtwórz go i wypełnij ekran sceną",
+                "resetZoomAt": "$~wyczyść przesunięcie i powiększenie, teraz $percent procent własnego widoku projektu"
             },
             "options": {
                 "locale": "$~preferowany język dla wyjścia",
@@ -7290,6 +7291,15 @@
             "keypad": {
                 "label": "$~Klawisze, których używa ten projekt",
                 "any": "$~Dotknij, aby zagrać"
+            },
+            "announce": {
+                "zoom": "$~powiększenie sceny $percent procent",
+                "hidden": "$~nic nie jest widoczne na scenie przy $percent procent; wyczyść powiększenie, aby pokazać wszystko",
+                "shown": "$~wszystko jest z powrotem na scenie"
+            },
+            "hidden": {
+                "message": "$~Nic nie jest widoczne na scenie.",
+                "show": "$~pokaż wszystko"
             }
         },
         "timeline": {

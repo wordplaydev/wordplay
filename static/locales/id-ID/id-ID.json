@@ -7422,7 +7422,8 @@
                 "resetZoom": "$~hapus geseran dan perbesaran kamu",
                 "rotate": "$~putar $name",
                 "resize": "$~ubah ukuran $name",
-                "perform": "$~tampilkan: mulai ulang program, jalankan, dan penuhi layar dengan panggung"
+                "perform": "$~tampilkan: mulai ulang program, jalankan, dan penuhi layar dengan panggung",
+                "resetZoomAt": "$~hapus geser dan zoom kamu, sekarang $percent persen dari tampilan asli proyek"
             },
             "options": {
                 "locale": "$~bahasa pilihan untuk output",
@@ -7525,6 +7526,15 @@
             "keypad": {
                 "label": "$~Kunci yang dipakai proyek ini",
                 "any": "$~Ketuk untuk bermain"
+            },
+            "announce": {
+                "zoom": "$~zoom panggung $percent persen",
+                "hidden": "$~tidak ada yang tampil di panggung pada $percent persen; hapus zoom kamu untuk menampilkan semuanya",
+                "shown": "$~semuanya kembali tampil di panggung"
+            },
+            "hidden": {
+                "message": "$~Semuanya tidak tampil di panggung.",
+                "show": "$~tampilkan semuanya"
             }
         },
         "timeline": {

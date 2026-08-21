@@ -1,6 +1,39 @@
+import type { Locator, Page } from '@playwright/test';
 import { expect, test } from '../../playwright/fixtures';
+import { expectNoAxeViolations } from '../helpers/checkAccessibility';
 import { grantClipboard } from '../helpers/clipboard';
 import { createTestProject } from '../helpers/createProject';
+
+/** An output's rendered width once the camera has stopped easing. Every camera change
+ *  glides rather than snapping, and a glide can plateau for a sample or two, so this
+ *  waits for several identical reads in a row. */
+async function restingWidthOf(page: Page, output: Locator): Promise<number> {
+    let last = -1;
+    let steady = 0;
+    for (let i = 0; i < 40; i++) {
+        await page.waitForTimeout(150);
+        const width = Math.round((await output.boundingBox())?.width ?? 0);
+        steady = width > 0 && width === last ? steady + 1 : 0;
+        if (steady >= 4) return width;
+        last = width;
+    }
+    throw new Error('the camera never settled');
+}
+
+/** Start Building Blocks playing, with the player on stage to measure the camera by. */
+async function playBuildingBlocks(page: Page): Promise<Locator> {
+    await page.goto('/en-US/project/example-BuildingBlocks?mode=play');
+    const player = page.locator('[data-id="output-player"]');
+    const stage = page.locator('.value[tabindex="0"]');
+    await expect(stage).toBeVisible();
+    await stage.focus();
+    await page.keyboard.press('Enter');
+    await expect(player).toBeVisible();
+    return player;
+}
+
+const zoomOut = (page: Page) => page.locator('[data-uiid="stageZoomOut"]');
+const zoomIn = (page: Page) => page.locator('[data-uiid="stageZoomIn"]');
 
 /**
  * The camera composes rather than switching modes: a base focus from the program's
@@ -29,21 +62,7 @@ test('clearing the audience zoom returns the program its camera', async ({
     await page.keyboard.press('Enter');
     await expect(player).toBeVisible();
 
-    /** The player's rendered width once the camera has stopped easing. Every
-     *  camera change glides rather than snapping, and a glide can plateau for a
-     *  sample or two, so this waits for several identical reads in a row. */
-    async function restingWidth(): Promise<number> {
-        let last = -1;
-        let steady = 0;
-        for (let i = 0; i < 40; i++) {
-            await page.waitForTimeout(150);
-            const width = Math.round((await player.boundingBox())?.width ?? 0);
-            steady = width > 0 && width === last ? steady + 1 : 0;
-            if (steady >= 4) return width;
-            last = width;
-        }
-        throw new Error('the camera never settled');
-    }
+    const restingWidth = () => restingWidthOf(page, player);
 
     // The program's camera, with the game untouched from here on.
     const byProgram = await restingWidth();
@@ -53,11 +72,7 @@ test('clearing the audience zoom returns the program its camera', async ({
     // in, and via the toolbar rather than the wheel: a wheel delta is an
     // unpredictable amount of zoom, and zooming far enough IN walks the camera
     // past the player, who then vanishes and can't be measured.
-    await page
-        .locator('[data-uiid="stageZoom"]')
-        .getByRole('button')
-        .first()
-        .click();
+    await zoomOut(page).click();
     const byAudience = await restingWidth();
     expect(byAudience).not.toBe(byProgram);
 
@@ -194,4 +209,152 @@ Phrase("o" name: "right" place: Place(0.5m 0m) size: 0.25m duration: 0s)
     // Unframed, a metre is 64px, which is under a tenth of any stage the runner
     // uses; framed, the pair fills most of it.
     expect(await restingSeparation()).toBeGreaterThan(0.4);
+});
+
+/**
+ * #1175: the audience could not click their way back to where they started. Zoom was a
+ * fixed step in metres while scale is FOCAL_LENGTH / -z, so a click out and a click in
+ * were different sizes everywhere except one depth, and a few clicks out took many more
+ * to undo. A ratio makes each click the same size in what the viewer actually sees, so
+ * the pair cancels — and the way home is a countable number of clicks, not a rescue by
+ * the reset button.
+ *
+ * Measured on Building Blocks' player, as above: the game is untouched, so its rendered
+ * size can only change because the camera did.
+ */
+test('zooming out and back in returns the program its camera', async ({
+    page,
+}) => {
+    const player = await playBuildingBlocks(page);
+    const byProgram = await restingWidthOf(page, player);
+    expect(byProgram).toBeGreaterThan(0);
+
+    for (let i = 0; i < 3; i++) await zoomOut(page).click();
+    expect(await restingWidthOf(page, player)).not.toBe(byProgram);
+
+    for (let i = 0; i < 3; i++) await zoomIn(page).click();
+    expect(await restingWidthOf(page, player)).toBe(byProgram);
+
+    // Landing exactly home is what clears the adjustment, so the control goes away
+    // without ever having been pressed.
+    await expect(page.locator('[data-uiid="stageZoomReset"]')).toBeHidden();
+});
+
+/**
+ * The zoom level rides in the reset control rather than in a readout of its own, so how
+ * far you are from the project's own view and the way back are one thing. It is a
+ * percentage of the project's own camera, which makes home exactly 100% — a percentage of
+ * natural size would put home at some arbitrary number and answer nothing.
+ */
+/** How far up its track the zoom gauge is filled, 0.5 being the project's own view. */
+async function gaugeLevel(page: Page): Promise<number> {
+    return page
+        .locator('[data-uiid="stageZoomReset"] .zoom-gauge')
+        .evaluate((el) =>
+            Number.parseFloat(getComputedStyle(el).getPropertyValue('--level')),
+        );
+}
+
+/**
+ * The zoom level is shown as a bar rather than a percentage, so it is the same width at
+ * every value. The exact number still reaches screen readers through the button's label,
+ * which is why the bar itself is aria-hidden.
+ */
+test('the stage shows how far the audience has zoomed', async ({ page }) => {
+    await playBuildingBlocks(page);
+    const reset = page.locator('[data-uiid="stageZoomReset"]');
+
+    // Always present, so the toolbar never changes width — but inactive with nothing to
+    // clear, and sitting exactly on its centre line.
+    await expect(reset).toBeVisible();
+    await expect(reset).toHaveAttribute('aria-disabled', 'true');
+    expect(await gaugeLevel(page)).toBeCloseTo(0.5, 5);
+
+    await zoomOut(page).click();
+    const out = await gaugeLevel(page);
+    expect(out).toBeLessThan(0.5);
+    await expect(reset).not.toHaveAttribute('aria-disabled', 'true');
+    // The number is still spoken, even though it is no longer written.
+    await expect(reset).toHaveAttribute('aria-label', /80/);
+
+    await zoomIn(page).click();
+    expect(await gaugeLevel(page)).toBeCloseTo(0.5, 5);
+
+    await zoomIn(page).click();
+    expect(await gaugeLevel(page)).toBeGreaterThan(0.5);
+
+    await page.locator('[data-uiid="stageZoomReset"]').click();
+    expect(await gaugeLevel(page)).toBeCloseTo(0.5, 5);
+});
+
+/**
+ * Zooming used to reshuffle the whole toolbar. The reset control appeared and vanished with
+ * the adjustment and carried a percentage whose width changed with its value, and
+ * OverflowToolbar keeps a *prefix* of its items — so the zoom group growing took the budget
+ * from everything behind it and sent those controls hopping into the overflow menu.
+ */
+test('zooming does not move the rest of the toolbar', async ({ page }) => {
+    await playBuildingBlocks(page);
+
+    /** Which controls are showing in the bar itself, rather than in the overflow menu. */
+    const showing = () =>
+        page
+            .locator('.overflow-toolbar [data-uiid]')
+            .evaluateAll((els) =>
+                els.map((el) => el.getAttribute('data-uiid')).sort(),
+            );
+
+    const before = await showing();
+    expect(before.length).toBeGreaterThan(0);
+
+    for (let i = 0; i < 6; i++) await zoomOut(page).click();
+    expect(await showing()).toEqual(before);
+
+    for (let i = 0; i < 10; i++) await zoomIn(page).click();
+    expect(await showing()).toEqual(before);
+});
+
+/**
+ * Amy's ask on #1175: when the camera has put everything out of view, say so rather than
+ * leaving a blank stage with no explanation.
+ *
+ * Panning is the way to get there. The zoom bound is calibrated so that content the stage
+ * framed stays visible even at the very end of the zoom-out — see fit.test.ts — so zooming
+ * alone can no longer empty a stage, while panning is deliberately unbounded. A paused
+ * stage pans a metre per arrow key, which is the one pan path that does not depend on
+ * synthesizing a drag.
+ *
+ * The hint is unreachable from the standing axe scans, which never move the camera, so it
+ * is scanned here while it is up. The wider viewport is for that scan and not for the
+ * hint: at the default width the stage toolbar collapses into its overflow control, whose
+ * own target size is a pre-existing failing of that widget rather than of anything here.
+ */
+test.describe('an emptied stage', () => {
+    test.use({ viewport: { width: 1600, height: 900 } });
+
+    test('the stage says when the audience has left nothing on it', async ({
+        page,
+    }) => {
+        test.setTimeout(60000);
+
+        await page.goto('/en-US/project/example-BuildingBlocks?mode=edit');
+        const stage = page.locator('.value[tabindex="0"]');
+        await expect(stage).toBeVisible();
+        await stage.focus();
+
+        const hint = page.locator('[data-uiid="stageContentHidden"]');
+        await expect(hint).toBeHidden();
+
+        // Far enough that the content has left the stage entirely, whatever the runner's
+        // window size — a metre is 64px unframed, and the stage is never 40 metres wide.
+        for (let i = 0; i < 40; i++) await page.keyboard.press('ArrowLeft');
+
+        await expect(hint).toBeVisible();
+        await expectNoAxeViolations(page);
+
+        // And the way out actually works: pressing it hands the camera back.
+        await page.locator('[data-uiid="stageShowEverything"]').click();
+        await expect(hint).toBeHidden();
+        await expect(page.locator('[data-uiid="stageZoomReset"]')).toBeHidden();
+    });
 });

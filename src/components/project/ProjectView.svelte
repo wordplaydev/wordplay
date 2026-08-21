@@ -151,6 +151,8 @@
         getMusicWarnings,
         getPhotosensitivityWarnings,
     } from '@components/output/gate.svelte';
+    import { zoomGauge, zoomPercent } from '@components/output/fit';
+    import { withMonoEmoji } from '@unicode/emoji';
     import OutputView from '@components/output/OutputView.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import Palette from '@components/palette/Palette.svelte';
@@ -1753,6 +1755,17 @@
     /** Tracks whether the audience has overridden the stage's computed focus, so the reset-zoom button can be disabled when there is nothing to reset. */
     let focusAdjusted = $state(false);
 
+    /** Labels the stage's zoom controls. The app's own search idiom, forced monochrome the
+     *  way the animation control's icon is — the group used to borrow the language's
+     *  pattern-search operator for this, which is not chrome's to spend. */
+    const ZoomIcon = withMonoEmoji('🔍');
+
+    /** The audience's zoom, as a ratio of the project's own view; 1 is the project's. */
+    let stageZoom = $state(1);
+    let stageZoomPercent = $derived(zoomPercent(stageZoom));
+    /** Where the gauge fills to: 0 fully out, 0.5 the project's own view, 1 fully in. */
+    let stageZoomLevel = $derived(zoomGauge(stageZoom));
+
     let adjusting = $state(false);
 
     /** Take the given axis, group, and split, and adjust it. */
@@ -3053,37 +3066,80 @@
                                             class="zoom-group"
                                             data-uiid="stageZoom"
                                         >
-                                            <Button
+                                            <!-- Labels the group rather than acting, so it
+                                                 is hidden from screen readers: each button
+                                                 already carries its own label. Mono so it
+                                                 sits with the glyphs instead of shouting
+                                                 over them. -->
+                                            <span
+                                                class="zoom-icon"
+                                                aria-hidden="true"
+                                                >{ZoomIcon}</span
+                                            ><Button
+                                                uiid="stageZoomOut"
                                                 background
                                                 action={() =>
                                                     outputView?.adjustZoom(-1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomOut}
-                                                ><Emoji text="–⌕" /></Button
+                                                >–</Button
                                             >
+                                            <!-- The clear control, in the middle, always
+                                                 present. Always, because it used to appear
+                                                 and vanish with the adjustment and carry a
+                                                 percentage whose width changed with its
+                                                 value — three widths, changing on every
+                                                 gesture, which made the toolbar re-decide
+                                                 what to collapse and sent other controls
+                                                 hopping into the overflow menu. A gauge is
+                                                 the same information at a constant width,
+                                                 and it shows the level moving rather than
+                                                 only reporting it. The exact percentage is
+                                                 still spoken: it is in this button's label,
+                                                 which is why the gauge itself is hidden from
+                                                 screen readers. -->
                                             <Button
+                                                uiid="stageZoomReset"
+                                                classes="zoom-reset"
+                                                active={focusAdjusted}
+                                                action={() =>
+                                                    outputView?.resetZoom()}
+                                                tip={() =>
+                                                    stageZoomPercent === 100
+                                                        ? $locales.getPrimaryPlainText(
+                                                              (l) =>
+                                                                  l.ui.output
+                                                                      .button
+                                                                      .resetZoom,
+                                                          )
+                                                        : $locales
+                                                              .concretize(
+                                                                  (l) =>
+                                                                      l.ui
+                                                                          .output
+                                                                          .button
+                                                                          .resetZoomAt,
+                                                                  {
+                                                                      percent:
+                                                                          stageZoomPercent,
+                                                                  },
+                                                              )
+                                                              .toText()}
+                                                background
+                                                ><span
+                                                    class="zoom-gauge"
+                                                    style:--level={stageZoomLevel}
+                                                    aria-hidden="true"
+                                                ></span></Button
+                                            ><Button
+                                                uiid="stageZoomIn"
                                                 background
                                                 action={() =>
                                                     outputView?.adjustZoom(1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomIn}
-                                                ><Emoji text="+⌕" /></Button
+                                                >+</Button
                                             >
-                                            <!-- Shown whenever the audience has panned or
-                                                 zoomed, with or without a program camera,
-                                                 since it now means "clear my adjustment". -->
-                                            {#if focusAdjusted}
-                                                <Button
-                                                    uiid="stageZoomReset"
-                                                    action={() =>
-                                                        outputView?.resetZoom()}
-                                                    tip={(l) =>
-                                                        l.ui.output.button
-                                                            .resetZoom}
-                                                    background
-                                                    ><Emoji text="⟲⌕" /></Button
-                                                >
-                                            {/if}
                                         </span>
                                     {/snippet}
                                     {#snippet outputGridFit()}
@@ -3251,6 +3307,7 @@
                                         bind:painting
                                         bind:hasStagePlace
                                         bind:focusAdjusted
+                                        bind:zoom={stageZoom}
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                         editable={editableNow}
@@ -3711,7 +3768,60 @@
         flex-direction: column;
     }
 
-    /* Group the two zoom buttons so the Tour can highlight them together. */
+    /* The zoom level, as a bar filling a fixed-size track with a line across the middle
+       marking the project's own view. Fixed size is the point: this control used to carry a
+       percentage, and a number that changes width as it changes value is what made the
+       toolbar reshuffle. Drawn with a --level custom property like MusicView's bars. */
+    .zoom-gauge {
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        width: 6px;
+        height: var(--wordplay-widget-height);
+        background: var(--wordplay-alternating-color);
+        /* The track is nearly the same value as the surface behind it (1.1:1), so the
+           border is what makes its extent visible; the fill and the line below are the
+           parts that carry meaning and they clear 3:1 on their own. */
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        overflow: hidden;
+    }
+
+    /* Fills from the bottom. Its own color rather than currentColor, so the button going
+       inactive at home cannot wash out the reading. */
+    .zoom-gauge::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        bottom: 0;
+        height: calc(var(--level) * 100%);
+        background: var(--wordplay-foreground);
+        transition: height calc(var(--animation-factor) * 100ms);
+    }
+
+    /* The project's own view. The fill crosses it, so it has to read against both the fill
+       and the empty track — orange is the one token that clears 3:1 on both in both modes. */
+    .zoom-gauge::after {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 50%;
+        height: var(--wordplay-border-width);
+        background: var(--color-orange-text);
+    }
+
+    /* Tighter than its neighbours so a taller gauge still leaves the three buttons the
+       same outer height. */
+    :global(button.zoom-reset.background) {
+        padding: var(--wordplay-spacing-half);
+    }
+
+    /* Sized down from the buttons it labels: it names the group, it isn't a control. */
+    .zoom-icon {
+        font-size: var(--wordplay-small-font-size);
+    }
+
+    /* Group the zoom controls so the Tour can highlight them together. */
     .zoom-group {
         display: inline-flex;
         align-items: center;

@@ -7503,9 +7503,19 @@
                 "zoomIn": "zoom into the stage",
                 "zoomOut": "zoom out from the stage",
                 "resetZoom": "clear your pan and zoom",
+                "resetZoomAt": "clear your pan and zoom, now $percent percent of the project's own view",
                 "perform": "perform: restart the program, play it, and fill the screen with the stage",
                 "rotate": "rotate $name",
                 "resize": "resize $name"
+            },
+            "announce": {
+                "zoom": "stage zoom $percent percent",
+                "hidden": "nothing is on stage at $percent percent; clear your zoom to show everything",
+                "shown": "everything is back on stage"
+            },
+            "hidden": {
+                "message": "Everything is off the stage.",
+                "show": "show everything"
             },
             "options": {
                 "locale": "preferred language for output",

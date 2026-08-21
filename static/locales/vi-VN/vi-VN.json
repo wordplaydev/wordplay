@@ -7417,7 +7417,8 @@
                 "rotate": "$~xoay $name",
                 "resize": "$~thay đổi kích thước $name",
                 "resetZoom": "$~xóa việc di chuyển và thu phóng của bạn",
-                "perform": "$~trình diễn: khởi động lại chương trình, chạy nó và làm đầy màn hình bằng sân khấu"
+                "perform": "$~trình diễn: khởi động lại chương trình, chạy nó và làm đầy màn hình bằng sân khấu",
+                "resetZoomAt": "$~xóa lệch và thu phóng của bạn, hiện tại là $percent phần trăm của khung nhìn gốc dự án"
             },
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",
@@ -7520,6 +7521,15 @@
             "keypad": {
                 "label": "$~Các chìa khóa mà dự án này sử dụng",
                 "any": "$~Chạm để chơi"
+            },
+            "announce": {
+                "zoom": "$~thu phóng sân khấu $percent phần trăm",
+                "hidden": "$~không có gì trên sân khấu ở mức $percent phần trăm; xóa thu phóng để hiện tất cả",
+                "shown": "$~mọi thứ đã trở lại sân khấu"
+            },
+            "hidden": {
+                "message": "$~Mọi thứ đều ở ngoài sân khấu.",
+                "show": "$~hiện tất cả"
             }
         },
         "timeline": {

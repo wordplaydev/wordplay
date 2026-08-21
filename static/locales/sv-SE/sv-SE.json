@@ -7166,7 +7166,8 @@
                 "rotate": "$~rotera $name",
                 "resize": "$~ändra storlek på $name",
                 "resetZoom": "$~nollställ din panorering och zoom",
-                "perform": "$~utför: starta om programmet, spela det och fyll skärmen med scenen"
+                "perform": "$~utför: starta om programmet, spela det och fyll skärmen med scenen",
+                "resetZoomAt": "$~återställ din panorering och zoom, nu $percent procent av projektets egen vy"
             },
             "options": {
                 "locale": "$~önskat språk för utdata",
@@ -7269,6 +7270,15 @@
             "keypad": {
                 "label": "$~Tangenter som detta projekt använder",
                 "any": "$~Tryck för att spela"
+            },
+            "announce": {
+                "zoom": "$~scenens zoom $percent procent",
+                "hidden": "$~inget syns på scenen vid $percent procent; återställ din zoom för att visa allt",
+                "shown": "$~allt är tillbaka på scenen"
+            },
+            "hidden": {
+                "message": "$~Allt är utanför scenen.",
+                "show": "$~visa allt"
             }
         },
         "timeline": {

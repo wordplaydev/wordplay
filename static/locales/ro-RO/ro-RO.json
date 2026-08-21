@@ -7416,7 +7416,8 @@
                 "resetZoom": "$~resetează deplasarea și zoomul",
                 "rotate": "$~rotește $name",
                 "resize": "$~redimensionează $name",
-                "perform": "$~execută: repornește programul, rulează-l și umple ecranul cu scena"
+                "perform": "$~execută: repornește programul, rulează-l și umple ecranul cu scena",
+                "resetZoomAt": "$~golește panoramarea și zoomul, acum $percent la sută din vederea proprie a proiectului"
             },
             "options": {
                 "locale": "$~limba preferată pentru ieșire",
@@ -7519,6 +7520,15 @@
             "keypad": {
                 "label": "$~Tastele pe care le folosește acest proiect",
                 "any": "$~Atinge pentru a reda"
+            },
+            "announce": {
+                "zoom": "$~zoom scenă $percent la sută",
+                "hidden": "$~nimic nu este pe scenă la $percent la sută; golește zoomul pentru a arăta totul",
+                "shown": "$~totul este din nou pe scenă"
+            },
+            "hidden": {
+                "message": "$~Totul este scos de pe scenă.",
+                "show": "$~arată totul"
             }
         },
         "timeline": {

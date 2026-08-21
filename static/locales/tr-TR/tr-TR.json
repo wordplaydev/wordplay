@@ -7173,7 +7173,8 @@
                 "rotate": "$~döndür $name",
                 "resize": "$~$name yeniden boyutlandır",
                 "resetZoom": "$~kaydırmanı ve yakınlaştırmanı temizle",
-                "perform": "$~gerçekleştir: programı yeniden başlat, çalıştır ve ekranı sahneyle doldur"
+                "perform": "$~gerçekleştir: programı yeniden başlat, çalıştır ve ekranı sahneyle doldur",
+                "resetZoomAt": "$~kaydırma ve yakınlaştırmanı sıfırla, şimdi projenin kendi görünümünün yüzde $percent'i"
             },
             "options": {
                 "locale": "$~çıktı için tercih edilen dil",
@@ -7276,6 +7277,15 @@
             "keypad": {
                 "label": "$~Bu projenin kullandığı anahtarlar",
                 "any": "$~Oynamak için dokun"
+            },
+            "announce": {
+                "zoom": "$~sahne yakınlaştırması yüzde $percent",
+                "hidden": "$~yüzde $percent yakınlaştırmada sahnede hiçbir şey yok; her şeyi göstermek için yakınlaştırmayı sıfırla",
+                "shown": "$~her şey sahneye geri döndü"
+            },
+            "hidden": {
+                "message": "$~Her şey sahnenin dışında.",
+                "show": "$~her şeyi göster"
             }
         },
         "timeline": {

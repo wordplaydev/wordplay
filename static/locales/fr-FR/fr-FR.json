@@ -7167,7 +7167,8 @@
                 "rotate": "$~rotation $name",
                 "resize": "$~redimensionner $name",
                 "resetZoom": "$~effacer votre panoramique et votre zoom",
-                "perform": "$~jouer : recommence le programme, lance-le et remplis l'écran avec la scène"
+                "perform": "$~jouer : recommence le programme, lance-le et remplis l'écran avec la scène",
+                "resetZoomAt": "$~efface ton déplacement et ton zoom, maintenant $percent pour cent de la vue propre au projet"
             },
             "options": {
                 "locale": "$~choisir la langue de sortie",
@@ -7270,6 +7271,15 @@
             "keypad": {
                 "label": "$~Touches utilisées par ce projet",
                 "any": "$~Appuie pour jouer"
+            },
+            "announce": {
+                "zoom": "$~zoom de la scène $percent pour cent",
+                "hidden": "$~rien n'est sur la scène à $percent pour cent ; efface ton zoom pour tout montrer",
+                "shown": "$~tout est de retour sur la scène"
+            },
+            "hidden": {
+                "message": "$~Tout est hors de la scène.",
+                "show": "$~tout montrer"
             }
         },
         "timeline": {

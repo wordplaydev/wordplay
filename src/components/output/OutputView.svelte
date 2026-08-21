@@ -38,6 +38,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     // Named to avoid colliding with the Button input stream imported below.
     import ButtonWidget from '@components/widgets/Button.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { animationFactor, DB, locales, voice } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
@@ -154,6 +155,8 @@
         hasStagePlace?: boolean;
         /** Reflects whether the audience has panned or zoomed away from the base focus. */
         focusAdjusted?: boolean;
+        /** The audience's zoom, as a ratio of the base camera's scale; 1 is the base. */
+        zoom?: number;
         /** Whether to blur the output while the user is typing in the project's editor. True for the main stage; false for embedded examples that are unaffected by the user's typing. */
         blurOnTyping?: boolean;
         /** Called when the viewer clicks Retry after a PermissionException. The host should restart the evaluator so failed streams can re-attempt getUserMedia. */
@@ -185,12 +188,18 @@
         wheel = true,
         hasStagePlace = $bindable(false),
         focusAdjusted = $bindable(false),
+        zoom = $bindable(1),
         blurOnTyping = true,
         onretry = undefined,
         warnings = [],
         blocks = [],
         onacknowledge = undefined,
     }: Props = $props();
+
+    /** Whether the audience's own pan or zoom has left nothing on the stage, reported by
+     *  StageView. Local rather than a prop: the way back belongs beside the stage, not in
+     *  the toolbar. */
+    let contentHidden = $state(false);
 
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
@@ -314,7 +323,7 @@
         | {
               startPlace: Place;
               /** The audience's pan/zoom when the drag began, so a pan can anchor on it. */
-              startOffset: { x: number; y: number; z: number } | undefined;
+              startOffset: { x: number; y: number; zoom: number } | undefined;
               left: number;
               top: number;
           }
@@ -381,7 +390,7 @@
     let startDifference = $state<number | undefined>();
     let startMidpoint = $state<{ x: number; y: number } | undefined>();
     let startGestureOffset = $state<
-        { x: number; y: number; z: number } | undefined
+        { x: number; y: number; zoom: number } | undefined
     >();
 
     let keyboardInputView = $state<HTMLInputElement | undefined>();
@@ -600,8 +609,8 @@
         value === undefined ? undefined : toStage(evaluator, value),
     );
 
-    export function adjustZoom(dz: number) {
-        stage?.adjustFocus(0, 0, dz);
+    export function adjustZoom(steps: number) {
+        stage?.zoomSteps(steps);
     }
 
     export function resetZoom() {
@@ -993,22 +1002,22 @@
             const increment = 1;
             if (event.key === 'ArrowLeft') {
                 event.stopPropagation();
-                return stage.adjustFocus(1 * increment, 0, 0);
+                return stage.adjustFocus(1 * increment, 0);
             } else if (event.key === 'ArrowRight') {
                 event.stopPropagation();
-                return stage.adjustFocus(-1 * increment, 0, 0);
+                return stage.adjustFocus(-1 * increment, 0);
             } else if (event.key === 'ArrowUp') {
                 event.stopPropagation();
-                return stage.adjustFocus(0, 1 * increment, 0);
+                return stage.adjustFocus(0, 1 * increment);
             } else if (event.key === 'ArrowDown') {
                 event.stopPropagation();
-                return stage.adjustFocus(0, -1 * increment, 0);
+                return stage.adjustFocus(0, -1 * increment);
             } else if (event.key === '+') {
                 event.stopPropagation();
-                return stage.adjustFocus(0, 0, 1);
+                return stage.zoomSteps(1);
             } else if (event.key === '_') {
                 event.stopPropagation();
-                return stage.adjustFocus(0, 0, -1);
+                return stage.zoomSteps(-1);
             }
         }
 
@@ -1227,7 +1236,9 @@
 
     function handleWheel(event: WheelEvent) {
         if (stage && (wheel || event.shiftKey)) {
-            stage.adjustFocus(0, 0, -event.deltaY / PX_PER_METER);
+            // deltaMode matters: a mouse that reports lines rather than pixels sends ~3
+            // per notch, which read as pixels was no zoom at all.
+            stage.zoomWheel(event.deltaY, event.deltaMode);
             event.preventDefault();
         }
     }
@@ -1477,12 +1488,16 @@
                 startGestureOffset = stage?.getOffset() ?? {
                     x: 0,
                     y: 0,
-                    z: 0,
+                    zoom: 1,
                 };
             } else if (stage) {
-                const delta = currentPointerDifference - startDifference;
+                // Spreading the fingers twice as far apart zooms twice as far in. This is
+                // the same law the wheel and the buttons now follow, stated in the units
+                // the gesture already has.
+                const zoom =
+                    startGestureOffset.zoom *
+                    (currentPointerDifference / startDifference);
                 const scale = rootScale(0, renderedFocus.z);
-                const dz = delta / PX_PER_METER / scale;
                 // Screen pixels to metres at the current scale, and in the same sign
                 // convention the mouse drag-pan uses: a larger focus x/y translates content
                 // right/down, so content follows the fingers.
@@ -1492,11 +1507,11 @@
                 const dy =
                     (currentMidpoint.y - startMidpoint.y) /
                     (PX_PER_METER * scale);
-                if (!isNaN(dz) && !isNaN(dx) && !isNaN(dy))
+                if (!isNaN(zoom) && !isNaN(dx) && !isNaN(dy))
                     stage.setOffset(
                         startGestureOffset.x + dx,
                         startGestureOffset.y + dy,
-                        startGestureOffset.z + dz,
+                        zoom,
                     );
             }
         }
@@ -1625,7 +1640,7 @@
                         stage.setOffset(
                             renderedDeltaX / scale + drag.startOffset.x,
                             renderedDeltaY / scale + drag.startOffset.y,
-                            drag.startOffset.z,
+                            drag.startOffset.zoom,
                         );
                         event.stopPropagation();
                     }
@@ -2288,15 +2303,39 @@
              music on load usually finds the audio context suspended. The
              gesture latch resumes it on the next click or key anywhere in the
              app; this is the visible way out when no gesture comes. -->
-        {#if needsSoundGesture}
-            <div class="sound-gesture">
-                <ButtonWidget
-                    tip={(l) => l.ui.output.sound.enable}
-                    action={() => void audio.resume()}
-                    ><LocalizedText
-                        path={(l) => l.ui.output.sound.enable}
-                    /></ButtonWidget
-                >
+        <!-- The audience's own pan or zoom can leave the stage looking empty, with nothing
+             to say why. This says why, and offers the way back. It exists only while their
+             adjustment is what is hiding things, and pressing it clears that adjustment —
+             so it can never sit over content a viewer is unable to uncover. -->
+        {#if needsSoundGesture || contentHidden}
+            <div class="stage-overlays">
+                {#if needsSoundGesture}
+                    <ButtonWidget
+                        tip={(l) => l.ui.output.sound.enable}
+                        action={() => void audio.resume()}
+                        ><LocalizedText
+                            path={(l) => l.ui.output.sound.enable}
+                        /></ButtonWidget
+                    >
+                {/if}
+                {#if contentHidden}
+                    <div class="content-hidden" data-uiid="stageContentHidden">
+                        <Note center
+                            ><LocalizedText
+                                path={(l) => l.ui.output.hidden.message}
+                            /></Note
+                        >
+                        <ButtonWidget
+                            uiid="stageShowEverything"
+                            background
+                            tip={(l) => l.ui.output.hidden.show}
+                            action={() => stage?.resetFocus()}
+                            ><LocalizedText
+                                path={(l) => l.ui.output.hidden.show}
+                            /></ButtonWidget
+                        >
+                    </div>
+                {/if}
             </div>
         {/if}
         {#if needsGate || downloading !== undefined}
@@ -2376,6 +2415,8 @@
                 bind:this={stage}
                 bind:renderedFocus
                 bind:focusAdjusted
+                bind:zoom
+                bind:contentHidden
                 interactive={!mini}
                 {mini}
                 {editable}
@@ -2543,13 +2584,30 @@
 
 <style>
     /* Sits over the stage so it's reachable however the stage is laid out,
-       and centred at the bottom so it doesn't cover the output. */
-    .sound-gesture {
+       and centred at the bottom so it doesn't cover the output. Stacked, since the
+       sound latch and the off-stage hint can both be up at once. */
+    .stage-overlays {
         position: absolute;
         bottom: var(--wordplay-spacing);
         left: 50%;
         transform: translateX(-50%);
         z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+    }
+
+    .content-hidden {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing);
+        background: var(--wordplay-background);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        max-width: 20em;
     }
 
     .output {

@@ -18848,6 +18848,26 @@
                                     "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
                                     "description": "[plain] Announced when all outputs are selected. $count is the number now selected."
                                 },
+                                "announce": {
+                                    "additionalProperties": false,
+                                    "description": "What the stage says to screen readers as the viewer moves the camera.",
+                                    "properties": {
+                                        "hidden": {
+                                            "$ref": "#/definitions/Template%3C%5B%22percent%22%5D%3E",
+                                            "description": "[plain] Announced when the viewer's own zoom or pan has left nothing on the stage. $percent is how large the view is now, as a percentage of the project's own view."
+                                        },
+                                        "shown": {
+                                            "description": "[plain] Announced when the stage's content comes back into view",
+                                            "type": "string"
+                                        },
+                                        "zoom": {
+                                            "$ref": "#/definitions/Template%3C%5B%22percent%22%5D%3E",
+                                            "description": "[plain] Announced as the viewer zooms the stage. $percent is how large the view is now, as a percentage of the project's own view."
+                                        }
+                                    },
+                                    "required": ["zoom", "hidden", "shown"],
+                                    "type": "object"
+                                },
                                 "button": {
                                     "additionalProperties": false,
                                     "properties": {
@@ -18858,6 +18878,10 @@
                                         "resetZoom": {
                                             "description": "[plain] Clear the viewer's own pan and zoom, handing the camera back to the project",
                                             "type": "string"
+                                        },
+                                        "resetZoomAt": {
+                                            "$ref": "#/definitions/Template%3C%5B%22percent%22%5D%3E",
+                                            "description": "[plain] Clear the viewer's own pan and zoom, when they have zoomed away from the project's own view. $percent is how large the view is now, as a percentage of the project's own."
                                         },
                                         "resize": {
                                             "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
@@ -18885,6 +18909,7 @@
                                         "zoomIn",
                                         "zoomOut",
                                         "resetZoom",
+                                        "resetZoomAt",
                                         "perform",
                                         "rotate",
                                         "resize"
@@ -18990,6 +19015,22 @@
                                         }
                                     },
                                     "required": ["start"],
+                                    "type": "object"
+                                },
+                                "hidden": {
+                                    "additionalProperties": false,
+                                    "description": "What the stage shows when the viewer's own pan or zoom has hidden everything.",
+                                    "properties": {
+                                        "message": {
+                                            "description": "[plain] Explains that the viewer's pan or zoom has moved everything out of view",
+                                            "type": "string"
+                                        },
+                                        "show": {
+                                            "description": "[plain] The button that returns the camera to the project's own view",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["message", "show"],
                                     "type": "object"
                                 },
                                 "keypad": {
@@ -19282,6 +19323,8 @@
                                 "toggle",
                                 "field",
                                 "button",
+                                "announce",
+                                "hidden",
                                 "options",
                                 "mode",
                                 "tour",

@@ -140,6 +140,7 @@ export default class Group extends Output {
             ascent: layout.height,
             descent: 0,
             places: layout.places,
+            nearest: layout.nearest,
         };
     }
 

@@ -6,12 +6,23 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.29.3 - 2026-08-19
 
+### Added
+
+- 🔍 The stage now shows how far you've zoomed, as a small bar that fills up and down with a line across the middle for the project's own view. Press it to go back to that view. (#1175)
+- 🧭 If you zoom or pan until nothing is left on the stage, Wordplay now tells you so and gives you a button to bring everything back. (#1175)
+- 🗣️ Screen readers now say the zoom level as you change it, and say when the stage has nothing left on it. (#1175)
+
 ### Changed
 
+- 🖱️ Zooming the stage now moves by the same amount every time, so one zoom out is undone by exactly one zoom in. Before, a single flick of the scroll wheel could take hundreds of clicks to undo. (#1175)
+- 🔍 How close you can zoom in now depends on what's on the stage, instead of one fixed limit. On most projects you can get much closer, and things placed near you no longer disappear when you zoom all the way in. (#1175)
 - ⚡ Checking your program for mistakes is faster, especially in long programs and while you're partway through typing something. (#808)
 
 ### Fixed
 
+- 🖱️ On mice that scroll line by line, the scroll wheel didn't zoom the stage at all. It works now. (#1175)
+- 🖱️ After scrolling past the closest the stage can go, scrolling back out did nothing for a moment. It now zooms out right away. (#1175)
+- 🎨 The controls above the stage no longer jump in and out of the extra controls menu while you zoom. (#1175)
 - 🚦 When you made the same mistake in more than one place — like spelling a name wrong ten times — we only marked one or two of them. We now mark every one. (#808)
 - 🚦 A reaction that watches a stream handed to it by a function was told it had nothing to react to. That wrong warning is gone. (#808)
 - 🐛 When one source shared a function and another source called it, reactions inside that function stopped reacting. They keep working now. (#808)

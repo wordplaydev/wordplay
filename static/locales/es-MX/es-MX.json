@@ -7160,7 +7160,8 @@
                 "rotate": "$~girar $name",
                 "resize": "$~cambiar el tamaño de $name",
                 "resetZoom": "$~borrar tu desplazamiento y zoom",
-                "perform": "$~realizar: reiniciar el programa, reproducirlo y llenar la pantalla con el escenario"
+                "perform": "$~realizar: reiniciar el programa, reproducirlo y llenar la pantalla con el escenario",
+                "resetZoomAt": "$~quitar tu desplazamiento y zoom, ahora en $percent por ciento de la vista propia del proyecto"
             },
             "options": {
                 "locale": "$~idioma preferido para la salida",
@@ -7263,6 +7264,15 @@
             "keypad": {
                 "label": "$~Teclas que usa este proyecto",
                 "any": "$~toca para jugar"
+            },
+            "announce": {
+                "zoom": "$~zoom del escenario $percent por ciento",
+                "hidden": "$~no hay nada en el escenario a $percent por ciento; quita tu zoom para mostrar todo",
+                "shown": "$~todo está de vuelta en el escenario"
+            },
+            "hidden": {
+                "message": "$~Todo está fuera del escenario.",
+                "show": "$~mostrar todo"
             }
         },
         "timeline": {

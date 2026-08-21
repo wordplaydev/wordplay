@@ -31,6 +31,8 @@ export default abstract class Arrangement extends Valued {
         width: number;
         height: number;
         places: [Output, Place][];
+        /** The nearest z of anything arranged here; see `Output.getLayout`. */
+        nearest: number;
     };
 
     abstract getDescription(
