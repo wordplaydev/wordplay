@@ -126,6 +126,8 @@ export type InstrumentSpec = {
 const PianoDir = 'Chordophones/Zithers/Grand Piano, Steinway B/NoSus/';
 const SaxDir = 'Aerophones/Reed Aerophones/Tenor Saxophone/Non-Vibrato/';
 const BellDir = 'Idiophones/Struck Idiophones/Tubular Bells 1/';
+const HarmonicaDir =
+    'Aerophones/Free Aerophones/Harmonica-Hohner-Super64/Sustains/Normal/';
 
 /** A VCSL zone. */
 function vcsl(path: string, root: string): ZoneSpec {
@@ -229,6 +231,26 @@ export const Manifest: InstrumentSpec[] = [
             vcsl(`${SaxDir}BrettTenor_NV_Main_C4_vl3_rr1.wav`, 'C4'),
             vcsl(`${SaxDir}BrettTenor_NV_Main_F#4_vl3_rr1.wav`, 'F#4'),
             vcsl(`${SaxDir}BrettTenor_NV_Main_C5_vl3_rr1.wav`, 'C5'),
+        ],
+    },
+    {
+        id: 'harmonica',
+        maxSeconds: 2.5,
+        // A chromatic harmonica, four octaves of it. Free reeds are a separate
+        // plate per hole, so the colour moves across the range the way a
+        // saxophone's does: C and G of each octave, the palette's usual ~6
+        // semitones. The library ships E of each octave too, if that ever
+        // reads thin. The space before the underscore is the library's own.
+        zones: [
+            vcsl(`${HarmonicaDir}Hohner-Super64_Normal _C2.wav`, 'C2'),
+            vcsl(`${HarmonicaDir}Hohner-Super64_Normal _G2.wav`, 'G2'),
+            vcsl(`${HarmonicaDir}Hohner-Super64_Normal _C3.wav`, 'C3'),
+            vcsl(`${HarmonicaDir}Hohner-Super64_Normal _G3.wav`, 'G3'),
+            vcsl(`${HarmonicaDir}Hohner-Super64_Normal _C4.wav`, 'C4'),
+            vcsl(`${HarmonicaDir}Hohner-Super64_Normal _G4.wav`, 'G4'),
+            vcsl(`${HarmonicaDir}Hohner-Super64_Normal _C5.wav`, 'C5'),
+            vcsl(`${HarmonicaDir}Hohner-Super64_Normal _G5.wav`, 'G5'),
+            vcsl(`${HarmonicaDir}Hohner-Super64_Normal _C6.wav`, 'C6'),
         ],
     },
     {

@@ -1,6 +1,6 @@
 <script lang="ts">
     import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
+    import TranslationMeter from '@components/app/TranslationMeter.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import LocaleName from '@components/settings/LocaleName.svelte';
@@ -9,14 +9,27 @@
     } from '@components/settings/LocaleSearch.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import { LanguagesDialogID } from '@components/widgets/dialogIDs';
     import { Locales as LocalesDB, locales } from '@db/Database';
+    import {
+        budget,
+        remaining,
+        resetTranslationRefusal,
+    } from '@db/translationBudget.svelte';
+    import {
+        getAnnouncer,
+        getUser,
+        isAuthenticated,
+    } from '@components/project/Contexts';
     import { getFunctionsInstance } from '@db/firebase';
     import type Project from '@db/projects/Project';
     import { Projects } from '@db/projects/Projects';
     import translateProject from '@db/projects/translate';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
+    import { getLanguageName } from '@locale/LanguageCode';
+    import type LocaleText from '@locale/LocaleText';
     import {
         localesAreEqual,
         localeToString,
@@ -49,6 +62,38 @@
     let translating: boolean = $state(false);
     let error: boolean = $state(false);
     let show: boolean = $state(false);
+
+    const announce = getAnnouncer();
+    const user = getUser();
+
+    /** What the translation is doing right now, so the dialog says something
+     *  more useful than "loading" while a long job runs. */
+    let progress = $state<
+        | { kind: 'phase'; phase: 'analyzing' | 'revising' }
+        | { kind: 'translating'; done: number; total: number; kept: number }
+        | undefined
+    >(undefined);
+
+    /** How many strings kept their original words, known once translating ends. */
+    let kept = $state(0);
+
+    /** Whether translating adds the language alongside what the creator wrote
+     *  (0, the default) or rewrites the project in it (1). Adding is the
+     *  default because it's the one that can't lose anything. */
+    let mode = $state(0);
+    const RewriteMode = 1;
+
+    /** Nothing left to spend today, so there's no point starting. */
+    let spent = $derived(remaining() === 0);
+
+    /** Clear a stale failure whenever the dialog opens: it used to persist for
+     *  the life of the component, so one failure looked permanent. */
+    $effect(() => {
+        if (show) {
+            error = false;
+            resetTranslationRefusal();
+        }
+    });
 
     /** Index into the tab labels; see `ui.project.dialog.languages.tab`. */
     let tab = $state(0);
@@ -175,30 +220,110 @@
     /** Translate the project into another language */
     async function translate() {
         const functions = await getFunctionsInstance();
-        if (functions && sourceLocale && targetLocale) {
-            translating = true;
-            const revisedProject = await translateProject(
-                functions,
-                project,
-                sourceLocale,
-                targetLocale,
-            );
-            translating = false;
+        if (functions === undefined || !sourceLocale || !targetLocale) return;
 
-            // If we were successful,
-            if (revisedProject) {
-                // Revise the project
-                Projects.reviseProject(revisedProject);
-                // Show the new translations.
-                showAll();
-                // Hide the dialog.
-                show = false;
-                // Reset the target locale.
-                targetLocale = undefined;
-            } else {
-                error = true;
-            }
+        const target = targetLocale;
+
+        error = false;
+        resetTranslationRefusal();
+        kept = 0;
+        translating = true;
+        progress = { kind: 'phase', phase: 'analyzing' };
+
+        const revisedProject = await translateProject(
+            functions,
+            project,
+            sourceLocale,
+            target,
+            mode === RewriteMode,
+            (strings) => announcePlan(strings),
+            (update) => {
+                progress = update;
+                if (update.kind === 'translating') {
+                    kept = update.kept;
+                    // Every announcement here has to differ from the last, or
+                    // the live region says it once and then stays silent. The
+                    // counts are what change, so they carry the message.
+                    announceProgress(update.done, update.total);
+                }
+            },
+        );
+
+        translating = false;
+        progress = undefined;
+
+        if (revisedProject) {
+            Projects.reviseProject(revisedProject);
+            announceDone(target);
+            showAll();
+            show = false;
+            targetLocale = undefined;
+        } else {
+            error = true;
+            announceFailure();
         }
+    }
+
+    /** The target language's own name, for an announcement that names it. */
+    function languageName(locale: Locale) {
+        return getLanguageName(locale.language) ?? localeToString(locale);
+    }
+
+    /** Announcements are primary-locale-only: the live region speaks in one
+     *  voice, and a joined string would read every language back to back. */
+    function say(kind: 'translation' | 'translation-progress', text: string) {
+        if (announce && $announce)
+            $announce(kind, $locales.getLanguages()[0], text);
+    }
+
+    function announcePlan(strings: number) {
+        if (targetLocale === undefined) return;
+        say(
+            'translation',
+            $locales
+                .concretize((l) => l.ui.translation.started, {
+                    count: strings,
+                    language: languageName(targetLocale),
+                })
+                .toText(),
+        );
+    }
+
+    function announceProgress(done: number, total: number) {
+        say(
+            'translation-progress',
+            $locales
+                .concretize((l) => l.ui.translation.progress, {
+                    done: `${done}`,
+                    total,
+                })
+                .toText(),
+        );
+    }
+
+    function announceDone(locale: Locale) {
+        say(
+            'translation',
+            kept > 0
+                ? $locales
+                      .concretize((l) => l.ui.translation.finishedPartial, {
+                          language: languageName(locale),
+                          kept,
+                      })
+                      .toText()
+                : $locales
+                      .concretize((l) => l.ui.translation.finished, {
+                          language: languageName(locale),
+                      })
+                      .toText(),
+        );
+    }
+
+    function announceFailure() {
+        say(
+            'translation',
+            $locales.getPrimaryPlainText((l) => l.ui.project.error.translate),
+        );
     }
 </script>
 
@@ -211,13 +336,17 @@
     button={{
         tip: (l) => l.ui.project.button.languages,
         icon: LOCALE_SYMBOL,
-        // The count is the label, so the project's language list is legible without
-        // opening the dialog — a project carrying seven languages it doesn't use says so.
-        label: $locales
-            .concretize((l) => l.ui.project.dialog.languages.count, {
-                count: usage.declared.length,
-            })
-            .toText(),
+        // With one language a count says nothing a creator doesn't know, so the
+        // button asks a question instead: translate. Past one, the count is the
+        // useful thing — a project carrying seven languages it doesn't use says so.
+        label:
+            usage.declared.length === 1
+                ? (l: LocaleText) => l.ui.project.dialog.languages.prompt
+                : $locales
+                      .concretize((l) => l.ui.project.dialog.languages.count, {
+                          count: usage.declared.length,
+                      })
+                      .toText(),
         background: true,
     }}
     pinned
@@ -373,101 +502,193 @@
 {/snippet}
 
 {#snippet translation()}
-    <Subheader text={(l) => l.ui.project.subheader.source} />
-    <div class="options">
-        {#each usage.declared as code}
-            {@const locale = stringToLocale(code)}
-            {@const isSelected =
-                locale !== undefined &&
-                sourceLocale !== undefined &&
-                localesAreEqual(locale, sourceLocale)}
-            <div
-                class="option"
-                class:selected={isSelected}
-                aria-current={isSelected ? 'true' : undefined}
-            >
-                {#if isSelected}<span class="check" aria-hidden="true"
-                        >{CONFIRM_SYMBOL}</span
-                    >{/if}
-                <Button
-                    action={() => {
-                        sourceLocale = stringToLocale(code);
-                    }}
-                    active={!translating && !isSelected}
-                    tip={(l) => l.ui.project.button.primary}
-                    background
-                    ><LocaleName
-                        locale={code}
-                        supported
-                        showDraft={false}
-                    /></Button
+    {#if !isAuthenticated($user)}
+        <!-- The budget is per creator, so translating can only be offered to
+             one. Explaining beats a disabled button with no reason. -->
+        <MarkupHTMLView markup={(l) => l.ui.translation.signIn} />
+    {:else}
+        <Subheader text={(l) => l.ui.project.subheader.source} />
+        <div class="options">
+            {#each usage.declared as code}
+                {@const locale = stringToLocale(code)}
+                {@const isSelected =
+                    locale !== undefined &&
+                    sourceLocale !== undefined &&
+                    localesAreEqual(locale, sourceLocale)}
+                <div
+                    class="option"
+                    class:selected={isSelected}
+                    aria-current={isSelected ? 'true' : undefined}
                 >
-            </div>
-        {/each}
-    </div>
-    <div class="header-row">
-        <Subheader text={(l) => l.ui.project.subheader.destination} />
-        <LocaleSearch
-            id="translate-destination-search"
-            placeholder={(l) =>
-                l.ui.project.dialog.languages.search.placeholder}
-            description={(l) =>
-                l.ui.project.dialog.languages.search.description}
-            bind:query
-        />
-        <Button
-            background
-            action={() => {
-                translate();
-            }}
-            active={targetLocale !== undefined &&
+                    {#if isSelected}<span class="check" aria-hidden="true"
+                            >{CONFIRM_SYMBOL}</span
+                        >{/if}
+                    <Button
+                        action={() => {
+                            sourceLocale = stringToLocale(code);
+                        }}
+                        active={!translating && !isSelected}
+                        tip={(l) => l.ui.project.button.primary}
+                        background
+                        ><LocaleName
+                            locale={code}
+                            supported
+                            showDraft={false}
+                        /></Button
+                    >
+                </div>
+            {/each}
+        </div>
+        <!-- What translating should do, before choosing where to translate to:
+             it changes what the result looks like, not just the language. -->
+        <div class="header-row">
+            <Mode
+                modes={(l) => l.ui.project.dialog.languages.mode}
+                choice={mode}
+                select={(choice) => (mode = choice)}
+                active={!translating}
+                labeled
+                modeLabels
+            />
+        </div>
+        <div class="header-row">
+            <Subheader text={(l) => l.ui.project.subheader.destination} />
+            <LocaleSearch
+                id="translate-destination-search"
+                placeholder={(l) =>
+                    l.ui.project.dialog.languages.search.placeholder}
+                description={(l) =>
+                    l.ui.project.dialog.languages.search.description}
+                bind:query
+            />
+            <!-- Once a target is chosen there is one thing left to do, so the
+             button says so by becoming salient rather than merely enabled. -->
+            <Button
+                background={targetLocale !== undefined &&
                 sourceLocale !== undefined &&
-                !translating}
-            tip={(l) => l.ui.project.button.translate.tip}
-            label={(l) => l.ui.project.button.translate.label}
-        ></Button>
+                !translating &&
+                !spent
+                    ? 'salient'
+                    : true}
+                loading={translating}
+                action={() => {
+                    translate();
+                }}
+                active={targetLocale !== undefined &&
+                    sourceLocale !== undefined &&
+                    !translating &&
+                    !spent}
+                tip={(l) => l.ui.project.button.translate.tip}
+                label={(l) => l.ui.project.button.translate.label}
+            ></Button>
+            <TranslationMeter />
+        </div>
         {#if translating}
-            <Spinning />
-        {/if}
-    </div>
-    {#if error}
-        <Notice text={(l) => l.ui.project.error.translate} />
-    {/if}
-    <div class="options">
-        <!-- Allow all of the languages that Google Translate supports. -->
-        {#each destinationLocales as locale}
-            {@const isSelected =
-                targetLocale !== undefined &&
-                localesAreEqual(targetLocale, locale)}
-            <div
-                class="option"
-                class:selected={isSelected}
-                aria-current={isSelected ? 'true' : undefined}
-            >
-                {#if isSelected}<span class="check" aria-hidden="true"
-                        >{CONFIRM_SYMBOL}</span
-                    >{/if}
-                <Button
-                    action={() => {
-                        targetLocale = locale;
-                    }}
-                    active={!translating &&
-                        (targetLocale === undefined ||
-                            !localesAreEqual(targetLocale, locale)) &&
-                        (sourceLocale === undefined ||
-                            !localesAreEqual(sourceLocale, locale))}
-                    tip={(l) => l.ui.project.button.destination}
-                    background
-                    ><LocaleName
-                        locale={localeToString(locale)}
-                        supported
-                        showDraft={false}
-                    /></Button
+            {@const done =
+                progress?.kind === 'translating' ? progress.done : undefined}
+            {@const total =
+                progress?.kind === 'translating' ? progress.total : undefined}
+            <div class="progress">
+                {#if done !== undefined && total !== undefined && total > 0}
+                    <MarkupHTMLView
+                        inline
+                        markup={[
+                            (l) => l.ui.translation.progress,
+                            { done: `${done}`, total },
+                        ]}
+                    />
+                {:else}
+                    <MarkupHTMLView
+                        inline
+                        markup={progress?.kind === 'phase' &&
+                        progress.phase === 'revising'
+                            ? (l) => l.ui.translation.revising
+                            : (l) => l.ui.translation.analyzing}
+                    />
+                {/if}
+                <!-- Two bars: what is done, and a sweep over it. The sweep animates
+                 `transform`, which the compositor runs, so it keeps moving
+                 while the main thread is busy rebuilding the project — a
+                 percentage that stops updating reads as a hung page. -->
+                <div
+                    class="track"
+                    role="progressbar"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={done !== undefined &&
+                    total !== undefined &&
+                    total > 0
+                        ? Math.round((done / total) * 100)
+                        : 0}
+                    aria-label={$locales.getPrimaryPlainText(
+                        (l) => l.ui.translation.progressLabel,
+                    )}
                 >
+                    <div
+                        class="done"
+                        style:width="{done !== undefined &&
+                        total !== undefined &&
+                        total > 0
+                            ? Math.round((done / total) * 100)
+                            : 0}%"
+                    ></div>
+                    <div class="sweep"></div>
+                </div>
             </div>
-        {:else}&mdash;
-        {/each}
-    </div>
+        {/if}
+        {#if error}
+            <!-- Which failure it was, since they call for different responses. An
+             exhausted budget isn't repeated here: the meter above already says
+             it, and says when it resets. -->
+            {#if budget.refusal === 'unauthenticated'}
+                <Notice
+                    ><MarkupHTMLView
+                        markup={(l) => l.ui.translation.signIn}
+                    /></Notice
+                >
+            {:else if budget.refusal !== 'over-budget'}
+                <Notice
+                    text={budget.refusal === undefined
+                        ? (l) => l.ui.project.error.translateBroken
+                        : (l) => l.ui.project.error.translate}
+                />
+            {/if}
+        {/if}
+        <div class="options">
+            {#each destinationLocales as locale}
+                {@const isSelected =
+                    targetLocale !== undefined &&
+                    localesAreEqual(targetLocale, locale)}
+                <div
+                    class="option"
+                    class:selected={isSelected}
+                    aria-current={isSelected ? 'true' : undefined}
+                >
+                    {#if isSelected}<span class="check" aria-hidden="true"
+                            >{CONFIRM_SYMBOL}</span
+                        >{/if}
+                    <Button
+                        action={() => {
+                            targetLocale = locale;
+                        }}
+                        active={!translating &&
+                            (targetLocale === undefined ||
+                                !localesAreEqual(targetLocale, locale)) &&
+                            (sourceLocale === undefined ||
+                                !localesAreEqual(sourceLocale, locale))}
+                        tip={(l) => l.ui.project.button.destination}
+                        background
+                        ><LocaleName
+                            locale={localeToString(locale)}
+                            supported
+                            showDraft={false}
+                        /></Button
+                    >
+                </div>
+            {:else}&mdash;
+            {/each}
+        </div>
+    {/if}
 {/snippet}
 
 <style>
@@ -520,6 +741,50 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing-half);
+    }
+
+    .progress {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing-half);
+        padding: var(--wordplay-spacing);
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+    }
+
+    .track {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: var(--wordplay-focus-width);
+        background: var(--wordplay-alternating-color);
+        border-radius: var(--wordplay-border-radius);
+    }
+
+    .done {
+        height: 100%;
+        background: var(--wordplay-highlight-color);
+    }
+
+    /* Keeps moving on the compositor while the main thread rebuilds the
+       project, so a busy moment doesn't look like a hung one. */
+    .sweep {
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 0;
+        width: 30%;
+        background: var(--wordplay-highlight-color);
+        opacity: 0.5;
+        animation: sweep calc(var(--animation-factor) * 1.2s) linear infinite;
+    }
+
+    @keyframes sweep {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(400%);
+        }
     }
 
     /* The names are quoted from the creator's code, so they should read as code. */

@@ -72,6 +72,8 @@ export type LocaleText = {
         unsupportedHeading: string;
         /** [plain] Body shown when the browser lacks required features. */
         unsupportedBody: string;
+        /** [plain] One-line description of Wordplay, shown when installing it as an app and when the site is shared. */
+        appDescription: string;
     };
 };
 

@@ -1,0 +1,170 @@
+🎹
+Virtual Piano
+=== start
+¶A one-octave piano that you can play!
+For the best experience, turn the music visualization off.¶
+
+¶This bind stores a Key stream that detects which key you've pressed.¶
+pressed: Key()
+
+¶This stores a mapping from the keys you press to the notes they will play,
+in both text form (to display the note being played) and a numeric text
+literal (to convert into a number (#) and input into a Track list).
+
+The particular layout is chosen to closely emulate piano keys, with white
+keys represented by alphabetic characters, and black keys represented by
+numeric characters.¶
+notemap: {
+		'w': ["C" "1"]
+		'3': ["C# / Db" "2"]
+		'e': ["D" "3"]
+		'4': ["D# / Eb" "4"]
+		'r': ["E" "5"]
+		't': ["F" "6"]
+		'6': ["F# / Gb" "7"]
+		'y': ["G" "8"]
+		'7': ["G# / Ab" "9"]
+		'u': ["A" "10"]
+		'8': ["A# / Bb" "11"]
+		'i': ["B" "12"]
+		'o': ["C5" "13"]
+	}
+
+¶This function returns the note's name, based on which key was pressed.
+If the key was not a valid note, it returns empty text.¶
+ƒ returnText(key•"")•"" (notemap{key} ≠ ø) ? notemap{key}[1] ""
+
+¶This function returns the note number corresponding to the key pressed in a list,
+to be used as an input in a Track. If the key pressed is invalid, it returns an
+empty list.¶
+ƒ returnNote(key•"")•[] [
+		(notemap{key} ≠ ø) ? (notemap{key}[2] → #) []
+	]
+
+¶This function takes in a numeric list and returns a Track with that note list.
+Loop is off so that the note plays once when the key is pressed.¶
+ƒ returnTrack(note•[#]) Track(note loop: false)
+
+¶These two binds map define the color to make the corresponding key when
+it is pressed and when it is not.¶
+pressColor: Color(10 270 50°)
+nullColor: Color(0 0 0°)
+
+¶This plays the pressed key's corresponding track. Scale is chromatic so
+that the tracks can access all semitones. Replay is set for when a valid
+key is pressed, so that the track plays whenever the key is pressed, even
+twice in a row.¶
+Music(
+	returnTrack(returnNote(pressed))
+	scale: Music.chromatic
+	replay: notemap{pressed} ≠ ø
+)
+
+¶Displaying the piano, the keys to press, and the note played when a key
+is pressed.¶
+Group(
+	Stack('>' 1m)
+	[
+		Group(
+			Row('>' -.3m)
+			[
+				Phrase(
+					'▯'
+					name: 'w'
+					size: 3m
+					color: pressed = 'w' ? pressColor nullColor
+				)
+				Phrase(
+					'▮'
+					name: '3'
+					size: 3m
+					color: pressed = '3' ? pressColor nullColor
+				)
+				Phrase(
+					'▯'
+					name: 'e'
+					size: 3m
+					color: pressed = 'e' ? pressColor nullColor
+				)
+				Phrase(
+					'▮'
+					name: '4'
+					size: 3m
+					color: pressed = '4' ? pressColor nullColor
+				)
+				Phrase(
+					'▯'
+					name: 'r'
+					size: 3m
+					color: pressed = 'r' ? pressColor nullColor
+				)
+				Phrase(
+					'▯'
+					name: 't'
+					size: 3m
+					color: pressed = 't' ? pressColor nullColor
+				)
+				Phrase(
+					'▮'
+					name: '6'
+					size: 3m
+					color: pressed = '6' ? pressColor nullColor
+				)
+				Phrase(
+					'▯'
+					name: 'y'
+					size: 3m
+					color: pressed = 'y' ? pressColor nullColor
+				)
+				Phrase(
+					'▮'
+					name: '7'
+					size: 3m
+					color: pressed = '7' ? pressColor nullColor
+				)
+				Phrase(
+					'▯'
+					name: 'u'
+					size: 3m
+					color: pressed = 'u' ? pressColor nullColor
+				)
+				Phrase(
+					'▮'
+					name: '8'
+					size: 3m
+					color: pressed = '8' ? pressColor nullColor
+				)
+				Phrase(
+					'▯'
+					name: 'i'
+					size: 3m
+					color: pressed = 'i' ? pressColor nullColor
+				)
+				Phrase(
+					'▯'
+					name: 'o'
+					size: 3m
+					color: pressed = 'o' ? pressColor nullColor
+				)
+			]
+		)
+
+		Group(
+			Row('>' 1.1m)
+			[
+				Phrase('w')
+				Phrase('3')
+				Phrase('e')
+				Phrase('4')
+				Phrase('r t')
+				Phrase('6')
+				Phrase('y')
+				Phrase('7')
+				Phrase('u')
+				Phrase('8')
+				Phrase('i  o')
+			]
+		)
+		Phrase(returnText(pressed))
+	]
+)

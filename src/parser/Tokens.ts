@@ -1,6 +1,7 @@
 import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Spaces from '@parser/Spaces';
+import { NOT_SYMBOL } from '@parser/Symbols';
 
 export default class Tokens {
     /** The tokens that have yet to be read. */
@@ -153,6 +154,24 @@ export default class Tokens {
             this.nextIs(Sym.Operator) &&
             this.hasAfter() &&
             this.afterLacksPrecedingSpace()
+        );
+    }
+
+    /** Whether the next token is a typed keyword word for ~ (logical not) in prefix position:
+     * dual-typed [Name, Operator] with canonical ~, with an operand on the same line. A word
+     * needs a space before its operand, so the symbol's no-space rule (nextIsUnary) becomes a
+     * same-line rule; a trailing word at end of line stays a name, keeping shadows usable. */
+    nextIsUnaryWord(): boolean {
+        const next = this.#unread[0];
+        const after = this.#unread[1];
+        return (
+            next !== undefined &&
+            next.isSymbol(Sym.Name) &&
+            next.isSymbol(Sym.Operator) &&
+            next.getCanonicalText() === NOT_SYMBOL &&
+            this.hasAfter() &&
+            after !== undefined &&
+            !this.#spaces.hasLineBreak(after)
         );
     }
 

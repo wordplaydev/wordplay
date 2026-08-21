@@ -396,6 +396,9 @@ export default class Phrase extends Output {
             ascent: metrics.ascent / PX_PER_METER,
             descent: metrics.descent / PX_PER_METER,
             places: [],
+            // A leaf has nothing of its own to report: its z lives in the place its
+            // parent gave it, and Infinity loses every Math.min on the way up.
+            nearest: Infinity,
         };
     }
 

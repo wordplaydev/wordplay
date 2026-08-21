@@ -650,6 +650,9 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.localize.inputs.plural.missing': ['name'],
     'ui.localize.inputs.plural.tip': ['forms'],
     'ui.output.allSelected': ['count'],
+    'ui.output.announce.hidden': ['percent'],
+    'ui.output.announce.zoom': ['percent'],
+    'ui.output.button.resetZoomAt': ['percent'],
     'ui.output.button.resize': ['name'],
     'ui.output.button.rotate': ['name'],
     'ui.output.deselected': ['name', 'count'],
@@ -714,6 +717,13 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.tile.toggle.show.on': ['name'],
     'ui.tile.toggle.showSource.off': ['name'],
     'ui.tile.toggle.showSource.on': ['name'],
+    'ui.translation.exhaustedHours': ['#hours'],
+    'ui.translation.exhaustedMinutes': ['#minutes'],
+    'ui.translation.finished': ['language'],
+    'ui.translation.finishedPartial': ['language', '#kept'],
+    'ui.translation.progress': ['done', '#total'],
+    'ui.translation.started': ['#count', 'language'],
+    'ui.translation.used': ['used', '#limit'],
     'ui.widget.color.value': ['color', 'l', 'c', 'h'],
 };
 

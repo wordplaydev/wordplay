@@ -192,10 +192,24 @@ export default class Reaction extends Expression {
 
             // At least one expression the condition depends on must be a stream, or
             // there is nothing for the reaction to react to. (#1237)
+            //
+            // A stream can reach the condition through a function input, so the
+            // walk needs the call graph to see it. Without one we cannot tell
+            // "nothing to react to" from "haven't looked at the callers yet",
+            // and saying the first is how a correct reaction over a function
+            // input got flagged. Analysis builds the call graph before it
+            // computes conflicts, so this is only undefined if someone asks for
+            // conflicts outside of one. (#808)
+            const calls = context.project.getAnalysisInProgress().calls;
             if (
-                !Array.from(this.condition.getAllDependencies(context)).some(
-                    (node) => isStreamExpression(node, context),
-                ) &&
+                calls !== undefined &&
+                !Array.from(
+                    this.condition.getAllDependencies(
+                        context,
+                        undefined,
+                        calls,
+                    ),
+                ).some((node) => isStreamExpression(node, context)) &&
                 !isStreamExpression(this.condition, context)
             )
                 conflicts.push(new ExpectedStream(this));

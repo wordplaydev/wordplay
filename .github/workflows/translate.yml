@@ -18,6 +18,12 @@ jobs:
             - uses: actions/checkout@v5
               with:
                   ref: ${{ github.ref }} # the branch chosen in the Run-workflow dropdown (the PR branch)
+                  # `locales-fix` marks translations left behind by an en-US
+                  # rewording (#1144), which needs the branch point to compare
+                  # against. A shallow clone has no merge-base, so the marking
+                  # step would silently find nothing and the translate step
+                  # below would have nothing to fix.
+                  fetch-depth: 0
             - uses: actions/setup-node@v5
               with:
                   node-version: 22.x

@@ -32,3 +32,8 @@ src/routes/\[\[locale\]\]/updates/date.json
 
 # Python bytecode cache (emoji font tooling)
 __pycache__/
+
+# The GitHub wiki (wordplay.wiki.git), cloned here by `npm run wiki` so it can
+# be read and edited alongside the code. It's a separate repository, committed
+# and pushed on its own.
+wiki/

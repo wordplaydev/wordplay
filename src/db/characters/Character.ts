@@ -37,11 +37,11 @@ const RectangleSchema = z
     .object({
         type: z.literal('rect'),
         point: PointSchema, // The center of the rectangle
-        angle: z.number().optional(),
-        stroke: StrokeSchema.optional(),
+        angle: z.number().exactOptional(),
+        stroke: StrokeSchema.exactOptional(),
         // Null represents current color
-        fill: ColorSchema.optional().nullable(),
-        corner: z.number().optional(),
+        fill: ColorSchema.nullable().exactOptional(),
+        corner: z.number().exactOptional(),
     })
     // The width and height of the rectange.
     .extend(SizeSchema.shape);
@@ -59,9 +59,9 @@ const EllipseSchema = z
     .object({
         type: z.literal('ellipse'),
         point: PointSchema,
-        stroke: StrokeSchema.optional(),
-        fill: ColorSchema.optional().nullable(),
-        angle: z.number().optional(), // degrees
+        stroke: StrokeSchema.exactOptional(),
+        fill: ColorSchema.nullable().exactOptional(),
+        angle: z.number().exactOptional(), // degrees
     })
     // The radius on each dimension
     .extend(SizeSchema.shape);
@@ -70,12 +70,12 @@ export type CharacterEllipse = z.infer<typeof EllipseSchema>;
 
 const PathSchema = z.object({
     type: z.literal('path'),
-    stroke: StrokeSchema.optional(),
+    stroke: StrokeSchema.exactOptional(),
     // Null represents current color
-    fill: ColorSchema.optional().nullable(),
+    fill: ColorSchema.nullable().exactOptional(),
     // A series of positions defining the path.
     points: z.array(PointSchema).nonempty(),
-    angle: z.number().optional(), // degrees rotated around the center
+    angle: z.number().exactOptional(), // degrees rotated around the center
     // Whether the path is closed by connecting the last point to the first
     closed: z.boolean(),
 });
@@ -182,7 +182,7 @@ function rectToSVG(
             ? `${selectionStrokeWidth / 10},${selectionStrokeWidth}`
             : undefined,
         transform:
-            'angle' in rect
+            rect.angle !== undefined
                 ? `rotate(${rect.angle}, ${rect.point.x}, ${rect.point.y})`
                 : undefined,
     });

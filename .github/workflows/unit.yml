@@ -54,6 +54,33 @@ jobs:
             - run: npm run locales
               name: Verify locales
 
+    # A translation whose en-US source was reworded still describes the old
+    # English, and nothing else notices — `$!` has to be typed by hand and almost
+    # never is (#1144). This gates on the drift a change *introduces*, not the
+    # absolute census: a reworded string whose translation was already correct
+    # re-translates to identical bytes and leaves no trace in value history, so
+    # a slice of the census can never clear and would be a permanently red build.
+    # Scoping to the change also means one commit is enough, so no deep clone.
+    drift:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
+              with:
+                  node-version: 22.x
+                  cache: 'npm'
+            - run: npm ci
+              name: Install dependencies
+            # The base to compare against: the PR's base commit, or the previous
+            # tip of main on a push. Fetched one commit deep.
+            - name: Fetch the base commit
+              run: |
+                  BASE="${{ github.event.pull_request.base.sha || github.event.before }}"
+                  echo "BASE=$BASE" >> "$GITHUB_ENV"
+                  git fetch --depth=1 origin "$BASE"
+            - run: npm run locales-drift -- --since "$BASE"
+              name: Check that reworded en-US strings took their translations along
+
     prettier:
         runs-on: ubuntu-latest
         steps:

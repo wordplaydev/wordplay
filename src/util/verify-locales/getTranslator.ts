@@ -35,3 +35,12 @@ export default function getTranslator(): Translator {
             );
     }
 }
+
+/** What to say when a whole translation pass produced nothing.
+ *
+ *  Deliberately not a diagnosis: the per-chunk errors above it already carry the
+ *  real reason, and guessing here contradicted them — a spent usage limit was
+ *  reported as "make sure gcloud cli is installed", which sends the reader after
+ *  a credential problem they don't have. */
+export const TranslationFailedAdvice =
+    'Unable to translate; see the errors above for why. If they mention credentials, check ANTHROPIC_API_KEY (claude) or gcloud auth (google).';

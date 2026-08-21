@@ -134,7 +134,7 @@
                             "curious",
                             "$~Unele limbaje de programare îți permit să specifici tipul unei variabile, ca să te asiguri că toate modurile în care folosești variabila sunt valide:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplay are și tipuri, dar tipurile sunt *deduse*. De obicei nu trebuie să le declari, dar uneori s-ar putea să fii nevoit, dacă nu pot fi deduse."
+                            "$~@wordplay are și el un tip, dar tipurile sunt *deduse*. De obicei nu trebuie să le declari, dar uneori s-ar putea să fie nevoie, dacă nu pot fi deduse. Un tip listă poate de asemenea denumi un tip pentru fiecare loc din listă, ca\\[# '']\\ pentru o listă cu exact două lucruri: un număr, apoi un cuvânt."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

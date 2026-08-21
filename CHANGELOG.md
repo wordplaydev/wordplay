@@ -4,30 +4,93 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.29.3 - 2026-08-19
+
+### Added
+
+- 🌐 When you translate a project, Wordplay now shows how far it's got instead of just spinning, and counts the phrases as they're done. Big projects used to look stuck, and sometimes gave up partway through. (#1276)
+- 🌐 When you translate a project, you now choose what that means: add the new language to what you wrote, or rewrite your project in it. Adding is the default, and it leaves your code exactly as you typed it. (#1276)
+- 🔒 Translating now has a daily limit, shown as a small bar with how much you have left today and when it fills back up. Machine translation costs real money, and this keeps anyone from running up the bill. (#1073)
+- 🔍 The stage now shows how far you've zoomed, as a small bar that fills up and down with a line across the middle for the project's own view. Press it to go back to that view. (#1175)
+- 🧭 If you zoom or pan until nothing is left on the stage, Wordplay now tells you so and gives you a button to bring everything back. (#1175)
+- 🗣️ Screen readers now say the zoom level as you change it, and say when the stage has nothing left on it. (#1175)
+
+### Changed
+
+- 🔑 You now need an account to translate a project. That's how everyone gets their own fair share of translating each day. (#1073)
+- 🌐 The languages button now says "translate" when your project is written in just one language, instead of telling you it has one. Once it has more, it counts them again. (#1276)
+- 🎨 The translate button now stands out as soon as you pick a language to translate into, so it's easier to find. (#1276)
+- 🖱️ Zooming the stage now moves by the same amount every time, so one zoom out is undone by exactly one zoom in. Before, a single flick of the scroll wheel could take hundreds of clicks to undo. (#1175)
+- 🔍 How close you can zoom in now depends on what's on the stage, instead of one fixed limit. On most projects you can get much closer, and things placed near you no longer disappear when you zoom all the way in. (#1175)
+- ⚡ Checking your program for mistakes is faster, especially in long programs and while you're partway through typing something. (#808)
+
+### Fixed
+
+- 🌐 In 29 languages, the tutorial pointed at code examples that weren't there — a lesson would say to use `+` but never show it. We put the missing examples back, and Wordplay now checks for this so it can't happen again. (#928)
+- 🌐 We redid the whole Arabic tutorial with our current translator. Most of it was still from an old one that dropped examples and left lessons hard to follow. (#928)
+- 🌐 Translating a project replaced your words instead of adding to them. A name you wrote with no language on it, like `speed`, was thrown away to make room for the new one, and the rest of your code was rewritten in the new language whether you wanted that or not. (#1276)
+- 🌐 Sentences with an apostrophe in them, which is most French and Italian writing, quietly didn't translate at all. Your writing stayed in the language you started in with no explanation. (#1276)
+- 🐛 Translating sometimes swapped a name for a picture, like turning `Phrase` into 💬, because it grabbed whichever name came first instead of a word. (#1276)
+- 🐛 Rewriting a project in a new language only changed part of it: names like `size:` and `duration:` stayed in the old language, so the code ended up in neither one. (#1276)
+- 🐛 Translating a project could break it. Words your program compares against, like the key name `'ArrowLeft'`, and pictures like `'🫀'`, were being translated too, so the program stopped working. They now stay exactly as you wrote them. (#1276)
+- 🚦 When you translated a project, the names of your own structures weren't changed everywhere they were used, so your program filled up with errors. They're all changed now, and if translating would still cause errors, we leave your program alone and say so instead. (#1276)
+- 🌐 A translated name could turn out to be a word your language already uses for something built in, which broke the program. We now pick a different name. (#1276)
+- 🐛 Once translating failed, the message about it stayed on screen forever, even after translating worked again. It goes away now. (#1276)
+- 🖱️ On mice that scroll line by line, the scroll wheel didn't zoom the stage at all. It works now. (#1175)
+- 🖱️ After scrolling past the closest the stage can go, scrolling back out did nothing for a moment. It now zooms out right away. (#1175)
+- 🎨 The controls above the stage no longer jump in and out of the extra controls menu while you zoom. (#1175)
+- 🚦 When you made the same mistake in more than one place — like spelling a name wrong ten times — we only marked one or two of them. We now mark every one. (#808)
+- 🚦 A reaction that watches a stream handed to it by a function was told it had nothing to react to. That wrong warning is gone. (#808)
+- 🐛 When one source shared a function and another source called it, reactions inside that function stopped reacting. They keep working now. (#808)
+- 🐛 Writing the word `true` instead of the symbol `⊤` was quietly treated as false. Words like `true` now mean what they say, and `and` and `or` written as words now behave exactly like `&` and `|`. (#1296)
+- 🌐 In a brand new project, or right after adding or removing a language, keyword words like `verdadero` weren't recognized until you reloaded the page. They now work the moment you type them. (#1296)
+- 🐛 Writing the word for `~` in front of a value, like `not ⊤` or `no ⊤` in Spanish, did nothing. It now negates, exactly like the symbol. (#1298)
+- 🌐 In nine languages, the words for `and`, `or`, and `not` didn't match the names of the functions they stand for, so writing them could fail. They now work in every language, and our checks keep it that way. (#1298)
+
 ## 0.29.2 - 2026-08-16
 
 ### Added
 
+- 🌐 If you've never chosen a language, Wordplay now asks which one you'd like when you first visit. It asks in all 30 languages it speaks, so you can find yours even if you don't read English. (#1256)
 - 🔠 We added a new example called Chamber to the [galleries](https://wordplay.dev/galleries). A hundred letters from four writing systems bounce around a sealed box, and you can turn gravity off or shake them all up again.
+- 🔗 When you share a link to a public project or gallery, it now shows its name and description in chat apps and on social media. We also added a site map so search engines can find public projects and [galleries](https://wordplay.dev/galleries). (#1133)
+- 🔊 We added a harmonica, and like most of our instruments it's a real recording rather than a synthesizer. Ask for it with `Instrument.harmonica` or `🔈.🌬️`.
+- 📱 If you install Wordplay on an iPhone or iPad, it keeps its own projects, separate from the ones in your web browser. When you open the installed app and don't see your projects, Wordplay now explains where they are. (#564)
+- 🔑 If your sign in link opens in your web browser instead of the Wordplay you installed, you can now paste the link into Wordplay to finish signing in. This also helps when you read your email on a different device. (#564)
+- 🌐 Wordplay now checks that every translation still matches the English it was written from. When the English changes and the other languages fall behind, we find out that day instead of months later. (#1144)
 
 ### Changed
 
+- 🌐 The [language chooser](https://wordplay.dev/) now spreads languages across the window instead of stacking them in one tall list, so you can see them all at once. (#1256)
+- 🔍 Asking for a language we don't have yet is easier. Type a language or a country and the menus fill themselves in. (#1256)
 - ⚡ We made programs with lots of moving output run three to five times more smoothly.
+- 🔊 A song you bring in from a MIDI file now plays its harmonica and accordion parts on the harmonica, instead of turning them into a synthesizer.
 - 🧲 We updated the physics engine. Things now rest on the ground instead of sinking into it, bouncy things settle instead of jittering forever, and output stops getting flung off the stage when it piles up.
 - 🧲 @Collision now reports far fewer bumps while something is settling — a handful instead of hundreds. A project that counts bumps will count differently than it used to.
 - 📹 The new Video example in the [galleries](https://wordplay.dev/galleries) paints your camera three ways — colored letters, ASCII shading, or colored squares.
 - 🛠️ We upgraded internal tooling for stability.
+- 🌐 Each language can now write down its own rules for how it should be written (e.g,. how to address the reader, which words to prefer, how to punctuate), and the helper that drafts new translations now follows them. (#939)
+- 🎨 The message that shows up when we release a new version now looks like the other messages at the top of the page. It's grey instead of orange, since a new version isn't a problem, and its button and link sit at the end of the strip instead of floating in the middle.
+- 🌐 When you install Wordplay as an app, it now shows up with its name and description in your language, and reads right to left in languages that do. (#564)
 
 ### Fixed
 
+- 🌐 When you ask for a language someone already asked for, we now send you to that conversation instead of starting a new one. (#1256)
+- 🐛 The “other languages” button on the front page no longer opens two language windows on top of each other. (#1256)
 - 🤝 We fixed errors that filled a teacher's browser when they opened a student's project. Teachers now see students' edits live as they type, and students can see their teacher's cursor when they visit.
 - 💾 For teachers with many galleries, the save light no longer flips between "Saved" and "Unsaved", the connection warning no longer comes and goes, and the [Teach](https://wordplay.dev/teach) page no longer goes blank.
 - 🔑 If the sign in page failed to load, it used to stay broken until you restarted your browser. Now it shows when it's loading, says when it can't connect, and works again when you reload.
 - ⌨️ When you press play while your code is still on screen, the keys you type now reach your project. Before, they could quietly change your code and drop you back into edit mode. (#1285)
 - 🚦 When you give a check a name and use it later, Wordplay now remembers what the check proved. Naming a check that a value isn't `ø` no longer shows an error that writing the same check out didn't. (#1285)
+- 🌐 Lots of text in other languages still described how Wordplay used to work, because the English was rewritten after it was translated and nobody noticed. We found more than 8,000 of these across all 29 languages and had them translated again. (#1144)
+- 🌐 About a hundred pieces of text were marked in a way that made our translation helper skip them every time, so they never got fixed no matter how often we asked. They're unstuck now. (#1144)
 - 📐 Output that shows up a moment after your project starts now gets centered and sized to fit the stage. Before, it could start off to one side, slide into place, or stay too big until you resized the window or started over.
 - 🚦 Doing math with the hue of a color from the @Camera no longer stops your program with "incompatible values". Camera colors now carry the ° that hue is measured in.
 - 🗣️ Screen readers can now read what a project puts in front of the stage, like a score or a row of buttons. That whole layer used to be skipped, so anything a project put there was silent and buttons there couldn't be reached.
+- 🌐 We fixed many wrong and confusing words in Spanish. @Stage and @Beat have better names, tutorial titles that meant nothing now make sense, and questions and exclamations open with ¿ and ¡ the way Spanish is written. (#939)
+- ⌨️ When you move around with the Tab key, the outline showing where you are is blue, and it used to disappear against orange and gold backgrounds that are just as bright. It now gets a second outline in a color that stands out, so you can always tell where you've landed.
+- 🔗 When you share a link to the new Virtual Piano example, it now shows its name and description the way our other examples do. (#1288)
+- 📖 We fixed the Spanish how-to guides. In half of them the spaces had gone missing, running words together and breaking the example code so it wouldn't run. (#939)
 
 ## 0.29.1 - 2026-08-13
 

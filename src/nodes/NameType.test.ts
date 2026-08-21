@@ -1,3 +1,4 @@
+import { UnknownName } from '@conflicts/UnknownName';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import { UnknownTypeName } from '@conflicts/UnknownTypeName';
@@ -20,3 +21,12 @@ test.each([
 ])('Expect %s no conflicts, %s to have one', (good, bad, node, conflict) => {
     testConflict(good, bad, node, conflict);
 });
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([['•T() ()\na•T: T()\na', 'a•Nope: 1\na', NameType, UnknownName, 0]])(
+    '%s => no conflict, %s => conflict',
+    (good, bad, node, conflict, index) => {
+        testConflict(good, bad, node, conflict, index);
+    },
+);

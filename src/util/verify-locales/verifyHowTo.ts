@@ -1,6 +1,8 @@
 import { howToToString, parseHowTo } from '@concepts/HowTo';
 import type LanguageCode from '@locale/LanguageCode';
+import type LocaleText from '@locale/LocaleText';
 import { isMachineTranslated } from '@locale/LocaleText';
+import type Translator from '@util/verify-locales/Translator';
 import type { RegionCode } from '@locale/Regions';
 import Example from '@nodes/Example';
 import { Sym } from '@nodes/Sym';
@@ -27,6 +29,15 @@ export async function verifyHowTo(
     /** Optional how-to ids (filename without `.txt`) to narrow the translation
      *  pass to (e.g. `+howto:animate-phrase`). Empty or undefined = all. */
     howtoIds?: string[],
+    /** The run's shared translation backend, so its caches (localized examples)
+     *  and usage accounting span all 36 files and the rest of the locale run —
+     *  a fresh instance per file re-localized shared examples 36 times over.
+     *  Undefined = the env-selected backend, constructed once here. */
+    translator?: Translator,
+    /** The locale's text, passed to the backend as the translation target so
+     *  how-tos share the locale run's system prompt (one cache entry) and the
+     *  locale's own `guidance` conventions apply here too. */
+    localeText?: LocaleText,
 ): Promise<void> {
     // Skip English locale - it's the source
     if (locale === 'en-US') return;
@@ -80,10 +91,10 @@ export async function verifyHowTo(
     }
 
     // Translation mode - resolve the target locale via the active backend.
-    const translator = getTranslator();
+    const backend = translator ?? getTranslator();
     let targetLocale: string;
     try {
-        targetLocale = await translator.getTargetLocale(language, regions);
+        targetLocale = await backend.getTargetLocale(language, regions);
     } catch (error) {
         log.bad(`Failed to get the target locale: ${error}`);
         return;
@@ -106,6 +117,8 @@ export async function verifyHowTo(
                 sourceLocale,
                 targetLocale,
                 override,
+                backend,
+                localeText,
             );
             if (translated) translatedCount++;
         } catch (error) {
@@ -193,6 +206,8 @@ async function translateHowToFile(
     sourceLocale: string,
     targetLocale: string,
     override: boolean,
+    translator: Translator,
+    localeText: LocaleText | undefined,
 ): Promise<boolean> {
     // Read English content
     let englishContent: string;
@@ -247,7 +262,6 @@ async function translateHowToFile(
 
     // Translate the title + prose, and localize each example by passing its full
     // \code\ source — the translator localizes the embedded program's names/text.
-    const translator = getTranslator();
     const translations = await translator.translate(
         log,
         [
@@ -257,6 +271,7 @@ async function translateHowToFile(
         ],
         sourceLocale,
         targetLocale,
+        localeText,
     );
 
     if (translations === undefined) {

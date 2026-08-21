@@ -14,7 +14,8 @@
 //                               conflict isn't resolved by hand at every stop.
 //
 // It also points core.hooksPath at the committed .githooks directory (pre-commit
-// auto-formats staged files with prettier) and blame.ignoreRevsFile at
+// auto-formats staged files with prettier, and checks the generated locale
+// artifacts when a locale source is staged) and blame.ignoreRevsFile at
 // .git-blame-ignore-revs (so bulk formatting commits don't clutter git blame).
 //
 // Never fails the install: no git, no work tree (tarball/zip checkout), or a
@@ -37,7 +38,7 @@ const SETTINGS: { key: string; value: string; why: string }[] = [
     {
         key: 'core.hooksPath',
         value: '.githooks',
-        why: 'auto-format staged files with prettier before each commit',
+        why: 'format staged files and check generated locale artifacts before each commit',
     },
     {
         key: 'blame.ignoreRevsFile',

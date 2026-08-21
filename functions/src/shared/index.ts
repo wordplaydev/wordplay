@@ -17,8 +17,22 @@ export type GetLLMTranslationsInputs = {
     /** Optional context for quality: a sample of the project's other names and
      *  docs so translations fit the project's domain. */
     projectContext?: { names?: string[]; docs?: string[] };
+    /** The caller's IANA time zone, so the daily translation budget resets at
+     *  the creator's own midnight. Advisory: the server only ever moves the
+     *  budget's day key forward, so a spoofed zone can delay a reset but never
+     *  buy an early one. Falls back to UTC when absent or unrecognized. */
+    zone?: string;
 };
 export type GetLLMTranslationsOutput = string[] | null;
+
+/** The `details` payload on a `resource-exhausted` rejection from a translation
+ *  callable, so the client can show the meter and the wait rather than a generic
+ *  failure. `resetsAt` is epoch milliseconds. */
+export type TranslationBudgetDetails = {
+    used: number;
+    limit: number;
+    resetsAt: number;
+};
 
 // FUNCTION analyzeLocalization
 /** A glossary id + its localized word, plus that word's other written forms

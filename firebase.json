@@ -39,6 +39,22 @@
                 }
             },
             {
+                "regex": "^(?:/[A-Za-z0-9_+-]+)?/(?:project|gallery)/[^/]+/?$",
+                "function": {
+                    "functionId": "getPagePreview",
+                    "region": "us-central1",
+                    "pinTag": true
+                }
+            },
+            {
+                "source": "/sitemap.xml",
+                "function": {
+                    "functionId": "getSitemap",
+                    "region": "us-central1",
+                    "pinTag": true
+                }
+            },
+            {
                 "source": "**",
                 "destination": "/200.html"
             }

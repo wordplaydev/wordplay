@@ -68,6 +68,6 @@ test.each([
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     project.analyze();
     expect(
-        Array.from(project.getConflictedNodes().values()).flat(),
+        Array.from(project.analyze().conflictedNodes.values()).flat(),
     ).toHaveLength(0);
 });

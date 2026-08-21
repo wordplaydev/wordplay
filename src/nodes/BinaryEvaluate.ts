@@ -187,6 +187,13 @@ export default class BinaryEvaluate extends Expression {
         return this.fun.getName();
     }
 
+    /** The operator's meaning: its canonical symbol when typed as a keyword word (e.g. `and` → `&`).
+     * Use for meaning checks (short-circuiting, narrowing); use getOperator() for name resolution,
+     * so a creator's name that shadows a keyword word still resolves. */
+    getCanonicalOperator() {
+        return this.fun.name.getCanonicalText();
+    }
+
     getLeftType(context: Context) {
         // Operators on a `•…T` stream act on its dereferenced value, so resolve
         // the operator against the value type, not the stream type. (#1237)
@@ -202,12 +209,19 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getFunction(context: Context): FunctionDefinition | undefined {
-        // Find the function on the left's type.
+        // Find the function on the left's type: the typed name first (a creator-defined
+        // name wins), then the canonical symbol — several locales' keyword word for a
+        // connective isn't a name of the basis function (id `dan` vs `Dan`), and the
+        // symbol is a name in every locale.
         const leftType = this.getLeftType(context);
-        const fun = leftType.getDefinitionOfNameInScope(
-            this.getOperator(),
-            context,
-        );
+        const fun =
+            leftType.getDefinitionOfNameInScope(this.getOperator(), context) ??
+            (this.getCanonicalOperator() !== this.getOperator()
+                ? leftType.getDefinitionOfNameInScope(
+                      this.getCanonicalOperator(),
+                      context,
+                  )
+                : undefined);
         return fun instanceof FunctionDefinition ? fun : undefined;
     }
 
@@ -370,8 +384,8 @@ export default class BinaryEvaluate extends Expression {
     isLogicalOperator(context: Context) {
         return (
             this.left.getType(context) instanceof BooleanType &&
-            (this.fun.name.getText() === AND_SYMBOL ||
-                this.fun.name.getText() === OR_SYMBOL)
+            (this.getCanonicalOperator() === AND_SYMBOL ||
+                this.getCanonicalOperator() === OR_SYMBOL)
         );
     }
 
@@ -385,7 +399,7 @@ export default class BinaryEvaluate extends Expression {
             this.isLogicalOperator(context) &&
             !evaluator.isEvaluatingReaction()
         ) {
-            if (this.fun.name.getText() === AND_SYMBOL) {
+            if (this.getCanonicalOperator() === AND_SYMBOL) {
                 return [
                     new Start(this),
                     ...left,
@@ -397,7 +411,7 @@ export default class BinaryEvaluate extends Expression {
                 ];
             }
             // Logical OR is short circuited: if the left is true, we do not evaluate the right.
-            else if (this.fun.name.getText() === OR_SYMBOL) {
+            else if (this.getCanonicalOperator() === OR_SYMBOL) {
                 return [
                     new Start(this),
                     ...left,
@@ -423,8 +437,17 @@ export default class BinaryEvaluate extends Expression {
         const right = evaluator.popValue(this);
         const left = evaluator.popValue(this);
 
-        // Resolve the function on the value.
-        const functionValue = left.resolve(this.getOperator(), evaluator);
+        // Resolve the function on the value: the typed name first, then the canonical
+        // symbol, matching getFunction's static resolution.
+        let functionValue = left.resolve(this.getOperator(), evaluator);
+        if (
+            !(functionValue instanceof FunctionValue) &&
+            this.getCanonicalOperator() !== this.getOperator()
+        )
+            functionValue = left.resolve(
+                this.getCanonicalOperator(),
+                evaluator,
+            );
 
         // Verify that it's a function.
         if (
@@ -465,7 +488,7 @@ export default class BinaryEvaluate extends Expression {
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // If conjunction, then we compute the intersection of the left and right's possible types.
         // Note that we pass the left's possible types because we don't evaluate the right if the left isn't true.
-        if (this.getOperator() === AND_SYMBOL) {
+        if (this.getCanonicalOperator() === AND_SYMBOL) {
             const left = this.left.evaluateTypeGuards(current, guard);
             const right = this.right.evaluateTypeGuards(left, guard);
             return left.intersection(right, guard.context);
@@ -475,7 +498,7 @@ export default class BinaryEvaluate extends Expression {
         // sees the types the left ruled out — passing the unrevised set instead let
         // `(a•#) | f(a)` treat `a` as possibly a number inside a branch that is only
         // reached when it isn't one.
-        else if (this.getOperator() === OR_SYMBOL) {
+        else if (this.getCanonicalOperator() === OR_SYMBOL) {
             const left = this.left.evaluateTypeGuards(current, guard);
             // Only subtract when the left actually narrowed. It usually checks some
             // other name and returns `current` unchanged, and subtracting that leaves

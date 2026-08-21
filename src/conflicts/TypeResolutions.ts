@@ -116,7 +116,11 @@ export function makeTypeResolutions(
     );
 
     // 3. Walk dependencies and try the candidate-needs-validation generators.
-    for (const { node, type } of walkTypeSources(givenNode, context)) {
+    for (const { node, type } of walkTypeSources(
+        givenNode,
+        context,
+        context.project.getAnalysisInProgress().calls,
+    )) {
         // Literal annotation (`!`) on a list/set/map; requires forward
         // validation because the candidate is usually a dependency of the
         // symptom (e.g. a ListLiteral whose access produces the symptom).

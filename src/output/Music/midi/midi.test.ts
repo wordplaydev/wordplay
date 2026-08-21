@@ -225,6 +225,13 @@ test('General MIDI families map to instruments we have', () => {
     expect(instrumentForProgram(25)).toBe('electricGuitar');
     expect(instrumentForProgram(30)).toBe('electricGuitar');
     expect(instrumentForProgram(33)).toBe('synthBass');
+    // The organ family ends in free reeds — accordion, harmonica, tango
+    // accordion — which are the harmonica's, while the organs proper are
+    // not.
+    expect(instrumentForProgram(16)).toBe('synthPad');
+    expect(instrumentForProgram(21)).toBe('harmonica');
+    expect(instrumentForProgram(22)).toBe('harmonica');
+    expect(instrumentForProgram(23)).toBe('harmonica');
     expect(instrumentForProgram(40)).toBe('violin');
     expect(instrumentForProgram(56)).toBe('trumpet');
     expect(instrumentForProgram(73)).toBe('flute');
@@ -295,7 +302,9 @@ function evaluate(result: Conversion) {
         DefaultLocale,
     );
     project.analyze();
-    const conflicts = Array.from(project.getConflictedNodes().values()).flat();
+    const conflicts = Array.from(
+        project.analyze().conflictedNodes.values(),
+    ).flat();
     for (const c of conflicts) console.log('CONFLICT:', c.constructor.name);
     const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
     const value = evaluator.getInitialValue();

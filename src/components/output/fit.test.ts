@@ -2,15 +2,27 @@ import { expect, test } from 'vitest';
 import fitZ, {
     MaxPullback,
     NaturalSizeZ,
-    NearestZ,
     ReferenceHeight,
     ReferenceWidth,
-    composeZ,
+    CameraGap,
+    MaxZoomOut,
+    MinVisiblePixels,
+    MinZoomIn,
+    ZoomGaugeEase,
+    ZoomStep,
+    boundZoom,
+    composeZoom,
+    contentVisibility,
     growEnvelope,
     refit,
     responsiveZ,
+    zoomBySteps,
+    zoomByWheel,
+    zoomGauge,
+    zoomPercent,
     type Box,
     type Focus,
+    type ZoomLimits,
 } from '@components/output/fit';
 import {
     FOCAL_LENGTH,
@@ -293,45 +305,338 @@ test('the fit points the camera at the middle of the frame', () => {
     expect(fit?.focus?.y).toBeCloseTo(-3, 10);
 });
 
+/** The bases the zoom laws have to hold at: a near authored camera, a middle one, the
+ *  default fit, and one far out. */
+const Bases = [-0.25, -1, -12, -112];
+
+/** Limits for a camera looking at content on the stage plane, which is where content lives
+ *  unless a project says otherwise. */
+function at(baseZ: number, nearestContentZ = 0): ZoomLimits {
+    return { baseZ, nearestContentZ };
+}
+
+/** How many clicks out the far bound is. */
+const StepsToBound = Math.ceil(Math.log(MaxZoomOut) / Math.log(ZoomStep));
+
 test('the audience zoom composes onto the base rather than replacing it', () => {
     // The Heart Attack regression: a zoom used to replace the whole camera, freezing the
-    // program's motion. With an offset, a moving base still moves.
-    const dz = -4;
-    expect(composeZ(-1, dz)).not.toBe(composeZ(-1.5, dz));
-    expect(composeZ(-1.5, dz) - composeZ(-1, dz)).toBeCloseTo(-0.5, 10);
+    // program's motion. With an adjustment composed on top, a moving base still moves.
+    expect(composeZoom(at(-1), 0.5)).not.toBe(composeZoom(at(-1.5), 0.5));
+    // A ratio means the same thing at every base: half the size, wherever the camera is.
+    for (const base of Bases)
+        expect(scaleAt(composeZoom(at(base), 0.5)) / scaleAt(base)).toBeCloseTo(
+            0.5,
+            10,
+        );
+});
+
+test('one click out is one click in, wherever the camera is', () => {
+    // #1175: steps used to be a fixed distance in metres while scale is FOCAL_LENGTH / -z,
+    // so a click out from -2m cost a third of the picture and a click back in at -112m
+    // bought under a percent of it. One trackpad flick could strand a viewer hundreds of
+    // clicks from home. A ratio makes the pair cancel exactly, at every base.
+    for (const base of Bases) {
+        expect(zoomBySteps(at(base), zoomBySteps(at(base), 1, -1), 1)).toBe(1);
+        expect(zoomBySteps(at(base), zoomBySteps(at(base), 1, -5), 5)).toBe(1);
+        // And every click is the same size, which is what makes them countable.
+        expect(
+            scaleAt(composeZoom(at(base), zoomBySteps(at(base), 1, -1))) /
+                scaleAt(base),
+        ).toBeCloseTo(1 / ZoomStep, 10);
+    }
+});
+
+test('a zoom survives the program moving its own camera', () => {
+    // The reason the adjustment is a ratio rather than a distance. A viewer who zooms out
+    // at -1m and clicks back in after the program has dollied to -10m must land home; with
+    // metres their adjustment silently evaporated as the base moved.
+    const out = zoomBySteps(at(-1), 1, -3);
+    expect(zoomBySteps(at(-10), out, 3)).toBe(1);
+    // And what they see is theirs to keep while the program moves.
+    expect(scaleAt(composeZoom(at(-10), out)) / scaleAt(-10)).toBeCloseTo(
+        scaleAt(composeZoom(at(-1), out)) / scaleAt(-1),
+        10,
+    );
 });
 
 test('the audience cannot push the camera into the output plane', () => {
-    expect(composeZ(-12, 100)).toBe(NearestZ);
-    expect(composeZ(-12, 0)).toBe(-12);
+    expect(composeZoom(at(-12), 1000)).toBe(-CameraGap);
+    expect(composeZoom(at(-12), 1)).toBe(-12);
 });
 
-test('a program closer than the near bound keeps its own camera', () => {
-    // Heart Attack plays at -1m, nearer than NearestZ. The bound constrains the audience,
-    // not the program, so the authored camera survives untouched.
-    expect(composeZ(-0.25, 0)).toBe(-0.25);
-    expect(composeZ(-0.25, 100)).toBe(-0.25);
+test('the near bound leaves no dead zone', () => {
+    // The stored ratio is bounded, not just the rendered one. Letting it accumulate past
+    // the clamp meant ten clicks in and one click out did nothing visible.
+    let zoom = 1;
+    for (let i = 0; i < 40; i++) zoom = zoomBySteps(at(-12), zoom, 1);
+    const pinned = composeZoom(at(-12), zoom);
+    expect(pinned).toBe(-CameraGap);
+    expect(composeZoom(at(-12), zoomBySteps(at(-12), zoom, -1))).toBeLessThan(
+        pinned,
+    );
 });
 
-test('zooming out is never capped', () => {
-    // Pinch used to clamp at -40 while wheel and buttons were unbounded, so touch hit a
-    // wall that a scroll wheel never did.
-    expect(composeZ(-12, -100)).toBe(-112);
-    expect(composeZ(-12, -1_000_000)).toBe(-1_000_012);
-    // Monotonic all the way out, well past the old wall.
-    let previous = composeZ(-12, 0);
-    for (let dz = -10; dz >= -500; dz -= 10) {
-        const next = composeZ(-12, dz);
+test('one wheel event out of the near bound moves the picture', () => {
+    // The reported symptom, as a test. Scroll hard into the bound, then a *single* event
+    // in the other direction has to change what is drawn — anything else is travel the
+    // viewer spends on a number they cannot see.
+    let zoom = 1;
+    for (let i = 0; i < 60; i++) zoom = zoomByWheel(at(-12), zoom, -240, 0);
+    const pinned = composeZoom(at(-12), zoom);
+    expect(pinned).toBe(-CameraGap);
+    expect(
+        composeZoom(at(-12), zoomByWheel(at(-12), zoom, 120, 0)),
+    ).toBeLessThan(pinned);
+});
+
+test('a bound that moves under the audience re-bounds the stored zoom', () => {
+    // The residual dead zone, and why StageView re-bounds continuously rather than only
+    // when a gesture writes. Saturate against a far base, then bring the base in: the
+    // ceiling drops, and the stored ratio has to drop with it instead of banking travel
+    // that the picture already refuses to show.
+    let zoom = 1;
+    for (let i = 0; i < 60; i++) zoom = zoomByWheel(at(-100), zoom, -240, 0);
+    expect(zoom).toBeGreaterThan(boundZoom(at(-12), Number.MAX_VALUE));
+    expect(boundZoom(at(-12), zoom)).toBe(boundZoom(at(-12), Number.MAX_VALUE));
+    // Re-bounded, one event out moves the picture immediately.
+    const rebounded = boundZoom(at(-12), zoom);
+    expect(
+        composeZoom(at(-12), zoomByWheel(at(-12), rebounded, 120, 0)),
+    ).toBeLessThan(composeZoom(at(-12), rebounded));
+});
+
+test('the near bound follows the nearest thing on stage', () => {
+    // The whole point of #3: -0.5 was really "0 - 0.5" under an unstated assumption that
+    // content sits on the stage plane. Stated as a gap, the rule follows the content.
+
+    // Content on the plane: the camera comes within CameraGap of it.
+    expect(composeZoom(at(-12, 0), 1000)).toBe(-CameraGap);
+    // 64x natural size, where the old flat bound was 16x whatever was on stage.
+    expect(scaleAt(composeZoom(at(-12, 0), 1000))).toBe(64);
+
+    // Content placed forward: the camera stops in front of it, so it stays visible
+    // instead of being culled by `place.z > focus.z`.
+    const forward = composeZoom(at(-12, -2), 1000);
+    expect(forward).toBe(-2 - CameraGap);
+    expect(-2).toBeGreaterThan(forward);
+});
+
+test('one output placed far forward cannot lock zoom out entirely', () => {
+    // Without a floor the camera would have to stay behind z = -11, leaving almost nothing
+    // to magnify. The floor wins instead, and that output does pass behind the camera —
+    // which is what the off-stage hint is for.
+    const limits = at(-12, -11);
+    expect(boundZoom(limits, Number.MAX_VALUE)).toBe(MinZoomIn);
+    expect(
+        scaleAt(composeZoom(limits, Number.MAX_VALUE)) / scaleAt(-12),
+    ).toBeCloseTo(MinZoomIn, 10);
+});
+
+test('content behind the stage plane still leaves a camera that renders', () => {
+    // A stage whose content is all behind the plane would solve to a positive z, where
+    // rootScale is 0 and nothing draws at all.
+    expect(composeZoom(at(-12, 2), 1000)).toBe(-CameraGap);
+    // And a stage with nothing placed at all reports Infinity, which must not propagate.
+    expect(composeZoom(at(-12, Infinity), 1000)).toBe(-CameraGap);
+});
+
+test('a program nearer than the bound keeps its own camera', () => {
+    // The bound constrains the audience, not the program: a camera already nearer than
+    // anything the audience could reach is left exactly as authored.
+    expect(composeZoom(at(-0.05), 1)).toBe(-0.05);
+    expect(composeZoom(at(-0.05), 1000)).toBe(-0.05);
+    // Zooming out of it still works; only coming nearer is refused.
+    expect(composeZoom(at(-0.05), 0.5)).toBeLessThan(-0.05);
+});
+
+test("zooming out is capped at the project's own framing", () => {
+    // This assertion used to read "zooming out is never capped", on the grounds that it
+    // was trivially reversible. That is true of the metres and false of the clicks, which
+    // is the only currency the audience spends — so the bound is stated in ratio, and what
+    // it buys is that home is always a countable number of clicks away.
+    let zoom = 1;
+    for (let i = 0; i < 200; i++) zoom = zoomBySteps(at(-12), zoom, -1);
+    expect(zoom).toBe(1 / MaxZoomOut);
+    expect(scaleAt(composeZoom(at(-12), zoom))).toBeCloseTo(
+        scaleAt(-12) / MaxZoomOut,
+        10,
+    );
+    // From the far bound, that countable number of clicks lands exactly home. The bound is
+    // not a power of the step, so without a detent at home the way back walked a lattice
+    // offset from where the viewer started and skipped 100% entirely.
+    expect(StepsToBound).toBe(19);
+    let back = zoom;
+    for (let i = 0; i < StepsToBound; i++) back = zoomBySteps(at(-12), back, 1);
+    expect(back).toBe(1);
+    // And one more click carries on past home rather than sticking to it.
+    expect(zoomBySteps(at(-12), back, 1)).toBeCloseTo(ZoomStep, 10);
+    // Monotonic all the way out to the bound.
+    let previous = 1;
+    for (let i = 0; i < StepsToBound; i++) {
+        const next = zoomBySteps(at(-12), previous, -1);
         expect(next).toBeLessThan(previous);
         previous = next;
     }
 });
 
+test('a camera with no depth still zooms out instead of magnifying', () => {
+    // rootScale is 1 at exactly 0 and 0 beyond it, with a pole in between, so a program
+    // authoring Place(0m 0m 0m) used to have its audience's first zoom *out* magnify by 8x.
+    for (const base of [0, 1]) {
+        const out = composeZoom(at(base), zoomBySteps(at(base), 1, -1));
+        expect(scaleAt(out)).toBeLessThan(1);
+        expect(scaleAt(out)).toBeCloseTo(1 / ZoomStep, 10);
+    }
+});
+
+test('no adjustment is the base camera itself', () => {
+    // Not merely a z that renders at the same scale: output at other depths projects
+    // differently, and the view's own no-op check compares the place identically.
+    for (const base of [...Bases, 0, 1])
+        expect(composeZoom(at(base), 1)).toBe(base);
+    // Stepping out and back lands a few float ulps from 1, which must still read as home
+    // or the reset control stays lit with nothing to clear.
+    expect(boundZoom(at(-12), 1 + 1e-12)).toBe(1);
+});
+
 test('a nonsense zoom is ignored rather than obeyed', () => {
     // Falling back to the near bound would turn an infinite zoom-out into maximum zoom-in;
-    // keeping the base is the sane recovery.
-    expect(composeZ(-12, Number.NaN)).toBe(-12);
-    expect(composeZ(-12, -Infinity)).toBe(-12);
+    // handing the camera back is the sane recovery.
+    for (const nonsense of [Number.NaN, Infinity, -Infinity, 0, -1])
+        expect(composeZoom(at(-12), nonsense)).toBe(-12);
+});
+
+test('a wheel flick undoes itself, however the wheel reports its delta', () => {
+    // deltaMode matters: a mouse reporting lines rather than pixels sends about 3 per
+    // notch, which read as pixels was no zoom at all.
+    // A comparable flick in each unit, since 120 pages would saturate the bound.
+    for (const [mode, delta] of [
+        [0, 120],
+        [1, 8],
+        [2, 0.15],
+    ]) {
+        const out = zoomByWheel(at(-12), 1, delta, mode);
+        expect(out).toBeLessThan(1);
+        expect(out).toBeGreaterThan(1 / MaxZoomOut);
+        expect(zoomByWheel(at(-12), out, -delta, mode)).toBeCloseTo(1, 9);
+    }
+    // A line or page delta must move more than the same number read as pixels.
+    expect(zoomByWheel(at(-12), 1, 3, 1)).toBeLessThan(
+        zoomByWheel(at(-12), 1, 3, 0),
+    );
+    // Monotonic in the delta.
+    let previous = 1;
+    for (let delta = 50; delta <= 500; delta += 50) {
+        const next = zoomByWheel(at(-12), 1, delta, 0);
+        expect(next).toBeLessThan(previous);
+        previous = next;
+    }
+});
+
+test('every step from home to the bound announces a different level', () => {
+    // An announcement whose text repeats between two firings is heard once and then is
+    // silent, so the percent has to actually differ at every step — including the far end,
+    // where whole percents would collide.
+    const levels = [];
+    let zoom = 1;
+    for (let i = 0; i <= StepsToBound; i++) {
+        levels.push(zoomPercent(zoom));
+        zoom = zoomBySteps(at(-12), zoom, -1);
+    }
+    expect(new Set(levels).size).toBe(levels.length);
+    expect(levels[0]).toBe(100);
+    expect(levels[1]).toBe(80);
+});
+
+/** Content of the given size in metres, centred on the origin. */
+function content(width: number, height: number): Box {
+    return {
+        left: -width / 2,
+        right: width / 2,
+        top: height / 2,
+        bottom: -height / 2,
+    };
+}
+
+/** The camera fitting that content into a 1000x800 viewport, with the audience's zoom. */
+function cameraFor(bounds: Box, zoom = 1): Focus {
+    const z = fitZ(
+        bounds.right - bounds.left,
+        bounds.top - bounds.bottom,
+        1000,
+        800,
+    );
+    return { x: 0, y: 0, z: composeZoom(at(z ?? NaturalSizeZ), zoom) };
+}
+
+test('content the camera is framing counts as visible', () => {
+    const bounds = content(4, 3);
+    expect(contentVisibility(bounds, cameraFor(bounds), 1000, 800)).toBe(
+        'visible',
+    );
+    // Content larger than the viewport is still visible — the viewer is inside it.
+    expect(contentVisibility(bounds, { x: 0, y: 0, z: -1 }, 1000, 800)).toBe(
+        'visible',
+    );
+});
+
+test('the far bound is close enough in that framed content stays visible', () => {
+    // What MaxZoomOut is calibrated for: content the stage framed is still something to
+    // look at even at the very end of the zoom-out, so an audience cannot zoom themselves
+    // into an empty stage at all. Losing the content entirely takes panning, which is why
+    // the off-stage hint is about more than zoom.
+    const bounds = content(4, 3);
+    expect(
+        contentVisibility(bounds, cameraFor(bounds, 1 / MaxZoomOut), 1000, 800),
+    ).toBe('visible');
+});
+
+test('content too small to see is not visible', () => {
+    // A camera a program authored far back, with little content to find there: under
+    // MinVisiblePixels on both axes there is nothing to look at, however honest the render.
+    const speck = content(0.02, 0.02);
+    expect(contentVisibility(speck, { x: 0, y: 0, z: -100 }, 1000, 800)).toBe(
+        'infinitesimal',
+    );
+});
+
+test('content panned past the edge is not visible', () => {
+    const bounds = content(4, 3);
+    const camera = cameraFor(bounds);
+    expect(
+        contentVisibility(
+            { ...bounds, left: bounds.left + 100, right: bounds.right + 100 },
+            camera,
+            1000,
+            800,
+        ),
+    ).toBe('offscreen');
+});
+
+test('a hairline is a picture, and an unmeasured stage is not a verdict', () => {
+    // Both axes must be sub-pixel, not either: a line 1px wide and 300px tall is still
+    // something to look at. At natural size a metre is PX_PER_METER pixels.
+    const hairline = content(1 / PX_PER_METER, 300 / PX_PER_METER);
+    expect(
+        contentVisibility(hairline, { x: 0, y: 0, z: NaturalSizeZ }, 1000, 800),
+    ).toBe('visible');
+    // Nothing measured, and nothing to frame, are both silence rather than a complaint.
+    expect(contentVisibility(content(4, 3), { x: 0, y: 0, z: -12 }, 0, 0)).toBe(
+        'visible',
+    );
+    expect(
+        contentVisibility(content(0, 0), { x: 0, y: 0, z: -12 }, 1000, 800),
+    ).toBe('visible');
+});
+
+test('content exactly touching an edge is still visible', () => {
+    // Half a viewport wide at natural size lands its right edge exactly on the centre-
+    // measured half-width; an off-by-one here would nag at content in full view.
+    const bounds = content(1000 / PX_PER_METER, 4 / PX_PER_METER);
+    expect(
+        contentVisibility(bounds, { x: 0, y: 0, z: NaturalSizeZ }, 1000, 800),
+    ).toBe('visible');
+    expect(MinVisiblePixels).toBe(4);
 });
 
 test('a viewport at or above the reference renders the camera as authored', () => {
@@ -379,4 +684,61 @@ test('an unmeasured viewport leaves the authored camera alone', () => {
     expect(responsiveZ(-12, 0, 280)).toBe(-12);
     expect(responsiveZ(-12, -10, 280)).toBe(-12);
     expect(responsiveZ(-12, 360, 0)).toBe(-12);
+});
+
+/** The gauge's track, in pixels: `--wordplay-widget-height` is 1.5em at the small font
+ *  size, which is 20px. The tests below are about what a viewer can actually see move. */
+const GaugeTrack = 20;
+
+test("the gauge puts the project's own view at its centre line", () => {
+    // The whole premise of the control: the line across the middle is home.
+    expect(zoomGauge(1)).toBe(0.5);
+});
+
+test('the gauge spans its scale and clamps beyond it', () => {
+    expect(zoomGauge(1 / MaxZoomOut)).toBeCloseTo(0, 10);
+    expect(zoomGauge(MaxZoomOut)).toBeCloseTo(1, 10);
+    // A project whose ceiling exceeds the scale pins at the top rather than overflowing.
+    expect(zoomGauge(MaxZoomOut * 100)).toBe(1);
+    expect(zoomGauge(1 / (MaxZoomOut * 100))).toBe(0);
+    // Nonsense reads as home rather than as an end of the track.
+    for (const nonsense of [Number.NaN, Infinity, 0, -1])
+        expect(zoomGauge(nonsense)).toBe(0.5);
+});
+
+test('the gauge rises with the zoom, everywhere', () => {
+    let previous = -1;
+    for (let steps = -25; steps <= 25; steps++) {
+        const level = zoomGauge(Math.pow(ZoomStep, steps));
+        expect(level).toBeGreaterThanOrEqual(previous);
+        previous = level;
+    }
+});
+
+test('one click off home visibly moves the gauge', () => {
+    // The reason the gauge is eased rather than proportional. The zoom range is about
+    // thirteen doublings, so drawn proportionally a click moves half a pixel — no feedback
+    // at all. This asserts the pixels directly, so easing it back to linear fails here
+    // rather than shipping a control that looks broken.
+    const home = zoomGauge(1) * GaugeTrack;
+    const oneOut = zoomGauge(1 / ZoomStep) * GaugeTrack;
+    const oneIn = zoomGauge(ZoomStep) * GaugeTrack;
+    expect(home - oneOut).toBeGreaterThan(2);
+    expect(oneIn - home).toBeGreaterThan(2);
+
+    // What it would be without the easing, for comparison: under a pixel.
+    const linear =
+        0.5 * GaugeTrack -
+        (0.5 + 0.5 * (Math.log(1 / ZoomStep) / Math.log(MaxZoomOut))) *
+            GaugeTrack;
+    expect(linear).toBeLessThan(1);
+    expect(ZoomGaugeEase).toBeLessThan(1);
+});
+
+test('a project with little room to zoom cannot fill the gauge', () => {
+    // Honest rather than flattering: the scale is fixed, so a ceiling of MinZoomIn shows as
+    // a partly filled track instead of pretending to be fully zoomed in.
+    const level = zoomGauge(MinZoomIn);
+    expect(level).toBeGreaterThan(0.5);
+    expect(level).toBeLessThan(1);
 });

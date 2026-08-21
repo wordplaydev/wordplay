@@ -1,37 +1,47 @@
-Crea una serie animada de escenas.
+Crea una serie animada de escenas
 
-A veces queremos contar historias, mostrar letras o animar poesía.Para ello podemos utilizar@Scene y @Phrase juntos, para mostrar una secuencia.
+A veces queremos contar historias, mostrar letras de canciones o animar poesía. Para hacerlo, podemos usar  @Scene  y  @Phrase  juntos, para mostrar una secuencia.
 
-Por ejemplo, imaginemos que queremos animar la canción infantil corta "Jack be Nimble".Podríamos hacer una@Scene que tiene cada línea como una@Phrase, y estableciendo el@Phrase/durationde cada línea, la@Scene avanzaría cuando cada frase esté hecha.
-
-\
-Scene([
-  Phrase('Jack be nimble' duration: 1s)
-  Phrase('Jack be quick' duration: 1s)
-  Phrase('Jack jump over the candle stick' duration: 1s)
-])
-\
-
-@Scene Esperaré un@Sequence Por terminar también. ¡Hagamos que la línea de velas salte!
+Por ejemplo, imagina que queremos animar la rima infantil corta "Jack be Nimble".Podríamos hacer un  @Scene  que tenga cada verso como un  @Phrase , y al ajustar el  @Phrase/duration  de cada verso, el  @Scene  avanzaría cuando cada frase termine.
 
 \
-Scene([
-		Phrase('Jack be nimble' duration: 1s)
-		Phrase('Jack be quick' duration: 1s)
-		Phrase('Jack jump over the candle stick' entering: Sequence.bounce(duration: 1s))
-	])
-\
+Scene(
+	[
+		Phrase('Jack sé ágil' duration: 1s)
+		Phrase('Jack sé rápido' duration: 1s)
+		Phrase('Jack salta sobre la vela' duration: 1s)
+	]
+)\
 
-@Scene También puede tomar una@Group de texto también, y esperará a que todo su contenido termine de animarse.
+@Scene  también esperará a que un  @Sequence  termine. ¡Hagamos que el verso de la vela salte!
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack be nimble')
-		  Phrase('Jack be quick')
-    ] duration: 2s)
-		Phrase('Jack jump over the candle stick' entering: Sequence.bounce(duration: 1s))
-	])
+Scene(
+	[
+		Phrase('Jack sé ágil' duration: 1s)
+		Phrase('Jack sé rápido' duration: 1s)
+		Phrase(
+			'Jack salta sobre la vela'
+			entering: Sequence.bounce(duration: 1s)
+		)
+	]
+)\
+
+@Scene  también puede recibir un  @Group  de texto, y esperará a que todo su contenido termine de animarse.
+
 \
+Scene(
+	[
+		Group(
+			Stack()
+			[Phrase('Jack sé ágil') Phrase('Jack sé rápido')]
+			duration: 2s
+		)
+		Phrase(
+			'Jack salta sobre la vela'
+			entering: Sequence.bounce(duration: 1s)
+		)
+	]
+)\
 
 interactive-scene

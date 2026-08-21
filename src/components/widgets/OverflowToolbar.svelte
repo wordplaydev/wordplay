@@ -1,4 +1,5 @@
 <script lang="ts">
+    import overflowFit from '@components/widgets/overflowFit';
     import {
         placeNearTarget,
         roomAround,
@@ -59,6 +60,7 @@
     let measurePinnedEl: HTMLDivElement | undefined = $state(undefined);
     let measurePinnedStartEl: HTMLDivElement | undefined = $state(undefined);
     let toggleEl: HTMLSpanElement | undefined = $state(undefined);
+    let measureToggleEl: HTMLDivElement | undefined = $state(undefined);
     let panelEl: HTMLDivElement | undefined = $state(undefined);
 
     const panelId = `overflow-panel-${Math.random().toString(36).slice(2)}`;
@@ -123,36 +125,19 @@
                 ? Math.max(1, stretchyMin) + gap
                 : 0;
 
-            const itemsTotal = itemWidths.reduce(
-                (s, w, i) => s + w + (i > 0 ? gap : 0),
-                0,
-            );
-
-            const availableForItems =
-                available - pinnedStartWidth - pinnedWidth - reservedStretchy;
-
-            if (itemsTotal <= availableForItems) {
-                visibleCount = itemCount;
-                if (open) open = false;
-                return;
-            }
-
-            // Reserve space for hamburger.
-            const btnWidth = (toggleEl?.offsetWidth ?? 36) + gap;
-            const target = availableForItems - btnWidth;
-
-            let count = 0;
-            let accumulated = 0;
-            for (let i = 0; i < itemWidths.length; i++) {
-                const next = accumulated + (i > 0 ? gap : 0) + itemWidths[i];
-                if (next <= target) {
-                    accumulated = next;
-                    count++;
-                } else {
-                    break;
-                }
-            }
-            visibleCount = count;
+            const next = overflowFit({
+                available,
+                itemWidths,
+                reserved: pinnedStartWidth + pinnedWidth + reservedStretchy,
+                gap,
+                toggleWidth:
+                    measureToggleEl?.firstElementChild instanceof HTMLElement
+                        ? measureToggleEl.firstElementChild.offsetWidth
+                        : (toggleEl?.offsetWidth ?? 36),
+                previous: visibleCount,
+            });
+            visibleCount = next;
+            if (next === itemCount && open) open = false;
         };
 
         const observer = new ResizeObserver(check);
@@ -422,6 +407,21 @@
             {/each}
         </div>
     {/if}
+    <!-- The hamburger, measured whether or not it is showing. Reading its width off the
+         live element meant the toggle only had a width once the toolbar had decided to show
+         it — so its width helped decide whether it existed, a loop that could flip the
+         answer with no content changing at all. -->
+    <div class="measure" aria-hidden="true" inert bind:this={measureToggleEl}>
+        <div class="measure-item">
+            <Toggle
+                tips={(l) => l.ui.widget.overflow.button}
+                on={false}
+                toggle={() => {}}
+            >
+                <span class="hamburger">☰</span>
+            </Toggle>
+        </div>
+    </div>
 </div>
 
 {#if showButton}

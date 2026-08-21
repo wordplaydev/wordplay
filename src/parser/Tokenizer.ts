@@ -849,6 +849,48 @@ const MarkupTokenPatterns: TokenPattern[] = [
     { pattern: OR_SYMBOL, types: [Sym.Union], when: inBranch },
 ];
 
+/**
+ * A tokenizer rule in serializable form: either a literal string or a regex
+ * source, plus the Sym types it emits, and whether a `when` guard scopes it to a
+ * markup context a static consumer can't reproduce.
+ */
+export type SerializedTokenRule = {
+    literal?: string;
+    source?: string;
+    flags?: string;
+    syms: SymType[];
+    contextual?: true;
+};
+
+function serializeTokenPatterns(
+    patterns: TokenPattern[],
+): ReadonlyArray<SerializedTokenRule> {
+    return patterns.map((pattern) => {
+        const rule: SerializedTokenRule =
+            typeof pattern.pattern === 'string'
+                ? { literal: pattern.pattern, syms: [...pattern.types] }
+                : {
+                      source: pattern.pattern.source,
+                      flags: pattern.pattern.flags,
+                      syms: [...pattern.types],
+                  };
+        return pattern.when === undefined
+            ? rule
+            : { ...rule, contextual: true };
+    });
+}
+
+/**
+ * The three pattern lists in order, serialized. Exported so a static syntax
+ * highlighter (scripts/vscode-theme/) can reproduce the tokenizer's rule *order*
+ * and its numeral patterns from this ground truth rather than transcribing them,
+ * since the lists themselves are private. Order is the load-bearing part: numbers
+ * precede `.`, `⎡+` precedes `⎡`, and `!#` precedes `!`.
+ */
+export const CodeTokenRules = serializeTokenPatterns(CodeTokenPatterns);
+export const PatternTokenRules = serializeTokenPatterns(PatternTokenPatterns);
+export const MarkupTokenRules = serializeTokenPatterns(MarkupTokenPatterns);
+
 export const TextOpenByTextClose: Record<string, string> = {};
 for (const [open, close] of Object.entries(TextCloseByTextOpen))
     TextOpenByTextClose[close] = open;
@@ -1234,7 +1276,13 @@ function getNextToken(
                     ).get(match[0]);
                     if (entry !== undefined)
                         return [
-                            new Token(match[0], [Sym.Name, ...entry.types]),
+                            new Token(
+                                match[0],
+                                [Sym.Name, ...entry.types],
+                                // The canonical symbol carries the word's meaning, since one
+                                // Sym can have two words of opposite meaning (⊤/⊥).
+                                entry.symbol,
+                            ),
                             space,
                         ];
                 }

@@ -7,3 +7,6 @@ functions/lib
 # editor- and tool-local files
 .nova
 .claude
+# the GitHub wiki, cloned by `npm run wiki`; it's a separate repo with other
+# editors, so reformatting it would conflict with everyone else's edits
+wiki

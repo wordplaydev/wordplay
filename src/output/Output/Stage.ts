@@ -205,6 +205,9 @@ export default class Stage extends Output {
             right = 0,
             bottom = 0,
             top = 0;
+        // Seeded at the stage plane, matching how the x/y bounds seed at the origin: a
+        // stage with nothing placed forward reports 0, which is where content lives.
+        let nearest = 0;
         for (const child of this.content) {
             if (child) {
                 const layout = child.getLayout(context);
@@ -230,6 +233,10 @@ export default class Stage extends Output {
                 if (place.y < bottom) bottom = place.y;
                 if (place.y + layout.height > top)
                     top = place.y + layout.height;
+                // Both the child's own z and whatever it reports from inside itself, since
+                // z is absolute rather than relative to this place.
+                if (place.z < nearest) nearest = place.z;
+                if (layout.nearest < nearest) nearest = layout.nearest;
             }
         }
 
@@ -244,6 +251,7 @@ export default class Stage extends Output {
             ascent: top - bottom,
             descent: 0,
             places,
+            nearest,
         };
     }
 

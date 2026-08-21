@@ -1,7 +1,15 @@
 {
+    "id": "/",
     "name": "Wordplay",
     "short_name": "Wordplay",
-    "description": "Accessible, multilingual, programmable typography",
+    "description": "Tipografía accesible, multilingüe y programable.",
+    "lang": "es",
+    "dir": "ltr",
+    "start_url": "/es-MX",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
     "icons": [
         {
             "src": "/icons/android-chrome-192x192.png",
@@ -19,8 +27,5 @@
             "type": "image/png",
             "purpose": "maskable"
         }
-    ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "display": "standalone"
+    ]
 }

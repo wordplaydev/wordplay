@@ -99,7 +99,9 @@ export function parseSerializedProject(
         restrictedGallery: false,
         viewers: [],
         commenters: [],
-        preview,
+        // Omit the key when there's no preview glyph; `preview` is exactly
+        // optional, and Firestore rejects an undefined field value.
+        ...(preview !== undefined && { preview }),
         stamps: { lamport: 0, fields: {} },
         crdt: null,
         remixOf: null,
@@ -242,6 +244,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Chimes',
                 'Fireworks',
                 'Lyrics',
+                'VirtualPiano',
             ],
             locales,
         ),

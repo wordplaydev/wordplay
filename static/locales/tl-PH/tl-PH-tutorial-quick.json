@@ -134,7 +134,7 @@
                             "curious",
                             "$~May ibang mga programming language na nagpapahintulot sa iyong tukuyin ang @type ng isang @variable, para masiguro mong wasto ang lahat ng paraan ng paggamit mo sa variable:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~Ang @wordplay ay may type din, pero ang mga type ay *inferred*, o nahuhulaan. Kadalasan ay hindi mo kailangang ideklara ang mga ito, pero minsan ay maaaring kailanganin mo kapag hindi ito mahuhulaan."
+                            "$~May uri rin ang @wordplay, pero *nahuhulaan* ang mga uri. Kadalasan, hindi mo na kailangang ideklara ang mga ito. Pero minsan, kailangan mo, kapag hindi ito mahulaan. Ang isang uri ng listahan ay maaari ring magbigay ng pangalan ng uri para sa bawat puwesto sa listahan, gaya ng \\[# '']\\ para sa isang listahan na eksaktong dalawang bagay: isang numero, saka isang salita."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

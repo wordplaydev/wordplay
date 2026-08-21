@@ -14,9 +14,9 @@ Phrase((face.smiling ? '😀' face.mouthOpen ? '😮' '😐') place: face.place)
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     project.analyze();
 
-    expect(
-        project.getAnalysis().conflicts.map((c) => c.constructor.name),
-    ).toEqual([]);
+    expect(project.analyze().conflicts.map((c) => c.constructor.name)).toEqual(
+        [],
+    );
 
     expect(project.shares.input.Face).toBeDefined();
     expect(project.shares.output.Expression).toBeDefined();

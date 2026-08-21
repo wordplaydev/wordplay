@@ -61,8 +61,10 @@ Layered on top of this is an optional **localized-keyword** facility (see [Local
 Each built-in construct (`ƒ`, `•`, `#`, `ø`, `⊤`/`⊥`, `↓`, `↑`, `→`, `↦`, `?`, `??`, `???`, `…`, `∆`, `◆`, `←`, `⬚`) and the logical connectives (`&`, `|`, `~`) has a localized **keyword** word per locale (stored in each locale's `keyword` block; see `Keywords.ts`). Each keyword must be a **single token** — no spaces or hyphens — since the tokenizer matches it as one whole name-run. Punctuation and delimiters (`( ) [ ] { } , : . / _` quotes, etc.) are never localized, because they have no spaces and would be indistinguishable from names.
 
 - **Reading.** A per-user setting toggles display between symbols (default) and words; in words mode each construct renders as its locale word, and conversely a word-typed construct renders as its symbol in symbols mode. This is render-only — the stored source is unchanged.
-- **Which words are recognized.** Only those of the languages the project **declares** it is written in — the list a creator edits in the languages dialog, which is also what decides which localized names bind. A keyword word is therefore a _parse_ dependency, not just a name lookup: removing a language degrades its words to plain names. The tooling accounts for that (`Project.getKeywordLocalesUsed` treats a language whose keyword words the code uses as used, so nothing suggests removing it), but it is the reason a project's declared languages are its own data and never follow the reader's.
+- **Which words are recognized.** Only those of the languages the project **declares** it is written in — the list a creator edits in the languages dialog, which is also what decides which localized names bind. A keyword word is therefore a _parse_ dependency, not just a name lookup: removing a language degrades its words to plain names. Declaring or removing a language re-tokenizes the project's sources immediately, and a fresh project recognizes its declared languages' words from the first keystroke. The tooling accounts for that (`Project.getKeywordLocalesUsed` treats a language whose keyword words the code uses as used, so nothing suggests removing it), but it is the reason a project's declared languages are its own data and never follow the reader's.
 - **Writing.** When a program declares locales, typing a keyword word lexes it as a **dual-type** token carrying both `Name` and the construct's canonical `Sym`. The parser picks by position: the construct where the grammar expects one (e.g. `función(x) x` is a function definition), a plain name elsewhere. So a binding named like a keyword (e.g. `número`) still works — it _shadows_ the keyword rather than being reserved. A name that shadows a keyword whose construct wins at expression start raises a low-severity advisory.
+- **Meaning.** A keyword token also carries its construct's **canonical symbol**, and anything that needs the token's _meaning_ reads that rather than its text — one `Sym` can have two words of opposite meaning (`⊤`/`⊥` are both `Boolean`), so a typed `true` is true because its canonical symbol is `⊤`, and a word-form connective short-circuits and narrows exactly like its symbol. Operator words also resolve by their canonical symbol when the typed word isn't a name of the function, so a locale whose keyword differs from its function name still works.
+- **Prefix negation.** The word for `~` starts a unary negation when an operand follows **on the same line** (`not ⊤`). The symbol form instead requires **no space** before its operand (`~⊤`, to disambiguate `-`); a word needs the space, so its rule is line-based. A word for `~` at the end of a line stays a plain name, so a binding that shadows it is still usable.
 - **Copy/paste.** Copying rewrites keyword constructs to their canonical symbols, so copied code is locale-neutral and pastes into any project (and renders in the reader's words).
 
 Three design decisions shape which symbols are localized and how:
@@ -1361,6 +1363,22 @@ If any sequences of tokens cannot be parsed according to this grammar, all of th
 #### _evaluation_
 
 Programs create an evaluation scope, evaluate their binds and expressions in reading order, and then evaluate to their non-bind expressions' values: that expression's value if there is one, or a list of them in reading order if there are several.
+
+## Project files
+
+A program is one source. A project is several, and `.wp` is the plain-text file that holds one — the format the examples in `static/examples/` are written in, read by `parseSerializedProject`:
+
+> FILE → PREVIEW？ NAMES SOURCE＊  
+> PREVIEW → grapheme `\n`  
+> SOURCE → `===` `‹space›` NAMES？ `\n` PROGRAM
+
+The optional first line is a **preview glyph**: exactly one grapheme (`🧶`, `📏`, `W`), shown as the project's thumbnail. A first line that isn't a single grapheme is read as the project's name instead.
+
+The next line is the project's **name**, parsed with the same `NAMES` rule as any other name, so it may carry localized aliases: `"Pounce"/en"扑击"/zh-CN"撲擊"/zh-TW`. A bare name (`Between`) is equally valid.
+
+Every following line beginning `===` followed by a space starts a new **source**, whose name is the rest of that line and whose program is everything up to the next such line. The `/lang` tags in those names determine the project's locales, defaulting to `en-US`. Sources refer to each other with `BORROW`, so `↓ words` in one source binds a name shared by a source named `words`. The space after `===` is required; without it the line is not a source boundary and is read as part of the preceding program.
+
+There is no writer: `.wp` is a format the tooling reads, and a project's own persisted form is its database record.
 
 ## Documentation
 

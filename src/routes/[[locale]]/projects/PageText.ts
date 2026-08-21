@@ -8,6 +8,8 @@ type PageText = {
     projectprompt: FormattedText;
     /** [formatted] Explanation for the archive subsection */
     archiveprompt: FormattedText;
+    /** [formatted] Explanation shown in the installed app when signed out with no projects, since an installed app's projects are stored separately from the web browser's */
+    installedprompt: FormattedText;
     /** Buttons on the project page */
     subheader: {
         /** [plain] Header for the shared project list */

@@ -22,6 +22,13 @@ import Log, {
     stripAnsi,
     type Symbols,
 } from '@util/verify-locales/Log';
+import {
+    describeUsage,
+    isTranslatorUsage,
+    sumUsage,
+    UsageLineMarker,
+    type TranslatorUsage,
+} from '@util/verify-locales/Translator';
 
 /** Commands safe to batch — only ones that translate (per-locale, independent).
  *  verify/fix/ci do cross-locale work and stay on the serial `start.ts`. */
@@ -293,6 +300,9 @@ function runLocale(
     symbols: Symbols,
     board: StatusBoard | undefined,
     emit: (lines: string[]) => void,
+    /** Receives the child's translator usage (its `[translator-usage]` line)
+     *  so the batch can sum tokens and cost across locales. */
+    onUsage?: (usage: TranslatorUsage[]) => void,
 ): Promise<LocaleResult> {
     return new Promise((resolve) => {
         const startedAt = Date.now();
@@ -302,6 +312,21 @@ function runLocale(
         if (board === undefined) emit([`${symbols.pending} ${locale} started`]);
 
         const collector = makeLineCollector((line) => {
+            // The machine-readable usage line is for this parent, not the
+            // human block — capture it and keep it out of the display. The
+            // child's human-readable usage summary still shows.
+            if (line.startsWith(UsageLineMarker)) {
+                try {
+                    const parsed: unknown = JSON.parse(
+                        line.slice(UsageLineMarker.length),
+                    );
+                    if (Array.isArray(parsed))
+                        onUsage?.(parsed.filter(isTranslatorUsage));
+                } catch {
+                    // A torn line loses one locale's numbers, not the batch.
+                }
+                return;
+            }
             buffered.push(line);
             if (line.trim().length > 0) state.latest = line.trim();
         });
@@ -388,6 +413,9 @@ async function main(): Promise<void> {
         process.exit(130);
     });
 
+    // Usage reported by each child, summed at the end so a batch reports one
+    // total token/cost figure rather than 29 scattered ones.
+    const usage: TranslatorUsage[] = [];
     const results = await runPool(locales, parsed.jobs, (locale) => {
         if (board !== undefined) board.queued--;
         return runLocale(
@@ -398,6 +426,7 @@ async function main(): Promise<void> {
             symbols,
             board,
             emit,
+            (childUsage) => usage.push(...childUsage),
         );
     });
     board?.stop();
@@ -407,6 +436,16 @@ async function main(): Promise<void> {
     for (const r of results)
         if (r.code === 0) summary.good(`${r.locale} (${seconds(r.ms)})`);
         else summary.bad(`${r.locale} (${seconds(r.ms)})`);
+    if (usage.length > 0) {
+        const usageLog = log.scope('API usage');
+        const combined = sumUsage(usage);
+        for (const entry of combined) usageLog.say(describeUsage(entry));
+        const known = combined.filter((entry) => entry.cost !== undefined);
+        if (known.length > 0)
+            usageLog.say(
+                `Estimated cost: $${known.reduce((sum, entry) => sum + (entry.cost ?? 0), 0).toFixed(2)}`,
+            );
+    }
     log.say(
         `Done in ${seconds(Date.now() - startedAt)} — ${results.length - failed.length} ok, ${failed.length} failed.`,
     );

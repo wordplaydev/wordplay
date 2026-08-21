@@ -110,11 +110,9 @@ test.each([
         );
         const context = project.getContext(source);
         const locales = new Locales(concretize, current, DefaultLocale);
-
-        project.analyze();
         const conflict = project
-            .getConflicts()
-            .find((c) => c instanceof IncompatibleInput);
+            .analyze()
+            .conflicts.find((c) => c instanceof IncompatibleInput);
         expect(conflict).toBeDefined();
         if (conflict === undefined) return;
         const explanation = conflict.expectedType

@@ -73,6 +73,9 @@ export class Row extends Arrangement {
             right = 0,
             bottom = 0;
         const positions: [Output, Place][] = [];
+        // Infinity, not 0: an arrangement has no z of its own — the parent that placed
+        // this group does — so with no children there is nothing to report.
+        let nearest = Infinity;
         // Padding is applied before each spaced child after the first, rather than
         // after every child: trailing a footprintless child with a gap would push
         // it past the row's own bounds.
@@ -113,10 +116,23 @@ export class Row extends Arrangement {
                 if (place.y < bottom) bottom = place.y;
                 if (childX + child.width > right) right = childX + child.width;
                 if (place.y + child.ascent > top) top = place.y + child.ascent;
+                // Both the child's own z and whatever it reports from inside itself,
+                // since z is absolute rather than relative to this arrangement.
+                if (place.z < nearest) nearest = place.z;
+                if (child.nearest < nearest) nearest = child.nearest;
             }
         }
 
-        return { left, right, top, bottom, width, height, places: positions };
+        return {
+            left,
+            right,
+            top,
+            bottom,
+            width,
+            height,
+            places: positions,
+            nearest,
+        };
     }
 
     getBackground(): Color | undefined {

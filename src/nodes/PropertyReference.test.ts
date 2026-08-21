@@ -73,5 +73,5 @@ test('Definition.staticName resolves the static bind', () => {
 
     // And there should be no conflict on the inner Reference.
     project.analyze();
-    expect(Array.from(project.getConflictedNodes().keys())).toEqual([]);
+    expect(Array.from(project.analyze().conflictedNodes.keys())).toEqual([]);
 });

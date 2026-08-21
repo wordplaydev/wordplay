@@ -85,6 +85,9 @@ export class Stack extends Arrangement {
             bottom = 0,
             right = 0,
             top = 0;
+        // Infinity, not 0: an arrangement has no z of its own — the parent that placed
+        // this group does — so with no children there is nothing to report.
+        let nearest = Infinity;
         // Padding is applied before each spaced child after the first, rather than
         // after every child: trailing a footprintless child with a gap would push
         // it below the stack's own bounds.
@@ -129,6 +132,10 @@ export class Stack extends Arrangement {
                 if (place.x + child.width > right)
                     right = place.x + child.width;
                 if (place.y + child.height > top) top = place.y + child.height;
+                // Both the child's own z and whatever it reports from inside itself,
+                // since z is absolute rather than relative to this arrangement.
+                if (place.z < nearest) nearest = place.z;
+                if (child.nearest < nearest) nearest = child.nearest;
             }
         }
 
@@ -140,6 +147,7 @@ export class Stack extends Arrangement {
             width: width.toNumber(),
             height: height.toNumber(),
             places,
+            nearest,
         };
     }
 

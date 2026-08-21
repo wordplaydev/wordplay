@@ -4038,7 +4038,7 @@
                             "Music",
                             "kind",
                             "The eight numbers didn't change. Only who plays them did.",
-                            "There are eighteen to choose from. Try \\Instrument.violin\\, or \\Instrument.trumpet\\, or \\Instrument.dog\\."
+                            "There are nineteen to choose from. Try \\Instrument.violin\\, or \\Instrument.trumpet\\, or \\Instrument.dog\\."
                         ],
                         null,
                         ["FunctionDefinition", "curious", "And how fast?"],

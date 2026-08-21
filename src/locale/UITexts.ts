@@ -231,6 +231,8 @@ type UITexts = {
             unknown: string;
             /** [plain] The error to show if translation wasn't possible */
             translate: string;
+            /** [plain] The error to show when translating would have introduced errors in the program, so nothing changed */
+            translateBroken: string;
             /** [plain] The message for an error in a tile */
             tile: string;
             /** [plain] The button label for an error reset */
@@ -332,6 +334,10 @@ type UITexts = {
                 tab: ModeText<[string, string]>;
                 /** [plain] The dialog button's label, saying how many languages the project is written in */
                 count: Template<['#count']>;
+                /** [plain] The dialog button's label when the project has just one language, inviting translation instead of counting */
+                prompt: string;
+                /** Whether translating adds the new language alongside what's written, or rewrites the program in it */
+                mode: ModeText<[string, string]>;
                 /** [formatted] Explains what a project's languages decide, above the list of them */
                 meaning: FormattedText | FormattedText[];
                 /** [plain] Marks a language nothing in the project's code uses */
@@ -399,6 +405,34 @@ type UITexts = {
     gallerymoderation: GalleryModerationPageText;
     /** How-to space page labels */
     howto: HowToPageText;
+    /** Text shared by everything that machine translates — a project, and later
+     *  chat and how-tos — including the daily budget meter (#1073). */
+    translation: {
+        /** [plain] How much of today's translation budget has been used */
+        used: Template<['used', '#limit']>;
+        /** [plain] The ARIA label for the translation budget meter */
+        meter: string;
+        /** [plain] Shown when today's translation budget is spent and resets in $#hours hours */
+        exhaustedHours: Template<['#hours']>;
+        /** [plain] Shown when today's translation budget is spent and resets in $#minutes minutes */
+        exhaustedMinutes: Template<['#minutes']>;
+        /** [formatted] Explains that translating requires an account, with a link to sign in */
+        signIn: FormattedText;
+        /** [plain] The ARIA label for the translation progress bar */
+        progressLabel: string;
+        /** [plain] Shown and announced while the project is being prepared for translation */
+        analyzing: string;
+        /** [plain] Shown and announced while the translated text is being put back into the project */
+        revising: string;
+        /** [plain] Announced when translation starts, naming how much and into which language */
+        started: Template<['#count', 'language']>;
+        /** [plain] Announced as translation proceeds */
+        progress: Template<['done', '#total']>;
+        /** [plain] Announced when translation finishes */
+        finished: Template<['language']>;
+        /** [plain] Announced when translation finishes but some text kept its original wording */
+        finishedPartial: Template<['language', '#kept']>;
+    };
     /** Source file controls */
     source: {
         /** [plain] The ARIA label for the source file section */
@@ -884,12 +918,30 @@ type UITexts = {
             zoomOut: string;
             /** [plain] Clear the viewer's own pan and zoom, handing the camera back to the project */
             resetZoom: string;
+            /** [plain] Clear the viewer's own pan and zoom, when they have zoomed away from the project's own view. $percent is how large the view is now, as a percentage of the project's own. */
+            resetZoomAt: Template<['percent']>;
             /** [plain] The button that begins a fresh performance, from any mode: restarts the program, enters play mode, and fullscreens the stage */
             perform: string;
             /** [plain] The rotation handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
             rotate: Template<['name']>;
             /** [plain] The size handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
             resize: Template<['name']>;
+        };
+        /** What the stage says to screen readers as the viewer moves the camera. */
+        announce: {
+            /** [plain] Announced as the viewer zooms the stage. $percent is how large the view is now, as a percentage of the project's own view. */
+            zoom: Template<['percent']>;
+            /** [plain] Announced when the viewer's own zoom or pan has left nothing on the stage. $percent is how large the view is now, as a percentage of the project's own view. */
+            hidden: Template<['percent']>;
+            /** [plain] Announced when the stage's content comes back into view */
+            shown: string;
+        };
+        /** What the stage shows when the viewer's own pan or zoom has hidden everything. */
+        hidden: {
+            /** [plain] Explains that the viewer's pan or zoom has moved everything out of view */
+            message: string;
+            /** [plain] The button that returns the camera to the project's own view */
+            show: string;
         };
         options: {
             /** [plain] The label for the locale chooser in output */
@@ -1607,6 +1659,8 @@ type UITexts = {
         };
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {
+            /** [plain] Invitation to pick a language, shown to a visitor who hasn't chosen one yet. Every locale's translation of this is shown at once, so keep it short. */
+            choose: string;
             /** [formatted] Banner at the top of the dialog prompting users to enter localization mode via the pencil icon in the app footer. */
             localizeHelp: FormattedText;
             /** Subheaders in the local chooser dialog. */
@@ -1637,6 +1691,10 @@ type UITexts = {
                 header: string;
                 /** [formatted] Short explanation of what the request form does. */
                 explanation: FormattedText;
+                /** [plain] Placeholder for the field that filters the language and region dropdowns. */
+                searchPlaceholder: string;
+                /** [plain] Description of the field that filters the language and region dropdowns. */
+                searchDescription: string;
                 /** [plain] Placeholder/label for the language dropdown. */
                 languageLabel: string;
                 /** [plain] Placeholder/label for the region dropdown. */
@@ -1647,6 +1705,8 @@ type UITexts = {
                 submitting: string;
                 /** [plain] Link text shown after a successful request; the link points to the GitHub issue. */
                 success: string;
+                /** [plain] Link text shown when someone had already requested this language; the link points to that issue. */
+                alreadyRequested: string;
                 /** [plain] Error message shown when the request fails. */
                 error: string;
                 /** [plain] Error message shown when the combination is already supported. */

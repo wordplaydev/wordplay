@@ -65,6 +65,9 @@ const Lanes = {
     fold: 'queued',
     selection: 'queued',
     'model-loading': 'queued',
+    // Translation start, finish, and failure: discrete results a creator asked
+    // for, so they are queued rather than coalesced and never dropped.
+    translation: 'queued',
     'project-mode': 'queued',
     'tutorial-dialog': 'queued',
     // Music that can't be heard — no audio context, or the viewer muted it —
@@ -80,6 +83,9 @@ const Lanes = {
     update: 'queued',
     'delete-account-confirm': 'queued',
     'move-mode': 'queued',
+    /** Whether the camera has left anything on the stage — a discrete state change on
+     *  both edges, not the latest of a stream. */
+    'stage-visibility': 'queued',
     /** Confirmations that a command did something (see Command.feedback). */
     command: 'queued',
     // coalesce
@@ -91,12 +97,20 @@ const Lanes = {
     'stage-entered': 'coalesce',
     'stage-changed': 'coalesce',
     'stage-moved': 'coalesce',
+    /** The stage zoom level, which a held key, a wheel, or a pinch streams; only the
+     *  latest matters. Its own kind rather than 'command-state', whose single slot the
+     *  editor's step feedback owns — a stage zoom would overwrite a step. */
+    'stage-zoom': 'coalesce',
     'character-selection': 'coalesce',
     'drawing-cursor': 'coalesce',
     'canvas-moved': 'coalesce',
     'howto-moved': 'coalesce',
     /** Command feedback whose value changes as a key repeats (zoom, step). */
     'command-state': 'coalesce',
+    /** How far a translation has got. A continuous stream where only the latest
+     *  count matters, and separate from 'translation' so a progress line can't
+     *  displace the start or finish line it sits between. */
+    'translation-progress': 'coalesce',
 } satisfies Record<string, LaneRegistration>;
 
 export type AnnouncementKind = keyof typeof Lanes;

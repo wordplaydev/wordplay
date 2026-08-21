@@ -110,7 +110,18 @@ test.each([
     },
 );
 
-testConflict('1 … ∆ Time() … 1 + ⬚', '1 … ⊤ … 1 + ⬚', Reaction, ExpectedStream);
+// Whether a reaction has anything to react to is only answerable from the call
+// graph, since a stream can reach the condition through a function input, so
+// this one is checked through analysis rather than by asking the node. (#808)
+testConflict(
+    '1 … ∆ Time() … 1 + ⬚',
+    '1 … ⊤ … 1 + ⬚',
+    Reaction,
+    ExpectedStream,
+    0,
+    undefined,
+    true,
+);
 
 /** Build a reactive evaluator around the given code and return it with its source. */
 function startReactive(code: string) {
@@ -341,7 +352,7 @@ test.each([
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     project.analyze();
-    const conflicts = project.getConflicts();
+    const conflicts = project.analyze().conflicts;
     expect(conflicts.some((c) => c instanceof conflict)).toBe(true);
     // The gap is marked once: the Reaction names the missing part, so the generic "unreadable code"
     // conflict defers rather than marking the same spot again.
@@ -372,10 +383,9 @@ test('repairing a missing condition selects the placeholder it inserted', () => 
     // by reference, which is what makes that work.
     const source = new Source('test', '1…');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    project.analyze();
     const conflict = project
-        .getConflicts()
-        .find((c) => c instanceof ExpectedCondition);
+        .analyze()
+        .conflicts.find((c) => c instanceof ExpectedCondition);
     expect(conflict).toBeDefined();
     if (conflict === undefined) return;
     const context = project.getContext(source);

@@ -123,6 +123,17 @@ service cloud.firestore {
     match /creators/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
+    // Server-authoritative usage counters, currently the daily translation
+    // budget (#1073). Readable by its owner so the meter is live without a
+    // round trip; never client-writable, since a creator who could write this
+    // could reset their own budget. Only the Admin SDK writes it, which
+    // bypasses rules. Deliberately not a field on creators/{uid}: that document
+    // is client-writable and the client overwrites it wholesale when settings
+    // change, so a counter there would be both forgeable and clobbered.
+    match /usage/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
     match /galleries/{gallery} {
       allow create: if request.auth != null;
       // Public galleries can be read, as can private ones if the creator is a curator, creator, or a how to viewer.

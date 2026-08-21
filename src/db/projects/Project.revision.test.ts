@@ -33,13 +33,16 @@ test('Project builds revisions through revised(), not bare constructions', () =>
         // Prose about the rule is not a violation of it.
         .filter(({ line }) => !line.startsWith('*') && !line.startsWith('//'))
         .filter(({ line }) => line.includes('new Project('))
-        // `revised()` and `mergeWith()` are the two sanctioned constructions;
-        // both pass `this` as the project to carry from.
+        // `revised()`, `mergeWith()`, and `withoutPreview()` are the
+        // sanctioned constructions; all pass `this` as the project to carry
+        // from.
         .filter(({ line }) => !line.includes('new Project(mergedData, this)'))
         .filter(
             ({ line }) =>
                 !line.includes('new Project({ ...this.data, ...data }'),
-        );
+        )
+        // `withoutPreview()` is the third: a spread can't remove a key.
+        .filter(({ line }) => !line.includes('new Project(rest, this)'));
 
     expect(
         bare.length,

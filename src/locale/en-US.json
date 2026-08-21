@@ -5564,6 +5564,13 @@
                     ],
                     "names": ["🎷", "saxophone", "sax"]
                 },
+                "harmonica": {
+                    "doc": [
+                        "A harmonica, the chromatic kind with a button on the side. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.harmonica) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🌬️", "harmonica"]
+                },
                 "bell": {
                     "doc": [
                         "A bell — orchestral chimes, the kind struck with a mallet. Recorded, and pitched, so numbers choose notes.",
@@ -6758,6 +6765,7 @@
             "error": {
                 "unknown": "This project doesn't exist or you don't have access to it.",
                 "translate": "There was a problem translating your project.",
+                "translateBroken": "Translating would have caused errors in your program, so nothing changed. Try a different language, or translate again.",
                 "tile": "Oops, there was an error",
                 "reset": "Attempt to reset..."
             },
@@ -6839,6 +6847,15 @@
                         "You can add a language to write in, remove one you aren't using, or translate the whole project into a new language."
                     ],
                     "count": "$#count[$count language|$count languages]",
+                    "prompt": "translate",
+                    "mode": {
+                        "label": "what translating does",
+                        "labels": ["add", "rewrite"],
+                        "tips": [
+                            "add the new language to your project, keeping everything you wrote",
+                            "rewrite your project in the new language, replacing what you wrote"
+                        ]
+                    },
                     "meaning": [
                         "A project's languages decide which names and words its code can use. If your project is written in Spanish, it needs Spanish here, or names like \\Frase\\ won't mean anything.",
                         "Everyone who opens your project loads these languages, and the first one decides how your output is laid out. English names always work, in every project."
@@ -7189,6 +7206,20 @@
                 "unknown": "This how-to space doesn't exist or isn't public."
             }
         },
+        "translation": {
+            "used": "You have translated $used of $#limit[$limit character|$limit characters] today",
+            "meter": "translation used today",
+            "exhaustedHours": "You've used up today's translating. Try again in about $#hours[$hours hour|$hours hours].",
+            "exhaustedMinutes": "You've used up today's translating. Try again in about $#minutes[$minutes minute|$minutes minutes].",
+            "signIn": "Translating needs an account, so everyone gets a fair share of it. <Sign in or join@/login> to translate your project.",
+            "progressLabel": "translation progress",
+            "analyzing": "Reading your program\u2026",
+            "revising": "Putting the new words in\u2026",
+            "started": "Translating $#count[$count phrase|$count phrases] into $language\u2026",
+            "progress": "Translated $done of $#total[$total phrase|$total phrases]",
+            "finished": "Your project now speaks $language.",
+            "finishedPartial": "Your project now speaks $language, but $#kept[$kept phrase|$kept phrases] kept the original words."
+        },
         "source": {
             "label": "source",
             "title": "code",
@@ -7496,9 +7527,19 @@
                 "zoomIn": "zoom into the stage",
                 "zoomOut": "zoom out from the stage",
                 "resetZoom": "clear your pan and zoom",
+                "resetZoomAt": "clear your pan and zoom, now $percent percent of the project's own view",
                 "perform": "perform: restart the program, play it, and fill the screen with the stage",
                 "rotate": "rotate $name",
                 "resize": "resize $name"
+            },
+            "announce": {
+                "zoom": "stage zoom $percent percent",
+                "hidden": "nothing is on stage at $percent percent; clear your zoom to show everything",
+                "shown": "everything is back on stage"
+            },
+            "hidden": {
+                "message": "Everything is off the stage.",
+                "show": "show everything"
             },
             "options": {
                 "locale": "preferred language for output",
@@ -8185,6 +8226,7 @@
             },
             "locale": {
                 "header": "Language",
+                "choose": "Choose a language",
                 "explanation": "Choose languages for the interface, tutorial, and documentation. Languages marked 🤖 are still largely machine translated, so some text may be unreadable or incorrect.",
                 "localizeHelp": "/To help improve translations in your language, click the ✎ pencil icon at the *bottom of the page* to turn on localization mode and suggest improvements./",
                 "subheader": {
@@ -8205,11 +8247,14 @@
                 "request": {
                     "header": "Don't see your language?",
                     "explanation": "Pick a language and region and we'll open a GitHub issue to discuss adding it.",
+                    "searchPlaceholder": "language or country",
+                    "searchDescription": "Filter the language and country menus",
                     "languageLabel": "language",
                     "regionLabel": "region",
                     "submit": "Request",
                     "submitting": "Sending request…",
                     "success": "Discuss this request with us on GitHub!",
+                    "alreadyRequested": "Someone already requested this language. Join the discussion on GitHub!",
                     "error": "Something went wrong. Please try again.",
                     "alreadySupported": "That language and region is already supported.",
                     "requiresLogin": "You must be signed in to request a language."
@@ -8974,6 +9019,7 @@
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
+                "installedprompt": "You're using Wordplay as an installed app, and it keeps its own projects, separate from the ones in your web browser. Any projects you made in your browser are still there. <Log in@://login> to see all of your projects in both places.",
                 "subheader": {
                     "shared": "Shared",
                     "archived": "Archived"
@@ -9312,6 +9358,7 @@
                     "join": "Or, <create an account@://join> to start.",
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
+                    "paste": "Did the link open somewhere else? Installed apps sometimes open email links in a web browser instead. Copy the link from your email and paste it here to finish signing in.",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
                     "passwordrule": "Passwords must be at least 6 characters long; if you're not using a password manager, choose three long words you'll remember.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
@@ -9350,6 +9397,10 @@
                     "email": {
                         "description": "edit login email",
                         "placeholder": "email"
+                    },
+                    "link": {
+                        "description": "paste login link",
+                        "placeholder": "link"
                     },
                     "username": {
                         "description": "login username, don't use personally identifiable information",
@@ -9814,7 +9865,8 @@
         "imageDescription": "The Wordplay logo — a speech bubble holding a circle, a triangle, and a square — beside the name Wordplay, surrounded by a faded crowd of symbols for everything Wordplay programs can sense and say.",
         "noscript": "Wordplay uses JavaScript. Your browser doesn't support it, or it is disabled.",
         "unsupportedHeading": "Unsupported Browser",
-        "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version."
+        "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version.",
+        "appDescription": "Accessible, multilingual, programmable typography."
     },
     "keyword": {
         "function": "function",

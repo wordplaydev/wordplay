@@ -17,7 +17,11 @@ export default function findDivideByZeroSource(
     given: Expression,
     context: Context,
 ): Expression | undefined {
-    for (const { node } of walkTypeSources(given, context))
+    // The walk crosses into a function's callers when a call graph is
+    // available, which is how a divisor passed as an input is found; without
+    // one it simply doesn't cross, rather than guessing. (#808)
+    const calls = context.project.getAnalysisInProgress().calls;
+    for (const { node } of walkTypeSources(given, context, calls))
         if (node.isPossibleDivideByZero(context)) return node;
     return undefined;
 }

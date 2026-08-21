@@ -172,10 +172,21 @@ export default class Token extends Node {
     /** The text of the token */
     readonly text: UnicodeString;
 
-    constructor(text: string | UnicodeString, types: SymType | SymType[]) {
+    /** The canonical symbol this token means, when its text is a localized keyword word
+     * (e.g. a typed `true` carries `⊤`). Meaning checks must use getCanonicalText(),
+     * since two words of one Sym can mean different things (⊤/⊥). */
+    readonly canonical: string | undefined;
+
+    constructor(
+        text: string | UnicodeString,
+        types: SymType | SymType[],
+        canonical?: string,
+    ) {
         super();
 
         this.types = Array.isArray(types) ? types : [types];
+
+        this.canonical = canonical;
 
         // Ensure tokens are canonically structured from a unicode perspective.
         this.text =
@@ -266,6 +277,11 @@ export default class Token extends Node {
     // TEXT UTILITIES
     getText() {
         return this.text.toString();
+    }
+
+    /** The token's meaning-bearing text: its canonical symbol when it's a typed keyword word, its text otherwise. */
+    getCanonicalText() {
+        return this.canonical ?? this.getText();
     }
 
     toText() {
@@ -407,7 +423,7 @@ export default class Token extends Node {
 
     clone(replace?: Replacement): this {
         if (replace === undefined)
-            return new Token(this.text, this.types) as this;
+            return new Token(this.text, this.types, this.canonical) as this;
 
         const { original, replacement } = replace;
         // Is this what we're replacing? Replace it.

@@ -28,6 +28,7 @@ import Characters from '../lore/BasisCharacters';
 import AnyType from '@nodes/AnyType';
 import BindToken from '@nodes/BindToken';
 import Block from '@nodes/Block';
+import type { CallGraph } from '@db/projects/Analysis';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Docs from '@nodes/Docs';
@@ -656,19 +657,24 @@ export default class Bind extends Expression {
         return undefined;
     }
 
-    getDependencies(context: Context): Expression[] {
-        const parent = this.getParent(context);
+    /**
+     * Just the value expression, if there is one.
+     *
+     * A bind in a function or structure also depends on every call to it, since
+     * those decide what value it takes — but those edges are added by the
+     * project from the finished call graph, not asked for here. Asking here
+     * meant reading a call graph that was still being built: a bind whose
+     * callers hadn't been walked yet reported none, which is not the same
+     * answer as "nothing calls this". See #808 and {@link CallGraph}.
+     */
+    getDependencies(): Expression[] {
+        return this.value ? [this.value] : [];
+    }
 
-        // A bind in a function or structure definition depends on all calls to the function/structure definition,
-        // because they determine what values the binds have.
-        const evaluations =
-            (parent instanceof FunctionDefinition ||
-            parent instanceof StructureDefinition
-                ? context.project.getEvaluationsOf(parent)
-                : undefined) ?? [];
-
-        // A bind also depends on its value expression, if it has one.
-        return this.value ? [this.value, ...evaluations] : [...evaluations];
+    getExtendedDependencies(context: Context, calls?: CallGraph): Expression[] {
+        return calls === undefined
+            ? this.getDependencies()
+            : [...this.getDependencies(), ...calls.getCallersOfBind(this)];
     }
 
     /** Binds are only eligible to be constant if they are in a non-root, non-creator block. */

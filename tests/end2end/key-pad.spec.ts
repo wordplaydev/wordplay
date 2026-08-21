@@ -21,7 +21,7 @@ test.use({ viewport: { width: 412, height: 839 }, hasTouch: true });
 
 /** Gallery examples reach the player at this route without signing in. */
 function example(id: string) {
-    return `/project/example-${id}?mode=play`;
+    return `/en-US/project/example-${id}?mode=play`;
 }
 
 test('a project with known keys offers them as buttons instead of the keyboard', async ({

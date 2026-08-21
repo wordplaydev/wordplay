@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.29.2",
+    "version": "0.29.3",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -36,6 +36,7 @@
         "locales-fix": "npx tsx src/util/verify-locales/start.ts fix",
         "locales-link-definitions": "npx tsx src/util/verify-locales/linkGlossaryDefinitions.ts",
         "locales-prune": "npx tsx src/util/verify-locales/prune.ts",
+        "locales-drift": "npx tsx src/util/verify-locales/driftCLI.ts",
         "datetimes": "npx tsx src/util/verify-locales/generateDateTimes.ts",
         "exemplars": "npx tsx src/util/verify-locales/generateExemplars.ts",
         "locales-translate": "WORDPLAY_TRANSLATOR=claude npx tsx src/util/verify-locales/start.ts translate",
@@ -63,7 +64,8 @@
         "updates": "npx tsx scripts/updates.ts",
         "mediapipe": "node scripts/copy-wasm.mjs",
         "claims": "node scripts/claims.js ",
-        "contributors": "npx tsx functions/src/refresh-contributors-local.ts"
+        "contributors": "npx tsx functions/src/refresh-contributors-local.ts",
+        "wiki": "npx tsx scripts/wiki.ts"
     },
     "engines": {
         "node": "^22.0.0"
@@ -141,7 +143,7 @@
         "temporal-polyfill": "^1",
         "uuid": "^14",
         "yjs": "^13",
-        "zod": "^4"
+        "zod": "^4.3"
     },
     "overrides": {
         "cookie": "^0.7.0"

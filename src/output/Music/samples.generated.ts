@@ -37,6 +37,17 @@ export const Zones: Record<string, Zone[]> = {
         { file: 'saxophone/66.mp3', root: 66, detune: 0, duration: 2.5 },
         { file: 'saxophone/72.mp3', root: 72, detune: 0, duration: 2.5 },
     ],
+    harmonica: [
+        { file: 'harmonica/36.mp3', root: 36, detune: 2, duration: 2.5 },
+        { file: 'harmonica/43.mp3', root: 43, detune: 2, duration: 2.5 },
+        { file: 'harmonica/48.mp3', root: 48, detune: 0, duration: 2.5 },
+        { file: 'harmonica/55.mp3', root: 55, detune: 0, duration: 2.5 },
+        { file: 'harmonica/60.mp3', root: 60, detune: 1, duration: 2.5 },
+        { file: 'harmonica/67.mp3', root: 67, detune: -1, duration: 2.5 },
+        { file: 'harmonica/72.mp3', root: 72, detune: 1, duration: 2.5 },
+        { file: 'harmonica/79.mp3', root: 79, detune: 0, duration: 2.5 },
+        { file: 'harmonica/84.mp3', root: 84, detune: 0, duration: 2.5 },
+    ],
     bell: [
         { file: 'bell/48.mp3', root: 48, detune: 0, duration: 3.5 },
         { file: 'bell/54.mp3', root: 54, detune: 0, duration: 3.5 },

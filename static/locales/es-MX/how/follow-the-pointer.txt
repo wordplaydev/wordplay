@@ -2,7 +2,7 @@ Haz que un personaje siga tu dedo
 
 ¿Quieres un personaje que persiga tu ratón o tu dedo por todo el mapa? @Stage ¿Podemos hacerlo con el @Pointer  aporte. 
 
-@Pointer nos da una nueva perspectiva @Place cada vez que se mueve el puntero.Si usamos eso @Place como un @Phrase 's \place\El personaje irá adondequiera que señalemos.
+@Pointer nos da una nueva perspectiva @Place cada vez que se mueve el puntero. Si usamos eso @Place como un @Phrase 's \place\El personaje irá adondequiera que señalemos.
 
 \Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
 

@@ -161,7 +161,7 @@ test('Passing a structure definition where a structure instance is expected is a
     // `Color(50% 100 0°)` (or `Color.red`) to get an instance.
     const project = makeProject("Phrase('hi' color: Color)");
     project.analyze();
-    const conflicted = Array.from(project.getConflictedNodes().keys());
+    const conflicted = Array.from(project.analyze().conflictedNodes.keys());
     expect(conflicted.length).toBeGreaterThan(0);
 });
 
@@ -174,7 +174,7 @@ test('static bind and static function parse without conflicts', () => {
         '•Math() (\n\t↑ pi: 3.14\n\t↑ ƒ square(n•#) n · n\n)\n',
     );
     project.analyze();
-    expect(Array.from(project.getConflictedNodes().keys())).toEqual([]);
+    expect(Array.from(project.analyze().conflictedNodes.keys())).toEqual([]);
 });
 
 test('static bind value type-checks via the definition reference', () => {
@@ -218,7 +218,9 @@ test('static function referencing an instance input fails as UnknownName', () =>
         "•State(action•'') (\n\t↑ ƒ shout() action\n)\n",
     );
     project.analyze();
-    const conflicts = Array.from(project.getConflictedNodes().keys()).filter(
+    const conflicts = Array.from(
+        project.analyze().conflictedNodes.keys(),
+    ).filter(
         (node): node is Reference =>
             node instanceof Reference && node.name.getText() === 'action',
     );

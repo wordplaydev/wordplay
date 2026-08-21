@@ -62,13 +62,30 @@ test('resolving a color needs no basis', () => {
  * Current reach, in files and source bytes. These are budgets, not targets:
  * they may only go down. The `true` expectations record which runtime modules
  * are still reachable today — as each door closes, flip it to `false`.
+ *
+ * The one exception is a feature that genuinely adds code to chrome every page
+ * already carries: the language chooser's request-form matching (#1256) added a
+ * few KB to LocaleSearch, which the footer's chooser imports, the keyword
+ * canonical-symbol fixes (#1296, #1298) added a few KB to the tokenizer/parser,
+ * and the stage zoom feedback (#1175) added a few strings to en-US.json, which
+ * every page carries. Raise a budget only for that, never to accommodate the
+ * language runtime leaking back in — the runtime-reachability test below is what
+ * guards the 2MB this file exists for, and it must stay green whatever these
+ * numbers say.
+ *
+ * A *file* budget may move by one for the same reason, and only for the same
+ * reason: #1175 extracted OverflowToolbar's fit policy into its own module so it
+ * could be tested without a layout engine. That is one small file already inside
+ * chrome, and it imports nothing — not a new subgraph. Any larger jump in a file
+ * count is a door opening, and the chain that opened it is what the failure
+ * message is for.
  */
 test.each([
-    ['src/routes/+layout.svelte', 475, 3.35],
-    ['src/components/app/Page.svelte', 495, 3.55],
-    ['src/routes/[[locale]]/+page.svelte', 510, 3.6],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.65],
-    ['src/routes/[[locale]]/projects/+page.svelte', 515, 3.65],
+    ['src/routes/+layout.svelte', 475, 3.36],
+    ['src/components/app/Page.svelte', 496, 3.58],
+    ['src/routes/[[locale]]/+page.svelte', 510, 3.63],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.66],
+    ['src/routes/[[locale]]/projects/+page.svelte', 516, 3.66],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

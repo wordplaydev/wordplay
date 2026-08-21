@@ -89,7 +89,7 @@ export default function checkStringArrays(
 
 /** The doc-level write-status: the highest-priority annotation found on any
  *  element ($? > $! > $~), or '' if none. */
-function docStatus(annotations: string[]): string {
+export function docStatus(annotations: string[]): string {
     return annotations.some((a) => a.includes(Unwritten))
         ? Unwritten
         : annotations.some((a) => a.includes(Revised))

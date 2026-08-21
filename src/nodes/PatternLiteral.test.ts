@@ -1,3 +1,5 @@
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import { testConflict } from '@conflicts/TestUtilities';
 import Block from '@nodes/Block';
 import PatternClass from '@nodes/PatternClass';
 import PatternLiteral from '@nodes/PatternLiteral';
@@ -46,4 +48,12 @@ test('an unclosed pattern leaves close undefined (conflict)', () => {
     const lit = block.statements[0] as PatternLiteral;
     expect(lit).toBeInstanceOf(PatternLiteral);
     expect(lit.close).toBeUndefined();
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([
+    ['\'a\' ≈ ⣿"a"⣿', '\'a\' ≈ ⣿"a"', PatternLiteral, UnclosedDelimiter, 0],
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
+    testConflict(good, bad, node, conflict, index);
 });

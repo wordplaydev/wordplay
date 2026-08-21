@@ -97,8 +97,13 @@ export default class UnaryEvaluate extends Expression {
         return this.fun.getName();
     }
 
+    /** The operator's meaning: its canonical symbol when typed as a keyword word (e.g. `not` → `~`). */
+    getCanonicalOperator() {
+        return this.fun.name.getCanonicalText();
+    }
+
     isNegation() {
-        return this.getOperator() === NEGATE_SYMBOL;
+        return this.getCanonicalOperator() === NEGATE_SYMBOL;
     }
 
     getInputType(context: Context) {
@@ -117,10 +122,18 @@ export default class UnaryEvaluate extends Expression {
     }
 
     getFunction(context: Context) {
-        const fun = this.getInputType(context).getDefinitionOfNameInScope(
-            this.getOperator(),
-            context,
-        );
+        const inputType = this.getInputType(context);
+        // Resolve the typed name first (a creator-defined name wins), then the canonical
+        // symbol: several locales' keyword word for ~ isn't a name of the basis function
+        // (fr `non` vs `pas`), and the symbol is a name in every locale.
+        const fun =
+            inputType.getDefinitionOfNameInScope(this.getOperator(), context) ??
+            (this.getCanonicalOperator() !== this.getOperator()
+                ? inputType.getDefinitionOfNameInScope(
+                      this.getCanonicalOperator(),
+                      context,
+                  )
+                : undefined);
         return fun instanceof FunctionDefinition ? fun : undefined;
     }
 
@@ -190,8 +203,14 @@ export default class UnaryEvaluate extends Expression {
         // Get the value of the operand.
         const value = evaluator.popValue(this);
 
-        // Resolve the function on the value.
-        const fun = value.resolve(this.getOperator(), evaluator);
+        // Resolve the function on the value: the typed name first, then the canonical
+        // symbol, matching getFunction's static resolution.
+        let fun = value.resolve(this.getOperator(), evaluator);
+        if (
+            !(fun instanceof FunctionValue) &&
+            this.getCanonicalOperator() !== this.getOperator()
+        )
+            fun = value.resolve(this.getCanonicalOperator(), evaluator);
 
         if (
             !(fun instanceof FunctionValue) ||
@@ -225,7 +244,7 @@ export default class UnaryEvaluate extends Expression {
         // Every operator's operand still has to be walked, or a narrowed name used
         // inside one (`-(count + 1)`) keeps its unnarrowed type. Only negation
         // manipulates the set, though.
-        if (this.getOperator() !== NOT_SYMBOL) {
+        if (this.getCanonicalOperator() !== NOT_SYMBOL) {
             this.input.evaluateTypeGuards(current, guard);
             return current;
         }

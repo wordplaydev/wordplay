@@ -134,7 +134,7 @@
                             "curious",
                             "$~Beberapa bahasa pemrograman memungkinkan kamu menentukan @type dari sebuah @variable, agar kamu bisa memastikan semua cara kamu menggunakan variable itu sah:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplay juga bertype, tetapi type *disimpulkan*. Biasanya kamu tidak perlu menyatakannya, tetapi kadang kamu mungkin harus jika type tidak bisa disimpulkan."
+                            "$~@wordplay juga memiliki jenis, tetapi jenis itu *disimpulkan* sendiri. Kamu biasanya tidak perlu menuliskannya, tetapi kadang kamu harus melakukannya jika jenisnya tidak bisa disimpulkan. Sebuah jenis daftar juga bisa menyebutkan jenis untuk setiap tempat dalam daftar, seperti \\[# '']\\ untuk daftar yang berisi tepat dua hal: sebuah angka, lalu sebuah kata."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
