@@ -160,6 +160,13 @@ service cloud.firestore {
       // Participants can read, update, and delete chats
       allow read, update, delete: if request.auth != null && (resource == null || (resource.data != null && request.auth.uid in resource.data.participants));
     }
+    match /chatTranslations/{doc} {
+      // Translation sidecars hold cached translations of already-accessible
+      // message text.  Any logged-in user may read or write them: the content
+      // is derived from messages the user can already see, so no additional
+      // access gate beyond authentication is needed.
+      allow read, write: if request.auth != null;
+    }
     match /classes/{class} {
       function isTeacher() { 
         return "teacher" in request.auth.token && request.auth.token.teacher; 

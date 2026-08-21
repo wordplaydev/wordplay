@@ -9,9 +9,10 @@ import {
 import { Domain } from '@db/Domains';
 import SaveTracker from '@db/SaveTracker.svelte';
 import { firestore } from '@db/firebase';
-import isQuotaError from '@db/isQuotaError';
 import type Gallery from '@db/galleries/Gallery';
 import HowTo from '@db/howtos/HowToDatabase.svelte';
+import isQuotaError from '@db/isQuotaError';
+import { notifications } from '@db/notifications.svelte';
 import type Project from '@db/projects/Project';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import deferToIdle from '@util/deferToIdle';
@@ -35,7 +36,6 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import { notifications } from '@db/notifications.svelte';
 
 ////////////////////////////////
 // SCHEMAS
@@ -67,12 +67,26 @@ const MessageSchemaV2 = MessageSchemaV1.extend(
     }).shape,
 );
 
-const MessageSchema = MessageSchemaV2;
-export const MessageSchemaLatestVersion = 2;
+const MessageSchemaV3 = MessageSchemaV2.extend(
+    z.object({
+        /** The locale the creator tagged this message with (a Wordplay
+         * locale string, e.g. "en-US"). Optional because messages created
+         * before locale tagging existed have no value; new messages set it
+         * from the creator's chosen locale. */
+        language: z.string().optional(),
+        /** Cached translations of this message's text, keyed by target
+         * Wordplay locale string (e.g. "es-MX"). */
+        translations: z.record(z.string(), z.string()).optional(),
+    }).shape,
+);
 
-export type SerializedMessage = z.infer<typeof MessageSchemaV2>;
+const MessageSchema = MessageSchemaV3;
+
+export type SerializedMessage = z.infer<typeof MessageSchemaV3>;
 export type SerializedMessageUnknownVersion =
-    z.infer<typeof MessageSchemaV1> | SerializedMessage;
+    | z.infer<typeof MessageSchemaV1>
+    | z.infer<typeof MessageSchemaV2>
+    | SerializedMessage;
 
 const ChatSchemaV1 = z.object({
     // The version of the schema
@@ -99,13 +113,25 @@ const ChatSchemaV2 = ChatSchemaV1.omit({ v: true }).extend(
     z.object({ v: z.literal(2), type: z.enum(['project', 'howto']) }).shape,
 );
 
-/** The latest version of the chat schema */
-const ChatSchema = ChatSchemaV2;
-const ChatSchemaLatestVersion = 2;
+/** v3 adds an optional primary-language locale string (e.g. "en-US") to the chat
+ *  document itself. Untagged messages fall back to this when a source language is
+ *  needed for translation, instead of the viewer's UI locale. */
+const ChatSchemaV3 = ChatSchemaV2.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(3),
+        language: z.string().optional(),
+    }).shape,
+);
 
-export type SerializedChat = z.infer<typeof ChatSchemaV2>;
+/** The latest version of the chat schema */
+const ChatSchema = ChatSchemaV3;
+const ChatSchemaLatestVersion = 3;
+
+export type SerializedChat = z.infer<typeof ChatSchemaV3>;
 export type SerializedChatUnknownVersion =
-    z.infer<typeof ChatSchemaV1> | SerializedChat;
+    | z.infer<typeof ChatSchemaV1>
+    | z.infer<typeof ChatSchemaV2>
+    | SerializedChat;
 
 /** Chat upgrader */
 export function upgradeChat(
@@ -114,6 +140,8 @@ export function upgradeChat(
     switch (chat.v) {
         case 1:
             return upgradeChat({ ...chat, v: 2, type: 'project' });
+        case 2:
+            return upgradeChat({ ...chat, v: 3 });
         case ChatSchemaLatestVersion:
             return chat;
         default:
@@ -125,36 +153,93 @@ export function upgradeChat(
 // APIs
 ////////////////////////////////
 
-// We let a chat be at most 128KB, which is a lot of text, but since we have to pass the
-// whole document around each time, we need to cap it.
+// We let a chat's real message text be at most 128KB, which is a lot of
+// text, but since we have to pass the whole document around each time, we
+// need to cap it.
 const MAX_CHAT_MESSAGES_BYTES = 131072;
+
+// Cached translations get their own, separate cap so they can never push a
+// real message out of the chat. When they exceed it, the oldest cached
+// translations are evicted first — before any message text is ever touched.
+const MAX_CHAT_TRANSLATIONS_BYTES = 131072;
+
+const messageTranslationsSize = (message: SerializedMessage) =>
+    Object.values(message.translations ?? {}).reduce(
+        (sum, text) => sum + text.length,
+        0,
+    );
+
+const trimChatTranslations = (messages: SerializedMessage[]) => {
+    let translationsSize = messages.reduce(
+        (size, message) => size + messageTranslationsSize(message),
+        0,
+    );
+    if (translationsSize <= MAX_CHAT_TRANSLATIONS_BYTES) return messages;
+
+    return messages.map((message) => {
+        if (translationsSize <= MAX_CHAT_TRANSLATIONS_BYTES) return message;
+        const size = messageTranslationsSize(message);
+        if (size === 0) return message;
+        translationsSize -= size;
+        const { translations, ...withoutTranslations } = message;
+        return withoutTranslations;
+    });
+};
 
 /** An immutable wrapper class for accessing and manipulating chat data */
 export default class Chat {
     /** The data of the chat. */
     private readonly data: SerializedChat;
 
+    /**
+     * IDs of messages whose `translations` field was dropped during
+     * construction to keep the chat within `MAX_CHAT_TRANSLATIONS_BYTES`.
+     * Used by ChatView to avoid re-translating these messages: doing so would
+     * just save them back, trigger a snapshot, and evict a different message —
+     * paying for the same LLM calls indefinitely.
+     */
+    readonly evictedTranslationIDs: ReadonlySet<string>;
+
     constructor(data: SerializedChat) {
         this.data = data;
 
-        // We automatically trim the chat messages if they exceed the maximum size.
-        // We estimate about 2 bytes per codepoint, even though some are 1 and some are 4.
-        const size = data.messages.reduce(
+        // We automatically trim the oldest chat messages if their text exceeds
+        // the maximum size. We estimate about 2 bytes per codepoint, even
+        // though some are 1 and some are 4.
+        const textSize = data.messages.reduce(
             (size, message) => size + (message.text?.length ?? 0),
             0,
         );
-
-        // If the chat is too big, keep trimming old messages until it fits.
-        if (size > MAX_CHAT_MESSAGES_BYTES) {
-            let newSize = size;
-            let messages = data.messages;
+        let messages = data.messages;
+        if (textSize > MAX_CHAT_MESSAGES_BYTES) {
+            let newSize = textSize;
+            messages = [...messages];
             while (newSize > MAX_CHAT_MESSAGES_BYTES) {
                 const message = messages.shift();
                 if (message === undefined) break;
                 newSize -= message.text?.length ?? 0;
             }
-            this.data = { ...data, messages: messages };
         }
+
+        // Cached translations are disposable: if they exceed their own budget,
+        // drop the oldest ones until they fit, never touching message text.
+        // Track which IDs were evicted so translateMessages can skip them.
+        const preTrim = messages;
+        messages = trimChatTranslations(messages);
+        const evictedIDs = new Set<string>();
+        if (messages !== preTrim) {
+            for (let i = 0; i < preTrim.length; i++) {
+                if (
+                    preTrim[i].translations !== undefined &&
+                    messages[i].translations === undefined
+                ) {
+                    evictedIDs.add(preTrim[i].id);
+                }
+            }
+        }
+        this.evictedTranslationIDs = evictedIDs;
+
+        if (messages !== data.messages) this.data = { ...data, messages };
     }
 
     getProjectID() {
@@ -239,6 +324,24 @@ export default class Chat {
         return new Chat({ ...this.data, messages: mergedMessages });
     }
 
+    /** Cache translations for several messages into the given language. */
+    withMessagesTranslations(
+        translations: Map<string, string>,
+        language: string,
+    ) {
+        return new Chat({
+            ...this.data,
+            messages: this.data.messages.map((m) => {
+                const text = translations.get(m.id);
+                if (text === undefined) return m;
+                return {
+                    ...m,
+                    translations: { ...m.translations, [language]: text },
+                };
+            }),
+        });
+    }
+
     /** Keep the message, but replace it's text with nothing. */
     withoutMessage(message: SerializedMessage) {
         return new Chat({
@@ -280,6 +383,14 @@ export default class Chat {
         return this.data.type;
     }
 
+    /** The primary locale string of this chat (e.g. "en-US"), or undefined for
+     *  pre-existing chats created before this field existed. Used as the
+     *  source-language fallback when translating messages with no per-message
+     *  language tag. */
+    getLanguage(): string | undefined {
+        return this.data.language;
+    }
+
     getData() {
         return { ...this.data };
     }
@@ -290,6 +401,18 @@ export default class Chat {
 ////////////////////////////////
 
 const ChatsCollection = Domain.Chats;
+
+/** Firestore collection that stores per-chat, per-language translation
+ *  caches as small flat documents, separate from the main chat document.
+ */
+const ChatTranslationsCollection = 'chatTranslations';
+
+/** Stable Firestore document ID for the translation sidecar of a given chat
+ *  and target language.  UUIDs contain only hex digits and hyphens, so `~`
+ *  is safe as a separator with no collision risk. */
+function chatTranslationsDocID(chatID: string, language: string): string {
+    return `${chatID}~${language}`;
+}
 
 export class ChatDatabase {
     private readonly db: Database;
@@ -541,7 +664,7 @@ export class ChatDatabase {
     private async modifyChatMessage(
         chatID: string,
         messageID: string,
-        transform: (m: SerializedMessage) => SerializedMessage,
+        transform: (m: SerializedMessage) => Record<string, unknown>,
     ) {
         if (firestore === undefined) return;
         const chatRef = doc(firestore, ChatsCollection, chatID);
@@ -591,6 +714,9 @@ export class ChatDatabase {
             chat.getProjectID(),
             chat.withReportedMessage(message, reporterID),
         );
+        // Preserve cached translations: the message text is unchanged, only its
+        // moderation flag is being set. Wiping translations here would force every
+        // viewer to re-translate a message whose content hasn't changed.
         await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
             ...m,
             moderation: 'pending',
@@ -609,26 +735,80 @@ export class ChatDatabase {
             chat.getProjectID(),
             chat.withModeratedMessage(message, action, moderatorID),
         );
-        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
-            ...m,
-            moderation: action,
-            moderator: moderatorID,
-        }));
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => {
+            if (action === 'approved') {
+                return {
+                    ...m,
+                    moderation: action,
+                    moderator: moderatorID,
+                };
+            }
+
+            const { translations: _translations, ...withoutTranslations } = m;
+            return {
+                ...withoutTranslations,
+                moderation: action,
+                moderator: moderatorID,
+            };
+        });
     }
 
     /** Clear a message's text (soft delete that preserves the message slot). */
     async deleteMessage(chat: Chat, message: SerializedMessage) {
         this.chats.set(chat.getProjectID(), chat.withoutMessage(message));
-        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
-            ...m,
-            text: null,
-        }));
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => {
+            const { translations: _translations, ...withoutTranslations } = m;
+            return {
+                ...withoutTranslations,
+                text: null,
+            };
+        });
+    }
+
+    /** Cache translations for several messages in a per-chat, per-language
+     *  sidecar document so future viewers reuse them without re-calling the
+     *  translation service.  Uses Firestore merge so concurrent viewers
+     *  writing the same language produce identical, non-conflicting results
+     *  with no contention on the main chat document. */
+    async saveMessageTranslations(
+        chat: Chat,
+        language: string,
+        translations: Map<string, string>,
+    ) {
+        if (translations.size === 0 || firestore === undefined) return;
+        const ref = doc(
+            firestore,
+            ChatTranslationsCollection,
+            chatTranslationsDocID(chat.getProjectID(), language),
+        );
+        await setDoc(ref, Object.fromEntries(translations), { merge: true });
+    }
+
+    /** Subscribe to the per-chat, per-language translation sidecar.  The
+     *  callback receives the full entry map ({messageId → text}) immediately
+     *  on subscribe and again whenever any viewer adds more translations for
+     *  this language. */
+    subscribeChatTranslations(
+        chatID: string,
+        language: string,
+        callback: (entries: Record<string, string>) => void,
+    ): () => void {
+        if (firestore === undefined) return () => {};
+        const ref = doc(
+            firestore,
+            ChatTranslationsCollection,
+            chatTranslationsDocID(chatID, language),
+        );
+        return onSnapshot(ref, (snap) => {
+            if (snap.exists()) callback(snap.data() as Record<string, string>);
+        });
     }
 
     /** Drop a chat from in-memory state and clear its save tracking + durable
-     *  dirty row. Does NOT delete the Firestore doc or the cached row — callers
-     *  handle those (the cloud listener owns cache eviction). Shared by the
-     *  explicit delete and the listener's "removed" handler. */
+     *  dirty row.  Does NOT delete the Firestore doc, the translation sidecar,
+     *  or the cached row — callers handle those (the cloud listener owns cache
+     *  eviction).  Shared by the explicit delete and the listener's "removed"
+     *  handler. */
     private forgetChat(projectID: string) {
         this.chats.delete(projectID);
         this.saves.forget(projectID);
@@ -707,18 +887,20 @@ export class ChatDatabase {
     async addChat(
         project: Project,
         gallery: Gallery | undefined,
+        language: string,
     ): Promise<string | undefined> {
         if (firestore === undefined) return undefined;
         if (project.getOwner() === null) return undefined;
 
         const newChat: SerializedChat = {
-            v: 2,
+            v: 3,
             project: project.getID(),
             messages: [],
             // Everyone contributing is eligible to see and participate in the chat.
             participants: Array.from(this.getAllParticipants(project, gallery)),
             unread: [],
             type: 'project',
+            ...(language !== undefined ? { language } : {}),
         };
 
         return this.createChat(newChat, async () =>
@@ -728,12 +910,16 @@ export class ChatDatabase {
         );
     }
 
-    async addChatToHowTo(howTo: HowTo, gallery: Gallery | undefined) {
+    async addChatToHowTo(
+        howTo: HowTo,
+        gallery: Gallery | undefined,
+        language: string,
+    ) {
         if (firestore === undefined) return undefined;
         if (howTo.getCreator() === null) return undefined;
 
         const newChat: SerializedChat = {
-            v: 2,
+            v: 3,
             project: howTo.getHowToId(),
             messages: [],
             // All gallery curators, creators, viewers can access the chat
@@ -749,6 +935,7 @@ export class ChatDatabase {
             ),
             unread: [],
             type: 'howto',
+            ...(language !== undefined ? { language } : {}),
         };
 
         return this.createChat(newChat, () =>
@@ -929,6 +1116,7 @@ export class ChatDatabase {
     async addMessage(
         chat: Chat,
         message: string,
+        language: string | undefined,
     ): Promise<SerializedMessage | undefined> {
         const user = this.db.getUser()?.uid;
         if (user === undefined) return;
@@ -938,6 +1126,9 @@ export class ChatDatabase {
             text: message,
             time: Date.now(),
             creator: user,
+            // Only tag a language when the creator chose one; existing messages
+            // and untagged sends leave the optional field unset.
+            ...(language !== undefined ? { language } : {}),
         };
 
         // Optimistic local update so the sender sees their message immediately.

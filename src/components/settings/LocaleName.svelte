@@ -1,10 +1,9 @@
 <script lang="ts">
     import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
-    import { Languages } from '@locale/LanguageCode';
     import type Locale from '@locale/Locale';
     import {
-        getLocaleLanguages,
         getLocaleRegionNames,
+        getMultilingualLanguageLabel,
         isLocaleDraft,
     } from '@locale/LocaleText';
 
@@ -16,12 +15,8 @@
 
     let { locale, supported = true, showDraft = true }: Props = $props();
 
-    /** Each language in the tag (one entry for monolingual locales, two or
-     *  more for multilingual ones). Used to render "[Spanish] + [English]"
-     *  for mixed-language tags per the issue #430 UI tweak. */
-    let languageNames = $derived(
-        getLocaleLanguages(locale).map((code) => Languages[code]?.name ?? code),
-    );
+    
+    let languageLabel = $derived(getMultilingualLanguageLabel(locale));
     let regions = $derived(
         typeof locale === 'string'
             ? getLocaleRegionNames(locale)
@@ -34,9 +29,7 @@
 
 <span class="language" class:supported>
     <span class="names"
-        >{#each languageNames as name, index}{#if index > 0}<span class="join"
-                    >{' + '}</span
-                >{/if}<span class="name">{name}</span>{/each}
+        >{languageLabel}
         {#if draft && showDraft}
             <MachineTranslatedAnnotation />{/if}</span
     >{#if regions.length > 0}<span class="regions"

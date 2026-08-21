@@ -9100,7 +9100,8 @@
                 "unowned": "$~Este proyecto no se guarda en línea, así que no puede tener chat ni colaboradoras.",
                 "offline": "$~No se pudo cargar este chat.",
                 "empty": "$~No hay mensajes.",
-                "deleted": "$~Este mensaje se eliminó."
+                "deleted": "$~Este mensaje se eliminó.",
+                "untaggedMessage": "$?"
             },
             "prompt": {
                 "solo": "$~Chatea contigo o agrega...",
@@ -9142,6 +9143,16 @@
                 "commenters": "$~Las /comentadoras/ pueden *conversar* sobre el proyecto contigo, pero no pueden *editarlo*.",
                 "viewers": "$~Las /espectadoras/ pueden *ver* el proyecto y su *código*, pero no pueden *conversar* ni *editarlo*.",
                 "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todas* las personas que pueden ver la galería pueden ver tu proyecto. El botón /restringir/ lo *oculta* de todas menos de ti y de las curadoras de la galería."
+            },
+            "translate": {
+                "label": "$?",
+                "language": "$?",
+                "off": "$?",
+                "error": "$?",
+                "messageError": "$?",
+                "messageErrors": "$?",
+                "direction": "$?",
+                "messageLanguageLabel": "$?"
             }
         },
         "checkpoints": {

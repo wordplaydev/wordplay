@@ -36,6 +36,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - 🌐 If you've never chosen a language, Wordplay now asks which one you'd like when you first visit. It asks in all 30 languages it speaks, so you can find yours even if you don't read English. (#1256)
+- 🌐 We added translation in project and how-to chat, so you can read new messages in the language you picked. (#1214)
 - 🔠 We added a new example called Chamber to the [galleries](https://wordplay.dev/galleries). A hundred letters from four writing systems bounce around a sealed box, and you can turn gravity off or shake them all up again.
 - 🔗 When you share a link to a public project or gallery, it now shows its name and description in chat apps and on social media. We also added a site map so search engines can find public projects and [galleries](https://wordplay.dev/galleries). (#1133)
 - 🔊 We added a harmonica, and like most of our instruments it's a real recording rather than a synthesizer. Ask for it with `Instrument.harmonica` or `🔈.🌬️`.

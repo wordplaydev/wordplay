@@ -1,4 +1,5 @@
 import type Locale from '@locale/Locale';
+import { localeToString } from '@locale/Locale';
 import Markup from '@nodes/Markup';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { toMarkup } from '@parser/toMarkup';
@@ -87,6 +88,100 @@ export async function translateMarkupText(
     if (result === null) return null;
     const translated = result[0];
     return typeof translated === 'string' ? translated : null;
+}
+
+/** One markup string to translate, tagged with a caller-chosen id (so the
+ *  result can be correlated back) and its own source locale. */
+export type MarkupTranslationInput = {
+    id: string;
+    text: string;
+    from: Locale;
+};
+
+/** The outcome of a {@link translateMarkupTexts} pass: the translated text for
+ *  every id that succeeded, and the set of ids whose batch failed. */
+export type MarkupTranslationResults = {
+    translated: Map<string, string>;
+    failed: Set<string>;
+};
+
+/**
+ * Translate many Wordplay markup strings into one target locale — the plural of
+ * {@link translateMarkupText}. Inputs are grouped by source locale so each
+ * language costs a single batched call instead of one round-trip per string,
+ * with embedded `\code\` preserved. A batch that errors (or returns a
+ * non-string for an entry) marks only its own ids failed, so one bad group
+ * doesn't fail the rest. Backend-agnostic via the injected {@link RawTranslator}.
+ */
+export async function translateMarkupTexts(
+    inputs: MarkupTranslationInput[],
+    to: Locale,
+    translate: RawTranslator,
+    context?: { names?: string[]; docs?: string[] },
+): Promise<MarkupTranslationResults> {
+    const translated = new Map<string, string>();
+    const failed = new Set<string>();
+
+    // Group by source locale so each language is one batched call, and
+    // deduplicate identical source texts within each group so repeated
+    // messages (e.g. the same greeting sent by many students) cost one
+    // translator token budget entry instead of N.
+    const grouped = new Map<
+        string,
+        { from: Locale; textToIds: Map<string, string[]> }
+    >();
+    for (const input of inputs) {
+        const key = localeToString(input.from);
+        const normalized = normalizeSoftBreaks(input.text);
+        let group = grouped.get(key);
+        if (group === undefined) {
+            group = { from: input.from, textToIds: new Map() };
+            grouped.set(key, group);
+        }
+        const ids = group.textToIds.get(normalized);
+        if (ids !== undefined) {
+            ids.push(input.id);
+        } else {
+            group.textToIds.set(normalized, [input.id]);
+        }
+    }
+
+    await Promise.all(
+        Array.from(grouped.values()).map(async (group) => {
+            const uniqueTexts = Array.from(group.textToIds.keys());
+            try {
+                const result = await translate(
+                    uniqueTexts,
+                    group.from,
+                    to,
+                    context,
+                );
+                if (result === null) {
+                    for (const ids of group.textToIds.values())
+                        for (const id of ids) failed.add(id);
+                    return;
+                }
+                for (let i = 0; i < uniqueTexts.length; i += 1) {
+                    const value = result[i];
+                    // Every id that had this exact source text gets the same
+                    // translation; if the entry is bad, all of them fail.
+                    const ids = group.textToIds.get(uniqueTexts[i])!;
+                    if (typeof value === 'string') {
+                        for (const id of ids) translated.set(id, value);
+                    } else {
+                        for (const id of ids) failed.add(id);
+                    }
+                }
+            } catch (_) {
+                // This batch failed; mark its ids so callers can flag each one
+                // rather than failing the whole pass.
+                for (const ids of group.textToIds.values())
+                    for (const id of ids) failed.add(id);
+            }
+        }),
+    );
+
+    return { translated, failed };
 }
 
 /**

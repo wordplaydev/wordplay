@@ -27,6 +27,7 @@ vi.mock('firebase/firestore', () => ({
     setDoc: vi.fn(async () => {}),
     updateDoc: vi.fn(async () => {}),
     deleteDoc: vi.fn(async () => {}),
+    deleteField: vi.fn(() => ({ _op: 'deleteField' })),
     runTransaction: vi.fn(
         async (
             _firestore: unknown,
@@ -74,16 +75,15 @@ vi.mock('@db/Database', () => ({
     Projects: {},
 }));
 
-import { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
-import Chat from './ChatDatabase.svelte';
-import { updateDoc } from 'firebase/firestore';
+import { onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import Chat, { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 
 function makeChat(
     overrides: Partial<SerializedChat> = {},
     messages: SerializedMessage[] = [],
 ): Chat {
     return new Chat({
-        v: 2,
+        v: 3,
         project: 'project-1',
         participants: ['user-1', 'user-2', 'user-3'],
         messages,
@@ -123,7 +123,7 @@ describe('ChatDatabase granular message operations', () => {
         it('arrayUnions the message and writes a recomputed unread list', async () => {
             const chat = makeChat();
 
-            await db.addMessage(chat, 'hello world');
+            await db.addMessage(chat, 'hello world', undefined);
 
             expect(updateDoc).toHaveBeenCalledTimes(1);
             const [ref, data] = (
@@ -144,6 +144,35 @@ describe('ChatDatabase granular message operations', () => {
             });
             // Everyone except the sender is marked unread.
             expect([...d.unread].sort()).toEqual(['user-2', 'user-3']);
+        });
+
+        it('tags the message with the chosen language when provided', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'hola', 'es');
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0]).toMatchObject({
+                text: 'hola',
+                language: 'es',
+            });
+        });
+
+        it('leaves the language field unset when no language is chosen', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'hello world', undefined);
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0].language).toBeUndefined();
         });
     });
 
@@ -219,6 +248,8 @@ describe('ChatDatabase granular message operations', () => {
                 moderation: 'pending',
                 reporter: 'user-1',
             });
+
+            expect(data.messages[0].translations).toBeUndefined();
         });
     });
 
@@ -259,16 +290,87 @@ describe('ChatDatabase granular message operations', () => {
                 moderation: 'removed',
                 moderator: 'mod-uid',
             });
+            expect('translations' in data.messages[0]).toBe(false);
+        });
+    });
+
+    describe('saveMessageTranslations', () => {
+        it('writes translated entries to the sidecar document with merge', async () => {
+            await db.saveMessageTranslations(
+                makeChat(),
+                'es',
+                new Map([
+                    ['m1', 'hola'],
+                    ['m2', 'mundo'],
+                ]),
+            );
+
+            // No transaction on the main chat doc — translations go to the
+            // sidecar only.
+            expect(lastTransactionOps).toHaveLength(0);
+            expect(setDoc).toHaveBeenCalledTimes(1);
+            const [ref, data, options] = (
+                setDoc as unknown as ReturnType<typeof vi.fn>
+            ).mock.calls[0];
+            expect(ref).toMatchObject({
+                _ref: { collection: 'chatTranslations', id: 'project-1~es' },
+            });
+            expect(data).toEqual({ m1: 'hola', m2: 'mundo' });
+            expect(options).toEqual({ merge: true });
+        });
+
+        it('does nothing when the translation map is empty', async () => {
+            await db.saveMessageTranslations(makeChat(), 'es', new Map());
+            expect(setDoc).not.toHaveBeenCalled();
+            expect(lastTransactionOps).toHaveLength(0);
+        });
+
+        it('merging is delegated to Firestore — merge:true is always passed', async () => {
+            // setDoc with merge:true lets Firestore combine new entries with
+            // existing ones.  Confirm the flag is always present regardless of
+            // what was already cached in the sidecar doc.
+            await db.saveMessageTranslations(
+                makeChat(),
+                'fr',
+                new Map([['m1', 'bonjour']]),
+            );
+            const [, , options] = (
+                setDoc as unknown as ReturnType<typeof vi.fn>
+            ).mock.calls[0];
+            expect(options).toEqual({ merge: true });
+        });
+    });
+
+    describe('subscribeChatTranslations', () => {
+        it('opens a snapshot listener on the sidecar document', () => {
+            const cb = vi.fn();
+            db.subscribeChatTranslations('project-1', 'es', cb);
+            expect(onSnapshot).toHaveBeenCalledTimes(1);
+            const [ref] = (onSnapshot as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            expect(ref).toMatchObject({
+                _ref: { collection: 'chatTranslations', id: 'project-1~es' },
+            });
+        });
+
+        it('returns an unsubscribe function from onSnapshot', () => {
+            const unsub = db.subscribeChatTranslations(
+                'project-1',
+                'ja',
+                vi.fn(),
+            );
+            expect(typeof unsub).toBe('function');
         });
     });
 
     describe('deleteMessage', () => {
-        it('uses a transaction that nulls the message text in-place', async () => {
+        it('uses a transaction that nulls the message text in-place and clears translations', async () => {
             const existingMessage: SerializedMessage = {
                 id: 'm1',
                 time: 1000,
                 creator: 'user-1',
                 text: 'oops',
+                translations: { es: 'ups' },
             };
             transactionReadSnap = {
                 exists: () => true,
@@ -294,17 +396,18 @@ describe('ChatDatabase granular message operations', () => {
                 id: 'm1',
                 text: null,
             });
+            expect('translations' in data.messages[0]).toBe(false);
         });
     });
 });
 
 /**
  * Upgrade-on-load coverage for chats. Old chat docs are upgraded when a snapshot
- * arrives (upgradeChat), so a regression silently corrupts every pre-v2 chat on
- * load. v1 → v2 adds the `type` discriminator (project vs how-to).
+ * arrives (upgradeChat), so a regression silently corrupts every pre-v2/v3 chat on
+ * load. v1 → v2 adds the `type` discriminator; v2 → v3 adds an optional `language`.
  */
 describe('upgradeChat (upgrade-on-load)', () => {
-    it('upgrades a v1 doc to v2, defaulting type to project', () => {
+    it('upgrades a v1 doc to v3, defaulting type to project and language to undefined', () => {
         const v1 = {
             v: 1 as const,
             project: 'p1',
@@ -313,8 +416,9 @@ describe('upgradeChat (upgrade-on-load)', () => {
             unread: ['u2'],
         };
         const upgraded = upgradeChat(v1);
-        expect(upgraded.v).toBe(2);
+        expect(upgraded.v).toBe(3);
         expect(upgraded.type).toBe('project');
+        expect(upgraded.language).toBeUndefined();
         // v1 user data is preserved across the upgrade.
         expect(upgraded.project).toBe('p1');
         expect(upgraded.participants).toEqual(['u1', 'u2']);
@@ -323,20 +427,146 @@ describe('upgradeChat (upgrade-on-load)', () => {
         expect(upgraded.unread).toEqual(['u2']);
     });
 
-    it('an already-latest v2 doc upgrades to itself', () => {
-        const v2: SerializedChat = {
-            v: 2,
+    it('upgrades a v2 doc to v3, preserving all fields', () => {
+        const v2 = {
+            v: 2 as const,
             project: 'p1',
             participants: ['u1'],
             messages: [],
             unread: [],
-            type: 'howto',
+            type: 'howto' as const,
         };
-        expect(upgradeChat(v2)).toEqual(v2);
+        const upgraded = upgradeChat(v2);
+        expect(upgraded.v).toBe(3);
+        expect(upgraded.type).toBe('howto');
+        expect(upgraded.language).toBeUndefined();
+        expect(upgraded.project).toBe('p1');
+    });
+
+    it('a v3 doc with a language field round-trips unchanged', () => {
+        const v3: SerializedChat = {
+            v: 3,
+            project: 'p1',
+            participants: ['u1'],
+            messages: [],
+            unread: [],
+            type: 'project',
+            language: 'en-US',
+        };
+        expect(upgradeChat(v3)).toEqual(v3);
     });
 
     it('throws on an unknown version', () => {
         // @ts-expect-error — deliberately invalid version for the test.
         expect(() => upgradeChat({ v: 999, project: 'p1' })).toThrow();
+    });
+});
+
+// ---------------------------------------------------------------------------
+// Chat constructor
+// ---------------------------------------------------------------------------
+
+describe('Chat constructor', () => {
+    it('evicts oversized cached translations instead of dropping the message', () => {
+        const oversizedChat = makeChat({}, [
+            {
+                id: 'm1',
+                time: 1,
+                creator: 'user-1',
+                text: '',
+                translations: {
+                    es: 'x'.repeat(131072 + 1),
+                },
+            },
+        ]);
+
+        const messages = oversizedChat.getMessages();
+        expect(messages).toHaveLength(1);
+        expect(messages[0].translations).toBeUndefined();
+    });
+});
+
+// ---------------------------------------------------------------------------
+// Chat.withMessagesTranslations
+// ---------------------------------------------------------------------------
+
+describe('Chat.withMessagesTranslations', () => {
+    it('adds translations to matched messages and leaves others unchanged', () => {
+        const chat = makeChat({}, [
+            { id: 'm1', time: 1, creator: 'user-1', text: 'hello' },
+            { id: 'm2', time: 2, creator: 'user-2', text: 'world' },
+        ]);
+        const updated = chat.withMessagesTranslations(
+            new Map([['m1', 'hola']]),
+            'es-MX',
+        );
+        const msgs = updated.getMessages();
+        expect(msgs[0].translations).toEqual({ 'es-MX': 'hola' });
+        // m2 had no translation entry — must be untouched.
+        expect(msgs[1].translations).toBeUndefined();
+    });
+
+    it('merges with existing translations without clobbering them', () => {
+        const chat = makeChat({}, [
+            {
+                id: 'm1',
+                time: 1,
+                creator: 'user-1',
+                text: 'hello',
+                translations: { 'fr-FR': 'bonjour' },
+            },
+        ]);
+        const updated = chat.withMessagesTranslations(
+            new Map([['m1', 'hola']]),
+            'es-MX',
+        );
+        expect(updated.getMessages()[0].translations).toEqual({
+            'fr-FR': 'bonjour',
+            'es-MX': 'hola',
+        });
+    });
+
+    it('overwrites an existing entry for the same language', () => {
+        const chat = makeChat({}, [
+            {
+                id: 'm1',
+                time: 1,
+                creator: 'user-1',
+                text: 'hello',
+                translations: { 'es-MX': 'old' },
+            },
+        ]);
+        const updated = chat.withMessagesTranslations(
+            new Map([['m1', 'nueva']]),
+            'es-MX',
+        );
+        expect(updated.getMessages()[0].translations?.['es-MX']).toBe('nueva');
+    });
+
+    it('is non-mutating — the original chat is unchanged', () => {
+        const chat = makeChat({}, [
+            { id: 'm1', time: 1, creator: 'user-1', text: 'hello' },
+        ]);
+        chat.withMessagesTranslations(new Map([['m1', 'hola']]), 'es-MX');
+        expect(chat.getMessages()[0].translations).toBeUndefined();
+    });
+
+    it('returns an equal chat when the translations map is empty', () => {
+        const chat = makeChat({}, [
+            { id: 'm1', time: 1, creator: 'user-1', text: 'hello' },
+        ]);
+        const updated = chat.withMessagesTranslations(new Map(), 'es-MX');
+        expect(updated.getMessages()[0].translations).toBeUndefined();
+    });
+
+    it('ignores ids that do not match any message', () => {
+        const chat = makeChat({}, [
+            { id: 'm1', time: 1, creator: 'user-1', text: 'hello' },
+        ]);
+        const updated = chat.withMessagesTranslations(
+            new Map([['no-such-id', 'hola']]),
+            'es-MX',
+        );
+        expect(updated.getMessages()[0].translations).toBeUndefined();
     });
 });

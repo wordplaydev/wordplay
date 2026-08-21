@@ -259,6 +259,12 @@
                 .concretize((l) => l.ui.dialog.locale.subheader.selected)
                 .toText()}</h2
         >
+        <LocaleSearch
+            id="locale-available-search"
+            placeholder={(l) => l.ui.dialog.locale.search.placeholder}
+            description={(l) => l.ui.dialog.locale.search.description}
+            bind:query
+        />
 
         <div class="languages">
             {#each selectedLocales as selected (selected)}
@@ -289,7 +295,12 @@
                     .toText()}</h2
             >
         {/if}
-        <LocaleSearch id="locale-available-search" bind:query />
+        <LocaleSearch
+            id="locale-available-search"
+            placeholder={(l) => l.ui.dialog.locale.search.placeholder}
+            description={(l) => l.ui.dialog.locale.search.description}
+            bind:query
+        />
     </div>
     <div class="supported">
         {#each availableLocales as supported (supported)}

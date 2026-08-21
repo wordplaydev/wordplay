@@ -1026,6 +1026,25 @@ type UITexts = {
     collaborate: {
         /** [plain] The ARIA label for the chat section */
         label: string;
+        /** Controls for translating received messages into another language */
+        translate: {
+            /** [plain] Label for the control that translates received messages */
+            label: string;
+            /** [plain] The ARIA label for the message language selector */
+            language: string;
+            /** [plain] Button label and tip to clear the current translation target */
+            off: string;
+            /** [plain] Shown below the translate control when the whole chat couldn't be translated; $to is the target language name */
+            error: Template<['to']>;
+            /** [plain] Shown when exactly one message couldn't be translated; $sender is the sender's username */
+            messageError: Template<['sender']>;
+            /** [plain] Shown when multiple messages couldn't be translated; $count is the number of failed messages */
+            messageErrors: Template<['#count']>;
+            /** [plain] Translation direction label; $from is the source language name, $to is the target language name */
+            direction: Template<['from', 'to']>;
+            /** [plain] Visible label for the message language picker */
+            messageLanguageLabel: string;
+        };
         /** The chat message input field */
         field: {
             /** The chat message input field */
@@ -1077,6 +1096,8 @@ type UITexts = {
             empty: string;
             /** [plain] A message was deleted */
             deleted: string;
+            /** [plain] Shown when the user tries to send a message without tagging its language */
+            untaggedMessage: string;
         };
         /** Messages to explain the purpose of the chat to each kind of participant */
         prompt: {

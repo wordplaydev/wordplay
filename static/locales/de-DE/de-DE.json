@@ -9098,7 +9098,8 @@
                 "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",
                 "offline": "$~Dieser Chat konnte nicht geladen werden.",
                 "empty": "$~Keine Nachrichten.",
-                "deleted": "$~Diese Nachricht wurde gelöscht."
+                "deleted": "$~Diese Nachricht wurde gelöscht.",
+                "untaggedMessage": "$?"
             },
             "prompt": {
                 "solo": "$~Chatte mit dir selbst oder füge hinzu...",
@@ -9140,6 +9141,16 @@
                 "commenters": "$~Die Kommentatoren können das Projekt mit Ihnen *diskutieren*, aber sie können es nicht *bearbeiten*.",
                 "viewers": "$~Betrachter können das Projekt und seinen Code ansehen, aber sie können ihn weder diskutieren noch bearbeiten.",
                 "restrict": "$~Wenn sich ein Projekt in einer Galerie befindet, kann standardmäßig jeder, der die Galerie sehen kann, auch Ihr Projekt sehen. Mit dem Schalter /restrict/ wird es für alle außer Ihnen und den Kuratoren der Galerie ausgeblendet."
+            },
+            "translate": {
+                "label": "$?",
+                "language": "$?",
+                "off": "—",
+                "error": "$?",
+                "messageError": "$?",
+                "direction": "$from → $to",
+                "messageErrors": "$?",
+                "messageLanguageLabel": "$?"
             }
         },
         "checkpoints": {

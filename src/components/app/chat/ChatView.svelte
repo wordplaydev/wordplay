@@ -1,8 +1,12 @@
 <script lang="ts">
     import CreatorView from '@components/app/CreatorView.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import Spinning from '@components/app/Spinning.svelte';
+    import LocaleName from '@components/settings/LocaleName.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import { getAnnouncer, getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
@@ -14,7 +18,20 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats, Galleries } from '@db/Database';
+    import { Chats, Galleries, locales } from '@db/Database';
+    import { getFunctionsInstance } from '@db/firebase';
+    import getFirebaseTranslator from '@db/getFirebaseTranslator';
+    import {
+        translateMarkupTexts,
+        type MarkupTranslationInput,
+    } from '@db/translateMarkup';
+    import getTranslatableLocales from '@locale/getTranslatableLocales';
+    import {
+        localeToString,
+        localesAreEqual,
+        stringToLocale,
+    } from '@locale/Locale';
+    import { getMultilingualLanguageLabel } from '@locale/LocaleText';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -39,10 +56,100 @@
     }: Props = $props();
 
     const user = getUser();
+    const announce = getAnnouncer();
     let newMessage = $state('');
     let newMessageView = $state<HTMLTextAreaElement | undefined>();
 
     let scrollerView = $state<HTMLDivElement | undefined>();
+
+    // getTranslatableLocales() is built from Object.entries(Languages), which
+    // has unique keys, so no additional dedupe is needed here.
+    const translatableLocales = getTranslatableLocales();
+
+    // The language the creator has chosen to tag their next message with.
+    // Defaults to the viewer's current UI locale (matching startChat) so
+    // the send button is usable immediately; the picker lets them override it.
+    let messageLanguage = $state<string | undefined>(
+        localeToString($locales.getLocale()),
+    );
+
+    // The language the viewer chose to translate received messages into, or
+    // undefined for no translation.
+    let translateTo = $state<string | undefined>(undefined);
+
+    // Translations of visible messages into `translateTo`, keyed by message id.
+    // Cleared when the target changes or translation is turned off.
+    let translations = $state<
+        Record<string, { language: string; text: string }>
+    >({});
+
+    // Whether a translation pass is currently running.
+    let translating = $state(false);
+    let translateRequest = 0;
+    let lastTranslationContentKey = '';
+    let translateTargetTimeout: ReturnType<typeof setTimeout> | undefined;
+
+    // Whether the whole translation pass failed (shown below the translate
+    // control), e.g. the translation service is unavailable.
+    let translateError = $state(false);
+
+    // Ids of messages whose individual translation failed (shown next to each
+    // message), when only some batches error out.
+    let messageErrors = $state<Record<string, boolean>>({});
+
+    let lastAnnouncedTranslateError = false;
+    let lastAnnouncedMessageErrors = '';
+
+    $effect(() => {
+        if (!announce || !$announce) return;
+        if (translateError === lastAnnouncedTranslateError) return;
+        lastAnnouncedTranslateError = translateError;
+        if (translateError && translateTo !== undefined) {
+            const toLang = getMultilingualLanguageLabel(translateTo);
+            $announce(
+                'banner',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize((l) => l.ui.collaborate.translate.error, {
+                        to: toLang,
+                    })
+                    .toText(),
+            );
+        }
+    });
+
+    $effect(() => {
+        if (!announce || !$announce) return;
+        const messageErrorIDs = Object.keys(messageErrors).sort().join(',');
+        if (messageErrorIDs === lastAnnouncedMessageErrors) return;
+        lastAnnouncedMessageErrors = messageErrorIDs;
+        if (messageErrorIDs.length > 0) {
+            const ids = Object.keys(messageErrors);
+            const count = ids.length;
+            let text: string;
+            if (count === 1 && chat) {
+                const msg = chat.getMessages().find((m) => m.id === ids[0]);
+                const sender =
+                    (msg ? creators[msg.creator] : undefined)?.getUsername(
+                        false,
+                    ) ?? '—';
+                text = $locales
+                    .concretize(
+                        (l) => l.ui.collaborate.translate.messageError,
+                        { sender },
+                    )
+                    .toText();
+            } else {
+                text = $locales
+                    .concretize(
+                        (l) => l.ui.collaborate.translate.messageErrors,
+                        { count },
+                    )
+                    .toText();
+            }
+            $announce('banner', $locales.getLanguages()[0], text);
+        }
+    });
 
     // get the gallery from the gallery ID
     let gallery: Gallery | undefined = $state(undefined);
@@ -72,7 +179,7 @@
     function submitMessage() {
         if (newMessage.trim() === '') return;
         if (!chat) return;
-        Chats.addMessage(chat, newMessage);
+        Chats.addMessage(chat, newMessage, messageLanguage);
         newMessage = '';
         tick().then(() => {
             if (newMessageView)
@@ -84,9 +191,222 @@
     }
 
     function startChat() {
-        if (project) Chats.addChat(project, gallery);
-        else if (howTo) Chats.addChatToHowTo(howTo, gallery);
+        const language = localeToString($locales.getLocale());
+        if (project) Chats.addChat(project, gallery, language);
+        else if (howTo) Chats.addChatToHowTo(howTo, gallery, language);
     }
+
+    // Only assigns translateTo (debounced). The content-key $effect below is
+    // the sole place that starts a translation pass — one trigger, no race.
+    function queueTranslateMessages(target: string | undefined) {
+        if (translateTargetTimeout !== undefined) {
+            clearTimeout(translateTargetTimeout);
+            translateTargetTimeout = undefined;
+        }
+
+        translateTargetTimeout = setTimeout(() => {
+            translateTargetTimeout = undefined;
+            translateTo = target;
+        }, 300);
+    }
+
+    /** Translate every visible message into the chosen target language and show
+     *  each translation beneath its original. Messages already carrying a cached
+     *  translation for the target reuse it; the rest are handed to
+     *  translateMarkupTexts, which groups them by source language and translates
+     *  in batches, then their results are cached on the message for next time.
+     *  Always called from the content-key $effect — never directly — so
+     *  translateTo is already set and must not be re-assigned here. */
+    async function translateMessages() {
+        const target = translateTo; // capture; may change while async runs
+        const request = ++translateRequest;
+        translateError = false;
+        messageErrors = {};
+        if (target === undefined || !chat) {
+            translating = false;
+            return;
+        }
+        const toLocale = stringToLocale(target);
+        if (toLocale === undefined) {
+            translating = false;
+            return;
+        }
+
+        const messages = chat.getMessages();
+
+        // Translations to show, keyed by message id: cached ones filled in now,
+        // freshly translated ones added after the batch pass.
+        const next: Record<string, { language: string; text: string }> = {};
+
+        // Messages that still need translating, grouped/batched by the helper.
+        const toTranslate: MarkupTranslationInput[] = [];
+
+        for (const msg of messages) {
+            const isVisibleMessage =
+                msg.text !== null &&
+                (msg.moderation === undefined || msg.moderation === 'approved');
+            if (!isVisibleMessage || msg.text === null) continue;
+
+            // Reuse a cached translation for this target immediately
+            const cached = msg.translations?.[target];
+            if (cached !== undefined) {
+                next[msg.id] = { language: target, text: cached };
+                continue;
+            }
+
+            // Don't re-translate messages whose cached translations were
+            // evicted to keep the chat within the translation budget.
+            if (chat.evictedTranslationIDs.has(msg.id)) continue;
+
+            // Fall back to the chat's language (set at creation), then the
+            // viewer's locale as a last resort. This avoids wrongly declaring
+            // every untagged pre-existing message as being in the viewer's
+            // language, which would fire redundant translation batches and
+            // produce incorrect translations for non-viewer-language chats.
+            const source =
+                msg.language ??
+                chat.getLanguage() ??
+                localeToString($locales.getLocale());
+            const fromLocale = stringToLocale(source);
+            if (fromLocale === undefined) continue;
+            if (localesAreEqual(fromLocale, toLocale)) continue;
+
+            toTranslate.push({
+                id: msg.id,
+                text: msg.text,
+                from: fromLocale,
+            });
+        }
+
+        // Show cached results right away then aftere network call
+        translations = next;
+
+        if (toTranslate.length === 0) {
+            translating = false;
+            return;
+        }
+
+        translating = true;
+        try {
+            // getFunctionsInstance() initialises the SDK on first call and
+            // wires the emulator.
+            const functionsInstance = await getFunctionsInstance();
+            if (!functionsInstance) {
+                if (request !== translateRequest) return;
+                translateError = true;
+                return;
+            }
+
+            const translate = getFirebaseTranslator(functionsInstance);
+            const { translated, failed } = await translateMarkupTexts(
+                toTranslate,
+                toLocale,
+                translate,
+            );
+
+            // A newer target was chosen while this pass ran; discard our result.
+            if (request !== translateRequest) return;
+
+            const failedIds: Record<string, boolean> = {};
+            for (const id of failed) failedIds[id] = true;
+            for (const [id, text] of translated)
+                next[id] = { language: target, text };
+
+            translations = next;
+            messageErrors = failedIds;
+
+            // Cache freshly translated messages in one batch so future requests
+            // for this language reuse the stored text without issuing one
+            // transaction per message.
+            if (translated.size > 0) {
+                try {
+                    await Chats.saveMessageTranslations(
+                        chat,
+                        target,
+                        translated,
+                    );
+                } catch (error) {
+                    // Rendering already has the translated text.
+                    console.error(error);
+                }
+            }
+        } catch (_) {
+            if (request !== translateRequest) return;
+            // The network translation pass failed; cached entries remain shown.
+            translateError = true;
+        } finally {
+            if (request === translateRequest) translating = false;
+        }
+    }
+
+    // Subscribe to the per-chat, per-language translation sidecar when a
+    // target is active.  When another viewer translates the same language
+    // first, their result arrives here via the snapshot, preventing a
+    // duplicate LLM call.  The subscription is torn down and rebuilt whenever
+    // the target language changes or translation is turned off.
+    $effect(() => {
+        if (!chat || translateTo === undefined) return;
+        const target = translateTo;
+        const unsub = Chats.subscribeChatTranslations(
+            chat.getProjectID(),
+            target,
+            (entries) => {
+                if (target !== translateTo) return;
+                translations = {
+                    ...translations,
+                    ...Object.fromEntries(
+                        Object.entries(entries).map(([id, text]) => [
+                            id,
+                            { language: target, text },
+                        ]),
+                    ),
+                };
+            },
+        );
+        return unsub;
+    });
+
+    // Keep translation mode live: when message content changes (including newly
+    // arrived messages), refresh translations for the active target.
+    $effect(() => {
+        if (!chat || translateTo === undefined) {
+            lastTranslationContentKey = '';
+            // Clear translation UI when the user turns translation off; since
+            // translateMessages is no longer called for the undefined path,
+            // this is the only place that resets the visible state.
+            if (translateTo === undefined) {
+                translations = {};
+                translateError = false;
+                messageErrors = {};
+            }
+            return;
+        }
+
+        //// msg.translations is deliberately excluded from the key. Including it would
+// cause translation updates to retrigger this effect, potentially creating a
+// Firestore → translation → Firestore cycle with repeated LLM calls.
+        const contentKey = [
+            chat.getProjectID(),
+            translateTo,
+            ...chat
+                .getMessages()
+                .map((msg) =>
+                    [
+                        msg.id,
+                        msg.text ?? '',
+                        msg.moderation ?? '',
+                        msg.language ?? '',
+                    ].join(':'),
+                ),
+        ].join('|');
+
+        if (contentKey === lastTranslationContentKey) return;
+        lastTranslationContentKey = contentKey;
+
+        untrack(() => {
+            void translateMessages();
+        });
+    });
 
     function areSameDay(a: Date, b: Date): boolean {
         return (
@@ -124,6 +444,9 @@
 
 {#snippet message(chat: Chat, msg: SerializedMessage)}
     {@const date = new Date(msg.time)}
+    {@const isVisibleMessage =
+        msg.text !== null &&
+        (msg.moderation === undefined || msg.moderation === 'approved')}
     <div class="message" class:creator={$user?.uid === msg.creator}>
         <div class="meta"
             ><CreatorView
@@ -140,7 +463,7 @@
                           timeStyle: 'short',
                       })}</div
             >
-            {#if $user?.uid === msg.creator && msg.text !== null && (msg.moderation === undefined || msg.moderation === 'approved')}
+            {#if $user?.uid === msg.creator && isVisibleMessage}
                 <ConfirmButton
                     tip={(l: any) => l.ui.collaborate.button.delete}
                     prompt={(l: any) => l.ui.collaborate.button.confirmDelete}
@@ -182,7 +505,49 @@
                 <MarkupHTMLView markup={msg.text.replaceAll('\n', '\n\n')} />
             {/if}
         </div>
-        {#if !($user?.uid === msg.creator) && galleryID && (msg.moderation === undefined || msg.moderation === 'approved')}
+        {#if translations[msg.id] && isVisibleMessage}
+            <div class="translation">
+                <hr class="divider" />
+                <div class="what">
+                    <MarkupHTMLView
+                        markup={translations[msg.id].text.replaceAll(
+                            '\n',
+                            '\n\n',
+                        )}
+                    />
+                </div>
+                <div class="lang-tag">
+                    {#if msg.language}{$locales
+                            .concretize(
+                                (l) => l.ui.collaborate.translate.direction,
+                                {
+                                    from: getMultilingualLanguageLabel(
+                                        msg.language,
+                                    ),
+                                    to: getMultilingualLanguageLabel(
+                                        translations[msg.id].language,
+                                    ),
+                                },
+                            )
+                            .toText()}{:else}<LocaleName
+                            locale={translations[msg.id].language}
+                        />{/if}
+                </div>
+            </div>
+        {/if}
+        {#if messageErrors[msg.id]}
+            <Notice>{$locales
+                    .concretize(
+                        (l) => l.ui.collaborate.translate.messageError,
+                        {
+                            sender:
+                                creators[msg.creator]?.getUsername(false) ??
+                                '—',
+                        },
+                    )
+                    .toText()}</Notice>
+        {/if}
+        {#if !($user?.uid === msg.creator) && galleryID && isVisibleMessage}
             <Dialog
                 bind:show={showModerationDialog}
                 header={(l) => l.ui.collaborate.moderation.header}
@@ -240,6 +605,49 @@
                 markup={(l) => l.ui.collaborate.moderation.inGallery}
             />
         {/if}
+        <div class="translate-bar">
+            <label class="translate-label" for="translate-messages"
+                ><LocalizedText
+                    path={(l) => l.ui.collaborate.translate.label}
+                /></label
+            >
+            {#if translating}<Spinning />{/if}
+            {#if translateTo !== undefined}
+                <Button
+                    tip={(l) => l.ui.collaborate.translate.off}
+                    action={() => queueTranslateMessages(undefined)}
+                    ><LocalizedText
+                        path={(l) => l.ui.collaborate.translate.off}
+                    /></Button
+                >
+            {/if}
+            <Options
+                id="translate-messages"
+                value={translateTo}
+                label={(l) => l.ui.collaborate.translate.language}
+                options={[
+                    {
+                        value: undefined,
+                        label: () => 'Choose a language',
+                    },
+                    ...translatableLocales.map((locale) => ({
+                        value: localeToString(locale),
+                        label: (_l: any) => getMultilingualLanguageLabel(locale),
+                    })),
+                ]}
+                change={(ls) => queueTranslateMessages(ls)}
+            />
+        </div>
+        {#if translateError}
+            <Notice>{$locales
+                    .concretize((l) => l.ui.collaborate.translate.error, {
+                        to:
+                            translateTo !== undefined
+                                ? getMultilingualLanguageLabel(translateTo)
+                                : '—',
+                    })
+                    .toText()}</Notice>
+        {/if}
         <div class="scroller" bind:this={scrollerView}>
             <div class="messages">
                 {#each chat.getMessages() as msg}
@@ -252,6 +660,29 @@
                     >
                 {/each}
             </div>
+        </div>
+        <div class="language">
+            <label class="language-label" for="new-message-language"
+                ><LocalizedText
+                    path={(l) => l.ui.collaborate.translate.messageLanguageLabel}
+                /></label
+            >
+            <Options
+                id="new-message-language"
+                value={messageLanguage}
+                label={(l) => l.ui.collaborate.translate.language}
+                options={[
+                    {
+                        value: undefined,
+                        label: () => 'Use current language',
+                    },
+                    ...translatableLocales.map((locale) => ({
+                        value: localeToString(locale),
+                        label: (_l: any) => getMultilingualLanguageLabel(locale),
+                    })),
+                ]}
+                change={(ls) => (messageLanguage = ls)}
+            />
         </div>
         <form class="new" data-sveltekit-keepfocus>
             <div class="editor">
@@ -268,7 +699,8 @@
             <div class="send">
                 <Button
                     submit
-                    active={chat !== undefined && newMessage.trim() !== ''}
+                    active={chat !== undefined &&
+                        newMessage.trim() !== ''}
                     tip={(l) => l.ui.collaborate.button.submit.tip}
                     action={submitMessage}
                     background
@@ -311,6 +743,45 @@
         flex-direction: column;
         padding-top: var(--wordplay-spacing);
         padding-bottom: var(--wordplay-spacing);
+    }
+
+    .language {
+        display: flex;
+        justify-content: flex-end;
+        flex-shrink: 0;
+        padding-block: calc(0.5 * var(--wordplay-spacing));
+    }
+
+    .translate-bar {
+        display: flex;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        flex-shrink: 0;
+        padding-block: calc(0.5 * var(--wordplay-spacing));
+    }
+
+    .translate-label,
+    .language-label {
+        font-size: small;
+    }
+
+    .translation {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .divider {
+        border: none;
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        width: 100%;
+        margin-block: calc(0.5 * var(--wordplay-spacing));
+    }
+
+    .lang-tag {
+        font-size: x-small;
+        opacity: 0.6;
+        text-align: end;
     }
 
     .new {

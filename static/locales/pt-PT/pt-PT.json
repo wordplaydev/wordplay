@@ -8283,7 +8283,8 @@
                 "unowned": "Este projeto não está armazenado online, pelo que não pode ter chat nem colaboradores.",
                 "offline": "Não foi possível carregar este chat.",
                 "empty": "Nenhuma mensagem.",
-                "deleted": "Esta mensagem foi apagada."
+                "deleted": "Esta mensagem foi apagada.",
+                "untaggedMessage": "$?"
             },
             "prompt": {
                 "solo": "Converse consigo mesmo ou adicione...",
@@ -8310,6 +8311,16 @@
                 "commenters": "Os comentadores podem *discutir* o projeto consigo, mas não podem *editá-lo*.",
                 "viewers": "Os /Visualizadores/ podem *visualizar* o projeto e o seu *código*, mas não podem *discuti-lo* ou *editá-lo*.",
                 "restrict": "Quando um projeto está numa *galeria*, por defeito, *todos* os que conseguem ver a galeria podem também ver o seu projeto. A opção /restrict/ *oculta* o projeto de todos, exceto de si e dos curadores da galeria."
+            },
+            "translate": {
+                "label": "$?",
+                "language": "$?",
+                "off": "—",
+                "error": "$?",
+                "messageError": "$?",
+                "direction": "$from → $to",
+                "messageErrors": "$?",
+                "messageLanguageLabel": "$?"
             }
         },
         "palette": {

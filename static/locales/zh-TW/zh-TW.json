@@ -9054,7 +9054,8 @@
                 "unowned": "$~這個工程沒有存在線上，所以無法有聊天或協作者。",
                 "offline": "$~無法載入這個聊天。",
                 "empty": "$~沒有訊息。",
-                "deleted": "$~這則訊息已被刪除。"
+                "deleted": "$~這則訊息已被刪除。",
+                "untaggedMessage": "$?"
             },
             "prompt": {
                 "solo": "$~和自己聊天或新增...",
@@ -9096,6 +9097,16 @@
                 "commenters": "$~/留言者/ 可以和你 *討論* 工程，但不能 *編輯* 它。",
                 "viewers": "$~/觀看者/ 可以 *檢視* 工程和它的 *程式碼*，但不能 *討論* 或 *編輯* 它。",
                 "restrict": "$~當工程在 *作品集* 裡時，預設 *所有* 能看到作品集的人都能看到你的工程。/限制/ 開關會把它從所有人 *隱藏*，只留下你和作品集策展人。"
+            },
+            "translate": {
+                "label": "$?",
+                "language": "$?",
+                "off": "$?",
+                "error": "$?",
+                "messageError": "$?",
+                "messageErrors": "$?",
+                "direction": "$?",
+                "messageLanguageLabel": "$?"
             }
         },
         "checkpoints": {
