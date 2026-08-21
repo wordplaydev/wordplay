@@ -4,6 +4,7 @@ import {
     hasUnclosedText,
     leadingAnnotations,
     splitDocParagraphs,
+    unclosedInCode,
 } from './protect';
 
 test('hasUnclosedText flags an identifier that picked up a string delimiter', () => {
@@ -73,4 +74,16 @@ test('leadingAnnotations extracts the marker prefix', () => {
     expect(leadingAnnotations('plain')).toBe('');
     // A mid-string $name mention is not an annotation.
     expect(leadingAnnotations('the $value is')).toBe('');
+});
+
+test('unclosedInCode looks only inside examples, and skips foreign ones', () => {
+    // A translated identifier that swallowed an apostrophe leaves the literal
+    // open, which swallows the rest of the doc when the example is re-embedded.
+    expect(unclosedInCode("See how \\'cat\\ isn't in the list?")).toBe(true);
+    // The same apostrophe in prose is just an apostrophe — `'` isn't markup.
+    expect(unclosedInCode("Voici l'exemple.")).toBe(false);
+    // An external example is another language, where `'` is that language's
+    // delimiter and closes nothing of ours.
+    expect(unclosedInCode("Compare: \\py|print('less')\\")).toBe(false);
+    expect(unclosedInCode("Use \\'cat'\\ here.")).toBe(false);
 });

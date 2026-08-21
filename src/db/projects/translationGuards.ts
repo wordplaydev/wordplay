@@ -1,7 +1,6 @@
 import {
-    hasUnclosedText,
     mismatchedDelimiter,
-    splitMarkupAndCode,
+    unclosedInCode,
 } from '@util/verify-locales/protect';
 
 /**
@@ -33,11 +32,4 @@ export function translationProblem(
     // a translated identifier can really leave a literal open.
     if (unclosedInCode(source)) return undefined;
     return unclosedInCode(translation) ? 'unclosed' : undefined;
-}
-
-/** Whether any `\code\` segment of this markup ends inside an open text literal. */
-function unclosedInCode(text: string): boolean {
-    return splitMarkupAndCode(text).some(
-        (segment) => segment.kind === 'code' && hasUnclosedText(segment.text),
-    );
 }

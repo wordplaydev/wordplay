@@ -824,7 +824,7 @@
                         [
                             "Text",
                             "serious",
-                            "$~Jag gör en enkel sak: representerar sekvenser av symboler och de många saker du kan göra med dem. Jag tror att du såg mig tidigare när du skrev ordet \"hej\"\\. Det var jag och mina vänner, \\“h”\\, \\“e”\\, \\“l”\\ och \\“o”\\. Det var @Text, ett uttryck som utvärderas till vilken @Text du vill."
+                            "$~Jag gör en enkel sak: jag representerar sekvenser av symboler och alla saker du kan göra med dem. Jag tror du såg mig tidigare när du skrev ordet \\'hej'\\. Det var jag och mina vänner, \\'h'\\, \\'e'\\, \\'l'\\ och \\'o'\\. Det var @Text, ett uttryck som beräknas till valfri @Text du vill ha."
                         ],
                         null,
                         [
@@ -1373,7 +1373,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Eh, 1,01 tå? Ja, tack @Number, det här är ... intressanta exempel. Och de är ack så användbara när du gör matte på siffror, eller hur?"
+                            "$~Öhm, \\1.01toe\\s? Ja, tack @Number, det här är … intressanta exempel. Och de är så himla användbara när man räknar med tal, eller hur?"
                         ],
                         null,
                         [
@@ -5202,7 +5202,7 @@
                         [
                             "StructureDefinition",
                             "serious",
-                            "$~Kommer du ihåg hur @Bind bara låter dig ställa in ett värde men inte ändra det? Detsamma gäller för alla @Bind i mig. Så istället gör du en ny struktur som har det nya värdet. Till exempel, i det här spelet, varje gång bockar ändras, får spelaren ytterligare en poäng i sin poäng. Konstigt spel, va? Så det initiala \\Game\\-värdet börjar som \\Game(0 3 1)\\, men nästa är \\Spelets gamla värden men med poängen som adderar \\1\\."
+                            "$~Kommer du ihåg att @Bind bara låter dig ge ett värde men inte ändra det? Samma sak gäller för alla @Bind i mig. Så istället skapar du en ny struktur som har det nya värdet. I det här spelet, till exempel, får spelaren en poäng till varje gång ticks ändras. Konstigt spel, eller hur? Så det första \\Game\\-värdet börjar som \\Game(0 3 1)\\, men nästa blir \\Game\\s gamla värden fast med poängen ökad med \\1\\."
                         ],
                         {
                             "edit": [

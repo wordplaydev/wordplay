@@ -134,7 +134,7 @@
                             "curious",
                             "$~Bazı programlama dilleri bir @variable'ın @type'ını belirtmene izin verir, böylece değişkeni kullandığın tüm yolların geçerli olduğundan emin olabilirsin:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplay de türlüdür ama türler *çıkarılır*. Genellikle onları bildirmen gerekmez ama bazen çıkarılamıyorlarsa bildirmen gerekebilir."
+                            "$~@wordplay da bir tipe sahiptir, ama tipler *kendiliğinden anlaşılır*. Genellikle onları belirtmen gerekmez. Ama tip kendiliğinden anlaşılamıyorsa, belirtmen gerekebilir. Bir liste tipi, listedeki her yer için ayrı bir tip de belirtebilir. Örneğin \\[# '']\\ tam olarak iki şeyden oluşan bir liste için kullanılır: bir sayı, sonra bir kelime."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

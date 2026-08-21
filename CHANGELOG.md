@@ -26,6 +26,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🌐 In 29 languages, the tutorial pointed at code examples that weren't there — a lesson would say to use `+` but never show it. We put the missing examples back, and Wordplay now checks for this so it can't happen again. (#928)
+- 🌐 We redid the whole Arabic tutorial with our current translator. Most of it was still from an old one that dropped examples and left lessons hard to follow. (#928)
 - 🌐 Translating a project replaced your words instead of adding to them. A name you wrote with no language on it, like `speed`, was thrown away to make room for the new one, and the rest of your code was rewritten in the new language whether you wanted that or not. (#1276)
 - 🌐 Sentences with an apostrophe in them, which is most French and Italian writing, quietly didn't translate at all. Your writing stayed in the language you started in with no explanation. (#1276)
 - 🐛 Translating sometimes swapped a name for a picture, like turning `Phrase` into 💬, because it grabbed whichever name came first instead of a word. (#1276)

@@ -1906,7 +1906,7 @@
                         [
                             "Set",
                             "eager",
-                            "Tu tambien puedes remover cosas de un conjueto. Este ejemplo recive el conjunto \\{1}\\, agrega \\2\\, y despues remueve el 1 dejando solo \\{1}"
+                            "Tu tambien puedes remover cosas de un conjueto. Este ejemplo recive el conjunto \\{1}\\, agrega \\2\\, y despues remueve el 1 dejando solo \\{ 2 }\\."
                         ],
                         { "edit": "({ 1 } + 2) - 1" },
                         [
@@ -5432,7 +5432,7 @@
                             "$~Y una última cosa.",
                             "$~Aunque me encanta explicar las cosas, a veces también resulta útil omitir algunas cosas. Es decir, eliminar algo de un proyecto temporalmente para que no forme parte del mismo.",
                             "$~Puedes hacer esto envolviendo cualquier cosa entre las estrellas.",
-                            "$~¿Ves cómo \"gato\" no está incluido en la lista que hicimos?",
+                            "$~¿Ves cómo \\'gato'\\ no está incluida en la lista que hicimos?",
                             "$~Puedes eliminar las estrellas borrándolas con el teclado o colocando el cursor dentro de ellas y usando el comando elide para eliminarlas por ti."
                         ],
                         { "edit": "[1 2 3 4 *'gato'* 5 6 7 8]" },

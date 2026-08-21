@@ -832,7 +832,7 @@
                         [
                             "Text",
                             "serious",
-                            "$~Isang simpleng bagay lang ang ginagawa ko: kinakatawan ko ang mga pagkakasunod-sunod ng mga simbolo at ang maraming bagay na magagawa mo gamit ang mga ito. Sa tingin ko nakita mo na ako kanina noong isinulat mo ang salitang \"hello\". Ako iyon at ang mga kaibigan ko, sina \"h\", \"e\", \"l\", at \"o\". Iyon ay ang @Text, isang ekspresyon na nagbibigay ng anumang @Text na gusto mo."
+                            "$~May ginagawa akong isang simpleng bagay: kumakatawan ako sa pagkakasunod-sunod ng mga simbolo, at sa maraming bagay na pwede mong gawin sa mga ito. Sa tingin ko, nakita mo na ako kanina, noong isinulat mo ang salitang \\'kamusta'\\. Ako iyon, kasama ang aking mga kaibigan, \\'h'\\, \\'e'\\, \\'l'\\, at \\'o'\\. Iyon ay @Text, isang ekspresyon na nagbibigay ng anumang @Text na gusto mo."
                         ],
                         null,
                         [
@@ -2620,7 +2620,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Malaking tulong ang mga @Key stream kapag gusto mong mag-react ang isang pagtatanghal sa mga key na pinipindot ng mga manonood. Halimbawa, maaari mong tingnan kung may nakasulat na 'Arrow' ang isang key para malaman kung may pinindot na arrow key. Pindutin ang isang arrow key at makikita mo ang \\'move'; pindutin ang ibang key at makikita mo ang \\'stay'."
+                            "$~Napaka-tulong ng mga stream na @Key kapag gusto mong tumugon ang isang palabas sa mga susi na pinipindot ng manonood. Halimbawa, pwede mong tignan kung may salitang 'Arrow' ang isang susi, para malaman kung may pinindot na key na may arrow. Pindutin ang isang arrow key at makikita mo ang \\'gumalaw'\\; pindutin ang iba pa at makikita mo ang \\'manatili'\\"
                         ],
                         ["Key", "neutral", "$~pag-click ng 'Arrow'..."],
                         { "edit": "Key().has('Arrow') ? 'move' 'stay'" }
@@ -3371,7 +3371,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "$~Ngayon, sabihin nating gumagalaw ako. Itatakda natin ang oras sa pwesto ko, kaya gumagalaw ako pakanan nang kaunti bawat segundo. Pero kung magtatakda tayo ng @Phrase.moving na @Pose at magkakaroon ng @Pose.rotation na 5°\\ at marahil ay kaunting kulay, sa tuwing magbabago ang pwesto ko, magpapadulas ako sa entablado nang may pinakacute na pagkiling."
+                            "$~Ngayon, sabihin nating gumagalaw ako. Itatakda natin ang aking lugar ayon sa oras, kaya gumagalaw ako nang kaunti pakanan bawat segundo. Pero kung magtatakda tayo ng @Phrase.moving @Pose at meron tayong @Pose.rotation \\5°\\ at siguro isang kaunting kulay, tuwing nagbabago ang aking lugar, dadaloy ako sa tabing-entablado kasama ang pinakamagandang munting tilt."
                         ],
                         {
                             "fit": "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
@@ -5129,7 +5129,7 @@
                         [
                             "StructureDefinition",
                             "serious",
-                            "$~Ngayon, lahat ng iyan ay gumagana. At maaari na lang natin itong iwan sa ganitong paraan. Ngunit medyo mahirap din itong basahin at unawain. Bahagi iyon dahil inuulit natin ang ating mga sarili: Ang \\messages[index]\\ ay lumilitaw nang dalawang beses, isang beses sa bawat parirala. At ang @Reaction ay napakahaba. Ano ang maaari nating gawin upang pasimplehin ito? Ganoon ako makakatulong. Inaayos ko ang mga bagay-bagay upang mas madaling maunawaan sa pamamagitan ng pagbibigay ng mga pangalan ng mga konseptong magagamit muli. Kaya isipin na sa halip na lahat ng ito ay @Bind, sa halip ay gagawa tayo ng isa sa me at papangalanan itong \\Marquee\\. Iyon ang una nating ginagawa. Ang trabaho ng \\Marquee ay iimbak ang mga mensahe ngunit mayroon ding function para sa pagsulong sa susunod na mensahe na \\next()\\ at isang function para sa pagkuha ng kasalukuyang mensahe na \\now()\\.",
+                            "$~Ngayon, gumagana ang lahat ng iyan. At maaari na lang nating iwan ito nang ganito. Pero medyo mahirap din itong basahin at intindihin. Bahagi iyon dahil inuulit natin ang ating sarili: \\messages[index]\\ ay lumalabas nang dalawang beses, isa sa bawat parirala. At napakahaba ng @Reaction. Ano ang maaari nating gawin para pasimplehin ito? Diyan ako makakatulong. Inaayos ko ang mga bagay-bagay para gawing mas madaling maintindihan sa pamamagitan ng pagbibigay ng mga pangalan sa mga konseptong magagamit muli. Kaya isipin na sa halip na lahat ng mga @Bind na ito, gagawa na lang tayo ng isa sa akin at bibigyan ito ng pangalang \\Marquee\\. Iyan ang gagawin natin muna. \\Marquee\\ ang gawain nito ay itago ang mga mensahe pero mayroon din itong isang function para pumunta sa susunod na mensahe \\next()\\ at isang function para makuha ang kasalukuyang mensahe \\now()\\.",
                             "$~Pagkatapos, maaari nating gamitin ang Marquee sa reaksyon. Ngayon, sinasabi lamang nito na ang unang value ay isang marquee na may limang mensahe, at ang susunod na value, pagkatapos ng bawat tik ng orasan, ay ang susunod na mensahe. Mas simple, di ba? Ito ay dahil ang lahat ng lohika para sa susunod na mga mensahe ay nasa \\next()\\, na gumagawa lamang ng bagong \\Marquee\\ na may parehong mga mensahe ngunit may bagong @index. May makukuha rin tayong benepisyo sa dalawang @Phrase. Sa halip na kailangan nilang tukuyin ang mga mensahe at ang index tulad noon, maaari na lang nating sabihin ang \\marquee.now()\\, na kumukuha ng kasalukuyang mensahe sa listahan."
                         ],
                         {

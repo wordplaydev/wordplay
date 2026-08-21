@@ -279,6 +279,29 @@ export function hasUnclosedText(code: string): boolean {
     return close !== undefined;
 }
 
+/**
+ * Whether any `\code\` segment of this markup ends inside an open text literal.
+ *
+ * An apostrophe is a text delimiter only in *code* — in prose it's just an
+ * apostrophe, so checking a whole string rejects every French, Italian, or
+ * possessive-English sentence a translator writes with an ASCII `'`.
+ *
+ * External examples are skipped: `\py|print('less')\` is Python, where `'` is
+ * that language's delimiter and closes nothing of ours. The `xx|` tag is the
+ * same shape `isNonProgram` recognizes in `docExamples.ts` (inlined rather than
+ * imported, since this module reaches the app bundle through
+ * `db/projects/translationGuards.ts` and pulling in the doc parser would bloat
+ * it).
+ */
+export function unclosedInCode(text: string): boolean {
+    return splitMarkupAndCode(text).some(
+        (segment) =>
+            segment.kind === 'code' &&
+            !/^[a-z]{2,3}\s*\|/.test(segment.text.replace(/^\\/, '').trim()) &&
+            hasUnclosedText(segment.text),
+    );
+}
+
 export const ConceptPattern = new RegExp(ConceptRegExPattern, 'ug');
 export const MentionPattern = new RegExp(MentionRegEx, 'ug');
 

@@ -189,9 +189,9 @@
                         [
                             "Program",
                             "neutral",
-                            "$~De exemplu, încearcă să tastezi „hello” în editorul de acolo.",
+                            "$~De exemplu, încearcă să scrii \\'salut'\\ în editorul de acolo.",
                             "$~(Nu vă faceți griji dacă faceți greșeli, puteți oricând reveni la original cu *revert* @UI/revertProject).",
-                            "$~Ai scris ceva? Ăla e prietenul meu, @Text. L-ai cunoscut deja? Se evaluează ca „hello” sau orice text tastezi, iar apoi textul respectiv este plasat pe scenă. Încearcă să schimbi textul în altceva. Îți voi arăta asta în schimb. Așa că voi evalua imediat ce tastezi și voi arăta rezultatul."
+                            "$~Ai scris ceva? Acela e prietenul meu @Text. V-ați cunoscut deja? Se evaluează la \\'salut'\\ sau la orice text scrii tu, iar apoi acel text este pus pe scenă. Încearcă să schimbi textul tău cu altceva. Voi arăta asta în loc. Așa că voi evalua imediat orice scrii și voi arăta rezultatul."
                         ],
                         null,
                         [
@@ -674,7 +674,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~„O, da, e o idee bună. Multe pot merge prost. De exemplu, ai putea să-mi dai ceva ce nu este o funcție. Vezi cum primesc textul „hi” ca funcție și mi se dau două intrări, 1 și 2? Ei bine, eu știu doar cum să evaluez funcții, iar „hi” nu este o funcție; este text. Asta e foarte confuz pentru mine, așa că practic opresc performanța dacă se întâmplă asta.”"
+                            "$~Da, e o idee bună. Multe pot merge prost. De exemplu, mi-ai putea da ceva care nu este o funcție. Vezi cum mi-ai dat textul \\'bună'\\ aici ca funcție și mi-ai dat două intrări, \\1\\ și \\2\\ ? Ei bine, eu știu doar să evaluez funcții, iar \\'bună'\\ nu este o funcție; este text. Asta mă încurcă foarte tare, așa că practic opresc totul dacă se întâmplă așa ceva."
                         ],
                         null,
                         {
@@ -828,7 +828,7 @@
                         [
                             "Text",
                             "serious",
-                            "$~Fac un lucru simplu: reprezint secvențe de simboluri și numeroasele lucruri pe care le poți face cu ele. Cred că m-ai văzut mai devreme când ai scris cuvântul „hello”. Aceia eram eu și prietenii mei, „h”, „e”, „l” și „o”. Aceea era @Text, o expresie care se evaluează ca orice @Text dorești."
+                            "$~Eu fac un singur lucru simplu: reprezint șiruri de simboluri și multele lucruri pe care le poți face cu ele. Cred că m-ai văzut mai devreme când ai scris cuvântul \\'salut'\\. Aceia eram eu și prietenii mei, \\'h'\\, \\'e'\\, \\'l'\\ și \\'o'\\. Aceea era @Text, o expresie care se evaluează la orice @Text îți dorești."
                         ],
                         null,
                         [
@@ -2596,7 +2596,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Fluxurile @Key sunt foarte utile atunci când vrei ca o reprezentație să reacționeze la tastele apasă de public. De exemplu, ai putea verifica dacă o tastă conține cuvântul „Săgeată” pentru a decide dacă a fost apăsată o tastă săgeată. Apasă o tastă săgeată și vei vedea „mutare”; apasă altceva și vei vedea „rămâne”."
+                            "$~Fluxurile de tip @Key sunt foarte utile când vrei ca o reprezentație să reacționeze la tastele apăsate de public. De exemplu, poți verifica dacă o tastă conține cuvântul „Arrow” pentru a decide dacă a fost apăsată o tastă săgeată. Apasă o tastă săgeată și vei vedea \\'mișcă'\\; apasă altceva și vei vedea \\'rămâi'\\"
                         ],
                         ["Key", "neutral", "$~„Săgeată” pe clic…"],
                         { "edit": "Key().has('Arrow') ? 'move' 'stay'" }
@@ -2667,7 +2667,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Utilizarea unui flux @Button este o modalitate de a avansa prin etapele unei performanțe sau de a declanșa o schimbare într-o performanță. Acest mic program ascultă apăsările butoanelor și începe să afișeze mesajul „sad” (trist), dar când fluxul @Button se schimbă în „true” (adevărat), @Conditional se evaluează în schimb ca „happy” (fericit)."
+                            "$~Folosirea unui flux de tip @Button este un mod de a avansa prin etapele unei reprezentații sau de a declanșa o schimbare într-o reprezentație. Acest program mic ascultă apăsările de buton și începe prin a arăta \\'trist'\\, dar când fluxul @Button devine adevărat, @Conditional se evaluează la \\'fericit'\\ în loc."
                         ],
                         { "edit": "Phrase(Button(ø) ? 'happy' 'sad')" }
                     ]
@@ -5456,7 +5456,7 @@
                             "$~Și un ultim lucru.",
                             "$~Deși mă concentrez pe explicații, uneori e util să omit și anumite aspecte. Știi, să elimini temporar ceva dintr-un proiect, astfel încât să nu mai facă parte din proiect.",
                             "$~Poți face asta înfășurând orice între stele.",
-                            "$~Vezi cum „pisică” nu este inclusă în lista pe care am întocmit-o?",
+                            "$~Vezi cum \\'pisică'\\ nu este inclus în lista pe care am făcut-o?",
                             "$~Puteți elimina stelele ștergându-le cu tastatura sau plasând cursorul în interiorul lor și utilizând comanda elide pentru a le elimina automat."
                         ],
                         { "edit": "[1 2 3 4 *'cat'* 5 6 7 8]" },
@@ -5709,7 +5709,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Da, așa. Hm... oh, trebuie să fim pe scenă. @Text, te superi să faci o listă cu toți? O vom transforma în caractere."
+                            "$~Da, cam așa. Hm… a, trebuie să fim pe scenă. @Text, ai putea să faci o listă cu toată lumea? O vom transforma în \\Character > s."
                         ],
                         [
                             "Text",

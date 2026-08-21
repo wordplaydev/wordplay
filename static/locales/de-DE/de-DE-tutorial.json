@@ -670,7 +670,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Oh ja, das ist eine gute Idee. Es kann viel schiefgehen. Sie könnten mir beispielsweise etwas geben, das keine Funktion ist. Sehen Sie, wie mir hier der Text \\“hi“\\ als Funktion gegeben wird und ich zwei Eingaben bekomme, \\1\\ und \\2\\? Nun, ich weiß nur, wie man Funktionen auswertet, und \\“hi“\\ ist keine Funktion, sondern Text. Das ist für mich sehr verwirrend, also breche ich die Leistung grundsätzlich ab, wenn das passiert."
+                            "$~Oh ja, das ist eine gute Idee. Vieles kann schiefgehen. Zum Beispiel könntest du mir etwas geben, das keine Funktion ist. Schau mal, wie ich den Text \\'hallo'\\ hier als Funktion bekomme und mir zwei Eingaben gegeben werden, \\1\\ und \\2\\ ? Nun, ich weiß nur, wie man Funktionen auswertet, und \\'hallo'\\ ist keine Funktion, sondern Text. Das verwirrt mich sehr, also stoppe ich meistens die Vorführung, wenn das passiert."
                         ],
                         null,
                         {
@@ -824,7 +824,7 @@
                         [
                             "Text",
                             "serious",
-                            "$~Ich mache eine einfache Sache: Ich stelle Symbolfolgen dar und die vielen Dinge, die man damit machen kann. Ich glaube, Sie haben mich vorhin gesehen, als Sie das Wort \\“hallo\\“ geschrieben haben. Das waren ich und meine Freunde \\“h\\“, \\“e\\“, \\“l\\“ und \\“o\\. Das war @Text, ein Ausdruck, der zu jedem beliebigen @Text ausgewertet wird."
+                            "$~Ich mache eine einfache Sache: Ich stelle Ketten von Zeichen dar und die vielen Dinge, die man damit machen kann. Ich glaube, du hast mich schon früher gesehen, als du das Wort \\'hallo'\\ geschrieben hast. Das war ich und meine Freunde, \\'h'\\, \\'e'\\, \\'l'\\ und \\'o'\\. Das war @Text, ein Ausdruck, der zu jedem beliebigen @Text ausgewertet wird."
                         ],
                         null,
                         [
@@ -2588,7 +2588,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Key-Streams sind wirklich hilfreich, wenn Sie möchten, dass eine Performance auf Tastendrücke des Publikums reagiert. Sie können beispielsweise prüfen, ob eine Taste das Wort „Pfeil“ enthält, um zu entscheiden, ob eine Pfeiltaste gedrückt wurde. Drücken Sie eine Pfeiltaste und Sie sehen „Bewegen“; drücken Sie etwas anderes und Sie sehen „Bleiben“"
+                            "$~@Key-Streams sind sehr nützlich, wenn eine Vorführung auf Tasten reagieren soll, die das Publikum drückt. Du kannst zum Beispiel prüfen, ob eine Taste das Wort „Arrow“ enthält, um herauszufinden, ob eine Pfeiltaste gedrückt wurde. Drücke eine Pfeiltaste, und du siehst \\'bewegen'\\; drücke etwas anderes, und du siehst \\'bleiben'\\"
                         ],
                         ["Key", "neutral", "$~Klick, „Pfeil“ …"],
                         { "edit": "Key().has('Arrow') ? 'move' 'stay'" }

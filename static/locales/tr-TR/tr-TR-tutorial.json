@@ -187,7 +187,7 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Mesela şuradaki editöre 'merhaba' yazmayı deneyin.",
+                            "$~Örneğin, şunu yazmayı dene \\'merhaba'\\ oradaki düzenleyicide.",
                             "$~(Hata yapmaktan korkmayın, her zaman *revert* @UI/revertProject komutuyla orijinaline geri dönebilirsiniz).",
                             "$~Bir şey mi yazdın? O benim arkadaşım @Text. Onlarla tanıştın mı? \\'merhaba'\\ veya yazdığın herhangi bir metni değerlendirirler ve sonra o metin sahneye yerleştirilir. Metnini başka bir şeye değiştirmeyi dene. Bunun yerine onu göstereceğim. Bu yüzden yazdığın her şeyi hemen değerlendireceğim ve sonucu göstereceğim."
                         ],
@@ -5480,7 +5480,7 @@
                             "$~Ve son bir şey.",
                             "$~Aslında her şeyi açıklamakla ilgili olsam da, bazen bazı şeyleri atlamak da faydalı oluyor. Biliyorsunuz, bir şeyi projeden geçici olarak kaldırmak, böylece projenin bir parçası olmamasını sağlamak.",
                             "$~Bunu yıldızların arasına herhangi bir şey koyarak yapabilirsiniz.",
-                            "$~Yaptığımız listede \\'cat\\'in yer almadığını görüyor musunuz?",
+                            "$~Bak, \\'kedi'\\ oluşturduğumuz listeye dahil edilmemiş, gördün mü?",
                             "$~Yıldızları klavyeden silerek veya imleci yıldızların içine getirip elide komutunu kullanarak kaldırabilirsiniz."
                         ],
                         { "edit": "[1 2 3 4 *'cat'* 5 6 7 8]" },
@@ -5725,7 +5725,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Evet, öyle. Hm... oh, sahnede olmamız gerek. @Text, herkesin bir listesini yapmana izin verir misin? Bunu \\Character>s'a çevireceğiz."
+                            "$~Evet, aynen öyle. Hm… ah, sahnede olmamız gerekiyor. @Text, herkesin bir listesini yapar mısın? Bunu \\Character > s."
                         ],
                         ["Text", "excited", "$~Rica ederim canım. Bu olur mu?"],
                         {

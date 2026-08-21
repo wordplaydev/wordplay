@@ -189,9 +189,9 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Misalnya, coba ketik 'hello' di editor di sana.",
+                            "$~Sebagai contoh, coba ketik \\'halo'\\ di editor sebelah sana.",
                             "$~(Jangan khawatir jika membuat kesalahan, Anda selalu dapat kembali ke versi asli dengan perintah *revert* @UI/revertProject).",
-                            "$~Apakah kamu mengetik sesuatu? Itu temanku @Text. Sudahkah kamu bertemu dengannya? Dia akan mengevaluasi menjadi 'halo' atau teks apa pun yang kamu ketik, lalu teks itu akan ditampilkan di panggung. Coba ubah teksmu menjadi sesuatu yang lain. Aku akan menampilkannya sebagai gantinya. Jadi aku akan langsung mengevaluasi apa pun yang kamu ketik dan menampilkan hasilnya."
+                            "$~Sudah mengetik sesuatu? Itu teman saya @Text. Sudah pernah bertemu mereka? Mereka menghasilkan nilai \\'halo'\\ atau teks apa pun yang kamu ketik, lalu teks itu ditampilkan di panggung. Coba ganti teksmu dengan yang lain. Saya akan menampilkan itu sebagai gantinya. Jadi saya akan langsung menghitung apa pun yang kamu ketik dan menampilkan hasilnya."
                         ],
                         null,
                         [
@@ -648,7 +648,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Beginilah tampilan saya di @Program: sebuah fungsi, diikuti oleh tanda kurung, dengan daftar ekspresi di antaranya yang mewakili input. Fungsi dalam hal ini adalah @Phrase, dan input tunggalnya adalah 'hello'. Ketika saya mengevaluasi ini, saya membuat nilai @Phrase, yang kemudian ditampilkan oleh @Program di panggung."
+                            "$~Seperti itulah wujud saya di @Program: sebuah fungsi, diikuti tanda kurung, dengan daftar ekspresi di antaranya yang mewakili input. Fungsi dalam hal ini adalah @Phrase, dan satu-satunya input adalah \\'halo'\\. Ketika saya dihitung, saya membuat nilai @Phrase, yang kemudian ditampilkan di panggung oleh @Program."
                         ],
                         null,
                         [
@@ -678,7 +678,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Oh, ya, itu ide bagus. Banyak hal yang bisa salah. Misalnya, Anda bisa memberi saya sesuatu yang bukan fungsi. Lihat bagaimana saya diberi teks \"hi\" di sini sebagai fungsi dan diberi dua input, 1 dan 2? Nah, saya hanya tahu cara mengevaluasi fungsi, dan \"hi\" bukanlah fungsi; itu teks. Itu sangat membingungkan bagi saya, jadi pada dasarnya saya menghentikan kinerja jika ini terjadi."
+                            "$~Oh, ya, itu ide yang bagus. Banyak hal bisa salah. Sebagai contoh, kamu bisa memberi saya sesuatu yang bukan fungsi. Lihat bagaimana saya diberi teks \\'hai'\\ di sini sebagai fungsi dan diberi dua input, \\1\\ dan \\2\\ ? Nah, saya hanya tahu cara menghitung fungsi, dan \\'hai'\\ bukan fungsi; itu teks. Itu sangat membingungkan bagi saya, jadi saya pada dasarnya menghentikan pertunjukan jika ini terjadi."
                         ],
                         null,
                         {
@@ -774,7 +774,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~Setiap nilai punya *@type*. Sebagai contoh, \\1\\ adalah tipe angka; itu teman kita @Number. Dan \\'halo'\\ adalah tipe teks; itu teman kita @Text. Tipe itu penting karena membantu kita melacak jenis nilai apa yang sedang kita buat.",
-                            "$~Itu membantu kita menemukan masalah. Misalnya, tidak masuk akal untuk menambahkan 'hello' + 1 karena apa artinya menambahkan @Text ke @Number?"
+                            "$~Itu membantu kita menemukan masalah. Sebagai contoh, tidak masuk akal untuk menambahkan \\'halo' + 1\\ karena apa artinya menambahkan @Text ke @Number?"
                         ],
                         null,
                         {
@@ -832,7 +832,7 @@
                         [
                             "Text",
                             "serious",
-                            "$~Saya melakukan satu hal sederhana: mewakili rangkaian simbol dan berbagai hal yang dapat Anda lakukan dengannya. Saya rasa Anda melihat saya sebelumnya ketika Anda menulis kata \"hello\". Itu adalah saya dan teman-teman saya, \"h\", \"e\", \"l\", dan \"o\". Itu adalah @Text, sebuah ekspresi yang dapat dievaluasi menjadi @Text apa pun yang Anda inginkan."
+                            "$~Saya melakukan satu hal sederhana: mewakili urutan simbol dan banyak hal yang bisa kamu lakukan dengannya. Saya rasa kamu pernah melihat saya sebelumnya saat kamu menulis kata \\'halo'\\. Itu adalah saya dan teman-teman saya, \\'h'\\, \\'e'\\, \\'l'\\, dan \\'o'\\. Itu adalah @Text, sebuah ekspresi yang menghasilkan nilai @Text apa pun yang kamu suka."
                         ],
                         null,
                         [
@@ -2608,7 +2608,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Key streams sangat membantu ketika Anda ingin pertunjukan bereaksi terhadap tombol yang ditekan penonton. Misalnya, Anda dapat memeriksa apakah sebuah tombol memiliki kata 'Panah' di dalamnya untuk menentukan apakah tombol panah telah ditekan. Tekan tombol panah dan Anda akan melihat 'bergerak'; tekan tombol lain dan Anda akan melihat 'diam'."
+                            "$~Aliran @Key sangat membantu ketika kamu ingin sebuah pertunjukan bereaksi terhadap tombol yang ditekan penonton. Sebagai contoh, kamu bisa memeriksa apakah sebuah tombol memiliki kata 'Arrow' di dalamnya untuk menentukan apakah tombol panah ditekan. Tekan tombol panah dan kamu akan melihat \\'pindah'\\; tekan sesuatu yang lain dan kamu akan melihat \\'tetap'\\"
                         ],
                         ["Key", "neutral", "$~'Panah' yang berbunyi klik…"],
                         { "edit": "Key().has('Arrow') ? 'move' 'stay'" }
@@ -2679,7 +2679,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Menggunakan stream @Button adalah salah satu cara untuk maju melalui tahapan suatu pertunjukan atau untuk memicu beberapa perubahan dalam pertunjukan. Program kecil ini mendengarkan penekanan tombol dan mulai menampilkan 'sedih', tetapi ketika stream @Button berubah menjadi true, @Conditional dievaluasi menjadi 'senang'."
+                            "$~Menggunakan aliran @Button adalah salah satu cara untuk maju melalui tahap-tahap pertunjukan atau memicu suatu perubahan dalam pertunjukan. Program kecil ini mendengarkan tekanan tombol dan awalnya menampilkan \\'sedih'\\, tetapi ketika aliran @Button berubah menjadi benar, @Conditional menghasilkan nilai \\'senang'\\ sebagai gantinya."
                         ],
                         { "edit": "Phrase(Button(ø) ? 'happy' 'sad')" }
                     ]
@@ -2722,7 +2722,7 @@
                             "$~Ada satu sumber input lain yang ingin saya tunjukkan. Ingat \\[].random()\\ dari sebelumnya, dari @List?",
                             "$~Di dalamnya, ia menggunakan @FunctionDefinition bernama @Random, yang menyediakan urutan angka acak tak terbatas. Ini semacam stream karena menghasilkan input dari dunia Anda, bukan dari dunia kami. Namun, ini sedikit berbeda dari stream lainnya karena tidak menyebabkan @Program dievaluasi ulang.",
                             "$~Sebaliknya, setiap kali dievaluasi, ia memberikan angka acak yang berbeda.",
-                            "$~Lihat tombol kecil ↻ @UI/resetEvaluator di toolbar stage (dan juga di timeline)? Tekan tombol itu untuk mengevaluasi ulang program secara manual, dan Anda akan melihat angka baru antara 0 dan 1 setiap kali."
+                            "$~Lihat tombol kecil ↻ @UI/resetEvaluator di bilah alat panggung (dan juga di garis waktu)? Tekan itu untuk menghitung ulang program secara manual, dan kamu akan melihat sebuah angka baru di antara \\0\\ dan \\1\\ setiap kali."
                         ],
                         ["Random", "neutral", "$~0,223423… 0,823423… 0,123459"],
                         { "edit": "Random()" },
@@ -3040,7 +3040,7 @@
                             "$~Value *awal* adalah value apa pun yang harus kubuat sebelum perubahan apa pun terjadi. Itu hanya @expression biasa dari jenis apa pun!",
                             "$~Kemudian Anda menambahkan \\…\\ setelah nilai awal untuk memberi tahu saya bahwa nilai tersebut dapat berubah.",
                             "$~Setelah \\…\\, berikan saya *kondisi* yang menghasilkan \\⊤\\ atau \\⊥\\. Kondisi ini umumnya harus memeriksa satu atau lebih aliran data — jika tidak, tidak ada yang berubah, karena satu-satunya sumber perubahan dalam sebuah pertunjukan adalah aliran data.",
-                            "$~Kemudian tambahkan …\\ lagi setelah kondisi tersebut untuk memberi tahu saya bahwa nilainya dapat berubah.",
+                            "$~Lalu, taruh satu lagi \\…\\ setelah kondisi untuk memberitahuku bahwa nilainya bisa berubah.",
                             "$~Terakhir, nilai *berikutnya* adalah nilai apa pun yang harus saya buat setiap kali kondisi berubah."
                         ],
                         {
@@ -3346,7 +3346,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "$~Tidak melihatnya? Apakah saya bergerak terlalu cepat untuk Anda? Itu karena durasi saya secara default adalah 0 detik. Perlambat saya dengan mengatur durasi, yang memberi tahu saya berapa lama waktu yang dibutuhkan untuk berpindah antar pose. Saya membuatnya cukup lambat untuk Anda, tetapi cobalah mengubah durasi ke angka yang lebih tinggi dan lebih rendah."
+                            "$~Tidak melihatnya? Apakah aku bergerak terlalu cepat untukmu? Itu karena durasiku \\0s\\ secara bawaan. Perlambat aku dengan sebuah durasi, yang memberitahuku berapa lama aku harus bergerak dari satu pose ke pose lain. Aku membuat yang satu ini pelan dan nyaman untukmu, tapi coba ubah durasinya ke angka yang lebih tinggi dan lebih rendah."
                         ],
                         {
                             "edit": "Phrase('hi' entering: Pose(opacity: 0) duration: 5s)"
@@ -4618,7 +4618,7 @@
                         [
                             "Bind",
                             "kind",
-                            "$~Kurasa masih ada satu contoh terakhir. Katakanlah Anda punya ini. Lihat apa yang terjadi di sini? Kita menyebutkan \"sayuran\", tetapi kemudian kita tidak pernah menggunakannya. Itu biasanya pertanda buruk bahwa Anda mengabaikan seseorang atau tidak menggunakan nama yang tepat. Misalnya, mungkin Anda memang tidak menggunakannya, tetapi mengapa itu ada di sana?"
+                            "$~Kurasa masih ada satu lagi. Misalnya kamu punya ini. Lihat apa yang terjadi di sini? Kita memberi nama \\veggies\\, tapi kita tidak pernah memakainya. Ini biasanya tanda buruk bahwa kamu melewatkan sesuatu atau tidak memakai nama yang tepat. Mungkin kamu memang tidak memakainya, tapi kalau begitu kenapa ia ada di sana?"
                         ],
                         {
                             "edit": ["fruits: 5", "veggies: 10", "fruits + 3"],
@@ -5484,7 +5484,7 @@
                             "$~Dan satu hal terakhir.",
                             "$~Meskipun saya sangat suka menjelaskan segala sesuatu, terkadang ada baiknya juga untuk menghilangkan beberapa hal. Misalnya, untuk menghapus sesuatu dari proyek untuk sementara waktu agar tidak menjadi bagian dari proyek tersebut.",
                             "$~Anda bisa melakukannya dengan membungkus apa pun di antara bintang-bintang.",
-                            "$~Lihat bagaimana 'kucing' tidak termasuk dalam daftar yang kita buat?",
+                            "$~Lihat bagaimana \\'kucing'\\ tidak termasuk dalam daftar yang kita buat?",
                             "$~Anda dapat menghapus bintang-bintang tersebut dengan menghapusnya menggunakan keyboard atau dengan menempatkan kursor di dalamnya dan menggunakan perintah elide untuk menghapusnya."
                         ],
                         { "edit": "[1 2 3 4 *'cat'* 5 6 7 8]" },
@@ -5805,7 +5805,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Hore! Sekarang, kita hanya perlu bergerak. @Reaction, bisakah kamu memberi kami irama, mungkin 0,75 detik?"
+                            "$~Horeee! Sekarang, kita hanya perlu bergerak. @Reaction, bisakah kamu memberi kami irama, mungkin \\0.75\\ detik?"
                         ],
                         [
                             "Reaction",

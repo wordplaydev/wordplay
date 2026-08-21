@@ -134,7 +134,7 @@
                             "curious",
                             "$~Algunos lenguajes de programación te permiten especificar el @type de una @variable, para que puedas asegurarte de que todas las formas en que usas la variable sean válidas:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplay también tiene tipos, pero los tipos se *infieren*. Por lo general, no necesitas declararlos, pero a veces puede que tengas que hacerlo si no se pueden inferir."
+                            "$~@wordplay también tiene un tipo, pero los tipos se *infieren*. Casi nunca necesitas declararlos, pero a veces sí, si no se pueden inferir. Un tipo de lista también puede nombrar un tipo para cada lugar de la lista, como \\[# '']\\ para una lista de exactamente dos cosas: un número y luego una palabra."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

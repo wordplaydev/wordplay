@@ -134,7 +134,7 @@
                             "curious",
                             "$~いくつかのプログラミング言語では、variableのtypeを指定できます。そうすると、そのvariableの使い方がすべて正しいことを確かめられます：",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplayもtypeをもちますが、typeは*推測されます*。ふつうは宣言しなくてよいのですが、推測できないときは、宣言しないといけないこともあります。"
+                            "$~@wordplayにも型がありますが、型は*推論*されます。ふつうは自分で書く必要はありませんが、推論できないときは書かなければならないこともあります。リスト型は、リストの中の場所ごとに型を指定することもできます。たとえば\\[# '']\\は、数と単語という2つのものだけを持つリストを表します。"
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

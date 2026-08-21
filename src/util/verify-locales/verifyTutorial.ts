@@ -1,4 +1,4 @@
-import { MachineTranslated, Unwritten } from '@locale/Annotations';
+import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
 import {
     isMachineTranslated,
@@ -26,6 +26,10 @@ import type Log from '@util/verify-locales/Log';
 import TutorialSchema, {
     getDefaultTutorial,
 } from '@util/verify-locales/TutorialSchema';
+import {
+    mismatchedDelimiter,
+    unclosedInCode,
+} from '@util/verify-locales/protect';
 import Validator from '@util/verify-locales/Validator';
 import { alignTutorialLines } from '@util/verify-locales/syncTutorialStructure';
 import getTranslator from '@util/verify-locales/getTranslator';
@@ -228,6 +232,109 @@ export function queuedForTranslation(text: string, override: boolean): boolean {
     );
 }
 
+/**
+ * Whether a cleanly dropped `\…\` pair should fail the run rather than warn.
+ *
+ * It is real damage — the reader is told to "just use `\+\`" and the `+` isn't
+ * there — but ~170 dialog strings across 26 locales are in that state today,
+ * and each needs a re-translation to repair, so failing on them would make
+ * every run red with no cheap fix. The breakages that *do* fail (an orphaned
+ * delimiter, an unclosed literal) are a set small enough to repair in one
+ * sitting. Flip this once the rest have been re-translated.
+ */
+const DelimiterDriftIsFatal = false;
+
+export type DialogDelimiterProblem = {
+    /** Which paragraph of the line: always ≥ 2, since 0 and 1 are the character
+     *  and emotion rather than text. */
+    index: number;
+    kind: 'orphan' | 'unclosed' | 'drift';
+    /** The mismatched delimiter's display form, for `orphan` and `drift`. */
+    delimiter?: string;
+    severity: 'error' | 'warning';
+};
+
+const countBackslashes = (text: string) => (text.match(/\\/g) ?? []).length;
+
+/**
+ * Compare a dialog line's example delimiters against its en-US source.
+ *
+ * Locale docs have had this check since machine translation started dropping
+ * delimiters (`verifyLocale`'s `mismatchedDelimiter` call), but tutorial dialog
+ * never got it, so a translator that prose-ified an example away — rendering
+ * "just use `\+\`" with no `+` in it — produced a clean run. That is how ~190
+ * dialog lines across 26 locales quietly lost their teaching examples.
+ *
+ * Three outcomes, because they need different answers:
+ *
+ * - **orphan**: the source's `\` count is even and the translation's is odd, so
+ *   an example is left unclosed and the markup parser swallows the rest of the
+ *   line. Requiring the parity *flip* rather than any mismatch is deliberate:
+ *   en-US itself ships one unclosed example, and a locale that dropped or fixed
+ *   it is an improvement, not a defect to report.
+ * - **unclosed**: a `\code\` segment ends inside an open text literal. The `\`
+ *   counts still match, so `mismatchedDelimiter` structurally cannot see it.
+ * - **drift**: any other count difference — usually a whole `\…\` pair rewritten
+ *   into prose.
+ */
+export function findDialogDelimiterProblems(
+    source: Dialog,
+    translation: Dialog,
+): DialogDelimiterProblem[] {
+    // A line whose paragraph count differs is structural drift, which
+    // `syncTutorialStructure` already reports and repairs. Comparing those
+    // per-index compares unrelated sentences and invents delimiter problems for
+    // a missing-paragraph one.
+    if (source.length !== translation.length) return [];
+
+    const problems: DialogDelimiterProblem[] = [];
+    for (let index = 2; index < translation.length; index++) {
+        const sourceText = source[index];
+        const translationText = translation[index];
+        if (
+            typeof sourceText !== 'string' ||
+            typeof translationText !== 'string'
+        )
+            continue;
+        const before = withoutAnnotations(sourceText);
+        const after = withoutAnnotations(translationText);
+
+        // An error unless the string is still queued for the translator, which
+        // is the same line verifyLocale's docs draw: `$~` is written content and
+        // must be correct, while `$?`/`$!` are acknowledged debt. Unlike a
+        // mangled concept link — which the pipeline reproduces every run, so
+        // failing on it fails work nobody can fix — a delimiter break is already
+        // prevented at translate time, so every `$~` case is stale damage that
+        // re-translating provably repairs.
+        const severity = queuedForTranslation(translationText, false)
+            ? 'warning'
+            : 'error';
+
+        const mismatched = mismatchedDelimiter(before, after);
+        if (
+            mismatched !== undefined &&
+            countBackslashes(before) % 2 === 0 &&
+            countBackslashes(after) % 2 === 1
+        )
+            problems.push({
+                index,
+                kind: 'orphan',
+                delimiter: mismatched,
+                severity,
+            });
+        else if (!unclosedInCode(before) && unclosedInCode(after))
+            problems.push({ index, kind: 'unclosed', severity });
+        else if (mismatched !== undefined)
+            problems.push({
+                index,
+                kind: 'drift',
+                delimiter: mismatched,
+                severity: DelimiterDriftIsFatal ? severity : 'warning',
+            });
+    }
+    return problems;
+}
+
 async function checkTutorial(
     log: Log,
     locale: LocaleText,
@@ -299,6 +406,52 @@ async function checkTutorial(
                 const repairs: [string, string][] = [];
                 const lineLinks = extractConceptLinks(line);
                 const defaultLine = counterparts.get(line);
+
+                // Did translation drop, orphan, or leave open one of this
+                // line's `\…\` examples? Compared against the aligned en-US
+                // line rather than the same index in the default tutorial:
+                // verify runs don't apply the structure sync, so a drifted
+                // locale would otherwise be measured against a different lesson.
+                if (Array.isArray(defaultLine))
+                    for (const problem of findDialogDelimiterProblems(
+                        defaultLine,
+                        line,
+                    )) {
+                        const scope = `act ${actIndex + 1} scene ${sceneIndex + 1}`;
+                        const where = `${scope}, line ${lineIndex}[${problem.index}] of ${toLocaleString(locale)}`;
+                        const what =
+                            problem.kind === 'unclosed'
+                                ? 'An example left a text literal open'
+                                : `${problem.kind === 'orphan' ? 'An orphaned' : 'A mismatched'} ${problem.delimiter} delimiter (differs from en-US)`;
+                        // Name the repair in the message: the scope selector is
+                        // what makes re-translating this one scene cheap.
+                        const message = `${what} in ${where}: "${withoutAnnotations(String(line[problem.index])).substring(0, 50)}...". Repair with "npm run locales-translate ${toLocaleString(locale)} +tutorial:${actIndex + 1}/${sceneIndex + 1}".`;
+                        if (problem.severity === 'warning')
+                            log.warning(message);
+                        else log.bad(message);
+
+                        // Queue the broken string so the translate pass that
+                        // follows this check repairs it in the same run. Only
+                        // the failing kinds, and only machine-translated text:
+                        // marking drift would silently spend a translation
+                        // budget nobody asked for, and a hand-written string is
+                        // someone's own text to fix.
+                        if (
+                            repair &&
+                            problem.severity === 'error' &&
+                            isMachineTranslated(String(line[problem.index]))
+                        ) {
+                            line[problem.index] =
+                                Revised +
+                                String(line[problem.index]).slice(
+                                    MachineTranslated.length,
+                                );
+                            log.good(
+                                `Queued a delimiter-broken line for re-translation in ${where}`,
+                            );
+                        }
+                    }
+
                 const defaultLinks = Array.isArray(defaultLine)
                     ? extractConceptLinks(defaultLine)
                     : [];

@@ -134,7 +134,7 @@
                             "curious",
                             "$~Certains langages de programmation te permettent de préciser le @type d'une @variable, pour que tu puisses t'assurer que toutes les façons d'utiliser la variable sont valides :",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplay est aussi typé, mais les types sont *déduits*. Tu n'as généralement pas besoin de les déclarer, mais parfois tu devras le faire s'ils ne peuvent pas être déduits."
+                            "$~@wordplay a aussi un taper, mais les taper sont *déduits*. Tu n'as en général pas besoin de les déclarer, mais parfois il le faut, quand ils ne peuvent pas être déduits. Un taper de liste peut aussi nommer un taper pour chaque place dans la liste, comme \\[# '']\\ pour une liste d'exactement deux choses : un nombre, puis un mot."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

@@ -2604,7 +2604,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Les flux @Key sont vraiment utiles lorsque vous souhaitez qu'une performance réagisse aux touches sur lesquelles le public appuie. Par exemple, vous pouvez vérifier si une touche contient le mot «Flèche» pour déterminer si une touche fléchée a été enfoncée. Appuyez sur une touche fléchée et vous verrez «déplacer»; appuyez sur autre chose et vous verrez «rester»"
+                            "$~Les flux @Key sont vraiment utiles quand tu veux qu'une performance réagisse aux touches que le public appuie. Par exemple, tu peux vérifier si une touche contient le mot « Arrow » pour savoir si une touche flèche a été appuyée. Appuie sur une touche flèche et tu verras \\'déplacer'\\; appuie sur autre chose et tu verras \\'rester'\\"
                         ],
                         ["Key", "neutral", "$~« Flèche » cliquable…"],
                         { "edit": "Key().has('Arrow') ? 'move' 'stay'" }
@@ -5472,7 +5472,7 @@
                             "$~Et une dernière chose.",
                             "$~Même si je cherche avant tout à expliquer les choses, il est parfois utile de les éluder. Vous savez, de retirer temporairement quelque chose d'un projet pour qu'il n'en fasse plus partie.",
                             "$~Vous pouvez le faire en enroulant n’importe quoi entre les étoiles.",
-                            "$~Vous voyez comment «chat» n’est pas inclus dans la liste que nous avons établie?",
+                            "$~Tu vois comment \\'chat'\\ n'est pas inclus dans la liste qu'on a créée ?",
                             "$~Vous pouvez supprimer les étoiles en les supprimant avec le clavier ou en plaçant le curseur à l'intérieur et en utilisant la commande elide pour les supprimer pour vous."
                         ],
                         { "edit": "[1 2 3 4 *'cat'* 5 6 7 8]" },
@@ -5789,7 +5789,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Ouais! Maintenant, il ne nous reste plus qu'à bouger. @Reaction, peux-tu nous donner un rythme, peut-être 0,75seconde?"
+                            "$~Youpi ! Maintenant, il ne nous reste qu'à bouger. @Reaction, tu peux nous donner un rythme, peut-être \\0.75\\ secondes ?"
                         ],
                         [
                             "Reaction",

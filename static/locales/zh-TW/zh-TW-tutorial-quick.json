@@ -134,7 +134,7 @@
                             "curious",
                             "$~有些程式語言讓你指定 @variable 的 @type，這樣你就能確保使用變數的所有方式都有效：",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplay 也有型別，但型別是*推斷出來的*。你通常不需要宣告它們，但如果無法推斷，有時你可能必須這麼做。"
+                            "$~@wordplay 也有型別，但型別是*自動推斷*出來的。你通常不用自己宣告型別，但有時候型別無法被推斷出來，這時候你就得自己宣告。清單型別也可以為清單裡的每個位置指定一個型別，例如\\[# '']\\ 表示這個清單剛好有兩個東西：一個數字，然後是一個詞。"
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
