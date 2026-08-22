@@ -2667,57 +2667,90 @@
                     "inputs": []
                 },
                 "subsequence": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Hago una nueva @Text a partir de un pedazo de mí. El conteo comienza en 1, y se incluyen ambos extremos:",
+                        "\\'hola'.subsecuencia(2 4)\\",
+                        "Deja fuera el final y llego hasta mi último símbolo:",
+                        "\\'hola'.subsecuencia(3)\\",
+                        "Cuento los símbolos como los ves, así que un emoji hecho de varias partes sigue siendo un solo símbolo y nunca se corta a la mitad:",
+                        "\\'🐈📚!'.subsecuencia(1 2)\\",
+                        "Si pides más de lo que tengo, te doy lo que tengo."
+                    ],
+                    "names": ["$~subsecuencia"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El lugar donde comenzar, contando desde 1.",
+                            "names": "$~inicio"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El lugar donde detenerse, contando desde 1. Déjalo fuera para llegar hasta el final.",
+                            "names": "$~fin"
                         }
                     ]
                 },
                 "index": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Te digo dónde aparece por primera vez el @Text dado dentro de mí, contando desde 1:",
+                        "\\'hola'.índice('ll')\\",
+                        "Si no está dentro de mí en absoluto, te doy @None en su lugar:",
+                        "\\'hola'.índice('z')\\",
+                        "Junto con @Text/subsequence puedo tomar todo hasta algo — aquí, la primera palabra:",
+                        "\\frase: 'hola mundo'\nfrase.subsecuencia(1 (frase.índice(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~índice"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El @Text que debo buscar dentro de mí.",
+                            "names": "$~texto"
                         }
                     ]
                 },
                 "replace": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Hago un nuevo @Text con cada aparición de un @Text cambiada por otra:",
+                        "\\'2026-08-21'.reemplazar('-' '/')\\",
+                        "Cada aparición cambia, no solo la primera:",
+                        "\\'ja ja ja'.reemplazar('ja' 'jo')\\",
+                        "Si me pides reemplazar un @Text vacío, me devuelvo a mí misma sin cambios."
+                    ],
+                    "names": ["$~reemplazar"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El @Text que debo buscar dentro de mí.",
+                            "names": "$~de"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El @Text que debo poner en su lugar.",
+                            "names": "$~reemplazo"
                         }
                     ]
                 },
                 "trim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Hago un nuevo @Text con el espacio en blanco quitado de ambos extremos. El espacio en medio se queda:",
+                        "\\'  hola  '.recortar()\\",
+                        "Esto es útil para texto que alguien escribió, que a menudo trae espacios extra que no pediste."
+                    ],
+                    "names": ["$~recortar"],
                     "inputs": []
                 },
                 "reverse": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Hago un nuevo @Text con mis símbolos en el orden opuesto:",
+                        "\\'hola'.invertido()\\",
+                        "Invierto el orden de mis símbolos tal como los ves, así que los emoji quedan completos y las letras conservan sus acentos:",
+                        "\\'🐈📚'.invertido()\\"
+                    ],
+                    "names": ["$~invertido", "$~invertir"],
                     "inputs": []
                 }
             },
             "conversion": {
                 "list": "Divide el @Text en una isto con los caracteres individuales",
-                "number": "$!Convierte el texto en un @Number, y si no es un número, en un valor que no es un número.",
+                "number": [
+                    "$~Convierte texto en un @Number, y si no es un número, un valor que no es número, el cual aparece como \\!#\\:",
+                    "\\'hola' → #\\"
+                ],
                 "formatted": "$~Convierte texto en texto con formato, interpretando cualquier formato que contenga."
             }
         },
@@ -3292,8 +3325,7 @@
                 },
                 "sansAll": {
                     "doc": [
-                        "$!Yo, pero sin todas las apariciones del @value dado.",
-                        "\\['manzana' 'plátano' 'mango' 'manzana'].sin('manzana')\\"
+                        "$~Yo, pero sin el @value dado. Se van todas las copias, no solo la primera, sin importar cuál de mis nombres uses.\\['manzana' 'plátano' 'mango' 'manzana'].sin('manzana')\\"
                     ],
                     "names": ["sin", "sinTodo"],
                     "inputs": [
@@ -4052,8 +4084,11 @@
             },
             "conversion": {
                 "text": "$~Convierte el texto con formato en @Text simple, quitando todo el formato.",
-                "list": "$?",
-                "number": "$?"
+                "list": "$~Convierte texto con formato en un @List de @Text, uno por cada símbolo de mis palabras. El formato no puede sobrevivir al cortarse en símbolos individuales, así que se descarta.",
+                "number": [
+                    "$~Convierte mis palabras en un @Number, y si no son un número, un valor que no es número, el cual aparece como \\!#\\:",
+                    "\\`hola` → #\\"
+                ]
             }
         }
     },

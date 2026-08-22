@@ -92,3 +92,14 @@ test.each(['without', 'sans', 'withoutAll', 'sansAll'])(
         );
     },
 );
+
+test('a not-a-number key sorts to the end without disturbing the rest', () => {
+    // Subtracting to compare gave NaN for every pair touching the bad key, an
+    // inconsistent comparator that could scramble unrelated elements.
+    expect(
+        evaluateCode("[3 1 2].sorted(ƒ(n•#) n = 1 ? 'x' → # n)")?.toWordplay(),
+    ).toBe('[2 3 1]');
+    expect(
+        evaluateCode("['b' 'a' 'c'].sorted(ƒ(t•'') 'x' → #)")?.toWordplay(),
+    ).toBe('["b" "a" "c"]');
+});

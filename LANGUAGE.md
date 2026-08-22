@@ -356,6 +356,8 @@ A concrete number value always has either no unit (e.g. `1`) or a specific unit 
 
 The same matching rule applies to `-` and the inequality comparisons (`<`, `≤`, `≥`, `>`): the two operands must have the same unit. Products (`·`), quotients (`÷`), and powers combine units instead, so they accept operands with any units (e.g. `1 · 1m` is `#m` and `2m ÷ 2s` is `#m/s`).
 
+`!#` is the **not-a-number** literal, written the same way in every language (like `∞` and `π`). Most not-a-numbers come from a computation rather than being written: a text that isn't a number (`'abc' → #`), `√-1`, `arcsin` outside its domain, `∞ - ∞`. It takes a unit like any other number (`!#m`). Dividing by zero is **not** one of these — see the next paragraph.
+
 Divide `÷` and remainder `%` evaluate to `ø` when the divisor is zero (never a silent `NaN`), so their output type is `# | ø`. To keep ordinary arithmetic concise, the type is narrowed back to `#` when the divisor is provably non-zero — a non-zero number literal, the `.length()` of a non-empty literal list, set, map, or table, or a name bound (transitively) to one of those. Otherwise the result is `# | ø`, and using it where a number is required is a conflict that suggests handling the possible zero with `??` (e.g. `total ÷ count ?? 0`).
 
 #### _evaluation_
@@ -365,6 +367,8 @@ Number literals evaluate to a number value that stores an immutable [decimal.js]
 #### _equality_
 
 Numbers are only equal to other numbers that have identical decimal values and equivalent units. Units are only equivalent when the set of dimensions specified on each unit are equivalent and the power of each dimension specified is equivalent.
+
+Two not-a-numbers with the same unit are equal, so `!# = !#` is `⊤` and a creator can ask whether a computation came back not-a-number. (IEEE-754 makes NaN unequal to itself so hardware can flag a bad operation without trapping; Wordplay's `=` asks whether two values are the same thing, and it has `ø` and exceptions for signalling.) Units still count, so `!#m = !#s` is `⊥`, just as `1m = 1` is. Because `≤` and `≥` mean "less/greater than **or equal**", `!# ≤ !#` and `!# ≥ !#` are `⊤`, while the strict `<` and `>` are `⊥` — ordering something that isn't a number has no answer. `min` and `max` still propagate not-a-number, and sorting a list by a not-a-number key puts those items last.
 
 ### Text
 

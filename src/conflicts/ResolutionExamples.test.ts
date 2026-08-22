@@ -323,10 +323,10 @@ describe('ImpossibleType', () => {
 });
 
 describe('NotANumber', () => {
-    test('`!#` (literal NaN) → repair (strip non-numeric)', () => {
-        // The "not a number" literal — only triggers NotANumber when the
-        // number cannot be parsed into a real Decimal.
-        expectRepair('!#', NotANumber);
+    test('`2;9` (base 2 with a digit 9) → repair (replace with 0)', () => {
+        // A number we can't read at all. Not `!#`, which says not-a-number on
+        // purpose and so raises nothing.
+        expectRepair('2;9', NotANumber);
     });
 });
 

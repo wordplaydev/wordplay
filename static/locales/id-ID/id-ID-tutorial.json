@@ -1799,7 +1799,7 @@
                         [
                             "List",
                             "excited",
-                            "$~Dan yang ini menarik: @List.sans hanya menghapus semua nilai yang sama dengan nilai yang diberikan. Lihat bagaimana tidak ada angka nol yang tersisa dalam daftar hasilnya?"
+                            "$~Dan yang ini menarik: @List.sansAll hanya menghapus semua nilai yang sama dengan nilai yang diberikan. Lihat bagaimana tidak ada angka nol yang tersisa dalam daftar hasilnya?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,

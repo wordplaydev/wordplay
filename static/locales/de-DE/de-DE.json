@@ -2667,57 +2667,90 @@
                     "inputs": []
                 },
                 "subsequence": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Ich mache eine neue @Text aus einem Teil von mir. Die Zählung beginnt bei 1, und beide Enden zählen mit:",
+                        "\\'hallo'.Teilfolge(2 4)\\",
+                        "Lässt du das Ende weg, gehe ich bis zu meinem letzten Symbol:",
+                        "\\'hallo'.Teilfolge(3)\\",
+                        "Ich zähle Symbole so, wie du sie siehst. Ein Emoji aus mehreren Teilen bleibt also ein Symbol und wird nie mittendurch geschnitten:",
+                        "\\'🐈📚!'.Teilfolge(1 2)\\",
+                        "Wenn du mehr verlangst, als ich habe, gebe ich dir alles, was ich habe."
+                    ],
+                    "names": ["$~Teilfolge"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Die Stelle, an der du beginnst, gezählt ab 1.",
+                            "names": "$~Anfang"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Die Stelle, an der du aufhörst, gezählt ab 1. Lässt du sie weg, geht es bis zum Ende.",
+                            "names": "$~Ende"
                         }
                     ]
                 },
                 "index": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Ich sage dir, wo die angegebene @Text zuerst in mir auftaucht, gezählt ab 1:",
+                        "\\'hallo'.Index('ll')\\",
+                        "Wenn sie gar nicht in mir vorkommt, gebe ich dir stattdessen @None:",
+                        "\\'hallo'.Index('z')\\",
+                        "Zusammen mit @Text/subsequence kann ich alles bis zu einer Stelle nehmen — hier das erste Wort:",
+                        "\\satz: 'hallo Welt'\nsatz.Teilfolge(1 (satz.Index(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~Index"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Die @Text, nach der in mir gesucht wird.",
+                            "names": "$~Text"
                         }
                     ]
                 },
                 "replace": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Ich mache eine neue @Text, bei der jedes Vorkommen von einer @Text gegen eine andere getauscht wurde:",
+                        "\\'2026-08-21'.ersetzen('-' '/')\\",
+                        "Jedes Vorkommen ändert sich, nicht nur das erste:",
+                        "\\'ha ha ha'.ersetzen('ha' 'ho')\\",
+                        "Wenn du mich bittest, eine leere @Text zu ersetzen, gebe ich mich unverändert zurück."
+                    ],
+                    "names": ["$~ersetzen"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Die @Text, nach der in mir gesucht wird.",
+                            "names": "$~von"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Die @Text, die an ihre Stelle tritt.",
+                            "names": "$~Ersatz"
                         }
                     ]
                 },
                 "trim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Ich mache eine neue @Text, bei der die Leerzeichen an beiden Enden entfernt sind. Leerraum in der Mitte bleibt erhalten:",
+                        "\\'  hallo  '.kürzen()\\",
+                        "Das ist praktisch für Text, den jemand eingetippt hat, denn der trägt oft zusätzliche Leerzeichen, die du nicht wolltest."
+                    ],
+                    "names": ["$~kürzen"],
                     "inputs": []
                 },
                 "reverse": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Ich mache eine neue @Text mit meinen Symbolen in umgekehrter Reihenfolge:",
+                        "\\'hallo'.umgekehrt()\\",
+                        "Ich drehe die Reihenfolge meiner Symbole so um, wie du sie siehst. So bleiben Emojis vollständig und Buchstaben behalten ihre Akzente:",
+                        "\\'🐈📚'.umgekehrt()\\"
+                    ],
+                    "names": ["$~umgekehrt", "$~umkehren"],
                     "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Teilt den Text in eine Liste einzelner Zeichen auf.",
-                "number": "$!Wandelt Text in eine @Number um, und wenn es keine Zahl ist, in einen Nicht-Zahlenwert.",
+                "number": [
+                    "$~Wandelt Text in eine @Number um. Ist es keine Zahl, entsteht ein Keine-Zahl-Wert, der angezeigt wird als \\!#\\:",
+                    "\\'hi' → #\\"
+                ],
                 "formatted": "$~Wandelt Text in formatierten Text um und interpretiert dabei jegliche darin enthaltene Auszeichnungssprache."
             }
         },
@@ -3295,8 +3328,7 @@
                 },
                 "sansAll": {
                     "doc": [
-                        "$!Ich, aber ohne alle Auftreten des angegebenen @value.",
-                        "\\['Apfel' 'Banane' 'Mango' 'Apfel'].ohne('Apfel')\\"
+                        "$~Ich, aber ohne die angegebene @value. Jede Kopie verschwindet, nicht nur die erste, egal welchen meiner Namen du benutzt.\\['Apfel' 'Banane' 'Mango' 'Apfel'].ohne('Apfel')\\"
                     ],
                     "names": ["$~ohne", "$~ohneAlle", "$~sansAlle"],
                     "inputs": [
@@ -4055,8 +4087,11 @@
             },
             "conversion": {
                 "text": "$~Konvertiert formatierten Text in einfachen @Text und entfernt dabei jegliche Formatierung.",
-                "list": "$?",
-                "number": "$?"
+                "list": "$~Wandelt formatierten Text in eine @List von @Text um, eine für jedes Symbol meiner Wörter. Formatierung kann das Zerschneiden in einzelne Symbole nicht überstehen, daher geht sie verloren.",
+                "number": [
+                    "$~Wandelt meine Wörter in eine @Number um. Sind sie keine Zahl, entsteht ein Keine-Zahl-Wert, der angezeigt wird als \\!#\\:",
+                    "\\`hi` → #\\"
+                ]
             }
         }
     },

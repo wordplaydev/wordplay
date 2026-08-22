@@ -2672,57 +2672,90 @@
                     "inputs": []
                 },
                 "subsequence": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Aku membuat @Text baru dari sebagian diriku. Hitungan dimulai dari 1, dan kedua ujungnya ikut dihitung:",
+                        "\\'halo'.subrangkaian(2 4)\\",
+                        "Biarkan ujungnya kosong, dan aku akan sampai ke simbol terakhirku:",
+                        "\\'halo'.subrangkaian(3)\\",
+                        "Aku menghitung simbol seperti yang kamu lihat, jadi emoji yang terdiri dari beberapa bagian tetap dianggap satu simbol dan tidak akan pernah terpotong di tengah:",
+                        "\\'🐈📚!'.subrangkaian(1 2)\\",
+                        "Jika kamu meminta lebih banyak daripada yang aku punya, aku memberikan sebanyak yang aku punya."
+                    ],
+                    "names": ["$~subrangkaian"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Tempat untuk mulai, dihitung dari 1.",
+                            "names": "$~awal"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Tempat untuk berhenti, dihitung dari 1. Biarkan kosong untuk sampai ke akhir.",
+                            "names": "$~akhir"
                         }
                     ]
                 },
                 "index": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Aku memberitahumu di mana @Text yang diberikan pertama kali muncul dalam diriku, dihitung dari 1:",
+                        "\\'halo'.indeks('ll')\\",
+                        "Jika sama sekali tidak ada dalam diriku, aku memberikan @None sebagai gantinya:",
+                        "\\'halo'.indeks('z')\\",
+                        "Bersama dengan @Text/subsequence, aku bisa mengambil semuanya sampai pada sesuatu — di sini, kata pertama:",
+                        "\\frasa: 'halo dunia'\nfrasa.subrangkaian(1 (frasa.indeks(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~indeks"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text yang harus dicari dalam diriku.",
+                            "names": "$~teks"
                         }
                     ]
                 },
                 "replace": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Aku membuat @Text baru dengan setiap kemunculan satu @Text ditukar dengan yang lain:",
+                        "\\'2026-08-21'.ganti('-' '/')\\",
+                        "Setiap kemunculan berubah, tidak hanya yang pertama:",
+                        "\\'ha ha ha'.ganti('ha' 'ho')\\",
+                        "Jika kamu memintaku mengganti @Text yang kosong, aku memberikan diriku kembali tanpa perubahan."
+                    ],
+                    "names": ["$~ganti"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text yang harus dicari dalam diriku.",
+                            "names": "$~dari"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text yang harus ditaruh sebagai gantinya.",
+                            "names": "$~pengganti"
                         }
                     ]
                 },
                 "trim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Aku membuat @Text baru dengan spasi kosong dihilangkan dari kedua ujungku. Spasi di tengah tetap ada:",
+                        "\\'  halo  '.pangkas()\\",
+                        "Ini berguna untuk teks yang diketik seseorang, yang sering membawa spasi tambahan yang tidak kamu minta."
+                    ],
+                    "names": ["$~pangkas"],
                     "inputs": []
                 },
                 "reverse": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Aku membuat @Text baru dengan urutan simbolku dibalik:",
+                        "\\'halo'.dibalik()\\",
+                        "Aku membalik urutan simbolku seperti yang kamu lihat, jadi emoji tetap utuh dan huruf tetap mempertahankan tanda aksennya:",
+                        "\\'🐈📚'.dibalik()\\"
+                    ],
+                    "names": ["$~dibalik", "$~balik"],
                     "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Memisahkan teks menjadi daftar karakter individual.",
-                "number": "$!Mengonversi teks menjadi @Number, dan jika bukan angka, maka akan menghasilkan nilai bukan angka.",
+                "number": [
+                    "$~Mengubah teks menjadi @Number, dan jika bukan angka, menjadi nilai bukan-angka, yang muncul sebagai \\!#\\:",
+                    "\\'hai' → #\\"
+                ],
                 "formatted": "$~Mengonversi teks menjadi teks berformat, dengan menginterpretasikan setiap markup yang terdapat di dalamnya."
             }
         },
@@ -3297,7 +3330,7 @@
                 },
                 "sansAll": {
                     "doc": [
-                        "$!Saya, tetapi tanpa semua kemunculan dari @value yang diberikan.",
+                        "$~Diriku, tapi tanpa @value yang diberikan. Setiap salinan hilang, tidak hanya yang pertama, apa pun nama yang kamu gunakan untukku:",
                         "\\['apel' 'pisang' 'mangga' 'apel'].tanpa('apel')\\"
                     ],
                     "names": ["$~tanpa", "$~tanpaSemua", "$~tanpasemua"],
@@ -4057,8 +4090,11 @@
             },
             "conversion": {
                 "text": "$~Mengubah teks berformat menjadi teks biasa @Text , dengan menghapus semua format.",
-                "list": "$?",
-                "number": "$?"
+                "list": "$~Mengubah teks berformat menjadi @List dari @Text, satu untuk setiap simbol dari kata-kataku. Format tidak bisa bertahan saat dipotong menjadi simbol tunggal, jadi format itu dihapus.",
+                "number": [
+                    "$~Mengubah kata-kataku menjadi @Number, dan jika bukan angka, menjadi nilai bukan-angka, yang muncul sebagai \\!#\\:",
+                    "\\`hai` → #\\"
+                ]
             }
         }
     },

@@ -1791,7 +1791,7 @@
                         [
                             "List",
                             "excited",
-                            "$~Cái này cũng vui nè: @List.sans chỉ đơn giản là bỏ hết những giá trị bằng với giá trị đã cho. Thấy không, danh sách kết quả không còn số 0 nào cả?"
+                            "$~Cái này cũng vui nè: @List.sansAll chỉ đơn giản là bỏ hết những giá trị bằng với giá trị đã cho. Thấy không, danh sách kết quả không còn số 0 nào cả?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,
