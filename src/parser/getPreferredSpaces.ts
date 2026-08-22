@@ -83,22 +83,25 @@ export default function getPreferredSpaces(
     const leaves = root.root.leaves();
 
     // PASS 1 — each token's grammar context and its flat (unbroken) space.
-    const contexts: TokenContext[] = leaves.map((token, index) => {
+    const contexts: TokenContext[] = leaves.map((token) => {
         const spaceRoot = root.getSpaceRoot(token);
         const parent = spaceRoot ? root.getParent(spaceRoot) : undefined;
-        // A root block's first statement, when it really is at the document start,
+        // A root block's first statement, when nothing precedes it in its program,
         // never has a leading space. getSpaceRoot now attributes this statement's
         // space to the statement itself (so it renders/windows with it) rather than
         // to the Program; without this guard it would inherit the statements field's
         // leading newline and the formatter would insert a blank line before the
-        // program. The index check is what makes "at the document start" literal:
-        // when the program opens with docs, the first statement follows them and
-        // must keep its newline, or the code is pulled up onto the doc's last line.
+        // program. "Nothing precedes it" is asked structurally — is this the
+        // program's own first leaf — rather than by leaf position, because a doc's
+        // inline example holds a Program too and is never at position zero, so a
+        // positional test silently broke `\1 + 2\` open across two lines. When the
+        // program opens with docs or borrows, its first leaf is one of those, so the
+        // statement keeps its newline and isn't pulled up onto the doc's last line.
         const firstInRootBlock =
-            index === 0 &&
             parent instanceof Block &&
             parent.isRoot() &&
-            parent.statements[0] === spaceRoot;
+            parent.statements[0] === spaceRoot &&
+            (root.getParent(parent)?.getFirstLeaf() ?? token) === token;
         const field =
             spaceRoot && !firstInRootBlock
                 ? parent?.getFieldOfChild(spaceRoot)
