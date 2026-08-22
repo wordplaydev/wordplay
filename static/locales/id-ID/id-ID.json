@@ -6078,6 +6078,10 @@
             "shapes": {
                 "doc": "$~Apakah aku bisa bertabrakan dengan @Shape di @Stage sama sekali; ⊥ berarti aku jatuh menembus dinding dan lantai, dan @Collision tidak menyatakan apa pun tentang mereka.",
                 "names": "$~tanah"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6211,6 +6215,10 @@
             "overlay": {
                 "doc": "$~Daftar @Output yang disematkan rata pada layar sebagai tampilan informasi, tidak terpengaruh oleh kamera @Place panggung atau kedalaman.",
                 "names": "$~lapisanAtas"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

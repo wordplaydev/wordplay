@@ -6012,6 +6012,10 @@
             "shapes": {
                 "doc": "$~Si puedo chocar con el @Shape en el @Stage; ⊥ significa que caigo a través de paredes y pisos, y @Collision no dice nada sobre ellos.",
                 "names": "formas"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6145,6 +6149,10 @@
             "overlay": {
                 "doc": "$~Una lista de @Output fijados planos a la pantalla como una pantalla de información, sin verse afectados por la cámara ni la profundidad de @Place del escenario.",
                 "names": "$~superponer"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

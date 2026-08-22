@@ -13375,6 +13375,10 @@
                                     "$ref": "#/definitions/NameText",
                                     "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                                 },
+                                "pull": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "how strongly the output pulls other output toward it"
+                                },
                                 "roundedness": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "from 0-1, what percent of the size to round the corners of the output's rectangle."
@@ -13394,6 +13398,7 @@
                                 "friction",
                                 "mass",
                                 "names",
+                                "pull",
                                 "roundedness",
                                 "shapes",
                                 "text"
@@ -14987,6 +14992,10 @@
                             "additionalProperties": false,
                             "description": "The whole stage view and settings to control its appearance",
                             "properties": {
+                                "air": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How much air resistance slows moving output down; 0 is space"
+                                },
                                 "background": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The background color behind a phrase, group, or stage"
@@ -15097,6 +15106,7 @@
                                 }
                             },
                             "required": [
+                                "air",
                                 "background",
                                 "color",
                                 "content",

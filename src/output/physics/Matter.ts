@@ -24,6 +24,7 @@ export function createMatterType(locales: Locales) {
             locales,
             (locale) => locale.output.Matter.shapes,
         )}•?: ${TRUE_SYMBOL}
+        ${getBind(locales, (locale) => locale.output.Matter.pull)}•#: 0
     )
 `);
 }
@@ -35,6 +36,7 @@ export default class Matter extends Valued {
     readonly roundedness: number;
     readonly text: boolean;
     readonly shapes: boolean;
+    readonly pull: number;
 
     constructor(
         value: Value,
@@ -44,6 +46,7 @@ export default class Matter extends Valued {
         roundedness: number,
         text: boolean,
         shapes: boolean,
+        pull: number,
     ) {
         super(value);
 
@@ -53,6 +56,7 @@ export default class Matter extends Valued {
         this.roundedness = roundedness;
         this.text = text;
         this.shapes = shapes;
+        this.pull = pull;
     }
 }
 
@@ -66,6 +70,7 @@ export function toMatter(value: Value | undefined): Matter | undefined {
         roundednessVal,
         textVal,
         shapesVal,
+        pullVal,
     ] = getOutputInputs(value);
     const mass = toNumber(massVal);
     const bounce = toNumber(bounceVal);
@@ -73,6 +78,7 @@ export function toMatter(value: Value | undefined): Matter | undefined {
     const roundedness = toNumber(roundednessVal);
     const text = toBoolean(textVal);
     const shapes = toBoolean(shapesVal);
+    const pull = toNumber(pullVal);
     return mass !== undefined &&
         bounce !== undefined &&
         friction !== undefined &&
@@ -85,6 +91,7 @@ export function toMatter(value: Value | undefined): Matter | undefined {
               roundedness,
               text ?? true,
               shapes ?? true,
+              pull ?? 0,
           )
         : undefined;
 }

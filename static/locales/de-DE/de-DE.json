@@ -5054,6 +5054,10 @@
             "overlay": {
                 "doc": "$~Eine Liste von @Output, die flach an den Bildschirm geheftet wird, wie eine Anzeige direkt vor deinen Augen. Sie wird nicht von der @Place-Kamera der Bühne oder von der Tiefe beeinflusst.",
                 "names": "$~überlagern"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Group": {
@@ -6121,6 +6125,10 @@
             "shapes": {
                 "doc": "$~Ob ich überhaupt mit dem @Shape auf dem @Stage zusammenstoßen kann; ⊥ bedeutet, ich falle durch Wände und Böden, und @Collision sagt nichts darüber aus.",
                 "names": "$~Boden"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {

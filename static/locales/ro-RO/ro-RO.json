@@ -6072,6 +6072,10 @@
             "shapes": {
                 "doc": "$~Dacă mă pot lovi deloc de @Shape de pe @Stage; ⊥ înseamnă că trec prin pereți și podele, iar @Collision nu spune nimic despre ele.",
                 "names": "$~sol"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6205,6 +6209,10 @@
             "overlay": {
                 "doc": "$~O listă de @Output fixată plat pe ecran ca un afișaj informativ, neafectată de camera @Place a scenei sau de adâncime.",
                 "names": "$~suprapunere"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

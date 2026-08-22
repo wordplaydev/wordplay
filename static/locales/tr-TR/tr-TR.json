@@ -6009,6 +6009,10 @@
             "shapes": {
                 "doc": "$~@Stage üzerindeki @Shape ile hiç çarpışıp çarpışamayacağım; ⊥, duvarlardan ve zeminlerden geçtiğim anlamına gelir ve @Collision onlar hakkında hiçbir şey söylemez.",
                 "names": "$~zemin"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6142,6 +6146,10 @@
             "overlay": {
                 "doc": "$~Ekrana düz olarak sabitlenmiş, bilgi göstergesi gibi çalışan bir @Output listesi. Bu, sahnenin @Place kamerasından veya derinliğinden etkilenmez.",
                 "names": "$~kaplama"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

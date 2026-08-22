@@ -6017,6 +6017,10 @@
             "shapes": {
                 "doc": "$~Liệu tôi có thể va chạm với @Shape trên @Stage hay không; ⊥ nghĩa là tôi rơi xuyên qua tường và sàn, và @Collision nghĩa là không có thông tin gì về chúng.",
                 "names": "$~đất"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6150,6 +6154,10 @@
             "overlay": {
                 "doc": "$~Một danh sách các @Output được ghim phẳng lên màn hình dưới dạng bảng hiển thị phía trước, không bị ảnh hưởng bởi máy quay @Place hay chiều sâu của sân khấu.",
                 "names": "$~lớpPhủ"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

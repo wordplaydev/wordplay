@@ -6029,6 +6029,10 @@
             "shapes": {
                 "doc": "$~Kung kaya ko bang bumangga sa @Shape na nasa @Stage; ang ⊥ ay nangangahulugang tumatagos ako sa mga pader at sahig, at walang sinasabi ang @Collision tungkol dito.",
                 "names": "$~lupa"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6162,6 +6166,10 @@
             "overlay": {
                 "doc": "$~Isang listahan ng @Output na nakadikit nang patag sa screen bilang heads-up display, hindi apektado ng @Place camera o lalim ng entablado.",
                 "names": "$~pangIbabaw"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

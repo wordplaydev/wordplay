@@ -6023,6 +6023,10 @@
             "shapes": {
                 "doc": "$~Czy w ogóle mogę zderzać się z @Shape na @Stage; ⊥ oznacza, że przepadam przez ściany i podłogi, a @Collision nic o nich nie mówi.",
                 "names": "$~grunt"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6156,6 +6160,10 @@
             "overlay": {
                 "doc": "$~Lista @Output przypiętych płasko do ekranu jako wyświetlacz informacyjny, na który nie ma wpływu kamera @Place ani głębia sceny.",
                 "names": "$~nakładka"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

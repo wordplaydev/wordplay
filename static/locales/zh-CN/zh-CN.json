@@ -5996,6 +5996,10 @@
             "shapes": {
                 "doc": "$~我是否能和 @Stage 上的 @Shape 相碰；⊥ 表示我会穿过墙壁和地板，@Collision 表示对此没有任何说明。",
                 "names": "地面"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6127,6 +6131,10 @@
             "overlay": {
                 "doc": "$~一个 @Output 列表，平贴在屏幕上作为抬头显示，不受舞台 @Place 相机或深度的影响。",
                 "names": "$~覆盖层"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

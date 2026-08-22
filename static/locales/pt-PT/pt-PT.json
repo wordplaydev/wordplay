@@ -6027,6 +6027,10 @@
             "shapes": {
                 "doc": "$~Se posso ou não esbarrar de todo no @Shape do @Stage; ⊥ significa que atravesso paredes e chãos e @Collision não diz nada sobre eles.",
                 "names": "solo"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6160,6 +6164,10 @@
             "overlay": {
                 "doc": "$~Uma lista de @Output fixada de forma plana no ecrã, como uma exibição sobreposta, sem ser afetada pela câmara @Place do palco nem pela profundidade.",
                 "names": "$~sobreposição"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

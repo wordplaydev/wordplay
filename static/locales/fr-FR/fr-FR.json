@@ -5062,6 +5062,10 @@
             "overlay": {
                 "doc": "$~Une liste de @Output épinglée à plat sur l'écran comme un affichage tête haute. La caméra @Place de la scène ou la profondeur ne la modifient pas.",
                 "names": "$~superposition"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Group": {
@@ -6129,6 +6133,10 @@
             "shapes": {
                 "doc": "$~Si je peux ou non me heurter au @Shape sur le @Stage ; ⊥ signifie que je traverse les murs et les sols et @Collision ne dit rien à leur sujet.",
                 "names": "$~sol"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
