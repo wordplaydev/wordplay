@@ -2642,6 +2642,29 @@
                             "names": "$~model"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Creez un nou @Text care sunt eu, cu fiecare literă scrisă cu majuscule:",
+                        "\\'salut'.majuscule()\\",
+                        "Literele au majuscule și minuscule doar în unele sisteme de scriere, așa că textul dintr-un sistem de scriere fără ele, cum ar fi japoneza sau araba, rămâne neschimbat.",
+                        "Eticheta mea de limbă decide ce reguli se folosesc. Turca are un i cu punct și un i fără punct, iar doar textul etichetat ca turcă le scrie cu majuscule după regulile turcești:",
+                        "\\'iyi'.majuscule()\\",
+                        "\\'iyi'.majuscule()\\"
+                    ],
+                    "names": ["$~majuscule"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Creez un nou @Text care sunt eu, cu fiecare literă scrisă cu minuscule:",
+                        "\\'SALUT'.minuscule()\\",
+                        "Scrie două texte cu minuscule ca să le compari fără să ții cont de majuscule. Astfel se păstrează fiecare cuvânt care începe cu a, indiferent dacă este scris cu majusculă sau nu:",
+                        "\\['Măr' 'caisă' 'Banană'].filtra(\n\tƒ(cuvânt•'') cuvânt.minuscule().începe('un')\n)\\",
+                        "Ca și @Text/uppercase, literele au majuscule și minuscule doar în unele sisteme de scriere, iar eticheta mea de limbă decide ce reguli se folosesc."
+                    ],
+                    "names": ["$~minuscule"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3972,6 +3995,24 @@
                             "names": "$~formatat"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Creez un text formatat nou care sunt eu, cu fiecare literă scrisă cu majuscule. Se schimbă doar cuvintele mele; formatarea, legăturile și exemplele mele rămân la fel:",
+                        "\\`*bună* acolo`.majuscule()\\",
+                        "Ca și @Text/uppercase, literele au majuscule și minuscule doar în unele sisteme de scriere, iar eticheta mea de limbă decide ce reguli se folosesc."
+                    ],
+                    "names": ["$~majuscule"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Creez un text formatat nou care sunt eu, cu fiecare literă scrisă cu minuscule. Se schimbă doar cuvintele mele; formatarea, legăturile și exemplele mele rămân la fel:",
+                        "\\`*BUNĂ* ACOLO`.minuscule()\\",
+                        "Ca și @Text/lowercase, literele au majuscule și minuscule doar în unele sisteme de scriere, iar eticheta mea de limbă decide ce reguli se folosesc."
+                    ],
+                    "names": ["$~minuscule"],
+                    "inputs": []
                 }
             },
             "conversion": {

@@ -8,6 +8,7 @@ import NumberValue from '@values/NumberValue';
 import type Value from '@values/Value';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Expression from '@nodes/Expression';
+import { lowerCase, upperCase } from '@unicode/casing';
 import UnicodeString from '@unicode/UnicodeString';
 import SimpleValue from '@values/SimpleValue';
 
@@ -44,6 +45,24 @@ export default class TextValue extends SimpleValue {
 
     repeat(requestor: Expression, count: number) {
         return new TextValue(requestor, this.text.repeat(count), this.language);
+    }
+
+    /** Casing follows this text's own locale tag, since only the tag says what
+     *  language the letters are in; untagged text uses Unicode's root mapping. */
+    uppercase(requestor: Expression) {
+        return new TextValue(
+            requestor,
+            upperCase(this.text, this.language?.getBCP47()),
+            this.language,
+        );
+    }
+
+    lowercase(requestor: Expression) {
+        return new TextValue(
+            requestor,
+            lowerCase(this.text, this.language?.getBCP47()),
+            this.language,
+        );
     }
 
     segment(requestor: Expression, delimiter: TextValue | string) {

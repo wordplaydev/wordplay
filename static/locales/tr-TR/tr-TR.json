@@ -2642,6 +2642,29 @@
                             "names": "$~model"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi büyük harfe çevrilmiş yeni bir @Text oluştururum:",
+                        "\\'merhaba'.büyükHarf()\\",
+                        "Harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Bu yüzden Japonca veya Arapça gibi böyle bir ayrımı olmayan yazı sistemlerindeki metin değişmeden kalır.",
+                        "Dil etiketim, hangi kuralların kullanılacağına karar verir. Türkçede noktalı ve noktasız i harfi vardır. Sadece Türkçe olarak etiketlenmiş metin, bu harfleri Türkçe kurallarına göre büyük harfe çevirir:",
+                        "\\'iyi'.büyükHarf()\\",
+                        "\\'iyi'.büyükHarf()\\"
+                    ],
+                    "names": ["$~büyükHarf"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi küçük harfe çevrilmiş yeni bir @Text oluştururum:",
+                        "\\'MERHABA'.küçükHarf()\\",
+                        "Büyük küçük harf farkını önemsemeden iki metni karşılaştırmak için ikisini de küçük harfe çevir. Bu şekilde, büyük harfle başlasın ya da başlamasın, a ile başlayan her kelime korunur:",
+                        "\\['Elma' 'kayısı' 'Muz'].filtre(\n\tƒ(kelime•'') kelime.küçükHarf().başlar('a')\n)\\",
+                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve dil etiketim, hangi kuralların kullanılacağına karar verir."
+                    ],
+                    "names": ["$~küçükHarf"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3972,6 +3995,24 @@
                             "names": "$~biçimlendirilmiş"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi büyük harfe çevrilmiş yeni biçimlendirilmiş metin oluştururum. Sadece kelimelerim değişir; biçimlendirmem, bağlantılarım ve örneklerim olduğu gibi kalır:",
+                        "\\`*selam* orada`.büyükHarf()\\",
+                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve dil etiketim, hangi kuralların kullanılacağına karar verir."
+                    ],
+                    "names": ["$~büyükHarf"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi küçük harfe çevrilmiş yeni biçimlendirilmiş metin oluştururum. Sadece kelimelerim değişir; biçimlendirmem, bağlantılarım ve örneklerim olduğu gibi kalır:",
+                        "\\`*SELAM* ORADA`.küçükHarf()\\",
+                        "@Text/lowercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve dil etiketim, hangi kuralların kullanılacağına karar verir."
+                    ],
+                    "names": ["$~küçükHarf"],
+                    "inputs": []
                 }
             },
             "conversion": {

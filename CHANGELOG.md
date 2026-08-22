@@ -14,6 +14,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔍 The stage now shows how far you've zoomed, as a small bar that fills up and down with a line across the middle for the project's own view. Press it to go back to that view. (#1175)
 - 🧭 If you zoom or pan until nothing is left on the stage, Wordplay now tells you so and gives you a button to bring everything back. (#1175)
 - 🗣️ Screen readers now say the zoom level as you change it, and say when the stage has nothing left on it. (#1175)
+- 🔠 Text and formatted text can now be made all uppercase or all lowercase. Use `lowercase` on two words to compare them without caring whether either starts with a capital letter. (#1301)
+- 🌐 Changing text to uppercase or lowercase follows the rules of the language you tagged it with, so Turkish text changes its dotted and dotless `i` the Turkish way. (#1301)
 
 ### Changed
 
@@ -38,6 +40,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 Rewriting a project in a new language only changed part of it: names like `size:` and `duration:` stayed in the old language, so the code ended up in neither one. (#1276)
 - 🐛 Translating a project could break it. Words your program compares against, like the key name `'ArrowLeft'`, and pictures like `'🫀'`, were being translated too, so the program stopped working. They now stay exactly as you wrote them. (#1276)
 - 🚦 When you translated a project, the names of your own structures weren't changed everywhere they were used, so your program filled up with errors. They're all changed now, and if translating would still cause errors, we leave your program alone and say so instead. (#1276)
+- 🐛 A pattern that ignores capital letters for two languages at once, like `Aa/es_en`, stopped your program instead of matching. (#1301)
+- 🌐 Patterns that ignore capital letters could give different answers on different computers, because they used whatever language the computer was set to. They now work the same way everywhere, and only follow a language's own rules when you name one. (#1301)
+- 🐛 In the [Guide](https://wordplay.dev/guide), the page for joining two texts together didn't finish loading, so you couldn't read how it works. (#1301)
 - 🌐 A translated name could turn out to be a word your language already uses for something built in, which broke the program. We now pick a different name. (#1276)
 - 🐛 Once translating failed, the message about it stayed on screen forever, even after translating worked again. It goes away now. (#1276)
 - 🖱️ On mice that scroll line by line, the scroll wheel didn't zoom the stage at all. It works now. (#1175)

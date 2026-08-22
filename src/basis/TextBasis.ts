@@ -82,6 +82,32 @@ export default function bootstrapText(locales: Locales) {
                     (requestor, evaluator) =>
                         (evaluator.getClosure() as TextValue).length(requestor),
                 ),
+                // Case conversion takes its locale from the receiver's own tag,
+                // since only the tag says what language the letters are in; an
+                // untagged text uses Unicode's root mapping, so the result
+                // doesn't depend on the machine the program runs on.
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.uppercase,
+                    undefined,
+                    [],
+                    TextType.make(undefined, (left) => left),
+                    (requestor, evaluation) =>
+                        (evaluation.getClosure() as TextValue).uppercase(
+                            requestor,
+                        ),
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.lowercase,
+                    undefined,
+                    [],
+                    TextType.make(undefined, (left) => left),
+                    (requestor, evaluation) =>
+                        (evaluation.getClosure() as TextValue).lowercase(
+                            requestor,
+                        ),
+                ),
                 createBasisFunction(
                     locales,
                     (locale) => locale.basis.Text.function.repeat,

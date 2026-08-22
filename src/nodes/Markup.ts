@@ -18,6 +18,7 @@ import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
 import Paragraph, { type Segment } from '@nodes/Paragraph';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
+import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';
 
 export type MarkupMetadata = { unwritten: boolean; machineTranslated: boolean };
@@ -161,6 +162,32 @@ export default class Markup extends Content {
         return concrete.some((p) => p === undefined)
             ? undefined
             : new Markup(concrete as Paragraph[], newSpaces);
+    }
+
+    /**
+     * This markup with `map` applied to the text of every prose token, leaving
+     * everything that isn't prose alone: URLs, `@concept` links, `\example\`
+     * code, `$mention` template keys, and the `*`/`_` format delimiters, all of
+     * which are identifiers or syntax rather than words. This is the same
+     * boundary the locale tooling's protect.ts draws around translatable text.
+     *
+     * Unchanged tokens are kept by identity, and changed ones are remapped in
+     * spaces, because whitespace lives in the Spaces map keyed by token object
+     * rather than in the token text — a rebuilt markup that drops those keys
+     * renders every word run together.
+     */
+    withMappedWords(map: (text: string) => string): Markup {
+        const replacements: [Node, Node][] = [];
+        const paragraphs = this.paragraphs.map(
+            (paragraph) =>
+                new Paragraph(
+                    mapWordsInSegments(paragraph.segments, map, replacements),
+                ),
+        );
+        let spaces = this.spaces;
+        for (const [original, replacement] of replacements)
+            spaces = spaces?.withReplacement(original, replacement);
+        return new Markup(paragraphs, spaces, this.metadata);
     }
 
     /**
@@ -399,4 +426,54 @@ export default class Markup extends Content {
     toString() {
         return '';
     }
+}
+
+/** Map the prose tokens in a segment list, recording what changed so the
+ *  caller can remap spaces. Recurses into Words (whose delimiters carry the
+ *  formatting) and a WebLink's description (its url is not prose). */
+function mapWordsInSegments(
+    segments: Segment[],
+    map: (text: string) => string,
+    replacements: [Node, Node][],
+): Segment[] {
+    return segments.map((segment) => {
+        if (segment instanceof Words)
+            return segment.withSegments(
+                mapWordsInSegments(segment.segments, map, replacements),
+            );
+        if (segment instanceof WebLink) {
+            const description = mapWordsToken(
+                segment.description,
+                map,
+                replacements,
+            );
+            return description === segment.description
+                ? segment
+                : new WebLink(
+                      segment.open,
+                      description,
+                      segment.at,
+                      segment.url,
+                      segment.close,
+                  );
+        }
+        if (segment instanceof Token)
+            return mapWordsToken(segment, map, replacements) ?? segment;
+        return segment;
+    });
+}
+
+/** Map one token's text if it's prose, recording the swap. A URL is not prose:
+ *  a path's case is significant. */
+function mapWordsToken(
+    token: Token | undefined,
+    map: (text: string) => string,
+    replacements: [Node, Node][],
+): Token | undefined {
+    if (token === undefined || !token.isSymbol(Sym.Words)) return token;
+    const text = map(token.getText());
+    if (text === token.getText()) return token;
+    const replacement = token.withText(text);
+    replacements.push([token, replacement]);
+    return replacement;
 }

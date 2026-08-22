@@ -109,6 +109,42 @@ export default function bootstrapFormatted(locales: Locales) {
                     (locale) => locale.basis.Formatted.function.ends,
                     (requestor, markup, input) => markup.ends(requestor, input),
                 ),
+                // Case conversion converts only the prose, and takes its
+                // locale from the receiver's own tag, mirroring text.
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Formatted.function.uppercase,
+                    undefined,
+                    [],
+                    FormattedType.make((left) => left),
+                    (requestor, evaluation) => {
+                        const markup = evaluation.getClosure();
+                        if (!(markup instanceof MarkupValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                FormattedType.make(),
+                                markup,
+                            );
+                        return markup.uppercase(requestor);
+                    },
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Formatted.function.lowercase,
+                    undefined,
+                    [],
+                    FormattedType.make((left) => left),
+                    (requestor, evaluation) => {
+                        const markup = evaluation.getClosure();
+                        if (!(markup instanceof MarkupValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                FormattedType.make(),
+                                markup,
+                            );
+                        return markup.lowercase(requestor);
+                    },
+                ),
                 createBasisFunction(
                     locales,
                     (locale) => locale.basis.Formatted.function.repeat,

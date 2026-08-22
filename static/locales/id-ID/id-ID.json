@@ -2647,6 +2647,29 @@
                             "names": "$~pola"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf besar semua:",
+                        "\\'halo'.hurufBesar()\\",
+                        "Huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, jadi teks dalam sistem tulisan yang tidak punya itu, seperti tulisan Jepang atau Arab, tidak berubah.",
+                        "Tanda bahasaku menentukan aturan siapa yang dipakai. Bahasa Turki punya huruf i bertitik dan i tanpa titik, dan hanya teks yang ditandai sebagai bahasa Turki yang diubah menjadi huruf besar dengan cara Turki:",
+                        "\\'iyi'.hurufBesar()\\",
+                        "\\'iyi'.hurufBesar()\\"
+                    ],
+                    "names": ["$~hurufBesar"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf kecil semua:",
+                        "\\'HALO'.hurufKecil()\\",
+                        "Ubah dua teks menjadi huruf kecil untuk membandingkannya tanpa peduli pada huruf besar atau kecil. Cara ini tetap menyimpan setiap kata yang dimulai dengan huruf a, baik ditulis dengan huruf besar maupun tidak:",
+                        "\\['Apel' 'aprikot' 'Pisang'].menyaring(\n\tƒ(kata•'') kata.hurufKecil().mulai('a')\n)\\",
+                        "Seperti @Text/uppercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
+                    ],
+                    "names": ["$~hurufKecil"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3977,6 +4000,24 @@
                             "names": "$~diformat"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Aku membuat teks berformat baru yang seperti aku, dengan setiap huruf besar semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
+                        "\\`*hai* di sana`.hurufBesar()\\",
+                        "Seperti @Text/uppercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
+                    ],
+                    "names": ["$~hurufBesar"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Aku membuat teks berformat baru yang seperti aku, dengan setiap huruf kecil semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
+                        "\\`*HAI* DI SANA`.hurufKecil()\\",
+                        "Seperti @Text/lowercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
+                    ],
+                    "names": ["$~hurufKecil"],
+                    "inputs": []
                 }
             },
             "conversion": {

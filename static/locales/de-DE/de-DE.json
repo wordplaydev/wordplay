@@ -2642,6 +2642,29 @@
                             "names": "$~Muster"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Ich erstelle einen neuen @Text, der ich bin, mit jedem Buchstaben in Großbuchstaben:",
+                        "\\'hallo'.Großbuchstaben()\\",
+                        "Buchstaben haben nur in manchen Schriftsystemen Groß- und Kleinschreibung. Text in einem Schriftsystem ohne diese Unterscheidung, wie Japanisch oder Arabisch, bleibt also unverändert.",
+                        "Mein Sprach-Tag entscheidet, welche Regeln gelten. Türkisch hat ein i mit Punkt und eines ohne Punkt. Nur Text mit dem Sprach-Tag Türkisch wird nach türkischer Art in Großbuchstaben umgewandelt:",
+                        "\\'gut'.Großbuchstaben()\\",
+                        "\\'gut'.Großbuchstaben()\\"
+                    ],
+                    "names": ["$~Großbuchstaben"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Ich erstelle einen neuen @Text, der ich bin, mit jedem Buchstaben in Kleinbuchstaben:",
+                        "\\'HALLO'.Kleinbuchstaben()\\",
+                        "Wandle zwei Texte in Kleinbuchstaben um, um sie zu vergleichen, ohne auf Groß- und Kleinschreibung zu achten. So bleibt jedes Wort erhalten, das mit einem a beginnt, egal ob großgeschrieben oder nicht:",
+                        "\\['Apfel' 'Aprikose' 'Banane'].Filter(\n\tƒ(wort•'') wort.Kleinbuchstaben().beginnt('ein')\n)\\",
+                        "Wie bei @Text/uppercase haben Buchstaben nur in manchen Schriftsystemen Groß- und Kleinschreibung, und mein Sprach-Tag entscheidet, welche Regeln gelten."
+                    ],
+                    "names": ["$~Kleinbuchstaben"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3975,6 +3998,24 @@
                             "names": "$~formatiert"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Ich erstelle neuen formatierten Text, der ich bin, mit jedem Buchstaben in Großbuchstaben. Nur meine Wörter ändern sich; meine Formatierung, Links und Beispiele bleiben, wie sie sind:",
+                        "\\`*hallo* du`.Großbuchstaben()\\",
+                        "Wie bei @Text/uppercase haben Buchstaben nur in manchen Schriftsystemen Groß- und Kleinschreibung, und mein Sprach-Tag entscheidet, welche Regeln gelten."
+                    ],
+                    "names": ["$~Großbuchstaben"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Ich erstelle neuen formatierten Text, der ich bin, mit jedem Buchstaben in Kleinbuchstaben. Nur meine Wörter ändern sich; meine Formatierung, Links und Beispiele bleiben, wie sie sind:",
+                        "\\`*HALLO* DU`.Kleinbuchstaben()\\",
+                        "Wie bei @Text/lowercase haben Buchstaben nur in manchen Schriftsystemen Groß- und Kleinschreibung, und mein Sprach-Tag entscheidet, welche Regeln gelten."
+                    ],
+                    "names": ["$~Kleinbuchstaben"],
+                    "inputs": []
                 }
             },
             "conversion": {

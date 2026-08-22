@@ -2647,6 +2647,29 @@
                             "names": "$~mẫu"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một @Text mới là chính tôi, với mọi chữ cái đều viết hoa:",
+                        "\\'xin chào'.chữHoa()\\",
+                        "Chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, nên văn bản thuộc hệ chữ viết không có sự phân biệt này, như tiếng Nhật hay tiếng Ả Rập, sẽ không thay đổi.",
+                        "Thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào. Tiếng Thổ Nhĩ Kỳ có chữ i có chấm và i không chấm, và chỉ văn bản được gắn thẻ là tiếng Thổ Nhĩ Kỳ mới viết hoa chúng theo cách của tiếng Thổ Nhĩ Kỳ:",
+                        "\\'iyi'.chữHoa()\\",
+                        "\\'iyi'.chữHoa()\\"
+                    ],
+                    "names": ["$~chữHoa"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một @Text mới là chính tôi, với mọi chữ cái đều viết thường:",
+                        "\\'XIN CHÀO'.chữThường()\\",
+                        "Hãy chuyển hai đoạn văn bản thành chữ thường để so sánh chúng mà không quan tâm đến việc viết hoa. Cách này giữ lại mọi từ bắt đầu bằng chữ a, dù nó có được viết hoa hay không:",
+                        "\\['Táo' 'mơ' 'Chuối'].lọc(\n\tƒ(từ2•'') từ2.chữThường().bắtđầu('a')\n)\\",
+                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                    ],
+                    "names": ["$~chữThường"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3977,6 +4000,24 @@
                             "names": "$~đãđịnhdạng"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một đoạn văn bản đã định dạng mới là chính tôi, với mọi chữ cái đều viết hoa. Chỉ có các từ của tôi thay đổi; định dạng, đường liên kết và ví dụ của tôi vẫn giữ nguyên:",
+                        "\\`*chào* bạn`.chữHoa()\\",
+                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                    ],
+                    "names": ["$~chữHoa"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một đoạn văn bản đã định dạng mới là chính tôi, với mọi chữ cái đều viết thường. Chỉ có các từ của tôi thay đổi; định dạng, đường liên kết và ví dụ của tôi vẫn giữ nguyên:",
+                        "\\`*CHÀO* BẠN`.chữThường()\\",
+                        "Giống như @Text/lowercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                    ],
+                    "names": ["$~chữThường"],
+                    "inputs": []
                 }
             },
             "conversion": {

@@ -2615,6 +2615,29 @@
                         }
                     ]
                 },
+                "uppercase": {
+                    "doc": [
+                        "I make a new @Text that's me, with every letter in uppercase:",
+                        "\\'hello'.uppercase()\\",
+                        "Letters only have cases in some writing systems, so text in a writing system without them, like Japanese or Arabic, is unchanged.",
+                        "My language tag decides whose rules to use. Turkish has a dotted and a dotless i, and only text tagged as Turkish uppercases them the Turkish way:",
+                        "\\'iyi'/tr.uppercase()\\",
+                        "\\'iyi'.uppercase()\\"
+                    ],
+                    "names": ["🔠", "uppercase"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "I make a new @Text that's me, with every letter in lowercase:",
+                        "\\'HELLO'.lowercase()\\",
+                        "Make two texts lowercase to compare them without caring about capitalization. This keeps every word that starts with an a, whether or not it's capitalized:",
+                        "\\['Apple' 'apricot' 'Banana'].filter(ƒ(word•'') word.lowercase().starts('a'))\\",
+                        "Like @Text/uppercase, letters only have cases in some writing systems, and my language tag decides whose rules to use."
+                    ],
+                    "names": ["🔡", "lowercase"],
+                    "inputs": []
+                },
                 "repeat": {
                     "doc": [
                         "I make a new @Text that's me, repeated the number of times of \\count\\:",
@@ -2756,6 +2779,24 @@
                             "names": "text"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "I make new formatted text that's me, with every letter in uppercase. Only my words change; my formatting, links, and examples stay as they are:",
+                        "\\`*hi* there`.uppercase()\\",
+                        "Like @Text/uppercase, letters only have cases in some writing systems, and my language tag decides whose rules to use."
+                    ],
+                    "names": ["🔠", "uppercase"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "I make new formatted text that's me, with every letter in lowercase. Only my words change; my formatting, links, and examples stay as they are:",
+                        "\\`*HI* THERE`.lowercase()\\",
+                        "Like @Text/lowercase, letters only have cases in some writing systems, and my language tag decides whose rules to use."
+                    ],
+                    "names": ["🔡", "lowercase"],
+                    "inputs": []
                 },
                 "repeat": {
                     "doc": "I make new formatted text that's me, repeated the given number of times. If I have more than one paragraph, the breaks are kept between copies.",

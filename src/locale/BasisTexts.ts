@@ -69,6 +69,10 @@ type BasisTexts = {
             /** [formatted] See `en-US.json` for documentation  */
             ends: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
+            uppercase: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            lowercase: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
             repeat: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
             segment: FunctionText<[NameAndDoc]>;
@@ -105,6 +109,10 @@ type BasisTexts = {
             starts: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
             ends: FunctionText<[NameAndDoc]>;
+            /** [formatted] See `en-US.json` for documentation  */
+            uppercase: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            lowercase: FunctionText<EmptyInputs>;
             /** [formatted] See `en-US.json` for documentation  */
             repeat: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */

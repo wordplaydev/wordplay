@@ -2642,6 +2642,29 @@
                             "names": "$~padron"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na ako rin, kung saan malaki ang bawat letra:",
+                        "\\'kamusta'.malalakingTitik()\\",
+                        "May malaki at maliit na letra lang sa ilang sistema ng pagsulat, kaya ang tekstong walang ganitong sistema, gaya ng Japanese o Arabic, ay hindi nagbabago.",
+                        "Ang tatak ng aking wika ang magpapasya kung saang mga panuntunan susunod. May tuldok at walang-tuldok na i ang Turkish, at ang tekstong tinatakan bilang Turkish lang ang gagawing malaki ayon sa paraan ng Turkish:",
+                        "\\'mabuti'.malalakingTitik()\\",
+                        "\\'mabuti'.malalakingTitik()\\"
+                    ],
+                    "names": ["$~malalakingTitik"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na ako rin, kung saan maliit ang bawat letra:",
+                        "\\'KAMUSTA'.maliliitNaTitik()\\",
+                        "Gawing maliit na letra ang dalawang teksto para maihambing sila nang hindi iniisip kung malaki o maliit ang mga letra. Nananatili sa listahan ang bawat salitang nagsisimula sa a, malaki man o maliit ang unang letra nito:",
+                        "\\['Mansanas' 'apricot' 'Saging'].pansala(\n\tƒ(salita•'') salita.maliliitNaTitik().nagsisimula('a')\n)\\",
+                        "Tulad ng @Text/uppercase, may malaki at maliit na letra lang sa ilang sistema ng pagsulat, at ang tatak ng aking wika ang magpapasya kung saang mga panuntunan susunod."
+                    ],
+                    "names": ["$~maliliitNaTitik"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3972,6 +3995,24 @@
                             "names": "$~nakaformat"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong tekstong may format na ako rin, kung saan malaki ang bawat letra. Ang mga salita ko lang ang nagbabago; nananatili ang aking format, mga link, at mga halimbawa:",
+                        "\\`*kamusta* diyan`.malalakingTitik()\\",
+                        "Tulad ng @Text/uppercase, may malaki at maliit na letra lang sa ilang sistema ng pagsulat, at ang tatak ng aking wika ang magpapasya kung saang mga panuntunan susunod."
+                    ],
+                    "names": ["$~malalakingTitik"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong tekstong may format na ako rin, kung saan maliit ang bawat letra. Ang mga salita ko lang ang nagbabago; nananatili ang aking format, mga link, at mga halimbawa:",
+                        "\\`*KAMUSTA* DIYAN`.maliliitNaTitik()\\",
+                        "Tulad ng @Text/lowercase, may malaki at maliit na letra lang sa ilang sistema ng pagsulat, at ang tatak ng aking wika ang magpapasya kung saang mga panuntunan susunod."
+                    ],
+                    "names": ["$~maliliitNaTitik"],
+                    "inputs": []
                 }
             },
             "conversion": {

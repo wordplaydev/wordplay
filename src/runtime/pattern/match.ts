@@ -30,6 +30,7 @@ import {
     type GraphemePredicate,
 } from '@runtime/pattern/properties';
 import { getWordInfo } from '@runtime/pattern/segment';
+import { lowerCase } from '@unicode/casing';
 import UnicodeString from '@unicode/UnicodeString';
 
 /**
@@ -104,7 +105,7 @@ type Matcher = Generator<MatchSnapshot, State | null, void>;
 
 /**
  * Case-folding mode while matching: `false` = exact; a string = fold on, with
- * that BCP-47 locale for `toLocaleLowerCase` (`''` = the host default, e.g. a
+ * that BCP-47 locale for lowercasing (`''` = Unicode's root mapping, e.g. a
  * bare `Aa`; `'tr'` for Turkic `i`/`İ`).
  */
 type Fold = false | string;
@@ -154,8 +155,7 @@ function namedClassPredicate(name: string): GraphemePredicate {
 function foldEq(a: string, b: string, fold: Fold): boolean {
     if (a === b) return true;
     if (fold === false) return false;
-    const locale = fold === '' ? undefined : fold;
-    return a.toLocaleLowerCase(locale) === b.toLocaleLowerCase(locale);
+    return lowerCase(a, fold) === lowerCase(b, fold);
 }
 
 /** One-grapheme membership test for a set member (class, range, literal, or named class). */
@@ -408,7 +408,7 @@ function* matchNode(
             node.body,
             graphemes,
             state,
-            node.language?.getTagString() ?? '',
+            node.language?.getBCP47() ?? '',
         );
 
     if (node instanceof PatternWord) {
@@ -440,9 +440,11 @@ function* matchNode(
     return null;
 }
 
-/** The BCP-47 tag on a word/word-edge atom (e.g. "en", "zh-Hant"). */
+/** The BCP-47 tag on a word/word-edge atom (e.g. "en", "zh-Hant"). A
+ *  multilingual tag has no BCP-47 form, so segment by its primary language
+ *  rather than falling through to whatever locale the machine happens to be. */
 function languageOf(node: PatternWord | PatternWordEdge): string {
-    return node.language.getTagString() ?? '';
+    return node.language.getBCP47() ?? '';
 }
 
 /** The longer of two results (greater pos), keeping the earlier on a tie. */

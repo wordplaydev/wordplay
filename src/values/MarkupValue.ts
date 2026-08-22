@@ -12,6 +12,7 @@ import NumberValue from '@values/NumberValue';
 import SimpleValue from '@values/SimpleValue';
 import type TextValue from '@values/TextValue';
 import type Value from '@values/Value';
+import { lowerCase, upperCase } from '@unicode/casing';
 
 export default class MarkupValue extends SimpleValue {
     readonly markup: Markup;
@@ -74,6 +75,31 @@ export default class MarkupValue extends SimpleValue {
         for (let i = 0; i < count; i++)
             result = result.concat(this.markup.clone());
         return new MarkupValue(requestor, result, this.language);
+    }
+
+    /** Casing follows this markup's own locale tag, mirroring text; only the
+     *  prose is converted, so formatting, links, and examples survive. */
+    uppercase(requestor: Expression) {
+        return this.withMappedWords(requestor, (text) =>
+            upperCase(text, this.language?.getBCP47()),
+        );
+    }
+
+    lowercase(requestor: Expression) {
+        return this.withMappedWords(requestor, (text) =>
+            lowerCase(text, this.language?.getBCP47()),
+        );
+    }
+
+    private withMappedWords(
+        requestor: Expression,
+        map: (text: string) => string,
+    ) {
+        return new MarkupValue(
+            requestor,
+            this.markup.withMappedWords(map),
+            this.language,
+        );
     }
 
     combine(requestor: Expression, markup: MarkupValue) {

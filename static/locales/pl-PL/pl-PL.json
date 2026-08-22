@@ -2642,6 +2642,29 @@
                             "names": "$~wzór"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Tworzę nowy @Text, taki sam jak ja, ale z każdą literą wielką:",
+                        "\\'cześć'.wielkieLitery()\\",
+                        "Wielkość liter istnieje tylko w niektórych systemach pisma, więc tekst w systemie bez niej, jak japoński czy arabski, pozostaje bez zmian.",
+                        "Mój znacznik języka decyduje, jakich zasad użyć. Turecki ma i z kropką i bez kropki, i tylko tekst oznaczony jako turecki zamienia je na wielkie litery po turecku:",
+                        "\\'dobry'.wielkieLitery()\\",
+                        "\\'dobry'.wielkieLitery()\\"
+                    ],
+                    "names": ["$~wielkieLitery"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Tworzę nowy @Text, taki sam jak ja, ale z każdą literą małą:",
+                        "\\'CZEŚĆ'.małeLitery()\\",
+                        "Zamień dwa teksty na małe litery, żeby porównać je bez patrzenia na wielkość liter. To zachowuje każde słowo zaczynające się na literę a, niezależnie od tego, czy zaczyna się wielką literą:",
+                        "\\['Jabłko' 'morela' 'Banan'].filtr(\n\tƒ(słowo•'') słowo.małeLitery().zaczynasię('a')\n)\\",
+                        "Tak jak @Text/uppercase, wielkość liter istnieje tylko w niektórych systemach pisma, a mój znacznik języka decyduje, jakich zasad użyć."
+                    ],
+                    "names": ["$~małeLitery"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3972,6 +3995,24 @@
                             "names": "$~sformatowany"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Tworzę nowy sformatowany tekst, taki sam jak ja, ale z każdą literą wielką. Zmieniają się tylko moje słowa; moje formatowanie, linki i przykłady pozostają bez zmian:",
+                        "\\`*cześć* tam`.wielkieLitery()\\",
+                        "Tak jak @Text/uppercase, wielkość liter istnieje tylko w niektórych systemach pisma, a mój znacznik języka decyduje, jakich zasad użyć."
+                    ],
+                    "names": ["$~wielkieLitery"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Tworzę nowy sformatowany tekst, taki sam jak ja, ale z każdą literą małą. Zmieniają się tylko moje słowa; moje formatowanie, linki i przykłady pozostają bez zmian:",
+                        "\\`*CZEŚĆ* TAM`.małeLitery()\\",
+                        "Tak jak @Text/lowercase, wielkość liter istnieje tylko w niektórych systemach pisma, a mój znacznik języka decyduje, jakich zasad użyć."
+                    ],
+                    "names": ["$~małeLitery"],
+                    "inputs": []
                 }
             },
             "conversion": {

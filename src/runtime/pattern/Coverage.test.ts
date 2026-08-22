@@ -228,6 +228,14 @@ describe('case fold — default, locale, with backref', () => {
         ['\'World\' ≈ ⣿Aa("hello")⣿', '⊥'],
         ['\'İ\' ≈ ⣿Aa/tr("i")⣿', '⊤'], // Turkic dotted-İ
         ["('AbAB' ⌕ ⣿Aa(w:(2 _) w)⣿).length()", '1'], // fold scopes the backref
+        // A bare Aa folds with Unicode's root mapping, not the locale of the
+        // machine running the program: on a Turkish host these would flip.
+        ['\'I\' ≈ ⣿Aa("i")⣿', '⊤'],
+        ['\'I\' ≈ ⣿Aa/tr("i")⣿', '⊥'],
+        // A multilingual tag has no BCP-47 form, so it folds by its primary
+        // language rather than throwing.
+        ['\'İ\' ≈ ⣿Aa/tr_en("i")⣿', '⊤'],
+        ['\'HELLO\' ≈ ⣿Aa/es_en("hello")⣿', '⊤'],
     ])('%s -> %s', (code, expected) => {
         expect(ev(code)).toBe(expected);
     });

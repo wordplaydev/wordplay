@@ -34,3 +34,28 @@ test.each([
 ])('%s evaluates to %s', (code, expected) => {
     expect(evaluateCode(code)?.toString()).toBe(expected);
 });
+
+// Case conversion touches only the prose. Everything else in markup is syntax
+// or an identifier: the format delimiters, a URL's path, a @concept link, an
+// \example\'s code, and a $mention's key.
+test.each([
+    ['`hello`.uppercase()', '`HELLO`'],
+    ['`HELLO`.lowercase()', '`hello`'],
+    // Formatting delimiters and the words inside them both survive.
+    ['`/hello/ *world*`.uppercase()', '`/HELLO/ *WORLD*`'],
+    // Spacing between words survives: it lives in a map keyed by token, so a
+    // rebuilt markup that loses those keys runs every word together.
+    ['`hello there world`.uppercase()', '`HELLO THERE WORLD`'],
+    // A concept link is an identifier, not a word.
+    ['`see @Text now`.uppercase()', '`SEE @Text NOW`'],
+    // A link's description is prose; its URL's path case is significant.
+    [
+        '`<wordplay@https://wordplay.dev/Guide>`.uppercase()',
+        '`<WORDPLAY@https://wordplay.dev/Guide>`',
+    ],
+    // The locale tag survives, and decides the rules.
+    ['`iyi`/tr.uppercase()', '`İYİ`/tr'],
+    ['`iyi`/en.uppercase()', '`IYI`/en'],
+])('%s evaluates to %s', (code, expected) => {
+    expect(evaluateCode(code)?.toWordplay()).toBe(expected);
+});

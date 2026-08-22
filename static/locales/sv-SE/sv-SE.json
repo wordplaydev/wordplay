@@ -2642,6 +2642,29 @@
                             "names": "$~mönster"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Jag skapar en ny @Text som är jag, med varje bokstav i versaler:",
+                        "\\'hej'.versaler()\\",
+                        "Bokstäver har bara skiftläge i vissa skriftsystem, så text i ett skriftsystem utan det, som japanska eller arabiska, ändras inte.",
+                        "Min språktagg avgör vilka regler som ska användas. Turkiska har ett i med prick och ett i utan prick, och bara text taggad som turkiska görs om till versaler på det turkiska sättet:",
+                        "\\'iyi'.versaler()\\",
+                        "\\'iyi'.versaler()\\"
+                    ],
+                    "names": ["$~versaler"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Jag skapar en ny @Text som är jag, med varje bokstav i gemener:",
+                        "\\'HEJ'.gemener()\\",
+                        "Gör två texter till gemener för att jämföra dem utan att bry sig om skiftläge. Detta behåller varje ord som börjar på a, oavsett om det är skrivet med stor bokstav eller inte:",
+                        "\\['Äpple' 'aprikos' 'Banan'].filtrera(\n\tƒ(ord2•'') ord2.gemener().startar('en')\n)\\",
+                        "Liksom @Text/uppercase har bokstäver bara skiftläge i vissa skriftsystem, och min språktagg avgör vilka regler som ska användas."
+                    ],
+                    "names": ["$~gemener"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3969,6 +3992,24 @@
                             "names": "$~formaterad"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Jag skapar ny formaterad text som är jag, med varje bokstav i versaler. Bara mina ord ändras; min formatering, mina länkar och exempel förblir som de är:",
+                        "\\`*hej* där`.versaler()\\",
+                        "Liksom @Text/uppercase har bokstäver bara skiftläge i vissa skriftsystem, och min språktagg avgör vilka regler som ska användas."
+                    ],
+                    "names": ["$~versaler"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Jag skapar ny formaterad text som är jag, med varje bokstav i gemener. Bara mina ord ändras; min formatering, mina länkar och exempel förblir som de är:",
+                        "\\`*HEJ* DÄR`.gemener()\\",
+                        "Liksom @Text/lowercase har bokstäver bara skiftläge i vissa skriftsystem, och min språktagg avgör vilka regler som ska användas."
+                    ],
+                    "names": ["$~gemener"],
+                    "inputs": []
                 }
             },
             "conversion": {

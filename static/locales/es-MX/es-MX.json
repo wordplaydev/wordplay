@@ -2642,6 +2642,29 @@
                             "names": "$~patrón"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Creo un nuevo @Text que soy yo, con todas las letras en mayúscula:",
+                        "\\'hola'.mayúsculas()\\",
+                        "Las letras solo tienen mayúsculas y minúsculas en algunos sistemas de escritura, así que el texto en un sistema de escritura sin ellas, como el japonés o el árabe, no cambia.",
+                        "Mi etiqueta de idioma decide qué reglas usar. El turco tiene una i con punto y una i sin punto, y solo el texto etiquetado como turco las convierte a mayúscula a la manera turca:",
+                        "\\'iyi'.mayúsculas()\\",
+                        "\\'iyi'.mayúsculas()\\"
+                    ],
+                    "names": ["$~mayúsculas"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Creo un nuevo @Text que soy yo, con todas las letras en minúscula:",
+                        "\\'HOLA'.minúsculas()\\",
+                        "Convierte dos textos a minúscula para compararlos sin importar las mayúsculas. Esto conserva cada palabra que empieza con a, ya sea con mayúscula o sin ella:",
+                        "\\['Manzana' 'chabacano' 'Plátano'].filtro(\n\tƒ(palabra•'') palabra.minúsculas().comienza('a')\n)\\",
+                        "Como @Text/uppercase, las letras solo tienen mayúsculas y minúsculas en algunos sistemas de escritura, y mi etiqueta de idioma decide qué reglas usar."
+                    ],
+                    "names": ["$~minúsculas"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3972,6 +3995,24 @@
                             "names": "$~conFormato"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Creo un nuevo texto con formato que soy yo, con todas las letras en mayúscula. Solo cambian mis palabras; mi formato, mis enlaces y mis ejemplos siguen igual:",
+                        "\\`*hola* qué tal`.mayúsculas()\\",
+                        "Como @Text/uppercase, las letras solo tienen mayúsculas y minúsculas en algunos sistemas de escritura, y mi etiqueta de idioma decide qué reglas usar."
+                    ],
+                    "names": ["$~mayúsculas"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Creo un nuevo texto con formato que soy yo, con todas las letras en minúscula. Solo cambian mis palabras; mi formato, mis enlaces y mis ejemplos siguen igual:",
+                        "\\`*HOLA* QUÉ TAL`.minúsculas()\\",
+                        "Como @Text/lowercase, las letras solo tienen mayúsculas y minúsculas en algunos sistemas de escritura, y mi etiqueta de idioma decide qué reglas usar."
+                    ],
+                    "names": ["$~minúsculas"],
+                    "inputs": []
                 }
             },
             "conversion": {

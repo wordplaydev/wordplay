@@ -2642,6 +2642,29 @@
                             "names": "$~modèle"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Je crée un nouveau @Text qui est moi, avec chaque lettre en majuscule :",
+                        "\\'bonjour'.majuscule()\\",
+                        "Les lettres n'ont de casse que dans certains systèmes d'écriture. Un texte écrit dans un système sans casse, comme le japonais ou l'arabe, reste donc inchangé.",
+                        "Ma balise de langue décide quelles règles utiliser. Le turc a un i pointé et un i non pointé, et seul un texte marqué comme turc les met en majuscule à la façon turque :",
+                        "\\'iyi'.majuscule()\\",
+                        "\\'iyi'.majuscule()\\"
+                    ],
+                    "names": ["$~majuscule"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Je crée un nouveau @Text qui est moi, avec chaque lettre en minuscule :",
+                        "\\'BONJOUR'.minuscule()\\",
+                        "Mets deux textes en minuscule pour les comparer sans tenir compte des majuscules. Cela garde chaque mot qui commence par un a, qu'il soit en majuscule ou non :",
+                        "\\['Pomme' 'abricot' 'Banane'].filtre(\n\tƒ(mot•'') mot.minuscule().commence('un')\n)\\",
+                        "Comme @Text/uppercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de langue décide quelles règles utiliser."
+                    ],
+                    "names": ["$~minuscule"],
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -3972,6 +3995,24 @@
                             "names": "$~formaté"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Je crée un nouveau texte formaté qui est moi, avec chaque lettre en majuscule. Seuls mes mots changent ; ma mise en forme, mes liens et mes exemples restent tels quels :",
+                        "\\`*salut* toi`.majuscule()\\",
+                        "Comme @Text/uppercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de langue décide quelles règles utiliser."
+                    ],
+                    "names": ["$~majuscule"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Je crée un nouveau texte formaté qui est moi, avec chaque lettre en minuscule. Seuls mes mots changent ; ma mise en forme, mes liens et mes exemples restent tels quels :",
+                        "\\`*SALUT* TOI`.minuscule()\\",
+                        "Comme @Text/lowercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de langue décide quelles règles utiliser."
+                    ],
+                    "names": ["$~minuscule"],
+                    "inputs": []
                 }
             },
             "conversion": {

@@ -68,26 +68,28 @@ test('resolving a color needs no basis', () => {
  * few KB to LocaleSearch, which the footer's chooser imports, the keyword
  * canonical-symbol fixes (#1296, #1298) added a few KB to the tokenizer/parser,
  * the stage zoom feedback (#1175) added a few strings to en-US.json, which
- * every page carries, and the footer nav tabs (#836) added a few KB of CSS to
- * Link and Toggle, which every page renders. Raise a budget only for that, never to accommodate the
+ * every page carries, the footer nav tabs (#836) added a few KB of CSS to
+ * Link and Toggle, which every page renders, and the text case functions
+ * (#1301) added their documentation to en-US.json. Raise a budget only for that, never to accommodate the
  * language runtime leaking back in — the runtime-reachability test below is what
  * guards the 2MB this file exists for, and it must stay green whatever these
  * numbers say.
  *
  * A *file* budget may move by one for the same reason, and only for the same
  * reason: #1175 extracted OverflowToolbar's fit policy into its own module so it
- * could be tested without a layout engine, and #836 did the same for Link's
- * active/section logic. Each is one small file already inside chrome that
- * imports nothing — not a new subgraph. Any larger jump in a file
+ * could be tested without a layout engine, #836 did the same for Link's
+ * active/section logic, and #1301 did the same for the one rule deciding what
+ * locale a case conversion uses. Each is one small file already inside chrome
+ * that imports nothing — not a new subgraph. Any larger jump in a file
  * count is a door opening, and the chain that opened it is what the failure
  * message is for.
  */
 test.each([
-    ['src/routes/+layout.svelte', 476, 3.37],
-    ['src/components/app/Page.svelte', 497, 3.59],
-    ['src/routes/[[locale]]/+page.svelte', 509, 3.64],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 514, 3.67],
-    ['src/routes/[[locale]]/projects/+page.svelte', 517, 3.67],
+    ['src/routes/+layout.svelte', 477, 3.38],
+    ['src/components/app/Page.svelte', 498, 3.6],
+    ['src/routes/[[locale]]/+page.svelte', 510, 3.65],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.68],
+    ['src/routes/[[locale]]/projects/+page.svelte', 518, 3.68],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(
