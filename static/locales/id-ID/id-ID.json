@@ -2670,11 +2670,59 @@
                     ],
                     "names": ["$~hurufKecil"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Memisahkan teks menjadi daftar karakter individual.",
-                "number": "$~Mengonversi teks menjadi @Number, dan jika bukan angka, maka akan menghasilkan nilai bukan angka.",
+                "number": "$!Mengonversi teks menjadi @Number, dan jika bukan angka, maka akan menghasilkan nilai bukan angka.",
                 "formatted": "$~Mengonversi teks menjadi teks berformat, dengan menginterpretasikan setiap markup yang terdapat di dalamnya."
             }
         },
@@ -3247,25 +3295,12 @@
                     "names": ["$~tanpaTerakhir", "$~tanpaterakhir"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Saya, tetapi tanpa kemunculan pertama dari @value yang diberikan.",
-                        "\\['apel' 'pisang' 'mangga' 'apel'].tanpa('apel')\\"
-                    ],
-                    "names": ["$~tanpa", "$~tanpa"],
-                    "inputs": [
-                        {
-                            "doc": "$~@value yang kemunculan pertamanya akan dihapus.",
-                            "names": "$~nilai"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Saya, tetapi tanpa semua kemunculan dari @value yang diberikan.",
+                        "$!Saya, tetapi tanpa semua kemunculan dari @value yang diberikan.",
                         "\\['apel' 'pisang' 'mangga' 'apel'].tanpa('apel')\\"
                     ],
-                    "names": ["$~tanpaSemua", "$~tanpasemua"],
+                    "names": ["$~tanpa", "$~tanpaSemua", "$~tanpasemua"],
                     "inputs": [
                         {
                             "doc": "$~@value yang semua kemunculannya akan dihapus dari daftar.",
@@ -4021,7 +4056,9 @@
                 }
             },
             "conversion": {
-                "text": "$~Mengubah teks berformat menjadi teks biasa @Text , dengan menghapus semua format."
+                "text": "$~Mengubah teks berformat menjadi teks biasa @Text , dengan menghapus semua format.",
+                "list": "$?",
+                "number": "$?"
             }
         }
     },

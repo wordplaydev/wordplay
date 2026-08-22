@@ -13,6 +13,7 @@ import SimpleValue from '@values/SimpleValue';
 import type TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import { lowerCase, upperCase } from '@unicode/casing';
+import UnicodeString from '@unicode/UnicodeString';
 
 export default class MarkupValue extends SimpleValue {
     readonly markup: Markup;
@@ -42,7 +43,9 @@ export default class MarkupValue extends SimpleValue {
     length(requestor: Expression) {
         return new NumberValue(
             requestor,
-            [...this.markup.getPlainText()].length,
+            // Graphemes, not code points, matching Text: a family emoji is one
+            // symbol but five code points.
+            new UnicodeString(this.markup.getPlainText()).getLength(),
         );
     }
 
@@ -112,14 +115,16 @@ export default class MarkupValue extends SimpleValue {
         );
     }
 
+    /**
+     * Markup is equal to markup that says the same thing with the same
+     * structure. The language tag records what language it's written in, not
+     * which markup it is, so it doesn't take part — the same rule TextValue
+     * follows, and for the same reason: comparing it made `` `x` = `x`/en ``
+     * silently false, so untagged input could never match a localized value.
+     */
     isEqualTo(value: Value): boolean {
         return (
-            value instanceof MarkupValue &&
-            value.markup.isEqualTo(this.markup) &&
-            ((this.language === undefined && value.language === undefined) ||
-                (this.language !== undefined &&
-                    value.language !== undefined &&
-                    this.language.isEqualTo(value.language)))
+            value instanceof MarkupValue && value.markup.isEqualTo(this.markup)
         );
     }
 

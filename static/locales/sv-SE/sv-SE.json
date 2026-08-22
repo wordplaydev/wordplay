@@ -2665,11 +2665,59 @@
                     ],
                     "names": ["$~gemener"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Delar upp texten i en lista med enskilda tecken.",
-                "number": "$~Konverterar text till ett @Number, och om det inte är ett tal, ett inte ett talvärde.",
+                "number": "$!Konverterar text till ett @Number, och om det inte är ett tal, ett inte ett talvärde.",
                 "formatted": "$~Konverterar text till formaterad text och tolkar eventuell markup den innehåller."
             }
         },
@@ -3239,25 +3287,12 @@
                     "names": ["$~utanSista"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Jag, men utan de första förekomsterna av den angivna @value.",
-                        "\\['äpple' 'banan' 'mango' 'äpple'].utan('äpple')\\"
-                    ],
-                    "names": ["$~utan"],
-                    "inputs": [
-                        {
-                            "doc": "$~Den @value vars första förekomst ska tas bort.",
-                            "names": "$~värde"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Jag, men utan alla förekomster av den angivna @value.",
+                        "$!Jag, men utan alla förekomster av den angivna @value.",
                         "\\['äpple' 'banan' 'mango' 'äpple'].utan('äpple')\\"
                     ],
-                    "names": ["$~utanAlla"],
+                    "names": ["$~utan", "$~utanAlla"],
                     "inputs": [
                         {
                             "doc": "$~Den @value vars alla förekomster ska tas bort från listan.",
@@ -4013,7 +4048,9 @@
                 }
             },
             "conversion": {
-                "text": "$~Konverterar formaterad text till vanlig @Text och tar bort all formatering."
+                "text": "$~Konverterar formaterad text till vanlig @Text och tar bort all formatering.",
+                "list": "$?",
+                "number": "$?"
             }
         }
     },

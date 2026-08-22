@@ -2670,11 +2670,59 @@
                     ],
                     "names": ["$~chữThường"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Chia văn bản thành một danh sách các ký tự riêng lẻ.",
-                "number": "$~Chuyển đổi văn bản thành một đối tượng @Number, và nếu nó không phải là số thì trả về giá trị không phải là số.",
+                "number": "$!Chuyển đổi văn bản thành một đối tượng @Number, và nếu nó không phải là số thì trả về giá trị không phải là số.",
                 "formatted": "$~Chuyển đổi văn bản thành văn bản được định dạng, bao gồm cả việc diễn giải mọi định dạng đánh dấu có trong đó."
             }
         },
@@ -3247,25 +3295,12 @@
                     "names": ["$~khôngcócuốicùng"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Là tôi, nhưng không có lần xuất hiện đầu tiên của @value đã cho.",
-                        "\\['táo' 'chuối' 'xoài' 'táo'].khôngcó('táo')\\"
-                    ],
-                    "names": ["$~khôngcó", "$~không"],
-                    "inputs": [
-                        {
-                            "doc": "$~@value cần xóa lần xuất hiện đầu tiên.",
-                            "names": "$~giátrị"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Là tôi, nhưng không có tất cả các lần xuất hiện của @value đã cho.",
+                        "$!Là tôi, nhưng không có tất cả các lần xuất hiện của @value đã cho.",
                         "\\['táo' 'chuối' 'xoài' 'táo'].khôngcó('táo')\\"
                     ],
-                    "names": ["$~khôngcótấtcả"],
+                    "names": ["$~khôngcó", "$~không", "$~khôngcótấtcả"],
                     "inputs": [
                         {
                             "doc": "$~@value cần xóa tất cả các lần xuất hiện khỏi danh sách.",
@@ -4021,7 +4056,9 @@
                 }
             },
             "conversion": {
-                "text": "$~Chuyển đổi văn bản có định dạng thành văn bản thuần @Text , loại bỏ tất cả định dạng."
+                "text": "$~Chuyển đổi văn bản có định dạng thành văn bản thuần @Text , loại bỏ tất cả định dạng.",
+                "list": "$?",
+                "number": "$?"
             }
         }
     },

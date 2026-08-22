@@ -2665,11 +2665,59 @@
                     ],
                     "names": ["$~minúsculas"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "Divide el @Text en una isto con los caracteres individuales",
-                "number": "$~Convierte el texto en un @Number, y si no es un número, en un valor que no es un número.",
+                "number": "$!Convierte el texto en un @Number, y si no es un número, en un valor que no es un número.",
                 "formatted": "$~Convierte texto en texto con formato, interpretando cualquier formato que contenga."
             }
         },
@@ -3242,25 +3290,12 @@
                     "names": "sinÚltimo",
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Yo, pero sin las primeras apariciones del @value dado.",
-                        "\\['manzana' 'plátano' 'mango' 'manzana'].sin('manzana')\\"
-                    ],
-                    "names": "sin",
-                    "inputs": [
-                        {
-                            "doc": "$~El @value del que se va a quitar la primera aparición.",
-                            "names": "valor"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Yo, pero sin todas las apariciones del @value dado.",
+                        "$!Yo, pero sin todas las apariciones del @value dado.",
                         "\\['manzana' 'plátano' 'mango' 'manzana'].sin('manzana')\\"
                     ],
-                    "names": "sinTodo",
+                    "names": ["sin", "sinTodo"],
                     "inputs": [
                         {
                             "doc": "$~El @value del que se van a quitar todas las apariciones de la lista.",
@@ -4016,7 +4051,9 @@
                 }
             },
             "conversion": {
-                "text": "$~Convierte el texto con formato en @Text simple, quitando todo el formato."
+                "text": "$~Convierte el texto con formato en @Text simple, quitando todo el formato.",
+                "list": "$?",
+                "number": "$?"
             }
         }
     },

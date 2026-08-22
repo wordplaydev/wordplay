@@ -2665,11 +2665,59 @@
                     ],
                     "names": ["$~maliliitNaTitik"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Hinahati ang teksto sa isang listahan ng mga indibidwal na karakter.",
-                "number": "$~Kino-convert ang teksto sa isang @Number, at kung hindi ito numero, isang value na hindi numero.",
+                "number": "$!Kino-convert ang teksto sa isang @Number, at kung hindi ito numero, isang value na hindi numero.",
                 "formatted": "$~Kino-convert ang teksto sa naka-format na teksto, binibigyang-kahulugan ang anumang markup na nilalaman nito."
             }
         },
@@ -3242,25 +3290,17 @@
                     "names": ["$~walangHuling"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Ako, pero walang unang paglitaw ng ibinigay na @value.",
-                        "\\['mansanas' 'saging' 'mangga' 'mansanas'].nangwalang(\n\t'mansanas'\n)\\"
-                    ],
-                    "names": ["$~nangwalang", "$~walanglaman"],
-                    "inputs": [
-                        {
-                            "doc": "$~Ang @value na aalisin ang unang paglitaw.",
-                            "names": "$~halaga"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Ako, pero walang lahat ng paglitaw ng ibinigay na @value.",
+                        "$!Ako, pero walang lahat ng paglitaw ng ibinigay na @value.",
                         "\\['mansanas' 'saging' 'mangga' 'mansanas'].nangwalang(\n\t'mansanas'\n)\\"
                     ],
-                    "names": ["$~nangwalangLahat", "$~walangLahat"],
+                    "names": [
+                        "$~nangwalang",
+                        "$~walanglaman",
+                        "$~nangwalangLahat",
+                        "$~walangLahat"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~Ang @value na aalisin ang lahat ng paglitaw mula sa listahan.",
@@ -4016,7 +4056,9 @@
                 }
             },
             "conversion": {
-                "text": "$~Kino-convert ang naka-format na teksto sa plain @Text , at inaalis ang lahat ng formatting."
+                "text": "$~Kino-convert ang naka-format na teksto sa plain @Text , at inaalis ang lahat ng formatting.",
+                "list": "$?",
+                "number": "$?"
             }
         }
     },

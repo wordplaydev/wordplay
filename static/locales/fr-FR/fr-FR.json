@@ -2665,11 +2665,59 @@
                     ],
                     "names": ["$~minuscule"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Divise le texte en une liste de caractères individuels.",
-                "number": "$~Convertit le texte en un @Number, et si ce n'est pas un nombre, en une valeur non numérique.",
+                "number": "$!Convertit le texte en un @Number, et si ce n'est pas un nombre, en une valeur non numérique.",
                 "formatted": "$~Convertit le texte en texte formaté, en interprétant tout balisage qu'il contient."
             }
         },
@@ -3242,25 +3290,12 @@
                     "names": ["$~sansDernier", "$~sansDernier"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Moi, mais sans les premières apparitions de l'@value donné.",
-                        "\\['pomme' 'banane' 'mangue' 'pomme'].sans('pomme')\\"
-                    ],
-                    "names": ["$~sans", "$~sans"],
-                    "inputs": [
-                        {
-                            "doc": "$~L'@value dont il faut retirer la première apparition.",
-                            "names": "$~valeur"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Moi, mais sans toutes les apparitions de l'@value donné.",
+                        "$!Moi, mais sans toutes les apparitions de l'@value donné.",
                         "\\['pomme' 'banane' 'mangue' 'pomme'].sans('pomme')\\"
                     ],
-                    "names": ["$~sansTout", "$~sansTout"],
+                    "names": ["$~sansTout"],
                     "inputs": [
                         {
                             "doc": "$~L'@value dont il faut retirer toutes les apparitions de la liste.",
@@ -4016,7 +4051,9 @@
                 }
             },
             "conversion": {
-                "text": "$~Convertit le texte formaté en texte brut @Text , en supprimant toute mise en forme."
+                "text": "$~Convertit le texte formaté en texte brut @Text , en supprimant toute mise en forme.",
+                "list": "$?",
+                "number": "$?"
             }
         }
     },
