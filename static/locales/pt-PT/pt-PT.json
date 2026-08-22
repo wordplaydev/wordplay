@@ -4399,7 +4399,7 @@
         "Collision": {
             "names": "Colisão",
             "doc": [
-                "$~É um fluxo de valores @Rebound para quando @Output com nome colidem entre si.",
+                "$!É um fluxo de valores @Rebound para quando @Output com nome colidem entre si.",
                 "Esta é uma ótima forma de fazer algo quando @Output colidem entre si, para além do ressalto normal que podem fazer.",
                 "Basta dar-lhe um nome de @Output, e ele criará um novo @Rebound @value sempre que esse nome colidir com outro. Um @Rebound tem informação sobre os nomes que colidiram e a direção da sua colisão.",
                 "E se lhe der dois nomes, ele só criará um novo valor quando os dois nomes colidirem entre si.",
@@ -4407,11 +4407,11 @@
             ],
             "subject": {
                 "names": "assunto",
-                "doc": "O nome do @Output no qual devo procurar colisões."
+                "doc": "$!O nome do @Output no qual devo procurar colisões."
             },
             "object": {
                 "names": "outro",
-                "doc": "O nome do outro @Output no qual devo procurar colisões."
+                "doc": "$!O nome do outro @Output no qual devo procurar colisões."
             }
         },
         "Rebound": {
@@ -4891,7 +4891,7 @@
                 "names": "conteúdo"
             },
             "matter": {
-                "doc": "Como devo reagir se me deparar com algo que também tem matéria?",
+                "doc": "$!Como devo reagir se me deparar com algo que também tem matéria?",
                 "names": "assunto"
             },
             "size": {
@@ -5017,7 +5017,7 @@
                 "names": "direção"
             },
             "matter": {
-                "doc": "As propriedades a utilizar caso esbarre em algo!",
+                "doc": "$!As propriedades a utilizar caso esbarre em algo!",
                 "names": "assunto"
             },
             "aura": {
@@ -5928,7 +5928,7 @@
             }
         },
         "Matter": {
-            "doc": "Sou propriedades físicas da saída, que influenciam a forma como interajo com outras saídas em palco.",
+            "doc": "$!Sou propriedades físicas da saída, que influenciam a forma como interajo com outras saídas em palco.",
             "names": ["Matéria"],
             "mass": {
                 "doc": "Um peso, em quilogramas",
@@ -5947,11 +5947,11 @@
                 "names": "arredondamento"
             },
             "text": {
-                "doc": "Se pode colidir com outras saídas.",
+                "doc": "$!Se pode colidir com outras saídas.",
                 "names": "texto"
             },
             "shapes": {
-                "doc": "Se pode colidir com outras formas.",
+                "doc": "$!Se pode colidir com outras formas.",
                 "names": "solo"
             }
         },

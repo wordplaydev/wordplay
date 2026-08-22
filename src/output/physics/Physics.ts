@@ -10,7 +10,7 @@ import {
 import { get } from 'svelte/store';
 import { animationFactor } from '@db/Database';
 import type { ReboundEvent } from '@input/Collision/Collision';
-import Collision from '@input/Collision/Collision';
+import Collision, { getWatchedNames } from '@input/Collision/Collision';
 import { getPlacingMotion } from '@input/Motion/Motion';
 import type Evaluator from '@runtime/Evaluator';
 import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
@@ -260,6 +260,15 @@ export default class Physics {
         // REMOVE all of the exited outputs from the world.
         for (const name of exiting.keys()) this.removeOutputBody(name);
 
+        // What the Collision streams are watching for. A name something is
+        // watching is reason enough to give an output a body, so naming two
+        // things is all it takes to make them notice each other (#548).
+        // Recomputed every sync because the names are runtime values: a stream
+        // can be handed a different one on any evaluation.
+        const watched = getWatchedNames(
+            this.evaluator.getBasisStreamsOfType(Collision),
+        );
+
         // CREATE and UPDATE bodies for all outputs currently in the scene.
 
         // Iterate through all of the output in the current scene.
@@ -297,8 +306,13 @@ export default class Physics {
                 // decide whether a move is worth tweening.
                 const motion = getPlacingMotion(this.evaluator, info.output);
 
-                // If the output has matter or is in motion, make sure it's in the physics world.
-                if (matter || motion) {
+                // Is a Collision watching this name? Then it needs a body
+                // to be detected in, whatever else is true of it.
+                const detectable = watched.has(name);
+
+                // If the output has matter, is in motion, or is being watched,
+                // make sure it's in the physics world.
+                if (matter || motion || detectable) {
                     // First frame that actually needs physics: kick off the
                     // Rapier load and skip until it resolves (retried next
                     // frame). Cheap once loaded — returns the cached module.
@@ -327,7 +341,12 @@ export default class Physics {
                         }
 
                         // Make a new body for this new output.
-                        shape = this.createOutputBody(info, matter, world);
+                        shape = this.createOutputBody(
+                            info,
+                            matter,
+                            detectable,
+                            world,
+                        );
 
                         // Remember the body by name and its collider handle.
                         this.bodyByName.set(name, shape);
@@ -418,9 +437,10 @@ export default class Physics {
                         );
                     }
 
-                    // Set the collision filter based on the matter settings.
+                    // Set the collision filter based on the matter settings
+                    // and whether anything is watching this name.
                     shape.collider.setCollisionGroups(
-                        getInteractionGroups(matter),
+                        getInteractionGroups(matter, detectable),
                     );
 
                     // Bodies whose position is set externally (by Placement or
@@ -430,9 +450,17 @@ export default class Physics {
                     // this, the solver pushes overlapping bodies apart every
                     // step, sync teleports them back, and Collision oscillates
                     // between start/end at frame rate.
-                    shape.collider.setSensor(motion === undefined);
+                    //
+                    // Matter is also what makes a body solid, so one without it
+                    // is a sensor however it's placed: a body pulled in only
+                    // because a Collision watches its name reports contacts
+                    // without being able to change how anything moves.
+                    shape.collider.setSensor(
+                        motion === undefined || matter === undefined,
+                    );
                 }
-                // No motion or matter? Remove it from the world so it doesn't mess with collisions.
+                // No motion, matter, or watcher? Remove it from the world
+                // so it doesn't mess with collisions.
                 else {
                     this.removeOutputBody(name);
                 }
@@ -661,6 +689,7 @@ export default class Physics {
     createOutputBody(
         info: OutputInfo,
         matter: Matter | undefined,
+        detectable: boolean,
         world: RAPIER.World,
     ) {
         const { width, height } = info.output.getLayout(info.context);
@@ -676,6 +705,7 @@ export default class Physics {
             (matter?.roundedness ?? 0.1) *
                 (info.output.size ?? info.context.size),
             matter,
+            detectable,
             // A Shape's collision body matches its form (circle/polygon); everything else (Phrase,
             // Group, a Rectangle Shape) uses its bounding box. width/height stay the bounding box so
             // the position/place math is form-agnostic.
@@ -865,6 +895,7 @@ export class OutputBody {
         angle: number,
         corner: number,
         matter: Matter | undefined,
+        detectable: boolean,
         form: Form | undefined,
     ) {
         // Constructed only from Physics.createOutputBody, past the load gate.
@@ -916,7 +947,7 @@ export class OutputBody {
                     { x: 0, y: 0 },
                     PreventSpinInertia,
                 )
-                .setCollisionGroups(getInteractionGroups(matter))
+                .setCollisionGroups(getInteractionGroups(matter, detectable))
                 .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS)
                 .setActiveCollisionTypes(AllCollisionTypes(RAPIER)),
             this.rigidBody,
@@ -985,7 +1016,7 @@ export class OutputBody {
 }
 
 /** Abstract away the interaction-group packing for output bodies. */
-function getInteractionGroups(matter: Matter | undefined) {
+function getInteractionGroups(matter: Matter | undefined, detectable: boolean) {
     // Rapier packs membership in the high 16 bits, the filter mask in the low 16.
     if (matter) {
         const filter =
@@ -993,6 +1024,10 @@ function getInteractionGroups(matter: Matter | undefined) {
             (matter.shapes ? ShapeCategory : 0);
         return (TextCategory << 16) | filter;
     }
-    // No matter: member of Text, but collides with nothing (empty filter).
+    // No matter, but a Collision is watching this name: collide with everything
+    // so it is detected. Such a body is always a sensor, so joining the world
+    // reports contacts without changing how anything moves.
+    if (detectable) return (TextCategory << 16) | TextCategory | ShapeCategory;
+    // Watched by nothing: member of Text, but collides with nothing.
     return TextCategory << 16;
 }

@@ -1214,6 +1214,8 @@ Some are events from the physics engine:
 Collision()
 ```
 
+`Collision` emits a `Rebound` each time two things in the stage's physical world begin to touch, and then `ø` immediately after, since a collision is over as soon as it happens — a program counting collisions has to check that the value it has is a `Rebound` rather than reacting to every change, or it counts each touch twice. A `Rebound` carries the `subject` and `object` names that touched and the unit `direction` from the first to the second, normalized so that the name given as `Collision`'s own `subject` is always reported as the rebound's. An output is **in the physical world** if it has `Matter`, if a `Motion` places it, if it is a `Shape` directly on the `Stage`, or if some `Collision` names it — that last clause is what lets two named `Phrase` notice each other with no `Matter` at all. `Matter` is what makes output _solid_, so that it pushes other solid output apart instead of passing through it; a name is what makes output _detectable_. Given two names, a `Collision` reports only those two touching; given one, it reports that one touching anything else in the physical world; given none, it reports every touch among things already there. Named `Shape` barriers appear in rebounds by name, so a program can react to a particular wall or exempt one from a catch-all. Only output placed directly on the `Stage` is simulated: a `Group` has its own coordinate system, so its contents are invisible to `Collision`, and the `Group` itself is what can be named and watched.
+
 Some are events from playing output:
 
 ```

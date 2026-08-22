@@ -4361,7 +4361,7 @@
         "Collision": {
             "names": "$~Kollision",
             "doc": [
-                "$~Det är en ström av @Rebound-värden för när namngivna @Output krockar med varandra.",
+                "$!Det är en ström av @Rebound-värden för när namngivna @Output krockar med varandra.",
                 "Det här är ett bra sätt att göra något när @Output krockar med varandra, utöver den vanliga studs mot varandra som de kan göra.",
                 "Ge den bara ett namn på @Output, så skapar den en ny @Rebound @value varje gång det namnet krockar med ett annat. En @Rebound har information om namnen som krockade och riktningen på deras krock.",
                 "Och om du ger den två namn, skapar den bara ett nytt värde när de två namnen krockar med varandra.",
@@ -4369,11 +4369,11 @@
             ],
             "subject": {
                 "names": "$~ämne",
-                "doc": "$~Namnet på @Output jag ska leta efter kollisioner på."
+                "doc": "$!Namnet på @Output jag ska leta efter kollisioner på."
             },
             "object": {
                 "names": "$~andra",
-                "doc": "$~Namnet på den andra @Output jag borde leta efter kollisioner på."
+                "doc": "$!Namnet på den andra @Output jag borde leta efter kollisioner på."
             }
         },
         "Rebound": {
@@ -4880,7 +4880,7 @@
                 "names": "$~innehåll"
             },
             "matter": {
-                "doc": "$~Hur jag skulle reagera om jag skulle stöta på något annat med materia.",
+                "doc": "$!Hur jag skulle reagera om jag skulle stöta på något annat med materia.",
                 "names": "$~materia"
             },
             "size": {
@@ -5006,7 +5006,7 @@
                 "names": "$~riktning"
             },
             "matter": {
-                "doc": "$~Egenskaperna att använda om jag stöter på saker!",
+                "doc": "$!Egenskaperna att använda om jag stöter på saker!",
                 "names": "$~materia"
             },
             "aura": {
@@ -5902,7 +5902,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Jag är fysiska egenskaper hos output, som påverkar hur jag interagerar med andra output på scenen.",
+            "doc": "$!Jag är fysiska egenskaper hos output, som påverkar hur jag interagerar med andra output på scenen.",
             "names": ["$~Materia"],
             "mass": {
                 "doc": "$~En vikt, i kilogram",
@@ -5921,11 +5921,11 @@
                 "names": "$~rundhet"
             },
             "text": {
-                "doc": "$~Om den kan kollidera med annan utdata.",
+                "doc": "$!Om den kan kollidera med annan utdata.",
                 "names": "$~text"
             },
             "shapes": {
-                "doc": "$~Om den kan kollidera med andra former.",
+                "doc": "$!Om den kan kollidera med andra former.",
                 "names": "$~jord"
             }
         },

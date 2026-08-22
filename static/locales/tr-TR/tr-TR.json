@@ -4364,7 +4364,7 @@
         "Collision": {
             "names": "$~Çarpışma",
             "doc": [
-                "$~Bu, isimlendirilmiş @Output öğeleri birbirine çarptığında oluşan @Rebound değerlerinin bir akışıdır.",
+                "$!Bu, isimlendirilmiş @Output öğeleri birbirine çarptığında oluşan @Rebound değerlerinin bir akışıdır.",
                 "Bu, @Output öğeleri birbirine çarptığında, yapabilecekleri normal sekme dışında bir şey yaptırmanın harika bir yoludur.",
                 "Ona sadece bir @Output ismi ver, o da bu isim başka bir isme her çarptığında yeni bir @Rebound @value oluştursun. Bir @Rebound, çarpışan isimler ve çarpışmalarının yönü hakkında bilgi içerir.",
                 "Ve ona iki isim verirsen, yalnızca bu iki isim birbirine çarptığında yeni bir değer oluşturur.",
@@ -4372,11 +4372,11 @@
             ],
             "subject": {
                 "names": "$~ders",
-                "doc": "$~Çakışmaları aramam gereken @Output'un adı."
+                "doc": "$!Çakışmaları aramam gereken @Output'un adı."
             },
             "object": {
                 "names": "$~diğer",
-                "doc": "$~Çakışmaları aramam gereken diğer @Output'un adı."
+                "doc": "$!Çakışmaları aramam gereken diğer @Output'un adı."
             }
         },
         "Rebound": {
@@ -4887,7 +4887,7 @@
                 "names": "$~içerik"
             },
             "matter": {
-                "doc": "$~Madde içeren başka bir şeye çarparsam nasıl tepki vermeliyim?",
+                "doc": "$!Madde içeren başka bir şeye çarparsam nasıl tepki vermeliyim?",
                 "names": "$~konu"
             },
             "size": {
@@ -5013,7 +5013,7 @@
                 "names": "$~yön"
             },
             "matter": {
-                "doc": "$~Bir şeye çarptığımda kullanabileceğim özellikler!",
+                "doc": "$!Bir şeye çarptığımda kullanabileceğim özellikler!",
                 "names": "$~konu"
             },
             "aura": {
@@ -5909,7 +5909,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Sahnede diğer çıktılarla nasıl etkileşime girdiğimi etkileyen çıktının fiziksel özellikleriyim.",
+            "doc": "$!Sahnede diğer çıktılarla nasıl etkileşime girdiğimi etkileyen çıktının fiziksel özellikleriyim.",
             "names": ["$~Konu"],
             "mass": {
                 "doc": "$~Bir ağırlık, kilogram cinsinden",
@@ -5928,11 +5928,11 @@
                 "names": "$~yuvarlaklık"
             },
             "text": {
-                "doc": "$~Başka çıktılarla çakışabilir mi?",
+                "doc": "$!Başka çıktılarla çakışabilir mi?",
                 "names": "$~metin"
             },
             "shapes": {
-                "doc": "$~Başka şekillerle çarpışabilir mi?",
+                "doc": "$!Başka şekillerle çarpışabilir mi?",
                 "names": "$~zemin"
             }
         },

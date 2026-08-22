@@ -233,7 +233,7 @@ type InputTexts = {
             limit: string;
         };
     };
-    /** A stream of collisions between objects with matter. */
+    /** A stream of collisions between named output. */
     Collision: NameAndDoc & {
         /** The subject of a collision */
         subject: NameAndDoc;

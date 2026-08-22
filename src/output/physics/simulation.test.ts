@@ -62,7 +62,12 @@ function addFloor(world: RAPIER.World) {
 /** A 1m × 1m body dropped from `height` meters above the floor. Its collider is
  *  a plain cuboid with 32px half-extents, so it rests with its center at
  *  engine y = -32. */
-function drop(world: RAPIER.World, height: number, matter?: Matter) {
+function drop(
+    world: RAPIER.World,
+    height: number,
+    matter?: Matter,
+    detectable = false,
+) {
     return new OutputBody(
         world,
         'body',
@@ -73,6 +78,7 @@ function drop(world: RAPIER.World, height: number, matter?: Matter) {
         0,
         0,
         matter,
+        detectable,
         undefined,
     );
 }
@@ -266,4 +272,110 @@ test('angular velocity survives a step at the rates projects actually use', () =
     // clears it, so anything near a halving means the cap has started biting.
     expect(body.rigidBody.angvel() / spin).toBeGreaterThan(0.98);
     expect(body.rigidBody.angvel() / spin).toBeLessThanOrEqual(1);
+});
+
+/**
+ * The rest of this file characterizes what Matter does. These four cover what a
+ * *name* does: a Collision watching a name is enough to put an output in the
+ * physical world, so two named phrases notice each other with no Matter at all
+ * (#548). Such a body is always a sensor, so joining the world can report a
+ * contact without changing how anything moves.
+ */
+
+/** A body at rest at engine y = 0, positioned to overlap a body dropped onto
+ *  it, built the way Physics builds one for an output nothing places. */
+function watchedSensor(world: RAPIER.World, detectable = true) {
+    const RAPIER = getRapier();
+    const body = drop(world, 0, undefined, detectable);
+    body.rigidBody.setBodyType(
+        RAPIER.RigidBodyType.KinematicPositionBased,
+        true,
+    );
+    body.collider.setSensor(true);
+    return body;
+}
+
+test('a body with no matter collides when something is watching its name', () => {
+    const RAPIER = getRapier();
+    const world = makeWorld();
+    // Neither body has Matter. Both are watched, so both get the full filter.
+    watchedSensor(world);
+    const falling = drop(world, 4.5, undefined, true);
+    falling.collider.setSensor(true);
+    const events = new RAPIER.EventQueue(true);
+
+    let started = 0;
+    for (let step = 0; step < 300; step++) {
+        world.step(events);
+        events.drainCollisionEvents((_h1, _h2, begin) => {
+            if (begin) started++;
+        });
+    }
+
+    // It falls onto the resting body and reports the touch. Without the watch
+    // both filters would be empty and this would be 0, which is #548.
+    expect(started).toBeGreaterThanOrEqual(1);
+    // And it passes straight through: detectable is not solid.
+    expect(falling.rigidBody.translation().y).toBeGreaterThan(100);
+});
+
+test('a body nothing is watching reports no collision at all', () => {
+    const RAPIER = getRapier();
+    const world = makeWorld();
+    // The same pair, with nothing watching either name: empty filters, silence.
+    watchedSensor(world, false);
+    const falling = drop(world, 4.5, undefined, false);
+    falling.collider.setSensor(true);
+    const events = new RAPIER.EventQueue(true);
+
+    let started = 0;
+    for (let step = 0; step < 300; step++) {
+        world.step(events);
+        events.drainCollisionEvents((_h1, _h2, begin) => {
+            if (begin) started++;
+        });
+    }
+
+    expect(started).toBe(0);
+});
+
+test('making a matterless motion body a sensor does not change how it falls', () => {
+    // Physics now makes any body without Matter a sensor, including a
+    // Motion-driven one that used to be solid with an empty filter. That was
+    // already contacting nothing, so the fall must be identical — if Rapier
+    // dropped a sensor collider's mass contribution, it would not be.
+    const solidWorld = makeWorld();
+    const solid = drop(solidWorld, 4.5);
+
+    const sensorWorld = makeWorld();
+    const sensor = drop(sensorWorld, 4.5);
+    sensor.collider.setSensor(true);
+
+    for (let step = 0; step < 120; step++) {
+        solidWorld.step();
+        sensorWorld.step();
+    }
+
+    expect(sensor.rigidBody.translation().y).toBeCloseTo(
+        solid.rigidBody.translation().y,
+        6,
+    );
+});
+
+test('a watched sensor takes no impulse from the body it reports', () => {
+    const world = makeWorld();
+    addFloor(world);
+    // A bouncy solid body lands on a watched matterless sensor sitting on the
+    // floor. The sensor must neither move nor stop the body: being detectable
+    // is not being solid.
+    const sensor = watchedSensor(world);
+    const restingY = sensor.rigidBody.translation().y;
+    const falling = drop(world, 4.5, matter(0.8), true);
+
+    settle(world, falling);
+
+    expect(sensor.rigidBody.translation().y).toBeCloseTo(restingY, 6);
+    // The solid body carried on to the floor rather than resting on the sensor.
+    expect(falling.rigidBody.translation().y).toBeGreaterThan(-33);
+    expect(falling.rigidBody.translation().y).toBeLessThan(-28);
 });

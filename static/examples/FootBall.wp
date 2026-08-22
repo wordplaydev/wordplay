@@ -122,14 +122,14 @@ ball: Phrase('⚽' 0.6m
 	place: ballPlace
 	matter: Matter(0.45kg 0.7 0.02))
 
-¶The glove needs @Matter to be in the physical world at all, but it is placed
-by the program rather than by physics, so it passes through the ball instead of
-striking it; the save above is what sends the ball back. Its moves are not
-tweened, so it is exactly where you steered it rather than easing after you.¶
+¶The glove is watched by name above, which is all it takes to be in the physical
+world, so it needs no @Matter. It is placed by the program rather than by
+physics, so it passes through the ball instead of striking it; the save above is
+what sends the ball back. Its moves are not tweened, so it is exactly where you
+steered it rather than easing after you.¶
 keeper: Phrase('🧤' 1.2m
 	name: 'keeper'
 	place: Place(keeperX (keeperY - keeperHalf))
-	matter: Matter()
 	duration: 0s)
 
 ¶Who is about to shoot, and from where. Only on the pitch while the ball waits.¶

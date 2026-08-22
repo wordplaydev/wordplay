@@ -4419,7 +4419,7 @@
         "Collision": {
             "names": "$~Coliziune",
             "doc": [
-                "$~Este un flux de valori @Rebound pentru momentul când @Output numite se lovesc unele de altele.",
+                "$!Este un flux de valori @Rebound pentru momentul când @Output numite se lovesc unele de altele.",
                 "Acesta este un mod grozav de a face ceva atunci când @Output se lovesc, în afară de ricoșarea normală pe care ar putea să o facă.",
                 "Doar dă-i un nume de @Output și va face un nou @Rebound @value ori de câte ori acel nume se lovește de altul. Un @Rebound are informații despre numele care s-au ciocnit și direcția ciocnirii lor.",
                 "Și dacă îi dai două nume, va face o nouă valoare doar când cele două nume se lovesc unul de altul.",
@@ -4427,11 +4427,11 @@
             ],
             "subject": {
                 "names": "$~subiect",
-                "doc": "$~Numele ieșirii @Output pe care ar trebui să caut coliziuni."
+                "doc": "$!Numele ieșirii @Output pe care ar trebui să caut coliziuni."
             },
             "object": {
                 "names": "$~alte",
-                "doc": "$~Numele celuilalt @Output pe care ar trebui să caut coliziuni."
+                "doc": "$!Numele celuilalt @Output pe care ar trebui să caut coliziuni."
             }
         },
         "Rebound": {
@@ -4895,7 +4895,7 @@
                 "names": "$~conţinut"
             },
             "matter": {
-                "doc": "$~Cum ar trebui să reacționez dacă aș da peste altceva cu materie.",
+                "doc": "$!Cum ar trebui să reacționez dacă aș da peste altceva cu materie.",
                 "names": "$~materie"
             },
             "size": {
@@ -5021,7 +5021,7 @@
                 "names": "$~direcţie"
             },
             "matter": {
-                "doc": "$~Proprietățile de folosit dacă mă lovesc de lucruri!",
+                "doc": "$!Proprietățile de folosit dacă mă lovesc de lucruri!",
                 "names": "$~materie"
             },
             "aura": {
@@ -5972,7 +5972,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Sunt proprietăți fizice ale rezultatului, care influențează modul în care interacționez cu alte rezultate pe scenă.",
+            "doc": "$!Sunt proprietăți fizice ale rezultatului, care influențează modul în care interacționez cu alte rezultate pe scenă.",
             "names": ["$~Materie"],
             "mass": {
                 "doc": "$~O greutate, în kilograme",
@@ -5991,11 +5991,11 @@
                 "names": "$~rotunjime"
             },
             "text": {
-                "doc": "$~Dacă se poate ciocni cu alte ieșiri.",
+                "doc": "$!Dacă se poate ciocni cu alte ieșiri.",
                 "names": "$~text"
             },
             "shapes": {
-                "doc": "$~Dacă se poate ciocni cu alte forme.",
+                "doc": "$!Dacă se poate ciocni cu alte forme.",
                 "names": "$~sol"
             }
         },
