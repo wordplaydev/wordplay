@@ -9136,14 +9136,15 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Pilih mode menggambar di palet untuk membuat bentuk.",
-                    "unselected": "$~Pilih mode menggambar atau pilih dan edit bentuk.",
-                    "selected": "$~Gunakan tombol panah untuk memindahkan bentuk. Tahan tombol Shift untuk menambahkan lebih banyak bentuk ke dalam pilihan. Gunakan tombol Delete untuk menghapus pilihan. Gunakan kontrol di bawah ini untuk mengubah bentuk yang dipilih.",
+                    "unselected": "$!Pilih mode menggambar atau pilih dan edit bentuk.",
+                    "selected": "$!Gunakan tombol panah untuk memindahkan bentuk. Tahan tombol Shift untuk menambahkan lebih banyak bentuk ke dalam pilihan. Gunakan tombol Delete untuk menghapus pilihan. Gunakan kontrol di bawah ini untuk mengubah bentuk yang dipilih.",
                     "eraser": "$~Untuk menghapus bentuk, klik atau ketuk bentuk tersebut. Seret untuk menghapus piksel. Gunakan tombol panah untuk menggerakkan penghapus dan spasi untuk menghapus.",
                     "pixel": "$~Untuk menggambar piksel, pilih warna. Kemudian, klik kanvas atau gunakan *panah* untuk menggerakkan kursor dan *spasi* untuk membuat piksel. *Klik dua kali* untuk mengisi.",
                     "rect": "$~Untuk menggambar persegi panjang, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
                     "ellipse": "$~Untuk menggambar elips dan lingkaran, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
                     "path": "$~Jalur dapat berupa segmen garis, poligon, dan kurva. Klik untuk mulai menambahkan titik, atau gunakan tombol panah dan spasi. Tekan escape untuk menyelesaikan jalur. Tombol delete akan menghapus titik terakhir.",
-                    "emoji": "$~Pilih emoji yang ingin Anda impor sebagai piksel, lalu modifikasi sesuai keinginan."
+                    "emoji": "$~Pilih emoji yang ingin Anda impor sebagai piksel, lalu modifikasi sesuai keinginan.",
+                    "points": "$?"
                 },
                 "shape": {
                     "shape": "$~membentuk",
@@ -9325,6 +9326,30 @@
                     "dismissError": {
                         "label": "$~membubarkan",
                         "tip": "$~abaikan pesan kesalahan"
+                    },
+                    "editPoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "donePoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "addPoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "deletePoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "curve": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "straighten": {
+                        "label": "$?",
+                        "tip": "$?"
                     }
                 },
                 "feedback": {
@@ -9340,7 +9365,27 @@
                 },
                 "announce": {
                     "position": "$~pada $x $y",
-                    "selection": "$~$shapes[ $shapes yang dipilih | tidak ada yang dipilih]"
+                    "selection": "$~$shapes[ $shapes yang dipilih | tidak ada yang dipilih]",
+                    "editing": "$?",
+                    "editingDone": "$?",
+                    "point": "$?",
+                    "control": "$?",
+                    "pointAdded": "$?",
+                    "pointRemoved": "$?",
+                    "curved": "$?",
+                    "straightened": "$?",
+                    "moved": "$?",
+                    "drew": "$?",
+                    "erased": "$?",
+                    "finished": "$?",
+                    "deleted": "$?",
+                    "undone": "$?",
+                    "redone": "$?",
+                    "copied": "$?",
+                    "pasted": "$?",
+                    "arranged": "$?",
+                    "flipped": "$?",
+                    "fitted": "$?"
                 }
             },
             "about": {

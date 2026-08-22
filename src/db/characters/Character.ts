@@ -68,13 +68,26 @@ const EllipseSchema = z
 
 export type CharacterEllipse = z.infer<typeof EllipseSchema>;
 
+/**
+ * A point on a path, with an optional quadratic Bezier control point for the
+ * segment *arriving* at it. Quadratic rather than cubic because one handle per
+ * segment has no tangent continuity to maintain between neighbors, which is what
+ * makes a curve reachable by keyboard: the control point is just another point.
+ * Path points carry this and other shapes' center points don't, so it extends
+ * PointSchema rather than widening it.
+ */
+const PathPointSchema = PointSchema.extend({
+    curve: PointSchema.exactOptional(),
+});
+export type PathPoint = z.infer<typeof PathPointSchema>;
+
 const PathSchema = z.object({
     type: z.literal('path'),
     stroke: StrokeSchema.exactOptional(),
     // Null represents current color
     fill: ColorSchema.nullable().exactOptional(),
     // A series of positions defining the path.
-    points: z.array(PointSchema).nonempty(),
+    points: z.array(PathPointSchema).nonempty(),
     angle: z.number().exactOptional(), // degrees rotated around the center
     // Whether the path is closed by connecting the last point to the first
     closed: z.boolean(),
@@ -234,9 +247,21 @@ function pixelToSVG(pixel: CharacterPixel, selected: boolean = false): string {
     });
 }
 
+/** The segment arriving at a point: a quadratic curve if it has a control point, a line otherwise. */
+function segmentToSVG({ x, y, curve }: PathPoint): string {
+    return curve ? `Q ${curve.x} ${curve.y} ${x} ${y}` : `L ${x} ${y}`;
+}
+
 function pathToSVG(path: CharacterPath, selected: boolean = false): string {
-    const points = path.points
-        .map(({ x, y }, index) => `${index > 0 ? 'L' : ''} ${x} ${y}`)
+    const [first, ...rest] = path.points;
+    const points = [
+        `${first.x} ${first.y}`,
+        ...rest.map(segmentToSVG),
+        // A closed path's final segment arrives back at the first point, so it's
+        // the first point's control point that bends it.
+        ...(path.closed ? [first.curve ? segmentToSVG(first) : ''] : []),
+    ]
+        .filter((segment) => segment !== '')
         .join(' ');
 
     const selectedStrokeWidth = Math.max(
@@ -374,14 +399,22 @@ export function moveShape(
                 center.y /= shape.points.length;
 
                 for (const point of shape.points) {
-                    if (set === 'move') {
-                        point.x = x + (point.x - center.x);
-                        point.y = y + (point.y - center.y);
-                    } else {
-                        point.x += x;
-                        point.y += y;
-                    }
+                    // A control point rides with the segment it bends; left
+                    // behind, the curve would deform as the path moved.
+                    for (const p of point.curve
+                        ? [point, point.curve]
+                        : [point])
+                        if (set === 'move') {
+                            p.x = x + (p.x - center.x);
+                            p.y = y + (p.y - center.y);
+                        } else {
+                            p.x += x;
+                            p.y += y;
+                        }
                 }
             }
     }
 }
+
+/** A path's points, which the schema requires to be non-empty. */
+export type PathPoints = CharacterPath['points'];

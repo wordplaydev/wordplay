@@ -8770,14 +8770,15 @@
                 "header": "$~Carácter",
                 "instructions": {
                     "empty": "$~Elige un modo de dibujo en la paleta para crear formas.",
-                    "unselected": "$~Elige un modo de dibujo o selecciona y edita formas.",
-                    "selected": "$~Usa las teclas de *flecha* para mover las formas. Mantén *shift* para agregar más formas a una selección. Usa *delete* para quitar la selección. Usa los controles de abajo para cambiar las formas seleccionadas.",
+                    "unselected": "$!Elige un modo de dibujo o selecciona y edita formas.",
+                    "selected": "$!Usa las teclas de *flecha* para mover las formas. Mantén *shift* para agregar más formas a una selección. Usa *delete* para quitar la selección. Usa los controles de abajo para cambiar las formas seleccionadas.",
                     "pixel": "$~Para dibujar píxeles, elige un color. Luego, haz clic en el lienzo o usa las *flechas* para mover el cursor y *space* para crear un píxel. Haz *doble clic* para rellenar.",
                     "rect": "$~Para dibujar rectángulos, elige un color y un trazo. Luego, haz clic y arrastra, o usa las *flechas* y la tecla *space* para elegir un centro y un tamaño.",
                     "ellipse": "$~Para dibujar elipses y círculos, elige un color y un trazo. Luego, haz clic y arrastra, o usa las *flechas* y la tecla *space* para elegir un centro y un tamaño.",
                     "path": "$~Las trayectorias pueden ser segmentos de línea, polígonos y curvas. Haz clic para empezar a agregar puntos, o usa las teclas de *flecha* y *space*. Presiona *escape* para terminar la trayectoria. *delete* quitará el último punto.",
                     "eraser": "$~Para borrar formas, haz clic o toca sobre ellas. Arrastra para borrar píxeles. Usa las teclas de *flecha* para mover el borrador y *space* para eliminar.",
-                    "emoji": "$~Elige un emoji para importarlo como píxeles y luego modifícalo como quieras."
+                    "emoji": "$~Elige un emoji para importarlo como píxeles y luego modifícalo como quieras.",
+                    "points": "$?"
                 },
                 "shape": {
                     "shape": "$~forma",
@@ -8936,6 +8937,30 @@
                     "saturationDown": {
                         "label": "$~saturación",
                         "tip": "$~disminuir la saturación"
+                    },
+                    "editPoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "donePoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "addPoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "deletePoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "curve": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "straighten": {
+                        "label": "$?",
+                        "tip": "$?"
                     }
                 },
                 "feedback": {
@@ -8951,7 +8976,27 @@
                 },
                 "announce": {
                     "position": "$~en $x $y",
-                    "selection": "$~$shapes[seleccionado $shapes|nada seleccionado]"
+                    "selection": "$~$shapes[seleccionado $shapes|nada seleccionado]",
+                    "editing": "$?",
+                    "editingDone": "$?",
+                    "point": "$?",
+                    "control": "$?",
+                    "pointAdded": "$?",
+                    "pointRemoved": "$?",
+                    "curved": "$?",
+                    "straightened": "$?",
+                    "moved": "$?",
+                    "drew": "$?",
+                    "erased": "$?",
+                    "finished": "$?",
+                    "deleted": "$?",
+                    "undone": "$?",
+                    "redone": "$?",
+                    "copied": "$?",
+                    "pasted": "$?",
+                    "arranged": "$?",
+                    "flipped": "$?",
+                    "fitted": "$?"
                 },
                 "share": {
                     "dialog": {
