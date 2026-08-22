@@ -4824,18 +4824,19 @@
             "names": "Collision",
             "doc": [
                 "It's a stream of @Rebound values for when named @Output bump into each other.",
-                "This is a great way to do something when @Output bump into each other, other than the normal bouncing off each other they might do.",
-                "Just give it a name of @Output, and it'll make a new @Rebound @value whenever that name bumps into another. A @Rebound has info about the names that collided and the direction of their collision.",
-                "And if you give it two names, it'll only make a new value when the two names bump into each other.",
-                "Right after it makes a new value, it'll make a \\ø\\ since the collision is done after it happens. This indicates that there's no more collision."
+                "To have two @Output notice each other, give them both names, then give me both names. I'll make a new @Rebound whenever they touch. They don't need @Matter for that — a name is all I need to watch something.",
+                "Give me one name instead, and I'll tell you whenever that @Output touches anything else in the physical world. An @Output is in the physical world if it has @Matter, if a @Motion places it, if it's a @Shape directly on the @Stage, or if I'm watching its name too.",
+                "Noticing isn't the same as bouncing. @Output only pushes other @Output around if it has @Matter and a @Motion moving it. @Output that your program places goes exactly where you put it, so it passes through whatever it touches — I'll still tell you about the touch.",
+                "A @Rebound has the names that touched and the direction they touched from. Right after I make one, I'll make a \\ø\\, since a collision is over as soon as it happens.",
+                "I can only watch @Output placed directly on the @Stage. Anything inside a @Group moves in that group's own space, so I can't see it — give the @Group a name and watch that instead."
             ],
             "subject": {
                 "names": "subject",
-                "doc": "The name of the @Output I should look for collisions on."
+                "doc": "The name of the @Output I should watch. Watching it is enough to put it in the physical world, so it doesn't need @Matter."
             },
             "object": {
                 "names": "other",
-                "doc": "The name of the other @Output I should look for collisions on."
+                "doc": "The name of the other @Output I should watch. With this given too, I only report those two touching; leave it out and I report the first one touching anything in the physical world."
             }
         },
         "Beat": {
@@ -4998,7 +4999,7 @@
                 "names": "content"
             },
             "matter": {
-                "doc": "How I should react if I were to bump into something else with matter.",
+                "doc": "How heavy, bouncy, and slippery I am, and what makes me solid when a @Motion moves me.",
                 "names": "matter"
             },
             "size": {
@@ -5124,7 +5125,7 @@
                 "names": "direction"
             },
             "matter": {
-                "doc": "The properties to use if I bump into things!",
+                "doc": "How heavy, bouncy, and slippery I am, and what makes me solid when a @Motion moves me.",
                 "names": "matter"
             },
             "aura": {
@@ -6579,7 +6580,7 @@
             }
         },
         "Matter": {
-            "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
+            "doc": "I say how heavy, bouncy, and slippery @Output is. @Output that has me and a @Motion is solid: it bounces off the @Shape on the @Stage and off other moving @Output. @Output that your program places goes where you put it instead, and passes through what it touches. @Output doesn't need me to be noticed by @Collision — a name is enough for that.",
             "names": ["⚛️", "Matter"],
             "mass": {
                 "doc": "A weight, in kilograms",
@@ -6598,11 +6599,11 @@
                 "names": "roundedness"
             },
             "text": {
-                "doc": "Whether it can collide with other output.",
+                "doc": "Whether I can bump into other @Phrase and @Group at all; ⊥ means I don't notice them and @Collision says nothing about them.",
                 "names": "text"
             },
             "shapes": {
-                "doc": "Whether it can collide with other shapes.",
+                "doc": "Whether I can bump into the @Shape on the @Stage at all; ⊥ means I fall through walls and floors and @Collision says nothing about them.",
                 "names": "ground"
             },
             "pull": {

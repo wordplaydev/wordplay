@@ -4493,19 +4493,20 @@
         "Collision": {
             "names": "$~Coliziune",
             "doc": [
-                "$~Este un flux de valori @Rebound pentru momentul când @Output numite se lovesc unele de altele.",
-                "Acesta este un mod grozav de a face ceva atunci când @Output se lovesc, în afară de ricoșarea normală pe care ar putea să o facă.",
-                "Doar dă-i un nume de @Output și va face un nou @Rebound @value ori de câte ori acel nume se lovește de altul. Un @Rebound are informații despre numele care s-au ciocnit și direcția ciocnirii lor.",
-                "Și dacă îi dai două nume, va face o nouă valoare doar când cele două nume se lovesc unul de altul.",
-                "Imediat după ce face o nouă valoare, va face un \\ø\\ deoarece ciocnirea se termină după ce are loc. Acest lucru indică faptul că nu mai există nicio ciocnire."
+                "$~Este un flux de valori @Rebound pentru când @Output cu nume se ating între ele.",
+                "Ca două @Output să se observe una pe alta, dă-le amândurora nume, apoi spune-mi ambele nume. Voi crea un nou @Rebound ori de câte ori se ating. Nu au nevoie de @Matter pentru asta — un nume e tot ce-mi trebuie ca să urmăresc ceva.",
+                "Dă-mi un singur nume în schimb, și îți voi spune ori de câte ori acel @Output atinge orice altceva din lumea fizică. Un @Output este în lumea fizică dacă are @Matter, dacă un @Motion îl plasează, dacă este un @Shape direct pe @Stage, sau dacă îi urmăresc și numele.",
+                "A observa nu este același lucru cu a se lovi. @Output împinge alte @Output doar dacă are @Matter și un @Motion care îl mișcă. @Output pe care programul tău îl plasează merge exact unde l-ai pus, așa că trece prin orice atinge — dar tot îți voi spune despre atingere.",
+                "Un @Rebound are numele care s-au atins și direcția din care s-au atins. Imediat după ce creez unul, voi crea un \\ø\\, pentru că o coliziune se termină imediat ce se întâmplă.",
+                "Pot urmări doar @Output plasate direct pe @Stage. Orice se află într-un @Group se mișcă în spațiul propriu al acelui grup, așa că nu îl pot vedea — dă-i @Group un nume și urmărește-l pe acela în schimb."
             ],
             "subject": {
                 "names": "$~subiect",
-                "doc": "$~Numele ieșirii @Output pe care ar trebui să caut coliziuni."
+                "doc": "$~Numele @Output pe care ar trebui să-l urmăresc. Faptul că îl urmăresc este suficient ca să-l pun în lumea fizică, așa că nu are nevoie de @Matter."
             },
             "object": {
                 "names": "$~alte",
-                "doc": "$~Numele celuilalt @Output pe care ar trebui să caut coliziuni."
+                "doc": "$~Numele celuilalt @Output pe care ar trebui să-l urmăresc. Dacă și acesta este dat, raportez doar când acele două se ating; dacă îl omiți, raportez pe primul care atinge orice altceva din lumea fizică."
             }
         },
         "Rebound": {
@@ -4969,7 +4970,7 @@
                 "names": "$~conţinut"
             },
             "matter": {
-                "doc": "$~Cum ar trebui să reacționez dacă aș da peste altceva cu materie.",
+                "doc": "$~Cât de greu, săltăreț și alunecos sunt, și ce mă face solid atunci când un @Motion mă mișcă.",
                 "names": "$~materie"
             },
             "size": {
@@ -5095,7 +5096,7 @@
                 "names": "$~direcţie"
             },
             "matter": {
-                "doc": "$~Proprietățile de folosit dacă mă lovesc de lucruri!",
+                "doc": "$~Cât de greu, săltăreț și alunecos sunt, și ce mă face solid atunci când un @Motion mă mișcă.",
                 "names": "$~materie"
             },
             "aura": {
@@ -6046,7 +6047,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Sunt proprietăți fizice ale rezultatului, care influențează modul în care interacționez cu alte rezultate pe scenă.",
+            "doc": "$~Spun cât de greu, săltăreț și alunecos este @Output. @Output care mă are pe mine și un @Motion este solid: se lovește de @Shape de pe @Stage și de alte @Output în mișcare. @Output pe care programul tău îl plasează merge în schimb unde l-ai pus, și trece prin ceea ce atinge. @Output nu are nevoie de mine ca să fie observat de @Collision — un nume este suficient pentru asta.",
             "names": ["$~Materie"],
             "mass": {
                 "doc": "$~O greutate, în kilograme",
@@ -6065,11 +6066,11 @@
                 "names": "$~rotunjime"
             },
             "text": {
-                "doc": "$~Dacă se poate ciocni cu alte ieșiri.",
+                "doc": "$~Dacă mă pot lovi deloc de alte @Phrase și @Group; ⊥ înseamnă că nu le observ, iar @Collision nu spune nimic despre ele.",
                 "names": "$~text"
             },
             "shapes": {
-                "doc": "$~Dacă se poate ciocni cu alte forme.",
+                "doc": "$~Dacă mă pot lovi deloc de @Shape de pe @Stage; ⊥ înseamnă că trec prin pereți și podele, iar @Collision nu spune nimic despre ele.",
                 "names": "$~sol"
             },
             "pull": {

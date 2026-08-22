@@ -4442,19 +4442,20 @@
         "Collision": {
             "names": "$~Vachạm",
             "doc": [
-                "$~Nó là một luồng các giá trị @Rebound cho khi @Output được đặt tên va vào nhau.",
-                "Đây là một cách tuyệt vời để làm điều gì đó khi @Output va vào nhau, ngoài việc nảy ra khỏi nhau bình thường mà chúng có thể làm.",
-                "Chỉ cần đưa cho nó một tên của @Output, và nó sẽ tạo ra một @value @Rebound mới mỗi khi tên đó va vào tên khác. Một @Rebound có thông tin về các tên đã va chạm và hướng va chạm của chúng.",
-                "Và nếu bạn đưa cho nó hai tên, nó sẽ chỉ tạo ra một giá trị mới khi hai tên đó va vào nhau.",
-                "Ngay sau khi nó tạo ra một giá trị mới, nó sẽ tạo ra một \\ø\\ vì va chạm đã kết thúc sau khi nó xảy ra. Điều này cho biết không còn va chạm nữa."
+                "$~Đây là một dòng các giá trị @Rebound, dùng khi các @Output có tên chạm vào nhau.",
+                "Để hai @Output nhận ra nhau, hãy đặt tên cho cả hai, rồi cho tôi biết cả hai tên đó. Tôi sẽ tạo một @Rebound mới mỗi khi chúng chạm nhau. Chúng không cần @Matter để làm việc đó — chỉ cần có tên là tôi có thể theo dõi.",
+                "Hãy cho tôi một tên thôi, và tôi sẽ báo cho bạn biết mỗi khi @Output đó chạm vào bất cứ thứ gì khác trong thế giới vật lý. Một @Output nằm trong thế giới vật lý nếu nó có @Matter, nếu một @Motion đặt nó vào đó, nếu nó là một @Shape nằm trực tiếp trên @Stage, hoặc nếu tôi cũng đang theo dõi tên của nó.",
+                "Nhận ra không giống với việc va chạm và bật lại. @Output chỉ đẩy các @Output khác đi khi nó có @Matter và một @Motion đang làm nó chuyển động. @Output mà chương trình của bạn đặt vào sẽ đi đúng vào nơi bạn đặt nó, nên nó xuyên qua bất cứ thứ gì nó chạm vào — nhưng tôi vẫn sẽ báo cho bạn biết về cú chạm đó.",
+                "Một @Rebound có các tên đã chạm nhau và hướng chúng chạm từ đó. Ngay sau khi tôi tạo một cái, tôi sẽ tạo một \\ø\\, vì một va chạm sẽ kết thúc ngay khi nó xảy ra.",
+                "Tôi chỉ có thể theo dõi @Output được đặt trực tiếp trên @Stage. Bất cứ thứ gì bên trong một @Group di chuyển trong không gian riêng của nhóm đó, nên tôi không thể thấy nó — hãy đặt tên cho @Group đó và theo dõi nó thay vào đó."
             ],
             "subject": {
                 "names": "$~chủthể",
-                "doc": "$~Tên của @Output mà tôi nên tìm kiếm xung đột là gì?"
+                "doc": "$~Tên của @Output mà tôi nên theo dõi. Chỉ cần theo dõi nó là đủ để đưa nó vào thế giới vật lý, nên nó không cần @Matter."
             },
             "object": {
                 "names": "$~khác",
-                "doc": "$~Tên của @Output khác mà tôi cần tìm kiếm xung đột là gì?"
+                "doc": "$~Tên của @Output khác mà tôi nên theo dõi. Nếu có cả tên này, tôi chỉ báo khi hai thứ đó chạm nhau; nếu không có, tôi sẽ báo khi cái đầu tiên chạm vào bất cứ thứ gì trong thế giới vật lý."
             }
         },
         "Rebound": {
@@ -4969,7 +4970,7 @@
                 "names": "$~nộidung"
             },
             "matter": {
-                "doc": "$~Tôi nên phản ứng như thế nào nếu vô tình va phải vật thể nào đó?",
+                "doc": "$~Tôi nặng, nảy và trơn đến mức nào, và điều gì làm tôi rắn chắc khi một @Motion di chuyển tôi.",
                 "names": "$~vấnđề"
             },
             "size": {
@@ -5095,7 +5096,7 @@
                 "names": "$~phươnghướng"
             },
             "matter": {
-                "doc": "$~Những vật dụng cần dùng nếu tôi va phải đồ vật!",
+                "doc": "$~Tôi nặng, nảy và trơn đến mức nào, và điều gì làm tôi rắn chắc khi một @Motion di chuyển tôi.",
                 "names": "$~vấnđề"
             },
             "aura": {
@@ -5991,7 +5992,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Tôi là những thuộc tính vật lý của đầu ra, ảnh hưởng đến cách tôi tương tác với các đầu ra khác trên sân khấu.",
+            "doc": "$~Tôi cho biết @Output nặng, nảy và trơn đến mức nào. @Output có tôi và một @Motion thì rắn chắc: nó bật lại khỏi @Shape trên @Stage và khỏi các @Output khác đang chuyển động. @Output mà chương trình của bạn đặt vào sẽ đi đến đúng nơi bạn đặt nó, và xuyên qua bất cứ thứ gì nó chạm vào. @Output không cần tôi để được @Collision nhận ra — chỉ cần có tên là đủ cho việc đó.",
             "names": ["$~Vấnđề"],
             "mass": {
                 "doc": "$~Khối lượng, tính bằng kilogam.",
@@ -6010,11 +6011,11 @@
                 "names": "$~độtròn"
             },
             "text": {
-                "doc": "$~Liệu nó có thể xung đột với các kết quả đầu ra khác hay không.",
+                "doc": "$~Liệu tôi có thể va chạm với các @Phrase và @Group khác hay không; ⊥ nghĩa là tôi không nhận ra chúng và @Collision nghĩa là không có thông tin gì về chúng.",
                 "names": "$~chữ"
             },
             "shapes": {
-                "doc": "$~Liệu nó có thể va chạm với các hình dạng khác hay không.",
+                "doc": "$~Liệu tôi có thể va chạm với @Shape trên @Stage hay không; ⊥ nghĩa là tôi rơi xuyên qua tường và sàn, và @Collision nghĩa là không có thông tin gì về chúng.",
                 "names": "$~đất"
             },
             "pull": {

@@ -4498,19 +4498,20 @@
         "Collision": {
             "names": "$~Tabrakan",
             "doc": [
-                "$~Ini adalah aliran nilai @Rebound untuk saat @Output bernama saling bertabrakan.",
-                "Ini cara yang bagus untuk melakukan sesuatu ketika @Output saling bertabrakan, selain pantulan biasa yang mungkin mereka lakukan.",
-                "Cukup berikan nama sebuah @Output, dan ia akan membuat @Rebound @value baru setiap kali nama itu bertabrakan dengan yang lain. Sebuah @Rebound punya informasi tentang nama-nama yang bertabrakan dan arah tabrakan mereka.",
-                "Dan jika kamu memberikan dua nama, ia hanya akan membuat nilai baru ketika kedua nama itu saling bertabrakan.",
-                "Tepat setelah ia membuat nilai baru, ia akan membuat sebuah \\ø\\ karena tabrakan sudah selesai setelah terjadi. Ini menunjukkan bahwa tidak ada lagi tabrakan."
+                "$~Ini adalah aliran nilai @Rebound untuk saat @Output yang bernama saling bertabrakan.",
+                "Agar dua @Output saling menyadari satu sama lain, beri mereka berdua nama, lalu beri aku kedua nama itu. Aku akan membuat @Rebound baru setiap kali mereka bersentuhan. Mereka tidak perlu @Matter untuk itu — sebuah nama saja sudah cukup bagiku untuk mengawasi sesuatu.",
+                "Beri aku satu nama saja, dan aku akan memberitahumu setiap kali @Output itu menyentuh apa pun di dunia fisik. Sebuah @Output ada di dunia fisik jika ia memiliki @Matter, jika sebuah @Motion menempatkannya, jika ia adalah @Shape langsung di @Stage, atau jika aku juga sedang mengawasi namanya.",
+                "Menyadari tidak sama dengan memantul. @Output hanya mendorong @Output lain jika ia memiliki @Matter dan sebuah @Motion yang menggerakkannya. @Output yang ditempatkan programmu pergi tepat ke tempat kamu meletakkannya, jadi ia menembus apa pun yang disentuhnya — aku tetap akan memberitahumu tentang sentuhan itu.",
+                "Sebuah @Rebound memiliki nama-nama yang bersentuhan dan arah dari mana mereka bersentuhan. Tepat setelah aku membuat satu, aku akan membuat \\ø\\, karena sebuah tabrakan berakhir begitu ia terjadi.",
+                "Aku hanya bisa mengawasi @Output yang ditempatkan langsung di @Stage. Apa pun di dalam @Group bergerak di ruangnya sendiri, jadi aku tidak bisa melihatnya — beri @Group itu sebuah nama dan awasi itu sebagai gantinya."
             ],
             "subject": {
                 "names": "$~subjek",
-                "doc": "$~Nama @Output yang harus saya periksa untuk kemungkinan terjadi benturan."
+                "doc": "$~Nama @Output yang harus aku awasi. Mengawasinya saja sudah cukup untuk menempatkannya di dunia fisik, jadi ia tidak perlu @Matter."
             },
             "object": {
                 "names": "$~lainnya",
-                "doc": "$~Nama @Output lain yang harus saya periksa untuk kemungkinan terjadinya benturan."
+                "doc": "$~Nama @Output lain yang harus aku awasi. Jika ini juga diberikan, aku hanya melaporkan kedua benda itu bersentuhan; jika tidak diberikan, aku melaporkan benda pertama yang bersentuhan dengan apa pun di dunia fisik."
             }
         },
         "Rebound": {
@@ -4975,7 +4976,7 @@
                 "names": "$~isi"
             },
             "matter": {
-                "doc": "$~Bagaimana seharusnya saya bereaksi jika saya menabrak sesuatu yang lain yang juga terbuat dari materi.",
+                "doc": "$~Seberapa berat, seberapa memantul, dan seberapa licin aku, dan apa yang membuatku padat ketika sebuah @Motion menggerakkanku.",
                 "names": "$~urusan"
             },
             "size": {
@@ -5101,7 +5102,7 @@
                 "names": "$~arah"
             },
             "matter": {
-                "doc": "$~Properti yang bisa digunakan jika saya menabrak sesuatu!",
+                "doc": "$~Seberapa berat, seberapa memantul, dan seberapa licin aku, dan apa yang membuatku padat ketika sebuah @Motion menggerakkanku.",
                 "names": "$~urusan"
             },
             "aura": {
@@ -6052,7 +6053,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Saya adalah sifat fisik dari output, yang memengaruhi bagaimana saya berinteraksi dengan output lain di atas panggung.",
+            "doc": "$~Aku menyatakan seberapa berat, seberapa memantul, dan seberapa licin @Output. @Output yang memiliki aku dan sebuah @Motion bersifat padat: ia memantul dari @Shape di @Stage dan dari @Output lain yang bergerak. @Output yang ditempatkan programmu pergi ke tempat kamu meletakkannya, dan menembus apa yang disentuhnya. @Output tidak perlu aku untuk disadari oleh @Collision — sebuah nama saja sudah cukup untuk itu.",
             "names": ["$~Urusan"],
             "mass": {
                 "doc": "$~Berat, dalam kilogram",
@@ -6071,11 +6072,11 @@
                 "names": "$~kebulatan"
             },
             "text": {
-                "doc": "$~Apakah hal itu dapat bertabrakan dengan output lain.",
+                "doc": "$~Apakah aku bisa bertabrakan dengan @Phrase dan @Group lain sama sekali; ⊥ berarti aku tidak menyadari mereka dan @Collision tidak menyatakan apa pun tentang mereka.",
                 "names": "$~teks"
             },
             "shapes": {
-                "doc": "$~Apakah ia dapat bertabrakan dengan bentuk lain.",
+                "doc": "$~Apakah aku bisa bertabrakan dengan @Shape di @Stage sama sekali; ⊥ berarti aku jatuh menembus dinding dan lantai, dan @Collision tidak menyatakan apa pun tentang mereka.",
                 "names": "$~tanah"
             },
             "pull": {

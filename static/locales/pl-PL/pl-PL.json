@@ -4441,19 +4441,20 @@
         "Collision": {
             "names": "$~Kolizja",
             "doc": [
-                "$~To strumień wartości @Rebound dla momentów, gdy nazwane @Output wpadają na siebie.",
-                "To świetny sposób, aby zrobić coś, gdy @Output wpadają na siebie, poza zwykłym odbijaniem się od siebie, które mogą wykonywać.",
-                "Wystarczy podać nazwę @Output, a stworzy nowy @Rebound @value, ilekroć ta nazwa wpadnie na inną. @Rebound ma informacje o nazwach, które się zderzyły, oraz o kierunku ich zderzenia.",
-                "A jeśli podasz dwie nazwy, stworzy nową wartość tylko wtedy, gdy te dwie nazwy wpadną na siebie.",
-                "Zaraz po stworzeniu nowej wartości stworzy \\ø\\, ponieważ zderzenie kończy się po tym, jak się zdarzy. To oznacza, że nie ma już zderzenia."
+                "$~To strumień wartości @Rebound, które pojawiają się, gdy nazwane @Output zderzają się ze sobą.",
+                "Aby dwa @Output mogły się zauważyć, nadaj im obu nazwy, a potem podaj mi obie te nazwy. Stworzę nowe @Rebound za każdym razem, gdy się dotkną. Nie potrzebują do tego @Matter — sama nazwa wystarczy, żebym mógł coś obserwować.",
+                "Podaj mi zamiast tego jedną nazwę, a powiem ci za każdym razem, gdy ten @Output dotknie czegoś innego w świecie fizycznym. @Output jest w świecie fizycznym, jeśli ma @Matter, jeśli umieścił go @Motion, jeśli jest @Shape bezpośrednio na @Stage, albo jeśli obserwuję też jego nazwę.",
+                "Zauważanie to nie to samo co odbijanie się. @Output popycha inne @Output tylko wtedy, gdy ma @Matter i @Motion, które je porusza. @Output, które umieszcza twój program, idzie dokładnie tam, gdzie je postawisz, więc przechodzi przez wszystko, czego dotknie — mimo to powiem ci o tym dotknięciu.",
+                "@Rebound zawiera nazwy tego, co się dotknęło, oraz kierunek, z którego nastąpiło dotknięcie. Zaraz po tym, jak go stworzę, stworzę też \\ø\\, ponieważ zderzenie kończy się w chwili, gdy się wydarza.",
+                "Mogę obserwować tylko @Output umieszczone bezpośrednio na @Stage. Wszystko wewnątrz @Group porusza się we własnej przestrzeni tej grupy, więc tego nie widzę — nadaj @Group nazwę i obserwuj ją zamiast tego."
             ],
             "subject": {
                 "names": "$~temat",
-                "doc": "$~Nazwa @Output, w której mam szukać kolizji."
+                "doc": "$~Nazwa @Output, który mam obserwować. Samo obserwowanie wystarczy, by umieścić go w świecie fizycznym, więc nie potrzebuje @Matter."
             },
             "object": {
                 "names": "$~Inny",
-                "doc": "$~Nazwa drugiego @Output, w którym mam szukać kolizji."
+                "doc": "$~Nazwa innego @Output, który mam obserwować. Jeśli podasz też to, zgłaszam tylko dotknięcie tych dwóch; jeśli to pominiesz, zgłaszam pierwsze dotknięcie czegokolwiek w świecie fizycznym."
             }
         },
         "Rebound": {
@@ -4975,7 +4976,7 @@
                 "names": "$~treść"
             },
             "matter": {
-                "doc": "$~Jak powinienem zareagować, gdybym zderzył się z czymś innym, materią.",
+                "doc": "$~Jak ciężki, sprężysty i śliski jestem, oraz co sprawia, że jestem twardy, gdy porusza mną @Motion.",
                 "names": "$~materiał"
             },
             "size": {
@@ -5101,7 +5102,7 @@
                 "names": "$~kierunek"
             },
             "matter": {
-                "doc": "$~Właściwości, których należy użyć, gdy w coś uderzę!",
+                "doc": "$~Jak ciężki, sprężysty i śliski jestem, oraz co sprawia, że jestem twardy, gdy porusza mną @Motion.",
                 "names": "$~materiał"
             },
             "aura": {
@@ -5997,7 +5998,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Jestem fizycznymi właściwościami wyników, które wpływają na sposób, w jaki wchodzę w interakcję z innymi wynikami na scenie.",
+            "doc": "$~Mówię, jak ciężki, sprężysty i śliski jest @Output. @Output, które ma mnie i @Motion, jest twarde: odbija się od @Shape na @Stage i od innych poruszających się @Output. @Output, które umieszcza twój program, idzie tam, gdzie je postawisz, i przechodzi przez to, czego dotyka. @Output nie potrzebuje mnie, żeby zostać zauważonym przez @Collision — sama nazwa wystarczy.",
             "names": ["$~Materiał"],
             "mass": {
                 "doc": "$~Waga w kilogramach",
@@ -6016,11 +6017,11 @@
                 "names": "$~zaokrąglenie"
             },
             "text": {
-                "doc": "$~Czy może kolidować z innymi wynikami.",
+                "doc": "$~Czy w ogóle mogę zderzać się z innymi @Phrase i @Group; ⊥ oznacza, że ich nie zauważam, a @Collision nic o nich nie mówi.",
                 "names": "$~tekst"
             },
             "shapes": {
-                "doc": "$~Czy może kolidować z innymi kształtami.",
+                "doc": "$~Czy w ogóle mogę zderzać się z @Shape na @Stage; ⊥ oznacza, że przepadam przez ściany i podłogi, a @Collision nic o nich nie mówi.",
                 "names": "$~grunt"
             },
             "pull": {
