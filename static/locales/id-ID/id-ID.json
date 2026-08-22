@@ -4497,7 +4497,7 @@
         "Collision": {
             "names": "$~Tabrakan",
             "doc": [
-                "$~Ini adalah aliran nilai @Rebound untuk saat @Output bernama saling bertabrakan.",
+                "$!Ini adalah aliran nilai @Rebound untuk saat @Output bernama saling bertabrakan.",
                 "Ini cara yang bagus untuk melakukan sesuatu ketika @Output saling bertabrakan, selain pantulan biasa yang mungkin mereka lakukan.",
                 "Cukup berikan nama sebuah @Output, dan ia akan membuat @Rebound @value baru setiap kali nama itu bertabrakan dengan yang lain. Sebuah @Rebound punya informasi tentang nama-nama yang bertabrakan dan arah tabrakan mereka.",
                 "Dan jika kamu memberikan dua nama, ia hanya akan membuat nilai baru ketika kedua nama itu saling bertabrakan.",
@@ -4505,11 +4505,11 @@
             ],
             "subject": {
                 "names": "$~subjek",
-                "doc": "$~Nama @Output yang harus saya periksa untuk kemungkinan terjadi benturan."
+                "doc": "$!Nama @Output yang harus saya periksa untuk kemungkinan terjadi benturan."
             },
             "object": {
                 "names": "$~lainnya",
-                "doc": "$~Nama @Output lain yang harus saya periksa untuk kemungkinan terjadinya benturan."
+                "doc": "$!Nama @Output lain yang harus saya periksa untuk kemungkinan terjadinya benturan."
             }
         },
         "Rebound": {
@@ -4974,7 +4974,7 @@
                 "names": "$~isi"
             },
             "matter": {
-                "doc": "$~Bagaimana seharusnya saya bereaksi jika saya menabrak sesuatu yang lain yang juga terbuat dari materi.",
+                "doc": "$!Bagaimana seharusnya saya bereaksi jika saya menabrak sesuatu yang lain yang juga terbuat dari materi.",
                 "names": "$~urusan"
             },
             "size": {
@@ -5100,7 +5100,7 @@
                 "names": "$~arah"
             },
             "matter": {
-                "doc": "$~Properti yang bisa digunakan jika saya menabrak sesuatu!",
+                "doc": "$!Properti yang bisa digunakan jika saya menabrak sesuatu!",
                 "names": "$~urusan"
             },
             "aura": {
@@ -6051,7 +6051,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Saya adalah sifat fisik dari output, yang memengaruhi bagaimana saya berinteraksi dengan output lain di atas panggung.",
+            "doc": "$!Saya adalah sifat fisik dari output, yang memengaruhi bagaimana saya berinteraksi dengan output lain di atas panggung.",
             "names": ["$~Urusan"],
             "mass": {
                 "doc": "$~Berat, dalam kilogram",
@@ -6070,11 +6070,11 @@
                 "names": "$~kebulatan"
             },
             "text": {
-                "doc": "$~Apakah hal itu dapat bertabrakan dengan output lain.",
+                "doc": "$!Apakah hal itu dapat bertabrakan dengan output lain.",
                 "names": "$~teks"
             },
             "shapes": {
-                "doc": "$~Apakah ia dapat bertabrakan dengan bentuk lain.",
+                "doc": "$!Apakah ia dapat bertabrakan dengan bentuk lain.",
                 "names": "$~tanah"
             }
         },

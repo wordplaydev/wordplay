@@ -4440,7 +4440,7 @@
         "Collision": {
             "names": "$~Kolizja",
             "doc": [
-                "$~To strumień wartości @Rebound dla momentów, gdy nazwane @Output wpadają na siebie.",
+                "$!To strumień wartości @Rebound dla momentów, gdy nazwane @Output wpadają na siebie.",
                 "To świetny sposób, aby zrobić coś, gdy @Output wpadają na siebie, poza zwykłym odbijaniem się od siebie, które mogą wykonywać.",
                 "Wystarczy podać nazwę @Output, a stworzy nowy @Rebound @value, ilekroć ta nazwa wpadnie na inną. @Rebound ma informacje o nazwach, które się zderzyły, oraz o kierunku ich zderzenia.",
                 "A jeśli podasz dwie nazwy, stworzy nową wartość tylko wtedy, gdy te dwie nazwy wpadną na siebie.",
@@ -4448,11 +4448,11 @@
             ],
             "subject": {
                 "names": "$~temat",
-                "doc": "$~Nazwa @Output, w której mam szukać kolizji."
+                "doc": "$!Nazwa @Output, w której mam szukać kolizji."
             },
             "object": {
                 "names": "$~Inny",
-                "doc": "$~Nazwa drugiego @Output, w którym mam szukać kolizji."
+                "doc": "$!Nazwa drugiego @Output, w którym mam szukać kolizji."
             }
         },
         "Rebound": {
@@ -4974,7 +4974,7 @@
                 "names": "$~treść"
             },
             "matter": {
-                "doc": "$~Jak powinienem zareagować, gdybym zderzył się z czymś innym, materią.",
+                "doc": "$!Jak powinienem zareagować, gdybym zderzył się z czymś innym, materią.",
                 "names": "$~materiał"
             },
             "size": {
@@ -5100,7 +5100,7 @@
                 "names": "$~kierunek"
             },
             "matter": {
-                "doc": "$~Właściwości, których należy użyć, gdy w coś uderzę!",
+                "doc": "$!Właściwości, których należy użyć, gdy w coś uderzę!",
                 "names": "$~materiał"
             },
             "aura": {
@@ -5996,7 +5996,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Jestem fizycznymi właściwościami wyników, które wpływają na sposób, w jaki wchodzę w interakcję z innymi wynikami na scenie.",
+            "doc": "$!Jestem fizycznymi właściwościami wyników, które wpływają na sposób, w jaki wchodzę w interakcję z innymi wynikami na scenie.",
             "names": ["$~Materiał"],
             "mass": {
                 "doc": "$~Waga w kilogramach",
@@ -6015,11 +6015,11 @@
                 "names": "$~zaokrąglenie"
             },
             "text": {
-                "doc": "$~Czy może kolidować z innymi wynikami.",
+                "doc": "$!Czy może kolidować z innymi wynikami.",
                 "names": "$~tekst"
             },
             "shapes": {
-                "doc": "$~Czy może kolidować z innymi kształtami.",
+                "doc": "$!Czy może kolidować z innymi kształtami.",
                 "names": "$~grunt"
             }
         },

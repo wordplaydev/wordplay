@@ -58,7 +58,7 @@ type OutputTexts = {
         content: NameAndDoc;
         /** The layout to use to place the content in the group on stage */
         layout: NameAndDoc;
-        /** The matter to use for the group if it's involved in collisions */
+        /** What makes the group solid when it bumps into things */
         matter: NameAndDoc;
         /** [formatted] $1 = optional group name, $2 = layout description, $3 = pose description, $4 = optional background color name */
         defaultDescription: Template<['name', 'layout', 'pose', 'color']>;
@@ -86,7 +86,7 @@ type OutputTexts = {
         alignment: NameAndDoc;
         /** The layout of writing */
         direction: NameAndDoc;
-        /** The matter properties for the phrase */
+        /** What makes the phrase solid when it bumps into things */
         matter: NameAndDoc;
         /** The shadow properties for the phrase */
         aura: NameAndDoc;
@@ -685,7 +685,7 @@ type OutputTexts = {
         /** each capture name to its end position */
         ends: NameAndDoc;
     };
-    /** Physical properties of matter */
+    /** What makes output solid, and how heavy, bouncy, and slippery it is */
     Matter: NameAndDoc & {
         /** in kilograms, how much something weighs for the purposes of collisions */
         mass: NameAndDoc;

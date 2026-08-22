@@ -4436,7 +4436,7 @@
         "Collision": {
             "names": "Colisión",
             "doc": [
-                "$~Es un flujo de valores @Rebound para cuando @Output con nombre chocan entre sí.",
+                "$!Es un flujo de valores @Rebound para cuando @Output con nombre chocan entre sí.",
                 "Esta es una gran forma de hacer algo cuando @Output chocan entre sí, aparte del rebote normal que podrían hacer entre ellos.",
                 "Solo dale un nombre de @Output, y hará un nuevo @value @Rebound cada vez que ese nombre choque con otro. Un @Rebound tiene información sobre los nombres que chocaron y la dirección de su choque.",
                 "Y si le das dos nombres, solo hará un nuevo valor cuando esos dos nombres choquen entre sí.",
@@ -4444,11 +4444,11 @@
             ],
             "subject": {
                 "names": "sujeto",
-                "doc": "El nombre de @Output en el que debería buscar colisiones."
+                "doc": "$!El nombre de @Output en el que debería buscar colisiones."
             },
             "object": {
                 "names": "otro",
-                "doc": "El nombre del otro @Output en el que debería buscar colisiones."
+                "doc": "$!El nombre del otro @Output en el que debería buscar colisiones."
             }
         },
         "Rebound": {
@@ -4959,7 +4959,7 @@
                 "names": "content"
             },
             "matter": {
-                "doc": "Cómo debería reaccionar si chocara con algo más con materia.",
+                "doc": "$!Cómo debería reaccionar si chocara con algo más con materia.",
                 "names": "materia"
             },
             "layout": {
@@ -5090,7 +5090,7 @@
                 "names": "dirección"
             },
             "matter": {
-                "doc": "¡Las propiedades a usar si choco con cosas!",
+                "doc": "$!¡Las propiedades a usar si choco con cosas!",
                 "names": "materia"
             },
             "aura": {
@@ -5985,7 +5985,7 @@
             }
         },
         "Matter": {
-            "doc": "Soy propiedades físicas de salida, que influyen en cómo interactúo con otras salidas en el escenario.",
+            "doc": "$!Soy propiedades físicas de salida, que influyen en cómo interactúo con otras salidas en el escenario.",
             "names": ["Materia"],
             "mass": {
                 "doc": "Un peso, en kilogramos",
@@ -6004,11 +6004,11 @@
                 "names": "redondez"
             },
             "text": {
-                "doc": "Si puede chocar con otra salida.",
+                "doc": "$!Si puede chocar con otra salida.",
                 "names": "texto"
             },
             "shapes": {
-                "doc": "Si puede chocar con otras formas.",
+                "doc": "$!Si puede chocar con otras formas.",
                 "names": "formas"
             }
         },

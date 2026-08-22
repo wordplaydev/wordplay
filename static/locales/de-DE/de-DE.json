@@ -4439,7 +4439,7 @@
         "Collision": {
             "names": "$~Kollision",
             "doc": [
-                "$~Es ist ein Stream von @Rebound-Werten dafür, wenn benannte @Output aufeinanderstoßen.",
+                "$!Es ist ein Stream von @Rebound-Werten dafür, wenn benannte @Output aufeinanderstoßen.",
                 "Das ist ein toller Weg, etwas zu tun, wenn @Output aufeinanderstoßen, außer dem normalen Abprallen, das sie vielleicht tun.",
                 "Gib ihm einfach einen Namen von @Output, und es macht ein neues @Rebound @value, wann immer dieser Name auf einen anderen stößt. Ein @Rebound enthält Infos über die Namen, die zusammengestoßen sind, und die Richtung ihres Zusammenstoßes.",
                 "Und wenn du ihm zwei Namen gibst, macht es nur dann einen neuen Wert, wenn die zwei Namen aufeinanderstoßen.",
@@ -4447,11 +4447,11 @@
             ],
             "subject": {
                 "names": "$~Thema",
-                "doc": "$~Der Name des @Output, bei dem ich nach Kollisionen suchen soll."
+                "doc": "$!Der Name des @Output, bei dem ich nach Kollisionen suchen soll."
             },
             "object": {
                 "names": "$~andere",
-                "doc": "$~Der Name des anderen @Output, bei dem ich nach Kollisionen suchen soll."
+                "doc": "$!Der Name des anderen @Output, bei dem ich nach Kollisionen suchen soll."
             }
         },
         "Rebound": {
@@ -5078,7 +5078,7 @@
                 "names": "$~Layout"
             },
             "matter": {
-                "doc": "$~Wie ich reagieren sollte, wenn ich mit etwas anderem, das Materie hat, zusammenstoßen würde.",
+                "doc": "$!Wie ich reagieren sollte, wenn ich mit etwas anderem, das Materie hat, zusammenstoßen würde.",
                 "names": "$~Gegenstand"
             },
             "size": {
@@ -5204,7 +5204,7 @@
                 "names": "$~Richtung"
             },
             "matter": {
-                "doc": "$~Die Eigenschaften, die ich verwenden soll, wenn ich gegen Dinge stoße!",
+                "doc": "$!Die Eigenschaften, die ich verwenden soll, wenn ich gegen Dinge stoße!",
                 "names": "$~Gegenstand"
             },
             "aura": {
@@ -6094,7 +6094,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Ich bin die physikalischen Eigenschaften der Ausgabe, die beeinflussen, wie ich mit anderen Ausgaben auf der Bühne interagiere.",
+            "doc": "$!Ich bin die physikalischen Eigenschaften der Ausgabe, die beeinflussen, wie ich mit anderen Ausgaben auf der Bühne interagiere.",
             "names": ["$~Gegenstand"],
             "mass": {
                 "doc": "$~Ein Gewicht in Kilogramm",
@@ -6113,11 +6113,11 @@
                 "names": "$~Rundung"
             },
             "text": {
-                "doc": "$~Ob es mit anderen Ausgaben kollidieren kann.",
+                "doc": "$!Ob es mit anderen Ausgaben kollidieren kann.",
                 "names": "$~Text"
             },
             "shapes": {
-                "doc": "$~Ob es mit anderen Formen kollidieren kann.",
+                "doc": "$!Ob es mit anderen Formen kollidieren kann.",
                 "names": "$~Boden"
             }
         },

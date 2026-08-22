@@ -4439,7 +4439,7 @@
         "Collision": {
             "names": "$~Collision",
             "doc": [
-                "$~C'est un flux de valeurs @Rebound pour quand des @Output nommés se heurtent l'un l'autre.",
+                "$!C'est un flux de valeurs @Rebound pour quand des @Output nommés se heurtent l'un l'autre.",
                 "C'est une bonne façon de faire quelque chose quand @Output se heurtent, en plus du rebond normal qu'ils pourraient faire.",
                 "Donne-lui simplement un nom de @Output, et il créera un nouveau @Rebound @value chaque fois que ce nom en heurte un autre. Un @Rebound contient des infos sur les noms qui se sont heurtés et la direction de leur collision.",
                 "Et si tu lui donnes deux noms, il créera une nouvelle valeur seulement quand les deux noms se heurtent l'un l'autre.",
@@ -4447,11 +4447,11 @@
             ],
             "subject": {
                 "names": "$~sujet",
-                "doc": "$~Le nom du @Output sur lequel je dois rechercher les collisions."
+                "doc": "$!Le nom du @Output sur lequel je dois rechercher les collisions."
             },
             "object": {
                 "names": "$~autre",
-                "doc": "$~Le nom de l’autre @Output sur lequel je devrais rechercher des collisions."
+                "doc": "$!Le nom de l’autre @Output sur lequel je devrais rechercher des collisions."
             }
         },
         "Rebound": {
@@ -5086,7 +5086,7 @@
                 "names": "$~miseenpage"
             },
             "matter": {
-                "doc": "$~Comment je devrais réagir si je devais heurter quelque chose d'autre avec de la matière.",
+                "doc": "$!Comment je devrais réagir si je devais heurter quelque chose d'autre avec de la matière.",
                 "names": "$~matière"
             },
             "size": {
@@ -5212,7 +5212,7 @@
                 "names": "$~direction"
             },
             "matter": {
-                "doc": "$~Les propriétés à utiliser si je heurte des choses !",
+                "doc": "$!Les propriétés à utiliser si je heurte des choses !",
                 "names": "$~matière"
             },
             "aura": {
@@ -6102,7 +6102,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Je suis les propriétés physiques de la sortie, qui influencent la façon dont j'interagis avec les autres sorties sur scène.",
+            "doc": "$!Je suis les propriétés physiques de la sortie, qui influencent la façon dont j'interagis avec les autres sorties sur scène.",
             "names": ["$~Matière"],
             "mass": {
                 "doc": "$~Un poids, en kilogrammes",
@@ -6121,11 +6121,11 @@
                 "names": "$~rondeur"
             },
             "text": {
-                "doc": "$~Si cela peut entrer en collision avec d'autres sorties.",
+                "doc": "$!Si cela peut entrer en collision avec d'autres sorties.",
                 "names": "$~texte"
             },
             "shapes": {
-                "doc": "$~S'il peut entrer en collision avec d'autres formes.",
+                "doc": "$!S'il peut entrer en collision avec d'autres formes.",
                 "names": "$~sol"
             }
         },

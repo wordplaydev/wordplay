@@ -122,6 +122,25 @@ export default class Collision extends StreamValue<
     }
 }
 
+/**
+ * The output names the live Collision streams are watching. Being watched is
+ * reason enough to put an output in the physical world, so a creator doesn't
+ * have to know that Matter is what opens the gate (#548). A stream given no
+ * name watches whatever is already in that world rather than pulling anything
+ * new into it, so a catch-all stays free.
+ *
+ * These names are runtime values rather than source text, so a name computed
+ * from a variable, or localized like PersonalMap's, works the same way.
+ */
+export function getWatchedNames(collisions: Collision[]): Set<string> {
+    const names = new Set<string>();
+    for (const collision of collisions) {
+        if (collision.subject !== undefined) names.add(collision.subject);
+        if (collision.object !== undefined) names.add(collision.object);
+    }
+    return names;
+}
+
 export function createCollisionDefinition(
     locales: Locales,
     ReboundType: StructureDefinition,

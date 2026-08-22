@@ -4441,7 +4441,7 @@
         "Collision": {
             "names": "$~Vachạm",
             "doc": [
-                "$~Nó là một luồng các giá trị @Rebound cho khi @Output được đặt tên va vào nhau.",
+                "$!Nó là một luồng các giá trị @Rebound cho khi @Output được đặt tên va vào nhau.",
                 "Đây là một cách tuyệt vời để làm điều gì đó khi @Output va vào nhau, ngoài việc nảy ra khỏi nhau bình thường mà chúng có thể làm.",
                 "Chỉ cần đưa cho nó một tên của @Output, và nó sẽ tạo ra một @value @Rebound mới mỗi khi tên đó va vào tên khác. Một @Rebound có thông tin về các tên đã va chạm và hướng va chạm của chúng.",
                 "Và nếu bạn đưa cho nó hai tên, nó sẽ chỉ tạo ra một giá trị mới khi hai tên đó va vào nhau.",
@@ -4449,11 +4449,11 @@
             ],
             "subject": {
                 "names": "$~chủthể",
-                "doc": "$~Tên của @Output mà tôi nên tìm kiếm xung đột là gì?"
+                "doc": "$!Tên của @Output mà tôi nên tìm kiếm xung đột là gì?"
             },
             "object": {
                 "names": "$~khác",
-                "doc": "$~Tên của @Output khác mà tôi cần tìm kiếm xung đột là gì?"
+                "doc": "$!Tên của @Output khác mà tôi cần tìm kiếm xung đột là gì?"
             }
         },
         "Rebound": {
@@ -4968,7 +4968,7 @@
                 "names": "$~nộidung"
             },
             "matter": {
-                "doc": "$~Tôi nên phản ứng như thế nào nếu vô tình va phải vật thể nào đó?",
+                "doc": "$!Tôi nên phản ứng như thế nào nếu vô tình va phải vật thể nào đó?",
                 "names": "$~vấnđề"
             },
             "size": {
@@ -5094,7 +5094,7 @@
                 "names": "$~phươnghướng"
             },
             "matter": {
-                "doc": "$~Những vật dụng cần dùng nếu tôi va phải đồ vật!",
+                "doc": "$!Những vật dụng cần dùng nếu tôi va phải đồ vật!",
                 "names": "$~vấnđề"
             },
             "aura": {
@@ -5990,7 +5990,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Tôi là những thuộc tính vật lý của đầu ra, ảnh hưởng đến cách tôi tương tác với các đầu ra khác trên sân khấu.",
+            "doc": "$!Tôi là những thuộc tính vật lý của đầu ra, ảnh hưởng đến cách tôi tương tác với các đầu ra khác trên sân khấu.",
             "names": ["$~Vấnđề"],
             "mass": {
                 "doc": "$~Khối lượng, tính bằng kilogam.",
@@ -6009,11 +6009,11 @@
                 "names": "$~độtròn"
             },
             "text": {
-                "doc": "$~Liệu nó có thể xung đột với các kết quả đầu ra khác hay không.",
+                "doc": "$!Liệu nó có thể xung đột với các kết quả đầu ra khác hay không.",
                 "names": "$~chữ"
             },
             "shapes": {
-                "doc": "$~Liệu nó có thể va chạm với các hình dạng khác hay không.",
+                "doc": "$!Liệu nó có thể va chạm với các hình dạng khác hay không.",
                 "names": "$~đất"
             }
         },
