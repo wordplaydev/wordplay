@@ -1,4 +1,4 @@
-import admin from 'firebase-admin';
+import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import type { CallableRequest } from 'firebase-functions/v2/https';
 import type { CreateClassInputs, CreateClassOutput } from 'shared-types';
@@ -6,7 +6,7 @@ import type { CreateClassInputs, CreateClassOutput } from 'shared-types';
 export default async function createClass(
     request: CallableRequest<CreateClassInputs>,
 ): Promise<CreateClassOutput> {
-    const auth = admin.auth();
+    const auth = getAuth();
     const db = getFirestore();
     const { teacher, name, description, students, existing } = request.data;
 
