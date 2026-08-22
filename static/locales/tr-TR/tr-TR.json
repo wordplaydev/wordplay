@@ -2667,57 +2667,90 @@
                     "inputs": []
                 },
                 "subsequence": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Kendimin bir parçasından yeni bir @Text oluştururum. Sayma 1'den başlar ve her iki uç da dahildir:",
+                        "\\'merhaba'.altdizi(2 4)\\",
+                        "Sonu belirtmezsen, son sembolüme kadar giderim:",
+                        "\\'merhaba'.altdizi(3)\\",
+                        "Sembolleri senin gördüğün gibi sayarım, bu yüzden birkaç parçadan oluşan bir emoji yine de tek bir sembol sayılır ve asla ortadan kesilmez:",
+                        "\\'🐈📚!'.altdizi(1 2)\\",
+                        "Sahip olduğumdan fazlasını istersen, sahip olduğum kadarını sana veririm."
+                    ],
+                    "names": ["$~altdizi"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Başlanacak yer, 1'den sayılır.",
+                            "names": "$~başlangıç"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Durulacak yer, 1'den sayılır. Sona kadar gitmek için boş bırak.",
+                            "names": "$~son"
                         }
                     ]
                 },
                 "index": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Verilen @Text'in içimde ilk nerede göründüğünü sana söylerim, 1'den sayarak:",
+                        "\\'merhaba'.dizin('ll')\\",
+                        "Eğer içimde hiç yoksa, sana bunun yerine @None veririm:",
+                        "\\'merhaba'.dizin('z')\\",
+                        "@Text/subsequence ile birlikte bir şeye kadar olan her şeyi alabilirim — burada, ilk kelimeye kadar:",
+                        "\\tümce: 'merhaba dünya'\ntümce.altdizi(1 (tümce.dizin(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~dizin"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~İçimde aranacak @Text.",
+                            "names": "$~metin"
                         }
                     ]
                 },
                 "replace": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Her @Text örneğinin başka biriyle değiştirildiği yeni bir @Text yaparım:",
+                        "\\'2026-08-21'.değiştir('-' '/')\\",
+                        "Sadece ilk örnek değil, her örnek değişir:",
+                        "\\'ha ha ha'.değiştir('ha' 'ho')\\",
+                        "Benden boş bir @Text değiştirmemi istersen, kendimi değişmeden geri veririm."
+                    ],
+                    "names": ["$~değiştir"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~İçimde aranacak @Text.",
+                            "names": "$~nin"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Onun yerine konacak @Text.",
+                            "names": "$~değişim"
                         }
                     ]
                 },
                 "trim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Her iki ucumdaki boş alan kaldırılmış yeni bir @Text oluştururum. Ortadaki boşluk kalır:",
+                        "\\'  merhaba  '.kırp()\\",
+                        "Bu, birinin yazdığı ve genellikle istemediğiniz fazladan boşluklar içeren metinler için kullanışlıdır."
+                    ],
+                    "names": ["$~kırp"],
                     "inputs": []
                 },
                 "reverse": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Sembollerim ters sırada olan yeni bir @Text oluştururum:",
+                        "\\'merhaba'.tersineÇevrilmiş()\\",
+                        "Sembollerimin sırasını senin gördüğün gibi tersine çeviririm, böylece emoji bütün kalır ve harfler aksanlarını korur:",
+                        "\\'🐈📚'.tersineÇevrilmiş()\\"
+                    ],
+                    "names": ["$~tersineÇevrilmiş", "$~tersineÇevir"],
                     "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Metni ayrı karakterlerden oluşan bir listeye böler.",
-                "number": "$!Metni @Number'a dönüştürür ve eğer bir sayı değilse, bir sayı değeri değildir.",
+                "number": [
+                    "$~Metni bir @Number'e çevirir, eğer bu bir sayı değilse, sayı olmayan bir değer verir, bu da şöyle görünür: \\!#\\:",
+                    "\\'selam' → #\\"
+                ],
                 "formatted": "$~Metni, içerdiği biçimlendirme kurallarını yorumlayarak biçimlendirilmiş metne dönüştürür."
             }
         },
@@ -3292,7 +3325,7 @@
                 },
                 "sansAll": {
                     "doc": [
-                        "$!Ben, ama verilen @value öğesinin geçtiği tüm yerler olmadan.",
+                        "$~Ben, ama verilen @value olmadan. Hangi ismimi kullanırsan kullan, her kopya gider, sadece ilki değil:",
                         "\\['elma' 'muz' 'mango' 'elma'].olmadan('elma')\\"
                     ],
                     "names": ["$~olmadan", "$~hepsiolmadan"],
@@ -4052,8 +4085,11 @@
             },
             "conversion": {
                 "text": "$~Biçimlendirilmiş metni, tüm biçimlendirmeyi kaldırarak düz @Text Text'e dönüştürür.",
-                "list": "$?",
-                "number": "$?"
+                "list": "$~Biçimlendirilmiş metni, kelimelerimin her sembolü için bir tane olmak üzere bir @Text @List'ine çevirir. Biçimlendirme tek tek sembollere kesilince korunamaz, bu yüzden kaybolur.",
+                "number": [
+                    "$~Kelimelerimi bir @Number'e çevirir, eğer bunlar bir sayı değilse, sayı olmayan bir değer verir, bu da şöyle görünür: \\!#\\:",
+                    "\\`selam` → #\\"
+                ]
             }
         }
     },

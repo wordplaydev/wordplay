@@ -1773,7 +1773,7 @@
                         [
                             "List",
                             "excited",
-                            "Y este es divertido: @List.sans simplemente elimina todos los valores iguales al valor dado. ¿Ves cómo no quedan ceros en la lista resultante?"
+                            "Y este es divertido: @List.sansAll simplemente elimina todos los valores iguales al valor dado. ¿Ves cómo no quedan ceros en la lista resultante?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,

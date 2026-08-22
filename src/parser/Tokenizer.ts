@@ -55,6 +55,7 @@ import {
     MEASUREMENT_SYMBOL,
     MENTION_SYMBOL,
     NONE_SYMBOL,
+    NOT_A_NUMBER_SYMBOL,
     NOT_SYMBOL,
     OR_SYMBOL,
     PATTERN_AHEAD_SYMBOL,
@@ -354,7 +355,10 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: TRANSLATE_SYMBOL_RTL, types: [Sym.Translate] },
     { pattern: NONE_SYMBOL, types: [Sym.None, Sym.None] },
     { pattern: TYPE_SYMBOL, types: [Sym.Type] },
-    { pattern: /^!#/, types: [Sym.Number] },
+    {
+        pattern: new RegExp(`^${NOT_A_NUMBER_SYMBOL}`),
+        types: [Sym.Number, Sym.NotANumber],
+    },
     {
         pattern: new RegExp(`^[${LITERAL_SYMBOL}${LITERAL_SYMBOL_FULL}]`, 'u'),
         types: [Sym.Literal],

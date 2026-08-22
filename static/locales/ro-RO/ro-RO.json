@@ -2667,57 +2667,90 @@
                     "inputs": []
                 },
                 "subsequence": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Creez un nou @Text dintr-o bucată din mine. Numărarea începe de la 1, și ambele capete sunt incluse:",
+                        "\\'salut'.subsecvență(2 4)\\",
+                        "Lasă capătul deoparte și merg până la ultimul meu simbol:",
+                        "\\'salut'.subsecvență(3)\\",
+                        "Număr simbolurile așa cum le vezi tu, deci un emoji format din mai multe părți rămâne tot un singur simbol și nu este niciodată tăiat în două:",
+                        "\\'🐈📚!'.subsecvență(1 2)\\",
+                        "Dacă ceri mai mult decât am, îți dau ce am."
+                    ],
+                    "names": ["$~subsecvență"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Locul de unde se începe, numărând de la 1.",
+                            "names": "$~început"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Locul unde se oprește, numărând de la 1. Lasă-l deoparte pentru a merge până la final.",
+                            "names": "$~sfârșit"
                         }
                     ]
                 },
                 "index": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Îți spun unde apare prima dată @Text dat în mine, numărând de la 1:",
+                        "\\'salut'.index('ll')\\",
+                        "Dacă nu se află deloc în mine, îți dau @None în schimb:",
+                        "\\'salut'.index('z')\\",
+                        "Împreună cu @Text/subsequence pot lua tot până la ceva — aici, primul cuvânt:",
+                        "\\frază: 'salut lume'\nfrază.subsecvență(1 (frază.index(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~index"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text de căutat în mine.",
+                            "names": "$~text"
                         }
                     ]
                 },
                 "replace": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Creez un nou @Text cu fiecare apariție a unui @Text schimbată cu alta:",
+                        "\\'2026-08-21'.înlocuiește('-' '/')\\",
+                        "Se schimbă fiecare apariție, nu doar prima:",
+                        "\\'ha ha ha'.înlocuiește('ha' 'ho')\\",
+                        "Dacă îmi ceri să înlocuiesc un @Text gol, mă întorc pe mine neschimbat."
+                    ],
+                    "names": ["$~înlocuiește"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text de căutat în mine.",
+                            "names": "$~din"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text de pus în locul lui.",
+                            "names": "$~înlocuire"
                         }
                     ]
                 },
                 "trim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Creez un nou @Text cu spațiul gol tăiat de la ambele mele capete. Spațiul din mijloc rămâne:",
+                        "\\'  salut  '.taie()\\",
+                        "Asta este util pentru text scris de cineva, care de multe ori are spații în plus pe care nu le-ai cerut."
+                    ],
+                    "names": ["$~taie"],
                     "inputs": []
                 },
                 "reverse": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Creez un nou @Text cu simbolurile mele în ordine inversă:",
+                        "\\'salut'.inversat()\\",
+                        "Inversez ordinea simbolurilor mele așa cum le vezi tu, deci emoji-urile rămân întregi, iar literele își păstrează accentele:",
+                        "\\'🐈📚'.inversat()\\"
+                    ],
+                    "names": ["$~inversat", "$~inversează"],
                     "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Împarte textul într-o listă de caractere individuale.",
-                "number": "$!Convertește textul într-un @Number și, dacă nu este un număr, într-o valoare care nu este un număr.",
+                "number": [
+                    "$~Transformă text într-un @Number, iar dacă nu este un număr, o valoare care nu este număr, care apare ca \\!#\\:",
+                    "\\'salut' → #\\"
+                ],
                 "formatted": "$~Convertește textul în text formatat, interpretând orice markup pe care îl conține."
             }
         },
@@ -3292,7 +3325,7 @@
                 },
                 "sansAll": {
                     "doc": [
-                        "$!Eu, dar fără toate aparițiile @value dat.",
+                        "$~Eu, dar fără @value dat. Fiecare copie dispare, nu doar prima, indiferent ce nume folosești pentru mine:",
                         "\\['măr' 'banană' 'mango' 'măr'].fără('măr')\\"
                     ],
                     "names": ["$~fără", "$~fărăToate"],
@@ -4052,8 +4085,11 @@
             },
             "conversion": {
                 "text": "$~Convertește textul formatat în @Text simplu, eliminând toată formatarea.",
-                "list": "$?",
-                "number": "$?"
+                "list": "$~Transformă text formatat într-un @List de @Text, câte unul pentru fiecare simbol din cuvintele mele. Formatarea nu poate supraviețui tăierii în simboluri individuale, așa că este eliminată.",
+                "number": [
+                    "$~Transformă cuvintele mele într-un @Number, iar dacă nu sunt un număr, o valoare care nu este număr, care apare ca \\!#\\:",
+                    "\\`salut` → #\\"
+                ]
             }
         }
     },

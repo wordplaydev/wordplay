@@ -1775,7 +1775,7 @@
                         [
                             "List",
                             "excited",
-                            "$~Și asta e amuzantă: @List.sans elimină pur și simplu toate valorile egale cu valoarea dată. Vezi cum nu au mai rămas zerouri în lista rezultată?"
+                            "$~Și asta e amuzantă: @List.sansAll elimină pur și simplu toate valorile egale cu valoarea dată. Vezi cum nu au mai rămas zerouri în lista rezultată?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,

@@ -1795,7 +1795,7 @@
                         [
                             "List",
                             "excited",
-                            "$~Ve bu eğlenceli: @List.sans sadece verilen değere eşit olan tüm değerleri kaldırır. Sonuçtaki listede sıfır kalmadığını görüyor musunuz?"
+                            "$~Ve bu eğlenceli: @List.sansAll sadece verilen değere eşit olan tüm değerleri kaldırır. Sonuçtaki listede sıfır kalmadığını görüyor musunuz?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,

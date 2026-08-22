@@ -2667,57 +2667,90 @@
                     "inputs": []
                 },
                 "subsequence": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Jag skapar en ny @Text från en bit av mig själv. Räkningen börjar på 1, och båda ändarna räknas med:",
+                        "\\'hej'.delföljd(2 4)\\",
+                        "Utelämna slutet så går jag hela vägen till mitt sista tecken:",
+                        "\\'hej'.delföljd(3)\\",
+                        "Jag räknar tecken så som du ser dem, så en emoji gjord av flera delar räknas ändå som ett tecken och delas aldrig på mitten:",
+                        "\\'🐈📚!'.delföljd(1 2)\\",
+                        "Om du ber om fler än jag har, ger jag dig det jag har."
+                    ],
+                    "names": ["$~delföljd"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Platsen att börja på, räknat från 1.",
+                            "names": "$~start"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Platsen att sluta på, räknat från 1. Utelämna den för att gå till slutet.",
+                            "names": "$~slut"
                         }
                     ]
                 },
                 "index": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Jag säger var den givna @Text först dyker upp i mig, räknat från 1:",
+                        "\\'hej'.index('ll')\\",
+                        "Om den inte finns i mig alls, ger jag @None istället:",
+                        "\\'hej'.index('z')\\",
+                        "Tillsammans med @Text/subsequence kan jag ta allt fram till något — här, det första ordet:",
+                        "\\fras: 'hej världen'\nfras.delföljd(1 (fras.index(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~index"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Den @Text att leta efter i mig.",
+                            "names": "$~text"
                         }
                     ]
                 },
                 "replace": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Jag skapar en ny @Text där varje förekomst av en @Text byts ut mot en annan:",
+                        "\\'2026-08-21'.ersätt('-' '/')\\",
+                        "Varje förekomst ändras, inte bara den första:",
+                        "\\'ha ha ha'.ersätt('ha' 'ho')\\",
+                        "Om du ber mig ersätta en tom @Text, ger jag tillbaka mig själv oförändrad."
+                    ],
+                    "names": ["$~ersätt"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Den @Text att leta efter i mig.",
+                            "names": "$~av"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Den @Text att sätta i dess ställe.",
+                            "names": "$~ersättning"
                         }
                     ]
                 },
                 "trim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Jag skapar en ny @Text med det tomma utrymmet borttaget från båda mina ändar. Mellanrum i mitten är kvar:",
+                        "\\'  hej  '.beskär()\\",
+                        "Detta är praktiskt för text som någon skrivit in, som ofta har extra mellanrum du inte bad om."
+                    ],
+                    "names": ["$~beskär"],
                     "inputs": []
                 },
                 "reverse": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Jag skapar en ny @Text med mina tecken i omvänd ordning:",
+                        "\\'hej'.omvänd()\\",
+                        "Jag vänder ordningen på mina tecken så som du ser dem, så emojier förblir hela och bokstäver behåller sina accenter:",
+                        "\\'🐈📚'.omvänd()\\"
+                    ],
+                    "names": ["$~omvänd", "$~vänd"],
                     "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Delar upp texten i en lista med enskilda tecken.",
-                "number": "$!Konverterar text till ett @Number, och om det inte är ett tal, ett inte ett talvärde.",
+                "number": [
+                    "$~Omvandlar text till en @Number, och om det inte är ett tal, ett värde som inte är ett tal, vilket visas som \\!#\\:",
+                    "\\'hej' → #\\"
+                ],
                 "formatted": "$~Konverterar text till formaterad text och tolkar eventuell markup den innehåller."
             }
         },
@@ -3289,7 +3322,7 @@
                 },
                 "sansAll": {
                     "doc": [
-                        "$!Jag, men utan alla förekomster av den angivna @value.",
+                        "$~Jag, fast utan den givna @value. Varje kopia försvinner, inte bara den första, oavsett vilket av mina namn du använder:",
                         "\\['äpple' 'banan' 'mango' 'äpple'].utan('äpple')\\"
                     ],
                     "names": ["$~utan", "$~utanAlla"],
@@ -4049,8 +4082,11 @@
             },
             "conversion": {
                 "text": "$~Konverterar formaterad text till vanlig @Text och tar bort all formatering.",
-                "list": "$?",
-                "number": "$?"
+                "list": "$~Omvandlar formaterad text till en @List av @Text, en för varje tecken i mina ord. Formatering kan inte överleva att delas upp i enskilda tecken, så den tas bort.",
+                "number": [
+                    "$~Omvandlar mina ord till en @Number, och om de inte är ett tal, ett värde som inte är ett tal, vilket visas som \\!#\\:",
+                    "\\`hej` → #\\"
+                ]
             }
         }
     },

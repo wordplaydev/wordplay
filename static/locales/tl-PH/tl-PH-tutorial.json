@@ -1803,7 +1803,7 @@
                         [
                             "List",
                             "excited",
-                            "$~At nakakatuwa ito: Tinatanggal lang ng @List.sans ang lahat ng halagang katumbas ng ibinigay na halaga. Nakikita mo ba kung paano wala nang natitirang mga sero sa listahang nagresulta?"
+                            "$~At nakakatuwa ito: Tinatanggal lang ng @List.sansAll ang lahat ng halagang katumbas ng ibinigay na halaga. Nakikita mo ba kung paano wala nang natitirang mga sero sa listahang nagresulta?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,

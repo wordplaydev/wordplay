@@ -998,10 +998,21 @@ export default function bootstrapList(locales: Locales) {
                             new ListValue(
                                 expression,
                                 info.keyed
-                                    .sort(
-                                        (a, b) =>
-                                            a[0].toNumber() - b[0].toNumber(),
-                                    )
+                                    .sort((a, b) => {
+                                        const left = a[0].toNumber();
+                                        const right = b[0].toNumber();
+                                        // A not-a-number key has no place in an
+                                        // order. Subtracting gives NaN for every
+                                        // pair it touches, which is an
+                                        // inconsistent comparator — that can
+                                        // scramble elements that have nothing to
+                                        // do with it, not just misplace this one.
+                                        // Send them to the end instead.
+                                        if (Number.isNaN(left))
+                                            return Number.isNaN(right) ? 0 : 1;
+                                        if (Number.isNaN(right)) return -1;
+                                        return left - right;
+                                    })
                                     .map((pair) => pair[1]),
                             ),
                     ),
