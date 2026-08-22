@@ -59,3 +59,16 @@ test.each([
 ])('%s evaluates to %s', (code, expected) => {
     expect(evaluateCode(code)?.toWordplay()).toBe(expected);
 });
+
+test.each([
+    // Splitting into single symbols can't keep formatting, so it drops.
+    ["`*hi*` → ['']", '["h" "i"]'],
+    ["`hi there` → ['']", '["h" "i" " " "t" "h" "e" "r" "e"]'],
+    // Graphemes, so an emoji stays one entry.
+    ["`🐈📚` → ['']", '["🐈" "📚"]'],
+    // Each symbol inherits the source's locale, mirroring Text.segment.
+    ["`hi`/en → ['']", '["h"/en "i"/en]'],
+    ['`42` → #', '42'],
+])('%s evaluates to %s', (code, expected) => {
+    expect(evaluateCode(code)?.toWordplay()).toBe(expected);
+});

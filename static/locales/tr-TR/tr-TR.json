@@ -2665,11 +2665,59 @@
                     ],
                     "names": ["$~küçükHarf"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Metni ayrı karakterlerden oluşan bir listeye böler.",
-                "number": "$~Metni @Number'a dönüştürür ve eğer bir sayı değilse, bir sayı değeri değildir.",
+                "number": "$!Metni @Number'a dönüştürür ve eğer bir sayı değilse, bir sayı değeri değildir.",
                 "formatted": "$~Metni, içerdiği biçimlendirme kurallarını yorumlayarak biçimlendirilmiş metne dönüştürür."
             }
         },
@@ -3242,25 +3290,12 @@
                     "names": ["$~Sonolmadan", "$~sansSon"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Ben, ama verilen @value öğesinin ilk geçtiği yerler olmadan.",
-                        "\\['elma' 'muz' 'mango' 'elma'].olmadan('elma')\\"
-                    ],
-                    "names": ["$~olmadan"],
-                    "inputs": [
-                        {
-                            "doc": "$~İlk geçtiği yeri kaldırılacak @value.",
-                            "names": "$~değer"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Ben, ama verilen @value öğesinin geçtiği tüm yerler olmadan.",
+                        "$!Ben, ama verilen @value öğesinin geçtiği tüm yerler olmadan.",
                         "\\['elma' 'muz' 'mango' 'elma'].olmadan('elma')\\"
                     ],
-                    "names": ["$~hepsiolmadan"],
+                    "names": ["$~olmadan", "$~hepsiolmadan"],
                     "inputs": [
                         {
                             "doc": "$~Listeden geçtiği tüm yerleri kaldırılacak @value.",
@@ -4016,7 +4051,9 @@
                 }
             },
             "conversion": {
-                "text": "$~Biçimlendirilmiş metni, tüm biçimlendirmeyi kaldırarak düz @Text Text'e dönüştürür."
+                "text": "$~Biçimlendirilmiş metni, tüm biçimlendirmeyi kaldırarak düz @Text Text'e dönüştürür.",
+                "list": "$?",
+                "number": "$?"
             }
         }
     },

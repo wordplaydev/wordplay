@@ -12,6 +12,9 @@ import TextType from '@nodes/TextType';
 import type BoolValue from '@values/BoolValue';
 import MarkupValue from '@values/MarkupValue';
 import NumberValue from '@values/NumberValue';
+import ListType from '@nodes/ListType';
+import ListValue from '@values/ListValue';
+import UnicodeString from '@unicode/UnicodeString';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import type Locales from '@locale/Locales';
@@ -150,7 +153,8 @@ export default function bootstrapFormatted(locales: Locales) {
                     (locale) => locale.basis.Formatted.function.repeat,
                     undefined,
                     [NumberType.make()],
-                    FormattedType.make(),
+                    // Repeating keeps the source's locale, so say so.
+                    FormattedType.make((left) => left),
                     (requestor, evaluation) => {
                         const markup = evaluation.getClosure();
                         const count = evaluation.getInput(0);
@@ -226,6 +230,40 @@ export default function bootstrapFormatted(locales: Locales) {
                             val.markup.toText(),
                             val.language,
                         ),
+                ),
+                createBasisConversion(
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.basis.Formatted.conversion.list,
+                    ),
+                    FormattedType.make(),
+                    ListType.make(TextType.make()),
+                    // The plain text split by grapheme, mirroring Text → [''].
+                    // Formatting can't survive being cut into single symbols.
+                    (requestor: Expression, val: MarkupValue) =>
+                        new ListValue(
+                            requestor,
+                            new UnicodeString(val.markup.getPlainText())
+                                .getGraphemes()
+                                .map(
+                                    (g) =>
+                                        new TextValue(
+                                            requestor,
+                                            g,
+                                            val.language,
+                                        ),
+                                ),
+                        ),
+                ),
+                createBasisConversion(
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.basis.Formatted.conversion.number,
+                    ),
+                    FormattedType.make(),
+                    NumberType.make(),
+                    (requestor: Expression, val: MarkupValue) =>
+                        new NumberValue(requestor, val.markup.getPlainText()),
                 ),
             ],
             BlockKind.Structure,

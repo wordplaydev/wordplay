@@ -408,25 +408,9 @@ export default function bootstrapList(locales: Locales) {
                             );
                     },
                 ),
-                createBasisFunction(
-                    locales,
-                    (locale) => locale.basis.List.function.sans,
-                    undefined,
-                    [ListTypeVariable.getReference()],
-                    ListType.make(ListTypeVariable.getReference()),
-                    (requestor, evaluation) => {
-                        const list = evaluation.getClosure();
-                        const value = evaluation.getInput(0);
-                        if (list instanceof ListValue && value !== undefined)
-                            return list.sansAll(requestor, value);
-                        else
-                            return evaluation.getValueOrTypeException(
-                                requestor,
-                                ListType.make(),
-                                list,
-                            );
-                    },
-                ),
+                // One definition for all four names (without/sans/withoutAll/
+                // sansAll): `sans` was a second, identical definition whose name
+                // promised it removed only the first copy, which it never did.
                 createBasisFunction(
                     locales,
                     (locale) => locale.basis.List.function.sansAll,

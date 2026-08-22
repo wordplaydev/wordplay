@@ -2665,11 +2665,59 @@
                     ],
                     "names": ["$~minuscule"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Împarte textul într-o listă de caractere individuale.",
-                "number": "$~Convertește textul într-un @Number și, dacă nu este un număr, într-o valoare care nu este un număr.",
+                "number": "$!Convertește textul într-un @Number și, dacă nu este un număr, într-o valoare care nu este un număr.",
                 "formatted": "$~Convertește textul în text formatat, interpretând orice markup pe care îl conține."
             }
         },
@@ -3242,25 +3290,12 @@
                     "names": ["$~fărăUltimul", "$~sansUltima"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Eu, dar fără primele apariții ale @value dat.",
-                        "\\['măr' 'banană' 'mango' 'măr'].fără('măr')\\"
-                    ],
-                    "names": ["$~fără", "$~fără"],
-                    "inputs": [
-                        {
-                            "doc": "$~@value căruia să îi elimin prima apariție.",
-                            "names": "$~valoare"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Eu, dar fără toate aparițiile @value dat.",
+                        "$!Eu, dar fără toate aparițiile @value dat.",
                         "\\['măr' 'banană' 'mango' 'măr'].fără('măr')\\"
                     ],
-                    "names": ["$~fărăToate"],
+                    "names": ["$~fără", "$~fărăToate"],
                     "inputs": [
                         {
                             "doc": "$~@value căruia să îi elimin toate aparițiile din listă.",
@@ -4016,7 +4051,9 @@
                 }
             },
             "conversion": {
-                "text": "$~Convertește textul formatat în @Text simplu, eliminând toată formatarea."
+                "text": "$~Convertește textul formatat în @Text simplu, eliminând toată formatarea.",
+                "list": "$?",
+                "number": "$?"
             }
         }
     },

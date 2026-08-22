@@ -66,3 +66,21 @@ test('case conversion keeps unchanged tokens, so spacing survives', () => {
     // its Spaces entry, the two would render run together.
     expect(upper.markup.toText()).toBe('日本語 HI');
 });
+
+// The language tag says what language markup is written in, not which markup it
+// is, so it takes no part in equality — the same rule text follows.
+test.each([
+    ['`hi` = `hi`/en', '⊤'],
+    ['`hi`/en = `hi`/ja', '⊤'],
+    ['`hi`/en = `hi`/en', '⊤'],
+    // Structure still decides.
+    ['`*hi*` = `hi`', '⊥'],
+    ['`hi` = `bye`', '⊥'],
+])('%s evaluates to %s', (code, expected) => {
+    expect(evaluateCode(code)?.toString()).toBe(expected);
+});
+
+test('length counts graphemes, not code points', () => {
+    // A family emoji is one symbol built from five code points.
+    expect(evaluateCode('`👨‍👩‍👧`.length()')?.toString()).toBe('1');
+});

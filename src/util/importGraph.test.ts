@@ -70,7 +70,8 @@ test('resolving a color needs no basis', () => {
  * the stage zoom feedback (#1175) added a few strings to en-US.json, which
  * every page carries, the footer nav tabs (#836) added a few KB of CSS to
  * Link and Toggle, which every page renders, and the text case functions
- * (#1301) added their documentation to en-US.json. Raise a budget only for that, never to accommodate the
+ * (#1301) and the text slicing/searching functions added their documentation to
+ * en-US.json. Raise a budget only for that, never to accommodate the
  * language runtime leaking back in — the runtime-reachability test below is what
  * guards the 2MB this file exists for, and it must stay green whatever these
  * numbers say.
@@ -85,11 +86,11 @@ test('resolving a color needs no basis', () => {
  * message is for.
  */
 test.each([
-    ['src/routes/+layout.svelte', 477, 3.38],
-    ['src/components/app/Page.svelte', 498, 3.6],
-    ['src/routes/[[locale]]/+page.svelte', 510, 3.65],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.68],
-    ['src/routes/[[locale]]/projects/+page.svelte', 518, 3.68],
+    ['src/routes/+layout.svelte', 477, 3.39],
+    ['src/components/app/Page.svelte', 498, 3.61],
+    ['src/routes/[[locale]]/+page.svelte', 510, 3.66],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.69],
+    ['src/routes/[[locale]]/projects/+page.svelte', 518, 3.69],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(
