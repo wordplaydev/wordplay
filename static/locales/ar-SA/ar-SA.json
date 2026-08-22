@@ -282,7 +282,8 @@
         "Exponent": "$~أس",
         "Product": "$~ناتج",
         "Percent": "$~نسبة مئوية",
-        "Defect": "$~مثال مع عيب متوقع"
+        "Defect": "$~مثال مع عيب متوقع",
+        "NotANumber": "$~ليس رقمًا"
     },
     "node": {
         "Dimension": {

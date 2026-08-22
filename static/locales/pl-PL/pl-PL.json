@@ -282,7 +282,8 @@
         "Exponent": "$~wykładnik potęgowy",
         "Product": "$~produkt",
         "Percent": "$~procent",
-        "Defect": "$~przykład z oczekiwaną usterką"
+        "Defect": "$~przykład z oczekiwaną usterką",
+        "NotANumber": "$~to nie jest liczba"
     },
     "node": {
         "Dimension": {

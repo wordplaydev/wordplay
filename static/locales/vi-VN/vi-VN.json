@@ -282,7 +282,8 @@
         "Exponent": "$~số mũ",
         "Product": "$~sản phẩm",
         "Percent": "$~phần trăm",
-        "Defect": "$~ví dụ có lỗi được mong đợi"
+        "Defect": "$~ví dụ có lỗi được mong đợi",
+        "NotANumber": "$~không phải là số"
     },
     "node": {
         "Dimension": {

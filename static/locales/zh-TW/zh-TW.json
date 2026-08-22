@@ -282,7 +282,8 @@
         "Exponent": "$~指數",
         "Product": "$~乘積",
         "Percent": "$~百分比",
-        "Defect": "$~帶有預期缺陷的範例"
+        "Defect": "$~帶有預期缺陷的範例",
+        "NotANumber": "$~不是數字"
     },
     "node": {
         "Dimension": {

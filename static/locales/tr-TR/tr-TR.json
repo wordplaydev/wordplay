@@ -282,7 +282,8 @@
         "Exponent": "$~üs",
         "Product": "$~ürün",
         "Percent": "$~yüzde",
-        "Defect": "$~beklenen kusurlu örnek"
+        "Defect": "$~beklenen kusurlu örnek",
+        "NotANumber": "$~sayı değil"
     },
     "node": {
         "Dimension": {

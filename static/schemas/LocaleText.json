@@ -3277,7 +3277,7 @@
                         },
                         "Collision": {
                             "additionalProperties": false,
-                            "description": "A stream of collisions between objects with matter.",
+                            "description": "A stream of collisions between named output.",
                             "properties": {
                                 "doc": {
                                     "$ref": "#/definitions/DocText",
@@ -13146,7 +13146,7 @@
                                 },
                                 "matter": {
                                     "$ref": "#/definitions/NameAndDoc",
-                                    "description": "The matter to use for the group if it's involved in collisions"
+                                    "description": "How heavy, bouncy, and slippery the group is, and what makes it solid when a Motion moves it"
                                 },
                                 "moving": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -13353,7 +13353,7 @@
                         },
                         "Matter": {
                             "additionalProperties": false,
-                            "description": "Physical properties of matter",
+                            "description": "How heavy, bouncy, and slippery output is, and what makes it solid when a Motion moves it",
                             "properties": {
                                 "bounciness": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -13678,7 +13678,7 @@
                                 },
                                 "matter": {
                                     "$ref": "#/definitions/NameAndDoc",
-                                    "description": "The matter properties for the phrase"
+                                    "description": "How heavy, bouncy, and slippery the phrase is, and what makes it solid when a Motion moves it"
                                 },
                                 "moving": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -15529,6 +15529,9 @@
                         "None": {
                             "type": "string"
                         },
+                        "NotANumber": {
+                            "type": "string"
+                        },
                         "Number": {
                             "type": "string"
                         },
@@ -15760,6 +15763,7 @@
                         "TeluguNumeral",
                         "Pi",
                         "Infinity",
+                        "NotANumber",
                         "TableOpen",
                         "TableClose",
                         "Select",

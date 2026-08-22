@@ -282,7 +282,8 @@
         "Exponent": "$~eksponente",
         "Product": "$~produkto",
         "Percent": "$~porsyento",
-        "Defect": "$~halimbawa na may inaasahang depekto"
+        "Defect": "$~halimbawa na may inaasahang depekto",
+        "NotANumber": "$~hindi numero"
     },
     "node": {
         "Dimension": {

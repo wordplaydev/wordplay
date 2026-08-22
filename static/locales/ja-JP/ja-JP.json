@@ -282,7 +282,8 @@
         "Exponent": "$~指数",
         "Product": "$~積",
         "Percent": "$~パーセント",
-        "Defect": "$~予想される不具合つきの例"
+        "Defect": "$~予想される不具合つきの例",
+        "NotANumber": "$~数値ではありません"
     },
     "node": {
         "Dimension": {

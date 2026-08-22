@@ -282,7 +282,8 @@
         "Exponent": "$~exponent",
         "Product": "$~produs",
         "Percent": "$~la sută",
-        "Defect": "$~exemplu cu defect așteptat"
+        "Defect": "$~exemplu cu defect așteptat",
+        "NotANumber": "$~nu este un număr"
     },
     "node": {
         "Dimension": {

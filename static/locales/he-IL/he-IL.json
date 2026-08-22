@@ -282,7 +282,8 @@
         "Exponent": "$~מַעֲרִיך",
         "Product": "$~מוּצָר",
         "Percent": "$~אָחוּז",
-        "Defect": "$~דוגמה עם פגם צפוי"
+        "Defect": "$~דוגמה עם פגם צפוי",
+        "NotANumber": "$~לא מספר"
     },
     "node": {
         "Dimension": {

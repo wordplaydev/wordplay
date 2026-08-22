@@ -282,7 +282,8 @@
         "Exponent": "$~Exponent",
         "Product": "$~Produkt",
         "Percent": "$~Prozent",
-        "Defect": "$~Beispiel mit erwartetem Fehler"
+        "Defect": "$~Beispiel mit erwartetem Fehler",
+        "NotANumber": "$~keine Zahl"
     },
     "node": {
         "Dimension": {
