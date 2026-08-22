@@ -4439,19 +4439,20 @@
         "Collision": {
             "names": "$~Kollision",
             "doc": [
-                "$!Es ist ein Stream von @Rebound-Werten dafür, wenn benannte @Output aufeinanderstoßen.",
-                "Das ist ein toller Weg, etwas zu tun, wenn @Output aufeinanderstoßen, außer dem normalen Abprallen, das sie vielleicht tun.",
-                "Gib ihm einfach einen Namen von @Output, und es macht ein neues @Rebound @value, wann immer dieser Name auf einen anderen stößt. Ein @Rebound enthält Infos über die Namen, die zusammengestoßen sind, und die Richtung ihres Zusammenstoßes.",
-                "Und wenn du ihm zwei Namen gibst, macht es nur dann einen neuen Wert, wenn die zwei Namen aufeinanderstoßen.",
-                "Direkt nachdem es einen neuen Wert macht, macht es ein \\ø\\, da der Zusammenstoß nach dem Geschehen vorbei ist. Das zeigt, dass es keinen Zusammenstoß mehr gibt."
+                "$~Das ist ein Strom von @Rebound-Werten für Momente, in denen benannte @Output aufeinandertreffen.",
+                "Damit zwei @Output sich bemerken, gib beiden einen Namen und nenne mir dann beide Namen. Ich erstelle ein neues @Rebound, sobald sie sich berühren. Dafür brauchen sie kein @Matter — ein Name genügt mir, um etwas zu beobachten.",
+                "Gib mir stattdessen nur einen Namen, und ich sage dir, wann dieses @Output irgendetwas anderes in der physischen Welt berührt. Ein @Output gehört zur physischen Welt, wenn es @Matter hat, wenn ein @Motion es platziert, wenn es ein @Shape direkt auf dem @Stage ist, oder wenn ich seinen Namen ebenfalls beobachte.",
+                "Bemerken ist nicht dasselbe wie Abprallen. @Output stößt andere @Output nur weg, wenn es @Matter hat und ein @Motion es bewegt. @Output, das dein Programm platziert, geht genau dorthin, wohin du es setzt, und geht deshalb durch alles hindurch, was es berührt — ich sage dir trotzdem, wenn es etwas berührt.",
+                "Ein @Rebound enthält die Namen, die sich berührt haben, und die Richtung, aus der sie sich berührt haben. Direkt nachdem ich eines erstellt habe, erstelle ich ein \\ø\\, denn ein Zusammenstoß ist vorbei, sobald er geschieht.",
+                "Ich kann nur @Output beobachten, das direkt auf dem @Stage platziert ist. Alles innerhalb einer @Group bewegt sich im eigenen Raum dieser Gruppe, deshalb kann ich es nicht sehen — gib der @Group einen Namen und beobachte stattdessen diesen."
             ],
             "subject": {
                 "names": "$~Thema",
-                "doc": "$!Der Name des @Output, bei dem ich nach Kollisionen suchen soll."
+                "doc": "$~Der Name des @Output, das ich beobachten soll. Es zu beobachten reicht schon aus, um es in die physische Welt zu setzen, deshalb braucht es kein @Matter."
             },
             "object": {
                 "names": "$~andere",
-                "doc": "$!Der Name des anderen @Output, bei dem ich nach Kollisionen suchen soll."
+                "doc": "$~Der Name des anderen @Output, das ich beobachten soll. Wenn auch dieser angegeben ist, melde ich nur, wenn genau diese beiden sich berühren. Lässt du es weg, melde ich das erste, das irgendetwas in der physischen Welt berührt."
             }
         },
         "Rebound": {
@@ -5078,7 +5079,7 @@
                 "names": "$~Layout"
             },
             "matter": {
-                "doc": "$!Wie ich reagieren sollte, wenn ich mit etwas anderem, das Materie hat, zusammenstoßen würde.",
+                "doc": "$~Wie schwer, sprunghaft und rutschig ich bin, und was mich fest macht, wenn ein @Motion mich bewegt.",
                 "names": "$~Gegenstand"
             },
             "size": {
@@ -5204,7 +5205,7 @@
                 "names": "$~Richtung"
             },
             "matter": {
-                "doc": "$!Die Eigenschaften, die ich verwenden soll, wenn ich gegen Dinge stoße!",
+                "doc": "$~Wie schwer, sprunghaft und rutschig ich bin, und was mich fest macht, wenn ein @Motion mich bewegt.",
                 "names": "$~Gegenstand"
             },
             "aura": {
@@ -6094,7 +6095,7 @@
             }
         },
         "Matter": {
-            "doc": "$!Ich bin die physikalischen Eigenschaften der Ausgabe, die beeinflussen, wie ich mit anderen Ausgaben auf der Bühne interagiere.",
+            "doc": "$~Ich sage, wie schwer, sprunghaft und rutschig @Output ist. @Output, das mich und ein @Motion hat, ist fest: Es prallt ab von @Shape auf dem @Stage und von anderen sich bewegenden @Output. @Output, das dein Programm platziert, geht stattdessen genau dorthin, wohin du es setzt, und geht durch das hindurch, was es berührt. @Output braucht mich nicht, um von @Collision bemerkt zu werden — dafür reicht ein Name aus.",
             "names": ["$~Gegenstand"],
             "mass": {
                 "doc": "$~Ein Gewicht in Kilogramm",
@@ -6113,11 +6114,11 @@
                 "names": "$~Rundung"
             },
             "text": {
-                "doc": "$!Ob es mit anderen Ausgaben kollidieren kann.",
+                "doc": "$~Ob ich überhaupt mit anderen @Phrase und @Group zusammenstoßen kann; ⊥ bedeutet, ich bemerke sie nicht, und @Collision sagt nichts über sie aus.",
                 "names": "$~Text"
             },
             "shapes": {
-                "doc": "$!Ob es mit anderen Formen kollidieren kann.",
+                "doc": "$~Ob ich überhaupt mit dem @Shape auf dem @Stage zusammenstoßen kann; ⊥ bedeutet, ich falle durch Wände und Böden, und @Collision sagt nichts darüber aus.",
                 "names": "$~Boden"
             }
         },
