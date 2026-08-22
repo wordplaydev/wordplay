@@ -4436,19 +4436,20 @@
         "Collision": {
             "names": "Colisión",
             "doc": [
-                "$!Es un flujo de valores @Rebound para cuando @Output con nombre chocan entre sí.",
-                "Esta es una gran forma de hacer algo cuando @Output chocan entre sí, aparte del rebote normal que podrían hacer entre ellos.",
-                "Solo dale un nombre de @Output, y hará un nuevo @value @Rebound cada vez que ese nombre choque con otro. Un @Rebound tiene información sobre los nombres que chocaron y la dirección de su choque.",
-                "Y si le das dos nombres, solo hará un nuevo valor cuando esos dos nombres choquen entre sí.",
-                "Justo después de hacer un nuevo valor, hará un \\ø\\ ya que el choque termina después de ocurrir. Esto indica que ya no hay más choque."
+                "$~Es un flujo de valores de @Rebound para cuando @Output con nombre chocan entre sí.",
+                "Para que dos @Output se noten entre sí, dales un nombre a ambas y luego dame ambos nombres. Yo crearé un nuevo @Rebound cada vez que se toquen. No necesitan @Matter para eso — un nombre es todo lo que necesito para vigilar algo.",
+                "Dame un solo nombre, y te diré cada vez que ese @Output toque cualquier otra cosa en el mundo físico. Un @Output está en el mundo físico si tiene @Matter, si un @Motion lo coloca, si es una @Shape colocada directamente en el @Stage, o si también estoy vigilando su nombre.",
+                "Notar no es lo mismo que rebotar. @Output solo empuja a otras @Output si tiene @Matter y un @Motion que lo mueva. @Output que tu programa coloca va exactamente adonde lo pusiste, así que atraviesa lo que toca — aun así te avisaré del contacto.",
+                "Un @Rebound tiene los nombres que se tocaron y la dirección desde la que se tocaron. Justo después de crear uno, crearé un \\ø\\, ya que una colisión termina en cuanto ocurre.",
+                "Solo puedo vigilar @Output colocado directamente en el @Stage. Cualquier cosa dentro de un @Group se mueve en el espacio propio de ese grupo, así que no puedo verla — dale un nombre al @Group y vigila eso en su lugar."
             ],
             "subject": {
                 "names": "sujeto",
-                "doc": "$!El nombre de @Output en el que debería buscar colisiones."
+                "doc": "$~El nombre del @Output que debo vigilar. Vigilarlo ya basta para ponerlo en el mundo físico, así que no necesita @Matter."
             },
             "object": {
                 "names": "otro",
-                "doc": "$!El nombre del otro @Output en el que debería buscar colisiones."
+                "doc": "$~El nombre del otro @Output que debo vigilar. Si también das este, solo reporto cuando esos dos se tocan; si lo omites, reporto el primero que toque cualquier cosa en el mundo físico."
             }
         },
         "Rebound": {
@@ -4959,7 +4960,7 @@
                 "names": "content"
             },
             "matter": {
-                "doc": "$!Cómo debería reaccionar si chocara con algo más con materia.",
+                "doc": "$~Qué tan pesado, rebotón y resbaloso soy, y qué me hace sólido cuando un @Motion me mueve.",
                 "names": "materia"
             },
             "layout": {
@@ -5090,7 +5091,7 @@
                 "names": "dirección"
             },
             "matter": {
-                "doc": "$!¡Las propiedades a usar si choco con cosas!",
+                "doc": "$~Qué tan pesado, rebotón y resbaloso soy, y qué me hace sólido cuando un @Motion me mueve.",
                 "names": "materia"
             },
             "aura": {
@@ -5985,7 +5986,7 @@
             }
         },
         "Matter": {
-            "doc": "$!Soy propiedades físicas de salida, que influyen en cómo interactúo con otras salidas en el escenario.",
+            "doc": "$~Digo qué tan pesado, rebotón y resbaloso es @Output. @Output que me tiene a mí y a un @Motion es sólido: rebota contra el @Shape en el @Stage y contra otras @Output en movimiento. @Output que tu programa coloca va donde lo pusiste en su lugar, y atraviesa lo que toca. @Output no necesita tenerme para que @Collision lo note — un nombre basta para eso.",
             "names": ["Materia"],
             "mass": {
                 "doc": "Un peso, en kilogramos",
@@ -6004,11 +6005,11 @@
                 "names": "redondez"
             },
             "text": {
-                "doc": "$!Si puede chocar con otra salida.",
+                "doc": "$~Si puedo chocar con otras @Phrase y @Group; ⊥ significa que no las noto y @Collision no dice nada sobre ellas.",
                 "names": "texto"
             },
             "shapes": {
-                "doc": "$!Si puede chocar con otras formas.",
+                "doc": "$~Si puedo chocar con el @Shape en el @Stage; ⊥ significa que caigo a través de paredes y pisos, y @Collision no dice nada sobre ellos.",
                 "names": "formas"
             }
         },

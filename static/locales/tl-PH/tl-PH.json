@@ -4477,19 +4477,20 @@
         "Collision": {
             "names": "$~Pagbangga",
             "doc": [
-                "$!Ito ay isang stream ng @Rebound na halaga para sa mga sandaling nagbabanggaan ang mga pinangalanang @Output.",
-                "Magandang paraan ito para gumawa ng isang bagay kapag nagbanggaan ang mga @Output, bukod sa karaniwang pag-untog nila sa isa't isa na maaaring mangyari.",
-                "Bigyan lamang ito ng pangalan ng @Output, at gagawa ito ng bagong @Rebound @value sa tuwing babangga ang pangalang iyon sa iba. Ang @Rebound ay may impormasyon tungkol sa mga pangalang nagbanggaan at ang direksyon ng kanilang pagbabanggaan.",
-                "At kung bibigyan mo ito ng dalawang pangalan, gagawa lamang ito ng bagong halaga kapag nagbanggaan ang dalawang pangalan.",
-                "Pagkatapos gumawa ng bagong halaga, gagawa ito ng \\ø\\ dahil tapos na ang banggaan pagkatapos itong mangyari. Ipinapakita nito na wala nang banggaan."
+                "$~Isa itong agos ng @Rebound na halaga para sa mga pagkakataong may pangalang @Output na nagbabanggaan.",
+                "Upang mapansin ng dalawang @Output ang isa't isa, bigyan mo silang dalawa ng pangalan, tapos ibigay mo sa akin ang dalawang pangalan. Gagawa ako ng bagong @Rebound tuwing magkadikit sila. Hindi nila kailangan ng @Matter para dito — pangalan lang ang kailangan ko para mapanood ang isang bagay.",
+                "Bigyan mo na lang ako ng isang pangalan, at sasabihin ko sa'yo kapag nadikit ang @Output na iyon sa ibang bagay sa pisikal na mundo. Nasa pisikal na mundo ang isang @Output kung mayroon itong @Matter, kung inilagay ito ng @Motion, kung ito ay isang @Shape na direktang nasa @Stage, o kung pinapanood ko rin ang pangalan nito.",
+                "Hindi pareho ang pagpansin at pagtalbog. Itinutulak lang ng @Output ang ibang @Output kung mayroon itong @Matter at @Motion na gumagalaw dito. Ang @Output na inilagay ng iyong programa ay pupunta nang eksakto sa kung saan mo ito inilagay, kaya dumadaan ito sa anumang nadidikit nito — sasabihin ko pa rin sa'yo ang tungkol sa pagkadikit.",
+                "May pangalan ang @Rebound ng mga bagay na nagdikit at ang direksyon kung saan sila nagdikit. Pagkatapos kong gumawa ng isa, gagawa ako ng \\ø\\, dahil tapos na ang isang banggaan sa sandaling mangyari ito.",
+                "Mapapanood ko lang ang @Output na direktang inilagay sa @Stage. Ang anumang bagay sa loob ng @Group ay gumagalaw sa sarili nitong espasyo sa grupong iyon, kaya hindi ko ito makita — bigyan mo na lang ng pangalan ang @Group at iyon ang panoorin."
             ],
             "subject": {
                 "names": "$~paksa",
-                "doc": "$!Ang pangalan ng @Output na dapat kong hanapin para sa mga banggaan."
+                "doc": "$~Ang pangalan ng @Output na dapat kong panoorin. Sapat na ang pagpanood dito para ilagay ito sa pisikal na mundo, kaya hindi na ito nangangailangan ng @Matter."
             },
             "object": {
                 "names": "$~ibapa",
-                "doc": "$!Ang pangalan ng isa pang @Output na dapat kong hanapin para sa mga banggaan."
+                "doc": "$~Ang pangalan ng ibang @Output na dapat kong panoorin. Kapag ibinigay mo rin ito, iyon lang dalawang nagdikit ang ipapaalam ko; kung hindi mo ito ibibigay, ipapaalam ko ang una nitong nadikit sa anumang bagay sa pisikal na mundo."
             }
         },
         "Rebound": {
@@ -4965,7 +4966,7 @@
                 "names": "$~nilalaman"
             },
             "matter": {
-                "doc": "$!Paano ako dapat mag-react kung may mabangga akong ibang bagay na may materya.",
+                "doc": "$~Kung gaano ako kabigat, kung gaano ako tumalbog, at kung gaano ako kadulas, at kung ano ang gumagawa sa akin na matigas kapag ginagalaw ako ng isang @Motion.",
                 "names": "$~bagay"
             },
             "size": {
@@ -5091,7 +5092,7 @@
                 "names": "$~direksyon"
             },
             "matter": {
-                "doc": "$!Ang mga katangiang gagamitin kung sakaling may mabangga ako!",
+                "doc": "$~Kung gaano ako kabigat, kung gaano ako tumalbog, at kung gaano ako kadulas, at kung ano ang gumagawa sa akin na matigas kapag ginagalaw ako ng isang @Motion.",
                 "names": "$~bagay"
             },
             "aura": {
@@ -6002,7 +6003,7 @@
             }
         },
         "Matter": {
-            "doc": "$!Ang I ay mga pisikal na katangian ng output, na nakakaimpluwensya sa kung paano ako nakikipag-ugnayan sa iba pang output sa entablado.",
+            "doc": "$~Sinasabi ko kung gaano kabigat, kung gaano tumatalbog, at kung gaano kadulas ang @Output. Matigas ang @Output na mayroon sa akin at sa isang @Motion: tumatalbog ito sa @Shape na nasa @Stage at sa ibang gumagalaw na @Output. Ang @Output na inilagay ng iyong programa ay pupunta sa kung saan mo ito inilagay, at dumadaan sa anumang nadidikit nito. Hindi kailangan ng @Output ang akin para mapansin ng @Collision — sapat na ang pangalan para dito.",
             "names": ["$~Materyales"],
             "mass": {
                 "doc": "$~Timbang, sa kilo",
@@ -6021,11 +6022,11 @@
                 "names": "$~pagigingbilugan"
             },
             "text": {
-                "doc": "$!Kung maaari ba itong bumangga sa ibang output.",
+                "doc": "$~Kung kaya ko bang bumangga sa ibang @Phrase at @Group; ang ⊥ ay nangangahulugang hindi ko sila napapansin, at walang sinasabi ang @Collision tungkol sa kanila.",
                 "names": "$~teksto"
             },
             "shapes": {
-                "doc": "$!Kung maaari ba itong bumangga sa ibang mga hugis.",
+                "doc": "$~Kung kaya ko bang bumangga sa @Shape na nasa @Stage; ang ⊥ ay nangangahulugang tumatagos ako sa mga pader at sahig, at walang sinasabi ang @Collision tungkol dito.",
                 "names": "$~lupa"
             }
         },

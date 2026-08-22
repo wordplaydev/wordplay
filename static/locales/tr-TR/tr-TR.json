@@ -4437,19 +4437,20 @@
         "Collision": {
             "names": "$~Çarpışma",
             "doc": [
-                "$!Bu, isimlendirilmiş @Output öğeleri birbirine çarptığında oluşan @Rebound değerlerinin bir akışıdır.",
-                "Bu, @Output öğeleri birbirine çarptığında, yapabilecekleri normal sekme dışında bir şey yaptırmanın harika bir yoludur.",
-                "Ona sadece bir @Output ismi ver, o da bu isim başka bir isme her çarptığında yeni bir @Rebound @value oluştursun. Bir @Rebound, çarpışan isimler ve çarpışmalarının yönü hakkında bilgi içerir.",
-                "Ve ona iki isim verirsen, yalnızca bu iki isim birbirine çarptığında yeni bir değer oluşturur.",
-                "Yeni bir değer oluşturduktan hemen sonra bir \\ø\\ oluşturur, çünkü çarpışma gerçekleştikten sonra biter. Bu, artık bir çarpışma olmadığını gösterir."
+                "$~Adı olan @Output birbirine çarptığında oluşan @Rebound değerlerinden bir akıştır.",
+                "İki @Output'nin birbirini fark etmesini istersen, ikisine de isim ver, sonra bana ikisinin de ismini söyle. Birbirlerine değdiklerinde yeni bir @Rebound oluştururum. Bunun için @Matter'ye ihtiyaçları yok — bir şeyi izlemem için tek gereken bir isim.",
+                "Bana sadece bir isim ver, o @Output fiziksel dünyadaki başka herhangi bir şeye her değdiğinde sana söylerim. Bir @Output, eğer @Matter'ye sahipse, bir @Motion tarafından yerleştirildiyse, @Stage üzerinde doğrudan duran bir @Shape ise ya da ismini de izliyorsam, fiziksel dünyadadır.",
+                "Fark etmek, sekmekle aynı şey değildir. @Output, ancak @Matter'ye ve onu hareket ettiren bir @Motion'ye sahipse başka @Output'yi iter. Programının yerleştirdiği @Output tam olarak koyduğun yere gider, bu yüzden değdiği her şeyin içinden geçer — yine de dokunmayı sana bildiririm.",
+                "Bir @Rebound, dokunan isimleri ve dokundukları yönü içerir. Bir tanesini oluşturduktan hemen sonra bir tane daha oluştururum \\ø\\, çünkü bir çarpışma gerçekleştiği anda biter.",
+                "Sadece doğrudan @Stage üzerine yerleştirilmiş @Output'yi izleyebilirim. Bir @Group içindeki her şey o grubun kendi uzayında hareket eder, bu yüzden onu göremem — bunun yerine @Group'e bir isim ver ve onu izle."
             ],
             "subject": {
                 "names": "$~ders",
-                "doc": "$!Çakışmaları aramam gereken @Output'un adı."
+                "doc": "$~İzlemem gereken @Output'nin ismi. Onu izlemek, onu fiziksel dünyaya koymak için yeterlidir, bu yüzden @Matter'ye ihtiyacı yoktur."
             },
             "object": {
                 "names": "$~diğer",
-                "doc": "$!Çakışmaları aramam gereken diğer @Output'un adı."
+                "doc": "$~İzlemem gereken diğer @Output'nin ismi. Bu da verildiğinde, sadece bu ikisinin birbirine değmesini bildiririm; bunu boş bırakırsan, ilkinin fiziksel dünyadaki herhangi bir şeye değmesini bildiririm."
             }
         },
         "Rebound": {
@@ -4960,7 +4961,7 @@
                 "names": "$~içerik"
             },
             "matter": {
-                "doc": "$!Madde içeren başka bir şeye çarparsam nasıl tepki vermeliyim?",
+                "doc": "$~Ne kadar ağır, ne kadar sekici ve ne kadar kaygan olduğum, ve bir @Motion beni hareket ettirdiğinde beni neyin katı yaptığı.",
                 "names": "$~konu"
             },
             "size": {
@@ -5086,7 +5087,7 @@
                 "names": "$~yön"
             },
             "matter": {
-                "doc": "$!Bir şeye çarptığımda kullanabileceğim özellikler!",
+                "doc": "$~Ne kadar ağır, ne kadar sekici ve ne kadar kaygan olduğum, ve bir @Motion beni hareket ettirdiğinde beni neyin katı yaptığı.",
                 "names": "$~konu"
             },
             "aura": {
@@ -5982,7 +5983,7 @@
             }
         },
         "Matter": {
-            "doc": "$!Sahnede diğer çıktılarla nasıl etkileşime girdiğimi etkileyen çıktının fiziksel özellikleriyim.",
+            "doc": "$~@Output'nin ne kadar ağır, sekici ve kaygan olduğunu belirtirim. Bende ve bir @Motion'de olan @Output katıdır: @Stage üzerindeki @Shape'ten ve hareket eden diğer @Output'lerden sekerek geri döner. Programının yerleştirdiği @Output bunun yerine koyduğun yere gider ve değdiği şeylerin içinden geçer. @Output'nin @Collision tarafından fark edilmesi için bana ihtiyacı yoktur — bunun için bir isim yeterlidir.",
             "names": ["$~Konu"],
             "mass": {
                 "doc": "$~Bir ağırlık, kilogram cinsinden",
@@ -6001,11 +6002,11 @@
                 "names": "$~yuvarlaklık"
             },
             "text": {
-                "doc": "$!Başka çıktılarla çakışabilir mi?",
+                "doc": "$~Diğer @Phrase ve @Group ile hiç çarpışıp çarpışamayacağım; ⊥, onları fark etmediğim anlamına gelir ve @Collision onlar hakkında hiçbir şey söylemez.",
                 "names": "$~metin"
             },
             "shapes": {
-                "doc": "$!Başka şekillerle çarpışabilir mi?",
+                "doc": "$~@Stage üzerindeki @Shape ile hiç çarpışıp çarpışamayacağım; ⊥, duvarlardan ve zeminlerden geçtiğim anlamına gelir ve @Collision onlar hakkında hiçbir şey söylemez.",
                 "names": "$~zemin"
             }
         },

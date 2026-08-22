@@ -4434,19 +4434,20 @@
         "Collision": {
             "names": "$~Kollision",
             "doc": [
-                "$!Det är en ström av @Rebound-värden för när namngivna @Output krockar med varandra.",
-                "Det här är ett bra sätt att göra något när @Output krockar med varandra, utöver den vanliga studs mot varandra som de kan göra.",
-                "Ge den bara ett namn på @Output, så skapar den en ny @Rebound @value varje gång det namnet krockar med ett annat. En @Rebound har information om namnen som krockade och riktningen på deras krock.",
-                "Och om du ger den två namn, skapar den bara ett nytt värde när de två namnen krockar med varandra.",
-                "Direkt efter att den skapat ett nytt värde skapar den en \\ø\\ eftersom krocken är över efter att den skett. Detta visar att det inte finns någon mer krock."
+                "$~Det är en ström av @Rebound-värden för när namngivna @Output krockar med varandra.",
+                "För att få två @Output att märka varandra, ge dem båda namn, och ge mig sedan båda namnen. Jag skapar en ny @Rebound varje gång de rör vid varandra. De behöver inte @Matter för det — ett namn räcker för att jag ska kunna bevaka något.",
+                "Ge mig ett namn istället, så berättar jag när det @Output rör vid något annat i den fysiska världen. En @Output är i den fysiska världen om den har @Matter, om en @Motion placerar den, om den är en @Shape direkt på @Stage, eller om jag också bevakar dess namn.",
+                "Att märka är inte samma sak som att studsa. @Output knuffar bara omkring andra @Output om den har @Matter och en @Motion som flyttar den. @Output som ditt program placerar går precis dit du sätter den, så den passerar rakt igenom det den rör vid — jag berättar ändå om beröringen.",
+                "En @Rebound har namnen som rörde vid varandra och riktningen de rörde vid varandra från. Direkt efter att jag skapar en gör jag en \\ø\\, eftersom en krock är över så fort den händer.",
+                "Jag kan bara bevaka @Output som placerats direkt på @Stage. Allt inuti en @Group rör sig i den gruppens eget utrymme, så jag kan inte se det — ge @Group ett namn och bevaka det istället."
             ],
             "subject": {
                 "names": "$~ämne",
-                "doc": "$!Namnet på @Output jag ska leta efter kollisioner på."
+                "doc": "$~Namnet på @Output som jag ska bevaka. Att bevaka den räcker för att placera den i den fysiska världen, så den behöver inte @Matter."
             },
             "object": {
                 "names": "$~andra",
-                "doc": "$!Namnet på den andra @Output jag borde leta efter kollisioner på."
+                "doc": "$~Namnet på den andra @Output som jag ska bevaka. Om även denna anges rapporterar jag bara när just de två rör vid varandra; utelämnar du den rapporterar jag den första som rör vid vad som helst i den fysiska världen."
             }
         },
         "Rebound": {
@@ -4953,7 +4954,7 @@
                 "names": "$~innehåll"
             },
             "matter": {
-                "doc": "$!Hur jag skulle reagera om jag skulle stöta på något annat med materia.",
+                "doc": "$~Hur tung, studsig och hal jag är, och vad som gör mig fast när en @Motion flyttar mig.",
                 "names": "$~materia"
             },
             "size": {
@@ -5079,7 +5080,7 @@
                 "names": "$~riktning"
             },
             "matter": {
-                "doc": "$!Egenskaperna att använda om jag stöter på saker!",
+                "doc": "$~Hur tung, studsig och hal jag är, och vad som gör mig fast när en @Motion flyttar mig.",
                 "names": "$~materia"
             },
             "aura": {
@@ -5975,7 +5976,7 @@
             }
         },
         "Matter": {
-            "doc": "$!Jag är fysiska egenskaper hos output, som påverkar hur jag interagerar med andra output på scenen.",
+            "doc": "$~Jag anger hur tung, studsig och hal @Output är. @Output som har mig och en @Motion är fast: den studsar mot @Shape på @Stage och mot andra rörliga @Output. @Output som ditt program placerar går istället dit du sätter den, och passerar rakt igenom det den rör vid. @Output behöver inte mig för att märkas av @Collision — ett namn räcker för det.",
             "names": ["$~Materia"],
             "mass": {
                 "doc": "$~En vikt, i kilogram",
@@ -5994,11 +5995,11 @@
                 "names": "$~rundhet"
             },
             "text": {
-                "doc": "$!Om den kan kollidera med annan utdata.",
+                "doc": "$~Om jag alls kan krocka med andra @Phrase och @Group; ⊥ betyder att jag inte märker dem och @Collision säger ingenting om dem.",
                 "names": "$~text"
             },
             "shapes": {
-                "doc": "$!Om den kan kollidera med andra former.",
+                "doc": "$~Om jag alls kan krocka med @Shape på @Stage; ⊥ betyder att jag faller genom väggar och golv och @Collision säger ingenting om dem.",
                 "names": "$~jord"
             }
         },
