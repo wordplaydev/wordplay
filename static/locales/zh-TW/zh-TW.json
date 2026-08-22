@@ -8732,14 +8732,15 @@
                 "header": "$~角色",
                 "instructions": {
                     "empty": "$~在調色盤裡選擇一個繪圖模式來創作形狀。",
-                    "unselected": "$~選擇一個繪圖模式，或選取並編輯形狀。",
-                    "selected": "$~用*方向*鍵來移動形狀。按住 *shift* 可以把更多形狀加到選取裡。用 *delete* 來移除選取。用下方的控制項來更改選取的形狀。",
+                    "unselected": "$!選擇一個繪圖模式，或選取並編輯形狀。",
+                    "selected": "$!用*方向*鍵來移動形狀。按住 *shift* 可以把更多形狀加到選取裡。用 *delete* 來移除選取。用下方的控制項來更改選取的形狀。",
                     "pixel": "$~要畫像素，先選一個顏色。然後點擊畫布，或用*方向*鍵移動游標、用*空白*鍵來創作一個像素。*雙擊*可以填滿。",
                     "rect": "$~要畫矩形，先選一個顏色和線條。然後點擊並拖曳，或用*方向*鍵和*空白*鍵來選擇中心和大小。",
                     "ellipse": "$~要畫橢圓和圓形，先選一個顏色和線條。然後點擊並拖曳，或用*方向*鍵和*空白*鍵來選擇中心和大小。",
                     "path": "$~路徑可以是線段、多邊形和曲線。點擊來開始加點，或用*方向*鍵和*空白*鍵。按 *escape* 來完成路徑。*delete* 會移除最後一個點。",
                     "eraser": "$~要擦除形狀，點擊或輕觸它們。拖曳來擦除像素。用*方向*鍵來移動橡皮擦、用*空白*鍵來刪除。",
-                    "emoji": "$~選一個表情符號當作像素匯入，然後隨你喜歡修改。"
+                    "emoji": "$~選一個表情符號當作像素匯入，然後隨你喜歡修改。",
+                    "points": "$?"
                 },
                 "shape": {
                     "shape": "$~形狀",
@@ -8898,6 +8899,30 @@
                     "saturationDown": {
                         "label": "$~飽和度",
                         "tip": "$~降低飽和度"
+                    },
+                    "editPoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "donePoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "addPoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "deletePoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "curve": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "straighten": {
+                        "label": "$?",
+                        "tip": "$?"
                     }
                 },
                 "feedback": {
@@ -8913,7 +8938,27 @@
                 },
                 "announce": {
                     "position": "$~在 $x $y",
-                    "selection": "$~$shapes[已選取 $shapes|未選取任何項目]"
+                    "selection": "$~$shapes[已選取 $shapes|未選取任何項目]",
+                    "editing": "$?",
+                    "editingDone": "$?",
+                    "point": "$?",
+                    "control": "$?",
+                    "pointAdded": "$?",
+                    "pointRemoved": "$?",
+                    "curved": "$?",
+                    "straightened": "$?",
+                    "moved": "$?",
+                    "drew": "$?",
+                    "erased": "$?",
+                    "finished": "$?",
+                    "deleted": "$?",
+                    "undone": "$?",
+                    "redone": "$?",
+                    "copied": "$?",
+                    "pasted": "$?",
+                    "arranged": "$?",
+                    "flipped": "$?",
+                    "fitted": "$?"
                 },
                 "share": {
                     "dialog": {

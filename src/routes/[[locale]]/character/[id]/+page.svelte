@@ -29,6 +29,17 @@
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
     import {
+        canCurve,
+        clampToGrid,
+        curvePathPoint,
+        deletePathPoint,
+        getPathBounds,
+        getPriorPoint,
+        insertPathPoint,
+        straightenPathPoint,
+        transformPathPoints,
+    } from '@db/characters/paths';
+    import {
         CharacterSize,
         characterToSVG,
         getPathCenter,
@@ -49,6 +60,7 @@
     import type Project from '@db/projects/Project';
     import Locales from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
+    import type { Template } from '@locale/LocaleText';
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
     import { RGBtoLCH } from '@output/Color/ColorJS';
@@ -68,7 +80,7 @@
     import { NameRegExPattern } from '@parser/Tokenizer';
     import UnicodeString from '@unicode/UnicodeString';
     import { localeGoto } from '@util/localeGoto';
-    import { untrack, onMount } from 'svelte';
+    import { untrack, onMount, tick } from 'svelte';
 
     const DrawingMode = {
         Select: 0,
@@ -180,6 +192,38 @@
 
     /** The pendig path */
     let pendingPath: CharacterPath | undefined = $state(undefined);
+
+    /** The path whose individual points are being edited, if any. */
+    let editedPath: CharacterPath | undefined = $state(undefined);
+
+    /** Which handle is chosen: a point, or the control point bending the segment arriving at it. */
+    let editedHandle: { index: number; curve: boolean } | undefined =
+        $state(undefined);
+
+    /** Whether a handle is being dragged, so pointer moves reposition it. */
+    let draggingHandle = $state(false);
+
+    /** The one path the selection is, when it is exactly one: what point editing can act on. */
+    let editablePath = $derived.by(() => {
+        const only = selection.length === 1 ? selection[0] : undefined;
+        return only !== undefined && only.type === 'path' ? only : undefined;
+    });
+
+    /** Whether the chosen handle's segment exists, and so can be bent or straightened. */
+    let curvableSegment = $derived.by(() => {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return false;
+        return canCurve(path.points, handle.index, path.closed);
+    });
+
+    /** Whether the chosen handle's segment is already curved. */
+    let curvedSegment = $derived.by(() => {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return false;
+        return path.points[handle.index]?.curve !== undefined;
+    });
 
     /** The persisted character */
     let persisted = $state<Character | 'loading' | 'failed' | 'unknown'>(
@@ -374,6 +418,17 @@
             currentFillSetting = 'set';
     });
 
+    // Point editing belongs to one path; when the selection moves on, so does it.
+    $effect(() => {
+        const path = editablePath;
+        untrack(() => {
+            if (editedPath !== undefined && editedPath !== path) {
+                editedPath = undefined;
+                editedHandle = undefined;
+            }
+        });
+    });
+
     // When the selection changes, announce it.
     $effect(() => {
         selection;
@@ -389,15 +444,7 @@
                                 shapes:
                                     selection.length === 0
                                         ? undefined
-                                        : selection
-                                              .map((s) =>
-                                                  $locales.getPrimaryPlainText(
-                                                      (l) =>
-                                                          l.ui.page.character
-                                                              .shape[s.type],
-                                                  ),
-                                              )
-                                              .join(', '),
+                                        : describeShapeKinds(selection),
                             },
                         )
                         .toText(),
@@ -461,19 +508,74 @@
         }
     }
 
+    /** Say where an undo or redo landed in the history. */
+    function announceHistory(
+        path: (locale: LocaleText) => Template<['step', 'total']>,
+    ) {
+        announceEdit(
+            'character-history',
+            $locales
+                .concretize(path, {
+                    step: historyIndex + 1,
+                    total: history.length,
+                })
+                .toText(),
+        );
+    }
+
+    /**
+     * Re-anchor the selection and point editing after the history swaps in a fresh
+     * clone of the shapes. Everything holding a shape — the selection, the edited
+     * path — is pointing into the array that was just replaced, so without this the
+     * point handles keep drawing the state the undo just discarded. Shapes keep
+     * their order through the history, so their index is what survives it.
+     */
+    function reanchor(previous: CharacterShape[]) {
+        const selected = selection.map((shape) => previous.indexOf(shape));
+        const edited = editedPath ? previous.indexOf(editedPath) : -1;
+
+        selection = selected
+            .map((index) => shapes[index])
+            .filter((shape) => shape !== undefined);
+
+        const path = edited >= 0 ? shapes[edited] : undefined;
+        if (path === undefined || path.type !== 'path') {
+            editedPath = undefined;
+            editedHandle = undefined;
+            return;
+        }
+        editedPath = path;
+        // The undo may have taken the point, or the curve, that was chosen.
+        if (editedHandle) {
+            const index = Math.min(editedHandle.index, path.points.length - 1);
+            editedHandle = {
+                index,
+                curve:
+                    editedHandle.curve &&
+                    path.points[index]?.curve !== undefined,
+            };
+        }
+    }
+
     function undo() {
         if (historyIndex > 0) {
+            const previous = shapes;
             historyIndex--;
             const previousShapes = history[historyIndex];
             if (previousShapes) shapes = previousShapes;
+            reanchor(previous);
+            announceHistory((l) => l.ui.page.character.announce.undone);
         }
     }
 
     function redo() {
         if (historyIndex < history.length - 1) {
+            const previous = shapes;
             historyIndex++;
             const futureShapes = history[historyIndex];
             if (futureShapes) shapes = futureShapes;
+            reanchor(previous);
+            announceHistory((l) => l.ui.page.character.announce.redone);
         }
     }
 
@@ -523,6 +625,13 @@
             remember,
         );
 
+        announceEdit(
+            'character-point',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.drew, { x, y })
+                .toText(),
+        );
+
         return candidate;
     }
 
@@ -535,6 +644,15 @@
         );
         if (removed.length === shapes.length) return false;
         setShapes(removed, remember);
+        announceEdit(
+            'character-point',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.erased, {
+                    x: drawingCursorPosition.x,
+                    y: drawingCursorPosition.y,
+                })
+                .toText(),
+        );
         return true;
     }
 
@@ -667,6 +785,9 @@
             for (const shape of selection)
                 moveShape(shape, dx, dy, 'translate');
             rememberShapes();
+            announceSelectionPosition(
+                (l) => l.ui.page.character.announce.moved,
+            );
         }
         // In all other moves, move the drawing cursor.
         else {
@@ -841,9 +962,11 @@
             }
             // If there is one, finish it
             else {
+                const finished = pendingRectOrEllipse;
                 selection = [pendingRectOrEllipse];
                 pendingRectOrEllipse = undefined;
                 mode = DrawingMode.Select;
+                announceFinished(finished);
             }
             event.stopPropagation();
         }
@@ -873,6 +996,16 @@
             }
         }
         if (mode === DrawingMode.Select) {
+            if (
+                (event.key === 'Enter' || event.key === ' ') &&
+                editablePath !== undefined &&
+                editedPath === undefined
+            ) {
+                editPoints();
+                event.stopPropagation();
+                event.preventDefault();
+                return;
+            }
             if (event.key === 'Escape') {
                 selection = [];
                 event.stopPropagation();
@@ -880,8 +1013,20 @@
             }
             // Handle deletion.
             else if (event.key === 'Delete' || event.key === 'Backspace') {
-                setShapes(shapes.filter((s) => !selection.includes(s)));
+                const remaining = shapes.filter((s) => !selection.includes(s));
+                setShapes(remaining);
                 selection = [];
+                announceEdit(
+                    'character-edit',
+                    $locales
+                        .concretize(
+                            (l) => l.ui.page.character.announce.deleted,
+                            {
+                                count: remaining.length,
+                            },
+                        )
+                        .toText(),
+                );
                 event.stopPropagation();
                 return;
             }
@@ -949,6 +1094,15 @@
         copy = selection.map(
             (s) => structuredClone($state.snapshot(s)) as CharacterShape,
         );
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.copied, {
+                    shapes: describeShapeKinds(selection),
+                    count: selection.length,
+                })
+                .toText(),
+        );
     }
 
     function pasteShapes() {
@@ -966,7 +1120,28 @@
             addShapes(copies);
             // Select all the copies so they can be moved.
             selection = [...copies];
+            announceSelectionPosition(
+                (l) => l.ui.page.character.announce.pasted,
+            );
         }
+    }
+
+    /** Say that a shape is done, and where it ended up. */
+    function announceFinished(shape: CharacterShape) {
+        const corner =
+            shape.type === 'path'
+                ? { x: getPathBounds(shape).left, y: getPathBounds(shape).top }
+                : shape.point;
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.finished, {
+                    shape: describeShapeKinds([shape]),
+                    x: Math.round(corner.x),
+                    y: Math.round(corner.y),
+                })
+                .toText(),
+        );
     }
 
     function endPath() {
@@ -975,13 +1150,315 @@
                 setShapes(shapes.filter((s) => s !== pendingPath));
                 pendingPath = undefined;
             } else {
+                const finished = pendingPath;
                 selection = [pendingPath];
                 pendingPath = undefined;
                 // Mark history
                 rememberShapes();
                 mode = DrawingMode.Select;
+                announceFinished(finished);
             }
         }
+    }
+
+    /** The kinds of shape in a list, named in the language the live region declares. */
+    function describeShapeKinds(list: CharacterShape[]): string {
+        return list
+            .map((shape) =>
+                $locales.getPrimaryPlainText(
+                    (l) => l.ui.page.character.shape[shape.type],
+                ),
+            )
+            .join(', ');
+    }
+
+    /** Where the selection sits now, as its top left corner on the grid. */
+    function selectionCorner(): Point {
+        const boxes = selection.map((shape) =>
+            shape.type === 'path'
+                ? getPathBounds(shape)
+                : { left: shape.point.x, top: shape.point.y },
+        );
+        return {
+            x: Math.round(Math.min(...boxes.map((b) => b.left))),
+            y: Math.round(Math.min(...boxes.map((b) => b.top))),
+        };
+    }
+
+    /** Announce something that has to name where the selection landed, because the
+     *  destination is the only part of "moved" or "flipped" that differs between
+     *  two presses — without it the region repeats itself and is heard once. */
+    function announceSelectionPosition(
+        path: (locale: LocaleText) => Template<['x', 'y']>,
+    ) {
+        if (selection.length === 0) return;
+        const corner = selectionCorner();
+        announceEdit(
+            'character-point',
+            $locales.concretize(path, { x: corner.x, y: corner.y }).toText(),
+        );
+    }
+
+    /** Say something about an edit, in the one language the live region declares. */
+    function announceEdit(
+        kind: 'character-point' | 'character-edit' | 'character-history',
+        message: string,
+    ) {
+        if ($announce) $announce(kind, $locales.getLanguages()[0], message);
+    }
+
+    /** The grid point under a pointer, in path coordinates — intersections, not cells. */
+    function pointerToGrid(event: PointerEvent): Point | undefined {
+        if (canvasView === null) return undefined;
+        const bounds = canvasView.getBoundingClientRect();
+        return clampToGrid({
+            x: ((event.clientX - bounds.left) / bounds.width) * CharacterSize,
+            y: ((event.clientY - bounds.top) / bounds.height) * CharacterSize,
+        });
+    }
+
+    /** The live position of the chosen handle, which callers may move in place. */
+    function handlePoint(): Point | undefined {
+        if (editedPath === undefined || editedHandle === undefined)
+            return undefined;
+        const point = editedPath.points[editedHandle.index];
+        if (point === undefined) return undefined;
+        return editedHandle.curve ? point.curve : point;
+    }
+
+    /** How a handle is named, both as its focus-time label and when it moves. */
+    function describeHandle(
+        index: number,
+        curve: boolean,
+        position: Point,
+    ): string {
+        const inputs = { index: index + 1, x: position.x, y: position.y };
+        return (
+            curve
+                ? $locales.concretize(
+                      (l) => l.ui.page.character.announce.control,
+                      inputs,
+                  )
+                : $locales.concretize(
+                      (l) => l.ui.page.character.announce.point,
+                      inputs,
+                  )
+        ).toText();
+    }
+
+    /**
+     * Say where the chosen handle is. Only ever on a change: a handle's aria-label
+     * already says this when it takes focus, and announcing that too would say it twice.
+     */
+    function announceHandle() {
+        const handle = editedHandle;
+        const position = handlePoint();
+        if (handle === undefined || position === undefined) return;
+        announceEdit(
+            'character-point',
+            describeHandle(handle.index, handle.curve, position),
+        );
+    }
+
+    /** Move focus to a handle once it exists in the DOM. */
+    async function focusHandle(index: number, curve: boolean) {
+        await tick();
+        const view = canvasView?.querySelector(
+            `[data-handle="${curve ? 'curve' : 'point'}-${index}"]`,
+        );
+        if (view instanceof HTMLElement)
+            setKeyboardFocus(view, 'Focus the path handle.');
+    }
+
+    function editPoints() {
+        const path = editablePath;
+        if (path === undefined) return;
+        editedPath = path;
+        editedHandle = { index: 0, curve: false };
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.editing, {
+                    count: path.points.length,
+                })
+                .toText(),
+        );
+        focusHandle(0, false);
+    }
+
+    function stopEditingPoints() {
+        if (editedPath === undefined) return;
+        editedPath = undefined;
+        editedHandle = undefined;
+        if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
+        announceEdit(
+            'character-edit',
+            $locales.getPrimaryPlainText(
+                (l) => l.ui.page.character.announce.editingDone,
+            ),
+        );
+    }
+
+    /** Put the chosen handle somewhere, snapped and clamped. Remembering is the caller's
+     *  job, so a drag leaves one history entry rather than one per pixel crossed. */
+    function setHandlePosition(position: Point) {
+        const target = handlePoint();
+        if (target === undefined) return;
+        const { x, y } = clampToGrid(position);
+        target.x = x;
+        target.y = y;
+    }
+
+    function moveHandle(dx: number, dy: number) {
+        const target = handlePoint();
+        if (target === undefined) return;
+        setHandlePosition({ x: target.x + dx, y: target.y + dy });
+        rememberShapes();
+        announceHandle();
+    }
+
+    function addPoint() {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return;
+        const result = insertPathPoint(path.points, handle.index, path.closed);
+        if (result.points === path.points) return;
+        path.points = result.points;
+        rememberShapes();
+        editedHandle = { index: result.index, curve: false };
+        const added = path.points[result.index];
+        if (added)
+            announceEdit(
+                'character-edit',
+                $locales
+                    .concretize(
+                        (l) => l.ui.page.character.announce.pointAdded,
+                        { index: result.index + 1, x: added.x, y: added.y },
+                    )
+                    .toText(),
+            );
+        focusHandle(result.index, false);
+    }
+
+    function removePoint() {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return;
+        // On a curve's handle, removing means straightening the segment: the point
+        // it bends toward is still wanted, the bend isn't.
+        if (handle.curve) return straightenSegment();
+        const remaining = deletePathPoint(path.points, handle.index);
+        if (remaining === undefined) return;
+        path.points = remaining;
+        rememberShapes();
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.pointRemoved, {
+                    index: handle.index + 1,
+                    count: remaining.length,
+                })
+                .toText(),
+        );
+        const index = Math.min(handle.index, remaining.length - 1);
+        editedHandle = { index, curve: false };
+        focusHandle(index, false);
+    }
+
+    function curveSegment() {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return;
+        const curved = curvePathPoint(path.points, handle.index, path.closed);
+        if (curved === undefined) return;
+        path.points = curved;
+        rememberShapes();
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.curved, {
+                    index: handle.index + 1,
+                })
+                .toText(),
+        );
+        // Bending it is the next thing they want, so put them on the new handle.
+        editedHandle = { index: handle.index, curve: true };
+        focusHandle(handle.index, true);
+    }
+
+    function straightenSegment() {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return;
+        if (path.points[handle.index]?.curve === undefined) return;
+        path.points = straightenPathPoint(path.points, handle.index);
+        rememberShapes();
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.straightened, {
+                    index: handle.index + 1,
+                })
+                .toText(),
+        );
+        editedHandle = { index: handle.index, curve: false };
+        focusHandle(handle.index, false);
+    }
+
+    function startHandleDrag(
+        event: PointerEvent,
+        index: number,
+        curve: boolean,
+    ) {
+        if (!(event.currentTarget instanceof HTMLElement)) return;
+        editedHandle = { index, curve };
+        draggingHandle = true;
+        event.currentTarget.setPointerCapture(event.pointerId);
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    function dragHandle(event: PointerEvent) {
+        if (!draggingHandle) return;
+        const position = pointerToGrid(event);
+        if (position === undefined) return;
+        setHandlePosition(position);
+        event.stopPropagation();
+    }
+
+    function endHandleDrag(event: PointerEvent) {
+        if (!draggingHandle) return;
+        draggingHandle = false;
+        if (
+            event.currentTarget instanceof HTMLElement &&
+            event.currentTarget.hasPointerCapture(event.pointerId)
+        )
+            event.currentTarget.releasePointerCapture(event.pointerId);
+        rememberShapes();
+        announceHandle();
+        event.stopPropagation();
+    }
+
+    function handleHandleKey(
+        event: KeyboardEvent,
+        index: number,
+        curve: boolean,
+    ) {
+        // Tab stays Tab: it's how one moves between handles, and swallowing it
+        // inside role="application" would trap the keyboard here.
+        if (event.key === 'Tab') return;
+        editedHandle = { index, curve };
+        if (event.key === 'ArrowLeft') moveHandle(-1, 0);
+        else if (event.key === 'ArrowRight') moveHandle(1, 0);
+        else if (event.key === 'ArrowUp') moveHandle(0, -1);
+        else if (event.key === 'ArrowDown') moveHandle(0, 1);
+        else if (event.key === 'Enter' || event.key === ' ') addPoint();
+        else if (event.key === 'Delete' || event.key === 'Backspace')
+            removePoint();
+        else if (event.key === 'Escape') stopEditingPoints();
+        else return;
+        event.stopPropagation();
+        event.preventDefault();
     }
 
     function getShapeUnderPointer(event: PointerEvent): CharacterShape | null {
@@ -1246,7 +1723,9 @@
     }
 
     function handleDoubleClick() {
-        if (mode === DrawingMode.Path) {
+        if (mode === DrawingMode.Select) {
+            if (editedPath === undefined) editPoints();
+        } else if (mode === DrawingMode.Path) {
             endPath();
         } else if (mode === DrawingMode.Pixel) {
             // Undo the pixel that just happened, so they're not part of the history or shapes.
@@ -1416,13 +1895,7 @@
                               bottom: s.point.y + s.height,
                           }
                         : s.type === 'path'
-                          ? {
-                                type: 'path',
-                                left: Math.min(...s.points.map((p) => p.x)),
-                                top: Math.min(...s.points.map((p) => p.y)),
-                                right: Math.max(...s.points.map((p) => p.x)),
-                                bottom: Math.max(...s.points.map((p) => p.y)),
-                            }
+                          ? { type: 'path', ...getPathBounds(s) }
                           : undefined,
             )
             .filter((b) => b !== undefined);
@@ -1490,25 +1963,28 @@
                     // No need to update this shape.
                     case 'pixel':
                         return shape;
-                    case 'path':
+                    case 'path': {
                         // Get the center
-                        const center = getPathCenter(shape as CharacterPath);
+                        const center = getPathCenter(shape);
 
                         // Offset the points by the translation, and blow them out around the center by the scale.
-                        const points = shape.points.map((point) => ({
-                            x:
-                                point.x -
-                                centerXOffset -
-                                ((center.x - point.x) * scale) / 2,
-                            y:
-                                point.y -
-                                centerYOffset -
-                                ((center.y - point.y) * scale) / 2,
-                        }));
                         return {
                             ...shape,
-                            points: [points[0], ...points.slice(1)],
+                            points: transformPathPoints(
+                                shape.points,
+                                ({ x, y }) => ({
+                                    x:
+                                        x -
+                                        centerXOffset -
+                                        ((center.x - x) * scale) / 2,
+                                    y:
+                                        y -
+                                        centerYOffset -
+                                        ((center.y - y) * scale) / 2,
+                                }),
+                            ),
                         } satisfies CharacterPath;
+                    }
                     default:
                         return undefined;
                 }
@@ -1565,6 +2041,15 @@
             [...fitShapes.filter((s) => s.type !== 'pixel'), ...newPixels],
             true,
         );
+
+        // Nothing varies here because nothing varies in the action: fitting
+        // twice does nothing the second time, so there is nothing new to say.
+        announceEdit(
+            'character-edit',
+            $locales.getPrimaryPlainText(
+                (l) => l.ui.page.character.announce.fitted,
+            ),
+        );
     }
 
     function arrange(direction: 'back' | 'toBack' | 'forward' | 'toFront') {
@@ -1587,21 +2072,31 @@
                 rememberShapes();
             }
         }
+        const moved = selection[0];
+        if (moved)
+            announceEdit(
+                'character-edit',
+                $locales
+                    .concretize((l) => l.ui.page.character.announce.arranged, {
+                        index: shapes.indexOf(moved) + 1,
+                        total: shapes.length,
+                    })
+                    .toText(),
+            );
     }
 
     function flip(direction: 'horizontal' | 'vertical') {
         for (const shape of selection) {
             if (shape.type === 'path') {
                 const center = getPathCenter(shape);
-                for (const point of shape.points) {
-                    if (direction === 'horizontal') {
-                        point.x = center.x - (point.x - center.x);
-                    } else {
-                        point.y = center.y - (point.y - center.y);
-                    }
-                }
+                shape.points = transformPathPoints(shape.points, ({ x, y }) =>
+                    direction === 'horizontal'
+                        ? { x: center.x - (x - center.x), y }
+                        : { x, y: center.y - (y - center.y) },
+                );
             }
         }
+        announceSelectionPosition((l) => l.ui.page.character.announce.flipped);
     }
 
     // Renaming a character rewrites the projects that reference it, which
@@ -1685,6 +2180,152 @@
                 right: 0;
                 background: var(--wordplay-border-color);
             }
+        }
+    </style>
+{/snippet}
+
+{#snippet handles()}
+    {#if editedPath}
+        {@const path = editedPath}
+        <!-- The guides sit under the handles and take no pointer events, so that
+             getShapeUnderPointer's elementFromPoint never mistakes one for a shape. -->
+        <svg
+            class="guides"
+            viewBox="0 0 {CharacterSize} {CharacterSize}"
+            aria-hidden="true"
+        >
+            {#each path.points as point, index (index)}
+                {@const from = getPriorPoint(path.points, index, path.closed)}
+                {#if point.curve && from}
+                    <line
+                        x1={from.x}
+                        y1={from.y}
+                        x2={point.curve.x}
+                        y2={point.curve.y}
+                    />
+                    <line
+                        x1={point.curve.x}
+                        y1={point.curve.y}
+                        x2={point.x}
+                        y2={point.y}
+                    />
+                {/if}
+            {/each}
+        </svg>
+        <div class="handles">
+            {#each path.points as point, index (index)}
+                {#if point.curve}
+                    {@const control = point.curve}
+                    <button
+                        type="button"
+                        class="handle curve"
+                        class:chosen={editedHandle?.index === index &&
+                            editedHandle.curve}
+                        data-handle="curve-{index}"
+                        style:left="{(100 * control.x) / CharacterSize}%"
+                        style:top="{(100 * control.y) / CharacterSize}%"
+                        aria-label={describeHandle(index, true, control)}
+                        onfocus={() => (editedHandle = { index, curve: true })}
+                        onkeydown={(event) =>
+                            handleHandleKey(event, index, true)}
+                        onpointerdown={(event) =>
+                            startHandleDrag(event, index, true)}
+                        onpointermove={dragHandle}
+                        onpointerup={endHandleDrag}
+                    ></button>
+                {/if}
+                <button
+                    type="button"
+                    class="handle point"
+                    class:chosen={editedHandle?.index === index &&
+                        !editedHandle.curve}
+                    data-handle="point-{index}"
+                    style:left="{(100 * point.x) / CharacterSize}%"
+                    style:top="{(100 * point.y) / CharacterSize}%"
+                    aria-label={describeHandle(index, false, point)}
+                    onfocus={() => (editedHandle = { index, curve: false })}
+                    onkeydown={(event) => handleHandleKey(event, index, false)}
+                    onpointerdown={(event) =>
+                        startHandleDrag(event, index, false)}
+                    onpointermove={dragHandle}
+                    onpointerup={endHandleDrag}
+                ></button>
+            {/each}
+        </div>
+    {/if}
+
+    <style>
+        .guides {
+            pointer-events: none;
+
+            line {
+                stroke: var(--wordplay-highlight-color);
+                stroke-width: 0.25;
+                stroke-dasharray: 0.5, 0.5;
+            }
+        }
+
+        .handles {
+            position: absolute;
+            inset: 0;
+            /* Only the handles themselves take pointer events, so the canvas
+               underneath still handles clicks that miss one. */
+            pointer-events: none;
+        }
+
+        /* The box is the target, not the dot: WCAG 2.5.8 wants 24px, but a
+           point sits on a 32-unit grid where 24px spans two whole units, so the
+           mark that shows where the point *is* has to stay small. The button is
+           a transparent 24px square centered on the point and the dot is drawn
+           inside it. */
+        .handle {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            border: none;
+            background: none;
+            transform: translate(-50%, -50%);
+            pointer-events: auto;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .handle::before {
+            content: '';
+            display: block;
+            width: 1em;
+            height: 1em;
+            background: var(--wordplay-background);
+            border: solid var(--wordplay-foreground) var(--wordplay-focus-width);
+        }
+
+        .handle.point::before {
+            border-radius: 50%;
+        }
+
+        /* A control point is drawn smaller and cornered so it reads as a handle
+           for a segment rather than a point of the path itself. */
+        .handle.curve::before {
+            width: 0.75em;
+            height: 0.75em;
+            border-color: var(--wordplay-highlight-color);
+            rotate: 45deg;
+        }
+
+        .handle.chosen::before {
+            background: var(--wordplay-highlight-color);
+        }
+
+        .handle:focus-visible {
+            outline: none;
+        }
+
+        .handle:focus-visible::before {
+            outline: var(--wordplay-focus-color) solid
+                var(--wordplay-focus-width);
         }
     </style>
 {/snippet}
@@ -1779,31 +2420,41 @@
             {/if}
         </h2>
 
-        <MarkupHTMLView
-            markup={mode === DrawingMode.Select && shapes.length === 0
-                ? (l) => l.ui.page.character.instructions.empty
-                : mode === DrawingMode.Emoji
-                  ? (l) => l.ui.page.character.instructions.emoji
-                  : mode === DrawingMode.Select &&
-                      shapes.length > 0 &&
-                      selection.length === 0
-                    ? (l) => l.ui.page.character.instructions.unselected
-                    : mode === DrawingMode.Select &&
-                        shapes.length > 0 &&
-                        selection.length > 0
-                      ? (l) => l.ui.page.character.instructions.selected
-                      : mode === DrawingMode.Eraser
-                        ? (l) => l.ui.page.character.instructions.eraser
-                        : mode === DrawingMode.Pixel
-                          ? (l) => l.ui.page.character.instructions.pixel
-                          : mode === DrawingMode.Rect
-                            ? (l) => l.ui.page.character.instructions.rect
-                            : mode === DrawingMode.Ellipse
-                              ? (l) => l.ui.page.character.instructions.ellipse
-                              : mode === DrawingMode.Path
-                                ? (l) => l.ui.page.character.instructions.path
-                                : '—'}
-        ></MarkupHTMLView>
+        <!-- The canvas points at this with aria-describedby, so the id belongs
+             here rather than on the view inside, which takes no id. -->
+        <div id="instructions">
+            <MarkupHTMLView
+                markup={editedPath !== undefined
+                    ? (l) => l.ui.page.character.instructions.points
+                    : mode === DrawingMode.Select && shapes.length === 0
+                      ? (l) => l.ui.page.character.instructions.empty
+                      : mode === DrawingMode.Emoji
+                        ? (l) => l.ui.page.character.instructions.emoji
+                        : mode === DrawingMode.Select &&
+                            shapes.length > 0 &&
+                            selection.length === 0
+                          ? (l) => l.ui.page.character.instructions.unselected
+                          : mode === DrawingMode.Select &&
+                              shapes.length > 0 &&
+                              selection.length > 0
+                            ? (l) => l.ui.page.character.instructions.selected
+                            : mode === DrawingMode.Eraser
+                              ? (l) => l.ui.page.character.instructions.eraser
+                              : mode === DrawingMode.Pixel
+                                ? (l) => l.ui.page.character.instructions.pixel
+                                : mode === DrawingMode.Rect
+                                  ? (l) => l.ui.page.character.instructions.rect
+                                  : mode === DrawingMode.Ellipse
+                                    ? (l) =>
+                                          l.ui.page.character.instructions
+                                              .ellipse
+                                    : mode === DrawingMode.Path
+                                      ? (l) =>
+                                            l.ui.page.character.instructions
+                                                .path
+                                      : '—'}
+            ></MarkupHTMLView>
+        </div>
 
         {#if (mode !== DrawingMode.Select && mode !== DrawingMode.Emoji) || selection.length > 0}
             {@const selectedFillStates = Array.from(
@@ -2253,6 +2904,55 @@
             icon={PASTE_SYMBOL}
             label={(l) => l.ui.page.character.button.paste.label}
         />
+        <!-- Point editing is reachable entirely from here, so no key is required
+             to find it; the keys on the handles are the accelerator. -->
+        {#if editedPath === undefined}
+            <Button
+                tip={(l) => l.ui.page.character.button.editPoints.tip}
+                action={editPoints}
+                active={editablePath !== undefined}
+                icon="⌗"
+                label={(l) => l.ui.page.character.button.editPoints.label}
+            />
+        {:else}
+            <Button
+                tip={(l) => l.ui.page.character.button.donePoints.tip}
+                action={stopEditingPoints}
+                icon="⌗"
+                label={(l) => l.ui.page.character.button.donePoints.label}
+            />
+            <Button
+                tip={(l) => l.ui.page.character.button.addPoint.tip}
+                action={addPoint}
+                active={editedHandle !== undefined}
+                icon="✚"
+                label={(l) => l.ui.page.character.button.addPoint.label}
+            />
+            <Button
+                tip={(l) => l.ui.page.character.button.deletePoint.tip}
+                action={removePoint}
+                active={editedHandle !== undefined &&
+                    editedPath.points.length > 2}
+                icon={CANCEL_SYMBOL}
+                label={(l) => l.ui.page.character.button.deletePoint.label}
+            />
+            {#if curvedSegment}
+                <Button
+                    tip={(l) => l.ui.page.character.button.straighten.tip}
+                    action={straightenSegment}
+                    icon="╱"
+                    label={(l) => l.ui.page.character.button.straighten.label}
+                />
+            {:else}
+                <Button
+                    tip={(l) => l.ui.page.character.button.curve.tip}
+                    action={curveSegment}
+                    active={curvableSegment}
+                    icon="◡"
+                    label={(l) => l.ui.page.character.button.curve.label}
+                />
+            {/if}
+        {/if}
         <Button
             tip={(l) => l.ui.page.character.button.clearPixels.tip}
             action={() => {
@@ -2488,6 +3188,7 @@
                                 selection,
                             )}
                         {/if}
+                        {@render handles()}
                         {#if mode !== DrawingMode.Select}
                             <div
                                 class="position"

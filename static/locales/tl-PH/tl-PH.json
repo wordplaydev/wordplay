@@ -9015,14 +9015,15 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Pumili ng drawing mode sa palette para lumikha ng mga hugis.",
-                    "unselected": "$~Pumili ng drawing mode o pumili at mag-edit ng mga hugis.",
-                    "selected": "$~Gamitin ang mga *arrow* key upang ilipat ang mga hugis. Pindutin nang matagal ang *shift* upang magdagdag ng higit pang mga hugis sa isang seleksyon. Gamitin ang *delete* upang alisin ang seleksyon. Gamitin ang mga kontrol sa ibaba upang baguhin ang mga napiling hugis.",
+                    "unselected": "$!Pumili ng drawing mode o pumili at mag-edit ng mga hugis.",
+                    "selected": "$!Gamitin ang mga *arrow* key upang ilipat ang mga hugis. Pindutin nang matagal ang *shift* upang magdagdag ng higit pang mga hugis sa isang seleksyon. Gamitin ang *delete* upang alisin ang seleksyon. Gamitin ang mga kontrol sa ibaba upang baguhin ang mga napiling hugis.",
                     "eraser": "$~Para burahin ang mga hugis, i-click o i-tap ang mga ito. I-drag para burahin ang mga pixel. Gamitin ang mga *arrow* key para igalaw ang pambura at *space* para burahin.",
                     "pixel": "$~Para gumuhit ng mga pixel, pumili ng kulay. Pagkatapos, i-click ang canvas o gamitin ang *mga arrow* para igalaw ang cursor at *space* para lumikha ng pixel. *I-double click* para punan.",
                     "rect": "$~Para gumuhit ng mga parihaba, pumili ng kulay at stroke. Pagkatapos, i-click at i-drag, o gamitin ang *arrows* at *space* key para pumili ng gitna at laki.",
                     "ellipse": "$~Para gumuhit ng mga ellipse at bilog, pumili ng kulay at stroke. Pagkatapos, i-click at i-drag, o gamitin ang *arrows* at *space* key para pumili ng gitna at laki.",
                     "path": "$~Ang mga landas ay maaaring mga segment ng linya, polygon, at kurba. I-click upang simulan ang pagdaragdag ng mga punto, o gamitin ang mga *arrow* key at *space*. Pindutin ang *escape* upang tapusin ang landas. Aalisin ng *delete* ang huling punto.",
-                    "emoji": "$~Pumili ng emoji na i-import bilang mga pixel, pagkatapos ay baguhin ayon sa gusto mo."
+                    "emoji": "$~Pumili ng emoji na i-import bilang mga pixel, pagkatapos ay baguhin ayon sa gusto mo.",
+                    "points": "$?"
                 },
                 "shape": {
                     "shape": "$~hugis",
@@ -9204,6 +9205,30 @@
                     "dismissError": {
                         "label": "$~tanggalin",
                         "tip": "$~balewalain ang mensahe ng error"
+                    },
+                    "editPoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "donePoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "addPoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "deletePoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "curve": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "straighten": {
+                        "label": "$?",
+                        "tip": "$?"
                     }
                 },
                 "feedback": {
@@ -9219,7 +9244,27 @@
                 },
                 "announce": {
                     "position": "$~sa halagang $x $y",
-                    "selection": "$~$shapes[napili $shapes|walang napili]"
+                    "selection": "$~$shapes[napili $shapes|walang napili]",
+                    "editing": "$?",
+                    "editingDone": "$?",
+                    "point": "$?",
+                    "control": "$?",
+                    "pointAdded": "$?",
+                    "pointRemoved": "$?",
+                    "curved": "$?",
+                    "straightened": "$?",
+                    "moved": "$?",
+                    "drew": "$?",
+                    "erased": "$?",
+                    "finished": "$?",
+                    "deleted": "$?",
+                    "undone": "$?",
+                    "redone": "$?",
+                    "copied": "$?",
+                    "pasted": "$?",
+                    "arranged": "$?",
+                    "flipped": "$?",
+                    "fitted": "$?"
                 }
             },
             "about": {

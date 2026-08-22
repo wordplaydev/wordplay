@@ -56,6 +56,44 @@ describe('CharacterSchema optionality is exact', () => {
         },
     );
 
+    const curvedPath = {
+        type: 'path',
+        closed: false,
+        points: [
+            { x: 0, y: 0 },
+            { x: 8, y: 0, curve: { x: 4, y: 4 } },
+        ],
+    };
+
+    test('a path point without a curve parses and omits the key', () => {
+        const parsed = CharacterSchema.parse(
+            character({ ...curvedPath, points: [{ x: 0, y: 0 }] }),
+        );
+        const shape = parsed.shapes[0];
+        expect(shape.type).toBe('path');
+        if (shape.type === 'path')
+            expect('curve' in shape.points[0]).toBe(false);
+    });
+
+    test('a curved path point round-trips', () => {
+        const parsed = CharacterSchema.parse(character(curvedPath));
+        const shape = parsed.shapes[0];
+        expect(shape.type).toBe('path');
+        if (shape.type === 'path')
+            expect(shape.points[1].curve).toEqual({ x: 4, y: 4 });
+    });
+
+    test('a path point with an explicit undefined curve is rejected', () => {
+        expect(() =>
+            CharacterSchema.parse(
+                character({
+                    ...curvedPath,
+                    points: [{ x: 0, y: 0, curve: undefined }],
+                }),
+            ),
+        ).toThrow();
+    });
+
     test('a null fill survives — it means inherit currentColor, not absent', () => {
         const parsed = CharacterSchema.parse(
             character({ ...rect, fill: null }),

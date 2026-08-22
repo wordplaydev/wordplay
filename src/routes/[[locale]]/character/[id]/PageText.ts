@@ -20,6 +20,7 @@ type PageText = {
         ellipse: string;
         path: string;
         emoji: string;
+        points: string;
     };
     /** [plain] Names of the character editor shape tools */
     shape: {
@@ -103,6 +104,18 @@ type PageText = {
         fit: ButtonText;
         /** Dismiss the error message */
         dismissError: ButtonText;
+        /** Start editing the selected path's points */
+        editPoints: ButtonText;
+        /** Stop editing points */
+        donePoints: ButtonText;
+        /** Add a point to the selected path */
+        addPoint: ButtonText;
+        /** Remove the selected point */
+        deletePoint: ButtonText;
+        /** Bend the segment arriving at the selected point */
+        curve: ButtonText;
+        /** Straighten the segment arriving at the selected point */
+        straighten: ButtonText;
     };
     feedback: {
         /** [plain] Error shown when the character's name isn't a valid Wordplay name */
@@ -124,11 +137,57 @@ type PageText = {
         /** [plain] Placeholder name for a project that has no name. */
         untitledproject: string;
     };
+    /**
+     * A live region only speaks when its text changes, so each of these has to say
+     * something different every time it fires or it is heard once and then sounds
+     * broken. That is why they carry positions, counts, and history steps rather
+     * than reading like tidy summaries: those are the parts that vary.
+     */
     announce: {
         /** [formatted] When cursor position changes $1 x, $2: y. */
         position: Template<['x', 'y']>;
         /** [formatted] When selection changes. $1 is list of shape types. */
         selection: Template<['shapes']>;
+        /** [formatted] When point editing begins, with how many points the path has. */
+        editing: Template<['#count']>;
+        /** [plain] When point editing ends. */
+        editingDone: string;
+        /** [formatted] When a path point is selected or moved. $index is 1-based. */
+        point: Template<['index', 'x', 'y']>;
+        /** [formatted] When a curve's control point is selected or moved. */
+        control: Template<['index', 'x', 'y']>;
+        /** [formatted] When a point is added to a path. */
+        pointAdded: Template<['index', 'x', 'y']>;
+        /** [formatted] When a point is removed, with how many are left. */
+        pointRemoved: Template<['index', '#count']>;
+        /** [formatted] When a segment is bent into a curve. */
+        curved: Template<['index']>;
+        /** [formatted] When a curved segment is straightened. */
+        straightened: Template<['index']>;
+        /** [formatted] When the selection is moved, naming where it landed. */
+        moved: Template<['x', 'y']>;
+        /** [formatted] When a pixel is drawn. */
+        drew: Template<['x', 'y']>;
+        /** [formatted] When a pixel is erased. */
+        erased: Template<['x', 'y']>;
+        /** [formatted] When a shape is finished. $shape is its kind. */
+        finished: Template<['shape', 'x', 'y']>;
+        /** [formatted] When shapes are deleted, with how many are left. */
+        deleted: Template<['#count']>;
+        /** [formatted] When an edit is undone. The step is what varies as undo repeats. */
+        undone: Template<['step', 'total']>;
+        /** [formatted] When an edit is redone. */
+        redone: Template<['step', 'total']>;
+        /** [formatted] When shapes are copied. $shapes is their kinds. */
+        copied: Template<['shapes', '#count']>;
+        /** [formatted] When shapes are pasted, naming where they landed. */
+        pasted: Template<['x', 'y']>;
+        /** [formatted] When a shape changes layer. */
+        arranged: Template<['index', 'total']>;
+        /** [formatted] When the selection is flipped, naming its new top left corner. */
+        flipped: Template<['x', 'y']>;
+        /** [plain] When shapes are grown to fill the canvas. Repeating it does nothing, so it needs nothing that varies. */
+        fitted: string;
     };
 };
 

@@ -8940,14 +8940,15 @@
                 "header": "$~Tính cách",
                 "instructions": {
                     "empty": "$~Chọn chế độ vẽ trong bảng công cụ để tạo hình.",
-                    "unselected": "$~Chọn chế độ vẽ hoặc chọn và chỉnh sửa các hình dạng.",
-                    "selected": "$~Sử dụng các phím mũi tên để di chuyển các hình dạng. Giữ phím Shift để thêm nhiều hình dạng vào vùng chọn. Sử dụng phím Delete để xóa vùng chọn. Sử dụng các điều khiển bên dưới để thay đổi hình dạng đã chọn.",
+                    "unselected": "$!Chọn chế độ vẽ hoặc chọn và chỉnh sửa các hình dạng.",
+                    "selected": "$!Sử dụng các phím mũi tên để di chuyển các hình dạng. Giữ phím Shift để thêm nhiều hình dạng vào vùng chọn. Sử dụng phím Delete để xóa vùng chọn. Sử dụng các điều khiển bên dưới để thay đổi hình dạng đã chọn.",
                     "eraser": "$~Để xóa hình dạng, hãy nhấp hoặc chạm vào chúng. Kéo để xóa các pixel. Sử dụng các phím mũi tên để di chuyển công cụ tẩy và phím cách để xóa.",
                     "pixel": "$~Để vẽ pixel, hãy chọn một màu. Sau đó, nhấp vào khung vẽ hoặc sử dụng các phím *mũi tên* để di chuyển con trỏ và phím *khoảng cách* để tạo một pixel. Nhấp đúp chuột để tô màu.",
                     "rect": "$~Để vẽ hình chữ nhật, hãy chọn màu sắc và độ dày viền. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
                     "ellipse": "$~Để vẽ hình elip và hình tròn, hãy chọn màu sắc và độ dày nét vẽ. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
                     "path": "$~Đường dẫn có thể là đoạn thẳng, đa giác và đường cong. Nhấp chuột để bắt đầu thêm điểm, hoặc sử dụng các phím mũi tên và phím cách. Nhấn phím Escape để kết thúc đường dẫn. Phím Delete sẽ xóa điểm cuối cùng.",
-                    "emoji": "$~Chọn một biểu tượng cảm xúc để nhập dưới dạng pixel, sau đó chỉnh sửa theo ý muốn."
+                    "emoji": "$~Chọn một biểu tượng cảm xúc để nhập dưới dạng pixel, sau đó chỉnh sửa theo ý muốn.",
+                    "points": "$?"
                 },
                 "shape": {
                     "shape": "$~hình dạng",
@@ -9129,6 +9130,30 @@
                     "saturationDown": {
                         "label": "$~độ bão hòa",
                         "tip": "$~giảm độ bão hòa"
+                    },
+                    "editPoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "donePoints": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "addPoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "deletePoint": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "curve": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "straighten": {
+                        "label": "$?",
+                        "tip": "$?"
                     }
                 },
                 "feedback": {
@@ -9144,7 +9169,27 @@
                 },
                 "announce": {
                     "position": "$~ở mức $x $y",
-                    "selection": "$~$shapes[đã chọn $shapes|chưa chọn gì]"
+                    "selection": "$~$shapes[đã chọn $shapes|chưa chọn gì]",
+                    "editing": "$?",
+                    "editingDone": "$?",
+                    "point": "$?",
+                    "control": "$?",
+                    "pointAdded": "$?",
+                    "pointRemoved": "$?",
+                    "curved": "$?",
+                    "straightened": "$?",
+                    "moved": "$?",
+                    "drew": "$?",
+                    "erased": "$?",
+                    "finished": "$?",
+                    "deleted": "$?",
+                    "undone": "$?",
+                    "redone": "$?",
+                    "copied": "$?",
+                    "pasted": "$?",
+                    "arranged": "$?",
+                    "flipped": "$?",
+                    "fitted": "$?"
                 }
             },
             "about": {
