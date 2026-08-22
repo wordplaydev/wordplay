@@ -282,7 +282,8 @@
         "Exponent": "$~exponent",
         "Product": "$~produs",
         "Percent": "$~la sută",
-        "Defect": "$~exemplu cu defect așteptat"
+        "Defect": "$~exemplu cu defect așteptat",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -6070,6 +6071,10 @@
             "shapes": {
                 "doc": "$~Dacă se poate ciocni cu alte forme.",
                 "names": "$~sol"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6203,6 +6208,10 @@
             "overlay": {
                 "doc": "$~O listă de @Output fixată plat pe ecran ca un afișaj informativ, neafectată de camera @Place a scenei sau de adâncime.",
                 "names": "$~suprapunere"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

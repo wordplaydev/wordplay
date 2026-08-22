@@ -11,6 +11,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔠 Text can now take a piece of itself with `subsequence`, find where another text first shows up with `index`, swap every copy of one text for another with `replace`, drop the blank space at its ends with `trim`, and turn itself backwards with `reverse`.
 - 🔣 Formatted text can now become a list of its symbols, or a number, the same way plain text can. (#1190)
 - 🔢 You can now write `!#`, the not-a-number value, in your own code. Wordplay always knew how to make one — turning text like `'hi'` into a number gives you one — but writing it yourself was marked as a mistake.
+- 🧲 @Output can now pull other @Output toward it. Give a @Phrase @Matter with a `pull` and it works like a planet or a magnet, tugging anything that moves with @Motion. A negative pull pushes away instead. There's a new [Orbits](https://wordplay.dev/galleries) example with three planets circling a star. (#20)
+- 💨 The @Stage now has `air`, which says how quickly moving @Output slows down. Normal air is 1, and 0 is outer space, where things keep going forever. (#20)
 
 ### Changed
 

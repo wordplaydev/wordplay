@@ -285,6 +285,7 @@
         "Code": "code",
         "ExternalExample": "other-language example",
         "Number": "number",
+        "NotANumber": "not a number",
         "Decimal": "decimal numeral",
         "Base": "base numeral",
         "Boolean": "boolean",
@@ -6603,6 +6604,10 @@
             "shapes": {
                 "doc": "Whether it can collide with other shapes.",
                 "names": "ground"
+            },
+            "pull": {
+                "doc": "How strongly I pull other output toward me. 0 means not at all, which is normal. Bigger numbers pull harder, and a negative number pushes away instead. Only output placed by a @Motion can be pulled.",
+                "names": "pull"
             }
         },
         "Aura": {
@@ -6735,6 +6740,10 @@
             "overlay": {
                 "doc": "A list of @Output pinned flat to the screen as a heads-up display, unaffected by the stage's @Place camera or depth.",
                 "names": "overlay"
+            },
+            "air": {
+                "doc": "How much the air slows down moving output. 1 is normal air, 0 is outer space, where things keep going forever, and bigger numbers are thicker than air.",
+                "names": "air"
             },
             "defaultDescription": "stage $name[$name |]of $#count[$count output|$count outputs]$frame[with frame $frame|] $pose $color[$color|]"
         },

@@ -282,7 +282,8 @@
         "Exponent": "$~eksponente",
         "Product": "$~produkto",
         "Percent": "$~porsyento",
-        "Defect": "$~halimbawa na may inaasahang depekto"
+        "Defect": "$~halimbawa na may inaasahang depekto",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -6027,6 +6028,10 @@
             "shapes": {
                 "doc": "$~Kung maaari ba itong bumangga sa ibang mga hugis.",
                 "names": "$~lupa"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6160,6 +6165,10 @@
             "overlay": {
                 "doc": "$~Isang listahan ng @Output na nakadikit nang patag sa screen bilang heads-up display, hindi apektado ng @Place camera o lalim ng entablado.",
                 "names": "$~pangIbabaw"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

@@ -1213,6 +1213,10 @@ Some are events from the physics engine:
 Collision()
 ```
 
+Output can also be a _source_ of gravity rather than only a subject of it. `Matter`'s `pull` is `0` by default, meaning the output attracts nothing; any other value makes it draw every simulated body toward it, with an acceleration proportional to its `mass` times its `pull` and falling off with the square of the distance. A negative `pull` pushes away instead, which is how a repelling magnet or a force field is written. Only output whose place comes from a `Motion` can be moved by a pull, since only a simulated body responds to a force at all — so an attractor with an ordinary `Place` sits still and pulls, which is what a sun or a magnet usually wants. Attraction reaches only within one depth: each distinct `z` is a separate simulation, so output on different layers never pulls on each other. Very near an attractor the falloff is capped rather than growing without bound, so a direct hit slings a body past instead of launching it off stage.
+
+`Stage`'s `air` scales how quickly moving output slows down. It is `1` by default, the air resistance every project has always had; `0` is outer space, where a body keeps whatever speed it has, which is what an orbit needs to survive more than a second or two. Values above `1` are thicker than air.
+
 Some are events from playing output:
 
 ```

@@ -282,7 +282,8 @@
         "Exponent": "$~指數",
         "Product": "$~乘積",
         "Percent": "$~百分比",
-        "Defect": "$~帶有預期缺陷的範例"
+        "Defect": "$~帶有預期缺陷的範例",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -5035,6 +5036,10 @@
             "overlay": {
                 "doc": "$~一份 @Output 清單，平貼在螢幕上，像抬頭顯示器一樣。它不受舞台的 @Place 攝影機或深度影響。",
                 "names": "$~覆蓋層"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Group": {
@@ -6096,6 +6101,10 @@
             "shapes": {
                 "doc": "它是否可以與其他形狀發生碰撞。",
                 "names": "地面"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {

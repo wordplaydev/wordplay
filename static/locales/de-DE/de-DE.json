@@ -282,7 +282,8 @@
         "Exponent": "$~Exponent",
         "Product": "$~Produkt",
         "Percent": "$~Prozent",
-        "Defect": "$~Beispiel mit erwartetem Fehler"
+        "Defect": "$~Beispiel mit erwartetem Fehler",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -5052,6 +5053,10 @@
             "overlay": {
                 "doc": "$~Eine Liste von @Output, die flach an den Bildschirm geheftet wird, wie eine Anzeige direkt vor deinen Augen. Sie wird nicht von der @Place-Kamera der Bühne oder von der Tiefe beeinflusst.",
                 "names": "$~überlagern"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Group": {
@@ -6119,6 +6124,10 @@
             "shapes": {
                 "doc": "$~Ob es mit anderen Formen kollidieren kann.",
                 "names": "$~Boden"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {

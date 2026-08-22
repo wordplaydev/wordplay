@@ -35,6 +35,12 @@ import { getOutputInput } from '@output/Output/Valued';
 
 export const DefaultGravity = 9.8;
 
+/** A multiple of ordinary air resistance. 1 is the resistance every project has
+ *  always had; 0 is space, where things coast forever, which is what an orbit
+ *  needs. Kept a multiplier rather than a rate so the Matter.js-derived constant
+ *  it scales stays an implementation detail (see AirDamping in Physics.ts). */
+export const DefaultAir = 1;
+
 /** The fallback face chain appended to every rendered face. A literal (not
  * var(--wordplay-fallback-fonts)) because it's also used in canvas font
  * strings for text measurement, where CSS variables can't resolve. */
@@ -94,6 +100,7 @@ export function createStageType(locales: Locales) {
         locales,
         (locale) => locale.output.Stage.overlay,
     )}•[Phrase|Shape|Group|Say|Music]|ø: ø
+    ${getBind(locales, (locale) => locale.output.Stage.air)}•#: ${DefaultAir}
     )
 `);
 }
@@ -105,6 +112,7 @@ export default class Stage extends Output {
     readonly frame: Form | undefined;
     readonly back: Color;
     readonly gravity: number;
+    readonly air: number;
     /** Content pinned flat to the screen (a HUD), rendered above the world
      *  content and unaffected by the camera or depth. */
     readonly overlay: (Output | null)[];
@@ -133,6 +141,7 @@ export default class Stage extends Output {
         style: string | undefined = 'zippy',
         gravity: number,
         overlay: (Output | null)[] = [],
+        air: number = DefaultAir,
     ) {
         super(
             value,
@@ -157,6 +166,7 @@ export default class Stage extends Output {
         this.frame = frame;
         this.back = background;
         this.gravity = gravity;
+        this.air = air;
         this.overlay = overlay;
     }
 
@@ -387,6 +397,7 @@ function toStageBuilder(
     const frame = toForm(project, getOutputInput(value, 1));
 
     const gravity = toNumber(getOutputInput(value, 22)) ?? DefaultGravity;
+    const air = toNumber(getOutputInput(value, 24)) ?? DefaultAir;
 
     const overlayInput = getOutputInput(value, 23);
     const overlay =
@@ -448,6 +459,7 @@ function toStageBuilder(
             style,
             gravity,
             overlay,
+            air,
         );
 }
 

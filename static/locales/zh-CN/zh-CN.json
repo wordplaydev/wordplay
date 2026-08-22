@@ -282,7 +282,8 @@
         "Exponent": "$~指数",
         "Product": "$~乘积",
         "Percent": "$~百分比",
-        "Defect": "$~带有预期缺陷的示例"
+        "Defect": "$~带有预期缺陷的示例",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -5994,6 +5995,10 @@
             "shapes": {
                 "doc": "它是否可以与其他形状发生碰撞。",
                 "names": "地面"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6125,6 +6130,10 @@
             "overlay": {
                 "doc": "$~一个 @Output 列表，平贴在屏幕上作为抬头显示，不受舞台 @Place 相机或深度的影响。",
                 "names": "$~覆盖层"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

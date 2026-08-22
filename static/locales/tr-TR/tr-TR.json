@@ -282,7 +282,8 @@
         "Exponent": "$~üs",
         "Product": "$~ürün",
         "Percent": "$~yüzde",
-        "Defect": "$~beklenen kusurlu örnek"
+        "Defect": "$~beklenen kusurlu örnek",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -6007,6 +6008,10 @@
             "shapes": {
                 "doc": "$~Başka şekillerle çarpışabilir mi?",
                 "names": "$~zemin"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6140,6 +6145,10 @@
             "overlay": {
                 "doc": "$~Ekrana düz olarak sabitlenmiş, bilgi göstergesi gibi çalışan bir @Output listesi. Bu, sahnenin @Place kamerasından veya derinliğinden etkilenmez.",
                 "names": "$~kaplama"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

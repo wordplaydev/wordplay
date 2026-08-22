@@ -282,7 +282,8 @@
         "Exponent": "$~wykładnik potęgowy",
         "Product": "$~produkt",
         "Percent": "$~procent",
-        "Defect": "$~przykład z oczekiwaną usterką"
+        "Defect": "$~przykład z oczekiwaną usterką",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -6021,6 +6022,10 @@
             "shapes": {
                 "doc": "$~Czy może kolidować z innymi kształtami.",
                 "names": "$~grunt"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6154,6 +6159,10 @@
             "overlay": {
                 "doc": "$~Lista @Output przypiętych płasko do ekranu jako wyświetlacz informacyjny, na który nie ma wpływu kamera @Place ani głębia sceny.",
                 "names": "$~nakładka"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

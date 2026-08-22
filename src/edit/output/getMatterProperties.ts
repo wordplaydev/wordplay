@@ -61,5 +61,14 @@ export default function getMatterProperties(
             (expr) => expr instanceof BooleanLiteral,
             () => BooleanLiteral.make(true),
         ),
+        new OutputProperty(
+            (l) => l.output.Matter.pull.names,
+            // Negative pulls push away, so the range straddles zero.
+            new OutputPropertyRange(-5, 5, 0.1, '', 1),
+            false,
+            false,
+            (expr) => expr instanceof NumberLiteral,
+            () => NumberLiteral.make(0),
+        ),
     ];
 }

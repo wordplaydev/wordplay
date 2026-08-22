@@ -282,7 +282,8 @@
         "Exponent": "$~số mũ",
         "Product": "$~sản phẩm",
         "Percent": "$~phần trăm",
-        "Defect": "$~ví dụ có lỗi được mong đợi"
+        "Defect": "$~ví dụ có lỗi được mong đợi",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -6015,6 +6016,10 @@
             "shapes": {
                 "doc": "$~Liệu nó có thể va chạm với các hình dạng khác hay không.",
                 "names": "$~đất"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6148,6 +6153,10 @@
             "overlay": {
                 "doc": "$~Một danh sách các @Output được ghim phẳng lên màn hình dưới dạng bảng hiển thị phía trước, không bị ảnh hưởng bởi máy quay @Place hay chiều sâu của sân khấu.",
                 "names": "$~lớpPhủ"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

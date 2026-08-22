@@ -282,7 +282,8 @@
         "Exponent": "$~exponent",
         "Product": "$~produkt",
         "Percent": "$~procent",
-        "Defect": "$~exempel med förväntat fel"
+        "Defect": "$~exempel med förväntat fel",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -6000,6 +6001,10 @@
             "shapes": {
                 "doc": "$~Om den kan kollidera med andra former.",
                 "names": "$~jord"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6133,6 +6138,10 @@
             "overlay": {
                 "doc": "$~En lista med @Output som fästs platt mot skärmen som en informationsvisning. Den påverkas inte av scenens @Place-kamera eller djup.",
                 "names": "$~överlagring"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

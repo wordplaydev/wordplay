@@ -282,7 +282,8 @@
         "Exponent": "$~exponente",
         "Product": "$~producto",
         "Percent": "$~porcentaje",
-        "Defect": "$~ejemplo con defecto esperado"
+        "Defect": "$~ejemplo con defecto esperado",
+        "NotANumber": "$?"
     },
     "node": {
         "Dimension": {
@@ -6010,6 +6011,10 @@
             "shapes": {
                 "doc": "Si puede chocar con otras formas.",
                 "names": "formas"
+            },
+            "pull": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Aura": {
@@ -6143,6 +6148,10 @@
             "overlay": {
                 "doc": "$~Una lista de @Output fijados planos a la pantalla como una pantalla de información, sin verse afectados por la cámara ni la profundidad de @Place del escenario.",
                 "names": "$~superponer"
+            },
+            "air": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Easing": {

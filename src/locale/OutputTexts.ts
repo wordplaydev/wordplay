@@ -110,6 +110,8 @@ type OutputTexts = {
             gravity: NameAndDoc;
             /** A list of content pinned flat to the screen (a HUD), unaffected by the camera or depth */
             overlay: NameAndDoc;
+            /** How much air resistance slows moving output down; 0 is space */
+            air: NameAndDoc;
         };
     /** The base interface for shape types */
     Shape: NameAndDoc & {
@@ -699,6 +701,8 @@ type OutputTexts = {
         text: NameAndDoc;
         /** whether the output can collide with other shapes */
         shapes: NameAndDoc;
+        /** how strongly the output pulls other output toward it */
+        pull: NameAndDoc;
     };
     /** The base interface for arrangement types */
     Arrangement: NameAndDoc;
