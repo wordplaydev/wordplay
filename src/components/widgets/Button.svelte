@@ -240,10 +240,12 @@
               !event.metaKey
                   ? doAction(event)
                   : undefined}
-    >{#if busy}<!-- 1.5rem, not the 2rem default: sized to the button's
-            content line so the button doesn't grow while busy.
+    >{#if busy}<!-- 1em, not the 2rem default: literally the button's content
+            line, so a busy button is exactly as tall as a resting one. 1.5rem
+            read as meeting that intent but is 24px against a ~13px line, which
+            grew the footer whenever the save status synced.
         --><Spinning
-            size={1.5}
+            size="1em"
         />{:else}{#if icon}{#if spinIcon}<span class="spin-icon"
                     >{withMonoEmoji(icon)}</span
                 >{:else}{withMonoEmoji(icon)}{/if}{/if}
@@ -258,6 +260,14 @@
 </button>
 
 <style>
+    /* The spinner is an inline-block, so on the baseline the strut's descender
+       hangs below it and grows the button by a couple of pixels; aligning it to
+       the top of the line box keeps a busy button exactly as tall as a resting
+       one. */
+    button :global(.spinner) {
+        vertical-align: top;
+    }
+
     .spin-icon {
         display: inline-block;
         transform-origin: center;

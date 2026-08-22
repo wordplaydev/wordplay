@@ -17,6 +17,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- 🧭 The links along the bottom of every page are easier to notice and easier to press. The words are underlined so they look like links, and each one has a bigger area you can tap. (#836)
+- 🧭 The link for the part of the site you're on now looks like a tab joined to the page above it, and it keeps showing when you open something inside that part, so you can always tell where you are. (#836)
 - 🔑 You now need an account to translate a project. That's how everyone gets their own fair share of translating each day. (#1073)
 - 🌐 The languages button now says "translate" when your project is written in just one language, instead of telling you it has one. Once it has more, it counts them again. (#1276)
 - 🎨 The translate button now stands out as soon as you pick a language to translate into, so it's easier to find. (#1276)
@@ -26,6 +28,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 💾 The bottom of the page grew taller for a moment while your work was saving, which nudged everything above it. It stays the same size now.
+- 🖱️ The Wordplay logo at the bottom of the page showed nothing when you pointed at it or moved to it with the keyboard, so there was no sign it was a link. Now it does. (#836)
 - 🌐 In 29 languages, the tutorial pointed at code examples that weren't there — a lesson would say to use `+` but never show it. We put the missing examples back, and Wordplay now checks for this so it can't happen again. (#928)
 - 🌐 We redid the whole Arabic tutorial with our current translator. Most of it was still from an old one that dropped examples and left lessons hard to follow. (#928)
 - 🌐 Translating a project replaced your words instead of adding to them. A name you wrote with no language on it, like `speed`, was thrown away to make room for the new one, and the rest of your code was rewritten in the new language whether you wanted that or not. (#1276)

@@ -195,7 +195,11 @@
         padding: var(--wordplay-spacing);
         cursor: pointer;
         width: fit-content;
-        min-height: var(--wordplay-widget-height);
+        /* WCAG 2.5.8's 24px minimum target, as Button and Mode state it. The
+           widget height alone is ~20px, so a narrow glyph (✎, ☰) cleared it
+           only incidentally, via padding. */
+        min-width: max(var(--wordplay-widget-height), 24px);
+        min-height: max(var(--wordplay-widget-height), 24px);
         overflow: visible;
         white-space: nowrap;
         transition:
@@ -234,6 +238,9 @@
         display: flex;
         flex-direction: row;
         align-items: baseline;
+        /* This block child fills the button's box, so once the min-width
+           above exceeds the glyph, centering is what keeps it off the edge. */
+        justify-content: center;
         gap: var(--wordplay-spacing-half);
     }
 
