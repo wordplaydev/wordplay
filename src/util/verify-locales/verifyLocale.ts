@@ -19,6 +19,7 @@ import { toTokens } from '@parser/toTokens';
 import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
+import checkDegenerateNames from '@util/verify-locales/checkDegenerateNames';
 import checkNames from '@util/verify-locales/checkNames';
 import checkOperatorKeywords from '@util/verify-locales/checkOperatorKeywords';
 import checkRedundantNames from '@util/verify-locales/checkRedundantNames';
@@ -162,6 +163,16 @@ export async function verifyLocale(
     revisedText = checkStringArrays(log, DefaultLocale, revisedText, fix);
     revisedText = checkAnnotations(log, revisedText, fix);
     revisedText = checkNames(log, DefaultLocale, revisedText, fix);
+    // After checkNames, which only asks whether a name is a single token — a garbled one has
+    // no spaces, so it passes there. Before checkRedundantNames, so a garbled copy of an
+    // en-US symbol is gone before the array is judged for what it still repeats.
+    if (locale !== 'en-US')
+        revisedText = checkDegenerateNames(
+            log,
+            DefaultLocale,
+            revisedText,
+            fix,
+        );
     // After checkNames, so a name repaired to its en-US value is recognized as the duplicate
     // it now is rather than surviving until the next run.
     if (locale !== 'en-US')
