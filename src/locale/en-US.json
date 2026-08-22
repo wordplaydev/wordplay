@@ -2638,6 +2638,84 @@
                     "names": ["🔡", "lowercase"],
                     "inputs": []
                 },
+                "subsequence": {
+                    "doc": [
+                        "I make a new @Text from a piece of me. Counting starts at 1, and both ends are included:",
+                        "\\'hello'.subsequence(2 4)\\",
+                        "Leave the end out and I go all the way to my last symbol:",
+                        "\\'hello'.subsequence(3)\\",
+                        "I count symbols the way you see them, so an emoji made of several parts is still one symbol and never gets cut in half:",
+                        "\\'🐈📚!'.subsequence(1 2)\\",
+                        "If you ask for more than I have, I give you what I have."
+                    ],
+                    "names": ["subsequence"],
+                    "inputs": [
+                        {
+                            "doc": "The place to start, counting from 1.",
+                            "names": "start"
+                        },
+                        {
+                            "doc": "The place to stop, counting from 1. Leave it out to go to the end.",
+                            "names": "end"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "I tell you where the given @Text first shows up in me, counting from 1:",
+                        "\\'hello'.index('ll')\\",
+                        "If it isn't in me at all, I give @None instead:",
+                        "\\'hello'.index('z')\\",
+                        "Together with @Text/subsequence I can take everything up to something \u2014 here, the first word:",
+                        "\\phrase: 'hello world'\nphrase.subsequence(1 (phrase.index(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["index"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to look for in me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "I make a new @Text with every occurence of one @Text swapped for another:",
+                        "\\'2026-08-21'.replace('-' '/')\\",
+                        "Every occurrence changes, not just the first:",
+                        "\\'ha ha ha'.replace('ha' 'ho')\\",
+                        "If you ask me to replace an empty @Text, I give myself back unchanged."
+                    ],
+                    "names": ["replace"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to look for in me.",
+                            "names": "of"
+                        },
+                        {
+                            "doc": "The @Text to put in its place.",
+                            "names": "replacement"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "I make a new @Text with the blank space taken off both of my ends. Space in the middle stays:",
+                        "\\'  hello  '.trim()\\",
+                        "This is handy for text someone typed, which often carries extra spaces you didn't ask for."
+                    ],
+                    "names": ["trim"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "I make a new @Text with my symbols in the opposite order:",
+                        "\\'hello'.reverse()\\",
+                        "I reverse the order of my symbols the way you see them, so emoji stay whole and letters keep their accents:",
+                        "\\'🐈📚'.reverse()\\"
+                    ],
+                    "names": ["reversed", "reverse"],
+                    "inputs": []
+                },
                 "repeat": {
                     "doc": [
                         "I make a new @Text that's me, repeated the number of times of \\count\\:",
@@ -2713,7 +2791,10 @@
             },
             "conversion": {
                 "list": "Splits the text into a list of individual characters.",
-                "number": "Converts text into a @Number, and if it's not a number, a not a number value.",
+                "number": [
+                    "Converts text into a @Number, and if it's not a number, a not a number value, which shows up as \\!#\\:",
+                    "\\'hi' → #\\"
+                ],
                 "formatted": "Converts text into formatted text, interpreting any markup it contains."
             }
         },
@@ -2752,7 +2833,7 @@
                 },
                 "has": {
                     "doc": "\\⊤\\ if my plain text contains the given @Text. I ignore formatting and paragraph breaks when I look.",
-                    "names": ["has"],
+                    "names": ["⊆", "has"],
                     "inputs": [
                         {
                             "doc": "The @Text to look for in my text.",
@@ -2820,7 +2901,12 @@
                 }
             },
             "conversion": {
-                "text": "Converts formatted text into plain @Text, removing all formatting."
+                "text": "Converts formatted text into plain @Text, removing all formatting.",
+                "list": "Converts formatted text into a @List of @Text, one for each symbol of my words. Formatting can't survive being cut into single symbols, so it's dropped.",
+                "number": [
+                    "Converts my words into a @Number, and if they aren't a number, a not a number value, which shows up as \\!#\\:",
+                    "\\`hi` → #\\"
+                ]
             }
         },
         "Number": {
@@ -3389,25 +3475,12 @@
                     "names": ["withoutLast", "sansLast"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "Me, but without the first occurrences of the given @value.",
-                        "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
-                    ],
-                    "names": ["without", "sans"],
-                    "inputs": [
-                        {
-                            "doc": "The @value to remove the first occurence of.",
-                            "names": "value"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "Me, but without all occurrences of the given @value.",
-                        "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
+                        "Me, but without the given @value. Every copy goes, not just the first one, whichever of my names you use:",
+                        "\\['apple' 'banana' 'mango' 'apple'].without('apple')\\"
                     ],
-                    "names": ["withoutAll", "sansAll"],
+                    "names": ["without", "sans", "withoutAll", "sansAll"],
                     "inputs": [
                         {
                             "doc": "The @value to remove all occurences of from the list.",
@@ -7255,9 +7328,9 @@
             "exhaustedMinutes": "You've used up today's translating. Try again in about $#minutes[$minutes minute|$minutes minutes].",
             "signIn": "Translating needs an account, so everyone gets a fair share of it. <Sign in or join@/login> to translate your project.",
             "progressLabel": "translation progress",
-            "analyzing": "Reading your program\u2026",
-            "revising": "Putting the new words in\u2026",
-            "started": "Translating $#count[$count phrase|$count phrases] into $language\u2026",
+            "analyzing": "Reading your program…",
+            "revising": "Putting the new words in…",
+            "started": "Translating $#count[$count phrase|$count phrases] into $language…",
             "progress": "Translated $done of $#total[$total phrase|$total phrases]",
             "finished": "Your project now speaks $language.",
             "finishedPartial": "Your project now speaks $language, but $#kept[$kept phrase|$kept phrases] kept the original words."

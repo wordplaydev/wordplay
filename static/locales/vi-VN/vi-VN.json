@@ -2670,11 +2670,92 @@
                     ],
                     "names": ["$~chữThường"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới từ một phần của tôi. Đếm bắt đầu từ 1, và cả hai đầu đều được tính:",
+                        "\\'xin chào'.chuỗiCon(2 4)\\",
+                        "Bỏ đầu cuối ra và tôi sẽ đi hết đến ký hiệu cuối cùng của mình:",
+                        "\\'xin chào'.chuỗiCon(3)\\",
+                        "Tôi đếm ký hiệu theo cách bạn nhìn thấy chúng, nên một biểu tượng cảm xúc gồm nhiều phần vẫn là một ký hiệu và không bao giờ bị cắt làm đôi:",
+                        "\\'🐈📚!'.chuỗiCon(1 2)\\",
+                        "Nếu bạn hỏi nhiều hơn số tôi có, tôi sẽ đưa cho bạn tất cả những gì tôi có."
+                    ],
+                    "names": ["$~chuỗiCon"],
+                    "inputs": [
+                        {
+                            "doc": "$~Nơi bắt đầu, đếm từ 1.",
+                            "names": "$~bắtĐầu"
+                        },
+                        {
+                            "doc": "$~Nơi dừng lại, đếm từ 1. Bỏ trống để đi đến hết.",
+                            "names": "$~kếtThúc"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Tôi cho bạn biết @Text đã cho xuất hiện đầu tiên ở đâu trong tôi, đếm từ 1:",
+                        "\\'xin chào'.chỉMục('ll')\\",
+                        "Nếu nó không hề có trong tôi, tôi sẽ đưa @None thay vào đó:",
+                        "\\'xin chào'.chỉMục('z')\\",
+                        "Cùng với @Text/subsequence, tôi có thể lấy mọi thứ cho đến một điểm nào đó — ở đây, là từ đầu tiên:",
+                        "\\câu: 'xin chào thế giới'\ncâu.chuỗiCon(1 (câu.chỉMục(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~chỉMục"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần tìm trong tôi.",
+                            "names": "$~vănBản"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới với mọi lần xuất hiện của một @Text được đổi thành cái khác:",
+                        "\\'2026-08-21'.thayThế('-' '/')\\",
+                        "Mọi lần xuất hiện đều thay đổi, không chỉ lần đầu tiên:",
+                        "\\'ha ha ha'.thayThế('ha' 'ho')\\",
+                        "Nếu bạn yêu cầu tôi thay thế một @Text trống, tôi sẽ trả lại chính mình mà không đổi gì."
+                    ],
+                    "names": ["$~thayThế"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần tìm trong tôi.",
+                            "names": "$~của"
+                        },
+                        {
+                            "doc": "$~@Text để đặt vào chỗ đó.",
+                            "names": "$~cáiThayThế"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới với khoảng trắng được bỏ đi ở cả hai đầu của tôi. Khoảng trắng ở giữa vẫn giữ nguyên:",
+                        "\\'  xin chào  '.cắtBớt()\\",
+                        "Điều này rất hữu ích cho văn bản do ai đó gõ vào, thường có thêm khoảng trắng mà bạn không hề muốn."
+                    ],
+                    "names": ["$~cắtBớt"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới với các ký hiệu của tôi theo thứ tự ngược lại:",
+                        "\\'xin chào'.đãĐảoNgược()\\",
+                        "Tôi đảo ngược thứ tự các ký hiệu của mình theo cách bạn nhìn thấy chúng, nên biểu tượng cảm xúc vẫn nguyên vẹn và các chữ cái vẫn giữ dấu của chúng:",
+                        "\\'🐈📚'.đãĐảoNgược()\\"
+                    ],
+                    "names": ["$~đãĐảoNgược", "$~đảoNgược"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Chia văn bản thành một danh sách các ký tự riêng lẻ.",
-                "number": "$~Chuyển đổi văn bản thành một đối tượng @Number, và nếu nó không phải là số thì trả về giá trị không phải là số.",
+                "number": [
+                    "$~Chuyển văn bản thành @Number, và nếu nó không phải là một số, thì thành một giá trị không phải là số, hiển thị là \\!#\\:",
+                    "\\'chào' → #\\"
+                ],
                 "formatted": "$~Chuyển đổi văn bản thành văn bản được định dạng, bao gồm cả việc diễn giải mọi định dạng đánh dấu có trong đó."
             }
         },
@@ -3247,25 +3328,11 @@
                     "names": ["$~khôngcócuốicùng"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Là tôi, nhưng không có lần xuất hiện đầu tiên của @value đã cho.",
-                        "\\['táo' 'chuối' 'xoài' 'táo'].khôngcó('táo')\\"
-                    ],
-                    "names": ["$~khôngcó", "$~không"],
-                    "inputs": [
-                        {
-                            "doc": "$~@value cần xóa lần xuất hiện đầu tiên.",
-                            "names": "$~giátrị"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Là tôi, nhưng không có tất cả các lần xuất hiện của @value đã cho.",
-                        "\\['táo' 'chuối' 'xoài' 'táo'].khôngcó('táo')\\"
+                        "$~Là tôi, nhưng không có @value đã cho. Mọi bản sao đều bị bỏ đi, không chỉ bản đầu tiên, dù bạn dùng tên nào của tôi.\\['táo' 'chuối' 'xoài' 'táo'].khôngcó('táo')\\"
                     ],
-                    "names": ["$~khôngcótấtcả"],
+                    "names": ["$~khôngcó", "$~không", "$~khôngcótấtcả"],
                     "inputs": [
                         {
                             "doc": "$~@value cần xóa tất cả các lần xuất hiện khỏi danh sách.",
@@ -4021,7 +4088,12 @@
                 }
             },
             "conversion": {
-                "text": "$~Chuyển đổi văn bản có định dạng thành văn bản thuần @Text , loại bỏ tất cả định dạng."
+                "text": "$~Chuyển đổi văn bản có định dạng thành văn bản thuần @Text , loại bỏ tất cả định dạng.",
+                "list": "$~Chuyển văn bản đã định dạng thành một @List gồm @Text, mỗi phần tử ứng với một ký hiệu trong các từ của tôi. Định dạng không thể giữ nguyên khi bị cắt thành từng ký hiệu riêng lẻ, nên nó sẽ bị bỏ đi.",
+                "number": [
+                    "$~Chuyển các từ của tôi thành @Number, và nếu chúng không phải là một số, thì thành một giá trị không phải là số, hiển thị là \\!#\\:",
+                    "\\`chào` → #\\"
+                ]
             }
         }
     },

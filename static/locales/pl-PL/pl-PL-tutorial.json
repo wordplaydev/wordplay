@@ -1775,7 +1775,7 @@
                         [
                             "List",
                             "excited",
-                            "$~A to jest zabawne: @List.sans po prostu usuwa wszystkie wartości równe podanej wartości. Widzisz, że nie ma już zer na liście wynikowej?"
+                            "$~A to jest zabawne: @List.sansAll po prostu usuwa wszystkie wartości równe podanej wartości. Widzisz, że nie ma już zer na liście wynikowej?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,

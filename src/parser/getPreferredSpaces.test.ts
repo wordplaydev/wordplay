@@ -1,3 +1,7 @@
+import DefaultLocale from '@locale/DefaultLocale';
+import { parseLocaleDoc, toDocString } from '@locale/LocaleText';
+import Docs from '@nodes/Docs';
+import Example from '@nodes/Example';
 import Source from '@nodes/Source';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { describe, expect, test } from 'vitest';
@@ -122,7 +126,7 @@ describe('creator line breaks survive', () => {
     });
 });
 
-describe('the document start guard is literal', () => {
+describe("a root block's first statement gets no leading space", () => {
     test('leading blank lines before the program are removed', () => {
         expect(format("\n\nPhrase('hi')")).toBe("Phrase('hi')");
         expect(format("Phrase('hi')")).toBe("Phrase('hi')");
@@ -140,3 +144,58 @@ describe('the document start guard is literal', () => {
         expect(format('↓ x\nx: 1\nx + 2')).toBe('↓ x\nx: 1\nx + 2');
     });
 });
+
+describe("a doc's inline example is not broken open", () => {
+    // An Example holds its own Program, so its first statement is a root block's
+    // first statement too — but it is never the first leaf of the doc being
+    // formatted. Testing that positionally put a newline after every inline
+    // example's opening `\`, which rendered as a line break inside the example's
+    // box in the guide (the code started on the line below its own background).
+    test('an inline example stays on the line it was written on', () => {
+        const doc = '¶See \\1 + 2\\ for more.¶\nƒ f() 1';
+        expect(format(doc)).toBe(doc);
+    });
+
+    test('a multi-line example keeps only the breaks it was written with', () => {
+        const doc = '¶Two lines: \\a: 1\nb: 2\\ done.¶\nƒ g() 2';
+        expect(format(doc)).toBe(doc);
+    });
+
+    test('no locale doc gains a break after an example opens', () => {
+        // The check that would have caught this: every example in every en-US doc,
+        // formatted the way getBind serializes docs into a structure's source.
+        let examples = 0;
+        for (const text of docTexts(DefaultLocale)) {
+            const doc = parseLocaleDoc(toDocString(text));
+            const docs = new Docs([doc]);
+            const spaces = getPreferredSpaces(docs);
+            for (const example of docs.nodes(
+                (node): node is Example => node instanceof Example,
+            )) {
+                const first = example.program.getFirstLeaf();
+                if (first === undefined) continue;
+                examples++;
+                const before = doc.markup.spaces?.getSpace(first) ?? '';
+                if (!before.includes('\n'))
+                    expect(spaces.getSpace(first)).not.toContain('\n');
+            }
+        }
+        // Guard the guard: a walk that finds nothing would pass silently.
+        expect(examples).toBeGreaterThan(100);
+    });
+});
+
+/** Every `doc` string (or paragraph list) anywhere in a locale. */
+function* docTexts(value: unknown): Generator<string | string[]> {
+    if (value === null || typeof value !== 'object') return;
+    for (const [key, child] of Object.entries(value)) {
+        if (
+            key === 'doc' &&
+            (typeof child === 'string' ||
+                (Array.isArray(child) &&
+                    child.every((item) => typeof item === 'string')))
+        )
+            yield child;
+        else yield* docTexts(child);
+    }
+}

@@ -279,3 +279,48 @@ test.each([
     expect(value).toBeInstanceOf(TextValue);
     if (value instanceof TextValue) expect(value.text).toBe(expected);
 });
+
+/**
+ * Not-a-number is a value like any other: `!#` can be written, and two of them
+ * are equal. Before this, `= !#` was a creator's only way to ask whether a
+ * conversion came back not-a-number, and it could never be true.
+ */
+test.each([
+    ['!# = !#', '⊤'],
+    ['!# ≠ !#', '⊥'],
+    // The motivating case: checking whether a conversion worked.
+    ["('abc' → #) = !#", '⊤'],
+    ["('12' → #) = !#", '⊥'],
+    ["('abc' → #) = ('xyz' → #)", '⊤'],
+    // Units are part of a number's identity, just as `1m = 1` is false.
+    ['!#m = !#m', '⊤'],
+    ['!#m = !#', '⊥'],
+    ['!# = 1', '⊥'],
+    ['!# = ø', '⊥'],
+    // Ordering a not-a-number still has no answer...
+    ['!# < !#', '⊥'],
+    ['!# > !#', '⊥'],
+    // ...but "less than or equal" holds, because they are equal.
+    ['!# ≤ !#', '⊤'],
+    ['!# ≥ !#', '⊤'],
+])('%s is %s', (code, expected) => {
+    expect(evaluateCode(code)?.toString()).toBe(expected);
+});
+
+/** Equality also decides collection membership, so the same rule reaches these. */
+test.each([
+    ['[!#].has(!#)', '⊤'],
+    ['{!#: 1}{!#}', '1'],
+    ['{!#}{!#}', '⊤'],
+    // A set holds one of each value, and two not-a-numbers are one value.
+    ['{!# !#}.size()', '1'],
+    // Match compares with the same rule, so a not-a-number case can be caught.
+    ["('abc' → #) ??? !#: 'bad' 'fine'", '"bad"'],
+])('%s is %s', (code, expected) => {
+    expect(evaluateCode(code)?.toString()).toBe(expected);
+});
+
+test('the literal round-trips and renders as itself', () => {
+    expect(evaluateCode('!#')?.toWordplay()).toBe('!#');
+    expect(evaluateCode('!#m')?.toWordplay()).toBe('!#m');
+});

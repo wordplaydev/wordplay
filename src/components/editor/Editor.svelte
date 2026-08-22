@@ -205,10 +205,12 @@
         conflictsOfInterest?: Conflict[];
         /** An preview function that shows this editor */
         setOutputPreview?: () => void;
-        /** Whether 2+ source editors are currently expanded/visible. The
-         *  output-preview toggle only makes sense when more than one source's
-         *  output could be shown on the stage. */
-        multipleSourcesVisible?: boolean;
+        /** Whether the project has 2+ sources. The output-preview toggle only
+         *  makes sense when more than one source's output could be shown on the
+         *  stage, but it must not depend on how many editors are open: with only
+         *  this one expanded, it's the only way to reach this source's output
+         *  without reopening another editor (#1302). */
+        multipleSources?: boolean;
         /** A function for updating conflicts of interest */
         updateConflicts?: (source: Source, conflicts: Conflict[]) => void;
         /** Controller for this editor's footer notifications (large deletions, drag feedback, etc.) */
@@ -233,7 +235,7 @@
         menu = $bindable(undefined),
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
-        multipleSourcesVisible = false,
+        multipleSources = false,
         updateConflicts,
         notify,
         caretSnapshot = $bindable(undefined),
@@ -4187,7 +4189,7 @@
          reflow rather than overlap, and new controls are just more children.
          The inner panel paints an always-visible bordered card that grows as
          controls appear or the search field expands. -->
-    {#if searchable || (multipleSourcesVisible && setOutputPreview)}
+    {#if searchable || (multipleSources && setOutputPreview)}
         <div class="editor-controls">
             <div class="editor-controls-panel">
                 <!-- Floating search: a magnifying-glass toggle that reveals a
@@ -4202,7 +4204,7 @@
                         {replace}
                     />
                 {/if}
-                {#if multipleSourcesVisible && setOutputPreview}
+                {#if multipleSources && setOutputPreview}
                     <OutputPreview
                         {project}
                         {evaluator}

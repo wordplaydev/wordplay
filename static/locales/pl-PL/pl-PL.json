@@ -2665,11 +2665,92 @@
                     ],
                     "names": ["$~małeLitery"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Tworzę nowy @Text z fragmentu siebie. Liczenie zaczyna się od 1, a oba końce są wliczone:",
+                        "\\'cześć'.podciąg(2 4)\\",
+                        "Pomiń koniec, a dojdę do samego ostatniego symbolu:",
+                        "\\'cześć'.podciąg(3)\\",
+                        "Liczę symbole tak, jak je widzisz, więc emoji złożone z kilku części to nadal jeden symbol i nigdy nie zostanie przecięte na pół:",
+                        "\\'🐈📚!'.podciąg(1 2)\\",
+                        "Jeśli poprosisz o więcej, niż mam, dam ci to, co mam."
+                    ],
+                    "names": ["$~podciąg"],
+                    "inputs": [
+                        {
+                            "doc": "$~Miejsce, od którego zacząć, licząc od 1.",
+                            "names": "$~początek"
+                        },
+                        {
+                            "doc": "$~Miejsce, na którym skończyć, licząc od 1. Pomiń je, aby dojść do końca.",
+                            "names": "$~koniec"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Mówię ci, gdzie podany @Text pojawia się we mnie po raz pierwszy, licząc od 1:",
+                        "\\'cześć'.indeks('ll')\\",
+                        "Jeśli w ogóle mnie w tym nie ma, zamiast tego daję @None:",
+                        "\\'cześć'.indeks('z')\\",
+                        "Razem z @Text/subsequence mogę wziąć wszystko aż do czegoś — tutaj, do pierwszego słowa:",
+                        "\\zdanie: 'witaj świecie'\nzdanie.podciąg(1 (zdanie.indeks(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~indeks"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text, którego mam u siebie szukać.",
+                            "names": "$~tekst"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Tworzę nowy @Text, w którym każde wystąpienie jednego @Text jest zamienione na inne:",
+                        "\\'2026-08-21'.zamień('-' '/')\\",
+                        "Zmienia się każde wystąpienie, nie tylko pierwsze:",
+                        "\\'ha ha ha'.zamień('ha' 'ho')\\",
+                        "Jeśli poprosisz mnie o zastąpienie pustego @Text, oddaję siebie bez zmian."
+                    ],
+                    "names": ["$~zamień"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text, którego mam u siebie szukać.",
+                            "names": "$~z"
+                        },
+                        {
+                            "doc": "$~@Text, który ma zostać wstawiony w to miejsce.",
+                            "names": "$~zamiennik"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Tworzę nowy @Text z usuniętymi pustymi znakami z obu moich końców. Puste miejsce w środku zostaje:",
+                        "\\'  cześć  '.przytnij()\\",
+                        "Jest to przydatne dla tekstu wpisanego przez kogoś, który często zawiera dodatkowe spacje, o które nie prosiłeś."
+                    ],
+                    "names": ["$~przytnij"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Tworzę nowy @Text, w którym moje symbole są w odwrotnej kolejności:",
+                        "\\'cześć'.odwrócony()\\",
+                        "Odwracam kolejność moich symboli tak, jak je widzisz, więc emoji pozostają całe, a litery zachowują swoje znaki diakrytyczne:",
+                        "\\'🐈📚'.odwrócony()\\"
+                    ],
+                    "names": ["$~odwrócony", "$~odwróć"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Dzieli tekst na listę pojedynczych znaków.",
-                "number": "$~Konwertuje tekst na @Number, a jeśli nie jest liczbą, na wartość nieliczbową.",
+                "number": [
+                    "$~Zamienia tekst na @Number, a jeśli to nie jest liczba, na wartość „nie liczba”, która wyświetla się jako \\!#\\:",
+                    "\\'cześć' → #\\"
+                ],
                 "formatted": "$~Konwertuje tekst na tekst sformatowany, interpretując wszelkie zawarte w nim znaczniki."
             }
         },
@@ -3242,25 +3323,12 @@
                     "names": ["$~bezOstatniego", "$~sansOstatni"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Ja, ale bez pierwszych wystąpień podanego @value.",
-                        "\\['jabłko' 'banan' 'mango' 'jabłko'].bez('jabłko')\\"
-                    ],
-                    "names": ["$~bez", "$~bez"],
-                    "inputs": [
-                        {
-                            "doc": "$~@value, którego pierwsze wystąpienie ma zostać usunięte.",
-                            "names": "$~wartość"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Ja, ale bez wszystkich wystąpień podanego @value.",
+                        "$~Ja, ale bez podanego @value. Znika każda kopia, nie tylko pierwsza, niezależnie od tego, której z moich nazw użyjesz:",
                         "\\['jabłko' 'banan' 'mango' 'jabłko'].bez('jabłko')\\"
                     ],
-                    "names": ["$~bezWszystko"],
+                    "names": ["$~bez", "$~bezWszystko"],
                     "inputs": [
                         {
                             "doc": "$~@value, którego wszystkie wystąpienia mają zostać usunięte z listy.",
@@ -4016,7 +4084,12 @@
                 }
             },
             "conversion": {
-                "text": "$~Konwertuje sformatowany tekst na zwykły @Text , usuwając całe formatowanie."
+                "text": "$~Konwertuje sformatowany tekst na zwykły @Text , usuwając całe formatowanie.",
+                "list": "$~Zamienia sformatowany tekst na @List typu @Text, po jednym dla każdego symbolu moich słów. Formatowanie nie przetrwa podziału na pojedyncze symbole, więc jest usuwane.",
+                "number": [
+                    "$~Zamienia moje słowa na @Number, a jeśli nie są liczbą, na wartość „nie liczba”, która wyświetla się jako \\!#\\:",
+                    "\\`cześć` → #\\"
+                ]
             }
         }
     },

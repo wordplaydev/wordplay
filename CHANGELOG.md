@@ -4,6 +4,29 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.29.4 - 2026-08-22
+
+### Added
+
+- 🔠 Text can now take a piece of itself with `subsequence`, find where another text first shows up with `index`, swap every copy of one text for another with `replace`, drop the blank space at its ends with `trim`, and turn itself backwards with `reverse`.
+- 🔣 Formatted text can now become a list of its symbols, or a number, the same way plain text can. (#1190)
+- 🔢 You can now write `!#`, the not-a-number value, in your own code. Wordplay always knew how to make one — turning text like `'hi'` into a number gives you one — but writing it yourself was marked as a mistake.
+
+### Changed
+
+- 🔣 Counting the symbols in text now counts what you see. A family emoji like 👨‍👩‍👧 is drawn from several pieces, and `length` used to call it five symbols instead of one.
+- 🧹 The list functions `without` and `withoutAll` did exactly the same thing under two names, and `without` said it removed only the first copy when it never did. They're one function now, all four names still work, and it removes every copy.
+- 🔢 Two not-a-number values are now equal, so `!# = !#` is true. Asking whether a number came out of text you couldn't read is the whole reason to compare one, and it could never be true before.
+- 🛠️ We updated internal tooling.
+
+### Fixed
+
+- 🐛 Formatted text with a language on it never matched the same formatted text without one, so `` `hi` `` and `` `hi`/en `` looked like different things. Plain text was fixed for this before; now formatted text is too.
+- 🐛 Reversing a list changed the list you started with, instead of leaving it alone and handing you a new one.
+- 🐛 Sorting a list could jumble items that had nothing wrong with them, if any one item's sorting number wasn't a number. Those items go last now, and everything else keeps its order.
+- 📖 Writing `!#` in a help page quietly erased the rest of the sentence, so we couldn't explain the value at all.
+- 🎭 The button that puts a file's output on the stage disappeared when you closed the other files, so you had to open one of them again just to get the button back. It now shows up whenever your project has more than one file. (#1302)
+
 ## 0.29.3 - 2026-08-19
 
 ### Added

@@ -356,6 +356,8 @@ A concrete number value always has either no unit (e.g. `1`) or a specific unit 
 
 The same matching rule applies to `-` and the inequality comparisons (`<`, `≤`, `≥`, `>`): the two operands must have the same unit. Products (`·`), quotients (`÷`), and powers combine units instead, so they accept operands with any units (e.g. `1 · 1m` is `#m` and `2m ÷ 2s` is `#m/s`).
 
+`!#` is the **not-a-number** literal, written the same way in every language (like `∞` and `π`). Most not-a-numbers come from a computation rather than being written: a text that isn't a number (`'abc' → #`), `√-1`, `arcsin` outside its domain, `∞ - ∞`. It takes a unit like any other number (`!#m`). Dividing by zero is **not** one of these — see the next paragraph.
+
 Divide `÷` and remainder `%` evaluate to `ø` when the divisor is zero (never a silent `NaN`), so their output type is `# | ø`. To keep ordinary arithmetic concise, the type is narrowed back to `#` when the divisor is provably non-zero — a non-zero number literal, the `.length()` of a non-empty literal list, set, map, or table, or a name bound (transitively) to one of those. Otherwise the result is `# | ø`, and using it where a number is required is a conflict that suggests handling the possible zero with `??` (e.g. `total ÷ count ?? 0`).
 
 #### _evaluation_
@@ -366,6 +368,8 @@ Number literals evaluate to a number value that stores an immutable [decimal.js]
 
 Numbers are only equal to other numbers that have identical decimal values and equivalent units. Units are only equivalent when the set of dimensions specified on each unit are equivalent and the power of each dimension specified is equivalent.
 
+Two not-a-numbers with the same unit are equal, so `!# = !#` is `⊤` and a creator can ask whether a computation came back not-a-number. (IEEE-754 makes NaN unequal to itself so hardware can flag a bad operation without trapping; Wordplay's `=` asks whether two values are the same thing, and it has `ø` and exceptions for signalling.) Units still count, so `!#m = !#s` is `⊥`, just as `1m = 1` is. Because `≤` and `≥` mean "less/greater than **or equal**", `!# ≤ !#` and `!# ≥ !#` are `⊤`, while the strict `<` and `>` are `⊥` — ordering something that isn't a number has no answer. `min` and `max` still propagate not-a-number, and sorting a list by a not-a-number key puts those items last.
+
 ### Text
 
 > TEXT → TRANSLATION＊  
@@ -374,7 +378,7 @@ Numbers are only equal to other numbers that have identical decimal values and e
 > LANGUAGE → _any valid ISO 639 language code_  
 > REGION → _any valid ISO 3166 country code_
 
-A locale tag may list multiple languages joined by `_` (e.g. `/es_en` for mixed Spanish and English) and, after the `-`, multiple regions joined by `_` (e.g. `/en-US_CA`). The full tag serializes as `lang1_lang2-region1_region2`. Operations that combine text union the languages and regions of their inputs (see _Text_ below). The tag also decides whose casing rules `uppercase`/`lowercase` apply — a multilingual tag uses its primary language, and untagged text uses Unicode's locale-independent root mapping, so a program's result never depends on the machine running it. Letters only have case in bicameral scripts, so text in a script without one is unchanged.
+A locale tag may list multiple languages joined by `_` (e.g. `/es_en` for mixed Spanish and English) and, after the `-`, multiple regions joined by `_` (e.g. `/en-US_CA`). The full tag serializes as `lang1_lang2-region1_region2`. Operations that combine text union the languages and regions of their inputs (see _Text_ below). The tag also decides whose casing rules `uppercase`/`lowercase` apply — a multilingual tag uses its primary language, and untagged text uses Unicode's locale-independent root mapping, so a program's result never depends on the machine running it. Letters only have case in bicameral scripts, so text in a script without one is unchanged. Text also supports `subsequence` (a slice), `index` (where another text first appears), `replace` (every copy of one text swapped for another, unioning the locales as `+` does), `trim`, and `reverse`. Every one of these counts in graphemes, as `length` and `→ ['']` do, so a symbol built from several code points is never cut in half; `subsequence` and `index` count from 1 and `subsequence` includes both ends, matching @List's.
 
 Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in a few ways:
 
@@ -422,17 +426,12 @@ Text literals first get the environment's list of preferred locales and then sel
 
 #### _equality_
 
-Text is equal to other text with an identical sequence of graphemes and equivalent locale.
+Text is equal to other text with an identical sequence of graphemes. The locale takes no part (see above), so only the graphemes decide.
 
-Two text values with different text delimiters are considered equivalent:
+Two text values with different text delimiters are considered equivalent, and so are two with different language declarations:
 
 ```
 'hi' = 『hi』
-```
-
-Two text values with different language declarations, however, are not equivalent, even if they have the same graphemes:
-
-```
 'hi'/en = 『hi』/ja
 ```
 
@@ -463,11 +462,11 @@ Formatted literals first get the environment's list of preferred locales and the
 
 #### _operations_
 
-Markup values support the same locale-aware operations as text, via the `` `…` `` type: `length`, `=`/`≠`, `has`, `starts`, `ends`, `repeat`, `+` (combine, which concatenates the markup and unions the operands' locales), and `uppercase`/`lowercase`, which convert only the prose, leaving formatting delimiters, `@concept` links, `\example\` code, `$mention` keys, and link URLs as they are. They also convert to and from @Text (`` `…` `` → `''` drops formatting; `''` → `` `…` `` interprets any markup in the text). Like text, combining markup with differing locales unions them, and the `/` locale operator overrides a computed markup's locale.
+Markup values support the same locale-aware operations as text, via the `` `…` `` type: `length`, `=`/`≠`, `has`, `starts`, `ends`, `repeat`, `+` (combine, which concatenates the markup and unions the operands' locales), and `uppercase`/`lowercase`, which convert only the prose, leaving formatting delimiters, `@concept` links, `\example\` code, `$mention` keys, and link URLs as they are. They also convert to a @List of their symbols (`→ ['']`, which drops formatting) and to a @Number. They also convert to and from @Text (`` `…` `` → `''` drops formatting; `''` → `` `…` `` interprets any markup in the text). Like text, combining markup with differing locales unions them, and the `/` locale operator overrides a computed markup's locale.
 
 #### _equality_
 
-Markup values follow the same equality rules as text: but also must have the exact same markup structure.
+Markup values follow the same equality rules as text — the locale takes no part — but must also have the exact same markup structure.
 
 ### Pattern
 

@@ -1779,7 +1779,7 @@
                         [
                             "List",
                             "excited",
-                            "And this one is fun: @List.sans just removes all of the values equal to the given value. See how there are no zeros left in the resulting list?"
+                            "And this one is fun: @List.sansAll just removes all of the values equal to the given value. See how there are no zeros left in the resulting list?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,

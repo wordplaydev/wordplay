@@ -2665,11 +2665,92 @@
                     ],
                     "names": ["$~maliliitNaTitik"],
                     "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text mula sa bahagi ko. Nagsisimula ang bilang sa 1, at kasama ang dalawang dulo:",
+                        "\\'kamusta'.subsequence(2 4)\\",
+                        "Alisin ang huling bilang at aabot ako hanggang sa huli kong simbolo:",
+                        "\\'kamusta'.subsequence(3)\\",
+                        "Binibilang ko ang mga simbolo ayon sa nakikita mo, kaya ang isang emoji na gawa sa maraming bahagi ay iisang simbolo pa rin at hindi kailanman puputulin sa kalahati:",
+                        "\\'🐈📚!'.subsequence(1 2)\\",
+                        "Kung humingi ka ng higit pa sa mayroon ako, ibinibigay ko ang mayroon ako."
+                    ],
+                    "names": ["$~subsequence"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang simula, bilang mula sa 1.",
+                            "names": "$~simula"
+                        },
+                        {
+                            "doc": "$~Ang hihintuan, bilang mula sa 1. Alisin ito para abutin ang dulo.",
+                            "names": "$~dulo"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Sinasabi ko sa iyo kung saan unang lumitaw ang ibinigay na @Text sa akin, bilang mula sa 1:",
+                        "\\'kamusta'.indeks('ll')\\",
+                        "Kung wala ito sa akin, ibinibigay ko ang @None sa halip:",
+                        "\\'kamusta'.indeks('z')\\",
+                        "Kasama ng @Text/subsequence kaya kong kunin ang lahat hanggang sa isang bagay — dito, ang unang salita:",
+                        "\\parirala: 'kamusta mundo'\nparirala.subsequence(1 (parirala.indeks(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~indeks"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na hahanapin sa akin.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text kung saan ang bawat paglitaw ng isang @Text ay pinalitan ng iba:",
+                        "\\'2026-08-21'.palitan('-' '/')\\",
+                        "Nagbabago ang bawat paglitaw, hindi lang ang una:",
+                        "\\'ha ha ha'.palitan('ha' 'ho')\\",
+                        "Kung hihilingin mong palitan ang isang walang laman na @Text, ibinabalik ko ang aking sarili na walang pagbabago."
+                    ],
+                    "names": ["$~palitan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na hahanapin sa akin.",
+                            "names": "$~ng"
+                        },
+                        {
+                            "doc": "$~Ang @Text na ilalagay sa lugar nito.",
+                            "names": "$~kapalit"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na tinanggalan ng blangkong puwang sa magkabilang dulo ko. Ang puwang sa gitna ay nananatili:",
+                        "\\'  kamusta  '.gupitin()\\",
+                        "Makakatulong ito para sa tekstong tina-type ng ibang tao, na kadalasang may dagdag na puwang na hindi mo naman hiniling."
+                    ],
+                    "names": ["$~gupitin"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na may mga simbolo ko sa kabaligtarang pagkakasunod-sunod:",
+                        "\\'kamusta'.binaligtad()\\",
+                        "Binabaligtad ko ang pagkakasunod-sunod ng aking mga simbolo ayon sa nakikita mo, kaya nananatiling buo ang mga emoji at pinapanatili ng mga letra ang kanilang mga marka:",
+                        "\\'🐈📚'.binaligtad()\\"
+                    ],
+                    "names": ["$~binaligtad", "$~baligtarin"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Hinahati ang teksto sa isang listahan ng mga indibidwal na karakter.",
-                "number": "$~Kino-convert ang teksto sa isang @Number, at kung hindi ito numero, isang value na hindi numero.",
+                "number": [
+                    "$~Kinokombert ang teksto tungo sa isang @Number, at kung hindi ito numero, isang halagang hindi-numero, na lumilitaw bilang \\!#\\:",
+                    "\\'hi' → #\\"
+                ],
                 "formatted": "$~Kino-convert ang teksto sa naka-format na teksto, binibigyang-kahulugan ang anumang markup na nilalaman nito."
             }
         },
@@ -3242,25 +3323,17 @@
                     "names": ["$~walangHuling"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Ako, pero walang unang paglitaw ng ibinigay na @value.",
-                        "\\['mansanas' 'saging' 'mangga' 'mansanas'].nangwalang(\n\t'mansanas'\n)\\"
-                    ],
-                    "names": ["$~nangwalang", "$~walanglaman"],
-                    "inputs": [
-                        {
-                            "doc": "$~Ang @value na aalisin ang unang paglitaw.",
-                            "names": "$~halaga"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Ako, pero walang lahat ng paglitaw ng ibinigay na @value.",
+                        "$~Ako, ngunit wala ang ibinigay na @value. Bawat kopya ay aalisin, hindi lang ang una, kahit alin man sa aking mga pangalan ang gamitin mo:",
                         "\\['mansanas' 'saging' 'mangga' 'mansanas'].nangwalang(\n\t'mansanas'\n)\\"
                     ],
-                    "names": ["$~nangwalangLahat", "$~walangLahat"],
+                    "names": [
+                        "$~nangwalang",
+                        "$~walanglaman",
+                        "$~nangwalangLahat",
+                        "$~walangLahat"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~Ang @value na aalisin ang lahat ng paglitaw mula sa listahan.",
@@ -4016,7 +4089,12 @@
                 }
             },
             "conversion": {
-                "text": "$~Kino-convert ang naka-format na teksto sa plain @Text , at inaalis ang lahat ng formatting."
+                "text": "$~Kino-convert ang naka-format na teksto sa plain @Text , at inaalis ang lahat ng formatting.",
+                "list": "$~Kinokombert ang naka-format na teksto tungo sa isang @List ng @Text, isa para sa bawat simbolo ng aking mga salita. Hindi mananatili ang pag-format kapag pinutol sa iisang simbolo, kaya ito ay tinatanggal.",
+                "number": [
+                    "$~Kinokombert ang aking mga salita tungo sa isang @Number, at kung hindi sila numero, isang halagang hindi-numero, na lumilitaw bilang \\!#\\:",
+                    "\\`hi` → #\\"
+                ]
             }
         }
     },

@@ -16,8 +16,15 @@ export default function firstSentence(text: string, locale: string): string {
     } catch {
         segmenter = new Intl.Segmenter(undefined, { granularity: 'sentence' });
     }
-    const first = segmenter.segment(text)[Symbol.iterator]().next();
-    return (first.done ? text : first.value.segment).trim();
+    // ICU ends a sentence at `!`, but `!#` is Wordplay's not-a-number literal
+    // (see the Tokenizer rule), so a boundary landing between the two would
+    // silently drop the rest of a doc that mentions it. Keep going past those.
+    let end = text.length;
+    for (const { index, segment } of segmenter.segment(text)) {
+        end = index + segment.length;
+        if (!(text[end - 1] === '!' && text[end] === '#')) break;
+    }
+    return text.slice(0, end).trim();
 }
 
 /**
