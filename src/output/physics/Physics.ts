@@ -307,8 +307,12 @@ export default class Physics {
                 const motion = getPlacingMotion(this.evaluator, info.output);
 
                 // Is a Collision watching this name? Then it needs a body
-                // to be detected in, whatever else is true of it.
-                const detectable = watched.has(name);
+                // to be detected in, whatever else is true of it. A Shape
+                // directly on the Stage is excepted: it's already in the world
+                // as a barrier below, and a second body under the same name
+                // would report every touch twice.
+                const detectable =
+                    watched.has(name) && !(info.output instanceof Shape);
 
                 // If the output has matter, is in motion, or is being watched,
                 // make sure it's in the physics world.

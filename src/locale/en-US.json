@@ -4825,7 +4825,7 @@
                 "It's a stream of @Rebound values for when named @Output bump into each other.",
                 "To have two @Output notice each other, give them both names, then give me both names. I'll make a new @Rebound whenever they touch. They don't need @Matter for that — a name is all I need to watch something.",
                 "Give me one name instead, and I'll tell you whenever that @Output touches anything else in the physical world. An @Output is in the physical world if it has @Matter, if a @Motion places it, if it's a @Shape directly on the @Stage, or if I'm watching its name too.",
-                "@Matter is what makes @Output solid, so they push each other apart instead of passing through. Without it they still notice each other, they just don't bounce.",
+                "Noticing isn't the same as bouncing. @Output only pushes other @Output around if it has @Matter and a @Motion moving it. @Output that your program places goes exactly where you put it, so it passes through whatever it touches — I'll still tell you about the touch.",
                 "A @Rebound has the names that touched and the direction they touched from. Right after I make one, I'll make a \\ø\\, since a collision is over as soon as it happens.",
                 "I can only watch @Output placed directly on the @Stage. Anything inside a @Group moves in that group's own space, so I can't see it — give the @Group a name and watch that instead."
             ],
@@ -4998,7 +4998,7 @@
                 "names": "content"
             },
             "matter": {
-                "doc": "What makes me solid when I bump into things, and how heavy, bouncy, and slippery I am.",
+                "doc": "How heavy, bouncy, and slippery I am, and what makes me solid when a @Motion moves me.",
                 "names": "matter"
             },
             "size": {
@@ -5124,7 +5124,7 @@
                 "names": "direction"
             },
             "matter": {
-                "doc": "What makes me solid when I bump into things, and how heavy, bouncy, and slippery I am.",
+                "doc": "How heavy, bouncy, and slippery I am, and what makes me solid when a @Motion moves me.",
                 "names": "matter"
             },
             "aura": {
@@ -6579,7 +6579,7 @@
             }
         },
         "Matter": {
-            "doc": "I make @Output solid, so it pushes other solid @Output apart instead of passing through, and I say how heavy, bouncy, and slippery it is. @Output doesn't need me to be noticed by @Collision — a name is enough for that.",
+            "doc": "I say how heavy, bouncy, and slippery @Output is. @Output that has me and a @Motion is solid: it bounces off the @Shape on the @Stage and off other moving @Output. @Output that your program places goes where you put it instead, and passes through what it touches. @Output doesn't need me to be noticed by @Collision — a name is enough for that.",
             "names": ["⚛️", "Matter"],
             "mass": {
                 "doc": "A weight, in kilograms",
@@ -6598,11 +6598,11 @@
                 "names": "roundedness"
             },
             "text": {
-                "doc": "Whether I'm solid to other @Phrase and @Group; ⊥ means I pass through them.",
+                "doc": "Whether I can bump into other @Phrase and @Group at all; ⊥ means I don't notice them and @Collision says nothing about them.",
                 "names": "text"
             },
             "shapes": {
-                "doc": "Whether I'm solid to the @Shape on the @Stage; ⊥ means I pass through walls and floors.",
+                "doc": "Whether I can bump into the @Shape on the @Stage at all; ⊥ means I fall through walls and floors and @Collision says nothing about them.",
                 "names": "ground"
             }
         },
