@@ -31,6 +31,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 💾 The bottom of the page grew taller for a moment while your work was saving, which nudged everything above it. It stays the same size now.
+- 🧲 @Collision only worked if you gave both things @Matter, and nothing told you so. Now naming two things is all it takes for them to notice each other, and @Matter is just for making them solid so they bounce. (#548)
 - 🖱️ The Wordplay logo at the bottom of the page showed nothing when you pointed at it or moved to it with the keyboard, so there was no sign it was a link. Now it does. (#836)
 - 🌐 In 29 languages, the tutorial pointed at code examples that weren't there — a lesson would say to use `+` but never show it. We put the missing examples back, and Wordplay now checks for this so it can't happen again. (#928)
 - 🌐 We redid the whole Arabic tutorial with our current translator. Most of it was still from an old one that dropped examples and left lessons hard to follow. (#928)
