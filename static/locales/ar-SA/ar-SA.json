@@ -283,7 +283,7 @@
         "Product": "$~ناتج",
         "Percent": "$~نسبة مئوية",
         "Defect": "$~مثال مع عيب متوقع",
-        "NotANumber": "$?"
+        "NotANumber": "$~ليس رقمًا"
     },
     "node": {
         "Dimension": {

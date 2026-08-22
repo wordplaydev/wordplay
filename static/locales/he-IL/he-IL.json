@@ -283,7 +283,7 @@
         "Product": "$~מוּצָר",
         "Percent": "$~אָחוּז",
         "Defect": "$~דוגמה עם פגם צפוי",
-        "NotANumber": "$?"
+        "NotANumber": "$~לא מספר"
     },
     "node": {
         "Dimension": {

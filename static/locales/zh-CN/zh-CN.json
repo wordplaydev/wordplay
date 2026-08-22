@@ -283,7 +283,7 @@
         "Product": "$~乘积",
         "Percent": "$~百分比",
         "Defect": "$~带有预期缺陷的示例",
-        "NotANumber": "$?"
+        "NotANumber": "$~不是数字"
     },
     "node": {
         "Dimension": {

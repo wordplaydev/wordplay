@@ -283,7 +283,7 @@
         "Product": "$~ürün",
         "Percent": "$~yüzde",
         "Defect": "$~beklenen kusurlu örnek",
-        "NotANumber": "$?"
+        "NotANumber": "$~sayı değil"
     },
     "node": {
         "Dimension": {

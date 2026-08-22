@@ -283,7 +283,7 @@
         "Product": "$~produkto",
         "Percent": "$~porsyento",
         "Defect": "$~halimbawa na may inaasahang depekto",
-        "NotANumber": "$?"
+        "NotANumber": "$~hindi numero"
     },
     "node": {
         "Dimension": {

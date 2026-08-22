@@ -283,7 +283,7 @@
         "Product": "$~ਉਤਪਾਦ",
         "Percent": "$~ਪ੍ਰਤੀਸ਼ਤ",
         "Defect": "$~ਸੰਭਾਵਿਤ ਨੁਕਸ ਵਾਲੀ ਉਦਾਹਰਨ",
-        "NotANumber": "$?"
+        "NotANumber": "$~ਇਹ ਨੰਬਰ ਨਹੀਂ ਹੈ"
     },
     "node": {
         "Dimension": {

@@ -283,7 +283,7 @@
         "Product": "$~제품",
         "Percent": "$~퍼센트",
         "Defect": "$~예상된 결함이 있는 예시",
-        "NotANumber": "$?"
+        "NotANumber": "$~숫자가 아님"
     },
     "node": {
         "Dimension": {

@@ -283,7 +283,7 @@
         "Product": "$~produk",
         "Percent": "$~persen",
         "Defect": "$~contoh dengan cacat yang diharapkan",
-        "NotANumber": "$?"
+        "NotANumber": "$~bukan angka"
     },
     "node": {
         "Dimension": {

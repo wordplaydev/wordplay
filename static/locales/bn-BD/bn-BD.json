@@ -283,7 +283,7 @@
         "Product": "$~গুণফল",
         "Percent": "$~শতাংশ",
         "Defect": "$~প্রত্যাশিত ত্রুটিসহ উদাহরণ",
-        "NotANumber": "$?"
+        "NotANumber": "$~সংখ্যা নয়"
     },
     "node": {
         "Dimension": {

@@ -262,6 +262,7 @@
         "TeluguNumeral": "telugu numeral",
         "Pi": "pi",
         "Infinity": "infinity",
+        "NotANumber": "not a number",
         "TableOpen": "table open",
         "TableClose": "table close",
         "Select": "select",

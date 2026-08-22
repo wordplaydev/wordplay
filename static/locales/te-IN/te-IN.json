@@ -283,7 +283,7 @@
         "Product": "$~ఉత్పత్తి",
         "Percent": "$~శాతం",
         "Defect": "$~ఆశించిన లోపంతో ఉదాహరణ",
-        "NotANumber": "$?"
+        "NotANumber": "$~సంఖ్య కాదు"
     },
     "node": {
         "Dimension": {

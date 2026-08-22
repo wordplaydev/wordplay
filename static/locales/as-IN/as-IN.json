@@ -283,7 +283,7 @@
         "Product": "$~সামগ্ৰী",
         "Percent": "$~শতাংশ",
         "Defect": "$~আশা কৰা ত্ৰুটিৰ সৈতে উদাহৰণ",
-        "NotANumber": "$?"
+        "NotANumber": "$~সংখ্যা নহয়"
     },
     "node": {
         "Dimension": {

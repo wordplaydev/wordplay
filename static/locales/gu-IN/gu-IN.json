@@ -283,7 +283,7 @@
         "Product": "$~ઉત્પાદન",
         "Percent": "$~ટકા",
         "Defect": "$~અપેક્ષિત ખામી સાથેનું ઉદાહરણ",
-        "NotANumber": "$?"
+        "NotANumber": "$~સંખ્યા નથી"
     },
     "node": {
         "Dimension": {

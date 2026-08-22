@@ -283,7 +283,7 @@
         "Product": "$~producto",
         "Percent": "$~porcentaje",
         "Defect": "$~ejemplo con defecto esperado",
-        "NotANumber": "$?"
+        "NotANumber": "$~no es un número"
     },
     "node": {
         "Dimension": {

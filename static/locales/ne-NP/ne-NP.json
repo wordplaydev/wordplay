@@ -283,7 +283,7 @@
         "PatternLessEqual": "$~ढाँचा बढीमा",
         "PatternText": "$~ढाँचा शाब्दिक पाठ",
         "Defect": "$~अपेक्षित त्रुटि भएको उदाहरण",
-        "NotANumber": "$?"
+        "NotANumber": "$~संख्या होइन"
     },
     "node": {
         "Dimension": {
