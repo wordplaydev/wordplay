@@ -9350,7 +9350,7 @@
                 "instructions": {
                     "empty": "Choose a drawing mode in the palette to create shapes.",
                     "unselected": "Choose a drawing mode or select and edit shapes. Use *ctrl/cmd-a* to select everything and *ctrl/cmd-z* to undo.",
-                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use *ctrl/cmd-c* and *ctrl/cmd-v* to copy and paste, and *ctrl/cmd-z* to undo. Use the controls below to change the selected shapes.",
+                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use *ctrl/cmd-c* and *ctrl/cmd-v* to copy and paste, and *ctrl/cmd-z* to undo. With one path selected, press *enter* to edit its points. Use the controls below to change the selected shapes.",
                     "eraser": "To erase shapes, click or tap on them. Drag to erase pixels. Use the *arrow* keys to move the eraser and *space* to delete.",
                     "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel. *Double-click* to fill.",
                     "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
@@ -9526,11 +9526,11 @@
                     },
                     "horizontal": {
                         "label": "flip horizontal",
-                        "tip": "flip the points horizontally around the center"
+                        "tip": "flip the selection horizontally"
                     },
                     "vertical": {
                         "label": "flip vertical",
-                        "tip": "flip the points vertically around the center"
+                        "tip": "flip the selection vertically"
                     },
                     "fit": {
                         "label": "fit",
@@ -9590,11 +9590,11 @@
                     "moved": "moved to $x $y",
                     "drew": "drew at $x $y",
                     "erased": "erased at $x $y",
-                    "finished": "$shape at $x $y",
+                    "finished": "made $shape at $x $y",
                     "deleted": "deleted, $#count[one shape|$count shapes] left",
                     "undone": "undid step $step of $total",
                     "redone": "redid step $step of $total",
-                    "copied": "copied $#count[one $shapes|$count $shapes]",
+                    "copied": "copied $#count[one $shapes|$count shapes: $shapes]",
                     "pasted": "pasted at $x $y",
                     "arranged": "layer $index of $total",
                     "flipped": "flipped, now at $x $y",

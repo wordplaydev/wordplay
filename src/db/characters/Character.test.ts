@@ -10,11 +10,15 @@ import {
     clampToGrid,
     curvePathPoint,
     deletePathPoint,
+    flipShape,
     getPathBounds,
+    getShapeBounds,
+    getShapesBounds,
     insertPathPoint,
     straightenPathPoint,
     transformPathPoints,
 } from '@db/characters/paths';
+import type { CharacterShape } from '@db/characters/Character';
 import { describe, expect, test } from 'vitest';
 
 function path(points: PathPoints, closed = false): CharacterPath {
@@ -227,6 +231,36 @@ describe('deletePathPoint', () => {
         ]);
     });
 
+    /**
+     * A curve bends the segment *arriving* at its point, so a point promoted to
+     * first by a deletion would bend a segment its control point was never drawn
+     * for — the closing one on a closed path, and nothing at all on an open one.
+     */
+    test('a point promoted to first loses a curve drawn for another segment', () => {
+        const result = deletePathPoint(
+            [
+                { x: 0, y: 0 },
+                { x: 8, y: 0, curve: { x: 4, y: 6 } },
+                { x: 8, y: 8 },
+            ],
+            0,
+        );
+        expect(result).toBeDefined();
+        if (result) expect('curve' in result[0]).toBe(false);
+    });
+
+    test('a curve elsewhere in the path is left alone', () => {
+        const result = deletePathPoint(
+            [
+                { x: 0, y: 0 },
+                { x: 8, y: 0 },
+                { x: 8, y: 8, curve: { x: 9, y: 4 } },
+            ],
+            1,
+        );
+        expect(result?.[1].curve).toEqual({ x: 9, y: 4 });
+    });
+
     test('refuses rather than leaving a path too short to draw', () => {
         expect(
             deletePathPoint(
@@ -284,3 +318,92 @@ function character(shape: CharacterPath): Character {
         shapes: [shape],
     };
 }
+
+/**
+ * Flipping mirrored each shape about its own center, which is a no-op for every
+ * shape but a path — so the button did nothing at all to a rectangle, an ellipse,
+ * or a pixel. Mirroring about the box the caller gives it is what makes those
+ * move.
+ */
+describe('flipShape', () => {
+    const box = { left: 0, top: 0, right: 10, bottom: 10 };
+
+    test('a rectangle mirrors by its whole width, not by its corner', () => {
+        const rect: CharacterShape = {
+            type: 'rect',
+            point: { x: 1, y: 4 },
+            width: 3,
+            height: 2,
+        };
+        flipShape(rect, box, 'horizontal');
+        // Spanned 1..4, so it now spans 6..9.
+        expect(rect.point.x).toBe(6);
+        expect(rect.point.y).toBe(4);
+    });
+
+    test('a pixel moves, where flipping about its own center never could', () => {
+        const pixel: CharacterShape = {
+            type: 'pixel',
+            point: { x: 2, y: 7 },
+            fill: null,
+        };
+        flipShape(pixel, box, 'vertical');
+        expect(pixel.point).toEqual({ x: 2, y: 3 });
+    });
+
+    test('a mirror reverses the direction a shape is turned', () => {
+        const rect: CharacterShape = {
+            type: 'rect',
+            point: { x: 1, y: 1 },
+            width: 2,
+            height: 2,
+            angle: 30,
+        };
+        flipShape(rect, box, 'horizontal');
+        expect(rect.angle).toBe(-30);
+    });
+
+    test('a path mirrors with its curves, and stays inside the box', () => {
+        const shape = curvedSquare();
+        const bounds = getPathBounds(shape);
+        flipShape(shape, bounds, 'horizontal');
+        expect(getPathBounds(shape)).toEqual(bounds);
+        expect(shape.points[2].curve).toBeDefined();
+    });
+
+    test('flipping twice returns a shape to where it started', () => {
+        const shape = curvedSquare();
+        const before = JSON.stringify(shape.points);
+        const bounds = getPathBounds(shape);
+        flipShape(shape, bounds, 'vertical');
+        flipShape(shape, bounds, 'vertical');
+        expect(JSON.stringify(shape.points)).toBe(before);
+    });
+});
+
+describe('bounds across shape kinds', () => {
+    test('a pixel occupies one grid position', () => {
+        expect(
+            getShapeBounds({
+                type: 'pixel',
+                point: { x: 3, y: 4 },
+                fill: null,
+            }),
+        ).toEqual({ left: 3, top: 4, right: 3, bottom: 4 });
+    });
+
+    test('a group spans everything in it, curves included', () => {
+        // The bulge reaches x = 15, halfway to the control point at x = 20 —
+        // the box is where the curve goes, not where its handle sits.
+        expect(
+            getShapesBounds([
+                { type: 'pixel', point: { x: 1, y: 1 }, fill: null },
+                curvedSquare(),
+            ]),
+        ).toEqual({ left: 0, top: 0, right: 15, bottom: 10 });
+    });
+
+    test('nothing has no bounds, rather than an infinite box', () => {
+        expect(getShapesBounds([])).toBeUndefined();
+    });
+});

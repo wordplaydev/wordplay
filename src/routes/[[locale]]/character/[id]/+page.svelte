@@ -33,12 +33,24 @@
         clampToGrid,
         curvePathPoint,
         deletePathPoint,
-        getPathBounds,
+        flipShape,
         getPriorPoint,
+        getShapeBounds,
+        getShapesBounds,
         insertPathPoint,
         straightenPathPoint,
         transformPathPoints,
     } from '@db/characters/paths';
+    import {
+        canRedo,
+        canUndo,
+        currentState,
+        record,
+        redo as redoHistory,
+        startHistory,
+        undo as undoHistory,
+        type History,
+    } from '@db/characters/history';
     import {
         CharacterSize,
         characterToSVG,
@@ -123,11 +135,8 @@
     /** The current list of shapes of the character */
     let shapes: CharacterShape[] = $state([]);
 
-    /** The history of shapes, to support undo/redo */
-    let history: CharacterShape[][] = $state.raw([]);
-
-    /** Where we are in the undo history, to support redo */
-    let historyIndex = $state(0);
+    /** The undo history, whose current state is always what the editor is showing. */
+    let history: History<CharacterShape[]> = $state.raw(startHistory([]));
 
     /** The current drawing mode of the editor*/
     let mode: DrawingMode = $state(DrawingMode.Select);
@@ -383,8 +392,9 @@
                     collaborators = loadedCharacter.collaborators;
 
                     // Start history with the loaded shapes.
-                    history = [structuredClone(loadedCharacter.shapes)];
-                    historyIndex = 0;
+                    history = startHistory(
+                        structuredClone(loadedCharacter.shapes),
+                    );
 
                     persisted = loadedCharacter;
                     loadedCharacter === undefined
@@ -418,11 +428,15 @@
             currentFillSetting = 'set';
     });
 
-    // Point editing belongs to one path; when the selection moves on, so does it.
+    // Point editing belongs to one path in one mode; when the selection moves on,
+    // or a drawing tool takes over, so does it. Reset rather than
+    // stopEditingPoints, so switching tools doesn't pull focus back to the canvas
+    // or talk over the mode change.
     $effect(() => {
         const path = editablePath;
+        const drawing = mode !== DrawingMode.Select;
         untrack(() => {
-            if (editedPath !== undefined && editedPath !== path) {
+            if (editedPath !== undefined && (drawing || editedPath !== path)) {
                 editedPath = undefined;
                 editedHandle = undefined;
             }
@@ -481,31 +495,24 @@
             return;
         }
 
-        // Remove the future if we're in the past
-        if (historyIndex < history.length - 1)
-            history = history.slice(0, historyIndex + 1);
-
-        // Remove any selection that's no longer in the shapes.
-        selection = selection.filter((s) => shapes.includes(s));
-
-        // Clone the current shapes and add them to the history the shapes to the history
-        if (remember) {
-            history = [
-                ...history,
-                structuredClone($state.snapshot(shapes)) as CharacterShape[],
-            ];
-        }
+        // Drop any shape that's no longer here, but only reassign when one
+        // actually went: the selection announcement fires on every assignment,
+        // and a constant one alternating with an edit's announcement is heard
+        // as the editor saying "selected path" after every arrow key.
+        const kept = selection.filter((s) => newShapes.includes(s));
+        if (kept.length !== selection.length) selection = kept;
 
         // Update the shapes.
         shapes = newShapes;
 
-        // Move the index to the present.
-        historyIndex = history.length - 1;
-
-        // No more than 250 steps back, just to be conservative about memory.
-        if (history.length > 250) {
-            history.shift();
-        }
+        // Record where this landed, not where it came from: callers that mutate
+        // in place and callers that build a new array have to agree on what one
+        // undo means.
+        if (remember)
+            history = record(
+                history,
+                structuredClone($state.snapshot(shapes)) as CharacterShape[],
+            );
     }
 
     /** Say where an undo or redo landed in the history. */
@@ -516,8 +523,8 @@
             'character-history',
             $locales
                 .concretize(path, {
-                    step: historyIndex + 1,
-                    total: history.length,
+                    step: history.index + 1,
+                    total: history.states.length,
                 })
                 .toText(),
         );
@@ -558,25 +565,36 @@
     }
 
     function undo() {
-        if (historyIndex > 0) {
-            const previous = shapes;
-            historyIndex--;
-            const previousShapes = history[historyIndex];
-            if (previousShapes) shapes = previousShapes;
-            reanchor(previous);
-            announceHistory((l) => l.ui.page.character.announce.undone);
-        }
+        if (!canUndo(history)) return;
+        history = undoHistory(history);
+        restoreShapes();
+        announceHistory((l) => l.ui.page.character.announce.undone);
     }
 
     function redo() {
-        if (historyIndex < history.length - 1) {
-            const previous = shapes;
-            historyIndex++;
-            const futureShapes = history[historyIndex];
-            if (futureShapes) shapes = futureShapes;
-            reanchor(previous);
-            announceHistory((l) => l.ui.page.character.announce.redone);
-        }
+        if (!canRedo(history)) return;
+        history = redoHistory(history);
+        restoreShapes();
+        announceHistory((l) => l.ui.page.character.announce.redone);
+    }
+
+    /** Show the state the history is now on. Cloned rather than handed over, since
+     *  the editor edits shapes in place and would otherwise rewrite its own past. */
+    function restoreShapes() {
+        const restoring = currentState(history);
+        if (restoring === undefined) return;
+        // An undo that changes the number of points removes the handle focus was
+        // on, and focus falls to the document — so put it back, but only if it
+        // was here to begin with, so a Ctrl+Z typed in the palette stays there.
+        const focused = document.activeElement;
+        const wasOnHandle =
+            focused instanceof Element &&
+            focused.closest('[data-handle]') !== null;
+        const previous = shapes;
+        shapes = structuredClone(restoring) as CharacterShape[];
+        reanchor(previous);
+        if (wasOnHandle && editedHandle)
+            focusHandle(editedHandle.index, editedHandle.curve);
     }
 
     /** Set the pixel at the current position and fill. */
@@ -908,23 +926,6 @@
             return;
         }
 
-        // Handle undo
-        if (event.key === 'z' && control) {
-            if (event.shiftKey) redo();
-            else undo();
-            event.stopPropagation();
-            event.preventDefault();
-            return;
-        }
-
-        // Handle redo
-        if (event.key === 'y' && control) {
-            undo();
-            event.stopPropagation();
-            event.preventDefault();
-            return;
-        }
-
         // Handle select all
         if (event.key === 'a' && control) {
             selectAll();
@@ -966,6 +967,8 @@
                 selection = [pendingRectOrEllipse];
                 pendingRectOrEllipse = undefined;
                 mode = DrawingMode.Select;
+                // Mark history, as finishing with the pointer does.
+                rememberShapes();
                 announceFinished(finished);
             }
             event.stopPropagation();
@@ -1120,25 +1123,25 @@
             addShapes(copies);
             // Select all the copies so they can be moved.
             selection = [...copies];
+            // Pasting is one discrete result, not a stream, so it goes in the
+            // lane that never drops it.
             announceSelectionPosition(
                 (l) => l.ui.page.character.announce.pasted,
+                'character-edit',
             );
         }
     }
 
     /** Say that a shape is done, and where it ended up. */
     function announceFinished(shape: CharacterShape) {
-        const corner =
-            shape.type === 'path'
-                ? { x: getPathBounds(shape).left, y: getPathBounds(shape).top }
-                : shape.point;
+        const corner = shapeCorner(shape);
         announceEdit(
             'character-edit',
             $locales
                 .concretize((l) => l.ui.page.character.announce.finished, {
                     shape: describeShapeKinds([shape]),
-                    x: Math.round(corner.x),
-                    y: Math.round(corner.y),
+                    x: corner.x,
+                    y: corner.y,
                 })
                 .toText(),
         );
@@ -1172,17 +1175,18 @@
             .join(', ');
     }
 
+    /** Where a shape sits, as the top left corner of the box it occupies. */
+    function shapeCorner(shape: CharacterShape): Point {
+        const box = getShapeBounds(shape);
+        return { x: Math.round(box.left), y: Math.round(box.top) };
+    }
+
     /** Where the selection sits now, as its top left corner on the grid. */
     function selectionCorner(): Point {
-        const boxes = selection.map((shape) =>
-            shape.type === 'path'
-                ? getPathBounds(shape)
-                : { left: shape.point.x, top: shape.point.y },
-        );
-        return {
-            x: Math.round(Math.min(...boxes.map((b) => b.left))),
-            y: Math.round(Math.min(...boxes.map((b) => b.top))),
-        };
+        const box = getShapesBounds(selection);
+        return box === undefined
+            ? { x: 0, y: 0 }
+            : { x: Math.round(box.left), y: Math.round(box.top) };
     }
 
     /** Announce something that has to name where the selection landed, because the
@@ -1190,11 +1194,12 @@
      *  two presses — without it the region repeats itself and is heard once. */
     function announceSelectionPosition(
         path: (locale: LocaleText) => Template<['x', 'y']>,
+        kind: 'character-point' | 'character-edit' = 'character-point',
     ) {
         if (selection.length === 0) return;
         const corner = selectionCorner();
         announceEdit(
-            'character-point',
+            kind,
             $locales.concretize(path, { x: corner.x, y: corner.y }).toText(),
         );
     }
@@ -1415,7 +1420,12 @@
         draggingHandle = true;
         event.currentTarget.setPointerCapture(event.pointerId);
         event.stopPropagation();
+        // Preventing the default keeps the canvas from taking the gesture, but it
+        // also suppresses the focus this press would have given the button — and
+        // without focus the next arrow key moves the whole path rather than the
+        // point just dragged. So take it explicitly.
         event.preventDefault();
+        setKeyboardFocus(event.currentTarget, 'Focus the path handle.');
     }
 
     function dragHandle(event: PointerEvent) {
@@ -1424,6 +1434,10 @@
         if (position === undefined) return;
         setHandlePosition(position);
         event.stopPropagation();
+    }
+
+    function cancelHandleDrag() {
+        draggingHandle = false;
     }
 
     function endHandleDrag(event: PointerEvent) {
@@ -1437,6 +1451,23 @@
         rememberShapes();
         announceHandle();
         event.stopPropagation();
+    }
+
+    /**
+     * Activation that didn't come from a press we already handled. A real keypress
+     * acts on keydown and is preventDefaulted, so it synthesizes no click, and a
+     * pointer press carries a detail count — leaving a detail-less click as an
+     * assistive technology (VoiceOver, switch access, voice control) activating
+     * the button, which would otherwise do nothing at all.
+     */
+    function handleHandleClick(
+        event: MouseEvent,
+        index: number,
+        curve: boolean,
+    ) {
+        if (event.detail !== 0) return;
+        editedHandle = { index, curve };
+        addPoint();
     }
 
     function handleHandleKey(
@@ -1868,42 +1899,10 @@
     /** Analyze the current shapes extends and grow them to fill the box */
     function fit() {
         // Find the bounds of all the shapes.
-        const bounds = shapes
-            .map((s) =>
-                s.type === 'pixel'
-                    ? {
-                          type: 'pixel',
-                          left: s.point.x,
-                          top: s.point.y,
-                          right: s.point.x,
-                          bottom: s.point.y,
-                      }
-                    : s.type === 'rect'
-                      ? {
-                            type: 'rect',
-                            left: s.point.x,
-                            top: s.point.y,
-                            right: s.point.x + s.width,
-                            bottom: s.point.y + s.height,
-                        }
-                      : s.type === 'ellipse'
-                        ? {
-                              type: 'ellipse',
-                              left: s.point.x,
-                              top: s.point.y,
-                              right: s.point.x + s.width,
-                              bottom: s.point.y + s.height,
-                          }
-                        : s.type === 'path'
-                          ? { type: 'path', ...getPathBounds(s) }
-                          : undefined,
-            )
-            .filter((b) => b !== undefined);
-
-        const left = Math.min(...bounds.map((b) => b.left));
-        const top = Math.min(...bounds.map((b) => b.top));
-        const right = Math.max(...bounds.map((b) => b.right));
-        const bottom = Math.max(...bounds.map((b) => b.bottom));
+        // Nothing to grow, and the arithmetic below would be NaN all the way down.
+        const bounds = getShapesBounds(shapes);
+        if (bounds === undefined) return;
+        const { left, top, right, bottom } = bounds;
 
         // Determine the center of the shapes
         const centerXOffset =
@@ -2085,18 +2084,23 @@
             );
     }
 
+    /**
+     * Mirror the selection as a group, about the box it occupies. Flipping each
+     * shape about its own center is why this used to touch paths only: a
+     * rectangle, an ellipse and a pixel are symmetric about their own centers, so
+     * there was nothing for it to do to them, and the button silently did nothing
+     * for every shape but a path. Mirroring about the selection's box also keeps a
+     * path inside the box it already had, which the old point-average axis did not.
+     */
     function flip(direction: 'horizontal' | 'vertical') {
-        for (const shape of selection) {
-            if (shape.type === 'path') {
-                const center = getPathCenter(shape);
-                shape.points = transformPathPoints(shape.points, ({ x, y }) =>
-                    direction === 'horizontal'
-                        ? { x: center.x - (x - center.x), y }
-                        : { x, y: center.y - (y - center.y) },
-                );
-            }
-        }
-        announceSelectionPosition((l) => l.ui.page.character.announce.flipped);
+        const box = getShapesBounds(selection);
+        if (box === undefined) return;
+        for (const shape of selection) flipShape(shape, box, direction);
+        rememberShapes();
+        announceSelectionPosition(
+            (l) => l.ui.page.character.announce.flipped,
+            'character-edit',
+        );
     }
 
     // Renaming a character rewrites the projects that reference it, which
@@ -2226,12 +2230,15 @@
                         style:top="{(100 * control.y) / CharacterSize}%"
                         aria-label={describeHandle(index, true, control)}
                         onfocus={() => (editedHandle = { index, curve: true })}
+                        onclick={(event) =>
+                            handleHandleClick(event, index, true)}
                         onkeydown={(event) =>
                             handleHandleKey(event, index, true)}
                         onpointerdown={(event) =>
                             startHandleDrag(event, index, true)}
                         onpointermove={dragHandle}
                         onpointerup={endHandleDrag}
+                        onpointercancel={cancelHandleDrag}
                     ></button>
                 {/if}
                 <button
@@ -2244,11 +2251,13 @@
                     style:top="{(100 * point.y) / CharacterSize}%"
                     aria-label={describeHandle(index, false, point)}
                     onfocus={() => (editedHandle = { index, curve: false })}
+                    onclick={(event) => handleHandleClick(event, index, false)}
                     onkeydown={(event) => handleHandleKey(event, index, false)}
                     onpointerdown={(event) =>
                         startHandleDrag(event, index, false)}
                     onpointermove={dragHandle}
                     onpointerup={endHandleDrag}
+                    onpointercancel={cancelHandleDrag}
                 ></button>
             {/each}
         </div>
@@ -2315,8 +2324,11 @@
             rotate: 45deg;
         }
 
+        /* Chosen carries a shape change as well as a fill, so it survives
+           forced-colors mode and reads without color. */
         .handle.chosen::before {
             background: var(--wordplay-highlight-color);
+            scale: 1.35;
         }
 
         .handle:focus-visible {
@@ -2795,14 +2807,14 @@
         <Button
             tip={(l) => l.ui.page.character.button.undo.tip}
             action={() => undo()}
-            active={historyIndex > 0}
+            active={canUndo(history)}
             icon={UNDO_SYMBOL}
             label={(l) => l.ui.page.character.button.undo.label}
         />
         <Button
             tip={(l) => l.ui.page.character.button.redo.tip}
             action={() => redo()}
-            active={historyIndex < history.length - 1}
+            active={canRedo(history)}
             icon={REDO_SYMBOL}
             label={(l) => l.ui.page.character.button.redo.label}
         />
@@ -2932,6 +2944,7 @@
                 tip={(l) => l.ui.page.character.button.deletePoint.tip}
                 action={removePoint}
                 active={editedHandle !== undefined &&
+                    !editedHandle.curve &&
                     editedPath.points.length > 2}
                 icon={CANCEL_SYMBOL}
                 label={(l) => l.ui.page.character.button.deletePoint.label}

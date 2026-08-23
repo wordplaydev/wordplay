@@ -1,5 +1,6 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { createTestCharacter } from '../helpers/createCharacter';
+import { drawTriangle } from '../helpers/drawCharacterPath';
 import { loginNewContext } from '../helpers/loginNewContext';
 
 /**
@@ -9,22 +10,6 @@ import { loginNewContext } from '../helpers/loginNewContext';
  * role="application" canvas, where a swallowed Tab would be a WCAG 2.1.2
  * keyboard trap.
  */
-
-/** Draw a triangle with the keyboard alone, which is the case these tests cover. */
-async function drawTriangle(page: Page) {
-    await page.getByRole('radio', { name: 'path', exact: true }).click();
-    await page.locator('.canvas').focus();
-    for (const step of [
-        [],
-        ['ArrowRight', 'ArrowRight', 'ArrowRight'],
-        ['ArrowDown', 'ArrowDown', 'ArrowDown'],
-    ]) {
-        for (const key of step) await page.keyboard.press(key);
-        await page.keyboard.press(' ');
-    }
-    // Escape finishes the path, which leaves it selected.
-    await page.keyboard.press('Escape');
-}
 
 test('path handles are reachable by Tab and are not a trap', async ({
     browser,
@@ -160,6 +145,88 @@ test('the canvas description names the keys that edit points', async ({
         });
         expect(description).toContain('Tab');
         expect(description).toContain('arrow');
+    } finally {
+        await context.close();
+    }
+});
+
+/**
+ * Undo has to undo exactly one edit. It recorded the state *before* each change
+ * and then pointed at it, which was right only for the callers that mutated the
+ * shapes in place first — so drawing with the keyboard, deleting, pasting and
+ * fitting all jumped two steps back, and the newest state could never be reached
+ * again. The pointer path went through a different call and hid it.
+ */
+test('undo steps back exactly one keyboard-drawn pixel', async ({
+    browser,
+}) => {
+    const { context, page } = await loginNewContext(
+        browser,
+        'creator',
+        'password',
+    );
+    try {
+        await createTestCharacter(page);
+        await page.getByRole('radio', { name: 'pixel', exact: true }).click();
+        await page.locator('.canvas').focus();
+
+        const pixels = page.locator('.canvas svg rect');
+        for (let drawn = 0; drawn < 3; drawn++) {
+            await page.keyboard.press(' ');
+            await page.keyboard.press('ArrowRight');
+        }
+        await expect.poll(() => pixels.count()).toBe(3);
+
+        await page.keyboard.press('Control+z');
+        await expect.poll(() => pixels.count()).toBe(2);
+
+        // And the state the undo left is still reachable, rather than replaced
+        // by a second copy of an older one.
+        await page.keyboard.press('Control+Shift+z');
+        await expect.poll(() => pixels.count()).toBe(3);
+    } finally {
+        await context.close();
+    }
+});
+
+/**
+ * Flipping mirrored each shape about its own center, which is a no-op for a
+ * rectangle — so the button silently did nothing to one — and it never recorded
+ * the change, so nothing it did could be undone.
+ */
+test('flipping moves a rectangle, and the flip can be undone', async ({
+    browser,
+}) => {
+    const { context, page } = await loginNewContext(
+        browser,
+        'creator',
+        'password',
+    );
+    try {
+        await createTestCharacter(page);
+        await drawTriangle(page);
+
+        // A path beside the rectangle gives the selection a box wider than the
+        // rectangle itself, which is what a flip mirrors about.
+        await page
+            .getByRole('radio', { name: 'rectangle', exact: true })
+            .click();
+        await page.locator('.canvas').focus();
+        for (const key of ['ArrowRight', 'ArrowRight', 'ArrowDown'])
+            await page.keyboard.press(key);
+        await page.keyboard.press(' ');
+        await page.keyboard.press('ArrowRight');
+        await page.keyboard.press(' ');
+
+        await page.keyboard.press('Control+a');
+        const rect = page.locator('.canvas svg rect').first();
+        const before = await rect.getAttribute('x');
+
+        await page.getByRole('button', { name: /flip.*horizontal/i }).click();
+        await expect.poll(() => rect.getAttribute('x')).not.toBe(before);
+
+        await page.keyboard.press('Control+z');
+        await expect.poll(() => rect.getAttribute('x')).toBe(before);
     } finally {
         await context.close();
     }

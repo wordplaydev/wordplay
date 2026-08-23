@@ -215,3 +215,57 @@ test('reordering names the layer, which is what changes as it repeats', () => {
     );
     expect(new Set(spoken).size).toBe(spoken.length);
 });
+
+/**
+ * The plural arm used to hold the joined list of kinds, so copying three shapes
+ * read "copied 3 rectangle, path, ellipse" — the count multiplying the first
+ * noun of a list rather than counting the list.
+ */
+test('copying several shapes counts them without multiplying the first one', () => {
+    const one = locales
+        .concretize((l) => l.ui.page.character.announce.copied, {
+            shapes: 'rectangle',
+            count: 1,
+        })
+        .toText();
+    const several = locales
+        .concretize((l) => l.ui.page.character.announce.copied, {
+            shapes: 'rectangle, path, ellipse',
+            count: 3,
+        })
+        .toText();
+    expect(one).toBe('copied one rectangle');
+    expect(several).toBe('copied 3 shapes: rectangle, path, ellipse');
+    expect(several).not.toContain('3 rectangle,');
+});
+
+test('a finished shape is named as something that was made, not as a position', () => {
+    const finished = locales
+        .concretize((l) => l.ui.page.character.announce.finished, {
+            shape: 'rectangle',
+            x: 4,
+            y: 5,
+        })
+        .toText();
+    // "rectangle at 4 5" alone reads like the "point 1 at 4 5" a handle says.
+    expect(finished).toBe('made rectangle at 4 5');
+    expect(finished).not.toBe(
+        locales
+            .concretize((l) => l.ui.page.character.announce.point, {
+                index: 1,
+                x: 4,
+                y: 5,
+            })
+            .toText(),
+    );
+});
+
+test('the selected-shape instructions name the key that opens a path', () => {
+    // This editor documents its keys in the instructions beside the canvas, and
+    // entering point editing was the one key that went unnamed.
+    expect(
+        locales.getPrimaryPlainText(
+            (l) => l.ui.page.character.instructions.selected,
+        ),
+    ).toContain('enter');
+});
