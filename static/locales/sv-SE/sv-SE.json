@@ -7259,7 +7259,7 @@
                 "nextMatch": "$~gå till nästa sökträff",
                 "insertTranslate": "$~infoga översättningssymbol",
                 "insertThis": "$~infoga den här symbolen",
-                "tab": "$~Tabb flyttar tangentbordsfokus. För att infoga en tabb, tryck Ctrl+ $alt +Tab, använd infoga-knappen nedan eller ändra detta i inställningarna.",
+                "tab": "$~Tabb flyttar tangentbordsfokus. För att infoga en tabb, tryck $control+ $alt +Tab, använd infoga-knappen nedan eller ändra detta i inställningarna.",
                 "matchDelimiter": "$~flytta markören till matchande avgränsare",
                 "insertPattern": "$~insatsmönster",
                 "insertSearch": "$~symbol för sökning efter mönster",
@@ -9052,15 +9052,16 @@
                 "header": "$~Karaktär",
                 "instructions": {
                     "empty": "$~Välj ett ritläge i paletten för att skapa former.",
-                    "unselected": "$~Välj ett ritläge, eller markera och ändra former. Använd *ctrl/cmd-a* för att markera allt och *ctrl/cmd-z* för att ångra.",
-                    "selected": "$~Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i en markering. Använd *delete* för att ta bort markeringen. Använd *ctrl/cmd-c* och *ctrl/cmd-v* för att kopiera och klistra in, och *ctrl/cmd-z* för att ångra. När en bana är markerad kan du trycka på *enter* för att ändra dess punkter. Använd kontrollerna nedan för att ändra de markerade formerna.",
+                    "unselected": "$~Välj ett ritläge, eller markera och ändra former. Använd *$control-a* för att markera allt och *$control-z* för att ångra.",
+                    "selected": "$~Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i en markering. Använd *delete* för att ta bort markeringen. Använd *$control-c* och *$control-v* för att kopiera och klistra in, och *$control-z* för att ångra. När en bana är markerad kan du trycka på *enter* för att ändra dess punkter. Använd kontrollerna nedan för att ändra de markerade formerna.",
                     "pixel": "$~Välj en färg för att rita pixlar. Klicka sedan på arbetsytan eller använd *pilarna* för att flytta markören och *mellanslag* för att skapa en pixel. *Dubbelklicka* för att fylla.",
                     "rect": "$~För att rita rektanglar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "ellipse": "$~För att rita ellipser och cirklar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten.",
                     "eraser": "$~För att radera former, klicka eller tryck på dem. Dra för att radera pixlar. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera.",
-                    "emoji": "$~Välj en emoji att importera som pixlar och ändra sedan som du vill.",
-                    "points": "$~Tryck *Tab* för att flytta mellan banans punkter. Använd *piltangenterna* för att flytta den markerade punkten, *enter* för att lägga till en punkt bredvid den, och *delete* för att ta bort den. Använd *böj* för att böja segmentet som leder fram till en punkt, och flytta sedan dess handtag. *Delete* på ett handtag rätar ut det igen. Tryck på *escape* när du är klar."
+                    "points": "$~Tryck *Tab* för att flytta mellan banans punkter. Använd *piltangenterna* för att flytta den markerade punkten, *enter* för att lägga till en punkt bredvid den, och *delete* för att ta bort den. Använd *böj* för att böja segmentet som leder fram till en punkt, och flytta sedan dess handtag. *Delete* på ett handtag rätar ut det igen. Tryck på *escape* när du är klar.",
+                    "symbol": "$~Välj om du vill lägga till pixlar eller en kontur, och välj sedan en bokstav, symbol eller emoji. En kontur kan ändra storlek och vridas utan att bli suddig. Pixlar kan färgas om en i taget. Klicka eller tryck på något du redan gjort för att välja det istället.",
+                    "image": "$~Välj en bild, och välj sedan den fyrkant av den som ska sparas. Den ersätter pixlarna och läggs under alla former du har ritat. Klicka eller tryck på något du redan gjort för att välja det istället."
                 },
                 "shape": {
                     "shape": "$~form",
@@ -9069,7 +9070,10 @@
                     "ellipse": "$~ellips",
                     "path": "$~väg",
                     "eraser": "$~suddgummi",
-                    "emoji": "$~emoji"
+                    "emoji": "$~emoji",
+                    "glyph": "$~kontur",
+                    "symbol": "$~symbol",
+                    "image": "$~bild"
                 },
                 "field": {
                     "name": {
@@ -9083,13 +9087,14 @@
                     "mode": {
                         "label": "$~läge",
                         "labels": [
-                            "$~välja",
+                            "$~välj",
                             "$~suddgummi",
                             "$~pixel",
                             "$~rektangel",
                             "$~ellips",
                             "$~väg",
-                            "$~emoji"
+                            "$~emoji",
+                            "$~bild"
                         ],
                         "tips": [
                             "$~välj former och pixlar",
@@ -9098,7 +9103,8 @@
                             "$~rita rektanglar",
                             "$~rita ellipser",
                             "$~rita banor",
-                            "$~importera en emoji som pixlar"
+                            "$~importera en emoji som pixlar",
+                            "$~lägg till en bild som pixlar"
                         ]
                     },
                     "fill": {
@@ -9141,7 +9147,32 @@
                         "label": "$~höjd",
                         "tip": "$~hur hög formen är"
                     },
-                    "closed": "$~ansluten"
+                    "closed": "$~ansluten",
+                    "brushSize": {
+                        "label": "$~storlek",
+                        "tip": "$~hur många rutor på bredden penseln och suddgummit täcker"
+                    },
+                    "insertion": {
+                        "label": "$~lägg till som",
+                        "labels": ["$~pixlar", "$~kontur"],
+                        "tips": [
+                            "$~lägg till symbolen som pixlar du kan färga om en i taget",
+                            "$~lägg till symbolen som en kontur du kan ändra storlek och vrida på utan att den blir suddig"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~typsnitt",
+                        "tip": "$~vilket typsnitt symbolens form ska hämtas från"
+                    },
+                    "weight": {
+                        "label": "$~tjocklek",
+                        "tip": "$~hur tjocka symbolens streck är"
+                    },
+                    "italic": "$~kursiv",
+                    "glyphSize": {
+                        "label": "$~symbolstorlek",
+                        "tip": "$~hur många rutor på bredden symbolen är"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9254,7 +9285,13 @@
                     "unauthenticated": "$~Du måste vara <inloggad@://login> för att redigera ett tecken.",
                     "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
                     "projecteditfail": "$~Det uppstod ett problem när projekt som använder det här tecknet uppdaterades. Följande projekt behöver åtgärdas:",
-                    "untitledproject": "$~Namnlöst projekt"
+                    "untitledproject": "$~Namnlöst projekt",
+                    "glyphLoading": "$~Hämtar typsnittet…",
+                    "glyphMissing": "$~Det här typsnittet har ingen form för den symbolen. Prova ett annat typsnitt.",
+                    "glyphEmpty": "$~Den symbolen har inget att rita.",
+                    "glyphUnreadable": "$~Vi kunde inte läsa det typsnittet. Kontrollera din anslutning, eller prova ett annat typsnitt.",
+                    "imageTooBig": "$~Den bilden är $size MB. Välj en som är mindre än $limit MB.",
+                    "imageUnreadable": "$~Vi kunde inte läsa den filen som en bild."
                 },
                 "announce": {
                     "position": "$~för $x $y",
@@ -9278,7 +9315,11 @@
                     "pasted": "$~inklistrad vid $x $y",
                     "arranged": "$~lager $index av $total",
                     "flipped": "$~vänd, nu vid $x $y",
-                    "fitted": "$~förstorade formerna så de fyller ritytan"
+                    "fitted": "$~förstorade formerna så de fyller ritytan",
+                    "cropped": "$~beskärningsruta vid $x $y",
+                    "cropMoving": "$~flyttar beskärningsrutan",
+                    "cropDone": "$~beskärningsruta placerad",
+                    "imported": "$~lade till $#count[en pixel|$count pixlar] från $x $y"
                 },
                 "share": {
                     "dialog": {
@@ -9302,6 +9343,26 @@
                         ]
                     },
                     "collaborators": "$~kollaboratörer"
+                },
+                "image": {
+                    "instructions": "$~Dra i rutan för att flytta den, eller använd *storlek*-skjutreglaget för att ändra hur mycket av bilden som ska behållas. Med tangentbordet: tryck på *enter* för att börja flytta, använd sedan *piltangenterna*, och tryck på *enter* igen när du är klar.",
+                    "button": {
+                        "label": "$~ladda upp",
+                        "tip": "$~välj en bildfil från den här enheten"
+                    },
+                    "add": {
+                        "label": "$~lägg till",
+                        "tip": "$~lägg till den valda rutan till tecknet som pixlar"
+                    },
+                    "crop": {
+                        "label": "$~beskärningsruta",
+                        "tip": "$~rutan av bilden som ska behållas"
+                    },
+                    "preview": "$~vad som kommer att läggas till",
+                    "size": {
+                        "label": "$~storlek",
+                        "tip": "$~hur mycket av bilden som ska behållas"
+                    }
                 }
             },
             "updates": {

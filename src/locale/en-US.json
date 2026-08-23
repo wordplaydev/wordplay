@@ -7586,7 +7586,7 @@
                 "tidy": "tidy spacing",
                 "elide": "toggle elision",
                 "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.",
-                "tab": "Tab moves keyboard focus. To insert a tab, press Ctrl+$alt+Tab, use the insert button below, or change this in settings.",
+                "tab": "Tab moves keyboard focus. To insert a tab, press $control+$alt+Tab, use the insert button below, or change this in settings.",
                 "ignored": {
                     "readOnly": "Source is read only",
                     "blockSpace": "No tabs allowed here",
@@ -9432,14 +9432,15 @@
                 "header": "Character",
                 "instructions": {
                     "empty": "Choose a drawing mode in the palette to create shapes.",
-                    "unselected": "Choose a drawing mode or select and edit shapes. Use *ctrl/cmd-a* to select everything and *ctrl/cmd-z* to undo.",
-                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use *ctrl/cmd-c* and *ctrl/cmd-v* to copy and paste, and *ctrl/cmd-z* to undo. With one path selected, press *enter* to edit its points. Use the controls below to change the selected shapes.",
+                    "unselected": "Choose a drawing mode or select and edit shapes. Use *$control-a* to select everything and *$control-z* to undo.",
+                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use *$control-c* and *$control-v* to copy and paste, and *$control-z* to undo. With one path selected, press *enter* to edit its points. Use the controls below to change the selected shapes.",
                     "eraser": "To erase shapes, click or tap on them. Drag to erase pixels. Use the *arrow* keys to move the eraser and *space* to delete.",
                     "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel. *Double-click* to fill.",
                     "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
                     "ellipse": "To draw ellipses and circles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
                     "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point.",
-                    "emoji": "Choose an emoji to import as pixels, then modify as you like.",
+                    "symbol": "Choose whether to add pixels or an outline, then pick a letter, symbol, or emoji. An outline can be resized and turned without blurring; pixels can be recolored one at a time. Click or tap something you've already made to select it instead.",
+                    "image": "Choose an image, then choose the square of it to keep. It replaces the pixels, and sits under any shapes you've drawn. Click or tap something you've already made to select it instead.",
                     "points": "*Tab* between the points of the path. Use the *arrow* keys to move the selected point, *enter* to add a point next to it, and *delete* to remove it. Use *curve* to bend the segment arriving at a point, then move its handle; *delete* on a handle straightens it again. Press *escape* when you're done."
                 },
                 "shape": {
@@ -9449,7 +9450,10 @@
                     "rect": "rectangle",
                     "ellipse": "ellipse",
                     "path": "path",
-                    "emoji": "emoji"
+                    "emoji": "emoji",
+                    "glyph": "outline",
+                    "symbol": "symbol",
+                    "image": "image"
                 },
                 "share": {
                     "dialog": {
@@ -9492,7 +9496,8 @@
                             "rectangle",
                             "ellipse",
                             "path",
-                            "emoji"
+                            "symbol",
+                            "image"
                         ],
                         "tips": [
                             "select shapes and pixels",
@@ -9501,7 +9506,8 @@
                             "draw rectangles",
                             "draw ellipses",
                             "draw paths",
-                            "import an emoji as pixels"
+                            "add a letter, symbol, or emoji",
+                            "add an image as pixels"
                         ]
                     },
                     "fill": {
@@ -9527,6 +9533,31 @@
                     "strokeWidth": {
                         "label": "stroke width",
                         "tip": "how wide the stroke is rendered"
+                    },
+                    "brushSize": {
+                        "label": "size",
+                        "tip": "how many cells across the brush and eraser cover"
+                    },
+                    "insertion": {
+                        "label": "add as",
+                        "labels": ["pixels", "outline"],
+                        "tips": [
+                            "add the symbol as pixels you can recolor one at a time",
+                            "add the symbol as an outline you can resize and turn without blurring"
+                        ]
+                    },
+                    "face": {
+                        "label": "font",
+                        "tip": "which font to take the symbol's shape from"
+                    },
+                    "weight": {
+                        "label": "weight",
+                        "tip": "how heavy the symbol's strokes are"
+                    },
+                    "italic": "italic",
+                    "glyphSize": {
+                        "label": "symbol size",
+                        "tip": "how many cells across the symbol is"
                     },
                     "radius": {
                         "label": "corner radius",
@@ -9648,7 +9679,33 @@
                         "tip": "straighten the segment arriving at the selected point"
                     }
                 },
+                "image": {
+                    "instructions": "Drag the square to move it, or use the *size* slider to change how much of the image to keep. With the keyboard, press *enter* to start moving, then use the *arrow* keys, and *enter* again when you're done.",
+                    "button": {
+                        "label": "upload",
+                        "tip": "choose an image file from this device"
+                    },
+                    "add": {
+                        "label": "add",
+                        "tip": "add the chosen square to the character as pixels"
+                    },
+                    "crop": {
+                        "label": "crop box",
+                        "tip": "the square of the image to keep"
+                    },
+                    "preview": "what will be added",
+                    "size": {
+                        "label": "size",
+                        "tip": "how much of the image to keep"
+                    }
+                },
                 "feedback": {
+                    "imageTooBig": "That image is $size MB. Please choose one smaller than $limit MB.",
+                    "imageUnreadable": "We couldn't read that file as an image.",
+                    "glyphLoading": "Getting the font…",
+                    "glyphMissing": "This font has no shape for that symbol. Try another font.",
+                    "glyphEmpty": "That symbol has nothing to draw.",
+                    "glyphUnreadable": "We couldn't read that font. Check your connection, or try another font.",
                     "name": "Characters need a valid Wordplay name of at least 1 character long. It can't be 'UI', a decimal or hexadecimal number, or the name of a built-in language feature.",
                     "description": "Characters need a description so those who can't see know what they represent.",
                     "end": "or press escape.",
@@ -9660,6 +9717,10 @@
                     "untitledproject": "Untitled Project"
                 },
                 "announce": {
+                    "cropped": "crop box at $x $y",
+                    "cropMoving": "moving the crop box",
+                    "cropDone": "crop box placed",
+                    "imported": "added $#count[one pixel|$count pixels] from $x $y",
                     "position": "at $x $y",
                     "selection": "$shapes[selected $shapes|nothing selected]",
                     "editing": "editing $#count[one point|$count points]",

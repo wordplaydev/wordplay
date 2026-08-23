@@ -31,6 +31,67 @@ export function clampToGrid({ x, y }: Point): Point {
     };
 }
 
+/** The largest brush or eraser, in cells across. Past this a stroke covers a
+ *  quarter of the 32x32 grid at once, which is a fill, not a stroke. */
+export const MaxBrushSize = 8;
+
+/**
+ * The grid cells a brush of the given size covers, centered on a point.
+ *
+ * An even size has no center cell, so the square is biased toward the origin —
+ * the same choice a paint program makes, and it keeps size 1 exactly the cell
+ * under the cursor. Cells off the canvas are dropped rather than clamped onto
+ * the edge, so a stroke near a border doesn't pile several cells onto one.
+ */
+export function getBrushCells({ x, y }: Point, size: number): Point[] {
+    const from = -Math.floor((size - 1) / 2);
+    const to = Math.floor(size / 2);
+    const cells: Point[] = [];
+    for (let dy = from; dy <= to; dy++)
+        for (let dx = from; dx <= to; dx++) {
+            const cell = { x: x + dx, y: y + dy };
+            if (
+                cell.x >= 0 &&
+                cell.x < CharacterSize &&
+                cell.y >= 0 &&
+                cell.y < CharacterSize
+            )
+                cells.push(cell);
+        }
+    return cells;
+}
+
+/**
+ * The grid cells a straight stroke from one point to another passes through.
+ *
+ * Pointer moves arrive as samples, not as a continuous path, so a fast drag
+ * reports two cells several apart and the cells between them have to be filled
+ * in or the stroke comes out dotted. Endpoints are excluded — the caller has
+ * already painted those — and a step of one cell needs no filling at all.
+ */
+export function getLineCells(start: Point, end: Point): Point[] {
+    // Manhattan distance under 2 means the cells touch; there is no gap.
+    if (Math.abs(start.x - end.x) + Math.abs(start.y - end.y) < 2) return [];
+    const cells: Point[] = [];
+    if (start.x === end.x) {
+        for (
+            let y = Math.min(start.y, end.y) + 1;
+            y < Math.max(start.y, end.y);
+            y++
+        )
+            cells.push({ x: start.x, y });
+    } else {
+        const slope = (end.y - start.y) / (end.x - start.x);
+        for (
+            let x = start.x + (start.x < end.x ? 1 : -1);
+            x !== end.x;
+            x += start.x < end.x ? 1 : -1
+        )
+            cells.push({ x, y: Math.round(slope * (x - start.x) + start.y) });
+    }
+    return cells;
+}
+
 /** The point a segment leaves on its way to the point at the given index, or undefined if there is no such segment. */
 export function getPriorPoint(
     points: PathPoints,
@@ -246,6 +307,9 @@ export function getShapeBounds(shape: CharacterShape): Bounds {
             };
         case 'rect':
         case 'ellipse':
+        // A glyph's outline is normalized into its box, so the box is exactly
+        // what it occupies — no need to measure the outline itself.
+        case 'glyph':
             return {
                 left: shape.point.x,
                 top: shape.point.y,
@@ -302,4 +366,14 @@ export function flipShape(
     // A mirror reverses the direction a shape is turned.
     if ('angle' in shape && shape.angle !== undefined)
         shape.angle = -shape.angle;
+
+    // A glyph isn't symmetric, so moving its box isn't a mirror — the outline
+    // has to reflect too. Reflecting across the vertical axis is the stored
+    // flag; reflecting across the horizontal one is that plus a half turn.
+    if (shape.type === 'glyph') {
+        if (shape.mirrored) delete shape.mirrored;
+        else shape.mirrored = true;
+        if (!horizontal)
+            shape.angle = ((((shape.angle ?? 0) + 180) % 360) + 360) % 360;
+    }
 }

@@ -7522,7 +7522,7 @@
                 "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya",
                 "insertTranslate": "$~sisipkan simbol terjemahan",
                 "insertThis": "$~sisipkan simbol ini",
-                "tab": "$~Tombol Tab memindahkan fokus keyboard. Untuk menyisipkan tab, tekan Ctrl + $alt + Tab, gunakan tombol sisipkan di bawah, atau ubah ini di pengaturan.",
+                "tab": "$~Tombol Tab memindahkan fokus keyboard. Untuk menyisipkan tab, tekan $control + $alt + Tab, gunakan tombol sisipkan di bawah, atau ubah ini di pengaturan.",
                 "matchDelimiter": "$~Pindahkan kursor ke pembatas yang sesuai.",
                 "insertPattern": "$~sisipkan pola",
                 "insertSearch": "$~sisipkan simbol pencarian pola",
@@ -9339,15 +9339,16 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Pilih mode menggambar di palet untuk membuat bentuk.",
-                    "unselected": "$~Pilih mode menggambar atau pilih dan ubah bentuk. Gunakan *ctrl/cmd-a* untuk memilih semuanya dan *ctrl/cmd-z* untuk membatalkan.",
-                    "selected": "$~Gunakan tombol *panah* untuk memindahkan bentuk. Tahan *shift* untuk menambah bentuk lain ke dalam pilihan. Gunakan *delete* untuk menghapus pilihan. Gunakan *ctrl/cmd-c* dan *ctrl/cmd-v* untuk menyalin dan menempel, serta *ctrl/cmd-z* untuk membatalkan. Jika satu jalur terpilih, tekan *enter* untuk mengubah titik-titiknya. Gunakan kontrol di bawah untuk mengubah bentuk yang terpilih.",
+                    "unselected": "$~Pilih mode menggambar atau pilih dan ubah bentuk. Gunakan *$control-a* untuk memilih semuanya dan *$control-z* untuk membatalkan.",
+                    "selected": "$~Gunakan tombol *panah* untuk memindahkan bentuk. Tahan *shift* untuk menambah bentuk lain ke dalam pilihan. Gunakan *delete* untuk menghapus pilihan. Gunakan *$control-c* dan *$control-v* untuk menyalin dan menempel, serta *$control-z* untuk membatalkan. Jika satu jalur terpilih, tekan *enter* untuk mengubah titik-titiknya. Gunakan kontrol di bawah untuk mengubah bentuk yang terpilih.",
                     "eraser": "$~Untuk menghapus bentuk, klik atau ketuk bentuk tersebut. Seret untuk menghapus piksel. Gunakan tombol panah untuk menggerakkan penghapus dan spasi untuk menghapus.",
                     "pixel": "$~Untuk menggambar piksel, pilih warna. Kemudian, klik kanvas atau gunakan *panah* untuk menggerakkan kursor dan *spasi* untuk membuat piksel. *Klik dua kali* untuk mengisi.",
                     "rect": "$~Untuk menggambar persegi panjang, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
                     "ellipse": "$~Untuk menggambar elips dan lingkaran, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
                     "path": "$~Jalur dapat berupa segmen garis, poligon, dan kurva. Klik untuk mulai menambahkan titik, atau gunakan tombol panah dan spasi. Tekan escape untuk menyelesaikan jalur. Tombol delete akan menghapus titik terakhir.",
-                    "emoji": "$~Pilih emoji yang ingin Anda impor sebagai piksel, lalu modifikasi sesuai keinginan.",
-                    "points": "$~Tekan *Tab* untuk berpindah antar titik pada jalur. Gunakan tombol *panah* untuk memindahkan titik yang terpilih, *enter* untuk menambah titik di sebelahnya, dan *delete* untuk menghapusnya. Gunakan *curve* untuk melengkungkan segmen yang menuju ke sebuah titik, lalu geser gagangnya; tekan *delete* pada gagang untuk meluruskannya kembali. Tekan *escape* jika sudah selesai."
+                    "points": "$~Tekan *Tab* untuk berpindah antar titik pada jalur. Gunakan tombol *panah* untuk memindahkan titik yang terpilih, *enter* untuk menambah titik di sebelahnya, dan *delete* untuk menghapusnya. Gunakan *curve* untuk melengkungkan segmen yang menuju ke sebuah titik, lalu geser gagangnya; tekan *delete* pada gagang untuk meluruskannya kembali. Tekan *escape* jika sudah selesai.",
+                    "symbol": "$~Pilih untuk menambah piksel atau garis luar, lalu pilih huruf, simbol, atau emoji. Garis luar bisa diubah ukurannya dan diputar tanpa menjadi buram. Piksel bisa diberi warna satu per satu. Klik atau ketuk sesuatu yang sudah kamu buat untuk memilihnya.",
+                    "image": "$~Pilih sebuah gambar, lalu pilih bagian kotaknya yang ingin disimpan. Bagian ini menggantikan piksel, dan berada di bawah bentuk apa pun yang sudah kamu gambar. Klik atau ketuk sesuatu yang sudah kamu buat untuk memilihnya."
                 },
                 "shape": {
                     "shape": "$~membentuk",
@@ -9356,7 +9357,10 @@
                     "rect": "$~persegi panjang",
                     "ellipse": "$~elips",
                     "path": "$~jalur",
-                    "emoji": "$~emoji"
+                    "emoji": "$~emoji",
+                    "glyph": "$~garis luar",
+                    "symbol": "$~simbol",
+                    "image": "$~gambar"
                 },
                 "share": {
                     "dialog": {
@@ -9393,13 +9397,14 @@
                     "mode": {
                         "label": "$~mode",
                         "labels": [
-                            "$~memilih",
+                            "$~pilih",
                             "$~penghapus",
                             "$~piksel",
                             "$~persegi panjang",
                             "$~elips",
                             "$~jalur",
-                            "$~emoji"
+                            "$~emoji",
+                            "$~gambar"
                         ],
                         "tips": [
                             "$~pilih bentuk dan piksel",
@@ -9408,7 +9413,8 @@
                             "$~menggambar persegi panjang",
                             "$~menggambar elips",
                             "$~menggambar jalur",
-                            "$~impor emoji sebagai piksel"
+                            "$~impor emoji sebagai piksel",
+                            "$~tambahkan gambar sebagai piksel"
                         ]
                     },
                     "fill": {
@@ -9451,7 +9457,32 @@
                         "label": "$~tinggi",
                         "tip": "$~seberapa tinggi bentuk tersebut"
                     },
-                    "closed": "$~terhubung"
+                    "closed": "$~terhubung",
+                    "brushSize": {
+                        "label": "$~ukuran",
+                        "tip": "$~berapa banyak sel yang dilewati kuas dan penghapus"
+                    },
+                    "insertion": {
+                        "label": "$~tambahkan sebagai",
+                        "labels": ["$~piksel", "$~garis luar"],
+                        "tips": [
+                            "$~tambahkan simbol sebagai piksel yang bisa diwarnai ulang satu per satu",
+                            "$~tambahkan simbol sebagai garis luar yang bisa diubah ukurannya dan diputar tanpa menjadi buram"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~jenis huruf",
+                        "tip": "$~jenis huruf mana yang menjadi sumber bentuk simbol ini"
+                    },
+                    "weight": {
+                        "label": "$~ketebalan",
+                        "tip": "$~seberapa tebal guratan simbol ini"
+                    },
+                    "italic": "$~miring",
+                    "glyphSize": {
+                        "label": "$~ukuran simbol",
+                        "tip": "$~berapa banyak sel yang dilewati simbol ini"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9564,7 +9595,13 @@
                     "unauthenticated": "$~Anda pasti<logged in@://login> untuk mengedit karakter.",
                     "taken": "$~Anda sudah memiliki karakter dengan nama ini; tidak akan disimpan.",
                     "projecteditfail": "$~Terdapat masalah saat memperbarui proyek yang menggunakan karakter ini. Proyek-proyek berikut perlu diperbaiki:",
-                    "untitledproject": "$~Proyek Tanpa Judul"
+                    "untitledproject": "$~Proyek Tanpa Judul",
+                    "glyphLoading": "$~Mengambil jenis huruf…",
+                    "glyphMissing": "$~Jenis huruf ini tidak punya bentuk untuk simbol tersebut. Coba jenis huruf lain.",
+                    "glyphEmpty": "$~Simbol itu tidak punya apa pun untuk digambar.",
+                    "glyphUnreadable": "$~Kami tidak bisa membaca jenis huruf itu. Periksa koneksimu, atau coba jenis huruf lain.",
+                    "imageTooBig": "$~Gambar itu berukuran $size MB. Silakan pilih gambar yang lebih kecil dari $limit MB.",
+                    "imageUnreadable": "$~Kami tidak dapat membaca berkas itu sebagai gambar."
                 },
                 "announce": {
                     "position": "$~pada $x $y",
@@ -9588,7 +9625,31 @@
                     "pasted": "$~ditempel di $x $y",
                     "arranged": "$~lapisan $index dari $total",
                     "flipped": "$~dibalik, sekarang di $x $y",
-                    "fitted": "$~memperbesar bentuk hingga memenuhi kanvas"
+                    "fitted": "$~memperbesar bentuk hingga memenuhi kanvas",
+                    "cropped": "$~kotak potong di $x $y",
+                    "cropMoving": "$~memindahkan kotak potong",
+                    "cropDone": "$~kotak potong ditempatkan",
+                    "imported": "$~menambahkan $#count[$count piksel] dari $x $y"
+                },
+                "image": {
+                    "instructions": "$~Seret kotak untuk memindahkannya, atau gunakan penggeser *ukuran* untuk mengubah berapa banyak bagian gambar yang disimpan. Dengan papan ketik, tekan *enter* untuk mulai memindahkan, lalu gunakan tombol *panah*, dan tekan *enter* lagi saat selesai.",
+                    "button": {
+                        "label": "$~unggah",
+                        "tip": "$~pilih berkas gambar dari perangkat ini"
+                    },
+                    "add": {
+                        "label": "$~tambah",
+                        "tip": "$~tambahkan kotak yang dipilih ke karakter sebagai piksel"
+                    },
+                    "crop": {
+                        "label": "$~kotak potong",
+                        "tip": "$~kotak gambar yang akan disimpan"
+                    },
+                    "preview": "$~apa yang akan ditambahkan",
+                    "size": {
+                        "label": "$~ukuran",
+                        "tip": "$~berapa banyak bagian gambar yang disimpan"
+                    }
                 }
             },
             "about": {

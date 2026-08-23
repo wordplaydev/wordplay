@@ -353,6 +353,9 @@
 
     select:hover {
         background: var(--wordplay-hover);
+        /* See --wordplay-hover-text in app.html: the inherited foreground is
+           white in dark mode and measures 3.58:1 on this gold. */
+        color: var(--wordplay-hover-text);
         transform: translate(-1px, -1px);
     }
 
@@ -418,6 +421,9 @@
 
     option:hover {
         background: var(--wordplay-hover);
+        /* See --wordplay-hover-text in app.html; the base rule above paints
+           --wordplay-foreground, which is white in dark mode. */
+        color: var(--wordplay-hover-text);
     }
 
     option:focus {

@@ -684,8 +684,8 @@ type UITexts = {
             elide: string;
             /** [plain] Large deletion notification */
             largeDelete: string;
-            /** [plain] Notice shown when Tab is pressed and tab-inserts-tab is off, explaining how to insert a tab. $alt is the platform-specific Alt/Option modifier label. */
-            tab: Template<['alt']>;
+            /** [plain] Notice shown when Tab is pressed and tab-inserts-tab is off, explaining how to insert a tab. $control and $alt are the platform-specific Control/Command and Alt/Option modifier labels. */
+            tab: Template<['control', 'alt']>;
             /** Explanations for why something isn't editable */
             ignored: {
                 /** [plain] The source is not editable */

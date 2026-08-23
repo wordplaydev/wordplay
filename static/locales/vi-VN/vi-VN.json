@@ -7515,7 +7515,7 @@
                 "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
                 "insertTranslate": "$~chèn ký hiệu dịch",
                 "insertThis": "$~chèn biểu tượng này",
-                "tab": "$~Phím Tab di chuyển con trỏ bàn phím. Để chèn tab, nhấn Ctrl + $alt + Tab, sử dụng nút chèn bên dưới hoặc thay đổi trong cài đặt.",
+                "tab": "$~Phím Tab di chuyển con trỏ bàn phím. Để chèn tab, nhấn $control + $alt + Tab, sử dụng nút chèn bên dưới hoặc thay đổi trong cài đặt.",
                 "matchDelimiter": "$~Di chuyển con trỏ đến dấu phân cách phù hợp.",
                 "insertPattern": "$~chèn mẫu",
                 "insertSearch": "$~chèn biểu tượng tìm kiếm mẫu",
@@ -9143,15 +9143,16 @@
                 "header": "$~Tính cách",
                 "instructions": {
                     "empty": "$~Chọn chế độ vẽ trong bảng công cụ để tạo hình.",
-                    "unselected": "$~Chọn một chế độ vẽ hoặc chọn và chỉnh sửa hình. Dùng *ctrl/cmd-a* để chọn tất cả và *ctrl/cmd-z* để hoàn tác.",
-                    "selected": "$~Dùng phím *mũi tên* để di chuyển hình. Giữ *shift* để thêm hình vào phần đang chọn. Dùng *delete* để xóa phần đang chọn. Dùng *ctrl/cmd-c* và *ctrl/cmd-v* để sao chép và dán, và *ctrl/cmd-z* để hoàn tác. Khi đã chọn một đường, nhấn *enter* để chỉnh sửa các điểm của nó. Dùng các nút điều khiển bên dưới để thay đổi hình đang chọn.",
+                    "unselected": "$~Chọn một chế độ vẽ hoặc chọn và chỉnh sửa hình. Dùng *$control-a* để chọn tất cả và *$control-z* để hoàn tác.",
+                    "selected": "$~Dùng phím *mũi tên* để di chuyển hình. Giữ *shift* để thêm hình vào phần đang chọn. Dùng *delete* để xóa phần đang chọn. Dùng *$control-c* và *$control-v* để sao chép và dán, và *$control-z* để hoàn tác. Khi đã chọn một đường, nhấn *enter* để chỉnh sửa các điểm của nó. Dùng các nút điều khiển bên dưới để thay đổi hình đang chọn.",
                     "eraser": "$~Để xóa hình dạng, hãy nhấp hoặc chạm vào chúng. Kéo để xóa các pixel. Sử dụng các phím mũi tên để di chuyển công cụ tẩy và phím cách để xóa.",
                     "pixel": "$~Để vẽ pixel, hãy chọn một màu. Sau đó, nhấp vào khung vẽ hoặc sử dụng các phím *mũi tên* để di chuyển con trỏ và phím *khoảng cách* để tạo một pixel. Nhấp đúp chuột để tô màu.",
                     "rect": "$~Để vẽ hình chữ nhật, hãy chọn màu sắc và độ dày viền. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
                     "ellipse": "$~Để vẽ hình elip và hình tròn, hãy chọn màu sắc và độ dày nét vẽ. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
                     "path": "$~Đường dẫn có thể là đoạn thẳng, đa giác và đường cong. Nhấp chuột để bắt đầu thêm điểm, hoặc sử dụng các phím mũi tên và phím cách. Nhấn phím Escape để kết thúc đường dẫn. Phím Delete sẽ xóa điểm cuối cùng.",
-                    "emoji": "$~Chọn một biểu tượng cảm xúc để nhập dưới dạng pixel, sau đó chỉnh sửa theo ý muốn.",
-                    "points": "$~Nhấn *Tab* để chuyển qua các điểm của đường. Dùng phím *mũi tên* để di chuyển điểm đang chọn, *enter* để thêm một điểm bên cạnh nó, và *delete* để xóa điểm đó. Dùng *curve* để uốn cong đoạn nối tới một điểm, rồi di chuyển tay cầm của nó; nhấn *delete* trên tay cầm sẽ làm thẳng lại. Nhấn *escape* khi bạn xong."
+                    "points": "$~Nhấn *Tab* để chuyển qua các điểm của đường. Dùng phím *mũi tên* để di chuyển điểm đang chọn, *enter* để thêm một điểm bên cạnh nó, và *delete* để xóa điểm đó. Dùng *curve* để uốn cong đoạn nối tới một điểm, rồi di chuyển tay cầm của nó; nhấn *delete* trên tay cầm sẽ làm thẳng lại. Nhấn *escape* khi bạn xong.",
+                    "symbol": "$~Chọn thêm điểm ảnh hoặc đường viền, rồi chọn một chữ cái, ký hiệu hoặc biểu tượng cảm xúc. Đường viền có thể đổi kích thước và xoay mà không bị mờ; điểm ảnh có thể đổi màu từng cái một. Nhấp hoặc chạm vào thứ bạn đã tạo để chọn nó thay vì tạo mới.",
+                    "image": "$~Chọn một hình ảnh, rồi chọn phần vuông của nó để giữ lại. Phần này sẽ thay thế các điểm ảnh, và nằm dưới mọi hình bạn đã vẽ. Nhấp hoặc chạm vào thứ bạn đã tạo để chọn nó thay vì tạo mới."
                 },
                 "shape": {
                     "shape": "$~hình dạng",
@@ -9160,7 +9161,10 @@
                     "rect": "$~hình chữ nhật",
                     "ellipse": "$~hình elip",
                     "path": "$~con đường",
-                    "emoji": "$~biểu tượng cảm xúc"
+                    "emoji": "$~biểu tượng cảm xúc",
+                    "glyph": "$~đường viền",
+                    "symbol": "$~ký hiệu",
+                    "image": "$~hình ảnh"
                 },
                 "share": {
                     "dialog": {
@@ -9197,22 +9201,24 @@
                     "mode": {
                         "label": "$~cách thức",
                         "labels": [
-                            "$~lựa chọn",
+                            "$~chọn",
                             "$~cục tẩy",
                             "$~điểm ảnh",
                             "$~hình chữ nhật",
                             "$~hình elip",
                             "$~con đường",
-                            "$~biểu tượng cảm xúc"
+                            "$~biểu tượng cảm xúc",
+                            "$~hình ảnh"
                         ],
                         "tips": [
-                            "$~chọn hình dạng và pixel",
+                            "$~chọn hình và điểm ảnh",
                             "$~xóa hình dạng và pixel",
                             "$~vẽ pixel",
                             "$~vẽ hình chữ nhật",
                             "$~vẽ hình elip",
                             "$~vẽ đường đi",
-                            "$~nhập biểu tượng cảm xúc dưới dạng pixel"
+                            "$~nhập biểu tượng cảm xúc dưới dạng pixel",
+                            "$~thêm hình ảnh dưới dạng điểm ảnh"
                         ]
                     },
                     "fill": {
@@ -9255,7 +9261,32 @@
                         "label": "$~chiều cao",
                         "tip": "$~Hình dạng đó cao bao nhiêu?"
                     },
-                    "closed": "$~đã kết nối"
+                    "closed": "$~đã kết nối",
+                    "brushSize": {
+                        "label": "$~kích thước",
+                        "tip": "$~bút vẽ và cục tẩy phủ bao nhiêu tế bào theo chiều ngang"
+                    },
+                    "insertion": {
+                        "label": "$~thêm dưới dạng",
+                        "labels": ["$~điểm ảnh", "$~đường viền"],
+                        "tips": [
+                            "$~thêm ký hiệu dưới dạng điểm ảnh mà bạn có thể đổi màu từng cái một",
+                            "$~thêm ký hiệu dưới dạng đường viền mà bạn có thể đổi kích thước và xoay mà không bị mờ"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~phông chữ",
+                        "tip": "$~lấy hình dạng của ký hiệu từ phông chữ nào"
+                    },
+                    "weight": {
+                        "label": "$~độ đậm",
+                        "tip": "$~nét của ký hiệu đậm đến mức nào"
+                    },
+                    "italic": "$~chữ nghiêng",
+                    "glyphSize": {
+                        "label": "$~kích thước ký hiệu",
+                        "tip": "$~ký hiệu rộng bao nhiêu tế bào"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9368,7 +9399,13 @@
                     "unauthenticated": "$~Bạn phải đăng nhập vào <địa chỉ email> để chỉnh sửa nhân vật.",
                     "taken": "$~Bạn đã có một nhân vật với tên này rồi; không lưu lại.",
                     "projecteditfail": "$~Đã xảy ra sự cố khi cập nhật các dự án sử dụng nhân vật này. Các dự án sau cần được sửa chữa:",
-                    "untitledproject": "$~Dự án chưa có tiêu đề"
+                    "untitledproject": "$~Dự án chưa có tiêu đề",
+                    "glyphLoading": "$~Đang tải phông chữ…",
+                    "glyphMissing": "$~Phông chữ này không có hình dạng cho ký hiệu đó. Hãy thử phông chữ khác.",
+                    "glyphEmpty": "$~Ký hiệu đó không có gì để vẽ.",
+                    "glyphUnreadable": "$~Chúng tôi không đọc được phông chữ đó. Hãy kiểm tra kết nối mạng, hoặc thử phông chữ khác.",
+                    "imageTooBig": "$~Hình ảnh đó nặng $size MB. Hãy chọn hình nhỏ hơn $limit MB.",
+                    "imageUnreadable": "$~Chúng tôi không thể đọc tệp đó như một hình ảnh."
                 },
                 "announce": {
                     "position": "$~ở mức $x $y",
@@ -9392,7 +9429,31 @@
                     "pasted": "$~đã dán tại $x $y",
                     "arranged": "$~lớp $index trong $total",
                     "flipped": "$~đã lật, giờ ở $x $y",
-                    "fitted": "$~đã phóng to hình dạng để lấp đầy khung vẽ"
+                    "fitted": "$~đã phóng to hình dạng để lấp đầy khung vẽ",
+                    "cropped": "$~khung cắt tại $x $y",
+                    "cropMoving": "$~đang di chuyển khung cắt",
+                    "cropDone": "$~đã đặt khung cắt",
+                    "imported": "$~đã thêm $#count[$count điểm ảnh] từ $x $y"
+                },
+                "image": {
+                    "instructions": "$~Kéo hình vuông để di chuyển nó, hoặc dùng thanh trượt *kích thước* để thay đổi lượng ảnh muốn giữ lại. Với bàn phím, nhấn *enter* để bắt đầu di chuyển, dùng các phím *mũi tên*, rồi nhấn *enter* lần nữa khi xong.",
+                    "button": {
+                        "label": "$~tải lên",
+                        "tip": "$~chọn một tệp hình ảnh từ thiết bị này"
+                    },
+                    "add": {
+                        "label": "$~thêm",
+                        "tip": "$~thêm hình vuông đã chọn vào ký tự dưới dạng điểm ảnh"
+                    },
+                    "crop": {
+                        "label": "$~khung cắt",
+                        "tip": "$~hình vuông của ảnh cần giữ lại"
+                    },
+                    "preview": "$~những gì sẽ được thêm vào",
+                    "size": {
+                        "label": "$~kích thước",
+                        "tip": "$~giữ lại bao nhiêu phần của ảnh"
+                    }
                 }
             },
             "about": {

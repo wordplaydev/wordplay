@@ -7280,7 +7280,7 @@
                 "nextMatch": "$~przejdź do następnego wyniku wyszukiwania",
                 "insertTranslate": "$~wstaw symbol tłumaczenia",
                 "insertThis": "$~wstaw ten symbol",
-                "tab": "$~Klawisz Tab przesuwa fokus klawiatury. Aby wstawić tabulator, naciśnij Ctrl+ $alt +Tab, użyj poniższego przycisku „Wstaw” lub zmień to w ustawieniach.",
+                "tab": "$~Klawisz Tab przesuwa fokus klawiatury. Aby wstawić tabulator, naciśnij $control+ $alt +Tab, użyj poniższego przycisku „Wstaw” lub zmień to w ustawieniach.",
                 "matchDelimiter": "$~przesuń kursor do pasującego ogranicznika",
                 "insertPattern": "$~wstaw wzór",
                 "insertSearch": "$~wstaw symbol wyszukiwania wzorca",
@@ -9077,15 +9077,16 @@
                 "header": "$~Charakter",
                 "instructions": {
                     "empty": "$~Wybierz tryb rysowania na palecie, aby utworzyć kształty.",
-                    "unselected": "$~Wybierz tryb rysowania albo zaznacz i edytuj kształty. Użyj *ctrl/cmd-a*, aby zaznaczyć wszystko, i *ctrl/cmd-z*, aby cofnąć.",
-                    "selected": "$~Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *delete*, aby usunąć zaznaczenie. Użyj *ctrl/cmd-c* i *ctrl/cmd-v*, aby kopiować i wklejać, oraz *ctrl/cmd-z*, aby cofnąć. Gdy zaznaczona jest jedna ścieżka, naciśnij *enter*, aby edytować jej punkty. Użyj poniższych ustawień, aby zmienić zaznaczone kształty.",
+                    "unselected": "$~Wybierz tryb rysowania albo zaznacz i edytuj kształty. Użyj *$control-a*, aby zaznaczyć wszystko, i *$control-z*, aby cofnąć.",
+                    "selected": "$~Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *delete*, aby usunąć zaznaczenie. Użyj *$control-c* i *$control-v*, aby kopiować i wklejać, oraz *$control-z*, aby cofnąć. Gdy zaznaczona jest jedna ścieżka, naciśnij *enter*, aby edytować jej punkty. Użyj poniższych ustawień, aby zmienić zaznaczone kształty.",
                     "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel. *Kliknij dwukrotnie*, aby wypełnić.",
                     "rect": "$~Aby narysować prostokąty, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "ellipse": "$~Aby narysować elipsy i okręgi, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt.",
                     "eraser": "$~Aby wymazać kształty, kliknij je lub dotknij. Przeciągnij, aby wymazać piksele. Użyj klawiszy *strzałek*, aby przesunąć gumkę i *spacji*, aby usunąć.",
-                    "emoji": "$~Wybierz emoji, które chcesz zaimportować jako piksele, a następnie zmodyfikuj je według własnego uznania.",
-                    "points": "$~Użyj *Tab*, aby przechodzić między punktami ścieżki. Użyj klawiszy *strzałek*, aby przesunąć zaznaczony punkt, *enter*, aby dodać punkt obok niego, i *delete*, aby go usunąć. Użyj *curve*, aby wygiąć odcinek dochodzący do punktu, a potem przesuń jego uchwyt; *delete* na uchwycie znów go prostuje. Naciśnij *escape*, gdy skończysz."
+                    "points": "$~Użyj *Tab*, aby przechodzić między punktami ścieżki. Użyj klawiszy *strzałek*, aby przesunąć zaznaczony punkt, *enter*, aby dodać punkt obok niego, i *delete*, aby go usunąć. Użyj *curve*, aby wygiąć odcinek dochodzący do punktu, a potem przesuń jego uchwyt; *delete* na uchwycie znów go prostuje. Naciśnij *escape*, gdy skończysz.",
+                    "symbol": "$~Wybierz, czy chcesz dodać piksele, czy kontur, a potem wybierz literę, symbol lub emoji. Kontur można zmieniać rozmiar i obracać bez rozmycia. Piksele można przebarwiać jeden po drugim. Kliknij lub dotknij coś, co już stworzyłeś, aby to zaznaczyć.",
+                    "image": "$~Wybierz obraz, a potem wybierz jego kwadratowy fragment do zachowania. Zastąpi on piksele i znajdzie się pod narysowanymi kształtami. Kliknij lub dotknij coś, co już stworzyłeś, aby to zaznaczyć."
                 },
                 "shape": {
                     "shape": "$~kształt",
@@ -9094,7 +9095,10 @@
                     "ellipse": "$~elipsa",
                     "path": "$~ścieżka",
                     "eraser": "$~gumka do ścierania",
-                    "emoji": "$~emotikona"
+                    "emoji": "$~emotikona",
+                    "glyph": "$~kontur",
+                    "symbol": "$~symbol",
+                    "image": "$~obraz"
                 },
                 "field": {
                     "name": {
@@ -9108,22 +9112,24 @@
                     "mode": {
                         "label": "$~tryb",
                         "labels": [
-                            "$~wybierać",
+                            "$~zaznacz",
                             "$~gumka do ścierania",
                             "$~piksel",
                             "$~prostokąt",
                             "$~elipsa",
                             "$~ścieżka",
-                            "$~emotikon"
+                            "$~emotikon",
+                            "$~obraz"
                         ],
                         "tips": [
-                            "$~wybierz kształty i piksele",
+                            "$~zaznacz kształty i piksele",
                             "$~wymaż kształty i piksele",
                             "$~narysuj piksele",
                             "$~narysuj prostokąty",
                             "$~rysować elipsy",
                             "$~rysować ścieżki",
-                            "$~importuj emoji jako piksele"
+                            "$~importuj emoji jako piksele",
+                            "$~dodaj obraz jako piksele"
                         ]
                     },
                     "fill": {
@@ -9166,7 +9172,32 @@
                         "label": "$~wysokość",
                         "tip": "$~jaka wysokość ma ten kształt"
                     },
-                    "closed": "$~połączony"
+                    "closed": "$~połączony",
+                    "brushSize": {
+                        "label": "$~rozmiar",
+                        "tip": "$~ile komórek szerokości zajmuje pędzel i gumka"
+                    },
+                    "insertion": {
+                        "label": "$~dodaj jako",
+                        "labels": ["$~piksele", "$~kontur"],
+                        "tips": [
+                            "$~dodaj symbol jako piksele, które możesz przebarwiać jeden po drugim",
+                            "$~dodaj symbol jako kontur, który możesz zmieniać rozmiar i obracać bez rozmycia"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~czcionka",
+                        "tip": "$~z jakiej czcionki ma pochodzić kształt symbolu"
+                    },
+                    "weight": {
+                        "label": "$~grubość",
+                        "tip": "$~jak grube są kreski symbolu"
+                    },
+                    "italic": "$~kursywa",
+                    "glyphSize": {
+                        "label": "$~rozmiar symbolu",
+                        "tip": "$~ile komórek szerokości ma symbol"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9279,7 +9310,13 @@
                     "unauthenticated": "$~Musisz być <zalogowany@://login>, aby edytować znak.",
                     "taken": "$~Masz już postać o tej nazwie, nie zapisujesz.",
                     "projecteditfail": "$~Wystąpił problem z aktualizacją projektów korzystających z tej postaci. Następujące projekty wymagają naprawy:",
-                    "untitledproject": "$~Projekt bez tytułu"
+                    "untitledproject": "$~Projekt bez tytułu",
+                    "glyphLoading": "$~Pobieranie czcionki…",
+                    "glyphMissing": "$~Ta czcionka nie ma kształtu dla tego symbolu. Spróbuj innej czcionki.",
+                    "glyphEmpty": "$~Ten symbol nie ma nic do narysowania.",
+                    "glyphUnreadable": "$~Nie udało się odczytać tej czcionki. Sprawdź swoje połączenie lub spróbuj innej czcionki.",
+                    "imageTooBig": "$~Ten obraz ma $size MB. Wybierz mniejszy niż $limit MB.",
+                    "imageUnreadable": "$~Nie udało się odczytać tego pliku jako obrazu."
                 },
                 "announce": {
                     "position": "$~w $x $y",
@@ -9303,7 +9340,11 @@
                     "pasted": "$~wklejono na $x $y",
                     "arranged": "$~warstwa $index z $total",
                     "flipped": "$~odbito, teraz na $x $y",
-                    "fitted": "$~powiększono kształty, aby wypełniły płótno"
+                    "fitted": "$~powiększono kształty, aby wypełniły płótno",
+                    "cropped": "$~pole przycinania na $x $y",
+                    "cropMoving": "$~przesuwanie pola przycinania",
+                    "cropDone": "$~pole przycinania umieszczone",
+                    "imported": "$~dodano $#count[jeden piksel|$count piksele|$count pikseli|$count piksela] z $x $y"
                 },
                 "share": {
                     "dialog": {
@@ -9327,6 +9368,26 @@
                         ]
                     },
                     "collaborators": "$~współpracownicy"
+                },
+                "image": {
+                    "instructions": "$~Przeciągnij kwadrat, aby go przesunąć, albo użyj suwaka *rozmiar*, aby zmienić, ile obrazu zachować. Za pomocą klawiatury naciśnij *enter*, aby zacząć przesuwanie, potem użyj klawiszy *strzałek*, a na koniec naciśnij *enter* ponownie.",
+                    "button": {
+                        "label": "$~prześlij",
+                        "tip": "$~wybierz plik z obrazem z tego urządzenia"
+                    },
+                    "add": {
+                        "label": "$~dodaj",
+                        "tip": "$~dodaj wybrany kwadrat do znaku jako piksele"
+                    },
+                    "crop": {
+                        "label": "$~pole przycinania",
+                        "tip": "$~kwadrat obrazu do zachowania"
+                    },
+                    "preview": "$~co zostanie dodane",
+                    "size": {
+                        "label": "$~rozmiar",
+                        "tip": "$~ile obrazu zachować"
+                    }
                 }
             },
             "updates": {

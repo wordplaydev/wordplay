@@ -3,6 +3,7 @@ import {
     hasOutOfExampleBreak,
     hasUnclosedText,
     leadingAnnotations,
+    mismatchedPluralBranch,
     splitDocParagraphs,
     unclosedInCode,
 } from './protect';
@@ -86,4 +87,53 @@ test('unclosedInCode looks only inside examples, and skips foreign ones', () => 
     // delimiter and closes nothing of ours.
     expect(unclosedInCode("Compare: \\py|print('less')\\")).toBe(false);
     expect(unclosedInCode("Use \\'cat'\\ here.")).toBe(false);
+});
+
+/** The English source of the string this guard was written for. */
+const Imported = 'added $#count[one pixel|$count pixels] from $x $y';
+
+test("mismatchedPluralBranch accepts a translation with the locale's own arm count", () => {
+    // Polish has four forms; the source has two. The target's count is what
+    // matters, not English's.
+    expect(
+        mismatchedPluralBranch(
+            Imported,
+            'dodano $#count[jeden piksel|$count piksele|$count pikseli|$count piksela] z $x $y',
+            4,
+        ),
+    ).toBeUndefined();
+    // Japanese has one.
+    expect(
+        mismatchedPluralBranch(
+            Imported,
+            '$x $y から $#count[$count ピクセル] を追加',
+            1,
+        ),
+    ).toBeUndefined();
+});
+
+test('mismatchedPluralBranch catches arms left behind without their $#name', () => {
+    // What ar-SA actually shipped, twice: six correct arms, no `$#count` in
+    // front of them, so the bracket group is literal text a screen reader
+    // reads out bars and all. The other guards can't see it — each arm repeats
+    // $x and $y, so the mention counts are nowhere near the source's and
+    // positional repair declines to guess.
+    const dropped =
+        '[لم تُضَف أي بكسل من $x $y|أُضيف بكسل واحد من $x $y|أُضيف بكسلان من $x $y|أُضيفت $count بكسلات من $x $y|أُضيف $count بكسلًا من $x $y|أُضيف $count بكسل من $x $y]';
+    expect(mismatchedPluralBranch(Imported, dropped, 6)).toBe('count');
+});
+
+test('mismatchedPluralBranch catches a branch with the wrong number of arms', () => {
+    // Six forms asked for, English's two delivered.
+    expect(
+        mismatchedPluralBranch(
+            Imported,
+            'added $#count[one|many] from $x $y',
+            6,
+        ),
+    ).toBe('count');
+});
+
+test('mismatchedPluralBranch ignores strings with no branch to lose', () => {
+    expect(mismatchedPluralBranch('at $x $y', 'en $x $y', 6)).toBeUndefined();
 });

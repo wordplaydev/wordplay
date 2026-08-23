@@ -4,7 +4,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import { TranslatableLocales } from '@locale/LanguageCode';
 import { getConventionsForPrompt } from '@locale/getConventionsForPrompt';
 import { getGlossaryForPrompt } from '@locale/Glossary';
-import { getPluralRulesForPrompt } from '@locale/plurals';
+import { getPluralCount, getPluralRulesForPrompt } from '@locale/plurals';
 import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
 import { chunkUnits } from '@util/chunkUnits';
 import type Locale from '@locale/Locale';
@@ -22,6 +22,7 @@ import {
     ConceptPattern,
     hasUnclosedText,
     mismatchedConceptLinks,
+    mismatchedPluralBranch,
     mismatchedDelimiter,
     hasResidualLinkMask,
     protectConceptLinks,
@@ -1002,6 +1003,11 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             ]),
         );
 
+        // How many plural forms this locale distinguishes — one for Japanese,
+        // six for Arabic. What a translation's `$#name` branches are measured
+        // against, since English's two say nothing about what it needs.
+        const pluralForms = getPluralCount(targetLocale);
+
         // Reassemble one string from its translated units, validating it. A
         // `null` means the translation is unusable and the caller keeps the
         // source unwritten rather than shipping something broken.
@@ -1068,6 +1074,22 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             if (hasResidualLinkMask(repaired))
                 return complain(
                     `A translation kept a link placeholder instead of the link; marking it unwritten (${targetLocale}).`,
+                );
+            // A dropped `$#name` leaves the arms behind as a literal bracket
+            // group, which a screen reader reads out bars and all. Nothing above
+            // catches it: the arms repeat the other inputs, so the mention
+            // counts don't line up and positional repair declines to guess.
+            // Locales with the most forms are where it happens — ar-SA lost it
+            // twice while the other 28 kept it — which is exactly the case the
+            // per-string retry on the repair model is for.
+            const plural = mismatchedPluralBranch(
+                source,
+                repaired,
+                pluralForms,
+            );
+            if (plural !== undefined)
+                return complain(
+                    `A translation dropped the plural forms of $${plural}; marking it unwritten (${targetLocale}).`,
                 );
             return repaired;
         };
