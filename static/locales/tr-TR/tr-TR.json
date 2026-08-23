@@ -8976,15 +8976,15 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
-                    "unselected": "$!Bir çizim modu seçin veya şekilleri seçip düzenleyin.",
-                    "selected": "$!Şekilleri taşımak için *ok* tuşlarını kullanın. Seçime daha fazla şekil eklemek için *shift* tuşuna basılı tutun. Seçimi kaldırmak için *delete* tuşunu kullanın. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullanın.",
+                    "unselected": "$~Bir çizim kipi seç ya da şekilleri seçip düzenle. Her şeyi seçmek için *ctrl/cmd-a*, geri almak için *ctrl/cmd-z* kullan.",
+                    "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullan. Seçime başka şekiller eklemek için *shift* tuşunu basılı tut. Seçimi kaldırmak için *delete* kullan. Kopyalamak için *ctrl/cmd-c*, yapıştırmak için *ctrl/cmd-v*, geri almak için *ctrl/cmd-z* kullan. Bir yol seçiliyken noktalarını düzenlemek için *enter* tuşuna bas. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullan.",
                     "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın. Doldurmak için *çift tıklayın*.",
                     "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
                     "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın.",
                     "emoji": "$~Piksel olarak içe aktaracağınız emojiyi seçin, ardından istediğiniz gibi değiştirin.",
-                    "points": "$?"
+                    "points": "$~Yolun noktaları arasında geçmek için *Tab* tuşuna bas. Seçili noktayı taşımak için *ok* tuşlarını, yanına bir nokta eklemek için *enter* tuşunu, kaldırmak için *delete* tuşunu kullan. Bir noktaya gelen parçayı bükmek için *curve* kullan, ardından tutamacını hareket ettir; tutamaç üzerinde *delete* tuşuna basmak onu yeniden düzleştirir. Bitirince *escape* tuşuna bas."
                 },
                 "shape": {
                     "shape": "$~şekil",
@@ -9118,11 +9118,11 @@
                     },
                     "horizontal": {
                         "label": "$~yatay çevir",
-                        "tip": "$!noktaları merkez etrafında yatay olarak çevir"
+                        "tip": "$~seçimi yatay olarak çevir"
                     },
                     "vertical": {
                         "label": "$~dikey çevir",
-                        "tip": "$!noktaları merkez etrafında dikey olarak çevir"
+                        "tip": "$~seçimi dikey olarak çevir"
                     },
                     "fit": {
                         "label": "$~yerleştirmek",
@@ -9145,28 +9145,28 @@
                         "tip": "$~doygunluğu azaltmak"
                     },
                     "editPoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~noktalar",
+                        "tip": "$~seçili yolun noktalarını düzenle"
                     },
                     "donePoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~bitti",
+                        "tip": "$~noktaları düzenlemeyi durdur"
                     },
                     "addPoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~nokta ekle",
+                        "tip": "$~seçili noktanın yanına bir nokta ekle"
                     },
                     "deletePoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~noktayı kaldır",
+                        "tip": "$~seçili noktayı kaldır"
                     },
                     "curve": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~eğri",
+                        "tip": "$~seçili noktaya gelen parçayı bük"
                     },
                     "straighten": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~düzleştir",
+                        "tip": "$~seçili noktaya gelen parçayı düzleştir"
                     }
                 },
                 "feedback": {
@@ -9183,26 +9183,26 @@
                 "announce": {
                     "position": "$~$x $y'de",
                     "selection": "$~$shapes[seçildi $shapes|hiçbir şey seçilmedi]",
-                    "editing": "$?",
-                    "editingDone": "$?",
-                    "point": "$?",
-                    "control": "$?",
-                    "pointAdded": "$?",
-                    "pointRemoved": "$?",
-                    "curved": "$?",
-                    "straightened": "$?",
-                    "moved": "$?",
-                    "drew": "$?",
-                    "erased": "$?",
-                    "finished": "$?",
-                    "deleted": "$?",
-                    "undone": "$?",
-                    "redone": "$?",
-                    "copied": "$?",
-                    "pasted": "$?",
-                    "arranged": "$?",
-                    "flipped": "$?",
-                    "fitted": "$?"
+                    "editing": "$~$#count[bir nokta düzenleniyor|$count nokta düzenleniyor]",
+                    "editingDone": "$~noktaları düzenleme bitti",
+                    "point": "$~nokta $index, $x $y konumunda",
+                    "control": "$~eğri $index, $x $y konumunda",
+                    "pointAdded": "$~nokta $index, $x $y konumuna eklendi",
+                    "pointRemoved": "$~nokta $index kaldırıldı, $#count[bir nokta kaldı|$count nokta kaldı]",
+                    "curved": "$~parça $index büküldü",
+                    "straightened": "$~parça $index düzleştirildi",
+                    "moved": "$~$x $y konumuna taşındı",
+                    "drew": "$~$x $y konumunda çizildi",
+                    "erased": "$~$x $y konumunda silindi",
+                    "finished": "$~$shape $x konumunda $y oluşturuldu",
+                    "deleted": "$~silindi, $#count[bir şekil kaldı|$count şekil kaldı]",
+                    "undone": "$~$step adımdan $total. adım geri alındı",
+                    "redone": "$~$step adımdan $total. adım yinelendi",
+                    "copied": "$~$#count[bir $shapes kopyalandı|$count şekil kopyalandı: $shapes]",
+                    "pasted": "$~$x $y konumuna yapıştırıldı",
+                    "arranged": "$~$index katmandan $total. katman",
+                    "flipped": "$~çevrildi, şimdi $x $y konumunda",
+                    "fitted": "$~şekiller tuvali dolduracak şekilde büyütüldü"
                 },
                 "share": {
                     "dialog": {

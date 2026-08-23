@@ -8994,15 +8994,15 @@
                 "header": "$~Charakter",
                 "instructions": {
                     "empty": "$~Wybierz tryb rysowania na palecie, aby utworzyć kształty.",
-                    "unselected": "$!Wybierz tryb rysowania lub zaznacz i edytuj kształty.",
-                    "selected": "$!Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *Shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *Delete*, aby usunąć zaznaczenie. Użyj poniższych elementów sterujących, aby zmienić zaznaczone kształty.",
+                    "unselected": "$~Wybierz tryb rysowania albo zaznacz i edytuj kształty. Użyj *ctrl/cmd-a*, aby zaznaczyć wszystko, i *ctrl/cmd-z*, aby cofnąć.",
+                    "selected": "$~Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *delete*, aby usunąć zaznaczenie. Użyj *ctrl/cmd-c* i *ctrl/cmd-v*, aby kopiować i wklejać, oraz *ctrl/cmd-z*, aby cofnąć. Gdy zaznaczona jest jedna ścieżka, naciśnij *enter*, aby edytować jej punkty. Użyj poniższych ustawień, aby zmienić zaznaczone kształty.",
                     "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel. *Kliknij dwukrotnie*, aby wypełnić.",
                     "rect": "$~Aby narysować prostokąty, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "ellipse": "$~Aby narysować elipsy i okręgi, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt.",
                     "eraser": "$~Aby wymazać kształty, kliknij je lub dotknij. Przeciągnij, aby wymazać piksele. Użyj klawiszy *strzałek*, aby przesunąć gumkę i *spacji*, aby usunąć.",
                     "emoji": "$~Wybierz emoji, które chcesz zaimportować jako piksele, a następnie zmodyfikuj je według własnego uznania.",
-                    "points": "$?"
+                    "points": "$~Użyj *Tab*, aby przechodzić między punktami ścieżki. Użyj klawiszy *strzałek*, aby przesunąć zaznaczony punkt, *enter*, aby dodać punkt obok niego, i *delete*, aby go usunąć. Użyj *curve*, aby wygiąć odcinek dochodzący do punktu, a potem przesuń jego uchwyt; *delete* na uchwycie znów go prostuje. Naciśnij *escape*, gdy skończysz."
                 },
                 "shape": {
                     "shape": "$~kształt",
@@ -9136,11 +9136,11 @@
                     },
                     "horizontal": {
                         "label": "$~odwróć poziomo",
-                        "tip": "$!odbij punkty w poziomie wokół środka"
+                        "tip": "$~odwróć zaznaczenie poziomo"
                     },
                     "vertical": {
                         "label": "$~odwróć w pionie",
-                        "tip": "$!odbij punkty w pionie wokół środka"
+                        "tip": "$~odwróć zaznaczenie pionowo"
                     },
                     "fit": {
                         "label": "$~pasować",
@@ -9163,28 +9163,28 @@
                         "tip": "$~zmniejszyć nasycenie"
                     },
                     "editPoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~punkty",
+                        "tip": "$~edytuj punkty zaznaczonej ścieżki"
                     },
                     "donePoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~gotowe",
+                        "tip": "$~zakończ edycję punktów"
                     },
                     "addPoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~dodaj punkt",
+                        "tip": "$~dodaj punkt obok zaznaczonego"
                     },
                     "deletePoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~usuń punkt",
+                        "tip": "$~usuń zaznaczony punkt"
                     },
                     "curve": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~wygięcie",
+                        "tip": "$~wygnij odcinek dochodzący do zaznaczonego punktu"
                     },
                     "straighten": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~wyprostuj",
+                        "tip": "$~wyprostuj odcinek dochodzący do zaznaczonego punktu"
                     }
                 },
                 "feedback": {
@@ -9201,26 +9201,26 @@
                 "announce": {
                     "position": "$~w $x $y",
                     "selection": "$~$shapes[wybrano $shapes|nic nie wybrano]",
-                    "editing": "$?",
-                    "editingDone": "$?",
-                    "point": "$?",
-                    "control": "$?",
-                    "pointAdded": "$?",
-                    "pointRemoved": "$?",
-                    "curved": "$?",
-                    "straightened": "$?",
-                    "moved": "$?",
-                    "drew": "$?",
-                    "erased": "$?",
-                    "finished": "$?",
-                    "deleted": "$?",
-                    "undone": "$?",
-                    "redone": "$?",
-                    "copied": "$?",
-                    "pasted": "$?",
-                    "arranged": "$?",
-                    "flipped": "$?",
-                    "fitted": "$?"
+                    "editing": "$~edytowanie $#count[jednego punktu|$count punktów|$count punktów|$count punktu]",
+                    "editingDone": "$~zakończono edycję punktów",
+                    "point": "$~punkt $index w $x $y",
+                    "control": "$~wygięcie $index w $x $y",
+                    "pointAdded": "$~dodano punkt $index w $x $y",
+                    "pointRemoved": "$~usunięto punkt $index, zostało $#count[jeden punkt|$count punkty|$count punktów|$count punktu]",
+                    "curved": "$~wygięto odcinek $index",
+                    "straightened": "$~wyprostowano odcinek $index",
+                    "moved": "$~przesunięto do $x $y",
+                    "drew": "$~narysowano na $x $y",
+                    "erased": "$~wymazano na $x $y",
+                    "finished": "$~utworzono $shape na $x $y",
+                    "deleted": "$~usunięto, zostało $#count[jeden kształt|$count kształty|$count kształtów|$count kształtu]",
+                    "undone": "$~cofnięto krok $step z $total",
+                    "redone": "$~ponowiono krok $step z $total",
+                    "copied": "$~skopiowano $#count[jeden $shapes|$count kształty: $shapes|$count kształtów: $shapes|$count kształtu: $shapes]",
+                    "pasted": "$~wklejono na $x $y",
+                    "arranged": "$~warstwa $index z $total",
+                    "flipped": "$~odbito, teraz na $x $y",
+                    "fitted": "$~powiększono kształty, aby wypełniły płótno"
                 },
                 "share": {
                     "dialog": {

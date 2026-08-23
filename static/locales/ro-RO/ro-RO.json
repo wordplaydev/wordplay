@@ -9250,15 +9250,15 @@
                 "header": "$~Caracter",
                 "instructions": {
                     "empty": "$~Alegeți un mod de desenare din paletă pentru a crea forme.",
-                    "unselected": "$!Alegeți un mod de desenare sau selectați și editați forme.",
-                    "selected": "$!Folosește tastele *săgeată* pentru a muta formele. Ține apăsată tasta *shift* pentru a adăuga mai multe forme la o selecție. Folosește *delete* pentru a elimina selecția. Folosește comenzile de mai jos pentru a modifica formele selectate.",
+                    "unselected": "$~Alege un mod de desenare sau selectează și editează forme. Folosește *ctrl/cmd-a* pentru a selecta tot și *ctrl/cmd-z* pentru a anula.",
+                    "selected": "$~Folosește tastele *săgeți* pentru a muta formele. Ține apăsat *shift* pentru a adăuga mai multe forme la selecție. Folosește *delete* pentru a elimina selecția. Folosește *ctrl/cmd-c* și *ctrl/cmd-v* pentru a copia și lipi, și *ctrl/cmd-z* pentru a anula. Cu o singură cale selectată, apasă *enter* pentru a-i edita punctele. Folosește comenzile de mai jos pentru a schimba formele selectate.",
                     "eraser": "$~Pentru a șterge forme, faceți clic sau atingeți pe ele. Trageți pentru a șterge pixelii. Folosiți tastele *săgeată* pentru a muta radiera și *spațiu* pentru a șterge.",
                     "pixel": "$~Pentru a desena pixeli, alegeți o culoare. Apoi, faceți clic pe pânză sau utilizați *săgețile* pentru a muta cursorul și *spațiu* pentru a crea un pixel. Faceți *dublu clic* pentru a umple.",
                     "rect": "$~Pentru a desena dreptunghiuri, alegeți o culoare și o contur. Apoi, faceți clic și trageți sau utilizați tasta *săgeți* și tasta *spațiu* pentru a alege un centru și o dimensiune.",
                     "ellipse": "$~Pentru a desena elipse și cercuri, alegeți o culoare și o contur. Apoi, faceți clic și trageți sau utilizați tasta *săgeți* și tasta *spațiu* pentru a alege un centru și o dimensiune.",
                     "path": "$~Traseele pot fi segmente de linie, poligoane și curbe. Faceți clic pentru a începe adăugarea de puncte sau utilizați tastele *săgeată* și *spațiu*. Apăsați *escape* pentru a termina traseul. *ștergere* va elimina ultimul punct.",
                     "emoji": "$~Alege un emoji pentru a-l importa ca pixeli, apoi modifică-l după cum dorești.",
-                    "points": "$?"
+                    "points": "$~Apasă *Tab* pentru a trece între punctele căii. Folosește tastele *săgeți* pentru a muta punctul selectat, *enter* pentru a adăuga un punct lângă el și *delete* pentru a-l elimina. Folosește *curbează* pentru a îndoi segmentul care ajunge la un punct, apoi mișcă mânerul acestuia; *delete* pe un mâner îl îndreaptă din nou. Apasă *escape* când ai terminat."
                 },
                 "shape": {
                     "shape": "$~formă",
@@ -9427,11 +9427,11 @@
                     },
                     "horizontal": {
                         "label": "$~răsturnare pe orizontală",
-                        "tip": "$!rotiți punctele pe orizontală în jurul centrului"
+                        "tip": "$~întoarce selecția pe orizontală"
                     },
                     "vertical": {
                         "label": "$~răsturnare verticală",
-                        "tip": "$!inversează punctele pe verticală în jurul centrului"
+                        "tip": "$~întoarce selecția pe verticală"
                     },
                     "fit": {
                         "label": "$~potrivire",
@@ -9442,28 +9442,28 @@
                         "tip": "$~închide mesajul de eroare"
                     },
                     "editPoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~puncte",
+                        "tip": "$~editează punctele căii selectate"
                     },
                     "donePoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~gata",
+                        "tip": "$~oprește editarea punctelor"
                     },
                     "addPoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~adaugă punct",
+                        "tip": "$~adaugă un punct lângă cel selectat"
                     },
                     "deletePoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~elimină punct",
+                        "tip": "$~elimină punctul selectat"
                     },
                     "curve": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~curbează",
+                        "tip": "$~îndoaie segmentul care ajunge la punctul selectat"
                     },
                     "straighten": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~îndreaptă",
+                        "tip": "$~îndreaptă segmentul care ajunge la punctul selectat"
                     }
                 },
                 "feedback": {
@@ -9480,26 +9480,26 @@
                 "announce": {
                     "position": "$~la $x $y",
                     "selection": "$~$shapes[selected $shapes |nimic selectat]",
-                    "editing": "$?",
-                    "editingDone": "$?",
-                    "point": "$?",
-                    "control": "$?",
-                    "pointAdded": "$?",
-                    "pointRemoved": "$?",
-                    "curved": "$?",
-                    "straightened": "$?",
-                    "moved": "$?",
-                    "drew": "$?",
-                    "erased": "$?",
-                    "finished": "$?",
-                    "deleted": "$?",
-                    "undone": "$?",
-                    "redone": "$?",
-                    "copied": "$?",
-                    "pasted": "$?",
-                    "arranged": "$?",
-                    "flipped": "$?",
-                    "fitted": "$?"
+                    "editing": "$~se editează $#count[un punct|$#count puncte|$count de puncte]",
+                    "editingDone": "$~editarea punctelor este gata",
+                    "point": "$~punctul $index la $x $y",
+                    "control": "$~curba $index la $x $y",
+                    "pointAdded": "$~a fost adăugat punctul $index la $x $y",
+                    "pointRemoved": "$~punctul $index a fost eliminat, $#count[a mai rămas un punct|au mai rămas $#count puncte|au mai rămas $count de puncte]",
+                    "curved": "$~segmentul $index a fost curbat",
+                    "straightened": "$~segmentul $index a fost îndreptat",
+                    "moved": "$~mutat la $x $y",
+                    "drew": "$~desenat la $x $y",
+                    "erased": "$~șters la $x $y",
+                    "finished": "$~creat $shape la $x $y",
+                    "deleted": "$~șters, $#count[a mai rămas o formă|au mai rămas $#count forme|au mai rămas $count de forme]",
+                    "undone": "$~pasul $step din $total anulat",
+                    "redone": "$~pasul $step din $total refăcut",
+                    "copied": "$~copiat $#count[o formă: $shapes|$count forme: $shapes|$count de forme: $shapes]",
+                    "pasted": "$~lipit la $x $y",
+                    "arranged": "$~stratul $index din $total",
+                    "flipped": "$~întors, acum la $x $y",
+                    "fitted": "$~formele au fost mărite pentru a umple pânza"
                 }
             },
             "about": {

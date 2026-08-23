@@ -8969,15 +8969,15 @@
                 "header": "$~Karaktär",
                 "instructions": {
                     "empty": "$~Välj ett ritläge i paletten för att skapa former.",
-                    "unselected": "$!Välj ett ritläge eller välj och redigera former.",
-                    "selected": "$!Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i ett urval. Använd *delete* för att ta bort markeringen. Använd kontrollerna nedan för att ändra de valda formerna.",
+                    "unselected": "$~Välj ett ritläge, eller markera och ändra former. Använd *ctrl/cmd-a* för att markera allt och *ctrl/cmd-z* för att ångra.",
+                    "selected": "$~Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i en markering. Använd *delete* för att ta bort markeringen. Använd *ctrl/cmd-c* och *ctrl/cmd-v* för att kopiera och klistra in, och *ctrl/cmd-z* för att ångra. När en bana är markerad kan du trycka på *enter* för att ändra dess punkter. Använd kontrollerna nedan för att ändra de markerade formerna.",
                     "pixel": "$~Välj en färg för att rita pixlar. Klicka sedan på arbetsytan eller använd *pilarna* för att flytta markören och *mellanslag* för att skapa en pixel. *Dubbelklicka* för att fylla.",
                     "rect": "$~För att rita rektanglar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "ellipse": "$~För att rita ellipser och cirklar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten.",
                     "eraser": "$~För att radera former, klicka eller tryck på dem. Dra för att radera pixlar. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera.",
                     "emoji": "$~Välj en emoji att importera som pixlar och ändra sedan som du vill.",
-                    "points": "$?"
+                    "points": "$~Tryck *Tab* för att flytta mellan banans punkter. Använd *piltangenterna* för att flytta den markerade punkten, *enter* för att lägga till en punkt bredvid den, och *delete* för att ta bort den. Använd *böj* för att böja segmentet som leder fram till en punkt, och flytta sedan dess handtag. *Delete* på ett handtag rätar ut det igen. Tryck på *escape* när du är klar."
                 },
                 "shape": {
                     "shape": "$~form",
@@ -9111,11 +9111,11 @@
                     },
                     "horizontal": {
                         "label": "$~vänd horisontellt",
-                        "tip": "$!vänd punkterna vågrätt runt mitten"
+                        "tip": "$~vänd markeringen vågrätt"
                     },
                     "vertical": {
                         "label": "$~vänd vertikalt",
-                        "tip": "$!vänd punkterna lodrätt runt mitten"
+                        "tip": "$~vänd markeringen lodrätt"
                     },
                     "fit": {
                         "label": "$~färdig",
@@ -9138,28 +9138,28 @@
                         "tip": "$~minska mättnaden"
                     },
                     "editPoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~punkter",
+                        "tip": "$~ändra punkterna på den markerade banan"
                     },
                     "donePoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~klar",
+                        "tip": "$~sluta ändra punkter"
                     },
                     "addPoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~lägg till punkt",
+                        "tip": "$~lägg till en punkt bredvid den markerade"
                     },
                     "deletePoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ta bort punkt",
+                        "tip": "$~ta bort den markerade punkten"
                     },
                     "curve": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~böj",
+                        "tip": "$~böj segmentet som leder fram till den markerade punkten"
                     },
                     "straighten": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~räta ut",
+                        "tip": "$~räta ut segmentet som leder fram till den markerade punkten"
                     }
                 },
                 "feedback": {
@@ -9176,26 +9176,26 @@
                 "announce": {
                     "position": "$~för $x $y",
                     "selection": "$~$shapes[vald $shapes|inget valt]",
-                    "editing": "$?",
-                    "editingDone": "$?",
-                    "point": "$?",
-                    "control": "$?",
-                    "pointAdded": "$?",
-                    "pointRemoved": "$?",
-                    "curved": "$?",
-                    "straightened": "$?",
-                    "moved": "$?",
-                    "drew": "$?",
-                    "erased": "$?",
-                    "finished": "$?",
-                    "deleted": "$?",
-                    "undone": "$?",
-                    "redone": "$?",
-                    "copied": "$?",
-                    "pasted": "$?",
-                    "arranged": "$?",
-                    "flipped": "$?",
-                    "fitted": "$?"
+                    "editing": "$~ändrar $#count[en punkt|$count punkter]",
+                    "editingDone": "$~klar med att ändra punkter",
+                    "point": "$~punkt $index vid $x $y",
+                    "control": "$~böj $index vid $x $y",
+                    "pointAdded": "$~la till punkt $index vid $x $y",
+                    "pointRemoved": "$~tog bort punkt $index, $#count[en punkt|$count punkter] kvar",
+                    "curved": "$~böjde segment $index",
+                    "straightened": "$~rätade ut segment $index",
+                    "moved": "$~flyttad till $x $y",
+                    "drew": "$~ritad vid $x $y",
+                    "erased": "$~raderad vid $x $y",
+                    "finished": "$~skapade $shape vid $x $y",
+                    "deleted": "$~raderad, $#count[en form kvar|$count former kvar]",
+                    "undone": "$~ångrade steg $step av $total",
+                    "redone": "$~gjorde om steg $step av $total",
+                    "copied": "$~kopierade $#count[en $shapes|$count former: $shapes]",
+                    "pasted": "$~inklistrad vid $x $y",
+                    "arranged": "$~lager $index av $total",
+                    "flipped": "$~vänd, nu vid $x $y",
+                    "fitted": "$~förstorade formerna så de fyller ritytan"
                 },
                 "share": {
                     "dialog": {

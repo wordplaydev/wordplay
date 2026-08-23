@@ -8893,15 +8893,15 @@
                 "header": "$~Charakter",
                 "instructions": {
                     "empty": "$~Wählen Sie einen Zeichenmodus in der Palette, um Formen zu erstellen.",
-                    "unselected": "$!Wählen Sie einen Zeichenmodus oder wählen und bearbeiten Sie Formen.",
-                    "selected": "$!Verwenden Sie die *Pfeiltasten*, um Formen zu verschieben. Halten Sie die *Umschalttaste* gedrückt, um einer Auswahl weitere Formen hinzuzufügen. Verwenden Sie *Entf*, um die Auswahl aufzuheben. Verwenden Sie die unten stehenden Steuerelemente, um die ausgewählten Formen zu ändern.",
+                    "unselected": "$~Wähle einen Zeichenmodus oder wähle Formen aus und bearbeite sie. Nutze *strg/cmd-a*, um alles auszuwählen, und *strg/cmd-z*, um rückgängig zu machen.",
+                    "selected": "$~Nutze die *Pfeiltasten*, um Formen zu bewegen. Halte *Umschalt* gedrückt, um weitere Formen zur Auswahl hinzuzufügen. Nutze *Entfernen*, um die Auswahl zu löschen. Nutze *strg/cmd-c* und *strg/cmd-v* zum Kopieren und Einfügen, und *strg/cmd-z*, um rückgängig zu machen. Wenn ein Pfad ausgewählt ist, drücke *Eingabe*, um seine Punkte zu bearbeiten. Nutze die Steuerung unten, um die ausgewählten Formen zu ändern.",
                     "pixel": "$~Um Pixel zu zeichnen, wählen Sie eine Farbe. Klicken Sie dann auf die Leinwand oder verwenden Sie die *Pfeile*, um den Cursor zu bewegen, und die *Leertaste*, um ein Pixel zu erstellen. *Doppelklicken* zum Füllen.",
                     "rect": "$~Um Rechtecke zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
                     "ellipse": "$~Um Ellipsen und Kreise zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
                     "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt.",
                     "eraser": "$~Um Formen zu löschen, klicken oder tippen Sie darauf. Ziehen Sie, um Pixel zu löschen. Verwenden Sie die Pfeiltasten, um den Radiergummi zu bewegen, und die Leertaste, um zu löschen.",
                     "emoji": "$~Wählen Sie ein Emoji aus, das Sie als Pixel importieren möchten, und ändern Sie es dann nach Belieben.",
-                    "points": "$?"
+                    "points": "$~Nutze *Tab*, um zwischen den Punkten des Pfades zu wechseln. Nutze die *Pfeiltasten*, um den ausgewählten Punkt zu bewegen, *Eingabe*, um einen Punkt daneben hinzuzufügen, und *Entfernen*, um ihn zu löschen. Nutze *Kurve*, um das Segment zu biegen, das an einem Punkt ankommt, und bewege dann seinen Griff. *Entfernen* auf einem Griff macht ihn wieder gerade. Drücke *Escape*, wenn du fertig bist."
                 },
                 "shape": {
                     "shape": "$~Form",
@@ -9035,11 +9035,11 @@
                     },
                     "horizontal": {
                         "label": "$~horizontal spiegeln",
-                        "tip": "$!die Punkte waagerecht um die Mitte spiegeln"
+                        "tip": "$~die Auswahl waagerecht spiegeln"
                     },
                     "vertical": {
                         "label": "$~vertikal spiegeln",
-                        "tip": "$!die Punkte senkrecht um die Mitte spiegeln"
+                        "tip": "$~die Auswahl senkrecht spiegeln"
                     },
                     "fit": {
                         "label": "$~fit",
@@ -9062,28 +9062,28 @@
                         "tip": "$~Sättigung verringern"
                     },
                     "editPoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Punkte",
+                        "tip": "$~die Punkte des ausgewählten Pfades bearbeiten"
                     },
                     "donePoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~fertig",
+                        "tip": "$~Bearbeiten der Punkte beenden"
                     },
                     "addPoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Punkt hinzufügen",
+                        "tip": "$~einen Punkt neben dem ausgewählten hinzufügen"
                     },
                     "deletePoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Punkt entfernen",
+                        "tip": "$~den ausgewählten Punkt entfernen"
                     },
                     "curve": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Kurve",
+                        "tip": "$~das Segment biegen, das am ausgewählten Punkt ankommt"
                     },
                     "straighten": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~begradigen",
+                        "tip": "$~das Segment begradigen, das am ausgewählten Punkt ankommt"
                     }
                 },
                 "feedback": {
@@ -9100,26 +9100,26 @@
                 "announce": {
                     "position": "$~bei $x $y",
                     "selection": "$~$shapes[ausgewählt $shapes|nichts ausgewählt]",
-                    "editing": "$?",
-                    "editingDone": "$?",
-                    "point": "$?",
-                    "control": "$?",
-                    "pointAdded": "$?",
-                    "pointRemoved": "$?",
-                    "curved": "$?",
-                    "straightened": "$?",
-                    "moved": "$?",
-                    "drew": "$?",
-                    "erased": "$?",
-                    "finished": "$?",
-                    "deleted": "$?",
-                    "undone": "$?",
-                    "redone": "$?",
-                    "copied": "$?",
-                    "pasted": "$?",
-                    "arranged": "$?",
-                    "flipped": "$?",
-                    "fitted": "$?"
+                    "editing": "$~$#count[Bearbeite einen Punkt|Bearbeite $count Punkte]",
+                    "editingDone": "$~Bearbeiten der Punkte abgeschlossen",
+                    "point": "$~Punkt $index bei $x $y",
+                    "control": "$~Kurve $index bei $x $y",
+                    "pointAdded": "$~Punkt $index bei $x $y hinzugefügt",
+                    "pointRemoved": "$~Punkt $index entfernt, $#count[noch ein Punkt übrig|noch $count Punkte übrig]",
+                    "curved": "$~Segment $index gebogen",
+                    "straightened": "$~Segment $index begradigt",
+                    "moved": "$~nach $x $y bewegt",
+                    "drew": "$~bei $x $y gezeichnet",
+                    "erased": "$~bei $x $y gelöscht",
+                    "finished": "$~$shape bei $x $y erstellt",
+                    "deleted": "$~gelöscht, noch $#count[1 Form übrig|$count Formen übrig]",
+                    "undone": "$~Schritt $step von $total rückgängig gemacht",
+                    "redone": "$~Schritt $step von $total wiederholt",
+                    "copied": "$~$#count[eine Form kopiert: $shapes|$count Formen kopiert: $shapes]",
+                    "pasted": "$~bei $x $y eingefügt",
+                    "arranged": "$~Ebene $index von $total",
+                    "flipped": "$~gespiegelt, jetzt bei $x $y",
+                    "fitted": "$~Formen vergrößert, um die Fläche zu füllen"
                 },
                 "share": {
                     "dialog": {

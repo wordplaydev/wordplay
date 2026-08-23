@@ -9256,15 +9256,15 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Pilih mode menggambar di palet untuk membuat bentuk.",
-                    "unselected": "$!Pilih mode menggambar atau pilih dan edit bentuk.",
-                    "selected": "$!Gunakan tombol panah untuk memindahkan bentuk. Tahan tombol Shift untuk menambahkan lebih banyak bentuk ke dalam pilihan. Gunakan tombol Delete untuk menghapus pilihan. Gunakan kontrol di bawah ini untuk mengubah bentuk yang dipilih.",
+                    "unselected": "$~Pilih mode menggambar atau pilih dan ubah bentuk. Gunakan *ctrl/cmd-a* untuk memilih semuanya dan *ctrl/cmd-z* untuk membatalkan.",
+                    "selected": "$~Gunakan tombol *panah* untuk memindahkan bentuk. Tahan *shift* untuk menambah bentuk lain ke dalam pilihan. Gunakan *delete* untuk menghapus pilihan. Gunakan *ctrl/cmd-c* dan *ctrl/cmd-v* untuk menyalin dan menempel, serta *ctrl/cmd-z* untuk membatalkan. Jika satu jalur terpilih, tekan *enter* untuk mengubah titik-titiknya. Gunakan kontrol di bawah untuk mengubah bentuk yang terpilih.",
                     "eraser": "$~Untuk menghapus bentuk, klik atau ketuk bentuk tersebut. Seret untuk menghapus piksel. Gunakan tombol panah untuk menggerakkan penghapus dan spasi untuk menghapus.",
                     "pixel": "$~Untuk menggambar piksel, pilih warna. Kemudian, klik kanvas atau gunakan *panah* untuk menggerakkan kursor dan *spasi* untuk membuat piksel. *Klik dua kali* untuk mengisi.",
                     "rect": "$~Untuk menggambar persegi panjang, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
                     "ellipse": "$~Untuk menggambar elips dan lingkaran, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
                     "path": "$~Jalur dapat berupa segmen garis, poligon, dan kurva. Klik untuk mulai menambahkan titik, atau gunakan tombol panah dan spasi. Tekan escape untuk menyelesaikan jalur. Tombol delete akan menghapus titik terakhir.",
                     "emoji": "$~Pilih emoji yang ingin Anda impor sebagai piksel, lalu modifikasi sesuai keinginan.",
-                    "points": "$?"
+                    "points": "$~Tekan *Tab* untuk berpindah antar titik pada jalur. Gunakan tombol *panah* untuk memindahkan titik yang terpilih, *enter* untuk menambah titik di sebelahnya, dan *delete* untuk menghapusnya. Gunakan *curve* untuk melengkungkan segmen yang menuju ke sebuah titik, lalu geser gagangnya; tekan *delete* pada gagang untuk meluruskannya kembali. Tekan *escape* jika sudah selesai."
                 },
                 "shape": {
                     "shape": "$~membentuk",
@@ -9433,11 +9433,11 @@
                     },
                     "horizontal": {
                         "label": "$~balik horizontal",
-                        "tip": "$!putar titik-titik tersebut secara horizontal di sekitar pusat."
+                        "tip": "$~balik pilihan secara mendatar"
                     },
                     "vertical": {
                         "label": "$~balik vertikal",
-                        "tip": "$!putar titik-titik tersebut secara vertikal di sekitar pusat."
+                        "tip": "$~balik pilihan secara tegak"
                     },
                     "fit": {
                         "label": "$~bugar",
@@ -9448,28 +9448,28 @@
                         "tip": "$~abaikan pesan kesalahan"
                     },
                     "editPoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~titik",
+                        "tip": "$~ubah titik-titik pada jalur yang terpilih"
                     },
                     "donePoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~selesai",
+                        "tip": "$~berhenti mengubah titik"
                     },
                     "addPoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~tambah titik",
+                        "tip": "$~tambahkan titik di sebelah titik yang terpilih"
                     },
                     "deletePoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~hapus titik",
+                        "tip": "$~hapus titik yang terpilih"
                     },
                     "curve": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~lengkungkan",
+                        "tip": "$~lengkungkan segmen yang menuju ke titik yang terpilih"
                     },
                     "straighten": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~luruskan",
+                        "tip": "$~luruskan segmen yang menuju ke titik yang terpilih"
                     }
                 },
                 "feedback": {
@@ -9486,26 +9486,26 @@
                 "announce": {
                     "position": "$~pada $x $y",
                     "selection": "$~$shapes[ $shapes yang dipilih | tidak ada yang dipilih]",
-                    "editing": "$?",
-                    "editingDone": "$?",
-                    "point": "$?",
-                    "control": "$?",
-                    "pointAdded": "$?",
-                    "pointRemoved": "$?",
-                    "curved": "$?",
-                    "straightened": "$?",
-                    "moved": "$?",
-                    "drew": "$?",
-                    "erased": "$?",
-                    "finished": "$?",
-                    "deleted": "$?",
-                    "undone": "$?",
-                    "redone": "$?",
-                    "copied": "$?",
-                    "pasted": "$?",
-                    "arranged": "$?",
-                    "flipped": "$?",
-                    "fitted": "$?"
+                    "editing": "$~mengubah $#count[$count titik]",
+                    "editingDone": "$~selesai mengubah titik",
+                    "point": "$~titik $index di $x $y",
+                    "control": "$~lengkung $index di $x $y",
+                    "pointAdded": "$~titik $index ditambahkan di $x $y",
+                    "pointRemoved": "$~titik $index dihapus, tersisa $#count[$count titik]",
+                    "curved": "$~segmen $index dilengkungkan",
+                    "straightened": "$~segmen $index diluruskan",
+                    "moved": "$~berpindah ke $x $y",
+                    "drew": "$~digambar di $x $y",
+                    "erased": "$~dihapus di $x $y",
+                    "finished": "$~membuat $shape di $x $y",
+                    "deleted": "$~dihapus, $#count[$count bentuk tersisa]",
+                    "undone": "$~membatalkan langkah $step dari $total",
+                    "redone": "$~mengulangi langkah $step dari $total",
+                    "copied": "$~menyalin $#count[$count bentuk: $shapes]",
+                    "pasted": "$~ditempel di $x $y",
+                    "arranged": "$~lapisan $index dari $total",
+                    "flipped": "$~dibalik, sekarang di $x $y",
+                    "fitted": "$~memperbesar bentuk hingga memenuhi kanvas"
                 }
             },
             "about": {

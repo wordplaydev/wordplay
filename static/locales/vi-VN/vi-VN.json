@@ -9060,15 +9060,15 @@
                 "header": "$~Tính cách",
                 "instructions": {
                     "empty": "$~Chọn chế độ vẽ trong bảng công cụ để tạo hình.",
-                    "unselected": "$!Chọn chế độ vẽ hoặc chọn và chỉnh sửa các hình dạng.",
-                    "selected": "$!Sử dụng các phím mũi tên để di chuyển các hình dạng. Giữ phím Shift để thêm nhiều hình dạng vào vùng chọn. Sử dụng phím Delete để xóa vùng chọn. Sử dụng các điều khiển bên dưới để thay đổi hình dạng đã chọn.",
+                    "unselected": "$~Chọn một chế độ vẽ hoặc chọn và chỉnh sửa hình. Dùng *ctrl/cmd-a* để chọn tất cả và *ctrl/cmd-z* để hoàn tác.",
+                    "selected": "$~Dùng phím *mũi tên* để di chuyển hình. Giữ *shift* để thêm hình vào phần đang chọn. Dùng *delete* để xóa phần đang chọn. Dùng *ctrl/cmd-c* và *ctrl/cmd-v* để sao chép và dán, và *ctrl/cmd-z* để hoàn tác. Khi đã chọn một đường, nhấn *enter* để chỉnh sửa các điểm của nó. Dùng các nút điều khiển bên dưới để thay đổi hình đang chọn.",
                     "eraser": "$~Để xóa hình dạng, hãy nhấp hoặc chạm vào chúng. Kéo để xóa các pixel. Sử dụng các phím mũi tên để di chuyển công cụ tẩy và phím cách để xóa.",
                     "pixel": "$~Để vẽ pixel, hãy chọn một màu. Sau đó, nhấp vào khung vẽ hoặc sử dụng các phím *mũi tên* để di chuyển con trỏ và phím *khoảng cách* để tạo một pixel. Nhấp đúp chuột để tô màu.",
                     "rect": "$~Để vẽ hình chữ nhật, hãy chọn màu sắc và độ dày viền. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
                     "ellipse": "$~Để vẽ hình elip và hình tròn, hãy chọn màu sắc và độ dày nét vẽ. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
                     "path": "$~Đường dẫn có thể là đoạn thẳng, đa giác và đường cong. Nhấp chuột để bắt đầu thêm điểm, hoặc sử dụng các phím mũi tên và phím cách. Nhấn phím Escape để kết thúc đường dẫn. Phím Delete sẽ xóa điểm cuối cùng.",
                     "emoji": "$~Chọn một biểu tượng cảm xúc để nhập dưới dạng pixel, sau đó chỉnh sửa theo ý muốn.",
-                    "points": "$?"
+                    "points": "$~Nhấn *Tab* để chuyển qua các điểm của đường. Dùng phím *mũi tên* để di chuyển điểm đang chọn, *enter* để thêm một điểm bên cạnh nó, và *delete* để xóa điểm đó. Dùng *curve* để uốn cong đoạn nối tới một điểm, rồi di chuyển tay cầm của nó; nhấn *delete* trên tay cầm sẽ làm thẳng lại. Nhấn *escape* khi bạn xong."
                 },
                 "shape": {
                     "shape": "$~hình dạng",
@@ -9225,11 +9225,11 @@
                     },
                     "horizontal": {
                         "label": "$~lật ngang",
-                        "tip": "$!Lật các điểm theo chiều ngang xung quanh tâm."
+                        "tip": "$~lật phần đang chọn theo chiều ngang"
                     },
                     "vertical": {
                         "label": "$~lật dọc",
-                        "tip": "$!lật các điểm theo chiều dọc xung quanh tâm."
+                        "tip": "$~lật phần đang chọn theo chiều dọc"
                     },
                     "fit": {
                         "label": "$~phù hợp",
@@ -9252,28 +9252,28 @@
                         "tip": "$~giảm độ bão hòa"
                     },
                     "editPoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~điểm",
+                        "tip": "$~chỉnh sửa các điểm của đường đang chọn"
                     },
                     "donePoints": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~xong",
+                        "tip": "$~dừng chỉnh sửa điểm"
                     },
                     "addPoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~thêm điểm",
+                        "tip": "$~thêm một điểm bên cạnh điểm đang chọn"
                     },
                     "deletePoint": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~xóa điểm",
+                        "tip": "$~xóa điểm đang chọn"
                     },
                     "curve": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~uốn cong",
+                        "tip": "$~uốn cong đoạn nối tới điểm đang chọn"
                     },
                     "straighten": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~làm thẳng",
+                        "tip": "$~làm thẳng đoạn nối tới điểm đang chọn"
                     }
                 },
                 "feedback": {
@@ -9290,26 +9290,26 @@
                 "announce": {
                     "position": "$~ở mức $x $y",
                     "selection": "$~$shapes[đã chọn $shapes|chưa chọn gì]",
-                    "editing": "$?",
-                    "editingDone": "$?",
-                    "point": "$?",
-                    "control": "$?",
-                    "pointAdded": "$?",
-                    "pointRemoved": "$?",
-                    "curved": "$?",
-                    "straightened": "$?",
-                    "moved": "$?",
-                    "drew": "$?",
-                    "erased": "$?",
-                    "finished": "$?",
-                    "deleted": "$?",
-                    "undone": "$?",
-                    "redone": "$?",
-                    "copied": "$?",
-                    "pasted": "$?",
-                    "arranged": "$?",
-                    "flipped": "$?",
-                    "fitted": "$?"
+                    "editing": "$~đang chỉnh sửa $#count[$count điểm]",
+                    "editingDone": "$~đã xong chỉnh sửa điểm",
+                    "point": "$~điểm $index tại $x $y",
+                    "control": "$~đường cong $index tại $x $y",
+                    "pointAdded": "$~đã thêm điểm $index tại $x $y",
+                    "pointRemoved": "$~đã xóa điểm $index, còn lại $#count[$count điểm]",
+                    "curved": "$~đã uốn cong đoạn $index",
+                    "straightened": "$~đã làm thẳng đoạn $index",
+                    "moved": "$~đã di chuyển đến $x $y",
+                    "drew": "$~đã vẽ tại $x $y",
+                    "erased": "$~đã xóa tại $x $y",
+                    "finished": "$~đã tạo $shape tại $x $y",
+                    "deleted": "$~đã xóa, còn lại $#count[$count hình dạng]",
+                    "undone": "$~đã hoàn tác bước $step trong $total",
+                    "redone": "$~đã làm lại bước $step trong $total",
+                    "copied": "$~đã sao chép $#count[$count hình dạng: $shapes]",
+                    "pasted": "$~đã dán tại $x $y",
+                    "arranged": "$~lớp $index trong $total",
+                    "flipped": "$~đã lật, giờ ở $x $y",
+                    "fitted": "$~đã phóng to hình dạng để lấp đầy khung vẽ"
                 }
             },
             "about": {
