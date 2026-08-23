@@ -8318,18 +8318,6 @@
             "landing": {
                 "value": "$~Erschaffe mit uns interaktive Geschichten mit Wörtern, Symbolen, Emojis und Code! Fang an in",
                 "chooseLocales": "$~oder wählen Sie",
-                "description": [
-                    "$~@wordplay ist eine Programmiersprache, mit der du:",
-                    "• Wörter und Emojis verspielt bewegen kannst 🤪",
-                    "• Zeit 🕦, Klang 🎤, Gesichter 🙂, Hände 🖐️, Webseiten 🔗 und Physik 🌎 nutzen kannst",
-                    "• Mit Sprachausgabe sprechen 🗣️ und Musik spielen kannst 🎼",
-                    "• Mit Freunden, Gruppen oder allen teilen kannst 🤝",
-                    "• In jeder Weltsprache programmieren kannst 🌐",
-                    "• Mit Maus 🖱️, Berührung 👆 und Tastatur ⌨️ bearbeiten kannst",
-                    "• Vorwärts ⏩ und rückwärts ⏪ Fehler suchen kannst",
-                    "• Mit Bildschirmen 🖥️ und Screenreadern 🔊 ansehen kannst",
-                    "Für immer kostenlos von der <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~@wordplay befindet sich in der *Beta*-Phase und funktioniert daher möglicherweise nicht wie vorgesehen oder ist nicht vollständig. Melden Sie Fehler und teilen Sie Ideen in <GitHub@https://github.com/wordplaydev/wordplay/issues>, sehen Sie sich unsere <1.0-Pläne@https://github.com/wordplaydev/wordplay/milestones/1.0> an und <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
@@ -8354,6 +8342,130 @@
                     "design": "$~Designsystem-Referenz für Mitwirkende",
                     "thanks": "$~Wer hat bei der Erstellung dieses Projekts mitgewirkt?",
                     "localize": "$~Hilf mit, Wordplay in deine Sprache zu übersetzen"
+                },
+                "tagline": "$~barrierefreies, mehrsprachiges, kreatives Programmieren",
+                "tour": {
+                    "button": "$~zeig mir",
+                    "loading": "$~Wird geladen…",
+                    "failed": "$~Die Beispiele konnten nicht geladen werden. Prüfe deine Verbindung und versuche es erneut.",
+                    "restart": "$~dieses Beispiel neu starten",
+                    "examples": {
+                        "label": "$~Beispielprogramme",
+                        "tips": [
+                            "$~Text kann leuchten und sich bewegen",
+                            "$~Musik ist Daten, Klang und Bild",
+                            "$~Die Zeit tickt und Wörter sind mehrsprachig",
+                            "$~Text kann auf Zeiger, Klicks, Tipps und Tasten reagieren",
+                            "$~Zuschauer können Entscheidungen treffen",
+                            "$~Zuschauer können mit Programmen sprechen, und Wörter sind Formen",
+                            "$~Physik und Schwerkraft können Text taumeln und springen lassen",
+                            "$~Programme können deiner Sprache zuhören",
+                            "$~Programme können dein Gesicht, deine Hände und Gegenstände beobachten"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶Phrasen erscheinen auf der Bühne, in jeder Farbe, mit Leuchten und Bewegung, wie du magst.¶\nSatzglied(\n\t'hallo!'\n\t6m\n\tFarbe: Farbe(60% 90 200°)\n\tAura: Aura(Farbe(80% 80 200°) 0.3m)\n\tRuhen: Reihenfolge.wiegen(8°)\n)\\",
+                        "music": "$~\\¶Musik besteht aus Noten auf echten Instrumenten, in einem Tempo, in einer Tonart. Die Bühne zeichnet, was sie hört.¶\nMusik(\n\tSpur([1 3 5 8 5 3] Instrument: Instrument.Klavier)\n\tTempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Code kann auf Eingaben wie @Time reagieren, und Text kann mehrsprachig und gesprochen sein.¶\nhallos: ['hallo' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhallo: hallos.zufällig() … ∆ Zeit(1000ms) … hallos.zufällig(\n\t\t)\nSatzglied(hallo 4m)\nSagen(hallo)\\",
+                        "keys": "$~\\¶Code kann auf Zeiger, Tasten, Klicks und Tipp-Berührungen reagieren.¶\nschlüssel2: Schlüssel()\nklicken: Taste()\ngesichter: ['🙂' '😮' '😎' '🤩']\nwelche: 1 … ∆ schlüssel2 | ∆ klicken … (welche % 4) + 1\nBühne(\n\t[Satzglied(gesichter[welche] 5m Ort: Zeiger())]\n\tOrt: Ort(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Text anordnen und auswählbar machen.¶\nfrucht: ƒ(e•'') Satzglied(e 3m Name: e wählbar: ⊤)\nausgewählt: Auswahl()\ngezeigt: '?' … ∆ ausgewählt … ausgewählt\nGruppe(\n\tStapel(Polsterung: 1m)\n\t[\n\t\tSatzglied(gezeigt 4m)\n\t\tGruppe(\n\t\t\tReihe(Polsterung: 1m)\n\t\t\t[frucht('🍎') frucht('🍐') frucht('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Unterhalte dich mit Programmen und nutze die Form von Schriftarten und Symbolen.¶\nnachricht: Plaudern()\nwort2: 'hallo' … ∆ nachricht … nachricht\nzeile: Kontur(wort2 'Noto Sans' 8m)\nticks: 0 … ∆ Zeit(30ms) … ticks + 1\ngezeigt: ((zeile.Länge() × ticks) ÷ 66).abrunden() + 1\npunkte: zeile.Folge(1 gezeigt).übersetzen(\n\t\tƒ(p) Satzglied('•' Ort: p)\n\t)\nBühne(punkte.mit(Satzglied(wort2 8m Opazität: 15%)))\\",
+                        "pile": "$~\\¶Text kann Physik haben.¶\nwerfen: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tSatzglied(\n\t\t\temoji\n\t\t\t2m\n\t\t\tOrt: Bewegung(Ort(x2 y2) Geschwindigkeit(vx 0m/s))\n\t\t\tGegenstand: Gegenstand(1kg 0.55 0.06 0.5)\n\t\t)\nBühne(\n\t[\n\t\twerfen('🍎' -2m 5m 2.2m/s)\n\t\twerfen('🍊' 2m 7m -2.6m/s)\n\t\twerfen('🍋' -1m 9m 1.4m/s)\n\t\twerfen('🍇' 1.5m 11m -1.9m/s)\n\t\twerfen('🫐' 0.5m 15m -1.2m/s)\n\t\tGestalt(Rechteck(-4m -3m 4m -3.6m))\n\t\tGestalt(Rechteck(-4.6m 4m -4m -3m))\n\t\tGestalt(Rechteck(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Code kann auf die @Volume und @Pitch deines Mikrofons reagieren.¶\nSatzglied(\n\t'📣'\n\t1m + (Volumen() × 8m)\n\tDrehung: (Tonhöhe() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Code kann auf dein @Face reagieren, und auf andere Dinge auf @Camera.¶\nSatzglied(\n\tGesicht().lächelnd ? '😄 danke!' '🙂 lächle in die Kamera'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay ist eine Programmiersprache",
+                        "bullets": [
+                            "$~• Jedes Programm ist ein Ausdruck, der zu einem Wert wird. \\1 + 1\\ ist ein Programm, und das ist auch \\Satzglied('hallo')\\.",
+                            "• Zahlen tragen Einheiten, also ist \\1m + 1m\\ Meter, und \\1cat + 1dog\\🪲 ist ein Fehler, den @wordplay abfängt, bevor er läuft.",
+                            "• Funktionen sind Werte, die du benennen, weitergeben und aufrufen kannst: \\ƒ doppelt(n3•#) n3 × 2\\.",
+                            "• Wenn sich eine Eingabe ändert, wertet @wordplay dein Programm neu aus und zeigt seinen neuen Wert. Du musst nicht auf Ereignisse reagieren.",
+                            "• @wordplay findet Fehler, bevor das Programm läuft, und erklärt jedes Problem."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay ist mehrsprachig",
+                        "bullets": [
+                            "$~• Jedes Merkmal der Programmiersprache hat in jeder Sprache einen Namen, sodass sich der Code in Wörtern liest, die du schon kennst.",
+                            "• Auch deine eigenen Namen können mehrsprachig sein:\n\\katze: '🐈'\nSatzglied(katze)\\",
+                            "• Text trägt eine Sprache und zeigt die Sprache, die dein Publikum liest: \\'hallo'\\.",
+                            "• Die Seite selbst gibt es in 29 Sprachen, und du kannst mehr als eine gleichzeitig wählen; der Text erscheint dann in jeder davon.",
+                            "• Du kannst mithelfen, @wordplay selbst zu übersetzen, direkt in der App unter <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay ist barrierefrei",
+                        "bullets": [
+                            "$~• Alles, was du mit einer Maus machen kannst, kannst du auch mit einer Tastatur machen.",
+                            "• Bildschirmleseprogramme beschreiben die Bühne, während sie sich verändert, nicht nur beim Laden.",
+                            "• Du kannst deinen Code als Blöcke statt als Text lesen und schreiben, und jederzeit wechseln.",
+                            "• Bewegung kann verlangsamt oder ganz ausgeschaltet werden.",
+                            "• Gesprochene Ausgabe kann auf der Bühne als Untertitel angezeigt werden, für alle, die sie nicht hören können."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay nimmt die Welt wahr",
+                        "bullets": [
+                            "$~• Verstreichende Zeit: \\Zeit(1000ms)\\ tickt weiter, und \\Jetzt()\\ kennt das heutige Datum in deinem eigenen Kalender und deiner Zeitzone.",
+                            "• Wohin dein Publikum zeigt, was es berührt, und welche Tasten es drückt.",
+                            "• Programme können auf dein Mikrofon reagieren: wie laut es mit @Volume ist, in welcher Tonhöhe mit @Pitch, und mit welchen Wörtern mit @Speech.",
+                            "• Dein Publikum kann mit @Chat tippen und mit @Choice Bühneninhalte auswählen.",
+                            "• Programme können auf den Takt der Musik reagieren, die sie abspielen, mit @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay tritt auf",
+                        "bullets": [
+                            "$~• @Phrase bringt Wörter und Emojis auf die Bühne.",
+                            "• @Group ordnet sie in Reihen, Stapeln, Gittern oder wo auch immer du sie platzierst.",
+                            "• @Pose und @Sequence drehen, verblassen, skalieren und bewegen Dinge herum.",
+                            "• @Say spricht Text laut vor, statt ihn nur zu zeigen.",
+                            "• @Music spielt Notenfolgen auf echten Instrumenten ab, in einem Tempo, in einer Tonart:\n\\Musik(\n\tSpur([1 3 5] Instrument: Instrument.Glocke)\n\tTempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay ist Typografie",
+                        "bullets": [
+                            "$~• Hunderte Schriftarten, die die Schriftsysteme der Welt abdecken.",
+                            "• Du kannst deine eigenen <custom characters//characters> zeichnen und sie überall dort nutzen, wo auch ein Emoji hinpasst.",
+                            "• Der Umriss jedes Buchstabens ist ein Wert, den du lesen und animieren kannst, mit @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Text bricht nach den Regeln der Sprache um, in der er geschrieben ist.",
+                            "• Rechts-nach-links- und vertikale Schrift werden so dargestellt, wie es sich gehört."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay erklärt sich selbst",
+                        "bullets": [
+                            "$~• Dokumentation ist Teil der Sprache, mit @Doc, kein Kommentar daneben.",
+                            "• Ein durchsuchbarer <guide//guide> erklärt jedes eingebaute Merkmal mit Beispielen.",
+                            "• Jeder Fehler wird dort erklärt, wo er passiert ist, in deiner Sprache.",
+                            "• Du kannst ein Programm vorwärts /und/ rückwärts durchgehen, um herauszufinden, was passiert ist.",
+                            "• Während du durchgehst, wird jeder Wert direkt im Code angezeigt, der ihn erzeugt hat."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay ist zum Teilen da",
+                        "bullets": [
+                            "$~• Deine Projekte gehören dir, und du entscheidest, wer sie sehen darf.",
+                            "• Du kannst andere Menschen einladen, mit dir an einem Projekt zu arbeiten.",
+                            "• <Galerien@://galleries> sammeln Projekte rund um ein Thema.",
+                            "• Lehrkräfte können Klassen anlegen und die Arbeit ihrer Schülerinnen und Schüler verfolgen: <teach@://teach>.",
+                            "• Du kannst das öffentliche Projekt einer anderen Person neu gestalten und zu deinem eigenen machen."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay ist kostenlos und offen",
+                        "bullets": [
+                            "$~• @wordplay ist kostenlos und wird es immer bleiben.",
+                            "• Es ist quelloffen: Du kannst nachlesen, wie es funktioniert, und uns helfen, es zu verändern.",
+                            "• Es stammt von der Information School der <University of Washington@https://ischool.uw.edu/>.",
+                            "• Es gibt eine Gemeinschaft von Erschaffenden, Lehrkräften und Mitwirkenden.",
+                            "• <Spenden//donate> bezahlen die Kosten für den Betrieb."
+                        ]
+                    }
                 }
             },
             "learn": {

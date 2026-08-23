@@ -21,9 +21,14 @@
     interface Props {
         project: Project;
         fit?: boolean;
+        /** Whether a plain wheel over the stage zooms it. On by default, as it
+         *  is for the project's own stage. Hosts on a page that scrolls pass
+         *  false: zooming calls preventDefault, so a wheel aimed at the page
+         *  would be swallowed by whatever stage the pointer happened to be over. */
+        wheel?: boolean;
     }
 
-    let { project, fit = true }: Props = $props();
+    let { project, fit = true, wheel = true }: Props = $props();
 
     // The tutorial's output is read-only, so gate it for photosensitivity and
     // music too, holding playback (like the permission gate) until the viewer
@@ -158,6 +163,7 @@
         value={latest}
         source={project.getMain()}
         {fit}
+        {wheel}
         grid={false}
         editable={false}
         onretry={() => instantiateEvaluator()}

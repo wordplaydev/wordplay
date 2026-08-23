@@ -8401,18 +8401,6 @@
             "landing": {
                 "value": "$~Bizimle kelimeler, semboller, emojiler ve kod kullanarak etkileşimli hikayeler oluştur! Başlamak için",
                 "chooseLocales": "$~veya seçin",
-                "description": [
-                    "$~@wordplay şunları yapmanı sağlayan bir programlama dilidir:",
-                    "• Kelimeleri ve emojileri eğlenceyle hareketlendirmek 🤪",
-                    "• Zaman 🕦, ses 🎤, yüzler 🙂, eller 🖐️, web siteleri 🔗 ve fizik 🌎 kullanmak",
-                    "• Metinden konuşmayla konuşmak 🗣️ ve müzik çalmak 🎼",
-                    "• Arkadaşlarla, gruplarla veya herkesle paylaşmak 🤝",
-                    "• Herhangi bir dünya dilinde kod yazmak 🌐",
-                    "• Fare 🖱️, dokunma 👆 ve klavye ⌨️ ile düzenlemek",
-                    "• İleri ⏩ ve geri ⏪ hata ayıklamak",
-                    "• Ekranlar 🖥️ ve ekran okuyucularla 🔊 görüntülemek",
-                    "<Washington Üniversitesi@https://ischool.uw.edu/>'nden sonsuza dek ücretsiz."
-                ],
                 "beta": [
                     "$~@wordplay *beta* aşamasındadır, bu nedenle amaçlandığı gibi çalışmayabilir veya tamamlanmamış olabilir. Hataları bildirin ve fikirlerinizi <GitHub@https://github.com/wordplaydev/wordplay/issues> adresinde paylaşın, <1.0 planlarımıza@https://github.com/wordplaydev/wordplay/milestones/1.0> ve <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> bakın."
                 ],
@@ -8437,6 +8425,130 @@
                     "design": "$~Katkıda bulunanlar için tasarım sistemi referansı",
                     "thanks": "$~Bunu yapmaya kimler yardımcı oldu?",
                     "localize": "$~Wordplay'i kendi dilinize çevirmeye yardım edin"
+                },
+                "tagline": "$~herkesin kullanabileceği, çok dilli, yaratıcı kodlama",
+                "tour": {
+                    "button": "$~bana göster",
+                    "loading": "$~Yükleniyor…",
+                    "failed": "$~Örnekler yüklenemedi. Bağlantını kontrol et ve tekrar dene.",
+                    "restart": "$~bu örneği baştan başlat",
+                    "examples": {
+                        "label": "$~Örnek programlar",
+                        "tips": [
+                            "$~Metin parlayabilir ve hareket edebilir",
+                            "$~Müzik; veri, ses ve görüntüdür",
+                            "$~Zaman ilerler ve kelimeler çok dillidir",
+                            "$~Metin; işaretçilere, tıklamalara, dokunuşlara ve tuşlara tepki verebilir",
+                            "$~İzleyiciler seçim yapabilir",
+                            "$~İzleyiciler programlarla sohbet edebilir ve kelimeler şekil alabilir",
+                            "$~Fizik ve yerçekimi, metnin düşmesini ve sekmesini sağlayabilir",
+                            "$~Programlar senin konuşmanı dinleyebilir",
+                            "$~Programlar yüzünü, ellerini ve nesneleri izleyebilir"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶Cümleler sahnede görünür, istediğin renkte, parlaklıkta ve hareketle.¶\nİfadeetmek(\n\t'merhaba!'\n\t6m\n\trenk: Renk(60% 90 200°)\n\taura: Aura(Renk(80% 80 200°) 0.3m)\n\tdinlenme: Sekans.sallanmak(8°)\n)\\",
+                        "music": "$~\\¶Müzik, gerçek çalgılarda, bir tempoda, bir tonda çalınan notalardan oluşur. Sahne duyduğunu çizer.¶\nMüzik(\n\tParça([1 3 5 8 5 3] çalgı: Çalgı.piyano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Kod, @Time gibi girdilere tepki verebilir ve metin çok dilli olup sesli okunabilir.¶\nmerhabalar: ['merhaba' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nmerhaba: merhabalar.rastgele() … ∆ Zaman(1000ms) … merhabalar.rastgele(\n\t\t)\nİfadeetmek(merhaba 4m)\nSöylemek(merhaba)\\",
+                        "keys": "$~\\¶Kod; imleçlere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Anahtar()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[İfadeetmek(yüzler[hangisi] 5m yer: İşaretçi())]\n\tyer: Yer(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Metni yerleştir ve seçilebilir yap.¶\nmeyve: ƒ(e•'') İfadeetmek(e 3m isim: e seçilebilir: ⊤)\nseçildi: Seçenek()\ngösterildi: '?' … ∆ seçildi … seçildi\nGrup(\n\tYığın(dolgu: 1m)\n\t[\n\t\tİfadeetmek(gösterildi 4m)\n\t\tGrup(\n\t\t\tSıra(dolgu: 1m)\n\t\t\t[meyve('🍎') meyve('🍐') meyve('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Programlarla sohbet et ve yazı tiplerinin ile sembollerin şeklini kullan.¶\nmesaj: Sohbet()\nkelime2: 'selam' … ∆ mesaj … mesaj\nsatır: Kontur(kelime2 'Noto Sans' 8m)\ntikSesleri: 0 … ∆ Zaman(30ms) … tikSesleri + 1\ngösterildi: ((satır.uzunluk() × tikSesleri) ÷ 66).Aşağıyuvarla(\n\t) + 1\nnoktalar: satır.altdizi(1 gösterildi).tercümeetmek(\n\t\tƒ(p) İfadeetmek('•' yer: p)\n\t)\nSahne(noktalar.ile(İfadeetmek(kelime2 8m opaklık: 15%)))\\",
+                        "pile": "$~\\¶Yazının fiziği olabilir.¶\nfırlat: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tİfadeetmek(\n\t\t\temoji\n\t\t\t2m\n\t\t\tyer: Hareket(Yer(x2 y2) Hız(vx 0m/s))\n\t\t\tkonu: Konu(1kg 0.55 0.06 0.5)\n\t\t)\nSahne(\n\t[\n\t\tfırlat('🍎' -2m 5m 2.2m/s)\n\t\tfırlat('🍊' 2m 7m -2.6m/s)\n\t\tfırlat('🍋' -1m 9m 1.4m/s)\n\t\tfırlat('🍇' 1.5m 11m -1.9m/s)\n\t\tfırlat('🫐' 0.5m 15m -1.2m/s)\n\t\tŞekil(Dikdörtgen(-4m -3m 4m -3.6m))\n\t\tŞekil(Dikdörtgen(-4.6m 4m -4m -3m))\n\t\tŞekil(Dikdörtgen(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kod, mikrofonunun @Volume ve @Pitch değerine tepki verebilir.¶\nİfadeetmek(\n\t'📣'\n\t1m + (Hacim() × 8m)\n\trotasyon: (Saha() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kod, @Face değerine ve @Camera üzerindeki başka şeylere tepki verebilir.¶\nİfadeetmek(\n\tYüz().gülümseme ? '😄 teşekkür ederim!' '🙂 kameraya gülümse'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay bir programlama dilidir",
+                        "bullets": [
+                            "$~• Her program, bir değere dönüşen bir ifadedir. \\1 + 1\\ bir programdır, \\İfadeetmek('selam')\\ de öyledir.",
+                            "• Sayılar birim taşır, bu yüzden \\1m + 1m\\ metredir, \\1cat + 1dog\\🪲 ise @wordplay'ın çalışmadan önce yakaladığı bir hatadır.",
+                            "• Fonksiyonlar; isim verebileceğin, aktarabileceğin ve çağırabileceğin değerlerdir: \\ƒ çift2(n3•#) n3 × 2\\.",
+                            "• Girdi değiştiğinde, @wordplay programını yeniden değerlendirir ve yeni değerini gösterir. Olaylara tepki vermene gerek yoktur.",
+                            "• @wordplay, program çalışmadan önce hataları bulur ve her sorunu açıklar."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay çok dillidir",
+                        "bullets": [
+                            "$~• Her programlama dili özelliğinin her dilde bir ismi vardır, bu yüzden kodu zaten bildiğin kelimelerle okuyabilirsin.",
+                            "• Kendi isimlerin de çok dilli olabilir:\n\\kedi2: '🐈'\nİfadeetmek(kedi2)\\",
+                            "• Metin bir dil taşır ve izleyicinin okuduğu dili gösterir: \\'merhaba'\\.",
+                            "• Sitenin kendisi 29 dilde ve aynı anda birden fazla dil seçebilirsin; metin her dilde görünür.",
+                            "• @wordplay'ı çevirmeye yardımcı olabilirsin, doğrudan uygulama içinde <localize//localize> üzerinden."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay erişilebilir",
+                        "bullets": [
+                            "$~• Fareyle yapabildiğin her şeyi, klavyeyle de yapabilirsin.",
+                            "• Ekran okuyucular sahneyi sadece yüklendiğinde değil, değiştikçe de anlatır.",
+                            "• Kodunu metin yerine bloklar olarak okuyabilir ve yazabilirsin, istediğin zaman değiştirebilirsin.",
+                            "• Hareket yavaşlatılabilir ya da tamamen kapatılabilir.",
+                            "• Sesli çıktı, duyamayan herkes için sahnede alt yazı olarak gösterilebilir."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay dünyayı hisseder",
+                        "bullets": [
+                            "$~• Zamanın geçişi: \\Zaman(1000ms)\\ tıklar, ve \\Şimdi()\\ kendi takviminde ve saat diliminde bugünün tarihini bilir.",
+                            "• İzleyicinin nereyi işaret ettiği, neye dokunduğu ve hangi tuşlara bastığı.",
+                            "• Programlar mikrofonuna tepki verebilir: @Volume ile ne kadar yüksek sesli olduğuna, @Pitch ile hangi tonda olduğuna ve @Speech ile hangi kelimelerin söylendiğine.",
+                            "• İzleyicin @Chat ile yazı yazabilir ve @Choice ile sahnedeki içeriği seçebilir.",
+                            "• Programlar, çaldıkları müziğin ritmine @Beat ile tepki verebilir."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay performans sergiler",
+                        "bullets": [
+                            "$~• @Phrase sahneye kelimeler ve emoji yerleştirir.",
+                            "• @Group bunları satırlar, yığınlar, ızgaralar halinde ya da senin belirlediğin herhangi bir yere yerleştirir.",
+                            "• @Pose ve @Sequence nesneleri döndürür, soldurur, ölçeklendirir ve hareket ettirir.",
+                            "• @Say metni göstermek yerine sesli okur.",
+                            "• @Music gerçek çalgılarla, bir tempoda ve bir tonda nota parçaları çalar:\n\\Müzik(Parça([1 3 5] çalgı: Çalgı.çan) tempo: 90beats/min)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay tipografidir",
+                        "bullets": [
+                            "$~• Dünyanın yazı sistemlerini kapsayan yüzlerce yazı tipi.",
+                            "• <özel karakterlerini//characters> çizebilir ve bunları bir emoji kullanılan her yerde kullanabilirsin.",
+                            "• Her harfin dış hattı, @Contour ile okuyabileceğin ve canlandırabileceğin bir veridir: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Metin, yazıldığı dilin kurallarına göre satır sonlarında bölünür.",
+                            "• Sağdan sola ve dikey yazı, olması gerektiği gibi düzenlenir."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay kendini açıklar",
+                        "bullets": [
+                            "$~• Dokümantasyon, yanındaki bir yorum değil, @Doc ile dilin bir parçasıdır.",
+                            "• Aranabilir bir <rehber//guide>, her yerleşik özelliği örneklerle açıklar.",
+                            "• Her hata, kendi dilinde, meydana geldiği yerde açıklanır.",
+                            "• Bir programı ne olduğunu anlamak için ileri /ve/ geri adımlarla izleyebilirsin.",
+                            "• Adım adım ilerlerken, her değer onu oluşturan kodun tam içinde gösterilir."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay paylaşmak içindir",
+                        "bullets": [
+                            "$~• Projelerin sana aittir ve onları kimin görebileceğine sen karar verirsin.",
+                            "• Başkalarını seninle birlikte bir proje oluşturmaya davet edebilirsin.",
+                            "• <Galeriler@://galleries>, projeleri bir tema etrafında bir araya getirir.",
+                            "• Öğretmenler sınıflar oluşturup öğrencilerinin çalışmalarını takip edebilir: <teach@://teach>.",
+                            "• Herhangi birinin herkese açık projesini yeniden düzenleyip kendine mal edebilirsin."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay ücretsiz ve açıktır",
+                        "bullets": [
+                            "$~• @wordplay ücretsizdir ve her zaman ücretsiz kalacaktır.",
+                            "• Açık kaynaklıdır: nasıl çalıştığını okuyabilir ve onu değiştirmemize yardımcı olabilirsin.",
+                            "• <Washington Üniversitesi@https://ischool.uw.edu/> Bilişim Okulu'ndan gelir.",
+                            "• Yaratıcılardan, öğretmenlerden ve katkıda bulunanlardan oluşan bir topluluk vardır.",
+                            "• <Bağışlar//donate>, çalıştırma maliyetlerini karşılar."
+                        ]
+                    }
                 }
             },
             "learn": {
