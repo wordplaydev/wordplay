@@ -4,7 +4,7 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.29.4 - 2026-08-22
+## 0.30.0 - 2026-08-22
 
 ### Added
 
@@ -17,12 +17,16 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ You can now fix a path after you draw it. Pick one in the [character](https://wordplay.dev/characters) editor and press enter, and each point becomes a handle you can tab to, move with the arrow keys, add to with enter, and take away with delete. (#667)
 - 📐 A path's straight lines can now bend. Choose a point, press curve, and a handle appears that bends the line coming into it; press delete on that handle to make it straight again. (#774)
 - 🗣️ The character editor was nearly silent to a screen reader. It now says what happened when you move a shape, draw or erase a pixel, finish a shape, delete, undo, copy, paste, reorder, flip, or change a point. (#666)
+- 🔣 You can now add a letter, symbol, or emoji to a [character](https://wordplay.dev/characters). Add it as pixels you can recolor one square at a time, or as an outline you can resize and turn without it going blurry. (#924)
+- 🖼️ You can now add an image to a character. Pick the square of it you want to keep and we shrink it to fit the grid. Your picture never leaves your device. (#739)
+- 🖌️ The pixel brush and the eraser now have a size, so you can cover more than one square at a time instead of erasing square by square. (#898)
 
 ### Changed
 
 - 🔣 Counting the symbols in text now counts what you see. A family emoji like 👨‍👩‍👧 is drawn from several pieces, and `length` used to call it five symbols instead of one.
 - 🧹 The list functions `without` and `withoutAll` did exactly the same thing under two names, and `without` said it removed only the first copy when it never did. They're one function now, all four names still work, and it removes every copy.
 - 🔢 Two not-a-number values are now equal, so `!# = !#` is true. Asking whether a number came out of text you couldn't read is the whole reason to compare one, and it could never be true before.
+- 📐 On a phone, the character editor was three thin columns and none of them were usable. It's now one column: the character, then the commands you can use, then the colors.
 - 🛠️ We updated internal tooling.
 
 ### Fixed
@@ -41,6 +45,12 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📖 A link to another part of the language, like `@Time`, showed up as plain text when it appeared in a program's documentation. It's a link now, the same as it is in a help page. (#1314)
 - 🐛 Undo in the character editor went back two changes at a time, and the newest thing you made could never be brought back. One undo now takes back exactly one change, and a rectangle you finish with the space bar is remembered too. (#1306)
 - 🔄 Flipping only ever moved paths, and no flip could be undone. It now mirrors everything you've picked — rectangles, ellipses, and pixels too — and undo takes it back. (#1306)
+- 🎨 Button labels were hard to read while you pointed at them in dark mode, because they stayed white on a gold background. They're dark now, everywhere in Wordplay. (#1318)
+- 👆 The color swatches were too small to tap. They're big enough to hit now, and wrap onto more rows instead of getting thinner. (#1318)
+- ⌨️ The character editor's instructions showed jumbled text where the keys to press should have been, and shortcuts elsewhere were spaced unevenly. Both now show the right keys for your own computer. (#1318)
+- 🖱️ Drawing or erasing with a quick drag left a dotted line instead of a solid one. Both fill in the gaps now. (#898)
+- 🐛 Opening a dialog in the character editor threw away your undo history, so you couldn't take back anything you did before it. (#1318)
+- 🔣 An emoji added as pixels came out a square too fat, with a faint edge around it. (#739)
 
 ## 0.29.3 - 2026-08-19
 
