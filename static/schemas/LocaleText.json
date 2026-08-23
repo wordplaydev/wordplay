@@ -13375,6 +13375,10 @@
                                     "$ref": "#/definitions/NameText",
                                     "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                                 },
+                                "pull": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "how strongly the output pulls other output toward it"
+                                },
                                 "roundedness": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "from 0-1, what percent of the size to round the corners of the output's rectangle."
@@ -13394,6 +13398,7 @@
                                 "friction",
                                 "mass",
                                 "names",
+                                "pull",
                                 "roundedness",
                                 "shapes",
                                 "text"
@@ -14987,6 +14992,10 @@
                             "additionalProperties": false,
                             "description": "The whole stage view and settings to control its appearance",
                             "properties": {
+                                "air": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How much air resistance slows moving output down; 0 is space"
+                                },
                                 "background": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The background color behind a phrase, group, or stage"
@@ -15097,6 +15106,7 @@
                                 }
                             },
                             "required": [
+                                "air",
                                 "background",
                                 "color",
                                 "content",
@@ -20661,19 +20671,221 @@
                                             "description": "[plain] Text between locale buttons - \"or choose\"",
                                             "type": "string"
                                         },
-                                        "description": {
-                                            "anyOf": [
-                                                {
-                                                    "$ref": "#/definitions/FormattedText"
-                                                },
-                                                {
-                                                    "items": {
-                                                        "$ref": "#/definitions/FormattedText"
+                                        "features": {
+                                            "additionalProperties": false,
+                                            "description": "The granular feature list below the links",
+                                            "properties": {
+                                                "accessible": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
                                                     },
-                                                    "type": "array"
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "docs": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "free": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "language": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "multilingual": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "performs": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "senses": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "sharing": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "typography": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
                                                 }
+                                            },
+                                            "required": [
+                                                "language",
+                                                "multilingual",
+                                                "accessible",
+                                                "senses",
+                                                "performs",
+                                                "typography",
+                                                "docs",
+                                                "sharing",
+                                                "free"
                                             ],
-                                            "description": "[formatted] A description of the platform's features"
+                                            "type": "object"
                                         },
                                         "link": {
                                             "additionalProperties": false,
@@ -20780,6 +20992,119 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "tagline": {
+                                            "description": "[plain] The tagline below the wordmark on the stage",
+                                            "type": "string"
+                                        },
+                                        "tour": {
+                                            "additionalProperties": false,
+                                            "description": "The stage's carousel of tiny example programs",
+                                            "properties": {
+                                                "button": {
+                                                    "description": "[plain] The button that reveals the carousel",
+                                                    "type": "string"
+                                                },
+                                                "example": {
+                                                    "additionalProperties": false,
+                                                    "description": "The example programs, keyed by the name the page refers to them by",
+                                                    "properties": {
+                                                        "choose": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the audience dragging and choosing"
+                                                        },
+                                                        "hello": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing a greeting in a new language each second, shown and spoken"
+                                                        },
+                                                        "keys": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the audience moving something with pointer, keys, and clicks"
+                                                        },
+                                                        "letters": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the audience's word traced along its own glyph outlines"
+                                                        },
+                                                        "listen": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the microphone changing what is on stage"
+                                                        },
+                                                        "music": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing music playing, with the stage moving on every beat"
+                                                        },
+                                                        "phrase": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing a phrase on stage with color, glow, and motion"
+                                                        },
+                                                        "pile": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing emoji falling under physics and settling in a pile"
+                                                        },
+                                                        "smile": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the camera watching for a smile"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "phrase",
+                                                        "music",
+                                                        "hello",
+                                                        "keys",
+                                                        "choose",
+                                                        "letters",
+                                                        "pile",
+                                                        "listen",
+                                                        "smile"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "examples": {
+                                                    "additionalProperties": false,
+                                                    "description": "The row of example buttons. The buttons are emoji, and each example's own program doc does the explaining, so there are no separate names — a description per example is both the button's accessible name and its tooltip.",
+                                                    "properties": {
+                                                        "label": {
+                                                            "description": "[plain] Accessible name for the row itself",
+                                                            "type": "string"
+                                                        },
+                                                        "tips": {
+                                                            "description": "[plain] What each example shows, one per example, in order",
+                                                            "items": {
+                                                                "type": "string"
+                                                            },
+                                                            "maxItems": 9,
+                                                            "minItems": 9,
+                                                            "type": "array"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "label",
+                                                        "tips"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "failed": {
+                                                    "description": "[plain] Shown when the carousel couldn't be loaded",
+                                                    "type": "string"
+                                                },
+                                                "loading": {
+                                                    "description": "[plain] Shown on the button while the carousel loads",
+                                                    "type": "string"
+                                                },
+                                                "restart": {
+                                                    "description": "[plain] Tooltip for the button that starts an example over",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "button",
+                                                "loading",
+                                                "failed",
+                                                "restart",
+                                                "examples",
+                                                "example"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "value": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] The value proposition for the site"
@@ -20787,9 +21112,11 @@
                                     },
                                     "required": [
                                         "value",
-                                        "description",
                                         "beta",
                                         "chooseLocales",
+                                        "tagline",
+                                        "tour",
+                                        "features",
                                         "link"
                                     ],
                                     "type": "object"

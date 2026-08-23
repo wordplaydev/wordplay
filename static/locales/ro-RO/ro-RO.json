@@ -6072,6 +6072,10 @@
             "shapes": {
                 "doc": "$~Dacă mă pot lovi deloc de @Shape de pe @Stage; ⊥ înseamnă că trec prin pereți și podele, iar @Collision nu spune nimic despre ele.",
                 "names": "$~sol"
+            },
+            "pull": {
+                "doc": "$~Cât de puternic atrag alte ieșiri către mine. 0 înseamnă deloc, ceea ce e normal. Numere mai mari atrag mai puternic, iar un număr negativ împinge în loc să atragă. Doar ieșirile plasate de un @Motion pot fi atrase.",
+                "names": "$~trage"
             }
         },
         "Aura": {
@@ -6205,6 +6209,10 @@
             "overlay": {
                 "doc": "$~O listă de @Output fixată plat pe ecran ca un afișaj informativ, neafectată de camera @Place a scenei sau de adâncime.",
                 "names": "$~suprapunere"
+            },
+            "air": {
+                "doc": "$~Cât de mult încetinește aerul mișcarea unei ieșiri. 1 este aerul normal, 0 este spațiul cosmic, unde lucrurile continuă să se miște la nesfârșit, iar numerele mai mari sunt mai dense decât aerul.",
+                "names": "$~aer"
             }
         },
         "Easing": {
@@ -8737,18 +8745,6 @@
             "landing": {
                 "value": "$~Creează povești interactive cu cuvinte, simboluri, emoji-uri și cod alături de noi! Începe în",
                 "chooseLocales": "$~sau alege",
-                "description": [
-                    "$~@wordplay este un limbaj de programare care îți permite să:",
-                    "• Animezi jucăuș cuvinte și emoji-uri 🤪",
-                    "• Folosești timpul 🕦, sunetul 🎤, fețele 🙂, mâinile 🖐️, site-urile web 🔗 și fizica 🌎",
-                    "• Vorbești cu text-în-vorbire 🗣️ și cânți muzică 🎼",
-                    "• Împărtășești 🤝 cu prieteni, grupuri sau oricine",
-                    "• Scrii cod în orice limbă din lume 🌐",
-                    "• Editezi cu mausul 🖱️, atingerea 👆 și tastaturi ⌨️",
-                    "• Depanezi înainte ⏩ și înapoi ⏪",
-                    "• Vizualizezi cu ecrane 🖥️ și cititoare de ecran 🔊",
-                    "Gratuit pentru totdeauna de la <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~@wordplay este în *beta*, așa că s-ar putea să nu funcționeze cum trebuie sau să nu fie complet. Raportează erori și împărtășește idei pe <GitHub@https://github.com/wordplaydev/wordplay/issues>, vezi <planurile noastre 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> și <contribuie@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
@@ -8773,6 +8769,130 @@
                     },
                     "design": "$~Referință de sistem de proiectare pentru contribuitori",
                     "localize": "$~Ajută la traducerea Wordplay în limba ta"
+                },
+                "tagline": "$~programare creativă, accesibilă și multilingvă",
+                "tour": {
+                    "button": "$~arată-mi",
+                    "loading": "$~Se încarcă…",
+                    "failed": "$~Exemplele nu au putut fi încărcate. Verifică-ți conexiunea și încearcă din nou.",
+                    "restart": "$~ia acest exemplu de la capăt",
+                    "examples": {
+                        "label": "$~Programe exemplu",
+                        "tips": [
+                            "$~Textul poate străluci și se poate anima",
+                            "$~Muzica înseamnă date, sunet și imagine",
+                            "$~Timpul trece și cuvintele sunt multilingve",
+                            "$~Textul poate reacționa la cursor, clicuri, atingeri și taste",
+                            "$~Publicul poate face alegeri",
+                            "$~Publicul poate discuta cu programele, iar cuvintele sunt forme",
+                            "$~Fizica și gravitația pot face textul să se rostogolească și să sară",
+                            "$~Programele îți pot asculta vocea",
+                            "$~Programele îți pot privi fața, mâinile și obiectele"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "music": "$~\\¶Muzica este note pe instrumente reale, la un tempo, într-o tonalitate. Scena desenează ce aude.¶\nMuzică(\n\tPistă([1 3 5 8 5 3] instrument: Instrument.pian)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Codul poate reacționa la o intrare precum @Time, iar textul poate fi în mai multe limbi și poate fi rostit.¶\nsaluturi: ['salut' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nsalut: saluturi.aleatoriu() … ∆ Timp(1000ms) … saluturi.aleatoriu(\n\t\t)\nFraza(salut 4m)\nCuvânt(salut)\\",
+                        "keys": "$~\\¶Codul poate reacționa la pointeri, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator())]\n\tloc: Loc(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Așază textul în pagină și fă-l selectabil.¶\nfruct: ƒ(e•'') Fraza(e 3m nume: e selectabil: ⊤)\nales: Alegere()\narătat: '?' … ∆ ales … ales\nGrup(\n\tStivă(umplutură: 1m)\n\t[\n\t\tFraza(arătat 4m)\n\t\tGrup(\n\t\t\tRând(umplutură: 1m)\n\t\t\t[fruct('🍎') fruct('🍐') fruct('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Discută cu programe și folosește forma fonturilor și a simbolurilor.¶\nmesaj: Chat()\ncuvânt2: 'salut' … ∆ mesaj … mesaj\nlinie: Contur(cuvânt2 'Noto Sans' 8m)\nsecunde: 0 … ∆ Timp(30ms) … secunde + 1\narătat: ((linie.lungime() × secunde) ÷ 66).rotunjireînjos() + 1\npuncte: linie.subsecvență(1 arătat).traduce(\n\t\tƒ(p) Fraza('•' loc: p)\n\t)\nEtapă(puncte.cu(Fraza(cuvânt2 8m opacitate: 15%)))\\",
+                        "pile": "$~\\¶Textul poate avea fizică.¶\naruncă: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFraza(\n\t\t\temoji\n\t\t\t2m\n\t\t\tloc: Mişcare(Loc(x2 y2) Viteză(vx 0m/s))\n\t\t\tmaterie: Materie(1kg 0.55 0.06 0.5)\n\t\t)\nEtapă(\n\t[\n\t\taruncă('🍎' -2m 5m 2.2m/s)\n\t\taruncă('🍊' 2m 7m -2.6m/s)\n\t\taruncă('🍋' -1m 9m 1.4m/s)\n\t\taruncă('🍇' 1.5m 11m -1.9m/s)\n\t\taruncă('🫐' 0.5m 15m -1.2m/s)\n\t\tFigură(Dreptunghi(-4m -3m 4m -3.6m))\n\t\tFigură(Dreptunghi(-4.6m 4m -4m -3m))\n\t\tFigură(Dreptunghi(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Codul poate reacționa la @Volume și @Pitch ale microfonului tău.¶\nFraza('📣' 1m + (Volum() × 8m) rotaţie: (Pas() ÷ 1hz) × 0.1°)\\",
+                        "smile": "$~\\¶Codul poate reacționa la @Face al tău, și la alte lucruri de pe @Camera.¶\nFraza(\n\tFață().zâmbind ? '😄 mulțumesc!' '🙂 zâmbește către cameră'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay este un limbaj de programare",
+                        "bullets": [
+                            "$~• Fiecare program este o expresie care devine o valoare. \\1 + 1\\ este un program, și la fel este \\Fraza('salut')\\.",
+                            "• Numerele au unități de măsură, astfel încât \\1m + 1m\\ înseamnă metri, iar \\1cat + 1dog\\🪲 este o greșeală pe care @wordplay o prinde înainte să ruleze.",
+                            "• Funcțiile sunt valori pe care le poți denumi, transmite altora și apela: \\ƒ dublu(n3•#) n3 × 2\\.",
+                            "• Când intrarea se schimbă, @wordplay reevaluează programul tău și arată noua sa valoare. Nu e nevoie să reacționezi tu la evenimente.",
+                            "• @wordplay găsește greșelile înainte ca programul să ruleze și explică fiecare problemă."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay este multilingv",
+                        "bullets": [
+                            "$~• Fiecare element al limbajului de programare are un nume în fiecare limbă, așa că poți citi codul în cuvinte pe care le cunoști deja.",
+                            "• Și numele pe care le alegi tu pot fi multilingve:\n\\pisică2: '🐈'\nFraza(pisică2)\\",
+                            "• Textul poartă o limbă și arată limba pe care publicul tău o citește: \\'salut'\\.",
+                            "• Site-ul este disponibil în 29 de limbi și poți alege mai multe deodată; textul apare în fiecare dintre ele.",
+                            "• Poți ajuta la traducerea @wordplay chiar din aplicație, la <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay este accesibil",
+                        "bullets": [
+                            "$~• Tot ce poți face cu mausul, poți face și cu tastatura.",
+                            "• Cititoarele de ecran descriu scena pe măsură ce se schimbă, nu doar când se încarcă.",
+                            "• Poți citi și scrie codul tău sub formă de blocuri în loc de text, și poți trece de la una la alta oricând vrei.",
+                            "• Mișcarea poate fi încetinită sau oprită complet.",
+                            "• Sunetul vorbit poate fi afișat ca text pe scenă, pentru cei care nu îl pot auzi."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay simte lumea",
+                        "bullets": [
+                            "$~• Trecerea timpului: \\Timp(1000ms)\\ bate secundă cu secundă, iar \\Acum()\\ știe data de azi, în calendarul și fusul tău orar.",
+                            "• Unde arată publicul tău, ce atinge și ce taste apasă.",
+                            "• Programele pot răspunde microfonului tău: cât de tare este cu @Volume, ce înălțime are sunetul cu @Pitch, și ce cuvinte spui cu @Speech.",
+                            "• Publicul tău poate scrie text cu @Chat și poate alege conținut de pe scenă cu @Choice.",
+                            "• Programele pot răspunde la ritmul muzicii pe care o redau, cu @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay pune în scenă",
+                        "bullets": [
+                            "$~• @Phrase pune cuvinte și emoji pe scenă.",
+                            "• @Group le aranjează în rânduri, stive, grile, sau oriunde vrei tu să le pui.",
+                            "• @Pose și @Sequence rotesc, estompează, măresc sau micșorează și mută lucrurile.",
+                            "• @Say rostește textul cu voce tare, în loc să îl arate.",
+                            "• @Music redă piese cu note pe instrumente reale, într-un anumit tempo, într-o anumită tonalitate:\n\\Muzică(\n\tPistă([1 3 5] instrument: Instrument.clopoțel)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay este tipografie",
+                        "bullets": [
+                            "$~• Sute de fonturi, care acoperă sistemele de scriere ale lumii.",
+                            "• Poți desena <caracterele tale personalizate//characters> și le poți folosi oriunde poți folosi un emoji.",
+                            "• Conturul fiecărei litere este o dată pe care o poți citi și anima, cu @Contour: \\Contur('a' 'Noto Sans')\\.",
+                            "• Textul se aranjează pe rânduri după regulile limbii în care este scris.",
+                            "• Scrisul de la dreapta la stânga și scrisul vertical sunt aranjate exact cum trebuie."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay se explică singur",
+                        "bullets": [
+                            "$~• Documentarea face parte din limbă, cu @Doc, nu este doar un comentariu alăturat.",
+                            "• Un <ghid//guide> căutabil explică fiecare funcție încorporată, cu exemple.",
+                            "• Fiecare greșeală este explicată chiar acolo unde a apărut, în limba ta.",
+                            "• Poți parcurge un program pas cu pas, înainte /și/ înapoi, ca să vezi ce s-a întâmplat.",
+                            "• În timp ce parcurgi codul, fiecare valoare este arătată chiar în codul care a creat-o."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay este pentru a împărtăși",
+                        "bullets": [
+                            "$~• Proiectele tale sunt ale tale, iar tu decizi cine le poate vedea.",
+                            "• Poți invita alte persoane să construiască un proiect împreună cu tine.",
+                            "• <Galeriile@://galleries> adună proiecte în jurul unei teme.",
+                            "• Profesorii pot crea clase și pot urmări munca elevilor lor: <predă@://teach>.",
+                            "• Poți remixa proiectul public al oricui și îl poți face al tău."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay este gratuit și deschis",
+                        "bullets": [
+                            "$~• @wordplay este gratuit și va rămâne mereu gratuit.",
+                            "• Este cu sursă deschisă: poți citi cum funcționează și ne poți ajuta să îl schimbăm.",
+                            "• Vine de la Facultatea de Informatică a <Universității din Washington@https://ischool.uw.edu/>.",
+                            "• Există o comunitate de creatori, profesori și colaboratori.",
+                            "• <Donațiile//donate> acoperă costurile de funcționare."
+                        ]
+                    }
                 }
             },
             "learn": {

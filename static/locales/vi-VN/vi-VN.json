@@ -6017,6 +6017,10 @@
             "shapes": {
                 "doc": "$~Liệu tôi có thể va chạm với @Shape trên @Stage hay không; ⊥ nghĩa là tôi rơi xuyên qua tường và sàn, và @Collision nghĩa là không có thông tin gì về chúng.",
                 "names": "$~đất"
+            },
+            "pull": {
+                "doc": "$~Tôi hút các đầu ra khác về phía mình mạnh đến mức nào. 0 nghĩa là không hút chút nào, đó là mức bình thường. Số càng lớn thì hút càng mạnh, còn số âm thì đẩy ra xa thay vì hút lại. Chỉ những đầu ra được đặt bởi một @Motion mới có thể bị hút.",
+                "names": "$~kéo"
             }
         },
         "Aura": {
@@ -6150,6 +6154,10 @@
             "overlay": {
                 "doc": "$~Một danh sách các @Output được ghim phẳng lên màn hình dưới dạng bảng hiển thị phía trước, không bị ảnh hưởng bởi máy quay @Place hay chiều sâu của sân khấu.",
                 "names": "$~lớpPhủ"
+            },
+            "air": {
+                "doc": "$~Không khí làm chậm đầu ra đang chuyển động đến mức nào. 1 là không khí bình thường, 0 là khoảng không vũ trụ, nơi mọi thứ cứ chuyển động mãi mãi, còn số càng lớn thì càng đặc hơn không khí.",
+                "names": "$~khôngKhí"
             }
         },
         "Easing": {
@@ -8648,18 +8656,6 @@
             "landing": {
                 "value": "$~Hãy cùng chúng tôi tạo nên những câu chuyện tương tác bằng từ ngữ, biểu tượng, biểu tượng cảm xúc và mã lập trình! Bắt đầu ngay tại đây!",
                 "chooseLocales": "$~hoặc chọn",
-                "description": [
-                    "$~@wordplay là một ngôn ngữ lập trình cho phép bạn:",
-                    "• Làm cho chữ và biểu tượng cảm xúc chuyển động vui nhộn 🤪",
-                    "• Dùng thời gian 🕦, âm thanh 🎤, khuôn mặt 🙂, bàn tay 🖐️, trang web 🔗, và vật lý 🌎",
-                    "• Nói bằng chuyển văn bản thành giọng nói 🗣️ và chơi nhạc 🎼",
-                    "• Chia sẻ 🤝 với bạn bè, nhóm, hoặc bất kỳ ai",
-                    "• Viết mã số bằng bất kỳ ngôn ngữ nào trên thế giới 🌐",
-                    "• Chỉnh sửa bằng chuột 🖱️, cảm ứng 👆, và bàn phím ⌨️",
-                    "• Gỡ lỗi tiến ⏩ và lùi ⏪",
-                    "• Xem bằng màn hình 🖥️ và trình đọc màn hình 🔊",
-                    "Miễn phí mãi mãi từ <Đại học Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~@wordplay hiện đang trong giai đoạn *beta*, vì vậy nó có thể không hoạt động như mong muốn hoặc chưa hoàn thiện. Vui lòng báo cáo lỗi và chia sẻ ý tưởng tại <GitHub@https://github.com/wordplaydev/wordplay/issues>, xem <kế hoạch phiên bản 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> và <đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
@@ -8684,6 +8680,130 @@
                     "design": "$~Tài liệu tham khảo về hệ thống thiết kế dành cho người đóng góp.",
                     "thanks": "$~Ai đã giúp tạo ra cái này?",
                     "localize": "$~Giúp dịch Wordplay sang ngôn ngữ của bạn"
+                },
+                "tagline": "$~lập trình sáng tạo, dễ tiếp cận, đa ngôn ngữ",
+                "tour": {
+                    "button": "$~cho tôi xem",
+                    "loading": "$~Đang tải…",
+                    "failed": "$~Không thể tải các ví dụ. Hãy kiểm tra kết nối và thử lại.",
+                    "restart": "$~bắt đầu lại ví dụ này",
+                    "examples": {
+                        "label": "$~Chương trình mẫu",
+                        "tips": [
+                            "$~Chữ có thể phát sáng và chuyển động",
+                            "$~Âm nhạc là dữ liệu, âm thanh và hình ảnh",
+                            "$~Thời gian trôi và từ ngữ có thể đa ngôn ngữ",
+                            "$~Chữ có thể phản ứng với con trỏ, cú nhấp, cú chạm và phím bấm",
+                            "$~Khán giả có thể đưa ra lựa chọn",
+                            "$~Khán giả có thể trò chuyện với chương trình, và từ ngữ có thể là hình khối",
+                            "$~Vật lý và trọng lực có thể khiến chữ nhào lộn và nảy lên",
+                            "$~Chương trình có thể lắng nghe giọng nói của bạn",
+                            "$~Chương trình có thể quan sát khuôn mặt, bàn tay và đồ vật của bạn"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
+                        "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
+                        "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m địađiểm: Contrỏ())]\n\tđịađiểm: Địađiểm(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Bố cục văn bản và làm cho nó có thể chọn được.¶\ntráiCây: ƒ(e•'') Cụmtừ(e 3m tên: e cóthểlựachọn: ⊤)\nđãChọn: Sựlựachọn()\nđãHiện: '?' … ∆ đãChọn … đãChọn\nNhóm(\n\tNgănxếp(đệm: 1m)\n\t[\n\t\tCụmtừ(đãHiện 4m)\n\t\tNhóm(\n\t\t\tHàngngang(đệm: 1m)\n\t\t\t[tráiCây('🍎') tráiCây('🍐') tráiCây('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Trò chuyện với chương trình và dùng hình dạng của phông chữ và ký hiệu.¶\ntinNhắn: Tròchuyện()\ntừ3: 'chào' … ∆ tinNhắn … tinNhắn\ndòng: Đườngviền(từ3 'Noto Sans' 8m)\ntiếngTíchTắc: 0 … ∆ Thờigian(30ms) … tiếngTíchTắc + 1\nđãHiện: ((dòng.chiềudài() × tiếngTíchTắc) ÷ 66).làmtrònxuống(\n\t) + 1\ndấuChấm: dòng.chuỗicon(1 đãHiện).dịch(\n\t\tƒ(p) Cụmtừ('•' địađiểm: p)\n\t)\nSânkhấu(dấuChấm.với(Cụmtừ(từ3 8m độmờđục: 15%)))\\",
+                        "pile": "$~\\¶Văn bản cũng có thể có vật lý.¶\ntung: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tCụmtừ(\n\t\t\temoji\n\t\t\t2m\n\t\t\tđịađiểm: Cửđộng(Địađiểm(x2 y2) Vậntốc(vx 0m/s))\n\t\t\tvấnđề: Vấnđề(1kg 0.55 0.06 0.5)\n\t\t)\nSânkhấu(\n\t[\n\t\ttung('🍎' -2m 5m 2.2m/s)\n\t\ttung('🍊' 2m 7m -2.6m/s)\n\t\ttung('🍋' -1m 9m 1.4m/s)\n\t\ttung('🍇' 1.5m 11m -1.9m/s)\n\t\ttung('🫐' 0.5m 15m -1.2m/s)\n\t\tHìnhdạng(Hìnhchữnhật(-4m -3m 4m -3.6m))\n\t\tHìnhdạng(Hìnhchữnhật(-4.6m 4m -4m -3m))\n\t\tHìnhdạng(Hìnhchữnhật(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Mã số có thể phản ứng với @Volume và @Pitch của micro của bạn.¶\nCụmtừ(\n\t'📣'\n\t1m + (Âmlượng() × 8m)\n\txoay: (Sânbóngđá() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Mã số có thể phản ứng với @Face của bạn, và những thứ khác trên @Camera.¶\nCụmtừ(\n\tKhuônMặt().cườiTươi ? '😄 cảm ơn bạn!' '🙂 mỉm cười với máy quay'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay là một ngôn ngữ lập trình",
+                        "bullets": [
+                            "$~• Mỗi chương trình là một biểu thức trở thành một giá trị. \\1 + 1\\ là một chương trình, và đây cũng vậy \\Cụmtừ('chào')\\.",
+                            "• Số mang theo đơn vị, nên \\1m + 1m\\ là mét, và \\1cat + 1dog\\🪲 là một lỗi mà @wordplay bắt được trước khi chạy.",
+                            "• Hàm là những giá trị mà bạn có thể đặt tên, chuyền đi, và gọi: \\ƒ gấpĐôi(n3•#) n3 × 2\\.",
+                            "• Khi đầu vào thay đổi, @wordplay tính lại chương trình của bạn và cho thấy giá trị mới. Không cần phải phản hồi các sự kiện.",
+                            "• @wordplay tìm ra các lỗi trước khi chương trình chạy, và giải thích từng vấn đề."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay là đa ngôn ngữ",
+                        "bullets": [
+                            "$~• Mỗi tính năng của ngôn ngữ lập trình đều có tên trong mọi ngôn ngữ, nên mã số hiển thị bằng những từ bạn đã biết.",
+                            "• Tên của riêng bạn cũng có thể đa ngôn ngữ:\n\\mèo2: '🐈'\nCụmtừ(mèo2)\\",
+                            "• Văn bản mang theo một ngôn ngữ, và hiển thị bằng ngôn ngữ mà khán giả của bạn đọc được: \\'xin chào'\\.",
+                            "• Trang này có 29 ngôn ngữ và bạn có thể chọn nhiều hơn một lúc; chữ sẽ hiện ra bằng từng ngôn ngữ.",
+                            "• Bạn có thể giúp dịch chính @wordplay, ngay trong ứng dụng tại <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay dễ tiếp cận",
+                        "bullets": [
+                            "$~• Bất cứ việc gì làm được bằng chuột, bạn cũng có thể làm bằng bàn phím.",
+                            "• Trình đọc màn hình sẽ mô tả sân khấu mỗi khi nó thay đổi, không chỉ khi tải xong.",
+                            "• Bạn có thể đọc và viết mã số của mình dưới dạng khối thay vì chữ, và đổi qua lại bất cứ lúc nào.",
+                            "• Chuyển động có thể làm chậm lại, hoặc tắt hẳn.",
+                            "• Âm thanh nói có thể hiện thành phụ đề trên sân khấu cho ai không nghe được."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay cảm nhận thế giới",
+                        "bullets": [
+                            "$~• Thời gian trôi qua: \\Thờigian(1000ms)\\ chạy từng giây, và \\Now()\\ biết ngày hôm nay theo lịch và múi giờ của riêng bạn.",
+                            "• Nơi khán giả của bạn chỉ vào, những gì họ chạm vào, và phím nào họ nhấn.",
+                            "• Chương trình có thể phản ứng với micro của bạn: âm to nhỏ ra sao với @Volume, cao độ nào với @Pitch, và lời nói gì với @Speech.",
+                            "• Khán giả của bạn có thể gõ chữ vào @Chat, và chọn nội dung trên sân khấu bằng @Choice.",
+                            "• Chương trình có thể phản ứng theo nhịp của bản nhạc đang phát, với @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay trình diễn",
+                        "bullets": [
+                            "$~• @Phrase đặt chữ và biểu tượng cảm xúc lên sân khấu.",
+                            "• @Group sắp xếp chúng thành hàng, chồng, lưới, hoặc bất cứ chỗ nào bạn đặt.",
+                            "• @Pose và @Sequence xoay, mờ dần, phóng to thu nhỏ, và di chuyển mọi thứ.",
+                            "• @Say đọc to chữ lên thay vì chỉ hiển thị.",
+                            "• @Music phát các đoạn nhạc bằng nhạc cụ thật, theo một nhịp độ, trong một tông nhạc:\n\\ÂmNhạc(\n\tBảnNhạc([1 3 5] nhạcCụ: NhạcCụ.chuông)\n\tnhịpĐộ: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay là chữ nghệ thuật",
+                        "bullets": [
+                            "$~• Hàng trăm kiểu chữ, phủ khắp các hệ chữ viết trên thế giới.",
+                            "• Bạn có thể vẽ <ký tự riêng//characters> và dùng chúng ở bất cứ đâu biểu tượng cảm xúc có thể dùng.",
+                            "• Đường nét của mỗi chữ cái đều là dữ liệu bạn có thể đọc và làm chuyển động, với @Contour: \\Đườngviền('a' 'Noto Sans')\\.",
+                            "• Chữ tự xuống dòng theo quy tắc của ngôn ngữ mà nó được viết ra.",
+                            "• Chữ viết từ phải sang trái và chữ viết dọc được sắp xếp đúng như cách chúng cần được trình bày."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay tự giải thích chính nó",
+                        "bullets": [
+                            "$~• Tài liệu là một phần của ngôn ngữ, với @Doc, chứ không phải một lời ghi chú bên cạnh.",
+                            "• Một <sổ tay hướng dẫn//guide> có thể tìm kiếm giải thích mọi tính năng có sẵn, kèm ví dụ.",
+                            "• Mỗi lỗi sai đều được giải thích ngay tại chỗ xảy ra, bằng ngôn ngữ của bạn.",
+                            "• Bạn có thể chạy từng bước một chương trình tới /và/ lui để tìm hiểu chuyện gì đã xảy ra.",
+                            "• Khi bạn chạy từng bước, mọi giá trị đều hiện ngay trong đoạn mã số đã tạo ra nó."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay dành để chia sẻ",
+                        "bullets": [
+                            "$~• Dự án của bạn là của bạn, và bạn quyết định ai được xem chúng.",
+                            "• Bạn có thể mời người khác cùng xây dựng dự án với mình.",
+                            "• <Phòng trưng bày@://galleries> tập hợp các dự án theo một chủ đề.",
+                            "• Giáo viên có thể tạo lớp học và theo dõi bài làm của học sinh: <teach@://teach>.",
+                            "• Bạn có thể lấy dự án công khai của bất kỳ ai và biến nó thành của riêng mình."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay miễn phí và mở",
+                        "bullets": [
+                            "$~• @wordplay miễn phí và sẽ luôn miễn phí.",
+                            "• Đây là mã nguồn mở: bạn có thể đọc cách nó hoạt động và giúp chúng tôi thay đổi nó.",
+                            "• Nó ra đời từ Trường Thông tin học của <Đại học Washington@https://ischool.uw.edu/>.",
+                            "• Có một cộng đồng gồm những người sáng tạo, giáo viên, và người đóng góp.",
+                            "• <Ủng hộ//donate> giúp trang trải chi phí vận hành."
+                        ]
+                    }
                 }
             },
             "learn": {

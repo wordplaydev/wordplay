@@ -31,6 +31,7 @@
         getRoot,
         getShowLines,
         getSpaces,
+        getWrapping,
         getSteppedEvaluation,
     } from '@components/project/Contexts';
     import ValueView from '@components/values/ValueView.svelte';
@@ -254,13 +255,20 @@
     // caret/outline measurement code reads .space[data-id], .space-text,
     // data-space, data-line, .break, and .line-number.
     const showLines = getShowLines();
+    /** A wrapping view keeps ordinary spaces, which a line can break at; an
+     *  editable one keeps them non-breaking so a line holds its shape while it
+     *  is edited. See `setWrapping`. The indicator wins either way: asking to
+     *  see the spaces is asking to see them. */
+    const wrapping = getWrapping();
     function renderSpace(text: string, indicator: boolean): string[] {
         return (
             indicator
                 ? text
                       .replaceAll(' ', EXPLICIT_SPACE_TEXT)
                       .replaceAll('\t', EXPLICIT_TAB_TEXT)
-                : text.replaceAll(' ', SPACE_TEXT).replaceAll('\t', TAB_TEXT)
+                : wrapping === true
+                  ? text.replaceAll('\t', '  ')
+                  : text.replaceAll(' ', SPACE_TEXT).replaceAll('\t', TAB_TEXT)
         ).split('\n');
     }
     /** The render model for a text-mode space, computed in one call so the

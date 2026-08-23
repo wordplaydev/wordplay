@@ -23,7 +23,7 @@ import type Matter from '@output/physics/Matter';
 import { PX_PER_METER } from '@output/Output/outputToCSS';
 import Phrase from '@output/Output/Phrase';
 import Shape from '@output/Output/Shape/Shape';
-import Stage, { DefaultGravity } from '@output/Output/Stage';
+import Stage from '@output/Output/Stage';
 
 /** Interaction-group membership bits (Rapier packs membership in the high 16
  *  bits and the filter mask in the low 16 bits of a single u32). */
@@ -53,6 +53,21 @@ export const GravityPxPerS2PerUnit = 1_000_000 / (20 * 2 * PX_PER_METER);
  *  0.99^60 ≈ e^(-0.603·t), so ≈0.6 per second on both axes. Without this,
  *  restitution-1 bodies bounce forever. */
 const AirDamping = 0.6;
+
+/** Attraction calibration: the acceleration in px/s² that one unit of pull
+ *  strength (mass × Matter.pull, in kg) produces one stage meter away. Like the
+ *  gravity and velocity constants above this is a feel number, not a physical
+ *  one — the three existing scale factors each reproduce a Matter.js behavior
+ *  rather than any consistent unit system, so there is no G to derive. Picked so
+ *  a 1000kg attractor pulls at about a tenth of default stage gravity from 5m,
+ *  which orbits at a speed projects already write. */
+const PullPxPerS2PerKg = 10;
+
+/** How close two bodies may count as being, in stage meters, when computing
+ *  attraction. Newton's 1/r² is unbounded as r → 0 and the engine has no notion
+ *  of one body being inside another, so without a floor a direct hit flings
+ *  output off stage. MaxSpeed is a backstop, not a substitute. */
+const MinPullDistance = 0.5;
 
 /**
  * A Rapier physics world to keep Scene simpler.
@@ -109,6 +124,17 @@ export default class Physics {
     /** True once we've registered to re-evaluate when a pending Rapier load
      *  finishes, so we register at most one callback per outstanding load. */
     private awaitingRapier = false;
+
+    /** The bodies that pull on others, with their strength (mass × pull, kg),
+     *  rebuilt each sync because both come from a Matter that is re-read every
+     *  frame. Empty for every project that never writes pull, which is what
+     *  keeps attraction free for everyone else. Keyed by world because
+     *  applyAttraction runs once per world per sub-step, and grouping here
+     *  keeps it from filtering a flat list that many times a frame. */
+    private attractors = new Map<
+        RAPIER.World,
+        { rigidBody: RAPIER.RigidBody; strength: number }[]
+    >();
 
     constructor(evaluator: Evaluator) {
         this.evaluator = evaluator;
@@ -269,6 +295,9 @@ export default class Physics {
             this.evaluator.getBasisStreamsOfType(Collision),
         );
 
+        // Rebuilt below from whatever currently has a non-zero Matter.pull.
+        this.attractors.clear();
+
         // CREATE and UPDATE bodies for all outputs currently in the scene.
 
         // Iterate through all of the output in the current scene.
@@ -287,8 +316,7 @@ export default class Physics {
                 for (const world of this.worldsByZ.values()) {
                     world.gravity.x = 0;
                     world.gravity.y =
-                        (info.output.gravity ?? DefaultGravity) *
-                        GravityPxPerS2PerUnit;
+                        info.output.gravity * GravityPxPerS2PerUnit;
                 }
             }
             // Other kind of output? Sync it.
@@ -426,6 +454,27 @@ export default class Physics {
                             true,
                         );
                         shape.resetInterpolation();
+                    }
+
+                    // Air resistance is a property of the stage, not the body,
+                    // so it is re-applied per frame like the matter properties
+                    // below: a program can put its output in space and take it
+                    // out again. AirDamping is the multiplier's 1.
+                    const drag = AirDamping * stage.air;
+                    shape.rigidBody.setLinearDamping(drag);
+                    shape.rigidBody.setAngularDamping(drag);
+
+                    // Does this output pull on others? Remember it for tick().
+                    // A kinematic body attracts perfectly well without being
+                    // attracted itself, which is what makes a fixed sun work.
+                    if (matter && matter.pull !== 0) {
+                        const pulling = this.attractors.get(shape.world);
+                        const attractor = {
+                            rigidBody: shape.rigidBody,
+                            strength: matter.mass * matter.pull,
+                        };
+                        if (pulling) pulling.push(attractor);
+                        else this.attractors.set(shape.world, [attractor]);
                     }
 
                     // Set matter properties if available.
@@ -596,6 +645,7 @@ export default class Physics {
                     });
                 }
                 for (const world of this.worldsByZ.values()) {
+                    this.applyAttraction(world, RAPIER);
                     world.step(events);
                     this.drainCollisions(world, events);
                     clampSpeeds(world, RAPIER);
@@ -607,6 +657,50 @@ export default class Physics {
         for (const [shape, move] of this.sweepingBodies)
             shape.rigidBody.setTranslation(move.to, true);
         this.sweepingBodies.clear();
+    }
+
+    /** Pull every dynamic body in this world toward the attractors in it.
+     *
+     *  Applied as a one-shot impulse per sub-step rather than addForce, because
+     *  Rapier user forces persist until resetForces: a force would have to be
+     *  cleared every sub-step as the bodies move, where an impulse composes
+     *  with clampSpeeds directly after the step. Waking is not optional — a
+     *  settled body ignores forces entirely until it wakes (see the sleep test
+     *  in simulation.test.ts).
+     *
+     *  Attraction only reaches within one world, so output at different depths
+     *  never pulls on each other; each z has a world of its own. */
+    private applyAttraction(world: RAPIER.World, rapier: typeof RAPIER) {
+        // Nothing pulls here: the case every project that never writes pull
+        // takes, and the case of a depth with no attractor of its own.
+        const attractors = this.attractors.get(world);
+        if (attractors === undefined) return;
+
+        world.bodies.forEach((body: RAPIER.RigidBody) => {
+            // Only a dynamic body responds to an impulse at all, which is why a
+            // Motion is what makes output movable by a pull.
+            if (body.bodyType() !== rapier.RigidBodyType.Dynamic) return;
+            const at = body.translation();
+            const mass = body.mass();
+            let x = 0;
+            let y = 0;
+            for (const attractor of attractors) {
+                // A body never pulls on itself.
+                if (attractor.rigidBody === body) continue;
+                const source = attractor.rigidBody.translation();
+                const pull = pullAcceleration(
+                    source.x - at.x,
+                    source.y - at.y,
+                    attractor.strength,
+                );
+                x += pull.x;
+                y += pull.y;
+            }
+            if (x === 0 && y === 0) return;
+            // Impulse is mass × Δv, and Δv is the acceleration over one step.
+            const impulse = mass * world.timestep;
+            body.applyImpulse({ x: x * impulse, y: y * impulse }, true);
+        });
     }
 
     /** Lazily create the reused event queue. */
@@ -867,6 +961,46 @@ function regularPolygonVertices(sides: number, radius: number): Float32Array {
         points[i * 2 + 1] = radius * Math.sin((2 * Math.PI * i) / sides);
     }
     return points;
+}
+
+/**
+ * The acceleration, in px/s², that an attractor of the given strength
+ * (mass × pull, in kg) imparts on a body offset from it by (dx, dy) px.
+ *
+ * Expressed as an acceleration rather than a force so the pulled body's own
+ * mass cancels, as it does in reality. That matters here beyond tidiness: a
+ * Motion body with no Matter is given mass 10 rather than 1 (see OutputBody),
+ * so anything proportional to the pulled mass would behave ten times
+ * differently for a phrase that simply never mentioned Matter.
+ *
+ * Separated out from the engine so the whole of the attraction math can be
+ * tested without Rapier, as planSteps and interpolateTransform are.
+ */
+export function pullAcceleration(
+    dx: number,
+    dy: number,
+    strength: number,
+): { x: number; y: number } {
+    // Work in stage meters: the constant is calibrated per meter, and metres are
+    // what a creator reasons about when placing output.
+    const x = dx / PX_PER_METER;
+    const y = dy / PX_PER_METER;
+    const distance = Math.hypot(x, y);
+    // Exactly coincident: no direction to pull in, so no pull. Non-finite
+    // values fall out here too — strength carries the program's own mass and
+    // pull, and one NaN impulse spreads to every position in the world within
+    // a step. An infinite distance needs the explicit test: it survives a
+    // > 0 check and then divides itself into NaN.
+    if (
+        distance === 0 ||
+        !Number.isFinite(distance) ||
+        !Number.isFinite(strength)
+    )
+        return { x: 0, y: 0 };
+    const softened = Math.max(distance, MinPullDistance);
+    const magnitude = (PullPxPerS2PerKg * strength) / (softened * softened);
+    // Toward the attractor for positive strength, away for negative.
+    return { x: (x / distance) * magnitude, y: (y / distance) * magnitude };
 }
 
 /** Clamp every dynamic body's speed to MaxSpeed (px/s). */
