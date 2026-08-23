@@ -8984,8 +8984,8 @@
                     "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
                     "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın.",
                     "points": "$~Yolun noktaları arasında geçmek için *Tab* tuşuna bas. Seçili noktayı taşımak için *ok* tuşlarını, yanına bir nokta eklemek için *enter* tuşunu, kaldırmak için *delete* tuşunu kullan. Bir noktaya gelen parçayı bükmek için *curve* kullan, ardından tutamacını hareket ettir; tutamaç üzerinde *delete* tuşuna basmak onu yeniden düzleştirir. Bitirince *escape* tuşuna bas.",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "symbol": "$~Piksel mi yoksa dış çizgi mi ekleyeceğine karar ver, sonra bir harf, sembol ya da emoji seç. Bir dış çizgi bulanıklaşmadan yeniden boyutlandırılabilir ve döndürülebilir; pikseller ise tek tek yeniden renklendirilebilir. Zaten yaptığın bir şeyi seçmek için üzerine tıkla ya da dokun.",
+                    "image": "$~Bir resim seç, sonra saklamak istediğin kareyi belirle. Bu, pikselleri değiştirir ve çizdiğin şekillerin altında kalır. Zaten yaptığın bir şeyi seçmek için üzerine tıkla ya da dokun."
                 },
                 "shape": {
                     "shape": "$~şekil",
@@ -8995,9 +8995,9 @@
                     "path": "$~yol",
                     "eraser": "$~silgi",
                     "emoji": "$~emoji",
-                    "glyph": "$?",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "glyph": "$~dış çizgi",
+                    "symbol": "$~sembol",
+                    "image": "$~resim"
                 },
                 "field": {
                     "name": {
@@ -9011,24 +9011,24 @@
                     "mode": {
                         "label": "$~mod",
                         "labels": [
-                            "$!seçme",
+                            "$~seç",
                             "$~silgi",
                             "$~piksel",
                             "$~dikdörtgen",
                             "$~elips",
                             "$~yol",
                             "$~emoji",
-                            "$?"
+                            "$~resim"
                         ],
                         "tips": [
-                            "$!şekilleri ve pikselleri seçin",
+                            "$~şekilleri ve pikselleri seç",
                             "$~Şekilleri ve pikselleri silin.",
                             "$~piksel çizmek",
                             "$~dikdörtgenler çizin",
                             "$~elips çizin",
                             "$~yollar çiz",
                             "$~Emoji'yi piksel olarak içe aktar",
-                            "$?"
+                            "$~resmi piksel olarak ekle"
                         ]
                     },
                     "fill": {
@@ -9073,26 +9073,29 @@
                     },
                     "closed": "$~bağlı",
                     "brushSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~boyut",
+                        "tip": "$~fırçanın ve silginin kaç hücre genişliğinde olduğu"
                     },
                     "insertion": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~şu şekilde ekle",
+                        "labels": ["$~pikseller", "$~dış çizgi"],
+                        "tips": [
+                            "$~sembolü, tek tek yeniden renklendirebileceğin pikseller olarak ekle",
+                            "$~sembolü, bulanıklaşmadan yeniden boyutlandırıp döndürebileceğin bir dış çizgi olarak ekle"
+                        ]
                     },
                     "face": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~yazı tipi",
+                        "tip": "$~sembolün şeklinin hangi yazı tipinden alınacağı"
                     },
                     "weight": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~kalınlık",
+                        "tip": "$~sembolün çizgilerinin ne kadar kalın olduğu"
                     },
-                    "italic": "$?",
+                    "italic": "$~italik",
                     "glyphSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~sembol boyutu",
+                        "tip": "$~sembolün kaç hücre genişliğinde olduğu"
                     }
                 },
                 "button": {
@@ -9207,12 +9210,12 @@
                     "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor.",
                     "projecteditfail": "$~Bu karakteri kullanan projeler güncellenirken bir sorun oluştu. Aşağıdaki projelerin düzeltilmesi gerekiyor:",
                     "untitledproject": "$~Başlıksız Proje",
-                    "glyphLoading": "$?",
-                    "glyphMissing": "$?",
-                    "glyphEmpty": "$?",
-                    "glyphUnreadable": "$?",
-                    "imageTooBig": "$?",
-                    "imageUnreadable": "$?"
+                    "glyphLoading": "$~Yazı tipi alınıyor…",
+                    "glyphMissing": "$~Bu yazı tipinde o sembol için bir şekil yok. Başka bir yazı tipi dene.",
+                    "glyphEmpty": "$~O sembolün çizilecek bir şeyi yok.",
+                    "glyphUnreadable": "$~O yazı tipini okuyamadık. Bağlantını kontrol et ya da başka bir yazı tipi dene.",
+                    "imageTooBig": "$~O görsel $size MB büyüklüğünde. Lütfen $limit MB'den küçük bir görsel seçin.",
+                    "imageUnreadable": "$~Bu dosyayı görsel olarak okuyamadık."
                 },
                 "announce": {
                     "position": "$~$x $y'de",
@@ -9237,10 +9240,10 @@
                     "arranged": "$~$index katmandan $total. katman",
                     "flipped": "$~çevrildi, şimdi $x $y konumunda",
                     "fitted": "$~şekiller tuvali dolduracak şekilde büyütüldü",
-                    "cropped": "$?",
-                    "cropMoving": "$?",
-                    "cropDone": "$?",
-                    "imported": "$?"
+                    "cropped": "$~kırpma kutusu $x $y konumunda",
+                    "cropMoving": "$~kırpma kutusu taşınıyor",
+                    "cropDone": "$~kırpma kutusu yerleştirildi",
+                    "imported": "$~$x $y konumundan $#count[1 piksel eklendi|$count piksel eklendi]"
                 },
                 "share": {
                     "dialog": {
@@ -9266,23 +9269,23 @@
                     "collaborators": "$~işbirlikçiler"
                 },
                 "image": {
-                    "instructions": "$?",
+                    "instructions": "$~Kareyi taşımak için sürükleyin, ya da görselin ne kadarının saklanacağını değiştirmek için *boyut* kaydırıcısını kullanın. Klavye ile taşımaya başlamak için *enter* tuşuna basın, sonra *ok* tuşlarını kullanın, bitirdiğinizde tekrar *enter* tuşuna basın.",
                     "button": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~yükle",
+                        "tip": "$~bu cihazdan bir görsel dosyası seç"
                     },
                     "add": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ekle",
+                        "tip": "$~seçilen kareyi karaktere piksel olarak ekle"
                     },
                     "crop": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~kırpma kutusu",
+                        "tip": "$~saklanacak görsel karesi"
                     },
-                    "preview": "$?",
+                    "preview": "$~eklenecek olan şey",
                     "size": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~boyut",
+                        "tip": "$~görselin ne kadarının saklanacağı"
                     }
                 }
             },

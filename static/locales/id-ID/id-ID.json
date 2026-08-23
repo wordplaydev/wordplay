@@ -9264,8 +9264,8 @@
                     "ellipse": "$~Untuk menggambar elips dan lingkaran, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
                     "path": "$~Jalur dapat berupa segmen garis, poligon, dan kurva. Klik untuk mulai menambahkan titik, atau gunakan tombol panah dan spasi. Tekan escape untuk menyelesaikan jalur. Tombol delete akan menghapus titik terakhir.",
                     "points": "$~Tekan *Tab* untuk berpindah antar titik pada jalur. Gunakan tombol *panah* untuk memindahkan titik yang terpilih, *enter* untuk menambah titik di sebelahnya, dan *delete* untuk menghapusnya. Gunakan *curve* untuk melengkungkan segmen yang menuju ke sebuah titik, lalu geser gagangnya; tekan *delete* pada gagang untuk meluruskannya kembali. Tekan *escape* jika sudah selesai.",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "symbol": "$~Pilih untuk menambah piksel atau garis luar, lalu pilih huruf, simbol, atau emoji. Garis luar bisa diubah ukurannya dan diputar tanpa menjadi buram. Piksel bisa diberi warna satu per satu. Klik atau ketuk sesuatu yang sudah kamu buat untuk memilihnya.",
+                    "image": "$~Pilih sebuah gambar, lalu pilih bagian kotaknya yang ingin disimpan. Bagian ini menggantikan piksel, dan berada di bawah bentuk apa pun yang sudah kamu gambar. Klik atau ketuk sesuatu yang sudah kamu buat untuk memilihnya."
                 },
                 "shape": {
                     "shape": "$~membentuk",
@@ -9275,9 +9275,9 @@
                     "ellipse": "$~elips",
                     "path": "$~jalur",
                     "emoji": "$~emoji",
-                    "glyph": "$?",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "glyph": "$~garis luar",
+                    "symbol": "$~simbol",
+                    "image": "$~gambar"
                 },
                 "share": {
                     "dialog": {
@@ -9314,24 +9314,24 @@
                     "mode": {
                         "label": "$~mode",
                         "labels": [
-                            "$!memilih",
+                            "$~pilih",
                             "$~penghapus",
                             "$~piksel",
                             "$~persegi panjang",
                             "$~elips",
                             "$~jalur",
                             "$~emoji",
-                            "$?"
+                            "$~gambar"
                         ],
                         "tips": [
-                            "$!pilih bentuk dan piksel",
+                            "$~pilih bentuk dan piksel",
                             "$~menghapus bentuk dan piksel",
                             "$~menggambar piksel",
                             "$~menggambar persegi panjang",
                             "$~menggambar elips",
                             "$~menggambar jalur",
                             "$~impor emoji sebagai piksel",
-                            "$?"
+                            "$~tambahkan gambar sebagai piksel"
                         ]
                     },
                     "fill": {
@@ -9376,26 +9376,29 @@
                     },
                     "closed": "$~terhubung",
                     "brushSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ukuran",
+                        "tip": "$~berapa banyak sel yang dilewati kuas dan penghapus"
                     },
                     "insertion": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~tambahkan sebagai",
+                        "labels": ["$~piksel", "$~garis luar"],
+                        "tips": [
+                            "$~tambahkan simbol sebagai piksel yang bisa diwarnai ulang satu per satu",
+                            "$~tambahkan simbol sebagai garis luar yang bisa diubah ukurannya dan diputar tanpa menjadi buram"
+                        ]
                     },
                     "face": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~jenis huruf",
+                        "tip": "$~jenis huruf mana yang menjadi sumber bentuk simbol ini"
                     },
                     "weight": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ketebalan",
+                        "tip": "$~seberapa tebal guratan simbol ini"
                     },
-                    "italic": "$?",
+                    "italic": "$~miring",
                     "glyphSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ukuran simbol",
+                        "tip": "$~berapa banyak sel yang dilewati simbol ini"
                     }
                 },
                 "button": {
@@ -9510,12 +9513,12 @@
                     "taken": "$~Anda sudah memiliki karakter dengan nama ini; tidak akan disimpan.",
                     "projecteditfail": "$~Terdapat masalah saat memperbarui proyek yang menggunakan karakter ini. Proyek-proyek berikut perlu diperbaiki:",
                     "untitledproject": "$~Proyek Tanpa Judul",
-                    "glyphLoading": "$?",
-                    "glyphMissing": "$?",
-                    "glyphEmpty": "$?",
-                    "glyphUnreadable": "$?",
-                    "imageTooBig": "$?",
-                    "imageUnreadable": "$?"
+                    "glyphLoading": "$~Mengambil jenis huruf…",
+                    "glyphMissing": "$~Jenis huruf ini tidak punya bentuk untuk simbol tersebut. Coba jenis huruf lain.",
+                    "glyphEmpty": "$~Simbol itu tidak punya apa pun untuk digambar.",
+                    "glyphUnreadable": "$~Kami tidak bisa membaca jenis huruf itu. Periksa koneksimu, atau coba jenis huruf lain.",
+                    "imageTooBig": "$~Gambar itu berukuran $size MB. Silakan pilih gambar yang lebih kecil dari $limit MB.",
+                    "imageUnreadable": "$~Kami tidak dapat membaca berkas itu sebagai gambar."
                 },
                 "announce": {
                     "position": "$~pada $x $y",
@@ -9540,29 +9543,29 @@
                     "arranged": "$~lapisan $index dari $total",
                     "flipped": "$~dibalik, sekarang di $x $y",
                     "fitted": "$~memperbesar bentuk hingga memenuhi kanvas",
-                    "cropped": "$?",
-                    "cropMoving": "$?",
-                    "cropDone": "$?",
-                    "imported": "$?"
+                    "cropped": "$~kotak potong di $x $y",
+                    "cropMoving": "$~memindahkan kotak potong",
+                    "cropDone": "$~kotak potong ditempatkan",
+                    "imported": "$~menambahkan $#count[$count piksel] dari $x $y"
                 },
                 "image": {
-                    "instructions": "$?",
+                    "instructions": "$~Seret kotak untuk memindahkannya, atau gunakan penggeser *ukuran* untuk mengubah berapa banyak bagian gambar yang disimpan. Dengan papan ketik, tekan *enter* untuk mulai memindahkan, lalu gunakan tombol *panah*, dan tekan *enter* lagi saat selesai.",
                     "button": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~unggah",
+                        "tip": "$~pilih berkas gambar dari perangkat ini"
                     },
                     "add": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~tambah",
+                        "tip": "$~tambahkan kotak yang dipilih ke karakter sebagai piksel"
                     },
                     "crop": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~kotak potong",
+                        "tip": "$~kotak gambar yang akan disimpan"
                     },
-                    "preview": "$?",
+                    "preview": "$~apa yang akan ditambahkan",
                     "size": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ukuran",
+                        "tip": "$~berapa banyak bagian gambar yang disimpan"
                     }
                 }
             },

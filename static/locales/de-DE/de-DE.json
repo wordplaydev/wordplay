@@ -8901,8 +8901,8 @@
                     "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt.",
                     "eraser": "$~Um Formen zu löschen, klicken oder tippen Sie darauf. Ziehen Sie, um Pixel zu löschen. Verwenden Sie die Pfeiltasten, um den Radiergummi zu bewegen, und die Leertaste, um zu löschen.",
                     "points": "$~Nutze *Tab*, um zwischen den Punkten des Pfades zu wechseln. Nutze die *Pfeiltasten*, um den ausgewählten Punkt zu bewegen, *Eingabe*, um einen Punkt daneben hinzuzufügen, und *Entfernen*, um ihn zu löschen. Nutze *Kurve*, um das Segment zu biegen, das an einem Punkt ankommt, und bewege dann seinen Griff. *Entfernen* auf einem Griff macht ihn wieder gerade. Drücke *Escape*, wenn du fertig bist.",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "symbol": "$~Wähle, ob du Pixel oder eine Umrisslinie hinzufügen willst, und wähle dann einen Buchstaben, ein Symbol oder ein Emoji. Eine Umrisslinie kann man ohne Unschärfe in der Größe ändern und drehen. Pixel kann man einzeln neu einfärben. Klicke oder tippe auf etwas, das du schon gemacht hast, um es stattdessen auszuwählen.",
+                    "image": "$~Wähle ein Bild und dann den quadratischen Ausschnitt, den du behalten willst. Er ersetzt die Pixel und liegt unter allen Formen, die du gezeichnet hast. Klicke oder tippe auf etwas, das du schon gemacht hast, um es stattdessen auszuwählen."
                 },
                 "shape": {
                     "shape": "$~Form",
@@ -8912,9 +8912,9 @@
                     "path": "$~Weg",
                     "eraser": "$~Radiergummi",
                     "emoji": "$~Emoji",
-                    "glyph": "$?",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "glyph": "$~Umrisslinie",
+                    "symbol": "$~Symbol",
+                    "image": "$~Bild"
                 },
                 "field": {
                     "name": {
@@ -8928,24 +8928,24 @@
                     "mode": {
                         "label": "$~Modus",
                         "labels": [
-                            "$!wählen",
+                            "$~auswählen",
                             "$~Radiergummi",
                             "$~Pixel",
                             "$~Rechteck",
                             "$~Ellipse",
                             "$~Weg",
                             "$~Emoji",
-                            "$?"
+                            "$~Bild"
                         ],
                         "tips": [
-                            "$!Formen und Pixel auswählen",
+                            "$~Formen und Pixel auswählen",
                             "$~Formen und Pixel löschen",
                             "$~Pixel zeichnen",
                             "$~Rechtecke zeichnen",
                             "$~Ellipsen zeichnen",
                             "$~Pfade zeichnen",
                             "$~Ein Emoji als Pixel importieren",
-                            "$?"
+                            "$~Bild als Pixel hinzufügen"
                         ]
                     },
                     "fill": {
@@ -8990,26 +8990,29 @@
                     },
                     "closed": "$~verbunden",
                     "brushSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Größe",
+                        "tip": "$~wie viele Zellen breit der Pinsel und der Radierer sind"
                     },
                     "insertion": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~hinzufügen als",
+                        "labels": ["$~Pixel", "$~Umrisslinie"],
+                        "tips": [
+                            "$~das Symbol als Pixel hinzufügen, die du einzeln neu einfärben kannst",
+                            "$~das Symbol als Umrisslinie hinzufügen, die du ohne Unschärfe in der Größe ändern und drehen kannst"
+                        ]
                     },
                     "face": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Schriftart",
+                        "tip": "$~von welcher Schriftart die Form des Symbols stammt"
                     },
                     "weight": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Strichstärke",
+                        "tip": "$~wie dick die Striche des Symbols sind"
                     },
-                    "italic": "$?",
+                    "italic": "$~kursiv",
                     "glyphSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Symbolgröße",
+                        "tip": "$~wie viele Zellen breit das Symbol ist"
                     }
                 },
                 "button": {
@@ -9124,12 +9127,12 @@
                     "taken": "$~Sie haben bereits einen Charakter mit diesem Namen; wird nicht gespeichert.",
                     "projecteditfail": "$~Beim Aktualisieren von Projekten, die dieses Zeichen verwenden, ist ein Problem aufgetreten. Die folgenden Projekte müssen behoben werden:",
                     "untitledproject": "$~Unbenanntes Projekt",
-                    "glyphLoading": "$?",
-                    "glyphMissing": "$?",
-                    "glyphEmpty": "$?",
-                    "glyphUnreadable": "$?",
-                    "imageTooBig": "$?",
-                    "imageUnreadable": "$?"
+                    "glyphLoading": "$~Schriftart wird geladen …",
+                    "glyphMissing": "$~Diese Schriftart hat keine Form für dieses Symbol. Versuche eine andere Schriftart.",
+                    "glyphEmpty": "$~Für dieses Symbol gibt es nichts zu zeichnen.",
+                    "glyphUnreadable": "$~Wir konnten diese Schriftart nicht lesen. Prüfe deine Verbindung oder versuche eine andere Schriftart.",
+                    "imageTooBig": "$~Dieses Bild ist $size MB groß. Bitte wähle eins, das kleiner als $limit MB ist.",
+                    "imageUnreadable": "$~Wir konnten diese Datei nicht als Bild lesen."
                 },
                 "announce": {
                     "position": "$~bei $x $y",
@@ -9154,10 +9157,10 @@
                     "arranged": "$~Ebene $index von $total",
                     "flipped": "$~gespiegelt, jetzt bei $x $y",
                     "fitted": "$~Formen vergrößert, um die Fläche zu füllen",
-                    "cropped": "$?",
-                    "cropMoving": "$?",
-                    "cropDone": "$?",
-                    "imported": "$?"
+                    "cropped": "$~Zuschneiderahmen bei $x $y",
+                    "cropMoving": "$~Zuschneiderahmen wird bewegt",
+                    "cropDone": "$~Zuschneiderahmen platziert",
+                    "imported": "$~$#count[1 Pixel|$count Pixel] von $x $y hinzugefügt"
                 },
                 "share": {
                     "dialog": {
@@ -9183,23 +9186,23 @@
                     "collaborators": "$~Mitarbeiter"
                 },
                 "image": {
-                    "instructions": "$?",
+                    "instructions": "$~Ziehe das Quadrat, um es zu bewegen, oder benutze den *Größe*-Schieberegler, um zu ändern, wie viel vom Bild behalten wird. Mit der Tastatur drückst du *Enter*, um das Bewegen zu starten, benutzt dann die *Pfeiltasten* und drückst am Ende noch einmal *Enter*.",
                     "button": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~hochladen",
+                        "tip": "$~eine Bilddatei von diesem Gerät auswählen"
                     },
                     "add": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~hinzufügen",
+                        "tip": "$~das gewählte Quadrat dem Zeichen als Pixel hinzufügen"
                     },
                     "crop": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Zuschneiderahmen",
+                        "tip": "$~das Quadrat des Bildes, das behalten werden soll"
                     },
-                    "preview": "$?",
+                    "preview": "$~was hinzugefügt wird",
                     "size": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Größe",
+                        "tip": "$~wie viel vom Bild behalten werden soll"
                     }
                 }
             },

@@ -8905,8 +8905,8 @@
                     "path": "$~Les chemins peuvent être des segments de ligne, des polygones et des courbes. Cliquez pour commencer à ajouter des points ou utilisez les touches *flèche* et *espace*. Appuyez sur *échapper* pour terminer le chemin. *supprimer* supprimera le dernier point.",
                     "eraser": "$~Pour effacer des formes, cliquez ou appuyez dessus. Faites glisser pour effacer les pixels. Utilisez les touches fléchées pour déplacer la gomme et la barre d'espace pour supprimer.",
                     "points": "$~Passe d'un point à l'autre du tracé avec *tab*. Utilise les touches *flèches* pour déplacer le point sélectionné, *entrée* pour ajouter un point juste à côté, et *suppr* pour le retirer. Utilise *courbe* pour incurver le segment qui arrive à un point, puis déplace sa poignée ; *suppr* sur une poignée le redresse à nouveau. Appuie sur *échap* quand tu as terminé.",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "symbol": "$~Choisis d’ajouter des pixels ou un contour, puis choisis une lettre, un symbole ou un émoji. Un contour peut être redimensionné et tourné sans devenir flou. Les pixels peuvent être recolorés un par un. Clique ou touche quelque chose que tu as déjà fait pour le sélectionner à la place.",
+                    "image": "$~Choisis une image, puis choisis le carré à garder. Il remplace les pixels et se place sous les formes que tu as dessinées. Clique ou touche quelque chose que tu as déjà fait pour le sélectionner à la place."
                 },
                 "shape": {
                     "shape": "$~forme",
@@ -8916,9 +8916,9 @@
                     "path": "$~chemin",
                     "eraser": "$~gomme",
                     "emoji": "$~émoji",
-                    "glyph": "$?",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "glyph": "$~contour",
+                    "symbol": "$~symbole",
+                    "image": "$~image"
                 },
                 "field": {
                     "name": {
@@ -8932,24 +8932,24 @@
                     "mode": {
                         "label": "$~mode",
                         "labels": [
-                            "$!sélectionner",
+                            "$~sélectionner",
                             "$~gomme",
                             "$~pixel",
                             "$~rectangle",
                             "$~ellipse",
                             "$~chemin",
                             "$~emoji",
-                            "$?"
+                            "$~image"
                         ],
                         "tips": [
-                            "$!sélectionner des formes et des pixels",
+                            "$~sélectionner des formes et des pixels",
                             "$~effacer les formes et les pixels",
                             "$~dessiner des pixels",
                             "$~dessiner des rectangles",
                             "$~tracer des ellipses",
                             "$~tracer des chemins",
                             "$~importer un emoji en tant que pixels",
-                            "$?"
+                            "$~ajouter une image comme pixels"
                         ]
                     },
                     "fill": {
@@ -8994,26 +8994,29 @@
                     },
                     "closed": "$~connecté",
                     "brushSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~taille",
+                        "tip": "$~combien de cellules couvrent la brosse et la gomme"
                     },
                     "insertion": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~ajouter comme",
+                        "labels": ["$~pixels", "$~contour"],
+                        "tips": [
+                            "$~ajouter le symbole comme pixels que tu peux recolorer un par un",
+                            "$~ajouter le symbole comme contour que tu peux redimensionner et tourner sans qu’il devienne flou"
+                        ]
                     },
                     "face": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~police",
+                        "tip": "$~quelle police utiliser pour la forme du symbole"
                     },
                     "weight": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~épaisseur",
+                        "tip": "$~à quel point les traits du symbole sont épais"
                     },
-                    "italic": "$?",
+                    "italic": "$~italique",
                     "glyphSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~taille du symbole",
+                        "tip": "$~combien de cellules couvre le symbole"
                     }
                 },
                 "button": {
@@ -9128,12 +9131,12 @@
                     "taken": "$~Vous avez déjà un personnage avec ce nom; vous ne sauvegardez pas.",
                     "projecteditfail": "$~Un problème est survenu lors de la mise à jour des projets utilisant ce personnage. Les projets suivants doivent être corrigés :",
                     "untitledproject": "$~Projet sans titre",
-                    "glyphLoading": "$?",
-                    "glyphMissing": "$?",
-                    "glyphEmpty": "$?",
-                    "glyphUnreadable": "$?",
-                    "imageTooBig": "$?",
-                    "imageUnreadable": "$?"
+                    "glyphLoading": "$~Chargement de la police…",
+                    "glyphMissing": "$~Cette police n’a pas de forme pour ce symbole. Essaie une autre police.",
+                    "glyphEmpty": "$~Ce symbole n’a rien à dessiner.",
+                    "glyphUnreadable": "$~Nous n’avons pas pu lire cette police. Vérifie ta connexion, ou essaie une autre police.",
+                    "imageTooBig": "$~Cette image fait $size Mo. Choisis-en une plus petite que $limit Mo.",
+                    "imageUnreadable": "$~Nous n'avons pas pu lire ce fichier comme une image."
                 },
                 "announce": {
                     "position": "$~à $x $y",
@@ -9158,10 +9161,10 @@
                     "arranged": "$~calque $index sur $total",
                     "flipped": "$~retourné, maintenant à $x $y",
                     "fitted": "$~formes agrandies pour remplir la toile",
-                    "cropped": "$?",
-                    "cropMoving": "$?",
-                    "cropDone": "$?",
-                    "imported": "$?"
+                    "cropped": "$~cadre de recadrage à $x $y",
+                    "cropMoving": "$~déplacement du cadre de recadrage",
+                    "cropDone": "$~cadre de recadrage placé",
+                    "imported": "$~$#count[un pixel ajouté|$#count pixels ajoutés|$count pixels ajoutés] depuis $x $y"
                 },
                 "share": {
                     "dialog": {
@@ -9187,23 +9190,23 @@
                     "collaborators": "$~collaborateurs"
                 },
                 "image": {
-                    "instructions": "$?",
+                    "instructions": "$~Fais glisser le carré pour le déplacer, ou utilise le curseur *taille* pour changer la portion de l'image à garder. Avec le clavier, appuie sur *entrée* pour commencer à le déplacer, puis utilise les touches *flèches*, et appuie de nouveau sur *entrée* quand tu as fini.",
                     "button": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~envoyer",
+                        "tip": "$~choisis un fichier image depuis cet appareil"
                     },
                     "add": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ajouter",
+                        "tip": "$~ajouter le carré choisi au caractère sous forme de pixels"
                     },
                     "crop": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~cadre de recadrage",
+                        "tip": "$~le carré de l'image à garder"
                     },
-                    "preview": "$?",
+                    "preview": "$~ce qui sera ajouté",
                     "size": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~taille",
+                        "tip": "$~quelle portion de l'image garder"
                     }
                 }
             },

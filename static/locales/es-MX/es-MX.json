@@ -8898,8 +8898,8 @@
                     "path": "$~Las trayectorias pueden ser segmentos de línea, polígonos y curvas. Haz clic para empezar a agregar puntos, o usa las teclas de *flecha* y *space*. Presiona *escape* para terminar la trayectoria. *delete* quitará el último punto.",
                     "eraser": "$~Para borrar formas, haz clic o toca sobre ellas. Arrastra para borrar píxeles. Usa las teclas de *flecha* para mover el borrador y *space* para eliminar.",
                     "points": "$~Presiona *Tab* para pasar entre los puntos del trazo. Usa las teclas de *flecha* para mover el punto seleccionado, *enter* para agregar un punto junto a él, y *delete* para quitarlo. Usa *curvar* para doblar el segmento que llega a un punto, luego mueve su manija; *delete* en una manija lo endereza de nuevo. Presiona *escape* cuando termines.",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "symbol": "$~Elige si quieres agregar píxeles o un contorno, y luego elige una letra, un símbolo o un emoji. Un contorno se puede cambiar de tamaño y girar sin verse borroso; los píxeles se pueden recolorear uno por uno. Haz clic o toca algo que ya hayas hecho para seleccionarlo en su lugar.",
+                    "image": "$~Elige una imagen y luego elige el cuadro de ella que quieres conservar. Este reemplaza los píxeles y queda debajo de cualquier forma que hayas dibujado. Haz clic o toca algo que ya hayas hecho para seleccionarlo en su lugar."
                 },
                 "shape": {
                     "shape": "$~forma",
@@ -8909,9 +8909,9 @@
                     "path": "$~trazo",
                     "eraser": "$~borrador",
                     "emoji": "$~emoji",
-                    "glyph": "$?",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "glyph": "$~contorno",
+                    "symbol": "$~símbolo",
+                    "image": "$~imagen"
                 },
                 "field": {
                     "name": {
@@ -8925,24 +8925,24 @@
                     "mode": {
                         "label": "$~modo",
                         "labels": [
-                            "$!seleccionar",
+                            "$~seleccionar",
                             "$~borrador",
                             "$~píxel",
                             "$~rectángulo",
                             "$~elipse",
                             "$~trazo",
                             "$~emoji",
-                            "$?"
+                            "$~imagen"
                         ],
                         "tips": [
-                            "$!seleccionar formas y píxeles",
+                            "$~seleccionar formas y píxeles",
                             "$~borrar formas y píxeles",
                             "$~dibujar píxeles",
                             "$~dibujar rectángulos",
                             "$~dibujar elipses",
                             "$~dibujar trazos",
                             "$~importar un emoji como píxeles",
-                            "$?"
+                            "$~agregar una imagen como píxeles"
                         ]
                     },
                     "fill": {
@@ -8987,26 +8987,29 @@
                     },
                     "closed": "$~conectada",
                     "brushSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~tamaño",
+                        "tip": "$~cuántas celdas de ancho cubren el pincel y el borrador"
                     },
                     "insertion": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~agregar como",
+                        "labels": ["$~píxeles", "$~contorno"],
+                        "tips": [
+                            "$~agregar el símbolo como píxeles que puedes recolorear uno por uno",
+                            "$~agregar el símbolo como un contorno que puedes cambiar de tamaño y girar sin que se vea borroso"
+                        ]
                     },
                     "face": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~fuente",
+                        "tip": "$~de qué fuente tomar la forma del símbolo"
                     },
                     "weight": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~grosor",
+                        "tip": "$~qué tan gruesos son los trazos del símbolo"
                     },
-                    "italic": "$?",
+                    "italic": "$~cursiva",
                     "glyphSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~tamaño del símbolo",
+                        "tip": "$~cuántas celdas de ancho tiene el símbolo"
                     }
                 },
                 "button": {
@@ -9121,12 +9124,12 @@
                     "taken": "$~Ya tienes un carácter con este nombre; no se guardará.",
                     "projecteditfail": "$~Hubo un problema al actualizar los proyectos que usan este carácter. Los siguientes proyectos necesitan arreglarse:",
                     "untitledproject": "$~Proyecto sin título",
-                    "glyphLoading": "$?",
-                    "glyphMissing": "$?",
-                    "glyphEmpty": "$?",
-                    "glyphUnreadable": "$?",
-                    "imageTooBig": "$?",
-                    "imageUnreadable": "$?"
+                    "glyphLoading": "$~Obteniendo la fuente…",
+                    "glyphMissing": "$~Esta fuente no tiene una forma para ese símbolo. Prueba con otra fuente.",
+                    "glyphEmpty": "$~Ese símbolo no tiene nada que dibujar.",
+                    "glyphUnreadable": "$~No pudimos leer esa fuente. Revisa tu conexión, o prueba con otra fuente.",
+                    "imageTooBig": "$~Esa imagen pesa $size MB. Por favor elige una más pequeña que $limit MB.",
+                    "imageUnreadable": "$~No pudimos leer ese archivo como imagen."
                 },
                 "announce": {
                     "position": "$~en $x $y",
@@ -9151,10 +9154,10 @@
                     "arranged": "$~capa $index de $total",
                     "flipped": "$~se volteó, ahora en $x $y",
                     "fitted": "$~agrandó las figuras para llenar el lienzo",
-                    "cropped": "$?",
-                    "cropMoving": "$?",
-                    "cropDone": "$?",
-                    "imported": "$?"
+                    "cropped": "$~caja de recorte en $x $y",
+                    "cropMoving": "$~moviendo la caja de recorte",
+                    "cropDone": "$~caja de recorte colocada",
+                    "imported": "$~se agregó $#count[un píxel desde $x $y|$count píxeles desde $x $y|$count píxeles desde $x $y]"
                 },
                 "share": {
                     "dialog": {
@@ -9180,23 +9183,23 @@
                     "collaborators": "$~colaboradoras"
                 },
                 "image": {
-                    "instructions": "$?",
+                    "instructions": "$~Arrastra el cuadro para moverlo, o usa el control deslizante *tamaño* para cambiar cuánto de la imagen quieres conservar. Con el teclado, presiona *enter* para comenzar a moverlo, luego usa las teclas de *flecha*, y presiona *enter* otra vez cuando termines.",
                     "button": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~subir",
+                        "tip": "$~elegir un archivo de imagen de este dispositivo"
                     },
                     "add": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~agregar",
+                        "tip": "$~agregar el cuadro elegido al carácter como píxeles"
                     },
                     "crop": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~caja de recorte",
+                        "tip": "$~el cuadro de la imagen que se va a conservar"
                     },
-                    "preview": "$?",
+                    "preview": "$~lo que se va a agregar",
                     "size": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~tamaño",
+                        "tip": "$~cuánto de la imagen se va a conservar"
                     }
                 }
             },

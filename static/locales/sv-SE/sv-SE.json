@@ -8977,8 +8977,8 @@
                     "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten.",
                     "eraser": "$~För att radera former, klicka eller tryck på dem. Dra för att radera pixlar. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera.",
                     "points": "$~Tryck *Tab* för att flytta mellan banans punkter. Använd *piltangenterna* för att flytta den markerade punkten, *enter* för att lägga till en punkt bredvid den, och *delete* för att ta bort den. Använd *böj* för att böja segmentet som leder fram till en punkt, och flytta sedan dess handtag. *Delete* på ett handtag rätar ut det igen. Tryck på *escape* när du är klar.",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "symbol": "$~Välj om du vill lägga till pixlar eller en kontur, och välj sedan en bokstav, symbol eller emoji. En kontur kan ändra storlek och vridas utan att bli suddig. Pixlar kan färgas om en i taget. Klicka eller tryck på något du redan gjort för att välja det istället.",
+                    "image": "$~Välj en bild, och välj sedan den fyrkant av den som ska sparas. Den ersätter pixlarna och läggs under alla former du har ritat. Klicka eller tryck på något du redan gjort för att välja det istället."
                 },
                 "shape": {
                     "shape": "$~form",
@@ -8988,9 +8988,9 @@
                     "path": "$~väg",
                     "eraser": "$~suddgummi",
                     "emoji": "$~emoji",
-                    "glyph": "$?",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "glyph": "$~kontur",
+                    "symbol": "$~symbol",
+                    "image": "$~bild"
                 },
                 "field": {
                     "name": {
@@ -9004,24 +9004,24 @@
                     "mode": {
                         "label": "$~läge",
                         "labels": [
-                            "$!välja",
+                            "$~välj",
                             "$~suddgummi",
                             "$~pixel",
                             "$~rektangel",
                             "$~ellips",
                             "$~väg",
                             "$~emoji",
-                            "$?"
+                            "$~bild"
                         ],
                         "tips": [
-                            "$!välj former och pixlar",
+                            "$~välj former och pixlar",
                             "$~radera former och pixlar",
                             "$~rita pixlar",
                             "$~rita rektanglar",
                             "$~rita ellipser",
                             "$~rita banor",
                             "$~importera en emoji som pixlar",
-                            "$?"
+                            "$~lägg till en bild som pixlar"
                         ]
                     },
                     "fill": {
@@ -9066,26 +9066,29 @@
                     },
                     "closed": "$~ansluten",
                     "brushSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~storlek",
+                        "tip": "$~hur många rutor på bredden penseln och suddgummit täcker"
                     },
                     "insertion": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~lägg till som",
+                        "labels": ["$~pixlar", "$~kontur"],
+                        "tips": [
+                            "$~lägg till symbolen som pixlar du kan färga om en i taget",
+                            "$~lägg till symbolen som en kontur du kan ändra storlek och vrida på utan att den blir suddig"
+                        ]
                     },
                     "face": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~typsnitt",
+                        "tip": "$~vilket typsnitt symbolens form ska hämtas från"
                     },
                     "weight": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~tjocklek",
+                        "tip": "$~hur tjocka symbolens streck är"
                     },
-                    "italic": "$?",
+                    "italic": "$~kursiv",
                     "glyphSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~symbolstorlek",
+                        "tip": "$~hur många rutor på bredden symbolen är"
                     }
                 },
                 "button": {
@@ -9200,12 +9203,12 @@
                     "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
                     "projecteditfail": "$~Det uppstod ett problem när projekt som använder det här tecknet uppdaterades. Följande projekt behöver åtgärdas:",
                     "untitledproject": "$~Namnlöst projekt",
-                    "glyphLoading": "$?",
-                    "glyphMissing": "$?",
-                    "glyphEmpty": "$?",
-                    "glyphUnreadable": "$?",
-                    "imageTooBig": "$?",
-                    "imageUnreadable": "$?"
+                    "glyphLoading": "$~Hämtar typsnittet…",
+                    "glyphMissing": "$~Det här typsnittet har ingen form för den symbolen. Prova ett annat typsnitt.",
+                    "glyphEmpty": "$~Den symbolen har inget att rita.",
+                    "glyphUnreadable": "$~Vi kunde inte läsa det typsnittet. Kontrollera din anslutning, eller prova ett annat typsnitt.",
+                    "imageTooBig": "$~Den bilden är $size MB. Välj en som är mindre än $limit MB.",
+                    "imageUnreadable": "$~Vi kunde inte läsa den filen som en bild."
                 },
                 "announce": {
                     "position": "$~för $x $y",
@@ -9230,10 +9233,10 @@
                     "arranged": "$~lager $index av $total",
                     "flipped": "$~vänd, nu vid $x $y",
                     "fitted": "$~förstorade formerna så de fyller ritytan",
-                    "cropped": "$?",
-                    "cropMoving": "$?",
-                    "cropDone": "$?",
-                    "imported": "$?"
+                    "cropped": "$~beskärningsruta vid $x $y",
+                    "cropMoving": "$~flyttar beskärningsrutan",
+                    "cropDone": "$~beskärningsruta placerad",
+                    "imported": "$~lade till $#count[en pixel|$count pixlar] från $x $y"
                 },
                 "share": {
                     "dialog": {
@@ -9259,23 +9262,23 @@
                     "collaborators": "$~kollaboratörer"
                 },
                 "image": {
-                    "instructions": "$?",
+                    "instructions": "$~Dra i rutan för att flytta den, eller använd *storlek*-skjutreglaget för att ändra hur mycket av bilden som ska behållas. Med tangentbordet: tryck på *enter* för att börja flytta, använd sedan *piltangenterna*, och tryck på *enter* igen när du är klar.",
                     "button": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ladda upp",
+                        "tip": "$~välj en bildfil från den här enheten"
                     },
                     "add": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~lägg till",
+                        "tip": "$~lägg till den valda rutan till tecknet som pixlar"
                     },
                     "crop": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~beskärningsruta",
+                        "tip": "$~rutan av bilden som ska behållas"
                     },
-                    "preview": "$?",
+                    "preview": "$~vad som kommer att läggas till",
                     "size": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~storlek",
+                        "tip": "$~hur mycket av bilden som ska behållas"
                     }
                 }
             },

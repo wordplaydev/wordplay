@@ -9143,8 +9143,8 @@
                     "ellipse": "$~Para gumuhit ng mga ellipse at bilog, pumili ng kulay at stroke. Pagkatapos, i-click at i-drag, o gamitin ang *arrows* at *space* key para pumili ng gitna at laki.",
                     "path": "$~Ang mga landas ay maaaring mga segment ng linya, polygon, at kurba. I-click upang simulan ang pagdaragdag ng mga punto, o gamitin ang mga *arrow* key at *space*. Pindutin ang *escape* upang tapusin ang landas. Aalisin ng *delete* ang huling punto.",
                     "points": "$~Gamitin ang *Tab* para lumipat sa iba't ibang punto ng landas. Gamitin ang mga *arrow* key para ilipat ang napiling punto, ang *enter* para magdagdag ng punto sa tabi nito, at ang *delete* para tanggalin ito. Gamitin ang *curve* para yumuko ang bahaging papunta sa isang punto, pagkatapos ay ilipat ang hawakan nito; ang *delete* sa isang hawakan ay pinapatuwid itong muli. Pindutin ang *escape* kapag tapos ka na.",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "symbol": "$~Piliin kung magdaragdag ng mga pixel o ng isang balangkas, pagkatapos ay pumili ng letra, simbolo, o emoji. Ang balangkas ay maaaring baguhan ang laki at ikot nang hindi lumalabo; ang mga pixel ay maaaring bigyan ng kulay nang isa-isa. I-click o i-tap ang isang bagay na nagawa mo na para piliin ito sa halip.",
+                    "image": "$~Pumili ng larawan, pagkatapos ay piliin ang parisukat na bahagi nito na gusto mong itago. Papalitan nito ang mga pixel, at ilalagay sa ilalim ng anumang hugis na naiguhit mo na. I-click o i-tap ang isang bagay na nagawa mo na para piliin ito sa halip."
                 },
                 "shape": {
                     "shape": "$~hugis",
@@ -9154,9 +9154,9 @@
                     "ellipse": "$~elips",
                     "path": "$~landas",
                     "emoji": "$~emoji",
-                    "glyph": "$?",
-                    "symbol": "$?",
-                    "image": "$?"
+                    "glyph": "$~balangkas",
+                    "symbol": "$~simbolo",
+                    "image": "$~larawan"
                 },
                 "share": {
                     "dialog": {
@@ -9193,24 +9193,24 @@
                     "mode": {
                         "label": "$~paraan",
                         "labels": [
-                            "$!pumili",
+                            "$~piliin",
                             "$~pambura",
                             "$~piksel",
                             "$~parihaba",
                             "$~elips",
                             "$~landas",
                             "$~emoji",
-                            "$?"
+                            "$~larawan"
                         ],
                         "tips": [
-                            "$!pumili ng mga hugis at pixel",
+                            "$~pumili ng mga hugis at pixel",
                             "$~burahin ang mga hugis at pixel",
                             "$~gumuhit ng mga pixel",
                             "$~gumuhit ng mga parihaba",
                             "$~gumuhit ng mga ellipse",
                             "$~gumuhit ng mga landas",
                             "$~mag-import ng emoji bilang mga pixel",
-                            "$?"
+                            "$~idagdag ang larawan bilang mga pixel"
                         ]
                     },
                     "fill": {
@@ -9255,26 +9255,29 @@
                     },
                     "closed": "$~konektado",
                     "brushSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~laki",
+                        "tip": "$~ilang selula ang saklaw ng brush at eraser"
                     },
                     "insertion": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~idagdag bilang",
+                        "labels": ["$~mga pixel", "$~balangkas"],
+                        "tips": [
+                            "$~idagdag ang simbolo bilang mga pixel na kayang bigyan ng kulay nang isa-isa",
+                            "$~idagdag ang simbolo bilang balangkas na kayang baguhan ang laki at ikot nang hindi lumalabo"
+                        ]
                     },
                     "face": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~font",
+                        "tip": "$~kung saang font kukunin ang hugis ng simbolo"
                     },
                     "weight": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~bigat",
+                        "tip": "$~gaano kabigat ang mga guhit ng simbolo"
                     },
-                    "italic": "$?",
+                    "italic": "$~pahilis",
                     "glyphSize": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~laki ng simbolo",
+                        "tip": "$~ilang selula ang lapad ng simbolo"
                     }
                 },
                 "button": {
@@ -9389,12 +9392,12 @@
                     "taken": "$~Mayroon ka nang karakter na may ganitong pangalan; hindi mo pa sine-save.",
                     "projecteditfail": "$~Nagkaroon ng problema sa pag-update ng mga proyektong gumagamit ng karakter na ito. Kailangang ayusin ang mga sumusunod na proyekto:",
                     "untitledproject": "$~Proyektong Walang Pamagat",
-                    "glyphLoading": "$?",
-                    "glyphMissing": "$?",
-                    "glyphEmpty": "$?",
-                    "glyphUnreadable": "$?",
-                    "imageTooBig": "$?",
-                    "imageUnreadable": "$?"
+                    "glyphLoading": "$~Kinukuha ang font…",
+                    "glyphMissing": "$~Walang hugis ang font na ito para sa simbolong iyon. Subukan ang ibang font.",
+                    "glyphEmpty": "$~Walang maiguhit para sa simbolong iyon.",
+                    "glyphUnreadable": "$~Hindi namin nabasa ang font na iyon. Tingnan ang iyong koneksyon, o subukan ang ibang font.",
+                    "imageTooBig": "$~Ang larawang iyon ay $size MB. Pumili ng mas maliit sa $limit MB.",
+                    "imageUnreadable": "$~Hindi namin nabasa ang file na iyon bilang larawan."
                 },
                 "announce": {
                     "position": "$~sa halagang $x $y",
@@ -9419,29 +9422,29 @@
                     "arranged": "$~nakapatong na $index ng $total",
                     "flipped": "$~binaligtad, ngayon ay nasa $x $y",
                     "fitted": "$~pinalaki ang mga hugis para punuin ang canvas",
-                    "cropped": "$?",
-                    "cropMoving": "$?",
-                    "cropDone": "$?",
-                    "imported": "$?"
+                    "cropped": "$~kahon ng pag-crop sa $x $y",
+                    "cropMoving": "$~inilipat ang kahon ng pag-crop",
+                    "cropDone": "$~inilagay ang kahon ng pag-crop",
+                    "imported": "$~nagdagdag ng $#count[isang pixel|$count na pixel] mula sa $x $y"
                 },
                 "image": {
-                    "instructions": "$?",
+                    "instructions": "$~I-drag ang kuwadrado para ilipat ito, o gamitin ang *size* na slider para baguhin kung gaano karami sa larawan ang panatilihin. Gamit ang keyboard, pindutin ang *enter* para simulan ang paglipat, gamitin ang mga *arrow* key, at pindutin ulit ang *enter* kapag tapos ka na.",
                     "button": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~i-upload",
+                        "tip": "$~pumili ng file ng larawan mula sa device na ito"
                     },
                     "add": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~idagdag",
+                        "tip": "$~idagdag ang piniling kuwadrado sa karakter bilang mga pixel"
                     },
                     "crop": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~kahon ng pag-crop",
+                        "tip": "$~ang kuwadrado ng larawan na panatilihin"
                     },
-                    "preview": "$?",
+                    "preview": "$~ang idadagdag",
                     "size": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~laki",
+                        "tip": "$~gaano karami sa larawan ang panatilihin"
                     }
                 }
             },
