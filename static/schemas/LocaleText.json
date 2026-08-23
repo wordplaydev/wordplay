@@ -1200,7 +1200,7 @@
             "required": ["doc", "inputs", "names"],
             "type": "object"
         },
-        "FunctionText<alias-1184849637-131-164-1184849637-0-23072>": {
+        "FunctionText<alias-1184849637-145-178-1184849637-0-33987>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1358,12 +1358,16 @@
                                     "additionalProperties": false,
                                     "description": "Conversions in the type",
                                     "properties": {
+                                        "number": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
                                         "text": {
                                             "$ref": "#/definitions/DocText",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
-                                    "required": ["text"],
+                                    "required": ["text", "number"],
                                     "type": "object"
                                 },
                                 "doc": {
@@ -1383,7 +1387,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "not": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
@@ -1466,11 +1470,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1486,7 +1490,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -1708,7 +1712,7 @@
                                             "type": "object"
                                         },
                                         "first": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
@@ -1720,11 +1724,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "last": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1732,7 +1736,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "random": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
@@ -1740,7 +1744,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansAll": {
@@ -1748,15 +1752,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansFirst": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansLast": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "shuffled": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sorted": {
@@ -2020,7 +2024,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -2163,183 +2167,7 @@
                                     "additionalProperties": false,
                                     "description": "Conversions in the type",
                                     "properties": {
-                                        "Gm2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "Mm2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "Tm2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "cm2in": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "cm2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "day2s": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "dm2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "ft2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "g2kg": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "g2mg": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "g2oz": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "h2s": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "in2cm": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "kg2g": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "km2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "km2mi": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "lb2oz": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
                                         "list": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2Gm": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2Mm": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2Tm": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2cm": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2dm": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2ft": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2km": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2micro": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2mm": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2nm": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "m2pm": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "mg2g": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "mi2km": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "micro2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "min2s": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "mm2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "ms2s": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "nm2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "oz2g": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "oz2lb": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "pm2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "s2day": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "s2h": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "s2m": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "s2ms": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "s2wk": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "s2year": {
                                             "$ref": "#/definitions/DocText",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
@@ -2347,65 +2175,12 @@
                                             "$ref": "#/definitions/DocText",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
-                                        "wk2s": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "yr2s": {
-                                            "$ref": "#/definitions/DocText",
-                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        "unit": {
+                                            "$ref": "#/definitions/Template%3C%5B%22from%22%2C%22to%22%5D%3E",
+                                            "description": "[formatted] Documentation for a unit conversion, e.g. \"seconds to minutes\". One template covers every unit conversion; the unit names come from `unit` below."
                                         }
                                     },
-                                    "required": [
-                                        "text",
-                                        "list",
-                                        "s2m",
-                                        "s2h",
-                                        "s2day",
-                                        "s2wk",
-                                        "s2year",
-                                        "s2ms",
-                                        "ms2s",
-                                        "min2s",
-                                        "h2s",
-                                        "day2s",
-                                        "wk2s",
-                                        "yr2s",
-                                        "m2pm",
-                                        "m2nm",
-                                        "m2micro",
-                                        "m2mm",
-                                        "m2cm",
-                                        "m2dm",
-                                        "m2km",
-                                        "m2Mm",
-                                        "m2Gm",
-                                        "m2Tm",
-                                        "pm2m",
-                                        "nm2m",
-                                        "micro2m",
-                                        "mm2m",
-                                        "cm2m",
-                                        "dm2m",
-                                        "km2m",
-                                        "Mm2m",
-                                        "Gm2m",
-                                        "Tm2m",
-                                        "km2mi",
-                                        "mi2km",
-                                        "cm2in",
-                                        "in2cm",
-                                        "m2ft",
-                                        "ft2m",
-                                        "g2mg",
-                                        "mg2g",
-                                        "g2kg",
-                                        "kg2g",
-                                        "g2oz",
-                                        "oz2g",
-                                        "oz2lb",
-                                        "lb2oz"
-                                    ],
+                                    "required": ["text", "list", "unit"],
                                     "type": "object"
                                 },
                                 "doc": {
@@ -2421,19 +2196,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arccos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arcsin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arctan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "cos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "divide": {
@@ -2445,7 +2220,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "exp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterOrEqual": {
@@ -2485,7 +2260,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "positive": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "power": {
@@ -2501,19 +2276,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "round": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundDown": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundUp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subtract": {
@@ -2521,7 +2296,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "tan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -2559,13 +2334,648 @@
                                 "name": {
                                     "$ref": "#/definitions/NameText",
                                     "description": "[name] The name to use to describe the type of value."
+                                },
+                                "unit": {
+                                    "additionalProperties": false,
+                                    "description": "The name of each unit the built-in conversions know, e.g. \"seconds\". Only used to fill in the `conversion.unit` template above.",
+                                    "properties": {
+                                        "A": {
+                                            "description": "[plain] The name of the unit amperes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "B": {
+                                            "description": "[plain] The name of the unit bytes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "BTU": {
+                                            "description": "[plain] The name of the unit British thermal units, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "GB": {
+                                            "description": "[plain] The name of the unit gigabytes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "GHz": {
+                                            "description": "[plain] The name of the unit gigahertz, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "GW": {
+                                            "description": "[plain] The name of the unit gigawatts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "GiB": {
+                                            "description": "[plain] The name of the unit gibibytes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "Gm": {
+                                            "description": "[plain] The name of the unit gigameters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "Hz": {
+                                            "description": "[plain] The name of the unit hertz, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "J": {
+                                            "description": "[plain] The name of the unit joules, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "K": {
+                                            "description": "[plain] The name of the unit kelvins, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "KiB": {
+                                            "description": "[plain] The name of the unit kibibytes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "L": {
+                                            "description": "[plain] The name of the unit liters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "MB": {
+                                            "description": "[plain] The name of the unit megabytes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "MHz": {
+                                            "description": "[plain] The name of the unit megahertz, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "MW": {
+                                            "description": "[plain] The name of the unit megawatts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "MiB": {
+                                            "description": "[plain] The name of the unit mebibytes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "Mm": {
+                                            "description": "[plain] The name of the unit megameters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "Mohm": {
+                                            "description": "[plain] The name of the unit megaohms, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "Pa": {
+                                            "description": "[plain] The name of the unit pascals, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "TB": {
+                                            "description": "[plain] The name of the unit terabytes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "TiB": {
+                                            "description": "[plain] The name of the unit tebibytes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "Tm": {
+                                            "description": "[plain] The name of the unit terameters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "V": {
+                                            "description": "[plain] The name of the unit volts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "W": {
+                                            "description": "[plain] The name of the unit watts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "Wh": {
+                                            "description": "[plain] The name of the unit watt hours, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "acre": {
+                                            "description": "[plain] The name of the unit acres, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "atm": {
+                                            "description": "[plain] The name of the unit atmospheres, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "au": {
+                                            "description": "[plain] The name of the unit astronomical units, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "bar": {
+                                            "description": "[plain] The name of the unit bars, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "bit": {
+                                            "description": "[plain] The name of the unit bits, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "bpm": {
+                                            "description": "[plain] The name of the unit beats per minute, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "cL": {
+                                            "description": "[plain] The name of the unit centiliters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "cal": {
+                                            "description": "[plain] The name of the unit calories, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "cm": {
+                                            "description": "[plain] The name of the unit centimeters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "cm2": {
+                                            "description": "[plain] The name of the unit square centimeters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "cm3": {
+                                            "description": "[plain] The name of the unit cubic centimeters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "cup": {
+                                            "description": "[plain] The name of the unit cups, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "dL": {
+                                            "description": "[plain] The name of the unit deciliters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "day": {
+                                            "description": "[plain] The name of the unit days, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "deg": {
+                                            "description": "[plain] The name of the unit degrees, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "degC": {
+                                            "description": "[plain] The name of the unit degrees Celsius, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "degF": {
+                                            "description": "[plain] The name of the unit degrees Fahrenheit, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "dm": {
+                                            "description": "[plain] The name of the unit decimeters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "eV": {
+                                            "description": "[plain] The name of the unit electronvolts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "fc": {
+                                            "description": "[plain] The name of the unit foot-candles, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ft": {
+                                            "description": "[plain] The name of the unit feet, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ft2": {
+                                            "description": "[plain] The name of the unit square feet, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ftps": {
+                                            "description": "[plain] The name of the unit feet per second, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "g": {
+                                            "description": "[plain] The name of the unit grams, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "h": {
+                                            "description": "[plain] The name of the unit hours, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "hPa": {
+                                            "description": "[plain] The name of the unit hectopascals, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ha": {
+                                            "description": "[plain] The name of the unit hectares, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "hm": {
+                                            "description": "[plain] The name of the unit hectometers, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "hp": {
+                                            "description": "[plain] The name of the unit horsepower, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "in": {
+                                            "description": "[plain] The name of the unit inches, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "in2": {
+                                            "description": "[plain] The name of the unit square inches, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kA": {
+                                            "description": "[plain] The name of the unit kiloamperes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kB": {
+                                            "description": "[plain] The name of the unit kilobytes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kHz": {
+                                            "description": "[plain] The name of the unit kilohertz, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kJ": {
+                                            "description": "[plain] The name of the unit kilojoules, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kL": {
+                                            "description": "[plain] The name of the unit kiloliters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kPa": {
+                                            "description": "[plain] The name of the unit kilopascals, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kV": {
+                                            "description": "[plain] The name of the unit kilovolts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kW": {
+                                            "description": "[plain] The name of the unit kilowatts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kWh": {
+                                            "description": "[plain] The name of the unit kilowatt hours, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kcal": {
+                                            "description": "[plain] The name of the unit kilocalories, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kg": {
+                                            "description": "[plain] The name of the unit kilograms, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "km": {
+                                            "description": "[plain] The name of the unit kilometers, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "km2": {
+                                            "description": "[plain] The name of the unit square kilometers, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kmph": {
+                                            "description": "[plain] The name of the unit kilometers per hour, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kn": {
+                                            "description": "[plain] The name of the unit knots, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "kohm": {
+                                            "description": "[plain] The name of the unit kiloohms, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "lb": {
+                                            "description": "[plain] The name of the unit pounds, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "lux": {
+                                            "description": "[plain] The name of the unit lux, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ly": {
+                                            "description": "[plain] The name of the unit light years, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "m": {
+                                            "description": "[plain] The name of the unit meters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "m2": {
+                                            "description": "[plain] The name of the unit square meters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "m3": {
+                                            "description": "[plain] The name of the unit cubic meters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mA": {
+                                            "description": "[plain] The name of the unit milliamperes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mL": {
+                                            "description": "[plain] The name of the unit milliliters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mV": {
+                                            "description": "[plain] The name of the unit millivolts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mW": {
+                                            "description": "[plain] The name of the unit milliwatts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mg": {
+                                            "description": "[plain] The name of the unit milligrams, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mi": {
+                                            "description": "[plain] The name of the unit miles, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mi2": {
+                                            "description": "[plain] The name of the unit square miles, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "min": {
+                                            "description": "[plain] The name of the unit minutes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "miph": {
+                                            "description": "[plain] The name of the unit miles per hour, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mm": {
+                                            "description": "[plain] The name of the unit millimeters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mm2": {
+                                            "description": "[plain] The name of the unit square millimeters, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mmHg": {
+                                            "description": "[plain] The name of the unit millimeters of mercury, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mohm": {
+                                            "description": "[plain] The name of the unit milliohms, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "mps": {
+                                            "description": "[plain] The name of the unit meters per second, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ms": {
+                                            "description": "[plain] The name of the unit milliseconds, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "nm": {
+                                            "description": "[plain] The name of the unit nanometers, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "nmi": {
+                                            "description": "[plain] The name of the unit nautical miles, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ns": {
+                                            "description": "[plain] The name of the unit nanoseconds, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ohm": {
+                                            "description": "[plain] The name of the unit ohms, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "oz": {
+                                            "description": "[plain] The name of the unit ounces, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "pm": {
+                                            "description": "[plain] The name of the unit picometers, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "psi": {
+                                            "description": "[plain] The name of the unit pounds per square inch, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "rad": {
+                                            "description": "[plain] The name of the unit radians, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "s": {
+                                            "description": "[plain] The name of the unit seconds, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "st": {
+                                            "description": "[plain] The name of the unit stones, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "t": {
+                                            "description": "[plain] The name of the unit metric tons, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "tbsp": {
+                                            "description": "[plain] The name of the unit tablespoons, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "tsp": {
+                                            "description": "[plain] The name of the unit teaspoons, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "uA": {
+                                            "description": "[plain] The name of the unit microamperes, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ug": {
+                                            "description": "[plain] The name of the unit micrograms, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ukfloz": {
+                                            "description": "[plain] The name of the unit British fluid ounces, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ukgal": {
+                                            "description": "[plain] The name of the unit British gallons, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ukpt": {
+                                            "description": "[plain] The name of the unit British pints, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ukqt": {
+                                            "description": "[plain] The name of the unit British quarts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "ukton": {
+                                            "description": "[plain] The name of the unit British long tons, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "um": {
+                                            "description": "[plain] The name of the unit micrometers, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "us": {
+                                            "description": "[plain] The name of the unit microseconds, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "usfloz": {
+                                            "description": "[plain] The name of the unit US fluid ounces, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "usgal": {
+                                            "description": "[plain] The name of the unit US gallons, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "uspt": {
+                                            "description": "[plain] The name of the unit US pints, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "usqt": {
+                                            "description": "[plain] The name of the unit US quarts, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "uston": {
+                                            "description": "[plain] The name of the unit US short tons, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "wk": {
+                                            "description": "[plain] The name of the unit weeks, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "yd": {
+                                            "description": "[plain] The name of the unit yards, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "yd2": {
+                                            "description": "[plain] The name of the unit square yards, used in conversion documentation",
+                                            "type": "string"
+                                        },
+                                        "yr": {
+                                            "description": "[plain] The name of the unit years, used in conversion documentation",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "ns",
+                                        "us",
+                                        "ms",
+                                        "s",
+                                        "min",
+                                        "h",
+                                        "day",
+                                        "wk",
+                                        "yr",
+                                        "pm",
+                                        "nm",
+                                        "um",
+                                        "mm",
+                                        "cm",
+                                        "dm",
+                                        "m",
+                                        "hm",
+                                        "km",
+                                        "Mm",
+                                        "Gm",
+                                        "Tm",
+                                        "in",
+                                        "ft",
+                                        "yd",
+                                        "mi",
+                                        "nmi",
+                                        "au",
+                                        "ly",
+                                        "ug",
+                                        "mg",
+                                        "g",
+                                        "kg",
+                                        "t",
+                                        "oz",
+                                        "lb",
+                                        "st",
+                                        "uston",
+                                        "ukton",
+                                        "degC",
+                                        "degF",
+                                        "K",
+                                        "deg",
+                                        "rad",
+                                        "mm2",
+                                        "cm2",
+                                        "m2",
+                                        "km2",
+                                        "in2",
+                                        "ft2",
+                                        "yd2",
+                                        "mi2",
+                                        "ha",
+                                        "acre",
+                                        "mL",
+                                        "cL",
+                                        "dL",
+                                        "L",
+                                        "kL",
+                                        "cm3",
+                                        "m3",
+                                        "tsp",
+                                        "tbsp",
+                                        "cup",
+                                        "usfloz",
+                                        "uspt",
+                                        "usqt",
+                                        "usgal",
+                                        "ukfloz",
+                                        "ukpt",
+                                        "ukqt",
+                                        "ukgal",
+                                        "mps",
+                                        "kmph",
+                                        "miph",
+                                        "ftps",
+                                        "kn",
+                                        "Pa",
+                                        "hPa",
+                                        "kPa",
+                                        "bar",
+                                        "atm",
+                                        "psi",
+                                        "mmHg",
+                                        "J",
+                                        "kJ",
+                                        "cal",
+                                        "kcal",
+                                        "Wh",
+                                        "kWh",
+                                        "BTU",
+                                        "eV",
+                                        "mW",
+                                        "W",
+                                        "kW",
+                                        "MW",
+                                        "GW",
+                                        "hp",
+                                        "uA",
+                                        "mA",
+                                        "A",
+                                        "kA",
+                                        "mV",
+                                        "V",
+                                        "kV",
+                                        "mohm",
+                                        "ohm",
+                                        "kohm",
+                                        "Mohm",
+                                        "Hz",
+                                        "kHz",
+                                        "MHz",
+                                        "GHz",
+                                        "bpm",
+                                        "bit",
+                                        "B",
+                                        "kB",
+                                        "MB",
+                                        "GB",
+                                        "TB",
+                                        "KiB",
+                                        "MiB",
+                                        "GiB",
+                                        "TiB",
+                                        "lux",
+                                        "fc"
+                                    ],
+                                    "type": "object"
                                 }
                             },
                             "required": [
                                 "conversion",
                                 "doc",
                                 "function",
-                                "name"
+                                "name",
+                                "unit"
                             ],
                             "type": "object"
                         },
@@ -2660,7 +3070,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -2903,11 +3313,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "matches": {
@@ -2927,7 +3337,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "search": {
@@ -2947,11 +3357,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "trim": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-33987%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },

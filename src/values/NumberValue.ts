@@ -276,16 +276,20 @@ export default class NumberValue extends SimpleValue {
         );
     }
 
+    // Sine, cosine, and tangent of an angle are ratios of two lengths, so they are
+    // unitless whatever the angle was measured in — the same reason their inverses
+    // below are. They kept the input's unit until #363 made `45° → #rad` possible
+    // and so made `(45° → #rad).sin()` a thing a creator would actually write.
     cos(requestor: Expression) {
-        return new NumberValue(requestor, this.num.cos(), this.unit);
+        return new NumberValue(requestor, this.num.cos(), Unit.Empty);
     }
 
     sin(requestor: Expression) {
-        return new NumberValue(requestor, this.num.sin(), this.unit);
+        return new NumberValue(requestor, this.num.sin(), Unit.Empty);
     }
 
     tan(requestor: Expression) {
-        return new NumberValue(requestor, this.num.tan(), this.unit);
+        return new NumberValue(requestor, this.num.tan(), Unit.Empty);
     }
 
     // Inverse trig, logarithms, and exponentials are transcendental, so their
