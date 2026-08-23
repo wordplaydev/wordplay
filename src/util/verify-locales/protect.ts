@@ -18,6 +18,7 @@
  * the Google backend and keep only the cross-backend repair helpers shared.
  */
 
+import { getPluralBranches } from '@locale/templateInputs';
 import {
     ConceptRegExPattern,
     MentionRegEx,
@@ -211,6 +212,37 @@ export function repairMentionsPositional(
     if (afterMentions.every((m, i) => m === sourceMentions[i])) return after;
     let i = 0;
     return after.replace(looseRe, () => sourceMentions[i++]);
+}
+
+/**
+ * Whether a translation lost or malformed a plural branch its source has.
+ *
+ * A `$#name[…]` selects one wording per plural form, and a translation that
+ * keeps the arms but drops the `$#name` in front of them reads as a literal
+ * bracket — the whole message, brackets and bars included, spoken aloud. The
+ * positional mention repair can't see it: an arm that repeats the other inputs
+ * (as a language whose verb agrees with the count must) leaves the mention
+ * counts nowhere near each other, so it correctly declines to guess.
+ *
+ * Checked against the source rather than a field path so it works on the same
+ * (source, translation) pair the other guards here take. `forms` is the target
+ * locale's count, since that — not English's two — is how many arms it needs.
+ *
+ * Returns the offending input's name, or undefined when every branch survived.
+ */
+export function mismatchedPluralBranch(
+    source: string,
+    translation: string,
+    forms: number,
+): string | undefined {
+    const expected = getPluralBranches(source);
+    if (expected.length === 0) return undefined;
+    const found = getPluralBranches(translation);
+    for (const branch of expected) {
+        const match = found.find((f) => f.name === branch.name);
+        if (match === undefined || match.arms !== forms) return branch.name;
+    }
+    return undefined;
 }
 
 /**
