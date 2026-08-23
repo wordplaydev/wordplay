@@ -2668,7 +2668,7 @@
                         "\\'hello'.index('ll')\\",
                         "If it isn't in me at all, I give @None instead:",
                         "\\'hello'.index('z')\\",
-                        "Together with @Text/subsequence I can take everything up to something \u2014 here, the first word:",
+                        "Together with @Text/subsequence I can take everything up to something — here, the first word:",
                         "\\phrase: 'hello world'\nphrase.subsequence(1 (phrase.index(' ') ?? 1) - 1)\\"
                     ],
                     "names": ["index"],
@@ -8849,22 +8849,134 @@
             },
             "landing": {
                 "value": "Create interactive stories with words, symbols, emojis, and code with us! Get started in ",
-                "chooseLocales": " or choose ",
-                "description": [
-                    "@wordplay is a programming language that enables you to:",
-                    "• Playfully animate words and emojis 🤪",
-                    "• Use time 🕦, sound 🎤, faces 🙂, hands 🖐️, websites 🔗, and physics 🌎",
-                    "• Speak with text to speech 🗣️ and play music 🎼",
-                    "• Share 🤝 with friends, groups, or anyone",
-                    "• Code in any world language 🌐",
-                    "• Edit with mice 🖱️, touch 👆, and keyboards ⌨️",
-                    "• Debug forwards ⏩ and backwards ⏪",
-                    "• View with screens 🖥️ and screen readers 🔊",
-                    "Free forever from the <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "@wordplay is in *beta*, so it might not work as intended or be complete. Report bugs and share ideas in <GitHub@https://github.com/wordplaydev/wordplay/issues>, see our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
+                "chooseLocales": " or choose ",
+                "tagline": "accessible, multilingual, creative coding",
+                "tour": {
+                    "button": "show me",
+                    "loading": "Loading…",
+                    "failed": "The examples couldn't be loaded. Check your connection and try again.",
+                    "restart": "start this example over",
+                    "examples": {
+                        "label": "Example programs",
+                        "tips": [
+                            "Text can glow and animate",
+                            "Music is data, sound, and sight",
+                            "Time ticks and words are multilingual",
+                            "Text can respond to pointers, clicks, taps, and keys",
+                            "Audiences can make choices",
+                            "Audiences can chat with programs and words are shapes",
+                            "Physics and gravity can make text tumble and bounce",
+                            "Programs can listen to your speech",
+                            "Programs can watch your face, hands, and objects"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "music": "\\¶Music is notes on real instruments, at a tempo, in a key. The stage draws what it hears.¶\nMusic(\n\tTrack([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "\\¶Code can react to input like @Time, and text can be multilingual and spoken.¶\nhellos: ['hello'/en 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhello: hellos.random() … ∆ Time(1000ms) … hellos.random()\nPhrase(hello 4m)\nSay(hello)\\",
+                        "keys": "\\¶Code can react to pointers, keys, clicks, and taps.¶\nkey: Key()\nclick: Button()\nfaces: ['🙂' '😮' '😎' '🤩']\nwhich: 1 … ∆ key | ∆ click … (which % 4) + 1\nStage([Phrase(faces[which] 5m place: Pointer())] place: Place(0m 0m -12m))\\",
+                        "choose": "\\¶Layout text and make it selectable.¶\nfruit: ƒ(e•'') Phrase(e 3m name: e selectable: ⊤)\npicked: Choice()\nshown: '?' … ∆ picked … picked\nGroup(Stack(padding: 1m) [\n\tPhrase(shown 4m)\n\tGroup(Row(padding: 1m) [fruit('🍎') fruit('🍐') fruit('🍒')])\n])\\",
+                        "letters": "\\¶Chat with programs and use the shape of fonts and symbols.¶\nmessage: Chat()\nword: 'hi' … ∆ message … message\nline: Contour(word 'Noto Sans' 8m)\nticks: 0 … ∆ Time(30ms) … ticks + 1\nshown: ((line.length() × ticks) ÷ 66).roundDown() + 1\ndots: line.subsequence(1 shown).translate(ƒ(p) Phrase('•' place: p))\nStage(dots.add(Phrase(word 8m opacity: 15%)))\\",
+                        "pile": "\\¶Text can have physics.¶\ntoss: ƒ(emoji•'' x•#m y•#m vx•#m/s) \nPhrase(\n\temoji 2m\n\tplace: Motion(Place(x y) Velocity(vx 0m/s))\n\tmatter: Matter(1kg 0.55 0.06 0.5)\n)\nStage(\n\t[\n\t\ttoss('🍎' -2m 5m 2.2m/s)\n\t\ttoss('🍊' 2m 7m -2.6m/s)\n\t\ttoss('🍋' -1m 9m 1.4m/s)\n\t\ttoss('🍇' 1.5m 11m -1.9m/s)\n\t\ttoss('🫐' 0.5m 15m -1.2m/s)\n\t\tShape(Rectangle(-4m -3m 4m -3.6m))\n\t\tShape(Rectangle(-4.6m 4m -4m -3m))\n\t\tShape(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "\\¶Code can react to the @Volume and @Pitch of your mic.¶\nPhrase('📣' 1m + (Volume() × 8m) rotation: (Pitch() ÷ 1hz) × 0.1°)\\",
+                        "smile": "\\¶Code can react to your @Face, and other things on @Camera.¶\nPhrase(Face().smiling ? '😄 thank you!' '🙂 smile at the camera' 2m)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "Wordplay is a programming language",
+                        "bullets": [
+                            "• Every program is an expression that becomes a value. \\1 + 1\\ is a program, and so is \\Phrase('hi')\\.",
+                            "• Numbers carry units, so \\1m + 1m\\ is meters, and \\1cat + 1dog\\🪲 is a mistake @wordplay catches before it runs.",
+                            "• Functions are values you can name, hand around, and call: \\ƒ double(n•#) n × 2\\.",
+                            "• When input changes, @wordplay reevaluates your program and shows its new value. No need to respond to events.",
+                            "• @wordplay finds mistakes before the program runs, and explains each problem."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "Wordplay is multilingual",
+                        "bullets": [
+                            "• Every programming language feature has a name in every language, so the code reads in words you already know.",
+                            "• Your own names can be multilingual too:\n\\cat/en, gato/es: '🐈'\nPhrase(cat)\\",
+                            "• Text carries a language, and shows the language your audience reads: \\'hello'/en'hola'/es\\.",
+                            "• The site itself is in 29 languages and you can choose more than one at a time; text appears in each.",
+                            "• You can help translate @wordplay itself, right inside the app at <localize@://localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "Wordplay is accessible",
+                        "bullets": [
+                            "• Anything you can do with a mouse, you can do with a keyboard.",
+                            "• Screen readers describe the stage as it changes, not only when it loads.",
+                            "• You can read and write your code as blocks instead of text, and switch whenever you like.",
+                            "• Motion can be slowed down, or turned off completely.",
+                            "• Spoken output can be captioned on stage for anyone who can't hear it."
+                        ]
+                    },
+                    "senses": {
+                        "title": "Wordplay senses the world",
+                        "bullets": [
+                            "• Time passing: \\Time(1000ms)\\ ticks along, and \\Now()\\ knows today's date in your own calendar and time zone.",
+                            "• Where your audience points, what they touch, and which keys they press.",
+                            "• Programs can respond to your mic: how loud it is with @Volume, what pitch with @Pitch, and what words with @Speech.",
+                            "• Your audience can type in @Chat, and pick stage content with @Choice.",
+                            "• Programs can respond to the beat of the music they play, with @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "Wordplay performs",
+                        "bullets": [
+                            "• @Phrase puts words and emoji on the stage.",
+                            "• @Group arranges them in rows, stacks, grids, or wherever you place them.",
+                            "• @Pose and @Sequence turn, fade, scale, and move things around.",
+                            "• @Say speaks text aloud instead of showing it.",
+                            "• @Music plays tracks of notes on real instruments, at a tempo, in a key:\n\\Music(Track([1 3 5] instrument: Instrument.bell) tempo: 90beats/min)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "Wordplay is typography",
+                        "bullets": [
+                            "• Hundreds of faces, covering the world's writing systems.",
+                            "• You can draw your <custom characters@://characters> and use them anywhere an emoji goes.",
+                            "• The outline of every letter is data you can read and animate, with @Contour: \\Contour('a' 'Noto Sans')\\.",
+                            "• Text wraps by the rules of the language it's written in.",
+                            "• Right-to-left and vertical writing are laid out the way they should be."
+                        ]
+                    },
+                    "docs": {
+                        "title": "Wordplay explains itself",
+                        "bullets": [
+                            "• Documentation is part of the language with @Doc, not a comment beside it.",
+                            "• A searchable <guide@://guide> explains every built-in feature, with examples.",
+                            "• Every mistake is explained where it happened, in your language.",
+                            "• You can step through a program forwards /and/ backwards to debug what happened.",
+                            "• While you step, every value is shown right in the code that made it."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "Wordplay is for sharing",
+                        "bullets": [
+                            "• Your projects are yours, and you decide who can see them.",
+                            "• You can invite other people to build a project with you.",
+                            "• <Galleries@://galleries> gather projects around a theme.",
+                            "• Teachers can make classes and follow their students' work: <teach@://teach>.",
+                            "• You can remix anyone's public project and make it your own."
+                        ]
+                    },
+                    "free": {
+                        "title": "Wordplay is free and open",
+                        "bullets": [
+                            "• @wordplay is free and it always will be.",
+                            "• It's open source: you can read how it works and you can help us change it.",
+                            "• It comes from the <University of Washington@https://ischool.uw.edu/> Information School.",
+                            "• There's a community of creators, teachers, and contributors.",
+                            "• <Donations@://donate> pay for what it costs to run."
+                        ]
+                    }
+                },
                 "link": {
                     "learn": "Learn the language with a dramatic cast of characters",
                     "teach": "Manage classes of students and their projects",

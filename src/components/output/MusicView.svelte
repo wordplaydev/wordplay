@@ -152,10 +152,12 @@
         justify-content: center;
         pointer-events: none;
         z-index: 1;
-        /* A container so a track can be sized against the stage's width.
-           Its own width comes from the stage rather than from these bars, so
-           there is nothing circular about measuring against it. */
-        container-type: inline-size;
+        /* A container so a track can be sized against this band — its width for
+           the slot each track gets, its height for the label. Its own size comes
+           from the stage rather than from these bars (an explicit height, and
+           both inline edges pinned), so there is nothing circular about
+           measuring against it. */
+        container-type: size;
     }
 
     .bars {
@@ -225,12 +227,18 @@
     /* The instrument, named along the floor under its bar, lighting up while
        it plays. */
     .label {
-        /* As big as the stage height allows — at a sixth of the stage these
-           are the only text in the rendering and have to be readable from
-           across a classroom — but never wider than the track's share of the
-           width. An emoji paints a little wider than its font size, hence the
-           margin below 1. */
-        font-size: min(4.8vh, 3em, calc(var(--slot) * 0.76));
+        /* As big as this band allows — these are the only text in the rendering
+           and have to be readable from across a classroom — but never taller
+           than the room the bar needs above them, and never wider than the
+           track's share of the width. An emoji paints a little wider than its
+           font size, hence the margin below 1.
+           Measured in `cqh` against the band, not `vh` against the viewport:
+           the band is a fraction of the *stage*, and on a stage embedded in a
+           page — a doc preview, the tutorial, the landing page — a viewport
+           height bore no relation to it. At 4.8vh the label came out taller
+           than the whole band and squeezed the bars to a few pixels, so the
+           music appeared to pulse the instrument rather than the level. */
+        font-size: min(40cqh, 3em, calc(var(--slot) * 0.76));
         line-height: 1.2;
         opacity: calc(0.45 + (var(--level) * 0.55));
         white-space: nowrap;

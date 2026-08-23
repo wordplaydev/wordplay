@@ -8748,18 +8748,6 @@
             "landing": {
                 "value": "$~Buat cerita interaktif dengan kata-kata, simbol, emoji, dan kode bersama kami! Mulai sekarang di sini.",
                 "chooseLocales": "$~atau pilih",
-                "description": [
-                    "$~@wordplay adalah bahasa pemrograman yang memungkinkan kamu untuk:",
-                    "• Menganimasikan kata dan emoji dengan cara yang menyenangkan 🤪",
-                    "• Menggunakan waktu 🕦, suara 🎤, wajah 🙂, tangan 🖐️, situs web 🔗, dan fisika 🌎",
-                    "• Berbicara dengan teks ke ucapan 🗣️ dan memainkan musik 🎼",
-                    "• Berbagi 🤝 dengan teman, kelompok, atau siapa saja",
-                    "• Membuat kode dalam bahasa dunia mana pun 🌐",
-                    "• Menyunting dengan tetikus 🖱️, sentuhan 👆, dan papan ketik ⌨️",
-                    "• Mencari kesalahan maju ⏩ dan mundur ⏪",
-                    "• Melihat dengan layar 🖥️ dan pembaca layar 🔊",
-                    "Gratis selamanya dari <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~@wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
                 ],
@@ -8784,6 +8772,130 @@
                     },
                     "design": "$~Referensi sistem desain untuk kontributor",
                     "localize": "$~Bantu terjemahkan Wordplay ke bahasamu"
+                },
+                "tagline": "$~pengodean kreatif yang mudah diakses dan berbahasa banyak",
+                "tour": {
+                    "button": "$~tunjukkan padaku",
+                    "loading": "$~Memuat…",
+                    "failed": "$~Contoh tidak bisa dimuat. Periksa sambunganmu dan coba lagi.",
+                    "restart": "$~mulai ulang contoh ini",
+                    "examples": {
+                        "label": "$~Contoh program",
+                        "tips": [
+                            "$~Teks bisa bersinar dan bergerak",
+                            "$~Musik adalah data, suara, dan gambar",
+                            "$~Waktu berdetak dan kata-kata bisa berbahasa banyak",
+                            "$~Teks bisa menanggapi penunjuk, klik, ketukan, dan tombol",
+                            "$~Penonton bisa membuat pilihan",
+                            "$~Penonton bisa mengobrol dengan program dan kata-kata bisa berbentuk",
+                            "$~Fisika dan gravitasi bisa membuat teks jatuh dan memantul",
+                            "$~Program bisa mendengarkan ucapanmu",
+                            "$~Program bisa mengamati wajah, tangan, dan bendamu"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "music": "$~\\¶Musik adalah nada pada alat musik sungguhan, dengan tempo, dalam sebuah kunci nada. Panggung menggambar apa yang didengarnya.¶\nMusik(\n\tTrek([1 3 5 8 5 3] alatMusik: AlatMusik.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Kode bisa bereaksi terhadap masukan seperti @Time, dan teks bisa berbahasa banyak dan diucapkan.¶\nhellos: ['halo' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhalo: hellos.acak() … ∆ Waktu(1000ms) … hellos.acak()\nFrasa(halo 4m)\nMengatakan(halo)\\",
+                        "keys": "$~\\¶Kode bisa bereaksi terhadap penunjuk, tombol, klik, dan ketukan.¶\nkunci2: Kunci()\nklik: Tombol()\nwajah2: ['🙂' '😮' '😎' '🤩']\nyangMana: 1 … ∆ kunci2 | ∆ klik … (yangMana % 4) + 1\nPanggung(\n\t[Frasa(wajah2[yangMana] 5m tempat: Penunjuk())]\n\ttempat: Tempat(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Atur tata letak teks dan buat teks bisa dipilih.¶\nbuah: ƒ(e•'') Frasa(e 3m nama: e dapatdipilih: ⊤)\ndipilih: Pilihan()\nditampilkan: '?' … ∆ dipilih … dipilih\nKelompok(\n\tTumpukan(lapisan: 1m)\n\t[\n\t\tFrasa(ditampilkan 4m)\n\t\tKelompok(\n\t\t\tBaris(lapisan: 1m)\n\t\t\t[buah('🍎') buah('🍐') buah('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Mengobrol dengan program dan memakai bentuk huruf serta simbol.¶\npesan: Mengobrol()\nkata2: 'hai' … ∆ pesan … pesan\nbaris2: Kontur(kata2 'Noto Sans' 8m)\ndetik2: 0 … ∆ Waktu(30ms) … detik2 + 1\nditampilkan: ((baris2.panjang() × detik2) ÷ 66).bulatkankebawah(\n\t) + 1\ntitik: baris2.suburutan(1 ditampilkan).menerjemahkan(\n\t\tƒ(p) Frasa('•' tempat: p)\n\t)\nPanggung(titik.dengan(Frasa(kata2 8m kegelapan: 15%)))\\",
+                        "pile": "$~\\¶Teks bisa punya fisika.¶\nlempar: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFrasa(\n\t\t\temoji\n\t\t\t2m\n\t\t\ttempat: Gerakan(Tempat(x2 y2) Kecepatan(vx 0m/s))\n\t\t\turusan: Urusan(1kg 0.55 0.06 0.5)\n\t\t)\nPanggung(\n\t[\n\t\tlempar('🍎' -2m 5m 2.2m/s)\n\t\tlempar('🍊' 2m 7m -2.6m/s)\n\t\tlempar('🍋' -1m 9m 1.4m/s)\n\t\tlempar('🍇' 1.5m 11m -1.9m/s)\n\t\tlempar('🫐' 0.5m 15m -1.2m/s)\n\t\tBangun(Persegipanjang(-4m -3m 4m -3.6m))\n\t\tBangun(Persegipanjang(-4.6m 4m -4m -3m))\n\t\tBangun(Persegipanjang(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kode bisa bereaksi terhadap @Volume dan @Pitch dari mikrofonmu.¶\nFrasa(\n\t'📣'\n\t1m + (Volume() × 8m)\n\trotasi: (Melempar() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kode bisa bereaksi terhadap @Face kamu, dan hal lain di @Camera.¶\nFrasa(\n\tWajah().tersenyum ? '😄 terima kasih!' '🙂 senyum ke kamera'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay adalah bahasa pemrograman",
+                        "bullets": [
+                            "$~• Setiap program adalah ekspresi yang menjadi sebuah nilai. \\1 + 1\\ adalah sebuah program, begitu juga \\Frasa('hai')\\.",
+                            "• Angka punya satuan, jadi \\1m + 1m\\ adalah meter, dan \\1cat + 1dog\\🪲 adalah kesalahan yang ditangkap @wordplay sebelum program berjalan.",
+                            "• Fungsi adalah nilai yang bisa kamu beri nama, kamu bawa, dan kamu panggil: \\ƒ ganda(n3•#) n3 × 2\\.",
+                            "• Saat masukan berubah, @wordplay menilai ulang programmu dan menunjukkan nilai barunya. Kamu tidak perlu menanggapi setiap kejadian.",
+                            "• @wordplay menemukan kesalahan sebelum program berjalan, dan menjelaskan setiap masalah."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay berbahasa banyak",
+                        "bullets": [
+                            "$~• Setiap fitur bahasa pemrograman punya nama dalam setiap bahasa, jadi kode bisa dibaca dengan kata-kata yang sudah kamu kenal.",
+                            "• Namamu sendiri juga bisa berbahasa banyak:\n\\kucing2: '🐈'\nFrasa(kucing2)\\",
+                            "• Teks punya sebuah bahasa, dan menunjukkan bahasa yang dibaca penontonmu: \\'halo'\\.",
+                            "• Situs ini tersedia dalam 29 bahasa dan kamu bisa memilih lebih dari satu sekaligus; teks akan tampil dalam setiap bahasa yang dipilih.",
+                            "• Kamu bisa membantu menerjemahkan @wordplay sendiri, langsung di dalam aplikasi di <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay mudah diakses",
+                        "bullets": [
+                            "$~• Apa pun yang bisa kamu lakukan dengan mouse, bisa juga kamu lakukan dengan keyboard.",
+                            "• Pembaca layar menjelaskan panggung saat isinya berubah, bukan hanya saat dimuat.",
+                            "• Kamu bisa membaca dan menulis kode sebagai blok, bukan hanya teks, dan bisa berganti kapan saja.",
+                            "• Gerakan bisa diperlambat, atau dimatikan sepenuhnya.",
+                            "• Suara yang diucapkan bisa ditampilkan sebagai teks di panggung untuk siapa pun yang tidak bisa mendengarnya."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay merasakan dunia",
+                        "bullets": [
+                            "$~• Waktu berjalan: \\Waktu(1000ms)\\ berdetak terus, dan \\Sekarang()\\ tahu tanggal hari ini sesuai kalender dan zona waktumu sendiri.",
+                            "• Ke mana penontonmu menunjuk, apa yang mereka sentuh, dan tombol apa yang mereka tekan.",
+                            "• Program bisa merespons mikrofonmu: seberapa keras suaranya dengan @Volume, nada apa dengan @Pitch, dan kata apa dengan @Speech.",
+                            "• Penontonmu bisa mengetik di @Chat, dan memilih isi panggung dengan @Choice.",
+                            "• Program bisa merespons ketukan musik yang diputar, dengan @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay tampil",
+                        "bullets": [
+                            "$~• @Phrase menaruh kata dan emoji di panggung.",
+                            "• @Group menyusunnya dalam baris, tumpukan, kisi-kisi, atau di mana pun kamu meletakkannya.",
+                            "• @Pose dan @Sequence memutar, memudarkan, mengubah ukuran, dan menggerakkan benda.",
+                            "• @Say mengucapkan teks dengan suara, bukan hanya menampilkannya.",
+                            "• @Music memainkan rangkaian nada dengan alat musik sungguhan, pada tempo tertentu, dalam nada dasar tertentu:\n\\Musik(\n\tTrek([1 3 5] alatMusik: AlatMusik.lonceng)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay adalah tipografi",
+                        "bullets": [
+                            "$~• Ratusan jenis huruf, mencakup berbagai sistem tulisan di dunia.",
+                            "• Kamu bisa menggambar <karakter buatanmu sendiri//characters> dan memakainya di mana pun emoji bisa dipakai.",
+                            "• Garis luar setiap huruf adalah data yang bisa kamu baca dan animasikan, dengan @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Teks melipat baris sesuai aturan bahasa yang digunakan.",
+                            "• Tulisan dari kanan ke kiri dan tulisan vertikal ditata dengan cara yang seharusnya."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay menjelaskan dirinya sendiri",
+                        "bullets": [
+                            "$~• Dokumentasi adalah bagian dari bahasa itu sendiri dengan @Doc, bukan sekadar komentar di sampingnya.",
+                            "• <Panduan//guide> yang bisa dicari menjelaskan setiap fitur bawaan, lengkap dengan contoh.",
+                            "• Setiap kesalahan dijelaskan tepat di tempat kejadiannya, dalam bahasamu sendiri.",
+                            "• Kamu bisa menjalankan program langkah demi langkah, maju /maupun/ mundur, untuk melacak apa yang terjadi.",
+                            "• Saat kamu menelusuri langkah-langkahnya, setiap nilai ditampilkan tepat di kode yang membuatnya."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay dibuat untuk berbagi",
+                        "bullets": [
+                            "$~• Proyekmu adalah milikmu, dan kamu yang menentukan siapa saja yang boleh melihatnya.",
+                            "• Kamu bisa mengajak orang lain untuk membangun proyek bersamamu.",
+                            "• <Galeri@://galleries> mengumpulkan proyek-proyek berdasarkan tema.",
+                            "• Guru bisa membuat kelas dan mengikuti perkembangan pekerjaan murid-muridnya: <ajar@://teach>.",
+                            "• Kamu bisa mengubah proyek publik milik siapa pun dan menjadikannya karyamu sendiri."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay gratis dan terbuka",
+                        "bullets": [
+                            "$~• @wordplay gratis dan akan selalu gratis.",
+                            "• Ini adalah sumber terbuka: kamu bisa membaca cara kerjanya dan membantu kami mengubahnya.",
+                            "• Berasal dari Information School di <University of Washington@https://ischool.uw.edu/>.",
+                            "• Ada komunitas pencipta, guru, dan penyumbang.",
+                            "• <Sumbangan//donate> membiayai biaya menjalankan layanan ini."
+                        ]
+                    }
                 }
             },
             "learn": {

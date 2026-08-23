@@ -8731,18 +8731,6 @@
             "landing": {
                 "value": "$~Gumawa ng mga interactive na kwento gamit ang mga salita, simbolo, emoji, at code kasama namin! Magsimula sa",
                 "chooseLocales": "$~o pumili",
-                "description": [
-                    "$~Ang @wordplay ay isang wika sa pagprograma na nagbibigay-daan sa iyo na:",
-                    "• Malikhaing ianimasyon ang mga salita at emoji 🤪",
-                    "• Gumamit ng oras 🕦, tunog 🎤, mga mukha 🙂, mga kamay 🖐️, mga website 🔗, at pisika 🌎",
-                    "• Magsalita gamit ang text to speech 🗣️ at magtugtog ng musika 🎼",
-                    "• Magbahagi 🤝 sa mga kaibigan, grupo, o kahit sino",
-                    "• Mag-code sa anumang wika ng mundo 🌐",
-                    "• Mag-edit gamit ang mouse 🖱️, hawak 👆, at keyboard ⌨️",
-                    "• Mag-debug pasulong ⏩ at paurong ⏪",
-                    "• Tingnan gamit ang mga screen 🖥️ at screen reader 🔊",
-                    "Libre magpakailanman mula sa <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~Ang @wordplay ay nasa *beta*, kaya maaaring hindi ito gumana ayon sa inaasahan o hindi kumpleto. Iulat ang mga bug at magbahagi ng mga ideya sa <GitHub@https://github.com/wordplaydev/wordplay/issues>, tingnan ang aming <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, at <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
@@ -8767,6 +8755,130 @@
                     },
                     "design": "$~Sanggunian sa sistema ng disenyo para sa mga kontribyutor",
                     "localize": "$~Tulungan mong isalin ang Wordplay sa iyong wika"
+                },
+                "tagline": "$~naa-access, multilingguwal, malikhaing pag-kodigo",
+                "tour": {
+                    "button": "$~ipakita sa akin",
+                    "loading": "$~Naglo-load…",
+                    "failed": "$~Hindi na-load ang mga halimbawa. Tingnan ang iyong koneksyon at subukan ulit.",
+                    "restart": "$~simulan ulit ang halimbawang ito",
+                    "examples": {
+                        "label": "$~Mga halimbawang programa",
+                        "tips": [
+                            "$~Ang teksto ay maaaring magniningning at gumalaw",
+                            "$~Ang musika ay datos, tunog, at larawan",
+                            "$~Tumitibok ang oras at multilingguwal ang mga salita",
+                            "$~Ang teksto ay maaaring tumugon sa pointer, click, tap, at mga key",
+                            "$~Maaaring pumili ang mga manonood",
+                            "$~Maaaring makipag-usap ang mga manonood sa mga programa, at ang mga salita ay hugis",
+                            "$~Ang pisika at grabidad ay maaaring magpagulong at magpatalbog sa teksto",
+                            "$~Maaaring makinig ang mga programa sa iyong pagsasalita",
+                            "$~Maaaring pagmasdan ng mga programa ang iyong mukha, kamay, at mga bagay"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶Lumalabas ang mga Phrase sa entablado, sa anumang kulay, ningning, at galaw na gusto mo.¶\nParirala(\n\t'kumusta!'\n\t6m\n\tkulay: Kulay(60% 90 200°)\n\taura: Aura(Kulay(80% 80 200°) 0.3m)\n\tnagpapahinga: Pagkakasunodsunod.ugoy(8°)\n)\\",
+                        "music": "$~\\¶Ang musika ay mga nota sa tunay na instrumento, sa isang tempo, sa isang key. Iginuguhit ng entablado ang naririnig nito.¶\nMusika(\n\tTrack([1 3 5 8 5 3] instrumento: Instrumento.piyano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Ang kodigo ay maaaring tumugon sa input tulad ng @Time, at ang teksto ay maaaring maraming wika at mabigkas.¶\nmgaKumusta: ['kumusta' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nkumusta: mgaKumusta.random() … ∆ Oras(1000ms) … mgaKumusta.random(\n\t\t)\nParirala(kumusta 4m)\nSabihin(kumusta)\\",
+                        "keys": "$~\\¶Ang kodigo ay maaaring tumugon sa mga pointer, susi, click, at tapik.¶\nsusi2: Susi()\nclick2: Butones()\nmgaMukha: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ click2 … (alin % 4) + 1\nEntablado(\n\t[Parirala(mgaMukha[alin] 5m lugar: Panturo())]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Ayusin ang teksto at gawin itong mapipili.¶\nprutas: ƒ(e•'') Parirala(e 3m pangalan: e mapipili: ⊤)\nnapili: Pagpipilian()\nipinakita: '?' … ∆ napili … napili\nGrupo(\n\tPatongpatong(padding: 1m)\n\t[\n\t\tParirala(ipinakita 4m)\n\t\tGrupo(\n\t\t\tHilera(padding: 1m)\n\t\t\t[prutas('🍎') prutas('🍐') prutas('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Makipag-usap sa mga programa at gamitin ang hugis ng mga font at simbolo.¶\nmensahe: Makipagchat()\nsalita2: 'hi' … ∆ mensahe … mensahe\nlinya: Kontur(salita2 'Noto Sans' 8m)\nmgaTik: 0 … ∆ Oras(30ms) … mgaTik + 1\nipinakita: ((linya.haba() × mgaTik) ÷ 66).roundDown() + 1\nmgaTuldok: linya.kasunod(1 ipinakita).isalin(\n\t\tƒ(p) Parirala('•' lugar: p)\n\t)\nEntablado(\n\tmgaTuldok.kasama(Parirala(salita2 8m kalabuan: 15%))\n)\\",
+                        "pile": "$~\\¶Maaaring may pisika ang teksto.¶\nitapon: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tParirala(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlugar: Paggalaw(Lugar(x2 y2) Bilis(vx 0m/s))\n\t\t\tbagay: Materyales(1kg 0.55 0.06 0.5)\n\t\t)\nEntablado(\n\t[\n\t\titapon('🍎' -2m 5m 2.2m/s)\n\t\titapon('🍊' 2m 7m -2.6m/s)\n\t\titapon('🍋' -1m 9m 1.4m/s)\n\t\titapon('🍇' 1.5m 11m -1.9m/s)\n\t\titapon('🫐' 0.5m 15m -1.2m/s)\n\t\tHugis(Parihaba(-4m -3m 4m -3.6m))\n\t\tHugis(Parihaba(-4.6m 4m -4m -3m))\n\t\tHugis(Parihaba(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Ang kodigo ay maaaring tumugon sa @Volume at @Pitch ng iyong mikropono.¶\nParirala(\n\t'📣'\n\t1m + (Dami() × 8m)\n\tpagikot: (Tono() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Ang kodigo ay maaaring tumugon sa iyong @Face, at sa iba pang bagay sa @Camera.¶\nParirala(\n\tMukha().nakangiti ? '😄 salamat!' '🙂 ngumiti sa kamera'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Ang Wordplay ay isang programming language",
+                        "bullets": [
+                            "$~• Ang bawat programa ay isang ekspresyon na nagiging halaga. \\1 + 1\\ ay isang programa, at gayundin ang \\Parirala('hi')\\.",
+                            "• May unit ang mga numero, kaya ang \\1m + 1m\\ ay metro, at ang \\1cat + 1dog\\🪲 ay isang pagkakamali na nahuhuli ng @wordplay bago pa ito tumakbo.",
+                            "• Ang mga function ay mga halaga na maaari mong pangalanan, ipasa, at tawagin: \\ƒ doble(n3•#) n3 × 2\\.",
+                            "• Kapag nagbago ang input, sinusuri ulit ng @wordplay ang iyong programa at ipinapakita ang bago nitong halaga. Hindi na kailangang tumugon sa mga event.",
+                            "• Nahahanap ng @wordplay ang mga pagkakamali bago tumakbo ang programa, at ipinapaliwanag ang bawat problema."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Multilingguwal ang Wordplay",
+                        "bullets": [
+                            "$~• Bawat tampok ng programming language ay may pangalan sa bawat wika, kaya nababasa ang kodigo gamit ang mga salitang alam mo na.",
+                            "• Maaari ding maging multilingguwal ang iyong sariling mga pangalan:\n\\pusa2: '🐈'\nParirala(pusa2)\\",
+                            "• May kalakip na wika ang teksto, at ipinapakita nito ang wikang mababasa ng iyong manonood: \\'kumusta'\\.",
+                            "• Ang site mismo ay nasa 29 na wika, at pwede kang pumili ng higit sa isa nang sabay-sabay; lalabas ang teksto sa bawat isa.",
+                            "• Pwede kang tumulong magsalin ng @wordplay mismo, mismo sa loob ng app sa <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Naa-access ang Wordplay",
+                        "bullets": [
+                            "$~• Anumang magagawa mo gamit ang mouse, magagawa mo rin gamit ang keyboard.",
+                            "• Inilalarawan ng mga screen reader ang stage habang ito ay nagbabago, hindi lang kapag ito ay nag-load.",
+                            "• Pwede mong basahin at isulat ang iyong kodigo bilang mga block sa halip na teksto, at lumipat kahit kailan mo gusto.",
+                            "• Ang paggalaw ay pwedeng bagalan, o patayin nang lubusan.",
+                            "• Ang sinasalitang output ay pwedeng bigyan ng caption sa stage para sa sinumang hindi ito naririnig."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Nararamdaman ng Wordplay ang mundo",
+                        "bullets": [
+                            "$~• Ang paglipas ng oras: \\Oras(1000ms)\\ ay tumutunog paglipas ng segundo, at \\Ngayon()\\ alam ang petsa ngayon sa sarili mong kalendaryo at time zone.",
+                            "• Kung saan itinuturo ng iyong manonood, kung ano ang kanilang hinihipo, at kung aling mga key ang kanilang pinipindot.",
+                            "• Ang mga programa ay pwedeng tumugon sa iyong mic: gaano ito kalakas gamit ang @Volume, anong pitch gamit ang @Pitch, at anong mga salita gamit ang @Speech.",
+                            "• Pwedeng mag-type ang iyong manonood sa @Chat, at pumili ng laman ng stage gamit ang @Choice.",
+                            "• Ang mga programa ay pwedeng tumugon sa tibok ng musikang pinatutugtog nila, gamit ang @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Nagtatanghal ang Wordplay",
+                        "bullets": [
+                            "$~• Inilalagay ng @Phrase ang mga salita at emoji sa stage.",
+                            "• Inaayos sila ng @Group sa mga hanay, tambak, grid, o kahit saan mo ilagay.",
+                            "• Ang @Pose at @Sequence ay umiikot, nawawala, nagbabago ng laki, at gumagalaw ng mga bagay.",
+                            "• Binibigkas ng @Say ang teksto sa halip na ipakita ito.",
+                            "• Pinatutugtog ng @Music ang mga track ng mga nota sa tunay na instrumento, sa isang tempo, sa isang key:\n\\Musika(\n\tTrack([1 3 5] instrumento: Instrumento.kampana)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Ang Wordplay ay typography",
+                        "bullets": [
+                            "$~• Daan-daang uri ng letra, na sumasaklaw sa mga sistema ng pagsulat sa buong mundo.",
+                            "• Pwede kang gumuhit ng iyong <custom na mga karakter//characters> at gamitin sila kahit saan gamit ang emoji.",
+                            "• Ang balangkas ng bawat letra ay datos na pwede mong basahin at bigyan ng animasyon, gamit ang @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Ang teksto ay nag-wa-wrap ayon sa mga tuntunin ng wikang ginamit dito.",
+                            "• Ang pagsulat mula kanan-papuntang-kaliwa at patayo ay inaayos sa tamang paraan."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Ipinapaliwanag ng Wordplay ang sarili nito",
+                        "bullets": [
+                            "$~• Ang dokumentasyon ay bahagi ng wika sa pamamagitan ng @Doc, hindi isang komento sa tabi nito.",
+                            "• Isang mahahanap na <gabay//guide> ang nagpapaliwanag ng bawat built-in na tampok, na may mga halimbawa.",
+                            "• Bawat pagkakamali ay ipinapaliwanag kung saan ito nangyari, sa sarili mong wika.",
+                            "• Pwede mong dumaan sa isang programa pasulong /at/ paatras para malaman kung ano ang nangyari.",
+                            "• Habang ikaw ay dumadaan, ipinapakita ang bawat halaga mismo sa kodigong gumawa nito."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Ang Wordplay ay para sa pagbabahagi",
+                        "bullets": [
+                            "$~• Ang iyong mga proyekto ay sa iyo, at ikaw ang magpapasya kung sino ang makakakita sa mga ito.",
+                            "• Pwede kang mag-imbita ng ibang tao para gumawa ng proyekto kasama ka.",
+                            "• Ang <Galleries@://galleries> ay nagtitipon ng mga proyekto ayon sa isang tema.",
+                            "• Ang mga guro ay pwedeng gumawa ng mga klase at sundan ang gawa ng kanilang mga mag-aaral: <turuan@://teach>.",
+                            "• Pwede mong baguhin ang alinmang pampublikong proyekto ng kahit sino at gawin itong sarili mo."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Ang Wordplay ay libre at bukas",
+                        "bullets": [
+                            "$~• Ang @wordplay ay libre at palagi itong mananatiling libre.",
+                            "• Ito ay open source: pwede mong basahin kung paano ito gumagana, at pwede kang tumulong sa amin na baguhin ito.",
+                            "• Ito ay mula sa <University of Washington@https://ischool.uw.edu/> Information School.",
+                            "• May isang komunidad ng mga tagalikha, guro, at tagatulong.",
+                            "• Ang <Mga Donasyon//donate> ay nagbabayad para sa gastos ng pagpapatakbo nito."
+                        ]
+                    }
                 }
             },
             "learn": {

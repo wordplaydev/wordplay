@@ -11,7 +11,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔠 Text can now take a piece of itself with `subsequence`, find where another text first shows up with `index`, swap every copy of one text for another with `replace`, drop the blank space at its ends with `trim`, and turn itself backwards with `reverse`.
 - 🔣 Formatted text can now become a list of its symbols, or a number, the same way plain text can. (#1190)
 - 🔢 You can now write `!#`, the not-a-number value, in your own code. Wordplay always knew how to make one — turning text like `'hi'` into a number gives you one — but writing it yourself was marked as a mistake.
-- 🧲 @Output can now pull other @Output toward it. Give a @Phrase @Matter with a `pull` and it works like a planet or a magnet, tugging anything that moves with @Motion. A negative pull pushes away instead. There's a new [Orbits](https://wordplay.dev/galleries) example with three planets circling a star. (#20)
+- 🎭 Our [home page](https://wordplay.dev/) now has a stage. Press show me and nine tiny programs play right there, each with its code beside it and a note in the code saying what it does. (#921)
+- 🧲 @Output can now pull other @Output toward it. Give a @Phrase @Matter with a `pull` and it works like a planet or a magnet, tugging anything that moves with @Motion. A negative pull pushes away instead. We added a new example called Orbits to the [galleries](https://wordplay.dev/galleries), with three planets circling a star. (#20)
 - 💨 The @Stage now has `air`, which says how quickly moving @Output slows down. Normal air is 1, and 0 is outer space, where things keep going forever. (#20)
 
 ### Changed
@@ -28,6 +29,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 Sorting a list could jumble items that had nothing wrong with them, if any one item's sorting number wasn't a number. Those items go last now, and everything else keeps its order.
 - 📖 Writing `!#` in a help page quietly erased the rest of the sentence, so we couldn't explain the value at all.
 - 🎭 The button that puts a file's output on the stage disappeared when you closed the other files, so you had to open one of them again just to get the button back. It now shows up whenever your project has more than one file. (#1302)
+- 🔊 The bars that show what music is playing were squashed to a few pixels on any small stage, so it looked like only the instrument was moving. They fill the space they're given now. (#1314)
+- 🗣️ Screen readers said nothing at all about shapes on the stage. They now read a shape's description, the way they already read a phrase's. (#1314)
+- 🖱️ Pressing space while a program was playing scrolled the page instead of going to the program, so a program that listens for keys could be scrolled out from under you. (#1314)
+- 🧩 With blocks turned on, code written inside a sentence — like the `1m` in a help page — became a big box that broke the line around it. Code inside a sentence now stays text, in the [Guide](https://wordplay.dev/guide) and everywhere else. (#1314)
+- 📖 A link to another part of the language, like `@Time`, showed up as plain text when it appeared in a program's documentation. It's a link now, the same as it is in a help page. (#1314)
 
 ## 0.29.3 - 2026-08-19
 

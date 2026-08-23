@@ -52,6 +52,42 @@
 
     let { children, footer = true, scroll = true }: Props = $props();
 
+    /**
+     * The tabs arrive and leave rather than blinking in and out — they slide up
+     * into the bar when the page's own copy of the same destinations scrolls
+     * away, and back down when it returns.
+     *
+     * Leaving needs the tabs to outlive `footer` going false, so `showNav`
+     * trails it by the length of the animation; nothing focusable lingers,
+     * because the exit is short and ends in an unmount. Motion-gated: at factor
+     * 0 the timeout is zero and both directions are instant.
+     */
+    let navPhase: 'in' | 'out' | undefined = $state(undefined);
+    // svelte-ignore state_referenced_locally
+    let showNav = $state(footer);
+    // Deliberately the initial value: this records what `footer` was on the
+    // previous run so the effect can tell a change from a re-render.
+    // svelte-ignore state_referenced_locally
+    let hadFooter = footer;
+    $effect(() => {
+        const wanted = footer;
+        if (wanted === hadFooter) return;
+        hadFooter = wanted;
+        const duration = 400 * $animationFactor;
+        if (wanted) {
+            showNav = true;
+            navPhase = 'in';
+            const settle = setTimeout(() => (navPhase = undefined), duration);
+            return () => clearTimeout(settle);
+        }
+        navPhase = 'out';
+        const settle = setTimeout(() => {
+            showNav = false;
+            navPhase = undefined;
+        }, duration);
+        return () => clearTimeout(settle);
+    });
+
     let main: HTMLElement | undefined = $state();
     let scrollY = $state(0);
     let showBackToTop = $derived(scrollY > 200);
@@ -138,7 +174,7 @@
      *  pickers and menus that move a selection, and the code editor, which binds
      *  every one of them to a caret movement. */
     const KeyOwners =
-        'input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="listbox"], [role="menu"], [role="radiogroup"], [data-testid="editor"]';
+        'input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="listbox"], [role="menu"], [role="radiogroup"], [role="tablist"], [data-uiid="stage"], [data-testid="editor"]';
 
     /**
      * Whether something other than the page should answer a scroll key: a control
@@ -246,10 +282,14 @@
             </div>
         </div>
     {/if}
-    <footer class:fullscreen={$fullscreen.on}>
+    <footer
+        class:fullscreen={$fullscreen.on}
+        class:arriving={navPhase === 'in'}
+        class:leaving={navPhase === 'out'}
+    >
         <nav>
             {#snippet navHome()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
                         tab
@@ -270,7 +310,7 @@
                 <Settings />
             {/snippet}
             {#snippet navProjects()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
                         tab
@@ -287,7 +327,7 @@
                 {/if}
             {/snippet}
             {#snippet navGalleries()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
                         tab
@@ -304,7 +344,7 @@
                 {/if}
             {/snippet}
             {#snippet navCharacters()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
                         tab
@@ -321,7 +361,7 @@
                 {/if}
             {/snippet}
             {#snippet navLearn()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
                         tab
@@ -337,7 +377,7 @@
                 {/if}
             {/snippet}
             {#snippet navGuide()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
                         tab
@@ -354,7 +394,7 @@
                 {/if}
             {/snippet}
             {#snippet navTeach()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
                         tab
@@ -477,6 +517,30 @@
         /* Container query context so the nav-label hiding rule below
            tracks the footer's actual width, not the viewport. */
         container-type: inline-size;
+    }
+
+    /* The arrival and departure described on `navPhase`. The tabs are fully
+       opaque whenever they are settled — the ramp only runs while they are on
+       their way in or out, and outside those few hundred milliseconds they are
+       either solid or not rendered at all. */
+    footer.arriving :global(.pinned-start) {
+        animation: nav-arrive calc(var(--animation-factor) * 0.4s) ease-out;
+    }
+
+    footer.leaving :global(.pinned-start) {
+        animation: nav-arrive calc(var(--animation-factor) * 0.4s) ease-in
+            reverse forwards;
+    }
+
+    @keyframes nav-arrive {
+        0% {
+            transform: translateY(1em);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 
     /* The link underline is drawn on the label, not on the anchor: a line

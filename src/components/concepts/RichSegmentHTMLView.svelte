@@ -34,9 +34,18 @@
             {spaces}
             evaluated={alone}
         />
-    {:else}<ConceptPreview
+    {:else}<!-- An example inside a sentence is a quotation of code, not a
+             program to edit, so it stays text however the viewer has set blocks
+             mode — the same choice the NodeRef branch below already makes. A
+             block's box chrome (border, padding, opaque background) cannot sit
+             on a line of prose: a multi-line one is an atomic inline box that
+             hangs below the baseline and blows the line open. An example that
+             is alone in its paragraph still gets the full ExampleUI above, with
+             its own blocks toggle. -->
+        <ConceptPreview
             node={segment.program}
             inline={true}
+            blocks={false}
             {spaces}
             outline={false}
             describe={false}

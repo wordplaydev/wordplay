@@ -8402,18 +8402,6 @@
             "landing": {
                 "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod tillsammans med oss! Kom igång i",
                 "chooseLocales": "$~eller välj",
-                "description": [
-                    "$~@wordplay är ett programmeringsspråk som låter dig:",
-                    "• Lekfullt animera ord och emojis 🤪",
-                    "• Använda tid 🕦, ljud 🎤, ansikten 🙂, händer 🖐️, webbplatser 🔗 och fysik 🌎",
-                    "• Tala med text-till-tal 🗣️ och spela musik 🎼",
-                    "• Dela 🤝 med vänner, grupper eller vem som helst",
-                    "• Koda på vilket världsspråk som helst 🌐",
-                    "• Redigera med möss 🖱️, tryck 👆 och tangentbord ⌨️",
-                    "• Felsöka framåt ⏩ och bakåt ⏪",
-                    "• Visa med skärmar 🖥️ och skärmläsare 🔊",
-                    "Gratis för alltid från <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~@wordplay är i *beta*, så det kanske inte fungerar som tänkt eller är färdigt. Rapportera fel och dela idéer på <GitHub@https://github.com/wordplaydev/wordplay/issues>, se våra <planer för 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0>, och <bidra@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
@@ -8438,6 +8426,130 @@
                     "design": "$~Referens för designsystem för bidragsgivare",
                     "thanks": "$~Vem hjälpte till att göra detta?",
                     "localize": "$~Hjälp till att översätta Wordplay till ditt språk"
+                },
+                "tagline": "$~tillgänglig, flerspråkig, kreativ kodning",
+                "tour": {
+                    "button": "$~visa mig",
+                    "loading": "$~Laddar…",
+                    "failed": "$~Exemplen kunde inte laddas. Kontrollera din anslutning och försök igen.",
+                    "restart": "$~börja om detta exempel",
+                    "examples": {
+                        "label": "$~Exempelprogram",
+                        "tips": [
+                            "$~Text kan glöda och animeras",
+                            "$~Musik är data, ljud och bild",
+                            "$~Tiden tickar och ord är flerspråkiga",
+                            "$~Text kan reagera på pekare, klick, tryck och tangenter",
+                            "$~Publiken kan göra val",
+                            "$~Publiken kan chatta med program och ord är former",
+                            "$~Fysik och tyngdkraft kan få text att tumla och studsa",
+                            "$~Program kan lyssna på ditt tal",
+                            "$~Program kan se ditt ansikte, dina händer och föremål"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶Fraser visas på scenen, i vilken färg, glöd och rörelse du vill.¶\nFras(\n\t'hej!'\n\t6m\n\tfärg: Färg(60% 90 200°)\n\taura: Aura(Färg(80% 80 200°) 0.3m)\n\tvilande: Sekvens.vingla(8°)\n)\\",
+                        "music": "$~\\¶Musik är toner på riktiga instrument, i ett tempo, i en tonart. Scenen ritar det den hör.¶\nMusik(\n\tSpår([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Koden kan reagera på inmatning som @Time, och text kan vara flerspråkig och talad.¶\nhejsan: ['hej' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhej: hejsan.slumpmässig() … ∆ Tid(1000ms) … hejsan.slumpmässig(\n\t\t)\nFras(hej 4m)\nSäga(hej)\\",
+                        "keys": "$~\\¶Koden kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare())]\n\tplats: Plats(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Placera text och gör den markerbar.¶\nfrukt: ƒ(e•'') Fras(e 3m namn: e valbara: ⊤)\nvald: Val()\nvisad: '?' … ∆ vald … vald\nGrupp(\n\tStack(stoppning: 1m)\n\t[\n\t\tFras(visad 4m)\n\t\tGrupp(\n\t\t\tRad(stoppning: 1m)\n\t\t\t[frukt('🍎') frukt('🍐') frukt('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Chatta med program och använd formen på typsnitt och symboler.¶\nmeddelande: Chatta()\nord3: 'hej' … ∆ meddelande … meddelande\nrad: Kontur(ord3 'Noto Sans' 8m)\ntick: 0 … ∆ Tid(30ms) … tick + 1\nvisad: ((rad.längd() × tick) ÷ 66).rundaner() + 1\npunkter: rad.efterföljande(1 visad).översätta(\n\t\tƒ(p) Fras('•' plats: p)\n\t)\nEtapp(punkter.med(Fras(ord3 8m opacitet: 15%)))\\",
+                        "pile": "$~\\¶Text kan ha fysik.¶\nkasta: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFras(\n\t\t\temoji\n\t\t\t2m\n\t\t\tplats: Rörelse(Plats(x2 y2) Hastighet(vx 0m/s))\n\t\t\tmateria: Materia(1kg 0.55 0.06 0.5)\n\t\t)\nEtapp(\n\t[\n\t\tkasta('🍎' -2m 5m 2.2m/s)\n\t\tkasta('🍊' 2m 7m -2.6m/s)\n\t\tkasta('🍋' -1m 9m 1.4m/s)\n\t\tkasta('🍇' 1.5m 11m -1.9m/s)\n\t\tkasta('🫐' 0.5m 15m -1.2m/s)\n\t\tFigur(Rektangel(-4m -3m 4m -3.6m))\n\t\tFigur(Rektangel(-4.6m 4m -4m -3m))\n\t\tFigur(Rektangel(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kod kan reagera på @Volume och @Pitch från din mikrofon.¶\nFras(\n\t'📣'\n\t1m + (Volym() × 8m)\n\trotation: (Tonhöjd() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kod kan reagera på din @Face, och andra saker på @Camera.¶\nFras(Ansikte().leende ? '😄 tack!' '🙂 le mot kameran' 2m)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay är ett programmeringsspråk",
+                        "bullets": [
+                            "$~• Varje program är ett uttryck som blir ett värde. \\1 + 1\\ är ett program, och det är även \\Fras('hej')\\.",
+                            "• Tal har enheter, så \\1m + 1m\\ är meter, och \\1cat + 1dog\\🪲 är ett misstag som @wordplay hittar innan det körs.",
+                            "• Funktioner är värden du kan namnge, skicka runt och anropa: \\ƒ dubbel(n3•#) n3 × 2\\.",
+                            "• När indata ändras räknar @wordplay om ditt program och visar dess nya värde. Du behöver inte reagera på händelser själv.",
+                            "• @wordplay hittar misstag innan programmet körs, och förklarar varje problem."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay är flerspråkigt",
+                        "bullets": [
+                            "$~• Varje egenskap i programmeringsspråket har ett namn på varje språk, så koden går att läsa med ord du redan kan.",
+                            "• Dina egna namn kan också vara flerspråkiga:\n\\katt2: '🐈'\nFras(katt2)\\",
+                            "• Text har ett språk, och visas på det språk din publik läser: \\'hej'\\.",
+                            "• Själva webbplatsen finns på 29 språk och du kan välja fler än ett åt gången. Texten visas på alla valda språk.",
+                            "• Du kan hjälpa till att översätta @wordplay direkt i appen på <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay är tillgängligt",
+                        "bullets": [
+                            "$~• Allt du kan göra med en mus, kan du göra med ett tangentbord.",
+                            "• Skärmläsare beskriver scenen medan den ändras, inte bara när den laddas.",
+                            "• Du kan läsa och skriva koden din som block istället för text, och byta när du vill.",
+                            "• Rörelser kan sakta ner, eller stängas av helt.",
+                            "• Talat ljud kan visas som text på scenen för den som inte kan höra det."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay känner av världen",
+                        "bullets": [
+                            "$~• Tiden går: \\Tid(1000ms)\\ tickar framåt, och \\Nu()\\ vet dagens datum enligt din egen kalender och tidszon.",
+                            "• Var din publik pekar, vad de rör vid, och vilka tangenter de trycker på.",
+                            "• Program kan reagera på din mikrofon: hur högt det är med @Volume, vilken tonhöjd med @Pitch, och vilka ord med @Speech.",
+                            "• Din publik kan skriva text med @Chat, och välja innehåll på scenen med @Choice.",
+                            "• Program kan reagera på takten i musiken de spelar, med @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay uppträder",
+                        "bullets": [
+                            "$~• @Phrase lägger ord och emoji på scenen.",
+                            "• @Group ordnar dem i rader, staplar, rutnät, eller var du vill placera dem.",
+                            "• @Pose och @Sequence vrider, tonar, skalar och flyttar saker.",
+                            "• @Say läser upp text istället för att visa den.",
+                            "• @Music spelar spår med toner på riktiga instrument, i ett tempo, i en tonart:\n\\Musik(\n\tSpår([1 3 5] instrument: Instrument.klocka)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay är typografi",
+                        "bullets": [
+                            "$~• Hundratals typsnitt, som täcker världens skriftsystem.",
+                            "• Du kan rita dina egna <specialtecken//characters> och använda dem var som helst en emoji kan användas.",
+                            "• Konturen av varje bokstav är data du kan läsa och animera, med @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Text bryts enligt reglerna för det språk den är skriven på.",
+                            "• Höger-till-vänster-skrift och vertikal skrift läggs upp på rätt sätt."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay förklarar sig själv",
+                        "bullets": [
+                            "$~• Dokumentation är en del av språket med @Doc, inte en kommentar vid sidan om.",
+                            "• En sökbar <guide//guide> förklarar varje inbyggd funktion, med exempel.",
+                            "• Varje fel förklaras där det uppstod, på ditt eget språk.",
+                            "• Du kan stega igenom ett program framåt /och/ bakåt för att felsöka vad som hände.",
+                            "• Medan du stegar visas varje värde direkt i koden som skapade det."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay är till för att dela",
+                        "bullets": [
+                            "$~• Dina projekt är dina, och du bestämmer vem som får se dem.",
+                            "• Du kan bjuda in andra personer att bygga ett projekt tillsammans med dig.",
+                            "• <Gallerier@://galleries> samlar projekt kring ett tema.",
+                            "• Lärare kan skapa klasser och följa sina elevers arbete: <teach@://teach>.",
+                            "• Du kan remixa vem som helsts publika projekt och göra det till ditt eget."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay är gratis och öppet",
+                        "bullets": [
+                            "$~• @wordplay är gratis och kommer alltid att vara det.",
+                            "• Det är öppen källkod: du kan läsa hur det fungerar och du kan hjälpa oss att ändra det.",
+                            "• Det kommer från <University of Washington@https://ischool.uw.edu/>, Information School.",
+                            "• Det finns en gemenskap av skapare, lärare och bidragsgivare.",
+                            "• <Donationer//donate> betalar för vad det kostar att driva det."
+                        ]
+                    }
                 }
             },
             "learn": {

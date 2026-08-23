@@ -78,6 +78,10 @@ const Lanes = {
     /** A note added, removed, or moved in the music editor. */
     'note-edit': 'queued',
     'tour-step': 'queued',
+    // Choosing an example in the landing page's carousel. Queued rather than
+    // coalesced: each choice is a discrete answer to a press, and naming the
+    // example is what keeps consecutive choices from deduping into silence.
+    tour: 'queued',
     collaborator: 'queued',
     notification: 'queued',
     update: 'queued',
