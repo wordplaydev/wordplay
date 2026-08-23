@@ -3261,7 +3261,7 @@
                     "I convert a number to a list of the numbers from \\1\\ to whatever number is given. For example:",
                     "\\10→[]\\"
                 ],
-                "unit": "$from to $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "nanoseconds",

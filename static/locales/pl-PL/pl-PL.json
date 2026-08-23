@@ -3109,7 +3109,7 @@
                     "$~Konwertuję liczbę na listę liczb od \\1\\ do dowolnej podanej liczby. Na przykład:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from na $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~nanosekundy",
@@ -3147,7 +3147,7 @@
                 "t": "$~tony metryczne",
                 "oz": "$~uncje",
                 "lb": "$~funty",
-                "st": "$~kamienie",
+                "st": "stone",
                 "uston": "$~krótkie tony amerykańskie",
                 "ukton": "$~długie tony brytyjskie",
                 "degC": "$~stopnie Celsjusza",
@@ -3174,7 +3174,7 @@
                 "m3": "$~metry sześcienne",
                 "tsp": "$~łyżeczki",
                 "tbsp": "$~łyżki stołowe",
-                "cup": "$~kubki",
+                "cup": "szklanki",
                 "usfloz": "$~amerykańskie uncje płynów",
                 "uspt": "$~amerykańskie pinty",
                 "usqt": "$~amerykańskie kwarty",

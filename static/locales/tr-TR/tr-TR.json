@@ -3109,7 +3109,7 @@
                     "$~Bir sayıyı \\1\\'den verilen herhangi bir sayıya kadar olan bir sayı listesine dönüştürüyorum. Örneğin:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from ile $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~nanosaniye",
@@ -3164,7 +3164,7 @@
                 "yd2": "$~yardakare",
                 "mi2": "$~milkare",
                 "ha": "$~hektar",
-                "acre": "$~dönüm",
+                "acre": "akre",
                 "mL": "$~mililitre",
                 "cL": "$~santilitre",
                 "dL": "$~desilitre",
@@ -3187,7 +3187,7 @@
                 "kmph": "$~saatte kilometre",
                 "miph": "$~saatte mil",
                 "ftps": "$~saniyede fit",
-                "kn": "$~deniz mili",
+                "kn": "knot",
                 "Pa": "$~paskal",
                 "hPa": "$~hektopaskal",
                 "kPa": "$~kilopaskal",

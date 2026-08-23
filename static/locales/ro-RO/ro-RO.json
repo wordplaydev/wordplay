@@ -3109,7 +3109,7 @@
                     "$~Convertesc un număr într-o listă de numere de la \\1\\ până la orice număr dat. De exemplu:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from în $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~nanosecunde",
@@ -3227,7 +3227,7 @@
                 "bpm": "$~bătăi pe minut",
                 "bit": "$~biți",
                 "B": "$~octeți",
-                "kB": "$~kilocteți",
+                "kB": "kiloocteți",
                 "MB": "$~megaocteți",
                 "GB": "$~gigaocteți",
                 "TB": "$~teraocteți",

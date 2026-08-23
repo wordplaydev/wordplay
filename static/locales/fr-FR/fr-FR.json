@@ -3109,7 +3109,7 @@
                     "$~Je convertis un nombre en une liste de nombres de \\1\\ à n'importe quel nombre donné. Par exemple :",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from vers $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~nanosecondes",

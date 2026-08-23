@@ -3106,7 +3106,7 @@
                     "$~Jag konverterar ett tal till en lista med siffror från \\1\\ till vilket nummer som än ges. Till exempel:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from till $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~nanosekunder",
@@ -3144,7 +3144,7 @@
                 "t": "$~ton",
                 "oz": "$~uns",
                 "lb": "$~pund",
-                "st": "$~stenar",
+                "st": "stone",
                 "uston": "$~amerikanska korta ton",
                 "ukton": "$~brittiska långa ton",
                 "degC": "$~grader Celsius",
@@ -3161,7 +3161,7 @@
                 "yd2": "$~kvadratyard",
                 "mi2": "$~kvadratmil (engelska)",
                 "ha": "$~hektar",
-                "acre": "$~tunnland (acres)",
+                "acre": "acres",
                 "mL": "$~milliliter",
                 "cL": "$~centiliter",
                 "dL": "$~deciliter",

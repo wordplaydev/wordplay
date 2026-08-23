@@ -3112,7 +3112,7 @@
                     "$~Ich konvertiere eine Zahl in eine Liste von Zahlen von \\1\\ bis zu einer beliebigen angegebenen Zahl. Beispiel:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from zu $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~Nanosekunden",
@@ -3167,7 +3167,7 @@
                 "yd2": "$~Quadratyard",
                 "mi2": "$~Quadratmeilen",
                 "ha": "$~Hektar",
-                "acre": "$~Morgen",
+                "acre": "Acres",
                 "mL": "$~Milliliter",
                 "cL": "$~Zentiliter",
                 "dL": "$~Deziliter",

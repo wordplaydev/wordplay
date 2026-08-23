@@ -3109,7 +3109,7 @@
                     "Converto um número numa lista dos números de 1 até ao número fornecido. Por exemplo:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from para $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~nanossegundos",

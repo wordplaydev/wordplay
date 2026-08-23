@@ -3109,7 +3109,7 @@
                     "$~Kino-convert ko ang isang numero sa isang listahan ng mga numero mula sa \\1\\ patungo sa anumang numerong ibinigay. Halimbawa:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from hanggang $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~nanosegundo",

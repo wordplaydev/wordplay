@@ -3109,7 +3109,7 @@
                     "$~Convierto un número en una lista de los números desde \\1\\ hasta el número que se me dé. Por ejemplo:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from a $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~nanosegundos",
@@ -3147,7 +3147,7 @@
                 "t": "$~toneladas métricas",
                 "oz": "$~onzas",
                 "lb": "$~libras",
-                "st": "$~piedras",
+                "st": "stones",
                 "uston": "$~toneladas cortas de Estados Unidos",
                 "ukton": "$~toneladas largas británicas",
                 "degC": "$~grados Celsius",

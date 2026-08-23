@@ -3114,7 +3114,7 @@
                     "$~Saya mengubah sebuah angka menjadi daftar angka dari 1 hingga angka yang diberikan. Misalnya:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from ke $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~nanodetik",
@@ -3150,7 +3150,7 @@
                 "g": "$~gram",
                 "kg": "$~kilogram",
                 "t": "$~ton metrik",
-                "oz": "$~ons",
+                "oz": "ounce",
                 "lb": "$~pon",
                 "st": "$~stone",
                 "uston": "$~ton pendek AS",
@@ -3169,7 +3169,7 @@
                 "yd2": "$~yard persegi",
                 "mi2": "$~mil persegi",
                 "ha": "$~hektar",
-                "acre": "$~hektar (acre)",
+                "acre": "akre",
                 "mL": "$~mililiter",
                 "cL": "$~centiliter",
                 "dL": "$~desiliter",
@@ -3180,11 +3180,11 @@
                 "tsp": "$~sendok teh",
                 "tbsp": "$~sendok makan",
                 "cup": "$~cangkir",
-                "usfloz": "$~ons cair AS",
+                "usfloz": "ounce cairan AS",
                 "uspt": "$~pint AS",
                 "usqt": "$~quart AS",
                 "usgal": "$~galon AS",
-                "ukfloz": "$~ons cair Inggris",
+                "ukfloz": "ounce cairan Inggris",
                 "ukpt": "$~pint Inggris",
                 "ukqt": "$~quart Inggris",
                 "ukgal": "$~galon Inggris",

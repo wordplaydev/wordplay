@@ -3114,7 +3114,7 @@
                     "$~Tôi chuyển đổi một số thành một danh sách các số từ 1 đến bất kỳ số nào được cung cấp. Ví dụ:",
                     "\\10→[]\\"
                 ],
-                "unit": "$~$from thành $to"
+                "unit": "$from → $to"
             },
             "unit": {
                 "ns": "$~na-nô giây",
@@ -3172,7 +3172,7 @@
                 "acre": "$~mẫu Anh",
                 "mL": "$~mililít",
                 "cL": "$~xentilít",
-                "dL": "$~đêximét khối",
+                "dL": "đêxilít",
                 "L": "$~lít",
                 "kL": "$~kilôlít",
                 "cm3": "$~xentimét khối",
