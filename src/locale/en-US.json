@@ -3305,7 +3305,7 @@
                 "degC": "degrees Celsius",
                 "degF": "degrees Fahrenheit",
                 "K": "kelvins",
-                "deg": "degrees",
+                "deg": "degrees of angle",
                 "rad": "radians",
                 "mm2": "square millimeters",
                 "cm2": "square centimeters",

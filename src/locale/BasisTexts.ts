@@ -295,7 +295,7 @@ type BasisTexts = {
             degF: string;
             /** [plain] The name of the unit kelvins, used in conversion documentation */
             K: string;
-            /** [plain] The name of the unit degrees, used in conversion documentation */
+            /** [plain] The name of the unit degrees of angle, used in conversion documentation */
             deg: string;
             /** [plain] The name of the unit radians, used in conversion documentation */
             rad: string;
