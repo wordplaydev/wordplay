@@ -356,6 +356,8 @@ A concrete number value always has either no unit (e.g. `1`) or a specific unit 
 
 The same matching rule applies to `-` and the inequality comparisons (`<`, `≤`, `≥`, `>`): the two operands must have the same unit. Products (`·`), quotients (`÷`), and powers combine units instead, so they accept operands with any units (e.g. `1 · 1m` is `#m` and `2m ÷ 2s` is `#m/s`).
 
+`!#` is the **not-a-number** literal, written the same way in every language (like `∞` and `π`). Most not-a-numbers come from a computation rather than being written: a text that isn't a number (`'abc' → #`), `√-1`, `arcsin` outside its domain, `∞ - ∞`. It takes a unit like any other number (`!#m`). Dividing by zero is **not** one of these — see the next paragraph.
+
 Divide `÷` and remainder `%` evaluate to `ø` when the divisor is zero (never a silent `NaN`), so their output type is `# | ø`. To keep ordinary arithmetic concise, the type is narrowed back to `#` when the divisor is provably non-zero — a non-zero number literal, the `.length()` of a non-empty literal list, set, map, or table, or a name bound (transitively) to one of those. Otherwise the result is `# | ø`, and using it where a number is required is a conflict that suggests handling the possible zero with `??` (e.g. `total ÷ count ?? 0`).
 
 #### _evaluation_
@@ -366,6 +368,8 @@ Number literals evaluate to a number value that stores an immutable [decimal.js]
 
 Numbers are only equal to other numbers that have identical decimal values and equivalent units. Units are only equivalent when the set of dimensions specified on each unit are equivalent and the power of each dimension specified is equivalent.
 
+Two not-a-numbers with the same unit are equal, so `!# = !#` is `⊤` and a creator can ask whether a computation came back not-a-number. (IEEE-754 makes NaN unequal to itself so hardware can flag a bad operation without trapping; Wordplay's `=` asks whether two values are the same thing, and it has `ø` and exceptions for signalling.) Units still count, so `!#m = !#s` is `⊥`, just as `1m = 1` is. Because `≤` and `≥` mean "less/greater than **or equal**", `!# ≤ !#` and `!# ≥ !#` are `⊤`, while the strict `<` and `>` are `⊥` — ordering something that isn't a number has no answer. `min` and `max` still propagate not-a-number, and sorting a list by a not-a-number key puts those items last.
+
 ### Text
 
 > TEXT → TRANSLATION＊  
@@ -374,7 +378,7 @@ Numbers are only equal to other numbers that have identical decimal values and e
 > LANGUAGE → _any valid ISO 639 language code_  
 > REGION → _any valid ISO 3166 country code_
 
-A locale tag may list multiple languages joined by `_` (e.g. `/es_en` for mixed Spanish and English) and, after the `-`, multiple regions joined by `_` (e.g. `/en-US_CA`). The full tag serializes as `lang1_lang2-region1_region2`. Operations that combine text union the languages and regions of their inputs (see _Text_ below).
+A locale tag may list multiple languages joined by `_` (e.g. `/es_en` for mixed Spanish and English) and, after the `-`, multiple regions joined by `_` (e.g. `/en-US_CA`). The full tag serializes as `lang1_lang2-region1_region2`. Operations that combine text union the languages and regions of their inputs (see _Text_ below). The tag also decides whose casing rules `uppercase`/`lowercase` apply — a multilingual tag uses its primary language, and untagged text uses Unicode's locale-independent root mapping, so a program's result never depends on the machine running it. Letters only have case in bicameral scripts, so text in a script without one is unchanged. Text also supports `subsequence` (a slice), `index` (where another text first appears), `replace` (every copy of one text swapped for another, unioning the locales as `+` does), `trim`, and `reverse`. Every one of these counts in graphemes, as `length` and `→ ['']` do, so a symbol built from several code points is never cut in half; `subsequence` and `index` count from 1 and `subsequence` includes both ends, matching @List's.
 
 Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in a few ways:
 
@@ -422,17 +426,12 @@ Text literals first get the environment's list of preferred locales and then sel
 
 #### _equality_
 
-Text is equal to other text with an identical sequence of graphemes and equivalent locale.
+Text is equal to other text with an identical sequence of graphemes. The locale takes no part (see above), so only the graphemes decide.
 
-Two text values with different text delimiters are considered equivalent:
+Two text values with different text delimiters are considered equivalent, and so are two with different language declarations:
 
 ```
 'hi' = 『hi』
-```
-
-Two text values with different language declarations, however, are not equivalent, even if they have the same graphemes:
-
-```
 'hi'/en = 『hi』/ja
 ```
 
@@ -463,11 +462,11 @@ Formatted literals first get the environment's list of preferred locales and the
 
 #### _operations_
 
-Markup values support the same locale-aware operations as text, via the `` `…` `` type: `length`, `=`/`≠`, `has`, `starts`, `ends`, `repeat`, and `+` (combine, which concatenates the markup and unions the operands' locales). They also convert to and from @Text (`` `…` `` → `''` drops formatting; `''` → `` `…` `` interprets any markup in the text). Like text, combining markup with differing locales unions them, and the `/` locale operator overrides a computed markup's locale.
+Markup values support the same locale-aware operations as text, via the `` `…` `` type: `length`, `=`/`≠`, `has`, `starts`, `ends`, `repeat`, `+` (combine, which concatenates the markup and unions the operands' locales), and `uppercase`/`lowercase`, which convert only the prose, leaving formatting delimiters, `@concept` links, `\example\` code, `$mention` keys, and link URLs as they are. They also convert to a @List of their symbols (`→ ['']`, which drops formatting) and to a @Number. They also convert to and from @Text (`` `…` `` → `''` drops formatting; `''` → `` `…` `` interprets any markup in the text). Like text, combining markup with differing locales unions them, and the `/` locale operator overrides a computed markup's locale.
 
 #### _equality_
 
-Markup values follow the same equality rules as text: but also must have the exact same markup structure.
+Markup values follow the same equality rules as text — the locale takes no part — but must also have the exact same markup structure.
 
 ### Pattern
 
@@ -497,7 +496,7 @@ A pattern literal is delimited by `⣿ ⣿` and contains a small sub-grammar; it
 
 The base classes are `◌` (any grapheme), `_` (a letter), `#` (a digit), and `␣` (a space, horizontal whitespace only); `…` matches the rest of the input (a possessive `≥0 ◌`). A `/property` narrows a class to a Unicode category, binary property, script, or `Property=Value` (e.g. `_/greek`, `◌/emoji`, `◌/Script=Greek`), tested against the grapheme cluster's base (first) scalar. Property names come from a curated, **localizable** registry (`letter`, `digit`, `emoji`, `linebreak`, scripts like `greek`/`han`, …), with the canonical Unicode id (`Lu`, `Nd`, `Script=Greek`) always available as a fallback; an unrecognized name is a conflict, not a silent match. Quantifier counts precede the atom they repeat (`3 #`, `>0 #`, `≤1 #`, `2–4 #`); the range dash is written `–` but a typed hyphen `-` is accepted as an alias (so `2-4 #` and `'a'-'z'` work without the en-dash). A bare name is a backreference to an earlier capture, or — if no such capture exists — a named class (e.g. `linebreak`).
 
-A literal `"…"` is **raw**: the whole quoted span is one token, matched grapheme-exact with no escaping, markup, embedded expressions, codepoint resolution, `/lang` tag, or multiple translations — so `⣿"@foo"⣿` matches the characters `@foo` and `⣿"1+1"⣿` matches `1+1`. Any Wordplay text delimiter works (`'…'`, `"…"`, `«…»`, …); choose one the text doesn't contain, since there is no escape. To match a specific character, write it (`⣿"✓"⣿`). `Aa(…)` folds case over its subpattern — bare `Aa` uses Unicode's default folding, `Aa/lang` applies locale-specific casing (e.g. Turkic `i`/`İ`), and a backreference inside the scope folds too. `▭`/`┊` (word and word-edge) **require** a `/lang` tag, since word segmentation has no locale-independent answer. Case is sensitive, lines have no special mode (`◌` matches a line break; compose line anchors from `⊢`/`⊣`, lookaround, and `linebreak`), and `⣿⣿` empties match only empty text.
+A literal `"…"` is **raw**: the whole quoted span is one token, matched grapheme-exact with no escaping, markup, embedded expressions, codepoint resolution, `/lang` tag, or multiple translations — so `⣿"@foo"⣿` matches the characters `@foo` and `⣿"1+1"⣿` matches `1+1`. Any Wordplay text delimiter works (`'…'`, `"…"`, `«…»`, …); choose one the text doesn't contain, since there is no escape. To match a specific character, write it (`⣿"✓"⣿`). `Aa(…)` folds case over its subpattern — bare `Aa` uses Unicode's default folding, `Aa/lang` applies locale-specific casing (e.g. Turkic `i`/`İ`), and a backreference inside the scope folds too. A tag with no BCP-47 form, such as a multilingual `Aa/es_en`, folds by its primary language. `▭`/`┊` (word and word-edge) **require** a `/lang` tag, since word segmentation has no locale-independent answer. Case is sensitive, lines have no special mode (`◌` matches a line break; compose line anchors from `⊢`/`⊣`, lookaround, and `linebreak`), and `⣿⣿` empties match only empty text.
 
 Matching is a **possessive parsing expression grammar (PEG)**: greedy with no backtracking, so it runs in linear time and is immune to catastrophic backtracking. Alternation is **longest-match** and order-independent — of the `|` branches that fit, the longest wins (`"cat" | "cats"` ≡ `"cats" | "cat"`) — consistent with the language's "match as much as you can" rule. It is still possessive: a shorter branch that would leave room for what follows is not reconsidered, so `⣿("aa" | "a") "ab"⣿` fails on `"aab"`. Sequences read strictly left to right with no precedence; group with `(…)`. Text is compared as NFC extended grapheme clusters, so a pattern behaves the same across languages and scripts.
 
@@ -1213,6 +1212,12 @@ Some are events from the physics engine:
 ```
 Collision()
 ```
+
+`Collision` emits a `Rebound` each time two things in the stage's physical world begin to touch, and then `ø` immediately after, since a collision is over as soon as it happens — a program counting collisions has to check that the value it has is a `Rebound` rather than reacting to every change, or it counts each touch twice. A `Rebound` carries the `subject` and `object` names that touched and the unit `direction` from the first to the second, normalized so that the name given as `Collision`'s own `subject` is always reported as the rebound's. An output is **in the physical world** if it has `Matter`, if a `Motion` places it, if it is a `Shape` directly on the `Stage`, or if some `Collision` names it — that last clause is what lets two named `Phrase` notice each other with no `Matter` at all. A name is what makes output _detectable_; `Matter` **together with a `Motion`** is what makes it _solid_. Only a body a `Motion` simulates is pushed by a contact — output the program places is kinematic, so it goes exactly where the program puts it and passes through whatever it touches, while still reporting the touch — and `Shape` barriers are always solid. `Matter`'s `text` and `ground` decide what an output can bump into at all, so turning one off hides that whole category from `Collision` rather than merely letting it pass through. Given two names, a `Collision` reports only those two touching; given one, it reports that one touching anything else in the physical world; given none, it reports every touch among things already there. Named `Shape` barriers appear in rebounds by name, so a program can react to a particular wall or exempt one from a catch-all. Only output placed directly on the `Stage` is simulated: a `Group` has its own coordinate system, so its contents are invisible to `Collision`, and the `Group` itself is what can be named and watched.
+
+Output can also be a _source_ of gravity rather than only a subject of it. `Matter`'s `pull` is `0` by default, meaning the output attracts nothing; any other value makes it draw every simulated body toward it, with an acceleration proportional to its `mass` times its `pull` and falling off with the square of the distance. A negative `pull` pushes away instead, which is how a repelling magnet or a force field is written. Only output whose place comes from a `Motion` can be moved by a pull, since only a simulated body responds to a force at all — so an attractor with an ordinary `Place` sits still and pulls, which is what a sun or a magnet usually wants. Attraction reaches only within one depth: each distinct `z` is a separate simulation, so output on different layers never pulls on each other. Very near an attractor the falloff is capped rather than growing without bound, so a direct hit slings a body past instead of launching it off stage. As with `Collision`, only output placed directly on the `Stage` takes part: a `Group` has its own coordinate system, so an attractor inside one pulls on nothing.
+
+`Stage`'s `air` scales how quickly moving output slows down. It is `1` by default, the air resistance every project has always had; `0` is outer space, where a body keeps whatever speed it has, which is what an orbit needs to survive more than a second or two. Values above `1` are thicker than air, and a negative `air` is read as `0`, since air that pushed a body faster the longer it travelled would have no meaning.
 
 Some are events from playing output:
 

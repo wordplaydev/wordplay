@@ -53,6 +53,7 @@ const Sym = {
     TeluguNumeral: '#tel',
     Pi: 'π',
     Infinity: '∞',
+    NotANumber: '!#',
     TableOpen: '⎡',
     TableClose: '⎦',
     Select: '⎡?',

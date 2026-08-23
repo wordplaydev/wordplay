@@ -52,3 +52,35 @@ test('repeat clones copies so every node id is unique', () => {
         .map((n) => n.id);
     expect(new Set(ids).size).toBe(ids.length);
 });
+
+test('case conversion preserves paragraph structure', () => {
+    expect(markup('`a\n\nb`.uppercase()').markup.paragraphs).toHaveLength(2);
+    expect(markup('`a\n\nb`.uppercase()').markup.getPlainText()).toBe('AB');
+});
+
+test('case conversion keeps unchanged tokens, so spacing survives', () => {
+    // Spacing lives in a map keyed by token identity; a caseless word must come
+    // back as the same object or its space is lost.
+    const upper = markup('`日本語 hi`.uppercase()');
+    // The caseless word is unchanged and the other is replaced; if either lost
+    // its Spaces entry, the two would render run together.
+    expect(upper.markup.toText()).toBe('日本語 HI');
+});
+
+// The language tag says what language markup is written in, not which markup it
+// is, so it takes no part in equality — the same rule text follows.
+test.each([
+    ['`hi` = `hi`/en', '⊤'],
+    ['`hi`/en = `hi`/ja', '⊤'],
+    ['`hi`/en = `hi`/en', '⊤'],
+    // Structure still decides.
+    ['`*hi*` = `hi`', '⊥'],
+    ['`hi` = `bye`', '⊥'],
+])('%s evaluates to %s', (code, expected) => {
+    expect(evaluateCode(code)?.toString()).toBe(expected);
+});
+
+test('length counts graphemes, not code points', () => {
+    // A family emoji is one symbol built from five code points.
+    expect(evaluateCode('`👨‍👩‍👧`.length()')?.toString()).toBe('1');
+});

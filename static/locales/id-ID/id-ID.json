@@ -282,7 +282,8 @@
         "Exponent": "$~eksponen",
         "Product": "$~produk",
         "Percent": "$~persen",
-        "Defect": "$~contoh dengan cacat yang diharapkan"
+        "Defect": "$~contoh dengan cacat yang diharapkan",
+        "NotANumber": "$~bukan angka"
     },
     "node": {
         "Dimension": {
@@ -2647,11 +2648,115 @@
                             "names": "$~pola"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf besar semua:",
+                        "\\'halo'.hurufBesar()\\",
+                        "Huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, jadi teks dalam sistem tulisan yang tidak punya itu, seperti tulisan Jepang atau Arab, tidak berubah.",
+                        "Tanda bahasaku menentukan aturan siapa yang dipakai. Bahasa Turki punya huruf i bertitik dan i tanpa titik, dan hanya teks yang ditandai sebagai bahasa Turki yang diubah menjadi huruf besar dengan cara Turki:",
+                        "\\'iyi'.hurufBesar()\\",
+                        "\\'iyi'.hurufBesar()\\"
+                    ],
+                    "names": ["$~hurufBesar"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf kecil semua:",
+                        "\\'HALO'.hurufKecil()\\",
+                        "Ubah dua teks menjadi huruf kecil untuk membandingkannya tanpa peduli pada huruf besar atau kecil. Cara ini tetap menyimpan setiap kata yang dimulai dengan huruf a, baik ditulis dengan huruf besar maupun tidak:",
+                        "\\['Apel' 'aprikot' 'Pisang'].menyaring(\n\tƒ(kata•'') kata.hurufKecil().mulai('a')\n)\\",
+                        "Seperti @Text/uppercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
+                    ],
+                    "names": ["$~hurufKecil"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Aku membuat @Text baru dari sebagian diriku. Hitungan dimulai dari 1, dan kedua ujungnya ikut dihitung:",
+                        "\\'halo'.subrangkaian(2 4)\\",
+                        "Biarkan ujungnya kosong, dan aku akan sampai ke simbol terakhirku:",
+                        "\\'halo'.subrangkaian(3)\\",
+                        "Aku menghitung simbol seperti yang kamu lihat, jadi emoji yang terdiri dari beberapa bagian tetap dianggap satu simbol dan tidak akan pernah terpotong di tengah:",
+                        "\\'🐈📚!'.subrangkaian(1 2)\\",
+                        "Jika kamu meminta lebih banyak daripada yang aku punya, aku memberikan sebanyak yang aku punya."
+                    ],
+                    "names": ["$~subrangkaian"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tempat untuk mulai, dihitung dari 1.",
+                            "names": "$~awal"
+                        },
+                        {
+                            "doc": "$~Tempat untuk berhenti, dihitung dari 1. Biarkan kosong untuk sampai ke akhir.",
+                            "names": "$~akhir"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Aku memberitahumu di mana @Text yang diberikan pertama kali muncul dalam diriku, dihitung dari 1:",
+                        "\\'halo'.indeks('ll')\\",
+                        "Jika sama sekali tidak ada dalam diriku, aku memberikan @None sebagai gantinya:",
+                        "\\'halo'.indeks('z')\\",
+                        "Bersama dengan @Text/subsequence, aku bisa mengambil semuanya sampai pada sesuatu — di sini, kata pertama:",
+                        "\\frasa: 'halo dunia'\nfrasa.subrangkaian(1 (frasa.indeks(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~indeks"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang harus dicari dalam diriku.",
+                            "names": "$~teks"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Aku membuat @Text baru dengan setiap kemunculan satu @Text ditukar dengan yang lain:",
+                        "\\'2026-08-21'.ganti('-' '/')\\",
+                        "Setiap kemunculan berubah, tidak hanya yang pertama:",
+                        "\\'ha ha ha'.ganti('ha' 'ho')\\",
+                        "Jika kamu memintaku mengganti @Text yang kosong, aku memberikan diriku kembali tanpa perubahan."
+                    ],
+                    "names": ["$~ganti"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang harus dicari dalam diriku.",
+                            "names": "$~dari"
+                        },
+                        {
+                            "doc": "$~@Text yang harus ditaruh sebagai gantinya.",
+                            "names": "$~pengganti"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Aku membuat @Text baru dengan spasi kosong dihilangkan dari kedua ujungku. Spasi di tengah tetap ada:",
+                        "\\'  halo  '.pangkas()\\",
+                        "Ini berguna untuk teks yang diketik seseorang, yang sering membawa spasi tambahan yang tidak kamu minta."
+                    ],
+                    "names": ["$~pangkas"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Aku membuat @Text baru dengan urutan simbolku dibalik:",
+                        "\\'halo'.dibalik()\\",
+                        "Aku membalik urutan simbolku seperti yang kamu lihat, jadi emoji tetap utuh dan huruf tetap mempertahankan tanda aksennya:",
+                        "\\'🐈📚'.dibalik()\\"
+                    ],
+                    "names": ["$~dibalik", "$~balik"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Memisahkan teks menjadi daftar karakter individual.",
-                "number": "$~Mengonversi teks menjadi @Number, dan jika bukan angka, maka akan menghasilkan nilai bukan angka.",
+                "number": [
+                    "$~Mengubah teks menjadi @Number, dan jika bukan angka, menjadi nilai bukan-angka, yang muncul sebagai \\!#\\:",
+                    "\\'hai' → #\\"
+                ],
                 "formatted": "$~Mengonversi teks menjadi teks berformat, dengan menginterpretasikan setiap markup yang terdapat di dalamnya."
             }
         },
@@ -3224,25 +3329,12 @@
                     "names": ["$~tanpaTerakhir", "$~tanpaterakhir"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Saya, tetapi tanpa kemunculan pertama dari @value yang diberikan.",
-                        "\\['apel' 'pisang' 'mangga' 'apel'].tanpa('apel')\\"
-                    ],
-                    "names": ["$~tanpa", "$~tanpa"],
-                    "inputs": [
-                        {
-                            "doc": "$~@value yang kemunculan pertamanya akan dihapus.",
-                            "names": "$~nilai"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Saya, tetapi tanpa semua kemunculan dari @value yang diberikan.",
+                        "$~Diriku, tapi tanpa @value yang diberikan. Setiap salinan hilang, tidak hanya yang pertama, apa pun nama yang kamu gunakan untukku:",
                         "\\['apel' 'pisang' 'mangga' 'apel'].tanpa('apel')\\"
                     ],
-                    "names": ["$~tanpaSemua", "$~tanpasemua"],
+                    "names": ["$~tanpa", "$~tanpaSemua", "$~tanpasemua"],
                     "inputs": [
                         {
                             "doc": "$~@value yang semua kemunculannya akan dihapus dari daftar.",
@@ -3977,10 +4069,33 @@
                             "names": "$~diformat"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Aku membuat teks berformat baru yang seperti aku, dengan setiap huruf besar semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
+                        "\\`*hai* di sana`.hurufBesar()\\",
+                        "Seperti @Text/uppercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
+                    ],
+                    "names": ["$~hurufBesar"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Aku membuat teks berformat baru yang seperti aku, dengan setiap huruf kecil semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
+                        "\\`*HAI* DI SANA`.hurufKecil()\\",
+                        "Seperti @Text/lowercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
+                    ],
+                    "names": ["$~hurufKecil"],
+                    "inputs": []
                 }
             },
             "conversion": {
-                "text": "$~Mengubah teks berformat menjadi teks biasa @Text , dengan menghapus semua format."
+                "text": "$~Mengubah teks berformat menjadi teks biasa @Text , dengan menghapus semua format.",
+                "list": "$~Mengubah teks berformat menjadi @List dari @Text, satu untuk setiap simbol dari kata-kataku. Format tidak bisa bertahan saat dipotong menjadi simbol tunggal, jadi format itu dihapus.",
+                "number": [
+                    "$~Mengubah kata-kataku menjadi @Number, dan jika bukan angka, menjadi nilai bukan-angka, yang muncul sebagai \\!#\\:",
+                    "\\`hai` → #\\"
+                ]
             }
         }
     },
@@ -4383,19 +4498,20 @@
         "Collision": {
             "names": "$~Tabrakan",
             "doc": [
-                "$~Ini adalah aliran nilai @Rebound untuk saat @Output bernama saling bertabrakan.",
-                "Ini cara yang bagus untuk melakukan sesuatu ketika @Output saling bertabrakan, selain pantulan biasa yang mungkin mereka lakukan.",
-                "Cukup berikan nama sebuah @Output, dan ia akan membuat @Rebound @value baru setiap kali nama itu bertabrakan dengan yang lain. Sebuah @Rebound punya informasi tentang nama-nama yang bertabrakan dan arah tabrakan mereka.",
-                "Dan jika kamu memberikan dua nama, ia hanya akan membuat nilai baru ketika kedua nama itu saling bertabrakan.",
-                "Tepat setelah ia membuat nilai baru, ia akan membuat sebuah \\ø\\ karena tabrakan sudah selesai setelah terjadi. Ini menunjukkan bahwa tidak ada lagi tabrakan."
+                "$~Ini adalah aliran nilai @Rebound untuk saat @Output yang bernama saling bertabrakan.",
+                "Agar dua @Output saling menyadari satu sama lain, beri mereka berdua nama, lalu beri aku kedua nama itu. Aku akan membuat @Rebound baru setiap kali mereka bersentuhan. Mereka tidak perlu @Matter untuk itu — sebuah nama saja sudah cukup bagiku untuk mengawasi sesuatu.",
+                "Beri aku satu nama saja, dan aku akan memberitahumu setiap kali @Output itu menyentuh apa pun di dunia fisik. Sebuah @Output ada di dunia fisik jika ia memiliki @Matter, jika sebuah @Motion menempatkannya, jika ia adalah @Shape langsung di @Stage, atau jika aku juga sedang mengawasi namanya.",
+                "Menyadari tidak sama dengan memantul. @Output hanya mendorong @Output lain jika ia memiliki @Matter dan sebuah @Motion yang menggerakkannya. @Output yang ditempatkan programmu pergi tepat ke tempat kamu meletakkannya, jadi ia menembus apa pun yang disentuhnya — aku tetap akan memberitahumu tentang sentuhan itu.",
+                "Sebuah @Rebound memiliki nama-nama yang bersentuhan dan arah dari mana mereka bersentuhan. Tepat setelah aku membuat satu, aku akan membuat \\ø\\, karena sebuah tabrakan berakhir begitu ia terjadi.",
+                "Aku hanya bisa mengawasi @Output yang ditempatkan langsung di @Stage. Apa pun di dalam @Group bergerak di ruangnya sendiri, jadi aku tidak bisa melihatnya — beri @Group itu sebuah nama dan awasi itu sebagai gantinya."
             ],
             "subject": {
                 "names": "$~subjek",
-                "doc": "$~Nama @Output yang harus saya periksa untuk kemungkinan terjadi benturan."
+                "doc": "$~Nama @Output yang harus aku awasi. Mengawasinya saja sudah cukup untuk menempatkannya di dunia fisik, jadi ia tidak perlu @Matter."
             },
             "object": {
                 "names": "$~lainnya",
-                "doc": "$~Nama @Output lain yang harus saya periksa untuk kemungkinan terjadinya benturan."
+                "doc": "$~Nama @Output lain yang harus aku awasi. Jika ini juga diberikan, aku hanya melaporkan kedua benda itu bersentuhan; jika tidak diberikan, aku melaporkan benda pertama yang bersentuhan dengan apa pun di dunia fisik."
             }
         },
         "Rebound": {
@@ -4860,7 +4976,7 @@
                 "names": "$~isi"
             },
             "matter": {
-                "doc": "$~Bagaimana seharusnya saya bereaksi jika saya menabrak sesuatu yang lain yang juga terbuat dari materi.",
+                "doc": "$~Seberapa berat, seberapa memantul, dan seberapa licin aku, dan apa yang membuatku padat ketika sebuah @Motion menggerakkanku.",
                 "names": "$~urusan"
             },
             "size": {
@@ -4986,7 +5102,7 @@
                 "names": "$~arah"
             },
             "matter": {
-                "doc": "$~Properti yang bisa digunakan jika saya menabrak sesuatu!",
+                "doc": "$~Seberapa berat, seberapa memantul, dan seberapa licin aku, dan apa yang membuatku padat ketika sebuah @Motion menggerakkanku.",
                 "names": "$~urusan"
             },
             "aura": {
@@ -5937,7 +6053,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Saya adalah sifat fisik dari output, yang memengaruhi bagaimana saya berinteraksi dengan output lain di atas panggung.",
+            "doc": "$~Aku menyatakan seberapa berat, seberapa memantul, dan seberapa licin @Output. @Output yang memiliki aku dan sebuah @Motion bersifat padat: ia memantul dari @Shape di @Stage dan dari @Output lain yang bergerak. @Output yang ditempatkan programmu pergi ke tempat kamu meletakkannya, dan menembus apa yang disentuhnya. @Output tidak perlu aku untuk disadari oleh @Collision — sebuah nama saja sudah cukup untuk itu.",
             "names": ["$~Urusan"],
             "mass": {
                 "doc": "$~Berat, dalam kilogram",
@@ -5956,12 +6072,16 @@
                 "names": "$~kebulatan"
             },
             "text": {
-                "doc": "$~Apakah hal itu dapat bertabrakan dengan output lain.",
+                "doc": "$~Apakah aku bisa bertabrakan dengan @Phrase dan @Group lain sama sekali; ⊥ berarti aku tidak menyadari mereka dan @Collision tidak menyatakan apa pun tentang mereka.",
                 "names": "$~teks"
             },
             "shapes": {
-                "doc": "$~Apakah ia dapat bertabrakan dengan bentuk lain.",
+                "doc": "$~Apakah aku bisa bertabrakan dengan @Shape di @Stage sama sekali; ⊥ berarti aku jatuh menembus dinding dan lantai, dan @Collision tidak menyatakan apa pun tentang mereka.",
                 "names": "$~tanah"
+            },
+            "pull": {
+                "doc": "$~Seberapa kuat aku menarik keluaran lain ke arahku. 0 berarti tidak sama sekali, dan itu normal. Angka yang lebih besar menarik lebih kuat, sedangkan angka negatif malah mendorong menjauh. Hanya keluaran yang ditempatkan oleh @Motion yang bisa ditarik.",
+                "names": "$~tarik"
             }
         },
         "Aura": {
@@ -6095,6 +6215,10 @@
             "overlay": {
                 "doc": "$~Daftar @Output yang disematkan rata pada layar sebagai tampilan informasi, tidak terpengaruh oleh kamera @Place panggung atau kedalaman.",
                 "names": "$~lapisanAtas"
+            },
+            "air": {
+                "doc": "$~Seberapa besar udara memperlambat keluaran yang bergerak. 1 adalah udara normal, 0 adalah luar angkasa, tempat segala sesuatu terus bergerak selamanya, dan angka yang lebih besar berarti lebih kental daripada udara.",
+                "names": "$~udara"
             }
         },
         "Easing": {
@@ -7315,7 +7439,7 @@
                 "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya",
                 "insertTranslate": "$~sisipkan simbol terjemahan",
                 "insertThis": "$~sisipkan simbol ini",
-                "tab": "$~Tombol Tab memindahkan fokus keyboard. Untuk menyisipkan tab, tekan Ctrl + $alt + Tab, gunakan tombol sisipkan di bawah, atau ubah ini di pengaturan.",
+                "tab": "$~Tombol Tab memindahkan fokus keyboard. Untuk menyisipkan tab, tekan $control + $alt + Tab, gunakan tombol sisipkan di bawah, atau ubah ini di pengaturan.",
                 "matchDelimiter": "$~Pindahkan kursor ke pembatas yang sesuai.",
                 "insertPattern": "$~sisipkan pola",
                 "insertSearch": "$~sisipkan simbol pencarian pola",
@@ -8624,18 +8748,6 @@
             "landing": {
                 "value": "$~Buat cerita interaktif dengan kata-kata, simbol, emoji, dan kode bersama kami! Mulai sekarang di sini.",
                 "chooseLocales": "$~atau pilih",
-                "description": [
-                    "$~@wordplay adalah bahasa pemrograman yang memungkinkan kamu untuk:",
-                    "• Menganimasikan kata dan emoji dengan cara yang menyenangkan 🤪",
-                    "• Menggunakan waktu 🕦, suara 🎤, wajah 🙂, tangan 🖐️, situs web 🔗, dan fisika 🌎",
-                    "• Berbicara dengan teks ke ucapan 🗣️ dan memainkan musik 🎼",
-                    "• Berbagi 🤝 dengan teman, kelompok, atau siapa saja",
-                    "• Membuat kode dalam bahasa dunia mana pun 🌐",
-                    "• Menyunting dengan tetikus 🖱️, sentuhan 👆, dan papan ketik ⌨️",
-                    "• Mencari kesalahan maju ⏩ dan mundur ⏪",
-                    "• Melihat dengan layar 🖥️ dan pembaca layar 🔊",
-                    "Gratis selamanya dari <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~@wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
                 ],
@@ -8660,6 +8772,130 @@
                     },
                     "design": "$~Referensi sistem desain untuk kontributor",
                     "localize": "$~Bantu terjemahkan Wordplay ke bahasamu"
+                },
+                "tagline": "$~pengodean kreatif yang mudah diakses dan berbahasa banyak",
+                "tour": {
+                    "button": "$~tunjukkan padaku",
+                    "loading": "$~Memuat…",
+                    "failed": "$~Contoh tidak bisa dimuat. Periksa sambunganmu dan coba lagi.",
+                    "restart": "$~mulai ulang contoh ini",
+                    "examples": {
+                        "label": "$~Contoh program",
+                        "tips": [
+                            "$~Teks bisa bersinar dan bergerak",
+                            "$~Musik adalah data, suara, dan gambar",
+                            "$~Waktu berdetak dan kata-kata bisa berbahasa banyak",
+                            "$~Teks bisa menanggapi penunjuk, klik, ketukan, dan tombol",
+                            "$~Penonton bisa membuat pilihan",
+                            "$~Penonton bisa mengobrol dengan program dan kata-kata bisa berbentuk",
+                            "$~Fisika dan gravitasi bisa membuat teks jatuh dan memantul",
+                            "$~Program bisa mendengarkan ucapanmu",
+                            "$~Program bisa mengamati wajah, tangan, dan bendamu"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "music": "$~\\¶Musik adalah nada pada alat musik sungguhan, dengan tempo, dalam sebuah kunci nada. Panggung menggambar apa yang didengarnya.¶\nMusik(\n\tTrek([1 3 5 8 5 3] alatMusik: AlatMusik.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Kode bisa bereaksi terhadap masukan seperti @Time, dan teks bisa berbahasa banyak dan diucapkan.¶\nhellos: ['halo' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhalo: hellos.acak() … ∆ Waktu(1000ms) … hellos.acak()\nFrasa(halo 4m)\nMengatakan(halo)\\",
+                        "keys": "$~\\¶Kode bisa bereaksi terhadap penunjuk, tombol, klik, dan ketukan.¶\nkunci2: Kunci()\nklik: Tombol()\nwajah2: ['🙂' '😮' '😎' '🤩']\nyangMana: 1 … ∆ kunci2 | ∆ klik … (yangMana % 4) + 1\nPanggung(\n\t[Frasa(wajah2[yangMana] 5m tempat: Penunjuk())]\n\ttempat: Tempat(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Atur tata letak teks dan buat teks bisa dipilih.¶\nbuah: ƒ(e•'') Frasa(e 3m nama: e dapatdipilih: ⊤)\ndipilih: Pilihan()\nditampilkan: '?' … ∆ dipilih … dipilih\nKelompok(\n\tTumpukan(lapisan: 1m)\n\t[\n\t\tFrasa(ditampilkan 4m)\n\t\tKelompok(\n\t\t\tBaris(lapisan: 1m)\n\t\t\t[buah('🍎') buah('🍐') buah('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Mengobrol dengan program dan memakai bentuk huruf serta simbol.¶\npesan: Mengobrol()\nkata2: 'hai' … ∆ pesan … pesan\nbaris2: Kontur(kata2 'Noto Sans' 8m)\ndetik2: 0 … ∆ Waktu(30ms) … detik2 + 1\nditampilkan: ((baris2.panjang() × detik2) ÷ 66).bulatkankebawah(\n\t) + 1\ntitik: baris2.suburutan(1 ditampilkan).menerjemahkan(\n\t\tƒ(p) Frasa('•' tempat: p)\n\t)\nPanggung(titik.dengan(Frasa(kata2 8m kegelapan: 15%)))\\",
+                        "pile": "$~\\¶Teks bisa punya fisika.¶\nlempar: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFrasa(\n\t\t\temoji\n\t\t\t2m\n\t\t\ttempat: Gerakan(Tempat(x2 y2) Kecepatan(vx 0m/s))\n\t\t\turusan: Urusan(1kg 0.55 0.06 0.5)\n\t\t)\nPanggung(\n\t[\n\t\tlempar('🍎' -2m 5m 2.2m/s)\n\t\tlempar('🍊' 2m 7m -2.6m/s)\n\t\tlempar('🍋' -1m 9m 1.4m/s)\n\t\tlempar('🍇' 1.5m 11m -1.9m/s)\n\t\tlempar('🫐' 0.5m 15m -1.2m/s)\n\t\tBangun(Persegipanjang(-4m -3m 4m -3.6m))\n\t\tBangun(Persegipanjang(-4.6m 4m -4m -3m))\n\t\tBangun(Persegipanjang(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kode bisa bereaksi terhadap @Volume dan @Pitch dari mikrofonmu.¶\nFrasa(\n\t'📣'\n\t1m + (Volume() × 8m)\n\trotasi: (Melempar() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kode bisa bereaksi terhadap @Face kamu, dan hal lain di @Camera.¶\nFrasa(\n\tWajah().tersenyum ? '😄 terima kasih!' '🙂 senyum ke kamera'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay adalah bahasa pemrograman",
+                        "bullets": [
+                            "$~• Setiap program adalah ekspresi yang menjadi sebuah nilai. \\1 + 1\\ adalah sebuah program, begitu juga \\Frasa('hai')\\.",
+                            "• Angka punya satuan, jadi \\1m + 1m\\ adalah meter, dan \\1cat + 1dog\\🪲 adalah kesalahan yang ditangkap @wordplay sebelum program berjalan.",
+                            "• Fungsi adalah nilai yang bisa kamu beri nama, kamu bawa, dan kamu panggil: \\ƒ ganda(n3•#) n3 × 2\\.",
+                            "• Saat masukan berubah, @wordplay menilai ulang programmu dan menunjukkan nilai barunya. Kamu tidak perlu menanggapi setiap kejadian.",
+                            "• @wordplay menemukan kesalahan sebelum program berjalan, dan menjelaskan setiap masalah."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay berbahasa banyak",
+                        "bullets": [
+                            "$~• Setiap fitur bahasa pemrograman punya nama dalam setiap bahasa, jadi kode bisa dibaca dengan kata-kata yang sudah kamu kenal.",
+                            "• Namamu sendiri juga bisa berbahasa banyak:\n\\kucing2: '🐈'\nFrasa(kucing2)\\",
+                            "• Teks punya sebuah bahasa, dan menunjukkan bahasa yang dibaca penontonmu: \\'halo'\\.",
+                            "• Situs ini tersedia dalam 29 bahasa dan kamu bisa memilih lebih dari satu sekaligus; teks akan tampil dalam setiap bahasa yang dipilih.",
+                            "• Kamu bisa membantu menerjemahkan @wordplay sendiri, langsung di dalam aplikasi di <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay mudah diakses",
+                        "bullets": [
+                            "$~• Apa pun yang bisa kamu lakukan dengan mouse, bisa juga kamu lakukan dengan keyboard.",
+                            "• Pembaca layar menjelaskan panggung saat isinya berubah, bukan hanya saat dimuat.",
+                            "• Kamu bisa membaca dan menulis kode sebagai blok, bukan hanya teks, dan bisa berganti kapan saja.",
+                            "• Gerakan bisa diperlambat, atau dimatikan sepenuhnya.",
+                            "• Suara yang diucapkan bisa ditampilkan sebagai teks di panggung untuk siapa pun yang tidak bisa mendengarnya."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay merasakan dunia",
+                        "bullets": [
+                            "$~• Waktu berjalan: \\Waktu(1000ms)\\ berdetak terus, dan \\Sekarang()\\ tahu tanggal hari ini sesuai kalender dan zona waktumu sendiri.",
+                            "• Ke mana penontonmu menunjuk, apa yang mereka sentuh, dan tombol apa yang mereka tekan.",
+                            "• Program bisa merespons mikrofonmu: seberapa keras suaranya dengan @Volume, nada apa dengan @Pitch, dan kata apa dengan @Speech.",
+                            "• Penontonmu bisa mengetik di @Chat, dan memilih isi panggung dengan @Choice.",
+                            "• Program bisa merespons ketukan musik yang diputar, dengan @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay tampil",
+                        "bullets": [
+                            "$~• @Phrase menaruh kata dan emoji di panggung.",
+                            "• @Group menyusunnya dalam baris, tumpukan, kisi-kisi, atau di mana pun kamu meletakkannya.",
+                            "• @Pose dan @Sequence memutar, memudarkan, mengubah ukuran, dan menggerakkan benda.",
+                            "• @Say mengucapkan teks dengan suara, bukan hanya menampilkannya.",
+                            "• @Music memainkan rangkaian nada dengan alat musik sungguhan, pada tempo tertentu, dalam nada dasar tertentu:\n\\Musik(\n\tTrek([1 3 5] alatMusik: AlatMusik.lonceng)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay adalah tipografi",
+                        "bullets": [
+                            "$~• Ratusan jenis huruf, mencakup berbagai sistem tulisan di dunia.",
+                            "• Kamu bisa menggambar <karakter buatanmu sendiri//characters> dan memakainya di mana pun emoji bisa dipakai.",
+                            "• Garis luar setiap huruf adalah data yang bisa kamu baca dan animasikan, dengan @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Teks melipat baris sesuai aturan bahasa yang digunakan.",
+                            "• Tulisan dari kanan ke kiri dan tulisan vertikal ditata dengan cara yang seharusnya."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay menjelaskan dirinya sendiri",
+                        "bullets": [
+                            "$~• Dokumentasi adalah bagian dari bahasa itu sendiri dengan @Doc, bukan sekadar komentar di sampingnya.",
+                            "• <Panduan//guide> yang bisa dicari menjelaskan setiap fitur bawaan, lengkap dengan contoh.",
+                            "• Setiap kesalahan dijelaskan tepat di tempat kejadiannya, dalam bahasamu sendiri.",
+                            "• Kamu bisa menjalankan program langkah demi langkah, maju /maupun/ mundur, untuk melacak apa yang terjadi.",
+                            "• Saat kamu menelusuri langkah-langkahnya, setiap nilai ditampilkan tepat di kode yang membuatnya."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay dibuat untuk berbagi",
+                        "bullets": [
+                            "$~• Proyekmu adalah milikmu, dan kamu yang menentukan siapa saja yang boleh melihatnya.",
+                            "• Kamu bisa mengajak orang lain untuk membangun proyek bersamamu.",
+                            "• <Galeri@://galleries> mengumpulkan proyek-proyek berdasarkan tema.",
+                            "• Guru bisa membuat kelas dan mengikuti perkembangan pekerjaan murid-muridnya: <ajar@://teach>.",
+                            "• Kamu bisa mengubah proyek publik milik siapa pun dan menjadikannya karyamu sendiri."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay gratis dan terbuka",
+                        "bullets": [
+                            "$~• @wordplay gratis dan akan selalu gratis.",
+                            "• Ini adalah sumber terbuka: kamu bisa membaca cara kerjanya dan membantu kami mengubahnya.",
+                            "• Berasal dari Information School di <University of Washington@https://ischool.uw.edu/>.",
+                            "• Ada komunitas pencipta, guru, dan penyumbang.",
+                            "• <Sumbangan//donate> membiayai biaya menjalankan layanan ini."
+                        ]
+                    }
                 }
             },
             "learn": {
@@ -9020,14 +9256,16 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Pilih mode menggambar di palet untuk membuat bentuk.",
-                    "unselected": "$~Pilih mode menggambar atau pilih dan edit bentuk.",
-                    "selected": "$~Gunakan tombol panah untuk memindahkan bentuk. Tahan tombol Shift untuk menambahkan lebih banyak bentuk ke dalam pilihan. Gunakan tombol Delete untuk menghapus pilihan. Gunakan kontrol di bawah ini untuk mengubah bentuk yang dipilih.",
+                    "unselected": "$~Pilih mode menggambar atau pilih dan ubah bentuk. Gunakan *$control-a* untuk memilih semuanya dan *$control-z* untuk membatalkan.",
+                    "selected": "$~Gunakan tombol *panah* untuk memindahkan bentuk. Tahan *shift* untuk menambah bentuk lain ke dalam pilihan. Gunakan *delete* untuk menghapus pilihan. Gunakan *$control-c* dan *$control-v* untuk menyalin dan menempel, serta *$control-z* untuk membatalkan. Jika satu jalur terpilih, tekan *enter* untuk mengubah titik-titiknya. Gunakan kontrol di bawah untuk mengubah bentuk yang terpilih.",
                     "eraser": "$~Untuk menghapus bentuk, klik atau ketuk bentuk tersebut. Seret untuk menghapus piksel. Gunakan tombol panah untuk menggerakkan penghapus dan spasi untuk menghapus.",
                     "pixel": "$~Untuk menggambar piksel, pilih warna. Kemudian, klik kanvas atau gunakan *panah* untuk menggerakkan kursor dan *spasi* untuk membuat piksel. *Klik dua kali* untuk mengisi.",
                     "rect": "$~Untuk menggambar persegi panjang, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
                     "ellipse": "$~Untuk menggambar elips dan lingkaran, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
                     "path": "$~Jalur dapat berupa segmen garis, poligon, dan kurva. Klik untuk mulai menambahkan titik, atau gunakan tombol panah dan spasi. Tekan escape untuk menyelesaikan jalur. Tombol delete akan menghapus titik terakhir.",
-                    "emoji": "$~Pilih emoji yang ingin Anda impor sebagai piksel, lalu modifikasi sesuai keinginan."
+                    "points": "$~Tekan *Tab* untuk berpindah antar titik pada jalur. Gunakan tombol *panah* untuk memindahkan titik yang terpilih, *enter* untuk menambah titik di sebelahnya, dan *delete* untuk menghapusnya. Gunakan *curve* untuk melengkungkan segmen yang menuju ke sebuah titik, lalu geser gagangnya; tekan *delete* pada gagang untuk meluruskannya kembali. Tekan *escape* jika sudah selesai.",
+                    "symbol": "$~Pilih untuk menambah piksel atau garis luar, lalu pilih huruf, simbol, atau emoji. Garis luar bisa diubah ukurannya dan diputar tanpa menjadi buram. Piksel bisa diberi warna satu per satu. Klik atau ketuk sesuatu yang sudah kamu buat untuk memilihnya.",
+                    "image": "$~Pilih sebuah gambar, lalu pilih bagian kotaknya yang ingin disimpan. Bagian ini menggantikan piksel, dan berada di bawah bentuk apa pun yang sudah kamu gambar. Klik atau ketuk sesuatu yang sudah kamu buat untuk memilihnya."
                 },
                 "shape": {
                     "shape": "$~membentuk",
@@ -9036,7 +9274,10 @@
                     "rect": "$~persegi panjang",
                     "ellipse": "$~elips",
                     "path": "$~jalur",
-                    "emoji": "$~emoji"
+                    "emoji": "$~emoji",
+                    "glyph": "$~garis luar",
+                    "symbol": "$~simbol",
+                    "image": "$~gambar"
                 },
                 "share": {
                     "dialog": {
@@ -9073,13 +9314,14 @@
                     "mode": {
                         "label": "$~mode",
                         "labels": [
-                            "$~memilih",
+                            "$~pilih",
                             "$~penghapus",
                             "$~piksel",
                             "$~persegi panjang",
                             "$~elips",
                             "$~jalur",
-                            "$~emoji"
+                            "$~emoji",
+                            "$~gambar"
                         ],
                         "tips": [
                             "$~pilih bentuk dan piksel",
@@ -9088,7 +9330,8 @@
                             "$~menggambar persegi panjang",
                             "$~menggambar elips",
                             "$~menggambar jalur",
-                            "$~impor emoji sebagai piksel"
+                            "$~impor emoji sebagai piksel",
+                            "$~tambahkan gambar sebagai piksel"
                         ]
                     },
                     "fill": {
@@ -9131,7 +9374,32 @@
                         "label": "$~tinggi",
                         "tip": "$~seberapa tinggi bentuk tersebut"
                     },
-                    "closed": "$~terhubung"
+                    "closed": "$~terhubung",
+                    "brushSize": {
+                        "label": "$~ukuran",
+                        "tip": "$~berapa banyak sel yang dilewati kuas dan penghapus"
+                    },
+                    "insertion": {
+                        "label": "$~tambahkan sebagai",
+                        "labels": ["$~piksel", "$~garis luar"],
+                        "tips": [
+                            "$~tambahkan simbol sebagai piksel yang bisa diwarnai ulang satu per satu",
+                            "$~tambahkan simbol sebagai garis luar yang bisa diubah ukurannya dan diputar tanpa menjadi buram"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~jenis huruf",
+                        "tip": "$~jenis huruf mana yang menjadi sumber bentuk simbol ini"
+                    },
+                    "weight": {
+                        "label": "$~ketebalan",
+                        "tip": "$~seberapa tebal guratan simbol ini"
+                    },
+                    "italic": "$~miring",
+                    "glyphSize": {
+                        "label": "$~ukuran simbol",
+                        "tip": "$~berapa banyak sel yang dilewati simbol ini"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9196,11 +9464,11 @@
                     },
                     "horizontal": {
                         "label": "$~balik horizontal",
-                        "tip": "$~putar titik-titik tersebut secara horizontal di sekitar pusat."
+                        "tip": "$~balik pilihan secara mendatar"
                     },
                     "vertical": {
                         "label": "$~balik vertikal",
-                        "tip": "$~putar titik-titik tersebut secara vertikal di sekitar pusat."
+                        "tip": "$~balik pilihan secara tegak"
                     },
                     "fit": {
                         "label": "$~bugar",
@@ -9209,6 +9477,30 @@
                     "dismissError": {
                         "label": "$~membubarkan",
                         "tip": "$~abaikan pesan kesalahan"
+                    },
+                    "editPoints": {
+                        "label": "$~titik",
+                        "tip": "$~ubah titik-titik pada jalur yang terpilih"
+                    },
+                    "donePoints": {
+                        "label": "$~selesai",
+                        "tip": "$~berhenti mengubah titik"
+                    },
+                    "addPoint": {
+                        "label": "$~tambah titik",
+                        "tip": "$~tambahkan titik di sebelah titik yang terpilih"
+                    },
+                    "deletePoint": {
+                        "label": "$~hapus titik",
+                        "tip": "$~hapus titik yang terpilih"
+                    },
+                    "curve": {
+                        "label": "$~lengkungkan",
+                        "tip": "$~lengkungkan segmen yang menuju ke titik yang terpilih"
+                    },
+                    "straighten": {
+                        "label": "$~luruskan",
+                        "tip": "$~luruskan segmen yang menuju ke titik yang terpilih"
                     }
                 },
                 "feedback": {
@@ -9220,11 +9512,61 @@
                     "unauthenticated": "$~Anda pasti<logged in@://login> untuk mengedit karakter.",
                     "taken": "$~Anda sudah memiliki karakter dengan nama ini; tidak akan disimpan.",
                     "projecteditfail": "$~Terdapat masalah saat memperbarui proyek yang menggunakan karakter ini. Proyek-proyek berikut perlu diperbaiki:",
-                    "untitledproject": "$~Proyek Tanpa Judul"
+                    "untitledproject": "$~Proyek Tanpa Judul",
+                    "glyphLoading": "$~Mengambil jenis huruf…",
+                    "glyphMissing": "$~Jenis huruf ini tidak punya bentuk untuk simbol tersebut. Coba jenis huruf lain.",
+                    "glyphEmpty": "$~Simbol itu tidak punya apa pun untuk digambar.",
+                    "glyphUnreadable": "$~Kami tidak bisa membaca jenis huruf itu. Periksa koneksimu, atau coba jenis huruf lain.",
+                    "imageTooBig": "$~Gambar itu berukuran $size MB. Silakan pilih gambar yang lebih kecil dari $limit MB.",
+                    "imageUnreadable": "$~Kami tidak dapat membaca berkas itu sebagai gambar."
                 },
                 "announce": {
                     "position": "$~pada $x $y",
-                    "selection": "$~$shapes[ $shapes yang dipilih | tidak ada yang dipilih]"
+                    "selection": "$~$shapes[ $shapes yang dipilih | tidak ada yang dipilih]",
+                    "editing": "$~mengubah $#count[$count titik]",
+                    "editingDone": "$~selesai mengubah titik",
+                    "point": "$~titik $index di $x $y",
+                    "control": "$~lengkung $index di $x $y",
+                    "pointAdded": "$~titik $index ditambahkan di $x $y",
+                    "pointRemoved": "$~titik $index dihapus, tersisa $#count[$count titik]",
+                    "curved": "$~segmen $index dilengkungkan",
+                    "straightened": "$~segmen $index diluruskan",
+                    "moved": "$~berpindah ke $x $y",
+                    "drew": "$~digambar di $x $y",
+                    "erased": "$~dihapus di $x $y",
+                    "finished": "$~membuat $shape di $x $y",
+                    "deleted": "$~dihapus, $#count[$count bentuk tersisa]",
+                    "undone": "$~membatalkan langkah $step dari $total",
+                    "redone": "$~mengulangi langkah $step dari $total",
+                    "copied": "$~menyalin $#count[$count bentuk: $shapes]",
+                    "pasted": "$~ditempel di $x $y",
+                    "arranged": "$~lapisan $index dari $total",
+                    "flipped": "$~dibalik, sekarang di $x $y",
+                    "fitted": "$~memperbesar bentuk hingga memenuhi kanvas",
+                    "cropped": "$~kotak potong di $x $y",
+                    "cropMoving": "$~memindahkan kotak potong",
+                    "cropDone": "$~kotak potong ditempatkan",
+                    "imported": "$~menambahkan $#count[$count piksel] dari $x $y"
+                },
+                "image": {
+                    "instructions": "$~Seret kotak untuk memindahkannya, atau gunakan penggeser *ukuran* untuk mengubah berapa banyak bagian gambar yang disimpan. Dengan papan ketik, tekan *enter* untuk mulai memindahkan, lalu gunakan tombol *panah*, dan tekan *enter* lagi saat selesai.",
+                    "button": {
+                        "label": "$~unggah",
+                        "tip": "$~pilih berkas gambar dari perangkat ini"
+                    },
+                    "add": {
+                        "label": "$~tambah",
+                        "tip": "$~tambahkan kotak yang dipilih ke karakter sebagai piksel"
+                    },
+                    "crop": {
+                        "label": "$~kotak potong",
+                        "tip": "$~kotak gambar yang akan disimpan"
+                    },
+                    "preview": "$~apa yang akan ditambahkan",
+                    "size": {
+                        "label": "$~ukuran",
+                        "tip": "$~berapa banyak bagian gambar yang disimpan"
+                    }
                 }
             },
             "about": {

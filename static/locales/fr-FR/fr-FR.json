@@ -282,7 +282,8 @@
         "Exponent": "$~exposant",
         "Product": "$~produit",
         "Percent": "$~pour cent",
-        "Defect": "$~exemple avec un défaut attendu"
+        "Defect": "$~exemple avec un défaut attendu",
+        "NotANumber": "$~pas un nombre"
     },
     "node": {
         "Dimension": {
@@ -2642,11 +2643,115 @@
                             "names": "$~modèle"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Je crée un nouveau @Text qui est moi, avec chaque lettre en majuscule :",
+                        "\\'bonjour'.majuscule()\\",
+                        "Les lettres n'ont de casse que dans certains systèmes d'écriture. Un texte écrit dans un système sans casse, comme le japonais ou l'arabe, reste donc inchangé.",
+                        "Ma balise de langue décide quelles règles utiliser. Le turc a un i pointé et un i non pointé, et seul un texte marqué comme turc les met en majuscule à la façon turque :",
+                        "\\'iyi'.majuscule()\\",
+                        "\\'iyi'.majuscule()\\"
+                    ],
+                    "names": ["$~majuscule"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Je crée un nouveau @Text qui est moi, avec chaque lettre en minuscule :",
+                        "\\'BONJOUR'.minuscule()\\",
+                        "Mets deux textes en minuscule pour les comparer sans tenir compte des majuscules. Cela garde chaque mot qui commence par un a, qu'il soit en majuscule ou non :",
+                        "\\['Pomme' 'abricot' 'Banane'].filtre(\n\tƒ(mot•'') mot.minuscule().commence('un')\n)\\",
+                        "Comme @Text/uppercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de langue décide quelles règles utiliser."
+                    ],
+                    "names": ["$~minuscule"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Je crée un nouveau @Text à partir d'un morceau de moi. Le comptage commence à 1, et les deux bouts sont inclus :",
+                        "\\'bonjour'.sousSéquence(2 4)\\",
+                        "Si tu laisses le bout de côté, je vais jusqu'à mon dernier symbole :",
+                        "\\'bonjour'.sousSéquence(3)\\",
+                        "Je compte les symboles comme tu les vois, donc un emoji fait de plusieurs parties reste un seul symbole, et n'est jamais coupé en deux :",
+                        "\\'🐈📚!'.sousSéquence(1 2)\\",
+                        "Si tu demandes plus que ce que j'ai, je te donne ce que j'ai."
+                    ],
+                    "names": ["$~sousSéquence"],
+                    "inputs": [
+                        {
+                            "doc": "$~L'endroit où commencer, en comptant à partir de 1.",
+                            "names": "$~début"
+                        },
+                        {
+                            "doc": "$~L'endroit où s'arrêter, en comptant à partir de 1. Laisse-le de côté pour aller jusqu'à la fin.",
+                            "names": "$~fin"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Je te dis où le @Text donné apparaît en premier chez moi, en comptant à partir de 1 :",
+                        "\\'bonjour'.indice('ll')\\",
+                        "S'il n'est pas du tout chez moi, je te donne @None à la place :",
+                        "\\'bonjour'.indice('z')\\",
+                        "Avec @Text/subsequence, je peux prendre tout jusqu'à quelque chose — ici, le premier mot :",
+                        "\\phrase2: 'bonjour le monde'\nphrase2.sousSéquence(1 (phrase2.indice(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~indice"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le @Text à chercher chez moi.",
+                            "names": "$~texte"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Je crée un nouveau @Text avec chaque occurrence d'un @Text remplacée par un autre :",
+                        "\\'2026-08-21'.remplacer('-' '/')\\",
+                        "Chaque occurrence change, pas seulement la première :",
+                        "\\'ha ha ha'.remplacer('ha' 'ho')\\",
+                        "Si tu me demandes de remplacer un @Text vide, je te redonne moi-même sans changement."
+                    ],
+                    "names": ["$~remplacer"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le @Text à chercher chez moi.",
+                            "names": "$~de"
+                        },
+                        {
+                            "doc": "$~Le @Text à mettre à sa place.",
+                            "names": "$~remplacement"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Je crée un nouveau @Text avec les espaces vides retirés des deux bouts. L'espace au milieu reste :",
+                        "\\'  bonjour  '.rogner()\\",
+                        "C'est pratique pour un texte tapé par quelqu'un, qui porte souvent des espaces en trop que tu n'as pas demandés."
+                    ],
+                    "names": ["$~rogner"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Je crée un nouveau @Text avec mes symboles dans l'ordre opposé :",
+                        "\\'bonjour'.inversé()\\",
+                        "J'inverse l'ordre de mes symboles comme tu les vois, donc les emojis restent entiers et les lettres gardent leurs accents :",
+                        "\\'🐈📚'.inversé()\\"
+                    ],
+                    "names": ["$~inversé", "$~inverser"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Divise le texte en une liste de caractères individuels.",
-                "number": "$~Convertit le texte en un @Number, et si ce n'est pas un nombre, en une valeur non numérique.",
+                "number": [
+                    "$~Convertit du texte en @Number, et si ce n'est pas un nombre, une valeur qui n'est pas un nombre, qui apparaît comme \\!#\\ :",
+                    "\\'salut' → #\\"
+                ],
                 "formatted": "$~Convertit le texte en texte formaté, en interprétant tout balisage qu'il contient."
             }
         },
@@ -3219,25 +3324,11 @@
                     "names": ["$~sansDernier", "$~sansDernier"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Moi, mais sans les premières apparitions de l'@value donné.",
-                        "\\['pomme' 'banane' 'mangue' 'pomme'].sans('pomme')\\"
-                    ],
-                    "names": ["$~sans", "$~sans"],
-                    "inputs": [
-                        {
-                            "doc": "$~L'@value dont il faut retirer la première apparition.",
-                            "names": "$~valeur"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Moi, mais sans toutes les apparitions de l'@value donné.",
-                        "\\['pomme' 'banane' 'mangue' 'pomme'].sans('pomme')\\"
+                        "$~Moi, mais sans le @value donné. Chaque copie disparaît, pas seulement la première, quel que soit le nom que tu utilises pour moi.\\['pomme' 'banane' 'mangue' 'pomme'].sansTout('pomme')\\"
                     ],
-                    "names": ["$~sansTout", "$~sansTout"],
+                    "names": ["$~sansTout"],
                     "inputs": [
                         {
                             "doc": "$~L'@value dont il faut retirer toutes les apparitions de la liste.",
@@ -3972,10 +4063,33 @@
                             "names": "$~formaté"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Je crée un nouveau texte formaté qui est moi, avec chaque lettre en majuscule. Seuls mes mots changent ; ma mise en forme, mes liens et mes exemples restent tels quels :",
+                        "\\`*salut* toi`.majuscule()\\",
+                        "Comme @Text/uppercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de langue décide quelles règles utiliser."
+                    ],
+                    "names": ["$~majuscule"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Je crée un nouveau texte formaté qui est moi, avec chaque lettre en minuscule. Seuls mes mots changent ; ma mise en forme, mes liens et mes exemples restent tels quels :",
+                        "\\`*SALUT* TOI`.minuscule()\\",
+                        "Comme @Text/lowercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de langue décide quelles règles utiliser."
+                    ],
+                    "names": ["$~minuscule"],
+                    "inputs": []
                 }
             },
             "conversion": {
-                "text": "$~Convertit le texte formaté en texte brut @Text , en supprimant toute mise en forme."
+                "text": "$~Convertit le texte formaté en texte brut @Text , en supprimant toute mise en forme.",
+                "list": "$~Convertit du texte mis en forme en @List de @Text, un pour chaque symbole de mes mots. La mise en forme ne peut pas survivre à une coupe en symboles uniques, alors elle est retirée.",
+                "number": [
+                    "$~Convertit mes mots en @Number, et si ce ne sont pas des nombres, une valeur qui n'est pas un nombre, qui apparaît comme \\!#\\ :",
+                    "\\`salut` → #\\"
+                ]
             }
         }
     },
@@ -4326,19 +4440,20 @@
         "Collision": {
             "names": "$~Collision",
             "doc": [
-                "$~C'est un flux de valeurs @Rebound pour quand des @Output nommés se heurtent l'un l'autre.",
-                "C'est une bonne façon de faire quelque chose quand @Output se heurtent, en plus du rebond normal qu'ils pourraient faire.",
-                "Donne-lui simplement un nom de @Output, et il créera un nouveau @Rebound @value chaque fois que ce nom en heurte un autre. Un @Rebound contient des infos sur les noms qui se sont heurtés et la direction de leur collision.",
-                "Et si tu lui donnes deux noms, il créera une nouvelle valeur seulement quand les deux noms se heurtent l'un l'autre.",
-                "Juste après avoir créé une nouvelle valeur, il en créera une \\ø\\ puisque la collision est terminée après qu'elle se produit. Cela indique qu'il n'y a plus de collision."
+                "$~C'est un flux de valeurs @Rebound pour quand des @Output nommés se heurtent.",
+                "Pour que deux @Output se remarquent, donne-leur un nom à tous les deux, puis donne-moi les deux noms. Je créerai un nouveau @Rebound chaque fois qu'ils se touchent. Ils n'ont pas besoin de @Matter pour cela — un nom suffit pour que je surveille quelque chose.",
+                "Donne-moi plutôt un seul nom, et je te dirai chaque fois que ce @Output touche autre chose dans le monde physique. Un @Output est dans le monde physique s'il a @Matter, si un @Motion le place, s'il est un @Shape directement sur le @Stage, ou si je surveille aussi son nom.",
+                "Remarquer n'est pas la même chose que rebondir. @Output ne pousse d'autres @Output que s'il a @Matter et un @Motion qui le fait bouger. @Output que ton programme place va exactement là où tu l'as mis, donc il traverse tout ce qu'il touche — je te parlerai quand même du contact.",
+                "Un @Rebound contient les noms qui se sont touchés et la direction d'où venait le contact. Juste après en avoir créé un, j'en créerai un \\ø\\, puisqu'une collision se termine dès qu'elle se produit.",
+                "Je ne peux surveiller que les @Output placés directement sur le @Stage. Tout ce qui se trouve à l'intérieur d'un @Group se déplace dans l'espace propre de ce groupe, donc je ne peux pas le voir — donne un nom au @Group et surveille-le à la place."
             ],
             "subject": {
                 "names": "$~sujet",
-                "doc": "$~Le nom du @Output sur lequel je dois rechercher les collisions."
+                "doc": "$~Le nom du @Output que je dois surveiller. Le surveiller suffit à le placer dans le monde physique, il n'a donc pas besoin de @Matter."
             },
             "object": {
                 "names": "$~autre",
-                "doc": "$~Le nom de l’autre @Output sur lequel je devrais rechercher des collisions."
+                "doc": "$~Le nom de l'autre @Output que je dois surveiller. Si on me donne aussi celui-ci, je ne signale que le contact entre ces deux-là ; si on l'omet, je signale le premier contact avec quoi que ce soit dans le monde physique."
             }
         },
         "Rebound": {
@@ -4947,6 +5062,10 @@
             "overlay": {
                 "doc": "$~Une liste de @Output épinglée à plat sur l'écran comme un affichage tête haute. La caméra @Place de la scène ou la profondeur ne la modifient pas.",
                 "names": "$~superposition"
+            },
+            "air": {
+                "doc": "$~À quel point l'air ralentit le mouvement des sorties. 1 est de l'air normal, 0 est l'espace, où les choses continuent pour toujours, et des nombres plus grands sont plus épais que l'air.",
+                "names": "$~air"
             }
         },
         "Group": {
@@ -4973,7 +5092,7 @@
                 "names": "$~miseenpage"
             },
             "matter": {
-                "doc": "$~Comment je devrais réagir si je devais heurter quelque chose d'autre avec de la matière.",
+                "doc": "$~À quel point je suis lourd, rebondissant et glissant, et ce qui me rend solide quand un @Motion me déplace.",
                 "names": "$~matière"
             },
             "size": {
@@ -5099,7 +5218,7 @@
                 "names": "$~direction"
             },
             "matter": {
-                "doc": "$~Les propriétés à utiliser si je heurte des choses !",
+                "doc": "$~À quel point je suis lourd, rebondissant et glissant, et ce qui me rend solide quand un @Motion me déplace.",
                 "names": "$~matière"
             },
             "aura": {
@@ -5989,7 +6108,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Je suis les propriétés physiques de la sortie, qui influencent la façon dont j'interagis avec les autres sorties sur scène.",
+            "doc": "$~Je dis à quel point @Output est lourd, rebondissant et glissant. @Output qui m'a et qui a un @Motion est solide : il rebondit sur le @Shape du @Stage et sur d'autres @Output en mouvement. @Output que ton programme place va plutôt là où tu l'as mis, et traverse ce qu'il touche. @Output n'a pas besoin de moi pour être remarqué par @Collision — un nom suffit pour cela.",
             "names": ["$~Matière"],
             "mass": {
                 "doc": "$~Un poids, en kilogrammes",
@@ -6008,12 +6127,16 @@
                 "names": "$~rondeur"
             },
             "text": {
-                "doc": "$~Si cela peut entrer en collision avec d'autres sorties.",
+                "doc": "$~Si je peux ou non me heurter à d'autres @Phrase et @Group ; ⊥ signifie que je ne les remarque pas et @Collision ne dit rien à leur sujet.",
                 "names": "$~texte"
             },
             "shapes": {
-                "doc": "$~S'il peut entrer en collision avec d'autres formes.",
+                "doc": "$~Si je peux ou non me heurter au @Shape sur le @Stage ; ⊥ signifie que je traverse les murs et les sols et @Collision ne dit rien à leur sujet.",
                 "names": "$~sol"
+            },
+            "pull": {
+                "doc": "$~À quel point j'attire fort les autres sorties vers moi. 0 veut dire pas du tout, ce qui est normal. Des nombres plus grands attirent plus fort, et un nombre négatif repousse au lieu d'attirer. Seules les sorties placées par un @Motion peuvent être attirées.",
+                "names": "$~tirer"
             }
         },
         "Aura": {
@@ -7053,7 +7176,7 @@
                 "nextMatch": "$~passer au résultat de recherche suivant",
                 "insertTranslate": "$~insérer le symbole de traduction",
                 "insertThis": "$~insérer ce symbole",
-                "tab": "$~La touche Tabulation permet de déplacer le focus clavier. Pour insérer une tabulation, appuyez sur Ctrl+ $alt +Tab, utilisez le bouton Insérer ci-dessous ou modifiez ce paramètre.",
+                "tab": "$~La touche Tabulation permet de déplacer le focus clavier. Pour insérer une tabulation, appuyez sur $control+ $alt +Tab, utilisez le bouton Insérer ci-dessous ou modifiez ce paramètre.",
                 "matchDelimiter": "$~Déplacer le curseur jusqu'au délimiteur correspondant",
                 "insertPattern": "$~insérer un motif",
                 "insertSearch": "$~insérer le symbole de recherche de motif",
@@ -8207,18 +8330,6 @@
             "landing": {
                 "value": "$~Crée des histoires interactives avec des mots, des symboles, des emojis et du code avec nous ! Commence dans",
                 "chooseLocales": "$~ou choisissez",
-                "description": [
-                    "$~@wordplay est un langage de programmation qui te permet de :",
-                    "• Animer les mots et les emojis pour jouer 🤪",
-                    "• Utiliser le temps 🕦, le son 🎤, les visages 🙂, les mains 🖐️, les sites web 🔗, et la physique 🌎",
-                    "• Parler avec la synthèse vocale 🗣️ et jouer de la musique 🎼",
-                    "• Partager 🤝 avec des amis, des groupes, ou n'importe qui",
-                    "• Coder dans n'importe quelle langue du monde 🌐",
-                    "• Éditer avec la souris 🖱️, le toucher 👆, et le clavier ⌨️",
-                    "• Déboguer en avant ⏩ et en arrière ⏪",
-                    "• Voir avec des écrans 🖥️ et des lecteurs d'écran 🔊",
-                    "Gratuit pour toujours, de la part de l'<Université de Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~@wordplay est en version bêta, il est donc possible qu'il ne fonctionne pas comme prévu ou qu'il ne soit pas complet. Signalez les bugs et partagez vos idées sur <GitHub@https://github.com/wordplaydev/wordplay/issues>, consultez nos <plans 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> et <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
@@ -8243,6 +8354,130 @@
                     "design": "$~Référence du système de conception pour les contributeurs",
                     "thanks": "$~Qui a contribué à sa réalisation ?",
                     "localize": "$~Aide à traduire Wordplay dans ta langue"
+                },
+                "tagline": "$~un codage créatif, accessible et multilingue",
+                "tour": {
+                    "button": "$~montre-moi",
+                    "loading": "$~Chargement…",
+                    "failed": "$~Les exemples n'ont pas pu être chargés. Vérifie ta connexion et réessaie.",
+                    "restart": "$~recommencer cet exemple",
+                    "examples": {
+                        "label": "$~Exemples de programmes",
+                        "tips": [
+                            "$~Le texte peut briller et s'animer",
+                            "$~La musique, c'est des données, du son et de l'image",
+                            "$~Le temps s'écoule et les mots sont multilingues",
+                            "$~Le texte peut réagir au pointeur, aux clics, aux touches et aux appuis",
+                            "$~Le public peut faire des choix",
+                            "$~Le public peut discuter avec les programmes et les mots sont des formes",
+                            "$~La physique et la gravité peuvent faire tomber et rebondir le texte",
+                            "$~Les programmes peuvent écouter ta voix",
+                            "$~Les programmes peuvent observer ton visage, tes mains et des objets"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶Les Phrases apparaissent sur la scène, avec la couleur, la lueur et le mouvement que tu veux.¶\nPhrase(\n\t'bonjour !'\n\t6m\n\tcouleur: Couleur(60% 90 200°)\n\taura: Aura(Couleur(80% 80 200°) 0.3m)\n\taurepos: Séquence.balancement(8°)\n)\\",
+                        "music": "$~\\¶Music is notes on real instruments, at a tempo, in a key. The stage draws what it hears.¶\nMusic(\n\tTrack([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Le code peut réagir à une entrée comme @Time, et le texte peut être multilingue et parlé.¶\nbonjours: ['bonjour' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nbonjour: bonjours.aléatoire() … ∆ Temps(1000ms) … bonjours.aléatoire(\n\t\t)\nPhrase(bonjour 4m)\nDire(bonjour)\\",
+                        "keys": "$~\\¶Le code peut réagir aux pointeurs, aux touches, aux clics et aux tapotements.¶\nclé2: Clé()\nclic: Bouton()\nvisages: ['🙂' '😮' '😎' '🤩']\nlequel: 1 … ∆ clé2 | ∆ clic … (lequel % 4) + 1\nScène(\n\t[Phrase(visages[lequel] 5m lieu: Aiguille())]\n\tlieu: Lieu(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Mets en page du texte et rends-le sélectionnable.¶\nfruit: ƒ(e•'') Phrase(e 3m nom: e sélectionnable: ⊤)\nchoisi: Choix()\nmontré: '?' … ∆ choisi … choisi\nGroupe(\n\tEmpiler(rembourrage: 1m)\n\t[\n\t\tPhrase(montré 4m)\n\t\tGroupe(\n\t\t\tRangée(rembourrage: 1m)\n\t\t\t[fruit('🍎') fruit('🍐') fruit('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Discute avec des programmes et utilise la forme des polices et des symboles.¶\nmessage: Chat()\nmot2: 'salut' … ∆ message … message\nligne: Contour(mot2 'Noto Sans' 8m)\ntics: 0 … ∆ Temps(30ms) … tics + 1\nmontré: ((ligne.longueur() × tics) ÷ 66).arrondirverslebas(\n\t) + 1\npoints: ligne.sousséquence(1 montré).traduire(\n\t\tƒ(p) Phrase('•' lieu: p)\n\t)\nScène(points.avec(Phrase(mot2 8m opacité: 15%)))\\",
+                        "pile": "$~\\¶Le texte peut avoir de la physique.¶\nlancer: ƒ(émoji•'' x2•#m y2•#m vx•#m/s)\n\t\tPhrase(\n\t\t\témoji\n\t\t\t2m\n\t\t\tlieu: Mouvement(Lieu(x2 y2) Vitesse(vx 0m/s))\n\t\t\tmatière: Matière(1kg 0.55 0.06 0.5)\n\t\t)\nScène(\n\t[\n\t\tlancer('🍎' -2m 5m 2.2m/s)\n\t\tlancer('🍊' 2m 7m -2.6m/s)\n\t\tlancer('🍋' -1m 9m 1.4m/s)\n\t\tlancer('🍇' 1.5m 11m -1.9m/s)\n\t\tlancer('🫐' 0.5m 15m -1.2m/s)\n\t\tForme(Rectangle(-4m -3m 4m -3.6m))\n\t\tForme(Rectangle(-4.6m 4m -4m -3m))\n\t\tForme(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Le code peut réagir au @Volume et au @Pitch de ton micro.¶\nPhrase(\n\t'📣'\n\t1m + (Volume() × 8m)\n\trotation: (Pas() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Code can react to your @Face, and other things on @Camera.¶\nPhrase(Face().smiling ? '😄 thank you!' '🙂 smile at the camera' 2m)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay est un langage de programmation",
+                        "bullets": [
+                            "$~• Chaque programme est une expression qui devient une valeur. \\1 + 1\\ est un programme, tout comme \\Phrase('salut')\\.",
+                            "• Les nombres portent des unités, donc \\1m + 1m\\ représente des mètres, et \\1cat + 1dog\\🪲 est une erreur que @wordplay repère avant l'exécution.",
+                            "• Les fonctions sont des valeurs qu'on peut nommer, transmettre et appeler : \\ƒ double(n3•#) n3 × 2\\.",
+                            "• Quand une entrée change, @wordplay réévalue ton programme et montre sa nouvelle valeur. Pas besoin de répondre à des événements.",
+                            "• @wordplay trouve les erreurs avant l'exécution du programme, et explique chaque problème."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay est multilingue",
+                        "bullets": [
+                            "$~• Chaque fonctionnalité du langage de programmation a un nom dans chaque langue, donc le code se lit avec des mots que tu connais déjà.",
+                            "• Tes propres noms peuvent aussi être multilingues :\n\\chat2: '🐈'\nPhrase(chat2)\\",
+                            "• Le texte porte une langue, et montre la langue que ton public lit : \\'bonjour'\\.",
+                            "• Le site est proposé en 29 langues et tu peux en choisir plusieurs à la fois ; le texte apparaît dans chacune.",
+                            "• Tu peux aider à traduire @wordplay toi-même, directement dans l'application sur <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay est accessible",
+                        "bullets": [
+                            "$~• Tout ce que tu peux faire avec une souris, tu peux le faire avec un clavier.",
+                            "• Les lecteurs d'écran décrivent la scène à chaque changement, pas seulement au chargement.",
+                            "• Tu peux lire et écrire ton code sous forme de blocs plutôt que de texte, et changer quand tu veux.",
+                            "• Le mouvement peut être ralenti, ou complètement désactivé.",
+                            "• Les sorties vocales peuvent être sous-titrées sur la scène pour ceux qui ne peuvent pas les entendre."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay perçoit le monde",
+                        "bullets": [
+                            "$~• Le temps qui passe : \\Temps(1000ms)\\ avance seconde par seconde, et \\Maintenant()\\ connaît la date d'aujourd'hui selon ton calendrier et ton fuseau horaire.",
+                            "• L'endroit où pointe ton public, ce qu'il touche, et quelles touches il appuie.",
+                            "• Les programmes peuvent réagir à ton micro : le volume avec @Volume, la hauteur du son avec @Pitch, et les mots prononcés avec @Speech.",
+                            "• Ton public peut taper du texte avec @Chat, et choisir du contenu sur la scène avec @Choice.",
+                            "• Les programmes peuvent réagir au rythme de la musique qu'ils jouent, avec @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay joue",
+                        "bullets": [
+                            "$~• @Phrase place des mots et des emojis sur la scène.",
+                            "• @Group les organise en lignes, en piles, en grilles, ou où tu le souhaites.",
+                            "• @Pose et @Sequence font tourner, disparaître, changer de taille, et déplacer les choses.",
+                            "• @Say dit le texte à voix haute au lieu de l'afficher.",
+                            "• @Music joue des pistes de notes avec de vrais instruments, à un tempo donné, dans une tonalité donnée :\n\\Musique(\n\tPiste([1 3 5] instrument: Instrument.cloche)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay est typographie",
+                        "bullets": [
+                            "$~• Des centaines de polices, couvrant les systèmes d'écriture du monde entier.",
+                            "• Tu peux dessiner tes <caractères personnalisés//characters> et les utiliser partout où un emoji peut aller.",
+                            "• Le contour de chaque lettre est une donnée que tu peux lire et animer, avec @Contour : \\Contour('a' 'Noto Sans')\\.",
+                            "• Le texte revient à la ligne selon les règles de la langue dans laquelle il est écrit.",
+                            "• L'écriture de droite à gauche et l'écriture verticale sont disposées comme il se doit."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay s'explique lui-même",
+                        "bullets": [
+                            "$~• La documentation fait partie de la langue grâce à @Doc, et non un commentaire à côté.",
+                            "• Un <guide//guide> consultable explique chaque fonctionnalité intégrée, avec des exemples.",
+                            "• Chaque erreur est expliquée à l'endroit où elle s'est produite, dans ta langue.",
+                            "• Tu peux parcourir un programme en avant /et/ en arrière pour comprendre ce qui s'est passé.",
+                            "• Pendant que tu avances pas à pas, chaque valeur est affichée directement dans le code qui l'a créée."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay est fait pour partager",
+                        "bullets": [
+                            "$~• Tes projets t'appartiennent, et c'est toi qui décides qui peut les voir.",
+                            "• Tu peux inviter d'autres personnes à construire un projet avec toi.",
+                            "• Les <galeries@://galleries> rassemblent des projets autour d'un thème.",
+                            "• Les enseignants peuvent créer des classes et suivre le travail de leurs élèves : <teach@://teach>.",
+                            "• Tu peux remixer le projet public de n'importe qui et te l'approprier."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay est gratuit et ouvert",
+                        "bullets": [
+                            "$~• @wordplay est gratuit et le restera toujours.",
+                            "• C'est un logiciel libre : tu peux lire comment il fonctionne et tu peux nous aider à le modifier.",
+                            "• Il vient de l'école d'information de l'<Université de Washington@https://ischool.uw.edu/>.",
+                            "• Il existe une communauté de créateurs, d'enseignants et de contributeurs.",
+                            "• Les <dons//donate> financent les coûts de fonctionnement."
+                        ]
+                    }
                 }
             },
             "learn": {
@@ -8662,14 +8897,16 @@
                 "header": "$~Personnage",
                 "instructions": {
                     "empty": "$~Choisissez un mode de dessin dans la palette pour créer des formes.",
-                    "unselected": "$~Choisissez un mode de dessin ou sélectionnez et modifiez des formes.",
-                    "selected": "$~Utilisez les touches fléchées pour déplacer les formes. Maintenez la touche Maj enfoncée pour ajouter d'autres formes à une sélection. Utilisez la touche Suppr pour supprimer la sélection. Utilisez les commandes ci-dessous pour modifier les formes sélectionnées.",
+                    "unselected": "$~Choisis un mode de dessin, ou sélectionne et modifie des formes. Utilise *$control-a* pour tout sélectionner et *$control-z* pour annuler.",
+                    "selected": "$~Utilise les touches *flèches* pour déplacer des formes. Maintiens *shift* enfoncé pour ajouter d'autres formes à une sélection. Utilise *suppr* pour retirer la sélection. Utilise *$control-c* et *$control-v* pour copier et coller, et *$control-z* pour annuler. Quand un seul tracé est sélectionné, appuie sur *entrée* pour modifier ses points. Utilise les commandes ci-dessous pour changer les formes sélectionnées.",
                     "pixel": "$~Pour dessiner des pixels, choisissez une couleur. Cliquez ensuite sur le canevas ou utilisez les flèches pour déplacer le curseur et la barre d'espace pour créer un pixel. Double-cliquez pour remplir.",
                     "rect": "$~Pour dessiner des rectangles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "ellipse": "$~Pour dessiner des ellipses et des cercles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "path": "$~Les chemins peuvent être des segments de ligne, des polygones et des courbes. Cliquez pour commencer à ajouter des points ou utilisez les touches *flèche* et *espace*. Appuyez sur *échapper* pour terminer le chemin. *supprimer* supprimera le dernier point.",
                     "eraser": "$~Pour effacer des formes, cliquez ou appuyez dessus. Faites glisser pour effacer les pixels. Utilisez les touches fléchées pour déplacer la gomme et la barre d'espace pour supprimer.",
-                    "emoji": "$~Choisissez un emoji à importer sous forme de pixels, puis modifiez-le comme vous le souhaitez."
+                    "points": "$~Passe d'un point à l'autre du tracé avec *tab*. Utilise les touches *flèches* pour déplacer le point sélectionné, *entrée* pour ajouter un point juste à côté, et *suppr* pour le retirer. Utilise *courbe* pour incurver le segment qui arrive à un point, puis déplace sa poignée ; *suppr* sur une poignée le redresse à nouveau. Appuie sur *échap* quand tu as terminé.",
+                    "symbol": "$~Choisis d’ajouter des pixels ou un contour, puis choisis une lettre, un symbole ou un émoji. Un contour peut être redimensionné et tourné sans devenir flou. Les pixels peuvent être recolorés un par un. Clique ou touche quelque chose que tu as déjà fait pour le sélectionner à la place.",
+                    "image": "$~Choisis une image, puis choisis le carré à garder. Il remplace les pixels et se place sous les formes que tu as dessinées. Clique ou touche quelque chose que tu as déjà fait pour le sélectionner à la place."
                 },
                 "shape": {
                     "shape": "$~forme",
@@ -8678,7 +8915,10 @@
                     "ellipse": "$~ellipse",
                     "path": "$~chemin",
                     "eraser": "$~gomme",
-                    "emoji": "$~émoji"
+                    "emoji": "$~émoji",
+                    "glyph": "$~contour",
+                    "symbol": "$~symbole",
+                    "image": "$~image"
                 },
                 "field": {
                     "name": {
@@ -8698,7 +8938,8 @@
                             "$~rectangle",
                             "$~ellipse",
                             "$~chemin",
-                            "$~emoji"
+                            "$~emoji",
+                            "$~image"
                         ],
                         "tips": [
                             "$~sélectionner des formes et des pixels",
@@ -8707,7 +8948,8 @@
                             "$~dessiner des rectangles",
                             "$~tracer des ellipses",
                             "$~tracer des chemins",
-                            "$~importer un emoji en tant que pixels"
+                            "$~importer un emoji en tant que pixels",
+                            "$~ajouter une image comme pixels"
                         ]
                     },
                     "fill": {
@@ -8750,7 +8992,32 @@
                         "label": "$~hauteur",
                         "tip": "$~quelle est la hauteur de la forme"
                     },
-                    "closed": "$~connecté"
+                    "closed": "$~connecté",
+                    "brushSize": {
+                        "label": "$~taille",
+                        "tip": "$~combien de cellules couvrent la brosse et la gomme"
+                    },
+                    "insertion": {
+                        "label": "$~ajouter comme",
+                        "labels": ["$~pixels", "$~contour"],
+                        "tips": [
+                            "$~ajouter le symbole comme pixels que tu peux recolorer un par un",
+                            "$~ajouter le symbole comme contour que tu peux redimensionner et tourner sans qu’il devienne flou"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~police",
+                        "tip": "$~quelle police utiliser pour la forme du symbole"
+                    },
+                    "weight": {
+                        "label": "$~épaisseur",
+                        "tip": "$~à quel point les traits du symbole sont épais"
+                    },
+                    "italic": "$~italique",
+                    "glyphSize": {
+                        "label": "$~taille du symbole",
+                        "tip": "$~combien de cellules couvre le symbole"
+                    }
                 },
                 "button": {
                     "back": {
@@ -8803,11 +9070,11 @@
                     },
                     "horizontal": {
                         "label": "$~retourner horizontalement",
-                        "tip": "$~retourner les points à l'horizontale autour du centre"
+                        "tip": "$~retourner la sélection horizontalement"
                     },
                     "vertical": {
                         "label": "$~retourner verticalement",
-                        "tip": "$~retourner les points à la verticale autour du centre"
+                        "tip": "$~retourner la sélection verticalement"
                     },
                     "fit": {
                         "label": "$~ajuster",
@@ -8828,6 +9095,30 @@
                     "saturationDown": {
                         "label": "$~saturation",
                         "tip": "$~diminution de la saturation"
+                    },
+                    "editPoints": {
+                        "label": "$~points",
+                        "tip": "$~modifier les points du tracé sélectionné"
+                    },
+                    "donePoints": {
+                        "label": "$~terminé",
+                        "tip": "$~arrêter de modifier les points"
+                    },
+                    "addPoint": {
+                        "label": "$~ajouter un point",
+                        "tip": "$~ajouter un point à côté du point sélectionné"
+                    },
+                    "deletePoint": {
+                        "label": "$~retirer un point",
+                        "tip": "$~retirer le point sélectionné"
+                    },
+                    "curve": {
+                        "label": "$~courbe",
+                        "tip": "$~incurver le segment qui arrive au point sélectionné"
+                    },
+                    "straighten": {
+                        "label": "$~redresser",
+                        "tip": "$~redresser le segment qui arrive au point sélectionné"
                     }
                 },
                 "feedback": {
@@ -8839,11 +9130,41 @@
                     "unauthenticated": "$~Tu dois être <connecté@://login> pour modifier un caractère.",
                     "taken": "$~Vous avez déjà un personnage avec ce nom; vous ne sauvegardez pas.",
                     "projecteditfail": "$~Un problème est survenu lors de la mise à jour des projets utilisant ce personnage. Les projets suivants doivent être corrigés :",
-                    "untitledproject": "$~Projet sans titre"
+                    "untitledproject": "$~Projet sans titre",
+                    "glyphLoading": "$~Chargement de la police…",
+                    "glyphMissing": "$~Cette police n’a pas de forme pour ce symbole. Essaie une autre police.",
+                    "glyphEmpty": "$~Ce symbole n’a rien à dessiner.",
+                    "glyphUnreadable": "$~Nous n’avons pas pu lire cette police. Vérifie ta connexion, ou essaie une autre police.",
+                    "imageTooBig": "$~Cette image fait $size Mo. Choisis-en une plus petite que $limit Mo.",
+                    "imageUnreadable": "$~Nous n'avons pas pu lire ce fichier comme une image."
                 },
                 "announce": {
                     "position": "$~à $x $y",
-                    "selection": "$~$shapes[sélectionné $shapes|rien de sélectionné]"
+                    "selection": "$~$shapes[sélectionné $shapes|rien de sélectionné]",
+                    "editing": "$~modification de $#count[un point|$#count millions de points|$count points]",
+                    "editingDone": "$~modification des points terminée",
+                    "point": "$~point $index à $x $y",
+                    "control": "$~courbe $index à $x $y",
+                    "pointAdded": "$~point $index ajouté à $x $y",
+                    "pointRemoved": "$~point $index retiré, $#count[il reste un point|il reste $#count millions de points|il reste $count points]",
+                    "curved": "$~segment $index incurvé",
+                    "straightened": "$~segment $index redressé",
+                    "moved": "$~déplacé à $x $y",
+                    "drew": "$~dessiné à $x $y",
+                    "erased": "$~effacé à $x $y",
+                    "finished": "$~$shape créé à $x $y",
+                    "deleted": "$~supprimé, $#count[il reste une forme|il reste $#count formes|il reste $count formes] restante(s)",
+                    "undone": "$~étape $step sur $total annulée",
+                    "redone": "$~étape $step sur $total rétablie",
+                    "copied": "$~$#count[une forme copiée : $shapes|$count formes copiées : $shapes|$count formes copiées : $shapes]",
+                    "pasted": "$~collé à $x $y",
+                    "arranged": "$~calque $index sur $total",
+                    "flipped": "$~retourné, maintenant à $x $y",
+                    "fitted": "$~formes agrandies pour remplir la toile",
+                    "cropped": "$~cadre de recadrage à $x $y",
+                    "cropMoving": "$~déplacement du cadre de recadrage",
+                    "cropDone": "$~cadre de recadrage placé",
+                    "imported": "$~$#count[un pixel ajouté|$#count pixels ajoutés|$count pixels ajoutés] depuis $x $y"
                 },
                 "share": {
                     "dialog": {
@@ -8867,6 +9188,26 @@
                         ]
                     },
                     "collaborators": "$~collaborateurs"
+                },
+                "image": {
+                    "instructions": "$~Fais glisser le carré pour le déplacer, ou utilise le curseur *taille* pour changer la portion de l'image à garder. Avec le clavier, appuie sur *entrée* pour commencer à le déplacer, puis utilise les touches *flèches*, et appuie de nouveau sur *entrée* quand tu as fini.",
+                    "button": {
+                        "label": "$~envoyer",
+                        "tip": "$~choisis un fichier image depuis cet appareil"
+                    },
+                    "add": {
+                        "label": "$~ajouter",
+                        "tip": "$~ajouter le carré choisi au caractère sous forme de pixels"
+                    },
+                    "crop": {
+                        "label": "$~cadre de recadrage",
+                        "tip": "$~le carré de l'image à garder"
+                    },
+                    "preview": "$~ce qui sera ajouté",
+                    "size": {
+                        "label": "$~taille",
+                        "tip": "$~quelle portion de l'image garder"
+                    }
                 }
             },
             "updates": {

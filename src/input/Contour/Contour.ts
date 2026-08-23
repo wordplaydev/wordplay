@@ -3,10 +3,9 @@ import {
     Faces,
     getContourFont,
     rangeContains,
+    resolveWeight,
     SupportedFontsFamiliesType,
     type ContourFontError,
-    type Face,
-    type FontWeight,
 } from '@basis/faces/Fonts';
 import { createInputs } from '@locale/createInputs';
 import { getDocLocales } from '@locale/getDocLocales';
@@ -64,8 +63,6 @@ const ContourErrors: Record<ContourErrorKind, (locale: LocaleText) => string> =
         outline: (l) => l.input.Contour.error.outline,
     };
 
-const Weights: FontWeight[] = [100, 200, 300, 400, 500, 600, 700, 800, 900];
-
 /** The font face union type, mirroring Phrase's `face` input. */
 const FaceType = parseType(toTokens(SupportedFontsFamiliesType));
 /** The "forward" | "backward" literal type for the direction input. */
@@ -73,23 +70,6 @@ const DirectionType = parseType(toTokens('"forward"|"backward"'));
 
 const FORWARD = 'forward';
 const BACKWARD = 'backward';
-
-/** Pick the supported weight nearest the requested one. */
-function resolveWeight(face: Face, requested: number): FontWeight {
-    const weights = face.weights;
-    let candidates: FontWeight[];
-    if (Array.isArray(weights)) candidates = weights;
-    else {
-        const { min, max } = weights;
-        candidates = Weights.filter((w) => w >= min && w <= max);
-    }
-    const choices = candidates.length > 0 ? candidates : Weights;
-    let best = choices[0];
-    for (const weight of choices)
-        if (Math.abs(weight - requested) < Math.abs(best - requested))
-            best = weight;
-    return best;
-}
 
 /** Subdivisions used to estimate a curve's arc length before sampling it. */
 const LENGTH_ESTIMATE_STEPS = 16;

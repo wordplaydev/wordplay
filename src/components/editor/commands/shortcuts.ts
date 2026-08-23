@@ -38,14 +38,20 @@ export function toShortcut(
     hideShift = false,
     hideAlt = false,
 ) {
-    const mac = onMacOS();
-    return `${command.control && !hideControl ? (mac ? controlKeyLabel() : controlKeyLabel() + '+') : ''}${
-        command.alt && !hideAlt
-            ? mac
-                ? altKeyLabel()
-                : altKeyLabel() + ' + '
-            : ''
-    }${command.shift && !hideShift ? (mac ? shiftKeyLabel() : shiftKeyLabel() + ' + ') : ''}${
-        command.keySymbol ?? command.key ?? '-'
-    }`;
+    // macOS writes modifiers as adjacent symbols (⌘⇧8); everywhere else joins
+    // them with a plus. One separator for all three: control used to join with
+    // '+' while alt and shift joined with ' + ', so a Ctrl+Shift command read
+    // "Ctrl+Shift + 8".
+    const separator = onMacOS() ? '' : '+';
+    const parts = [
+        ...(command.control && !hideControl ? [controlKeyLabel()] : []),
+        ...(command.alt && !hideAlt ? [altKeyLabel()] : []),
+        ...(command.shift && !hideShift ? [shiftKeyLabel()] : []),
+        // A command with no key of its own is invoked by its button alone, so
+        // there is no shortcut to name; the modifiers still are, if it has any.
+        ...((command.keySymbol ?? command.key)
+            ? [command.keySymbol ?? command.key ?? '']
+            : []),
+    ];
+    return parts.join(separator);
 }

@@ -282,7 +282,8 @@
         "Exponent": "$~üs",
         "Product": "$~ürün",
         "Percent": "$~yüzde",
-        "Defect": "$~beklenen kusurlu örnek"
+        "Defect": "$~beklenen kusurlu örnek",
+        "NotANumber": "$~sayı değil"
     },
     "node": {
         "Dimension": {
@@ -2642,11 +2643,115 @@
                             "names": "$~model"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi büyük harfe çevrilmiş yeni bir @Text oluştururum:",
+                        "\\'merhaba'.büyükHarf()\\",
+                        "Harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Bu yüzden Japonca veya Arapça gibi böyle bir ayrımı olmayan yazı sistemlerindeki metin değişmeden kalır.",
+                        "Dil etiketim, hangi kuralların kullanılacağına karar verir. Türkçede noktalı ve noktasız i harfi vardır. Sadece Türkçe olarak etiketlenmiş metin, bu harfleri Türkçe kurallarına göre büyük harfe çevirir:",
+                        "\\'iyi'.büyükHarf()\\",
+                        "\\'iyi'.büyükHarf()\\"
+                    ],
+                    "names": ["$~büyükHarf"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi küçük harfe çevrilmiş yeni bir @Text oluştururum:",
+                        "\\'MERHABA'.küçükHarf()\\",
+                        "Büyük küçük harf farkını önemsemeden iki metni karşılaştırmak için ikisini de küçük harfe çevir. Bu şekilde, büyük harfle başlasın ya da başlamasın, a ile başlayan her kelime korunur:",
+                        "\\['Elma' 'kayısı' 'Muz'].filtre(\n\tƒ(kelime•'') kelime.küçükHarf().başlar('a')\n)\\",
+                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve dil etiketim, hangi kuralların kullanılacağına karar verir."
+                    ],
+                    "names": ["$~küçükHarf"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Kendimin bir parçasından yeni bir @Text oluştururum. Sayma 1'den başlar ve her iki uç da dahildir:",
+                        "\\'merhaba'.altdizi(2 4)\\",
+                        "Sonu belirtmezsen, son sembolüme kadar giderim:",
+                        "\\'merhaba'.altdizi(3)\\",
+                        "Sembolleri senin gördüğün gibi sayarım, bu yüzden birkaç parçadan oluşan bir emoji yine de tek bir sembol sayılır ve asla ortadan kesilmez:",
+                        "\\'🐈📚!'.altdizi(1 2)\\",
+                        "Sahip olduğumdan fazlasını istersen, sahip olduğum kadarını sana veririm."
+                    ],
+                    "names": ["$~altdizi"],
+                    "inputs": [
+                        {
+                            "doc": "$~Başlanacak yer, 1'den sayılır.",
+                            "names": "$~başlangıç"
+                        },
+                        {
+                            "doc": "$~Durulacak yer, 1'den sayılır. Sona kadar gitmek için boş bırak.",
+                            "names": "$~son"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Verilen @Text'in içimde ilk nerede göründüğünü sana söylerim, 1'den sayarak:",
+                        "\\'merhaba'.dizin('ll')\\",
+                        "Eğer içimde hiç yoksa, sana bunun yerine @None veririm:",
+                        "\\'merhaba'.dizin('z')\\",
+                        "@Text/subsequence ile birlikte bir şeye kadar olan her şeyi alabilirim — burada, ilk kelimeye kadar:",
+                        "\\tümce: 'merhaba dünya'\ntümce.altdizi(1 (tümce.dizin(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~dizin"],
+                    "inputs": [
+                        {
+                            "doc": "$~İçimde aranacak @Text.",
+                            "names": "$~metin"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Her @Text örneğinin başka biriyle değiştirildiği yeni bir @Text yaparım:",
+                        "\\'2026-08-21'.değiştir('-' '/')\\",
+                        "Sadece ilk örnek değil, her örnek değişir:",
+                        "\\'ha ha ha'.değiştir('ha' 'ho')\\",
+                        "Benden boş bir @Text değiştirmemi istersen, kendimi değişmeden geri veririm."
+                    ],
+                    "names": ["$~değiştir"],
+                    "inputs": [
+                        {
+                            "doc": "$~İçimde aranacak @Text.",
+                            "names": "$~nin"
+                        },
+                        {
+                            "doc": "$~Onun yerine konacak @Text.",
+                            "names": "$~değişim"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Her iki ucumdaki boş alan kaldırılmış yeni bir @Text oluştururum. Ortadaki boşluk kalır:",
+                        "\\'  merhaba  '.kırp()\\",
+                        "Bu, birinin yazdığı ve genellikle istemediğiniz fazladan boşluklar içeren metinler için kullanışlıdır."
+                    ],
+                    "names": ["$~kırp"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Sembollerim ters sırada olan yeni bir @Text oluştururum:",
+                        "\\'merhaba'.tersineÇevrilmiş()\\",
+                        "Sembollerimin sırasını senin gördüğün gibi tersine çeviririm, böylece emoji bütün kalır ve harfler aksanlarını korur:",
+                        "\\'🐈📚'.tersineÇevrilmiş()\\"
+                    ],
+                    "names": ["$~tersineÇevrilmiş", "$~tersineÇevir"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Metni ayrı karakterlerden oluşan bir listeye böler.",
-                "number": "$~Metni @Number'a dönüştürür ve eğer bir sayı değilse, bir sayı değeri değildir.",
+                "number": [
+                    "$~Metni bir @Number'e çevirir, eğer bu bir sayı değilse, sayı olmayan bir değer verir, bu da şöyle görünür: \\!#\\:",
+                    "\\'selam' → #\\"
+                ],
                 "formatted": "$~Metni, içerdiği biçimlendirme kurallarını yorumlayarak biçimlendirilmiş metne dönüştürür."
             }
         },
@@ -3219,25 +3324,12 @@
                     "names": ["$~Sonolmadan", "$~sansSon"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Ben, ama verilen @value öğesinin ilk geçtiği yerler olmadan.",
-                        "\\['elma' 'muz' 'mango' 'elma'].olmadan('elma')\\"
-                    ],
-                    "names": ["$~olmadan"],
-                    "inputs": [
-                        {
-                            "doc": "$~İlk geçtiği yeri kaldırılacak @value.",
-                            "names": "$~değer"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Ben, ama verilen @value öğesinin geçtiği tüm yerler olmadan.",
+                        "$~Ben, ama verilen @value olmadan. Hangi ismimi kullanırsan kullan, her kopya gider, sadece ilki değil:",
                         "\\['elma' 'muz' 'mango' 'elma'].olmadan('elma')\\"
                     ],
-                    "names": ["$~hepsiolmadan"],
+                    "names": ["$~olmadan", "$~hepsiolmadan"],
                     "inputs": [
                         {
                             "doc": "$~Listeden geçtiği tüm yerleri kaldırılacak @value.",
@@ -3972,10 +4064,33 @@
                             "names": "$~biçimlendirilmiş"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi büyük harfe çevrilmiş yeni biçimlendirilmiş metin oluştururum. Sadece kelimelerim değişir; biçimlendirmem, bağlantılarım ve örneklerim olduğu gibi kalır:",
+                        "\\`*selam* orada`.büyükHarf()\\",
+                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve dil etiketim, hangi kuralların kullanılacağına karar verir."
+                    ],
+                    "names": ["$~büyükHarf"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi küçük harfe çevrilmiş yeni biçimlendirilmiş metin oluştururum. Sadece kelimelerim değişir; biçimlendirmem, bağlantılarım ve örneklerim olduğu gibi kalır:",
+                        "\\`*SELAM* ORADA`.küçükHarf()\\",
+                        "@Text/lowercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve dil etiketim, hangi kuralların kullanılacağına karar verir."
+                    ],
+                    "names": ["$~küçükHarf"],
+                    "inputs": []
                 }
             },
             "conversion": {
-                "text": "$~Biçimlendirilmiş metni, tüm biçimlendirmeyi kaldırarak düz @Text Text'e dönüştürür."
+                "text": "$~Biçimlendirilmiş metni, tüm biçimlendirmeyi kaldırarak düz @Text Text'e dönüştürür.",
+                "list": "$~Biçimlendirilmiş metni, kelimelerimin her sembolü için bir tane olmak üzere bir @Text @List'ine çevirir. Biçimlendirme tek tek sembollere kesilince korunamaz, bu yüzden kaybolur.",
+                "number": [
+                    "$~Kelimelerimi bir @Number'e çevirir, eğer bunlar bir sayı değilse, sayı olmayan bir değer verir, bu da şöyle görünür: \\!#\\:",
+                    "\\`selam` → #\\"
+                ]
             }
         }
     },
@@ -4323,19 +4438,20 @@
         "Collision": {
             "names": "$~Çarpışma",
             "doc": [
-                "$~Bu, isimlendirilmiş @Output öğeleri birbirine çarptığında oluşan @Rebound değerlerinin bir akışıdır.",
-                "Bu, @Output öğeleri birbirine çarptığında, yapabilecekleri normal sekme dışında bir şey yaptırmanın harika bir yoludur.",
-                "Ona sadece bir @Output ismi ver, o da bu isim başka bir isme her çarptığında yeni bir @Rebound @value oluştursun. Bir @Rebound, çarpışan isimler ve çarpışmalarının yönü hakkında bilgi içerir.",
-                "Ve ona iki isim verirsen, yalnızca bu iki isim birbirine çarptığında yeni bir değer oluşturur.",
-                "Yeni bir değer oluşturduktan hemen sonra bir \\ø\\ oluşturur, çünkü çarpışma gerçekleştikten sonra biter. Bu, artık bir çarpışma olmadığını gösterir."
+                "$~Adı olan @Output birbirine çarptığında oluşan @Rebound değerlerinden bir akıştır.",
+                "İki @Output'nin birbirini fark etmesini istersen, ikisine de isim ver, sonra bana ikisinin de ismini söyle. Birbirlerine değdiklerinde yeni bir @Rebound oluştururum. Bunun için @Matter'ye ihtiyaçları yok — bir şeyi izlemem için tek gereken bir isim.",
+                "Bana sadece bir isim ver, o @Output fiziksel dünyadaki başka herhangi bir şeye her değdiğinde sana söylerim. Bir @Output, eğer @Matter'ye sahipse, bir @Motion tarafından yerleştirildiyse, @Stage üzerinde doğrudan duran bir @Shape ise ya da ismini de izliyorsam, fiziksel dünyadadır.",
+                "Fark etmek, sekmekle aynı şey değildir. @Output, ancak @Matter'ye ve onu hareket ettiren bir @Motion'ye sahipse başka @Output'yi iter. Programının yerleştirdiği @Output tam olarak koyduğun yere gider, bu yüzden değdiği her şeyin içinden geçer — yine de dokunmayı sana bildiririm.",
+                "Bir @Rebound, dokunan isimleri ve dokundukları yönü içerir. Bir tanesini oluşturduktan hemen sonra bir tane daha oluştururum \\ø\\, çünkü bir çarpışma gerçekleştiği anda biter.",
+                "Sadece doğrudan @Stage üzerine yerleştirilmiş @Output'yi izleyebilirim. Bir @Group içindeki her şey o grubun kendi uzayında hareket eder, bu yüzden onu göremem — bunun yerine @Group'e bir isim ver ve onu izle."
             ],
             "subject": {
                 "names": "$~ders",
-                "doc": "$~Çakışmaları aramam gereken @Output'un adı."
+                "doc": "$~İzlemem gereken @Output'nin ismi. Onu izlemek, onu fiziksel dünyaya koymak için yeterlidir, bu yüzden @Matter'ye ihtiyacı yoktur."
             },
             "object": {
                 "names": "$~diğer",
-                "doc": "$~Çakışmaları aramam gereken diğer @Output'un adı."
+                "doc": "$~İzlemem gereken diğer @Output'nin ismi. Bu da verildiğinde, sadece bu ikisinin birbirine değmesini bildiririm; bunu boş bırakırsan, ilkinin fiziksel dünyadaki herhangi bir şeye değmesini bildiririm."
             }
         },
         "Rebound": {
@@ -4846,7 +4962,7 @@
                 "names": "$~içerik"
             },
             "matter": {
-                "doc": "$~Madde içeren başka bir şeye çarparsam nasıl tepki vermeliyim?",
+                "doc": "$~Ne kadar ağır, ne kadar sekici ve ne kadar kaygan olduğum, ve bir @Motion beni hareket ettirdiğinde beni neyin katı yaptığı.",
                 "names": "$~konu"
             },
             "size": {
@@ -4972,7 +5088,7 @@
                 "names": "$~yön"
             },
             "matter": {
-                "doc": "$~Bir şeye çarptığımda kullanabileceğim özellikler!",
+                "doc": "$~Ne kadar ağır, ne kadar sekici ve ne kadar kaygan olduğum, ve bir @Motion beni hareket ettirdiğinde beni neyin katı yaptığı.",
                 "names": "$~konu"
             },
             "aura": {
@@ -5868,7 +5984,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Sahnede diğer çıktılarla nasıl etkileşime girdiğimi etkileyen çıktının fiziksel özellikleriyim.",
+            "doc": "$~@Output'nin ne kadar ağır, sekici ve kaygan olduğunu belirtirim. Bende ve bir @Motion'de olan @Output katıdır: @Stage üzerindeki @Shape'ten ve hareket eden diğer @Output'lerden sekerek geri döner. Programının yerleştirdiği @Output bunun yerine koyduğun yere gider ve değdiği şeylerin içinden geçer. @Output'nin @Collision tarafından fark edilmesi için bana ihtiyacı yoktur — bunun için bir isim yeterlidir.",
             "names": ["$~Konu"],
             "mass": {
                 "doc": "$~Bir ağırlık, kilogram cinsinden",
@@ -5887,12 +6003,16 @@
                 "names": "$~yuvarlaklık"
             },
             "text": {
-                "doc": "$~Başka çıktılarla çakışabilir mi?",
+                "doc": "$~Diğer @Phrase ve @Group ile hiç çarpışıp çarpışamayacağım; ⊥, onları fark etmediğim anlamına gelir ve @Collision onlar hakkında hiçbir şey söylemez.",
                 "names": "$~metin"
             },
             "shapes": {
-                "doc": "$~Başka şekillerle çarpışabilir mi?",
+                "doc": "$~@Stage üzerindeki @Shape ile hiç çarpışıp çarpışamayacağım; ⊥, duvarlardan ve zeminlerden geçtiğim anlamına gelir ve @Collision onlar hakkında hiçbir şey söylemez.",
                 "names": "$~zemin"
+            },
+            "pull": {
+                "doc": "$~Diğer çıktıları bana doğru ne kadar güçlü çektiğim. 0, hiç çekmediğim anlamına gelir ve normal olan budur. Büyük sayılar daha güçlü çeker, negatif bir sayı ise çekmek yerine iter. Sadece bir @Motion tarafından yerleştirilmiş çıktı çekilebilir.",
+                "names": "$~çek"
             }
         },
         "Aura": {
@@ -6026,6 +6146,10 @@
             "overlay": {
                 "doc": "$~Ekrana düz olarak sabitlenmiş, bilgi göstergesi gibi çalışan bir @Output listesi. Bu, sahnenin @Place kamerasından veya derinliğinden etkilenmez.",
                 "names": "$~kaplama"
+            },
+            "air": {
+                "doc": "$~Havanın hareket eden çıktıyı ne kadar yavaşlattığı. 1, normal havadır. 0 ise uzay boşluğudur, orada her şey sonsuza kadar hareket etmeye devam eder. Daha büyük sayılar havadan daha yoğun demektir.",
+                "names": "$~hava"
             }
         },
         "Easing": {
@@ -7059,7 +7183,7 @@
                 "nextMatch": "$~Sonraki arama sonucuna git",
                 "insertTranslate": "$~çeviri sembolünü ekle",
                 "insertThis": "$~Bu sembolü ekleyin",
-                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için Ctrl + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin.",
+                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için $control + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin.",
                 "matchDelimiter": "$~İmleci eşleşen sınırlayıcıya taşı",
                 "insertPattern": "$~desen ekle",
                 "insertSearch": "$~desen arama sembolü ekle",
@@ -8285,18 +8409,6 @@
             "landing": {
                 "value": "$~Bizimle kelimeler, semboller, emojiler ve kod kullanarak etkileşimli hikayeler oluştur! Başlamak için",
                 "chooseLocales": "$~veya seçin",
-                "description": [
-                    "$~@wordplay şunları yapmanı sağlayan bir programlama dilidir:",
-                    "• Kelimeleri ve emojileri eğlenceyle hareketlendirmek 🤪",
-                    "• Zaman 🕦, ses 🎤, yüzler 🙂, eller 🖐️, web siteleri 🔗 ve fizik 🌎 kullanmak",
-                    "• Metinden konuşmayla konuşmak 🗣️ ve müzik çalmak 🎼",
-                    "• Arkadaşlarla, gruplarla veya herkesle paylaşmak 🤝",
-                    "• Herhangi bir dünya dilinde kod yazmak 🌐",
-                    "• Fare 🖱️, dokunma 👆 ve klavye ⌨️ ile düzenlemek",
-                    "• İleri ⏩ ve geri ⏪ hata ayıklamak",
-                    "• Ekranlar 🖥️ ve ekran okuyucularla 🔊 görüntülemek",
-                    "<Washington Üniversitesi@https://ischool.uw.edu/>'nden sonsuza dek ücretsiz."
-                ],
                 "beta": [
                     "$~@wordplay *beta* aşamasındadır, bu nedenle amaçlandığı gibi çalışmayabilir veya tamamlanmamış olabilir. Hataları bildirin ve fikirlerinizi <GitHub@https://github.com/wordplaydev/wordplay/issues> adresinde paylaşın, <1.0 planlarımıza@https://github.com/wordplaydev/wordplay/milestones/1.0> ve <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> bakın."
                 ],
@@ -8321,6 +8433,130 @@
                     "design": "$~Katkıda bulunanlar için tasarım sistemi referansı",
                     "thanks": "$~Bunu yapmaya kimler yardımcı oldu?",
                     "localize": "$~Wordplay'i kendi dilinize çevirmeye yardım edin"
+                },
+                "tagline": "$~herkesin kullanabileceği, çok dilli, yaratıcı kodlama",
+                "tour": {
+                    "button": "$~bana göster",
+                    "loading": "$~Yükleniyor…",
+                    "failed": "$~Örnekler yüklenemedi. Bağlantını kontrol et ve tekrar dene.",
+                    "restart": "$~bu örneği baştan başlat",
+                    "examples": {
+                        "label": "$~Örnek programlar",
+                        "tips": [
+                            "$~Metin parlayabilir ve hareket edebilir",
+                            "$~Müzik; veri, ses ve görüntüdür",
+                            "$~Zaman ilerler ve kelimeler çok dillidir",
+                            "$~Metin; işaretçilere, tıklamalara, dokunuşlara ve tuşlara tepki verebilir",
+                            "$~İzleyiciler seçim yapabilir",
+                            "$~İzleyiciler programlarla sohbet edebilir ve kelimeler şekil alabilir",
+                            "$~Fizik ve yerçekimi, metnin düşmesini ve sekmesini sağlayabilir",
+                            "$~Programlar senin konuşmanı dinleyebilir",
+                            "$~Programlar yüzünü, ellerini ve nesneleri izleyebilir"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶Cümleler sahnede görünür, istediğin renkte, parlaklıkta ve hareketle.¶\nİfadeetmek(\n\t'merhaba!'\n\t6m\n\trenk: Renk(60% 90 200°)\n\taura: Aura(Renk(80% 80 200°) 0.3m)\n\tdinlenme: Sekans.sallanmak(8°)\n)\\",
+                        "music": "$~\\¶Müzik, gerçek çalgılarda, bir tempoda, bir tonda çalınan notalardan oluşur. Sahne duyduğunu çizer.¶\nMüzik(\n\tParça([1 3 5 8 5 3] çalgı: Çalgı.piyano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Kod, @Time gibi girdilere tepki verebilir ve metin çok dilli olup sesli okunabilir.¶\nmerhabalar: ['merhaba' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nmerhaba: merhabalar.rastgele() … ∆ Zaman(1000ms) … merhabalar.rastgele(\n\t\t)\nİfadeetmek(merhaba 4m)\nSöylemek(merhaba)\\",
+                        "keys": "$~\\¶Kod; imleçlere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Anahtar()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[İfadeetmek(yüzler[hangisi] 5m yer: İşaretçi())]\n\tyer: Yer(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Metni yerleştir ve seçilebilir yap.¶\nmeyve: ƒ(e•'') İfadeetmek(e 3m isim: e seçilebilir: ⊤)\nseçildi: Seçenek()\ngösterildi: '?' … ∆ seçildi … seçildi\nGrup(\n\tYığın(dolgu: 1m)\n\t[\n\t\tİfadeetmek(gösterildi 4m)\n\t\tGrup(\n\t\t\tSıra(dolgu: 1m)\n\t\t\t[meyve('🍎') meyve('🍐') meyve('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Programlarla sohbet et ve yazı tiplerinin ile sembollerin şeklini kullan.¶\nmesaj: Sohbet()\nkelime2: 'selam' … ∆ mesaj … mesaj\nsatır: Kontur(kelime2 'Noto Sans' 8m)\ntikSesleri: 0 … ∆ Zaman(30ms) … tikSesleri + 1\ngösterildi: ((satır.uzunluk() × tikSesleri) ÷ 66).Aşağıyuvarla(\n\t) + 1\nnoktalar: satır.altdizi(1 gösterildi).tercümeetmek(\n\t\tƒ(p) İfadeetmek('•' yer: p)\n\t)\nSahne(noktalar.ile(İfadeetmek(kelime2 8m opaklık: 15%)))\\",
+                        "pile": "$~\\¶Yazının fiziği olabilir.¶\nfırlat: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tİfadeetmek(\n\t\t\temoji\n\t\t\t2m\n\t\t\tyer: Hareket(Yer(x2 y2) Hız(vx 0m/s))\n\t\t\tkonu: Konu(1kg 0.55 0.06 0.5)\n\t\t)\nSahne(\n\t[\n\t\tfırlat('🍎' -2m 5m 2.2m/s)\n\t\tfırlat('🍊' 2m 7m -2.6m/s)\n\t\tfırlat('🍋' -1m 9m 1.4m/s)\n\t\tfırlat('🍇' 1.5m 11m -1.9m/s)\n\t\tfırlat('🫐' 0.5m 15m -1.2m/s)\n\t\tŞekil(Dikdörtgen(-4m -3m 4m -3.6m))\n\t\tŞekil(Dikdörtgen(-4.6m 4m -4m -3m))\n\t\tŞekil(Dikdörtgen(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kod, mikrofonunun @Volume ve @Pitch değerine tepki verebilir.¶\nİfadeetmek(\n\t'📣'\n\t1m + (Hacim() × 8m)\n\trotasyon: (Saha() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kod, @Face değerine ve @Camera üzerindeki başka şeylere tepki verebilir.¶\nİfadeetmek(\n\tYüz().gülümseme ? '😄 teşekkür ederim!' '🙂 kameraya gülümse'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay bir programlama dilidir",
+                        "bullets": [
+                            "$~• Her program, bir değere dönüşen bir ifadedir. \\1 + 1\\ bir programdır, \\İfadeetmek('selam')\\ de öyledir.",
+                            "• Sayılar birim taşır, bu yüzden \\1m + 1m\\ metredir, \\1cat + 1dog\\🪲 ise @wordplay'ın çalışmadan önce yakaladığı bir hatadır.",
+                            "• Fonksiyonlar; isim verebileceğin, aktarabileceğin ve çağırabileceğin değerlerdir: \\ƒ çift2(n3•#) n3 × 2\\.",
+                            "• Girdi değiştiğinde, @wordplay programını yeniden değerlendirir ve yeni değerini gösterir. Olaylara tepki vermene gerek yoktur.",
+                            "• @wordplay, program çalışmadan önce hataları bulur ve her sorunu açıklar."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay çok dillidir",
+                        "bullets": [
+                            "$~• Her programlama dili özelliğinin her dilde bir ismi vardır, bu yüzden kodu zaten bildiğin kelimelerle okuyabilirsin.",
+                            "• Kendi isimlerin de çok dilli olabilir:\n\\kedi2: '🐈'\nİfadeetmek(kedi2)\\",
+                            "• Metin bir dil taşır ve izleyicinin okuduğu dili gösterir: \\'merhaba'\\.",
+                            "• Sitenin kendisi 29 dilde ve aynı anda birden fazla dil seçebilirsin; metin her dilde görünür.",
+                            "• @wordplay'ı çevirmeye yardımcı olabilirsin, doğrudan uygulama içinde <localize//localize> üzerinden."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay erişilebilir",
+                        "bullets": [
+                            "$~• Fareyle yapabildiğin her şeyi, klavyeyle de yapabilirsin.",
+                            "• Ekran okuyucular sahneyi sadece yüklendiğinde değil, değiştikçe de anlatır.",
+                            "• Kodunu metin yerine bloklar olarak okuyabilir ve yazabilirsin, istediğin zaman değiştirebilirsin.",
+                            "• Hareket yavaşlatılabilir ya da tamamen kapatılabilir.",
+                            "• Sesli çıktı, duyamayan herkes için sahnede alt yazı olarak gösterilebilir."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay dünyayı hisseder",
+                        "bullets": [
+                            "$~• Zamanın geçişi: \\Zaman(1000ms)\\ tıklar, ve \\Şimdi()\\ kendi takviminde ve saat diliminde bugünün tarihini bilir.",
+                            "• İzleyicinin nereyi işaret ettiği, neye dokunduğu ve hangi tuşlara bastığı.",
+                            "• Programlar mikrofonuna tepki verebilir: @Volume ile ne kadar yüksek sesli olduğuna, @Pitch ile hangi tonda olduğuna ve @Speech ile hangi kelimelerin söylendiğine.",
+                            "• İzleyicin @Chat ile yazı yazabilir ve @Choice ile sahnedeki içeriği seçebilir.",
+                            "• Programlar, çaldıkları müziğin ritmine @Beat ile tepki verebilir."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay performans sergiler",
+                        "bullets": [
+                            "$~• @Phrase sahneye kelimeler ve emoji yerleştirir.",
+                            "• @Group bunları satırlar, yığınlar, ızgaralar halinde ya da senin belirlediğin herhangi bir yere yerleştirir.",
+                            "• @Pose ve @Sequence nesneleri döndürür, soldurur, ölçeklendirir ve hareket ettirir.",
+                            "• @Say metni göstermek yerine sesli okur.",
+                            "• @Music gerçek çalgılarla, bir tempoda ve bir tonda nota parçaları çalar:\n\\Müzik(Parça([1 3 5] çalgı: Çalgı.çan) tempo: 90beats/min)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay tipografidir",
+                        "bullets": [
+                            "$~• Dünyanın yazı sistemlerini kapsayan yüzlerce yazı tipi.",
+                            "• <özel karakterlerini//characters> çizebilir ve bunları bir emoji kullanılan her yerde kullanabilirsin.",
+                            "• Her harfin dış hattı, @Contour ile okuyabileceğin ve canlandırabileceğin bir veridir: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Metin, yazıldığı dilin kurallarına göre satır sonlarında bölünür.",
+                            "• Sağdan sola ve dikey yazı, olması gerektiği gibi düzenlenir."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay kendini açıklar",
+                        "bullets": [
+                            "$~• Dokümantasyon, yanındaki bir yorum değil, @Doc ile dilin bir parçasıdır.",
+                            "• Aranabilir bir <rehber//guide>, her yerleşik özelliği örneklerle açıklar.",
+                            "• Her hata, kendi dilinde, meydana geldiği yerde açıklanır.",
+                            "• Bir programı ne olduğunu anlamak için ileri /ve/ geri adımlarla izleyebilirsin.",
+                            "• Adım adım ilerlerken, her değer onu oluşturan kodun tam içinde gösterilir."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay paylaşmak içindir",
+                        "bullets": [
+                            "$~• Projelerin sana aittir ve onları kimin görebileceğine sen karar verirsin.",
+                            "• Başkalarını seninle birlikte bir proje oluşturmaya davet edebilirsin.",
+                            "• <Galeriler@://galleries>, projeleri bir tema etrafında bir araya getirir.",
+                            "• Öğretmenler sınıflar oluşturup öğrencilerinin çalışmalarını takip edebilir: <teach@://teach>.",
+                            "• Herhangi birinin herkese açık projesini yeniden düzenleyip kendine mal edebilirsin."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay ücretsiz ve açıktır",
+                        "bullets": [
+                            "$~• @wordplay ücretsizdir ve her zaman ücretsiz kalacaktır.",
+                            "• Açık kaynaklıdır: nasıl çalıştığını okuyabilir ve onu değiştirmemize yardımcı olabilirsin.",
+                            "• <Washington Üniversitesi@https://ischool.uw.edu/> Bilişim Okulu'ndan gelir.",
+                            "• Yaratıcılardan, öğretmenlerden ve katkıda bulunanlardan oluşan bir topluluk vardır.",
+                            "• <Bağışlar//donate>, çalıştırma maliyetlerini karşılar."
+                        ]
+                    }
                 }
             },
             "learn": {
@@ -8740,14 +8976,16 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
-                    "unselected": "$~Bir çizim modu seçin veya şekilleri seçip düzenleyin.",
-                    "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullanın. Seçime daha fazla şekil eklemek için *shift* tuşuna basılı tutun. Seçimi kaldırmak için *delete* tuşunu kullanın. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullanın.",
+                    "unselected": "$~Bir çizim kipi seç ya da şekilleri seçip düzenle. Her şeyi seçmek için *$control-a*, geri almak için *$control-z* kullan.",
+                    "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullan. Seçime başka şekiller eklemek için *shift* tuşunu basılı tut. Seçimi kaldırmak için *delete* kullan. Kopyalamak için *$control-c*, yapıştırmak için *$control-v*, geri almak için *$control-z* kullan. Bir yol seçiliyken noktalarını düzenlemek için *enter* tuşuna bas. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullan.",
                     "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın. Doldurmak için *çift tıklayın*.",
                     "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
                     "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın.",
-                    "emoji": "$~Piksel olarak içe aktaracağınız emojiyi seçin, ardından istediğiniz gibi değiştirin."
+                    "points": "$~Yolun noktaları arasında geçmek için *Tab* tuşuna bas. Seçili noktayı taşımak için *ok* tuşlarını, yanına bir nokta eklemek için *enter* tuşunu, kaldırmak için *delete* tuşunu kullan. Bir noktaya gelen parçayı bükmek için *curve* kullan, ardından tutamacını hareket ettir; tutamaç üzerinde *delete* tuşuna basmak onu yeniden düzleştirir. Bitirince *escape* tuşuna bas.",
+                    "symbol": "$~Piksel mi yoksa dış çizgi mi ekleyeceğine karar ver, sonra bir harf, sembol ya da emoji seç. Bir dış çizgi bulanıklaşmadan yeniden boyutlandırılabilir ve döndürülebilir; pikseller ise tek tek yeniden renklendirilebilir. Zaten yaptığın bir şeyi seçmek için üzerine tıkla ya da dokun.",
+                    "image": "$~Bir resim seç, sonra saklamak istediğin kareyi belirle. Bu, pikselleri değiştirir ve çizdiğin şekillerin altında kalır. Zaten yaptığın bir şeyi seçmek için üzerine tıkla ya da dokun."
                 },
                 "shape": {
                     "shape": "$~şekil",
@@ -8756,7 +8994,10 @@
                     "ellipse": "$~elips",
                     "path": "$~yol",
                     "eraser": "$~silgi",
-                    "emoji": "$~emoji"
+                    "emoji": "$~emoji",
+                    "glyph": "$~dış çizgi",
+                    "symbol": "$~sembol",
+                    "image": "$~resim"
                 },
                 "field": {
                     "name": {
@@ -8770,22 +9011,24 @@
                     "mode": {
                         "label": "$~mod",
                         "labels": [
-                            "$~seçme",
+                            "$~seç",
                             "$~silgi",
                             "$~piksel",
                             "$~dikdörtgen",
                             "$~elips",
                             "$~yol",
-                            "$~emoji"
+                            "$~emoji",
+                            "$~resim"
                         ],
                         "tips": [
-                            "$~şekilleri ve pikselleri seçin",
+                            "$~şekilleri ve pikselleri seç",
                             "$~Şekilleri ve pikselleri silin.",
                             "$~piksel çizmek",
                             "$~dikdörtgenler çizin",
                             "$~elips çizin",
                             "$~yollar çiz",
-                            "$~Emoji'yi piksel olarak içe aktar"
+                            "$~Emoji'yi piksel olarak içe aktar",
+                            "$~resmi piksel olarak ekle"
                         ]
                     },
                     "fill": {
@@ -8828,7 +9071,32 @@
                         "label": "$~yükseklik",
                         "tip": "$~şeklin uzunluğu ne kadar"
                     },
-                    "closed": "$~bağlı"
+                    "closed": "$~bağlı",
+                    "brushSize": {
+                        "label": "$~boyut",
+                        "tip": "$~fırçanın ve silginin kaç hücre genişliğinde olduğu"
+                    },
+                    "insertion": {
+                        "label": "$~şu şekilde ekle",
+                        "labels": ["$~pikseller", "$~dış çizgi"],
+                        "tips": [
+                            "$~sembolü, tek tek yeniden renklendirebileceğin pikseller olarak ekle",
+                            "$~sembolü, bulanıklaşmadan yeniden boyutlandırıp döndürebileceğin bir dış çizgi olarak ekle"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~yazı tipi",
+                        "tip": "$~sembolün şeklinin hangi yazı tipinden alınacağı"
+                    },
+                    "weight": {
+                        "label": "$~kalınlık",
+                        "tip": "$~sembolün çizgilerinin ne kadar kalın olduğu"
+                    },
+                    "italic": "$~italik",
+                    "glyphSize": {
+                        "label": "$~sembol boyutu",
+                        "tip": "$~sembolün kaç hücre genişliğinde olduğu"
+                    }
                 },
                 "button": {
                     "back": {
@@ -8881,11 +9149,11 @@
                     },
                     "horizontal": {
                         "label": "$~yatay çevir",
-                        "tip": "$~noktaları merkez etrafında yatay olarak çevir"
+                        "tip": "$~seçimi yatay olarak çevir"
                     },
                     "vertical": {
                         "label": "$~dikey çevir",
-                        "tip": "$~noktaları merkez etrafında dikey olarak çevir"
+                        "tip": "$~seçimi dikey olarak çevir"
                     },
                     "fit": {
                         "label": "$~yerleştirmek",
@@ -8906,6 +9174,30 @@
                     "saturationDown": {
                         "label": "$~doygunluk",
                         "tip": "$~doygunluğu azaltmak"
+                    },
+                    "editPoints": {
+                        "label": "$~noktalar",
+                        "tip": "$~seçili yolun noktalarını düzenle"
+                    },
+                    "donePoints": {
+                        "label": "$~bitti",
+                        "tip": "$~noktaları düzenlemeyi durdur"
+                    },
+                    "addPoint": {
+                        "label": "$~nokta ekle",
+                        "tip": "$~seçili noktanın yanına bir nokta ekle"
+                    },
+                    "deletePoint": {
+                        "label": "$~noktayı kaldır",
+                        "tip": "$~seçili noktayı kaldır"
+                    },
+                    "curve": {
+                        "label": "$~eğri",
+                        "tip": "$~seçili noktaya gelen parçayı bük"
+                    },
+                    "straighten": {
+                        "label": "$~düzleştir",
+                        "tip": "$~seçili noktaya gelen parçayı düzleştir"
                     }
                 },
                 "feedback": {
@@ -8917,11 +9209,41 @@
                     "unauthenticated": "$~Bir karakteri düzenlemek için <giriş yapmalısınız@://login>.",
                     "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor.",
                     "projecteditfail": "$~Bu karakteri kullanan projeler güncellenirken bir sorun oluştu. Aşağıdaki projelerin düzeltilmesi gerekiyor:",
-                    "untitledproject": "$~Başlıksız Proje"
+                    "untitledproject": "$~Başlıksız Proje",
+                    "glyphLoading": "$~Yazı tipi alınıyor…",
+                    "glyphMissing": "$~Bu yazı tipinde o sembol için bir şekil yok. Başka bir yazı tipi dene.",
+                    "glyphEmpty": "$~O sembolün çizilecek bir şeyi yok.",
+                    "glyphUnreadable": "$~O yazı tipini okuyamadık. Bağlantını kontrol et ya da başka bir yazı tipi dene.",
+                    "imageTooBig": "$~O görsel $size MB büyüklüğünde. Lütfen $limit MB'den küçük bir görsel seçin.",
+                    "imageUnreadable": "$~Bu dosyayı görsel olarak okuyamadık."
                 },
                 "announce": {
                     "position": "$~$x $y'de",
-                    "selection": "$~$shapes[seçildi $shapes|hiçbir şey seçilmedi]"
+                    "selection": "$~$shapes[seçildi $shapes|hiçbir şey seçilmedi]",
+                    "editing": "$~$#count[bir nokta düzenleniyor|$count nokta düzenleniyor]",
+                    "editingDone": "$~noktaları düzenleme bitti",
+                    "point": "$~nokta $index, $x $y konumunda",
+                    "control": "$~eğri $index, $x $y konumunda",
+                    "pointAdded": "$~nokta $index, $x $y konumuna eklendi",
+                    "pointRemoved": "$~nokta $index kaldırıldı, $#count[bir nokta kaldı|$count nokta kaldı]",
+                    "curved": "$~parça $index büküldü",
+                    "straightened": "$~parça $index düzleştirildi",
+                    "moved": "$~$x $y konumuna taşındı",
+                    "drew": "$~$x $y konumunda çizildi",
+                    "erased": "$~$x $y konumunda silindi",
+                    "finished": "$~$shape $x konumunda $y oluşturuldu",
+                    "deleted": "$~silindi, $#count[bir şekil kaldı|$count şekil kaldı]",
+                    "undone": "$~$step adımdan $total. adım geri alındı",
+                    "redone": "$~$step adımdan $total. adım yinelendi",
+                    "copied": "$~$#count[bir $shapes kopyalandı|$count şekil kopyalandı: $shapes]",
+                    "pasted": "$~$x $y konumuna yapıştırıldı",
+                    "arranged": "$~$index katmandan $total. katman",
+                    "flipped": "$~çevrildi, şimdi $x $y konumunda",
+                    "fitted": "$~şekiller tuvali dolduracak şekilde büyütüldü",
+                    "cropped": "$~kırpma kutusu $x $y konumunda",
+                    "cropMoving": "$~kırpma kutusu taşınıyor",
+                    "cropDone": "$~kırpma kutusu yerleştirildi",
+                    "imported": "$~$x $y konumundan $#count[1 piksel eklendi|$count piksel eklendi]"
                 },
                 "share": {
                     "dialog": {
@@ -8945,6 +9267,26 @@
                         ]
                     },
                     "collaborators": "$~işbirlikçiler"
+                },
+                "image": {
+                    "instructions": "$~Kareyi taşımak için sürükleyin, ya da görselin ne kadarının saklanacağını değiştirmek için *boyut* kaydırıcısını kullanın. Klavye ile taşımaya başlamak için *enter* tuşuna basın, sonra *ok* tuşlarını kullanın, bitirdiğinizde tekrar *enter* tuşuna basın.",
+                    "button": {
+                        "label": "$~yükle",
+                        "tip": "$~bu cihazdan bir görsel dosyası seç"
+                    },
+                    "add": {
+                        "label": "$~ekle",
+                        "tip": "$~seçilen kareyi karaktere piksel olarak ekle"
+                    },
+                    "crop": {
+                        "label": "$~kırpma kutusu",
+                        "tip": "$~saklanacak görsel karesi"
+                    },
+                    "preview": "$~eklenecek olan şey",
+                    "size": {
+                        "label": "$~boyut",
+                        "tip": "$~görselin ne kadarının saklanacağı"
+                    }
                 }
             },
             "updates": {

@@ -71,3 +71,35 @@ test.each([
         Array.from(project.analyze().conflictedNodes.values()).flat(),
     ).toHaveLength(0);
 });
+
+test('reversing a list leaves the original alone', () => {
+    // Array.reverse is in place, so this used to rewrite x.
+    expect(evaluateCode('x: [1 2 3]\ny: x.reverse()\nx')?.toWordplay()).toBe(
+        '[1 2 3]',
+    );
+    expect(evaluateCode('x: [1 2 3]\nx.reverse()')?.toWordplay()).toBe(
+        '[3 2 1]',
+    );
+});
+
+// One definition now carries all four names, and every one of them removes
+// every copy — which is what the code always did.
+test.each(['without', 'sans', 'withoutAll', 'sansAll'])(
+    '%s removes every occurrence',
+    (name) => {
+        expect(evaluateCode(`[1 2 2 3].${name}(2)`)?.toWordplay()).toBe(
+            '[1 3]',
+        );
+    },
+);
+
+test('a not-a-number key sorts to the end without disturbing the rest', () => {
+    // Subtracting to compare gave NaN for every pair touching the bad key, an
+    // inconsistent comparator that could scramble unrelated elements.
+    expect(
+        evaluateCode("[3 1 2].sorted(ƒ(n•#) n = 1 ? 'x' → # n)")?.toWordplay(),
+    ).toBe('[2 3 1]');
+    expect(
+        evaluateCode("['b' 'a' 'c'].sorted(ƒ(t•'') 'x' → #)")?.toWordplay(),
+    ).toBe('["b" "a" "c"]');
+});

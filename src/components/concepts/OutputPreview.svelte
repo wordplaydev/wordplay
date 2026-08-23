@@ -68,6 +68,10 @@
          *  because our internal flag is only set by the control we aren't
          *  rendering. */
         sound?: boolean | undefined;
+        /** Whether to draw the stage's measurement grid. On by default, because
+         *  a doc example is teaching where things sit; off where the output is
+         *  meant to be looked at rather than read, like the landing page. */
+        grid?: boolean;
     }
 
     let {
@@ -80,6 +84,7 @@
         fallback,
         control = true,
         sound = undefined,
+        grid = true,
     }: Props = $props();
 
     // Self-contained when the parent didn't hand us an evaluator.
@@ -306,7 +311,7 @@
                 {evaluator}
                 {value}
                 source={project.getMain()}
-                grid
+                {grid}
                 editable={false}
                 wheel={false}
                 blurOnTyping={false}

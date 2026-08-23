@@ -282,7 +282,8 @@
         "Exponent": "$~số mũ",
         "Product": "$~sản phẩm",
         "Percent": "$~phần trăm",
-        "Defect": "$~ví dụ có lỗi được mong đợi"
+        "Defect": "$~ví dụ có lỗi được mong đợi",
+        "NotANumber": "$~không phải là số"
     },
     "node": {
         "Dimension": {
@@ -2647,11 +2648,115 @@
                             "names": "$~mẫu"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một @Text mới là chính tôi, với mọi chữ cái đều viết hoa:",
+                        "\\'xin chào'.chữHoa()\\",
+                        "Chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, nên văn bản thuộc hệ chữ viết không có sự phân biệt này, như tiếng Nhật hay tiếng Ả Rập, sẽ không thay đổi.",
+                        "Thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào. Tiếng Thổ Nhĩ Kỳ có chữ i có chấm và i không chấm, và chỉ văn bản được gắn thẻ là tiếng Thổ Nhĩ Kỳ mới viết hoa chúng theo cách của tiếng Thổ Nhĩ Kỳ:",
+                        "\\'iyi'.chữHoa()\\",
+                        "\\'iyi'.chữHoa()\\"
+                    ],
+                    "names": ["$~chữHoa"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một @Text mới là chính tôi, với mọi chữ cái đều viết thường:",
+                        "\\'XIN CHÀO'.chữThường()\\",
+                        "Hãy chuyển hai đoạn văn bản thành chữ thường để so sánh chúng mà không quan tâm đến việc viết hoa. Cách này giữ lại mọi từ bắt đầu bằng chữ a, dù nó có được viết hoa hay không:",
+                        "\\['Táo' 'mơ' 'Chuối'].lọc(\n\tƒ(từ2•'') từ2.chữThường().bắtđầu('a')\n)\\",
+                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                    ],
+                    "names": ["$~chữThường"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới từ một phần của tôi. Đếm bắt đầu từ 1, và cả hai đầu đều được tính:",
+                        "\\'xin chào'.chuỗiCon(2 4)\\",
+                        "Bỏ đầu cuối ra và tôi sẽ đi hết đến ký hiệu cuối cùng của mình:",
+                        "\\'xin chào'.chuỗiCon(3)\\",
+                        "Tôi đếm ký hiệu theo cách bạn nhìn thấy chúng, nên một biểu tượng cảm xúc gồm nhiều phần vẫn là một ký hiệu và không bao giờ bị cắt làm đôi:",
+                        "\\'🐈📚!'.chuỗiCon(1 2)\\",
+                        "Nếu bạn hỏi nhiều hơn số tôi có, tôi sẽ đưa cho bạn tất cả những gì tôi có."
+                    ],
+                    "names": ["$~chuỗiCon"],
+                    "inputs": [
+                        {
+                            "doc": "$~Nơi bắt đầu, đếm từ 1.",
+                            "names": "$~bắtĐầu"
+                        },
+                        {
+                            "doc": "$~Nơi dừng lại, đếm từ 1. Bỏ trống để đi đến hết.",
+                            "names": "$~kếtThúc"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Tôi cho bạn biết @Text đã cho xuất hiện đầu tiên ở đâu trong tôi, đếm từ 1:",
+                        "\\'xin chào'.chỉMục('ll')\\",
+                        "Nếu nó không hề có trong tôi, tôi sẽ đưa @None thay vào đó:",
+                        "\\'xin chào'.chỉMục('z')\\",
+                        "Cùng với @Text/subsequence, tôi có thể lấy mọi thứ cho đến một điểm nào đó — ở đây, là từ đầu tiên:",
+                        "\\câu: 'xin chào thế giới'\ncâu.chuỗiCon(1 (câu.chỉMục(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~chỉMục"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần tìm trong tôi.",
+                            "names": "$~vănBản"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới với mọi lần xuất hiện của một @Text được đổi thành cái khác:",
+                        "\\'2026-08-21'.thayThế('-' '/')\\",
+                        "Mọi lần xuất hiện đều thay đổi, không chỉ lần đầu tiên:",
+                        "\\'ha ha ha'.thayThế('ha' 'ho')\\",
+                        "Nếu bạn yêu cầu tôi thay thế một @Text trống, tôi sẽ trả lại chính mình mà không đổi gì."
+                    ],
+                    "names": ["$~thayThế"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần tìm trong tôi.",
+                            "names": "$~của"
+                        },
+                        {
+                            "doc": "$~@Text để đặt vào chỗ đó.",
+                            "names": "$~cáiThayThế"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới với khoảng trắng được bỏ đi ở cả hai đầu của tôi. Khoảng trắng ở giữa vẫn giữ nguyên:",
+                        "\\'  xin chào  '.cắtBớt()\\",
+                        "Điều này rất hữu ích cho văn bản do ai đó gõ vào, thường có thêm khoảng trắng mà bạn không hề muốn."
+                    ],
+                    "names": ["$~cắtBớt"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới với các ký hiệu của tôi theo thứ tự ngược lại:",
+                        "\\'xin chào'.đãĐảoNgược()\\",
+                        "Tôi đảo ngược thứ tự các ký hiệu của mình theo cách bạn nhìn thấy chúng, nên biểu tượng cảm xúc vẫn nguyên vẹn và các chữ cái vẫn giữ dấu của chúng:",
+                        "\\'🐈📚'.đãĐảoNgược()\\"
+                    ],
+                    "names": ["$~đãĐảoNgược", "$~đảoNgược"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Chia văn bản thành một danh sách các ký tự riêng lẻ.",
-                "number": "$~Chuyển đổi văn bản thành một đối tượng @Number, và nếu nó không phải là số thì trả về giá trị không phải là số.",
+                "number": [
+                    "$~Chuyển văn bản thành @Number, và nếu nó không phải là một số, thì thành một giá trị không phải là số, hiển thị là \\!#\\:",
+                    "\\'chào' → #\\"
+                ],
                 "formatted": "$~Chuyển đổi văn bản thành văn bản được định dạng, bao gồm cả việc diễn giải mọi định dạng đánh dấu có trong đó."
             }
         },
@@ -3224,25 +3329,11 @@
                     "names": ["$~khôngcócuốicùng"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Là tôi, nhưng không có lần xuất hiện đầu tiên của @value đã cho.",
-                        "\\['táo' 'chuối' 'xoài' 'táo'].khôngcó('táo')\\"
-                    ],
-                    "names": ["$~khôngcó", "$~không"],
-                    "inputs": [
-                        {
-                            "doc": "$~@value cần xóa lần xuất hiện đầu tiên.",
-                            "names": "$~giátrị"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Là tôi, nhưng không có tất cả các lần xuất hiện của @value đã cho.",
-                        "\\['táo' 'chuối' 'xoài' 'táo'].khôngcó('táo')\\"
+                        "$~Là tôi, nhưng không có @value đã cho. Mọi bản sao đều bị bỏ đi, không chỉ bản đầu tiên, dù bạn dùng tên nào của tôi.\\['táo' 'chuối' 'xoài' 'táo'].khôngcó('táo')\\"
                     ],
-                    "names": ["$~khôngcótấtcả"],
+                    "names": ["$~khôngcó", "$~không", "$~khôngcótấtcả"],
                     "inputs": [
                         {
                             "doc": "$~@value cần xóa tất cả các lần xuất hiện khỏi danh sách.",
@@ -3977,10 +4068,33 @@
                             "names": "$~đãđịnhdạng"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một đoạn văn bản đã định dạng mới là chính tôi, với mọi chữ cái đều viết hoa. Chỉ có các từ của tôi thay đổi; định dạng, đường liên kết và ví dụ của tôi vẫn giữ nguyên:",
+                        "\\`*chào* bạn`.chữHoa()\\",
+                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                    ],
+                    "names": ["$~chữHoa"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một đoạn văn bản đã định dạng mới là chính tôi, với mọi chữ cái đều viết thường. Chỉ có các từ của tôi thay đổi; định dạng, đường liên kết và ví dụ của tôi vẫn giữ nguyên:",
+                        "\\`*CHÀO* BẠN`.chữThường()\\",
+                        "Giống như @Text/lowercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                    ],
+                    "names": ["$~chữThường"],
+                    "inputs": []
                 }
             },
             "conversion": {
-                "text": "$~Chuyển đổi văn bản có định dạng thành văn bản thuần @Text , loại bỏ tất cả định dạng."
+                "text": "$~Chuyển đổi văn bản có định dạng thành văn bản thuần @Text , loại bỏ tất cả định dạng.",
+                "list": "$~Chuyển văn bản đã định dạng thành một @List gồm @Text, mỗi phần tử ứng với một ký hiệu trong các từ của tôi. Định dạng không thể giữ nguyên khi bị cắt thành từng ký hiệu riêng lẻ, nên nó sẽ bị bỏ đi.",
+                "number": [
+                    "$~Chuyển các từ của tôi thành @Number, và nếu chúng không phải là một số, thì thành một giá trị không phải là số, hiển thị là \\!#\\:",
+                    "\\`chào` → #\\"
+                ]
             }
         }
     },
@@ -4328,19 +4442,20 @@
         "Collision": {
             "names": "$~Vachạm",
             "doc": [
-                "$~Nó là một luồng các giá trị @Rebound cho khi @Output được đặt tên va vào nhau.",
-                "Đây là một cách tuyệt vời để làm điều gì đó khi @Output va vào nhau, ngoài việc nảy ra khỏi nhau bình thường mà chúng có thể làm.",
-                "Chỉ cần đưa cho nó một tên của @Output, và nó sẽ tạo ra một @value @Rebound mới mỗi khi tên đó va vào tên khác. Một @Rebound có thông tin về các tên đã va chạm và hướng va chạm của chúng.",
-                "Và nếu bạn đưa cho nó hai tên, nó sẽ chỉ tạo ra một giá trị mới khi hai tên đó va vào nhau.",
-                "Ngay sau khi nó tạo ra một giá trị mới, nó sẽ tạo ra một \\ø\\ vì va chạm đã kết thúc sau khi nó xảy ra. Điều này cho biết không còn va chạm nữa."
+                "$~Đây là một dòng các giá trị @Rebound, dùng khi các @Output có tên chạm vào nhau.",
+                "Để hai @Output nhận ra nhau, hãy đặt tên cho cả hai, rồi cho tôi biết cả hai tên đó. Tôi sẽ tạo một @Rebound mới mỗi khi chúng chạm nhau. Chúng không cần @Matter để làm việc đó — chỉ cần có tên là tôi có thể theo dõi.",
+                "Hãy cho tôi một tên thôi, và tôi sẽ báo cho bạn biết mỗi khi @Output đó chạm vào bất cứ thứ gì khác trong thế giới vật lý. Một @Output nằm trong thế giới vật lý nếu nó có @Matter, nếu một @Motion đặt nó vào đó, nếu nó là một @Shape nằm trực tiếp trên @Stage, hoặc nếu tôi cũng đang theo dõi tên của nó.",
+                "Nhận ra không giống với việc va chạm và bật lại. @Output chỉ đẩy các @Output khác đi khi nó có @Matter và một @Motion đang làm nó chuyển động. @Output mà chương trình của bạn đặt vào sẽ đi đúng vào nơi bạn đặt nó, nên nó xuyên qua bất cứ thứ gì nó chạm vào — nhưng tôi vẫn sẽ báo cho bạn biết về cú chạm đó.",
+                "Một @Rebound có các tên đã chạm nhau và hướng chúng chạm từ đó. Ngay sau khi tôi tạo một cái, tôi sẽ tạo một \\ø\\, vì một va chạm sẽ kết thúc ngay khi nó xảy ra.",
+                "Tôi chỉ có thể theo dõi @Output được đặt trực tiếp trên @Stage. Bất cứ thứ gì bên trong một @Group di chuyển trong không gian riêng của nhóm đó, nên tôi không thể thấy nó — hãy đặt tên cho @Group đó và theo dõi nó thay vào đó."
             ],
             "subject": {
                 "names": "$~chủthể",
-                "doc": "$~Tên của @Output mà tôi nên tìm kiếm xung đột là gì?"
+                "doc": "$~Tên của @Output mà tôi nên theo dõi. Chỉ cần theo dõi nó là đủ để đưa nó vào thế giới vật lý, nên nó không cần @Matter."
             },
             "object": {
                 "names": "$~khác",
-                "doc": "$~Tên của @Output khác mà tôi cần tìm kiếm xung đột là gì?"
+                "doc": "$~Tên của @Output khác mà tôi nên theo dõi. Nếu có cả tên này, tôi chỉ báo khi hai thứ đó chạm nhau; nếu không có, tôi sẽ báo khi cái đầu tiên chạm vào bất cứ thứ gì trong thế giới vật lý."
             }
         },
         "Rebound": {
@@ -4855,7 +4970,7 @@
                 "names": "$~nộidung"
             },
             "matter": {
-                "doc": "$~Tôi nên phản ứng như thế nào nếu vô tình va phải vật thể nào đó?",
+                "doc": "$~Tôi nặng, nảy và trơn đến mức nào, và điều gì làm tôi rắn chắc khi một @Motion di chuyển tôi.",
                 "names": "$~vấnđề"
             },
             "size": {
@@ -4981,7 +5096,7 @@
                 "names": "$~phươnghướng"
             },
             "matter": {
-                "doc": "$~Những vật dụng cần dùng nếu tôi va phải đồ vật!",
+                "doc": "$~Tôi nặng, nảy và trơn đến mức nào, và điều gì làm tôi rắn chắc khi một @Motion di chuyển tôi.",
                 "names": "$~vấnđề"
             },
             "aura": {
@@ -5877,7 +5992,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Tôi là những thuộc tính vật lý của đầu ra, ảnh hưởng đến cách tôi tương tác với các đầu ra khác trên sân khấu.",
+            "doc": "$~Tôi cho biết @Output nặng, nảy và trơn đến mức nào. @Output có tôi và một @Motion thì rắn chắc: nó bật lại khỏi @Shape trên @Stage và khỏi các @Output khác đang chuyển động. @Output mà chương trình của bạn đặt vào sẽ đi đến đúng nơi bạn đặt nó, và xuyên qua bất cứ thứ gì nó chạm vào. @Output không cần tôi để được @Collision nhận ra — chỉ cần có tên là đủ cho việc đó.",
             "names": ["$~Vấnđề"],
             "mass": {
                 "doc": "$~Khối lượng, tính bằng kilogam.",
@@ -5896,12 +6011,16 @@
                 "names": "$~độtròn"
             },
             "text": {
-                "doc": "$~Liệu nó có thể xung đột với các kết quả đầu ra khác hay không.",
+                "doc": "$~Liệu tôi có thể va chạm với các @Phrase và @Group khác hay không; ⊥ nghĩa là tôi không nhận ra chúng và @Collision nghĩa là không có thông tin gì về chúng.",
                 "names": "$~chữ"
             },
             "shapes": {
-                "doc": "$~Liệu nó có thể va chạm với các hình dạng khác hay không.",
+                "doc": "$~Liệu tôi có thể va chạm với @Shape trên @Stage hay không; ⊥ nghĩa là tôi rơi xuyên qua tường và sàn, và @Collision nghĩa là không có thông tin gì về chúng.",
                 "names": "$~đất"
+            },
+            "pull": {
+                "doc": "$~Tôi hút các đầu ra khác về phía mình mạnh đến mức nào. 0 nghĩa là không hút chút nào, đó là mức bình thường. Số càng lớn thì hút càng mạnh, còn số âm thì đẩy ra xa thay vì hút lại. Chỉ những đầu ra được đặt bởi một @Motion mới có thể bị hút.",
+                "names": "$~kéo"
             }
         },
         "Aura": {
@@ -6035,6 +6154,10 @@
             "overlay": {
                 "doc": "$~Một danh sách các @Output được ghim phẳng lên màn hình dưới dạng bảng hiển thị phía trước, không bị ảnh hưởng bởi máy quay @Place hay chiều sâu của sân khấu.",
                 "names": "$~lớpPhủ"
+            },
+            "air": {
+                "doc": "$~Không khí làm chậm đầu ra đang chuyển động đến mức nào. 1 là không khí bình thường, 0 là khoảng không vũ trụ, nơi mọi thứ cứ chuyển động mãi mãi, còn số càng lớn thì càng đặc hơn không khí.",
+                "names": "$~khôngKhí"
             }
         },
         "Easing": {
@@ -7309,7 +7432,7 @@
                 "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
                 "insertTranslate": "$~chèn ký hiệu dịch",
                 "insertThis": "$~chèn biểu tượng này",
-                "tab": "$~Phím Tab di chuyển con trỏ bàn phím. Để chèn tab, nhấn Ctrl + $alt + Tab, sử dụng nút chèn bên dưới hoặc thay đổi trong cài đặt.",
+                "tab": "$~Phím Tab di chuyển con trỏ bàn phím. Để chèn tab, nhấn $control + $alt + Tab, sử dụng nút chèn bên dưới hoặc thay đổi trong cài đặt.",
                 "matchDelimiter": "$~Di chuyển con trỏ đến dấu phân cách phù hợp.",
                 "insertPattern": "$~chèn mẫu",
                 "insertSearch": "$~chèn biểu tượng tìm kiếm mẫu",
@@ -8533,18 +8656,6 @@
             "landing": {
                 "value": "$~Hãy cùng chúng tôi tạo nên những câu chuyện tương tác bằng từ ngữ, biểu tượng, biểu tượng cảm xúc và mã lập trình! Bắt đầu ngay tại đây!",
                 "chooseLocales": "$~hoặc chọn",
-                "description": [
-                    "$~@wordplay là một ngôn ngữ lập trình cho phép bạn:",
-                    "• Làm cho chữ và biểu tượng cảm xúc chuyển động vui nhộn 🤪",
-                    "• Dùng thời gian 🕦, âm thanh 🎤, khuôn mặt 🙂, bàn tay 🖐️, trang web 🔗, và vật lý 🌎",
-                    "• Nói bằng chuyển văn bản thành giọng nói 🗣️ và chơi nhạc 🎼",
-                    "• Chia sẻ 🤝 với bạn bè, nhóm, hoặc bất kỳ ai",
-                    "• Viết mã số bằng bất kỳ ngôn ngữ nào trên thế giới 🌐",
-                    "• Chỉnh sửa bằng chuột 🖱️, cảm ứng 👆, và bàn phím ⌨️",
-                    "• Gỡ lỗi tiến ⏩ và lùi ⏪",
-                    "• Xem bằng màn hình 🖥️ và trình đọc màn hình 🔊",
-                    "Miễn phí mãi mãi từ <Đại học Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~@wordplay hiện đang trong giai đoạn *beta*, vì vậy nó có thể không hoạt động như mong muốn hoặc chưa hoàn thiện. Vui lòng báo cáo lỗi và chia sẻ ý tưởng tại <GitHub@https://github.com/wordplaydev/wordplay/issues>, xem <kế hoạch phiên bản 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> và <đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
@@ -8569,6 +8680,130 @@
                     "design": "$~Tài liệu tham khảo về hệ thống thiết kế dành cho người đóng góp.",
                     "thanks": "$~Ai đã giúp tạo ra cái này?",
                     "localize": "$~Giúp dịch Wordplay sang ngôn ngữ của bạn"
+                },
+                "tagline": "$~lập trình sáng tạo, dễ tiếp cận, đa ngôn ngữ",
+                "tour": {
+                    "button": "$~cho tôi xem",
+                    "loading": "$~Đang tải…",
+                    "failed": "$~Không thể tải các ví dụ. Hãy kiểm tra kết nối và thử lại.",
+                    "restart": "$~bắt đầu lại ví dụ này",
+                    "examples": {
+                        "label": "$~Chương trình mẫu",
+                        "tips": [
+                            "$~Chữ có thể phát sáng và chuyển động",
+                            "$~Âm nhạc là dữ liệu, âm thanh và hình ảnh",
+                            "$~Thời gian trôi và từ ngữ có thể đa ngôn ngữ",
+                            "$~Chữ có thể phản ứng với con trỏ, cú nhấp, cú chạm và phím bấm",
+                            "$~Khán giả có thể đưa ra lựa chọn",
+                            "$~Khán giả có thể trò chuyện với chương trình, và từ ngữ có thể là hình khối",
+                            "$~Vật lý và trọng lực có thể khiến chữ nhào lộn và nảy lên",
+                            "$~Chương trình có thể lắng nghe giọng nói của bạn",
+                            "$~Chương trình có thể quan sát khuôn mặt, bàn tay và đồ vật của bạn"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
+                        "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
+                        "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m địađiểm: Contrỏ())]\n\tđịađiểm: Địađiểm(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Bố cục văn bản và làm cho nó có thể chọn được.¶\ntráiCây: ƒ(e•'') Cụmtừ(e 3m tên: e cóthểlựachọn: ⊤)\nđãChọn: Sựlựachọn()\nđãHiện: '?' … ∆ đãChọn … đãChọn\nNhóm(\n\tNgănxếp(đệm: 1m)\n\t[\n\t\tCụmtừ(đãHiện 4m)\n\t\tNhóm(\n\t\t\tHàngngang(đệm: 1m)\n\t\t\t[tráiCây('🍎') tráiCây('🍐') tráiCây('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Trò chuyện với chương trình và dùng hình dạng của phông chữ và ký hiệu.¶\ntinNhắn: Tròchuyện()\ntừ3: 'chào' … ∆ tinNhắn … tinNhắn\ndòng: Đườngviền(từ3 'Noto Sans' 8m)\ntiếngTíchTắc: 0 … ∆ Thờigian(30ms) … tiếngTíchTắc + 1\nđãHiện: ((dòng.chiềudài() × tiếngTíchTắc) ÷ 66).làmtrònxuống(\n\t) + 1\ndấuChấm: dòng.chuỗicon(1 đãHiện).dịch(\n\t\tƒ(p) Cụmtừ('•' địađiểm: p)\n\t)\nSânkhấu(dấuChấm.với(Cụmtừ(từ3 8m độmờđục: 15%)))\\",
+                        "pile": "$~\\¶Văn bản cũng có thể có vật lý.¶\ntung: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tCụmtừ(\n\t\t\temoji\n\t\t\t2m\n\t\t\tđịađiểm: Cửđộng(Địađiểm(x2 y2) Vậntốc(vx 0m/s))\n\t\t\tvấnđề: Vấnđề(1kg 0.55 0.06 0.5)\n\t\t)\nSânkhấu(\n\t[\n\t\ttung('🍎' -2m 5m 2.2m/s)\n\t\ttung('🍊' 2m 7m -2.6m/s)\n\t\ttung('🍋' -1m 9m 1.4m/s)\n\t\ttung('🍇' 1.5m 11m -1.9m/s)\n\t\ttung('🫐' 0.5m 15m -1.2m/s)\n\t\tHìnhdạng(Hìnhchữnhật(-4m -3m 4m -3.6m))\n\t\tHìnhdạng(Hìnhchữnhật(-4.6m 4m -4m -3m))\n\t\tHìnhdạng(Hìnhchữnhật(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Mã số có thể phản ứng với @Volume và @Pitch của micro của bạn.¶\nCụmtừ(\n\t'📣'\n\t1m + (Âmlượng() × 8m)\n\txoay: (Sânbóngđá() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Mã số có thể phản ứng với @Face của bạn, và những thứ khác trên @Camera.¶\nCụmtừ(\n\tKhuônMặt().cườiTươi ? '😄 cảm ơn bạn!' '🙂 mỉm cười với máy quay'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay là một ngôn ngữ lập trình",
+                        "bullets": [
+                            "$~• Mỗi chương trình là một biểu thức trở thành một giá trị. \\1 + 1\\ là một chương trình, và đây cũng vậy \\Cụmtừ('chào')\\.",
+                            "• Số mang theo đơn vị, nên \\1m + 1m\\ là mét, và \\1cat + 1dog\\🪲 là một lỗi mà @wordplay bắt được trước khi chạy.",
+                            "• Hàm là những giá trị mà bạn có thể đặt tên, chuyền đi, và gọi: \\ƒ gấpĐôi(n3•#) n3 × 2\\.",
+                            "• Khi đầu vào thay đổi, @wordplay tính lại chương trình của bạn và cho thấy giá trị mới. Không cần phải phản hồi các sự kiện.",
+                            "• @wordplay tìm ra các lỗi trước khi chương trình chạy, và giải thích từng vấn đề."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay là đa ngôn ngữ",
+                        "bullets": [
+                            "$~• Mỗi tính năng của ngôn ngữ lập trình đều có tên trong mọi ngôn ngữ, nên mã số hiển thị bằng những từ bạn đã biết.",
+                            "• Tên của riêng bạn cũng có thể đa ngôn ngữ:\n\\mèo2: '🐈'\nCụmtừ(mèo2)\\",
+                            "• Văn bản mang theo một ngôn ngữ, và hiển thị bằng ngôn ngữ mà khán giả của bạn đọc được: \\'xin chào'\\.",
+                            "• Trang này có 29 ngôn ngữ và bạn có thể chọn nhiều hơn một lúc; chữ sẽ hiện ra bằng từng ngôn ngữ.",
+                            "• Bạn có thể giúp dịch chính @wordplay, ngay trong ứng dụng tại <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay dễ tiếp cận",
+                        "bullets": [
+                            "$~• Bất cứ việc gì làm được bằng chuột, bạn cũng có thể làm bằng bàn phím.",
+                            "• Trình đọc màn hình sẽ mô tả sân khấu mỗi khi nó thay đổi, không chỉ khi tải xong.",
+                            "• Bạn có thể đọc và viết mã số của mình dưới dạng khối thay vì chữ, và đổi qua lại bất cứ lúc nào.",
+                            "• Chuyển động có thể làm chậm lại, hoặc tắt hẳn.",
+                            "• Âm thanh nói có thể hiện thành phụ đề trên sân khấu cho ai không nghe được."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay cảm nhận thế giới",
+                        "bullets": [
+                            "$~• Thời gian trôi qua: \\Thờigian(1000ms)\\ chạy từng giây, và \\Now()\\ biết ngày hôm nay theo lịch và múi giờ của riêng bạn.",
+                            "• Nơi khán giả của bạn chỉ vào, những gì họ chạm vào, và phím nào họ nhấn.",
+                            "• Chương trình có thể phản ứng với micro của bạn: âm to nhỏ ra sao với @Volume, cao độ nào với @Pitch, và lời nói gì với @Speech.",
+                            "• Khán giả của bạn có thể gõ chữ vào @Chat, và chọn nội dung trên sân khấu bằng @Choice.",
+                            "• Chương trình có thể phản ứng theo nhịp của bản nhạc đang phát, với @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay trình diễn",
+                        "bullets": [
+                            "$~• @Phrase đặt chữ và biểu tượng cảm xúc lên sân khấu.",
+                            "• @Group sắp xếp chúng thành hàng, chồng, lưới, hoặc bất cứ chỗ nào bạn đặt.",
+                            "• @Pose và @Sequence xoay, mờ dần, phóng to thu nhỏ, và di chuyển mọi thứ.",
+                            "• @Say đọc to chữ lên thay vì chỉ hiển thị.",
+                            "• @Music phát các đoạn nhạc bằng nhạc cụ thật, theo một nhịp độ, trong một tông nhạc:\n\\ÂmNhạc(\n\tBảnNhạc([1 3 5] nhạcCụ: NhạcCụ.chuông)\n\tnhịpĐộ: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay là chữ nghệ thuật",
+                        "bullets": [
+                            "$~• Hàng trăm kiểu chữ, phủ khắp các hệ chữ viết trên thế giới.",
+                            "• Bạn có thể vẽ <ký tự riêng//characters> và dùng chúng ở bất cứ đâu biểu tượng cảm xúc có thể dùng.",
+                            "• Đường nét của mỗi chữ cái đều là dữ liệu bạn có thể đọc và làm chuyển động, với @Contour: \\Đườngviền('a' 'Noto Sans')\\.",
+                            "• Chữ tự xuống dòng theo quy tắc của ngôn ngữ mà nó được viết ra.",
+                            "• Chữ viết từ phải sang trái và chữ viết dọc được sắp xếp đúng như cách chúng cần được trình bày."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay tự giải thích chính nó",
+                        "bullets": [
+                            "$~• Tài liệu là một phần của ngôn ngữ, với @Doc, chứ không phải một lời ghi chú bên cạnh.",
+                            "• Một <sổ tay hướng dẫn//guide> có thể tìm kiếm giải thích mọi tính năng có sẵn, kèm ví dụ.",
+                            "• Mỗi lỗi sai đều được giải thích ngay tại chỗ xảy ra, bằng ngôn ngữ của bạn.",
+                            "• Bạn có thể chạy từng bước một chương trình tới /và/ lui để tìm hiểu chuyện gì đã xảy ra.",
+                            "• Khi bạn chạy từng bước, mọi giá trị đều hiện ngay trong đoạn mã số đã tạo ra nó."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay dành để chia sẻ",
+                        "bullets": [
+                            "$~• Dự án của bạn là của bạn, và bạn quyết định ai được xem chúng.",
+                            "• Bạn có thể mời người khác cùng xây dựng dự án với mình.",
+                            "• <Phòng trưng bày@://galleries> tập hợp các dự án theo một chủ đề.",
+                            "• Giáo viên có thể tạo lớp học và theo dõi bài làm của học sinh: <teach@://teach>.",
+                            "• Bạn có thể lấy dự án công khai của bất kỳ ai và biến nó thành của riêng mình."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay miễn phí và mở",
+                        "bullets": [
+                            "$~• @wordplay miễn phí và sẽ luôn miễn phí.",
+                            "• Đây là mã nguồn mở: bạn có thể đọc cách nó hoạt động và giúp chúng tôi thay đổi nó.",
+                            "• Nó ra đời từ Trường Thông tin học của <Đại học Washington@https://ischool.uw.edu/>.",
+                            "• Có một cộng đồng gồm những người sáng tạo, giáo viên, và người đóng góp.",
+                            "• <Ủng hộ//donate> giúp trang trải chi phí vận hành."
+                        ]
+                    }
                 }
             },
             "learn": {
@@ -8825,14 +9060,16 @@
                 "header": "$~Tính cách",
                 "instructions": {
                     "empty": "$~Chọn chế độ vẽ trong bảng công cụ để tạo hình.",
-                    "unselected": "$~Chọn chế độ vẽ hoặc chọn và chỉnh sửa các hình dạng.",
-                    "selected": "$~Sử dụng các phím mũi tên để di chuyển các hình dạng. Giữ phím Shift để thêm nhiều hình dạng vào vùng chọn. Sử dụng phím Delete để xóa vùng chọn. Sử dụng các điều khiển bên dưới để thay đổi hình dạng đã chọn.",
+                    "unselected": "$~Chọn một chế độ vẽ hoặc chọn và chỉnh sửa hình. Dùng *$control-a* để chọn tất cả và *$control-z* để hoàn tác.",
+                    "selected": "$~Dùng phím *mũi tên* để di chuyển hình. Giữ *shift* để thêm hình vào phần đang chọn. Dùng *delete* để xóa phần đang chọn. Dùng *$control-c* và *$control-v* để sao chép và dán, và *$control-z* để hoàn tác. Khi đã chọn một đường, nhấn *enter* để chỉnh sửa các điểm của nó. Dùng các nút điều khiển bên dưới để thay đổi hình đang chọn.",
                     "eraser": "$~Để xóa hình dạng, hãy nhấp hoặc chạm vào chúng. Kéo để xóa các pixel. Sử dụng các phím mũi tên để di chuyển công cụ tẩy và phím cách để xóa.",
                     "pixel": "$~Để vẽ pixel, hãy chọn một màu. Sau đó, nhấp vào khung vẽ hoặc sử dụng các phím *mũi tên* để di chuyển con trỏ và phím *khoảng cách* để tạo một pixel. Nhấp đúp chuột để tô màu.",
                     "rect": "$~Để vẽ hình chữ nhật, hãy chọn màu sắc và độ dày viền. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
                     "ellipse": "$~Để vẽ hình elip và hình tròn, hãy chọn màu sắc và độ dày nét vẽ. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
                     "path": "$~Đường dẫn có thể là đoạn thẳng, đa giác và đường cong. Nhấp chuột để bắt đầu thêm điểm, hoặc sử dụng các phím mũi tên và phím cách. Nhấn phím Escape để kết thúc đường dẫn. Phím Delete sẽ xóa điểm cuối cùng.",
-                    "emoji": "$~Chọn một biểu tượng cảm xúc để nhập dưới dạng pixel, sau đó chỉnh sửa theo ý muốn."
+                    "points": "$~Nhấn *Tab* để chuyển qua các điểm của đường. Dùng phím *mũi tên* để di chuyển điểm đang chọn, *enter* để thêm một điểm bên cạnh nó, và *delete* để xóa điểm đó. Dùng *curve* để uốn cong đoạn nối tới một điểm, rồi di chuyển tay cầm của nó; nhấn *delete* trên tay cầm sẽ làm thẳng lại. Nhấn *escape* khi bạn xong.",
+                    "symbol": "$~Chọn thêm điểm ảnh hoặc đường viền, rồi chọn một chữ cái, ký hiệu hoặc biểu tượng cảm xúc. Đường viền có thể đổi kích thước và xoay mà không bị mờ; điểm ảnh có thể đổi màu từng cái một. Nhấp hoặc chạm vào thứ bạn đã tạo để chọn nó thay vì tạo mới.",
+                    "image": "$~Chọn một hình ảnh, rồi chọn phần vuông của nó để giữ lại. Phần này sẽ thay thế các điểm ảnh, và nằm dưới mọi hình bạn đã vẽ. Nhấp hoặc chạm vào thứ bạn đã tạo để chọn nó thay vì tạo mới."
                 },
                 "shape": {
                     "shape": "$~hình dạng",
@@ -8841,7 +9078,10 @@
                     "rect": "$~hình chữ nhật",
                     "ellipse": "$~hình elip",
                     "path": "$~con đường",
-                    "emoji": "$~biểu tượng cảm xúc"
+                    "emoji": "$~biểu tượng cảm xúc",
+                    "glyph": "$~đường viền",
+                    "symbol": "$~ký hiệu",
+                    "image": "$~hình ảnh"
                 },
                 "share": {
                     "dialog": {
@@ -8878,22 +9118,24 @@
                     "mode": {
                         "label": "$~cách thức",
                         "labels": [
-                            "$~lựa chọn",
+                            "$~chọn",
                             "$~cục tẩy",
                             "$~điểm ảnh",
                             "$~hình chữ nhật",
                             "$~hình elip",
                             "$~con đường",
-                            "$~biểu tượng cảm xúc"
+                            "$~biểu tượng cảm xúc",
+                            "$~hình ảnh"
                         ],
                         "tips": [
-                            "$~chọn hình dạng và pixel",
+                            "$~chọn hình và điểm ảnh",
                             "$~xóa hình dạng và pixel",
                             "$~vẽ pixel",
                             "$~vẽ hình chữ nhật",
                             "$~vẽ hình elip",
                             "$~vẽ đường đi",
-                            "$~nhập biểu tượng cảm xúc dưới dạng pixel"
+                            "$~nhập biểu tượng cảm xúc dưới dạng pixel",
+                            "$~thêm hình ảnh dưới dạng điểm ảnh"
                         ]
                     },
                     "fill": {
@@ -8936,7 +9178,32 @@
                         "label": "$~chiều cao",
                         "tip": "$~Hình dạng đó cao bao nhiêu?"
                     },
-                    "closed": "$~đã kết nối"
+                    "closed": "$~đã kết nối",
+                    "brushSize": {
+                        "label": "$~kích thước",
+                        "tip": "$~bút vẽ và cục tẩy phủ bao nhiêu tế bào theo chiều ngang"
+                    },
+                    "insertion": {
+                        "label": "$~thêm dưới dạng",
+                        "labels": ["$~điểm ảnh", "$~đường viền"],
+                        "tips": [
+                            "$~thêm ký hiệu dưới dạng điểm ảnh mà bạn có thể đổi màu từng cái một",
+                            "$~thêm ký hiệu dưới dạng đường viền mà bạn có thể đổi kích thước và xoay mà không bị mờ"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~phông chữ",
+                        "tip": "$~lấy hình dạng của ký hiệu từ phông chữ nào"
+                    },
+                    "weight": {
+                        "label": "$~độ đậm",
+                        "tip": "$~nét của ký hiệu đậm đến mức nào"
+                    },
+                    "italic": "$~chữ nghiêng",
+                    "glyphSize": {
+                        "label": "$~kích thước ký hiệu",
+                        "tip": "$~ký hiệu rộng bao nhiêu tế bào"
+                    }
                 },
                 "button": {
                     "back": {
@@ -8989,11 +9256,11 @@
                     },
                     "horizontal": {
                         "label": "$~lật ngang",
-                        "tip": "$~Lật các điểm theo chiều ngang xung quanh tâm."
+                        "tip": "$~lật phần đang chọn theo chiều ngang"
                     },
                     "vertical": {
                         "label": "$~lật dọc",
-                        "tip": "$~lật các điểm theo chiều dọc xung quanh tâm."
+                        "tip": "$~lật phần đang chọn theo chiều dọc"
                     },
                     "fit": {
                         "label": "$~phù hợp",
@@ -9014,6 +9281,30 @@
                     "saturationDown": {
                         "label": "$~độ bão hòa",
                         "tip": "$~giảm độ bão hòa"
+                    },
+                    "editPoints": {
+                        "label": "$~điểm",
+                        "tip": "$~chỉnh sửa các điểm của đường đang chọn"
+                    },
+                    "donePoints": {
+                        "label": "$~xong",
+                        "tip": "$~dừng chỉnh sửa điểm"
+                    },
+                    "addPoint": {
+                        "label": "$~thêm điểm",
+                        "tip": "$~thêm một điểm bên cạnh điểm đang chọn"
+                    },
+                    "deletePoint": {
+                        "label": "$~xóa điểm",
+                        "tip": "$~xóa điểm đang chọn"
+                    },
+                    "curve": {
+                        "label": "$~uốn cong",
+                        "tip": "$~uốn cong đoạn nối tới điểm đang chọn"
+                    },
+                    "straighten": {
+                        "label": "$~làm thẳng",
+                        "tip": "$~làm thẳng đoạn nối tới điểm đang chọn"
                     }
                 },
                 "feedback": {
@@ -9025,11 +9316,61 @@
                     "unauthenticated": "$~Bạn phải đăng nhập vào <địa chỉ email> để chỉnh sửa nhân vật.",
                     "taken": "$~Bạn đã có một nhân vật với tên này rồi; không lưu lại.",
                     "projecteditfail": "$~Đã xảy ra sự cố khi cập nhật các dự án sử dụng nhân vật này. Các dự án sau cần được sửa chữa:",
-                    "untitledproject": "$~Dự án chưa có tiêu đề"
+                    "untitledproject": "$~Dự án chưa có tiêu đề",
+                    "glyphLoading": "$~Đang tải phông chữ…",
+                    "glyphMissing": "$~Phông chữ này không có hình dạng cho ký hiệu đó. Hãy thử phông chữ khác.",
+                    "glyphEmpty": "$~Ký hiệu đó không có gì để vẽ.",
+                    "glyphUnreadable": "$~Chúng tôi không đọc được phông chữ đó. Hãy kiểm tra kết nối mạng, hoặc thử phông chữ khác.",
+                    "imageTooBig": "$~Hình ảnh đó nặng $size MB. Hãy chọn hình nhỏ hơn $limit MB.",
+                    "imageUnreadable": "$~Chúng tôi không thể đọc tệp đó như một hình ảnh."
                 },
                 "announce": {
                     "position": "$~ở mức $x $y",
-                    "selection": "$~$shapes[đã chọn $shapes|chưa chọn gì]"
+                    "selection": "$~$shapes[đã chọn $shapes|chưa chọn gì]",
+                    "editing": "$~đang chỉnh sửa $#count[$count điểm]",
+                    "editingDone": "$~đã xong chỉnh sửa điểm",
+                    "point": "$~điểm $index tại $x $y",
+                    "control": "$~đường cong $index tại $x $y",
+                    "pointAdded": "$~đã thêm điểm $index tại $x $y",
+                    "pointRemoved": "$~đã xóa điểm $index, còn lại $#count[$count điểm]",
+                    "curved": "$~đã uốn cong đoạn $index",
+                    "straightened": "$~đã làm thẳng đoạn $index",
+                    "moved": "$~đã di chuyển đến $x $y",
+                    "drew": "$~đã vẽ tại $x $y",
+                    "erased": "$~đã xóa tại $x $y",
+                    "finished": "$~đã tạo $shape tại $x $y",
+                    "deleted": "$~đã xóa, còn lại $#count[$count hình dạng]",
+                    "undone": "$~đã hoàn tác bước $step trong $total",
+                    "redone": "$~đã làm lại bước $step trong $total",
+                    "copied": "$~đã sao chép $#count[$count hình dạng: $shapes]",
+                    "pasted": "$~đã dán tại $x $y",
+                    "arranged": "$~lớp $index trong $total",
+                    "flipped": "$~đã lật, giờ ở $x $y",
+                    "fitted": "$~đã phóng to hình dạng để lấp đầy khung vẽ",
+                    "cropped": "$~khung cắt tại $x $y",
+                    "cropMoving": "$~đang di chuyển khung cắt",
+                    "cropDone": "$~đã đặt khung cắt",
+                    "imported": "$~đã thêm $#count[$count điểm ảnh] từ $x $y"
+                },
+                "image": {
+                    "instructions": "$~Kéo hình vuông để di chuyển nó, hoặc dùng thanh trượt *kích thước* để thay đổi lượng ảnh muốn giữ lại. Với bàn phím, nhấn *enter* để bắt đầu di chuyển, dùng các phím *mũi tên*, rồi nhấn *enter* lần nữa khi xong.",
+                    "button": {
+                        "label": "$~tải lên",
+                        "tip": "$~chọn một tệp hình ảnh từ thiết bị này"
+                    },
+                    "add": {
+                        "label": "$~thêm",
+                        "tip": "$~thêm hình vuông đã chọn vào ký tự dưới dạng điểm ảnh"
+                    },
+                    "crop": {
+                        "label": "$~khung cắt",
+                        "tip": "$~hình vuông của ảnh cần giữ lại"
+                    },
+                    "preview": "$~những gì sẽ được thêm vào",
+                    "size": {
+                        "label": "$~kích thước",
+                        "tip": "$~giữ lại bao nhiêu phần của ảnh"
+                    }
                 }
             },
             "about": {

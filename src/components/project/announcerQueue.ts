@@ -78,6 +78,10 @@ const Lanes = {
     /** A note added, removed, or moved in the music editor. */
     'note-edit': 'queued',
     'tour-step': 'queued',
+    // Choosing an example in the landing page's carousel. Queued rather than
+    // coalesced: each choice is a discrete answer to a press, and naming the
+    // example is what keeps consecutive choices from deduping into silence.
+    tour: 'queued',
     collaborator: 'queued',
     notification: 'queued',
     update: 'queued',
@@ -88,6 +92,9 @@ const Lanes = {
     'stage-visibility': 'queued',
     /** Confirmations that a command did something (see Command.feedback). */
     command: 'queued',
+    /** A discrete result in the character editor — a point added, a segment
+     *  straightened, an edit undone. Never dropped, since each is its own event. */
+    'character-edit': 'queued',
     // coalesce
     // The caret must keep up with navigation, and outrank the screen
     // reader's own chatter, so it doesn't wait behind paced announcements.
@@ -103,6 +110,12 @@ const Lanes = {
     'stage-zoom': 'coalesce',
     'character-selection': 'coalesce',
     'drawing-cursor': 'coalesce',
+    /** Where the character editor's cursor, selection, or path handle is now, and what
+     *  a drag is drawing. Held keys and drags stream these, so only the latest matters. */
+    'character-point': 'coalesce',
+    /** How far back or forward through the character editor's history an undo has got.
+     *  A held undo streams it, and only where it landed matters. */
+    'character-history': 'coalesce',
     'canvas-moved': 'coalesce',
     'howto-moved': 'coalesce',
     /** Command feedback whose value changes as a key repeats (zoom, step). */

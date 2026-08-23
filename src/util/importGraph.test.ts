@@ -67,25 +67,59 @@ test('resolving a color needs no basis', () => {
  * already carries: the language chooser's request-form matching (#1256) added a
  * few KB to LocaleSearch, which the footer's chooser imports, the keyword
  * canonical-symbol fixes (#1296, #1298) added a few KB to the tokenizer/parser,
- * and the stage zoom feedback (#1175) added a few strings to en-US.json, which
- * every page carries. Raise a budget only for that, never to accommodate the
+ * the stage zoom feedback (#1175) added a few strings to en-US.json, which
+ * every page carries, the footer nav tabs (#836) added a few KB of CSS to
+ * Link and Toggle, which every page renders, and the text case functions
+ * (#1301) and the text slicing/searching functions added their documentation to
+ * en-US.json, the richer landing page (#921) added its tour examples and
+ * feature list there, which is why all five budgets moved by about 10KB at once,
+ * and character path curves (#774) added their schema and rendering to
+ * Character.ts, which the database reaches, plus the point editor's strings to
+ * en-US.json. Raise a budget only for that, never to accommodate the
  * language runtime leaking back in — the runtime-reachability test below is what
  * guards the 2MB this file exists for, and it must stay green whatever these
  * numbers say.
  *
  * A *file* budget may move by one for the same reason, and only for the same
  * reason: #1175 extracted OverflowToolbar's fit policy into its own module so it
- * could be tested without a layout engine. That is one small file already inside
- * chrome, and it imports nothing — not a new subgraph. Any larger jump in a file
+ * could be tested without a layout engine, #836 did the same for Link's
+ * active/section logic, and #1301 did the same for the one rule deciding what
+ * locale a case conversion uses. Each is one small file already inside chrome
+ * that imports nothing — not a new subgraph. Any larger jump in a file
  * count is a door opening, and the chain that opened it is what the failure
  * message is for.
+ *
+ * The landing page's +4 (#921) is the one larger move, and it is the same kind:
+ * the page gained a stage, its drifting cast, a feature-list block, and the
+ * one-line module holding the cast's glyphs, while giving up the old full-page
+ * Background. Each imports only what the page already had. The 2MB of runtime
+ * the new stage can show is *not* in that number, and must never be: it lives
+ * behind the dynamic import guarded by the test below.
+ *
+ * The landing page's later +0.01MB is StageCast holding its cast back until the
+ * page has settled: two more stores read from Database, which the page already
+ * reached, and the frame watcher deciding when to start. No new file, and no
+ * new subgraph.
+ *
+ * The three page budgets' later +0.01MB is the adjustable brush and eraser
+ * (#898): the brush geometry went into characters/paths.ts, which the character
+ * pages reach, and its slider's labels into en-US.json, which every page
+ * carries. No new file and no new subgraph — the same kind of move as the
+ * entries above.
+ *
+ * The layout's and Page's +0.01MB is the symbol tool (#924): the glyph shape's
+ * schema and rendering went into Character.ts, which the database reaches, and
+ * the tool's font, weight and insertion labels into en-US.json. This is the
+ * same move #774 made for character path curves, for the same feature. Image
+ * import becoming a mode of its own rather than a command added one more label,
+ * tip and instruction to the same file, which is the last +0.01MB here.
  */
 test.each([
-    ['src/routes/+layout.svelte', 475, 3.36],
-    ['src/components/app/Page.svelte', 496, 3.58],
-    ['src/routes/[[locale]]/+page.svelte', 510, 3.63],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.66],
-    ['src/routes/[[locale]]/projects/+page.svelte', 516, 3.66],
+    ['src/routes/+layout.svelte', 477, 3.42],
+    ['src/components/app/Page.svelte', 498, 3.64],
+    ['src/routes/[[locale]]/+page.svelte', 514, 3.73],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.73],
+    ['src/routes/[[locale]]/projects/+page.svelte', 518, 3.73],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(
@@ -96,6 +130,17 @@ test.each([
         reach.bytes / 1024 / 1024,
         `${entry} carries ${(reach.bytes / 1024 / 1024).toFixed(2)}MB`,
     ).toBeLessThanOrEqual(maxMB);
+});
+
+test("the landing page's carousel stays behind its dynamic import", () => {
+    // The carousel is the one thing on the landing page that runs a program, so
+    // it reaches the evaluator, the output layer, and the editor's node views.
+    // It may only ever be loaded through `showcase.ts`'s `import()`; a static
+    // import of it anywhere on the page's graph would put all of that back into
+    // what a first-time visitor downloads, and the reachability test below
+    // would fail with it.
+    const reach = reachFrom('src/routes/[[locale]]/+page.svelte', Root);
+    expect(reach.files.has('src/components/app/Showcase.svelte')).toBe(false);
 });
 
 test('no page-wide chrome reaches the language runtime', () => {

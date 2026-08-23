@@ -69,6 +69,20 @@ type BasisTexts = {
             /** [formatted] See `en-US.json` for documentation  */
             ends: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
+            uppercase: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            lowercase: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            subsequence: FunctionText<[NameAndDoc, NameAndDoc]>;
+            /** [formatted] See `en-US.json` for documentation  */
+            index: FunctionText<[NameAndDoc]>;
+            /** [formatted] See `en-US.json` for documentation  */
+            replace: FunctionText<[NameAndDoc, NameAndDoc]>;
+            /** [formatted] See `en-US.json` for documentation  */
+            trim: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            reverse: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
             repeat: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
             segment: FunctionText<[NameAndDoc]>;
@@ -106,6 +120,10 @@ type BasisTexts = {
             /** [formatted] See `en-US.json` for documentation  */
             ends: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
+            uppercase: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            lowercase: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
             repeat: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
             combine: FunctionText<[NameAndDoc]>;
@@ -114,6 +132,10 @@ type BasisTexts = {
         conversion: {
             /** [formatted] See `en-US.json` for documentation  */
             text: DocText;
+            /** [formatted] See `en-US.json` for documentation  */
+            list: DocText;
+            /** [formatted] See `en-US.json` for documentation  */
+            number: DocText;
         };
     };
     /** A number value, e.g., `5` or `-23.3` */
@@ -311,8 +333,6 @@ type BasisTexts = {
             sansFirst: FunctionText<EmptyInputs>;
             /** [formatted] See `en-US.json` for documentation  */
             sansLast: FunctionText<EmptyInputs>;
-            /** [formatted] See `en-US.json` for documentation  */
-            sans: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
             sansAll: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */

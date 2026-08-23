@@ -282,7 +282,8 @@
         "Exponent": "$~exponent",
         "Product": "$~produkt",
         "Percent": "$~procent",
-        "Defect": "$~exempel med förväntat fel"
+        "Defect": "$~exempel med förväntat fel",
+        "NotANumber": "$~inte ett tal"
     },
     "node": {
         "Dimension": {
@@ -2642,11 +2643,115 @@
                             "names": "$~mönster"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Jag skapar en ny @Text som är jag, med varje bokstav i versaler:",
+                        "\\'hej'.versaler()\\",
+                        "Bokstäver har bara skiftläge i vissa skriftsystem, så text i ett skriftsystem utan det, som japanska eller arabiska, ändras inte.",
+                        "Min språktagg avgör vilka regler som ska användas. Turkiska har ett i med prick och ett i utan prick, och bara text taggad som turkiska görs om till versaler på det turkiska sättet:",
+                        "\\'iyi'.versaler()\\",
+                        "\\'iyi'.versaler()\\"
+                    ],
+                    "names": ["$~versaler"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Jag skapar en ny @Text som är jag, med varje bokstav i gemener:",
+                        "\\'HEJ'.gemener()\\",
+                        "Gör två texter till gemener för att jämföra dem utan att bry sig om skiftläge. Detta behåller varje ord som börjar på a, oavsett om det är skrivet med stor bokstav eller inte:",
+                        "\\['Äpple' 'aprikos' 'Banan'].filtrera(\n\tƒ(ord2•'') ord2.gemener().startar('en')\n)\\",
+                        "Liksom @Text/uppercase har bokstäver bara skiftläge i vissa skriftsystem, och min språktagg avgör vilka regler som ska användas."
+                    ],
+                    "names": ["$~gemener"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Jag skapar en ny @Text från en bit av mig själv. Räkningen börjar på 1, och båda ändarna räknas med:",
+                        "\\'hej'.delföljd(2 4)\\",
+                        "Utelämna slutet så går jag hela vägen till mitt sista tecken:",
+                        "\\'hej'.delföljd(3)\\",
+                        "Jag räknar tecken så som du ser dem, så en emoji gjord av flera delar räknas ändå som ett tecken och delas aldrig på mitten:",
+                        "\\'🐈📚!'.delföljd(1 2)\\",
+                        "Om du ber om fler än jag har, ger jag dig det jag har."
+                    ],
+                    "names": ["$~delföljd"],
+                    "inputs": [
+                        {
+                            "doc": "$~Platsen att börja på, räknat från 1.",
+                            "names": "$~start"
+                        },
+                        {
+                            "doc": "$~Platsen att sluta på, räknat från 1. Utelämna den för att gå till slutet.",
+                            "names": "$~slut"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Jag säger var den givna @Text först dyker upp i mig, räknat från 1:",
+                        "\\'hej'.index('ll')\\",
+                        "Om den inte finns i mig alls, ger jag @None istället:",
+                        "\\'hej'.index('z')\\",
+                        "Tillsammans med @Text/subsequence kan jag ta allt fram till något — här, det första ordet:",
+                        "\\fras: 'hej världen'\nfras.delföljd(1 (fras.index(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~index"],
+                    "inputs": [
+                        {
+                            "doc": "$~Den @Text att leta efter i mig.",
+                            "names": "$~text"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Jag skapar en ny @Text där varje förekomst av en @Text byts ut mot en annan:",
+                        "\\'2026-08-21'.ersätt('-' '/')\\",
+                        "Varje förekomst ändras, inte bara den första:",
+                        "\\'ha ha ha'.ersätt('ha' 'ho')\\",
+                        "Om du ber mig ersätta en tom @Text, ger jag tillbaka mig själv oförändrad."
+                    ],
+                    "names": ["$~ersätt"],
+                    "inputs": [
+                        {
+                            "doc": "$~Den @Text att leta efter i mig.",
+                            "names": "$~av"
+                        },
+                        {
+                            "doc": "$~Den @Text att sätta i dess ställe.",
+                            "names": "$~ersättning"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Jag skapar en ny @Text med det tomma utrymmet borttaget från båda mina ändar. Mellanrum i mitten är kvar:",
+                        "\\'  hej  '.beskär()\\",
+                        "Detta är praktiskt för text som någon skrivit in, som ofta har extra mellanrum du inte bad om."
+                    ],
+                    "names": ["$~beskär"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Jag skapar en ny @Text med mina tecken i omvänd ordning:",
+                        "\\'hej'.omvänd()\\",
+                        "Jag vänder ordningen på mina tecken så som du ser dem, så emojier förblir hela och bokstäver behåller sina accenter:",
+                        "\\'🐈📚'.omvänd()\\"
+                    ],
+                    "names": ["$~omvänd", "$~vänd"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Delar upp texten i en lista med enskilda tecken.",
-                "number": "$~Konverterar text till ett @Number, och om det inte är ett tal, ett inte ett talvärde.",
+                "number": [
+                    "$~Omvandlar text till en @Number, och om det inte är ett tal, ett värde som inte är ett tal, vilket visas som \\!#\\:",
+                    "\\'hej' → #\\"
+                ],
                 "formatted": "$~Konverterar text till formaterad text och tolkar eventuell markup den innehåller."
             }
         },
@@ -3216,25 +3321,12 @@
                     "names": ["$~utanSista"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Jag, men utan de första förekomsterna av den angivna @value.",
-                        "\\['äpple' 'banan' 'mango' 'äpple'].utan('äpple')\\"
-                    ],
-                    "names": ["$~utan"],
-                    "inputs": [
-                        {
-                            "doc": "$~Den @value vars första förekomst ska tas bort.",
-                            "names": "$~värde"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Jag, men utan alla förekomster av den angivna @value.",
+                        "$~Jag, fast utan den givna @value. Varje kopia försvinner, inte bara den första, oavsett vilket av mina namn du använder:",
                         "\\['äpple' 'banan' 'mango' 'äpple'].utan('äpple')\\"
                     ],
-                    "names": ["$~utanAlla"],
+                    "names": ["$~utan", "$~utanAlla"],
                     "inputs": [
                         {
                             "doc": "$~Den @value vars alla förekomster ska tas bort från listan.",
@@ -3969,10 +4061,33 @@
                             "names": "$~formaterad"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Jag skapar ny formaterad text som är jag, med varje bokstav i versaler. Bara mina ord ändras; min formatering, mina länkar och exempel förblir som de är:",
+                        "\\`*hej* där`.versaler()\\",
+                        "Liksom @Text/uppercase har bokstäver bara skiftläge i vissa skriftsystem, och min språktagg avgör vilka regler som ska användas."
+                    ],
+                    "names": ["$~versaler"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Jag skapar ny formaterad text som är jag, med varje bokstav i gemener. Bara mina ord ändras; min formatering, mina länkar och exempel förblir som de är:",
+                        "\\`*HEJ* DÄR`.gemener()\\",
+                        "Liksom @Text/lowercase har bokstäver bara skiftläge i vissa skriftsystem, och min språktagg avgör vilka regler som ska användas."
+                    ],
+                    "names": ["$~gemener"],
+                    "inputs": []
                 }
             },
             "conversion": {
-                "text": "$~Konverterar formaterad text till vanlig @Text och tar bort all formatering."
+                "text": "$~Konverterar formaterad text till vanlig @Text och tar bort all formatering.",
+                "list": "$~Omvandlar formaterad text till en @List av @Text, en för varje tecken i mina ord. Formatering kan inte överleva att delas upp i enskilda tecken, så den tas bort.",
+                "number": [
+                    "$~Omvandlar mina ord till en @Number, och om de inte är ett tal, ett värde som inte är ett tal, vilket visas som \\!#\\:",
+                    "\\`hej` → #\\"
+                ]
             }
         }
     },
@@ -4321,18 +4436,19 @@
             "names": "$~Kollision",
             "doc": [
                 "$~Det är en ström av @Rebound-värden för när namngivna @Output krockar med varandra.",
-                "Det här är ett bra sätt att göra något när @Output krockar med varandra, utöver den vanliga studs mot varandra som de kan göra.",
-                "Ge den bara ett namn på @Output, så skapar den en ny @Rebound @value varje gång det namnet krockar med ett annat. En @Rebound har information om namnen som krockade och riktningen på deras krock.",
-                "Och om du ger den två namn, skapar den bara ett nytt värde när de två namnen krockar med varandra.",
-                "Direkt efter att den skapat ett nytt värde skapar den en \\ø\\ eftersom krocken är över efter att den skett. Detta visar att det inte finns någon mer krock."
+                "För att få två @Output att märka varandra, ge dem båda namn, och ge mig sedan båda namnen. Jag skapar en ny @Rebound varje gång de rör vid varandra. De behöver inte @Matter för det — ett namn räcker för att jag ska kunna bevaka något.",
+                "Ge mig ett namn istället, så berättar jag när det @Output rör vid något annat i den fysiska världen. En @Output är i den fysiska världen om den har @Matter, om en @Motion placerar den, om den är en @Shape direkt på @Stage, eller om jag också bevakar dess namn.",
+                "Att märka är inte samma sak som att studsa. @Output knuffar bara omkring andra @Output om den har @Matter och en @Motion som flyttar den. @Output som ditt program placerar går precis dit du sätter den, så den passerar rakt igenom det den rör vid — jag berättar ändå om beröringen.",
+                "En @Rebound har namnen som rörde vid varandra och riktningen de rörde vid varandra från. Direkt efter att jag skapar en gör jag en \\ø\\, eftersom en krock är över så fort den händer.",
+                "Jag kan bara bevaka @Output som placerats direkt på @Stage. Allt inuti en @Group rör sig i den gruppens eget utrymme, så jag kan inte se det — ge @Group ett namn och bevaka det istället."
             ],
             "subject": {
                 "names": "$~ämne",
-                "doc": "$~Namnet på @Output jag ska leta efter kollisioner på."
+                "doc": "$~Namnet på @Output som jag ska bevaka. Att bevaka den räcker för att placera den i den fysiska världen, så den behöver inte @Matter."
             },
             "object": {
                 "names": "$~andra",
-                "doc": "$~Namnet på den andra @Output jag borde leta efter kollisioner på."
+                "doc": "$~Namnet på den andra @Output som jag ska bevaka. Om även denna anges rapporterar jag bara när just de två rör vid varandra; utelämnar du den rapporterar jag den första som rör vid vad som helst i den fysiska världen."
             }
         },
         "Rebound": {
@@ -4839,7 +4955,7 @@
                 "names": "$~innehåll"
             },
             "matter": {
-                "doc": "$~Hur jag skulle reagera om jag skulle stöta på något annat med materia.",
+                "doc": "$~Hur tung, studsig och hal jag är, och vad som gör mig fast när en @Motion flyttar mig.",
                 "names": "$~materia"
             },
             "size": {
@@ -4965,7 +5081,7 @@
                 "names": "$~riktning"
             },
             "matter": {
-                "doc": "$~Egenskaperna att använda om jag stöter på saker!",
+                "doc": "$~Hur tung, studsig och hal jag är, och vad som gör mig fast när en @Motion flyttar mig.",
                 "names": "$~materia"
             },
             "aura": {
@@ -5861,7 +5977,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Jag är fysiska egenskaper hos output, som påverkar hur jag interagerar med andra output på scenen.",
+            "doc": "$~Jag anger hur tung, studsig och hal @Output är. @Output som har mig och en @Motion är fast: den studsar mot @Shape på @Stage och mot andra rörliga @Output. @Output som ditt program placerar går istället dit du sätter den, och passerar rakt igenom det den rör vid. @Output behöver inte mig för att märkas av @Collision — ett namn räcker för det.",
             "names": ["$~Materia"],
             "mass": {
                 "doc": "$~En vikt, i kilogram",
@@ -5880,12 +5996,16 @@
                 "names": "$~rundhet"
             },
             "text": {
-                "doc": "$~Om den kan kollidera med annan utdata.",
+                "doc": "$~Om jag alls kan krocka med andra @Phrase och @Group; ⊥ betyder att jag inte märker dem och @Collision säger ingenting om dem.",
                 "names": "$~text"
             },
             "shapes": {
-                "doc": "$~Om den kan kollidera med andra former.",
+                "doc": "$~Om jag alls kan krocka med @Shape på @Stage; ⊥ betyder att jag faller genom väggar och golv och @Collision säger ingenting om dem.",
                 "names": "$~jord"
+            },
+            "pull": {
+                "doc": "$~Hur starkt jag drar annan utdata mot mig. 0 betyder ingen dragning alls, vilket är vanligt. Större tal drar hårdare, och ett negativt tal knuffar bort istället. Bara utdata som placerats av en @Motion kan dras.",
+                "names": "$~dra"
             }
         },
         "Aura": {
@@ -6019,6 +6139,10 @@
             "overlay": {
                 "doc": "$~En lista med @Output som fästs platt mot skärmen som en informationsvisning. Den påverkas inte av scenens @Place-kamera eller djup.",
                 "names": "$~överlagring"
+            },
+            "air": {
+                "doc": "$~Hur mycket luften bromsar utdata som rör sig. 1 är vanlig luft, 0 är yttre rymden, där saker fortsätter för evigt, och större tal är tjockare än luft.",
+                "names": "$~luft"
             }
         },
         "Easing": {
@@ -7052,7 +7176,7 @@
                 "nextMatch": "$~gå till nästa sökträff",
                 "insertTranslate": "$~infoga översättningssymbol",
                 "insertThis": "$~infoga den här symbolen",
-                "tab": "$~Tabb flyttar tangentbordsfokus. För att infoga en tabb, tryck Ctrl+ $alt +Tab, använd infoga-knappen nedan eller ändra detta i inställningarna.",
+                "tab": "$~Tabb flyttar tangentbordsfokus. För att infoga en tabb, tryck $control+ $alt +Tab, använd infoga-knappen nedan eller ändra detta i inställningarna.",
                 "matchDelimiter": "$~flytta markören till matchande avgränsare",
                 "insertPattern": "$~insatsmönster",
                 "insertSearch": "$~symbol för sökning efter mönster",
@@ -8278,18 +8402,6 @@
             "landing": {
                 "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod tillsammans med oss! Kom igång i",
                 "chooseLocales": "$~eller välj",
-                "description": [
-                    "$~@wordplay är ett programmeringsspråk som låter dig:",
-                    "• Lekfullt animera ord och emojis 🤪",
-                    "• Använda tid 🕦, ljud 🎤, ansikten 🙂, händer 🖐️, webbplatser 🔗 och fysik 🌎",
-                    "• Tala med text-till-tal 🗣️ och spela musik 🎼",
-                    "• Dela 🤝 med vänner, grupper eller vem som helst",
-                    "• Koda på vilket världsspråk som helst 🌐",
-                    "• Redigera med möss 🖱️, tryck 👆 och tangentbord ⌨️",
-                    "• Felsöka framåt ⏩ och bakåt ⏪",
-                    "• Visa med skärmar 🖥️ och skärmläsare 🔊",
-                    "Gratis för alltid från <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~@wordplay är i *beta*, så det kanske inte fungerar som tänkt eller är färdigt. Rapportera fel och dela idéer på <GitHub@https://github.com/wordplaydev/wordplay/issues>, se våra <planer för 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0>, och <bidra@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
@@ -8314,6 +8426,130 @@
                     "design": "$~Referens för designsystem för bidragsgivare",
                     "thanks": "$~Vem hjälpte till att göra detta?",
                     "localize": "$~Hjälp till att översätta Wordplay till ditt språk"
+                },
+                "tagline": "$~tillgänglig, flerspråkig, kreativ kodning",
+                "tour": {
+                    "button": "$~visa mig",
+                    "loading": "$~Laddar…",
+                    "failed": "$~Exemplen kunde inte laddas. Kontrollera din anslutning och försök igen.",
+                    "restart": "$~börja om detta exempel",
+                    "examples": {
+                        "label": "$~Exempelprogram",
+                        "tips": [
+                            "$~Text kan glöda och animeras",
+                            "$~Musik är data, ljud och bild",
+                            "$~Tiden tickar och ord är flerspråkiga",
+                            "$~Text kan reagera på pekare, klick, tryck och tangenter",
+                            "$~Publiken kan göra val",
+                            "$~Publiken kan chatta med program och ord är former",
+                            "$~Fysik och tyngdkraft kan få text att tumla och studsa",
+                            "$~Program kan lyssna på ditt tal",
+                            "$~Program kan se ditt ansikte, dina händer och föremål"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶Fraser visas på scenen, i vilken färg, glöd och rörelse du vill.¶\nFras(\n\t'hej!'\n\t6m\n\tfärg: Färg(60% 90 200°)\n\taura: Aura(Färg(80% 80 200°) 0.3m)\n\tvilande: Sekvens.vingla(8°)\n)\\",
+                        "music": "$~\\¶Musik är toner på riktiga instrument, i ett tempo, i en tonart. Scenen ritar det den hör.¶\nMusik(\n\tSpår([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Koden kan reagera på inmatning som @Time, och text kan vara flerspråkig och talad.¶\nhejsan: ['hej' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhej: hejsan.slumpmässig() … ∆ Tid(1000ms) … hejsan.slumpmässig(\n\t\t)\nFras(hej 4m)\nSäga(hej)\\",
+                        "keys": "$~\\¶Koden kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare())]\n\tplats: Plats(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Placera text och gör den markerbar.¶\nfrukt: ƒ(e•'') Fras(e 3m namn: e valbara: ⊤)\nvald: Val()\nvisad: '?' … ∆ vald … vald\nGrupp(\n\tStack(stoppning: 1m)\n\t[\n\t\tFras(visad 4m)\n\t\tGrupp(\n\t\t\tRad(stoppning: 1m)\n\t\t\t[frukt('🍎') frukt('🍐') frukt('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Chatta med program och använd formen på typsnitt och symboler.¶\nmeddelande: Chatta()\nord3: 'hej' … ∆ meddelande … meddelande\nrad: Kontur(ord3 'Noto Sans' 8m)\ntick: 0 … ∆ Tid(30ms) … tick + 1\nvisad: ((rad.längd() × tick) ÷ 66).rundaner() + 1\npunkter: rad.efterföljande(1 visad).översätta(\n\t\tƒ(p) Fras('•' plats: p)\n\t)\nEtapp(punkter.med(Fras(ord3 8m opacitet: 15%)))\\",
+                        "pile": "$~\\¶Text kan ha fysik.¶\nkasta: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFras(\n\t\t\temoji\n\t\t\t2m\n\t\t\tplats: Rörelse(Plats(x2 y2) Hastighet(vx 0m/s))\n\t\t\tmateria: Materia(1kg 0.55 0.06 0.5)\n\t\t)\nEtapp(\n\t[\n\t\tkasta('🍎' -2m 5m 2.2m/s)\n\t\tkasta('🍊' 2m 7m -2.6m/s)\n\t\tkasta('🍋' -1m 9m 1.4m/s)\n\t\tkasta('🍇' 1.5m 11m -1.9m/s)\n\t\tkasta('🫐' 0.5m 15m -1.2m/s)\n\t\tFigur(Rektangel(-4m -3m 4m -3.6m))\n\t\tFigur(Rektangel(-4.6m 4m -4m -3m))\n\t\tFigur(Rektangel(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kod kan reagera på @Volume och @Pitch från din mikrofon.¶\nFras(\n\t'📣'\n\t1m + (Volym() × 8m)\n\trotation: (Tonhöjd() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kod kan reagera på din @Face, och andra saker på @Camera.¶\nFras(Ansikte().leende ? '😄 tack!' '🙂 le mot kameran' 2m)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay är ett programmeringsspråk",
+                        "bullets": [
+                            "$~• Varje program är ett uttryck som blir ett värde. \\1 + 1\\ är ett program, och det är även \\Fras('hej')\\.",
+                            "• Tal har enheter, så \\1m + 1m\\ är meter, och \\1cat + 1dog\\🪲 är ett misstag som @wordplay hittar innan det körs.",
+                            "• Funktioner är värden du kan namnge, skicka runt och anropa: \\ƒ dubbel(n3•#) n3 × 2\\.",
+                            "• När indata ändras räknar @wordplay om ditt program och visar dess nya värde. Du behöver inte reagera på händelser själv.",
+                            "• @wordplay hittar misstag innan programmet körs, och förklarar varje problem."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay är flerspråkigt",
+                        "bullets": [
+                            "$~• Varje egenskap i programmeringsspråket har ett namn på varje språk, så koden går att läsa med ord du redan kan.",
+                            "• Dina egna namn kan också vara flerspråkiga:\n\\katt2: '🐈'\nFras(katt2)\\",
+                            "• Text har ett språk, och visas på det språk din publik läser: \\'hej'\\.",
+                            "• Själva webbplatsen finns på 29 språk och du kan välja fler än ett åt gången. Texten visas på alla valda språk.",
+                            "• Du kan hjälpa till att översätta @wordplay direkt i appen på <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay är tillgängligt",
+                        "bullets": [
+                            "$~• Allt du kan göra med en mus, kan du göra med ett tangentbord.",
+                            "• Skärmläsare beskriver scenen medan den ändras, inte bara när den laddas.",
+                            "• Du kan läsa och skriva koden din som block istället för text, och byta när du vill.",
+                            "• Rörelser kan sakta ner, eller stängas av helt.",
+                            "• Talat ljud kan visas som text på scenen för den som inte kan höra det."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay känner av världen",
+                        "bullets": [
+                            "$~• Tiden går: \\Tid(1000ms)\\ tickar framåt, och \\Nu()\\ vet dagens datum enligt din egen kalender och tidszon.",
+                            "• Var din publik pekar, vad de rör vid, och vilka tangenter de trycker på.",
+                            "• Program kan reagera på din mikrofon: hur högt det är med @Volume, vilken tonhöjd med @Pitch, och vilka ord med @Speech.",
+                            "• Din publik kan skriva text med @Chat, och välja innehåll på scenen med @Choice.",
+                            "• Program kan reagera på takten i musiken de spelar, med @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay uppträder",
+                        "bullets": [
+                            "$~• @Phrase lägger ord och emoji på scenen.",
+                            "• @Group ordnar dem i rader, staplar, rutnät, eller var du vill placera dem.",
+                            "• @Pose och @Sequence vrider, tonar, skalar och flyttar saker.",
+                            "• @Say läser upp text istället för att visa den.",
+                            "• @Music spelar spår med toner på riktiga instrument, i ett tempo, i en tonart:\n\\Musik(\n\tSpår([1 3 5] instrument: Instrument.klocka)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay är typografi",
+                        "bullets": [
+                            "$~• Hundratals typsnitt, som täcker världens skriftsystem.",
+                            "• Du kan rita dina egna <specialtecken//characters> och använda dem var som helst en emoji kan användas.",
+                            "• Konturen av varje bokstav är data du kan läsa och animera, med @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Text bryts enligt reglerna för det språk den är skriven på.",
+                            "• Höger-till-vänster-skrift och vertikal skrift läggs upp på rätt sätt."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay förklarar sig själv",
+                        "bullets": [
+                            "$~• Dokumentation är en del av språket med @Doc, inte en kommentar vid sidan om.",
+                            "• En sökbar <guide//guide> förklarar varje inbyggd funktion, med exempel.",
+                            "• Varje fel förklaras där det uppstod, på ditt eget språk.",
+                            "• Du kan stega igenom ett program framåt /och/ bakåt för att felsöka vad som hände.",
+                            "• Medan du stegar visas varje värde direkt i koden som skapade det."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay är till för att dela",
+                        "bullets": [
+                            "$~• Dina projekt är dina, och du bestämmer vem som får se dem.",
+                            "• Du kan bjuda in andra personer att bygga ett projekt tillsammans med dig.",
+                            "• <Gallerier@://galleries> samlar projekt kring ett tema.",
+                            "• Lärare kan skapa klasser och följa sina elevers arbete: <teach@://teach>.",
+                            "• Du kan remixa vem som helsts publika projekt och göra det till ditt eget."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay är gratis och öppet",
+                        "bullets": [
+                            "$~• @wordplay är gratis och kommer alltid att vara det.",
+                            "• Det är öppen källkod: du kan läsa hur det fungerar och du kan hjälpa oss att ändra det.",
+                            "• Det kommer från <University of Washington@https://ischool.uw.edu/>, Information School.",
+                            "• Det finns en gemenskap av skapare, lärare och bidragsgivare.",
+                            "• <Donationer//donate> betalar för vad det kostar att driva det."
+                        ]
+                    }
                 }
             },
             "learn": {
@@ -8733,14 +8969,16 @@
                 "header": "$~Karaktär",
                 "instructions": {
                     "empty": "$~Välj ett ritläge i paletten för att skapa former.",
-                    "unselected": "$~Välj ett ritläge eller välj och redigera former.",
-                    "selected": "$~Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i ett urval. Använd *delete* för att ta bort markeringen. Använd kontrollerna nedan för att ändra de valda formerna.",
+                    "unselected": "$~Välj ett ritläge, eller markera och ändra former. Använd *$control-a* för att markera allt och *$control-z* för att ångra.",
+                    "selected": "$~Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i en markering. Använd *delete* för att ta bort markeringen. Använd *$control-c* och *$control-v* för att kopiera och klistra in, och *$control-z* för att ångra. När en bana är markerad kan du trycka på *enter* för att ändra dess punkter. Använd kontrollerna nedan för att ändra de markerade formerna.",
                     "pixel": "$~Välj en färg för att rita pixlar. Klicka sedan på arbetsytan eller använd *pilarna* för att flytta markören och *mellanslag* för att skapa en pixel. *Dubbelklicka* för att fylla.",
                     "rect": "$~För att rita rektanglar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "ellipse": "$~För att rita ellipser och cirklar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
                     "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten.",
                     "eraser": "$~För att radera former, klicka eller tryck på dem. Dra för att radera pixlar. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera.",
-                    "emoji": "$~Välj en emoji att importera som pixlar och ändra sedan som du vill."
+                    "points": "$~Tryck *Tab* för att flytta mellan banans punkter. Använd *piltangenterna* för att flytta den markerade punkten, *enter* för att lägga till en punkt bredvid den, och *delete* för att ta bort den. Använd *böj* för att böja segmentet som leder fram till en punkt, och flytta sedan dess handtag. *Delete* på ett handtag rätar ut det igen. Tryck på *escape* när du är klar.",
+                    "symbol": "$~Välj om du vill lägga till pixlar eller en kontur, och välj sedan en bokstav, symbol eller emoji. En kontur kan ändra storlek och vridas utan att bli suddig. Pixlar kan färgas om en i taget. Klicka eller tryck på något du redan gjort för att välja det istället.",
+                    "image": "$~Välj en bild, och välj sedan den fyrkant av den som ska sparas. Den ersätter pixlarna och läggs under alla former du har ritat. Klicka eller tryck på något du redan gjort för att välja det istället."
                 },
                 "shape": {
                     "shape": "$~form",
@@ -8749,7 +8987,10 @@
                     "ellipse": "$~ellips",
                     "path": "$~väg",
                     "eraser": "$~suddgummi",
-                    "emoji": "$~emoji"
+                    "emoji": "$~emoji",
+                    "glyph": "$~kontur",
+                    "symbol": "$~symbol",
+                    "image": "$~bild"
                 },
                 "field": {
                     "name": {
@@ -8763,13 +9004,14 @@
                     "mode": {
                         "label": "$~läge",
                         "labels": [
-                            "$~välja",
+                            "$~välj",
                             "$~suddgummi",
                             "$~pixel",
                             "$~rektangel",
                             "$~ellips",
                             "$~väg",
-                            "$~emoji"
+                            "$~emoji",
+                            "$~bild"
                         ],
                         "tips": [
                             "$~välj former och pixlar",
@@ -8778,7 +9020,8 @@
                             "$~rita rektanglar",
                             "$~rita ellipser",
                             "$~rita banor",
-                            "$~importera en emoji som pixlar"
+                            "$~importera en emoji som pixlar",
+                            "$~lägg till en bild som pixlar"
                         ]
                     },
                     "fill": {
@@ -8821,7 +9064,32 @@
                         "label": "$~höjd",
                         "tip": "$~hur hög formen är"
                     },
-                    "closed": "$~ansluten"
+                    "closed": "$~ansluten",
+                    "brushSize": {
+                        "label": "$~storlek",
+                        "tip": "$~hur många rutor på bredden penseln och suddgummit täcker"
+                    },
+                    "insertion": {
+                        "label": "$~lägg till som",
+                        "labels": ["$~pixlar", "$~kontur"],
+                        "tips": [
+                            "$~lägg till symbolen som pixlar du kan färga om en i taget",
+                            "$~lägg till symbolen som en kontur du kan ändra storlek och vrida på utan att den blir suddig"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~typsnitt",
+                        "tip": "$~vilket typsnitt symbolens form ska hämtas från"
+                    },
+                    "weight": {
+                        "label": "$~tjocklek",
+                        "tip": "$~hur tjocka symbolens streck är"
+                    },
+                    "italic": "$~kursiv",
+                    "glyphSize": {
+                        "label": "$~symbolstorlek",
+                        "tip": "$~hur många rutor på bredden symbolen är"
+                    }
                 },
                 "button": {
                     "back": {
@@ -8874,11 +9142,11 @@
                     },
                     "horizontal": {
                         "label": "$~vänd horisontellt",
-                        "tip": "$~vänd punkterna vågrätt runt mitten"
+                        "tip": "$~vänd markeringen vågrätt"
                     },
                     "vertical": {
                         "label": "$~vänd vertikalt",
-                        "tip": "$~vänd punkterna lodrätt runt mitten"
+                        "tip": "$~vänd markeringen lodrätt"
                     },
                     "fit": {
                         "label": "$~färdig",
@@ -8899,6 +9167,30 @@
                     "saturationDown": {
                         "label": "$~mättnad",
                         "tip": "$~minska mättnaden"
+                    },
+                    "editPoints": {
+                        "label": "$~punkter",
+                        "tip": "$~ändra punkterna på den markerade banan"
+                    },
+                    "donePoints": {
+                        "label": "$~klar",
+                        "tip": "$~sluta ändra punkter"
+                    },
+                    "addPoint": {
+                        "label": "$~lägg till punkt",
+                        "tip": "$~lägg till en punkt bredvid den markerade"
+                    },
+                    "deletePoint": {
+                        "label": "$~ta bort punkt",
+                        "tip": "$~ta bort den markerade punkten"
+                    },
+                    "curve": {
+                        "label": "$~böj",
+                        "tip": "$~böj segmentet som leder fram till den markerade punkten"
+                    },
+                    "straighten": {
+                        "label": "$~räta ut",
+                        "tip": "$~räta ut segmentet som leder fram till den markerade punkten"
                     }
                 },
                 "feedback": {
@@ -8910,11 +9202,41 @@
                     "unauthenticated": "$~Du måste vara <inloggad@://login> för att redigera ett tecken.",
                     "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
                     "projecteditfail": "$~Det uppstod ett problem när projekt som använder det här tecknet uppdaterades. Följande projekt behöver åtgärdas:",
-                    "untitledproject": "$~Namnlöst projekt"
+                    "untitledproject": "$~Namnlöst projekt",
+                    "glyphLoading": "$~Hämtar typsnittet…",
+                    "glyphMissing": "$~Det här typsnittet har ingen form för den symbolen. Prova ett annat typsnitt.",
+                    "glyphEmpty": "$~Den symbolen har inget att rita.",
+                    "glyphUnreadable": "$~Vi kunde inte läsa det typsnittet. Kontrollera din anslutning, eller prova ett annat typsnitt.",
+                    "imageTooBig": "$~Den bilden är $size MB. Välj en som är mindre än $limit MB.",
+                    "imageUnreadable": "$~Vi kunde inte läsa den filen som en bild."
                 },
                 "announce": {
                     "position": "$~för $x $y",
-                    "selection": "$~$shapes[vald $shapes|inget valt]"
+                    "selection": "$~$shapes[vald $shapes|inget valt]",
+                    "editing": "$~ändrar $#count[en punkt|$count punkter]",
+                    "editingDone": "$~klar med att ändra punkter",
+                    "point": "$~punkt $index vid $x $y",
+                    "control": "$~böj $index vid $x $y",
+                    "pointAdded": "$~la till punkt $index vid $x $y",
+                    "pointRemoved": "$~tog bort punkt $index, $#count[en punkt|$count punkter] kvar",
+                    "curved": "$~böjde segment $index",
+                    "straightened": "$~rätade ut segment $index",
+                    "moved": "$~flyttad till $x $y",
+                    "drew": "$~ritad vid $x $y",
+                    "erased": "$~raderad vid $x $y",
+                    "finished": "$~skapade $shape vid $x $y",
+                    "deleted": "$~raderad, $#count[en form kvar|$count former kvar]",
+                    "undone": "$~ångrade steg $step av $total",
+                    "redone": "$~gjorde om steg $step av $total",
+                    "copied": "$~kopierade $#count[en $shapes|$count former: $shapes]",
+                    "pasted": "$~inklistrad vid $x $y",
+                    "arranged": "$~lager $index av $total",
+                    "flipped": "$~vänd, nu vid $x $y",
+                    "fitted": "$~förstorade formerna så de fyller ritytan",
+                    "cropped": "$~beskärningsruta vid $x $y",
+                    "cropMoving": "$~flyttar beskärningsrutan",
+                    "cropDone": "$~beskärningsruta placerad",
+                    "imported": "$~lade till $#count[en pixel|$count pixlar] från $x $y"
                 },
                 "share": {
                     "dialog": {
@@ -8938,6 +9260,26 @@
                         ]
                     },
                     "collaborators": "$~kollaboratörer"
+                },
+                "image": {
+                    "instructions": "$~Dra i rutan för att flytta den, eller använd *storlek*-skjutreglaget för att ändra hur mycket av bilden som ska behållas. Med tangentbordet: tryck på *enter* för att börja flytta, använd sedan *piltangenterna*, och tryck på *enter* igen när du är klar.",
+                    "button": {
+                        "label": "$~ladda upp",
+                        "tip": "$~välj en bildfil från den här enheten"
+                    },
+                    "add": {
+                        "label": "$~lägg till",
+                        "tip": "$~lägg till den valda rutan till tecknet som pixlar"
+                    },
+                    "crop": {
+                        "label": "$~beskärningsruta",
+                        "tip": "$~rutan av bilden som ska behållas"
+                    },
+                    "preview": "$~vad som kommer att läggas till",
+                    "size": {
+                        "label": "$~storlek",
+                        "tip": "$~hur mycket av bilden som ska behållas"
+                    }
                 }
             },
             "updates": {

@@ -270,10 +270,6 @@ export default class Layout {
         return this.tiles.filter((tile) => tile.id.startsWith('source'));
     }
 
-    getVisibleSourceCount() {
-        return this.getSources().filter((s) => s.isExpanded()).length;
-    }
-
     getNonSources() {
         return this.tiles
             .filter((tile) => !tile.id.startsWith('source'))

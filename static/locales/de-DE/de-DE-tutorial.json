@@ -1787,7 +1787,7 @@
                         [
                             "List",
                             "excited",
-                            "$~Und das hier macht Spaß: @List.sans entfernt einfach alle Werte, die dem angegebenen Wert entsprechen. Sehen Sie, dass in der resultierenden Liste keine Nullen übrig bleiben?"
+                            "$~Und das hier macht Spaß: @List.sansAll entfernt einfach alle Werte, die dem angegebenen Wert entsprechen. Sehen Sie, dass in der resultierenden Liste keine Nullen übrig bleiben?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,

@@ -100,6 +100,10 @@
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
+    import {
+        getCheckpoint,
+        type CheckpointAnchor,
+    } from '@components/project/checkpoints';
     import Color from '@output/Color/Color';
     import {
         CANCEL_SYMBOL,
@@ -340,11 +344,26 @@
     /** The background color of the output, so we can make the tile match. */
     let outputBackground = $state<Color | string | null>(null);
 
-    /** The current checkpoint chosen in the checkpoint chooser */
-    let checkpoint = $state(-1);
+    /** The checkpoint chosen in the checkpoint chooser, as its time, or null
+     * for now. See checkpoints.ts for why it's a time and not an index. */
+    let checkpoint = $state<CheckpointAnchor>(null);
+
+    /** The chosen checkpoint, or undefined for now — and for an anchor whose
+     * checkpoint has since been deleted, shifted off by the size limit, or
+     * dropped by a remote merge. */
+    let checkpointed = $derived(
+        getCheckpoint(project.getCheckpoints(), checkpoint),
+    );
+
+    /** Having lost the checkpoint being viewed, return to now, so the chooser
+     * and the restore banner agree with the sources actually being shown. */
+    $effect(() => {
+        if (checkpoint !== null && checkpointed === undefined)
+            checkpoint = null;
+    });
 
     /** Whether the project is editable and viewing an older checkpoint */
-    let editableAndCurrent = $derived(editable && checkpoint === -1);
+    let editableAndCurrent = $derived(editable && checkpoint === null);
 
     /** The new source recently added. Used to remember to keep it expanded initially. */
     let newSource = $state<Source | undefined>(undefined);
@@ -364,10 +383,8 @@
 
     /** The current sources being viewed, either the project's source, or a checkpointed one */
     const sources = $derived(
-        checkpoint >= 0
-            ? project
-                  .getCheckpoints()
-                  [checkpoint].sources.map((s) => new Source(s.names, s.code))
+        checkpointed
+            ? checkpointed.sources.map((s) => new Source(s.names, s.code))
             : project.getSources(),
     );
 
@@ -635,8 +652,19 @@
     });
 
     function getCheckpointProject(proj: Project) {
+        // Only replace sources the checkpoint actually has: a checkpoint taken
+        // when the project had fewer sources would otherwise pair one with
+        // undefined.
         return proj.withSources(
-            proj.getSources().map((s, index) => [s, sources[index]]),
+            proj
+                .getSources()
+                .map((s, index): [Source, Source | undefined] => [
+                    s,
+                    sources[index],
+                ])
+                .filter(
+                    (pair): pair is [Source, Source] => pair[1] !== undefined,
+                ),
         );
     }
 
@@ -652,7 +680,7 @@
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
             // Is the checkpoint not now? Use the old sources instead of the current ones.
-            checkpoint >= 0 ? getCheckpointProject(newProject) : newProject,
+            checkpointed ? getCheckpointProject(newProject) : newProject,
             DB,
             // Choose the selected evaluation locale or if not selected, the project's embedded locales
             evaluationLocale ? [evaluationLocale] : localesUsed,
@@ -737,6 +765,14 @@
         };
     }
 
+    /** The last project rendered. `onDestroy` runs after the parent has already
+     * updated its state, so the `project` prop can read undefined there — which
+     * is exactly what it did when the page unmounted the view. */
+    let lastProject = project;
+    $effect(() => {
+        lastProject = project;
+    });
+
     /** Clean up the evaluator when unmounting. */
     onDestroy(() => {
         catchUp.cancel();
@@ -755,7 +791,7 @@
         // evaluator anyway.
         if (
             $evaluator !== undefined &&
-            $evaluator.getLatestSourceValue(project.getMain()) === undefined
+            $evaluator.getLatestSourceValue(lastProject.getMain()) === undefined
         ) {
             try {
                 $evaluator.getInitialValue();
@@ -797,8 +833,8 @@
 
     function writePreviewFromEvaluator() {
         if ($evaluator === undefined) return;
-        if (project.getPreview()?.mode === 'manual') return;
-        const value = $evaluator.getLatestSourceValue(project.getMain());
+        if (lastProject.getPreview()?.mode === 'manual') return;
+        const value = $evaluator.getLatestSourceValue(lastProject.getMain());
         // The evaluator may not have produced a value yet (fresh project,
         // just-recreated evaluator, etc.). Stamping `EXCEPTION_SYMBOL` over
         // a cached good preview is worse than waiting — bail out and let
@@ -3370,7 +3406,7 @@
                                                         getSourceIndexByID(
                                                             tile.id,
                                                         ))}
-                                                multipleSourcesVisible={layout.getVisibleSourceCount() >=
+                                                multipleSources={sources.length >=
                                                     2}
                                                 notify={getEditorNotifier(
                                                     tile.id,
@@ -3423,7 +3459,7 @@
                                             />
                                         {/if}
                                         <!-- "Viewing an older checkpoint — Restore" banner. -->
-                                        {#if checkpoint > -1}
+                                        {#if checkpointed}
                                             <EditorNotice
                                                 ><LocalizedText
                                                     path={(l) =>
@@ -3435,7 +3471,6 @@
                                                     tip={(l) =>
                                                         l.ui.checkpoints.button
                                                             .restore}
-                                                    active={checkpoint > -1}
                                                     action={() => {
                                                         // Save a version of the project with the current source in the history and the new source the old source.
                                                         Projects.reviseProject(
@@ -3443,7 +3478,7 @@
                                                                 project.withCheckpoint(),
                                                             ),
                                                         );
-                                                        checkpoint = -1;
+                                                        checkpoint = null;
                                                     }}
                                                     label={(l) =>
                                                         l.ui.checkpoints.button

@@ -1200,7 +1200,7 @@
             "required": ["doc", "inputs", "names"],
             "type": "object"
         },
-        "FunctionText<alias-1184849637-131-164-1184849637-0-21926>": {
+        "FunctionText<alias-1184849637-131-164-1184849637-0-23072>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1383,7 +1383,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "not": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
@@ -1425,12 +1425,20 @@
                                     "additionalProperties": false,
                                     "description": "Conversions in the type",
                                     "properties": {
+                                        "list": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "number": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
                                         "text": {
                                             "$ref": "#/definitions/DocText",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
-                                    "required": ["text"],
+                                    "required": ["text", "list", "number"],
                                     "type": "object"
                                 },
                                 "doc": {
@@ -1458,7 +1466,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "lowercase": {
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1472,6 +1484,10 @@
                                         "starts": {
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "uppercase": {
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
                                     "required": [
@@ -1481,6 +1497,8 @@
                                         "has",
                                         "starts",
                                         "ends",
+                                        "uppercase",
+                                        "lowercase",
                                         "repeat",
                                         "combine"
                                     ],
@@ -1690,7 +1708,7 @@
                                             "type": "object"
                                         },
                                         "first": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
@@ -1702,11 +1720,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "last": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1714,7 +1732,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "random": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
@@ -1722,11 +1740,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
-                                            "description": "[formatted] See `en-US.json` for documentation"
-                                        },
-                                        "sans": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansAll": {
@@ -1734,15 +1748,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansFirst": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansLast": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "shuffled": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sorted": {
@@ -1878,7 +1892,6 @@
                                         "subsequence",
                                         "sansFirst",
                                         "sansLast",
-                                        "sans",
                                         "sansAll",
                                         "reverse",
                                         "equals",
@@ -2007,7 +2020,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -2408,19 +2421,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arccos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arcsin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arctan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "cos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "divide": {
@@ -2432,7 +2445,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "exp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterOrEqual": {
@@ -2472,7 +2485,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "positive": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "power": {
@@ -2488,19 +2501,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "round": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundDown": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundUp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subtract": {
@@ -2508,7 +2521,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "tan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -2647,7 +2660,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -2885,8 +2898,16 @@
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
+                                        "index": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "lowercase": {
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "matches": {
@@ -2901,6 +2922,14 @@
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
+                                        "replace": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "reverse": {
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
                                         "search": {
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
                                             "description": "`⌕` — search the text for a pattern, returning a list of Result."
@@ -2912,6 +2941,18 @@
                                         "starts": {
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "subsequence": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "trim": {
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "uppercase": {
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-23072%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
                                     "required": [
@@ -2921,6 +2962,13 @@
                                         "has",
                                         "starts",
                                         "ends",
+                                        "uppercase",
+                                        "lowercase",
+                                        "subsequence",
+                                        "index",
+                                        "replace",
+                                        "trim",
+                                        "reverse",
                                         "repeat",
                                         "segment",
                                         "combine",
@@ -3229,7 +3277,7 @@
                         },
                         "Collision": {
                             "additionalProperties": false,
-                            "description": "A stream of collisions between objects with matter.",
+                            "description": "A stream of collisions between named output.",
                             "properties": {
                                 "doc": {
                                     "$ref": "#/definitions/DocText",
@@ -13098,7 +13146,7 @@
                                 },
                                 "matter": {
                                     "$ref": "#/definitions/NameAndDoc",
-                                    "description": "The matter to use for the group if it's involved in collisions"
+                                    "description": "How heavy, bouncy, and slippery the group is, and what makes it solid when a Motion moves it"
                                 },
                                 "moving": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -13305,7 +13353,7 @@
                         },
                         "Matter": {
                             "additionalProperties": false,
-                            "description": "Physical properties of matter",
+                            "description": "How heavy, bouncy, and slippery output is, and what makes it solid when a Motion moves it",
                             "properties": {
                                 "bounciness": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -13327,6 +13375,10 @@
                                     "$ref": "#/definitions/NameText",
                                     "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                                 },
+                                "pull": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "how strongly the output pulls other output toward it"
+                                },
                                 "roundedness": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "from 0-1, what percent of the size to round the corners of the output's rectangle."
@@ -13346,6 +13398,7 @@
                                 "friction",
                                 "mass",
                                 "names",
+                                "pull",
                                 "roundedness",
                                 "shapes",
                                 "text"
@@ -13630,7 +13683,7 @@
                                 },
                                 "matter": {
                                     "$ref": "#/definitions/NameAndDoc",
-                                    "description": "The matter properties for the phrase"
+                                    "description": "How heavy, bouncy, and slippery the phrase is, and what makes it solid when a Motion moves it"
                                 },
                                 "moving": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -14939,6 +14992,10 @@
                             "additionalProperties": false,
                             "description": "The whole stage view and settings to control its appearance",
                             "properties": {
+                                "air": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How much air resistance slows moving output down; 0 is space"
+                                },
                                 "background": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The background color behind a phrase, group, or stage"
@@ -15049,6 +15106,7 @@
                                 }
                             },
                             "required": [
+                                "air",
                                 "background",
                                 "color",
                                 "content",
@@ -15481,6 +15539,9 @@
                         "None": {
                             "type": "string"
                         },
+                        "NotANumber": {
+                            "type": "string"
+                        },
                         "Number": {
                             "type": "string"
                         },
@@ -15712,6 +15773,7 @@
                         "TeluguNumeral",
                         "Pi",
                         "Infinity",
+                        "NotANumber",
                         "TableOpen",
                         "TableClose",
                         "Select",
@@ -19381,25 +19443,150 @@
                                     "properties": {
                                         "announce": {
                                             "additionalProperties": false,
+                                            "description": "A live region only speaks when its text changes, so each of these has to say something different every time it fires or it is heard once and then sounds broken. That is why they carry positions, counts, and history steps rather than reading like tidy summaries: those are the parts that vary.",
                                             "properties": {
+                                                "arranged": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22total%22%5D%3E",
+                                                    "description": "[formatted] When a shape changes layer."
+                                                },
+                                                "control": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a curve's control point is selected or moved."
+                                                },
+                                                "copied": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22shapes%22%2C%22%23count%22%5D%3E",
+                                                    "description": "[formatted] When shapes are copied. $shapes is their kinds."
+                                                },
+                                                "cropDone": {
+                                                    "description": "[plain] When the crop box leaves move mode",
+                                                    "type": "string"
+                                                },
+                                                "cropMoving": {
+                                                    "description": "[plain] When the crop box enters move mode",
+                                                    "type": "string"
+                                                },
+                                                "cropped": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] Where the crop box is now. The position rides along because it is what differs between two consecutive moves."
+                                                },
+                                                "curved": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%5D%3E",
+                                                    "description": "[formatted] When a segment is bent into a curve."
+                                                },
+                                                "deleted": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                                    "description": "[formatted] When shapes are deleted, with how many are left."
+                                                },
+                                                "drew": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a pixel is drawn."
+                                                },
+                                                "editing": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                                    "description": "[formatted] When point editing begins, with how many points the path has."
+                                                },
+                                                "editingDone": {
+                                                    "description": "[plain] When point editing ends.",
+                                                    "type": "string"
+                                                },
+                                                "erased": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a pixel is erased."
+                                                },
+                                                "finished": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22shape%22%2C%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a shape is finished. $shape is its kind."
+                                                },
+                                                "fitted": {
+                                                    "description": "[plain] When shapes are grown to fill the canvas. Repeating it does nothing, so it needs nothing that varies.",
+                                                    "type": "string"
+                                                },
+                                                "flipped": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When the selection is flipped, naming its new top left corner."
+                                                },
+                                                "imported": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When an image is added as pixels. The crop origin rides along because the count alone repeats when the same image is imported twice."
+                                                },
+                                                "moved": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When the selection is moved, naming where it landed."
+                                                },
+                                                "pasted": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When shapes are pasted, naming where they landed."
+                                                },
+                                                "point": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a path point is selected or moved. $index is 1-based."
+                                                },
+                                                "pointAdded": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a point is added to a path."
+                                                },
+                                                "pointRemoved": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22%23count%22%5D%3E",
+                                                    "description": "[formatted] When a point is removed, with how many are left."
+                                                },
                                                 "position": {
                                                     "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
                                                     "description": "[formatted] When cursor position changes $1 x, $2: y."
                                                 },
+                                                "redone": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22step%22%2C%22total%22%5D%3E",
+                                                    "description": "[formatted] When an edit is redone."
+                                                },
                                                 "selection": {
                                                     "$ref": "#/definitions/Template%3C%5B%22shapes%22%5D%3E",
                                                     "description": "[formatted] When selection changes. $1 is list of shape types."
+                                                },
+                                                "straightened": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%5D%3E",
+                                                    "description": "[formatted] When a curved segment is straightened."
+                                                },
+                                                "undone": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22step%22%2C%22total%22%5D%3E",
+                                                    "description": "[formatted] When an edit is undone. The step is what varies as undo repeats."
                                                 }
                                             },
                                             "required": [
+                                                "cropped",
+                                                "cropMoving",
+                                                "cropDone",
+                                                "imported",
                                                 "position",
-                                                "selection"
+                                                "selection",
+                                                "editing",
+                                                "editingDone",
+                                                "point",
+                                                "control",
+                                                "pointAdded",
+                                                "pointRemoved",
+                                                "curved",
+                                                "straightened",
+                                                "moved",
+                                                "drew",
+                                                "erased",
+                                                "finished",
+                                                "deleted",
+                                                "undone",
+                                                "redone",
+                                                "copied",
+                                                "pasted",
+                                                "arranged",
+                                                "flipped",
+                                                "fitted"
                                             ],
                                             "type": "object"
                                         },
                                         "button": {
                                             "additionalProperties": false,
                                             "properties": {
+                                                "addPoint": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Add a point to the selected path"
+                                                },
                                                 "all": {
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "The select all button"
@@ -19424,9 +19611,25 @@
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "Copy button text"
                                                 },
+                                                "curve": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Bend the segment arriving at the selected point"
+                                                },
+                                                "deletePoint": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Remove the selected point"
+                                                },
                                                 "dismissError": {
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "Dismiss the error message"
+                                                },
+                                                "donePoints": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Stop editing points"
+                                                },
+                                                "editPoints": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Start editing the selected path's points"
                                                 },
                                                 "end": {
                                                     "$ref": "#/definitions/ButtonText",
@@ -19459,6 +19662,10 @@
                                                 "saturationUp": {
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "The saturation up button"
+                                                },
+                                                "straighten": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Straighten the segment arriving at the selected point"
                                                 },
                                                 "toBack": {
                                                     "$ref": "#/definitions/ButtonText",
@@ -19496,7 +19703,13 @@
                                                 "horizontal",
                                                 "vertical",
                                                 "fit",
-                                                "dismissError"
+                                                "dismissError",
+                                                "editPoints",
+                                                "donePoints",
+                                                "addPoint",
+                                                "deletePoint",
+                                                "curve",
+                                                "straighten"
                                             ],
                                             "type": "object"
                                         },
@@ -19509,6 +19722,30 @@
                                                 },
                                                 "end": {
                                                     "description": "[plain] When completing a path, instructions on how to end it.",
+                                                    "type": "string"
+                                                },
+                                                "glyphEmpty": {
+                                                    "description": "[plain] When the symbol has no ink to trace, like a space",
+                                                    "type": "string"
+                                                },
+                                                "glyphLoading": {
+                                                    "description": "[plain] While a font is being fetched to trace a symbol's outline",
+                                                    "type": "string"
+                                                },
+                                                "glyphMissing": {
+                                                    "description": "[plain] When the chosen font has no outline for the chosen symbol",
+                                                    "type": "string"
+                                                },
+                                                "glyphUnreadable": {
+                                                    "description": "[plain] When a font file couldn't be reached, found, or read",
+                                                    "type": "string"
+                                                },
+                                                "imageTooBig": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22size%22%2C%22limit%22%5D%3E",
+                                                    "description": "[formatted] When a chosen image is larger than we'll read. $size and $limit are both in megabytes."
+                                                },
+                                                "imageUnreadable": {
+                                                    "description": "[plain] When the browser can't decode the chosen file as an image",
                                                     "type": "string"
                                                 },
                                                 "loadfail": {
@@ -19541,6 +19778,12 @@
                                                 }
                                             },
                                             "required": [
+                                                "glyphLoading",
+                                                "glyphMissing",
+                                                "glyphEmpty",
+                                                "glyphUnreadable",
+                                                "imageTooBig",
+                                                "imageUnreadable",
                                                 "name",
                                                 "description",
                                                 "end",
@@ -19573,6 +19816,23 @@
                                                     ],
                                                     "type": "object"
                                                 },
+                                                "brushSize": {
+                                                    "additionalProperties": false,
+                                                    "description": "[plain] Labels for the pixel brush and eraser size slider",
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string"
+                                                        },
+                                                        "tip": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "label",
+                                                        "tip"
+                                                    ],
+                                                    "type": "object"
+                                                },
                                                 "closed": {
                                                     "description": "[plain] Closed path label",
                                                     "type": "string"
@@ -19580,8 +19840,42 @@
                                                 "description": {
                                                     "$ref": "#/definitions/FieldText"
                                                 },
+                                                "face": {
+                                                    "additionalProperties": false,
+                                                    "description": "[plain] Labels for the glyph font chooser",
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string"
+                                                        },
+                                                        "tip": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "label",
+                                                        "tip"
+                                                    ],
+                                                    "type": "object"
+                                                },
                                                 "fill": {
                                                     "$ref": "#/definitions/ModeText%3Cstring%5B%5D%3E"
+                                                },
+                                                "glyphSize": {
+                                                    "additionalProperties": false,
+                                                    "description": "[plain] Labels for the glyph size slider",
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string"
+                                                        },
+                                                        "tip": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "label",
+                                                        "tip"
+                                                    ],
+                                                    "type": "object"
                                                 },
                                                 "height": {
                                                     "additionalProperties": false,
@@ -19604,8 +19898,16 @@
                                                     "description": "[plain] What to call inherited color",
                                                     "type": "string"
                                                 },
+                                                "insertion": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "[plain] How a chosen symbol is added: as pixels, or as an outline"
+                                                },
+                                                "italic": {
+                                                    "description": "[plain] Label for the glyph italic checkbox",
+                                                    "type": "string"
+                                                },
                                                 "mode": {
-                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
                                                 },
                                                 "name": {
                                                     "$ref": "#/definitions/FieldText"
@@ -19651,6 +19953,23 @@
                                                     ],
                                                     "type": "object"
                                                 },
+                                                "weight": {
+                                                    "additionalProperties": false,
+                                                    "description": "[plain] Labels for the glyph weight chooser",
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string"
+                                                        },
+                                                        "tip": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "label",
+                                                        "tip"
+                                                    ],
+                                                    "type": "object"
+                                                },
                                                 "width": {
                                                     "additionalProperties": false,
                                                     "description": "[plain] Width slider",
@@ -19678,6 +19997,12 @@
                                                 "none",
                                                 "inherit",
                                                 "strokeWidth",
+                                                "brushSize",
+                                                "insertion",
+                                                "face",
+                                                "weight",
+                                                "italic",
+                                                "glyphSize",
                                                 "radius",
                                                 "angle",
                                                 "width",
@@ -19690,36 +20015,106 @@
                                             "description": "[plain] The character editor page header",
                                             "type": "string"
                                         },
+                                        "image": {
+                                            "additionalProperties": false,
+                                            "description": "Importing an image and reducing it to pixels",
+                                            "properties": {
+                                                "add": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "The button that confirms the crop and adds the pixels"
+                                                },
+                                                "button": {
+                                                    "$ref": "#/definitions/ButtonText"
+                                                },
+                                                "crop": {
+                                                    "additionalProperties": false,
+                                                    "description": "[plain] Name of the crop region",
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string"
+                                                        },
+                                                        "tip": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "label",
+                                                        "tip"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "instructions": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] How to move and size the crop box"
+                                                },
+                                                "preview": {
+                                                    "description": "[plain] Name of the preview showing what will be added",
+                                                    "type": "string"
+                                                },
+                                                "size": {
+                                                    "additionalProperties": false,
+                                                    "description": "[plain] Labels for the crop size slider",
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string"
+                                                        },
+                                                        "tip": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "label",
+                                                        "tip"
+                                                    ],
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "required": [
+                                                "instructions",
+                                                "button",
+                                                "add",
+                                                "crop",
+                                                "preview",
+                                                "size"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "instructions": {
                                             "additionalProperties": false,
-                                            "description": "[plain] Guidance shown in the character editor for each tool and selection state",
+                                            "description": "[formatted] Guidance shown in the character editor for each tool and selection state. These are rendered as markup (they use *emphasis* for key names), so they must not be written as plain text: a `/` in one opens an italic run that swallows the rest of the paragraph, which is what \"ctrl/cmd-a\" used to do here. Name a modifier key with the $control input instead, which concretize substitutes after parsing.",
                                             "properties": {
                                                 "ellipse": {
-                                                    "type": "string"
-                                                },
-                                                "emoji": {
-                                                    "type": "string"
+                                                    "$ref": "#/definitions/FormattedText"
                                                 },
                                                 "empty": {
-                                                    "type": "string"
+                                                    "$ref": "#/definitions/FormattedText"
                                                 },
                                                 "eraser": {
-                                                    "type": "string"
+                                                    "$ref": "#/definitions/FormattedText"
+                                                },
+                                                "image": {
+                                                    "$ref": "#/definitions/FormattedText"
                                                 },
                                                 "path": {
-                                                    "type": "string"
+                                                    "$ref": "#/definitions/FormattedText"
                                                 },
                                                 "pixel": {
-                                                    "type": "string"
+                                                    "$ref": "#/definitions/FormattedText"
+                                                },
+                                                "points": {
+                                                    "$ref": "#/definitions/FormattedText"
                                                 },
                                                 "rect": {
-                                                    "type": "string"
+                                                    "$ref": "#/definitions/FormattedText"
                                                 },
                                                 "selected": {
-                                                    "type": "string"
+                                                    "$ref": "#/definitions/Template%3C%5B%22control%22%5D%3E"
+                                                },
+                                                "symbol": {
+                                                    "$ref": "#/definitions/FormattedText"
                                                 },
                                                 "unselected": {
-                                                    "type": "string"
+                                                    "$ref": "#/definitions/Template%3C%5B%22control%22%5D%3E"
                                                 }
                                             },
                                             "required": [
@@ -19731,7 +20126,9 @@
                                                 "rect",
                                                 "ellipse",
                                                 "path",
-                                                "emoji"
+                                                "symbol",
+                                                "image",
+                                                "points"
                                             ],
                                             "type": "object"
                                         },
@@ -19748,6 +20145,12 @@
                                                 "eraser": {
                                                     "type": "string"
                                                 },
+                                                "glyph": {
+                                                    "type": "string"
+                                                },
+                                                "image": {
+                                                    "type": "string"
+                                                },
                                                 "path": {
                                                     "type": "string"
                                                 },
@@ -19759,6 +20162,9 @@
                                                 },
                                                 "shape": {
                                                     "type": "string"
+                                                },
+                                                "symbol": {
+                                                    "type": "string"
                                                 }
                                             },
                                             "required": [
@@ -19768,7 +20174,10 @@
                                                 "rect",
                                                 "ellipse",
                                                 "path",
-                                                "emoji"
+                                                "emoji",
+                                                "glyph",
+                                                "symbol",
+                                                "image"
                                             ],
                                             "type": "object"
                                         },
@@ -19809,6 +20218,7 @@
                                         "share",
                                         "field",
                                         "button",
+                                        "image",
                                         "feedback",
                                         "announce"
                                     ],
@@ -20474,19 +20884,221 @@
                                             "description": "[plain] Text between locale buttons - \"or choose\"",
                                             "type": "string"
                                         },
-                                        "description": {
-                                            "anyOf": [
-                                                {
-                                                    "$ref": "#/definitions/FormattedText"
-                                                },
-                                                {
-                                                    "items": {
-                                                        "$ref": "#/definitions/FormattedText"
+                                        "features": {
+                                            "additionalProperties": false,
+                                            "description": "The granular feature list below the links",
+                                            "properties": {
+                                                "accessible": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
                                                     },
-                                                    "type": "array"
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "docs": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "free": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "language": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "multilingual": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "performs": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "senses": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "sharing": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "typography": {
+                                                    "additionalProperties": false,
+                                                    "description": "One block of the landing page's granular feature list.",
+                                                    "properties": {
+                                                        "bullets": {
+                                                            "description": "[formatted] One granular claim per element, some illustrated with code",
+                                                            "items": {
+                                                                "$ref": "#/definitions/FormattedText"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] The section's declarative headline",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "bullets"
+                                                    ],
+                                                    "type": "object"
                                                 }
+                                            },
+                                            "required": [
+                                                "language",
+                                                "multilingual",
+                                                "accessible",
+                                                "senses",
+                                                "performs",
+                                                "typography",
+                                                "docs",
+                                                "sharing",
+                                                "free"
                                             ],
-                                            "description": "[formatted] A description of the platform's features"
+                                            "type": "object"
                                         },
                                         "link": {
                                             "additionalProperties": false,
@@ -20593,6 +21205,119 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "tagline": {
+                                            "description": "[plain] The tagline below the wordmark on the stage",
+                                            "type": "string"
+                                        },
+                                        "tour": {
+                                            "additionalProperties": false,
+                                            "description": "The stage's carousel of tiny example programs",
+                                            "properties": {
+                                                "button": {
+                                                    "description": "[plain] The button that reveals the carousel",
+                                                    "type": "string"
+                                                },
+                                                "example": {
+                                                    "additionalProperties": false,
+                                                    "description": "The example programs, keyed by the name the page refers to them by",
+                                                    "properties": {
+                                                        "choose": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the audience dragging and choosing"
+                                                        },
+                                                        "hello": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing a greeting in a new language each second, shown and spoken"
+                                                        },
+                                                        "keys": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the audience moving something with pointer, keys, and clicks"
+                                                        },
+                                                        "letters": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the audience's word traced along its own glyph outlines"
+                                                        },
+                                                        "listen": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the microphone changing what is on stage"
+                                                        },
+                                                        "music": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing music playing, with the stage moving on every beat"
+                                                        },
+                                                        "phrase": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing a phrase on stage with color, glow, and motion"
+                                                        },
+                                                        "pile": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing emoji falling under physics and settling in a pile"
+                                                        },
+                                                        "smile": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] The example showing the camera watching for a smile"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "phrase",
+                                                        "music",
+                                                        "hello",
+                                                        "keys",
+                                                        "choose",
+                                                        "letters",
+                                                        "pile",
+                                                        "listen",
+                                                        "smile"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "examples": {
+                                                    "additionalProperties": false,
+                                                    "description": "The row of example buttons. The buttons are emoji, and each example's own program doc does the explaining, so there are no separate names — a description per example is both the button's accessible name and its tooltip.",
+                                                    "properties": {
+                                                        "label": {
+                                                            "description": "[plain] Accessible name for the row itself",
+                                                            "type": "string"
+                                                        },
+                                                        "tips": {
+                                                            "description": "[plain] What each example shows, one per example, in order",
+                                                            "items": {
+                                                                "type": "string"
+                                                            },
+                                                            "maxItems": 9,
+                                                            "minItems": 9,
+                                                            "type": "array"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "label",
+                                                        "tips"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "failed": {
+                                                    "description": "[plain] Shown when the carousel couldn't be loaded",
+                                                    "type": "string"
+                                                },
+                                                "loading": {
+                                                    "description": "[plain] Shown on the button while the carousel loads",
+                                                    "type": "string"
+                                                },
+                                                "restart": {
+                                                    "description": "[plain] Tooltip for the button that starts an example over",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "button",
+                                                "loading",
+                                                "failed",
+                                                "restart",
+                                                "examples",
+                                                "example"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "value": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] The value proposition for the site"
@@ -20600,9 +21325,11 @@
                                     },
                                     "required": [
                                         "value",
-                                        "description",
                                         "beta",
                                         "chooseLocales",
+                                        "tagline",
+                                        "tour",
+                                        "features",
                                         "link"
                                     ],
                                     "type": "object"
@@ -23784,8 +24511,8 @@
                                             "type": "string"
                                         },
                                         "tab": {
-                                            "$ref": "#/definitions/Template%3C%5B%22alt%22%5D%3E",
-                                            "description": "[plain] Notice shown when Tab is pressed and tab-inserts-tab is off, explaining how to insert a tab. $alt is the platform-specific Alt/Option modifier label."
+                                            "$ref": "#/definitions/Template%3C%5B%22control%22%2C%22alt%22%5D%3E",
+                                            "description": "[plain] Notice shown when Tab is pressed and tab-inserts-tab is off, explaining how to insert a tab. $control and $alt are the platform-specific Control/Command and Alt/Option modifier labels."
                                         },
                                         "tidy": {
                                             "description": "[plain] Tidy spacing",
@@ -24960,7 +25687,7 @@
             "required": ["label", "labels", "tips"],
             "type": "object"
         },
-        "ModeText<[string,string,string,string,string,string,string]>": {
+        "ModeText<[string,string,string,string,string,string,string,string]>": {
             "additionalProperties": false,
             "properties": {
                 "label": {
@@ -24972,8 +25699,8 @@
                     "items": {
                         "type": "string"
                     },
-                    "maxItems": 7,
-                    "minItems": 7,
+                    "maxItems": 8,
+                    "minItems": 8,
                     "type": "array"
                 },
                 "tips": {
@@ -24981,8 +25708,8 @@
                     "items": {
                         "type": "string"
                     },
-                    "maxItems": 7,
-                    "minItems": 7,
+                    "maxItems": 8,
+                    "minItems": 8,
                     "type": "array"
                 }
             },
@@ -25365,6 +26092,9 @@
         "Template<[\"#count\",\"using\"]>": {
             "type": "string"
         },
+        "Template<[\"#count\",\"x\",\"y\"]>": {
+            "type": "string"
+        },
         "Template<[\"#count\"]>": {
             "type": "string"
         },
@@ -25381,9 +26111,6 @@
             "type": "string"
         },
         "Template<[\"after\"]>": {
-            "type": "string"
-        },
-        "Template<[\"alt\"]>": {
             "type": "string"
         },
         "Template<[\"amount\",\"unit\"]>": {
@@ -25420,6 +26147,12 @@
             "type": "string"
         },
         "Template<[\"condition\"]>": {
+            "type": "string"
+        },
+        "Template<[\"control\",\"alt\"]>": {
+            "type": "string"
+        },
+        "Template<[\"control\"]>": {
             "type": "string"
         },
         "Template<[\"count\",\"languages\"]>": {
@@ -25476,7 +26209,19 @@
         "Template<[\"higher\",\"lower\"]>": {
             "type": "string"
         },
+        "Template<[\"index\",\"#count\"]>": {
+            "type": "string"
+        },
         "Template<[\"index\",\"count\"]>": {
+            "type": "string"
+        },
+        "Template<[\"index\",\"total\"]>": {
+            "type": "string"
+        },
+        "Template<[\"index\",\"x\",\"y\"]>": {
+            "type": "string"
+        },
+        "Template<[\"index\"]>": {
             "type": "string"
         },
         "Template<[\"input\",\"output\"]>": {
@@ -25665,10 +26410,19 @@
         "Template<[\"shadowed\"]>": {
             "type": "string"
         },
+        "Template<[\"shape\",\"x\",\"y\"]>": {
+            "type": "string"
+        },
+        "Template<[\"shapes\",\"#count\"]>": {
+            "type": "string"
+        },
         "Template<[\"shapes\"]>": {
             "type": "string"
         },
         "Template<[\"shorter\",\"longer\"]>": {
+            "type": "string"
+        },
+        "Template<[\"size\",\"limit\"]>": {
             "type": "string"
         },
         "Template<[\"source\",\"name\"]>": {
@@ -25678,6 +26432,9 @@
             "type": "string"
         },
         "Template<[\"step\",\"node\"]>": {
+            "type": "string"
+        },
+        "Template<[\"step\",\"total\"]>": {
             "type": "string"
         },
         "Template<[\"stream\",\"number\",\"range\"]>": {

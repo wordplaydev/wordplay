@@ -58,7 +58,7 @@ type OutputTexts = {
         content: NameAndDoc;
         /** The layout to use to place the content in the group on stage */
         layout: NameAndDoc;
-        /** The matter to use for the group if it's involved in collisions */
+        /** How heavy, bouncy, and slippery the group is, and what makes it solid when a Motion moves it */
         matter: NameAndDoc;
         /** [formatted] $1 = optional group name, $2 = layout description, $3 = pose description, $4 = optional background color name */
         defaultDescription: Template<['name', 'layout', 'pose', 'color']>;
@@ -86,7 +86,7 @@ type OutputTexts = {
         alignment: NameAndDoc;
         /** The layout of writing */
         direction: NameAndDoc;
-        /** The matter properties for the phrase */
+        /** How heavy, bouncy, and slippery the phrase is, and what makes it solid when a Motion moves it */
         matter: NameAndDoc;
         /** The shadow properties for the phrase */
         aura: NameAndDoc;
@@ -110,6 +110,8 @@ type OutputTexts = {
             gravity: NameAndDoc;
             /** A list of content pinned flat to the screen (a HUD), unaffected by the camera or depth */
             overlay: NameAndDoc;
+            /** How much air resistance slows moving output down; 0 is space */
+            air: NameAndDoc;
         };
     /** The base interface for shape types */
     Shape: NameAndDoc & {
@@ -685,7 +687,7 @@ type OutputTexts = {
         /** each capture name to its end position */
         ends: NameAndDoc;
     };
-    /** Physical properties of matter */
+    /** How heavy, bouncy, and slippery output is, and what makes it solid when a Motion moves it */
     Matter: NameAndDoc & {
         /** in kilograms, how much something weighs for the purposes of collisions */
         mass: NameAndDoc;
@@ -699,6 +701,8 @@ type OutputTexts = {
         text: NameAndDoc;
         /** whether the output can collide with other shapes */
         shapes: NameAndDoc;
+        /** how strongly the output pulls other output toward it */
+        pull: NameAndDoc;
     };
     /** The base interface for arrangement types */
     Arrangement: NameAndDoc;

@@ -136,7 +136,9 @@ export default class ListValue extends SimpleValue {
     }
 
     reverse(requestor: Expression) {
-        return new ListValue(requestor, this.values.reverse());
+        // Copy first: Array.reverse is in place, so reversing a list used to
+        // rewrite the list it was called on.
+        return new ListValue(requestor, [...this.values].reverse());
     }
 
     append(requestor: Expression, list: ListValue) {

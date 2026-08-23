@@ -41,6 +41,35 @@ export const loadedFonts = writable<Set<SupportedFace>>(new Set());
 export const fontsLoadedGeneration = writable(0);
 
 /** True if the face's metadata declares support for the given weight. */
+/** Every weight a face may declare, in order. */
+export const FontWeights: FontWeight[] = [
+    100, 200, 300, 400, 500, 600, 700, 800, 900,
+];
+
+/**
+ * Pick the supported weight nearest the requested one.
+ *
+ * Shared by everything that fetches a font file for outlines — the Contour
+ * stream and the character editor's glyph tool — so the two can't resolve the
+ * same request to different files, and so a glyph traced in the editor matches
+ * the one a program traces at runtime.
+ */
+export function resolveWeight(face: Face, requested: number): FontWeight {
+    const weights = face.weights;
+    let candidates: FontWeight[];
+    if (Array.isArray(weights)) candidates = weights;
+    else {
+        const { min, max } = weights;
+        candidates = FontWeights.filter((w) => w >= min && w <= max);
+    }
+    const choices = candidates.length > 0 ? candidates : FontWeights;
+    let best = choices[0];
+    for (const weight of choices)
+        if (Math.abs(weight - requested) < Math.abs(best - requested))
+            best = weight;
+    return best;
+}
+
 export function faceSupportsWeight(face: Face, weight: FontWeight): boolean {
     return Array.isArray(face.weights)
         ? face.weights.includes(weight)

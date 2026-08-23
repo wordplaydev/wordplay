@@ -28,14 +28,16 @@ test('site navigation exposes named links to assistive tech', async ({
     await expect(page.getByRole('heading', { name: 'About' })).toBeVisible();
     // The pinned footer navigation: each destination must be a real link
     // with an accessible name, not a click-handling div (names include the
-    // links' emoji prefixes).
+    // links' emoji prefixes). The space between emoji and label is the tab
+    // variant's doing — its box is a flex container, so name computation
+    // treats the two as separate children rather than running them together.
     await expect(page.locator('body')).toMatchAriaSnapshot(`
         - navigation:
-          - link "📚Projects"
-          - link "🎭Galleries"
-          - link "🙂Characters"
-          - link "🎓Learn"
-          - link "📕Guide"
+          - link "📚 Projects"
+          - link "🎭 Galleries"
+          - link "🙂 Characters"
+          - link "🎓 Learn"
+          - link "📕 Guide"
           - button "show settings dialog"
           - button "open notifications dialog"
     `);

@@ -19,6 +19,7 @@ import type Node from '@nodes/Node';
 import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
 import { Sym, type SymType } from '@nodes/Sym';
+import { NOT_A_NUMBER_SYMBOL } from '@parser/Symbols';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
@@ -43,12 +44,21 @@ export default class NumberLiteral extends Literal {
     static make(number?: number | string, unit?: Unit, type?: SymType) {
         return new NumberLiteral(
             new Token(
+                // No number means not-a-number, which is written `!#`. The JS
+                // string "NaN" would re-lex as a name, not a number.
                 number === undefined
-                    ? 'NaN'
+                    ? NOT_A_NUMBER_SYMBOL
                     : typeof number === 'number'
                       ? '' + number
                       : number,
-                [Sym.Number, ...(type ? [type] : [])],
+                [
+                    Sym.Number,
+                    ...(type
+                        ? [type]
+                        : number === undefined
+                          ? [Sym.NotANumber]
+                          : []),
+                ],
             ),
             unit === undefined ? Unit.Empty : unit,
         );
@@ -97,6 +107,11 @@ export default class NumberLiteral extends Literal {
                 NumberLiteral.make(0, undefined, Sym.Decimal),
                 NumberLiteral.make('π', undefined, Sym.Pi),
                 NumberLiteral.make('∞', undefined, Sym.Infinity),
+                NumberLiteral.make(
+                    NOT_A_NUMBER_SYMBOL,
+                    undefined,
+                    Sym.NotANumber,
+                ),
             ];
     }
 
@@ -154,6 +169,9 @@ export default class NumberLiteral extends Literal {
     }
 
     computeConflicts(): Conflict[] {
+        // `!#` says not-a-number on purpose. The conflict is for a number we
+        // couldn't read at all, like base 2 with a digit 9.
+        if (this.number.isSymbol(Sym.NotANumber)) return [];
         if (this.getValue().num.isNaN()) return [new NotANumber(this)];
         else return [];
     }
@@ -229,6 +247,10 @@ export default class NumberLiteral extends Literal {
 
     adjust(direction: -1 | 1): this | undefined {
         const value = this.getValue().num;
+
+        // There is no next not-a-number, and stepping one used to write the
+        // literal "NaN", which isn't a number literal at all.
+        if (value.isNaN()) return undefined;
 
         const isPercent = this.isPercent();
         const amount = this.isPercent() ? 0.01 : 1;

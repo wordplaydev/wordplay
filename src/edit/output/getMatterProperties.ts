@@ -61,5 +61,18 @@ export default function getMatterProperties(
             (expr) => expr instanceof BooleanLiteral,
             () => BooleanLiteral.make(true),
         ),
+        new OutputProperty(
+            (l) => l.output.Matter.pull.names,
+            // Negative pulls push away, so the range straddles zero. It
+            // reaches this far because pull is multiplied by mass: at this
+            // slider's top and the mass slider's 10kg it matches the 2000 the
+            // Orbits example uses, and a default 1kg phrase at 200 pulls at
+            // about half stage gravity a metre away.
+            new OutputPropertyRange(-200, 200, 5, '', 0),
+            false,
+            false,
+            (expr) => expr instanceof NumberLiteral,
+            () => NumberLiteral.make(0),
+        ),
     ];
 }

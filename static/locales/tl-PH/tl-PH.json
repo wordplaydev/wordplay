@@ -282,7 +282,8 @@
         "Exponent": "$~eksponente",
         "Product": "$~produkto",
         "Percent": "$~porsyento",
-        "Defect": "$~halimbawa na may inaasahang depekto"
+        "Defect": "$~halimbawa na may inaasahang depekto",
+        "NotANumber": "$~hindi numero"
     },
     "node": {
         "Dimension": {
@@ -2642,11 +2643,115 @@
                             "names": "$~padron"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na ako rin, kung saan malaki ang bawat letra:",
+                        "\\'kamusta'.malalakingTitik()\\",
+                        "May malaki at maliit na letra lang sa ilang sistema ng pagsulat, kaya ang tekstong walang ganitong sistema, gaya ng Japanese o Arabic, ay hindi nagbabago.",
+                        "Ang tatak ng aking wika ang magpapasya kung saang mga panuntunan susunod. May tuldok at walang-tuldok na i ang Turkish, at ang tekstong tinatakan bilang Turkish lang ang gagawing malaki ayon sa paraan ng Turkish:",
+                        "\\'mabuti'.malalakingTitik()\\",
+                        "\\'mabuti'.malalakingTitik()\\"
+                    ],
+                    "names": ["$~malalakingTitik"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na ako rin, kung saan maliit ang bawat letra:",
+                        "\\'KAMUSTA'.maliliitNaTitik()\\",
+                        "Gawing maliit na letra ang dalawang teksto para maihambing sila nang hindi iniisip kung malaki o maliit ang mga letra. Nananatili sa listahan ang bawat salitang nagsisimula sa a, malaki man o maliit ang unang letra nito:",
+                        "\\['Mansanas' 'apricot' 'Saging'].pansala(\n\tƒ(salita•'') salita.maliliitNaTitik().nagsisimula('a')\n)\\",
+                        "Tulad ng @Text/uppercase, may malaki at maliit na letra lang sa ilang sistema ng pagsulat, at ang tatak ng aking wika ang magpapasya kung saang mga panuntunan susunod."
+                    ],
+                    "names": ["$~maliliitNaTitik"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text mula sa bahagi ko. Nagsisimula ang bilang sa 1, at kasama ang dalawang dulo:",
+                        "\\'kamusta'.subsequence(2 4)\\",
+                        "Alisin ang huling bilang at aabot ako hanggang sa huli kong simbolo:",
+                        "\\'kamusta'.subsequence(3)\\",
+                        "Binibilang ko ang mga simbolo ayon sa nakikita mo, kaya ang isang emoji na gawa sa maraming bahagi ay iisang simbolo pa rin at hindi kailanman puputulin sa kalahati:",
+                        "\\'🐈📚!'.subsequence(1 2)\\",
+                        "Kung humingi ka ng higit pa sa mayroon ako, ibinibigay ko ang mayroon ako."
+                    ],
+                    "names": ["$~subsequence"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang simula, bilang mula sa 1.",
+                            "names": "$~simula"
+                        },
+                        {
+                            "doc": "$~Ang hihintuan, bilang mula sa 1. Alisin ito para abutin ang dulo.",
+                            "names": "$~dulo"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Sinasabi ko sa iyo kung saan unang lumitaw ang ibinigay na @Text sa akin, bilang mula sa 1:",
+                        "\\'kamusta'.indeks('ll')\\",
+                        "Kung wala ito sa akin, ibinibigay ko ang @None sa halip:",
+                        "\\'kamusta'.indeks('z')\\",
+                        "Kasama ng @Text/subsequence kaya kong kunin ang lahat hanggang sa isang bagay — dito, ang unang salita:",
+                        "\\parirala: 'kamusta mundo'\nparirala.subsequence(1 (parirala.indeks(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~indeks"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na hahanapin sa akin.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text kung saan ang bawat paglitaw ng isang @Text ay pinalitan ng iba:",
+                        "\\'2026-08-21'.palitan('-' '/')\\",
+                        "Nagbabago ang bawat paglitaw, hindi lang ang una:",
+                        "\\'ha ha ha'.palitan('ha' 'ho')\\",
+                        "Kung hihilingin mong palitan ang isang walang laman na @Text, ibinabalik ko ang aking sarili na walang pagbabago."
+                    ],
+                    "names": ["$~palitan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na hahanapin sa akin.",
+                            "names": "$~ng"
+                        },
+                        {
+                            "doc": "$~Ang @Text na ilalagay sa lugar nito.",
+                            "names": "$~kapalit"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na tinanggalan ng blangkong puwang sa magkabilang dulo ko. Ang puwang sa gitna ay nananatili:",
+                        "\\'  kamusta  '.gupitin()\\",
+                        "Makakatulong ito para sa tekstong tina-type ng ibang tao, na kadalasang may dagdag na puwang na hindi mo naman hiniling."
+                    ],
+                    "names": ["$~gupitin"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na may mga simbolo ko sa kabaligtarang pagkakasunod-sunod:",
+                        "\\'kamusta'.binaligtad()\\",
+                        "Binabaligtad ko ang pagkakasunod-sunod ng aking mga simbolo ayon sa nakikita mo, kaya nananatiling buo ang mga emoji at pinapanatili ng mga letra ang kanilang mga marka:",
+                        "\\'🐈📚'.binaligtad()\\"
+                    ],
+                    "names": ["$~binaligtad", "$~baligtarin"],
+                    "inputs": []
                 }
             },
             "conversion": {
                 "list": "$~Hinahati ang teksto sa isang listahan ng mga indibidwal na karakter.",
-                "number": "$~Kino-convert ang teksto sa isang @Number, at kung hindi ito numero, isang value na hindi numero.",
+                "number": [
+                    "$~Kinokombert ang teksto tungo sa isang @Number, at kung hindi ito numero, isang halagang hindi-numero, na lumilitaw bilang \\!#\\:",
+                    "\\'hi' → #\\"
+                ],
                 "formatted": "$~Kino-convert ang teksto sa naka-format na teksto, binibigyang-kahulugan ang anumang markup na nilalaman nito."
             }
         },
@@ -3219,25 +3324,17 @@
                     "names": ["$~walangHuling"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "$~Ako, pero walang unang paglitaw ng ibinigay na @value.",
-                        "\\['mansanas' 'saging' 'mangga' 'mansanas'].nangwalang(\n\t'mansanas'\n)\\"
-                    ],
-                    "names": ["$~nangwalang", "$~walanglaman"],
-                    "inputs": [
-                        {
-                            "doc": "$~Ang @value na aalisin ang unang paglitaw.",
-                            "names": "$~halaga"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "$~Ako, pero walang lahat ng paglitaw ng ibinigay na @value.",
+                        "$~Ako, ngunit wala ang ibinigay na @value. Bawat kopya ay aalisin, hindi lang ang una, kahit alin man sa aking mga pangalan ang gamitin mo:",
                         "\\['mansanas' 'saging' 'mangga' 'mansanas'].nangwalang(\n\t'mansanas'\n)\\"
                     ],
-                    "names": ["$~nangwalangLahat", "$~walangLahat"],
+                    "names": [
+                        "$~nangwalang",
+                        "$~walanglaman",
+                        "$~nangwalangLahat",
+                        "$~walangLahat"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~Ang @value na aalisin ang lahat ng paglitaw mula sa listahan.",
@@ -3972,10 +4069,33 @@
                             "names": "$~nakaformat"
                         }
                     ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong tekstong may format na ako rin, kung saan malaki ang bawat letra. Ang mga salita ko lang ang nagbabago; nananatili ang aking format, mga link, at mga halimbawa:",
+                        "\\`*kamusta* diyan`.malalakingTitik()\\",
+                        "Tulad ng @Text/uppercase, may malaki at maliit na letra lang sa ilang sistema ng pagsulat, at ang tatak ng aking wika ang magpapasya kung saang mga panuntunan susunod."
+                    ],
+                    "names": ["$~malalakingTitik"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong tekstong may format na ako rin, kung saan maliit ang bawat letra. Ang mga salita ko lang ang nagbabago; nananatili ang aking format, mga link, at mga halimbawa:",
+                        "\\`*KAMUSTA* DIYAN`.maliliitNaTitik()\\",
+                        "Tulad ng @Text/lowercase, may malaki at maliit na letra lang sa ilang sistema ng pagsulat, at ang tatak ng aking wika ang magpapasya kung saang mga panuntunan susunod."
+                    ],
+                    "names": ["$~maliliitNaTitik"],
+                    "inputs": []
                 }
             },
             "conversion": {
-                "text": "$~Kino-convert ang naka-format na teksto sa plain @Text , at inaalis ang lahat ng formatting."
+                "text": "$~Kino-convert ang naka-format na teksto sa plain @Text , at inaalis ang lahat ng formatting.",
+                "list": "$~Kinokombert ang naka-format na teksto tungo sa isang @List ng @Text, isa para sa bawat simbolo ng aking mga salita. Hindi mananatili ang pag-format kapag pinutol sa iisang simbolo, kaya ito ay tinatanggal.",
+                "number": [
+                    "$~Kinokombert ang aking mga salita tungo sa isang @Number, at kung hindi sila numero, isang halagang hindi-numero, na lumilitaw bilang \\!#\\:",
+                    "\\`hi` → #\\"
+                ]
             }
         }
     },
@@ -4358,19 +4478,20 @@
         "Collision": {
             "names": "$~Pagbangga",
             "doc": [
-                "$~Ito ay isang stream ng @Rebound na halaga para sa mga sandaling nagbabanggaan ang mga pinangalanang @Output.",
-                "Magandang paraan ito para gumawa ng isang bagay kapag nagbanggaan ang mga @Output, bukod sa karaniwang pag-untog nila sa isa't isa na maaaring mangyari.",
-                "Bigyan lamang ito ng pangalan ng @Output, at gagawa ito ng bagong @Rebound @value sa tuwing babangga ang pangalang iyon sa iba. Ang @Rebound ay may impormasyon tungkol sa mga pangalang nagbanggaan at ang direksyon ng kanilang pagbabanggaan.",
-                "At kung bibigyan mo ito ng dalawang pangalan, gagawa lamang ito ng bagong halaga kapag nagbanggaan ang dalawang pangalan.",
-                "Pagkatapos gumawa ng bagong halaga, gagawa ito ng \\ø\\ dahil tapos na ang banggaan pagkatapos itong mangyari. Ipinapakita nito na wala nang banggaan."
+                "$~Isa itong agos ng @Rebound na halaga para sa mga pagkakataong may pangalang @Output na nagbabanggaan.",
+                "Upang mapansin ng dalawang @Output ang isa't isa, bigyan mo silang dalawa ng pangalan, tapos ibigay mo sa akin ang dalawang pangalan. Gagawa ako ng bagong @Rebound tuwing magkadikit sila. Hindi nila kailangan ng @Matter para dito — pangalan lang ang kailangan ko para mapanood ang isang bagay.",
+                "Bigyan mo na lang ako ng isang pangalan, at sasabihin ko sa'yo kapag nadikit ang @Output na iyon sa ibang bagay sa pisikal na mundo. Nasa pisikal na mundo ang isang @Output kung mayroon itong @Matter, kung inilagay ito ng @Motion, kung ito ay isang @Shape na direktang nasa @Stage, o kung pinapanood ko rin ang pangalan nito.",
+                "Hindi pareho ang pagpansin at pagtalbog. Itinutulak lang ng @Output ang ibang @Output kung mayroon itong @Matter at @Motion na gumagalaw dito. Ang @Output na inilagay ng iyong programa ay pupunta nang eksakto sa kung saan mo ito inilagay, kaya dumadaan ito sa anumang nadidikit nito — sasabihin ko pa rin sa'yo ang tungkol sa pagkadikit.",
+                "May pangalan ang @Rebound ng mga bagay na nagdikit at ang direksyon kung saan sila nagdikit. Pagkatapos kong gumawa ng isa, gagawa ako ng \\ø\\, dahil tapos na ang isang banggaan sa sandaling mangyari ito.",
+                "Mapapanood ko lang ang @Output na direktang inilagay sa @Stage. Ang anumang bagay sa loob ng @Group ay gumagalaw sa sarili nitong espasyo sa grupong iyon, kaya hindi ko ito makita — bigyan mo na lang ng pangalan ang @Group at iyon ang panoorin."
             ],
             "subject": {
                 "names": "$~paksa",
-                "doc": "$~Ang pangalan ng @Output na dapat kong hanapin para sa mga banggaan."
+                "doc": "$~Ang pangalan ng @Output na dapat kong panoorin. Sapat na ang pagpanood dito para ilagay ito sa pisikal na mundo, kaya hindi na ito nangangailangan ng @Matter."
             },
             "object": {
                 "names": "$~ibapa",
-                "doc": "$~Ang pangalan ng isa pang @Output na dapat kong hanapin para sa mga banggaan."
+                "doc": "$~Ang pangalan ng ibang @Output na dapat kong panoorin. Kapag ibinigay mo rin ito, iyon lang dalawang nagdikit ang ipapaalam ko; kung hindi mo ito ibibigay, ipapaalam ko ang una nitong nadikit sa anumang bagay sa pisikal na mundo."
             }
         },
         "Rebound": {
@@ -4846,7 +4967,7 @@
                 "names": "$~nilalaman"
             },
             "matter": {
-                "doc": "$~Paano ako dapat mag-react kung may mabangga akong ibang bagay na may materya.",
+                "doc": "$~Kung gaano ako kabigat, kung gaano ako tumalbog, at kung gaano ako kadulas, at kung ano ang gumagawa sa akin na matigas kapag ginagalaw ako ng isang @Motion.",
                 "names": "$~bagay"
             },
             "size": {
@@ -4972,7 +5093,7 @@
                 "names": "$~direksyon"
             },
             "matter": {
-                "doc": "$~Ang mga katangiang gagamitin kung sakaling may mabangga ako!",
+                "doc": "$~Kung gaano ako kabigat, kung gaano ako tumalbog, at kung gaano ako kadulas, at kung ano ang gumagawa sa akin na matigas kapag ginagalaw ako ng isang @Motion.",
                 "names": "$~bagay"
             },
             "aura": {
@@ -5883,7 +6004,7 @@
             }
         },
         "Matter": {
-            "doc": "$~Ang I ay mga pisikal na katangian ng output, na nakakaimpluwensya sa kung paano ako nakikipag-ugnayan sa iba pang output sa entablado.",
+            "doc": "$~Sinasabi ko kung gaano kabigat, kung gaano tumatalbog, at kung gaano kadulas ang @Output. Matigas ang @Output na mayroon sa akin at sa isang @Motion: tumatalbog ito sa @Shape na nasa @Stage at sa ibang gumagalaw na @Output. Ang @Output na inilagay ng iyong programa ay pupunta sa kung saan mo ito inilagay, at dumadaan sa anumang nadidikit nito. Hindi kailangan ng @Output ang akin para mapansin ng @Collision — sapat na ang pangalan para dito.",
             "names": ["$~Materyales"],
             "mass": {
                 "doc": "$~Timbang, sa kilo",
@@ -5902,12 +6023,16 @@
                 "names": "$~pagigingbilugan"
             },
             "text": {
-                "doc": "$~Kung maaari ba itong bumangga sa ibang output.",
+                "doc": "$~Kung kaya ko bang bumangga sa ibang @Phrase at @Group; ang ⊥ ay nangangahulugang hindi ko sila napapansin, at walang sinasabi ang @Collision tungkol sa kanila.",
                 "names": "$~teksto"
             },
             "shapes": {
-                "doc": "$~Kung maaari ba itong bumangga sa ibang mga hugis.",
+                "doc": "$~Kung kaya ko bang bumangga sa @Shape na nasa @Stage; ang ⊥ ay nangangahulugang tumatagos ako sa mga pader at sahig, at walang sinasabi ang @Collision tungkol dito.",
                 "names": "$~lupa"
+            },
+            "pull": {
+                "doc": "$~Kung gaano kalakas kong hilahin ang ibang output palapit sa akin. Ang 0 ay walang hila, at ito ang normal. Mas malalaking numero ay mas malakas humila, at ang negatibong numero naman ay itinutulak palayo sa halip. Ang output na inilagay lang ng @Motion ang maaaring mahila.",
+                "names": "$~hilahin"
             }
         },
         "Aura": {
@@ -6041,6 +6166,10 @@
             "overlay": {
                 "doc": "$~Isang listahan ng @Output na nakadikit nang patag sa screen bilang heads-up display, hindi apektado ng @Place camera o lalim ng entablado.",
                 "names": "$~pangIbabaw"
+            },
+            "air": {
+                "doc": "$~Kung gaano kabagal ang hangin sa gumagalaw na output. Ang 1 ay normal na hangin, ang 0 ay kalawakan, kung saan patuloy na gumagalaw ang mga bagay magpakailanman, at ang mas malalaking numero ay mas makapal kaysa hangin.",
+                "names": "$~hangin"
             }
         },
         "Easing": {
@@ -7301,7 +7430,7 @@
                 "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
                 "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
                 "insertThis": "$~ilagay ang simbolong ito",
-                "tab": "$~Inililipat ng Tab ang pokus ng keyboard. Para maglagay ng tab, pindutin ang Ctrl+ $alt +Tab, gamitin ang button na insert sa ibaba, o baguhin ito sa mga setting.",
+                "tab": "$~Inililipat ng Tab ang pokus ng keyboard. Para maglagay ng tab, pindutin ang $control+ $alt +Tab, gamitin ang button na insert sa ibaba, o baguhin ito sa mga setting.",
                 "matchDelimiter": "$~ilipat ang cursor sa katugmang delimiter",
                 "insertPattern": "$~ipasok ang pattern",
                 "insertSearch": "$~simbolo ng paghahanap ng pattern na isingit",
@@ -8602,18 +8731,6 @@
             "landing": {
                 "value": "$~Gumawa ng mga interactive na kwento gamit ang mga salita, simbolo, emoji, at code kasama namin! Magsimula sa",
                 "chooseLocales": "$~o pumili",
-                "description": [
-                    "$~Ang @wordplay ay isang wika sa pagprograma na nagbibigay-daan sa iyo na:",
-                    "• Malikhaing ianimasyon ang mga salita at emoji 🤪",
-                    "• Gumamit ng oras 🕦, tunog 🎤, mga mukha 🙂, mga kamay 🖐️, mga website 🔗, at pisika 🌎",
-                    "• Magsalita gamit ang text to speech 🗣️ at magtugtog ng musika 🎼",
-                    "• Magbahagi 🤝 sa mga kaibigan, grupo, o kahit sino",
-                    "• Mag-code sa anumang wika ng mundo 🌐",
-                    "• Mag-edit gamit ang mouse 🖱️, hawak 👆, at keyboard ⌨️",
-                    "• Mag-debug pasulong ⏩ at paurong ⏪",
-                    "• Tingnan gamit ang mga screen 🖥️ at screen reader 🔊",
-                    "Libre magpakailanman mula sa <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "$~Ang @wordplay ay nasa *beta*, kaya maaaring hindi ito gumana ayon sa inaasahan o hindi kumpleto. Iulat ang mga bug at magbahagi ng mga ideya sa <GitHub@https://github.com/wordplaydev/wordplay/issues>, tingnan ang aming <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, at <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
@@ -8638,6 +8755,130 @@
                     },
                     "design": "$~Sanggunian sa sistema ng disenyo para sa mga kontribyutor",
                     "localize": "$~Tulungan mong isalin ang Wordplay sa iyong wika"
+                },
+                "tagline": "$~naa-access, multilingguwal, malikhaing pag-kodigo",
+                "tour": {
+                    "button": "$~ipakita sa akin",
+                    "loading": "$~Naglo-load…",
+                    "failed": "$~Hindi na-load ang mga halimbawa. Tingnan ang iyong koneksyon at subukan ulit.",
+                    "restart": "$~simulan ulit ang halimbawang ito",
+                    "examples": {
+                        "label": "$~Mga halimbawang programa",
+                        "tips": [
+                            "$~Ang teksto ay maaaring magniningning at gumalaw",
+                            "$~Ang musika ay datos, tunog, at larawan",
+                            "$~Tumitibok ang oras at multilingguwal ang mga salita",
+                            "$~Ang teksto ay maaaring tumugon sa pointer, click, tap, at mga key",
+                            "$~Maaaring pumili ang mga manonood",
+                            "$~Maaaring makipag-usap ang mga manonood sa mga programa, at ang mga salita ay hugis",
+                            "$~Ang pisika at grabidad ay maaaring magpagulong at magpatalbog sa teksto",
+                            "$~Maaaring makinig ang mga programa sa iyong pagsasalita",
+                            "$~Maaaring pagmasdan ng mga programa ang iyong mukha, kamay, at mga bagay"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶Lumalabas ang mga Phrase sa entablado, sa anumang kulay, ningning, at galaw na gusto mo.¶\nParirala(\n\t'kumusta!'\n\t6m\n\tkulay: Kulay(60% 90 200°)\n\taura: Aura(Kulay(80% 80 200°) 0.3m)\n\tnagpapahinga: Pagkakasunodsunod.ugoy(8°)\n)\\",
+                        "music": "$~\\¶Ang musika ay mga nota sa tunay na instrumento, sa isang tempo, sa isang key. Iginuguhit ng entablado ang naririnig nito.¶\nMusika(\n\tTrack([1 3 5 8 5 3] instrumento: Instrumento.piyano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Ang kodigo ay maaaring tumugon sa input tulad ng @Time, at ang teksto ay maaaring maraming wika at mabigkas.¶\nmgaKumusta: ['kumusta' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nkumusta: mgaKumusta.random() … ∆ Oras(1000ms) … mgaKumusta.random(\n\t\t)\nParirala(kumusta 4m)\nSabihin(kumusta)\\",
+                        "keys": "$~\\¶Ang kodigo ay maaaring tumugon sa mga pointer, susi, click, at tapik.¶\nsusi2: Susi()\nclick2: Butones()\nmgaMukha: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ click2 … (alin % 4) + 1\nEntablado(\n\t[Parirala(mgaMukha[alin] 5m lugar: Panturo())]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Ayusin ang teksto at gawin itong mapipili.¶\nprutas: ƒ(e•'') Parirala(e 3m pangalan: e mapipili: ⊤)\nnapili: Pagpipilian()\nipinakita: '?' … ∆ napili … napili\nGrupo(\n\tPatongpatong(padding: 1m)\n\t[\n\t\tParirala(ipinakita 4m)\n\t\tGrupo(\n\t\t\tHilera(padding: 1m)\n\t\t\t[prutas('🍎') prutas('🍐') prutas('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Makipag-usap sa mga programa at gamitin ang hugis ng mga font at simbolo.¶\nmensahe: Makipagchat()\nsalita2: 'hi' … ∆ mensahe … mensahe\nlinya: Kontur(salita2 'Noto Sans' 8m)\nmgaTik: 0 … ∆ Oras(30ms) … mgaTik + 1\nipinakita: ((linya.haba() × mgaTik) ÷ 66).roundDown() + 1\nmgaTuldok: linya.kasunod(1 ipinakita).isalin(\n\t\tƒ(p) Parirala('•' lugar: p)\n\t)\nEntablado(\n\tmgaTuldok.kasama(Parirala(salita2 8m kalabuan: 15%))\n)\\",
+                        "pile": "$~\\¶Maaaring may pisika ang teksto.¶\nitapon: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tParirala(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlugar: Paggalaw(Lugar(x2 y2) Bilis(vx 0m/s))\n\t\t\tbagay: Materyales(1kg 0.55 0.06 0.5)\n\t\t)\nEntablado(\n\t[\n\t\titapon('🍎' -2m 5m 2.2m/s)\n\t\titapon('🍊' 2m 7m -2.6m/s)\n\t\titapon('🍋' -1m 9m 1.4m/s)\n\t\titapon('🍇' 1.5m 11m -1.9m/s)\n\t\titapon('🫐' 0.5m 15m -1.2m/s)\n\t\tHugis(Parihaba(-4m -3m 4m -3.6m))\n\t\tHugis(Parihaba(-4.6m 4m -4m -3m))\n\t\tHugis(Parihaba(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Ang kodigo ay maaaring tumugon sa @Volume at @Pitch ng iyong mikropono.¶\nParirala(\n\t'📣'\n\t1m + (Dami() × 8m)\n\tpagikot: (Tono() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Ang kodigo ay maaaring tumugon sa iyong @Face, at sa iba pang bagay sa @Camera.¶\nParirala(\n\tMukha().nakangiti ? '😄 salamat!' '🙂 ngumiti sa kamera'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Ang Wordplay ay isang programming language",
+                        "bullets": [
+                            "$~• Ang bawat programa ay isang ekspresyon na nagiging halaga. \\1 + 1\\ ay isang programa, at gayundin ang \\Parirala('hi')\\.",
+                            "• May unit ang mga numero, kaya ang \\1m + 1m\\ ay metro, at ang \\1cat + 1dog\\🪲 ay isang pagkakamali na nahuhuli ng @wordplay bago pa ito tumakbo.",
+                            "• Ang mga function ay mga halaga na maaari mong pangalanan, ipasa, at tawagin: \\ƒ doble(n3•#) n3 × 2\\.",
+                            "• Kapag nagbago ang input, sinusuri ulit ng @wordplay ang iyong programa at ipinapakita ang bago nitong halaga. Hindi na kailangang tumugon sa mga event.",
+                            "• Nahahanap ng @wordplay ang mga pagkakamali bago tumakbo ang programa, at ipinapaliwanag ang bawat problema."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Multilingguwal ang Wordplay",
+                        "bullets": [
+                            "$~• Bawat tampok ng programming language ay may pangalan sa bawat wika, kaya nababasa ang kodigo gamit ang mga salitang alam mo na.",
+                            "• Maaari ding maging multilingguwal ang iyong sariling mga pangalan:\n\\pusa2: '🐈'\nParirala(pusa2)\\",
+                            "• May kalakip na wika ang teksto, at ipinapakita nito ang wikang mababasa ng iyong manonood: \\'kumusta'\\.",
+                            "• Ang site mismo ay nasa 29 na wika, at pwede kang pumili ng higit sa isa nang sabay-sabay; lalabas ang teksto sa bawat isa.",
+                            "• Pwede kang tumulong magsalin ng @wordplay mismo, mismo sa loob ng app sa <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Naa-access ang Wordplay",
+                        "bullets": [
+                            "$~• Anumang magagawa mo gamit ang mouse, magagawa mo rin gamit ang keyboard.",
+                            "• Inilalarawan ng mga screen reader ang stage habang ito ay nagbabago, hindi lang kapag ito ay nag-load.",
+                            "• Pwede mong basahin at isulat ang iyong kodigo bilang mga block sa halip na teksto, at lumipat kahit kailan mo gusto.",
+                            "• Ang paggalaw ay pwedeng bagalan, o patayin nang lubusan.",
+                            "• Ang sinasalitang output ay pwedeng bigyan ng caption sa stage para sa sinumang hindi ito naririnig."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Nararamdaman ng Wordplay ang mundo",
+                        "bullets": [
+                            "$~• Ang paglipas ng oras: \\Oras(1000ms)\\ ay tumutunog paglipas ng segundo, at \\Ngayon()\\ alam ang petsa ngayon sa sarili mong kalendaryo at time zone.",
+                            "• Kung saan itinuturo ng iyong manonood, kung ano ang kanilang hinihipo, at kung aling mga key ang kanilang pinipindot.",
+                            "• Ang mga programa ay pwedeng tumugon sa iyong mic: gaano ito kalakas gamit ang @Volume, anong pitch gamit ang @Pitch, at anong mga salita gamit ang @Speech.",
+                            "• Pwedeng mag-type ang iyong manonood sa @Chat, at pumili ng laman ng stage gamit ang @Choice.",
+                            "• Ang mga programa ay pwedeng tumugon sa tibok ng musikang pinatutugtog nila, gamit ang @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Nagtatanghal ang Wordplay",
+                        "bullets": [
+                            "$~• Inilalagay ng @Phrase ang mga salita at emoji sa stage.",
+                            "• Inaayos sila ng @Group sa mga hanay, tambak, grid, o kahit saan mo ilagay.",
+                            "• Ang @Pose at @Sequence ay umiikot, nawawala, nagbabago ng laki, at gumagalaw ng mga bagay.",
+                            "• Binibigkas ng @Say ang teksto sa halip na ipakita ito.",
+                            "• Pinatutugtog ng @Music ang mga track ng mga nota sa tunay na instrumento, sa isang tempo, sa isang key:\n\\Musika(\n\tTrack([1 3 5] instrumento: Instrumento.kampana)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Ang Wordplay ay typography",
+                        "bullets": [
+                            "$~• Daan-daang uri ng letra, na sumasaklaw sa mga sistema ng pagsulat sa buong mundo.",
+                            "• Pwede kang gumuhit ng iyong <custom na mga karakter//characters> at gamitin sila kahit saan gamit ang emoji.",
+                            "• Ang balangkas ng bawat letra ay datos na pwede mong basahin at bigyan ng animasyon, gamit ang @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Ang teksto ay nag-wa-wrap ayon sa mga tuntunin ng wikang ginamit dito.",
+                            "• Ang pagsulat mula kanan-papuntang-kaliwa at patayo ay inaayos sa tamang paraan."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Ipinapaliwanag ng Wordplay ang sarili nito",
+                        "bullets": [
+                            "$~• Ang dokumentasyon ay bahagi ng wika sa pamamagitan ng @Doc, hindi isang komento sa tabi nito.",
+                            "• Isang mahahanap na <gabay//guide> ang nagpapaliwanag ng bawat built-in na tampok, na may mga halimbawa.",
+                            "• Bawat pagkakamali ay ipinapaliwanag kung saan ito nangyari, sa sarili mong wika.",
+                            "• Pwede mong dumaan sa isang programa pasulong /at/ paatras para malaman kung ano ang nangyari.",
+                            "• Habang ikaw ay dumadaan, ipinapakita ang bawat halaga mismo sa kodigong gumawa nito."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Ang Wordplay ay para sa pagbabahagi",
+                        "bullets": [
+                            "$~• Ang iyong mga proyekto ay sa iyo, at ikaw ang magpapasya kung sino ang makakakita sa mga ito.",
+                            "• Pwede kang mag-imbita ng ibang tao para gumawa ng proyekto kasama ka.",
+                            "• Ang <Galleries@://galleries> ay nagtitipon ng mga proyekto ayon sa isang tema.",
+                            "• Ang mga guro ay pwedeng gumawa ng mga klase at sundan ang gawa ng kanilang mga mag-aaral: <turuan@://teach>.",
+                            "• Pwede mong baguhin ang alinmang pampublikong proyekto ng kahit sino at gawin itong sarili mo."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Ang Wordplay ay libre at bukas",
+                        "bullets": [
+                            "$~• Ang @wordplay ay libre at palagi itong mananatiling libre.",
+                            "• Ito ay open source: pwede mong basahin kung paano ito gumagana, at pwede kang tumulong sa amin na baguhin ito.",
+                            "• Ito ay mula sa <University of Washington@https://ischool.uw.edu/> Information School.",
+                            "• May isang komunidad ng mga tagalikha, guro, at tagatulong.",
+                            "• Ang <Mga Donasyon//donate> ay nagbabayad para sa gastos ng pagpapatakbo nito."
+                        ]
+                    }
                 }
             },
             "learn": {
@@ -8894,14 +9135,16 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Pumili ng drawing mode sa palette para lumikha ng mga hugis.",
-                    "unselected": "$~Pumili ng drawing mode o pumili at mag-edit ng mga hugis.",
-                    "selected": "$~Gamitin ang mga *arrow* key upang ilipat ang mga hugis. Pindutin nang matagal ang *shift* upang magdagdag ng higit pang mga hugis sa isang seleksyon. Gamitin ang *delete* upang alisin ang seleksyon. Gamitin ang mga kontrol sa ibaba upang baguhin ang mga napiling hugis.",
+                    "unselected": "$~Pumili ng paraan ng pagguhit o pumili at baguhin ang mga hugis. Gamitin ang *$control-a* para piliin lahat at *$control-z* para bawiin ang huling ginawa.",
+                    "selected": "$~Gamitin ang mga *arrow* key para ilipat ang mga hugis. Pindutin nang matagal ang *shift* para magdagdag ng ibang mga hugis sa napili. Gamitin ang *delete* para tanggalin ang napili. Gamitin ang *$control-c* at *$control-v* para kopyahin at idikit, at *$control-z* para bawiin ang huling ginawa. Kapag isang landas ang napili, pindutin ang *enter* para baguhin ang mga punto nito. Gamitin ang mga kontrol sa ibaba para baguhin ang mga napiling hugis.",
                     "eraser": "$~Para burahin ang mga hugis, i-click o i-tap ang mga ito. I-drag para burahin ang mga pixel. Gamitin ang mga *arrow* key para igalaw ang pambura at *space* para burahin.",
                     "pixel": "$~Para gumuhit ng mga pixel, pumili ng kulay. Pagkatapos, i-click ang canvas o gamitin ang *mga arrow* para igalaw ang cursor at *space* para lumikha ng pixel. *I-double click* para punan.",
                     "rect": "$~Para gumuhit ng mga parihaba, pumili ng kulay at stroke. Pagkatapos, i-click at i-drag, o gamitin ang *arrows* at *space* key para pumili ng gitna at laki.",
                     "ellipse": "$~Para gumuhit ng mga ellipse at bilog, pumili ng kulay at stroke. Pagkatapos, i-click at i-drag, o gamitin ang *arrows* at *space* key para pumili ng gitna at laki.",
                     "path": "$~Ang mga landas ay maaaring mga segment ng linya, polygon, at kurba. I-click upang simulan ang pagdaragdag ng mga punto, o gamitin ang mga *arrow* key at *space*. Pindutin ang *escape* upang tapusin ang landas. Aalisin ng *delete* ang huling punto.",
-                    "emoji": "$~Pumili ng emoji na i-import bilang mga pixel, pagkatapos ay baguhin ayon sa gusto mo."
+                    "points": "$~Gamitin ang *Tab* para lumipat sa iba't ibang punto ng landas. Gamitin ang mga *arrow* key para ilipat ang napiling punto, ang *enter* para magdagdag ng punto sa tabi nito, at ang *delete* para tanggalin ito. Gamitin ang *curve* para yumuko ang bahaging papunta sa isang punto, pagkatapos ay ilipat ang hawakan nito; ang *delete* sa isang hawakan ay pinapatuwid itong muli. Pindutin ang *escape* kapag tapos ka na.",
+                    "symbol": "$~Piliin kung magdaragdag ng mga pixel o ng isang balangkas, pagkatapos ay pumili ng letra, simbolo, o emoji. Ang balangkas ay maaaring baguhan ang laki at ikot nang hindi lumalabo; ang mga pixel ay maaaring bigyan ng kulay nang isa-isa. I-click o i-tap ang isang bagay na nagawa mo na para piliin ito sa halip.",
+                    "image": "$~Pumili ng larawan, pagkatapos ay piliin ang parisukat na bahagi nito na gusto mong itago. Papalitan nito ang mga pixel, at ilalagay sa ilalim ng anumang hugis na naiguhit mo na. I-click o i-tap ang isang bagay na nagawa mo na para piliin ito sa halip."
                 },
                 "shape": {
                     "shape": "$~hugis",
@@ -8910,7 +9153,10 @@
                     "rect": "$~parihaba",
                     "ellipse": "$~elips",
                     "path": "$~landas",
-                    "emoji": "$~emoji"
+                    "emoji": "$~emoji",
+                    "glyph": "$~balangkas",
+                    "symbol": "$~simbolo",
+                    "image": "$~larawan"
                 },
                 "share": {
                     "dialog": {
@@ -8947,13 +9193,14 @@
                     "mode": {
                         "label": "$~paraan",
                         "labels": [
-                            "$~pumili",
+                            "$~piliin",
                             "$~pambura",
                             "$~piksel",
                             "$~parihaba",
                             "$~elips",
                             "$~landas",
-                            "$~emoji"
+                            "$~emoji",
+                            "$~larawan"
                         ],
                         "tips": [
                             "$~pumili ng mga hugis at pixel",
@@ -8962,7 +9209,8 @@
                             "$~gumuhit ng mga parihaba",
                             "$~gumuhit ng mga ellipse",
                             "$~gumuhit ng mga landas",
-                            "$~mag-import ng emoji bilang mga pixel"
+                            "$~mag-import ng emoji bilang mga pixel",
+                            "$~idagdag ang larawan bilang mga pixel"
                         ]
                     },
                     "fill": {
@@ -9005,7 +9253,32 @@
                         "label": "$~taas",
                         "tip": "$~gaano kataas ang hugis"
                     },
-                    "closed": "$~konektado"
+                    "closed": "$~konektado",
+                    "brushSize": {
+                        "label": "$~laki",
+                        "tip": "$~ilang selula ang saklaw ng brush at eraser"
+                    },
+                    "insertion": {
+                        "label": "$~idagdag bilang",
+                        "labels": ["$~mga pixel", "$~balangkas"],
+                        "tips": [
+                            "$~idagdag ang simbolo bilang mga pixel na kayang bigyan ng kulay nang isa-isa",
+                            "$~idagdag ang simbolo bilang balangkas na kayang baguhan ang laki at ikot nang hindi lumalabo"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~font",
+                        "tip": "$~kung saang font kukunin ang hugis ng simbolo"
+                    },
+                    "weight": {
+                        "label": "$~bigat",
+                        "tip": "$~gaano kabigat ang mga guhit ng simbolo"
+                    },
+                    "italic": "$~pahilis",
+                    "glyphSize": {
+                        "label": "$~laki ng simbolo",
+                        "tip": "$~ilang selula ang lapad ng simbolo"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9070,11 +9343,11 @@
                     },
                     "horizontal": {
                         "label": "$~i-flip nang pahalang",
-                        "tip": "$~i-flip ang mga punto nang pahalang sa gitna"
+                        "tip": "$~ibaligtad nang pahalang ang napili"
                     },
                     "vertical": {
                         "label": "$~i-flip patayo",
-                        "tip": "$~i-flip ang mga punto nang patayo sa gitna"
+                        "tip": "$~ibaligtad nang patayo ang napili"
                     },
                     "fit": {
                         "label": "$~magkasya",
@@ -9083,6 +9356,30 @@
                     "dismissError": {
                         "label": "$~tanggalin",
                         "tip": "$~balewalain ang mensahe ng error"
+                    },
+                    "editPoints": {
+                        "label": "$~mga punto",
+                        "tip": "$~baguhin ang mga punto ng napiling landas"
+                    },
+                    "donePoints": {
+                        "label": "$~tapos na",
+                        "tip": "$~itigil ang pagbabago ng mga punto"
+                    },
+                    "addPoint": {
+                        "label": "$~magdagdag ng punto",
+                        "tip": "$~magdagdag ng punto sa tabi ng napili"
+                    },
+                    "deletePoint": {
+                        "label": "$~tanggalin ang punto",
+                        "tip": "$~tanggalin ang napiling punto"
+                    },
+                    "curve": {
+                        "label": "$~paikutin (curve)",
+                        "tip": "$~iyuko ang bahaging papunta sa napiling punto"
+                    },
+                    "straighten": {
+                        "label": "$~patuwirin",
+                        "tip": "$~patuwirin ang bahaging papunta sa napiling punto"
                     }
                 },
                 "feedback": {
@@ -9094,11 +9391,61 @@
                     "unauthenticated": "$~Dapat ay <naka-log in@://login> ka para makapag-edit ng karakter.",
                     "taken": "$~Mayroon ka nang karakter na may ganitong pangalan; hindi mo pa sine-save.",
                     "projecteditfail": "$~Nagkaroon ng problema sa pag-update ng mga proyektong gumagamit ng karakter na ito. Kailangang ayusin ang mga sumusunod na proyekto:",
-                    "untitledproject": "$~Proyektong Walang Pamagat"
+                    "untitledproject": "$~Proyektong Walang Pamagat",
+                    "glyphLoading": "$~Kinukuha ang font…",
+                    "glyphMissing": "$~Walang hugis ang font na ito para sa simbolong iyon. Subukan ang ibang font.",
+                    "glyphEmpty": "$~Walang maiguhit para sa simbolong iyon.",
+                    "glyphUnreadable": "$~Hindi namin nabasa ang font na iyon. Tingnan ang iyong koneksyon, o subukan ang ibang font.",
+                    "imageTooBig": "$~Ang larawang iyon ay $size MB. Pumili ng mas maliit sa $limit MB.",
+                    "imageUnreadable": "$~Hindi namin nabasa ang file na iyon bilang larawan."
                 },
                 "announce": {
                     "position": "$~sa halagang $x $y",
-                    "selection": "$~$shapes[napili $shapes|walang napili]"
+                    "selection": "$~$shapes[napili $shapes|walang napili]",
+                    "editing": "$~binabago ang $#count[isang punto|$count na punto]",
+                    "editingDone": "$~tapos na ang pagbabago ng mga punto",
+                    "point": "$~punto $index sa $x $y",
+                    "control": "$~pagyuko $index sa $x $y",
+                    "pointAdded": "$~naidagdag ang punto $index sa $x $y",
+                    "pointRemoved": "$~natanggal ang punto $index, $#count[isang punto na lang ang natitira|$count na punto na lang ang natitira]",
+                    "curved": "$~niyuko ang bahaging $index",
+                    "straightened": "$~pinatuwid ang bahaging $index",
+                    "moved": "$~inilipat sa $x $y",
+                    "drew": "$~iginuhit sa $x $y",
+                    "erased": "$~binura sa $x $y",
+                    "finished": "$~ginawa ang $shape sa $x $y",
+                    "deleted": "$~tinanggal, $#count[isang hugis na natira|$count na hugis na natira]",
+                    "undone": "$~binawi ang hakbang $step ng $total",
+                    "redone": "$~inulit ang hakbang $step ng $total",
+                    "copied": "$~kinopya $#count[ang isang $shapes|$count na hugis: $shapes]",
+                    "pasted": "$~idiniit sa $x $y",
+                    "arranged": "$~nakapatong na $index ng $total",
+                    "flipped": "$~binaligtad, ngayon ay nasa $x $y",
+                    "fitted": "$~pinalaki ang mga hugis para punuin ang canvas",
+                    "cropped": "$~kahon ng pag-crop sa $x $y",
+                    "cropMoving": "$~inilipat ang kahon ng pag-crop",
+                    "cropDone": "$~inilagay ang kahon ng pag-crop",
+                    "imported": "$~nagdagdag ng $#count[isang pixel|$count na pixel] mula sa $x $y"
+                },
+                "image": {
+                    "instructions": "$~I-drag ang kuwadrado para ilipat ito, o gamitin ang *size* na slider para baguhin kung gaano karami sa larawan ang panatilihin. Gamit ang keyboard, pindutin ang *enter* para simulan ang paglipat, gamitin ang mga *arrow* key, at pindutin ulit ang *enter* kapag tapos ka na.",
+                    "button": {
+                        "label": "$~i-upload",
+                        "tip": "$~pumili ng file ng larawan mula sa device na ito"
+                    },
+                    "add": {
+                        "label": "$~idagdag",
+                        "tip": "$~idagdag ang piniling kuwadrado sa karakter bilang mga pixel"
+                    },
+                    "crop": {
+                        "label": "$~kahon ng pag-crop",
+                        "tip": "$~ang kuwadrado ng larawan na panatilihin"
+                    },
+                    "preview": "$~ang idadagdag",
+                    "size": {
+                        "label": "$~laki",
+                        "tip": "$~gaano karami sa larawan ang panatilihin"
+                    }
                 }
             },
             "about": {

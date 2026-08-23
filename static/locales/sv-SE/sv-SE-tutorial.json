@@ -1779,7 +1779,7 @@
                         [
                             "List",
                             "excited",
-                            "$~Och den här är kul: @List.sans tar bara bort alla värden som är lika med det givna värdet. Ser du hur det inte finns några nollor kvar i den resulterande listan?"
+                            "$~Och den här är kul: @List.sansAll tar bara bort alla värden som är lika med det givna värdet. Ser du hur det inte finns några nollor kvar i den resulterande listan?"
                         ],
                         { "edit": "[ 1 0 1 0 1 ].sans(0)" },
                         null,

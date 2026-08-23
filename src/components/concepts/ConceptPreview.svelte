@@ -26,6 +26,10 @@
         type?: Type | undefined;
         describe?: boolean;
         inline?: boolean;
+        /** Whether to render as blocks. Defaults to the viewer's app-wide mode;
+         *  callers showing code inside a sentence pass false, because a block's
+         *  box chrome can't sit on a line of prose. */
+        blocks?: boolean;
         outline?: boolean;
         elide?: boolean;
         localize?: boolean;
@@ -38,6 +42,7 @@
         type = undefined,
         describe = true,
         inline = false,
+        blocks: blocksMode = undefined,
         outline = true,
         elide = false,
         // Examples and concept-code views default to *not* filtering by the
@@ -46,6 +51,10 @@
         // opt in by setting `localize`.
         localize = false,
     }: Props = $props();
+
+    /** The caller's choice when it made one, otherwise the viewer's app-wide
+     *  mode. Read once here so the class hooks and the RootView can't disagree. */
+    const asBlocks = $derived(blocksMode ?? $blocks);
 
     let dragged = getDragged();
 
@@ -165,9 +174,9 @@
                 (l) => node.getLocalePath()(l).name,
             )}
             aria-readonly="true"
-            class:blocks={$blocks}
+            class:blocks={asBlocks}
             class="node"
-            class:outline={outline && !$blocks}
+            class:outline={outline && !asBlocks}
             class:draggable={dragged !== undefined && draggable}
             class:inline
             class:elide={elideCode}
@@ -187,7 +196,7 @@
                 {node}
                 {inline}
                 {spaces}
-                blocks={$blocks}
+                blocks={asBlocks}
                 elide={elideCode}
                 locale={localize ? $locales.getLocale() : null}
                 inert={!draggable}

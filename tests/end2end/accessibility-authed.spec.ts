@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations } from '../helpers/checkAccessibility';
+import { createTestCharacter } from '../helpers/createCharacter';
+import { editTrianglePoints } from '../helpers/drawCharacterPath';
 import { loginNewContext } from '../helpers/loginNewContext';
 
 /**
@@ -111,6 +113,58 @@ for (const scheme of ['light', 'dark'] as const) {
                 await expect(page.getByRole('application').first()).toBeVisible(
                     { timeout: LOAD_TIMEOUT },
                 );
+                await expectNoAxeViolations(page);
+            } finally {
+                await context.close();
+            }
+        });
+
+        /**
+         * The image importer's crop region is a role="application" the creator
+         * drives with the keyboard, and it only renders once its mode is chosen.
+         */
+        test(`the character image importer has no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                await createTestCharacter(page);
+                await page
+                    .getByRole('radio', { name: 'image', exact: true })
+                    .click();
+                await expect(
+                    page
+                        .getByRole('button', { name: /choose an image file/i })
+                        .first(),
+                ).toBeVisible({ timeout: LOAD_TIMEOUT });
+                await expectNoAxeViolations(page);
+            } finally {
+                await context.close();
+            }
+        });
+
+        /**
+         * Opening a character is not enough to reach the point handles: they need
+         * a path, and they bring their own overlay and toolbar with them. A
+         * freshly drawn triangle is the smallest state that renders all of it.
+         */
+        test(`character point editing has no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                await createTestCharacter(page);
+                await editTrianglePoints(page);
                 await expectNoAxeViolations(page);
             } finally {
                 await context.close();
