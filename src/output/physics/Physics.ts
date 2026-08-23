@@ -367,18 +367,19 @@ export default class Physics {
                         // Get the world for this z depth
                         const world = this.getWorldAtZ(info.global.z);
 
-                        // If we already had a body, remove it so we can replace with a new one.
-                        if (shape !== undefined) {
-                            this.removeOutputBody(name);
-                        }
-
-                        // Make a new body for this new output.
+                        // Make the new body before retiring the one it replaces.
+                        // removeOutputBody frees a world that empties, so
+                        // removing first would free this one out from under the
+                        // body about to be built in it, whenever the body being
+                        // replaced is the only one at its depth (#1315).
+                        const previous = shape;
                         shape = this.createOutputBody(
                             info,
                             matter,
                             detectable,
                             world,
                         );
+                        if (previous !== undefined) this.removeOutputBody(name);
 
                         // Remember the body by name and its collider handle.
                         this.bodyByName.set(name, shape);
@@ -770,6 +771,10 @@ export default class Physics {
             this.nameByColliderHandle.delete(outputBody.collider.handle);
             outputBody.world.removeRigidBody(outputBody.rigidBody);
             this.bodyByName.delete(name);
+
+            // A removed body must not still be swept: tick() finalizes every
+            // sweep, which would move a rigid body that no longer exists.
+            this.sweepingBodies.delete(outputBody);
 
             // If the world is now empty, remove it.
             if (outputBody.world.bodies.len() === 0) {
