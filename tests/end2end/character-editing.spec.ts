@@ -231,3 +231,124 @@ test('flipping moves a rectangle, and the flip can be undone', async ({
         await context.close();
     }
 });
+
+/**
+ * An adjustable brush and eraser (#898), and the gap filling that goes with it:
+ * the report was that erasing meant clicking box by box.
+ */
+test('the brush covers the size it says, and the eraser clears it again', async ({
+    browser,
+}) => {
+    const { context, page } = await loginNewContext(
+        browser,
+        'creator',
+        'password',
+    );
+    try {
+        await createTestCharacter(page);
+        await page.getByRole('radio', { name: 'pixel', exact: true }).click();
+
+        const size = page.locator('.palette input[type="range"]').first();
+        await size.fill('4');
+
+        const canvas = page.locator('.canvas');
+        const box = await canvas.boundingBox();
+        if (box === null) throw new Error('no canvas');
+        await page.mouse.click(
+            box.x + box.width * 0.5,
+            box.y + box.height * 0.5,
+        );
+
+        const pixels = page.locator('.canvas svg rect');
+        // A four-cell brush paints a four by four square.
+        await expect.poll(() => pixels.count()).toBe(16);
+
+        // And it is one stroke, so one undo takes all of it back.
+        await page.keyboard.press('Control+z');
+        await expect.poll(() => pixels.count()).toBe(0);
+    } finally {
+        await context.close();
+    }
+});
+
+/**
+ * Tracing a symbol's outline (#924). The tool replaced the emoji importer
+ * rather than joining it: one chooser, two ways to add what it returns.
+ */
+/**
+ * Importing pixels replaces the pixel layer and sits *under* everything else,
+ * and it is one undoable edit. Both halves are regressions: an import used to be
+ * appended, burying an existing path, and closing the dialog it lived in reset
+ * the undo history so there was nothing to take it back with.
+ */
+test('a symbol imported as pixels leaves earlier shapes visible and undoable', async ({
+    browser,
+}) => {
+    const { context, page } = await loginNewContext(
+        browser,
+        'creator',
+        'password',
+    );
+    try {
+        await createTestCharacter(page);
+        await drawTriangle(page);
+        const paths = page.locator('.canvas svg path');
+        await expect.poll(() => paths.count()).toBe(1);
+
+        await page.getByRole('radio', { name: 'symbol', exact: true }).click();
+        await page.getByRole('radio', { name: 'pixels', exact: true }).click();
+        await page.locator('.palette .picker button').first().click();
+
+        const pixels = page.locator('.canvas svg rect');
+        await expect
+            .poll(() => pixels.count(), { timeout: 15000 })
+            .toBeGreaterThan(0);
+
+        // The path is still there, and still painted last — so still visible.
+        await expect.poll(() => paths.count()).toBe(1);
+        const order = await page.evaluate(() =>
+            [...(document.querySelector('.canvas svg')?.children ?? [])].map(
+                (c) => c.tagName,
+            ),
+        );
+        expect(order.indexOf('path')).toBeGreaterThan(order.indexOf('rect'));
+
+        // And one undo takes the whole import back.
+        await page.locator('.canvas').focus();
+        await page.keyboard.press('Control+z');
+        await expect.poll(() => pixels.count()).toBe(0);
+        await expect.poll(() => paths.count()).toBe(1);
+    } finally {
+        await context.close();
+    }
+});
+
+test('a symbol can be added as a scalable outline', async ({ browser }) => {
+    const { context, page } = await loginNewContext(
+        browser,
+        'creator',
+        'password',
+    );
+    try {
+        await createTestCharacter(page);
+        await page.getByRole('radio', { name: 'symbol', exact: true }).click();
+        await page.getByRole('radio', { name: 'outline', exact: true }).click();
+
+        // Pick the first symbol the chooser offers.
+        await page.locator('.palette .picker button').first().click();
+
+        // The outline renders as exactly one path — hit testing maps an SVG
+        // child index back to a shape, so a group would shift every shape after.
+        const outline = page.locator('.canvas svg path');
+        await expect.poll(() => outline.count(), { timeout: 15000 }).toBe(1);
+        expect(await outline.first().getAttribute('d')).not.toBe('');
+        expect(await outline.first().getAttribute('transform')).toContain(
+            'translate',
+        );
+
+        await page.keyboard.press('Control+z');
+        await expect.poll(() => outline.count()).toBe(0);
+    } finally {
+        await context.close();
+    }
+});

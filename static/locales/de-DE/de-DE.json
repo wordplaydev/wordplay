@@ -7168,7 +7168,7 @@
                 "nextMatch": "$~Zum nächsten Suchtreffer gehen",
                 "insertTranslate": "$~Übersetzungssymbol einfügen",
                 "insertThis": "$~Fügen Sie dieses Symbol ein",
-                "tab": "$~Mit der Tabulatortaste verschieben Sie den Tastaturfokus. Um einen Tabulator einzufügen, drücken Sie Strg + $alt + Tab, verwenden Sie die Schaltfläche „Einfügen“ unten oder ändern Sie dies in den Einstellungen.",
+                "tab": "$~Mit der Tabulatortaste verschieben Sie den Tastaturfokus. Um einen Tabulator einzufügen, drücken Sie $control + $alt + Tab, verwenden Sie die Schaltfläche „Einfügen“ unten oder ändern Sie dies in den Einstellungen.",
                 "matchDelimiter": "$~Cursor zum passenden Trennzeichen bewegen",
                 "insertPattern": "$~Einfügenmuster",
                 "insertSearch": "$~Symbol für die Mustersuche einfügen",
@@ -8893,15 +8893,16 @@
                 "header": "$~Charakter",
                 "instructions": {
                     "empty": "$~Wählen Sie einen Zeichenmodus in der Palette, um Formen zu erstellen.",
-                    "unselected": "$~Wähle einen Zeichenmodus oder wähle Formen aus und bearbeite sie. Nutze *strg/cmd-a*, um alles auszuwählen, und *strg/cmd-z*, um rückgängig zu machen.",
-                    "selected": "$~Nutze die *Pfeiltasten*, um Formen zu bewegen. Halte *Umschalt* gedrückt, um weitere Formen zur Auswahl hinzuzufügen. Nutze *Entfernen*, um die Auswahl zu löschen. Nutze *strg/cmd-c* und *strg/cmd-v* zum Kopieren und Einfügen, und *strg/cmd-z*, um rückgängig zu machen. Wenn ein Pfad ausgewählt ist, drücke *Eingabe*, um seine Punkte zu bearbeiten. Nutze die Steuerung unten, um die ausgewählten Formen zu ändern.",
+                    "unselected": "$~Wähle einen Zeichenmodus oder wähle Formen aus und bearbeite sie. Nutze *$control-a*, um alles auszuwählen, und *$control-z*, um rückgängig zu machen.",
+                    "selected": "$~Nutze die *Pfeiltasten*, um Formen zu bewegen. Halte *Umschalt* gedrückt, um weitere Formen zur Auswahl hinzuzufügen. Nutze *Entfernen*, um die Auswahl zu löschen. Nutze *$control-c* und *$control-v* zum Kopieren und Einfügen, und *$control-z*, um rückgängig zu machen. Wenn ein Pfad ausgewählt ist, drücke *Eingabe*, um seine Punkte zu bearbeiten. Nutze die Steuerung unten, um die ausgewählten Formen zu ändern.",
                     "pixel": "$~Um Pixel zu zeichnen, wählen Sie eine Farbe. Klicken Sie dann auf die Leinwand oder verwenden Sie die *Pfeile*, um den Cursor zu bewegen, und die *Leertaste*, um ein Pixel zu erstellen. *Doppelklicken* zum Füllen.",
                     "rect": "$~Um Rechtecke zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
                     "ellipse": "$~Um Ellipsen und Kreise zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
                     "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt.",
                     "eraser": "$~Um Formen zu löschen, klicken oder tippen Sie darauf. Ziehen Sie, um Pixel zu löschen. Verwenden Sie die Pfeiltasten, um den Radiergummi zu bewegen, und die Leertaste, um zu löschen.",
-                    "emoji": "$~Wählen Sie ein Emoji aus, das Sie als Pixel importieren möchten, und ändern Sie es dann nach Belieben.",
-                    "points": "$~Nutze *Tab*, um zwischen den Punkten des Pfades zu wechseln. Nutze die *Pfeiltasten*, um den ausgewählten Punkt zu bewegen, *Eingabe*, um einen Punkt daneben hinzuzufügen, und *Entfernen*, um ihn zu löschen. Nutze *Kurve*, um das Segment zu biegen, das an einem Punkt ankommt, und bewege dann seinen Griff. *Entfernen* auf einem Griff macht ihn wieder gerade. Drücke *Escape*, wenn du fertig bist."
+                    "points": "$~Nutze *Tab*, um zwischen den Punkten des Pfades zu wechseln. Nutze die *Pfeiltasten*, um den ausgewählten Punkt zu bewegen, *Eingabe*, um einen Punkt daneben hinzuzufügen, und *Entfernen*, um ihn zu löschen. Nutze *Kurve*, um das Segment zu biegen, das an einem Punkt ankommt, und bewege dann seinen Griff. *Entfernen* auf einem Griff macht ihn wieder gerade. Drücke *Escape*, wenn du fertig bist.",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "shape": {
                     "shape": "$~Form",
@@ -8910,7 +8911,10 @@
                     "ellipse": "$~Ellipse",
                     "path": "$~Weg",
                     "eraser": "$~Radiergummi",
-                    "emoji": "$~Emoji"
+                    "emoji": "$~Emoji",
+                    "glyph": "$?",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "field": {
                     "name": {
@@ -8924,22 +8928,24 @@
                     "mode": {
                         "label": "$~Modus",
                         "labels": [
-                            "$~wählen",
+                            "$!wählen",
                             "$~Radiergummi",
                             "$~Pixel",
                             "$~Rechteck",
                             "$~Ellipse",
                             "$~Weg",
-                            "$~Emoji"
+                            "$~Emoji",
+                            "$?"
                         ],
                         "tips": [
-                            "$~Formen und Pixel auswählen",
+                            "$!Formen und Pixel auswählen",
                             "$~Formen und Pixel löschen",
                             "$~Pixel zeichnen",
                             "$~Rechtecke zeichnen",
                             "$~Ellipsen zeichnen",
                             "$~Pfade zeichnen",
-                            "$~Ein Emoji als Pixel importieren"
+                            "$~Ein Emoji als Pixel importieren",
+                            "$?"
                         ]
                     },
                     "fill": {
@@ -8982,7 +8988,29 @@
                         "label": "$~Höhe",
                         "tip": "$~wie hoch die Form ist"
                     },
-                    "closed": "$~verbunden"
+                    "closed": "$~verbunden",
+                    "brushSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "insertion": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
+                    },
+                    "face": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "weight": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "italic": "$?",
+                    "glyphSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9095,7 +9123,13 @@
                     "unauthenticated": "$~Du musst <angemeldet@://login> sein, um einen Charakter zu bearbeiten.",
                     "taken": "$~Sie haben bereits einen Charakter mit diesem Namen; wird nicht gespeichert.",
                     "projecteditfail": "$~Beim Aktualisieren von Projekten, die dieses Zeichen verwenden, ist ein Problem aufgetreten. Die folgenden Projekte müssen behoben werden:",
-                    "untitledproject": "$~Unbenanntes Projekt"
+                    "untitledproject": "$~Unbenanntes Projekt",
+                    "glyphLoading": "$?",
+                    "glyphMissing": "$?",
+                    "glyphEmpty": "$?",
+                    "glyphUnreadable": "$?",
+                    "imageTooBig": "$?",
+                    "imageUnreadable": "$?"
                 },
                 "announce": {
                     "position": "$~bei $x $y",
@@ -9119,7 +9153,11 @@
                     "pasted": "$~bei $x $y eingefügt",
                     "arranged": "$~Ebene $index von $total",
                     "flipped": "$~gespiegelt, jetzt bei $x $y",
-                    "fitted": "$~Formen vergrößert, um die Fläche zu füllen"
+                    "fitted": "$~Formen vergrößert, um die Fläche zu füllen",
+                    "cropped": "$?",
+                    "cropMoving": "$?",
+                    "cropDone": "$?",
+                    "imported": "$?"
                 },
                 "share": {
                     "dialog": {
@@ -9143,6 +9181,26 @@
                         ]
                     },
                     "collaborators": "$~Mitarbeiter"
+                },
+                "image": {
+                    "instructions": "$?",
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "add": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "crop": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "preview": "$?",
+                    "size": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 }
             },
             "updates": {

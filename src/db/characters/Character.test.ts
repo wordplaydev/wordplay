@@ -1,5 +1,7 @@
 import {
     characterToSVG,
+    CharacterSize,
+    getShapeAnchor,
     moveShape,
     type Character,
     type CharacterPath,
@@ -8,6 +10,8 @@ import {
 import {
     canCurve,
     clampToGrid,
+    getBrushCells,
+    getLineCells,
     curvePathPoint,
     deletePathPoint,
     flipShape,
@@ -405,5 +409,182 @@ describe('bounds across shape kinds', () => {
 
     test('nothing has no bounds, rather than an infinite box', () => {
         expect(getShapesBounds([])).toBeUndefined();
+    });
+});
+
+describe('getBrushCells', () => {
+    test('size 1 is exactly the cell under the cursor', () => {
+        expect(getBrushCells({ x: 5, y: 7 }, 1)).toEqual([{ x: 5, y: 7 }]);
+    });
+
+    test('an odd size centers on the cursor', () => {
+        const cells = getBrushCells({ x: 5, y: 5 }, 3);
+        expect(cells).toHaveLength(9);
+        expect(cells[0]).toEqual({ x: 4, y: 4 });
+        expect(cells[8]).toEqual({ x: 6, y: 6 });
+    });
+
+    test('an even size biases toward the origin, since there is no center cell', () => {
+        const cells = getBrushCells({ x: 5, y: 5 }, 2);
+        expect(cells).toEqual([
+            { x: 5, y: 5 },
+            { x: 6, y: 5 },
+            { x: 5, y: 6 },
+            { x: 6, y: 6 },
+        ]);
+    });
+
+    test('cells off the canvas are dropped, not clamped onto the edge', () => {
+        // Clamping would pile three cells onto (0,0) and paint a corner darker
+        // than the stroke that made it.
+        const cells = getBrushCells({ x: 0, y: 0 }, 3);
+        expect(cells).toEqual([
+            { x: 0, y: 0 },
+            { x: 1, y: 0 },
+            { x: 0, y: 1 },
+            { x: 1, y: 1 },
+        ]);
+        expect(new Set(cells.map((c) => `${c.x},${c.y}`)).size).toBe(
+            cells.length,
+        );
+    });
+
+    test('every cell is on the canvas at any size and position', () => {
+        for (const size of [1, 2, 4, 8])
+            for (const at of [0, 1, 15, 30, 31])
+                for (const cell of getBrushCells({ x: at, y: at }, size)) {
+                    expect(cell.x).toBeGreaterThanOrEqual(0);
+                    expect(cell.x).toBeLessThan(CharacterSize);
+                    expect(cell.y).toBeGreaterThanOrEqual(0);
+                    expect(cell.y).toBeLessThan(CharacterSize);
+                }
+    });
+});
+
+describe('getLineCells', () => {
+    test('adjacent cells have no gap to fill', () => {
+        expect(getLineCells({ x: 3, y: 3 }, { x: 4, y: 3 })).toEqual([]);
+        expect(getLineCells({ x: 3, y: 3 }, { x: 3, y: 3 })).toEqual([]);
+    });
+
+    test('a vertical jump fills the cells between, excluding the endpoints', () => {
+        expect(getLineCells({ x: 2, y: 1 }, { x: 2, y: 5 })).toEqual([
+            { x: 2, y: 2 },
+            { x: 2, y: 3 },
+            { x: 2, y: 4 },
+        ]);
+    });
+
+    test('it fills in either direction', () => {
+        expect(getLineCells({ x: 2, y: 5 }, { x: 2, y: 1 })).toEqual([
+            { x: 2, y: 2 },
+            { x: 2, y: 3 },
+            { x: 2, y: 4 },
+        ]);
+    });
+
+    test('a diagonal jump follows the line', () => {
+        expect(getLineCells({ x: 0, y: 0 }, { x: 4, y: 4 })).toEqual([
+            { x: 1, y: 1 },
+            { x: 2, y: 2 },
+            { x: 3, y: 3 },
+        ]);
+    });
+
+    test('a fast drag leaves no gap in the stroke', () => {
+        // The point of the function: every consecutive pair of cells along the
+        // filled stroke touches, so the stroke reads as a line, not dots.
+        const start = { x: 1, y: 2 };
+        const end = { x: 12, y: 9 };
+        const stroke = [start, ...getLineCells(start, end), end];
+        for (let i = 1; i < stroke.length; i++) {
+            const previous = stroke[i - 1];
+            const cell = stroke[i];
+            expect(
+                Math.max(
+                    Math.abs(cell.x - previous.x),
+                    Math.abs(cell.y - previous.y),
+                ),
+            ).toBeLessThanOrEqual(1);
+        }
+    });
+});
+
+describe('getShapeAnchor', () => {
+    const pixel: CharacterShape = {
+        type: 'pixel',
+        point: { x: 3, y: 4 },
+        fill: null,
+    };
+    const rect: CharacterShape = {
+        type: 'rect',
+        point: { x: 5, y: 6 },
+        width: 2,
+        height: 2,
+    };
+    const glyph: CharacterShape = {
+        type: 'glyph',
+        character: 'A',
+        face: 'Noto Sans',
+        point: { x: 7, y: 8 },
+        width: 4,
+        height: 4,
+        d: 'M 0 0 L 1 1 Z',
+    };
+
+    test.each([
+        ['pixel', pixel, { x: 3, y: 4 }],
+        ['rect', rect, { x: 5, y: 6 }],
+        ['glyph', glyph, { x: 7, y: 8 }],
+    ])('a %s is anchored by its own point', (_kind, shape, expected) => {
+        expect(getShapeAnchor(shape)).toEqual(expected);
+    });
+
+    test('a path is anchored by its center', () => {
+        expect(
+            getShapeAnchor(
+                path([
+                    { x: 0, y: 0 },
+                    { x: 4, y: 0 },
+                    { x: 4, y: 4 },
+                    { x: 0, y: 4 },
+                ]),
+            ),
+        ).toEqual({ x: 2, y: 2 });
+    });
+
+    test('a mixed selection drags as one, keeping relative positions', () => {
+        // The bug this exists for: offsets were built by pushing per shape kind,
+        // so a kind with no case (glyphs) contributed nothing — it wouldn't drag
+        // at all, and every shape after it in the selection read someone else's
+        // offset and jumped. The invariant is that one drag translates every
+        // selected shape by the same delta.
+        const selection: CharacterShape[] = [
+            rect,
+            glyph,
+            pixel,
+            path([
+                { x: 0, y: 0 },
+                { x: 2, y: 2 },
+            ]),
+        ];
+        const before = selection.map((shape) => getShapeAnchor(shape));
+
+        // Press at (10, 10), then drag to (14, 17), exactly as the editor does.
+        const offsets = selection.map((shape) => {
+            const anchor = getShapeAnchor(shape);
+            return { x: 10 - anchor.x, y: 10 - anchor.y };
+        });
+        expect(offsets).toHaveLength(selection.length);
+        for (const [index, shape] of selection.entries()) {
+            const offset = offsets[index];
+            moveShape(shape, 14 - offset.x, 17 - offset.y, 'move');
+        }
+
+        for (const [index, shape] of selection.entries())
+            expect(getShapeAnchor(shape)).toEqual({
+                x: before[index].x + 4,
+                y: before[index].y + 7,
+            });
     });
 });

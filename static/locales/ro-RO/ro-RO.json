@@ -7433,7 +7433,7 @@
                 "nextMatch": "$~treceți la următoarea potrivire de căutare",
                 "insertTranslate": "$~inserați simbolul de traducere",
                 "insertThis": "$~introduceți acest simbol",
-                "tab": "$~Tab mută focalizarea tastaturii. Pentru a insera un tabulator, apăsați Ctrl+ $alt +Tab, utilizați butonul Inserare de mai jos sau modificați această opțiune în setări.",
+                "tab": "$~Tab mută focalizarea tastaturii. Pentru a insera un tabulator, apăsați $control+ $alt +Tab, utilizați butonul Inserare de mai jos sau modificați această opțiune în setări.",
                 "matchDelimiter": "$~mutați cursorul la delimitatorul corespunzător",
                 "insertPattern": "$~inserați modelul",
                 "insertSearch": "$~inserați simbolul de căutare a modelului",
@@ -9250,15 +9250,16 @@
                 "header": "$~Caracter",
                 "instructions": {
                     "empty": "$~Alegeți un mod de desenare din paletă pentru a crea forme.",
-                    "unselected": "$~Alege un mod de desenare sau selectează și editează forme. Folosește *ctrl/cmd-a* pentru a selecta tot și *ctrl/cmd-z* pentru a anula.",
-                    "selected": "$~Folosește tastele *săgeți* pentru a muta formele. Ține apăsat *shift* pentru a adăuga mai multe forme la selecție. Folosește *delete* pentru a elimina selecția. Folosește *ctrl/cmd-c* și *ctrl/cmd-v* pentru a copia și lipi, și *ctrl/cmd-z* pentru a anula. Cu o singură cale selectată, apasă *enter* pentru a-i edita punctele. Folosește comenzile de mai jos pentru a schimba formele selectate.",
+                    "unselected": "$~Alege un mod de desenare sau selectează și editează forme. Folosește *$control-a* pentru a selecta tot și *$control-z* pentru a anula.",
+                    "selected": "$~Folosește tastele *săgeți* pentru a muta formele. Ține apăsat *shift* pentru a adăuga mai multe forme la selecție. Folosește *delete* pentru a elimina selecția. Folosește *$control-c* și *$control-v* pentru a copia și lipi, și *$control-z* pentru a anula. Cu o singură cale selectată, apasă *enter* pentru a-i edita punctele. Folosește comenzile de mai jos pentru a schimba formele selectate.",
                     "eraser": "$~Pentru a șterge forme, faceți clic sau atingeți pe ele. Trageți pentru a șterge pixelii. Folosiți tastele *săgeată* pentru a muta radiera și *spațiu* pentru a șterge.",
                     "pixel": "$~Pentru a desena pixeli, alegeți o culoare. Apoi, faceți clic pe pânză sau utilizați *săgețile* pentru a muta cursorul și *spațiu* pentru a crea un pixel. Faceți *dublu clic* pentru a umple.",
                     "rect": "$~Pentru a desena dreptunghiuri, alegeți o culoare și o contur. Apoi, faceți clic și trageți sau utilizați tasta *săgeți* și tasta *spațiu* pentru a alege un centru și o dimensiune.",
                     "ellipse": "$~Pentru a desena elipse și cercuri, alegeți o culoare și o contur. Apoi, faceți clic și trageți sau utilizați tasta *săgeți* și tasta *spațiu* pentru a alege un centru și o dimensiune.",
                     "path": "$~Traseele pot fi segmente de linie, poligoane și curbe. Faceți clic pentru a începe adăugarea de puncte sau utilizați tastele *săgeată* și *spațiu*. Apăsați *escape* pentru a termina traseul. *ștergere* va elimina ultimul punct.",
-                    "emoji": "$~Alege un emoji pentru a-l importa ca pixeli, apoi modifică-l după cum dorești.",
-                    "points": "$~Apasă *Tab* pentru a trece între punctele căii. Folosește tastele *săgeți* pentru a muta punctul selectat, *enter* pentru a adăuga un punct lângă el și *delete* pentru a-l elimina. Folosește *curbează* pentru a îndoi segmentul care ajunge la un punct, apoi mișcă mânerul acestuia; *delete* pe un mâner îl îndreaptă din nou. Apasă *escape* când ai terminat."
+                    "points": "$~Apasă *Tab* pentru a trece între punctele căii. Folosește tastele *săgeți* pentru a muta punctul selectat, *enter* pentru a adăuga un punct lângă el și *delete* pentru a-l elimina. Folosește *curbează* pentru a îndoi segmentul care ajunge la un punct, apoi mișcă mânerul acestuia; *delete* pe un mâner îl îndreaptă din nou. Apasă *escape* când ai terminat.",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "shape": {
                     "shape": "$~formă",
@@ -9267,7 +9268,10 @@
                     "rect": "$~dreptunghi",
                     "ellipse": "$~elipsă",
                     "path": "$~cale",
-                    "emoji": "$~emoji"
+                    "emoji": "$~emoji",
+                    "glyph": "$?",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "share": {
                     "dialog": {
@@ -9304,22 +9308,24 @@
                     "mode": {
                         "label": "$~mod",
                         "labels": [
-                            "$~selecta",
+                            "$!selecta",
                             "$~radieră",
                             "$~pixel",
                             "$~dreptunghi",
                             "$~elipsă",
                             "$~cale",
-                            "$~emoji"
+                            "$~emoji",
+                            "$?"
                         ],
                         "tips": [
-                            "$~selectați forme și pixeli",
+                            "$!selectați forme și pixeli",
                             "$~șterge formele și pixelii",
                             "$~desenează pixeli",
                             "$~desenează dreptunghiuri",
                             "$~desenează elipse",
                             "$~desenează căi",
-                            "$~importă un emoji ca pixeli"
+                            "$~importă un emoji ca pixeli",
+                            "$?"
                         ]
                     },
                     "fill": {
@@ -9362,7 +9368,29 @@
                         "label": "$~înălţime",
                         "tip": "$~cât de înaltă este forma"
                     },
-                    "closed": "$~conectat"
+                    "closed": "$~conectat",
+                    "brushSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "insertion": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
+                    },
+                    "face": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "weight": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "italic": "$?",
+                    "glyphSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9475,7 +9503,13 @@
                     "unauthenticated": "$~Trebuie să fii<logged in@://login> a edita un personaj.",
                     "taken": "$~Ai deja un personaj cu acest nume; nu se salvează.",
                     "projecteditfail": "$~A apărut o problemă la actualizarea proiectelor care utilizează acest caracter. Următoarele proiecte necesită remediere:",
-                    "untitledproject": "$~Proiect fără titlu"
+                    "untitledproject": "$~Proiect fără titlu",
+                    "glyphLoading": "$?",
+                    "glyphMissing": "$?",
+                    "glyphEmpty": "$?",
+                    "glyphUnreadable": "$?",
+                    "imageTooBig": "$?",
+                    "imageUnreadable": "$?"
                 },
                 "announce": {
                     "position": "$~la $x $y",
@@ -9499,7 +9533,31 @@
                     "pasted": "$~lipit la $x $y",
                     "arranged": "$~stratul $index din $total",
                     "flipped": "$~întors, acum la $x $y",
-                    "fitted": "$~formele au fost mărite pentru a umple pânza"
+                    "fitted": "$~formele au fost mărite pentru a umple pânza",
+                    "cropped": "$?",
+                    "cropMoving": "$?",
+                    "cropDone": "$?",
+                    "imported": "$?"
+                },
+                "image": {
+                    "instructions": "$?",
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "add": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "crop": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "preview": "$?",
+                    "size": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 }
             },
             "about": {

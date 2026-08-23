@@ -7197,7 +7197,7 @@
                 "nextMatch": "$~przejdź do następnego wyniku wyszukiwania",
                 "insertTranslate": "$~wstaw symbol tłumaczenia",
                 "insertThis": "$~wstaw ten symbol",
-                "tab": "$~Klawisz Tab przesuwa fokus klawiatury. Aby wstawić tabulator, naciśnij Ctrl+ $alt +Tab, użyj poniższego przycisku „Wstaw” lub zmień to w ustawieniach.",
+                "tab": "$~Klawisz Tab przesuwa fokus klawiatury. Aby wstawić tabulator, naciśnij $control+ $alt +Tab, użyj poniższego przycisku „Wstaw” lub zmień to w ustawieniach.",
                 "matchDelimiter": "$~przesuń kursor do pasującego ogranicznika",
                 "insertPattern": "$~wstaw wzór",
                 "insertSearch": "$~wstaw symbol wyszukiwania wzorca",
@@ -8994,15 +8994,16 @@
                 "header": "$~Charakter",
                 "instructions": {
                     "empty": "$~Wybierz tryb rysowania na palecie, aby utworzyć kształty.",
-                    "unselected": "$~Wybierz tryb rysowania albo zaznacz i edytuj kształty. Użyj *ctrl/cmd-a*, aby zaznaczyć wszystko, i *ctrl/cmd-z*, aby cofnąć.",
-                    "selected": "$~Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *delete*, aby usunąć zaznaczenie. Użyj *ctrl/cmd-c* i *ctrl/cmd-v*, aby kopiować i wklejać, oraz *ctrl/cmd-z*, aby cofnąć. Gdy zaznaczona jest jedna ścieżka, naciśnij *enter*, aby edytować jej punkty. Użyj poniższych ustawień, aby zmienić zaznaczone kształty.",
+                    "unselected": "$~Wybierz tryb rysowania albo zaznacz i edytuj kształty. Użyj *$control-a*, aby zaznaczyć wszystko, i *$control-z*, aby cofnąć.",
+                    "selected": "$~Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *delete*, aby usunąć zaznaczenie. Użyj *$control-c* i *$control-v*, aby kopiować i wklejać, oraz *$control-z*, aby cofnąć. Gdy zaznaczona jest jedna ścieżka, naciśnij *enter*, aby edytować jej punkty. Użyj poniższych ustawień, aby zmienić zaznaczone kształty.",
                     "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel. *Kliknij dwukrotnie*, aby wypełnić.",
                     "rect": "$~Aby narysować prostokąty, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "ellipse": "$~Aby narysować elipsy i okręgi, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
                     "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt.",
                     "eraser": "$~Aby wymazać kształty, kliknij je lub dotknij. Przeciągnij, aby wymazać piksele. Użyj klawiszy *strzałek*, aby przesunąć gumkę i *spacji*, aby usunąć.",
-                    "emoji": "$~Wybierz emoji, które chcesz zaimportować jako piksele, a następnie zmodyfikuj je według własnego uznania.",
-                    "points": "$~Użyj *Tab*, aby przechodzić między punktami ścieżki. Użyj klawiszy *strzałek*, aby przesunąć zaznaczony punkt, *enter*, aby dodać punkt obok niego, i *delete*, aby go usunąć. Użyj *curve*, aby wygiąć odcinek dochodzący do punktu, a potem przesuń jego uchwyt; *delete* na uchwycie znów go prostuje. Naciśnij *escape*, gdy skończysz."
+                    "points": "$~Użyj *Tab*, aby przechodzić między punktami ścieżki. Użyj klawiszy *strzałek*, aby przesunąć zaznaczony punkt, *enter*, aby dodać punkt obok niego, i *delete*, aby go usunąć. Użyj *curve*, aby wygiąć odcinek dochodzący do punktu, a potem przesuń jego uchwyt; *delete* na uchwycie znów go prostuje. Naciśnij *escape*, gdy skończysz.",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "shape": {
                     "shape": "$~kształt",
@@ -9011,7 +9012,10 @@
                     "ellipse": "$~elipsa",
                     "path": "$~ścieżka",
                     "eraser": "$~gumka do ścierania",
-                    "emoji": "$~emotikona"
+                    "emoji": "$~emotikona",
+                    "glyph": "$?",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "field": {
                     "name": {
@@ -9025,22 +9029,24 @@
                     "mode": {
                         "label": "$~tryb",
                         "labels": [
-                            "$~wybierać",
+                            "$!wybierać",
                             "$~gumka do ścierania",
                             "$~piksel",
                             "$~prostokąt",
                             "$~elipsa",
                             "$~ścieżka",
-                            "$~emotikon"
+                            "$~emotikon",
+                            "$?"
                         ],
                         "tips": [
-                            "$~wybierz kształty i piksele",
+                            "$!wybierz kształty i piksele",
                             "$~wymaż kształty i piksele",
                             "$~narysuj piksele",
                             "$~narysuj prostokąty",
                             "$~rysować elipsy",
                             "$~rysować ścieżki",
-                            "$~importuj emoji jako piksele"
+                            "$~importuj emoji jako piksele",
+                            "$?"
                         ]
                     },
                     "fill": {
@@ -9083,7 +9089,29 @@
                         "label": "$~wysokość",
                         "tip": "$~jaka wysokość ma ten kształt"
                     },
-                    "closed": "$~połączony"
+                    "closed": "$~połączony",
+                    "brushSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "insertion": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
+                    },
+                    "face": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "weight": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "italic": "$?",
+                    "glyphSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9196,7 +9224,13 @@
                     "unauthenticated": "$~Musisz być <zalogowany@://login>, aby edytować znak.",
                     "taken": "$~Masz już postać o tej nazwie, nie zapisujesz.",
                     "projecteditfail": "$~Wystąpił problem z aktualizacją projektów korzystających z tej postaci. Następujące projekty wymagają naprawy:",
-                    "untitledproject": "$~Projekt bez tytułu"
+                    "untitledproject": "$~Projekt bez tytułu",
+                    "glyphLoading": "$?",
+                    "glyphMissing": "$?",
+                    "glyphEmpty": "$?",
+                    "glyphUnreadable": "$?",
+                    "imageTooBig": "$?",
+                    "imageUnreadable": "$?"
                 },
                 "announce": {
                     "position": "$~w $x $y",
@@ -9220,7 +9254,11 @@
                     "pasted": "$~wklejono na $x $y",
                     "arranged": "$~warstwa $index z $total",
                     "flipped": "$~odbito, teraz na $x $y",
-                    "fitted": "$~powiększono kształty, aby wypełniły płótno"
+                    "fitted": "$~powiększono kształty, aby wypełniły płótno",
+                    "cropped": "$?",
+                    "cropMoving": "$?",
+                    "cropDone": "$?",
+                    "imported": "$?"
                 },
                 "share": {
                     "dialog": {
@@ -9244,6 +9282,26 @@
                         ]
                     },
                     "collaborators": "$~współpracownicy"
+                },
+                "image": {
+                    "instructions": "$?",
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "add": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "crop": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "preview": "$?",
+                    "size": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 }
             },
             "updates": {

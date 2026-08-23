@@ -100,13 +100,26 @@ test('resolving a color needs no basis', () => {
  * page has settled: two more stores read from Database, which the page already
  * reached, and the frame watcher deciding when to start. No new file, and no
  * new subgraph.
+ *
+ * The three page budgets' later +0.01MB is the adjustable brush and eraser
+ * (#898): the brush geometry went into characters/paths.ts, which the character
+ * pages reach, and its slider's labels into en-US.json, which every page
+ * carries. No new file and no new subgraph — the same kind of move as the
+ * entries above.
+ *
+ * The layout's and Page's +0.01MB is the symbol tool (#924): the glyph shape's
+ * schema and rendering went into Character.ts, which the database reaches, and
+ * the tool's font, weight and insertion labels into en-US.json. This is the
+ * same move #774 made for character path curves, for the same feature. Image
+ * import becoming a mode of its own rather than a command added one more label,
+ * tip and instruction to the same file, which is the last +0.01MB here.
  */
 test.each([
-    ['src/routes/+layout.svelte', 477, 3.41],
-    ['src/components/app/Page.svelte', 498, 3.63],
-    ['src/routes/[[locale]]/+page.svelte', 514, 3.71],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.71],
-    ['src/routes/[[locale]]/projects/+page.svelte', 518, 3.71],
+    ['src/routes/+layout.svelte', 477, 3.42],
+    ['src/components/app/Page.svelte', 498, 3.64],
+    ['src/routes/[[locale]]/+page.svelte', 514, 3.73],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.73],
+    ['src/routes/[[locale]]/projects/+page.svelte', 518, 3.73],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

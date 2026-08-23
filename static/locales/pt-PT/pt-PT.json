@@ -7426,7 +7426,7 @@
                 "nextMatch": "ir para o próximo resultado da pesquisa",
                 "insertTranslate": "inserir símbolo de tradução",
                 "insertThis": "Insira este símbolo",
-                "tab": "$~A tecla Tab move o foco do teclado. Para introduzir uma tabulação, prima Ctrl+ $alt +Tab, utilize o botão de inserção abaixo ou altere esta definição.",
+                "tab": "$~A tecla Tab move o foco do teclado. Para introduzir uma tabulação, prima $control+ $alt +Tab, utilize o botão de inserção abaixo ou altere esta definição.",
                 "matchDelimiter": "$~mover o cursor para o delimitador correspondente",
                 "insertPattern": "$~inserir padrão",
                 "insertSearch": "$~inserir símbolo de pesquisa de padrão",
@@ -9131,15 +9131,16 @@
                 "header": "Personagem",
                 "instructions": {
                     "empty": "Escolha um modo de desenho na paleta para criar formas.",
-                    "unselected": "$~Escolha um modo de desenho ou selecione e edite formas. Use *ctrl/cmd-a* para selecionar tudo e *ctrl/cmd-z* para desfazer.",
-                    "selected": "$~Use as teclas de *seta* para mover formas. Mantenha *shift* pressionado para adicionar mais formas a uma seleção. Use *delete* para remover a seleção. Use *ctrl/cmd-c* e *ctrl/cmd-v* para copiar e colar, e *ctrl/cmd-z* para desfazer. Com um caminho selecionado, pressione *enter* para editar os seus pontos. Use os controlos abaixo para alterar as formas selecionadas.",
+                    "unselected": "$~Escolha um modo de desenho ou selecione e edite formas. Use *$control-a* para selecionar tudo e *$control-z* para desfazer.",
+                    "selected": "$~Use as teclas de *seta* para mover formas. Mantenha *shift* pressionado para adicionar mais formas a uma seleção. Use *delete* para remover a seleção. Use *$control-c* e *$control-v* para copiar e colar, e *$control-z* para desfazer. Com um caminho selecionado, pressione *enter* para editar os seus pontos. Use os controlos abaixo para alterar as formas selecionadas.",
                     "eraser": "Para apagar formas, clique ou toque sobre elas. Arraste para apagar pixéis. Utilize as teclas de *seta* para mover a borracha e a barra de espaço para apagar.",
                     "pixel": "Para desenhar pixéis, escolha uma cor. Em seguida, clique no ecrã ou utilize as *setas* para mover o cursor e a *barra de espaço* para criar um pixel. *Clique duas vezes* para preencher.",
                     "rect": "Para desenhar retângulos, escolha uma cor e um traço. De seguida, clique e arraste ou utilize as teclas de *setas* e *espaço* para escolher um centro e um tamanho.",
                     "ellipse": "Para desenhar elipses e círculos, escolha uma cor e um traço. De seguida, clique e arraste ou utilize as teclas de *setas* e *espaço* para escolher um centro e um tamanho.",
                     "path": "Os percursos podem ser segmentos de reta, polígonos e curvas. Clique para começar a adicionar pontos ou utilize as teclas de *seta* e *espaço*. Prima *escape* para finalizar o caminho. *delete* removerá o último ponto.",
-                    "emoji": "Escolha um emoji para importar como pixéis e, em seguida, modifique-o como desejar.",
-                    "points": "$~Use *Tab* para alternar entre os pontos do caminho. Use as teclas de *seta* para mover o ponto selecionado, *enter* para adicionar um ponto ao lado dele, e *delete* para o remover. Use *curva* para dobrar o segmento que chega a um ponto e depois mova a sua alça; *delete* numa alça endireita-a novamente. Pressione *escape* quando terminar."
+                    "points": "$~Use *Tab* para alternar entre os pontos do caminho. Use as teclas de *seta* para mover o ponto selecionado, *enter* para adicionar um ponto ao lado dele, e *delete* para o remover. Use *curva* para dobrar o segmento que chega a um ponto e depois mova a sua alça; *delete* numa alça endireita-a novamente. Pressione *escape* quando terminar.",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "shape": {
                     "shape": "forma",
@@ -9148,7 +9149,10 @@
                     "rect": "retângulo",
                     "ellipse": "elipse",
                     "path": "percurso",
-                    "emoji": "emoji"
+                    "emoji": "emoji",
+                    "glyph": "$?",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "share": {
                     "dialog": {
@@ -9185,22 +9189,24 @@
                     "mode": {
                         "label": "modo",
                         "labels": [
-                            "selecionar",
+                            "$!selecionar",
                             "borracha",
                             "pixel",
                             "retângulo",
                             "elipse",
                             "percurso",
-                            "emoji"
+                            "emoji",
+                            "$?"
                         ],
                         "tips": [
-                            "selecione formas e pixéis",
+                            "$!selecione formas e pixéis",
                             "apagar formas e pixéis",
                             "desenhar pixels",
                             "desenhar retângulos",
                             "desenhar elipses",
                             "desenhar caminhos",
-                            "Importar um emoji como pixels"
+                            "Importar um emoji como pixels",
+                            "$?"
                         ]
                     },
                     "fill": {
@@ -9243,7 +9249,29 @@
                         "label": "altura",
                         "tip": "qual a altura da forma"
                     },
-                    "closed": "conectado"
+                    "closed": "conectado",
+                    "brushSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "insertion": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
+                    },
+                    "face": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "weight": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "italic": "$?",
+                    "glyphSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9356,7 +9384,13 @@
                     "unauthenticated": "Necessita de estar <logado em@://login> para editar um personagem.",
                     "taken": "Já possui um personagem com esse nome; não será possível guardar.",
                     "projecteditfail": "Ocorreu um problema ao atualizar projetos que utilizam este personagem. Os seguintes projetos necessitam de correção:",
-                    "untitledproject": "Projeto sem título"
+                    "untitledproject": "Projeto sem título",
+                    "glyphLoading": "$?",
+                    "glyphMissing": "$?",
+                    "glyphEmpty": "$?",
+                    "glyphUnreadable": "$?",
+                    "imageTooBig": "$?",
+                    "imageUnreadable": "$?"
                 },
                 "announce": {
                     "position": "a $x $y",
@@ -9380,7 +9414,31 @@
                     "pasted": "$~colado em $x $y",
                     "arranged": "$~camada $index de $total",
                     "flipped": "$~invertido, agora em $x $y",
-                    "fitted": "$~as formas cresceram para preencher a tela"
+                    "fitted": "$~as formas cresceram para preencher a tela",
+                    "cropped": "$?",
+                    "cropMoving": "$?",
+                    "cropDone": "$?",
+                    "imported": "$?"
+                },
+                "image": {
+                    "instructions": "$?",
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "add": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "crop": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "preview": "$?",
+                    "size": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 }
             },
             "about": {

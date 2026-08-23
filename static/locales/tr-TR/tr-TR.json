@@ -7183,7 +7183,7 @@
                 "nextMatch": "$~Sonraki arama sonucuna git",
                 "insertTranslate": "$~çeviri sembolünü ekle",
                 "insertThis": "$~Bu sembolü ekleyin",
-                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için Ctrl + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin.",
+                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için $control + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin.",
                 "matchDelimiter": "$~İmleci eşleşen sınırlayıcıya taşı",
                 "insertPattern": "$~desen ekle",
                 "insertSearch": "$~desen arama sembolü ekle",
@@ -8976,15 +8976,16 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
-                    "unselected": "$~Bir çizim kipi seç ya da şekilleri seçip düzenle. Her şeyi seçmek için *ctrl/cmd-a*, geri almak için *ctrl/cmd-z* kullan.",
-                    "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullan. Seçime başka şekiller eklemek için *shift* tuşunu basılı tut. Seçimi kaldırmak için *delete* kullan. Kopyalamak için *ctrl/cmd-c*, yapıştırmak için *ctrl/cmd-v*, geri almak için *ctrl/cmd-z* kullan. Bir yol seçiliyken noktalarını düzenlemek için *enter* tuşuna bas. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullan.",
+                    "unselected": "$~Bir çizim kipi seç ya da şekilleri seçip düzenle. Her şeyi seçmek için *$control-a*, geri almak için *$control-z* kullan.",
+                    "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullan. Seçime başka şekiller eklemek için *shift* tuşunu basılı tut. Seçimi kaldırmak için *delete* kullan. Kopyalamak için *$control-c*, yapıştırmak için *$control-v*, geri almak için *$control-z* kullan. Bir yol seçiliyken noktalarını düzenlemek için *enter* tuşuna bas. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullan.",
                     "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın. Doldurmak için *çift tıklayın*.",
                     "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
                     "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın.",
-                    "emoji": "$~Piksel olarak içe aktaracağınız emojiyi seçin, ardından istediğiniz gibi değiştirin.",
-                    "points": "$~Yolun noktaları arasında geçmek için *Tab* tuşuna bas. Seçili noktayı taşımak için *ok* tuşlarını, yanına bir nokta eklemek için *enter* tuşunu, kaldırmak için *delete* tuşunu kullan. Bir noktaya gelen parçayı bükmek için *curve* kullan, ardından tutamacını hareket ettir; tutamaç üzerinde *delete* tuşuna basmak onu yeniden düzleştirir. Bitirince *escape* tuşuna bas."
+                    "points": "$~Yolun noktaları arasında geçmek için *Tab* tuşuna bas. Seçili noktayı taşımak için *ok* tuşlarını, yanına bir nokta eklemek için *enter* tuşunu, kaldırmak için *delete* tuşunu kullan. Bir noktaya gelen parçayı bükmek için *curve* kullan, ardından tutamacını hareket ettir; tutamaç üzerinde *delete* tuşuna basmak onu yeniden düzleştirir. Bitirince *escape* tuşuna bas.",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "shape": {
                     "shape": "$~şekil",
@@ -8993,7 +8994,10 @@
                     "ellipse": "$~elips",
                     "path": "$~yol",
                     "eraser": "$~silgi",
-                    "emoji": "$~emoji"
+                    "emoji": "$~emoji",
+                    "glyph": "$?",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "field": {
                     "name": {
@@ -9007,22 +9011,24 @@
                     "mode": {
                         "label": "$~mod",
                         "labels": [
-                            "$~seçme",
+                            "$!seçme",
                             "$~silgi",
                             "$~piksel",
                             "$~dikdörtgen",
                             "$~elips",
                             "$~yol",
-                            "$~emoji"
+                            "$~emoji",
+                            "$?"
                         ],
                         "tips": [
-                            "$~şekilleri ve pikselleri seçin",
+                            "$!şekilleri ve pikselleri seçin",
                             "$~Şekilleri ve pikselleri silin.",
                             "$~piksel çizmek",
                             "$~dikdörtgenler çizin",
                             "$~elips çizin",
                             "$~yollar çiz",
-                            "$~Emoji'yi piksel olarak içe aktar"
+                            "$~Emoji'yi piksel olarak içe aktar",
+                            "$?"
                         ]
                     },
                     "fill": {
@@ -9065,7 +9071,29 @@
                         "label": "$~yükseklik",
                         "tip": "$~şeklin uzunluğu ne kadar"
                     },
-                    "closed": "$~bağlı"
+                    "closed": "$~bağlı",
+                    "brushSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "insertion": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
+                    },
+                    "face": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "weight": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "italic": "$?",
+                    "glyphSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9178,7 +9206,13 @@
                     "unauthenticated": "$~Bir karakteri düzenlemek için <giriş yapmalısınız@://login>.",
                     "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor.",
                     "projecteditfail": "$~Bu karakteri kullanan projeler güncellenirken bir sorun oluştu. Aşağıdaki projelerin düzeltilmesi gerekiyor:",
-                    "untitledproject": "$~Başlıksız Proje"
+                    "untitledproject": "$~Başlıksız Proje",
+                    "glyphLoading": "$?",
+                    "glyphMissing": "$?",
+                    "glyphEmpty": "$?",
+                    "glyphUnreadable": "$?",
+                    "imageTooBig": "$?",
+                    "imageUnreadable": "$?"
                 },
                 "announce": {
                     "position": "$~$x $y'de",
@@ -9202,7 +9236,11 @@
                     "pasted": "$~$x $y konumuna yapıştırıldı",
                     "arranged": "$~$index katmandan $total. katman",
                     "flipped": "$~çevrildi, şimdi $x $y konumunda",
-                    "fitted": "$~şekiller tuvali dolduracak şekilde büyütüldü"
+                    "fitted": "$~şekiller tuvali dolduracak şekilde büyütüldü",
+                    "cropped": "$?",
+                    "cropMoving": "$?",
+                    "cropDone": "$?",
+                    "imported": "$?"
                 },
                 "share": {
                     "dialog": {
@@ -9226,6 +9264,26 @@
                         ]
                     },
                     "collaborators": "$~işbirlikçiler"
+                },
+                "image": {
+                    "instructions": "$?",
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "add": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "crop": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "preview": "$?",
+                    "size": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 }
             },
             "updates": {

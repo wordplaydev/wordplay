@@ -7151,7 +7151,7 @@
                 "nextMatch": "$~转到下一个搜索匹配项",
                 "insertTranslate": "$~插入翻译符号",
                 "insertThis": "$~插入这个符号",
-                "tab": "$~Tab 键会移动键盘焦点。要插入制表符，请按 Ctrl+$alt+Tab，使用下面的插入按钮，或在设置中更改这一项。",
+                "tab": "$~Tab 键会移动键盘焦点。要插入制表符，请按 $control+$alt+Tab，使用下面的插入按钮，或在设置中更改这一项。",
                 "matchDelimiter": "$~把光标移到配对的分隔符",
                 "insertPattern": "$~插入模式",
                 "insertSearch": "$~插入模式搜索符号",
@@ -8845,15 +8845,16 @@
                 "header": "角色",
                 "instructions": {
                     "empty": "在工具面板中选择一种绘图模式来创建形状。",
-                    "unselected": "$~选择一种绘图模式，或者选择并编辑形状。用 *ctrl/cmd-a* 全选，用 *ctrl/cmd-z* 撤销。",
-                    "selected": "$~用 *方向键* 移动形状。按住 *shift* 可以把更多形状加入选中范围。用 *delete* 删除选中的内容。用 *ctrl/cmd-c* 和 *ctrl/cmd-v* 复制粘贴，用 *ctrl/cmd-z* 撤销。选中一条路径后，按 *enter* 可以编辑它的点。用下面的控件修改选中的形状。",
+                    "unselected": "$~选择一种绘图模式，或者选择并编辑形状。用 *$control-a* 全选，用 *$control-z* 撤销。",
+                    "selected": "$~用 *方向键* 移动形状。按住 *shift* 可以把更多形状加入选中范围。用 *delete* 删除选中的内容。用 *$control-c* 和 *$control-v* 复制粘贴，用 *$control-z* 撤销。选中一条路径后，按 *enter* 可以编辑它的点。用下面的控件修改选中的形状。",
                     "pixel": "要绘制像素，请先选择颜色。然后点击画布，或用*方向*键移动光标并按*空格*创建像素。*双击*可填充。",
                     "rect": "要绘制矩形，请选择填充颜色和描边。然后点击并拖动，或用*方向*键和*空格*键选择中心和大小。",
                     "ellipse": "要绘制椭圆和圆形，请选择填充颜色和描边。然后点击并拖动，或用*方向*键和*空格*键选择中心和大小。",
                     "path": "路径可以是线段、多边形或曲线。点击以开始添加点，也可以使用*方向*键和*空格*键。按 *escape* 完成路径，按 *delete* 删除最后一个点。",
                     "eraser": "要擦除形状，请点击或轻触它们。拖动可擦除像素。使用*方向*键移动橡皮擦，并按*空格*删除。",
-                    "emoji": "选择一个表情符号，将它作为像素导入，然后按需要修改。",
-                    "points": "$~按 *Tab* 在路径的各个点之间切换。用 *方向键* 移动选中的点，按 *enter* 在它旁边添加一个点，按 *delete* 删除它。用 *curve* 弯曲通向某个点的那段线，然后移动它的手柄；在手柄上按 *delete* 可以让它变直。完成后按 *escape*。"
+                    "points": "$~按 *Tab* 在路径的各个点之间切换。用 *方向键* 移动选中的点，按 *enter* 在它旁边添加一个点，按 *delete* 删除它。用 *curve* 弯曲通向某个点的那段线，然后移动它的手柄；在手柄上按 *delete* 可以让它变直。完成后按 *escape*。",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "shape": {
                     "shape": "形状",
@@ -8862,7 +8863,10 @@
                     "ellipse": "椭圆",
                     "path": "路径",
                     "eraser": "橡皮擦",
-                    "emoji": "表情符号"
+                    "emoji": "表情符号",
+                    "glyph": "$?",
+                    "symbol": "$?",
+                    "image": "$?"
                 },
                 "field": {
                     "name": {
@@ -8876,22 +8880,24 @@
                     "mode": {
                         "label": "模式",
                         "labels": [
-                            "选择",
+                            "$!选择",
                             "橡皮擦",
                             "像素",
                             "矩形",
                             "椭圆",
                             "路径",
-                            "表情符号"
+                            "表情符号",
+                            "$?"
                         ],
                         "tips": [
-                            "选择形状和像素",
+                            "$!选择形状和像素",
                             "擦除形状和像素",
                             "绘制像素",
                             "绘制矩形",
                             "绘制椭圆",
                             "绘制路径",
-                            "将表情符号导入为像素"
+                            "将表情符号导入为像素",
+                            "$?"
                         ]
                     },
                     "fill": {
@@ -8934,7 +8940,29 @@
                         "label": "高度",
                         "tip": "形状的高度"
                     },
-                    "closed": "闭合"
+                    "closed": "闭合",
+                    "brushSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "insertion": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
+                    },
+                    "face": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "weight": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "italic": "$?",
+                    "glyphSize": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9047,7 +9075,13 @@
                     "unauthenticated": "你必须<登录@://login>才能编辑角色。",
                     "taken": "你已经有一个同名角色；未保存。",
                     "projecteditfail": "更新使用这个角色的项目时出现问题。以下项目需要修复：",
-                    "untitledproject": "未命名项目"
+                    "untitledproject": "未命名项目",
+                    "glyphLoading": "$?",
+                    "glyphMissing": "$?",
+                    "glyphEmpty": "$?",
+                    "glyphUnreadable": "$?",
+                    "imageTooBig": "$?",
+                    "imageUnreadable": "$?"
                 },
                 "announce": {
                     "position": "位于 $x $y",
@@ -9071,7 +9105,11 @@
                     "pasted": "$~粘贴到 $x $y",
                     "arranged": "$~第 $index 层（共 $total 层）",
                     "flipped": "$~翻转了，现在位于 $x $y",
-                    "fitted": "$~放大了形状以填满画布"
+                    "fitted": "$~放大了形状以填满画布",
+                    "cropped": "$?",
+                    "cropMoving": "$?",
+                    "cropDone": "$?",
+                    "imported": "$?"
                 },
                 "share": {
                     "dialog": {
@@ -9095,6 +9133,26 @@
                         ]
                     },
                     "collaborators": "协作者"
+                },
+                "image": {
+                    "instructions": "$?",
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "add": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "crop": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "preview": "$?",
+                    "size": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
                 }
             },
             "updates": {
