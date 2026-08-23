@@ -121,7 +121,7 @@
     /** The feature list, in the order it appears. Emoji are hard-coded rather
      *  than localized: they're pictures, not words. */
     const Features = [
-        { icon: '</>', key: 'language' },
+        { icon: '💻', key: 'language' },
         { icon: '🌐', key: 'multilingual' },
         { icon: '♿', key: 'accessible' },
         { icon: VIEW_SYMBOL, key: 'senses' },

@@ -15,7 +15,12 @@
     character for decoration a phone shouldn't be paying for.
 -->
 <script lang="ts">
-    import { animationFactor } from '@db/Database';
+    import {
+        animationFactor,
+        authAttempted,
+        SaveStatus,
+        status,
+    } from '@db/Database';
     import { withMonoEmoji } from '@unicode/emoji';
     import { untrack } from 'svelte';
     import { pickRandom } from './backgroundUtils';
@@ -51,6 +56,13 @@
     let obstacle: Rect | undefined = $state(undefined);
     let fontsReady = $state(false);
 
+    /** Whether the page has quieted down enough to start; see the effect
+     *  below. Latched separately in a plain variable so that effect can tell
+     *  whether it has already fired without reading `settled` reactively,
+     *  which would re-run it on its own write. */
+    let settled = $state(false);
+    let latched = false;
+
     /** Cached by index so the loop can position characters without a per-frame
      *  `document.querySelector`, which forced layout once per character. */
     const elements: Record<number, HTMLElement> = {};
@@ -62,6 +74,15 @@
      *  handful where a desktop gets a crowd. */
     const AreaPerCharacter = 25000;
     const MaxCharacters = 14;
+
+    /** How long to wait for the page to quiet down before starting anyway. A
+     *  slow device may never produce a run of smooth frames, and an empty stage
+     *  forever is worse than a few choppy seconds. */
+    const SettleCeilingMs = 6000;
+    /** A frame at least this long means something else has the main thread. */
+    const QuietFrameMs = 32;
+    /** On-time frames in a row that count as a quiet thread. */
+    const QuietFrames = 8;
 
     function overlaps(character: Character, rect: Rect): boolean {
         return (
@@ -220,11 +241,61 @@
         };
     });
 
-    /** Seed once the box has a size and the fonts have settled. Later resizes
+    function latch() {
+        latched = true;
+        settled = true;
+    }
+
+    /**
+     * Hold the cast back until the page has finished arriving. A cold load is
+     * the busiest the main thread ever gets — auth resolving, listeners
+     * opening, every cached project being deserialized — and a loop competing
+     * with that stutters, which would be the first thing a visitor sees.
+     *
+     * The two stores are the app's own startup signals, but neither names the
+     * largest cost: project work runs in an async continuation off the layout's
+     * own idle callback, so a bare idle callback here can fire in the quiet gap
+     * before the burst rather than after it. The last condition measures the
+     * symptom instead — frames actually arriving on time.
+     */
+    $effect(() => {
+        // At factor 0 the loop never runs, so there is nothing to be choppy and
+        // nothing worth making a reader who asked for less motion wait for.
+        if ($animationFactor === 0) {
+            if (!latched) latch();
+            return;
+        }
+        if (latched || !fontsReady) return;
+        if (!$authAttempted || $status.status === SaveStatus.Saving) return;
+
+        let quiet = 0;
+        let previous: DOMHighResTimeStamp | undefined = undefined;
+        let frame = window.requestAnimationFrame(function watch(time) {
+            if (previous !== undefined)
+                quiet = time - previous < QuietFrameMs ? quiet + 1 : 0;
+            previous = time;
+            if (quiet >= QuietFrames) latch();
+            else frame = window.requestAnimationFrame(watch);
+        });
+        // A save starting mid-count re-runs this effect; drop the pending frame
+        // so the restarted count is the only one running.
+        return () => window.cancelAnimationFrame(frame);
+    });
+
+    /** The ceiling, independent of every condition above, so nothing the page
+     *  does can leave the stage empty for good. */
+    $effect(() => {
+        const timeout = setTimeout(() => {
+            if (!latched) latch();
+        }, SettleCeilingMs);
+        return () => clearTimeout(timeout);
+    });
+
+    /** Seed once the box has a size and the page has settled. Later resizes
      *  re-measure the lockup and let the edge rules pull anyone now outside
      *  back in, rather than re-rolling the whole crowd under the reader. */
     $effect(() => {
-        if (!fontsReady || width === 0 || height === 0) return;
+        if (!settled || width === 0 || height === 0) return;
         untrack(() => {
             if (scene.length === 0) {
                 seed();
@@ -293,6 +364,7 @@
 
 <div
     class="cast"
+    class:ready={settled}
     aria-hidden="true"
     bind:this={box}
     bind:clientWidth={width}
@@ -315,18 +387,17 @@
         z-index: 0;
         overflow: hidden;
         pointer-events: none;
-        /* The base style is the visible crowd, so at factor 0 it is simply
-           there — no fade to sit through. */
-        animation: cast-fade-in calc(var(--animation-factor) * 1s) ease-in;
+        /* A transition rather than an entry animation, because the cast arrives
+           when the page settles rather than when this mounts — an animation
+           here would have played and finished long before there was anything to
+           see. At factor 0 the duration is 0 and `ready` is set immediately, so
+           it is simply there, with no fade to sit through. */
+        opacity: 0;
+        transition: opacity calc(var(--animation-factor) * 1s) ease-in;
     }
 
-    @keyframes cast-fade-in {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
+    .cast.ready {
+        opacity: 1;
     }
 
     .character {

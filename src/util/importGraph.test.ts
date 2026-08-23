@@ -93,11 +93,16 @@ test('resolving a color needs no basis', () => {
  * Background. Each imports only what the page already had. The 2MB of runtime
  * the new stage can show is *not* in that number, and must never be: it lives
  * behind the dynamic import guarded by the test below.
+ *
+ * The landing page's later +0.01MB is StageCast holding its cast back until the
+ * page has settled: two more stores read from Database, which the page already
+ * reached, and the frame watcher deciding when to start. No new file, and no
+ * new subgraph.
  */
 test.each([
     ['src/routes/+layout.svelte', 477, 3.41],
     ['src/components/app/Page.svelte', 498, 3.63],
-    ['src/routes/[[locale]]/+page.svelte', 514, 3.7],
+    ['src/routes/[[locale]]/+page.svelte', 514, 3.71],
     ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.71],
     ['src/routes/[[locale]]/projects/+page.svelte', 518, 3.71],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
