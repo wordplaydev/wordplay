@@ -3192,7 +3192,7 @@
                 "hPa": "$~hektopaskal",
                 "kPa": "$~kilopaskal",
                 "bar": "$~bar",
-                "atm": "$!atmosfer",
+                "atm": "$~standart atmosferler",
                 "psi": "$~inç kare başına pound",
                 "mmHg": "$~milimetre cıva",
                 "J": "$~jul",

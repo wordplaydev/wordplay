@@ -3192,7 +3192,7 @@
                 "hPa": "$~hektopaskale",
                 "kPa": "$~kilopaskale",
                 "bar": "$~bary",
-                "atm": "$!atmosfery",
+                "atm": "$~atmosfery standardowe",
                 "psi": "$~funty na cal kwadratowy",
                 "mmHg": "$~milimetry słupa rtęci",
                 "J": "$~dżule",

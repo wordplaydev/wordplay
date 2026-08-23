@@ -3197,7 +3197,7 @@
                 "hPa": "$~hektopascal",
                 "kPa": "$~kilopascal",
                 "bar": "$~bar",
-                "atm": "$!atmosfer",
+                "atm": "$~atmosfer standar",
                 "psi": "$~pon per inci persegi",
                 "mmHg": "$~milimeter air raksa",
                 "J": "$~joule",

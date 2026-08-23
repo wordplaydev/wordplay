@@ -3195,7 +3195,7 @@
                 "hPa": "$~Hektopascal",
                 "kPa": "$~Kilopascal",
                 "bar": "$~Bar",
-                "atm": "$!Atmosphären",
+                "atm": "$~Standardatmosphären",
                 "psi": "$~Pfund pro Quadratzoll",
                 "mmHg": "$~Millimeter Quecksilbersäule",
                 "J": "$~Joule",
