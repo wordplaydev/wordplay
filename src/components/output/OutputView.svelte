@@ -1213,7 +1213,36 @@
         // Placement steers with these, so don't let them scroll the page too.
         if (evaluator.isPlaying() && isPlacementKey(event.key))
             event.stopPropagation();
+
+        /**
+         * A playing stage has just fed this key to its streams, so the page must
+         * not also act on it. `stopPropagation` above is enough to stop *our*
+         * page-scroll handler, but not the browser's own: Space on a focused
+         * `tabindex="0"` div still scrolls the nearest scrolling ancestor, which
+         * on a page that scrolls means pressing Space at a @Key example paged
+         * the document out from under it. Only the keys that would scroll, and
+         * only while playing — a paused stage isn't consuming anything, and
+         * Tab must always stay with the browser.
+         */
+        if (evaluator.isPlaying() && ScrollingKeys.has(event.key))
+            event.preventDefault();
     }
+
+    /** The keys a browser scrolls a document with, which a playing stage consumes
+     *  instead. Space and the arrows are the ones a program actually reads; the
+     *  paging keys are here because they scroll too and a stage that swallows
+     *  Space but not Page Down is stranger than one that swallows both. */
+    const ScrollingKeys = new Set([
+        ' ',
+        'ArrowLeft',
+        'ArrowRight',
+        'ArrowUp',
+        'ArrowDown',
+        'PageUp',
+        'PageDown',
+        'Home',
+        'End',
+    ]);
 
     function submitChat() {
         // Chat is a live input, so only accept messages while playing (not in edit/step).

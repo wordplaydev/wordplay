@@ -23,6 +23,7 @@
         setRoot,
         setShowLines,
         setSpaces,
+        setWrapping,
     } from '@components/project/Contexts';
 
     interface Props {
@@ -48,6 +49,9 @@
         values?: boolean;
         /** Whether to show line numbers */
         lines?: boolean;
+        /** Whether lines may wrap. Only for inert views: the editor needs a
+         *  line to keep its shape while it's edited. See setWrapping. */
+        wrap?: boolean;
         /** Whether any particular nodes should be rendered as removed */
         removed?: Node[];
         /** Nodes that should render as "…" instead of their full subtree. */
@@ -66,9 +70,15 @@
         editable = false,
         values = false,
         lines = false,
+        wrap = false,
         removed = [],
         elided = [],
     }: Props = $props();
+
+    // Deliberately the initial value: a view doesn't change whether it wraps
+    // partway through its life, and the contexts around it are set once too.
+    // svelte-ignore state_referenced_locally
+    setWrapping(wrap);
 
     /** Get the root, or make one if it's not a source. */
     let root = $derived(node instanceof Source ? node.root : new Root(node));
@@ -317,6 +327,7 @@
         style="--line-count: {lineDigits}"
         class:inert
         class:elide
+        class:wrap
         ><NodeView
             {node}
             format={{ block: blocks, spaces, root, editable, values }}
@@ -328,6 +339,7 @@
         style="--line-count: {lineDigits}"
         class:inert
         class:elide
+        class:wrap
         ><NodeView
             {node}
             format={{ block: blocks, spaces, root, editable, values }}
@@ -355,6 +367,17 @@
        inline-flex and flex are equivalent, so only the outer box's flow changes. */
     .root.inline :global(.node-view.block) {
         display: inline-flex;
+    }
+
+    /* Preserve the spaces inside a token and still wrap at them — the same
+       `pre-wrap` the editor uses, but scoped to the text rather than the tree.
+       Under `normal` a space at the edge of a token collapses, so a doc ran its
+       words into the `@concept` link beside them; applied to the whole root
+       instead, every template's inter-tag whitespace becomes a real line break,
+       which put a doc's `¶` on a line of its own. */
+    .root.wrap :global(.token-view),
+    .root.wrap :global(.space-text) {
+        white-space: pre-wrap;
     }
 
     .elide {

@@ -9,6 +9,8 @@
  * script; in-app surfaces localize the glyph instead.
  */
 
+import { Cast } from '../../src/components/app/cast';
+
 /** Light-mode palette values, matching --white-light/--black-light in
  *  src/app.html (paletteContrast.test.ts guards the originals). */
 export const LIGHT_BACKGROUND = '#ffffff';
@@ -81,56 +83,17 @@ export const CardFontPath = 'scripts/logo/fonts/NotoSans-700.ttf';
 /** The monochrome emoji face for the card's ensemble cast. SIL OFL 1.1. */
 export const EmojiFontPath = 'scripts/logo/fonts/NotoEmoji-400.ttf';
 
-/** The ensemble cast scattered behind the card's lockup: the symbolic names
- *  of the language's input streams and output types (the emoji-named ones,
- *  variation selectors omitted for the rasterizer; Moment and Now are value
- *  constructors, not streams, so their calendar and clock stay out),
- *  conveying the abundance of things a program can sense and say. */
-export const CARD_CAST = [
-    // Input streams.
-    '🎲',
-    '🔘',
-    '🖱',
-    '👆',
-    '⌨',
-    '🕕',
-    '🎤',
-    '🎵',
-    '🎙',
-    '🎥',
-    '🖐',
-    '🙂',
-    '📦',
-    '🎬',
-    '⚽',
-    '🗣',
-    '🖋',
-    '🔗',
-    // Output types.
-    '🔳',
-    '💬',
-    '🔊',
-    '🎼',
-    '🎶',
-    '🔈',
-    '🤪',
-    '🌈',
-    '💃',
-    '📍',
-    '✋',
-    '🔎',
-    '😀',
-    '💨',
-    '⚛',
-    '🔮',
-    '🎭',
-];
+/** The ensemble cast scattered behind the card's lockup, shared with the landing
+ *  page's stage so the crowd in a link preview is the crowd a visitor lands on.
+ *  See src/components/app/cast.ts for what's in it and why. */
+export const CARD_CAST = Cast;
 
 /** Inputs whose change must force a regeneration: geometry, this manifest,
  *  the generator itself, and the card font. Hashes are recorded in the lock
  *  and verified by `npm run logo` / logoSync.test.ts. */
 export const InputFiles = [
     'src/components/app/logoMark.ts',
+    'src/components/app/cast.ts',
     'scripts/logo/manifest.ts',
     'scripts/logo/generate.ts',
     'scripts/logo/ico.ts',

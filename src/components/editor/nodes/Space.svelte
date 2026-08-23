@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getWrapping } from '@components/project/Contexts';
     import { spaceIndicator } from '@db/Database';
     import type Token from '@nodes/Token';
     import { EXPLICIT_SPACE_TEXT, SPACE_TEXT } from '@parser/Spaces';
@@ -18,6 +19,11 @@
     }
 
     let { token, space, invisible = false }: Props = $props();
+
+    /** A wrapping view wants ordinary spaces, which a line can break at; see
+     *  setWrapping. The space indicator still wins where it's on, since that is
+     *  a deliberate request to see where the spaces are. */
+    const wrapping = getWrapping();
 </script>
 
 <!-- Keyed on the space to work around a Svelte defect that doesn't correctly
@@ -33,7 +39,9 @@
                     .map((s) =>
                         s === ' '
                             ? invisible || !$spaceIndicator
-                                ? SPACE_TEXT
+                                ? wrapping === true
+                                    ? ' '
+                                    : SPACE_TEXT
                                 : EXPLICIT_SPACE_TEXT
                             : s,
                     )
