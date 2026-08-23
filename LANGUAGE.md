@@ -339,6 +339,36 @@ But this is a type error, because the units aren't compatible:
 
 The unit type system is not arbitrarily sophisticated: when mathematical operators go beyond the semantics of products, sums, and powers, units are dropped.
 
+#### _built-in units_
+
+Every unit below can be converted to and from every other unit in its row, with `→`. Conversions are defined between each unit and the **bold** hub of its row; [Convert](#convert) searches the conversion graph for a path, so `1km → #mi` works even though no conversion between those two is declared. A unit not listed here is still a perfectly good unit — it just has no built-in conversions, and a [conversion definition](#convert) can give it some.
+
+| Measure     | Units                                                                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Time        | `ns` `µs` `ms` **`s`** `min` `h` `day` `wk` `yr`                                                                          |
+| Length      | `pm` `nm` `µm` `mm` `cm` `dm` **`m`** `hm` `km` `Mm` `Gm` `Tm` `in` `ft` `yd` `mi` `nmi` `au` `ly`                        |
+| Mass        | `µg` `mg` **`g`** `kg` `t` `oz` `lb` `st` `uston` `ukton`                                                                 |
+| Temperature | **`°C`** `°F` `K`                                                                                                         |
+| Angle       | **`°`** `rad`                                                                                                             |
+| Area        | `mm^2` `cm^2` **`m^2`** `km^2` `in^2` `ft^2` `yd^2` `mi^2` `ha` `acre`                                                    |
+| Volume      | `mL` `cL` `dL` **`L`** `kL` `cm^3` `m^3` `tsp` `tbsp` `cup` `usfloz` `uspt` `usqt` `usgal` `ukfloz` `ukpt` `ukqt` `ukgal` |
+| Speed       | **`m/s`** `km/h` `mi/h` `ft/s` `kn`                                                                                       |
+| Pressure    | **`Pa`** `hPa` `kPa` `bar` `atm` `psi` `mmHg`                                                                             |
+| Energy      | **`J`** `kJ` `cal` `kcal` `Wh` `kWh` `BTU` `eV`                                                                           |
+| Power       | `mW` **`W`** `kW` `MW` `GW` `hp`                                                                                          |
+| Current     | `µA` `mA` **`A`** `kA`                                                                                                    |
+| Voltage     | `mV` **`V`** `kV`                                                                                                         |
+| Resistance  | `mΩ` **`Ω`** `kΩ` `MΩ`                                                                                                    |
+| Frequency   | **`Hz`** `kHz` `MHz` `GHz` `bpm`                                                                                          |
+| Data        | `b` **`B`** `kB` `MB` `GB` `TB` `KiB` `MiB` `GiB` `TiB`                                                                   |
+| Illuminance | **`lux`** `fc`                                                                                                            |
+
+Three of these need saying out loud:
+
+- **Temperature shifts as well as scales.** `0°C → #°F` is `32°F`, not `0°F`. Temperature is the only measure that works this way, and there are deliberately no prefixed temperature units, so an offset is never compounded with a prefix.
+- **Volumes name their system.** There is no bare `gal`, `floz`, `pt` or `qt`, because those differ between US customary and British imperial measure; `usgal` and `ukgal` are the two different things they could mean. Units that are the same in both — `oz`, `lb`, `mi`, `ft`, `in`, `yd` — are unqualified. `t` is the metric tonne; `uston` and `ukton` are the short and long tons. `tsp`, `tbsp`, and `cup` are the metric-legal 5 mL, 15 mL, and 240 mL.
+- **`°` and `rad` measure the same thing.** `sin`, `cos`, and `tan` take radians, so an angle in degrees — which is what [Place](#place) rotations and [Color](#color) hues are — has to be converted first: `(45° → #rad).sin()`. Those three functions and their inverses are unitless, since a ratio of two lengths has no unit.
+
 A library may give a unit meaning of its own by declaring the units it accepts and reading them back. `Track`'s note list does this with the western note values (`𝅝` a whole note, `𝅗𝅥` a half, `𝅘𝅥` a quarter, `𝅘𝅥𝅮` an eighth, `𝅘𝅥𝅯` a sixteenth, each optionally followed by `𝅭` to lengthen it by half), so `3𝅗𝅥` is the third degree of the scale played for two beats. This is an ordinary unit on an ordinary number — nothing about the language changes — and the units are meaningless outside the type that declares them.
 
 A number _type_ distinguishes three unit cases:
@@ -933,7 +963,7 @@ But one can also convert text to a set of unique characters like this:
 
 Internally, it found the conversion to `[]`, and then it found the conversion from `[]` to `{}`
 
-The same works for numbers with units, as numerous conversion functions are defined for numbers with different units:
+The same works for numbers with units, as numerous conversion functions are defined for numbers with different units (see [built-in units](#built-in-units) for the full list):
 
 ```
 1km → #m

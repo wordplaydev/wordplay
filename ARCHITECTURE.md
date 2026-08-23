@@ -148,6 +148,8 @@ Other APIs, like streams, and value APIs on things like numbers and lists, are d
 
 The bodies of basis functions are not Wordplay code — they're TypeScript callbacks wrapped in [InternalExpression.ts](https://github.com/wordplaydev/wordplay/blob/main/src/basis/InternalExpression.ts), which `Evaluator` invokes when a basis function is called. Names and documentation come from `locale.basis.<TypeName>`, so the standard library is fully localized at construction time.
 
+Number's ~220 unit conversions are the one part of the basis that is data rather than code: [UnitConversions.ts](https://github.com/wordplaydev/wordplay/blob/main/src/basis/UnitConversions.ts) declares every unit and its size relative to its measure's hub unit (seconds, meters, grams, liters, joules, …) and generates both directions of each hub↔unit pair. `Convert` searches the resulting graph for a path, so units within a measure all reach each other without a conversion being declared between every pair. See [LANGUAGE.md](https://github.com/wordplaydev/wordplay/blob/main/LANGUAGE.md) for the list of units.
+
 `BasisType.getScope()` is how the type system finds these definitions: when `5 + 3` is type-checked or evaluated, the lookup of `+` walks through the `NumberBasis` structure definition registered here. `createDefaultShares` is the sibling registry for _global_ definitions (output types, streams); basis is specifically for methods that belong to a type.
 
 ### Localization
