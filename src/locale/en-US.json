@@ -3344,7 +3344,7 @@
                 "hPa": "hectopascals",
                 "kPa": "kilopascals",
                 "bar": "bars",
-                "atm": "atmospheres",
+                "atm": "standard atmospheres",
                 "psi": "pounds per square inch",
                 "mmHg": "millimeters of mercury",
                 "J": "joules",

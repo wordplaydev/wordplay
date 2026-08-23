@@ -3192,7 +3192,7 @@
                 "hPa": "$~hectopascali",
                 "kPa": "$~kilopascali",
                 "bar": "$~bari",
-                "atm": "$~atmosfere",
+                "atm": "$!atmosfere",
                 "psi": "$~livre pe inch pătrat",
                 "mmHg": "$~milimetri coloană de mercur",
                 "J": "$~jouli",

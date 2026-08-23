@@ -373,7 +373,7 @@ type BasisTexts = {
             kPa: string;
             /** [plain] The name of the unit bars, used in conversion documentation */
             bar: string;
-            /** [plain] The name of the unit atmospheres, used in conversion documentation */
+            /** [plain] The name of the unit standard atmospheres, used in conversion documentation */
             atm: string;
             /** [plain] The name of the unit pounds per square inch, used in conversion documentation */
             psi: string;

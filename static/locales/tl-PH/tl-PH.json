@@ -3192,7 +3192,7 @@
                 "hPa": "$~hectopascal",
                 "kPa": "$~kilopascal",
                 "bar": "$~bar",
-                "atm": "$~atmospera",
+                "atm": "$!atmospera",
                 "psi": "$~libra kada parisukat na pulgada",
                 "mmHg": "$~milimetro ng mercury",
                 "J": "$~joule",

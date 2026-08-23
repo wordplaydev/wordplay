@@ -3192,7 +3192,7 @@
                 "hPa": "$~hectopascais",
                 "kPa": "$~quilopascais",
                 "bar": "$~bars",
-                "atm": "$~atmosferas",
+                "atm": "$!atmosferas",
                 "psi": "$~libras por polegada quadrada",
                 "mmHg": "$~milímetros de mercúrio",
                 "J": "$~joules",
