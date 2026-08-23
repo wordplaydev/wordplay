@@ -19,19 +19,26 @@ const basis = Basis.getLocalizedBasis(DefaultLocales);
 
 // Two locales can share a language but define different names (zh-CN vs zh-TW), so the basis
 // cache has to key on region too, or whichever loads second silently gets the other's basis.
-test('the basis cache distinguishes locales sharing a language', () => {
-    const forRegion = (region: 'CN' | 'TW') =>
-        Basis.getLocalizedBasis(
-            new Locales(
-                concretize,
-                [{ ...DefaultLocale, language: 'zh', regions: [region] }],
-                DefaultLocale,
-            ),
-        );
-    expect(forRegion('CN')).not.toBe(forRegion('TW'));
-    // The same locale still hits the cache rather than rebuilding.
-    expect(forRegion('CN')).toBe(forRegion('CN'));
-});
+// Explicit timeout because this is the one test that deliberately defeats the cache: building a
+// basis takes ~1.5s (it constructs every definition and parses every doc in the locale), and this
+// builds two uncached ones, which sits close enough to the 5s default to tip over under load.
+test(
+    'the basis cache distinguishes locales sharing a language',
+    { timeout: 60000 },
+    () => {
+        const forRegion = (region: 'CN' | 'TW') =>
+            Basis.getLocalizedBasis(
+                new Locales(
+                    concretize,
+                    [{ ...DefaultLocale, language: 'zh', regions: [region] }],
+                    DefaultLocale,
+                ),
+            );
+        expect(forRegion('CN')).not.toBe(forRegion('TW'));
+        // The same locale still hits the cache rather than rebuilding.
+        expect(forRegion('CN')).toBe(forRegion('CN'));
+    },
+);
 
 const source = new Source('basis', '');
 const project = Project.make(null, 'test', source, [], DefaultLocale);
