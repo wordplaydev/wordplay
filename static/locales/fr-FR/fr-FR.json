@@ -7176,7 +7176,7 @@
                 "nextMatch": "$~passer au résultat de recherche suivant",
                 "insertTranslate": "$~insérer le symbole de traduction",
                 "insertThis": "$~insérer ce symbole",
-                "tab": "$~La touche Tabulation permet de déplacer le focus clavier. Pour insérer une tabulation, appuyez sur Ctrl+ $alt +Tab, utilisez le bouton Insérer ci-dessous ou modifiez ce paramètre.",
+                "tab": "$~La touche Tabulation permet de déplacer le focus clavier. Pour insérer une tabulation, appuyez sur $control+ $alt +Tab, utilisez le bouton Insérer ci-dessous ou modifiez ce paramètre.",
                 "matchDelimiter": "$~Déplacer le curseur jusqu'au délimiteur correspondant",
                 "insertPattern": "$~insérer un motif",
                 "insertSearch": "$~insérer le symbole de recherche de motif",
@@ -8897,15 +8897,16 @@
                 "header": "$~Personnage",
                 "instructions": {
                     "empty": "$~Choisissez un mode de dessin dans la palette pour créer des formes.",
-                    "unselected": "$~Choisis un mode de dessin, ou sélectionne et modifie des formes. Utilise *ctrl/cmd-a* pour tout sélectionner et *ctrl/cmd-z* pour annuler.",
-                    "selected": "$~Utilise les touches *flèches* pour déplacer des formes. Maintiens *shift* enfoncé pour ajouter d'autres formes à une sélection. Utilise *suppr* pour retirer la sélection. Utilise *ctrl/cmd-c* et *ctrl/cmd-v* pour copier et coller, et *ctrl/cmd-z* pour annuler. Quand un seul tracé est sélectionné, appuie sur *entrée* pour modifier ses points. Utilise les commandes ci-dessous pour changer les formes sélectionnées.",
+                    "unselected": "$~Choisis un mode de dessin, ou sélectionne et modifie des formes. Utilise *$control-a* pour tout sélectionner et *$control-z* pour annuler.",
+                    "selected": "$~Utilise les touches *flèches* pour déplacer des formes. Maintiens *shift* enfoncé pour ajouter d'autres formes à une sélection. Utilise *suppr* pour retirer la sélection. Utilise *$control-c* et *$control-v* pour copier et coller, et *$control-z* pour annuler. Quand un seul tracé est sélectionné, appuie sur *entrée* pour modifier ses points. Utilise les commandes ci-dessous pour changer les formes sélectionnées.",
                     "pixel": "$~Pour dessiner des pixels, choisissez une couleur. Cliquez ensuite sur le canevas ou utilisez les flèches pour déplacer le curseur et la barre d'espace pour créer un pixel. Double-cliquez pour remplir.",
                     "rect": "$~Pour dessiner des rectangles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "ellipse": "$~Pour dessiner des ellipses et des cercles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
                     "path": "$~Les chemins peuvent être des segments de ligne, des polygones et des courbes. Cliquez pour commencer à ajouter des points ou utilisez les touches *flèche* et *espace*. Appuyez sur *échapper* pour terminer le chemin. *supprimer* supprimera le dernier point.",
                     "eraser": "$~Pour effacer des formes, cliquez ou appuyez dessus. Faites glisser pour effacer les pixels. Utilisez les touches fléchées pour déplacer la gomme et la barre d'espace pour supprimer.",
-                    "emoji": "$~Choisissez un emoji à importer sous forme de pixels, puis modifiez-le comme vous le souhaitez.",
-                    "points": "$~Passe d'un point à l'autre du tracé avec *tab*. Utilise les touches *flèches* pour déplacer le point sélectionné, *entrée* pour ajouter un point juste à côté, et *suppr* pour le retirer. Utilise *courbe* pour incurver le segment qui arrive à un point, puis déplace sa poignée ; *suppr* sur une poignée le redresse à nouveau. Appuie sur *échap* quand tu as terminé."
+                    "points": "$~Passe d'un point à l'autre du tracé avec *tab*. Utilise les touches *flèches* pour déplacer le point sélectionné, *entrée* pour ajouter un point juste à côté, et *suppr* pour le retirer. Utilise *courbe* pour incurver le segment qui arrive à un point, puis déplace sa poignée ; *suppr* sur une poignée le redresse à nouveau. Appuie sur *échap* quand tu as terminé.",
+                    "symbol": "$~Choisis d’ajouter des pixels ou un contour, puis choisis une lettre, un symbole ou un émoji. Un contour peut être redimensionné et tourné sans devenir flou. Les pixels peuvent être recolorés un par un. Clique ou touche quelque chose que tu as déjà fait pour le sélectionner à la place.",
+                    "image": "$~Choisis une image, puis choisis le carré à garder. Il remplace les pixels et se place sous les formes que tu as dessinées. Clique ou touche quelque chose que tu as déjà fait pour le sélectionner à la place."
                 },
                 "shape": {
                     "shape": "$~forme",
@@ -8914,7 +8915,10 @@
                     "ellipse": "$~ellipse",
                     "path": "$~chemin",
                     "eraser": "$~gomme",
-                    "emoji": "$~émoji"
+                    "emoji": "$~émoji",
+                    "glyph": "$~contour",
+                    "symbol": "$~symbole",
+                    "image": "$~image"
                 },
                 "field": {
                     "name": {
@@ -8934,7 +8938,8 @@
                             "$~rectangle",
                             "$~ellipse",
                             "$~chemin",
-                            "$~emoji"
+                            "$~emoji",
+                            "$~image"
                         ],
                         "tips": [
                             "$~sélectionner des formes et des pixels",
@@ -8943,7 +8948,8 @@
                             "$~dessiner des rectangles",
                             "$~tracer des ellipses",
                             "$~tracer des chemins",
-                            "$~importer un emoji en tant que pixels"
+                            "$~importer un emoji en tant que pixels",
+                            "$~ajouter une image comme pixels"
                         ]
                     },
                     "fill": {
@@ -8986,7 +8992,32 @@
                         "label": "$~hauteur",
                         "tip": "$~quelle est la hauteur de la forme"
                     },
-                    "closed": "$~connecté"
+                    "closed": "$~connecté",
+                    "brushSize": {
+                        "label": "$~taille",
+                        "tip": "$~combien de cellules couvrent la brosse et la gomme"
+                    },
+                    "insertion": {
+                        "label": "$~ajouter comme",
+                        "labels": ["$~pixels", "$~contour"],
+                        "tips": [
+                            "$~ajouter le symbole comme pixels que tu peux recolorer un par un",
+                            "$~ajouter le symbole comme contour que tu peux redimensionner et tourner sans qu’il devienne flou"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~police",
+                        "tip": "$~quelle police utiliser pour la forme du symbole"
+                    },
+                    "weight": {
+                        "label": "$~épaisseur",
+                        "tip": "$~à quel point les traits du symbole sont épais"
+                    },
+                    "italic": "$~italique",
+                    "glyphSize": {
+                        "label": "$~taille du symbole",
+                        "tip": "$~combien de cellules couvre le symbole"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9099,7 +9130,13 @@
                     "unauthenticated": "$~Tu dois être <connecté@://login> pour modifier un caractère.",
                     "taken": "$~Vous avez déjà un personnage avec ce nom; vous ne sauvegardez pas.",
                     "projecteditfail": "$~Un problème est survenu lors de la mise à jour des projets utilisant ce personnage. Les projets suivants doivent être corrigés :",
-                    "untitledproject": "$~Projet sans titre"
+                    "untitledproject": "$~Projet sans titre",
+                    "glyphLoading": "$~Chargement de la police…",
+                    "glyphMissing": "$~Cette police n’a pas de forme pour ce symbole. Essaie une autre police.",
+                    "glyphEmpty": "$~Ce symbole n’a rien à dessiner.",
+                    "glyphUnreadable": "$~Nous n’avons pas pu lire cette police. Vérifie ta connexion, ou essaie une autre police.",
+                    "imageTooBig": "$~Cette image fait $size Mo. Choisis-en une plus petite que $limit Mo.",
+                    "imageUnreadable": "$~Nous n'avons pas pu lire ce fichier comme une image."
                 },
                 "announce": {
                     "position": "$~à $x $y",
@@ -9123,7 +9160,11 @@
                     "pasted": "$~collé à $x $y",
                     "arranged": "$~calque $index sur $total",
                     "flipped": "$~retourné, maintenant à $x $y",
-                    "fitted": "$~formes agrandies pour remplir la toile"
+                    "fitted": "$~formes agrandies pour remplir la toile",
+                    "cropped": "$~cadre de recadrage à $x $y",
+                    "cropMoving": "$~déplacement du cadre de recadrage",
+                    "cropDone": "$~cadre de recadrage placé",
+                    "imported": "$~$#count[un pixel ajouté|$#count pixels ajoutés|$count pixels ajoutés] depuis $x $y"
                 },
                 "share": {
                     "dialog": {
@@ -9147,6 +9188,26 @@
                         ]
                     },
                     "collaborators": "$~collaborateurs"
+                },
+                "image": {
+                    "instructions": "$~Fais glisser le carré pour le déplacer, ou utilise le curseur *taille* pour changer la portion de l'image à garder. Avec le clavier, appuie sur *entrée* pour commencer à le déplacer, puis utilise les touches *flèches*, et appuie de nouveau sur *entrée* quand tu as fini.",
+                    "button": {
+                        "label": "$~envoyer",
+                        "tip": "$~choisis un fichier image depuis cet appareil"
+                    },
+                    "add": {
+                        "label": "$~ajouter",
+                        "tip": "$~ajouter le carré choisi au caractère sous forme de pixels"
+                    },
+                    "crop": {
+                        "label": "$~cadre de recadrage",
+                        "tip": "$~le carré de l'image à garder"
+                    },
+                    "preview": "$~ce qui sera ajouté",
+                    "size": {
+                        "label": "$~taille",
+                        "tip": "$~quelle portion de l'image garder"
+                    }
                 }
             },
             "updates": {

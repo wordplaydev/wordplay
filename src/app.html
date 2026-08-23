@@ -246,6 +246,13 @@
                 --wordplay-focus-color: var(--color-focus-blue);
                 --wordplay-hover: var(--color-yellow);
                 --wordplay-hover-light: var(--color-yellow-transparent);
+                /* What text must be painted in on a --wordplay-hover surface.
+                   Literal black, not the mode-flipping --wordplay-foreground,
+                   which is #ffffff in dark mode and measures 3.58:1 on this
+                   gold. See .highlight-surface below for the full reasoning;
+                   this is the same rule for the hovered state, which can't
+                   carry a class. */
+                --wordplay-hover-text: var(--black-light);
                 /* The AA orange text variant works in both roles: as error
                    text on the background (5.3:1 light) and as an error
                    background under --wordplay-error-text-color (5.3:1 light,

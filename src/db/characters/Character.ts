@@ -94,11 +94,77 @@ const PathSchema = z.object({
 });
 export type CharacterPath = z.infer<typeof PathSchema>;
 
+/**
+ * The only characters a stored glyph outline may contain.
+ *
+ * This string is interpolated straight into an SVG `d` attribute that the app
+ * renders with `{@html}`, in half a dozen places, from *other creators'* public
+ * documents — and `tag()` below does no escaping, because until now every
+ * attribute it wrote was a number or a color. Constraining the value where the
+ * document is parsed is what makes that safe: absolute M/L/Q/C/Z commands and
+ * numbers, which is exactly the grammar `glyphToPath` emits.
+ */
+export const GlyphPathPattern = /^[MLQCZ0-9.,\-\s]*$/;
+
+/** A CJK outline runs to a few thousand characters; past this it isn't a glyph. */
+export const MaxGlyphPathLength = 16384;
+
+const GlyphWeightSchema = z.union([
+    z.literal(100),
+    z.literal(200),
+    z.literal(300),
+    z.literal(400),
+    z.literal(500),
+    z.literal(600),
+    z.literal(700),
+    z.literal(800),
+    z.literal(900),
+]);
+
+/**
+ * A single character traced from a font, stored as its outline.
+ *
+ * Positioned and sized like a rectangle — `point` is the top left corner and
+ * `width`/`height` its extent — so moving, mirroring, measuring and fitting a
+ * glyph all reuse the arithmetic those already have. `d` is the outline
+ * normalized into the unit box (0..1 on both axes, already flipped from the
+ * font's y-up to SVG's y-down), so placing it is a transform and only a change
+ * of character or face has to go back to the font.
+ */
+const GlyphSchema = z
+    .object({
+        type: z.literal('glyph'),
+        /** The character traced, kept so the outline can be re-derived. */
+        character: z.string().min(1).max(16),
+        /** A face name. Not an enum: the registry is generated and changes with
+         *  the font manifest, and a character made with a face later removed
+         *  must still parse and render from the outline it already has. */
+        face: z.string(),
+        weight: GlyphWeightSchema.exactOptional(),
+        italic: z.boolean().exactOptional(),
+        point: PointSchema,
+        angle: z.number().exactOptional(), // degrees
+        stroke: StrokeSchema.exactOptional(),
+        // Null represents current color
+        fill: ColorSchema.nullable().exactOptional(),
+        /** Mirrored across its own vertical axis. A glyph isn't symmetric, so
+         *  flipping one has to reflect the outline rather than just move the
+         *  box the way it can for a rectangle. A vertical flip is this plus 180
+         *  degrees of rotation, so one flag covers both. */
+        mirrored: z.boolean().exactOptional(),
+        /** The outline, in the unit box. */
+        d: z.string().regex(GlyphPathPattern).max(MaxGlyphPathLength),
+    })
+    .extend(SizeSchema.shape);
+
+export type CharacterGlyph = z.infer<typeof GlyphSchema>;
+
 const CharacterShapeSchema = z.union([
     PixelSchema,
     RectangleSchema,
     EllipseSchema,
     PathSchema,
+    GlyphSchema,
 ]);
 export type CharacterShape = z.infer<typeof CharacterShapeSchema>;
 
@@ -118,10 +184,10 @@ export const CharacterSchema = z.object({
     name: z.string(),
     // A list of tagged names in Wordplay syntax
     description: z.string(),
-    // In rendering order, back to front
-    shapes: z.array(
-        z.union([PixelSchema, RectangleSchema, EllipseSchema, PathSchema]),
-    ),
+    // In rendering order, back to front. One union, not a copy of the one
+    // above: they were byte-identical, and a new shape kind added to only one
+    // of them parses in one place and not the other.
+    shapes: z.array(CharacterShapeSchema),
 });
 export type Character = z.infer<typeof CharacterSchema>;
 
@@ -164,6 +230,8 @@ export function shapeToSVG(
             return pixelToSVG(shape, selected);
         case 'path':
             return pathToSVG(shape, selected);
+        case 'glyph':
+            return glyphToSVG(shape, selected);
     }
 }
 
@@ -294,6 +362,53 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
     });
 }
 
+/**
+ * Render a traced glyph.
+ *
+ * `d` lives in the unit box, so everything that positions it is a transform:
+ * scale it to the shape's box, rotate about the box's own center, then move it
+ * to `point`. SVG applies a transform list right to left, which is why they are
+ * written in that order.
+ *
+ * `vector-effect="non-scaling-stroke"` is what keeps `stroke.width` meaning the
+ * same thing here as on every other shape — without it the scale that sizes the
+ * glyph would multiply the stroke too, and the shared stroke-width slider would
+ * do something different depending on which shape was selected.
+ */
+function glyphToSVG(glyph: CharacterGlyph, selected: boolean = false): string {
+    const selectionStrokeWidth = Math.max(
+        SelectionStrokeWidth,
+        glyph.stroke?.width ?? SelectionStrokeWidth,
+    );
+    return tag('path', {
+        class: selected ? 'selected' : undefined,
+        d: glyph.d,
+        fill: colorToSVG(glyph.fill),
+        stroke: glyph.stroke
+            ? colorToSVG(glyph.stroke.color)
+            : selected
+              ? 'currentColor'
+              : undefined,
+        'stroke-width':
+            glyph.stroke?.width ??
+            (selected ? selectionStrokeWidth : undefined),
+        'vector-effect': 'non-scaling-stroke',
+        'stroke-linecap': 'round',
+        'stroke-dasharray': selected
+            ? `${selectionStrokeWidth / 10},${selectionStrokeWidth}`
+            : undefined,
+        // A mirrored glyph scales by a negative width, and the extra translate
+        // puts the reflected box back where the unreflected one was, so the
+        // shape still occupies point..point+width.
+        transform:
+            `translate(${glyph.point.x + (glyph.mirrored ? glyph.width : 0)} ${glyph.point.y})` +
+            (glyph.angle
+                ? ` rotate(${glyph.angle} ${(glyph.mirrored ? -glyph.width : glyph.width) / 2} ${glyph.height / 2})`
+                : '') +
+            ` scale(${glyph.mirrored ? -glyph.width : glyph.width} ${glyph.height})`,
+    });
+}
+
 function colorToSVG(fill: Color | undefined | null): string | undefined {
     return fill === null
         ? 'currentColor'
@@ -367,6 +482,22 @@ export function getPathCenter(path: CharacterPath): Point {
     return center;
 }
 
+/**
+ * The point `moveShape(…, 'move')` puts where you tell it — a path's center, and
+ * every other shape's own point.
+ *
+ * Exported so a caller computing drag offsets doesn't have to switch on the
+ * shape kind: doing that by hand meant a kind with no case (glyphs) contributed
+ * no offset at all, which both stopped it dragging and misaligned the offsets of
+ * every shape after it in a mixed selection.
+ */
+export function getShapeAnchor(shape: CharacterShape): Point {
+    // A copy, not the shape's own point: getPathCenter already returns a fresh
+    // one, and handing out a live reference for the other kinds would let a
+    // caller move a shape by writing to what looks like a reading.
+    return shape.type === 'path' ? getPathCenter(shape) : { ...shape.point };
+}
+
 /** Mutate the given shape in the specified direction. If set is true, interpret the position as a new location, otherwise interpret it is a translation. */
 export function moveShape(
     shape: CharacterShape,
@@ -375,10 +506,11 @@ export function moveShape(
     set: 'move' | 'translate',
 ) {
     switch (shape.type) {
-        // These three are easy.
+        // These four are easy: one corner carries the whole shape.
         case 'rect':
         case 'ellipse':
         case 'pixel':
+        case 'glyph':
             if (set == 'move') {
                 shape.point.x = x;
                 shape.point.y = y;
@@ -386,6 +518,7 @@ export function moveShape(
                 shape.point.x += x;
                 shape.point.y += y;
             }
+            break;
         // This one requires moving all the points.
         case 'path':
             if (shape.type === 'path') {

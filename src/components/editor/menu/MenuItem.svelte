@@ -229,8 +229,12 @@
 
     .revision:hover {
         background: var(--wordplay-hover);
-        /* Keep the note's links/concept-links legible on the gold hover (#1216). */
-        --wordplay-link-color: var(--color-white);
+        /* Text and links on the gold, per --wordplay-hover-text in app.html:
+           --wordplay-foreground is white in dark mode and measures 3.58:1 here,
+           and the old --color-white link override measured 3.01:1 in light
+           (#1216). The orange underline is what still marks a link. */
+        color: var(--wordplay-hover-text);
+        --wordplay-link-color: currentColor;
         --wordplay-link-underline-color: var(--color-orange);
     }
 

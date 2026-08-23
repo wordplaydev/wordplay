@@ -7183,7 +7183,7 @@
                 "nextMatch": "$~Sonraki arama sonucuna git",
                 "insertTranslate": "$~çeviri sembolünü ekle",
                 "insertThis": "$~Bu sembolü ekleyin",
-                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için Ctrl + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin.",
+                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için $control + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin.",
                 "matchDelimiter": "$~İmleci eşleşen sınırlayıcıya taşı",
                 "insertPattern": "$~desen ekle",
                 "insertSearch": "$~desen arama sembolü ekle",
@@ -8976,15 +8976,16 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
-                    "unselected": "$~Bir çizim kipi seç ya da şekilleri seçip düzenle. Her şeyi seçmek için *ctrl/cmd-a*, geri almak için *ctrl/cmd-z* kullan.",
-                    "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullan. Seçime başka şekiller eklemek için *shift* tuşunu basılı tut. Seçimi kaldırmak için *delete* kullan. Kopyalamak için *ctrl/cmd-c*, yapıştırmak için *ctrl/cmd-v*, geri almak için *ctrl/cmd-z* kullan. Bir yol seçiliyken noktalarını düzenlemek için *enter* tuşuna bas. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullan.",
+                    "unselected": "$~Bir çizim kipi seç ya da şekilleri seçip düzenle. Her şeyi seçmek için *$control-a*, geri almak için *$control-z* kullan.",
+                    "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullan. Seçime başka şekiller eklemek için *shift* tuşunu basılı tut. Seçimi kaldırmak için *delete* kullan. Kopyalamak için *$control-c*, yapıştırmak için *$control-v*, geri almak için *$control-z* kullan. Bir yol seçiliyken noktalarını düzenlemek için *enter* tuşuna bas. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullan.",
                     "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın. Doldurmak için *çift tıklayın*.",
                     "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
                     "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
                     "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın.",
-                    "emoji": "$~Piksel olarak içe aktaracağınız emojiyi seçin, ardından istediğiniz gibi değiştirin.",
-                    "points": "$~Yolun noktaları arasında geçmek için *Tab* tuşuna bas. Seçili noktayı taşımak için *ok* tuşlarını, yanına bir nokta eklemek için *enter* tuşunu, kaldırmak için *delete* tuşunu kullan. Bir noktaya gelen parçayı bükmek için *curve* kullan, ardından tutamacını hareket ettir; tutamaç üzerinde *delete* tuşuna basmak onu yeniden düzleştirir. Bitirince *escape* tuşuna bas."
+                    "points": "$~Yolun noktaları arasında geçmek için *Tab* tuşuna bas. Seçili noktayı taşımak için *ok* tuşlarını, yanına bir nokta eklemek için *enter* tuşunu, kaldırmak için *delete* tuşunu kullan. Bir noktaya gelen parçayı bükmek için *curve* kullan, ardından tutamacını hareket ettir; tutamaç üzerinde *delete* tuşuna basmak onu yeniden düzleştirir. Bitirince *escape* tuşuna bas.",
+                    "symbol": "$~Piksel mi yoksa dış çizgi mi ekleyeceğine karar ver, sonra bir harf, sembol ya da emoji seç. Bir dış çizgi bulanıklaşmadan yeniden boyutlandırılabilir ve döndürülebilir; pikseller ise tek tek yeniden renklendirilebilir. Zaten yaptığın bir şeyi seçmek için üzerine tıkla ya da dokun.",
+                    "image": "$~Bir resim seç, sonra saklamak istediğin kareyi belirle. Bu, pikselleri değiştirir ve çizdiğin şekillerin altında kalır. Zaten yaptığın bir şeyi seçmek için üzerine tıkla ya da dokun."
                 },
                 "shape": {
                     "shape": "$~şekil",
@@ -8993,7 +8994,10 @@
                     "ellipse": "$~elips",
                     "path": "$~yol",
                     "eraser": "$~silgi",
-                    "emoji": "$~emoji"
+                    "emoji": "$~emoji",
+                    "glyph": "$~dış çizgi",
+                    "symbol": "$~sembol",
+                    "image": "$~resim"
                 },
                 "field": {
                     "name": {
@@ -9007,22 +9011,24 @@
                     "mode": {
                         "label": "$~mod",
                         "labels": [
-                            "$~seçme",
+                            "$~seç",
                             "$~silgi",
                             "$~piksel",
                             "$~dikdörtgen",
                             "$~elips",
                             "$~yol",
-                            "$~emoji"
+                            "$~emoji",
+                            "$~resim"
                         ],
                         "tips": [
-                            "$~şekilleri ve pikselleri seçin",
+                            "$~şekilleri ve pikselleri seç",
                             "$~Şekilleri ve pikselleri silin.",
                             "$~piksel çizmek",
                             "$~dikdörtgenler çizin",
                             "$~elips çizin",
                             "$~yollar çiz",
-                            "$~Emoji'yi piksel olarak içe aktar"
+                            "$~Emoji'yi piksel olarak içe aktar",
+                            "$~resmi piksel olarak ekle"
                         ]
                     },
                     "fill": {
@@ -9065,7 +9071,32 @@
                         "label": "$~yükseklik",
                         "tip": "$~şeklin uzunluğu ne kadar"
                     },
-                    "closed": "$~bağlı"
+                    "closed": "$~bağlı",
+                    "brushSize": {
+                        "label": "$~boyut",
+                        "tip": "$~fırçanın ve silginin kaç hücre genişliğinde olduğu"
+                    },
+                    "insertion": {
+                        "label": "$~şu şekilde ekle",
+                        "labels": ["$~pikseller", "$~dış çizgi"],
+                        "tips": [
+                            "$~sembolü, tek tek yeniden renklendirebileceğin pikseller olarak ekle",
+                            "$~sembolü, bulanıklaşmadan yeniden boyutlandırıp döndürebileceğin bir dış çizgi olarak ekle"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~yazı tipi",
+                        "tip": "$~sembolün şeklinin hangi yazı tipinden alınacağı"
+                    },
+                    "weight": {
+                        "label": "$~kalınlık",
+                        "tip": "$~sembolün çizgilerinin ne kadar kalın olduğu"
+                    },
+                    "italic": "$~italik",
+                    "glyphSize": {
+                        "label": "$~sembol boyutu",
+                        "tip": "$~sembolün kaç hücre genişliğinde olduğu"
+                    }
                 },
                 "button": {
                     "back": {
@@ -9178,7 +9209,13 @@
                     "unauthenticated": "$~Bir karakteri düzenlemek için <giriş yapmalısınız@://login>.",
                     "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor.",
                     "projecteditfail": "$~Bu karakteri kullanan projeler güncellenirken bir sorun oluştu. Aşağıdaki projelerin düzeltilmesi gerekiyor:",
-                    "untitledproject": "$~Başlıksız Proje"
+                    "untitledproject": "$~Başlıksız Proje",
+                    "glyphLoading": "$~Yazı tipi alınıyor…",
+                    "glyphMissing": "$~Bu yazı tipinde o sembol için bir şekil yok. Başka bir yazı tipi dene.",
+                    "glyphEmpty": "$~O sembolün çizilecek bir şeyi yok.",
+                    "glyphUnreadable": "$~O yazı tipini okuyamadık. Bağlantını kontrol et ya da başka bir yazı tipi dene.",
+                    "imageTooBig": "$~O görsel $size MB büyüklüğünde. Lütfen $limit MB'den küçük bir görsel seçin.",
+                    "imageUnreadable": "$~Bu dosyayı görsel olarak okuyamadık."
                 },
                 "announce": {
                     "position": "$~$x $y'de",
@@ -9202,7 +9239,11 @@
                     "pasted": "$~$x $y konumuna yapıştırıldı",
                     "arranged": "$~$index katmandan $total. katman",
                     "flipped": "$~çevrildi, şimdi $x $y konumunda",
-                    "fitted": "$~şekiller tuvali dolduracak şekilde büyütüldü"
+                    "fitted": "$~şekiller tuvali dolduracak şekilde büyütüldü",
+                    "cropped": "$~kırpma kutusu $x $y konumunda",
+                    "cropMoving": "$~kırpma kutusu taşınıyor",
+                    "cropDone": "$~kırpma kutusu yerleştirildi",
+                    "imported": "$~$x $y konumundan $#count[1 piksel eklendi|$count piksel eklendi]"
                 },
                 "share": {
                     "dialog": {
@@ -9226,6 +9267,26 @@
                         ]
                     },
                     "collaborators": "$~işbirlikçiler"
+                },
+                "image": {
+                    "instructions": "$~Kareyi taşımak için sürükleyin, ya da görselin ne kadarının saklanacağını değiştirmek için *boyut* kaydırıcısını kullanın. Klavye ile taşımaya başlamak için *enter* tuşuna basın, sonra *ok* tuşlarını kullanın, bitirdiğinizde tekrar *enter* tuşuna basın.",
+                    "button": {
+                        "label": "$~yükle",
+                        "tip": "$~bu cihazdan bir görsel dosyası seç"
+                    },
+                    "add": {
+                        "label": "$~ekle",
+                        "tip": "$~seçilen kareyi karaktere piksel olarak ekle"
+                    },
+                    "crop": {
+                        "label": "$~kırpma kutusu",
+                        "tip": "$~saklanacak görsel karesi"
+                    },
+                    "preview": "$~eklenecek olan şey",
+                    "size": {
+                        "label": "$~boyut",
+                        "tip": "$~görselin ne kadarının saklanacağı"
+                    }
                 }
             },
             "updates": {

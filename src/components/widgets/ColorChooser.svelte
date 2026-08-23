@@ -2,6 +2,16 @@
     import Slider from '@components/widgets/Slider.svelte';
     import { BCTKeys, Focals } from '@output/Color/BasicColors';
 
+    /**
+     * How many caller-supplied colors the chooser will show.
+     *
+     * Every swatch is a button, so an uncapped palette is not just a tall grid
+     * but that many tab stops in front of the standard colors below it — a
+     * character built from an imported image offered several hundred. Callers
+     * order their palette by whatever makes the survivors the useful ones.
+     */
+    export const MaxPaletteColors = 48;
+
     // Create a list of hues in the LCH color space from 0 to 360
     function getColors(lightness: number, chroma: number) {
         const values = [];
@@ -101,10 +111,6 @@
     const fieldId = `${instructionsId}-field`;
 
     let color = $derived(LCHtoCSS(lightness * 100, chroma, hue));
-
-    /** Number of preset swatches (palette extras + the 11 BCT focals), used to
-     *  lay them out as equal-width squares filling one flush row. */
-    let swatchCount = $derived(palette.length + Primary.length);
 
     /** The web format last typed or serialized to (e.g. 'hex', 'rgb', 'hsl',
      *  'lch', 'oklch'). Drives how the text field re-renders the color when the
@@ -283,7 +289,7 @@
          no padding inside the unit — adjacent cells are separated only by 1px
          lines, drawn by the unit's border color showing through the grid/flex
          gaps, with a matching outer border. -->
-    <div class="unit" style:--swatch-count={swatchCount}>
+    <div class="unit">
         <div class="top">
             <!-- role="img": the swatch is a picture of the current color, and
                  aria-label is prohibited on a div with no role, which left it
@@ -351,7 +357,7 @@
             </div>
         </div>
         <div class="primary">
-            {#each [...palette, ...Primary] as primary}{@const swatchLabel =
+            {#each [...palette.slice(0, MaxPaletteColors), ...Primary] as primary}{@const swatchLabel =
                     describeColorLocalized(
                         $locales,
                         primary[0] / 100,
@@ -366,14 +372,15 @@
                         hue = primary[2];
                         broadcast();
                     }}
-                    ><div
+                    ><!-- No aria-label: it is prohibited on a div with no
+                         role, and the Button already carries this same name. -->
+                    <div
                         class="color"
                         style:background={LCHtoCSS(
                             primary[0],
                             primary[1],
                             primary[2],
                         )}
-                        aria-label={swatchLabel}
                     ></div></Button
                 >{/each}
         </div>
@@ -476,7 +483,9 @@
        reads as a single rectangular block. */
     .component {
         width: 100%;
-        max-width: 12em;
+        /* A ceiling a caller can lift: stacked in a narrow column, the chooser
+           should fill the width rather than sit at a third of it. */
+        max-width: var(--color-chooser-max-width, 12em);
         display: flex;
         flex-direction: column;
         align-items: stretch;
@@ -555,23 +564,28 @@
         white-space: nowrap;
     }
 
-    /* One flush row of equal-width square swatches, sized to fill the unit
-       width. The 1px gaps reveal the unit's border color as separators. */
+    /* Flush rows of equal-width square swatches filling the unit width. The 1px
+       gaps reveal the unit's border color as separators.
+
+       auto-fill with a 24px floor rather than one row of `swatchCount` columns:
+       a row divided by 11-plus columns inside a 10em palette gave 13.7px
+       targets, under WCAG 2.5.8's 24px minimum. Wrapping to a second row keeps
+       every swatch tappable at any palette width, which one row can't. */
     .primary {
         display: grid;
-        grid-template-columns: repeat(var(--swatch-count), 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
         gap: var(--wordplay-border-width);
         background: var(--wordplay-border-color);
     }
 
-    /* Override the Button chrome (min sizes, radius, shadow) so each swatch is a
-       borderless square that fills its grid cell. */
+    /* Override the Button chrome (radius, shadow) so each swatch is a
+       borderless square that fills its grid cell. Button's own
+       min-width/min-height is the 24px target floor and is deliberately kept —
+       zeroing it here is what made these swatches too small to hit. */
     .primary :global(button.swatch) {
         display: block;
         width: 100%;
         aspect-ratio: 1;
-        min-width: 0;
-        min-height: 0;
         border-radius: 0;
         box-shadow: none;
     }
