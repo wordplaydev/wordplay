@@ -9349,14 +9349,15 @@
                 "header": "Character",
                 "instructions": {
                     "empty": "Choose a drawing mode in the palette to create shapes.",
-                    "unselected": "Choose a drawing mode or select and edit shapes.",
-                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use the controls below to change the selected shapes.",
+                    "unselected": "Choose a drawing mode or select and edit shapes. Use *ctrl/cmd-a* to select everything and *ctrl/cmd-z* to undo.",
+                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use *ctrl/cmd-c* and *ctrl/cmd-v* to copy and paste, and *ctrl/cmd-z* to undo. With one path selected, press *enter* to edit its points. Use the controls below to change the selected shapes.",
                     "eraser": "To erase shapes, click or tap on them. Drag to erase pixels. Use the *arrow* keys to move the eraser and *space* to delete.",
                     "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel. *Double-click* to fill.",
                     "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
                     "ellipse": "To draw ellipses and circles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
                     "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point.",
-                    "emoji": "Choose an emoji to import as pixels, then modify as you like."
+                    "emoji": "Choose an emoji to import as pixels, then modify as you like.",
+                    "points": "*Tab* between the points of the path. Use the *arrow* keys to move the selected point, *enter* to add a point next to it, and *delete* to remove it. Use *curve* to bend the segment arriving at a point, then move its handle; *delete* on a handle straightens it again. Press *escape* when you're done."
                 },
                 "shape": {
                     "shape": "shape",
@@ -9525,11 +9526,11 @@
                     },
                     "horizontal": {
                         "label": "flip horizontal",
-                        "tip": "flip the points horizontally around the center"
+                        "tip": "flip the selection horizontally"
                     },
                     "vertical": {
                         "label": "flip vertical",
-                        "tip": "flip the points vertically around the center"
+                        "tip": "flip the selection vertically"
                     },
                     "fit": {
                         "label": "fit",
@@ -9538,6 +9539,30 @@
                     "dismissError": {
                         "label": "dismiss",
                         "tip": "dismiss the error message"
+                    },
+                    "editPoints": {
+                        "label": "points",
+                        "tip": "edit the points of the selected path"
+                    },
+                    "donePoints": {
+                        "label": "done",
+                        "tip": "stop editing points"
+                    },
+                    "addPoint": {
+                        "label": "add point",
+                        "tip": "add a point next to the selected one"
+                    },
+                    "deletePoint": {
+                        "label": "remove point",
+                        "tip": "remove the selected point"
+                    },
+                    "curve": {
+                        "label": "curve",
+                        "tip": "bend the segment arriving at the selected point"
+                    },
+                    "straighten": {
+                        "label": "straighten",
+                        "tip": "straighten the segment arriving at the selected point"
                     }
                 },
                 "feedback": {
@@ -9553,7 +9578,27 @@
                 },
                 "announce": {
                     "position": "at $x $y",
-                    "selection": "$shapes[selected $shapes|nothing selected]"
+                    "selection": "$shapes[selected $shapes|nothing selected]",
+                    "editing": "editing $#count[one point|$count points]",
+                    "editingDone": "done editing points",
+                    "point": "point $index at $x $y",
+                    "control": "curve $index at $x $y",
+                    "pointAdded": "added point $index at $x $y",
+                    "pointRemoved": "removed point $index, $#count[one point|$count points] left",
+                    "curved": "curved segment $index",
+                    "straightened": "straightened segment $index",
+                    "moved": "moved to $x $y",
+                    "drew": "drew at $x $y",
+                    "erased": "erased at $x $y",
+                    "finished": "made $shape at $x $y",
+                    "deleted": "deleted, $#count[one shape|$count shapes] left",
+                    "undone": "undid step $step of $total",
+                    "redone": "redid step $step of $total",
+                    "copied": "copied $#count[one $shapes|$count shapes: $shapes]",
+                    "pasted": "pasted at $x $y",
+                    "arranged": "layer $index of $total",
+                    "flipped": "flipped, now at $x $y",
+                    "fitted": "grew shapes to fill the canvas"
                 }
             },
             "about": {

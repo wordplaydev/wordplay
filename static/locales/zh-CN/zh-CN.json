@@ -8845,14 +8845,15 @@
                 "header": "角色",
                 "instructions": {
                     "empty": "在工具面板中选择一种绘图模式来创建形状。",
-                    "unselected": "选择绘图模式，或选中形状后进行编辑。",
-                    "selected": "使用*方向*键移动形状。按住 *shift* 可把更多形状加入选区。按 *delete* 可删除选区。使用下方控件可修改选中的形状。",
+                    "unselected": "$~选择一种绘图模式，或者选择并编辑形状。用 *ctrl/cmd-a* 全选，用 *ctrl/cmd-z* 撤销。",
+                    "selected": "$~用 *方向键* 移动形状。按住 *shift* 可以把更多形状加入选中范围。用 *delete* 删除选中的内容。用 *ctrl/cmd-c* 和 *ctrl/cmd-v* 复制粘贴，用 *ctrl/cmd-z* 撤销。选中一条路径后，按 *enter* 可以编辑它的点。用下面的控件修改选中的形状。",
                     "pixel": "要绘制像素，请先选择颜色。然后点击画布，或用*方向*键移动光标并按*空格*创建像素。*双击*可填充。",
                     "rect": "要绘制矩形，请选择填充颜色和描边。然后点击并拖动，或用*方向*键和*空格*键选择中心和大小。",
                     "ellipse": "要绘制椭圆和圆形，请选择填充颜色和描边。然后点击并拖动，或用*方向*键和*空格*键选择中心和大小。",
                     "path": "路径可以是线段、多边形或曲线。点击以开始添加点，也可以使用*方向*键和*空格*键。按 *escape* 完成路径，按 *delete* 删除最后一个点。",
                     "eraser": "要擦除形状，请点击或轻触它们。拖动可擦除像素。使用*方向*键移动橡皮擦，并按*空格*删除。",
-                    "emoji": "选择一个表情符号，将它作为像素导入，然后按需要修改。"
+                    "emoji": "选择一个表情符号，将它作为像素导入，然后按需要修改。",
+                    "points": "$~按 *Tab* 在路径的各个点之间切换。用 *方向键* 移动选中的点，按 *enter* 在它旁边添加一个点，按 *delete* 删除它。用 *curve* 弯曲通向某个点的那段线，然后移动它的手柄；在手柄上按 *delete* 可以让它变直。完成后按 *escape*。"
                 },
                 "shape": {
                     "shape": "形状",
@@ -8986,11 +8987,11 @@
                     },
                     "horizontal": {
                         "label": "水平翻转",
-                        "tip": "围绕中心水平翻转各个点"
+                        "tip": "$~将选中内容水平翻转"
                     },
                     "vertical": {
                         "label": "垂直翻转",
-                        "tip": "围绕中心垂直翻转各个点"
+                        "tip": "$~将选中内容垂直翻转"
                     },
                     "fit": {
                         "label": "适应画布",
@@ -9011,6 +9012,30 @@
                     "saturationDown": {
                         "label": "饱和度",
                         "tip": "降低饱和度"
+                    },
+                    "editPoints": {
+                        "label": "$~点",
+                        "tip": "$~编辑选中路径的点"
+                    },
+                    "donePoints": {
+                        "label": "$~完成",
+                        "tip": "$~停止编辑点"
+                    },
+                    "addPoint": {
+                        "label": "$~添加点",
+                        "tip": "$~在选中的点旁边添加一个点"
+                    },
+                    "deletePoint": {
+                        "label": "$~删除点",
+                        "tip": "$~删除选中的点"
+                    },
+                    "curve": {
+                        "label": "$~弯曲",
+                        "tip": "$~弯曲通向选中点的那段线"
+                    },
+                    "straighten": {
+                        "label": "$~拉直",
+                        "tip": "$~拉直通向选中点的那段线"
                     }
                 },
                 "feedback": {
@@ -9026,7 +9051,27 @@
                 },
                 "announce": {
                     "position": "位于 $x $y",
-                    "selection": "$shapes[已选择 $shapes|未选择任何内容]"
+                    "selection": "$shapes[已选择 $shapes|未选择任何内容]",
+                    "editing": "$~正在编辑 $#count[$count 个点]",
+                    "editingDone": "$~点编辑完成",
+                    "point": "$~点 $index，位于 $x $y",
+                    "control": "$~曲线 $index，位于 $x $y",
+                    "pointAdded": "$~已添加点 $index，位于 $x $y",
+                    "pointRemoved": "$~已删除点 $index，还剩 $#count[$count 个点]",
+                    "curved": "$~已弯曲线段 $index",
+                    "straightened": "$~已拉直线段 $index",
+                    "moved": "$~移动到 $x $y",
+                    "drew": "$~在 $x $y 处绘制了",
+                    "erased": "$~在 $x $y 处擦除了",
+                    "finished": "$~在 $shape $x 处创建了 $y",
+                    "deleted": "$~已删除，剩下 $#count[$count 个形状]",
+                    "undone": "$~撤销了第 $step 步（共 $total 步）",
+                    "redone": "$~重做了第 $step 步（共 $total 步）",
+                    "copied": "$~复制了 $#count[$count 个形状：$shapes]",
+                    "pasted": "$~粘贴到 $x $y",
+                    "arranged": "$~第 $index 层（共 $total 层）",
+                    "flipped": "$~翻转了，现在位于 $x $y",
+                    "fitted": "$~放大了形状以填满画布"
                 },
                 "share": {
                     "dialog": {

@@ -9135,14 +9135,15 @@
                 "header": "$~Karakter",
                 "instructions": {
                     "empty": "$~Pumili ng drawing mode sa palette para lumikha ng mga hugis.",
-                    "unselected": "$~Pumili ng drawing mode o pumili at mag-edit ng mga hugis.",
-                    "selected": "$~Gamitin ang mga *arrow* key upang ilipat ang mga hugis. Pindutin nang matagal ang *shift* upang magdagdag ng higit pang mga hugis sa isang seleksyon. Gamitin ang *delete* upang alisin ang seleksyon. Gamitin ang mga kontrol sa ibaba upang baguhin ang mga napiling hugis.",
+                    "unselected": "$~Pumili ng paraan ng pagguhit o pumili at baguhin ang mga hugis. Gamitin ang *ctrl/cmd-a* para piliin lahat at *ctrl/cmd-z* para bawiin ang huling ginawa.",
+                    "selected": "$~Gamitin ang mga *arrow* key para ilipat ang mga hugis. Pindutin nang matagal ang *shift* para magdagdag ng ibang mga hugis sa napili. Gamitin ang *delete* para tanggalin ang napili. Gamitin ang *ctrl/cmd-c* at *ctrl/cmd-v* para kopyahin at idikit, at *ctrl/cmd-z* para bawiin ang huling ginawa. Kapag isang landas ang napili, pindutin ang *enter* para baguhin ang mga punto nito. Gamitin ang mga kontrol sa ibaba para baguhin ang mga napiling hugis.",
                     "eraser": "$~Para burahin ang mga hugis, i-click o i-tap ang mga ito. I-drag para burahin ang mga pixel. Gamitin ang mga *arrow* key para igalaw ang pambura at *space* para burahin.",
                     "pixel": "$~Para gumuhit ng mga pixel, pumili ng kulay. Pagkatapos, i-click ang canvas o gamitin ang *mga arrow* para igalaw ang cursor at *space* para lumikha ng pixel. *I-double click* para punan.",
                     "rect": "$~Para gumuhit ng mga parihaba, pumili ng kulay at stroke. Pagkatapos, i-click at i-drag, o gamitin ang *arrows* at *space* key para pumili ng gitna at laki.",
                     "ellipse": "$~Para gumuhit ng mga ellipse at bilog, pumili ng kulay at stroke. Pagkatapos, i-click at i-drag, o gamitin ang *arrows* at *space* key para pumili ng gitna at laki.",
                     "path": "$~Ang mga landas ay maaaring mga segment ng linya, polygon, at kurba. I-click upang simulan ang pagdaragdag ng mga punto, o gamitin ang mga *arrow* key at *space*. Pindutin ang *escape* upang tapusin ang landas. Aalisin ng *delete* ang huling punto.",
-                    "emoji": "$~Pumili ng emoji na i-import bilang mga pixel, pagkatapos ay baguhin ayon sa gusto mo."
+                    "emoji": "$~Pumili ng emoji na i-import bilang mga pixel, pagkatapos ay baguhin ayon sa gusto mo.",
+                    "points": "$~Gamitin ang *Tab* para lumipat sa iba't ibang punto ng landas. Gamitin ang mga *arrow* key para ilipat ang napiling punto, ang *enter* para magdagdag ng punto sa tabi nito, at ang *delete* para tanggalin ito. Gamitin ang *curve* para yumuko ang bahaging papunta sa isang punto, pagkatapos ay ilipat ang hawakan nito; ang *delete* sa isang hawakan ay pinapatuwid itong muli. Pindutin ang *escape* kapag tapos ka na."
                 },
                 "shape": {
                     "shape": "$~hugis",
@@ -9311,11 +9312,11 @@
                     },
                     "horizontal": {
                         "label": "$~i-flip nang pahalang",
-                        "tip": "$~i-flip ang mga punto nang pahalang sa gitna"
+                        "tip": "$~ibaligtad nang pahalang ang napili"
                     },
                     "vertical": {
                         "label": "$~i-flip patayo",
-                        "tip": "$~i-flip ang mga punto nang patayo sa gitna"
+                        "tip": "$~ibaligtad nang patayo ang napili"
                     },
                     "fit": {
                         "label": "$~magkasya",
@@ -9324,6 +9325,30 @@
                     "dismissError": {
                         "label": "$~tanggalin",
                         "tip": "$~balewalain ang mensahe ng error"
+                    },
+                    "editPoints": {
+                        "label": "$~mga punto",
+                        "tip": "$~baguhin ang mga punto ng napiling landas"
+                    },
+                    "donePoints": {
+                        "label": "$~tapos na",
+                        "tip": "$~itigil ang pagbabago ng mga punto"
+                    },
+                    "addPoint": {
+                        "label": "$~magdagdag ng punto",
+                        "tip": "$~magdagdag ng punto sa tabi ng napili"
+                    },
+                    "deletePoint": {
+                        "label": "$~tanggalin ang punto",
+                        "tip": "$~tanggalin ang napiling punto"
+                    },
+                    "curve": {
+                        "label": "$~paikutin (curve)",
+                        "tip": "$~iyuko ang bahaging papunta sa napiling punto"
+                    },
+                    "straighten": {
+                        "label": "$~patuwirin",
+                        "tip": "$~patuwirin ang bahaging papunta sa napiling punto"
                     }
                 },
                 "feedback": {
@@ -9339,7 +9364,27 @@
                 },
                 "announce": {
                     "position": "$~sa halagang $x $y",
-                    "selection": "$~$shapes[napili $shapes|walang napili]"
+                    "selection": "$~$shapes[napili $shapes|walang napili]",
+                    "editing": "$~binabago ang $#count[isang punto|$count na punto]",
+                    "editingDone": "$~tapos na ang pagbabago ng mga punto",
+                    "point": "$~punto $index sa $x $y",
+                    "control": "$~pagyuko $index sa $x $y",
+                    "pointAdded": "$~naidagdag ang punto $index sa $x $y",
+                    "pointRemoved": "$~natanggal ang punto $index, $#count[isang punto na lang ang natitira|$count na punto na lang ang natitira]",
+                    "curved": "$~niyuko ang bahaging $index",
+                    "straightened": "$~pinatuwid ang bahaging $index",
+                    "moved": "$~inilipat sa $x $y",
+                    "drew": "$~iginuhit sa $x $y",
+                    "erased": "$~binura sa $x $y",
+                    "finished": "$~ginawa ang $shape sa $x $y",
+                    "deleted": "$~tinanggal, $#count[isang hugis na natira|$count na hugis na natira]",
+                    "undone": "$~binawi ang hakbang $step ng $total",
+                    "redone": "$~inulit ang hakbang $step ng $total",
+                    "copied": "$~kinopya $#count[ang isang $shapes|$count na hugis: $shapes]",
+                    "pasted": "$~idiniit sa $x $y",
+                    "arranged": "$~nakapatong na $index ng $total",
+                    "flipped": "$~binaligtad, ngayon ay nasa $x $y",
+                    "fitted": "$~pinalaki ang mga hugis para punuin ang canvas"
                 }
             },
             "about": {

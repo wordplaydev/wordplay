@@ -285,8 +285,12 @@
          gaps, with a matching outer border. -->
     <div class="unit" style:--swatch-count={swatchCount}>
         <div class="top">
+            <!-- role="img": the swatch is a picture of the current color, and
+                 aria-label is prohibited on a div with no role, which left it
+                 unnamed for assistive tech. -->
             <div
                 class="preview"
+                role="img"
                 style:background-color={color}
                 aria-label={currentDescription}
             ></div>

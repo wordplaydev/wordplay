@@ -9131,14 +9131,15 @@
                 "header": "Personagem",
                 "instructions": {
                     "empty": "Escolha um modo de desenho na paleta para criar formas.",
-                    "unselected": "Escolha um modo de desenho ou seleccione e edite formas.",
-                    "selected": "Utilize as teclas de *setas* para mover as formas. Mantenha premida a tecla *shift* para adicionar mais formas à seleção. Utilize a tecla *delete* para remover a seleção. Utilize os controlos abaixo para alterar as formas selecionadas.",
+                    "unselected": "$~Escolha um modo de desenho ou selecione e edite formas. Use *ctrl/cmd-a* para selecionar tudo e *ctrl/cmd-z* para desfazer.",
+                    "selected": "$~Use as teclas de *seta* para mover formas. Mantenha *shift* pressionado para adicionar mais formas a uma seleção. Use *delete* para remover a seleção. Use *ctrl/cmd-c* e *ctrl/cmd-v* para copiar e colar, e *ctrl/cmd-z* para desfazer. Com um caminho selecionado, pressione *enter* para editar os seus pontos. Use os controlos abaixo para alterar as formas selecionadas.",
                     "eraser": "Para apagar formas, clique ou toque sobre elas. Arraste para apagar pixéis. Utilize as teclas de *seta* para mover a borracha e a barra de espaço para apagar.",
                     "pixel": "Para desenhar pixéis, escolha uma cor. Em seguida, clique no ecrã ou utilize as *setas* para mover o cursor e a *barra de espaço* para criar um pixel. *Clique duas vezes* para preencher.",
                     "rect": "Para desenhar retângulos, escolha uma cor e um traço. De seguida, clique e arraste ou utilize as teclas de *setas* e *espaço* para escolher um centro e um tamanho.",
                     "ellipse": "Para desenhar elipses e círculos, escolha uma cor e um traço. De seguida, clique e arraste ou utilize as teclas de *setas* e *espaço* para escolher um centro e um tamanho.",
                     "path": "Os percursos podem ser segmentos de reta, polígonos e curvas. Clique para começar a adicionar pontos ou utilize as teclas de *seta* e *espaço*. Prima *escape* para finalizar o caminho. *delete* removerá o último ponto.",
-                    "emoji": "Escolha um emoji para importar como pixéis e, em seguida, modifique-o como desejar."
+                    "emoji": "Escolha um emoji para importar como pixéis e, em seguida, modifique-o como desejar.",
+                    "points": "$~Use *Tab* para alternar entre os pontos do caminho. Use as teclas de *seta* para mover o ponto selecionado, *enter* para adicionar um ponto ao lado dele, e *delete* para o remover. Use *curva* para dobrar o segmento que chega a um ponto e depois mova a sua alça; *delete* numa alça endireita-a novamente. Pressione *escape* quando terminar."
                 },
                 "shape": {
                     "shape": "forma",
@@ -9307,11 +9308,11 @@
                     },
                     "horizontal": {
                         "label": "virar horizontalmente",
-                        "tip": "inverta os pontos horizontalmente em torno do centro."
+                        "tip": "$~inverter a seleção na horizontal"
                     },
                     "vertical": {
                         "label": "virar verticalmente",
-                        "tip": "inverta os pontos verticalmente em torno do centro."
+                        "tip": "$~inverter a seleção na vertical"
                     },
                     "fit": {
                         "label": "ajustado",
@@ -9320,6 +9321,30 @@
                     "dismissError": {
                         "label": "dispensar",
                         "tip": "Ignorar mensagem de erro"
+                    },
+                    "editPoints": {
+                        "label": "$~pontos",
+                        "tip": "$~editar os pontos do caminho selecionado"
+                    },
+                    "donePoints": {
+                        "label": "$~concluído",
+                        "tip": "$~parar de editar pontos"
+                    },
+                    "addPoint": {
+                        "label": "$~adicionar ponto",
+                        "tip": "$~adicionar um ponto ao lado do selecionado"
+                    },
+                    "deletePoint": {
+                        "label": "$~remover ponto",
+                        "tip": "$~remover o ponto selecionado"
+                    },
+                    "curve": {
+                        "label": "$~curva",
+                        "tip": "$~dobrar o segmento que chega ao ponto selecionado"
+                    },
+                    "straighten": {
+                        "label": "$~endireitar",
+                        "tip": "$~endireitar o segmento que chega ao ponto selecionado"
                     }
                 },
                 "feedback": {
@@ -9335,7 +9360,27 @@
                 },
                 "announce": {
                     "position": "a $x $y",
-                    "selection": "$shapes[selecionado $shapes|nada selecionado]"
+                    "selection": "$shapes[selecionado $shapes|nada selecionado]",
+                    "editing": "$~a editar $#count[um ponto|$#count pontos|$count pontos]",
+                    "editingDone": "$~edição de pontos concluída",
+                    "point": "$~ponto $index em $x $y",
+                    "control": "$~curva $index em $x $y",
+                    "pointAdded": "$~ponto $index adicionado em $x $y",
+                    "pointRemoved": "$~ponto $index removido, resta(m) $#count[um ponto|$#count pontos|$count pontos]",
+                    "curved": "$~segmento $index curvado",
+                    "straightened": "$~segmento $index endireitado",
+                    "moved": "$~movido para $x $y",
+                    "drew": "$~desenhado em $x $y",
+                    "erased": "$~apagado em $x $y",
+                    "finished": "$~criado $shape em $x $y",
+                    "deleted": "$~eliminado, resta $#count[uma forma|$#count formas|$count formas]",
+                    "undone": "$~desfeito o passo $step de $total",
+                    "redone": "$~refeito o passo $step de $total",
+                    "copied": "$~copiado $#count[uma forma: $shapes|$count formas: $shapes|$count formas: $shapes]",
+                    "pasted": "$~colado em $x $y",
+                    "arranged": "$~camada $index de $total",
+                    "flipped": "$~invertido, agora em $x $y",
+                    "fitted": "$~as formas cresceram para preencher a tela"
                 }
             },
             "about": {

@@ -8852,14 +8852,15 @@
                 "header": "$~角色",
                 "instructions": {
                     "empty": "$~在調色盤裡選擇一個繪圖模式來創作形狀。",
-                    "unselected": "$~選擇一個繪圖模式，或選取並編輯形狀。",
-                    "selected": "$~用*方向*鍵來移動形狀。按住 *shift* 可以把更多形狀加到選取裡。用 *delete* 來移除選取。用下方的控制項來更改選取的形狀。",
+                    "unselected": "$~選擇一種繪圖模式，或選取並編輯形狀。使用 *ctrl/cmd-a* 選取所有東西，*ctrl/cmd-z* 復原上一步。",
+                    "selected": "$~使用 *方向鍵* 移動形狀。按住 *shift* 可以把更多形狀加入選取範圍。使用 *delete* 移除選取的形狀。使用 *ctrl/cmd-c* 和 *ctrl/cmd-v* 複製貼上，*ctrl/cmd-z* 復原上一步。選取一條路徑後，按 *enter* 編輯它的點。用下面的控制項可以改變選取的形狀。",
                     "pixel": "$~要畫像素，先選一個顏色。然後點擊畫布，或用*方向*鍵移動游標、用*空白*鍵來創作一個像素。*雙擊*可以填滿。",
                     "rect": "$~要畫矩形，先選一個顏色和線條。然後點擊並拖曳，或用*方向*鍵和*空白*鍵來選擇中心和大小。",
                     "ellipse": "$~要畫橢圓和圓形，先選一個顏色和線條。然後點擊並拖曳，或用*方向*鍵和*空白*鍵來選擇中心和大小。",
                     "path": "$~路徑可以是線段、多邊形和曲線。點擊來開始加點，或用*方向*鍵和*空白*鍵。按 *escape* 來完成路徑。*delete* 會移除最後一個點。",
                     "eraser": "$~要擦除形狀，點擊或輕觸它們。拖曳來擦除像素。用*方向*鍵來移動橡皮擦、用*空白*鍵來刪除。",
-                    "emoji": "$~選一個表情符號當作像素匯入，然後隨你喜歡修改。"
+                    "emoji": "$~選一個表情符號當作像素匯入，然後隨你喜歡修改。",
+                    "points": "$~用 *Tab* 在路徑的各點之間切換。使用 *方向鍵* 移動選取的點，*enter* 在旁邊新增一個點，*delete* 移除它。使用 *curve* 讓連到某個點的線段彎曲，然後移動它的控制把手；在把手上按 *delete* 可以再把它拉直。編輯完成後按 *escape*。"
                 },
                 "shape": {
                     "shape": "$~形狀",
@@ -8993,11 +8994,11 @@
                     },
                     "horizontal": {
                         "label": "$~水平翻轉",
-                        "tip": "$~讓各點繞著中心水平翻轉"
+                        "tip": "$~將選取範圍水平翻轉"
                     },
                     "vertical": {
                         "label": "$~垂直翻轉",
-                        "tip": "$~讓各點繞著中心垂直翻轉"
+                        "tip": "$~將選取範圍垂直翻轉"
                     },
                     "fit": {
                         "label": "$~符合",
@@ -9018,6 +9019,30 @@
                     "saturationDown": {
                         "label": "$~飽和度",
                         "tip": "$~降低飽和度"
+                    },
+                    "editPoints": {
+                        "label": "$~點",
+                        "tip": "$~編輯選取路徑的點"
+                    },
+                    "donePoints": {
+                        "label": "$~完成",
+                        "tip": "$~停止編輯點"
+                    },
+                    "addPoint": {
+                        "label": "$~新增點",
+                        "tip": "$~在選取的點旁邊新增一個點"
+                    },
+                    "deletePoint": {
+                        "label": "$~移除點",
+                        "tip": "$~移除選取的點"
+                    },
+                    "curve": {
+                        "label": "$~曲線",
+                        "tip": "$~讓連到選取點的線段彎曲"
+                    },
+                    "straighten": {
+                        "label": "$~拉直",
+                        "tip": "$~拉直連到選取點的線段"
                     }
                 },
                 "feedback": {
@@ -9033,7 +9058,27 @@
                 },
                 "announce": {
                     "position": "$~在 $x $y",
-                    "selection": "$~$shapes[已選取 $shapes|未選取任何項目]"
+                    "selection": "$~$shapes[已選取 $shapes|未選取任何項目]",
+                    "editing": "$~正在編輯 $#count[$count 個點]",
+                    "editingDone": "$~完成編輯點",
+                    "point": "$~點 $index 位於 $x $y",
+                    "control": "$~曲線 $index 位於 $x $y",
+                    "pointAdded": "$~新增了點 $index，位於 $x $y",
+                    "pointRemoved": "$~移除了點 $index，剩下 $#count[$count 個點]",
+                    "curved": "$~彎曲了線段 $index",
+                    "straightened": "$~拉直了線段 $index",
+                    "moved": "$~移動到 $x $y",
+                    "drew": "$~畫在 $x $y",
+                    "erased": "$~擦除於 $x $y",
+                    "finished": "$~在 $shape $x 建立了 $y",
+                    "deleted": "$~已刪除，剩下 $#count[$count 個形狀]",
+                    "undone": "$~復原了第 $step 步，共 $total 步",
+                    "redone": "$~重做了第 $step 步，共 $total 步",
+                    "copied": "$~複製了 $#count[$count 個形狀：$shapes]",
+                    "pasted": "$~貼上於 $x $y",
+                    "arranged": "$~第 $index 層，共 $total 層",
+                    "flipped": "$~翻轉了，現在位於 $x $y",
+                    "fitted": "$~放大形狀以填滿畫布"
                 },
                 "share": {
                     "dialog": {

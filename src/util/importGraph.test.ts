@@ -71,9 +71,11 @@ test('resolving a color needs no basis', () => {
  * every page carries, the footer nav tabs (#836) added a few KB of CSS to
  * Link and Toggle, which every page renders, and the text case functions
  * (#1301) and the text slicing/searching functions added their documentation to
- * en-US.json, and the richer landing page (#921) added its tour examples and
- * feature list there, which is why all five budgets moved by about 10KB at once.
- * Raise a budget only for that, never to accommodate the
+ * en-US.json, the richer landing page (#921) added its tour examples and
+ * feature list there, which is why all five budgets moved by about 10KB at once,
+ * and character path curves (#774) added their schema and rendering to
+ * Character.ts, which the database reaches, plus the point editor's strings to
+ * en-US.json. Raise a budget only for that, never to accommodate the
  * language runtime leaking back in — the runtime-reachability test below is what
  * guards the 2MB this file exists for, and it must stay green whatever these
  * numbers say.

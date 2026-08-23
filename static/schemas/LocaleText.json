@@ -19443,25 +19443,130 @@
                                     "properties": {
                                         "announce": {
                                             "additionalProperties": false,
+                                            "description": "A live region only speaks when its text changes, so each of these has to say something different every time it fires or it is heard once and then sounds broken. That is why they carry positions, counts, and history steps rather than reading like tidy summaries: those are the parts that vary.",
                                             "properties": {
+                                                "arranged": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22total%22%5D%3E",
+                                                    "description": "[formatted] When a shape changes layer."
+                                                },
+                                                "control": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a curve's control point is selected or moved."
+                                                },
+                                                "copied": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22shapes%22%2C%22%23count%22%5D%3E",
+                                                    "description": "[formatted] When shapes are copied. $shapes is their kinds."
+                                                },
+                                                "curved": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%5D%3E",
+                                                    "description": "[formatted] When a segment is bent into a curve."
+                                                },
+                                                "deleted": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                                    "description": "[formatted] When shapes are deleted, with how many are left."
+                                                },
+                                                "drew": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a pixel is drawn."
+                                                },
+                                                "editing": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                                    "description": "[formatted] When point editing begins, with how many points the path has."
+                                                },
+                                                "editingDone": {
+                                                    "description": "[plain] When point editing ends.",
+                                                    "type": "string"
+                                                },
+                                                "erased": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a pixel is erased."
+                                                },
+                                                "finished": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22shape%22%2C%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a shape is finished. $shape is its kind."
+                                                },
+                                                "fitted": {
+                                                    "description": "[plain] When shapes are grown to fill the canvas. Repeating it does nothing, so it needs nothing that varies.",
+                                                    "type": "string"
+                                                },
+                                                "flipped": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When the selection is flipped, naming its new top left corner."
+                                                },
+                                                "moved": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When the selection is moved, naming where it landed."
+                                                },
+                                                "pasted": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When shapes are pasted, naming where they landed."
+                                                },
+                                                "point": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a path point is selected or moved. $index is 1-based."
+                                                },
+                                                "pointAdded": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22x%22%2C%22y%22%5D%3E",
+                                                    "description": "[formatted] When a point is added to a path."
+                                                },
+                                                "pointRemoved": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22%23count%22%5D%3E",
+                                                    "description": "[formatted] When a point is removed, with how many are left."
+                                                },
                                                 "position": {
                                                     "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
                                                     "description": "[formatted] When cursor position changes $1 x, $2: y."
                                                 },
+                                                "redone": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22step%22%2C%22total%22%5D%3E",
+                                                    "description": "[formatted] When an edit is redone."
+                                                },
                                                 "selection": {
                                                     "$ref": "#/definitions/Template%3C%5B%22shapes%22%5D%3E",
                                                     "description": "[formatted] When selection changes. $1 is list of shape types."
+                                                },
+                                                "straightened": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22index%22%5D%3E",
+                                                    "description": "[formatted] When a curved segment is straightened."
+                                                },
+                                                "undone": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22step%22%2C%22total%22%5D%3E",
+                                                    "description": "[formatted] When an edit is undone. The step is what varies as undo repeats."
                                                 }
                                             },
                                             "required": [
                                                 "position",
-                                                "selection"
+                                                "selection",
+                                                "editing",
+                                                "editingDone",
+                                                "point",
+                                                "control",
+                                                "pointAdded",
+                                                "pointRemoved",
+                                                "curved",
+                                                "straightened",
+                                                "moved",
+                                                "drew",
+                                                "erased",
+                                                "finished",
+                                                "deleted",
+                                                "undone",
+                                                "redone",
+                                                "copied",
+                                                "pasted",
+                                                "arranged",
+                                                "flipped",
+                                                "fitted"
                                             ],
                                             "type": "object"
                                         },
                                         "button": {
                                             "additionalProperties": false,
                                             "properties": {
+                                                "addPoint": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Add a point to the selected path"
+                                                },
                                                 "all": {
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "The select all button"
@@ -19486,9 +19591,25 @@
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "Copy button text"
                                                 },
+                                                "curve": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Bend the segment arriving at the selected point"
+                                                },
+                                                "deletePoint": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Remove the selected point"
+                                                },
                                                 "dismissError": {
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "Dismiss the error message"
+                                                },
+                                                "donePoints": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Stop editing points"
+                                                },
+                                                "editPoints": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Start editing the selected path's points"
                                                 },
                                                 "end": {
                                                     "$ref": "#/definitions/ButtonText",
@@ -19521,6 +19642,10 @@
                                                 "saturationUp": {
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "The saturation up button"
+                                                },
+                                                "straighten": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Straighten the segment arriving at the selected point"
                                                 },
                                                 "toBack": {
                                                     "$ref": "#/definitions/ButtonText",
@@ -19558,7 +19683,13 @@
                                                 "horizontal",
                                                 "vertical",
                                                 "fit",
-                                                "dismissError"
+                                                "dismissError",
+                                                "editPoints",
+                                                "donePoints",
+                                                "addPoint",
+                                                "deletePoint",
+                                                "curve",
+                                                "straighten"
                                             ],
                                             "type": "object"
                                         },
@@ -19774,6 +19905,9 @@
                                                 "pixel": {
                                                     "type": "string"
                                                 },
+                                                "points": {
+                                                    "type": "string"
+                                                },
                                                 "rect": {
                                                     "type": "string"
                                                 },
@@ -19793,7 +19927,8 @@
                                                 "rect",
                                                 "ellipse",
                                                 "path",
-                                                "emoji"
+                                                "emoji",
+                                                "points"
                                             ],
                                             "type": "object"
                                         },
@@ -25855,7 +25990,19 @@
         "Template<[\"higher\",\"lower\"]>": {
             "type": "string"
         },
+        "Template<[\"index\",\"#count\"]>": {
+            "type": "string"
+        },
         "Template<[\"index\",\"count\"]>": {
+            "type": "string"
+        },
+        "Template<[\"index\",\"total\"]>": {
+            "type": "string"
+        },
+        "Template<[\"index\",\"x\",\"y\"]>": {
+            "type": "string"
+        },
+        "Template<[\"index\"]>": {
             "type": "string"
         },
         "Template<[\"input\",\"output\"]>": {
@@ -26044,6 +26191,12 @@
         "Template<[\"shadowed\"]>": {
             "type": "string"
         },
+        "Template<[\"shape\",\"x\",\"y\"]>": {
+            "type": "string"
+        },
+        "Template<[\"shapes\",\"#count\"]>": {
+            "type": "string"
+        },
         "Template<[\"shapes\"]>": {
             "type": "string"
         },
@@ -26057,6 +26210,9 @@
             "type": "string"
         },
         "Template<[\"step\",\"node\"]>": {
+            "type": "string"
+        },
+        "Template<[\"step\",\"total\"]>": {
             "type": "string"
         },
         "Template<[\"stream\",\"number\",\"range\"]>": {
