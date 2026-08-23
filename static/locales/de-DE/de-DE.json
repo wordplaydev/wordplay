@@ -9035,11 +9035,11 @@
                     },
                     "horizontal": {
                         "label": "$~horizontal spiegeln",
-                        "tip": "$~die Punkte waagerecht um die Mitte spiegeln"
+                        "tip": "$!die Punkte waagerecht um die Mitte spiegeln"
                     },
                     "vertical": {
                         "label": "$~vertikal spiegeln",
-                        "tip": "$~die Punkte senkrecht um die Mitte spiegeln"
+                        "tip": "$!die Punkte senkrecht um die Mitte spiegeln"
                     },
                     "fit": {
                         "label": "$~fit",

@@ -9225,11 +9225,11 @@
                     },
                     "horizontal": {
                         "label": "$~lật ngang",
-                        "tip": "$~Lật các điểm theo chiều ngang xung quanh tâm."
+                        "tip": "$!Lật các điểm theo chiều ngang xung quanh tâm."
                     },
                     "vertical": {
                         "label": "$~lật dọc",
-                        "tip": "$~lật các điểm theo chiều dọc xung quanh tâm."
+                        "tip": "$!lật các điểm theo chiều dọc xung quanh tâm."
                     },
                     "fit": {
                         "label": "$~phù hợp",

@@ -9118,11 +9118,11 @@
                     },
                     "horizontal": {
                         "label": "$~yatay çevir",
-                        "tip": "$~noktaları merkez etrafında yatay olarak çevir"
+                        "tip": "$!noktaları merkez etrafında yatay olarak çevir"
                     },
                     "vertical": {
                         "label": "$~dikey çevir",
-                        "tip": "$~noktaları merkez etrafında dikey olarak çevir"
+                        "tip": "$!noktaları merkez etrafında dikey olarak çevir"
                     },
                     "fit": {
                         "label": "$~yerleştirmek",

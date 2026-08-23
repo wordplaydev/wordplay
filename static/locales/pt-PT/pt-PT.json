@@ -9308,11 +9308,11 @@
                     },
                     "horizontal": {
                         "label": "virar horizontalmente",
-                        "tip": "inverta os pontos horizontalmente em torno do centro."
+                        "tip": "$!inverta os pontos horizontalmente em torno do centro."
                     },
                     "vertical": {
                         "label": "virar verticalmente",
-                        "tip": "inverta os pontos verticalmente em torno do centro."
+                        "tip": "$!inverta os pontos verticalmente em torno do centro."
                     },
                     "fit": {
                         "label": "ajustado",

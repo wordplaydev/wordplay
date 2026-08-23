@@ -9136,11 +9136,11 @@
                     },
                     "horizontal": {
                         "label": "$~odwróć poziomo",
-                        "tip": "$~odbij punkty w poziomie wokół środka"
+                        "tip": "$!odbij punkty w poziomie wokół środka"
                     },
                     "vertical": {
                         "label": "$~odwróć w pionie",
-                        "tip": "$~odbij punkty w pionie wokół środka"
+                        "tip": "$!odbij punkty w pionie wokół środka"
                     },
                     "fit": {
                         "label": "$~pasować",

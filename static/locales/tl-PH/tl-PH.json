@@ -9312,11 +9312,11 @@
                     },
                     "horizontal": {
                         "label": "$~i-flip nang pahalang",
-                        "tip": "$~i-flip ang mga punto nang pahalang sa gitna"
+                        "tip": "$!i-flip ang mga punto nang pahalang sa gitna"
                     },
                     "vertical": {
                         "label": "$~i-flip patayo",
-                        "tip": "$~i-flip ang mga punto nang patayo sa gitna"
+                        "tip": "$!i-flip ang mga punto nang patayo sa gitna"
                     },
                     "fit": {
                         "label": "$~magkasya",

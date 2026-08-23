@@ -9032,11 +9032,11 @@
                     },
                     "horizontal": {
                         "label": "$~voltear horizontal",
-                        "tip": "$~voltear los puntos de forma horizontal alrededor del centro"
+                        "tip": "$!voltear los puntos de forma horizontal alrededor del centro"
                     },
                     "vertical": {
                         "label": "$~voltear vertical",
-                        "tip": "$~voltear los puntos de forma vertical alrededor del centro"
+                        "tip": "$!voltear los puntos de forma vertical alrededor del centro"
                     },
                     "fit": {
                         "label": "$~ajustar",

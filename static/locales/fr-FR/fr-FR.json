@@ -9039,11 +9039,11 @@
                     },
                     "horizontal": {
                         "label": "$~retourner horizontalement",
-                        "tip": "$~retourner les points à l'horizontale autour du centre"
+                        "tip": "$!retourner les points à l'horizontale autour du centre"
                     },
                     "vertical": {
                         "label": "$~retourner verticalement",
-                        "tip": "$~retourner les points à la verticale autour du centre"
+                        "tip": "$!retourner les points à la verticale autour du centre"
                     },
                     "fit": {
                         "label": "$~ajuster",

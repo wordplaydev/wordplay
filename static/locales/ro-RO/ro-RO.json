@@ -9427,11 +9427,11 @@
                     },
                     "horizontal": {
                         "label": "$~răsturnare pe orizontală",
-                        "tip": "$~rotiți punctele pe orizontală în jurul centrului"
+                        "tip": "$!rotiți punctele pe orizontală în jurul centrului"
                     },
                     "vertical": {
                         "label": "$~răsturnare verticală",
-                        "tip": "$~inversează punctele pe verticală în jurul centrului"
+                        "tip": "$!inversează punctele pe verticală în jurul centrului"
                     },
                     "fit": {
                         "label": "$~potrivire",

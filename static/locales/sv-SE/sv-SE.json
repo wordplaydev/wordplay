@@ -9111,11 +9111,11 @@
                     },
                     "horizontal": {
                         "label": "$~vänd horisontellt",
-                        "tip": "$~vänd punkterna vågrätt runt mitten"
+                        "tip": "$!vänd punkterna vågrätt runt mitten"
                     },
                     "vertical": {
                         "label": "$~vänd vertikalt",
-                        "tip": "$~vänd punkterna lodrätt runt mitten"
+                        "tip": "$!vänd punkterna lodrätt runt mitten"
                     },
                     "fit": {
                         "label": "$~färdig",

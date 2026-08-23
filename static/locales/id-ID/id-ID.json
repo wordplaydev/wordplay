@@ -9433,11 +9433,11 @@
                     },
                     "horizontal": {
                         "label": "$~balik horizontal",
-                        "tip": "$~putar titik-titik tersebut secara horizontal di sekitar pusat."
+                        "tip": "$!putar titik-titik tersebut secara horizontal di sekitar pusat."
                     },
                     "vertical": {
                         "label": "$~balik vertikal",
-                        "tip": "$~putar titik-titik tersebut secara vertikal di sekitar pusat."
+                        "tip": "$!putar titik-titik tersebut secara vertikal di sekitar pusat."
                     },
                     "fit": {
                         "label": "$~bugar",
