@@ -17,6 +17,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ You can now fix a path after you draw it. Pick one in the [character](https://wordplay.dev/characters) editor and press enter, and each point becomes a handle you can tab to, move with the arrow keys, add to with enter, and take away with delete. (#667)
 - 📐 A path's straight lines can now bend. Choose a point, press curve, and a handle appears that bends the line coming into it; press delete on that handle to make it straight again. (#774)
 - 🗣️ The character editor was nearly silent to a screen reader. It now says what happened when you move a shape, draw or erase a pixel, finish a shape, delete, undo, copy, paste, reorder, flip, or change a point. (#666)
+- 📏 Numbers can now change between more than 200 units with `→`. Temperature, volume, angles, area, speed, pressure, energy, power, electricity, how often something repeats, brightness, and computer storage all work now, on top of the time, length, and weight units we already had. (#363)
+- 📐 An angle can now become radians, like `45° → #rad`. `sin`, `cos`, and `tan` all count in radians, so this is how you take the sine of a turn or of a color's hue. (#363)
+- 🥤 Cooking and liquid measures work too, but you have to say whose: a US gallon and a British one are different sizes, so it's `usgal` or `ukgal`, never a plain `gal`. `tsp`, `tbsp`, and `cup` also work. (#363)
+- 🔢 `⊤` and `⊥` can now become numbers with `→ #`, giving 1 and 0. That makes counting how many things are true much easier. (#363)
 
 ### Changed
 
@@ -41,6 +45,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📖 A link to another part of the language, like `@Time`, showed up as plain text when it appeared in a program's documentation. It's a link now, the same as it is in a help page. (#1314)
 - 🐛 Undo in the character editor went back two changes at a time, and the newest thing you made could never be brought back. One undo now takes back exactly one change, and a rectangle you finish with the space bar is remembered too. (#1306)
 - 🔄 Flipping only ever moved paths, and no flip could be undone. It now mirrors everything you've picked — rectangles, ellipses, and pixels too — and undo takes it back. (#1306)
+- 🐛 A year was 364 days. `1yr → #day` now gives 365.25 days, the way a year actually works. (#363)
+- 🐛 Changing grams into ounces or pounds was a little bit off, because the number we multiplied by had been rounded. `1kg → #oz` said 35.274 ounces; it now gives the exact answer. (#363)
+- 📐 `sin`, `cos`, and `tan` kept the unit of the number you gave them, so the sine of `45m` came back in meters. They give a plain number now, because a sine compares two lengths and so has no unit of its own. (#363)
 
 ## 0.29.3 - 2026-08-19
 
