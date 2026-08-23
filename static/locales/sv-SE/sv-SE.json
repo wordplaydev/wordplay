@@ -6004,8 +6004,8 @@
                 "names": "$~jord"
             },
             "pull": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Hur starkt jag drar annan utdata mot mig. 0 betyder ingen dragning alls, vilket är vanligt. Större tal drar hårdare, och ett negativt tal knuffar bort istället. Bara utdata som placerats av en @Motion kan dras.",
+                "names": "$~dra"
             }
         },
         "Aura": {
@@ -6141,8 +6141,8 @@
                 "names": "$~överlagring"
             },
             "air": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Hur mycket luften bromsar utdata som rör sig. 1 är vanlig luft, 0 är yttre rymden, där saker fortsätter för evigt, och större tal är tjockare än luft.",
+                "names": "$~luft"
             }
         },
         "Easing": {

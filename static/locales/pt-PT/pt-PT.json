@@ -6029,8 +6029,8 @@
                 "names": "solo"
             },
             "pull": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Com que força atraio outro resultado para mim. 0 significa nenhuma força, o que é normal. Números maiores atraem com mais força, e um número negativo afasta em vez de atrair. Só o resultado colocado por um @Motion pode ser atraído.",
+                "names": "$~puxar"
             }
         },
         "Aura": {
@@ -6166,8 +6166,8 @@
                 "names": "$~sobreposição"
             },
             "air": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Quanto o ar abranda o movimento do resultado. 1 é o ar normal, 0 é o espaço, onde as coisas se movem para sempre, e números maiores são mais densos do que o ar.",
+                "names": "$~ar"
             }
         },
         "Easing": {

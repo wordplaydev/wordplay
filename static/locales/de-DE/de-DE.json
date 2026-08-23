@@ -5056,8 +5056,8 @@
                 "names": "$~überlagern"
             },
             "air": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Wie stark die Luft sich bewegendes Output bremst. 1 ist normale Luft, 0 ist der Weltraum, wo Dinge sich ewig weiterbewegen, und größere Zahlen sind dicker als Luft.",
+                "names": "$~Luft"
             }
         },
         "Group": {
@@ -6127,8 +6127,8 @@
                 "names": "$~Boden"
             },
             "pull": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Wie stark ich anderes Output zu mir hinziehe. 0 bedeutet gar nicht, das ist normal. Größere Zahlen ziehen stärker, und eine negative Zahl stößt stattdessen ab. Nur Output, das von einem @Motion platziert wurde, kann gezogen werden.",
+                "names": "$~ziehen"
             }
         },
         "Aura": {

@@ -66,3 +66,17 @@ test('an attractor that does not pull produces nothing', () => {
     // Matter.pull defaults to 0, which is every project that never asks.
     expect(pullAcceleration(metersX(2), 0, 0)).toEqual({ x: 0, y: 0 });
 });
+
+test('a non-finite strength produces no pull, rather than a NaN impulse', () => {
+    // Matter(pull: !#) keeps the NaN — it is only data there — so this is the
+    // funnel that has to refuse it. `matter.pull !== 0` is true for NaN, so an
+    // unguarded NaN would be collected as an attractor and handed to every
+    // dynamic body at that depth.
+    expect(pullAcceleration(metersX(2), 0, NaN)).toEqual({ x: 0, y: 0 });
+    expect(pullAcceleration(metersX(2), 0, Infinity)).toEqual({ x: 0, y: 0 });
+});
+
+test('a non-finite offset produces no pull either', () => {
+    expect(pullAcceleration(NaN, 0, 1)).toEqual({ x: 0, y: 0 });
+    expect(pullAcceleration(Infinity, 0, 1)).toEqual({ x: 0, y: 0 });
+});

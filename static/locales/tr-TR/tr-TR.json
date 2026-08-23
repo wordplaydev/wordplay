@@ -6011,8 +6011,8 @@
                 "names": "$~zemin"
             },
             "pull": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Diğer çıktıları bana doğru ne kadar güçlü çektiğim. 0, hiç çekmediğim anlamına gelir ve normal olan budur. Büyük sayılar daha güçlü çeker, negatif bir sayı ise çekmek yerine iter. Sadece bir @Motion tarafından yerleştirilmiş çıktı çekilebilir.",
+                "names": "$~çek"
             }
         },
         "Aura": {
@@ -6148,8 +6148,8 @@
                 "names": "$~kaplama"
             },
             "air": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Havanın hareket eden çıktıyı ne kadar yavaşlattığı. 1, normal havadır. 0 ise uzay boşluğudur, orada her şey sonsuza kadar hareket etmeye devam eder. Daha büyük sayılar havadan daha yoğun demektir.",
+                "names": "$~hava"
             }
         },
         "Easing": {

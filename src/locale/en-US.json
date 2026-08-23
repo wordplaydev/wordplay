@@ -286,7 +286,6 @@
         "Code": "code",
         "ExternalExample": "other-language example",
         "Number": "number",
-        "NotANumber": "not a number",
         "Decimal": "decimal numeral",
         "Base": "base numeral",
         "Boolean": "boolean",

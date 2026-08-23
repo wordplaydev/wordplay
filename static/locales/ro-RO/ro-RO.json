@@ -6074,8 +6074,8 @@
                 "names": "$~sol"
             },
             "pull": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Cât de puternic atrag alte ieșiri către mine. 0 înseamnă deloc, ceea ce e normal. Numere mai mari atrag mai puternic, iar un număr negativ împinge în loc să atragă. Doar ieșirile plasate de un @Motion pot fi atrase.",
+                "names": "$~trage"
             }
         },
         "Aura": {
@@ -6211,8 +6211,8 @@
                 "names": "$~suprapunere"
             },
             "air": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Cât de mult încetinește aerul mișcarea unei ieșiri. 1 este aerul normal, 0 este spațiul cosmic, unde lucrurile continuă să se miște la nesfârșit, iar numerele mai mari sunt mai dense decât aerul.",
+                "names": "$~aer"
             }
         },
         "Easing": {

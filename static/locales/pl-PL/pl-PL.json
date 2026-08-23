@@ -6025,8 +6025,8 @@
                 "names": "$~grunt"
             },
             "pull": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~To, jak mocno przyciągam inne wyjście do siebie. 0 oznacza brak przyciągania, co jest normalne. Większe liczby przyciągają mocniej, a liczba ujemna zamiast przyciągać, odpycha. Można przyciągnąć tylko wyjście umieszczone przez @Motion.",
+                "names": "$~ciągnij"
             }
         },
         "Aura": {
@@ -6162,8 +6162,8 @@
                 "names": "$~nakładka"
             },
             "air": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~To, jak bardzo powietrze spowalnia poruszające się wyjście. 1 to zwykłe powietrze, 0 to przestrzeń kosmiczna, gdzie rzeczy poruszają się bez końca, a większe liczby oznaczają ośrodek gęstszy niż powietrze.",
+                "names": "$~powietrze"
             }
         },
         "Easing": {

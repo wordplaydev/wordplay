@@ -6031,8 +6031,8 @@
                 "names": "$~lupa"
             },
             "pull": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Kung gaano kalakas kong hilahin ang ibang output palapit sa akin. Ang 0 ay walang hila, at ito ang normal. Mas malalaking numero ay mas malakas humila, at ang negatibong numero naman ay itinutulak palayo sa halip. Ang output na inilagay lang ng @Motion ang maaaring mahila.",
+                "names": "$~hilahin"
             }
         },
         "Aura": {
@@ -6168,8 +6168,8 @@
                 "names": "$~pangIbabaw"
             },
             "air": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Kung gaano kabagal ang hangin sa gumagalaw na output. Ang 1 ay normal na hangin, ang 0 ay kalawakan, kung saan patuloy na gumagalaw ang mga bagay magpakailanman, at ang mas malalaking numero ay mas makapal kaysa hangin.",
+                "names": "$~hangin"
             }
         },
         "Easing": {

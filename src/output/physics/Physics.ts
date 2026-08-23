@@ -23,7 +23,7 @@ import type Matter from '@output/physics/Matter';
 import { PX_PER_METER } from '@output/Output/outputToCSS';
 import Phrase from '@output/Output/Phrase';
 import Shape from '@output/Output/Shape/Shape';
-import Stage, { DefaultAir, DefaultGravity } from '@output/Output/Stage';
+import Stage from '@output/Output/Stage';
 
 /** Interaction-group membership bits (Rapier packs membership in the high 16
  *  bits and the filter mask in the low 16 bits of a single u32). */
@@ -128,12 +128,13 @@ export default class Physics {
     /** The bodies that pull on others, with their strength (mass × pull, kg),
      *  rebuilt each sync because both come from a Matter that is re-read every
      *  frame. Empty for every project that never writes pull, which is what
-     *  keeps attraction free for everyone else. */
-    private attractors: {
-        world: RAPIER.World;
-        rigidBody: RAPIER.RigidBody;
-        strength: number;
-    }[] = [];
+     *  keeps attraction free for everyone else. Keyed by world because
+     *  applyAttraction runs once per world per sub-step, and grouping here
+     *  keeps it from filtering a flat list that many times a frame. */
+    private attractors = new Map<
+        RAPIER.World,
+        { rigidBody: RAPIER.RigidBody; strength: number }[]
+    >();
 
     constructor(evaluator: Evaluator) {
         this.evaluator = evaluator;
@@ -295,7 +296,7 @@ export default class Physics {
         );
 
         // Rebuilt below from whatever currently has a non-zero Matter.pull.
-        this.attractors = [];
+        this.attractors.clear();
 
         // CREATE and UPDATE bodies for all outputs currently in the scene.
 
@@ -315,8 +316,7 @@ export default class Physics {
                 for (const world of this.worldsByZ.values()) {
                     world.gravity.x = 0;
                     world.gravity.y =
-                        (info.output.gravity ?? DefaultGravity) *
-                        GravityPxPerS2PerUnit;
+                        info.output.gravity * GravityPxPerS2PerUnit;
                 }
             }
             // Other kind of output? Sync it.
@@ -460,19 +460,22 @@ export default class Physics {
                     // so it is re-applied per frame like the matter properties
                     // below: a program can put its output in space and take it
                     // out again. AirDamping is the multiplier's 1.
-                    const drag = AirDamping * (stage.air ?? DefaultAir);
+                    const drag = AirDamping * stage.air;
                     shape.rigidBody.setLinearDamping(drag);
                     shape.rigidBody.setAngularDamping(drag);
 
                     // Does this output pull on others? Remember it for tick().
                     // A kinematic body attracts perfectly well without being
                     // attracted itself, which is what makes a fixed sun work.
-                    if (matter && matter.pull !== 0)
-                        this.attractors.push({
-                            world: shape.world,
+                    if (matter && matter.pull !== 0) {
+                        const pulling = this.attractors.get(shape.world);
+                        const attractor = {
                             rigidBody: shape.rigidBody,
                             strength: matter.mass * matter.pull,
-                        });
+                        };
+                        if (pulling) pulling.push(attractor);
+                        else this.attractors.set(shape.world, [attractor]);
+                    }
 
                     // Set matter properties if available.
                     if (matter) {
@@ -668,10 +671,10 @@ export default class Physics {
      *  Attraction only reaches within one world, so output at different depths
      *  never pulls on each other; each z has a world of its own. */
     private applyAttraction(world: RAPIER.World, rapier: typeof RAPIER) {
-        // Nothing pulls: the case every project that never writes pull takes.
-        if (this.attractors.length === 0) return;
-        const attractors = this.attractors.filter((a) => a.world === world);
-        if (attractors.length === 0) return;
+        // Nothing pulls here: the case every project that never writes pull
+        // takes, and the case of a depth with no attractor of its own.
+        const attractors = this.attractors.get(world);
+        if (attractors === undefined) return;
 
         world.bodies.forEach((body: RAPIER.RigidBody) => {
             // Only a dynamic body responds to an impulse at all, which is why a
@@ -983,8 +986,17 @@ export function pullAcceleration(
     const x = dx / PX_PER_METER;
     const y = dy / PX_PER_METER;
     const distance = Math.hypot(x, y);
-    // Exactly coincident: no direction to pull in, so no pull.
-    if (distance === 0) return { x: 0, y: 0 };
+    // Exactly coincident: no direction to pull in, so no pull. Non-finite
+    // values fall out here too — strength carries the program's own mass and
+    // pull, and one NaN impulse spreads to every position in the world within
+    // a step. An infinite distance needs the explicit test: it survives a
+    // > 0 check and then divides itself into NaN.
+    if (
+        distance === 0 ||
+        !Number.isFinite(distance) ||
+        !Number.isFinite(strength)
+    )
+        return { x: 0, y: 0 };
     const softened = Math.max(distance, MinPullDistance);
     const magnitude = (PullPxPerS2PerKg * strength) / (softened * softened);
     // Toward the attractor for positive strength, away for negative.

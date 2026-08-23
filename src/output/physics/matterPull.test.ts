@@ -3,7 +3,7 @@ import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
 import { toMatter } from '@output/physics/Matter';
-import { DefaultAir, toStage } from '@output/Output/Stage';
+import { DefaultAir, DefaultGravity, toStage } from '@output/Output/Stage';
 import Evaluator from '@runtime/Evaluator';
 import { expect, test } from 'vitest';
 
@@ -72,4 +72,23 @@ test('a Stage written the old way keeps ordinary air and its gravity', () => {
     const stage = stageFrom(`Stage([] gravity: 3m/s^2)`);
     expect(stage.gravity).toBe(3);
     expect(stage.air).toBe(DefaultAir);
+});
+
+test('a number a program can type never reaches the engine non-finite', () => {
+    // `!#` became writable in the same release as pull and air, and `∞` always
+    // was. Either one handed to Rapier as damping or gravity spreads to every
+    // position in that world within a step, which empties the stage.
+    expect(stageFrom(`Stage([] air: !#)`).air).toBe(DefaultAir);
+    expect(stageFrom(`Stage([] air: ∞)`).air).toBe(DefaultAir);
+    expect(stageFrom(`Stage([] gravity: !#m/s^2)`).gravity).toBe(
+        DefaultGravity,
+    );
+    expect(stageFrom(`Stage([] gravity: ∞m/s^2)`).gravity).toBe(DefaultGravity);
+});
+
+test('air is never negative, since that would be damping in reverse', () => {
+    // Rapier integrates damping as linvel / (1 + dt × damping), so a negative
+    // air is exponential speed *growth* rather than the mirrored, meaningful
+    // behavior that negative gravity is.
+    expect(stageFrom(`Stage([] air: -1)`).air).toBe(0);
 });

@@ -396,8 +396,15 @@ function toStageBuilder(
             : toOutput(evaluator, possibleGroups, namer);
     const frame = toForm(project, getOutputInput(value, 1));
 
-    const gravity = toNumber(getOutputInput(value, 22)) ?? DefaultGravity;
-    const air = toNumber(getOutputInput(value, 24)) ?? DefaultAir;
+    // Both reach Rapier, which has no defence against a non-finite value, so
+    // they are read through toFiniteNumber. Air is clamped as well, because a
+    // negative damping is exponential growth rather than a mirrored behavior
+    // the way upward gravity is.
+    const gravity = toFiniteNumber(getOutputInput(value, 22), DefaultGravity);
+    const air = Math.max(
+        0,
+        toFiniteNumber(getOutputInput(value, 24), DefaultAir),
+    );
 
     const overlayInput = getOutputInput(value, 23);
     const overlay =
@@ -666,6 +673,17 @@ export function toDecimal(value: Value | undefined): Decimal | undefined {
 
 export function toNumber(value: Value | undefined): number | undefined {
     return toDecimal(value)?.toNumber();
+}
+
+/** A number a program wrote, or the fallback when it wrote none, `!#`, or `∞`.
+ *  A non-finite number handed to the physics engine spreads to every position
+ *  in its world within one step, which empties the stage. */
+export function toFiniteNumber(
+    value: Value | undefined,
+    fallback: number,
+): number {
+    const number = toNumber(value);
+    return number !== undefined && Number.isFinite(number) ? number : fallback;
 }
 
 export function toBoolean(value: Value | undefined): boolean | undefined {

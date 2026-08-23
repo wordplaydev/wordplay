@@ -6014,8 +6014,8 @@
                 "names": "formas"
             },
             "pull": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Qué tanto atraigo a otra salida hacia mí. 0 significa que no atraigo nada, lo cual es normal. Los números más grandes atraen con más fuerza, y un número negativo empuja en vez de atraer. Solo se puede atraer la salida colocada por un @Motion.",
+                "names": "$~jalar"
             }
         },
         "Aura": {
@@ -6151,8 +6151,8 @@
                 "names": "$~superponer"
             },
             "air": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Qué tanto frena el aire a la salida en movimiento. 1 es aire normal, 0 es el espacio exterior, donde las cosas siguen moviéndose para siempre, y los números más grandes son más espesos que el aire.",
+                "names": "$~aire"
             }
         },
         "Easing": {

@@ -5064,8 +5064,8 @@
                 "names": "$~superposition"
             },
             "air": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~À quel point l'air ralentit le mouvement des sorties. 1 est de l'air normal, 0 est l'espace, où les choses continuent pour toujours, et des nombres plus grands sont plus épais que l'air.",
+                "names": "$~air"
             }
         },
         "Group": {
@@ -6135,8 +6135,8 @@
                 "names": "$~sol"
             },
             "pull": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~À quel point j'attire fort les autres sorties vers moi. 0 veut dire pas du tout, ce qui est normal. Des nombres plus grands attirent plus fort, et un nombre négatif repousse au lieu d'attirer. Seules les sorties placées par un @Motion peuvent être attirées.",
+                "names": "$~tirer"
             }
         },
         "Aura": {
