@@ -28,6 +28,16 @@ export default function getStageProperties(
             (expr) => expr instanceof NumberLiteral,
             () => NumberLiteral.make('9.8', Unit.create(['m'], ['s', 's'])),
         ),
+        new OutputProperty(
+            (l) => l.output.Stage.air.names,
+            // A multiple of ordinary air: 0 is space, 1 is what every project
+            // has always had.
+            new OutputPropertyRange(0, 3, 0.1, '', 1),
+            true,
+            false,
+            (expr) => expr instanceof NumberLiteral,
+            () => NumberLiteral.make(1),
+        ),
         ...getTypeOutputProperties(project, locales),
     ];
 }

@@ -12,6 +12,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔣 Formatted text can now become a list of its symbols, or a number, the same way plain text can. (#1190)
 - 🔢 You can now write `!#`, the not-a-number value, in your own code. Wordplay always knew how to make one — turning text like `'hi'` into a number gives you one — but writing it yourself was marked as a mistake.
 - 🎭 Our [home page](https://wordplay.dev/) now has a stage. Press show me and nine tiny programs play right there, each with its code beside it and a note in the code saying what it does. (#921)
+- 🧲 @Output can now pull other @Output toward it. Give a @Phrase @Matter with a `pull` and it works like a planet or a magnet, tugging anything that moves with @Motion. A negative pull pushes away instead. We added a new example called Orbits to the [galleries](https://wordplay.dev/galleries), with three planets circling a star. (#20)
+- 💨 The @Stage now has `air`, which says how quickly moving @Output slows down. Normal air is 1, and 0 is outer space, where things keep going forever. (#20)
 
 ### Changed
 
@@ -22,6 +24,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🧲 Writing a strange number like `!#` or `∞` for the @Stage's `gravity` used to freeze everything on the stage that moves. Wordplay now uses ordinary gravity instead. (#1305)
 - 🐛 Formatted text with a language on it never matched the same formatted text without one, so `` `hi` `` and `` `hi`/en `` looked like different things. Plain text was fixed for this before; now formatted text is too.
 - 🐛 Reversing a list changed the list you started with, instead of leaving it alone and handing you a new one.
 - 🐛 Sorting a list could jumble items that had nothing wrong with them, if any one item's sorting number wasn't a number. Those items go last now, and everything else keeps its order.

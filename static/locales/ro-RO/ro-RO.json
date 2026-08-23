@@ -6072,6 +6072,10 @@
             "shapes": {
                 "doc": "$~Dacă mă pot lovi deloc de @Shape de pe @Stage; ⊥ înseamnă că trec prin pereți și podele, iar @Collision nu spune nimic despre ele.",
                 "names": "$~sol"
+            },
+            "pull": {
+                "doc": "$~Cât de puternic atrag alte ieșiri către mine. 0 înseamnă deloc, ceea ce e normal. Numere mai mari atrag mai puternic, iar un număr negativ împinge în loc să atragă. Doar ieșirile plasate de un @Motion pot fi atrase.",
+                "names": "$~trage"
             }
         },
         "Aura": {
@@ -6205,6 +6209,10 @@
             "overlay": {
                 "doc": "$~O listă de @Output fixată plat pe ecran ca un afișaj informativ, neafectată de camera @Place a scenei sau de adâncime.",
                 "names": "$~suprapunere"
+            },
+            "air": {
+                "doc": "$~Cât de mult încetinește aerul mișcarea unei ieșiri. 1 este aerul normal, 0 este spațiul cosmic, unde lucrurile continuă să se miște la nesfârșit, iar numerele mai mari sunt mai dense decât aerul.",
+                "names": "$~aer"
             }
         },
         "Easing": {

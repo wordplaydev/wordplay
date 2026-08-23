@@ -6023,6 +6023,10 @@
             "shapes": {
                 "doc": "$~Czy w ogóle mogę zderzać się z @Shape na @Stage; ⊥ oznacza, że przepadam przez ściany i podłogi, a @Collision nic o nich nie mówi.",
                 "names": "$~grunt"
+            },
+            "pull": {
+                "doc": "$~To, jak mocno przyciągam inne wyjście do siebie. 0 oznacza brak przyciągania, co jest normalne. Większe liczby przyciągają mocniej, a liczba ujemna zamiast przyciągać, odpycha. Można przyciągnąć tylko wyjście umieszczone przez @Motion.",
+                "names": "$~ciągnij"
             }
         },
         "Aura": {
@@ -6156,6 +6160,10 @@
             "overlay": {
                 "doc": "$~Lista @Output przypiętych płasko do ekranu jako wyświetlacz informacyjny, na który nie ma wpływu kamera @Place ani głębia sceny.",
                 "names": "$~nakładka"
+            },
+            "air": {
+                "doc": "$~To, jak bardzo powietrze spowalnia poruszające się wyjście. 1 to zwykłe powietrze, 0 to przestrzeń kosmiczna, gdzie rzeczy poruszają się bez końca, a większe liczby oznaczają ośrodek gęstszy niż powietrze.",
+                "names": "$~powietrze"
             }
         },
         "Easing": {

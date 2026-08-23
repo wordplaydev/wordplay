@@ -6605,6 +6605,10 @@
             "shapes": {
                 "doc": "Whether I can bump into the @Shape on the @Stage at all; ⊥ means I fall through walls and floors and @Collision says nothing about them.",
                 "names": "ground"
+            },
+            "pull": {
+                "doc": "How strongly I pull other output toward me. 0 means not at all, which is normal. Bigger numbers pull harder, and a negative number pushes away instead. Only output placed by a @Motion can be pulled.",
+                "names": "pull"
             }
         },
         "Aura": {
@@ -6737,6 +6741,10 @@
             "overlay": {
                 "doc": "A list of @Output pinned flat to the screen as a heads-up display, unaffected by the stage's @Place camera or depth.",
                 "names": "overlay"
+            },
+            "air": {
+                "doc": "How much the air slows down moving output. 1 is normal air, 0 is outer space, where things keep going forever, and bigger numbers are thicker than air.",
+                "names": "air"
             },
             "defaultDescription": "stage $name[$name |]of $#count[$count output|$count outputs]$frame[with frame $frame|] $pose $color[$color|]"
         },

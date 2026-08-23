@@ -5054,6 +5054,10 @@
             "overlay": {
                 "doc": "$~Eine Liste von @Output, die flach an den Bildschirm geheftet wird, wie eine Anzeige direkt vor deinen Augen. Sie wird nicht von der @Place-Kamera der Bühne oder von der Tiefe beeinflusst.",
                 "names": "$~überlagern"
+            },
+            "air": {
+                "doc": "$~Wie stark die Luft sich bewegendes Output bremst. 1 ist normale Luft, 0 ist der Weltraum, wo Dinge sich ewig weiterbewegen, und größere Zahlen sind dicker als Luft.",
+                "names": "$~Luft"
             }
         },
         "Group": {
@@ -6121,6 +6125,10 @@
             "shapes": {
                 "doc": "$~Ob ich überhaupt mit dem @Shape auf dem @Stage zusammenstoßen kann; ⊥ bedeutet, ich falle durch Wände und Böden, und @Collision sagt nichts darüber aus.",
                 "names": "$~Boden"
+            },
+            "pull": {
+                "doc": "$~Wie stark ich anderes Output zu mir hinziehe. 0 bedeutet gar nicht, das ist normal. Größere Zahlen ziehen stärker, und eine negative Zahl stößt stattdessen ab. Nur Output, das von einem @Motion platziert wurde, kann gezogen werden.",
+                "names": "$~ziehen"
             }
         },
         "Aura": {

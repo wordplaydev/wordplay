@@ -1,0 +1,43 @@
+🪐
+"Orbits"/en
+=== start
+¶Three planets circling a star that pulls them around.¶
+
+¶The star does the pulling, so it needs @Matter with a pull. It has no @Motion,
+so nothing pulls it back and it stays where it is. A @Place is an output's
+corner rather than its middle, so the star is shifted by half its own size to
+put its middle at the center of the sky.¶
+sun: Phrase(
+	'⭐️' 2m
+	name: 'sun'
+	place: Place(-1m -1m)
+	matter: Matter(2000kg pull: 1)
+)
+
+¶A planet needs no @Matter at all. Having a @Motion is what lets the star's pull
+move it. How fast it must travel to circle instead of falling in depends on how
+far out it is, so each planet is given the speed that holds its own ring.¶
+planet: ƒ(glyph•"" called•"" wide•#m far•#m speed•#m/s)
+	Phrase(
+		glyph wide
+		name: called
+		place: Motion(
+			Place(far - (wide ÷ 2) 0m - (wide ÷ 2))
+			Velocity(0m/s speed)
+		)
+	)
+
+¶The sky has no gravity of its own, or everything would fall out of the bottom.
+It has no air either, so the planets keep going instead of slowing to a stop.¶
+Stage(
+	[
+		sun
+		planet('🌍' 'earth' 0.8m 3m 11.5m/s)
+		planet('🪐' 'ringed' 1m 5m 8.6m/s)
+		planet('🌕' 'moon' 0.6m 7m 7.3m/s)
+	]
+	background: Color(15% 20 300°)
+	gravity: 0m/s^2
+	air: 0
+	place: Place(0m 0m -14m)
+)

@@ -222,6 +222,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Hira',
                 'Layers',
                 'Chamber',
+                'Orbits',
                 'Pounce',
                 'FootBall',
                 'Christmas',

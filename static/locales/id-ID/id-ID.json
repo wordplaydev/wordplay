@@ -6078,6 +6078,10 @@
             "shapes": {
                 "doc": "$~Apakah aku bisa bertabrakan dengan @Shape di @Stage sama sekali; ⊥ berarti aku jatuh menembus dinding dan lantai, dan @Collision tidak menyatakan apa pun tentang mereka.",
                 "names": "$~tanah"
+            },
+            "pull": {
+                "doc": "$~Seberapa kuat aku menarik keluaran lain ke arahku. 0 berarti tidak sama sekali, dan itu normal. Angka yang lebih besar menarik lebih kuat, sedangkan angka negatif malah mendorong menjauh. Hanya keluaran yang ditempatkan oleh @Motion yang bisa ditarik.",
+                "names": "$~tarik"
             }
         },
         "Aura": {
@@ -6211,6 +6215,10 @@
             "overlay": {
                 "doc": "$~Daftar @Output yang disematkan rata pada layar sebagai tampilan informasi, tidak terpengaruh oleh kamera @Place panggung atau kedalaman.",
                 "names": "$~lapisanAtas"
+            },
+            "air": {
+                "doc": "$~Seberapa besar udara memperlambat keluaran yang bergerak. 1 adalah udara normal, 0 adalah luar angkasa, tempat segala sesuatu terus bergerak selamanya, dan angka yang lebih besar berarti lebih kental daripada udara.",
+                "names": "$~udara"
             }
         },
         "Easing": {

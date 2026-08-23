@@ -6012,6 +6012,10 @@
             "shapes": {
                 "doc": "$~Si puedo chocar con el @Shape en el @Stage; ⊥ significa que caigo a través de paredes y pisos, y @Collision no dice nada sobre ellos.",
                 "names": "formas"
+            },
+            "pull": {
+                "doc": "$~Qué tanto atraigo a otra salida hacia mí. 0 significa que no atraigo nada, lo cual es normal. Los números más grandes atraen con más fuerza, y un número negativo empuja en vez de atraer. Solo se puede atraer la salida colocada por un @Motion.",
+                "names": "$~jalar"
             }
         },
         "Aura": {
@@ -6145,6 +6149,10 @@
             "overlay": {
                 "doc": "$~Una lista de @Output fijados planos a la pantalla como una pantalla de información, sin verse afectados por la cámara ni la profundidad de @Place del escenario.",
                 "names": "$~superponer"
+            },
+            "air": {
+                "doc": "$~Qué tanto frena el aire a la salida en movimiento. 1 es aire normal, 0 es el espacio exterior, donde las cosas siguen moviéndose para siempre, y los números más grandes son más espesos que el aire.",
+                "names": "$~aire"
             }
         },
         "Easing": {
