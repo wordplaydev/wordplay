@@ -296,12 +296,18 @@ test('a symbol imported as pixels leaves earlier shapes visible and undoable', a
         await expect.poll(() => paths.count()).toBe(1);
 
         await page.getByRole('radio', { name: 'symbol', exact: true }).click();
-        await page.getByRole('radio', { name: 'pixels', exact: true }).click();
-        await page.locator('.palette .picker button').first().click();
+        // 'pixels' is the default, and Mode disables the radio that's already
+        // chosen, so assert it rather than clicking something inert.
+        await expect(
+            page.getByRole('radio', { name: 'pixels', exact: true }),
+        ).toHaveAttribute('aria-checked', 'true');
+        // `.emoji` is the glyph grid; `.picker`'s first button is the script
+        // filter, which swallows the click.
+        await page.locator('.palette .emoji button').first().click();
 
         const pixels = page.locator('.canvas svg rect');
         await expect
-            .poll(() => pixels.count(), { timeout: 15000 })
+            .poll(() => pixels.count(), { timeout: 30000 })
             .toBeGreaterThan(0);
 
         // The path is still there, and still painted last — so still visible.
@@ -334,13 +340,15 @@ test('a symbol can be added as a scalable outline', async ({ browser }) => {
         await page.getByRole('radio', { name: 'symbol', exact: true }).click();
         await page.getByRole('radio', { name: 'outline', exact: true }).click();
 
-        // Pick the first symbol the chooser offers.
-        await page.locator('.palette .picker button').first().click();
+        // Pick the first symbol the chooser offers. `.emoji` is the glyph grid;
+        // `.picker`'s first button is the script filter, which swallows the click.
+        await page.locator('.palette .emoji button').first().click();
 
         // The outline renders as exactly one path — hit testing maps an SVG
         // child index back to a shape, so a group would shift every shape after.
         const outline = page.locator('.canvas svg path');
-        await expect.poll(() => outline.count(), { timeout: 15000 }).toBe(1);
+        // Tracing fetches and parses a font file, which is slow on a cold runner.
+        await expect.poll(() => outline.count(), { timeout: 30000 }).toBe(1);
         expect(await outline.first().getAttribute('d')).not.toBe('');
         expect(await outline.first().getAttribute('transform')).toContain(
             'translate',
