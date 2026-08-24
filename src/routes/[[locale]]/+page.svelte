@@ -100,6 +100,11 @@
      * link text drops it below its contrast ratio. Nothing is unreachable in
      * the meantime, because the big links carrying the same destinations are on
      * screen for exactly as long as the tabs are not.
+     *
+     * Holding that invariant is why the observer below is offset rather than
+     * plain: this block's box reaches well past the links inside it, so an
+     * unadjusted observer would be watching padding, and the tabs would arrive
+     * a subtitle's height after the last link had already gone.
      */
     let links: HTMLElement | undefined = $state();
     let linksAway = $state(false);
@@ -107,14 +112,86 @@
     /** How far the stage's handover to the examples has got. */
     let tour: 'idle' | 'leaving' | 'showing' = $state('idle');
 
+    /** How far the links' box reaches past the first and last link inside it,
+     *  in padding and subtitles — the difference between where the block ends
+     *  and where the reader stops seeing a link. Remeasured whenever it can
+     *  change rather than read per scroll. */
+    let bounds = $state({ leading: 0, trailing: 0 });
+
+    /** How much of the last link is still showing when the tabs are sent for,
+     *  so they finish arriving before it goes rather than starting once it has.
+     *  In `em` of the links themselves, so it tracks the reader's font size
+     *  like the rest of the page. */
+    const HandoverOverlapEm = 3;
+
+    $effect(() => {
+        if (links === undefined || typeof ResizeObserver === 'undefined')
+            return;
+        const linksElement = links;
+        // What the last measurement found, kept out of state so reading it back
+        // doesn't make this effect depend on what it writes.
+        let last = { leading: 0, trailing: 0 };
+        const measure = () => {
+            const box = linksElement.getBoundingClientRect();
+            // The largest bottom and smallest top across the links, rather than
+            // the last and first in the markup: the grid's order is its own.
+            const anchors = [...linksElement.querySelectorAll('a')].map(
+                (anchor) => anchor.getBoundingClientRect(),
+            );
+            const measured = {
+                leading:
+                    anchors.length === 0
+                        ? 0
+                        : Math.round(
+                              Math.min(...anchors.map((a) => a.top)) - box.top,
+                          ),
+                trailing:
+                    anchors.length === 0
+                        ? 0
+                        : Math.round(
+                              box.bottom -
+                                  Math.max(...anchors.map((a) => a.bottom)),
+                          ),
+            };
+            // Only when something moved: a resize arrives repeatedly for one
+            // change, and each distinct value rebuilds the observer below.
+            if (
+                measured.leading !== last.leading ||
+                measured.trailing !== last.trailing
+            )
+                bounds = last = measured;
+        };
+        measure();
+        // Neither is constant: the links reflow to a different number of
+        // columns, and a subtitle wraps to another line, at widths no
+        // breakpoint here names.
+        const observer = new ResizeObserver(measure);
+        observer.observe(linksElement);
+        return () => observer.disconnect();
+    });
+
     $effect(() => {
         if (links === undefined || typeof IntersectionObserver === 'undefined')
             return;
+        const element = links;
+        const overlap =
+            HandoverOverlapEm * parseFloat(getComputedStyle(element).fontSize);
         const observer = new IntersectionObserver(
             ([entry]) => (linksAway = !entry.isIntersecting),
-            { threshold: 0 },
+            {
+                // The scroller, not the window: in localization mode the
+                // Localizer sits above `main`, so the window's top edge is not
+                // where this page begins.
+                root: element.closest('main'),
+                threshold: 0,
+                // The band where a link can actually be seen, rather than the
+                // block's own box: inset at both ends by the padding and
+                // subtitles that reach past the links, and at the top by the
+                // overlap that sends for the tabs slightly early.
+                rootMargin: `-${bounds.trailing + overlap}px 0px -${bounds.leading}px 0px`,
+            },
         );
-        observer.observe(links);
+        observer.observe(element);
         return () => observer.disconnect();
     });
 
@@ -144,149 +221,141 @@
         <!-- First thing on the page, and held to a readable measure: it's a
              paragraph to be read, not a banner to be scanned past. -->
         <div class="beta"><Beta /></div>
-        <!-- The stage and the call to action stay put while the links pass
-             beneath them, then scroll away when the feature list begins —
-             which is where `.top` ends. -->
-        <div class="top">
-            <div class="hero">
-                <LandingStage glyph={cycleGlyph} bind:phase={tour} />
-                <!-- The invitation to get started is worth the room until the
-                     visitor takes it. Once the examples are up they are the
-                     thing to look at, and a speech bubble under them is just
-                     something between them and the page. -->
-                {#if tour !== 'showing'}
-                    <div class="welcome" class:leaving={tour === 'leaving'}>
-                        <Speech
-                            character={Characters.FunctionDefinition}
-                            emotion={Emotion.happy}
-                            big
-                            >{#snippet content()}
-                                <MarkupHTMLView
-                                    markup={(l) => l.ui.page.landing.value}
-                                    inline
-                                />
-                                <!-- The hover/focus handlers only pause the rotating
-                                 locale label while it's pointed at or focused; the
-                                 Button inside is the interactive element. -->
-                                <!-- svelte-ignore a11y_no_static_element_interactions -->
-                                <span
-                                    class="locale-button-wrapper"
-                                    onmouseenter={() => (isHovering = true)}
-                                    onmouseleave={() => (isHovering = false)}
-                                    onfocusin={() => (isHovering = true)}
-                                    onfocusout={() => (isHovering = false)}
-                                >
-                                    {#key rotatingLabel}
-                                        <Button
-                                            tip={(l) =>
-                                                l.ui.dialog.locale.button
-                                                    .replace}
-                                            action={switchToCurrentLocale}
-                                            background
-                                            classes="locale-picker"
+        <!-- The stage, then the same route links the footer carries once
+             these scroll away. -->
+        <div class="hero">
+            <LandingStage glyph={cycleGlyph} bind:phase={tour} />
+            <!-- The invitation to get started is worth the room until the
+                 visitor takes it. Once the examples are up they are the
+                 thing to look at, and a speech bubble under them is just
+                 something between them and the page. -->
+            {#if tour !== 'showing'}
+                <div class="welcome" class:leaving={tour === 'leaving'}>
+                    <Speech
+                        character={Characters.FunctionDefinition}
+                        emotion={Emotion.happy}
+                        big
+                        >{#snippet content()}
+                            <MarkupHTMLView
+                                markup={(l) => l.ui.page.landing.value}
+                                inline
+                            />
+                            <!-- The hover/focus handlers only pause the rotating
+                             locale label while it's pointed at or focused; the
+                             Button inside is the interactive element. -->
+                            <!-- svelte-ignore a11y_no_static_element_interactions -->
+                            <span
+                                class="locale-button-wrapper"
+                                onmouseenter={() => (isHovering = true)}
+                                onmouseleave={() => (isHovering = false)}
+                                onfocusin={() => (isHovering = true)}
+                                onfocusout={() => (isHovering = false)}
+                            >
+                                {#key rotatingLabel}
+                                    <Button
+                                        tip={(l) =>
+                                            l.ui.dialog.locale.button.replace}
+                                        action={switchToCurrentLocale}
+                                        background
+                                        classes="locale-picker"
+                                    >
+                                        <span class="locale-word"
+                                            >{rotatingLabel}</span
                                         >
-                                            <span class="locale-word"
-                                                >{rotatingLabel}</span
-                                            >
-                                        </Button>
-                                    {/key}
-                                </span>
-                                <LocalizedText
-                                    path={(l) =>
-                                        l.ui.page.landing.chooseLocales}
-                                />
-                                <Button
-                                    tip={(l) => l.ui.dialog.locale.button.show}
-                                    action={openLocaleMenu}
-                                    background
-                                    classes="locale-picker"
-                                    label={(l) =>
-                                        l.ui.dialog.locale.button.menu}
-                                ></Button>.
-                            {/snippet}
-                        </Speech>
-                    </div>
-                {/if}
-            </div>
+                                    </Button>
+                                {/key}
+                            </span>
+                            <LocalizedText
+                                path={(l) => l.ui.page.landing.chooseLocales}
+                            />
+                            <Button
+                                tip={(l) => l.ui.dialog.locale.button.show}
+                                action={openLocaleMenu}
+                                background
+                                classes="locale-picker"
+                                label={(l) => l.ui.dialog.locale.button.menu}
+                            ></Button>.
+                        {/snippet}
+                    </Speech>
+                </div>
+            {/if}
+        </div>
 
-            <div class="links" bind:this={links}>
-                {#if $user === null}
+        <div class="links" bind:this={links}>
+            {#if $user === null}
+                <BigLink to="/login" subtitle={(l) => l.ui.page.login.subtitle}
+                    ><LocalizedText
+                        path={(l) => l.ui.page.login.header}
+                    /></BigLink
+                >
+            {/if}
+            <div class="actions">
+                <Action>
                     <BigLink
-                        to="/login"
-                        subtitle={(l) => l.ui.page.login.subtitle}
-                        ><LocalizedText
-                            path={(l) => l.ui.page.login.header}
+                        to="/projects"
+                        smaller
+                        subtitle={(l) => l.ui.page.landing.link.projects}
+                        ><Iconified
+                            icon={PROJECT_SYMBOL}
+                            text={(l) => l.ui.page.projects.header}
                         /></BigLink
                     >
-                {/if}
-                <div class="actions">
-                    <Action>
-                        <BigLink
-                            to="/projects"
-                            smaller
-                            subtitle={(l) => l.ui.page.landing.link.projects}
-                            ><Iconified
-                                icon={PROJECT_SYMBOL}
-                                text={(l) => l.ui.page.projects.header}
-                            /></BigLink
-                        >
-                    </Action>
-                    <Action>
-                        <BigLink
-                            smaller
-                            to="/galleries"
-                            subtitle={(l) => l.ui.page.landing.link.galleries}
-                            ><Iconified
-                                icon={STAGE_SYMBOL}
-                                text={(l) => l.ui.page.galleries.header}
-                            /></BigLink
-                        >
-                    </Action>
-                    <Action>
-                        <BigLink
-                            smaller
-                            to="/characters"
-                            subtitle={(l) => l.ui.page.landing.link.characters}
-                            ><Iconified
-                                icon={SYMBOL_SYMBOL}
-                                text={(l) => l.ui.page.characters.header}
-                            /></BigLink
-                        >
-                    </Action>
-                    <Action>
-                        <BigLink
-                            smaller
-                            to="/learn"
-                            subtitle={(l) => l.ui.page.landing.link.learn}
-                            ><Iconified
-                                icon={LEARN_SYMBOL}
-                                text={(l) => l.ui.page.learn.header}
-                            /></BigLink
-                        >
-                    </Action>
-                    <Action>
-                        <BigLink
-                            to="/guide"
-                            smaller
-                            subtitle={(l) => l.ui.page.landing.link.guide}
-                            ><Iconified
-                                icon={DOCUMENTATION_SYMBOL}
-                                text={(l) => l.ui.page.guide.header}
-                            /></BigLink
-                        >
-                    </Action>
-                    <Action>
-                        <BigLink
-                            smaller
-                            to="/teach"
-                            subtitle={(l) => l.ui.page.landing.link.teach}
-                            ><Iconified
-                                icon={TEACH_SYMBOL}
-                                text={(l) => l.ui.page.teach.header}
-                            /></BigLink
-                        >
-                    </Action>
-                </div>
+                </Action>
+                <Action>
+                    <BigLink
+                        smaller
+                        to="/galleries"
+                        subtitle={(l) => l.ui.page.landing.link.galleries}
+                        ><Iconified
+                            icon={STAGE_SYMBOL}
+                            text={(l) => l.ui.page.galleries.header}
+                        /></BigLink
+                    >
+                </Action>
+                <Action>
+                    <BigLink
+                        smaller
+                        to="/characters"
+                        subtitle={(l) => l.ui.page.landing.link.characters}
+                        ><Iconified
+                            icon={SYMBOL_SYMBOL}
+                            text={(l) => l.ui.page.characters.header}
+                        /></BigLink
+                    >
+                </Action>
+                <Action>
+                    <BigLink
+                        smaller
+                        to="/learn"
+                        subtitle={(l) => l.ui.page.landing.link.learn}
+                        ><Iconified
+                            icon={LEARN_SYMBOL}
+                            text={(l) => l.ui.page.learn.header}
+                        /></BigLink
+                    >
+                </Action>
+                <Action>
+                    <BigLink
+                        to="/guide"
+                        smaller
+                        subtitle={(l) => l.ui.page.landing.link.guide}
+                        ><Iconified
+                            icon={DOCUMENTATION_SYMBOL}
+                            text={(l) => l.ui.page.guide.header}
+                        /></BigLink
+                    >
+                </Action>
+                <Action>
+                    <BigLink
+                        smaller
+                        to="/teach"
+                        subtitle={(l) => l.ui.page.landing.link.teach}
+                        ><Iconified
+                            icon={TEACH_SYMBOL}
+                            text={(l) => l.ui.page.teach.header}
+                        /></BigLink
+                    >
+                </Action>
             </div>
         </div>
 
@@ -426,12 +495,10 @@
         box-sizing: border-box;
     }
 
+    /* Deliberately not pinned. Pinning it cost a short screen most of its page:
+       on a landscape tablet this is ~510px of a ~718px scroller, leaving a
+       quarter of the window to scroll the whole rest of the page through. */
     .hero {
-        position: sticky;
-        top: 0;
-        z-index: 2;
-        /* Opaque, so the links passing beneath don't show through it. */
-        background: var(--wordplay-background);
         display: flex;
         flex-direction: column;
         /* The stage and the call to action are two things, not one: without
@@ -585,12 +652,6 @@
     }
 
     @container (max-width: 700px) {
-        /* A stage pinned to the top of a short screen leaves nothing for the
-           content it's pinned over, so on phones everything simply scrolls. */
-        .hero {
-            position: static;
-        }
-
         /* No margin to hang in: the speaker comes back inside the column. */
         .welcome :global(.speaker) {
             position: static;
