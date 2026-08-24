@@ -643,12 +643,12 @@
             <Options
                 id="translate-messages"
                 value={translateTo}
-                label={(l) => l.ui.collaborate.translate.language}
+                label={(l) => l.ui.collaborate.translate.label}
                 options={[
                     {
                         value: undefined,
-                        label: () =>
-                            'l.ui.collaborate.translate.choosePlaceholder',
+                        label: (l) =>
+                            l.ui.collaborate.translate.choosePlaceholder,
                     },
                     ...translatableLocales.map((locale) => ({
                         value: localeToString(locale),
@@ -694,12 +694,13 @@
             <Options
                 id="new-message-language"
                 value={messageLanguage}
-                label={(l) => l.ui.collaborate.translate.language}
+                label={(l) => l.ui.collaborate.translate.messageLanguageLabel}
                 options={[
                     {
                         value: undefined,
-                        label: () =>
-                            'l.ui.collaborate.translate.currentLanguagePlaceholder',
+                        label: (l) =>
+                            l.ui.collaborate.translate
+                                .currentLanguagePlaceholder,
                     },
                     ...translatableLocales.map((locale) => ({
                         value: localeToString(locale),
