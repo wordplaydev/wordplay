@@ -9664,7 +9664,9 @@
                 "messageErrors": "$?",
                 "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?"
+                "currentLanguagePlaceholder": "$?",
+                "moreLanguages": "$?",
+                "fewerLanguages": "$?"
             },
             "announce": {
                 "transferred": "$~$name ist jetzt Eigentümerin oder Eigentümer von $project"

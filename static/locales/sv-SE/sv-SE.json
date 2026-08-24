@@ -8319,7 +8319,9 @@
                 "messageErrors": "$?",
                 "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?"
+                "currentLanguagePlaceholder": "$?",
+                "moreLanguages": "$?",
+                "fewerLanguages": "$?"
             },
             "announce": {
                 "transferred": "$~$name är nu ägare av $project"

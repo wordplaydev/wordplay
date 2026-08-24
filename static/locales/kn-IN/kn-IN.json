@@ -8546,7 +8546,9 @@
                 "messageErrors": "$?",
                 "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?"
+                "currentLanguagePlaceholder": "$?",
+                "moreLanguages": "$?",
+                "fewerLanguages": "$?"
             },
             "announce": {
                 "transferred": "$~$name ಈಗ $project ಯ ಮಾಲೀಕರಾಗಿದ್ದಾರೆ"

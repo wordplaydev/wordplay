@@ -8569,7 +8569,9 @@
                 "messageErrors": "$?",
                 "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?"
+                "currentLanguagePlaceholder": "$?",
+                "moreLanguages": "$?",
+                "fewerLanguages": "$?"
             },
             "announce": {
                 "transferred": "$~Si $name na ngayon ang may-ari ng $project"

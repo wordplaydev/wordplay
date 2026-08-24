@@ -8577,7 +8577,9 @@
                 "direction": "$from → $to",
                 "messageLanguageLabel": "Message language",
                 "choosePlaceholder": "Choose a language",
-                "currentLanguagePlaceholder": "Use current language"
+                "currentLanguagePlaceholder": "Use current language",
+                "moreLanguages": "Search for another language",
+                "fewerLanguages": "Hide language search"
             },
             "role": {
                 "owner": "owner",

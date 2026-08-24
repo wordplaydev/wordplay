@@ -9642,7 +9642,9 @@
                 "messageErrors": "$?",
                 "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?"
+                "currentLanguagePlaceholder": "$?",
+                "moreLanguages": "$?",
+                "fewerLanguages": "$?"
             },
             "announce": {
                 "transferred": "$~이제 $name 이(가) $project 의 소유자입니다"
