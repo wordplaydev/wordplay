@@ -640,7 +640,6 @@
                     ? getLanguageDirection(translatedLocale.language)
                     : undefined}
             >
-                <hr class="divider" />
                 <div class="what">
                     <MarkupHTMLView
                         markup={translations[msg.id].text.replaceAll(
@@ -961,14 +960,10 @@
     .translation {
         display: flex;
         flex-direction: column;
-    }
-
-    .divider {
-        border: none;
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
-        width: 100%;
-        margin-block: calc(0.5 * var(--wordplay-spacing));
+        margin-block-start: calc(0.5 * var(--wordplay-spacing));
+        padding-block-start: calc(0.5 * var(--wordplay-spacing));
     }
 
     .lang-tag {
