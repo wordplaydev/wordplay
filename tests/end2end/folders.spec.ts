@@ -108,8 +108,9 @@ test.describe('project folders', () => {
         await expect(
             page
                 .locator('section.folder')
-                .filter({ has: page.locator('[data-testid="preview"]') }),
-        ).toHaveCount(1);
+                .filter({ has: page.locator('[data-testid="preview"]') })
+                .first(),
+        ).toBeVisible();
     });
 
     test('down moves a project back out of the folder above it', async ({
@@ -119,8 +120,12 @@ test.describe('project folders', () => {
         await createListedProject(page);
         await newFolder(page);
         const folder = await fileFirstProject(page);
+        // Assert the delta, not emptiness: the folder a project lands in may
+        // already hold one filed by an earlier test in this file.
+        const previews = folder.locator('[data-testid="preview"]');
+        const before = await previews.count();
         await page.keyboard.press('ArrowDown');
-        await expect(folder.locator('[data-testid="preview"]')).toHaveCount(0);
+        await expect(previews).toHaveCount(before - 1);
     });
 
     test('Escape lets go of the project', async ({ page }) => {
