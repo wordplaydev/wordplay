@@ -769,7 +769,9 @@ export class ChatDatabase {
             chatTranslationsDocID(chatID, language),
         );
         return onSnapshot(ref, (snap) => {
-            if (snap.exists()) callback(snap.data() as Record<string, string>);
+            callback(
+                snap.exists() ? (snap.data() as Record<string, string>) : {},
+            );
         });
     }
 
@@ -873,7 +875,7 @@ export class ChatDatabase {
             participants: Array.from(this.getAllParticipants(project, gallery)),
             unread: [],
             type: 'project',
-            ...(language !== undefined ? { language } : {}),
+            language,
         };
 
         return this.createChat(newChat, async () =>
@@ -908,7 +910,7 @@ export class ChatDatabase {
             ),
             unread: [],
             type: 'howto',
-            ...(language !== undefined ? { language } : {}),
+            language,
         };
 
         return this.createChat(newChat, () =>

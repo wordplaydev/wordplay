@@ -412,9 +412,10 @@
                     console.error(error);
                 }
             }
-        } catch (_) {
+        } catch (error) {
             if (request !== translateRequest) return;
             // The network translation pass failed; cached entries remain shown.
+            console.error(error);
             translateError = true;
         } finally {
             if (request === translateRequest) translating = false;
