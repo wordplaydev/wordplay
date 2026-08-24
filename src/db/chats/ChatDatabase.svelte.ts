@@ -329,9 +329,12 @@ export default class Chat {
 
 const ChatsCollection = Domain.Chats;
 
-/** Firestore collection that stores per-chat, per-language translation
- *  caches as small flat documents, separate from the main chat document.
- */
+/** Firestore collection for per-chat, per-language translation caches, stored
+ *  as small flat sidecar documents separate from the main chat document.
+ *
+ *  Not a `Domain`: this is a disposable, server-only cache — not mirrored to
+ *  Dexie, not sync/save-tracked, not backed up. Losing it just costs a
+ *  re-translation. */
 const ChatTranslationsCollection = 'chatTranslations';
 
 /** Stable Firestore document ID for the translation sidecar of a given chat
