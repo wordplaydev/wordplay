@@ -28,6 +28,8 @@ vi.mock('firebase/firestore', () => ({
     updateDoc: vi.fn(async () => {}),
     deleteDoc: vi.fn(async () => {}),
     deleteField: vi.fn(() => ({ _op: 'deleteField' })),
+    documentId: vi.fn(() => ({ _fieldPath: 'documentId' })),
+    getDocs: vi.fn(async () => ({ docs: [] })),
     runTransaction: vi.fn(
         async (
             _firestore: unknown,
@@ -75,7 +77,13 @@ vi.mock('@db/Database', () => ({
     Projects: {},
 }));
 
-import { onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import {
+    deleteDoc,
+    getDocs,
+    onSnapshot,
+    setDoc,
+    updateDoc,
+} from 'firebase/firestore';
 import Chat, { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 
 function makeChat(
@@ -105,6 +113,8 @@ describe('ChatDatabase granular message operations', () => {
         mockDatabase = {
             getUser: vi.fn(() => ({ uid: 'user-1' })),
             track: vi.fn(<T>(p: Promise<T>) => p),
+            write: vi.fn(<T>(p: Promise<T>) => p),
+            reportBanner: vi.fn(),
             Projects: {
                 listen: vi.fn(),
             },
@@ -115,6 +125,10 @@ describe('ChatDatabase granular message operations', () => {
                 addListener: vi.fn(),
             },
         };
+
+        (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+            docs: [],
+        });
 
         db = new ChatDatabase(mockDatabase);
     });
@@ -292,6 +306,97 @@ describe('ChatDatabase granular message operations', () => {
             });
             expect('translations' in data.messages[0]).toBe(false);
         });
+
+        it('deletes the removed message from every translation sidecar', async () => {
+            const existingMessage: SerializedMessage = {
+                id: 'm1',
+                time: 1000,
+                creator: 'user-2',
+                text: 'flagged content',
+                moderation: 'pending',
+                reporter: 'user-1',
+            };
+            transactionReadSnap = {
+                exists: () => true,
+                data: () => ({
+                    v: 2,
+                    project: 'project-1',
+                    participants: ['user-1', 'user-2'],
+                    messages: [existingMessage],
+                    unread: [],
+                    type: 'project',
+                }),
+            };
+            (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+                docs: [
+                    {
+                        ref: {
+                            _ref: {
+                                collection: 'chatTranslations',
+                                id: 'project-1~es',
+                            },
+                        },
+                    },
+                    {
+                        ref: {
+                            _ref: {
+                                collection: 'chatTranslations',
+                                id: 'project-1~fr',
+                            },
+                        },
+                    },
+                ],
+            });
+
+            await db.moderateMessage(
+                makeChat({}, [existingMessage]),
+                existingMessage,
+                'removed',
+                'mod-uid',
+            );
+
+            expect(updateDoc).toHaveBeenCalledTimes(2);
+            const calls = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls;
+            for (const [ref, data] of calls) {
+                expect(ref).toMatchObject({
+                    _ref: { collection: 'chatTranslations' },
+                });
+                expect(data).toEqual({ m1: { _op: 'deleteField' } });
+            }
+        });
+
+        it('leaves translation sidecars untouched when the message is approved', async () => {
+            const existingMessage: SerializedMessage = {
+                id: 'm1',
+                time: 1000,
+                creator: 'user-2',
+                text: 'flagged content',
+                moderation: 'pending',
+                reporter: 'user-1',
+            };
+            transactionReadSnap = {
+                exists: () => true,
+                data: () => ({
+                    v: 2,
+                    project: 'project-1',
+                    participants: ['user-1', 'user-2'],
+                    messages: [existingMessage],
+                    unread: [],
+                    type: 'project',
+                }),
+            };
+
+            await db.moderateMessage(
+                makeChat({}, [existingMessage]),
+                existingMessage,
+                'approved',
+                'mod-uid',
+            );
+
+            expect(getDocs).not.toHaveBeenCalled();
+            expect(updateDoc).not.toHaveBeenCalled();
+        });
     });
 
     describe('saveMessageTranslations', () => {
@@ -397,6 +502,114 @@ describe('ChatDatabase granular message operations', () => {
                 text: null,
             });
             expect('translations' in data.messages[0]).toBe(false);
+        });
+
+        it('deletes the message from every translation sidecar', async () => {
+            const existingMessage: SerializedMessage = {
+                id: 'm1',
+                time: 1000,
+                creator: 'user-1',
+                text: 'oops',
+                translations: { es: 'ups' },
+            };
+            transactionReadSnap = {
+                exists: () => true,
+                data: () => ({
+                    v: 2,
+                    project: 'project-1',
+                    participants: ['user-1', 'user-2'],
+                    messages: [existingMessage],
+                    unread: [],
+                    type: 'project',
+                }),
+            };
+            (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+                docs: [
+                    {
+                        ref: {
+                            _ref: {
+                                collection: 'chatTranslations',
+                                id: 'project-1~es',
+                            },
+                        },
+                    },
+                ],
+            });
+
+            await db.deleteMessage(
+                makeChat({}, [existingMessage]),
+                existingMessage,
+            );
+
+            expect(updateDoc).toHaveBeenCalledTimes(1);
+            const [ref, data] = (
+                updateDoc as unknown as ReturnType<typeof vi.fn>
+            ).mock.calls[0];
+            expect(ref).toMatchObject({
+                _ref: { collection: 'chatTranslations', id: 'project-1~es' },
+            });
+            expect(data).toEqual({ m1: { _op: 'deleteField' } });
+        });
+    });
+
+    describe('deleteChat', () => {
+        it('deletes the chat doc and every translation sidecar for it', async () => {
+            (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+                docs: [
+                    {
+                        ref: {
+                            _ref: {
+                                collection: 'chatTranslations',
+                                id: 'project-1~es',
+                            },
+                        },
+                    },
+                    {
+                        ref: {
+                            _ref: {
+                                collection: 'chatTranslations',
+                                id: 'project-1~fr',
+                            },
+                        },
+                    },
+                ],
+            });
+
+            await db.deleteChat('project-1');
+
+            expect(deleteDoc).toHaveBeenCalledTimes(3);
+            const calls = (deleteDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls;
+            expect(calls[0][0]).toMatchObject({
+                _ref: { collection: 'chats', id: 'project-1' },
+            });
+            expect(calls.slice(1).map(([ref]) => ref)).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        _ref: {
+                            collection: 'chatTranslations',
+                            id: 'project-1~es',
+                        },
+                    }),
+                    expect.objectContaining({
+                        _ref: {
+                            collection: 'chatTranslations',
+                            id: 'project-1~fr',
+                        },
+                    }),
+                ]),
+            );
+        });
+
+        it('does not touch translation sidecars when the chat doc delete fails', async () => {
+            (
+                deleteDoc as unknown as ReturnType<typeof vi.fn>
+            ).mockRejectedValueOnce(new Error('offline'));
+
+            await db.deleteChat('project-1');
+
+            expect(getDocs).not.toHaveBeenCalled();
+            expect(mockDatabase.reportBanner).toHaveBeenCalled();
         });
     });
 });

@@ -23,8 +23,11 @@ import {
     arrayUnion,
     collection,
     deleteDoc,
+    deleteField,
     doc,
+    documentId,
     getDoc,
+    getDocs,
     onSnapshot,
     query,
     runTransaction,
@@ -751,6 +754,16 @@ export class ChatDatabase {
                 moderator: moderatorID,
             };
         });
+        // The on-message translations field above is only ever a partial
+        // cache (see trimChatTranslations); the source of truth for a
+        // message's cached translations is the per-language sidecar, which
+        // this doesn't touch on its own. Without this, a removed message's
+        // text survives indefinitely in the sidecar, readable by anyone.
+        if (action === 'removed')
+            await this.deleteMessageTranslations(
+                chat.getProjectID(),
+                message.id,
+            );
     }
 
     /** Clear a message's text (soft delete that preserves the message slot). */
@@ -763,6 +776,58 @@ export class ChatDatabase {
                 text: null,
             };
         });
+        // See the matching comment in moderateMessage: the sidecar is a
+        // separate store from the message's own `translations` field and
+        // must be cleared explicitly too.
+        await this.deleteMessageTranslations(chat.getProjectID(), message.id);
+    }
+
+    /** All translation sidecar doc refs for a chat, one per language that's
+     *  been cached. Sidecar IDs are `${chatID}~${language}` with no separate
+     *  index of which languages exist, so this finds them with a document-ID
+     *  range query bounded by the `~` separator (which sorts after every
+     *  character a chat ID or locale string contains, so this can't match a
+     *  different chat whose ID happens to prefix this one). */
+    private async getChatTranslationRefs(chatID: string) {
+        if (firestore === undefined) return [];
+        const snapshot = await getDocs(
+            query(
+                collection(firestore, ChatTranslationsCollection),
+                where(documentId(), '>=', `${chatID}~`),
+                where(documentId(), '<', `${chatID}~`),
+            ),
+        );
+        return snapshot.docs.map((d) => d.ref);
+    }
+
+    /** Remove one message's cached translation from every language sidecar
+     *  for a chat, e.g. when the message is deleted or removed by a
+     *  moderator — otherwise the removed text survives indefinitely in the
+     *  sidecar, readable by any signed-in user. Best-effort: sidecars are
+     *  disposable caches, so a failure here is logged rather than surfaced. */
+    private async deleteMessageTranslations(chatID: string, messageID: string) {
+        try {
+            const refs = await this.getChatTranslationRefs(chatID);
+            await Promise.all(
+                refs.map((ref) =>
+                    updateDoc(ref, { [messageID]: deleteField() }),
+                ),
+            );
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    /** Delete every translation sidecar for a chat, e.g. when the chat (or
+     *  its owning project, including via account deletion) is deleted.
+     *  Best-effort for the same reason as {@link deleteMessageTranslations}. */
+    private async deleteChatTranslations(chatID: string) {
+        try {
+            const refs = await this.getChatTranslationRefs(chatID);
+            await Promise.all(refs.map((ref) => deleteDoc(ref)));
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     /** Cache translations for several messages in a per-chat, per-language
@@ -830,6 +895,10 @@ export class ChatDatabase {
                 return;
             }
         }
+        // The chat doc is gone, but its translation sidecars are separate
+        // documents keyed by chat + language; without this they'd survive
+        // the chat indefinitely, still readable by any signed-in user.
+        await this.deleteChatTranslations(projectID);
         this.forgetChat(projectID);
     }
 
