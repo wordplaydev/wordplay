@@ -64,7 +64,7 @@ export default class BindConcept extends Concept {
     }
 
     getDocs(locales: Locales): Markup[] {
-        return this.bind.docs.getMarkup(locales);
+        return this.getLocalizedMarkup(this.bind, this.bind.docs, locales);
     }
 
     getNames(): string[] {

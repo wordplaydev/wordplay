@@ -49,9 +49,15 @@ export default function getMenuNoteMarkup(
             : node instanceof Reference || node instanceof PropertyReference
               ? node.resolve(context)
               : undefined);
-    // TypeVariable and Source are Definitions without docs.
+    // TypeVariable and Source are Definitions without docs. A built-in's own docs are in
+    // the languages the *project* declares, so prefer the reader's when the basis has them.
     const docs =
-        named && 'docs' in named ? named.docs.getMarkup(locales)[0] : undefined;
+        named && 'docs' in named
+            ? (
+                  context.getBasis().getLocalizedDocs(named, locales) ??
+                  named.docs
+              ).getMarkup(locales)[0]
+            : undefined;
     if (docs) return firstSentenceOf(docs, locales.getLocaleString());
 
     const doc = docToMarkup(node.getDoc(locales));

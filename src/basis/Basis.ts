@@ -2,7 +2,7 @@ import { createInputs } from '@locale/createInputs';
 import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
 import ConversionDefinition from '@nodes/ConversionDefinition';
-import type Docs from '@nodes/Docs';
+import Docs from '@nodes/Docs';
 import type Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
@@ -29,7 +29,9 @@ import parseType from '@parser/parseType';
 import { toTokens } from '@parser/toTokens';
 import BoolValue from '@values/BoolValue';
 import ValueException from '@values/ValueException';
+import type Node from '@nodes/Node';
 import type { BasisTypeName } from '@basis/BasisConstants';
+import buildCounterparts from '@basis/counterparts';
 import bootstrapBool from '@basis/BoolBasis';
 import InternalExpression from '@basis/InternalExpression';
 import bootstrapList from '@basis/ListBasis';
@@ -63,6 +65,12 @@ export class Basis {
      */
     static readonly Bases: Map<string, Basis> = new Map();
 
+    /** Maps from this basis's definitions to the same definitions in a basis built for
+     *  other locales, keyed by those locales. `undefined` records a basis whose shape
+     *  didn't line up, so we don't try to rebuild it on every doc. */
+    private readonly counterparts: Map<string, Map<Node, Node> | undefined> =
+        new Map();
+
     constructor(locales: Locales) {
         this.locales = locales;
         this.languages = locales.getLanguages();
@@ -88,17 +96,53 @@ export class Basis {
         ].map((s) => new Root(s));
     }
 
-    static getLocalizedBasis(locales: Locales) {
-        // Key on full locale strings, not language codes: zh-CN and zh-TW share a language but
-        // define different names, so a language-only key hands whichever loads second the other's
-        // basis. Includes the fallback, since the basis this caches is built from it too.
-        const key = locales
+    /** Key on full locale strings, not language codes: zh-CN and zh-TW share a language but
+     *  define different names, so a language-only key hands whichever loads second the other's
+     *  basis. Includes the fallback, since the basis this caches is built from it too. */
+    private static localeKey(locales: Locales) {
+        return locales
             .getLocales()
             .map((locale) => toLocaleString(locale))
             .join(',');
+    }
+
+    static getLocalizedBasis(locales: Locales) {
+        const key = Basis.localeKey(locales);
         const basis = Basis.Bases.get(key) ?? new Basis(locales);
         Basis.Bases.set(key, basis);
         return basis;
+    }
+
+    /**
+     * The docs for one of this basis's definitions, in the reader's language.
+     *
+     * A project's basis is built from the *project's* declared locales, not the reader's,
+     * so a reader who chose another language finds no doc in it to select and reads
+     * English. The same definition in a basis built for the reader has one. Names
+     * deliberately stay on the project's basis: they are code, and bringing the reader's
+     * into scope would change which identifiers a program resolves.
+     *
+     * Undefined when the reader's locales are already the basis's — the common case, which
+     * stays free — or when the two bases don't line up.
+     */
+    getLocalizedDocs(definition: Node, locales: Locales): Docs | undefined {
+        const key = Basis.localeKey(locales);
+        if (key === Basis.localeKey(this.locales)) return undefined;
+
+        // Built on first ask, not with the basis: a second basis costs a full build, and
+        // most readers never need one.
+        let map = this.counterparts.get(key);
+        if (!this.counterparts.has(key)) {
+            map = buildCounterparts(this, Basis.getLocalizedBasis(locales));
+            this.counterparts.set(key, map);
+        }
+
+        const counterpart = map?.get(definition);
+        return counterpart !== undefined &&
+            'docs' in counterpart &&
+            counterpart.docs instanceof Docs
+            ? counterpart.docs
+            : undefined;
     }
 
     getRoots() {

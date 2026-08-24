@@ -46,6 +46,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🌐 We fixed the explanations of built-in things, like `#km → #m`, always showing in the language a project was written in instead of the language you chose. Open an English project with French picked and the explanations are now French too.
 - 🔗 A project with no name left the browser tab titled "Wordplay - ", which told you nothing when you had two open. It now says the project is untitled.
 - 🖱️ Two links on a project in your list sat too close together to tap reliably. They're now big enough to hit.
 - 🧲 Writing a strange number like `!#` or `∞` for the @Stage's `gravity` used to freeze everything on the stage that moves. Wordplay now uses ordinary gravity instead. (#1305)
