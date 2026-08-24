@@ -5,6 +5,7 @@ import BooleanType from '@nodes/BooleanType';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
+import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import type Locales from '@locale/Locales';
@@ -110,6 +111,18 @@ export default function bootstrapBool(locales: Locales) {
                     "''",
                     (requestor, val: Value) =>
                         new TextValue(requestor, val.toString()),
+                ),
+                createBasisConversion(
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.basis.Boolean.conversion.number,
+                    ),
+                    '?',
+                    '#',
+                    // There is deliberately no conversion back: which number counts
+                    // as true is the creator's decision, not ours.
+                    (requestor, val: BoolValue) =>
+                        new NumberValue(requestor, val.bool ? 1 : 0),
                 ),
             ],
             BlockKind.Structure,

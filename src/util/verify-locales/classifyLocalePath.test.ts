@@ -6,7 +6,7 @@ import classifyLocalePath, {
 
 test('classifies markup ([formatted]) fields under any key name', () => {
     expect(classifyLocalePath(['node', 'Paragraph', 'doc'])).toBe('markup');
-    expect(classifyLocalePath(['basis', 'Number', 'conversion', 's2m'])).toBe(
+    expect(classifyLocalePath(['basis', 'Number', 'conversion', 'unit'])).toBe(
         'markup',
     );
     expect(
@@ -47,6 +47,10 @@ test('classifies positional ([plain] or untagged) fields', () => {
         classifyLocalePath(['ui', 'howto', 'editor', 'notification', 'labels']),
     ).toBe('plain');
     expect(classifyLocalePath(['regions'])).toBe('plain');
+    // A unit's name is a word, not markup, even though it fills a markup template.
+    expect(classifyLocalePath(['basis', 'Number', 'unit', 'kmph'])).toBe(
+        'plain',
+    );
 });
 
 test('isNameTextPath is true only for NameText-typed identifier fields', () => {

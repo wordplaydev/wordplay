@@ -224,10 +224,11 @@ test.each([
     // Transitive conversions
     ['1km→#cm', '100000cm'],
 
-    // WEIGHT
-    ['1kg→#oz', '35.274oz'],
-    ['1kg→#oz', '35.274oz'],
-    ['1000mg→#lb', '0.002204625lb'],
+    // WEIGHT. These were 35.274oz and 0.002204625lb until #363, because the old
+    // gram-to-ounce and pound factors were rounded to six digits; they are now the
+    // exact international definitions (1 oz = 28.349523125 g, 1 lb = 453.59237 g).
+    ['1kg→#oz', '35.273961949580412916oz'],
+    ['1000mg→#lb', '0.0022046226218487758072lb'],
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
 });
