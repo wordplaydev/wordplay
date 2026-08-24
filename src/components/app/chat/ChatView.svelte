@@ -122,10 +122,11 @@
     // The language the creator has chosen to tag their next message with.
     // Defaults to the viewer's current UI locale (matching startChat) so
     // the send button is usable immediately; the picker lets them override it.
-    let messageLanguage = $state<string | undefined>(
-        localeToString($locales.getLocale()),
+    // It also change after
+    let messageLanguageOverride = $state<string | undefined>(undefined);
+    let messageLanguage = $derived(
+        messageLanguageOverride ?? localeToString($locales.getLocale()),
     );
-
     // The language the viewer chose to translate received messages into, or
     // undefined for no translation.
     let translateTo = $state<string | undefined>(undefined);
@@ -854,7 +855,7 @@
                         label: getMultilingualLanguageLabel(locale),
                     })),
                 ]}
-                change={(ls) => (messageLanguage = ls)}
+                change={(ls) => (messageLanguageOverride = ls)}
             />
             <Button
                 tip={messageSearchExpanded
