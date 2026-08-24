@@ -272,7 +272,7 @@
      *  each translation beneath its original. Messages already carrying a cached
      *  translation for the target reuse it; the rest are handed to
      *  translateMarkupTexts, which groups them by source language and translates
-     *  in batches, then their results are cached on the message for next time.
+     *  in batches, then their results are cached in the sidecar for next time.
      *  Always called from the content-key $effect — never directly — so
      *  translateTo is already set and must not be re-assigned here. */
     async function translateMessages() {
@@ -305,18 +305,12 @@
                 (msg.moderation === undefined || msg.moderation === 'approved');
             if (!isVisibleMessage || msg.text === null) continue;
 
-            // Reuse a sidecar-delivered or on-message cached translation immediately
-
-            const cached =
-                sidecarTranslations[msg.id]?.text ?? msg.translations?.[target];
+            // Reuse a sidecar-delivered cached translation immediately.
+            const cached = sidecarTranslations[msg.id]?.text;
             if (cached !== undefined) {
                 next[msg.id] = { language: target, text: cached };
                 continue;
             }
-
-            // Don't re-translate messages whose cached translations were
-            // evicted to keep the chat within the translation budget.
-            if (chat.evictedTranslationIDs.has(msg.id)) continue;
 
             // Fall back to the chat's language (set at creation), then the
             // viewer's locale as a last resort. This avoids wrongly declaring
@@ -339,8 +333,7 @@
         }
 
         // Show cached results right away; sidecar entries fill any gaps not
-        // yet present in next (sidecar wins for its own ids, next wins for the
-        // on-message cache, but in practice they're disjoint).
+        // yet present in next.
         translations = { ...sidecarTranslations, ...next };
 
         if (toTranslate.length === 0) {
@@ -451,9 +444,6 @@
             return;
         }
 
-        //// msg.translations is deliberately excluded from the key. Including it would
-        // cause translation updates to retrigger this effect, potentially creating a
-        // Firestore → translation → Firestore cycle with repeated LLM calls.
         const contentKey = [
             chat.getProjectID(),
             translateTo,
