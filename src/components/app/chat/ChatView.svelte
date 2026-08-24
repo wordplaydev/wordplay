@@ -83,6 +83,12 @@
         Record<string, { language: string; text: string }>
     >({});
 
+    // Translations delivered exclusively by the Firestore sidecar subscription.
+    // Kept separate so translateMessages can read them without ever clobbering them
+    let sidecarTranslations = $state<
+        Record<string, { language: string; text: string }>
+    >({});
+
     // Whether a translation pass is currently running.
     let translating = $state(false);
     let translateRequest = 0;
@@ -247,8 +253,10 @@
                 (msg.moderation === undefined || msg.moderation === 'approved');
             if (!isVisibleMessage || msg.text === null) continue;
 
-            // Reuse a cached translation for this target immediately
-            const cached = msg.translations?.[target];
+            // Reuse a sidecar-delivered or on-message cached translation immediately
+
+            const cached =
+                sidecarTranslations[msg.id]?.text ?? msg.translations?.[target];
             if (cached !== undefined) {
                 next[msg.id] = { language: target, text: cached };
                 continue;
@@ -278,8 +286,10 @@
             });
         }
 
-        // Show cached results right away then aftere network call
-        translations = next;
+        // Show cached results right away; sidecar entries fill any gaps not
+        // yet present in next (sidecar wins for its own ids, next wins for the
+        // on-message cache, but in practice they're disjoint).
+        translations = { ...sidecarTranslations, ...next };
 
         if (toTranslate.length === 0) {
             translating = false;
@@ -312,7 +322,7 @@
             for (const [id, text] of translated)
                 next[id] = { language: target, text };
 
-            translations = next;
+            translations = { ...sidecarTranslations, ...next };
             messageErrors = failedIds;
 
             // Cache freshly translated messages in one batch so future requests
@@ -344,16 +354,22 @@
     // first, their result arrives here via the snapshot, preventing a
     // duplicate LLM call.  The subscription is torn down and rebuilt whenever
     // the target language changes or translation is turned off.
+    //
+    // Results are written into sidecarTranslations — never into translations
+    // directly — so that translateMessages can read them without clobbering
+    // them on the next pass.
     $effect(() => {
         if (!chat || translateTo === undefined) return;
         const target = translateTo;
+        // Clear stale entries from the previous target language.
+        sidecarTranslations = {};
         const unsub = Chats.subscribeChatTranslations(
             chat.getProjectID(),
             target,
             (entries) => {
                 if (target !== translateTo) return;
-                translations = {
-                    ...translations,
+                sidecarTranslations = {
+                    ...sidecarTranslations,
                     ...Object.fromEntries(
                         Object.entries(entries).map(([id, text]) => [
                             id,
@@ -376,6 +392,7 @@
             // this is the only place that resets the visible state.
             if (translateTo === undefined) {
                 translations = {};
+                sidecarTranslations = {};
                 translateError = false;
                 messageErrors = {};
             }
@@ -383,8 +400,8 @@
         }
 
         //// msg.translations is deliberately excluded from the key. Including it would
-// cause translation updates to retrigger this effect, potentially creating a
-// Firestore → translation → Firestore cycle with repeated LLM calls.
+        // cause translation updates to retrigger this effect, potentially creating a
+        // Firestore → translation → Firestore cycle with repeated LLM calls.
         const contentKey = [
             chat.getProjectID(),
             translateTo,
@@ -536,7 +553,8 @@
             </div>
         {/if}
         {#if messageErrors[msg.id]}
-            <Notice>{$locales
+            <Notice
+                >{$locales
                     .concretize(
                         (l) => l.ui.collaborate.translate.messageError,
                         {
@@ -545,7 +563,8 @@
                                 '—',
                         },
                     )
-                    .toText()}</Notice>
+                    .toText()}</Notice
+            >
         {/if}
         {#if !($user?.uid === msg.creator) && galleryID && isVisibleMessage}
             <Dialog
@@ -632,21 +651,24 @@
                     },
                     ...translatableLocales.map((locale) => ({
                         value: localeToString(locale),
-                        label: (_l: any) => getMultilingualLanguageLabel(locale),
+                        label: (_l: any) =>
+                            getMultilingualLanguageLabel(locale),
                     })),
                 ]}
                 change={(ls) => queueTranslateMessages(ls)}
             />
         </div>
         {#if translateError}
-            <Notice>{$locales
+            <Notice
+                >{$locales
                     .concretize((l) => l.ui.collaborate.translate.error, {
                         to:
                             translateTo !== undefined
                                 ? getMultilingualLanguageLabel(translateTo)
                                 : '—',
                     })
-                    .toText()}</Notice>
+                    .toText()}</Notice
+            >
         {/if}
         <div class="scroller" bind:this={scrollerView}>
             <div class="messages">
@@ -664,7 +686,8 @@
         <div class="language">
             <label class="language-label" for="new-message-language"
                 ><LocalizedText
-                    path={(l) => l.ui.collaborate.translate.messageLanguageLabel}
+                    path={(l) =>
+                        l.ui.collaborate.translate.messageLanguageLabel}
                 /></label
             >
             <Options
@@ -678,7 +701,8 @@
                     },
                     ...translatableLocales.map((locale) => ({
                         value: localeToString(locale),
-                        label: (_l: any) => getMultilingualLanguageLabel(locale),
+                        label: (_l: any) =>
+                            getMultilingualLanguageLabel(locale),
                     })),
                 ]}
                 change={(ls) => (messageLanguage = ls)}
@@ -699,8 +723,7 @@
             <div class="send">
                 <Button
                     submit
-                    active={chat !== undefined &&
-                        newMessage.trim() !== ''}
+                    active={chat !== undefined && newMessage.trim() !== ''}
                     tip={(l) => l.ui.collaborate.button.submit.tip}
                     action={submitMessage}
                     background
