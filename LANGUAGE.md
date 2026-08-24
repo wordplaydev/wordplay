@@ -129,7 +129,8 @@ Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `
 > extrabold → `^`  
 > link → `@`  
 > mention → `$(?:[?!]|#?[a-zA-Z0-9]+)`  
-> concept → `@(?!(https?)?://)NAME([.]NAME|/NAME)?` where NAME does not mix Latin and non-Latin script  
+> concept → `@(?!(https?)?://|mailto:)NAME([.]NAME|/NAME)?` where NAME does not mix Latin and non-Latin script
+> email → `LOCAL@DOMAIN`, an ordinary email address  
 > externalexample → `\[a-z]+\|[^\\]*(\\[a-z]+\|[^\\]*)*\\`
 
 An external example embeds code from another programming language for documentation that contrasts Wordplay with other languages. It is delimited like `code` (with `\`) but is tag-first: each variant is a short lowercase language tag, a `|`, then the verbatim code, with variants separated by a single `\` and the whole terminated by a `\` — e.g. `\py| a = 5\js| let a = 5;\`. The leading `<tag>|` distinguishes it from a Wordplay `code` example (`\1 + 1\`); the body is captured verbatim and never tokenized, type-checked, or evaluated (so it cannot itself contain a `\`). Renderers highlight the variant matching the reader's chosen contrast language. Any lowercase tag is accepted; known tags map to a syntax-highlighting grammar, and unknown tags render plain.
@@ -152,7 +153,7 @@ A `$` mention whose name is a key in the locale's **word list** (`terms`) is a *
 
 > words → _any sequence of characters between `markup` that aren't markup delimeters above_
 
-Markup delimiters only tokenize as delimiters where they have syntactic meaning; everywhere else they are ordinary `words` characters, so a stray symbol never breaks markup parsing. Specifically: `[` opens a branch only immediately after a mention; `|` and `]` are branch delimiters only inside an open branch; `<` opens a link only when the whole `<…@…>` tag follows on the line; `@` (the link separator) and `>` are tag delimiters only inside an open link tag; and any character that matches no markup token at all is a word, never an unknown token. A bare URL (`https://…`) is its own token so that its `//` isn't folded by the escape rule below, and it reads as word-like content. Doubling a markup symbol (e.g. `**`, `[[`, `@@`) always escapes it as a literal character.
+Markup delimiters only tokenize as delimiters where they have syntactic meaning; everywhere else they are ordinary `words` characters, so a stray symbol never breaks markup parsing. Specifically: `[` opens a branch only immediately after a mention; `|` and `]` are branch delimiters only inside an open branch; `<` opens a link only when the whole `<…@…>` tag follows on the line; `@` (the link separator) and `>` are tag delimiters only inside an open link tag; and any character that matches no markup token at all is a word, never an unknown token. A bare URL (`https://…`) is its own token so that its `//` isn't folded by the escape rule below, and it reads as word-like content; a bare email address is a token for the same reason, so that its `@` isn't read as the start of a concept link. Doubling a markup symbol (e.g. `**`, `[[`, `@@`) always escapes it as a literal character.
 
 Compound data structures have several delimiters:
 
@@ -471,8 +472,8 @@ Two text values with different text delimiters are considered equivalent, and so
 > FORMATTED → `` ` `` CONTENT `` ` `` LANGUAGE  
 > CONTENT → PARAGRAPH＊  
 > PARAGRAPH → SEGMENT＊  
-> SEGMENT → words ｜ url ｜ LINK ｜ concept ｜ CODE ｜ MENTION ｜ BRANCH  
-> LINK → `<` words `@` words `>`  
+> SEGMENT → words ｜ url ｜ email ｜ LINK ｜ concept ｜ CODE ｜ MENTION ｜ BRANCH  
+> LINK → `<` words `@` url `>`  
 > CODE → `\` PROGRAM `\`  
 > BRANCH → mention `[` SEGMENT＊ (`|` SEGMENT＊)＊ `]`
 
@@ -485,6 +486,15 @@ The final basic value is markup, which behaves identically to text values aside 
 ```
 
 These three values are 1) a link, 2) a hello world with underscores, italics, and extra bold, and 3) a sentence with an embedded code example.
+
+An email address is a link too, and needs no delimiters: writing one in markup makes it a link that opens a message to that address.
+
+```
+`write to hi@wordplay.dev`
+`<email us@mailto:hi@wordplay.dev>`
+```
+
+A link's URL is a single URL token, not arbitrary words: it is an `http`/`https` address, a `mailto:` address, a schemeless `://path` within Wordplay, or a bare email address. Only those become links; anything else in a link's URL position renders as its description, unlinked.
 
 #### _evaluation_
 

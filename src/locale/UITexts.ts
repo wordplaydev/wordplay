@@ -226,6 +226,11 @@ type UITexts = {
             starterCode: string;
         };
         /** The error shown when a project ID is unknown. */
+        /** [formatted] Shown in a scratch project — a copy of a guide example,
+         *  kept on this device and left out of the project list */
+        scratch: FormattedText;
+        /** [plain] What to call a project that has no name, in the browser tab */
+        untitled: string;
         error: {
             /** [plain] Shown when a project doesn't exist or the user doesn't have access */
             unknown: string;
@@ -249,6 +254,8 @@ type UITexts = {
             addSource: string;
             /** Remix the project into a new project of your own */
             remix: ButtonText;
+            /** The button that opens a guide example as an editable scratch project */
+            tinker: ButtonText;
             /** [plain] Revert project to original code */
             revert: string;
             /** [plain] Keyboard shortcut to focus output tile */
@@ -376,6 +383,8 @@ type UITexts = {
         link: {
             /** [plain] Tooltip on the link from a remixed project back to the project it was remixed from */
             remixOf: string;
+            /** [plain] The link from a scratch project back to where it was opened from, naming that place */
+            backTo: Template<['place']>;
         };
         /** Interactive tour explaining the bottom-row project controls */
         tour: {
@@ -1087,6 +1096,8 @@ type UITexts = {
             delete: string;
             /** [plain] Confirm deleting the message */
             confirmDelete: string;
+            /** The button that hands ownership of the project to a collaborator */
+            transfer: ConfirmText;
         };
         /** Dialog for chat moderation */
         moderation: HeaderAndExplanationText & {
@@ -1111,6 +1122,13 @@ type UITexts = {
             empty: string;
             /** [plain] A message was deleted */
             deleted: string;
+            /** [formatted] Shown next to the ownership transfer control when the project is in a gallery, since gallery membership doesn't follow the project to its new owner */
+            transferGallery: FormattedText;
+        };
+        /** Announcements made as collaboration changes */
+        announce: {
+            /** [plain] Said when the project is handed to a new owner */
+            transferred: Template<['name', 'project']>;
         };
         /** Messages to explain the purpose of the chat to each kind of participant */
         prompt: {
@@ -1495,6 +1513,10 @@ type UITexts = {
                 preview: ExplanationText;
                 /** The remix provenance section's explanation */
                 remix: ExplanationText;
+                /** The research consent subheader and explanation. Sits inside
+                 *  the public/private section, since it is a second, narrower
+                 *  permission about the same project. */
+                research: HeaderAndExplanationText;
             };
             /** The tabs that switch between the dialog's sharing settings */
             tab: ModeText<[string, string, string, string, string]>;
@@ -1534,6 +1556,8 @@ type UITexts = {
                 public: ModeText<[string, string]>;
                 /** The preview auto/custom toggle mode widget */
                 preview: TipsModeText<[string, string]>;
+                /** The research consent toggle mode widget */
+                research: ModeText<[string, string]>;
             };
             /** Errors in the share dialog */
             error: {
@@ -1654,8 +1678,10 @@ type UITexts = {
             };
             /** [plain] Tooltip for the button that deletes a notification */
             delete: string;
-            /** [plain] ARIA label for the new-notification popup indicator */
-            popup: string;
+            /** [plain] Said to screen readers when notifications arrive. Carries
+             *  the count, because a live region handed the same string twice
+             *  stays silent — a constant here is heard once and never again. */
+            popup: Template<['#count']>;
         };
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {

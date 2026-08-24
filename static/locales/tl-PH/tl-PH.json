@@ -6980,6 +6980,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~tanggalin ang mga wikang hindi ginagamit ng kodigo ng proyektong ito",
                     "label": "$~tanggalin ang hindi ginagamit"
+                },
+                "tinker": {
+                    "label": "$~subukan ito…",
+                    "tip": "$~buksan ang kopya ng halimbawang ito sa bagong bintana, para masubukan mong baguhin ito at makita kung ano ang mangyayari"
                 }
             },
             "field": {
@@ -7076,8 +7080,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~pumunta sa proyektong pinag-remix-an nito"
-            }
+                "remixOf": "$~pumunta sa proyektong pinag-remix-an nito",
+                "backTo": "$~bumalik sa $place"
+            },
+            "scratch": "$~Pansamantalang kopya ito ng isang halimbawa. I-remix ito para mapanatili.",
+            "untitled": "$~Proyektong walang pamagat"
         },
         "checkpoints": {
             "label": {
@@ -8031,6 +8038,10 @@
                     },
                     "remix": {
                         "explanation": "$~Ang /remix/ ay isang kopya ng proyekto na binago ng isang tao para maging sarili niya. Naaalala namin kung saan nagmula ang isang remix, kaya ang taong gumawa ng orihinal ay kinikilala pa rin."
+                    },
+                    "research": {
+                        "header": "$~Pananaliksik",
+                        "explanation": "$~Minsan sumusulat at nagsasalita kami tungkol sa Wordplay — sa mga papel na pananaliksik, sa mga pagtalakay, at sa mga ipinapakita namin sa mga guro at pamilya. Kapag binuksan mo ito, maaari naming ipakita ang proyektong ito bilang halimbawa, nang walang pangalan mo, username mo, o anumang bagay na nagsasabing sa iyo ang account.\n\nMaaari mong isara ito anumang oras. Ang pagsara nito ay nangangahulugang itigil na naming gamitin ang proyekto mo sa anumang bago, pero hindi na nito mababawi ang isang bagay na nailathala na o naiprisenta na namin."
                     }
                 },
                 "field": {
@@ -8056,6 +8067,17 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~pananaliksik",
+                        "labels": [
+                            "$~hindi ibinahagi",
+                            "$~ibinahagi nang hindi nagpapakilala"
+                        ],
+                        "tips": [
+                            "$~huwag ipakita ang proyektong ito sa pananaliksik o komunikasyon tungkol sa Wordplay",
+                            "$~payagan ang Wordplay na ipakita ang proyektong ito nang hindi nagpapakilala sa pananaliksik at komunikasyon tungkol sa Wordplay"
                         ]
                     }
                 },
@@ -8340,7 +8362,7 @@
                     "link": "$~mga detalye"
                 },
                 "delete": "$~burahin ang notipikasyong ito",
-                "popup": "$~bagong abiso"
+                "popup": "$~$#count[1 abiso|$count na abiso]"
             },
             "locale": {
                 "header": "$~Wika",
@@ -8482,7 +8504,11 @@
                     "tip": "$~magsimula ng talakayan sa iyong sarili o sa iba."
                 },
                 "delete": "$~burahin ang mensaheng ito",
-                "confirmDelete": "$~kumpirmahin ang pagbura?"
+                "confirmDelete": "$~kumpirmahin ang pagbura?",
+                "transfer": {
+                    "description": "$~gawing may-ari ng proyekto ang taong ito",
+                    "prompt": "$~Gawin ba siyang may-ari? Mananatili kang kolaborador at maaari ka pa ring mag-edit, pero hindi mo na mabubura ang proyektong ito."
+                }
             },
             "moderation": {
                 "header": "$~Iulat ang mensaheng ito",
@@ -8503,7 +8529,8 @@
                 "unowned": "$~Hindi nakaimbak online ang proyektong ito, kaya hindi ito maaaring magkaroon ng chat o mga collaborator.",
                 "offline": "$~Hindi ma-load ang chat na ito.",
                 "empty": "$~Walang mga mensahe.",
-                "deleted": "$~Binura na ang mensaheng ito."
+                "deleted": "$~Binura na ang mensaheng ito.",
+                "transferGallery": "$~Nasa isang gallery ang proyektong ito. Kapag ibinigay mo ito sa iba, hindi sila awtomatikong naidaragdag sa gallery na iyon, kaya maaaring hindi nila ito makita doon."
             },
             "prompt": {
                 "solo": "$~Makipag-chat sa sarili mo o magdagdag...",
@@ -8530,6 +8557,9 @@
                 "commenters": "$~Maaaring *talakayin* ng mga /tagapagkomento/ ang proyekto sa iyo, ngunit hindi nila ito maaaring *i-edit*.",
                 "viewers": "$~Maaaring *tingnan* ng mga /tumitingin/ ang proyekto at ang *code* nito, ngunit hindi nila ito maaaring *talakayin* o *i-edit*.",
                 "restrict": "$~Kapag ang isang proyekto ay nasa isang *gallery*, bilang default, *lahat* ng makakakita sa gallery ay makakakita ng iyong proyekto. *Itinatago* ito ng /restrict/ toggle mula sa lahat maliban sa iyo at sa mga curator ng gallery."
+            },
+            "announce": {
+                "transferred": "$~Si $name na ngayon ang may-ari ng $project"
             }
         },
         "palette": {
@@ -9149,7 +9179,51 @@
                     "nodeletes": "$~Dapat ay <login@://login> ka para mabura ang mga naka-archive na proyekto.",
                     "delete": "$~Naku, hindi namin mabura ang proyekto!"
                 },
-                "installedprompt": "$~Ginagamit mo ang Wordplay bilang isang naka-install na app, at may sariling mga proyekto ito, hiwalay sa mga nasa iyong web browser. Nandiyan pa rin ang anumang proyekto na ginawa mo sa iyong browser. <Mag-log in@://login> para makita ang lahat ng iyong proyekto sa dalawang lugar."
+                "installedprompt": "$~Ginagamit mo ang Wordplay bilang isang naka-install na app, at may sariling mga proyekto ito, hiwalay sa mga nasa iyong web browser. Nandiyan pa rin ang anumang proyekto na ginawa mo sa iyong browser. <Mag-log in@://login> para makita ang lahat ng iyong proyekto sa dalawang lugar.",
+                "sort": {
+                    "label": "$~ayos",
+                    "labels": ["$~pangalan", "$~kamakailang binago"],
+                    "tips": [
+                        "$~ayusin ang mga proyekto ayon sa pangalan",
+                        "$~ayusin ang mga proyekto ayon sa huling pagbabago mo"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~ano ang tawag sa folder na ito",
+                        "placeholder": "$~folder"
+                    },
+                    "none": "$~walang folder",
+                    "button": {
+                        "create": "$~gumawa ng bagong folder",
+                        "expand": "$~ipakita ang laman ng folder na ito",
+                        "collapse": "$~itago ang laman ng folder na ito"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~burahin ang folder na ito at i-archive ang mga proyekto rito",
+                            "prompt": "$~Burahin ang folder at i-archive ang mga proyekto nito"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~ilipat ang $project sa $folder",
+                        "moved": "$~$project inilipat sa $folder",
+                        "movedOut": "$~$project inilipat palabas ng folder nito",
+                        "expanded": "$~$folder pinalawak, $#count[1 proyekto|$count na proyekto]",
+                        "collapsed": "$~$folder pinaliit, $#count[1 proyekto|$count na proyekto]",
+                        "selected": "$~$folder napili, $#count[1 proyekto|$count na proyekto]",
+                        "created": "$~$folder nagawa",
+                        "deleted": "$~$folder binura, $#count[1 proyekto na-archive|$count na proyekto na-archive]",
+                        "renamed": "$~pinalitan ang pangalan ng folder tungo sa $folder",
+                        "projectSelected": "$~$project napili",
+                        "cleared": "$~walang napili"
+                    },
+                    "instructions": {
+                        "none": "$~I-click ang isang proyekto o folder para piliin ito.",
+                        "project": "$~Ilipat ang proyektong ito gamit ang mga pindutang *pataas* at *pababa*, o hilahin ito papunta sa isang folder. Pindutin ang *escape* kapag tapos ka na.",
+                        "folder": "$~I-type ang pangalan para palitan ang pangalan ng folder na ito. Kung burahin mo ito, mailalagay ang lahat ng laman nito sa iyong archive."
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Mga Galeriya",
@@ -9693,6 +9767,16 @@
                     "$~Isa pang bagay tungkol sa paggawa ng proyektong *pampubliko*. Ang mga pampublikong proyekto ay ibinabahagi sa ilalim ng <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. Ibig sabihin, kahit sino ay maaaring mag-/remix/ ng iyong pampublikong proyekto — gumawa ng sariling kopya nito at baguhin ito — at maaari mo ring i-remix ang proyekto ng iba.",
                     "Tatlong bagay ang kasama sa lisensyang ito. Kailangang kilalanin ng mga nag-remix kung sino ang gumawa ng orihinal. Kailangan nilang ibahagi ang kanilang remix sa ilalim ng parehong lisensyang ito, para manatili itong bukas para sa susunod na tao. At hindi nila maaaring gawing pribado ang isang pampublikong proyekto para itago ito sa sarili lamang.",
                     "Tinutulungan namin kayo sa bahagi ng pagkilala: kapag may nag-remix ng proyekto, naaalala namin kung saan ito nagmula at nagpapakita ng link pabalik dito. Ang paggawa ng proyektong pampubliko ay ang paraan mo para pumayag sa lahat ng ito, kaya kung mas gugustuhin mong walang mag-remix ng isang proyekto, panatilihin itong pribado."
+                ],
+                "research": [
+                    "$~Isang huling pagpipilian, at ito ay ganap na sa iyo. Minsan sumusulat at nagsasalita kami tungkol sa Wordplay — sa mga papel-pananaliksik, sa mga talumpati, at sa ipinapakita namin sa mga guro at pamilya. Gusto naming ipakita ang tunay na ginagawa ng mga tao gamit ito, pero hindi namin ipapakita ang iyong proyekto maliban kung sasabihin mong pwede.",
+                    "Bawat proyekto ay may setting na *Pananaliksik* sa mga opsyon nito sa pagbabahagi, at ito ay naka-off sa simula. Kapag ito ay in-on mo, maaari naming ipakita ang isang proyektong iyon bilang halimbawa, nang walang pangalan mo, username mo, o anumang bagay na nagsasabing sa iyo ang account. Ito ay bawat proyekto, kaya ang pagsang-ayon sa isa ay walang sinasabi tungkol sa iba.",
+                    "Maaari mo itong i-off anumang oras. Ang pag-off nito ay nangangahulugang hihinto kaming gumamit ng iyong proyekto sa anumang bago, pero hindi na nito mababawi ang isang bagay na na-publish o na-ipresenta na namin."
+                ],
+                "warnings": [
+                    "$~Narito nang eksakto ang mangyayari kung sumira sa mga alituntuning ito ang iyong pampublikong nilalaman. Susuriin ito ng isang moderator, hihinto ito sa pagiging pampubliko, at makakatanggap ka ng babala sa iyong mga notification na nagsasabi kung alin ito. Sinumang naka-sign in ay maaaring humingi sa isang moderator na tingnan ang pampublikong nilalaman gamit ang pindutan ng ulat dito.",
+                    "Pagkatapos ng tatlong babala, maaari ka pa ring gumawa ng mga proyekto, ibahagi pa rin ang mga ito sa mga taong pinili mo, at gamitin pa rin ang lahat ng iba pa dito. Ang mawawala sa iyo ay ang kakayahang gumawa ng anumang pampubliko.",
+                    "Kung sa tingin mo ay mali ang isang babala, o matagal na itong nangyari at gusto mong magbahagi nang pampubliko muli, sumulat sa hi@wordplay.dev at sabihin sa amin ang iyong username at dahilan. May taong babasa nito."
                 ]
             },
             "donate": {
@@ -10212,6 +10296,24 @@
         },
         "error": {
             "notmod": "$~Mukhang hindi ka isang moderator. Kung kamakailan ka lang nabigyan ng mga pribilehiyo bilang moderator, maaaring kailanganin mong mag-login muli. Kung hindi, tingnan ang wiki para sa kung paano humiling ng mga pribilehiyo bilang moderator."
+        },
+        "report": {
+            "button": "$~Alertuhan ang moderator",
+            "confirm": "$~Alertuhan ang moderator",
+            "sent": "$~may hiniling na moderator na tingnan ito",
+            "announce": "$~may hiniling na moderator na tingnan ang $project",
+            "flagged": "$~May nag-ulat ng proyektong ito, kaya ito ang una sa pila."
+        },
+        "strike": {
+            "issue": "$~babalaan ang gumawang ito",
+            "consequence": "$~Ito ang magiging babala bilang $#count[1|$count] para sa taong ito. $banning[Aalisin ng babalang ito ang kanyang kakayahang gawing pampubliko ang anuman.|Kaya pa niyang gawing pampubliko ang mga bagay sa loob ng $#remaining[1 pang babala|$remaining pang mga babala].]",
+            "confirm": {
+                "description": "$~itala ang desisyong ito at babalaan ang gumawa",
+                "prompt": "$~Babalaan sila"
+            },
+            "banned": "$~Nabalaan ka na nang tatlong beses tungkol sa pampublikong nilalaman, kaya hindi ka na makakapaglabas ng mga proyekto o galeriya nang pampubliko. Puwede ka pa ring gumawa ng mga proyekto, at ibahagi pa rin ang mga ito sa mga taong pinili mo. Kung sa tingin mo ay pagkakamali ito, o matagal na itong nangyari at gusto mo nang muling magbahagi nang pampubliko, sumulat sa hi@wordplay.dev at sabihin sa amin ang iyong username at dahilan.",
+            "warned": "$~May pampublikong nilalaman mo na lumabag sa mga patakaran sa pagbabahagi, kaya hindi na ito pampubliko. Ito ang babala bilang $#count[1|$count]. $#remaining[Isa na lang at hindi ka na makakapaglabas ng anumang bagay nang pampubliko.|Pagkatapos ng $remaining pang babala, hindi ka na makakapaglabas ng anumang bagay nang pampubliko.]",
+            "notification": "$~Babala bilang $#count[1|$count] tungkol sa isang bagay na ibinahagi mo nang pampubliko."
         }
     },
     "gallery": {

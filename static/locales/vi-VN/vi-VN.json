@@ -6983,6 +6983,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~xóa các ngôn ngữ mà mã số của dự án này không dùng",
                     "label": "$~xóa cái chưa dùng"
+                },
+                "tinker": {
+                    "label": "$~thử xem…",
+                    "tip": "$~mở một bản sao của ví dụ này trong cửa sổ mới, để bạn có thể thay đổi nó và xem điều gì xảy ra"
                 }
             },
             "field": {
@@ -7079,8 +7083,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~đi tới dự án gốc mà bản này được phối lại từ đó"
-            }
+                "remixOf": "$~đi tới dự án gốc mà bản này được phối lại từ đó",
+                "backTo": "$~quay lại $place"
+            },
+            "scratch": "$~Đây là bản sao tạm thời của một ví dụ. Hãy phối lại để giữ nó.",
+            "untitled": "$~Dự án chưa đặt tên"
         },
         "checkpoints": {
             "label": {
@@ -8038,6 +8045,10 @@
                     },
                     "remix": {
                         "explanation": "$~Một /bản phối lại/ là bản sao của một dự án mà ai đó đã thay đổi để tạo thành của riêng họ. Chúng tôi ghi nhớ bản phối lại đến từ đâu, để người tạo ra bản gốc vẫn được ghi công."
+                    },
+                    "research": {
+                        "header": "$~Nghiên cứu",
+                        "explanation": "$~Đôi khi chúng tôi viết và nói về Wordplay — trong các bài nghiên cứu, các buổi nói chuyện, và những gì chúng tôi cho giáo viên và gia đình xem. Nếu bạn bật tính năng này, chúng tôi có thể cho xem dự án này như một ví dụ, mà không nêu tên bạn, tên tài khoản của bạn, hay bất cứ điều gì cho thấy đây là dự án của bạn.\n\nBạn có thể tắt tính năng này bất cứ lúc nào. Tắt nó nghĩa là chúng tôi ngừng dùng dự án của bạn cho những việc mới, nhưng không thể thu hồi những gì đã công bố hoặc trình bày trước đó."
                     }
                 },
                 "field": {
@@ -8063,6 +8074,14 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~nghiên cứu",
+                        "labels": ["$~chưa chia sẻ", "$~chia sẻ ẩn danh"],
+                        "tips": [
+                            "$~không hiển thị dự án này trong nghiên cứu hoặc thông tin truyền thông về Wordplay",
+                            "$~cho phép Wordplay hiển thị dự án này một cách ẩn danh trong nghiên cứu và thông tin truyền thông về Wordplay"
                         ]
                     }
                 },
@@ -8347,7 +8366,7 @@
                     "link": "$~chi tiết"
                 },
                 "delete": "$~xóa thông báo này",
-                "popup": "$~thông báo mới"
+                "popup": "$~$#count[$count thông báo]"
             },
             "locale": {
                 "header": "$~Ngôn ngữ",
@@ -8489,7 +8508,11 @@
                     "tip": "$~Bắt đầu cuộc thảo luận với chính mình hoặc với người khác."
                 },
                 "delete": "$~xóa tin nhắn này",
-                "confirmDelete": "$~Xác nhận xóa?"
+                "confirmDelete": "$~Xác nhận xóa?",
+                "transfer": {
+                    "description": "$~biến người này thành chủ sở hữu của dự án",
+                    "prompt": "$~Biến họ thành chủ sở hữu? Bạn vẫn là người cộng tác và có thể tiếp tục chỉnh sửa, nhưng bạn sẽ không còn có thể xóa dự án này nữa."
+                }
             },
             "moderation": {
                 "header": "$~Báo cáo tin nhắn này",
@@ -8510,7 +8533,8 @@
                 "unowned": "$~Dự án này không được lưu trữ trực tuyến, vì vậy không thể có chức năng trò chuyện hoặc cộng tác viên.",
                 "offline": "$~Không thể tải cuộc trò chuyện này.",
                 "empty": "$~Không có tin nhắn nào.",
-                "deleted": "$~Tin nhắn này đã bị xóa."
+                "deleted": "$~Tin nhắn này đã bị xóa.",
+                "transferGallery": "$~Dự án này nằm trong một phòng trưng bày. Trao nó cho người khác không thêm họ vào phòng trưng bày đó, nên họ có thể sẽ không thấy được nó ở đó."
             },
             "prompt": {
                 "solo": "$~Trò chuyện với chính mình hoặc thêm...",
@@ -8537,6 +8561,9 @@
                 "commenters": "$~Người bình luận có thể *thảo luận* về dự án với bạn, nhưng không được phép *chỉnh sửa* nó.",
                 "viewers": "$~Người xem có thể xem dự án và mã nguồn của nó, nhưng không thể thảo luận hoặc chỉnh sửa.",
                 "restrict": "$~Khi một dự án nằm trong *thư viện ảnh*, theo mặc định *mọi người* có thể xem thư viện đều có thể thấy dự án của bạn. Nút /restrict/ sẽ *ẩn* dự án đó khỏi mọi người ngoại trừ bạn và người quản lý thư viện."
+            },
+            "announce": {
+                "transferred": "$~$name hiện là chủ sở hữu của $project"
             }
         },
         "palette": {
@@ -9074,7 +9101,51 @@
                     "description": "$~Tìm kiếm dự án và tệp nguồn",
                     "noResults": "$~Không tìm thấy kết quả nào."
                 },
-                "installedprompt": "$~Bạn đang dùng Wordplay như một ứng dụng đã cài đặt, và nó giữ các dự án riêng, tách biệt với các dự án trong trình duyệt web của bạn. Bất kỳ dự án nào bạn đã tạo trong trình duyệt vẫn còn ở đó. <Đăng nhập@://login> để xem tất cả dự án của bạn ở cả hai nơi."
+                "installedprompt": "$~Bạn đang dùng Wordplay như một ứng dụng đã cài đặt, và nó giữ các dự án riêng, tách biệt với các dự án trong trình duyệt web của bạn. Bất kỳ dự án nào bạn đã tạo trong trình duyệt vẫn còn ở đó. <Đăng nhập@://login> để xem tất cả dự án của bạn ở cả hai nơi.",
+                "sort": {
+                    "label": "$~sắp xếp",
+                    "labels": ["$~tên", "$~chỉnh sửa gần đây"],
+                    "tips": [
+                        "$~sắp xếp dự án theo tên",
+                        "$~sắp xếp dự án theo lần bạn thay đổi gần nhất"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~tên của thư mục này",
+                        "placeholder": "$~thư mục"
+                    },
+                    "none": "$~không có thư mục",
+                    "button": {
+                        "create": "$~tạo thư mục mới",
+                        "expand": "$~hiện những gì trong thư mục này",
+                        "collapse": "$~ẩn những gì trong thư mục này"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~xóa thư mục này và lưu trữ các dự án trong đó",
+                            "prompt": "$~Xóa thư mục và lưu trữ các dự án của nó"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~chuyển $project sang $folder",
+                        "moved": "$~$project đã được chuyển sang $folder",
+                        "movedOut": "$~$project đã được chuyển ra khỏi thư mục của nó",
+                        "expanded": "$~$folder đã mở rộng, $#count[$count dự án]",
+                        "collapsed": "$~$folder đã thu gọn, $#count[$count dự án]",
+                        "selected": "$~$folder đã được chọn, $#count[$count dự án]",
+                        "created": "$~$folder đã được tạo",
+                        "deleted": "$~$folder đã bị xóa, $#count[$count dự án đã được lưu trữ]",
+                        "renamed": "$~thư mục đã được đổi tên thành $folder",
+                        "projectSelected": "$~$project đã được chọn",
+                        "cleared": "$~chưa chọn gì"
+                    },
+                    "instructions": {
+                        "none": "$~Nhấp vào một dự án hoặc một thư mục để chọn nó.",
+                        "project": "$~Di chuyển dự án này bằng phím mũi tên *lên* và *xuống*, hoặc kéo nó vào một thư mục. Nhấn *escape* khi bạn xong.",
+                        "folder": "$~Gõ tên để đổi tên thư mục này. Xóa nó sẽ đưa mọi thứ bên trong vào kho lưu trữ của bạn."
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Phòng trưng bày",
@@ -9618,6 +9689,16 @@
                     "$~Còn một điều nữa về việc tạo một dự án *công khai*. Các dự án công khai được chia sẻ theo <giấy phép Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Điều đó nghĩa là bất kỳ ai cũng có thể /phối lại/ dự án công khai của bạn — tạo bản sao của riêng họ và thay đổi nó — và bạn cũng có thể phối lại dự án của bất kỳ ai khác.",
                     "Giấy phép đó đi kèm ba điều. Người phối lại phải ghi công người đã tạo ra bản gốc. Họ phải chia sẻ bản phối lại của mình theo cùng giấy phép này, để nó vẫn mở cho người tiếp theo. Và họ không thể biến một dự án công khai thành riêng tư để giữ cho riêng mình.",
                     "Chúng tôi giúp bạn phần ghi công: khi ai đó phối lại một dự án, chúng tôi ghi nhớ nó đến từ đâu và hiển thị một liên kết trở lại. Tạo một dự án công khai là cách bạn đồng ý với tất cả điều này, vì vậy nếu bạn không muốn ai phối lại một dự án, hãy giữ nó riêng tư."
+                ],
+                "research": [
+                    "$~Một lựa chọn cuối cùng, và nó hoàn toàn là của bạn. Đôi khi chúng tôi viết và nói về Wordplay — trong các bài nghiên cứu, trong các buổi nói chuyện, và trong những gì chúng tôi trình bày cho giáo viên và gia đình. Chúng tôi rất muốn cho mọi người thấy những gì các bạn thật sự tạo ra bằng nó, nhưng chúng tôi sẽ không giới thiệu dự án của bạn trừ khi bạn cho phép.",
+                    "Mỗi dự án đều có một thiết lập *Nghiên cứu* trong phần tùy chọn chia sẻ, và nó mặc định là tắt. Bật nó lên cho phép chúng tôi giới thiệu dự án đó như một ví dụ, mà không nêu tên bạn, tên tài khoản của bạn, hay bất cứ điều gì cho biết đó là tài khoản của bạn. Thiết lập này áp dụng riêng cho từng dự án, nên đồng ý cho một dự án không có nghĩa là bạn đồng ý cho các dự án khác.",
+                    "Bạn có thể tắt nó bất cứ lúc nào. Tắt nó nghĩa là chúng tôi sẽ ngừng dùng dự án của bạn trong bất cứ điều gì mới, nhưng không thể thu hồi những gì chúng tôi đã công bố hoặc trình bày trước đó."
+                ],
+                "warnings": [
+                    "$~Đây là chính xác những gì xảy ra nếu nội dung công khai của bạn vi phạm các quy tắc này. Một người kiểm duyệt sẽ xem xét nó, nó sẽ không còn công khai nữa, và bạn sẽ nhận được một cảnh báo trong thông báo của mình cho biết đó là nội dung nào. Bất kỳ ai đã đăng nhập đều có thể yêu cầu người kiểm duyệt xem xét nội dung công khai bằng cách dùng nút báo cáo trên nội dung đó.",
+                    "Sau ba lần cảnh báo, bạn vẫn có thể tạo dự án, vẫn có thể chia sẻ chúng với những người bạn chọn, và vẫn có thể dùng mọi thứ khác ở đây. Điều bạn mất là khả năng công khai bất cứ thứ gì.",
+                    "Nếu bạn nghĩ một cảnh báo là sai sót, hoặc đó là chuyện đã lâu rồi và bạn muốn chia sẻ công khai lại, hãy viết thư tới hi@wordplay.dev và cho chúng tôi biết tên tài khoản của bạn cùng lý do. Sẽ có người đọc thư của bạn."
                 ]
             },
             "donate": {
@@ -10219,6 +10300,24 @@
         },
         "error": {
             "notmod": "$~Có vẻ như bạn không phải là người điều hành. Nếu gần đây bạn được cấp quyền điều hành, bạn có thể cần đăng nhập lại. Nếu không, hãy xem hướng dẫn trên wiki để biết cách yêu cầu quyền điều hành."
+        },
+        "report": {
+            "button": "$~Báo cáo cho người kiểm duyệt",
+            "confirm": "$~Báo cáo cho người kiểm duyệt",
+            "sent": "$~một người kiểm duyệt đã được yêu cầu xem xét điều này",
+            "announce": "$~một người kiểm duyệt đã được yêu cầu xem xét $project",
+            "flagged": "$~Có người đã báo cáo dự án này, nên nó được xếp đầu hàng."
+        },
+        "strike": {
+            "issue": "$~cảnh báo người tạo này",
+            "consequence": "$~Đây sẽ là lời cảnh báo số $#count[$count] dành cho người tạo này. $banning[Lời cảnh báo này sẽ lấy đi khả năng công khai bất cứ thứ gì của họ.|Họ vẫn có thể công khai mọi thứ trong $#remaining[$remaining lần cảnh báo nữa].]",
+            "confirm": {
+                "description": "$~ghi lại quyết định này và cảnh báo người tạo",
+                "prompt": "$~Cảnh báo họ"
+            },
+            "banned": "$~Bạn đã bị cảnh báo về nội dung công khai ba lần, vì vậy bạn không thể công khai dự án hoặc phòng trưng bày nữa. Bạn vẫn có thể tạo dự án, và vẫn có thể chia sẻ chúng với những người bạn chọn. Nếu bạn nghĩ đây là một sai sót, hoặc việc đó xảy ra đã lâu và bạn muốn chia sẻ công khai trở lại, hãy viết thư tới hi@wordplay.dev và cho chúng tôi biết tên người dùng của bạn cùng lý do.",
+            "warned": "$~Một số nội dung công khai của bạn đã vi phạm các quy tắc chia sẻ, nên nó không còn công khai nữa. Đây là cảnh báo $#count[$count]. $#remaining[Sau $remaining lần nữa, bạn sẽ không còn có thể công khai bất cứ thứ gì.]",
+            "notification": "$~Cảnh báo thứ $#count[$count] về một thứ bạn đã chia sẻ công khai."
         }
     },
     "gallery": {

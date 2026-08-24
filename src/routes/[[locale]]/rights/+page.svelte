@@ -21,5 +21,7 @@
             .join('\n\n')}
     />
     <MarkupHTMLView markup={(l) => l.ui.page.rights.consequences} />
+    <MarkupHTMLView markup={(l) => l.ui.page.rights.warnings} />
     <MarkupHTMLView markup={(l) => l.ui.page.rights.license} />
+    <MarkupHTMLView markup={(l) => l.ui.page.rights.research} />
 </Writing>

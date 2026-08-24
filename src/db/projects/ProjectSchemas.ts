@@ -278,8 +278,44 @@ const ProjectSchemaV9 = ProjectSchemaV8.omit({ v: true }).extend(
     }).shape,
 );
 
+/**
+ * v10 adds two independent creator decisions, both of which have to be plain
+ * top-level fields rather than CRDT state.
+ *
+ * `folder` is how a creator organizes their own project list: the ID of the
+ * folder the project is filed under, or null for the top level. Flat by
+ * design — a project is in at most one folder, and folders don't nest. Only
+ * the *membership* lives here; folder names and collapsed state are creator
+ * settings, because a folder has to be able to exist before anything is in
+ * it, and because renaming one should not rewrite every project it holds.
+ *
+ * `researchConsent` is permission to show this project anonymously in
+ * research and communications about Wordplay. It's a plain boolean for the
+ * same reason `public` is one: maintainers find consenting projects with
+ * `where('researchConsent','==',true)`, which needs a queryable top-level
+ * field. Named for what it grants rather than "disclosure", which already
+ * means a moderation flag about revealing other people's private
+ * information.
+ *
+ * `.default(...)` on both for the same reason v8's `crdt` and v9's `remixOf`
+ * have one: `upgradeProject` only backfills docs *below* the latest version,
+ * so a doc that reached storage already claiming v10 without these fields
+ * would otherwise fail validation on every read forever — and would put
+ * `undefined` into memory for `serialize()` to hand to Firestore, which
+ * throws and fails the entire write batch.
+ */
+const ProjectSchemaV10 = ProjectSchemaV9.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(10),
+        /** The ID of the folder this project is filed under, or null for the top level. */
+        folder: z.nullable(z.string()).default(null),
+        /** Whether the creator has allowed this project to be shown anonymously in research and communications about Wordplay. */
+        researchConsent: z.boolean().default(false),
+    }).shape,
+);
+
 /** The latest version of a project.  */
-export const ProjectSchemaLatestVersion = 9;
+export const ProjectSchemaLatestVersion = 10;
 
 /** How we store sources as JSON in databases */
 export type SerializedCaret = z.infer<typeof CaretSchema>;
@@ -293,10 +329,10 @@ export type SerializedProjectStamps = z.infer<typeof ProjectStampsSchema>;
 export type ProjectID = string;
 
 /** Alias for the latest version of the schema. */
-export const ProjectSchema = ProjectSchemaV9;
+export const ProjectSchema = ProjectSchemaV10;
 
 /** The type of the latest version of the project */
-export type SerializedProject = z.infer<typeof ProjectSchemaV9>;
+export type SerializedProject = z.infer<typeof ProjectSchemaV10>;
 
 export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV1>
@@ -307,6 +343,7 @@ export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV6>
     | z.infer<typeof ProjectSchemaV7>
     | z.infer<typeof ProjectSchemaV8>
+    | z.infer<typeof ProjectSchemaV9>
     | SerializedProject;
 
 /** Project updgrader */
@@ -353,6 +390,15 @@ export function upgradeProject(
             // v8→v9: projects that predate remix provenance have no recorded
             // source, which is the same thing as being an original.
             return upgradeProject({ ...project, v: 9, remixOf: null });
+        case 9:
+            // v9→v10: a project that predates folders is at the top level,
+            // and research consent is opt-in, so its absence means no.
+            return upgradeProject({
+                ...project,
+                v: 10,
+                folder: null,
+                researchConsent: false,
+            });
         case ProjectSchemaLatestVersion:
             return project;
         default:

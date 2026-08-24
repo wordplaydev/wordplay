@@ -2,6 +2,7 @@
     import type WebLink from '@nodes/WebLink';
     import type Spaces from '@parser/Spaces';
     import Link from '@components/app/Link.svelte';
+    import linkHref from '@parser/linkHref';
 
     interface Props {
         link: WebLink;
@@ -10,16 +11,12 @@
 
     let { link, spaces }: Props = $props();
 
-    let url = $derived(
-        link.url
-            ? link.url.getText().startsWith('://')
-                ? link.url.getText().replace('://', '/')
-                : link.url.getText()
-            : '',
-    );
+    // Undefined when the URL points somewhere documentation has no business
+    // pointing; the description then renders as plain text.
+    let url = $derived(link.url ? linkHref(link.url.getText()) : undefined);
 </script>
 
-{#if link.url && link.description}
+{#if url !== undefined && link.description}
     {#if spaces.getSpace(link.open).length > 0}&nbsp;{/if}<Link
         external={!url.startsWith('/')}
         to={url}>{link.description.getText()}</Link

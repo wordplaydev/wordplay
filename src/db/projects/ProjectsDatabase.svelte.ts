@@ -448,7 +448,7 @@ export default class ProjectsDatabase {
             this.track(
                 project,
                 true,
-                project.isTutorial()
+                project.isLocalOnly()
                     ? PersistenceType.Local
                     : PersistenceType.Online,
                 // Mark as unsaved when the on-disk shape was older than the
@@ -1567,7 +1567,7 @@ export default class ProjectsDatabase {
                     this.track(
                         proj,
                         true,
-                        proj.isTutorial()
+                        proj.isLocalOnly()
                             ? PersistenceType.Local
                             : PersistenceType.Online,
                         false,

@@ -6974,6 +6974,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~entferne die Sprachen, die der Code dieses Projekts nicht verwendet",
                     "label": "$~unbenutzte entfernen"
+                },
+                "tinker": {
+                    "label": "$~teste es …",
+                    "tip": "$~öffne eine Kopie dieses Beispiels in einem neuen Fenster, damit du es ändern und sehen kannst, was passiert"
                 }
             },
             "field": {
@@ -7073,8 +7077,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~gehe zum Projekt, aus dem dieses remixt wurde"
-            }
+                "remixOf": "$~gehe zum Projekt, aus dem dieses remixt wurde",
+                "backTo": "$~zurück zu $place"
+            },
+            "scratch": "$~Dies ist eine vorübergehende Kopie eines Beispiels. Remixe es, um es zu behalten.",
+            "untitled": "$~Unbenanntes Projekt"
         },
         "gallery": {
             "untitled": "$~Ohne Titel",
@@ -7780,6 +7787,10 @@
                     },
                     "remix": {
                         "explanation": "$~Ein /Remix/ ist eine Kopie eines Projekts, die jemand geändert hat, um sein eigenes daraus zu machen. Wir merken uns, woher ein Remix kommt, damit die Person, die das Original gemacht hat, weiterhin anerkannt wird."
+                    },
+                    "research": {
+                        "header": "$~Forschung",
+                        "explanation": "$~Manchmal schreiben und sprechen wir über Wordplay — in Forschungsarbeiten, in Vorträgen und wenn wir es Lehrkräften und Familien zeigen. Wenn du das einschaltest, dürfen wir dieses Projekt als Beispiel zeigen, ohne deinen Namen, deinen Benutzernamen oder irgendetwas, das zeigt, dass es dein Konto ist.\n\nDu kannst das jederzeit wieder ausschalten. Wenn du es ausschaltest, nutzen wir dein Projekt in nichts Neuem mehr. Aber wir können nicht zurücknehmen, was wir schon veröffentlicht oder gezeigt haben."
                     }
                 },
                 "field": {
@@ -7805,6 +7816,14 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~Forschung",
+                        "labels": ["$~nicht geteilt", "$~anonym geteilt"],
+                        "tips": [
+                            "$~dieses Projekt nicht in Forschung oder Mitteilungen über Wordplay zeigen",
+                            "$~Wordplay erlauben, dieses Projekt anonym in Forschung und Mitteilungen über Wordplay zu zeigen"
                         ]
                     }
                 },
@@ -8206,7 +8225,7 @@
                     "moderationHeader": "$~Nachricht im Format \"$name\" erfordert Moderationsmaßnahmen"
                 },
                 "delete": "$~Diese Benachrichtigung löschen",
-                "popup": "$~neue Benachrichtigung"
+                "popup": "$~$#count[1 Benachrichtigung|$count Benachrichtigungen]"
             }
         },
         "palette": {
@@ -8630,7 +8649,51 @@
                     "description": "$~Projekte und Quelldateien durchsuchen",
                     "noResults": "$~Keine Ergebnisse gefunden."
                 },
-                "installedprompt": "$~Du benutzt Wordplay als installierte App. Sie behält ihre eigenen Projekte, getrennt von denen in deinem Webbrowser. Alle Projekte, die du im Browser gemacht hast, sind noch da. <Melde dich an@://login>, um alle deine Projekte an beiden Orten zu sehen."
+                "installedprompt": "$~Du benutzt Wordplay als installierte App. Sie behält ihre eigenen Projekte, getrennt von denen in deinem Webbrowser. Alle Projekte, die du im Browser gemacht hast, sind noch da. <Melde dich an@://login>, um alle deine Projekte an beiden Orten zu sehen.",
+                "sort": {
+                    "label": "$~Reihenfolge",
+                    "labels": ["$~Name", "$~zuletzt bearbeitet"],
+                    "tips": [
+                        "$~Projekte nach Name ordnen",
+                        "$~Projekte danach ordnen, wann du sie zuletzt geändert hast"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~wie dieser Ordner heißt",
+                        "placeholder": "$~Ordner"
+                    },
+                    "none": "$~kein Ordner",
+                    "button": {
+                        "create": "$~einen neuen Ordner erstellen",
+                        "expand": "$~zeigen, was in diesem Ordner ist",
+                        "collapse": "$~verbergen, was in diesem Ordner ist"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~diesen Ordner löschen und die Projekte darin archivieren",
+                            "prompt": "$~Ordner löschen und seine Projekte archivieren"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~$project nach $folder verschieben",
+                        "moved": "$~$project nach $folder verschoben",
+                        "movedOut": "$~$project aus seinem Ordner verschoben",
+                        "expanded": "$~$folder ausgeklappt, $#count[1 Projekt|$count Projekte]",
+                        "collapsed": "$~$folder eingeklappt, $#count[1 Projekt|$count Projekte]",
+                        "selected": "$~$folder ausgewählt, $#count[1 Projekt|$count Projekte]",
+                        "created": "$~$folder erstellt",
+                        "deleted": "$~$folder gelöscht, $#count[1 Projekt archiviert|$count Projekte archiviert]",
+                        "renamed": "$~Ordner umbenannt in $folder",
+                        "projectSelected": "$~$project ausgewählt",
+                        "cleared": "$~nichts ausgewählt"
+                    },
+                    "instructions": {
+                        "none": "$~Klicke auf ein Projekt oder einen Ordner, um es auszuwählen.",
+                        "project": "$~Bewege dieses Projekt mit den Pfeiltasten *hoch* und *runter*, oder ziehe es auf einen Ordner. Drücke *Escape*, wenn du fertig bist.",
+                        "folder": "$~Gib den Namen ein, um diesen Ordner umzubenennen. Wenn du ihn löschst, kommt alles darin in dein Archiv."
+                    }
+                }
             },
             "galleries": {
                 "header": "Galerien",
@@ -8820,6 +8883,16 @@
                     "$~Noch eine Sache dazu, ein Projekt *öffentlich* zu machen. Öffentliche Projekte werden unter der <Creative Commons Namensnennung-Weitergabe unter gleichen Bedingungen Lizenz@https://creativecommons.org/licenses/by-sa/4.0/> geteilt. Das bedeutet, jeder kann dein öffentliches Projekt /remixen/ — eine eigene Kopie davon machen und es ändern — und du kannst das Projekt von allen anderen remixen.",
                     "Mit dieser Lizenz kommen drei Dinge. Wer remixt, muss die Person nennen, die das Original gemacht hat. Sie müssen ihren Remix unter derselben Lizenz teilen, damit er für die nächste Person offen bleibt. Und sie können ein öffentliches Projekt nicht privat machen, um es für sich zu behalten.",
                     "Wir helfen beim Nennen: Wenn jemand ein Projekt remixt, merken wir uns, woher es kommt, und zeigen einen Link zurück dorthin. Ein Projekt öffentlich zu machen, ist deine Zustimmung zu all dem. Wenn du also lieber möchtest, dass niemand ein Projekt remixt, halte es privat."
+                ],
+                "research": [
+                    "$~Eine letzte Wahl, und sie liegt ganz bei dir. Wir schreiben und sprechen manchmal über Wordplay — in Forschungsarbeiten, in Vorträgen und wenn wir es Lehrkräften und Familien zeigen. Wir würden gerne zeigen, was Menschen damit wirklich machen, aber wir zeigen dein Projekt nur, wenn du zustimmst.",
+                    "Jedes Projekt hat eine *Forschung*-Einstellung bei den Freigabeoptionen, und sie ist zu Beginn ausgeschaltet. Schaltest du sie ein, dürfen wir genau dieses Projekt als Beispiel zeigen, ohne deinen Namen, deinen Benutzernamen oder irgendetwas anderes, das zeigt, dass es dein Konto ist. Das gilt nur für dieses eine Projekt. Wenn du bei einem Projekt zustimmst, sagt das nichts über die anderen aus.",
+                    "Du kannst es jederzeit wieder ausschalten. Schaltest du es aus, verwenden wir dein Projekt in nichts Neuem mehr. Wir können aber nicht zurücknehmen, was wir schon veröffentlicht oder gezeigt haben."
+                ],
+                "warnings": [
+                    "$~Hier steht genau, was passiert, wenn ein öffentlicher Inhalt von dir gegen diese Regeln verstößt. Eine moderierende Person prüft ihn, er ist dann nicht mehr öffentlich, und du bekommst eine Warnung in deinen Benachrichtigungen, die sagt, um welchen Inhalt es geht. Jede angemeldete Person kann eine moderierende Person bitten, sich öffentlichen Inhalt anzusehen. Dafür gibt es den Melden-Button.",
+                    "Nach drei Warnungen kannst du weiterhin Projekte erstellen, sie mit Menschen deiner Wahl teilen und alles andere hier weiter nutzen. Du kannst dann nur nichts mehr öffentlich machen.",
+                    "Wenn du denkst, eine Warnung war ein Fehler, oder sie ist schon lange her und du möchtest wieder öffentlich teilen, schreib an hi@wordplay.dev und nenne uns deinen Benutzernamen und den Grund. Ein Mensch liest deine Nachricht."
                 ]
             },
             "donate": {
@@ -9526,13 +9599,18 @@
                     "tip": "$~beginne ein Gespräch mit dir selbst oder anderen."
                 },
                 "delete": "$~diese Nachricht löschen",
-                "confirmDelete": "$~Löschen bestätigen?"
+                "confirmDelete": "$~Löschen bestätigen?",
+                "transfer": {
+                    "description": "$~diese Person zur Eigentümerin oder zum Eigentümer des Projekts machen",
+                    "prompt": "$~Diese Person zur Eigentümerin oder zum Eigentümer machen? Du bleibst Mitwirkende oder Mitwirkender und kannst weiter bearbeiten, aber du kannst dieses Projekt nicht mehr löschen."
+                }
             },
             "error": {
                 "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",
                 "offline": "$~Dieser Chat konnte nicht geladen werden.",
                 "empty": "$~Keine Nachrichten.",
-                "deleted": "$~Diese Nachricht wurde gelöscht."
+                "deleted": "$~Diese Nachricht wurde gelöscht.",
+                "transferGallery": "$~Dieses Projekt ist in einer Galerie. Wenn du es einer anderen Person gibst, wird sie nicht automatisch zu dieser Galerie hinzugefügt. Sie kann das Projekt dort dann vielleicht nicht sehen."
             },
             "prompt": {
                 "solo": "$~Chatte mit dir selbst oder füge hinzu...",
@@ -9574,6 +9652,9 @@
                 "commenters": "$~Die Kommentatoren können das Projekt mit Ihnen *diskutieren*, aber sie können es nicht *bearbeiten*.",
                 "viewers": "$~Betrachter können das Projekt und seinen Code ansehen, aber sie können ihn weder diskutieren noch bearbeiten.",
                 "restrict": "$~Wenn sich ein Projekt in einer Galerie befindet, kann standardmäßig jeder, der die Galerie sehen kann, auch Ihr Projekt sehen. Mit dem Schalter /restrict/ wird es für alle außer Ihnen und den Kuratoren der Galerie ausgeblendet."
+            },
+            "announce": {
+                "transferred": "$~$name ist jetzt Eigentümerin oder Eigentümer von $project"
             }
         },
         "checkpoints": {
@@ -10211,6 +10292,24 @@
         "done": "$~Sonst nichts zu moderieren!",
         "error": {
             "notmod": "$~Offenbar bist du kein Moderator. Falls du erst kürzlich Moderatorrechte erhalten hast, musst du dich möglicherweise erneut anmelden. Falls nicht, findest du im Wiki Informationen zum Beantragen von Moderationsrechten."
+        },
+        "report": {
+            "button": "$~Moderation benachrichtigen",
+            "confirm": "$~Moderation benachrichtigen",
+            "sent": "$~eine moderierende Person wurde gebeten, sich das anzusehen",
+            "announce": "$~eine moderierende Person wurde gebeten, sich $project anzusehen",
+            "flagged": "$~Jemand hat dieses Projekt gemeldet, daher steht es ganz vorne in der Reihe."
+        },
+        "strike": {
+            "issue": "$~diese Ersteller:in verwarnen",
+            "consequence": "$~Das ist die $#count[1|$count]. Warnung für diese Person, die etwas erstellt hat. $banning[Mit dieser Warnung darf sie nichts mehr öffentlich machen.|Sie darf noch $#remaining[1 weitere Warnung|$remaining weitere Warnungen] erhalten, bevor sie nichts mehr öffentlich machen darf.]",
+            "confirm": {
+                "description": "$~diese Entscheidung festhalten und die Ersteller:in verwarnen",
+                "prompt": "$~Verwarnen"
+            },
+            "banned": "$~Du wurdest dreimal wegen öffentlicher Inhalte verwarnt. Deshalb kannst du Projekte oder Galerien nicht mehr öffentlich machen. Du kannst weiterhin Projekte erstellen und sie mit Menschen teilen, die du selbst auswählst. Wenn du denkst, das war ein Fehler, oder es ist schon lange her und du möchtest wieder öffentlich teilen, schreib an hi@wordplay.dev und sag uns deinen Benutzernamen und warum.",
+            "warned": "$~Ein öffentlicher Inhalt von dir hat gegen die Teilen-Regeln verstoßen und ist deshalb nicht mehr öffentlich. Dies ist Verwarnung $#count[1|$count]. $#remaining[Nach einer weiteren Verwarnung kannst du nichts mehr öffentlich machen.|Nach $remaining weiteren Verwarnungen kannst du nichts mehr öffentlich machen.]",
+            "notification": "$~Verwarnung $#count[1|$count] wegen etwas, das du öffentlich geteilt hast."
         }
     },
     "gallery": {

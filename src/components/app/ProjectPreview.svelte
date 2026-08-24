@@ -40,6 +40,19 @@
         searchTerm?: string;
         /** Excerpt of matching source text to display when the match was not on the project name */
         matchText?: string;
+        /** The folder this project is in, shown only where folders aren't drawn
+         *  — a flattened search result, which would otherwise give no clue
+         *  where the project actually lives. */
+        folderName?: string;
+        /** Whether this tile is what the projects page currently has chosen.
+         *  Undefined everywhere else, which leaves the tile inert. */
+        selected?: boolean;
+        /** Choose this tile. Given only where choosing means something. */
+        select?: () => void;
+        /** Keys pressed while the tile has focus. */
+        key?: (event: KeyboardEvent) => void;
+        /** A press on the tile that might become a drag. */
+        grab?: (event: PointerEvent) => void;
     }
 
     let {
@@ -54,7 +67,25 @@
         showOwner = false,
         searchTerm = '',
         matchText = undefined,
+        folderName = undefined,
+        selected = undefined,
+        select = undefined,
+        key = undefined,
+        grab = undefined,
     }: Props = $props();
+
+    /** Whether this tile can be chosen and moved. */
+    let interactive = $derived(select !== undefined);
+
+    /** A click on a link or a button is that control's, not the tile's. Without
+     *  this, opening a project would also choose it, and every button press
+     *  would move the choice out from under whatever was chosen. */
+    function isOwnClick(event: MouseEvent) {
+        return !(
+            event.target instanceof Element &&
+            event.target.closest('a, button') !== null
+        );
+    }
 
     // Preview is a pure read of the persisted project metadata. On cache
     // miss the queue runs one compute at a time off the render path; we
@@ -183,7 +214,30 @@
     );
 </script>
 
-<div class="project" class:named={name}>
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+<!-- The tile is a plain container that can be chosen and dragged, not a
+     control: it holds a link to the project, a link to its source, and a row
+     of buttons, so giving it a button role would nest interactives inside an
+     interactive. `aria-current` marks the choice instead — valid on any
+     element, and the same idiom the language and palette lists use — and the
+     keys that act on the choice are named in the list's instructions. -->
+<div
+    class="project"
+    class:named={name}
+    class:selected
+    class:interactive
+    data-project={project.getID()}
+    aria-current={selected ? 'true' : undefined}
+    tabindex={interactive ? 0 : undefined}
+    onclick={(event) => (isOwnClick(event) ? select?.() : undefined)}
+    onkeydown={key}
+    onpointerdown={(event) =>
+        event.target instanceof Element &&
+        event.target.closest('a, button') === null
+            ? grab?.(event)
+            : undefined}
+>
     <a
         class="preview"
         data-testid="preview"
@@ -301,18 +355,43 @@
             {#if matchText}
                 <div class="match-text">{@render highlighted(matchText)}</div>
             {/if}
+            {#if folderName !== undefined}
+                <Note inline>📁 {folderName}</Note>
+            {/if}
         </div>
     {/if}
 </div>
 
 <style>
     .project {
-        border: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         display: flex;
         flex-direction: row;
         align-items: flex-start;
         gap: var(--wordplay-spacing);
+        /* Padding so the tile has a surface of its own to click and drag,
+           rather than only the link and buttons it contains. */
+        padding: var(--wordplay-spacing);
+    }
+
+    /* Grab, not pointer: the tile can be picked up and put in a folder. */
+    .project.interactive {
+        cursor: grab;
+        border: var(--wordplay-focus-width) solid transparent;
+    }
+
+    .project.interactive:hover {
+        background: var(--wordplay-hover-light);
+    }
+
+    /* Chosen is drawn exactly the same way on a folder: the light highlight
+       fills the surface and a dashed border says it's the choice. Not the
+       solid highlight color as a fill — that only clears 3:1, so it can't sit
+       under the project's name. */
+    .project.selected {
+        background: var(--wordplay-hover-light);
+        border-color: var(--wordplay-highlight-color);
+        border-style: dashed;
     }
 
     .project.named {
@@ -337,6 +416,17 @@
         flex-wrap: wrap;
         align-items: baseline;
         gap: var(--wordplay-spacing);
+    }
+
+    /* WCAG 2.5.8 wants 24px of target, or 24px of room around it. These links
+       are flex items rather than words in a sentence, so the inline exception
+       doesn't apply — and an untitled project's name is a single em dash. */
+    .title :global(.link) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 24px;
+        min-width: 24px;
     }
 
     .untitled {

@@ -43,6 +43,32 @@ function highlightSurfaceTextColor(): string {
     return getPaletteHex(color[1]);
 }
 
+/** Read a `--name: #rrggbbaa;` translucent palette declaration out of app.html. */
+function getPaletteHexAlpha(name: string): { hex: string; alpha: number } {
+    const match = appHtml.match(
+        new RegExp(`--${name}:\\s*#([0-9a-fA-F]{6})([0-9a-fA-F]{2})\\s*;`),
+    );
+    if (match === null)
+        throw new Error(`No translucent declaration for --${name} in app.html`);
+    return { hex: `#${match[1]}`, alpha: parseInt(match[2], 16) / 255 };
+}
+
+/** Composite a translucent color over an opaque one, as the browser paints it. */
+function composite(
+    top: { hex: string; alpha: number },
+    bottom: string,
+): string {
+    const channels = (hex: string) =>
+        [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    const [tr, tg, tb] = channels(top.hex);
+    const [br, bg, bb] = channels(bottom);
+    const mix = (t: number, b: number) =>
+        Math.round(t * top.alpha + b * (1 - top.alpha))
+            .toString(16)
+            .padStart(2, '0');
+    return `#${mix(tr, br)}${mix(tg, bg)}${mix(tb, bb)}`;
+}
+
 /** The text-role palette pairs introduced for the AA text/background split. */
 const TEXT_COLORS = ['gold-text', 'grey-text', 'blue-text', 'orange-text'];
 
@@ -53,6 +79,21 @@ describe.each(['light', 'dark'] as const)('%s mode', (mode) => {
         getPaletteHex(`white-${mode}`),
         getPaletteHex(`very-light-grey-${mode}`),
     ];
+
+    test(`a link on the selection tint meets ${AA_TEXT}:1`, () => {
+        // --wordplay-hover-light tints a hovered or chosen project tile, and a
+        // tile carries its project's name as a link. A tint is a background for
+        // whatever it covers, so it is bounded by the text on it — which the
+        // `*-text` cases above never see, since they only measure the opaque
+        // page colors. Dark shipped at 4.16:1 and axe caught it on the projects
+        // page. Measured against the page background, which is what a tile sits
+        // on; the alternating color is not a tile surface.
+        const tint = getPaletteHexAlpha(`yellow-transparent-${mode}`);
+        const link = getPaletteHex(`gold-text-${mode}`);
+        expect(
+            contrast(link, composite(tint, getPaletteHex(`white-${mode}`))),
+        ).toBeGreaterThanOrEqual(AA_TEXT);
+    });
 
     test.each(TEXT_COLORS)(
         `--${'%s'}-${mode} meets ${AA_TEXT}:1 on both backgrounds`,

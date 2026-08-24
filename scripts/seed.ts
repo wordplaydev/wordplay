@@ -70,7 +70,10 @@ const SEEDED_USERS: SeededUser[] = [
     },
     {
         uid: 'seeded-mod-uid-000000000000001',
-        username: 'mod',
+        // Not 'mod': the login field requires at least UsernameLength (5)
+        // characters, so a three-letter username can be seeded but never
+        // typed in.
+        username: 'moderator',
         displayName: 'Mod',
         claims: { mod: true },
     },
@@ -205,6 +208,23 @@ async function seedUsers(): Promise<void> {
             if (!isAlreadyExists(err)) {
                 console.error(`[seed] Failed to create ${user.username}:`, err);
                 continue;
+            }
+            // Already there — reconcile it rather than leaving it as it was.
+            // Users are keyed by uid, so renaming one here would otherwise
+            // never reach an emulator that had already been seeded, and the
+            // old name would keep working while the new one didn't exist.
+            try {
+                await getAuth().updateUser(user.uid, {
+                    email: `${user.username}@u.wordplay.dev`,
+                    displayName: user.displayName,
+                    password: PASSWORD,
+                    emailVerified: true,
+                });
+            } catch (updateErr) {
+                console.error(
+                    `[seed] Failed to update ${user.username}:`,
+                    updateErr,
+                );
             }
         }
     }

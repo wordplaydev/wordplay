@@ -6984,6 +6984,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~elimină limbile pe care codul acestui proiect nu le folosește",
                     "label": "$~elimină cele nefolosite"
+                },
+                "tinker": {
+                    "label": "$~încearcă…",
+                    "tip": "$~deschide o copie a acestui exemplu într-o fereastră nouă, ca să îl poți schimba și să vezi ce se întâmplă"
                 }
             },
             "field": {
@@ -7079,8 +7083,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~mergi la proiectul din care a fost remixat acesta"
-            }
+                "remixOf": "$~mergi la proiectul din care a fost remixat acesta",
+                "backTo": "$~înapoi la $place"
+            },
+            "scratch": "$~Aceasta este o copie temporară a unui exemplu. Refă-l ca să îl păstrezi.",
+            "untitled": "$~Proiect fără titlu"
         },
         "checkpoints": {
             "label": {
@@ -8042,6 +8049,10 @@
                     },
                     "remix": {
                         "explanation": "$~Un /remix/ este o copie a unui proiect pe care cineva a schimbat-o pentru a o face a sa. Ținem minte de unde vine un remix, așa că persoana care a făcut originalul primește în continuare credit."
+                    },
+                    "research": {
+                        "header": "$~Cercetare",
+                        "explanation": "$~Uneori scriem și vorbim despre Wordplay — în lucrări de cercetare, în prezentări și în ceea ce arătăm profesorilor și familiilor. Dacă activezi această opțiune, putem arăta acest proiect ca exemplu, fără numele tău, numele tău de utilizator sau orice altceva care arată că acest cont îți aparține.\n\nPoți dezactiva asta oricând. Dezactivarea înseamnă că nu mai folosim proiectul tău în lucruri noi, dar nu poate anula ceva ce am publicat sau prezentat deja."
                     }
                 },
                 "field": {
@@ -8067,6 +8078,14 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~cercetare",
+                        "labels": ["$~nedistribuit", "$~distribuit anonim"],
+                        "tips": [
+                            "$~nu arăta acest proiect în cercetări sau comunicări despre Wordplay",
+                            "$~permite-i lui Wordplay să arate acest proiect anonim în cercetări și comunicări despre Wordplay"
                         ]
                     }
                 },
@@ -8354,7 +8373,7 @@
                     "link": "$~detalii"
                 },
                 "delete": "$~ștergeți această notificare",
-                "popup": "$~notificare nouă"
+                "popup": "$~$#count[o notificare|$#count notificări|$count de notificări]"
             },
             "locale": {
                 "header": "$~Limbă",
@@ -8496,7 +8515,11 @@
                     "tip": "$~începe o discuție cu tine însuți sau cu ceilalți."
                 },
                 "delete": "$~șterge acest mesaj",
-                "confirmDelete": "$~confirmați ștergerea?"
+                "confirmDelete": "$~confirmați ștergerea?",
+                "transfer": {
+                    "description": "$~fă-o pe această persoană proprietarul proiectului",
+                    "prompt": "$~O faci proprietară? Vei rămâne colaborator și vei putea continua să editezi, dar nu vei mai putea șterge acest proiect."
+                }
             },
             "moderation": {
                 "header": "$~Raportează acest mesaj",
@@ -8517,7 +8540,8 @@
                 "unowned": "$~Acest proiect nu este stocat online, deci nu poate avea chat sau colaboratori.",
                 "offline": "$~Nu se poate încărca acest chat.",
                 "empty": "$~Niciun mesaj.",
-                "deleted": "$~Acest mesaj a fost șters."
+                "deleted": "$~Acest mesaj a fost șters.",
+                "transferGallery": "$~Acest proiect se află într-o galerie. Dacă îl dai altcuiva, acea persoană nu este adăugată automat la acea galerie, deci s-ar putea să nu îl poată vedea acolo."
             },
             "prompt": {
                 "solo": "$~Discutați cu dumneavoastră înșivă sau adăugați...",
@@ -8544,6 +8568,9 @@
                 "commenters": "$~/Comentatorii/ pot *discuta* proiectul cu tine, dar nu îl pot *edita*.",
                 "viewers": "$~/Vizualizatorii/ pot *vizualiza* proiectul și *codul* său, dar nu îl pot *discuta* sau *edita*.",
                 "restrict": "$~Când un proiect se află într-o *galerie*, în mod implicit, *toți* cei care pot vedea galeria pot vedea proiectul dvs. Comutatorul /restricționare/ îl *ascunde* de toată lumea, cu excepția dvs. și a curatorilor galeriei."
+            },
+            "announce": {
+                "transferred": "$~$name este acum proprietarul lui $project"
             }
         },
         "palette": {
@@ -9264,7 +9291,51 @@
                     "nodeletes": "$~Trebuie să fii<logged in@://login> pentru a șterge proiectele arhivate.",
                     "delete": "$~Oops, nu am putut șterge proiectul!"
                 },
-                "installedprompt": "$~Folosești Wordplay ca aplicație instalată, iar aceasta își păstrează propriile proiecte, separate de cele din navigatorul tău web. Orice proiect făcut în navigator este încă acolo. <Autentifică-te@://login> ca să vezi toate proiectele tale din ambele locuri."
+                "installedprompt": "$~Folosești Wordplay ca aplicație instalată, iar aceasta își păstrează propriile proiecte, separate de cele din navigatorul tău web. Orice proiect făcut în navigator este încă acolo. <Autentifică-te@://login> ca să vezi toate proiectele tale din ambele locuri.",
+                "sort": {
+                    "label": "$~ordine",
+                    "labels": ["$~nume", "$~editat recent"],
+                    "tips": [
+                        "$~ordonează proiectele după nume",
+                        "$~ordonează proiectele după momentul ultimei modificări"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~cum se numește acest dosar",
+                        "placeholder": "$~dosar"
+                    },
+                    "none": "$~fără dosar",
+                    "button": {
+                        "create": "$~creează un dosar nou",
+                        "expand": "$~arată ce este în acest dosar",
+                        "collapse": "$~ascunde ce este în acest dosar"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~șterge acest dosar și arhivează proiectele din el",
+                            "prompt": "$~Șterge dosarul și arhivează proiectele lui"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~mută $project în $folder",
+                        "moved": "$~$project mutat în $folder",
+                        "movedOut": "$~$project mutat în afara dosarului său",
+                        "expanded": "$~$folder extins, $#count[1 proiect|$#count proiecte|$count de proiecte]",
+                        "collapsed": "$~$folder restrâns, $#count[1 proiect|$#count proiecte|$count de proiecte]",
+                        "selected": "$~$folder selectat, $#count[1 proiect|$#count proiecte|$count de proiecte]",
+                        "created": "$~$folder creat",
+                        "deleted": "$~$folder șters, $#count[1 proiect arhivat|$#count proiecte arhivate|$count de proiecte arhivate]",
+                        "renamed": "$~dosar redenumit în $folder",
+                        "projectSelected": "$~$project ales",
+                        "cleared": "$~nimic ales"
+                    },
+                    "instructions": {
+                        "none": "$~Apasă pe un proiect sau pe un dosar ca să îl alegi.",
+                        "project": "$~Mută acest proiect cu tastele săgeată *sus* și *jos*, sau trage-l peste un dosar. Apasă *escape* când ai terminat.",
+                        "folder": "$~Scrie numele ca să redenumești acest dosar. Dacă îl ștergi, tot ce este în el ajunge în arhiva ta."
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Galerii",
@@ -9808,6 +9879,16 @@
                     "$~Încă un lucru despre a face un proiect *public*. Proiectele publice sunt împărtășite sub <licența Creative Commons Atribuire-Distribuire în condiții identice@https://creativecommons.org/licenses/by-sa/4.0/>. Asta înseamnă că oricine poate /remixa/ proiectul tău public — poate să facă propria copie a lui și să o schimbe — iar tu poți remixa proiectul oricui altcuiva.",
                     "Trei lucruri vin cu acea licență. Cei care remixează trebuie să dea credit celui care a făcut originalul. Trebuie să împărtășească remixul lor sub aceeași licență, ca să rămână deschis pentru următoarea persoană. Și nu pot lua un proiect public pentru a-l face privat și a-l păstra doar pentru ei.",
                     "Noi ajutăm cu partea de credit: când cineva remixează un proiect, ținem minte de unde a venit și arătăm un link înapoi la el. A face un proiect public este felul în care spui da la toate acestea, așa că, dacă preferi ca nimeni să nu remixeze un proiect, păstrează-l privat."
+                ],
+                "research": [
+                    "$~O ultimă alegere, și este numai a ta. Uneori scriem și vorbim despre Wordplay — în lucrări de cercetare, în discursuri și în ce arătăm profesorilor și familiilor. Ne-ar plăcea să arătăm ce fac oamenii cu adevărat cu el, dar nu vom arăta proiectul tău decât dacă tu spui că putem.",
+                    "Fiecare proiect are o opțiune numită *Cercetare* în setările lui de partajare, și ea este oprită la început. Dacă o pornești, ne lași să arătăm acel proiect ca exemplu, fără numele tău, fără numele tău de utilizator sau orice altceva care ar spune că este contul tău. Este setată pentru fiecare proiect în parte, deci a spune da la unul nu spune nimic despre celelalte.",
+                    "Poți s-o oprești oricând. Dacă o oprești, nu mai folosim proiectul tău în ceva nou, dar nu putem retrage ceva ce am publicat sau prezentat deja."
+                ],
+                "warnings": [
+                    "$~Iată exact ce se întâmplă dacă un conținut public de-al tău încalcă aceste reguli. Un moderator îl verifică, el nu mai este public, iar tu primești un avertisment în notificările tale care spune despre care este vorba. Oricine este autentificat poate cere unui moderator să verifice un conținut public, folosind butonul de raportare de pe el.",
+                    "După trei avertismente încă poți face proiecte, încă le poți partaja cu oamenii pe care îi alegi și încă poți folosi tot restul de aici. Ce pierzi este posibilitatea de a face ceva public.",
+                    "Dacă crezi că un avertisment a fost o greșeală, sau a trecut mult timp de atunci și ai vrea să partajezi din nou public, scrie-ne la hi@wordplay.dev și spune-ne numele tău de utilizator și motivul. O persoană va citi mesajul tău."
                 ]
             },
             "donate": {
@@ -10210,6 +10291,24 @@
         },
         "error": {
             "notmod": "$~Se pare că nu ești moderator. Dacă ți s-au acordat recent privilegii de moderator, este posibil să fie nevoie să te autentifici din nou. Dacă nu, consultă wiki-ul pentru a afla cum să soliciți privilegii de moderare."
+        },
+        "report": {
+            "button": "$~Alertează un moderator",
+            "confirm": "$~Alertează un moderator",
+            "sent": "$~un moderator a fost rugat să verifice acest lucru",
+            "announce": "$~un moderator a fost rugat să verifice $project",
+            "flagged": "$~Cineva a raportat acest proiect, deci este primul la rând."
+        },
+        "strike": {
+            "issue": "$~avertizează acest creator",
+            "consequence": "$~Acesta va fi avertismentul numărul $#count[1|$#count|$count] pentru acest creator. $banning[Acest avertisment îi retrage dreptul de a face lucruri publice.|Va putea face lucruri publice pentru încă $#remaining[1 avertisment|$#remaining avertismente|$remaining de avertismente].]",
+            "confirm": {
+                "description": "$~înregistrează această decizie și avertizează creatorul",
+                "prompt": "$~Avertizează-i"
+            },
+            "banned": "$~Ai fost avertizat de trei ori despre conținut public, așa că nu mai poți face proiecte sau galerii publice. Poți în continuare să faci proiecte și să le împarți cu persoanele pe care le alegi tu. Dacă crezi că este o greșeală, sau dacă s-a întâmplat cu mult timp în urmă și vrei să faci din nou lucruri publice, scrie-ne la hi@wordplay.dev și spune-ne numele tău de utilizator și motivul.",
+            "warned": "$~Un conținut public de-al tău a încălcat regulile de partajare, așa că nu mai este public. Acesta este avertismentul $#count[1|$#count|$count]. $#remaining[Încă unul și nu vei mai putea face nimic public.|După încă $#remaining nu vei mai putea face nimic public.|După încă $remaining nu vei mai putea face nimic public.]",
+            "notification": "$~Avertismentul $#count[1|$#count|$count] despre ceva ce ai făcut public."
         }
     },
     "gallery": {

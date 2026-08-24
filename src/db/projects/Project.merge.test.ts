@@ -1,8 +1,10 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
+import { readFileSync } from 'fs';
+import path from 'path';
 import { describe, expect, test } from 'vitest';
 
-import Project from '@db/projects/Project';
+import Project, { StampedMetadataFields } from '@db/projects/Project';
 
 function makeBase(): Project {
     return Project.make(
@@ -28,6 +30,23 @@ describe('Project.mergeWith — issue #135 fix', () => {
         const merged = deviceA.mergeWith(deviceB);
         expect(merged.getName()).toBe('A-name');
         expect(merged.isPublic()).toBe(true);
+    });
+
+    test('v10 folder and research consent merge per field like their siblings', () => {
+        // Both are in StampedMetadataFields, so filing a project on one device
+        // and consenting on another must not cost either edit. A field left out
+        // of that list silently loses to whichever replica writes last.
+        const base = makeBase();
+        const deviceA = base
+            .withFolder('games')
+            .bumpStampsFrom(base, 'deviceA');
+        const deviceB = base
+            .withResearchConsent(true)
+            .bumpStampsFrom(base, 'deviceB');
+
+        const merged = deviceA.mergeWith(deviceB);
+        expect(merged.getFolder()).toBe('games');
+        expect(merged.hasResearchConsent()).toBe(true);
     });
 
     test('merge is symmetric — both replicas converge to the same state', () => {
@@ -128,6 +147,27 @@ describe('Project.mergeWith — issue #135 fix', () => {
         // is exercised by upgradeProject elsewhere; here we just confirm the
         // serializer emits the new field.
         expect(serialized.stamps.lamport).toBeGreaterThan(0);
+    });
+});
+
+describe('Project.mergeWith — every stamped field is actually merged', () => {
+    test('mergeWith picks a winner for each field in StampedMetadataFields', () => {
+        // mergeWith writes out its stamped fields by hand on top of a
+        // `...this.data` spread, so a field added to StampedMetadataFields but
+        // not to that literal silently keeps the local value forever — the
+        // remote replica's edit is dropped with no error anywhere. That is
+        // exactly what happened when v10 added `folder` and `researchConsent`.
+        // Checking the source is crude, but it's the only thing that catches
+        // the omission at the moment it's made rather than in a bug report.
+        const source = readFileSync(
+            path.join(__dirname, 'Project.ts'),
+            'utf-8',
+        );
+        const merge = source.slice(source.indexOf('mergeWith(other: Project)'));
+        const unmerged = StampedMetadataFields.filter(
+            (field) => !merge.includes(`pick('${field}')`),
+        );
+        expect(unmerged).toEqual([]);
     });
 });
 

@@ -5,7 +5,12 @@
     import ChatView from '@components/app/chat/ChatView.svelte';
     import CreatorView from '@components/app/CreatorView.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
+    import Notice from '@components/app/Notice.svelte';
+    import {
+        getAnnouncer,
+        getUser,
+        isAuthenticated,
+    } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import TileMessage from '@components/project/TileMessage.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
@@ -53,6 +58,28 @@
                   : [],
         ).then((map) => (creators = map));
     });
+
+    const announce = getAnnouncer();
+
+    /** Hand the project to a collaborator, and say who has it now. The
+     *  announcement names both the person and the project, so a second
+     *  transfer never reads identically to the first — a constant string is
+     *  heard once and then silent. */
+    async function transferOwnership(userID: string) {
+        Projects.reviseProject(project.withOwnerTransferredTo(userID));
+        const creator = await Creators.getCreator(userID);
+        if (announce && $announce)
+            $announce(
+                'collaborator',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize((l) => l.ui.collaborate.announce.transferred, {
+                        name: creator?.getUsername(false) ?? userID,
+                        project: project.getName(),
+                    })
+                    .toText(),
+            );
+    }
 
     let editable = $derived(
         isAuthenticated($user) && project.getOwner() === $user.uid,
@@ -116,7 +143,19 @@
                                     project.withoutCollaborator(userID),
                                 )}
                             removable={() => true}
+                            transfer={(userID) => transferOwnership(userID)}
+                            transferable={() => true}
                         />
+                        <!-- Gallery membership doesn't follow a project to its
+                             new owner, and silently adding them to someone
+                             else's gallery isn't ours to do — so say so
+                             instead. -->
+                        {#if galleryID !== null}
+                            <Notice
+                                text={(l) =>
+                                    l.ui.collaborate.error.transferGallery}
+                            />
+                        {/if}
                     </Labeled>
                 </div>
             {/if}

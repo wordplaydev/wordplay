@@ -24,6 +24,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📐 An angle can now become radians, like `45° → #rad`. `sin`, `cos`, and `tan` all count in radians, so this is how you take the sine of a turn or of a color's hue. (#363)
 - 🥤 Cooking and liquid measures work too, but you have to say whose: a US gallon and a British one are different sizes, so it's `usgal` or `ukgal`, never a plain `gal`. `tsp`, `tbsp`, and `cup` also work. (#363)
 - 🔢 `⊤` and `⊥` can now become numbers with `→ #`, giving 1 and 0. That makes counting how many things are true much easier. (#363)
+- 🗂️ You can now put your projects in folders on your [projects page](https://wordplay.dev/projects). Make a folder, then drag a project onto it, or choose a project and move it with the up and down arrow keys. Deleting a folder puts everything inside it in your archive, so nothing is lost. (#831)
+- 👑 You can give project ownership to someone you're working with. Open the people you share it with and press the crown next to their name; you stay on as a collaborator and can keep editing. (#189)
+- ⚑ You can now report a public project that breaks the sharing rules, using the flag in the corner of the stage. A moderator looks at it, and only moderators can see what was reported. (#193)
+- 🔒 If we find public content of yours that breaks the rules, you now get a warning in your notifications saying which warning it is. After three, you can still make and share projects with people you choose, but you can no longer make anything public. The [rights page](https://wordplay.dev/rights) explains all of it, including how to ask for public sharing back. (#193)
+- 🔬 Each project now has a Research setting in its sharing options, off unless you turn it on. It lets us show that project as an example when we write and talk about Wordplay, without your name or anything else that says it's yours. (#922)
+- 📖 Every example in the [Guide](https://wordplay.dev/guide) now has a Test it button. It opens a copy of the example in a new window that you can change and play with, kept on your device and out of your project list, with a link back to what you were reading. (#1044)
+- 📧 You can now write an email address in a doc or a how-to and it becomes a link that opens a message. Before, the `@` in an address was read as the start of a `@link` and the address disappeared.
 
 ### Changed
 
@@ -31,10 +38,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🧹 The list functions `without` and `withoutAll` did exactly the same thing under two names, and `without` said it removed only the first copy when it never did. They're one function now, all four names still work, and it removes every copy.
 - 🔢 Two not-a-number values are now equal, so `!# = !#` is true. Asking whether a number came out of text you couldn't read is the whole reason to compare one, and it could never be true before.
 - 📐 On a phone, the character editor was three thin columns and none of them were usable. It's now one column: the character, then the commands you can use, then the colors.
+- 🔣 Making a copy of a character now uses the same symbol as remixing a project, `⧉`. The book symbol means copy to the clipboard everywhere else, and one symbol shouldn't mean two things.
 - 🛠️ We updated internal tooling.
 
 ### Fixed
 
+- 🔗 A project with no name left the browser tab titled "Wordplay - ", which told you nothing when you had two open. It now says the project is untitled.
+- 🖱️ Two links on a project in your list sat too close together to tap reliably. They're now big enough to hit.
 - 🧲 Writing a strange number like `!#` or `∞` for the @Stage's `gravity` used to freeze everything on the stage that moves. Wordplay now uses ordinary gravity instead. (#1305)
 - 🧲 A @Phrase with @Matter crashed the program the first time it changed size, if it was the only thing physics was moving — like a score that counts up. (#1315)
 - 🐛 Formatted text with a language on it never matched the same formatted text without one, so `` `hi` `` and `` `hi`/en `` looked like different things. Plain text was fixed for this before; now formatted text is too.

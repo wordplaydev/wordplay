@@ -10,13 +10,13 @@
         and,
         collection,
         doc,
+        getDoc,
         getDocs,
         limit,
         or,
         orderBy,
         query,
         startAfter,
-        updateDoc,
         where,
         type DocumentData,
         type QueryDocumentSnapshot,
@@ -39,6 +39,18 @@
     } from '@db/projects/Moderation';
     import type Project from '@db/projects/Project';
     import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
+    import moderateProject from '@db/projects/moderateProject';
+    import {
+        StrikesCollection,
+        StrikesUntilBanned,
+    } from '@db/creators/strikes.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+
+    /** Where reports of public content live. Only moderators can read them. */
+    const ReportsCollection = 'reports';
+    /** How many unresolved reports to look at when finding the next one, so a
+     *  moderator can pass on several in a row. */
+    const ReportsPerLook = 20;
 
     const user = getUser();
 
@@ -54,12 +66,37 @@
         }
     });
 
-    /** Null means haven't started, undefined means reached the end. */
+    /** The cursor into the unmoderated queue; undefined once it's exhausted.
+     *  Only ever a position, never a signal about what's on screen — a
+     *  reported project jumps the queue without touching it, and overloading
+     *  it left the whole panel stuck on a spinner. */
     let lastBatch: QueryDocumentSnapshot<DocumentData> | null | undefined =
         $state(null);
+    /** Whether we're still looking for something to review. */
+    let loading = $state(true);
+    /** Whether there's nothing left to review. */
+    let done = $state(false);
     let project: Project | undefined = $state(undefined);
 
     let newFlags: ModerationState | undefined = $state();
+
+    /** Whether someone reported the project being shown. */
+    let reported = $state(false);
+    /** Reported projects this moderator passed on. Reports jump the queue by
+     *  always asking for the oldest unresolved one, so without this, skipping a
+     *  reported project just showed it again — the only way past it was to
+     *  decide it. Kept in memory rather than resolving the report, since
+     *  passing on something isn't the same as having handled it. */
+    const skipped = new Set<string>();
+    /** Whether the moderator's decision attaches a warning to the creator. */
+    let warnCreator = $state(true);
+    /** Warnings this creator already has. */
+    let ownerStrikes = $state(0);
+    /** Whether the decision on screen finds anything wrong. A decision that
+     *  clears a project never warns anyone, whatever the checkbox says. */
+    let violates = $derived(
+        Object.values(newFlags ?? {}).some((state) => state === true),
+    );
 
     let moderatedCount = $state(0);
     let unmoderatedCount = $state(0);
@@ -78,11 +115,86 @@
     // Create a concept path for children
     setConceptPath(writable([]));
 
-    async function nextBatch() {
-        if (firestore === undefined) {
-            lastBatch = undefined;
-            return firestore;
+    /**
+     * The next reported project, if any. Reports come first: someone took the
+     * trouble to say this one needs looking at, which is a much better signal
+     * than "oldest unmoderated".
+     *
+     * Reports are read once per batch rather than kept in a listener — this
+     * page is a queue a moderator works through, not a live feed.
+     */
+    async function nextReported(): Promise<string | undefined> {
+        if (firestore === undefined) return undefined;
+        try {
+            const reports = await DB.read(
+                getDocs(
+                    query(
+                        collection(firestore, ReportsCollection),
+                        where('resolved', '==', false),
+                        orderBy('time'),
+                        // Enough to see past the ones passed on this session.
+                        // Reports are rare, so this is one small read either way.
+                        limit(ReportsPerLook),
+                    ),
+                ),
+            );
+            for (const doc of reports.docs) {
+                const project = doc.data()?.project;
+                if (typeof project === 'string' && !skipped.has(project))
+                    return project;
+            }
+            return undefined;
+        } catch {
+            // A failure here just means falling back to the unmoderated
+            // queue — it's a prioritization, not the work itself.
+            return undefined;
         }
+    }
+
+    async function nextBatch() {
+        loading = true;
+        try {
+            await findNext();
+        } finally {
+            loading = false;
+        }
+    }
+
+    async function findNext() {
+        if (firestore === undefined) {
+            done = true;
+            return;
+        }
+
+        // Reported content jumps the queue.
+        reported = false;
+        const reportedID = await nextReported();
+        if (reportedID !== undefined) {
+            const doc = await DB.read(
+                getDocs(
+                    query(
+                        collection(firestore, ProjectsCollection),
+                        where('id', '==', reportedID),
+                        limit(1),
+                    ),
+                ),
+            );
+            const data = doc.docs[0]?.data();
+            if (data !== undefined) {
+                project = await Projects.parseProject(data);
+                if (project) {
+                    newFlags = project.getFlags();
+                    reported = true;
+                    await loadOwnerStrikes();
+                    return;
+                }
+            }
+            // A report naming a project that's gone or won't parse can't be
+            // acted on, and resolving it would claim it was. Pass it over for
+            // this session so it doesn't cost a read on every advance.
+            skipped.add(reportedID);
+        }
+
         const unmoderated = query(
             collection(firestore, ProjectsCollection),
             // Construct a query for each flag to find any project that has a null flag.
@@ -116,8 +228,13 @@
             unmoderatedCount += documentSnapshots.docs.length;
         }
 
-        // Remember the last document.
+        // Remember the last document. Nothing left means the queue is empty.
         lastBatch = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+        if (lastBatch === undefined) {
+            done = true;
+            project = undefined;
+            return;
+        }
 
         // Convert the docs to galleries
         const projectData = documentSnapshots.docs.map((snap) =>
@@ -126,7 +243,30 @@
 
         project = await Projects.parseProject(projectData);
 
-        if (project) newFlags = project.getFlags();
+        if (project) {
+            newFlags = project.getFlags();
+            await loadOwnerStrikes();
+        }
+    }
+
+    /** How many warnings this project's owner already has, so the moderator
+     *  can see what one more would do before they do it. Readable here because
+     *  the rules let moderators read anyone's record. */
+    async function loadOwnerStrikes() {
+        ownerStrikes = 0;
+        const owner = project?.getOwner();
+        if (firestore === undefined || !owner) return;
+        try {
+            const record = await DB.read(
+                getDoc(doc(firestore, StrikesCollection, owner)),
+            );
+            const count = record.data()?.count;
+            ownerStrikes = typeof count === 'number' ? count : 0;
+        } catch {
+            // Not knowing the count means the consequence text stays generic;
+            // it must not stop a moderator from deciding.
+            ownerStrikes = 0;
+        }
     }
 
     async function save() {
@@ -145,11 +285,16 @@
         // when it wasn't. On failure we surface a banner and stay put.
         saving = true;
         try {
-            await DB.write(
-                updateDoc(doc(firestore, ProjectsCollection, project.getID()), {
-                    flags,
-                }),
-            );
+            // Through the callable rather than a direct write: the decision
+            // also warns the creator, takes the project out of public view,
+            // resolves any reports about it, and — at the third warning —
+            // removes their ability to make anything public. None of that is
+            // the client's to do.
+            await moderateProject({
+                project: project.getID(),
+                flags,
+                strike: warnCreator && violates,
+            });
         } catch (error) {
             DB.reportBanner((l) => l.ui.banner.saveFailed, error);
             saving = false;
@@ -162,6 +307,10 @@
     }
 
     function skip() {
+        // Passing on a reported project has to be remembered, or the report
+        // query hands back the same one and the button does nothing.
+        const id = project?.getID();
+        if (reported && id !== undefined) skipped.add(id);
         nextBatch();
     }
 </script>
@@ -170,14 +319,12 @@
     <div class="moderate">
         <div class="flags">
             <Header text={(l) => l.moderation.moderate.header} />
-            {#if lastBatch === null}
-                <Spinning />
-            {:else if moderator === false}
+            {#if moderator === false}
                 <p><LocalizedText path={(l) => l.moderation.error.notmod} /></p>
-            {:else if lastBatch === undefined}
-                <p><LocalizedText path={(l) => l.moderation.done} /></p>
-            {:else if project === undefined}
+            {:else if loading}
                 <Spinning />
+            {:else if done || project === undefined}
+                <p><LocalizedText path={(l) => l.moderation.done} /></p>
             {:else}
                 <div class="progress-counter">
                     <MarkupHTMLView
@@ -190,6 +337,11 @@
                         ]}
                     />
                 </div>
+                {#if reported}
+                    <MarkupHTMLView
+                        markup={(l) => l.moderation.report.flagged}
+                    />
+                {/if}
                 <MarkupHTMLView
                     markup={(l) => l.moderation.moderate.explanation}
                 />
@@ -214,14 +366,59 @@
                         >
                     </div>
                 {/each}
+                {#if violates}
+                    <div class="flag">
+                        <Checkbox
+                            label={(l) => l.moderation.strike.issue}
+                            on={warnCreator}
+                            id="warn-creator"
+                            changed={(value) => (warnCreator = value === true)}
+                        />
+                        <label for="warn-creator"
+                            ><LocalizedText
+                                path={(l) => l.moderation.strike.issue}
+                            /></label
+                        >
+                    </div>
+                    <!-- Say what this decision does to this person before it's
+                         made, not after. -->
+                    {#if warnCreator}
+                        <MarkupHTMLView
+                            markup={[
+                                (l) => l.moderation.strike.consequence,
+                                {
+                                    count: ownerStrikes + 1,
+                                    remaining: Math.max(
+                                        0,
+                                        StrikesUntilBanned - (ownerStrikes + 1),
+                                    ),
+                                    banning:
+                                        ownerStrikes + 1 >= StrikesUntilBanned,
+                                },
+                            ]}
+                        />
+                    {/if}
+                {/if}
                 <div class="controls">
-                    <Button
-                        background
-                        active={!$disconnected && !saving}
-                        tip={(l) => l.moderation.button.submit.tip}
-                        action={save}
-                        label={(l) => l.moderation.button.submit.label}
-                    />
+                    {#if violates && warnCreator}
+                        <ConfirmButton
+                            enabled={!$disconnected && !saving}
+                            tip={(l) => l.moderation.strike.confirm.description}
+                            prompt={(l) => l.moderation.strike.confirm.prompt}
+                            action={save}
+                            label={(l) => l.moderation.button.submit.label}
+                            testid="moderate-submit"
+                        />
+                    {:else}
+                        <Button
+                            background
+                            active={!$disconnected && !saving}
+                            tip={(l) => l.moderation.button.submit.tip}
+                            action={save}
+                            testid="moderate-submit"
+                            label={(l) => l.moderation.button.submit.label}
+                        />
+                    {/if}
                     <Button
                         background
                         active={!$disconnected && !saving}

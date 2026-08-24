@@ -6978,6 +6978,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~remover os idiomas que o código deste projeto não usa",
                     "label": "$~remover não usados"
+                },
+                "tinker": {
+                    "label": "$~testar…",
+                    "tip": "$~abrir uma cópia deste exemplo numa nova janela, para poder alterá-lo e ver o que acontece"
                 }
             },
             "field": {
@@ -7074,8 +7078,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~ir ao projeto de onde este foi remisturado"
-            }
+                "remixOf": "$~ir ao projeto de onde este foi remisturado",
+                "backTo": "$~voltar a $place"
+            },
+            "scratch": "$~Esta é uma cópia temporária de um exemplo. Remisture-a para a manter.",
+            "untitled": "$~Projeto sem título"
         },
         "checkpoints": {
             "label": {
@@ -8027,6 +8034,10 @@
                     },
                     "remix": {
                         "explanation": "$~Uma /remistura/ é uma cópia de um projeto que alguém mudou para fazer o seu próprio. Nós lembramo-nos de onde veio uma remistura, para que a pessoa que fez o original continue a receber o crédito."
+                    },
+                    "research": {
+                        "header": "$~Investigação",
+                        "explanation": "$~Às vezes escrevemos e falamos sobre o Wordplay — em artigos de investigação, em palestras e naquilo que mostramos a professores(as) e famílias. Se ativar esta opção, podemos mostrar este projeto como exemplo, sem o seu nome, o seu nome de utilizador, ou qualquer outra informação que identifique a conta como sua.\n\nPode desativar esta opção a qualquer momento. Desativá-la significa que deixamos de usar o seu projeto em coisas novas, mas não podemos retirar algo que já publicámos ou apresentámos."
                     }
                 },
                 "field": {
@@ -8052,6 +8063,17 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~investigação",
+                        "labels": [
+                            "$~não partilhado",
+                            "$~partilhado de forma anónima"
+                        ],
+                        "tips": [
+                            "$~não mostrar este projeto em investigação ou comunicações sobre o Wordplay",
+                            "$~permitir que o Wordplay mostre este projeto de forma anónima em investigação e comunicações sobre o Wordplay"
                         ]
                     }
                 },
@@ -8336,7 +8358,7 @@
                     "link": "detalhes"
                 },
                 "delete": "apagar esta notificação",
-                "popup": "nova notificação"
+                "popup": "$~$#count[1 notificação|$#count notificações|$count notificações]"
             },
             "locale": {
                 "header": "Idioma",
@@ -8478,7 +8500,11 @@
                     "tip": "Inicie uma conversa consigo próprio ou com outras pessoas."
                 },
                 "delete": "apagar esta mensagem",
-                "confirmDelete": "Confirmar eliminação?"
+                "confirmDelete": "Confirmar eliminação?",
+                "transfer": {
+                    "description": "$~tornar esta pessoa proprietária do projeto",
+                    "prompt": "$~Tornar esta pessoa proprietária? Continuará a ser colaborador(a) e poderá continuar a editar, mas deixará de poder eliminar este projeto."
+                }
             },
             "moderation": {
                 "header": "denunciar esta mensagem",
@@ -8499,7 +8525,8 @@
                 "unowned": "Este projeto não está armazenado online, pelo que não pode ter chat nem colaboradores.",
                 "offline": "Não foi possível carregar este chat.",
                 "empty": "Nenhuma mensagem.",
-                "deleted": "Esta mensagem foi apagada."
+                "deleted": "Esta mensagem foi apagada.",
+                "transferGallery": "$~Este projeto está numa galeria. Dá-lo a outra pessoa não a adiciona a essa galeria, por isso ela pode não conseguir vê-lo lá."
             },
             "prompt": {
                 "solo": "Converse consigo mesmo ou adicione...",
@@ -8526,6 +8553,9 @@
                 "commenters": "Os comentadores podem *discutir* o projeto consigo, mas não podem *editá-lo*.",
                 "viewers": "Os /Visualizadores/ podem *visualizar* o projeto e o seu *código*, mas não podem *discuti-lo* ou *editá-lo*.",
                 "restrict": "Quando um projeto está numa *galeria*, por defeito, *todos* os que conseguem ver a galeria podem também ver o seu projeto. A opção /restrict/ *oculta* o projeto de todos, exceto de si e dos curadores da galeria."
+            },
+            "announce": {
+                "transferred": "$~$name é agora o(a) proprietário(a) de $project"
             }
         },
         "palette": {
@@ -9145,7 +9175,51 @@
                     "nodeletes": "Necessita de estar <logado em@://login> para eliminar projetos arquivados.",
                     "delete": "Ups, não conseguimos apagar o projeto!"
                 },
-                "installedprompt": "$~Está a usar o Wordplay como uma aplicação instalada, e ela mantém os seus próprios projetos, separados dos que estão no seu navegador de internet. Todos os projetos que criou no navegador continuam lá. <Inicie sessão@://login> para ver todos os seus projetos nos dois lugares."
+                "installedprompt": "$~Está a usar o Wordplay como uma aplicação instalada, e ela mantém os seus próprios projetos, separados dos que estão no seu navegador de internet. Todos os projetos que criou no navegador continuam lá. <Inicie sessão@://login> para ver todos os seus projetos nos dois lugares.",
+                "sort": {
+                    "label": "$~ordenar",
+                    "labels": ["$~nome", "$~editado recentemente"],
+                    "tips": [
+                        "$~ordenar projetos por nome",
+                        "$~ordenar projetos pela última vez que os alterou"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~o nome desta pasta",
+                        "placeholder": "$~pasta"
+                    },
+                    "none": "$~sem pasta",
+                    "button": {
+                        "create": "$~criar uma nova pasta",
+                        "expand": "$~mostrar o que está nesta pasta",
+                        "collapse": "$~ocultar o que está nesta pasta"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~eliminar esta pasta e arquivar os projetos que contém",
+                            "prompt": "$~Eliminar pasta e arquivar os seus projetos"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~mover $project para $folder",
+                        "moved": "$~$project movido para $folder",
+                        "movedOut": "$~$project movido para fora da sua pasta",
+                        "expanded": "$~$folder expandida, $#count[1 projeto|$#count milhões de projetos|$count projetos]",
+                        "collapsed": "$~$folder recolhida, $#count[1 projeto|$#count milhões de projetos|$count projetos]",
+                        "selected": "$~$folder selecionada, $#count[1 projeto|$#count milhões de projetos|$count projetos]",
+                        "created": "$~$folder criada",
+                        "deleted": "$~$folder eliminada, $#count[1 projeto arquivado|$#count milhões de projetos arquivados|$count projetos arquivados]",
+                        "renamed": "$~pasta renomeada para $folder",
+                        "projectSelected": "$~$project escolhido",
+                        "cleared": "$~nada escolhido"
+                    },
+                    "instructions": {
+                        "none": "$~Clique num projeto ou numa pasta para o(a) escolher.",
+                        "project": "$~Mova este projeto com as teclas de seta *para cima* e *para baixo*, ou arraste-o para uma pasta. Prima *escape* quando terminar.",
+                        "folder": "$~Digite o nome para renomear esta pasta. Ao eliminá-la, tudo o que está dentro dela vai para o seu arquivo."
+                    }
+                }
             },
             "galleries": {
                 "header": "Galerias",
@@ -9689,6 +9763,16 @@
                     "$~Mais uma coisa sobre tornar um projeto *público*. Os projetos públicos são partilhados sob a <licença Creative Commons Atribuição-CompartilhaIgual@https://creativecommons.org/licenses/by-sa/4.0/>. Isso significa que qualquer pessoa pode /remisturar/ o teu projeto público — fazer a sua própria cópia dele e mudá-lo — e tu podes remisturar o de qualquer outra pessoa.",
                     "Três coisas vêm com essa licença. Quem remistura tem de dar crédito a quem fez o original. Tem de partilhar a sua remistura sob esta mesma licença, para que continue aberta para a próxima pessoa. E não pode tornar um projeto público privado para o guardar só para si.",
                     "Nós ajudamos com a parte do crédito: quando alguém remistura um projeto, lembramo-nos de onde veio e mostramos uma ligação de volta a ele. Tornar um projeto público é a maneira de dizeres sim a tudo isto, por isso, se preferires que ninguém remisture um projeto, mantém-no privado."
+                ],
+                "research": [
+                    "$~Uma última escolha, e é totalmente sua. Às vezes escrevemos e falamos sobre o Wordplay — em artigos de investigação, em palestras e naquilo que mostramos a professores(as) e famílias. Adoraríamos mostrar o que as pessoas realmente criam com ele, mas não mostraremos o seu projeto a menos que nos diga que pode.",
+                    "Cada projeto tem uma definição de *Investigação* nas suas opções de partilha, e ela começa desligada. Ativá-la permite-nos mostrar esse projeto como exemplo, sem o seu nome, o seu nome de utilizador, ou qualquer outra coisa que indique que a conta é sua. É por projeto, por isso dizer que sim a um não diz nada sobre os outros.",
+                    "Pode desligá-la a qualquer momento. Desligá-la significa que deixamos de usar o seu projeto em algo novo, mas não pode retirar algo que já publicámos ou apresentámos."
+                ],
+                "warnings": [
+                    "$~Aqui está exatamente o que acontece se o seu conteúdo público não cumprir estas regras. Um(a) moderador(a) revê-o, ele deixa de ser público, e recebe um aviso nas suas notificações a dizer qual é. Qualquer pessoa com sessão iniciada pode pedir a um(a) moderador(a) que analise conteúdo público usando o botão de denúncia nesse conteúdo.",
+                    "Após três avisos, ainda pode criar projetos, ainda pode partilhá-los com as pessoas que escolher, e ainda pode usar tudo o resto aqui. O que perde é a capacidade de tornar algo público.",
+                    "Se acha que um aviso foi um erro, ou se foi há muito tempo e gostaria de voltar a partilhar publicamente, escreva para hi@wordplay.dev e diga-nos o seu nome de utilizador e o motivo. Uma pessoa vai ler a sua mensagem."
                 ]
             },
             "donate": {
@@ -10205,6 +10289,24 @@
         },
         "error": {
             "notmod": "Parece que não é moderador. Se recebeu privilégios de moderador recentemente, poderá ter de fazer login novamente. Caso contrário, consulte o wiki para saber como solicitar privilégios de moderação."
+        },
+        "report": {
+            "button": "$~Alertar moderador(a)",
+            "confirm": "$~Alertar moderador(a)",
+            "sent": "$~foi pedido a um(a) moderador(a) que analise isto",
+            "announce": "$~foi pedido a um(a) moderador(a) que analise $project",
+            "flagged": "$~Alguém denunciou este projeto, por isso está em primeiro lugar na fila."
+        },
+        "strike": {
+            "issue": "$~avisar este criador(a)",
+            "consequence": "$~Este vai ser o aviso número $#count[1|$#count|$count] para este(a) criador(a). $banning[Este aviso retira-lhe a capacidade de tornar seja o que for público.|Vai poder tornar coisas públicas durante mais $#remaining[1 aviso|$#remaining avisos|$remaining avisos].]",
+            "confirm": {
+                "description": "$~registar esta decisão e avisar o criador(a)",
+                "prompt": "$~avisar"
+            },
+            "banned": "$~Já foi avisado(a) três vezes sobre conteúdo público, por isso já não pode tornar projetos ou galerias públicos. Ainda pode criar projetos, e ainda pode partilhá-los com as pessoas que escolher. Se achar que isto é um engano, ou se foi há muito tempo e gostaria de voltar a partilhar publicamente, escreva para hi@wordplay.dev e diga-nos o seu nome de utilizador e a razão.",
+            "warned": "$~Algum conteúdo público seu não cumpriu as regras de partilha, por isso deixou de ser público. Este é o aviso $#count[1|$#count|$count]. $#remaining[Mais um e já não poderá tornar mais nada público.|Depois de mais $#remaining já não poderá tornar mais nada público.|Depois de mais $remaining já não poderá tornar mais nada público.]",
+            "notification": "$~Aviso $#count[1|$#count|$count] sobre algo que partilhou publicamente."
         }
     },
     "gallery": {
