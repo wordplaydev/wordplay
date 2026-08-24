@@ -5,11 +5,12 @@ import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Evaluate from '@nodes/Evaluate';
-import type Markup from '@nodes/Markup';
+import Markup from '@nodes/Markup';
 import type Node from '@nodes/Node';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import { getUnitKey, getUnitName } from './unitName';
 
 /**
  * The one-line "what does this do" note shown under an autocomplete menu suggestion.
@@ -31,6 +32,14 @@ export default function getMenuNoteMarkup(
     locales: Locales,
     definition?: Definition,
 ): Markup {
+    // A unit's own doc is the generic "I am a unit of measurement!", identical for all 252
+    // unit suggestions, so name the unit instead when we know its name (#890). Callers that
+    // can echo per locale use `getUnitNameMarkup` directly; this is the primary locale.
+    const unit = getUnitKey(node);
+    const unitName =
+        unit === undefined ? undefined : getUnitName(unit, locales);
+    if (unitName !== undefined) return Markup.words(unitName);
+
     const named =
         definition ??
         (node instanceof Evaluate ||

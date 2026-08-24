@@ -41,6 +41,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📐 On a phone, the character editor was three thin columns and none of them were usable. It's now one column: the character, then the commands you can use, then the colors.
 - 🔣 Making a copy of a character now uses the same symbol as remixing a project, `⧉`. The book symbol means copy to the clipboard everywhere else, and one symbol shouldn't mean two things.
 - 🎨 The saved message at the bottom of the page now shows a cloud instead of a globe. A globe can mean anything on the internet, and we use the cloud everywhere else for work kept in your account. (#231)
+- 💡 Auto-complete now says what each unit means. Picking `km` shows "kilometers" instead of the one note every unit used to share, and if you chose more than one language, you'll see the name in each of them. (#890)
 - 🛠️ We updated internal tooling.
 
 ### Fixed

@@ -3,6 +3,7 @@
     import RootView from '@components/project/RootView.svelte';
     import Note from '@components/widgets/Note.svelte';
     import getMenuNoteMarkup from './menuNote';
+    import { getUnitKey, getUnitName, getUnitNameMarkup } from './unitName';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { blocks, locales } from '@db/Database';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
@@ -46,10 +47,13 @@
      *  distinguish one suggestion from another — the code is what the creator
      *  is choosing between. */
     let itemLabel = $derived.by(() => {
-        const description = entry
-            .getEditedNode($locales)[0]
-            .getDescription($locales, entry.context)
-            .toText();
+        const edited = entry.getEditedNode($locales)[0];
+        // A unit's generic description ("a unit") doesn't say which unit, so name it.
+        // Primary locale only: the visible note carries the other chosen languages.
+        const unit = getUnitKey(edited);
+        const description =
+            (unit === undefined ? undefined : getUnitName(unit, $locales)) ??
+            edited.getDescription($locales, entry.context).toText();
         if (newNode === undefined) return description;
         const code = newNode.toWordplay(getPreferredSpaces(newNode)).trim();
         if (code.length === 0) return description;
@@ -61,6 +65,26 @@
                 description,
             })
             .toText();
+    });
+
+    /** The note under the suggestion. A unit is named per chosen locale, so
+     *  MarkupHTMLView echoes it the way it echoes any other multilingual text —
+     *  primary first, the rest dimmed, each in its own language and direction.
+     *  Everything else is one Markup in the primary locale. */
+    let noteMarkup = $derived.by(() => {
+        if (newNode === undefined) return undefined;
+        const unit = getUnitKey(newNode);
+        const names =
+            unit === undefined ? undefined : getUnitNameMarkup(unit, $locales);
+        return (
+            names ??
+            getMenuNoteMarkup(
+                newNode,
+                entry.context,
+                $locales,
+                entry.getReferredDefinition(),
+            )
+        );
     });
 
     /** If a removal, get a duplicated parent node, and list of nodes to be removed */
@@ -162,21 +186,13 @@
                 removed={isRemoval ? removed : []}
                 {elided}
             />
-            {#if !isRemoval}
+            {#if !isRemoval && noteMarkup !== undefined}
                 <!-- A doc-derived preview of what this node does. The row's aria-label
                      already speaks the node's (concise) description, so this visible hint
                      is aria-hidden to avoid a screen reader reading two summaries. -->
                 <span class="note-wrap" aria-hidden="true">
                     <Note inline
-                        ><MarkupHTMLView
-                            markup={getMenuNoteMarkup(
-                                newNode,
-                                entry.context,
-                                $locales,
-                                entry.getReferredDefinition(),
-                            )}
-                            inline
-                        /></Note
+                        ><MarkupHTMLView markup={noteMarkup} inline /></Note
                     >
                 </span>
             {/if}
