@@ -6907,6 +6907,10 @@
             },
             "logo": {
                 "description": "$~O bulă de vorbire cu o literă din sistemul tău de scriere înăuntru"
+            },
+            "synced": {
+                "saved": "$~Salvat pe toate dispozitivele",
+                "signedOut": "$~Salvat pe toate dispozitivele atunci când ești conectat"
             }
         },
         "tile": {

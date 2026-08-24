@@ -27,6 +27,10 @@ const PUBLIC_ROUTES = [
     '/galleries',
     '/characters',
     '/design',
+    // The settings dialog, which no route scan reaches: it opens from the URL.
+    // Signed out is also the dimmed state of the cloud badge marking a synced
+    // setting, so this covers that color in both schemes.
+    '/?dialog=settings',
 ];
 
 for (const scheme of ['light', 'dark'] as const) {

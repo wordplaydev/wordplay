@@ -6902,6 +6902,10 @@
             },
             "logo": {
                 "description": "$~Um balão de fala com uma letra do teu sistema de escrita lá dentro"
+            },
+            "synced": {
+                "saved": "$~Guardado em todos os dispositivos",
+                "signedOut": "$~Guardado em todos os dispositivos quando tem sessão iniciada"
             }
         },
         "tile": {

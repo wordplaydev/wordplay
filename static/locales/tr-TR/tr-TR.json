@@ -6899,6 +6899,10 @@
             },
             "logo": {
                 "description": "$~İçinde senin yazı sisteminden bir harf olan bir konuşma balonu"
+            },
+            "synced": {
+                "saved": "$~Cihazlar arasında kaydedilir",
+                "signedOut": "$~Giriş yaptığında cihazlar arasında kaydedilir"
             }
         },
         "tile": {

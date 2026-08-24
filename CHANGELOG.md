@@ -31,6 +31,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔬 Each project now has a Research setting in its sharing options, off unless you turn it on. It lets us show that project as an example when we write and talk about Wordplay, without your name or anything else that says it's yours. (#922)
 - 📖 Every example in the [Guide](https://wordplay.dev/guide) now has a Test it button. It opens a copy of the example in a new window that you can change and play with, kept on your device and out of your project list, with a link back to what you were reading. (#1044)
 - 📧 You can now write an email address in a doc or a how-to and it becomes a link that opens a message. Before, the `@` in an address was read as the start of a `@link` and the address disappeared.
+- 💾 Some of your settings stay on the device you set them on, and some follow your account. There was no way to tell which was which, so the ones that follow your account now have a small cloud beside them that says "Saved across devices". Signed out, the cloud is grey and tells you what signing in would do. (#231)
 
 ### Changed
 
@@ -39,6 +40,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔢 Two not-a-number values are now equal, so `!# = !#` is true. Asking whether a number came out of text you couldn't read is the whole reason to compare one, and it could never be true before.
 - 📐 On a phone, the character editor was three thin columns and none of them were usable. It's now one column: the character, then the commands you can use, then the colors.
 - 🔣 Making a copy of a character now uses the same symbol as remixing a project, `⧉`. The book symbol means copy to the clipboard everywhere else, and one symbol shouldn't mean two things.
+- 🎨 The saved message at the bottom of the page now shows a cloud instead of a globe. A globe can mean anything on the internet, and we use the cloud everywhere else for work kept in your account. (#231)
 - 🛠️ We updated internal tooling.
 
 ### Fixed
@@ -48,6 +50,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🧲 Writing a strange number like `!#` or `∞` for the @Stage's `gravity` used to freeze everything on the stage that moves. Wordplay now uses ordinary gravity instead. (#1305)
 - 🧲 A @Phrase with @Matter crashed the program the first time it changed size, if it was the only thing physics was moving — like a score that counts up. (#1315)
 - 🐛 Formatted text with a language on it never matched the same formatted text without one, so `` `hi` `` and `` `hi`/en `` looked like different things. Plain text was fixed for this before; now formatted text is too.
+- 💾 Four settings — font face, line numbers, wrap lines, and space markers — were meant to follow your account, but they were never really saved there, so they stayed on one device. They now travel with you. (#231)
 - 🐛 Reversing a list changed the list you started with, instead of leaving it alone and handing you a new one.
 - 🐛 Sorting a list could jumble items that had nothing wrong with them, if any one item's sorting number wasn't a number. Those items go last now, and everything else keeps its order.
 - 📖 Writing `!#` in a help page quietly erased the rest of the sentence, so we couldn't explain the value at all.

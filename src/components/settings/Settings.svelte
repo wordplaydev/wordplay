@@ -13,6 +13,7 @@
     import Mode from '@components/widgets/Mode.svelte';
     import Options from '@components/widgets/Options.svelte';
     import Tabbed from '@components/widgets/Tabbed.svelte';
+    import Synced from '@components/widgets/Synced.svelte';
     import {
         arrangement,
         blockDensity,
@@ -175,55 +176,65 @@
                                 path={(l) => l.ui.dialog.settings.options.face}
                             /></span
                         >
-                        <Options
-                            value={FaceSetting.get() ?? 'Noto Sans'}
-                            label={(l) => l.ui.dialog.settings.options.face}
-                            id="ui-face"
-                            width="10em"
-                            options={[
-                                {
-                                    value: undefined,
-                                    label: () => '—',
-                                    face: null,
-                                },
-                                // Only show faces supported in the current locale
-                                ...Object.entries(Faces)
-                                    .filter(
-                                        ([name, face]) =>
-                                            name === FaceSetting.get() ||
-                                            face.scripts.some((script) =>
-                                                $locales.usesScript(script),
-                                            ),
-                                    )
-                                    .map(([name, face]) => {
-                                        return {
-                                            value: name,
-                                            label: () =>
-                                                getFaceDescription(name, face),
-                                            face: {
-                                                name: name,
-                                                face: face,
-                                            },
-                                        };
-                                    }),
-                            ]}
-                            change={(choice) =>
-                                Settings.setFace(
-                                    choice === undefined ? null : choice,
-                                )}
-                        >
-                            {#snippet item(option, localized)}
-                                {#if option.face === null}<span
-                                        >{@render localized(option.label)}</span
-                                    >
-                                {:else}
-                                    <FaceName
-                                        name={option.face.name}
-                                        face={option.face.face}
-                                    />
-                                {/if}
-                            {/snippet}
-                        </Options>
+                        <!-- The label above is `display: contents`, so the chooser
+                             and its badge need a box of their own to share one
+                             cell of the control column. -->
+                        <span class="control">
+                            <Options
+                                value={FaceSetting.get() ?? 'Noto Sans'}
+                                label={(l) => l.ui.dialog.settings.options.face}
+                                id="ui-face"
+                                width="10em"
+                                options={[
+                                    {
+                                        value: undefined,
+                                        label: () => '—',
+                                        face: null,
+                                    },
+                                    // Only show faces supported in the current locale
+                                    ...Object.entries(Faces)
+                                        .filter(
+                                            ([name, face]) =>
+                                                name === FaceSetting.get() ||
+                                                face.scripts.some((script) =>
+                                                    $locales.usesScript(script),
+                                                ),
+                                        )
+                                        .map(([name, face]) => {
+                                            return {
+                                                value: name,
+                                                label: () =>
+                                                    getFaceDescription(
+                                                        name,
+                                                        face,
+                                                    ),
+                                                face: {
+                                                    name: name,
+                                                    face: face,
+                                                },
+                                            };
+                                        }),
+                                ]}
+                                change={(choice) =>
+                                    Settings.setFace(
+                                        choice === undefined ? null : choice,
+                                    )}
+                            >
+                                {#snippet item(option, localized)}
+                                    {#if option.face === null}<span
+                                            >{@render localized(
+                                                option.label,
+                                            )}</span
+                                        >
+                                    {:else}
+                                        <FaceName
+                                            name={option.face.name}
+                                            face={option.face.face}
+                                        />
+                                    {/if}
+                                {/snippet}
+                            </Options><Synced />
+                        </span>
                     </label>
                     <Mode
                         grid
@@ -256,6 +267,7 @@
                          still names itself to a screen reader, from its tip. -->
                     <Mode
                         grid
+                        synced
                         modes={(l) => l.ui.dialog.settings.mode.animate}
                         choice={AnimationFactors.indexOf($animationFactor)}
                         select={(choice) =>
@@ -267,6 +279,7 @@
                     />
                     <Mode
                         grid
+                        synced
                         modes={(l) => l.ui.dialog.settings.mode.writing}
                         choice={$writingLayout === 'horizontal-tb'
                             ? 0
@@ -325,6 +338,7 @@
                         <Mode
                             grid
                             indented
+                            synced
                             modes={(l) => l.ui.dialog.settings.mode.lines}
                             choice={$showLines ? 1 : 0}
                             select={(choice) =>
@@ -334,6 +348,7 @@
                         <Mode
                             grid
                             indented
+                            synced
                             modes={(l) => l.ui.dialog.settings.mode.wrap}
                             choice={$wrap ? 1 : 0}
                             select={(choice) =>
@@ -347,6 +362,7 @@
                          mode, not something that depends on it. -->
                     <Mode
                         grid
+                        synced
                         modes={(l) => l.ui.dialog.settings.mode.space}
                         choice={$spaceIndicator ? 1 : 0}
                         select={(choice) =>
@@ -594,6 +610,16 @@
        column. */
     label {
         display: contents;
+    }
+
+    /* Matches Mode's `.control`: an Options row's chooser and its cloud badge
+       share the control column's cell, so the row still contributes two cells. */
+    .control {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing-half);
+        align-items: baseline;
+        min-width: 0;
     }
 
     /* Matches Mode's own grid label styling, so an Options row's label lands on

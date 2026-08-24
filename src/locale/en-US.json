@@ -6896,6 +6896,10 @@
                 "message": "Loading, thanks for waiting!"
             },
             "home": "go to home page",
+            "synced": {
+                "saved": "Saved across devices",
+                "signedOut": "Saved across devices when you're signed in"
+            },
             "logo": {
                 "description": "A speech bubble with a letter of your writing system inside"
             },

@@ -153,13 +153,23 @@ test('resolving a color needs no basis', () => {
  * No new file and no new subgraph — the same move as the three entries above.
  * Consent text is deliberately long: it is a permission a creator gives, so it
  * says plainly what it covers and what turning it off can and cannot undo.
+ *
+ * The last +1 file is the cloud badge marking a setting that follows a creator's
+ * account (#231): one component reached through the settings dialog, which Page
+ * mounts, so it lands on every entry that reaches Page. It is a leaf — an emoji,
+ * the tip it already shares with every other widget, and the signed-in check —
+ * so it adds only itself and no subgraph. The layout doesn't reach Page and so
+ * doesn't move at all; the landing page does reach it, but its file budget had a
+ * unit of slack, so only its bytes needed to move. Those bytes are the badge's
+ * two sentences in en-US.json, which every entry carries, and they are what tips
+ * three of the byte budgets over a hundredth of a megabyte.
  */
 test.each([
     ['src/routes/+layout.svelte', 481, 3.45],
-    ['src/components/app/Page.svelte', 502, 3.67],
-    ['src/routes/[[locale]]/+page.svelte', 518, 3.76],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 519, 3.76],
-    ['src/routes/[[locale]]/projects/+page.svelte', 527, 3.79],
+    ['src/components/app/Page.svelte', 503, 3.68],
+    ['src/routes/[[locale]]/+page.svelte', 518, 3.77],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 520, 3.77],
+    ['src/routes/[[locale]]/projects/+page.svelte', 528, 3.8],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

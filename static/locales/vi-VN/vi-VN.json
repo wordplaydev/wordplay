@@ -6907,6 +6907,10 @@
             },
             "logo": {
                 "description": "$~Một bong bóng lời nói với một chữ cái của hệ chữ viết của bạn ở bên trong"
+            },
+            "synced": {
+                "saved": "$~Được lưu trên mọi thiết bị",
+                "signedOut": "$~Được lưu trên mọi thiết bị khi bạn đăng nhập"
             }
         },
         "tile": {

@@ -6913,6 +6913,10 @@
             },
             "logo": {
                 "description": "$~Sebuah balon ucapan dengan huruf dari sistem penulisanmu di dalamnya"
+            },
+            "synced": {
+                "saved": "$~Tersimpan di semua perangkat",
+                "signedOut": "$~Tersimpan di semua perangkat saat kamu masuk akun"
             }
         },
         "tile": {
