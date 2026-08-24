@@ -605,6 +605,17 @@
         pointer-events: all;
     }
 
+    /* A read-only stage (gallery, how-to, preview) never drags or pans — the
+       whole gesture block is gated on `editable` in OutputView — so a drag
+       across its text has nothing to compete with and can select. The stage
+       itself stays user-select: none, so only the words are selectable, which
+       also keeps a drag from painting an out-of-reading-order highlight across
+       phrases (each is its own absolutely-positioned, transformed box). */
+    :global(.stage.readonly) .phrase {
+        pointer-events: auto;
+        user-select: text;
+    }
+
     .phrase[data-selectable='true'] {
         cursor: pointer;
         pointer-events: all;

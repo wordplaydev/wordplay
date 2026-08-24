@@ -9984,7 +9984,15 @@
             "scriptLabel": "$~filtruj według skryptu",
             "pickFilter": "$~Wybierz kategorię lub skrypt",
             "moreLanguages": "$~i $count więcej",
-            "moreGlyphs": "$~Pokazano $count — szukaj, aby znaleźć więcej"
+            "moreGlyphs": "$~Pokazano $count — szukaj, aby znaleźć więcej",
+            "presentation": {
+                "label": "$~kolor emoji",
+                "labels": ["$~kolor", "$~czarno-białe"],
+                "tips": [
+                    "$~wstaw emoji w kolorze",
+                    "$~wstaw emoji czarno-białe"
+                ]
+            }
         },
         "localize": {
             "header": "$~Zlokalizować",

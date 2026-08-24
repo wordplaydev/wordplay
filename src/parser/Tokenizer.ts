@@ -1,7 +1,7 @@
 import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type { KeywordIndex } from '@parser/Keywords';
-import { withoutVariationSelectors } from '@unicode/emoji';
+import { withoutColorSelector } from '@unicode/emoji';
 import ReservedSymbols from '@parser/ReservedSymbols';
 import {
     BIND_SYMBOL,
@@ -991,8 +991,13 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
     // Then, strip any zero width spaces. Those only cause confusion, since they are invisible.
     source = source.replaceAll('\u200B', '');
 
-    // Remove any emoiji variation selectors, as they don't have any semantic meaning.
-    source = withoutVariationSelectors(source);
+    // Remove the COLOR variation selector (U+FE0F), which carries no meaning: a
+    // bare emoji-default codepoint already renders in color. The MONO selector
+    // (U+FE0E) is kept — it is the only way a creator can ask for text
+    // presentation, so it has to reach the token text and the rendered value.
+    // Names strip both (see NameToken), since a name must be presentation-
+    // insensitive: 💬 and 💬️ have to resolve to the same definition.
+    source = withoutColorSelector(source);
 
     // Start with an empty list
     const tokens: Token[] = [];

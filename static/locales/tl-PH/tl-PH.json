@@ -10053,7 +10053,15 @@
             "scriptLabel": "$~i-filter ayon sa script",
             "pickFilter": "$~Pumili ng kategorya o script",
             "moreLanguages": "$~at $count pa",
-            "moreGlyphs": "$~Ipinapakita ang $count — maghanap para makakita ng higit pa"
+            "moreGlyphs": "$~Ipinapakita ang $count — maghanap para makakita ng higit pa",
+            "presentation": {
+                "label": "$~kulay ng emoji",
+                "labels": ["$~kulay", "$~itim at puti"],
+                "tips": [
+                    "$~maglagay ng emoji na may kulay",
+                    "$~maglagay ng emoji na itim at puti"
+                ]
+            }
         },
         "tour": {
             "label": "$~paglilibot",

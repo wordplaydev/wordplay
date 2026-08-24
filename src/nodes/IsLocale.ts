@@ -2,7 +2,7 @@ import type { TemplateInput } from '@locale/Locales';
 import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { LOCALE_SYMBOL } from '@parser/Symbols';
+import { GLOBE1_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
@@ -35,7 +35,10 @@ export default class IsLocale extends SimpleExpression {
     }
 
     static make(language?: Language) {
-        return new IsLocale(new Token(LOCALE_SYMBOL, Sym.Change), language);
+        // The bare codepoint, not LOCALE_SYMBOL: that carries U+FE0E for mono
+        // UI rendering, and the tokenizer no longer strips the mono selector,
+        // so it would survive into the source and lex as a stray name.
+        return new IsLocale(new Token(GLOBE1_SYMBOL, Sym.Change), language);
     }
 
     static getPossibleReplacements() {

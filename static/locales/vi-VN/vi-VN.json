@@ -9975,7 +9975,15 @@
             "scriptLabel": "$~lọc theo tập lệnh",
             "pickFilter": "$~Chọn một danh mục hoặc kịch bản",
             "moreLanguages": "$~và $count thêm",
-            "moreGlyphs": "$~Đang hiển thị $count — tìm kiếm để xem thêm"
+            "moreGlyphs": "$~Đang hiển thị $count — tìm kiếm để xem thêm",
+            "presentation": {
+                "label": "$~màu biểu tượng cảm xúc",
+                "labels": ["$~màu sắc", "$~đen trắng"],
+                "tips": [
+                    "$~chèn biểu tượng cảm xúc có màu",
+                    "$~chèn biểu tượng cảm xúc đen trắng"
+                ]
+            }
         },
         "localize": {
             "header": "$~Bản địa hóa",

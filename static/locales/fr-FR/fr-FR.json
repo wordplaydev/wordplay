@@ -9979,7 +9979,15 @@
             "scriptLabel": "$~filtrer par script",
             "pickFilter": "$~Choisissez une catégorie ou un script",
             "moreLanguages": "$~et $count plus",
-            "moreGlyphs": "$~Affichage de $count — recherchez pour en trouver plus"
+            "moreGlyphs": "$~Affichage de $count — recherchez pour en trouver plus",
+            "presentation": {
+                "label": "$~couleur des émojis",
+                "labels": ["$~couleur", "$~noir et blanc"],
+                "tips": [
+                    "$~insérer un émoji en couleur",
+                    "$~insérer un émoji en noir et blanc"
+                ]
+            }
         },
         "localize": {
             "header": "$~Localiser",

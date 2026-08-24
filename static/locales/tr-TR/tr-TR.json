@@ -9966,7 +9966,12 @@
             "scriptLabel": "$~komut dosyasına göre filtrele",
             "pickFilter": "$~Bir kategori veya senaryo seçin.",
             "moreLanguages": "$~ve daha fazla $count",
-            "moreGlyphs": "$~$count gösteriliyor — daha fazlasını bulmak için arama yap"
+            "moreGlyphs": "$~$count gösteriliyor — daha fazlasını bulmak için arama yap",
+            "presentation": {
+                "label": "$~emoji rengi",
+                "labels": ["$~renk", "$~siyah beyaz"],
+                "tips": ["$~renkli emoji ekle", "$~siyah beyaz emoji ekle"]
+            }
         },
         "localize": {
             "header": "$~Yerelleştir",

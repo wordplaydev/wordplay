@@ -9948,7 +9948,12 @@
             "scriptLabel": "$~filtrera efter skript",
             "pickFilter": "$~Välj en kategori eller ett manus",
             "moreLanguages": "$~och $count mer",
-            "moreGlyphs": "$~Visar $count — sök för att hitta fler"
+            "moreGlyphs": "$~Visar $count — sök för att hitta fler",
+            "presentation": {
+                "label": "$~emoji i färg",
+                "labels": ["$~färg", "$~svartvitt"],
+                "tips": ["$~infoga emoji i färg", "$~infoga emoji i svartvitt"]
+            }
         },
         "localize": {
             "header": "$~Lokalisera",

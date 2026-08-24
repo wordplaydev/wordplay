@@ -16,7 +16,7 @@
     import { type MultilingualEntry } from '@locale/Locales';
     import type { ModeText } from '@locale/UITexts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { withMonoEmoji } from '@unicode/emoji';
+    import { withDefaultMonoEmoji } from '@unicode/emoji';
     import type { Component } from 'svelte';
 
     interface Props {
@@ -29,8 +29,10 @@
         /** Callback for when a mode is selected.*/
         select: (choice: number) => void;
         /** Icons to add as prefixes to labels: a glyph string (rendered
-         *  monochrome) or a drawn icon component, for marks whose codepoints
-         *  render unpredictably across platforms (e.g. the playback glyphs). */
+         *  monochrome unless it already carries a presentation selector, so a
+         *  mode whose subject IS the presentation can show one of each) or a
+         *  drawn icon component, for marks whose codepoints render
+         *  unpredictably across platforms (e.g. the playback glyphs). */
         icons?: readonly (string | Component)[];
         /** Whether the mode chooser is active */
         active?: boolean;
@@ -213,7 +215,7 @@
                             >{#if index < icons.length}{@const icon =
                                     icons[
                                         index
-                                    ]}{#if typeof icon === 'string'}{withMonoEmoji(
+                                    ]}{#if typeof icon === 'string'}{withDefaultMonoEmoji(
                                         icon,
                                     )}{:else}{@const Icon = icon}<Icon
                                     />{/if}{:else}?{/if}</span

@@ -1272,6 +1272,24 @@
         }
     }
 
+    /** The kind of the last pointer press, so the touch-only mousedown fix below
+     *  can tell a synthetic post-touch mousedown from a real mouse press. */
+    let lastPointerType = $state<string>('mouse');
+
+    /** Whether a press landed on selectable text rather than on the stage or its
+     *  chrome. Text is selectable on a read-only stage (which never drags or
+     *  pans, so there is no gesture to compete with) and in non-stage value
+     *  output. Used to hold back the preventDefault calls that would otherwise
+     *  stop the browser from starting a selection. */
+    function pressedOnSelectableText(event: Event): boolean {
+        const target = event.target;
+        if (!(target instanceof Element)) return false;
+        // Non-stage output: everything the value view renders is selectable.
+        if (stageValue === undefined)
+            return target.closest('.message') !== null;
+        return !editable && target.closest('.output.phrase') !== null;
+    }
+
     /**
      * When the pointer is pressed down:
      * 1) Focus on the keyboard input if there is any
@@ -1283,6 +1301,7 @@
     function handlePointerDown(event: PointerEvent) {
         // Add event to pointer event cache for
         pointersByIndex.push(event);
+        lastPointerType = event.pointerType;
 
         // A second pointer turns this into a pinch gesture, so abandon any in-progress pan.
         if (pointersByIndex.length >= 2) {
@@ -1298,7 +1317,10 @@
                 'Focusing output text field on pointer down.',
             );
             event.stopPropagation();
-            event.preventDefault();
+            // Keep the focus and the propagation stop, but let the browser begin
+            // a text selection when the press landed on selectable text —
+            // preventDefault here is what stopped drag-to-select.
+            if (!pressedOnSelectableText(event)) event.preventDefault();
         } else if (valueView) {
             setKeyboardFocus(valueView, 'Focusing on stage');
         }
@@ -2315,10 +2337,14 @@
             // default action blurs the programmatically focused keyboard sink —
             // which is what dismisses the on-screen keyboard a moment after a
             // tap. preventDefault on pointerdown does not suppress it, so it has
-            // to be cancelled here. Real mouse and pen input is already handled
-            // by pointerdown, so in practice only touch reaches this. Same fix
-            // as the editor's textarea.
-            event.preventDefault();
+            // to be cancelled here. Same fix as the editor's textarea.
+            //
+            // Gated on touch: this used to cancel EVERY mousedown, and since a
+            // mousedown's default action is what begins a drag-selection, it
+            // made all output text unselectable with a mouse. Real mouse and pen
+            // input is already fully handled by pointerdown, so the gate costs
+            // the iOS fix nothing.
+            if (lastPointerType === 'touch') event.preventDefault();
         }}
         onpointerup={interactive ? handlePointerUp : null}
         onpointermove={interactive ? handlePointerMove : null}

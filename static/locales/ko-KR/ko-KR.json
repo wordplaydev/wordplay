@@ -9945,7 +9945,12 @@
             "scriptLabel": "$~스크립트로 필터링",
             "pickFilter": "$~카테고리 또는 스크립트를 선택하세요",
             "moreLanguages": "$~그리고 $count 더",
-            "moreGlyphs": "$~$count 표시 중 — 더 찾으려면 검색하세요"
+            "moreGlyphs": "$~$count 표시 중 — 더 찾으려면 검색하세요",
+            "presentation": {
+                "label": "$~이모지 색상",
+                "labels": ["$~색상", "$~흑백"],
+                "tips": ["$~컬러 이모지 삽입", "$~흑백 이모지 삽입"]
+            }
         },
         "localize": {
             "header": "$~현지화",

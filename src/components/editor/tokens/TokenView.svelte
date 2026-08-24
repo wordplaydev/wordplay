@@ -30,7 +30,7 @@
     import Unit from '@nodes/Unit';
     import WebLink from '@nodes/WebLink';
     import linkHref from '@parser/linkHref';
-    import { emojiRuns, withColorEmoji } from '@unicode/emoji';
+    import { emojiRuns, withDefaultColorEmoji } from '@unicode/emoji';
 
     interface TokenProps {
         node: Token;
@@ -250,11 +250,14 @@
     const spaced = $derived(
         wrapping === true ? text : text.replaceAll(' ', '\xa0'),
     );
+    // withDefaultColorEmoji, not withColorEmoji: the latter strips first, which
+    // would erase a creator's explicit U+FE0E and force their monochrome emoji
+    // back to color. This only upgrades emoji that carry no selector at all.
     let renderedText = $derived(
         node.isSymbol(Sym.Name) ||
             node.isSymbol(Sym.Text) ||
             node.isSymbol(Sym.Words)
-            ? withColorEmoji(spaced)
+            ? withDefaultColorEmoji(spaced)
             : spaced,
     );
 
@@ -416,6 +419,9 @@
     }
     .emoji-color {
         font-family: var(--wordplay-emoji-color-font);
+    }
+    .emoji-mono {
+        font-family: var(--wordplay-emoji-mono-font);
     }
 
     /* A directly-dragged merged token dims like NodeView's `.dragged .token-view`

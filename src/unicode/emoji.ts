@@ -17,6 +17,13 @@ export function withoutVariationSelectors(text: string) {
     return text.replaceAll(/(\uFE0F|\uFE0E)/gu, '');
 }
 
+/** Remove only the color selector (U+FE0F). A bare emoji-default codepoint
+ * already renders in color, so U+FE0F says nothing, while U+FE0E is the only
+ * way to ask for text presentation and so must survive into token text. */
+export function withoutColorSelector(text: string) {
+    return text.replaceAll(/\uFE0F/gu, '');
+}
+
 /** Adds emoji text variation descriptor to any noto emoji missing them. Ensures fonts are rendered consistently across Chrome, Safari, and Firefox. */
 export function withVariationSelector(text: string, color = false) {
     // Strip the presentation selectors from the string.
@@ -40,6 +47,26 @@ export function withColorEmoji(text: string) {
 /** Remove any existing variation selectors from emoji sequences and add the monochrome selector. */
 export function withMonoEmoji(text: string) {
     return withVariationSelector(text, false);
+}
+
+/** Add the color selector only where none is present, so a creator's U+FE0E
+ * survives (unlike {@link withColorEmoji}, which strips first). Its real job is
+ * upgrading bare legacy symbols (© → ©️) so the keycap face draws them. */
+export function withDefaultColorEmoji(text: string) {
+    return withDefaultSelector(text, '\uFE0F');
+}
+
+/** The mono counterpart of {@link withDefaultColorEmoji}, so a control can show
+ * one glyph in each presentation (see Mode's icons). */
+export function withDefaultMonoEmoji(text: string) {
+    return withDefaultSelector(text, '\uFE0E');
+}
+
+function withDefaultSelector(text: string, selector: string) {
+    return text.replaceAll(
+        new RegExp(EmojiRegex.source + '(?![\\uFE0E\\uFE0F])', 'gu'),
+        `$1${selector}`,
+    );
 }
 
 /** Check if the string matches an emoji sequence */
@@ -117,11 +144,9 @@ export function segmentColorEmoji(
     return runs;
 }
 
-/** A run's presentation kind: plain text, a keycap/legacy color combo (needs the
- * dedicated keycap face), or an ordinary color emoji (uses the general color
- * face). Keycap and ordinary emoji must use DIFFERENT font stacks — see
+/** A run's presentation kind. Each needs a DIFFERENT font stack — see
  * {@link segmentEmoji}. */
-export type EmojiRunKind = 'text' | 'keycap' | 'emoji';
+export type EmojiRunKind = 'text' | 'keycap' | 'mono' | 'emoji';
 
 /**
  * Like {@link segmentColorEmoji} but classifies EVERY grapheme — pictographs,
@@ -144,8 +169,11 @@ export function segmentEmoji(
     for (const { segment } of segmenter.segment(text)) {
         const kind: EmojiRunKind = hasColorCombo(segment)
             ? 'keycap'
-            : ExtendedPictographicRegex.test(segment)
-              ? 'emoji'
+            : // Guarded: '#\uFE0E' is a text-presentation hash, not an emoji.
+              ExtendedPictographicRegex.test(segment)
+              ? segment.includes('\uFE0E')
+                  ? 'mono'
+                  : 'emoji'
               : 'text';
         const prev = runs[runs.length - 1];
         // Coalesce consecutive runs of the same kind into one node.
@@ -159,20 +187,31 @@ export function segmentEmoji(
  * undefined class for a bare text node. */
 export type EmojiRun = {
     text: string;
-    cls: 'emoji-keycap' | 'emoji-color' | undefined;
+    cls: 'emoji-keycap' | 'emoji-color' | 'emoji-mono' | undefined;
 };
+
+/** The wrapper class a segmented run needs, or undefined to render it bare. */
+function runClass(kind: EmojiRunKind): EmojiRun['cls'] {
+    return kind === 'keycap'
+        ? 'emoji-keycap'
+        : kind === 'mono'
+          ? 'emoji-mono'
+          : kind === 'emoji'
+            ? 'emoji-color'
+            : undefined;
+}
 
 /**
  * The render plan for a run of text that may contain emoji: undefined when the
- * text needs no wrapping (the common case — render it as a single bare text
- * node), otherwise ordered {@link EmojiRun}s. With `forceColorEmoji` (the
- * editor's monospace token font won't render color emoji) EVERY emoji is
- * wrapped — ordinary emoji in .emoji-color (with variation selectors stripped:
- * a trailing U+FE0F makes Safari prefer the SYSTEM emoji over the web color
- * font), keycap/legacy combos in .emoji-keycap (which keep their sequence — the
- * keycap ligature shapes digit + U+20E3 and legacy color needs U+FE0F).
- * Without it, just the keycap/legacy combos. The two classes must map to
- * DIFFERENT font stacks — see {@link segmentEmoji}.
+ * text needs no wrapping (the common case — one bare text node), otherwise
+ * ordered {@link EmojiRun}s. Each class must map to a DIFFERENT font stack.
+ *
+ * With `forceColorEmoji` (the editor's monospace token font won't render color
+ * emoji) EVERY emoji is wrapped, ordinary ones with their selectors stripped
+ * since a trailing U+FE0F makes Safari prefer the SYSTEM emoji; without it (the
+ * stage) they stay bare, honoring the creator's face. A mono run KEEPS its
+ * U+FE0E either way, which is what makes copying one off the stage preserve its
+ * presentation — stage copy reads the DOM.
  */
 export function emojiRuns(
     text: string,
@@ -185,14 +224,15 @@ export function emojiRuns(
                 run.kind === 'emoji'
                     ? withoutVariationSelectors(run.text)
                     : run.text,
-            cls:
-                run.kind === 'keycap'
-                    ? 'emoji-keycap'
-                    : run.kind === 'emoji'
-                      ? 'emoji-color'
-                      : undefined,
+            cls: runClass(run.kind),
         }));
     }
+    // segmentColorEmoji only knows keycap/legacy combos; mono needs graphemes.
+    if (text.includes('\uFE0E'))
+        return segmentEmoji(text).map<EmojiRun>((run) => ({
+            text: run.text,
+            cls: run.kind === 'emoji' ? undefined : runClass(run.kind),
+        }));
     if (!hasColorCombo(text)) return undefined;
     return segmentColorEmoji(text).map<EmojiRun>((run) => ({
         text: run.text,

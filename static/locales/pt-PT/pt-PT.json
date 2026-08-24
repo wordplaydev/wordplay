@@ -10046,7 +10046,15 @@
             "scriptLabel": "filtrar por script",
             "pickFilter": "Escolha uma categoria ou itinerário",
             "moreLanguages": "e $count mais",
-            "moreGlyphs": "$~A mostrar $count — pesquisa para encontrar mais"
+            "moreGlyphs": "$~A mostrar $count — pesquisa para encontrar mais",
+            "presentation": {
+                "label": "$~cor do emoji",
+                "labels": ["$~cor", "$~preto e branco"],
+                "tips": [
+                    "$~inserir emoji a cores",
+                    "$~inserir emoji a preto e branco"
+                ]
+            }
         },
         "tour": {
             "label": "digressão",

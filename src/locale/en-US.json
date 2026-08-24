@@ -10227,6 +10227,14 @@
             "skinTone": "skin tone",
             "script": "scripts",
             "scriptLabel": "filter by script",
+            "presentation": {
+                "label": "emoji color",
+                "labels": ["color", "black and white"],
+                "tips": [
+                    "insert emoji in color",
+                    "insert emoji in black and white"
+                ]
+            },
             "moreLanguages": "and $count more",
             "pickFilter": "Choose a category or script",
             "moreGlyphs": "Showing $count — search to find more",

@@ -10065,7 +10065,15 @@
             "scriptLabel": "$~filter berdasarkan skrip",
             "pickFilter": "$~Pilih kategori atau skrip",
             "moreLanguages": "$~dan $count lebih banyak",
-            "moreGlyphs": "$~Menampilkan $count — cari untuk menemukan lebih banyak"
+            "moreGlyphs": "$~Menampilkan $count — cari untuk menemukan lebih banyak",
+            "presentation": {
+                "label": "$~warna emoji",
+                "labels": ["$~warna", "$~hitam putih"],
+                "tips": [
+                    "$~sisipkan emoji berwarna",
+                    "$~sisipkan emoji hitam putih"
+                ]
+            }
         },
         "connection": {
             "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",

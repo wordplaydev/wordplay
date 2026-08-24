@@ -163,10 +163,17 @@ test('resolving a color needs no basis', () => {
  * unit of slack, so only its bytes needed to move. Those bytes are the badge's
  * two sentences in en-US.json, which every entry carries, and they are what tips
  * three of the byte budgets over a hundredth of a megabyte.
+ *
+ * The last +0.01MB on the layout and Page is choosing whether an inserted emoji
+ * is color or monochrome: the mode's label, its two labels and its two tips in
+ * en-US.json, which every page carries, plus the run kind that carries the
+ * choice through to a font in unicode/emoji.ts, which every page reaches via
+ * Emoji and EmojisRepaired. No new file and no new subgraph — the same move as
+ * the entries above. The three page budgets had enough slack to absorb it.
  */
 test.each([
-    ['src/routes/+layout.svelte', 481, 3.45],
-    ['src/components/app/Page.svelte', 503, 3.68],
+    ['src/routes/+layout.svelte', 481, 3.46],
+    ['src/components/app/Page.svelte', 503, 3.69],
     ['src/routes/[[locale]]/+page.svelte', 518, 3.77],
     ['src/routes/[[locale]]/galleries/+page.svelte', 520, 3.77],
     ['src/routes/[[locale]]/projects/+page.svelte', 528, 3.8],

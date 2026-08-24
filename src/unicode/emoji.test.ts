@@ -1,9 +1,12 @@
 import { describe, expect, test } from 'vitest';
 import {
+    emojiRuns,
     hasColorCombo,
     hasEmoji,
     segmentColorEmoji,
     segmentEmoji,
+    withDefaultColorEmoji,
+    withoutColorSelector,
 } from './emoji';
 
 // Build sequences from escapes so the (invisible) selectors are explicit.
@@ -152,5 +155,65 @@ describe('hasColorCombo', () => {
         // on the FE0F fast path).
         for (const t of ['', '42', '#', '©', 'hello', '❤️'])
             expect(hasColorCombo(t)).toBe(false);
+    });
+});
+
+describe('monochrome presentation', () => {
+    const mono = '\u{1F44D}\uFE0E'; // 👍 + FE0E (text presentation)
+    const color = '\u{1F44D}'; // bare 👍, which renders color by default
+
+    test('an emoji with FE0E segments as a mono run', () => {
+        expect(segmentEmoji(mono)).toEqual([{ text: mono, kind: 'mono' }]);
+    });
+
+    test('a bare emoji still segments as an ordinary color run', () => {
+        expect(segmentEmoji(color)).toEqual([{ text: color, kind: 'emoji' }]);
+    });
+
+    test('a text-default base with FE0E is text, not a mono emoji', () => {
+        // '#' is not Extended_Pictographic, so FE0E on it asks for a plain hash
+        // rather than a monochrome emoji face.
+        expect(segmentEmoji('#\uFE0E')).toEqual([
+            { text: '#\uFE0E', kind: 'text' },
+        ]);
+    });
+
+    test('the editor wraps a mono emoji and keeps its selector', () => {
+        expect(emojiRuns(mono, true)).toEqual([
+            { text: mono, cls: 'emoji-mono' },
+        ]);
+    });
+
+    test('the stage wraps a mono emoji rather than leaving it to the cascade', () => {
+        // Without this the ambient cascade leads with Noto Color Emoji and the
+        // creator's monochrome request is silently ignored.
+        expect(emojiRuns(mono, false)).toEqual([
+            { text: mono, cls: 'emoji-mono' },
+        ]);
+    });
+
+    test('the stage still leaves an ordinary emoji bare', () => {
+        expect(emojiRuns(color, false)).toBeUndefined();
+    });
+
+    test('a mono run keeps FE0E so copying off the stage preserves it', () => {
+        const runs = emojiRuns(`a${mono}b`, false);
+        expect(runs?.map((r) => r.text).join('')).toBe(`a${mono}b`);
+    });
+
+    test('withDefaultColorEmoji leaves an explicit selector alone', () => {
+        expect(withDefaultColorEmoji(mono)).toBe(mono);
+        expect(withDefaultColorEmoji(color)).toBe(`${color}\uFE0F`);
+    });
+
+    test('withDefaultColorEmoji still upgrades a bare legacy symbol', () => {
+        // Its actual job: © only renders in color with FE0F, which is what
+        // makes hasColorCombo fire and the keycap face draw it.
+        expect(withDefaultColorEmoji('\u00A9')).toBe('\u00A9\uFE0F');
+    });
+
+    test('withoutColorSelector removes only the color selector', () => {
+        expect(withoutColorSelector(`${color}\uFE0F`)).toBe(color);
+        expect(withoutColorSelector(mono)).toBe(mono);
     });
 });

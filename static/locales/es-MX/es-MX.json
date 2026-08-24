@@ -9972,7 +9972,15 @@
             "scriptLabel": "$~filtrar por escritura",
             "pickFilter": "$~elegir una categoría o una escritura",
             "moreLanguages": "$~y $count más",
-            "moreGlyphs": "$~mostrando $count — busca para encontrar más"
+            "moreGlyphs": "$~mostrando $count — busca para encontrar más",
+            "presentation": {
+                "label": "$~color de emoji",
+                "labels": ["$~color", "$~blanco y negro"],
+                "tips": [
+                    "$~insertar emoji a color",
+                    "$~insertar emoji en blanco y negro"
+                ]
+            }
         },
         "localize": {
             "header": "$~traducir",

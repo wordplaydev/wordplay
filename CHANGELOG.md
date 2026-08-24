@@ -4,10 +4,17 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.30.1 -2026-08-24
+## 0.30.1 - 2026-08-24
+
+### Added
+
+- 🔣 You can now choose whether an emoji you add is in color or black and white. Pick which one in the emoji chooser, and Wordplay keeps your choice when it shows the emoji and when you copy it.
+- 📋 You can now select the text your program shows and copy it somewhere else. This works while a project is playing, and on anything your program shows that isn't a stage.
 
 ### Fixed
 
+- 🔍 We fixed the search box in the emoji and symbol chooser. It used to lose your place after the first letter, so everything you typed after that went nowhere.
+- ✍️ We fixed how chosen code looks when it has an emoji in it. Choosing one emoji, or a stretch that starts or ends with one, used to show no highlight at all.
 - 📖 A word in our explanations pointed at a page that didn't exist, so it showed an empty box instead of a link. Markup and type variable now have their own pages in the [Guide](https://wordplay.dev/guide), and the markup page shows an example you can try.
 - 🌐 In several languages the word markup was translated as the money kind, like a price markup or a page margin, instead of text with bold words and links. It now means formatted text in every language.
 - ✍️ We fixed an extra space that crept in before a linked word in code, so `a @Phrase` no longer looks like `a  @Phrase`.

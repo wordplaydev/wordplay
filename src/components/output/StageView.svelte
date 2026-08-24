@@ -846,6 +846,7 @@
     <section
         class="output stage {interactive && !editing ? 'live' : 'inert'}"
         class:interactive
+        class:readonly={!editable}
         class:changed
         class:editing={$evaluation?.playing === false &&
             !painting &&
@@ -1068,6 +1069,11 @@
     }
 
     .stage {
+        /* The stage is a drag surface (pan, and moving output while paused), so
+           a drag across it must not start a text selection. Read-only stages
+           never drag or pan — the whole block is gated on `editable` in
+           OutputView — so there is nothing to compete with there, and their
+           phrase text opts back in (see PhraseView). */
         user-select: none;
         position: relative;
         flex-grow: 1;

@@ -9963,7 +9963,12 @@
             "scriptLabel": "$~文字体系でしぼりこむ",
             "pickFilter": "$~カテゴリーか文字体系を選んでください",
             "moreLanguages": "$~ほかに $count 件",
-            "moreGlyphs": "$~$count 件を表示中 — もっと探すには検索してください"
+            "moreGlyphs": "$~$count 件を表示中 — もっと探すには検索してください",
+            "presentation": {
+                "label": "$~絵文字の色",
+                "labels": ["$~色", "$~白黒"],
+                "tips": ["$~絵文字をカラーで挿入", "$~絵文字を白黒で挿入"]
+            }
         },
         "localize": {
             "header": "$~翻訳する",

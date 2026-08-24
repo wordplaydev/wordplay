@@ -237,6 +237,8 @@ Some are associated with importing and exporting values from source:
 
 Every other possible sequence of Unicode characters is interpreted as a `name`, separated by space or one of the tokens above.
 
+Emoji presentation selectors are treated asymmetrically during tokenization. The **color** selector U+FE0F is removed from the whole source before lexing: a bare emoji-default codepoint already renders in color, so the selector distinguishes nothing, and dropping it means `👍️` and `👍` are the same text and `🌬️` and `🌬` are the same name. The **monochrome** selector U+FE0E is preserved, because it is the only way to ask for text presentation, and so is meaning-bearing: `'👍︎'` and `'👍'` are different text values, and the first renders monochrome wherever it is shown. Names are the exception — a name strips both selectors, so a name can never depend on presentation.
+
 Three kinds of space are meaningful during tokenization: space ` ` (U+0020), `\t` (U+0009), and the line feed character `\n` (U+000A). Spaces segment names, and are preserved and associated as preceding space for each tokens. This preceding space is used during parsing in limited ways to distinguish the role of names. All other forms of Unicode spaces (e.g., zero width spaces, non-breaking spaces, etc.) are interpreted as part of names. (Probably a questionable design choice, and maybe one we'll return to.).
 
 ## Basic Values

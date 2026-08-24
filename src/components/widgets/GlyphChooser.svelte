@@ -75,6 +75,7 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextField from '@components/widgets/TextField.svelte';
@@ -89,6 +90,7 @@
     import { Scripts, type Script } from '@locale/Scripts';
     import type { SupportedLocale } from '@locale/SupportedLocales';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
+    import { withColorEmoji, withMonoEmoji } from '@unicode/emoji';
     import { buildGlyphSearch } from '@unicode/glyphSearch';
     import {
         codepointKey,
@@ -117,6 +119,11 @@
         /** Called when choosing a tab should abandon the search. Required for
          *  `externalQuery` callers, since only they can clear their query. */
         clearQuery?: () => void;
+        /** Whether to offer a color/monochrome choice, which decides the
+         *  presentation selector a picked emoji carries and how the grid
+         *  previews it. Off for callers whose glyph becomes a symbol or a name,
+         *  where presentation means nothing (and is stripped by NameToken). */
+        choosePresentation?: boolean;
     }
 
     let {
@@ -125,7 +132,22 @@
         showCustom = true,
         externalQuery = undefined,
         clearQuery = undefined,
+        choosePresentation = false,
     }: Props = $props();
+
+    /** Which presentation a picked emoji asks for. Color matches how every
+     *  emoji rendered before the choice existed. */
+    let presentation = $state<'color' | 'mono'>('color');
+
+    /** The glyph as it should be inserted: an emoji carries the chosen
+     *  presentation selector, everything else is handed over untouched. */
+    function withPresentation(glyph: string): string {
+        return !choosePresentation
+            ? glyph
+            : presentation === 'mono'
+              ? withMonoEmoji(glyph)
+              : withColorEmoji(glyph);
+    }
 
     /** The characters the creator can edit, the corpus for character search.
      *  Broader than the Custom tab's list, so a private or collaborated
@@ -404,8 +426,12 @@
     <div class="emoji" class:selected={String.fromCodePoint(...hex) === glyph}
         ><Button
             tip={() => localizedNameFor(hex)}
-            action={() => pick(String.fromCodePoint(...hex))}
-            ><span class="emoji">{String.fromCodePoint(...hex)}</span></Button
+            action={() => pick(withPresentation(String.fromCodePoint(...hex)))}
+            ><span
+                class="emoji"
+                class:mono={choosePresentation && presentation === 'mono'}
+                >{String.fromCodePoint(...hex)}</span
+            ></Button
         ></div
     >
 {/snippet}
@@ -485,6 +511,22 @@
                     </span>
                 {/snippet}
             </Options>
+        {/if}
+        {#if choosePresentation}
+            <!-- Icon-only, and each icon is drawn in the presentation it
+                 selects, so the control demonstrates its own effect. Beside the
+                 script chooser because it filters what a pick means the same
+                 way those filter what is offered. -->
+            <Mode
+                uiid="presentation"
+                modes={(l) => l.ui.emoji.presentation}
+                icons={[withColorEmoji('🎨'), withMonoEmoji('🎨')]}
+                labeled={false}
+                modeLabels={false}
+                choice={presentation === 'color' ? 0 : 1}
+                select={(choice) =>
+                    (presentation = choice === 0 ? 'color' : 'mono')}
+            />
         {/if}
         {#if category === 'So-pe'}
             <Options
@@ -626,6 +668,12 @@
             'Noto Color Emoji', 'Noto Emoji', 'Noto Sans',
             var(--wordplay-fallback-fonts), sans-serif;
         font-size: 1.2em;
+    }
+
+    /* Previewing the pick: the class decides the face, matching how the editor
+       and the stage choose one, rather than relying on the selector alone. */
+    .emoji.mono {
+        font-family: var(--wordplay-emoji-mono-font);
     }
 
     .selected {

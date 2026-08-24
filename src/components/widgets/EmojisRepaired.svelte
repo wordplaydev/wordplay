@@ -8,6 +8,10 @@
      wrapper), so the common case stays cheap and the editor's caret measurement
      is unaffected. To force a known glyph into the emoji font, use Emoji instead.
 
+     An emoji carrying U+FE0E (the creator asked for monochrome) is wrapped in
+     .emoji-mono in BOTH modes, since the ambient cascade leads with Noto Color
+     Emoji and would otherwise draw it in color.
+
      `forceColorEmoji` (the editor) additionally wraps EVERY emoji, because the
      editor's token font is monospace and won't render color emoji. Ordinary emoji
      get the Noto-Color-Emoji-first --wordplay-emoji-color-font; keycap/legacy runs
@@ -34,6 +38,8 @@
                 class="emoji-keycap">{run.text}</span
             >{:else if run.cls === 'emoji-color'}<span class="emoji-color"
                 >{run.text}</span
+            >{:else if run.cls === 'emoji-mono'}<span class="emoji-mono"
+                >{run.text}</span
             >{:else}{run.text}{/if}{/each}{:else}{text}{/if}
 
 <style>
@@ -42,5 +48,8 @@
     }
     .emoji-color {
         font-family: var(--wordplay-emoji-color-font);
+    }
+    .emoji-mono {
+        font-family: var(--wordplay-emoji-mono-font);
     }
 </style>

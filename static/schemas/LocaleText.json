@@ -18217,6 +18217,10 @@
                                     "description": "[plain] Hint shown in the glyph area when no category and no script is selected",
                                     "type": "string"
                                 },
+                                "presentation": {
+                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                    "description": "Whether a picked emoji is inserted in color or black and white"
+                                },
                                 "script": {
                                     "description": "[plain] Placeholder/no-selection label for the script filter dropdown",
                                     "type": "string"
@@ -18235,6 +18239,7 @@
                                 "skinTone",
                                 "script",
                                 "scriptLabel",
+                                "presentation",
                                 "moreLanguages",
                                 "pickFilter",
                                 "moreGlyphs",

@@ -194,6 +194,7 @@
         <GlyphChooser
             externalQuery={query}
             clearQuery={() => (query = '')}
+            choosePresentation
             pick={(glyph) => insert(glyph)}
         />
     {/snippet}
@@ -206,22 +207,20 @@
         <CommandButton command={offered[i]} {sourceID} token focusAfter />
     {/snippet}
 
-    {#if expanded}
-        <!-- Expanded: a chooser takes the stretchy slot; controls pinned right. -->
-        <OverflowToolbar
-            items={[]}
-            stretchy={mode === 'phonemes'
+    <!-- ONE toolbar across both states, never two in an {#if}/{:else}: the search
+         field lives in the pinned `glyphControls` snippet, and typing its first
+         character expands the row, so a second instance would remount the field
+         and drop focus mid-word. `items` keeps the same shape in both states
+         (count 0 while expanded) so the child's item branch never flips either. -->
+    <OverflowToolbar
+        items={{ count: expanded ? 0 : offered.length, render: defaultButton }}
+        stretchy={expanded
+            ? mode === 'phonemes'
                 ? phonemeChooserView
-                : glyphChooserView}
-            pinned={[glyphControls]}
-        />
-    {:else}
-        <!-- Collapsed: each CommandButton is its own item, overflows one by one. -->
-        <OverflowToolbar
-            items={{ count: offered.length, render: defaultButton }}
-            pinned={[glyphControls]}
-        />
-    {/if}
+                : glyphChooserView
+            : undefined}
+        pinned={[glyphControls]}
+    />
 </section>
 
 <style>

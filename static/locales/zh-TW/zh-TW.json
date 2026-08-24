@@ -9918,7 +9918,12 @@
             "scriptLabel": "$~依文字系統篩選",
             "pickFilter": "$~選一個分類或文字系統",
             "moreLanguages": "$~還有 $count 個",
-            "moreGlyphs": "$~顯示 $count 個——搜尋以找到更多"
+            "moreGlyphs": "$~顯示 $count 個——搜尋以找到更多",
+            "presentation": {
+                "label": "$~表情符號彩色",
+                "labels": ["$~彩色", "$~黑白"],
+                "tips": ["$~插入彩色表情符號", "$~插入黑白表情符號"]
+            }
         },
         "localize": {
             "header": "$~在地化",

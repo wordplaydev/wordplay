@@ -9914,7 +9914,12 @@
             "scriptLabel": "$~按文字筛选",
             "pickFilter": "$~选择一个类别或文字",
             "moreLanguages": "$~还有 $count 个",
-            "moreGlyphs": "$~显示 $count — 搜索以查找更多"
+            "moreGlyphs": "$~显示 $count — 搜索以查找更多",
+            "presentation": {
+                "label": "$~表情符号颜色",
+                "labels": ["$~颜色", "$~黑白"],
+                "tips": ["$~插入彩色表情符号", "$~插入黑白表情符号"]
+            }
         },
         "localize": {
             "header": "$~本地化",
