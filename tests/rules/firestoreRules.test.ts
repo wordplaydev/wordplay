@@ -320,6 +320,71 @@ describe("research consent is the owner's alone to change", () => {
     });
 });
 
+describe('a document missing a field is still writable', () => {
+    // Reading a property that isn't on the document is a hard CEL evaluation
+    // error, not a null — and it fails closed, so one unguarded access in a
+    // helper blocks every save of a document that predates the field. That is
+    // what canReadProject's `'X' in data` guards are for, and what the
+    // ownership and consent clauses were missing: five of a creator's own
+    // projects stopped saving with "Property owner is undefined on object".
+    const runID = Date.now().toString(36);
+
+    it('a project with no owner field can still be updated by a collaborator', async () => {
+        const id = `rulestest-no-owner-${runID}`;
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`projects/${id}`)
+                .set({
+                    collaborators: [Users.Collaborator],
+                    commenters: [],
+                    viewers: [],
+                    public: false,
+                    gallery: null,
+                });
+        });
+        await assertSucceeds(
+            projectDoc(Users.Collaborator, id).update({ timestamp: 1 }),
+        );
+    });
+
+    it('a project with no public field can still be updated', async () => {
+        const id = `rulestest-no-public-${runID}`;
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context.firestore().doc(`projects/${id}`).set({
+                owner: Users.Owner,
+                collaborators: [],
+                commenters: [],
+                viewers: [],
+                gallery: null,
+            });
+        });
+        await assertSucceeds(
+            projectDoc(Users.Owner, id).update({ timestamp: 1 }),
+        );
+    });
+
+    it('a project predating research consent can still be updated by a collaborator', async () => {
+        const id = `rulestest-no-consent-${runID}`;
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`projects/${id}`)
+                .set({
+                    owner: Users.Owner,
+                    collaborators: [Users.Collaborator],
+                    commenters: [],
+                    viewers: [],
+                    public: false,
+                    gallery: null,
+                });
+        });
+        await assertSucceeds(
+            projectDoc(Users.Collaborator, id).update({ timestamp: 1 }),
+        );
+    });
+});
+
 describe('ownership can only be handed over by the owner', () => {
     // #189. A transfer is an ordinary project update performed by the current
     // owner, so the rules have to tell it apart from a collaborator writing

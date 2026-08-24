@@ -54,10 +54,17 @@ service cloud.firestore {
       // *their* work anonymously, so a collaborator, curator, or moderator —
       // all of whom may update the doc for other reasons — must not be able to
       // flip it. Comparing the two values costs no document reads.
+      //
+      // Every field access here is guarded with `in`, for the same reason
+      // canReadProject guards its own: reading a property that isn't on the
+      // document is a hard CEL evaluation error, not a null. It fails closed,
+      // so one unguarded access blocks every save of a document that predates
+      // the field — including saves that have nothing to do with it.
       function researchConsentUnchangedOrOwner() {
         return !('researchConsent' in resource.data) ||
-          request.resource.data.researchConsent == resource.data.researchConsent ||
-          resource.data.owner == request.auth.uid;
+          (('researchConsent' in request.resource.data) &&
+            request.resource.data.researchConsent == resource.data.researchConsent) ||
+          (('owner' in resource.data) && resource.data.owner == request.auth.uid);
       }
 
       // Losing the ability to make anything public (#193). The check is the
@@ -70,7 +77,9 @@ service cloud.firestore {
         return !("banned" in request.auth.token) || request.auth.token.banned != true;
       }
       function mayBePublic() {
-        return notBanned() || request.resource.data.public != true;
+        return notBanned() ||
+          !('public' in request.resource.data) ||
+          request.resource.data.public != true;
       }
 
       // Ownership is the owner's to hand over (#189). Collaborators can update
@@ -78,9 +87,11 @@ service cloud.firestore {
       // simply write themselves in as owner and lock the owner out of deleting
       // their own project. Comparing the two values costs no document reads.
       function ownerUnchangedOrOwner() {
-        return request.resource.data.owner == resource.data.owner ||
+        return !('owner' in resource.data) ||
           resource.data.owner == request.auth.uid ||
-          ("mod" in request.auth.token && request.auth.token.mod);
+          ("mod" in request.auth.token && request.auth.token.mod) ||
+          (('owner' in request.resource.data) &&
+            request.resource.data.owner == resource.data.owner);
       }
 
       allow update:
@@ -203,6 +214,7 @@ service cloud.firestore {
       // against the custom claim, so it costs no document reads.
       function galleryMayBePublic() {
         return (!("banned" in request.auth.token) || request.auth.token.banned != true)
+          || !('public' in request.resource.data)
           || request.resource.data.public != true;
       }
       allow create: if request.auth != null && galleryMayBePublic();
