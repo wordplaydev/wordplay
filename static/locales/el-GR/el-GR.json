@@ -8557,7 +8557,9 @@
                 "choosePlaceholder": "$?",
                 "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
-                "fewerLanguages": "$?"
+                "fewerLanguages": "$?",
+                "translating": "$?",
+                "translated": "$?"
             },
             "announce": {
                 "transferred": "$~Ο/Η $name είναι τώρα ο ιδιοκτήτης του $project"

@@ -8561,7 +8561,9 @@
                 "choosePlaceholder": "$?",
                 "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
-                "fewerLanguages": "$?"
+                "fewerLanguages": "$?",
+                "translating": "$?",
+                "translated": "$?"
             }
         },
         "palette": {

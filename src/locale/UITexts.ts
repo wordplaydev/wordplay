@@ -1095,6 +1095,10 @@ type UITexts = {
             moreLanguages: string;
             /** [plain] Tip for the button that hides the language search field */
             fewerLanguages: string;
+            /** [plain] Screen-reader label for the spinner shown while a translation pass is running */
+            translating: string;
+            /** [plain] Announced when a translation pass finishes; $#count is how many messages are now shown translated, $language is the target language name */
+            translated: Template<['#count', 'language']>;
         };
         /** The chat message input field */
         field: {

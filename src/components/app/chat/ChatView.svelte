@@ -29,6 +29,7 @@
         type MarkupTranslationInput,
     } from '@db/translateMarkup';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
+    import { getLanguageDirection } from '@locale/LanguageCode';
     import {
         localeToString,
         localesAreEqual,
@@ -157,6 +158,7 @@
 
     let lastAnnouncedTranslateError = false;
     let lastAnnouncedMessageErrors = '';
+    let lastAnnouncedTranslation = '';
 
     $effect(() => {
         if (!announce || !$announce) return;
@@ -207,6 +209,32 @@
             }
             $announce('banner', $locales.getLanguages()[0], text);
         }
+    });
+
+    // Announce a finished translation pass. Without this, picking a language
+    // that succeeds — the common case — is silent: the messages change
+    // visually, but nothing is said. Keyed on target + count so it re-fires
+    // whenever either changes (a new language chosen, or another message
+    // translated), and stays silent on repeats of the same settled state.
+    $effect(() => {
+        if (!announce || !$announce) return;
+        if (translating || translateTo === undefined || translateError) return;
+        const count = Object.keys(translations).length;
+        if (count === 0) return;
+        const key = `${translateTo}:${count}`;
+        if (key === lastAnnouncedTranslation) return;
+        lastAnnouncedTranslation = key;
+        const toLang = getMultilingualLanguageLabel(translateTo);
+        $announce(
+            'translation',
+            $locales.getLanguages()[0],
+            $locales
+                .concretize((l) => l.ui.collaborate.translate.translated, {
+                    count,
+                    language: toLang,
+                })
+                .toText(),
+        );
     });
 
     // get the gallery from the gallery ID
@@ -440,6 +468,7 @@
                 sidecarTranslations = {};
                 translateError = false;
                 messageErrors = {};
+                lastAnnouncedTranslation = '';
             }
             return;
         }
@@ -565,7 +594,16 @@
             {/if}
         </div>
         {#if translations[msg.id] && isVisibleMessage}
-            <div class="translation">
+            {@const translatedLocale = stringToLocale(
+                translations[msg.id].language,
+            )}
+            <div
+                class="translation"
+                lang={translatedLocale?.language}
+                dir={translatedLocale
+                    ? getLanguageDirection(translatedLocale.language)
+                    : undefined}
+            >
                 <hr class="divider" />
                 <div class="what">
                     <MarkupHTMLView
@@ -573,11 +611,17 @@
                             '\n',
                             '\n\n',
                         )}
+                        lang={translatedLocale?.language}
+                        dir={translatedLocale
+                            ? getLanguageDirection(translatedLocale.language)
+                            : undefined}
                     />
                 </div>
                 <div class="lang-tag">
-                    {#if msg.language}{$locales
-                            .concretize(
+                    {#if msg.language}
+                        <MarkupHTMLView
+                            inline
+                            markup={[
                                 (l) => l.ui.collaborate.translate.direction,
                                 {
                                     from: getMultilingualLanguageLabel(
@@ -587,26 +631,27 @@
                                         translations[msg.id].language,
                                     ),
                                 },
-                            )
-                            .toText()}{:else}<LocaleName
-                            locale={translations[msg.id].language}
-                        />{/if}
+                            ]}
+                        />
+                    {:else}
+                        <LocaleName locale={translations[msg.id].language} />
+                    {/if}
                 </div>
             </div>
         {/if}
         {#if messageErrors[msg.id]}
-            <Notice
-                >{$locales
-                    .concretize(
+            <Notice>
+                <MarkupHTMLView
+                    markup={[
                         (l) => l.ui.collaborate.translate.messageError,
                         {
                             sender:
                                 creators[msg.creator]?.getUsername(false) ??
                                 '—',
                         },
-                    )
-                    .toText()}</Notice
-            >
+                    ]}
+                />
+            </Notice>
         {/if}
         {#if !($user?.uid === msg.creator) && galleryID && isVisibleMessage}
             <Dialog
@@ -672,7 +717,9 @@
                     path={(l) => l.ui.collaborate.translate.label}
                 /></label
             >
-            {#if translating}<Spinning />{/if}
+            {#if translating}<Spinning
+                    label={(l) => l.ui.collaborate.translate.translating}
+                />{/if}
             {#if translateTo !== undefined}
                 <Button
                     tip={(l) => l.ui.collaborate.translate.off}
@@ -697,8 +744,7 @@
                         translateQuery,
                     ).map((locale) => ({
                         value: localeToString(locale),
-                        label: (_l: any) =>
-                            getMultilingualLanguageLabel(locale),
+                        label: getMultilingualLanguageLabel(locale),
                     })),
                 ]}
                 change={(ls) => queueTranslateMessages(ls)}
@@ -721,16 +767,19 @@
             {/if}
         </div>
         {#if translateError}
-            <Notice
-                >{$locales
-                    .concretize((l) => l.ui.collaborate.translate.error, {
-                        to:
-                            translateTo !== undefined
-                                ? getMultilingualLanguageLabel(translateTo)
-                                : '—',
-                    })
-                    .toText()}</Notice
-            >
+            <Notice>
+                <MarkupHTMLView
+                    markup={[
+                        (l) => l.ui.collaborate.translate.error,
+                        {
+                            to:
+                                translateTo !== undefined
+                                    ? getMultilingualLanguageLabel(translateTo)
+                                    : '—',
+                        },
+                    ]}
+                />
+            </Notice>
         {/if}
         <div class="scroller" bind:this={scrollerView}>
             <div class="messages">
@@ -768,8 +817,7 @@
                         messageQuery,
                     ).map((locale) => ({
                         value: localeToString(locale),
-                        label: (_l: any) =>
-                            getMultilingualLanguageLabel(locale),
+                        label: getMultilingualLanguageLabel(locale),
                     })),
                 ]}
                 change={(ls) => (messageLanguage = ls)}

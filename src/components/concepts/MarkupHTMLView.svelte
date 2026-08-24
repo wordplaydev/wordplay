@@ -27,6 +27,7 @@
         TemplateInput,
     } from '@locale/Locales';
     import { isUnwritten, toLocaleString } from '@locale/LocaleText';
+    import type { WritingDirection } from '@locale/Scripts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import ConceptLink from '@nodes/ConceptLink';
     import Markup from '@nodes/Markup';
@@ -72,6 +73,12 @@
          *  markup is empty. Without it, an empty optional field renders an
          *  invisible button with nothing to click. */
         placeholder?: LocaleTextAccessor;
+        /** Override the `lang`/`dir` stamped on the rendered block, for content that
+         *  isn't in the active UI locale (e.g. a machine translation shown inline in a
+         *  chat). Defaults to the active locale — the right choice for ordinary UI
+         *  text, which is why every other caller omits this. */
+        lang?: string | undefined;
+        dir?: WritingDirection | undefined;
     }
 
     let {
@@ -81,6 +88,8 @@
         overrideKey,
         sourceText,
         placeholder,
+        lang,
+        dir,
     }: Props = $props();
 
     const fieldId = `markup-editor-${idCounter++}`;
@@ -528,8 +537,8 @@
             <div
                 class="markup"
                 class:note
-                lang={$locales.getLocale().language}
-                dir={$locales.getDirection()}
+                lang={lang ?? $locales.getLocale().language}
+                dir={dir ?? $locales.getDirection()}
                 >{@render paragraphsView(
                     paragraphsAndLists,
                     spaces,

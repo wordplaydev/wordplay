@@ -16798,6 +16798,14 @@
                                         "off": {
                                             "description": "[plain] Button label and tip to clear the current translation target",
                                             "type": "string"
+                                        },
+                                        "translated": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22language%22%5D%3E",
+                                            "description": "[plain] Announced when a translation pass finishes; $#count is how many messages are now shown translated, $language is the target language name"
+                                        },
+                                        "translating": {
+                                            "description": "[plain] Screen-reader label for the spinner shown while a translation pass is running",
+                                            "type": "string"
                                         }
                                     },
                                     "required": [
@@ -16812,7 +16820,9 @@
                                         "choosePlaceholder",
                                         "currentLanguagePlaceholder",
                                         "moreLanguages",
-                                        "fewerLanguages"
+                                        "fewerLanguages",
+                                        "translating",
+                                        "translated"
                                     ],
                                     "type": "object"
                                 }
