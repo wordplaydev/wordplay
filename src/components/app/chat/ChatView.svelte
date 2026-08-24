@@ -146,7 +146,7 @@
     let translating = $state(false);
     let translateRequest = 0;
     let lastTranslationContentKey = '';
-    let translateTargetTimeout: ReturnType<typeof setTimeout> | undefined;
+    let translatePassTimeout: ReturnType<typeof setTimeout> | undefined;
 
     // Whether the whole translation pass failed (shown below the translate
     // control), e.g. the translation service is unavailable.
@@ -282,18 +282,10 @@
         else if (howTo) Chats.addChatToHowTo(howTo, gallery, language);
     }
 
-    // Only assigns translateTo (debounced). The content-key $effect below is
-    // the sole place that starts a translation pass — one trigger, no race.
-    function queueTranslateMessages(target: string | undefined) {
-        if (translateTargetTimeout !== undefined) {
-            clearTimeout(translateTargetTimeout);
-            translateTargetTimeout = undefined;
-        }
-
-        translateTargetTimeout = setTimeout(() => {
-            translateTargetTimeout = undefined;
-            translateTo = target;
-        }, 300);
+    // Discrete UI actions (dropdown choice, "Stop translating") set the target
+    // immediately
+    function setTranslateTarget(target: string | undefined) {
+        translateTo = target;
     }
 
     /** Translate every visible message into the chosen target language and show
@@ -479,12 +471,20 @@
     // Keep translation mode live: when message content changes (including newly
     // arrived messages), refresh translations for the active target.
     $effect(() => {
+        // Any change (new target, turned off, or new content) cancels a pass
+        // that hasn't fired yet.
+        if (translatePassTimeout !== undefined) {
+            clearTimeout(translatePassTimeout);
+            translatePassTimeout = undefined;
+        }
+
         if (!chat || translateTo === undefined) {
             lastTranslationContentKey = '';
-            // Clear translation UI when the user turns translation off; since
-            // translateMessages is no longer called for the undefined path,
-            // this is the only place that resets the visible state.
             if (translateTo === undefined) {
+                // Turning off is instant: discard any in-flight pass's result
+                // (bump the request) and clear the visible state now.
+                translateRequest++;
+                translating = false;
                 translations = {};
                 sidecarTranslations = {};
                 translateError = false;
@@ -512,9 +512,22 @@
         if (contentKey === lastTranslationContentKey) return;
         lastTranslationContentKey = contentKey;
 
-        untrack(() => {
-            void translateMessages();
-        });
+        // Debounce the pass itself: rapid content changes (messages streaming in)
+        // coalesce into one translation pass 300ms after things settle. translateTo
+        // was already set instantly above — only the network work waits.
+        translatePassTimeout = setTimeout(() => {
+            translatePassTimeout = undefined;
+            untrack(() => {
+                void translateMessages();
+            });
+        }, 300);
+
+        return () => {
+            if (translatePassTimeout !== undefined) {
+                clearTimeout(translatePassTimeout);
+                translatePassTimeout = undefined;
+            }
+        };
     });
 
     function areSameDay(a: Date, b: Date): boolean {
@@ -744,7 +757,7 @@
             {#if translateTo !== undefined}
                 <Button
                     tip={(l) => l.ui.collaborate.translate.off}
-                    action={() => queueTranslateMessages(undefined)}
+                    action={() => setTranslateTarget(undefined)}
                     ><LocalizedText
                         path={(l) => l.ui.collaborate.translate.off}
                     /></Button
@@ -768,7 +781,7 @@
                         label: getMultilingualLanguageLabel(locale),
                     })),
                 ]}
-                change={(ls) => queueTranslateMessages(ls)}
+                change={(ls) => setTranslateTarget(ls)}
             />
             <Button
                 tip={translateSearchExpanded
