@@ -1,9 +1,12 @@
 import { expect, test } from 'vitest';
 import {
+    ConceptPattern,
     hasOutOfExampleBreak,
     hasUnclosedText,
     leadingAnnotations,
+    mismatchedConceptLinks,
     mismatchedPluralBranch,
+    restoreReferences,
     splitDocParagraphs,
     unclosedInCode,
 } from './protect';
@@ -75,6 +78,43 @@ test('leadingAnnotations extracts the marker prefix', () => {
     expect(leadingAnnotations('plain')).toBe('');
     // A mid-string $name mention is not an annotation.
     expect(leadingAnnotations('the $value is')).toBe('');
+});
+
+test('restoreReferences only restores links the translation lost', () => {
+    // A doc whose example localizes `@Phrase` to the locale's own name. That name
+    // isn't in the source, and the old code paired it with `beforeConcepts.shift()`
+    // — the FIRST source link — then bulk-replaced, turning it into a third `@Doc`.
+    // `mismatchedConceptLinks` refused the string, so it re-queued on every run.
+    const source =
+        'Markup lives in @Doc, like @Words.\n\nFind me in an @Doc:\n\n\\¶Refer to @Phrase.¶\n5\\';
+    const renamed = source.replace('@Phrase', '@Satz');
+    const repaired = restoreReferences(source, renamed, ConceptPattern);
+    const count = (text: string, link: string) =>
+        Array.from(text.matchAll(ConceptPattern)).filter(([m]) => m === link)
+            .length;
+    expect(count(repaired, '@Doc')).toBe(2);
+    expect(count(repaired, '@Phrase')).toBe(1);
+    expect(mismatchedConceptLinks(source, repaired)).toBeUndefined();
+});
+
+test('restoreReferences still reports a link the translation dropped', () => {
+    const source = 'Markup lives in @Doc, like @Words.';
+    const dropped = 'Markup lives in @Doc, like nothing.';
+    const repaired = restoreReferences(source, dropped, ConceptPattern);
+    expect(mismatchedConceptLinks(source, repaired)).toBe('@Words');
+});
+
+test('unclosedInCode treats a ¶doc¶ inside an example as prose', () => {
+    // A doc is prose wherever it sits, so its apostrophes are apostrophes — the
+    // same reason this check looks only inside code. Before this, every English
+    // doc example with a possessive read as an unclosed literal, which made the
+    // doc permanently untranslatable: the translation was rejected every run and
+    // the string was re-queued instead of landing.
+    expect(unclosedInCode("\\¶I'm documentation.¶\n5\\")).toBe(false);
+    // A real unclosed literal after the doc is still caught.
+    expect(unclosedInCode("\\¶I'm a doc.¶\nPhrase('hello)\\")).toBe(true);
+    // ...and a balanced one after a doc is still fine.
+    expect(unclosedInCode("\\¶I'm a doc.¶\nPhrase('hello')\\")).toBe(false);
 });
 
 test('unclosedInCode looks only inside examples, and skips foreign ones', () => {

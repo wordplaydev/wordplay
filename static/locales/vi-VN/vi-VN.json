@@ -125,7 +125,7 @@
             "definition": "$~Một từ chỉ đến một @value hoặc một @FunctionDefinition."
         },
         "markup": {
-            "word": "$~đánh dấu",
+            "word": "$~văn bản định dạng",
             "definition": "$~Văn bản có định dạng, như chữ in đậm hoặc liên kết."
         },
         "language": {
@@ -483,14 +483,16 @@
             "doc": "$~Tôi là một danh sách các @TypeVariable."
         },
         "Markup": {
-            "name": "$~đánhdấu",
-            "description": "$~đánh dấu $#count[$count đoạn văn]",
+            "name": "$~văn bản định dạng",
+            "description": "$~văn bản định dạng $#count[$count đoạn văn]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~đoạn văn"
             },
             "doc": [
-                "$~Tôi là một danh sách các đoạn văn, dùng nhiều loại @markup có sẵn trong lời giải thích, như @Words, @WebLink, @ConceptLink và @Example."
+                "$~Tôi là một danh sách các đoạn văn, dùng nhiều kiểu văn bản định dạng có trong @Doc, như @Words, @WebLink, @ConceptLink, và @Example.",
+                "Bạn sẽ thấy tôi trong một @Doc, và trong @FormattedLiteral:",
+                "\\¶Tôi là tài liệu có chữ *đậm*. Tôi có thể nhắc đến các khái niệm như @Phrase và liên kết đến <những thứ trên mạng@https://wordplay.dev>.¶\nCụmtừ(\n\t`Tôi là văn bản định dạng cho @Phrase, dùng *đậm*, /nghiêng/, và _gạch chân_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -576,7 +578,7 @@
         },
         "Branch": {
             "name": "$~chinhánh",
-            "description": "$~lựa chọn đánh dấu theo $condition",
+            "description": "$~lựa chọn văn bản định dạng dựa trên $condition",
             "emotion": "serious",
             "doc": [
                 "$~Tôi sử dụng phương pháp lựa chọn giữa hai đoạn giải thích dựa trên việc giá trị đầu vào của đoạn giải thích đó được xác định hay là đúng.",

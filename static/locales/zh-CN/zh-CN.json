@@ -479,10 +479,12 @@
         },
         "Markup": {
             "name": "标记",
-            "description": "$~标记 $#count[$count 个段落]",
+            "description": "$~标记文本 $#count[$count 个段落]",
             "emotion": "serious",
             "doc": [
-                "$~我是一列段落，用到了解释里可用的多种 @markup，比如 @Words、@WebLink、@ConceptLink 和 @Example。"
+                "$~我是一串段落，用上了 @Doc 里各种各样的标记文本，比如 @Words、@WebLink、@ConceptLink 和 @Example。",
+                "你会在 @Doc 里找到我，还有在 @FormattedLiteral 里：",
+                "\\¶我是一段文档，里面有*加粗*的文字。我可以引用像 @Phrase 这样的概念，也可以链接到<网络上的东西@https://wordplay.dev>。¶\n短语(\n\t`我是 @Phrase 的标记文本，用了*加粗*、/斜体/和_下划线_`\n)\\"
             ],
             "label": {
                 "paragraphs": "段落"
@@ -573,7 +575,7 @@
         },
         "Branch": {
             "name": "分支",
-            "description": "$~根据 $condition 选择标记",
+            "description": "$~基于 $condition 的标记文本选择",
             "emotion": "serious",
             "doc": [
                 "我是一种在两个解释分段之间根据有无定义和正确与否进行选择的方法。",

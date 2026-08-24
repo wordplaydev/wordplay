@@ -125,7 +125,7 @@
             "definition": "$~एउटा शब्द जसले @value वा @FunctionDefinition लाई जनाउँछ।"
         },
         "markup": {
-            "word": "$~markup",
+            "word": "$~मार्कअप",
             "definition": "$~स्वरूप भएको पाठ, जस्तै बाक्लो शब्दहरू वा लिंकहरू।"
         },
         "language": {
@@ -478,14 +478,16 @@
             "doc": "$~म @TypeVariable को एउटा सूची हुँ।"
         },
         "Markup": {
-            "name": "$~markup",
-            "description": "$~markup $#count[$count अनुच्छेद|$count अनुच्छेदहरू]",
+            "name": "$~मार्कअप",
+            "description": "$~मार्कअप $#count[अनुच्छेद $count|अनुच्छेदहरू $count]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragraphs"
             },
             "doc": [
-                "$~म अनुच्छेदहरूको सूची हुँ, व्याख्याहरूमा उपलब्ध @markup का धेरै किसिमहरू प्रयोग गर्दै, जस्तै @Words, @WebLink, @ConceptLink, र @Example।"
+                "$~म अनुच्छेदहरूको सूची हुँ, र म @Doc मा उपलब्ध धेरै किसिमका मार्कअपहरू प्रयोग गर्छु, जस्तै @Words, @WebLink, @ConceptLink, र @Example।",
+                "तिमी मलाई @Doc मा, र @FormattedLiteral मा भेट्टाउनेछौ:",
+                "\\¶म *बोल्ड* अक्षर भएको मार्कअप हुँ। म @Phrase जस्ता अवधारणालाई देखाउन सक्छु र <वेबका कुराहरू@https://wordplay.dev> मा लिंक गर्न सक्छु।¶\nवाक्यांश(\n\t`म @Phrase का लागि मार्कअप हुँ, जसले *बोल्ड*, /छड्के/, र _औंठ्याइएको_ अक्षर प्रयोग गर्छ`\n)\\"
             ]
         },
         "Paragraph": {
@@ -582,7 +584,7 @@
         },
         "Branch": {
             "name": "$~branch",
-            "description": "$~$condition मा markup छनोट",
+            "description": "$~$condition मा मार्कअप छनोट",
             "emotion": "serious",
             "doc": [
                 "$~म एउटा व्याख्या input value परिभाषित छ कि सत्य छ भन्ने आधारमा व्याख्याका दुई खण्डहरू बीच छान्ने एउटा तरिका हुँ।",

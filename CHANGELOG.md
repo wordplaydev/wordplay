@@ -4,6 +4,14 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.30.1 -2026-08-24
+
+### Fixed
+
+- 📖 A word in our explanations pointed at a page that didn't exist, so it showed an empty box instead of a link. Markup and type variable now have their own pages in the [Guide](https://wordplay.dev/guide), and the markup page shows an example you can try.
+- 🌐 In several languages the word markup was translated as the money kind, like a price markup or a page margin, instead of text with bold words and links. It now means formatted text in every language.
+- ✍️ We fixed an extra space that crept in before a linked word in code, so `a @Phrase` no longer looks like `a  @Phrase`.
+
 ## 0.30.0 - 2026-08-22
 
 ### Added

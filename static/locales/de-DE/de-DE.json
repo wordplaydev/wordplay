@@ -125,7 +125,7 @@
             "definition": "$~Ein Wort, das sich auf einen @value oder eine @FunctionDefinition bezieht."
         },
         "markup": {
-            "word": "$~Aufschlag",
+            "word": "$~formatierter Text",
             "definition": "$~Text mit Formatierung, wie fette Wörter oder Links."
         },
         "language": {
@@ -478,11 +478,13 @@
             "doc": "$~Ich bin eine Liste von @TypeVariable."
         },
         "Markup": {
-            "name": "$~Auszeichnung",
-            "description": "$~Aufschlag mit $#count[$count Absatz|$count Absätzen]",
+            "name": "$~formatierter Text",
+            "description": "$~formatierter Text $#count[$count Absatz|$count Absätze]",
             "emotion": "serious",
             "doc": [
-                "$~Ich bin eine Liste von Absätzen, die die vielen Arten von @markup nutzt, die in Erklärungen verfügbar sind, wie @Words, @WebLink, @ConceptLink und @Example."
+                "$~Ich bin eine Liste von Absätzen und nutze die vielen Arten von formatiertem Text, die es in @Doc gibt, wie zum Beispiel @Words, @WebLink, @ConceptLink und @Example.",
+                "Du findest mich in einer @Doc und in @FormattedLiteral:",
+                "\\¶Ich bin eine Dokumentation mit *fett* geschriebenem Text. Ich kann auf Konzepte wie @Phrase verweisen und zu <Dingen im Internet@https://wordplay.dev> verlinken.¶\nSatzglied(\n\t`Ich bin formatierter Text für ein @Phrase und nutze *fett*, /kursiv/ und _unterstrichen_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~Absätze"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~Zweig",
-            "description": "$~Aufschlag-Auswahl bei $condition",
+            "description": "$~Auswahl von formatiertem Text bei $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ich biete eine Möglichkeit, zwischen zwei Erklärungssegmenten zu wählen, basierend darauf, ob ein Erklärungseingabewert definiert oder wahr ist.",

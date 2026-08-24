@@ -479,10 +479,12 @@
         },
         "Markup": {
             "name": "標記",
-            "description": "$~標記有 $#count[$count 個段落]",
+            "description": "$~標記 $#count[$count 個段落]",
             "emotion": "serious",
             "doc": [
-                "$~我是一串段落，使用說明裡各種可用的@markup，例如 @Words、@WebLink、@ConceptLink 和 @Example。"
+                "$~我是一份段落清單，會用到 @Doc 裡各種可用的標記，像是 @Words、@WebLink、@ConceptLink 和 @Example。",
+                "你會在 @Doc 裡找到我，也會在 @FormattedLiteral 裡找到我：",
+                "\\¶我是說明文件，裡面有*粗體*文字。我可以引用像 @Phrase 這樣的概念，也可以連結到<網路上的東西@https://wordplay.dev>。¶\n短語(\n\t`我是 @Phrase 的標記，用了*粗體*、/斜體/，還有_底線_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~段落"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "分支",
-            "description": "$~根據$condition 選擇標記",
+            "description": "$~依 $condition 選擇標記",
             "emotion": "serious",
             "doc": [
                 "我是一個種在兩個部分之間根據有無定義和真假與否進行選擇的方法。",

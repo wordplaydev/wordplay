@@ -125,7 +125,7 @@
             "definition": "$~Un mot qui désigne une @value ou une @FunctionDefinition."
         },
         "markup": {
-            "word": "$~marge",
+            "word": "$~texte mis en forme",
             "definition": "$~Du texte avec une mise en forme, comme des mots en gras ou des liens."
         },
         "language": {
@@ -478,11 +478,13 @@
             "doc": "$~Je suis une liste de @TypeVariable."
         },
         "Markup": {
-            "name": "$~balisage",
-            "description": "$~marge $#count[$#count paragraphe|$count paragraphes|$count paragraphes]",
+            "name": "$~texte mis en forme",
+            "description": "$~texte mis en forme $#count[$#count paragraphe|$count paragraphes|$count paragraphes]",
             "emotion": "serious",
             "doc": [
-                "$~Je suis une liste de paragraphes, qui utilise les nombreux types de @markup disponibles dans les explications, comme @Words, @WebLink, @ConceptLink et @Example."
+                "$~Je suis une liste de paragraphes, utilisant les nombreux types de texte mis en forme disponibles dans @Doc, comme @Words, @WebLink, @ConceptLink, et @Example.",
+                "Tu me trouveras dans un @Doc, et dans @FormattedLiteral :",
+                "\\¶Je suis un texte de documentation avec du texte *en gras*. Je peux faire référence à des concepts comme @Phrase et créer des liens vers <des pages sur le web@https://wordplay.dev>.¶\nPhrase(\n\t`Je suis un texte mis en forme pour @Phrase, avec du *gras*, de l'/italique/ et du _souligné_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~paragraphes"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~bifurquer",
-            "description": "$~choix de marge sur $condition",
+            "description": "$~choix de texte mis en forme selon $condition",
             "emotion": "serious",
             "doc": [
                 "$~Je suis un moyen de choisir entre deux segments d'explication en fonction du fait qu'une valeur d'entrée d'explication est définie ou vraie.",

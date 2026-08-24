@@ -479,13 +479,15 @@
         },
         "Markup": {
             "name": "$~markup",
-            "description": "$~markup na $#count[$count talata|$count na talata]",
+            "description": "$~markup $#count[$count na talata|$count na talata]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~mga talata"
             },
             "doc": [
-                "$~Ako ay isang listahan ng mga talata, gamit ang maraming uri ng @markup na makukuha sa mga paliwanag, tulad ng @Words, @WebLink, @ConceptLink, at @Example."
+                "$~Ako ay isang listahan ng mga talata, gamit ang maraming uri ng markup na makukuha sa @Doc, tulad ng @Words, @WebLink, @ConceptLink, at @Example.",
+                "Makikita mo ako sa isang @Doc, at sa @FormattedLiteral:",
+                "\\¶Ako ay dokumentasyon na may *malaking titik* na teksto. Maaari akong tumukoy sa mga konsepto tulad ng @Phrase at maaari ring mag-link sa <mga bagay sa web@https://wordplay.dev>.¶\nParirala(\n\t`Ako ay markup para sa isang @Phrase, gamit ang *malaking titik*, /pahilig/, at _may salungguhit_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~sangay",
-            "description": "$~pagpili ng markup sa $condition",
+            "description": "$~pagpili ng markup batay sa $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ang I ay isang paraan ng pagpili sa pagitan ng dalawang segment ng paliwanag batay sa kung ang isang halaga ng input ng paliwanag ay tinukoy o totoo.",

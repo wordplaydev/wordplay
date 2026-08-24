@@ -125,7 +125,7 @@
             "definition": "$~Bir @value ya da bir @FunctionDefinition gösteren bir kelime."
         },
         "markup": {
-            "word": "$~işaretleme",
+            "word": "$~biçimli metin",
             "definition": "$~Biçimlendirilmiş metin, örneğin kalın kelimeler veya bağlantılar."
         },
         "language": {
@@ -478,11 +478,13 @@
             "doc": "$~Ben @TypeVariable'lardan oluşan bir listeyim."
         },
         "Markup": {
-            "name": "$~işaretleme",
-            "description": "$~işaretleme $#count[$count paragraf|$count paragraf]",
+            "name": "$~biçimli metin",
+            "description": "$~biçimli metin $#count[$count paragraf|$count paragraf]",
             "emotion": "serious",
             "doc": [
-                "$~Ben paragrafların bir listesiyim ve açıklamalarda bulunan pek çok @markup türünü kullanırım, örneğin @Words, @WebLink, @ConceptLink ve @Example."
+                "$~Ben bir paragraf listesiyim ve @Doc içinde bulunan birçok biçimli metin türünü kullanıyorum, örneğin @Words, @WebLink, @ConceptLink ve @Example.",
+                "Beni bir @Doc içinde ve @FormattedLiteral içinde bulabilirsin:",
+                "\\¶Ben *kalın* metin içeren bir dokümantasyonum. @Phrase gibi kavramlara başvurabilir, <web'deki şeylere@https://wordplay.dev> bağlantı verebilirim.¶\nİfadeetmek(\n\t`Ben bir @Phrase için biçimli metnim, *kalın*, /italik/ ve _altı çizili_ kullanıyorum`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~paragraflar"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~dal",
-            "description": "$~$condition koşuluna göre işaretleme seçimi",
+            "description": "$~$condition üzerinde biçimli metin seçimi",
             "emotion": "serious",
             "doc": [
                 "$~Açıklama giriş değerinin tanımlanmış veya doğru olmasına göre iki açıklama segmenti arasında seçim yapmanın bir yoluyum.",

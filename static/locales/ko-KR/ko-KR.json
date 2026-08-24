@@ -125,7 +125,7 @@
             "definition": "$~@value 나 @FunctionDefinition 를 가리키는 단어입니다."
         },
         "markup": {
-            "word": "$~마크업",
+            "word": "$~서식 있는 글",
             "definition": "$~굵은 글자나 링크처럼 서식이 있는 글입니다."
         },
         "language": {
@@ -479,10 +479,12 @@
         },
         "Markup": {
             "name": "마크업",
-            "description": "$~마크업 $#count[단락 $count개]",
+            "description": "$~서식 있는 글 문단 $#count[$count개]",
             "emotion": "serious",
             "doc": [
-                "$~저는 문단 목록이고, 설명에서 쓸 수 있는 여러 종류의 @markup 을(를) 써요. 예를 들어 @Words, @WebLink, @ConceptLink, @Example 같은 거요."
+                "$~저는 문단들의 목록이에요. @Doc에서 쓸 수 있는 여러 서식 있는 글 중에서, 예를 들면 @Words, @WebLink, @ConceptLink, @Example 같은 것을 사용해요.",
+                "저는 @Doc 안에서, 그리고 @FormattedLiteral 안에서 찾을 수 있어요:",
+                "\\¶저는 *굵게* 표시된 텍스트가 있는 선적 서류 비치예요. @Phrase 같은 개념을 가리킬 수 있고, <웹 상의 것들@https://wordplay.dev>로도 연결할 수 있어요.¶\n구절(\n\t`저는 @Phrase을 위한 서식 있는 글이에요. *굵게*, /기울임/, _밑줄_을 사용해요`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~단락"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "분기",
-            "description": "$~$condition 따른 마크업 선택",
+            "description": "$~$condition 에 따른 서식 있는 글 선택",
             "emotion": "serious",
             "doc": [
                 "나는 설명 입력 값이 정의되었거나 참인지에 따라 두 설명 세그먼트 중 하나를 선택하는 방법입니다.",
@@ -8464,7 +8466,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "phrase": "$~\\¶구절은 여러분이 원하는 색, 빛남, 움직임으로 무대에 나타납니다.¶\n구절(\n\t'안녕!'\n\t6m\n\t색상: 색상(60% 90 200°)\n\t영기: 영기(색상(80% 80 200°) 0.3m)\n\t쉬고있는: 순서.흔들림(8°)\n)\\",
                         "music": "$~\\¶음악은 진짜 악기로 연주되는 음표이며, 빠르기와 조성을 가집니다. 무대는 들리는 소리를 그림으로 그립니다.¶\n음악(\n\t트랙([1 3 5 8 5 3] 악기: 악기.피아노)\n\t박자빠르기: 120beats/min\n)\\",
                         "hello": "$~\\¶암호는 @Time 같은 입력에 반응할 수 있으며, 텍스트는 여러 언어로 쓰이고 말해질 수 있습니다.¶\n안녕들: ['안녕' 'hola' 'こんにちは' 'habari' 'नमस्ते']\n안녕: 안녕들.무작위의() … ∆ 시간(1000ms) … 안녕들.무작위의()\n구절(안녕 4m)\n말하다(안녕)\\",
                         "keys": "$~\\¶암호는 포인터, 키, 클릭, 탭에 반응할 수 있습니다.¶\n키2: 키()\n클릭2: 버튼()\n얼굴들: ['🙂' '😮' '😎' '🤩']\n어느것: 1 … ∆ 키2 | ∆ 클릭2 … (어느것 % 4) + 1\n단계([구절(얼굴들[어느것] 5m 장소: 포인터())] 장소: 장소(0m 0m -12m))\\",

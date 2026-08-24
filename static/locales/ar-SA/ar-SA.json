@@ -125,7 +125,7 @@
             "definition": "$~كلمة تشير إلى @value أو @FunctionDefinition."
         },
         "markup": {
-            "word": "$~ترميز",
+            "word": "$~نص منسّق",
             "definition": "$~نص بتنسيق، مثل كلمات غامقة أو روابط."
         },
         "language": {
@@ -478,14 +478,16 @@
             "doc": "$~أنا قائمة من @TypeVariable."
         },
         "Markup": {
-            "name": "$~ترميز",
-            "description": "$~ترميز $#count[لا فقرات|فقرة واحدة|فقرتان|$#count فقرات|$count فقرة|$count فقرة]",
+            "name": "$~نص منسّق",
+            "description": "$~نص منسّق $#count[بدون فقرات|فقرة واحدة $count|فقرتان $count|$count فقرات|$count فقرة|$count فقرة]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~فقرات"
             },
             "doc": [
-                "$~أنا قائمة من الفقرات، أستخدم الأنواع الكثيرة من @markup المتاحة في الشروحات، مثل @Words و @WebLink و @ConceptLink و @Example."
+                "$~أنا قائمة من الفقرات، أستخدم أنواعًا كثيرة من النص المنسّق المتوفرة في @Doc، مثل @Words، و@WebLink، و@ConceptLink، و@Example.",
+                "ستجدني في @Doc، وفي @FormattedLiteral:",
+                "\\¶أنا توثيق يحتوي على نص *غامق*. يمكنني الإشارة إلى مفاهيم مثل @Phrase ويمكنني الربط مع <أشياء على الويب@https://wordplay.dev>.¶\nعبارة(\n\t`أنا نص منسّق لـ @Phrase، أستخدم *غامق*، و/مائل/، و_تسطير_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -573,7 +575,7 @@
         },
         "Branch": {
             "name": "$~فرع",
-            "description": "$~اختيار ترميز عند $condition",
+            "description": "$~اختيار النص المنسّق حسب $condition",
             "emotion": "serious",
             "doc": [
                 "$~أنا طريقة للاختيار بين جزأين من الشرح بناءً على ما إذا كانت قيمة مدخل الشرح معرّفة أو صحيحة.",

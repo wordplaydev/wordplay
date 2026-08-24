@@ -24,6 +24,7 @@ import {
     MentionRegEx,
     TextCloseByTextOpen,
 } from '@parser/Tokenizer';
+import { DOCS_SYMBOL } from '@parser/Symbols';
 import type Log from '@util/verify-locales/Log';
 
 /** Wrap each `$name` mention in a `<span translate="no">` so Google Translate
@@ -301,12 +302,20 @@ export function mismatchedDelimiter(
 export function hasUnclosedText(code: string): boolean {
     let close: string | undefined;
     let inInterp = false;
+    let inDoc = false;
     for (const c of code) {
-        if (close === undefined) {
-            if (TextCloseByTextOpen[c] !== undefined)
-                close = TextCloseByTextOpen[c];
-        } else if (!inInterp && c === close) close = undefined;
-        else if (c === '\\') inInterp = !inInterp;
+        if (close !== undefined) {
+            if (!inInterp && c === close) close = undefined;
+            else if (c === '\\') inInterp = !inInterp;
+            continue;
+        }
+        // A `¶…¶` doc inside an example is prose, so an apostrophe in it is an
+        // apostrophe, not a delimiter — the same reason this function looks only
+        // inside code in the first place. Without this, every English doc example
+        // with a possessive ("I'm documentation") reads as an unclosed literal.
+        if (c === DOCS_SYMBOL) inDoc = !inDoc;
+        else if (!inDoc && TextCloseByTextOpen[c] !== undefined)
+            close = TextCloseByTextOpen[c];
     }
     return close !== undefined;
 }
@@ -467,6 +476,24 @@ export function restoreReferences(
     // Didn't find any? That's not good. Return the translated string.
     if (afterConceptLinks === null) return after;
 
+    // The links the translation actually lost, in source order — the only ones
+    // that can need restoring. Drawing from the whole source list instead paired
+    // an unrecognized link with whatever happened to come first: a doc whose
+    // example localized `@Phrase` to the locale's own name had that name
+    // rewritten to `@Doc`, the first link in the source, giving three `@Doc`
+    // where the source had two. `mismatchedConceptLinks` then refused the string
+    // and it re-queued on every run, forever.
+    const afterTally = new Map<string, number>();
+    for (const [text] of afterConceptLinks)
+        afterTally.set(text, (afterTally.get(text) ?? 0) + 1);
+    const missing = beforeConcepts.filter((link) => {
+        const remaining = afterTally.get(link) ?? 0;
+        if (remaining === 0) return true;
+        afterTally.set(link, remaining - 1);
+        return false;
+    });
+    const beforeSet = new Set(beforeConcepts);
+
     // Restore all concepts in the after string.
     const mapping = new Map<string, string>();
     for (let index = 0; index < afterConceptLinks.length; index++) {
@@ -474,10 +501,11 @@ export function restoreReferences(
         const afterText = afterConceptLinks[index][0];
 
         // Is the text in the list of before concepts? Assume it was preserved and keep it.
-        if (beforeConcepts.includes(afterText)) continue;
+        if (beforeSet.has(afterText)) continue;
 
-        // Otherwise, choose the next before concept link name, assuming order was preserved (which is is not always, as grammar can reverse things).
-        const beforeText = beforeConcepts.shift() ?? mapping.get(afterText);
+        // Otherwise take the next link the translation dropped, assuming order
+        // was preserved (which it is not always, as grammar can reverse things).
+        const beforeText = missing.shift() ?? mapping.get(afterText);
 
         // No before text or text is the same? Just keep it the same.
         if (beforeText === undefined || beforeText === afterText) continue;

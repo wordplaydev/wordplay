@@ -125,7 +125,7 @@
             "definition": "$~Słowo, które odnosi się do @value lub @FunctionDefinition."
         },
         "markup": {
-            "word": "$~znacznik",
+            "word": "$~tekst z formatowaniem",
             "definition": "$~Tekst z formatowaniem, na przykład pogrubione słowa lub linki."
         },
         "language": {
@@ -478,11 +478,13 @@
             "doc": "$~Jestem listą @TypeVariable."
         },
         "Markup": {
-            "name": "$~znacznik",
-            "description": "$~znacznik $#count[$count akapit|$count akapity|$count akapitów|$count akapitu]",
+            "name": "$~tekst z formatowaniem",
+            "description": "$~tekst z formatowaniem $#count[$count akapit|$count akapity|$count akapitów|$count akapitu]",
             "emotion": "serious",
             "doc": [
-                "$~Jestem listą akapitów, korzystającą z wielu rodzajów @markup dostępnych w wyjaśnieniach, takich jak @Words, @WebLink, @ConceptLink i @Example."
+                "$~Jestem listą akapitów, używającą wielu rodzajów tekstu z formatowaniem dostępnych w @Doc, takich jak @Words, @WebLink, @ConceptLink i @Example.",
+                "Znajdziesz mnie w @Doc oraz w @FormattedLiteral:",
+                "\\¶Jestem dokumentacją z tekstem *pogrubionym*. Mogę odwoływać się do pojęć, na przykład @Phrase może prowadzić do <różnych rzeczy w sieci@https://wordplay.dev>.¶\nWyrażenie(\n\t`Jestem tekstem z formatowaniem dla @Phrase, używam *pogrubienia*, /kursywy/ i _podkreślenia_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~akapity"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~oddział",
-            "description": "$~wybór znacznika przy $condition",
+            "description": "$~wybór tekstu z formatowaniem na podstawie $condition",
             "emotion": "serious",
             "doc": [
                 "$~Jestem sposobem wyboru pomiędzy dwoma segmentami wyjaśnienia w zależności od tego, czy wartość wejściowa wyjaśnienia jest zdefiniowana, czy prawdziwa.",

@@ -125,7 +125,7 @@
             "definition": "$~Ett ord som pekar på ett @value eller en @FunctionDefinition."
         },
         "markup": {
-            "word": "$~pålägg",
+            "word": "$~formaterad text",
             "definition": "$~Text med formatering, som feta ord eller länkar."
         },
         "language": {
@@ -478,11 +478,13 @@
             "doc": "$~Jag är en lista med @TypeVariable."
         },
         "Markup": {
-            "name": "$~pålägg",
-            "description": "$~pålägg med $#count[$count stycke|$count stycken]",
+            "name": "$~formaterad text",
+            "description": "$~formaterad text med $#count[$count stycke|$count stycken]",
             "emotion": "serious",
             "doc": [
-                "$~Jag är en lista med stycken, som använder de många sorters @markup som finns i förklaringar, såsom @Words, @WebLink, @ConceptLink och @Example."
+                "$~Jag är en lista med stycken, som använder de många sorters formaterad text som finns i @Doc, till exempel @Words, @WebLink, @ConceptLink och @Example.",
+                "Du hittar mig i en @Doc, och i @FormattedLiteral:",
+                "\\¶Jag är dokumentation med *fet* text. Jag kan hänvisa till begrepp som @Phrase och kan länka till <saker på webben@https://wordplay.dev>.¶\nFras(\n\t`Jag är formaterad text för en @Phrase, med *fet*, /kursiv/ och _understruken_ text`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~stycken"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~gren",
-            "description": "$~påläggsval på $condition",
+            "description": "$~val av formaterad text beroende på $condition",
             "emotion": "serious",
             "doc": [
                 "$~Jag är ett sätt att välja mellan två förklaringssegment baserat på om ett förklaringsinmatningsvärde är definierat eller sant.",

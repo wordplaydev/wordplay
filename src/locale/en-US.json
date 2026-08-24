@@ -524,7 +524,9 @@
                 "paragraphs": "paragraphs"
             },
             "doc": [
-                "I'm a list of paragraphs, using the many kinds of @markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
+                "I'm a list of paragraphs, using the many kinds of markup available in @Doc, such as @Words, @WebLink, @ConceptLink, and @Example.",
+                "You'll find me in an @Doc, and in @FormattedLiteral:",
+                "\\¶I'm documentation with *bold* text.\nI can refer to concepts like @Phrase.\nI can link to <things on the web@https://wordplay.dev>.¶\nPhrase(\n\t`I'm markup for a @Phrase, using *bold*, /italics/, and _underlines_`\n)\\"
             ]
         },
         "Paragraph": {

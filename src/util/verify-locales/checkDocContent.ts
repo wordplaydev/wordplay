@@ -14,6 +14,7 @@ import type LocaleText from '@locale/LocaleText';
 import { parseLocaleDoc } from '@locale/LocaleText';
 import ConceptLink from '@nodes/ConceptLink';
 import analyzeCode from '@util/verify-locales/analyzeCode';
+import isUnresolvableConceptLink from '@util/verify-locales/checkConceptLinks';
 import getDocExamples, {
     type DocExample,
 } from '@util/verify-locales/docExamples';
@@ -57,7 +58,9 @@ export default function checkDocContent(
         .nodes()
         .filter(
             (node): node is ConceptLink =>
-                node instanceof ConceptLink && node.isBroken(locale),
+                node instanceof ConceptLink &&
+                (node.isBroken(locale) ||
+                    isUnresolvableConceptLink(node, locale)),
         );
     if (broken.length > 0)
         problems.push({

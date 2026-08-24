@@ -125,7 +125,7 @@
             "definition": "$~מילה שמפנה ל@value או ל@FunctionDefinition."
         },
         "markup": {
-            "word": "$~סימון",
+            "word": "$~טקסט מעוצב",
             "definition": "$~טקסט עם עיצוב, כמו מילים מודגשות או קישורים."
         },
         "language": {
@@ -483,14 +483,16 @@
             "doc": "$~אני רשימה של @TypeVariable."
         },
         "Markup": {
-            "name": "$~סימון",
-            "description": "$~סימון עם $#count[פסקה אחת|$count פסקאות|$count פסקאות]",
+            "name": "$~טקסט מעוצב",
+            "description": "$~טקסט מעוצב עם $#count[פסקה אחת ($#count)|שתי פסקאות ($count)|$count פסקאות]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~פסקאות"
             },
             "doc": [
-                "$~אני רשימה של פסקאות, שמשתמשת בסוגים הרבים של @markup הזמינים בהסברים, כמו @Words, @WebLink, @ConceptLink ו-@Example."
+                "$~אני רשימה של פסקאות, ומשתמשת בהרבה סוגים של טקסט מעוצב שקיימים ב-@Doc, כמו @Words, @WebLink, @ConceptLink, ו-@Example.",
+                "תמצאו אותי ב-@Doc, וגם ב-@FormattedLiteral:",
+                "\\¶אני תיעוד עם טקסט *מודגש*. אני יכול להתייחס למושגים כמו @Phrase, ולקשר ל<דברים ברשת@https://wordplay.dev>.¶\nמִשׁפָּט(\n\t`אני טקסט מעוצב עבור @Phrase, עם *מודגש*, /נטוי/, ו_קו תחתי_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -576,7 +578,7 @@
         },
         "Branch": {
             "name": "$~עָנָף",
-            "description": "$~בחירת סימון לפי $condition",
+            "description": "$~בחירת טקסט מעוצב לפי $condition",
             "emotion": "serious",
             "doc": [
                 "$~אני דרך לבחור בין שני מקטעי הסבר בהתבסס על האם ערך קלט של הסבר מוגדר או נכון.",

@@ -125,7 +125,7 @@
             "definition": "$~Una palabra que se refiere a un @value o a una @FunctionDefinition."
         },
         "markup": {
-            "word": "$~formato",
+            "word": "$~texto con formato",
             "definition": "$~Texto con formato, como palabras en negritas o enlaces."
         },
         "language": {
@@ -451,10 +451,12 @@
         },
         "Markup": {
             "name": "marcado",
-            "description": "$~formato $#count[$#count párrafo|$count párrafos|$count párrafos]",
+            "description": "$~texto con formato de $#count[$#count párrafo|$count párrafos|$count párrafos]",
             "emotion": "serious",
             "doc": [
-                "$~Soy una lista de párrafos, que usa los muchos tipos de @markup disponibles en las explicaciones, como @Words, @WebLink, @ConceptLink y @Example."
+                "$~Soy una lista de párrafos, usando los muchos tipos de texto con formato disponibles en @Doc, como @Words, @WebLink, @ConceptLink, y @Example.",
+                "Me encuentras en un @Doc, y en @FormattedLiteral:",
+                "\\¶Soy documentación con texto en *negrita*. Puedo referirme a conceptos como @Phrase y enlazar a <cosas en la red@https://wordplay.dev>.¶\nFrase(\n\t`Soy texto con formato para un @Phrase, usando *negrita*, /cursiva/ y _subrayado_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~párrafos"
@@ -543,7 +545,7 @@
         },
         "Branch": {
             "name": "rama",
-            "description": "$~elección de formato en $condition",
+            "description": "$~elección de texto con formato según $condition",
             "emotion": "serious",
             "doc": [
                 "Soy una forma de elegir entre dos segmentos de explicación basados en si un valor de entrada de explicación está definido o verdadero.",

@@ -125,7 +125,7 @@
             "definition": "$~Sebuah kata yang merujuk ke sebuah @value atau @FunctionDefinition."
         },
         "markup": {
-            "word": "$~markup",
+            "word": "$~teks berformat",
             "definition": "$~Teks dengan format, seperti kata tebal atau tautan."
         },
         "language": {
@@ -483,14 +483,16 @@
             "doc": "$~Saya adalah daftar @TypeVariable."
         },
         "Markup": {
-            "name": "$~markup",
-            "description": "$~markup $#count[$count paragraf]",
+            "name": "$~teks berformat",
+            "description": "$~teks berformat $#count[$count paragraf]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragraf"
             },
             "doc": [
-                "$~Aku adalah daftar paragraf, memakai berbagai jenis @markup yang tersedia dalam penjelasan, seperti @Words, @WebLink, @ConceptLink, dan @Example."
+                "$~Saya adalah daftar paragraf, memakai banyak jenis teks berformat yang ada di @Doc, seperti @Words, @WebLink, @ConceptLink, dan @Example.",
+                "Kamu akan menemukan saya di @Doc, dan di @FormattedLiteral:",
+                "\\¶Saya adalah dokumentasi dengan teks *tebal*. Saya bisa merujuk ke konsep seperti @Phrase, dan bisa menautkan ke <hal-hal di web@https://wordplay.dev>.¶\nFrasa(\n\t`Saya adalah teks berformat untuk @Phrase, menggunakan *tebal*, /miring/, dan _garis bawah_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -576,7 +578,7 @@
         },
         "Branch": {
             "name": "$~cabang",
-            "description": "$~pilihan markup pada $condition",
+            "description": "$~pilihan teks berformat pada $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ini adalah cara untuk memilih antara dua segmen penjelasan berdasarkan apakah nilai input penjelasan didefinisikan atau benar.",
@@ -8911,7 +8913,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "phrase": "$~\\¶Phrase muncul di panggung, dengan warna, cahaya, dan gerakan apa pun yang kamu suka.¶\nFrasa(\n\t'halo!'\n\t6m\n\twarna: Warna(60% 90 200°)\n\taura: Aura(Warna(80% 80 200°) 0.3m)\n\tberistirahat: Urutan.bergoyang(8°)\n)\\",
                         "music": "$~\\¶Musik adalah nada pada alat musik sungguhan, dengan tempo, dalam sebuah kunci nada. Panggung menggambar apa yang didengarnya.¶\nMusik(\n\tTrek([1 3 5 8 5 3] alatMusik: AlatMusik.piano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Kode bisa bereaksi terhadap masukan seperti @Time, dan teks bisa berbahasa banyak dan diucapkan.¶\nhellos: ['halo' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhalo: hellos.acak() … ∆ Waktu(1000ms) … hellos.acak()\nFrasa(halo 4m)\nMengatakan(halo)\\",
                         "keys": "$~\\¶Kode bisa bereaksi terhadap penunjuk, tombol, klik, dan ketukan.¶\nkunci2: Kunci()\nklik: Tombol()\nwajah2: ['🙂' '😮' '😎' '🤩']\nyangMana: 1 … ∆ kunci2 | ∆ klik … (yangMana % 4) + 1\nPanggung(\n\t[Frasa(wajah2[yangMana] 5m tempat: Penunjuk())]\n\ttempat: Tempat(0m 0m -12m)\n)\\",

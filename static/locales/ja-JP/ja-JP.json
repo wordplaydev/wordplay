@@ -479,10 +479,12 @@
         },
         "Markup": {
             "name": "$~マークアップ",
-            "description": "$~マークアップ $#count[$count 個の段落]",
+            "description": "$~マークアップ $#count[$count段落]",
             "emotion": "serious",
             "doc": [
-                "$~わたしは段落のリストです。@Words、@WebLink、@ConceptLink、@Example など、説明で使えるいろいろな種類の @markup を使います。"
+                "$~わたしは段落のリストです。@Docで使えるたくさんの種類のマークアップ、たとえば@Words、@WebLink、@ConceptLink、@Exampleを使っています。",
+                "わたしは@Docや、@FormattedLiteralの中で見つかります。",
+                "\\¶わたしは*太字*を使ったドキュメントです。@Phraseのような概念にふれたり、<ウェブ上のもの@https://wordplay.dev>にリンクしたりできます。¶\nフレーズ(\n\t`わたしは@Phraseのためのマークアップです。*太字*、/イタリック/、_下線_ を使います`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~段落"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~分岐",
-            "description": "$~$condition によるマークアップの選択",
+            "description": "$~$condition",
             "emotion": "serious",
             "doc": [
                 "$~わたしは、説明の入力の値が定義されているか、または真かどうかによって、2つの説明の部分のどちらかを選ぶ方法です。",

@@ -479,13 +479,15 @@
         },
         "Markup": {
             "name": "marcação",
-            "description": "$~marcação com $#count[$#count parágrafo|$count parágrafos|$count parágrafos]",
+            "description": "$~formatação $#count[$#count parágrafo|$count parágrafos|$count parágrafos]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "parágrafos"
             },
             "doc": [
-                "$~Sou uma lista de parágrafos, que usa os muitos tipos de @markup disponíveis nas explicações, como @Words, @WebLink, @ConceptLink e @Example."
+                "$~Sou uma lista de parágrafos, usando os vários tipos de formatação disponíveis em @Doc, como @Words, @WebLink, @ConceptLink e @Example.",
+                "Pode encontrar-me num @Doc, e em @FormattedLiteral:",
+                "\\¶Sou documentação com texto em *negrito*. Posso referir conceitos como @Phrase e posso ligar a <coisas na Internet@https://wordplay.dev>.¶\nFrase(\n\t`Sou a formatação de um(a) @Phrase, e uso *negrito*, /itálico/ e _sublinhado_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -576,7 +578,7 @@
                 "Sou uma forma de escolher entre dois segmentos de explicação com base em saber se um valor de entrada da explicação está definido ou é verdadeiro.",
                 "Trata-se principalmente de uma funcionalidade interna, pelo que não precisa de saber isso."
             ],
-            "description": "$~escolha de marcação em $condition"
+            "description": "$~escolha de formatação em $condition"
         },
         "BinaryEvaluate": {
             "name": "avaliaçãobinária",
