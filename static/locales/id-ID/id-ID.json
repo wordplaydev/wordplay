@@ -6992,8 +6992,8 @@
                     "label": "$~hapus yang tidak dipakai"
                 },
                 "tinker": {
-                    "label": "$?",
-                    "tip": "$?"
+                    "label": "$~coba…",
+                    "tip": "$~buka salinan contoh ini di jendela baru, supaya kamu bisa mengubahnya dan melihat apa yang terjadi"
                 }
             },
             "field": {
@@ -7090,10 +7090,10 @@
             },
             "link": {
                 "remixOf": "$~buka proyek asal remix ini",
-                "backTo": "$?"
+                "backTo": "$~kembali ke $place"
             },
-            "scratch": "$?",
-            "untitled": "$?"
+            "scratch": "$~Ini adalah salinan sementara dari sebuah contoh. Remix untuk menyimpannya.",
+            "untitled": "$~Proyek tanpa judul"
         },
         "checkpoints": {
             "label": {
@@ -8057,8 +8057,8 @@
                         "explanation": "$~/Remix/ adalah salinan sebuah proyek yang diubah seseorang menjadi miliknya sendiri. Kami mengingat asal sebuah remix, agar orang yang membuat proyek asli tetap mendapat penghargaan."
                     },
                     "research": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Penelitian",
+                        "explanation": "$~Kadang kami menulis dan berbicara tentang Wordplay — dalam makalah penelitian, dalam presentasi, dan dalam hal yang kami tunjukkan kepada guru dan keluarga. Jika kamu mengaktifkan ini, kami bisa menampilkan proyek ini sebagai contoh, tanpa namamu, nama penggunamu, atau apa pun yang menunjukkan bahwa akun ini milikmu.\n\nKamu bisa menonaktifkannya kapan saja. Menonaktifkannya berarti kami berhenti menggunakan proyekmu dalam hal-hal baru, tetapi tidak bisa menarik kembali sesuatu yang sudah kami terbitkan atau tampilkan sebelumnya."
                     }
                 },
                 "field": {
@@ -8087,9 +8087,15 @@
                         ]
                     },
                     "research": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~penelitian",
+                        "labels": [
+                            "$~tidak dibagikan",
+                            "$~dibagikan secara anonim"
+                        ],
+                        "tips": [
+                            "$~jangan tampilkan proyek ini dalam penelitian atau komunikasi tentang Wordplay",
+                            "$~izinkan Wordplay menampilkan proyek ini secara anonim dalam penelitian dan komunikasi tentang Wordplay"
+                        ]
                     }
                 },
                 "error": {
@@ -8373,7 +8379,7 @@
                     "link": "$~detail"
                 },
                 "delete": "$~Hapus pemberitahuan ini",
-                "popup": "$!pemberitahuan baru"
+                "popup": "$~$#count[$count pemberitahuan]"
             },
             "locale": {
                 "header": "$~Bahasa",
@@ -8517,8 +8523,8 @@
                 "delete": "$~hapus pesan ini",
                 "confirmDelete": "$~Konfirmasi penghapusan?",
                 "transfer": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "$~jadikan orang ini sebagai pemilik proyek",
+                    "prompt": "$~Jadikan mereka pemilik? Kamu akan tetap menjadi kolaborator dan bisa terus mengedit, tetapi kamu tidak akan bisa lagi menghapus proyek ini."
                 }
             },
             "moderation": {
@@ -8541,7 +8547,7 @@
                 "offline": "$~Obrolan ini tidak dapat dimuat.",
                 "empty": "$~Tidak ada pesan.",
                 "deleted": "$~Pesan ini telah dihapus.",
-                "transferGallery": "$?"
+                "transferGallery": "$~Proyek ini ada di dalam galeri. Memberikannya kepada orang lain tidak menambahkan mereka ke galeri itu, jadi mereka mungkin tidak bisa melihatnya di sana."
             },
             "prompt": {
                 "solo": "$~Berbincanglah dengan diri sendiri atau tambahkan...",
@@ -8570,7 +8576,7 @@
                 "restrict": "$~Saat sebuah proyek berada di *galeri*, secara default *semua orang* yang dapat melihat galeri dapat melihat proyek Anda. Tombol /restrict/ *menyembunyikannya* dari semua orang kecuali Anda dan kurator galeri."
             },
             "announce": {
-                "transferred": "$?"
+                "transferred": "$~$name sekarang menjadi pemilik $project"
             }
         },
         "palette": {
@@ -9296,44 +9302,47 @@
                 },
                 "installedprompt": "$~Kamu menggunakan Wordplay sebagai aplikasi yang terpasang, dan aplikasi ini menyimpan proyeknya sendiri, terpisah dari proyek di peramban webmu. Semua proyek yang kamu buat di peramban masih ada di sana. <Masuk@://login> untuk melihat semua proyekmu di kedua tempat.",
                 "sort": {
-                    "label": "$?",
-                    "labels": ["$?", "$?"],
-                    "tips": ["$?", "$?"]
+                    "label": "$~urutan",
+                    "labels": ["$~nama", "$~baru saja diedit"],
+                    "tips": [
+                        "$~urutkan proyek berdasarkan nama",
+                        "$~urutkan proyek berdasarkan waktu terakhir kamu mengubahnya"
+                    ]
                 },
                 "folder": {
                     "name": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~nama folder ini",
+                        "placeholder": "$~folder"
                     },
-                    "none": "$?",
+                    "none": "$~tidak ada folder",
                     "button": {
-                        "create": "$?",
-                        "expand": "$?",
-                        "collapse": "$?"
+                        "create": "$~buat folder baru",
+                        "expand": "$~tampilkan isi folder ini",
+                        "collapse": "$~sembunyikan isi folder ini"
                     },
                     "confirm": {
                         "delete": {
-                            "description": "$?",
-                            "prompt": "$?"
+                            "description": "$~hapus folder ini dan arsipkan proyek di dalamnya",
+                            "prompt": "$~Hapus folder dan arsipkan proyeknya"
                         }
                     },
                     "announce": {
-                        "destination": "$?",
-                        "moved": "$?",
-                        "movedOut": "$?",
-                        "expanded": "$?",
-                        "collapsed": "$?",
-                        "selected": "$?",
-                        "created": "$?",
-                        "deleted": "$?",
-                        "renamed": "$?",
-                        "projectSelected": "$?",
-                        "cleared": "$?"
+                        "destination": "$~pindahkan $project ke $folder",
+                        "moved": "$~$project dipindahkan ke $folder",
+                        "movedOut": "$~$project dipindahkan keluar dari foldernya",
+                        "expanded": "$~$folder dibuka, $#count[$count proyek]",
+                        "collapsed": "$~$folder ditutup, $#count[$count proyek]",
+                        "selected": "$~$folder dipilih, $#count[$count proyek]",
+                        "created": "$~$folder dibuat",
+                        "deleted": "$~$folder dihapus, $#count[$count proyek diarsipkan]",
+                        "renamed": "$~nama folder diganti menjadi $folder",
+                        "projectSelected": "$~$project dipilih",
+                        "cleared": "$~tidak ada yang dipilih"
                     },
                     "instructions": {
-                        "none": "$?",
-                        "project": "$?",
-                        "folder": "$?"
+                        "none": "$~Klik sebuah proyek atau folder untuk memilihnya.",
+                        "project": "$~Pindahkan proyek ini dengan tombol panah *atas* dan *bawah*, atau seret ke sebuah folder. Tekan *escape* jika sudah selesai.",
+                        "folder": "$~Ketikkan nama untuk mengganti nama folder ini. Jika kamu menghapusnya, semua isinya akan masuk ke arsipmu."
                     }
                 }
             },
@@ -9880,8 +9889,16 @@
                     "Ada tiga hal yang datang bersama lisensi itu. Orang yang me-remix harus memberi penghargaan kepada pembuat proyek asli. Mereka harus membagikan remix mereka dengan lisensi yang sama, agar tetap terbuka untuk orang berikutnya. Dan mereka tidak boleh menjadikan proyek publik sebagai proyek pribadi untuk disimpan sendiri.",
                     "Kami membantu bagian penghargaan: ketika seseorang me-remix sebuah proyek, kami mengingat asalnya dan menampilkan tautan kembali ke proyek itu. Membuat proyek menjadi publik adalah caramu menyetujui semua ini, jadi jika kamu lebih suka tidak ada yang me-remix sebuah proyek, biarkan proyek itu tetap pribadi."
                 ],
-                "research": ["$?"],
-                "warnings": ["$?"]
+                "research": [
+                    "$~Ini pilihan terakhir, dan sepenuhnya milikmu. Kami kadang menulis dan berbicara tentang Wordplay — dalam makalah penelitian, dalam presentasi, dan dalam apa yang kami tunjukkan kepada guru dan keluarga. Kami ingin sekali menunjukkan apa yang benar-benar dibuat orang dengan Wordplay, tapi kami tidak akan menampilkan proyekmu kecuali kamu mengizinkannya.",
+                    "Setiap proyek memiliki pengaturan *Penelitian* di opsi berbaginya, dan pengaturan ini awalnya dimatikan. Menyalakannya membuat kami bisa menampilkan proyek itu sebagai contoh, tanpa namamu, nama penggunamu, atau apa pun yang menunjukkan bahwa akun itu milikmu. Pengaturan ini berlaku per proyek, jadi menyetujui satu proyek tidak berarti apa-apa untuk proyek lainnya.",
+                    "Kamu bisa mematikannya kapan saja. Mematikannya berarti kami berhenti memakai proyekmu untuk hal baru, tapi kami tidak bisa menarik kembali sesuatu yang sudah kami terbitkan atau tampilkan."
+                ],
+                "warnings": [
+                    "$~Berikut ini yang terjadi jika konten publikmu melanggar aturan ini. Seorang moderator akan memeriksanya, konten itu berhenti menjadi publik, dan kamu mendapat peringatan di notifikasimu yang menyebutkan konten mana yang dimaksud. Siapa pun yang sudah masuk bisa meminta moderator memeriksa konten publik dengan tombol lapor pada konten tersebut.",
+                    "Setelah tiga peringatan, kamu masih bisa membuat proyek, masih bisa membagikannya kepada orang yang kamu pilih, dan masih bisa memakai semua fitur lain di sini. Yang kamu kehilangan adalah kemampuan untuk membuat sesuatu menjadi publik.",
+                    "Jika kamu merasa sebuah peringatan adalah kesalahan, atau peringatan itu sudah lama dan kamu ingin berbagi secara publik lagi, tulis surat ke hi@wordplay.dev dan beri tahu kami nama penggunamu serta alasannya. Seseorang akan membacanya."
+                ]
             },
             "donate": {
                 "header": "$~Menyumbangkan",
@@ -10285,22 +10302,22 @@
             "notmod": "$~Sepertinya Anda bukan moderator. Jika Anda baru-baru ini diberi hak akses moderator, Anda mungkin perlu masuk lagi. Jika belum, lihat wiki untuk mengetahui cara meminta hak akses moderasi."
         },
         "report": {
-            "button": "$?",
-            "confirm": "$?",
-            "sent": "$?",
-            "announce": "$?",
-            "flagged": "$?"
+            "button": "$~Beri tahu moderator",
+            "confirm": "$~Beri tahu moderator",
+            "sent": "$~seorang moderator telah diminta untuk memeriksa ini",
+            "announce": "$~seorang moderator telah diminta untuk memeriksa $project",
+            "flagged": "$~Seseorang melaporkan proyek ini, jadi ini menjadi yang pertama diperiksa."
         },
         "strike": {
-            "issue": "$?",
-            "consequence": "$?",
+            "issue": "$~peringatkan pembuat ini",
+            "consequence": "$~Ini akan menjadi peringatan nomor $#count[$count] untuk pembuat ini. $banning[Peringatan ini menghilangkan kemampuan mereka untuk membuat sesuatu menjadi publik.|Mereka masih bisa membuat sesuatu menjadi publik selama $#remaining[$remaining peringatan lagi].]",
             "confirm": {
-                "description": "$?",
-                "prompt": "$?"
+                "description": "$~catat keputusan ini dan peringatkan pembuatnya",
+                "prompt": "$~Peringatkan mereka"
             },
-            "banned": "$?",
-            "warned": "$?",
-            "notification": "$?"
+            "banned": "$~Kamu sudah diperingatkan tiga kali tentang konten publik, jadi kamu tidak bisa lagi membuat proyek atau galeri bersifat publik. Kamu masih bisa membuat proyek, dan tetap bisa membagikannya kepada orang yang kamu pilih. Jika menurutmu ini suatu kesalahan, atau sudah lama sekali dan kamu ingin membagikan sesuatu secara publik lagi, tulis surat ke hi@wordplay.dev dan beri tahu kami nama penggunamu serta alasannya.",
+            "warned": "$~Beberapa konten publik milikmu melanggar aturan berbagi, jadi konten itu tidak lagi bersifat publik. Ini adalah peringatan $#count[$count]. $#remaining[Setelah $remaining lagi kamu tidak akan bisa membuat apa pun menjadi publik.]",
+            "notification": "$~Peringatan ke-$#count[$count] tentang sesuatu yang kamu bagikan secara publik."
         }
     },
     "gallery": {

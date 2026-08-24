@@ -383,6 +383,37 @@ describe('a document missing a field is still writable', () => {
             projectDoc(Users.Collaborator, id).update({ timestamp: 1 }),
         );
     });
+
+    it('but a collaborator still cannot consent on a document predating the field', async () => {
+        // The guard that lets a legacy document be saved must not also hand
+        // away the decision it guards: absent-means-allow passed the whole
+        // write, so anyone who could update the doc could consent for the owner.
+        const id = `rulestest-no-consent-set-${runID}`;
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`projects/${id}`)
+                .set({
+                    owner: Users.Owner,
+                    collaborators: [Users.Collaborator],
+                    commenters: [],
+                    viewers: [],
+                    public: false,
+                    gallery: null,
+                });
+        });
+        await assertFails(
+            projectDoc(Users.Collaborator, id).update({
+                researchConsent: true,
+            }),
+        );
+        // The owner still can, and a collaborator may still save it as false.
+        await assertSucceeds(
+            projectDoc(Users.Collaborator, id).update({
+                researchConsent: false,
+            }),
+        );
+    });
 });
 
 describe('ownership can only be handed over by the owner', () => {

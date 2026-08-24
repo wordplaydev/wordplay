@@ -26619,8 +26619,8 @@
                             "description": "The moderator's confirmation for a decision that carries a warning"
                         },
                         "consequence": {
-                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22%23remaining%22%5D%3E",
-                            "description": "[formatted] What issuing this warning will do to this creator, shown to the moderator before they confirm"
+                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22%23remaining%22%2C%22banning%22%5D%3E",
+                            "description": "[formatted] What issuing this warning will do to this creator, shown to the moderator before they confirm. `banning` says this warning is the one that takes publishing away — a count can't express that, since English has no zero plural form."
                         },
                         "issue": {
                             "description": "[plain] The moderator's checkbox for attaching a warning to a decision",
@@ -26761,6 +26761,9 @@
         "SupportedFace": {
             "description": "The font face names supported. To add one, carefully add metadata to Faces and files to /static/fonts/.",
             "type": ["string"]
+        },
+        "Template<[\"#count\",\"#remaining\",\"banning\"]>": {
+            "type": "string"
         },
         "Template<[\"#count\",\"#remaining\"]>": {
             "type": "string"

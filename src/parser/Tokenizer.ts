@@ -127,10 +127,11 @@ const EmailRegExPattern =
 export const EmailRegEx = new RegExp(`^${EmailRegExPattern.source}`, 'u');
 /** An unanchored matcher, for finding an email inside a run of markup words. */
 const EmailInWordsRegEx = new RegExp(EmailRegExPattern.source, 'u');
+const WholeEmailRegEx = new RegExp(`^${EmailRegExPattern.source}$`, 'u');
 /** Whether some text is exactly an email address, so a link's URL can be given
  *  the `mailto:` scheme it needs. */
 export function isEmail(text: string): boolean {
-    return new RegExp(`^${EmailRegExPattern.source}$`, 'u').test(text);
+    return WholeEmailRegEx.test(text);
 }
 
 export const StrictURLRegEx = new RegExp(
@@ -1268,10 +1269,15 @@ function getNextToken(
                     )
                         match = match.substring(0, url.index);
                 }
-                // The `@` check keeps this regex off the hot path for the
-                // overwhelming majority of words, which contain no address.
-                if (source.includes('@')) {
-                    const email = source.match(EmailInWordsRegEx);
+                // Only an address that *starts* inside this run can cut it
+                // short, and one is at most 254 characters (RFC 5321), so
+                // everything that could matter lies in this window. Searching
+                // the whole remaining source instead made tokenizing quadratic
+                // in a document's length — and since documentation is full of
+                // `@` concept links, the cheap guard never rejected.
+                const ahead = source.substring(0, match.length + 254);
+                if (ahead.includes('@')) {
+                    const email = ahead.match(EmailInWordsRegEx);
                     if (
                         email !== null &&
                         email.index !== undefined &&

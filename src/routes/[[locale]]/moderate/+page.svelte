@@ -44,11 +44,13 @@
         StrikesCollection,
         StrikesUntilBanned,
     } from '@db/creators/strikes.svelte';
-    import Checkbox2 from '@components/widgets/Checkbox.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
 
     /** Where reports of public content live. Only moderators can read them. */
     const ReportsCollection = 'reports';
+    /** How many unresolved reports to look at when finding the next one, so a
+     *  moderator can pass on several in a row. */
+    const ReportsPerLook = 20;
 
     const user = getUser();
 
@@ -80,6 +82,12 @@
 
     /** Whether someone reported the project being shown. */
     let reported = $state(false);
+    /** Reported projects this moderator passed on. Reports jump the queue by
+     *  always asking for the oldest unresolved one, so without this, skipping a
+     *  reported project just showed it again — the only way past it was to
+     *  decide it. Kept in memory rather than resolving the report, since
+     *  passing on something isn't the same as having handled it. */
+    const skipped = new Set<string>();
     /** Whether the moderator's decision attaches a warning to the creator. */
     let warnCreator = $state(true);
     /** Warnings this creator already has. */
@@ -124,13 +132,18 @@
                         collection(firestore, ReportsCollection),
                         where('resolved', '==', false),
                         orderBy('time'),
-                        limit(1),
+                        // Enough to see past the ones passed on this session.
+                        // Reports are rare, so this is one small read either way.
+                        limit(ReportsPerLook),
                     ),
                 ),
             );
-            const report = reports.docs[0]?.data();
-            const project = report?.project;
-            return typeof project === 'string' ? project : undefined;
+            for (const doc of reports.docs) {
+                const project = doc.data()?.project;
+                if (typeof project === 'string' && !skipped.has(project))
+                    return project;
+            }
+            return undefined;
         } catch {
             // A failure here just means falling back to the unmoderated
             // queue — it's a prioritization, not the work itself.
@@ -176,6 +189,10 @@
                     return;
                 }
             }
+            // A report naming a project that's gone or won't parse can't be
+            // acted on, and resolving it would claim it was. Pass it over for
+            // this session so it doesn't cost a read on every advance.
+            skipped.add(reportedID);
         }
 
         const unmoderated = query(
@@ -290,6 +307,10 @@
     }
 
     function skip() {
+        // Passing on a reported project has to be remembered, or the report
+        // query hands back the same one and the button does nothing.
+        const id = project?.getID();
+        if (reported && id !== undefined) skipped.add(id);
         nextBatch();
     }
 </script>
@@ -347,7 +368,7 @@
                 {/each}
                 {#if violates}
                     <div class="flag">
-                        <Checkbox2
+                        <Checkbox
                             label={(l) => l.moderation.strike.issue}
                             on={warnCreator}
                             id="warn-creator"
@@ -371,6 +392,8 @@
                                         0,
                                         StrikesUntilBanned - (ownerStrikes + 1),
                                     ),
+                                    banning:
+                                        ownerStrikes + 1 >= StrikesUntilBanned,
                                 },
                             ]}
                         />

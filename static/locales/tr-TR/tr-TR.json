@@ -6974,8 +6974,8 @@
                     "label": "$~kullanılmayanları kaldır"
                 },
                 "tinker": {
-                    "label": "$?",
-                    "tip": "$?"
+                    "label": "$~deneyin…",
+                    "tip": "$~bu örneğin bir kopyasını yeni bir pencerede aç, böylece değiştirip ne olduğunu görebilirsin"
                 }
             },
             "field": {
@@ -7076,10 +7076,10 @@
             },
             "link": {
                 "remixOf": "$~bunun yeniden düzenlendiği projeye git",
-                "backTo": "$?"
+                "backTo": "$~$place adresine geri dön"
             },
-            "scratch": "$?",
-            "untitled": "$?"
+            "scratch": "$~Bu, bir örneğin geçici bir kopyasıdır. Kalıcı olması için yeniden karıştır.",
+            "untitled": "$~Adsız proje"
         },
         "checkpoints": {
             "label": {
@@ -7800,8 +7800,8 @@
                         "explanation": "$~Bir /yeniden düzenleme/, birinin kendine ait yapmak için değiştirdiği bir proje kopyasıdır. Bir yeniden düzenlemenin nereden geldiğini hatırlarız, böylece orijinali yapan kişi hâlâ emeğinin karşılığını alır."
                     },
                     "research": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Araştırma",
+                        "explanation": "$~Bazen Wordplay hakkında yazılar yazıp konuşuyoruz — araştırma yazılarında, konuşmalarda ve öğretmenlere, ailelere gösterdiğimiz şeylerde. Bunu açarsan, bu projeyi bir örnek olarak gösterebiliriz; isminle, kullanıcı adınla ya da hesabının sana ait olduğunu gösteren başka hiçbir bilgiyle değil.\n\nBunu istediğin zaman kapatabilirsin. Kapatmak, projeni yeni hiçbir şeyde kullanmayacağımız anlamına gelir. Ancak daha önce yayımladığımız ya da sunduğumuz bir şeyi geri alamayız."
                     }
                 },
                 "field": {
@@ -7830,9 +7830,15 @@
                         ]
                     },
                     "research": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~araştırma",
+                        "labels": [
+                            "$~paylaşılmadı",
+                            "$~anonim olarak paylaşıldı"
+                        ],
+                        "tips": [
+                            "$~bu projeyi Wordplay hakkındaki araştırmalarda veya duyurularda gösterme",
+                            "$~Wordplay'in bu projeyi Wordplay hakkındaki araştırmalarda ve duyurularda anonim olarak göstermesine izin ver"
+                        ]
                     }
                 },
                 "error": {
@@ -8230,7 +8236,7 @@
                     "moderationHeader": "$~\"$name\" başlıklı mesaj moderasyon gerektiriyor."
                 },
                 "delete": "$~Bu bildirimi sil",
-                "popup": "$!yeni bildirim"
+                "popup": "$~$#count[1 bildirim|$count bildirim]"
             }
         },
         "collaborate": {
@@ -8260,8 +8266,8 @@
                 "delete": "$~bu mesajı sil",
                 "confirmDelete": "$~Silme işlemini onaylıyor musunuz?",
                 "transfer": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "$~bu kişiyi projenin sahibi yap",
+                    "prompt": "$~Onu sahip yapmak istiyor musun? Sen bir işbirlikçi olarak kalırsın ve düzenlemeye devam edebilirsin. Ama artık bu projeyi silemezsin."
                 }
             },
             "error": {
@@ -8269,7 +8275,7 @@
                 "offline": "$~Bu sohbet yüklenemedi.",
                 "empty": "$~Mesaj yok.",
                 "deleted": "$~Bu mesaj silindi.",
-                "transferGallery": "$?"
+                "transferGallery": "$~Bu proje bir galeride bulunuyor. Projeyi başka birine vermek, onu o galeriye eklemez. Bu yüzden proje o galeride görünmeyebilir."
             },
             "prompt": {
                 "solo": "$~Kendinle sohbet et veya ekle...",
@@ -8313,7 +8319,7 @@
                 "restrict": "$~Bir proje bir *galeride* olduğunda, varsayılan olarak galeriyi görebilen *herkes* projenizi görebilir. /restrict/ seçeneği, projeyi sizden ve galeri yöneticilerinden başka herkesten *gizler*."
             },
             "announce": {
-                "transferred": "$?"
+                "transferred": "$~$name artık $project projesinin sahibi"
             }
         },
         "palette": {
@@ -8853,44 +8859,47 @@
                 },
                 "installedprompt": "$~Wordplay'i yüklenmiş bir uygulama olarak kullanıyorsun. Bu uygulama kendi projelerini tutar. Bunlar web tarayıcındaki projelerden ayrıdır. Tarayıcında yaptığın projeler hâlâ oradadır. Her iki yerdeki tüm projelerini görmek için <giriş yap@://login>.",
                 "sort": {
-                    "label": "$?",
-                    "labels": ["$?", "$?"],
-                    "tips": ["$?", "$?"]
+                    "label": "$~sıralama",
+                    "labels": ["$~isim", "$~son düzenlenen"],
+                    "tips": [
+                        "$~projeleri isme göre sırala",
+                        "$~projeleri son değiştirdiğin zamana göre sırala"
+                    ]
                 },
                 "folder": {
                     "name": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~bu klasörün adı",
+                        "placeholder": "$~klasör"
                     },
-                    "none": "$?",
+                    "none": "$~klasör yok",
                     "button": {
-                        "create": "$?",
-                        "expand": "$?",
-                        "collapse": "$?"
+                        "create": "$~yeni bir klasör oluştur",
+                        "expand": "$~bu klasörün içindekileri göster",
+                        "collapse": "$~bu klasörün içindekileri gizle"
                     },
                     "confirm": {
                         "delete": {
-                            "description": "$?",
-                            "prompt": "$?"
+                            "description": "$~bu klasörü sil ve içindeki projeleri arşivle",
+                            "prompt": "$~Klasörü sil ve projelerini arşivle"
                         }
                     },
                     "announce": {
-                        "destination": "$?",
-                        "moved": "$?",
-                        "movedOut": "$?",
-                        "expanded": "$?",
-                        "collapsed": "$?",
-                        "selected": "$?",
-                        "created": "$?",
-                        "deleted": "$?",
-                        "renamed": "$?",
-                        "projectSelected": "$?",
-                        "cleared": "$?"
+                        "destination": "$~$project projesini $folder klasörüne taşı",
+                        "moved": "$~$project, $folder klasörüne taşındı",
+                        "movedOut": "$~$project, klasöründen çıkarıldı",
+                        "expanded": "$~$folder açıldı, $#count[1 proje|$count proje]",
+                        "collapsed": "$~$folder daraltıldı, $#count[1 proje|$count proje]",
+                        "selected": "$~$folder seçildi, $#count[1 proje|$count proje]",
+                        "created": "$~$folder oluşturuldu",
+                        "deleted": "$~$folder silindi, $#count[1 proje arşivlendi|$count proje arşivlendi]",
+                        "renamed": "$~klasör adı $folder olarak değiştirildi",
+                        "projectSelected": "$~$project seçildi",
+                        "cleared": "$~hiçbir şey seçilmedi"
                     },
                     "instructions": {
-                        "none": "$?",
-                        "project": "$?",
-                        "folder": "$?"
+                        "none": "$~Seçmek için bir projeye ya da klasöre tıkla.",
+                        "project": "$~Bu projeyi *yukarı* ve *aşağı* ok tuşlarıyla taşı, ya da bir klasörün üzerine sürükle. Bitirdiğinde *escape* tuşuna bas.",
+                        "folder": "$~Bu klasörün adını değiştirmek için yeni ismi yaz. Klasörü silmek, içindeki her şeyi arşivine koyar."
                     }
                 }
             },
@@ -9083,8 +9092,16 @@
                     "Bu lisansla birlikte üç şey gelir. Yeniden düzenleyenler, orijinali yapan kişinin emeğini belirtmek zorundadır. Yeniden düzenlemelerini bu aynı lisans altında paylaşmak zorundadır, böylece bir sonraki kişi için açık kalır. Ve herkese açık bir projeyi kendine saklamak için özele çeviremezler.",
                     "Emeği belirtme kısmında yardımcı oluruz: biri bir projeyi yeniden düzenlediğinde, nereden geldiğini hatırlar ve ona geri dönen bir bağlantı gösteririz. Bir projeyi herkese açık yapmak, tüm bunlara evet demenin yoludur; bu yüzden bir projeyi kimsenin yeniden düzenlememesini istersen, onu özel tut."
                 ],
-                "research": ["$?"],
-                "warnings": ["$?"]
+                "research": [
+                    "$~Son bir seçim var ve bu tamamen sana ait. Wordplay hakkında zaman zaman yazılar yazıyor ve konuşuyoruz — araştırma makalelerinde, konuşmalarda ve öğretmenlere ile ailelere gösterdiğimiz şeylerde. İnsanların onunla gerçekten neler yaptığını göstermeyi çok isteriz, ama sen izin vermedikçe projeni göstermeyiz.",
+                    "Her projenin paylaşım ayarlarında bir *Araştırma* seçeneği vardır ve başlangıçta kapalıdır. Bunu açmak, o tek projeyi örnek olarak göstermemize izin verir; adını, kullanıcı adını ya da hesabının sana ait olduğunu gösteren başka hiçbir şeyi göstermeyiz. Bu ayar her proje için ayrıdır, yani birine evet demen diğerleri hakkında hiçbir şey söylemez.",
+                    "Bunu istediğin zaman kapatabilirsin. Kapatmak, projeni yeni hiçbir şeyde kullanmayacağımız anlamına gelir, ama daha önce yayınladığımız ya da sunduğumuz bir şeyi geri alamaz."
+                ],
+                "warnings": [
+                    "$~Senin genel (herkese açık) içeriğin bu kurallara aykırıysa tam olarak şu olur: Bir moderatör onu inceler, içerik artık herkese açık olmaktan çıkar ve bildirimlerinde hangi içerik olduğunu söyleyen bir uyarı alırsın. Oturum açmış herkes, üzerindeki bildir düğmesini kullanarak bir moderatörden herkese açık içeriği incelemesini isteyebilir.",
+                    "Üç uyarıdan sonra bile projeler oluşturabilir, bunları seçtiğin kişilerle paylaşabilir ve buradaki her şeyi kullanmaya devam edebilirsin. Kaybettiğin tek şey, herhangi bir şeyi herkese açık yapabilme yeteneğidir.",
+                    "Bir uyarının hatalı olduğunu düşünüyorsan ya da uzun zaman önce olduysa ve yeniden herkese açık paylaşım yapmak istiyorsan, hi@wordplay.dev adresine yaz ve bize kullanıcı adını ile nedenini söyle. Bir kişi bunu okuyacak."
+                ]
             },
             "donate": {
                 "header": "$~Bağış yapmak",
@@ -10276,22 +10293,22 @@
             "notmod": "$~Moderatör olmadığınız anlaşılıyor. Yakın zamanda moderatör ayrıcalıkları verildiyse, tekrar oturum açmanız gerekebilir. Verilmediyse, moderasyon ayrıcalıklarının nasıl talep edileceğine dair wiki'ye bakın."
         },
         "report": {
-            "button": "$?",
-            "confirm": "$?",
-            "sent": "$?",
-            "announce": "$?",
-            "flagged": "$?"
+            "button": "$~Moderatörü uyar",
+            "confirm": "$~Moderatörü uyar",
+            "sent": "$~bir moderatörden buna bakması istendi",
+            "announce": "$~bir moderatörden $project projesine bakması istendi",
+            "flagged": "$~Birisi bu projeyi bildirdi, bu yüzden sırada ilk o var."
         },
         "strike": {
-            "issue": "$?",
-            "consequence": "$?",
+            "issue": "$~bu içerik üreticisini uyar",
+            "consequence": "$~Bu, bu kullanıcı için $#count[1 numaralı|$count numaralı] uyarı olacak. $banning[Bu uyarı, onların herhangi bir şeyi herkese açık yapma yeteneğini elinden alır.|$#remaining[1 uyarı daha|$remaining uyarı daha] alana kadar bir şeyleri herkese açık yapabilecekler.]",
             "confirm": {
-                "description": "$?",
-                "prompt": "$?"
+                "description": "$~bu kararı kaydet ve içerik üreticisini uyar",
+                "prompt": "$~Onları uyar"
             },
-            "banned": "$?",
-            "warned": "$?",
-            "notification": "$?"
+            "banned": "$~Herkese açık içerik hakkında üç kez uyarıldın, bu yüzden artık proje veya galerileri herkese açık yapamazsın. Yine de proje yapabilir ve seçtiğin kişilerle paylaşabilirsin. Bunun bir hata olduğunu düşünüyorsan ya da bu uzun zaman önce oldu ve yeniden herkese açık paylaşım yapmak istiyorsan, hi@wordplay.dev adresine yaz ve kullanıcı adını ve nedenini bize bildir.",
+            "warned": "$~Herkese açık içeriklerinden biri paylaşım kurallarını ihlal etti, bu yüzden artık herkese açık değil. Bu, $#count[1. uyarın.|$count. uyarın.] $#remaining[Bir uyarı daha alırsan artık hiçbir şeyi herkese açık yapamayacaksın.|$remaining uyarı daha alırsan artık hiçbir şeyi herkese açık yapamayacaksın.]",
+            "notification": "$~Herkese açık paylaştığın bir şey hakkında $#count[1. uyarı.|$count. uyarı.]"
         }
     },
     "gallery": {

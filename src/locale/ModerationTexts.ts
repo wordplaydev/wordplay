@@ -47,8 +47,8 @@ export type ModerationTexts = {
     strike: {
         /** [plain] The moderator's checkbox for attaching a warning to a decision */
         issue: string;
-        /** [formatted] What issuing this warning will do to this creator, shown to the moderator before they confirm */
-        consequence: Template<['#count', '#remaining']>;
+        /** [formatted] What issuing this warning will do to this creator, shown to the moderator before they confirm. `banning` says this warning is the one that takes publishing away — a count can't express that, since English has no zero plural form. */
+        consequence: Template<['#count', '#remaining', 'banning']>;
         /** The moderator's confirmation for a decision that carries a warning */
         confirm: ConfirmText;
         /** [formatted] Shown to a creator who has lost the ability to make anything public */

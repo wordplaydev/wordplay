@@ -10316,7 +10316,7 @@
         },
         "strike": {
             "issue": "warn this creator",
-            "consequence": "This will be warning number $#count[1|$count] for this creator. $#remaining[After this one they will no longer be able to make anything public.|They will be able to make things public for $remaining more warnings.]",
+            "consequence": "This will be warning number $#count[1|$count] for this creator. $banning[This warning takes away their ability to make anything public.|They will be able to make things public for $#remaining[1 more warning|$remaining more warnings].]",
             "confirm": {
                 "description": "record this decision and warn the creator",
                 "prompt": "Warn them"

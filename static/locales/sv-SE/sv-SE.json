@@ -6967,8 +6967,8 @@
                     "label": "$~ta bort oanvända"
                 },
                 "tinker": {
-                    "label": "$?",
-                    "tip": "$?"
+                    "label": "$~testa den…",
+                    "tip": "$~öppna en kopia av det här exemplet i ett nytt fönster, så du kan ändra det och se vad som händer"
                 }
             },
             "field": {
@@ -7069,10 +7069,10 @@
             },
             "link": {
                 "remixOf": "$~gå till projektet som detta remixades från",
-                "backTo": "$?"
+                "backTo": "$~tillbaka till $place"
             },
-            "scratch": "$?",
-            "untitled": "$?"
+            "scratch": "$~Det här är en tillfällig kopia av ett exempel. Remixa den för att behålla den.",
+            "untitled": "$~Namnlöst projekt"
         },
         "checkpoints": {
             "label": {
@@ -7793,8 +7793,8 @@
                         "explanation": "$~En /remix/ är en kopia av ett projekt som någon ändrade för att göra till sitt eget. Vi kommer ihåg var en remix kom från, så personen som gjorde originalet fortfarande får erkännande."
                     },
                     "research": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Forskning",
+                        "explanation": "$~Ibland skriver och pratar vi om Wordplay — i forskningsartiklar, i föredrag, och i det vi visar lärare och familjer. Om du slår på detta kan vi visa detta projekt som ett exempel, utan ditt namn, ditt användarnamn eller något annat som visar att kontot är ditt.\n\nDu kan stänga av detta när som helst. Om du stänger av det slutar vi använda ditt projekt i nytt material, men det tar inte bort något vi redan har publicerat eller visat."
                     }
                 },
                 "field": {
@@ -7823,9 +7823,12 @@
                         ]
                     },
                     "research": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~forskning",
+                        "labels": ["$~inte delat", "$~delat anonymt"],
+                        "tips": [
+                            "$~visa inte detta projekt i forskning eller kommunikation om Wordplay",
+                            "$~låt Wordplay visa detta projekt anonymt i forskning och kommunikation om Wordplay"
+                        ]
                     }
                 },
                 "error": {
@@ -8223,7 +8226,7 @@
                     "moderationHeader": "$~Meddelandet i \"$name\" kräver modereringsåtgärd"
                 },
                 "delete": "$~radera den här aviseringen",
-                "popup": "$!ny avisering"
+                "popup": "$~$#count[1 avisering|$count aviseringar]"
             }
         },
         "collaborate": {
@@ -8253,8 +8256,8 @@
                 "delete": "$~radera detta meddelande",
                 "confirmDelete": "$~bekräfta borttagning?",
                 "transfer": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "$~gör denna person till ägare av projektet",
+                    "prompt": "$~Vill du göra dem till ägare? Du förblir en medarbetare och kan fortsätta redigera, men du kommer inte längre kunna ta bort detta projekt."
                 }
             },
             "error": {
@@ -8262,7 +8265,7 @@
                 "offline": "$~Det gick inte att ladda den här chatten.",
                 "empty": "$~Inga meddelanden.",
                 "deleted": "$~Detta meddelande raderades.",
-                "transferGallery": "$?"
+                "transferGallery": "$~Det här projektet finns i ett galleri. Att ge det till någon annan lägger inte till dem i det galleriet, så de kanske inte kan se det där."
             },
             "prompt": {
                 "solo": "$~Chatta med dig själv eller lägg till...",
@@ -8306,7 +8309,7 @@
                 "restrict": "$~När ett projekt finns i ett *galleri* kan som standard *alla* som kan se galleriet se ditt projekt. /restrict/-knappen *döljer* det för alla utom dig och galleriets kuratorer."
             },
             "announce": {
-                "transferred": "$?"
+                "transferred": "$~$name är nu ägare av $project"
             }
         },
         "palette": {
@@ -8846,44 +8849,47 @@
                 },
                 "installedprompt": "$~Du använder Wordplay som en installerad app. Den har sina egna projekt, skilda från dem i din webbläsare. Alla projekt du gjorde i din webbläsare finns kvar. <Logga in@://login> för att se alla dina projekt på båda ställena.",
                 "sort": {
-                    "label": "$?",
-                    "labels": ["$?", "$?"],
-                    "tips": ["$?", "$?"]
+                    "label": "$~ordning",
+                    "labels": ["$~namn", "$~senast ändrad"],
+                    "tips": [
+                        "$~ordna projekt efter namn",
+                        "$~ordna projekt efter när du senast ändrade dem"
+                    ]
                 },
                 "folder": {
                     "name": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~vad den här mappen heter",
+                        "placeholder": "$~mapp"
                     },
-                    "none": "$?",
+                    "none": "$~ingen mapp",
                     "button": {
-                        "create": "$?",
-                        "expand": "$?",
-                        "collapse": "$?"
+                        "create": "$~skapa en ny mapp",
+                        "expand": "$~visa vad som finns i denna mapp",
+                        "collapse": "$~göm vad som finns i denna mapp"
                     },
                     "confirm": {
                         "delete": {
-                            "description": "$?",
-                            "prompt": "$?"
+                            "description": "$~ta bort denna mapp och arkivera projekten i den",
+                            "prompt": "$~Ta bort mapp och arkivera dess projekt"
                         }
                     },
                     "announce": {
-                        "destination": "$?",
-                        "moved": "$?",
-                        "movedOut": "$?",
-                        "expanded": "$?",
-                        "collapsed": "$?",
-                        "selected": "$?",
-                        "created": "$?",
-                        "deleted": "$?",
-                        "renamed": "$?",
-                        "projectSelected": "$?",
-                        "cleared": "$?"
+                        "destination": "$~flytta $project till $folder",
+                        "moved": "$~$project flyttat till $folder",
+                        "movedOut": "$~$project flyttat ut ur sin mapp",
+                        "expanded": "$~$folder utfälld, $#count[1 projekt|$count projekt]",
+                        "collapsed": "$~$folder infälld, $#count[1 projekt|$count projekt]",
+                        "selected": "$~$folder vald, $#count[1 projekt|$count projekt]",
+                        "created": "$~$folder skapad",
+                        "deleted": "$~$folder borttagen, $#count[1 projekt arkiverat|$count projekt arkiverade]",
+                        "renamed": "$~mappen fick nytt namn: $folder",
+                        "projectSelected": "$~$project valt",
+                        "cleared": "$~inget valt"
                     },
                     "instructions": {
-                        "none": "$?",
-                        "project": "$?",
-                        "folder": "$?"
+                        "none": "$~Klicka på ett projekt eller en mapp för att välja det.",
+                        "project": "$~Flytta detta projekt med piltangenterna *upp* och *ned*, eller dra det till en mapp. Tryck på *escape* när du är klar.",
+                        "folder": "$~Skriv namnet för att byta namn på denna mapp. Tar du bort den läggs allt i den i ditt arkiv."
                     }
                 }
             },
@@ -9076,8 +9082,16 @@
                     "Tre saker följer med den licensen. De som remixar måste ge erkännande till den som gjorde originalet. De måste dela sin remix under samma licens, så att den förblir öppen för nästa person. Och de kan inte göra ett offentligt projekt privat för att behålla det för sig själva.",
                     "Vi hjälper till med erkännandet: när någon remixar ett projekt kommer vi ihåg var det kom från och visar en länk tillbaka till det. Att göra ett projekt offentligt är hur du säger ja till allt detta, så om du hellre vill att ingen remixar ett projekt, håll det privat."
                 ],
-                "research": ["$?"],
-                "warnings": ["$?"]
+                "research": [
+                    "$~Ett sista val, och det är helt ditt eget. Vi skriver och talar ibland om Wordplay — i forskningsartiklar, i föredrag och i det vi visar lärare och familjer. Vi skulle gärna vilja visa vad människor faktiskt skapar med det, men vi visar inte ditt projekt om du inte säger att vi får.",
+                    "Varje projekt har en inställning som heter *Forskning* bland delningsinställningarna, och den är avstängd från början. Slår du på den låter du oss visa just det projektet som exempel, utan ditt namn, ditt användarnamn eller något annat som visar att kontot är ditt. Det gäller per projekt, så säger du ja till ett projekt betyder det inget för de andra.",
+                    "Du kan stänga av den när som helst. Stänger du av den slutar vi använda ditt projekt i något nytt, men det går inte att ta tillbaka något vi redan har publicerat eller visat upp."
+                ],
+                "warnings": [
+                    "$~Här är exakt vad som händer om ditt offentliga innehåll bryter mot dessa regler. En moderator granskar det, det slutar vara offentligt, och du får en varning i dina aviseringar som säger vilket innehåll det gäller. Vem som helst som är inloggad kan be en moderator titta på offentligt innehåll genom att använda rapportknappen på det.",
+                    "Efter tre varningar kan du fortfarande skapa projekt, fortfarande dela dem med dem du väljer, och fortfarande använda allt annat här. Det du förlorar är möjligheten att göra något offentligt.",
+                    "Om du tycker att en varning var ett misstag, eller om det var länge sedan och du vill dela offentligt igen, skriv till hi@wordplay.dev och berätta ditt användarnamn och varför. En person kommer att läsa det."
+                ]
             },
             "donate": {
                 "header": "$~Donera",
@@ -10261,22 +10275,22 @@
             "notmod": "$~Det verkar som att du inte är moderator. Om du nyligen har fått moderatorbehörighet kan du behöva logga in igen. Om inte, se wikin för information om hur du begär modereringsbehörighet."
         },
         "report": {
-            "button": "$?",
-            "confirm": "$?",
-            "sent": "$?",
-            "announce": "$?",
-            "flagged": "$?"
+            "button": "$~Varna moderator",
+            "confirm": "$~Varna moderator",
+            "sent": "$~en moderator har blivit ombedd att titta på detta",
+            "announce": "$~en moderator har blivit ombedd att titta på $project",
+            "flagged": "$~Någon rapporterade detta projekt, så det ligger först i kön."
         },
         "strike": {
-            "issue": "$?",
-            "consequence": "$?",
+            "issue": "$~varna denna skapare",
+            "consequence": "$~Detta blir varning nummer $#count[1|$count] för denna skapare. $banning[Denna varning tar bort möjligheten att göra något offentligt.|De kommer att kunna göra saker offentliga i $#remaining[1 varning till|$remaining varningar till].]",
             "confirm": {
-                "description": "$?",
-                "prompt": "$?"
+                "description": "$~registrera detta beslut och varna skaparen",
+                "prompt": "$~Varna dem"
             },
-            "banned": "$?",
-            "warned": "$?",
-            "notification": "$?"
+            "banned": "$~Du har blivit varnad om offentligt innehåll tre gånger, så du kan inte längre göra projekt eller gallerier offentliga. Du kan fortfarande skapa projekt, och fortfarande dela dem med personer du väljer. Om du tror detta är ett misstag, eller det var länge sedan och du vill dela offentligt igen, skriv till hi@wordplay.dev och berätta ditt användarnamn och varför.",
+            "warned": "$~Något av ditt offentliga innehåll bröt delningsreglerna, så det är inte längre offentligt. Detta är varning $#count[1|$count]. $#remaining[En till och du kan inte längre göra något offentligt.|Efter $remaining till kan du inte längre göra något offentligt.]",
+            "notification": "$~Varning $#count[1|$count] om något du delade offentligt."
         }
     },
     "gallery": {

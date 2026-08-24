@@ -17,6 +17,7 @@
     import { untrack, onMount } from 'svelte';
     import { writable } from 'svelte/store';
     import Writing from '@components/app/Writing.svelte';
+    import Title from '@components/widgets/Title.svelte';
 
     let user = getUser();
 
@@ -136,7 +137,12 @@
         {/key}
     </Page>
 {:else if loading}
+    <!-- ProjectView owns the title once there's a project to name, so these two
+         states had none at all — and nothing else sets one, so a cold load of a
+         slow or bad project URL left the document untitled. -->
+    <Title text={(l) => l.ui.project.label} />
     <Loading />
 {:else if page.params.projectid || error}
+    <Title text={(l) => l.ui.project.label} />
     <Writing><Notice text={(l) => l.ui.project.error.unknown} /></Writing>
 {/if}

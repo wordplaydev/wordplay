@@ -48,7 +48,7 @@ service cloud.firestore {
           );
       }
 
-      allow create: if request.auth != null && mayBePublic();
+      allow create: if request.auth != null && mayCreatePublic();
       allow read: if canReadProject(resource.data);
       // Research consent is the owner's to give: it permits Wordplay to show
       // *their* work anonymously, so a collaborator, curator, or moderator —
@@ -61,10 +61,19 @@ service cloud.firestore {
       // so one unguarded access blocks every save of a document that predates
       // the field — including saves that have nothing to do with it.
       function researchConsentUnchangedOrOwner() {
-        return !('researchConsent' in resource.data) ||
-          (('researchConsent' in request.resource.data) &&
+        return (('owner' in resource.data) && resource.data.owner == request.auth.uid) ||
+          // Unchanged: the same value on both sides of the write.
+          (('researchConsent' in resource.data) &&
+            ('researchConsent' in request.resource.data) &&
             request.resource.data.researchConsent == resource.data.researchConsent) ||
-          (('owner' in resource.data) && resource.data.owner == request.auth.uid);
+          // Absent before, because the document predates the field. Someone
+          // other than the owner may still save it — they just can't be the
+          // one who turns consent on. Passing the whole write here (which is
+          // what `!('researchConsent' in resource.data)` alone did) let any
+          // collaborator or curator consent on the owner's behalf.
+          (!('researchConsent' in resource.data) &&
+            (!('researchConsent' in request.resource.data) ||
+              request.resource.data.researchConsent != true));
       }
 
       // Losing the ability to make anything public (#193). The check is the
@@ -76,10 +85,25 @@ service cloud.firestore {
       function notBanned() {
         return !("banned" in request.auth.token) || request.auth.token.banned != true;
       }
-      function mayBePublic() {
-        return notBanned() ||
-          !('public' in request.resource.data) ||
+      // A write that doesn't leave the document public is never a publish.
+      function notPublic() {
+        return !('public' in request.resource.data) ||
           request.resource.data.public != true;
+      }
+      // On create there is nothing to compare against, so a banned creator
+      // simply can't make public content.
+      function mayCreatePublic() {
+        return notBanned() || notPublic();
+      }
+      // On update, what a ban forbids is *making* something public, not editing
+      // something that already is. A banned creator may still be a collaborator
+      // on someone else's public project, or curate a gallery full of them, and
+      // comparing the new value alone locked them out of both. Un-publishing
+      // then re-publishing doesn't get around it: the second write sees a
+      // private document and is refused.
+      function mayUpdatePublic() {
+        return notBanned() || notPublic() ||
+          (('public' in resource.data) && resource.data.public == true);
       }
 
       // Ownership is the owner's to hand over (#189). Collaborators can update
@@ -96,7 +120,7 @@ service cloud.firestore {
 
       allow update:
         if request.auth != null &&
-          mayBePublic() &&
+          mayUpdatePublic() &&
           researchConsentUnchangedOrOwner() &&
           ownerUnchangedOrOwner() &&
           (

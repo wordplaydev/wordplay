@@ -12,7 +12,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'basis.Number.conversion.unit': ['from', 'to'],
     'moderation.progress': ['moderated', 'remaining'],
     'moderation.report.announce': ['project'],
-    'moderation.strike.consequence': ['#count', '#remaining'],
+    'moderation.strike.consequence': ['#count', '#remaining', 'banning'],
     'moderation.strike.notification': ['#count'],
     'moderation.strike.warned': ['#count', '#remaining'],
     'node.AnyType.description': [],

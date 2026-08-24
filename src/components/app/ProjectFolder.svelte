@@ -97,7 +97,8 @@
             text={folder.name}
             description={(l) => l.ui.page.projects.folder.name.description}
             placeholder={(l) => l.ui.page.projects.folder.name.placeholder}
-            changed={(name) => rename(name)}
+            dwelled={(name) => rename(name)}
+            done={(name) => rename(name)}
         />
     </div>
     <div id={contentsID} class="contents">

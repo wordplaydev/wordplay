@@ -14,6 +14,12 @@ import { noStrikes, withStrike } from './strikes.js';
 const StrikesCollection = 'strikes';
 const ProjectsCollection = 'projects';
 
+/** Firestore caps a batched write at 500 operations, and the takedown query
+ *  below is unbounded — a prolific creator can have more public projects than
+ *  one commit holds. Flush below the cap rather than throwing after the strike
+ *  and the claim have already been written. */
+const BatchLimit = 450;
+
 /**
  * Record a moderator's decision about a project (#193).
  *
@@ -114,10 +120,12 @@ export default async function moderateProject(
             .where('owner', '==', owner)
             .where('public', '==', true)
             .get();
-        const batch = db.batch();
-        for (const doc of published.docs)
-            batch.update(doc.ref, { public: false });
-        await batch.commit();
+        for (let i = 0; i < published.docs.length; i += BatchLimit) {
+            const batch = db.batch();
+            for (const doc of published.docs.slice(i, i + BatchLimit))
+                batch.update(doc.ref, { public: false });
+            await batch.commit();
+        }
     }
 
     return { count: updated.count, banned: updated.banned };

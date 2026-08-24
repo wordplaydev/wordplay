@@ -304,6 +304,11 @@
         );
     }
 
+    /** Save a folder's new name, on a typing pause and on commit rather than on
+     *  every keystroke. `TextField.changed` fires on input, so renaming wrote
+     *  settings and queued a paced announcement per character — eight of each
+     *  for "Homework", read back one after another. The unchanged check keeps
+     *  whichever of the two fires second from repeating the work. */
     function renameFolder(id: string, name: string) {
         const folder = $projectFolders[id];
         if (folder === undefined || folder.name === name) return;
@@ -611,7 +616,17 @@
              is where those keys are named. Pointed at by the list itself, so a
              screen reader reads it on arrival rather than only if the reader
              happens to wander into it. -->
-        <div class="organization" aria-describedby="organizing">
+        <!-- `role="group"` so the description below has a host: aria-* on a
+             roleless div maps to `generic`, which screen readers don't expose,
+             and the reference dangled whenever there was nothing to organize. -->
+        <div
+            class="organization"
+            role="group"
+            aria-describedby={organized.folders.length > 0 ||
+            organized.loose.length > 0
+                ? 'organizing'
+                : undefined}
+        >
             {#each organized.folders as folder (folder.id)}
                 <ProjectFolder
                     {folder}

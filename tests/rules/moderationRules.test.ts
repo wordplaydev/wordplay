@@ -27,6 +27,8 @@ const Projects = {
     Public: 'rulestest-mod-public',
     /** Owned by the banned creator, and private. */
     Banned: 'rulestest-mod-banned',
+    /** Someone else's, already public, with the banned creator collaborating. */
+    Shared: 'rulestest-mod-public-shared',
 };
 
 let env: RulesTestEnvironment;
@@ -57,6 +59,15 @@ beforeAll(async () => {
             commenters: [],
             viewers: [],
             public: false,
+            gallery: null,
+            researchConsent: false,
+        });
+        await db.doc(`projects/${Projects.Shared}`).set({
+            owner: Users.Owner,
+            collaborators: [Users.Banned],
+            commenters: [],
+            viewers: [],
+            public: true,
             gallery: null,
             researchConsent: false,
         });
@@ -208,6 +219,33 @@ describe('a banned creator keeps everything except publishing', () => {
                 gallery: null,
             }),
         );
+    });
+
+    it('can still edit a public project someone else owns', async () => {
+        // A ban takes away making things public, not touching anything that
+        // already is. Checking the new value alone locked a banned creator out
+        // of every public document they collaborate on or curate.
+        await assertSucceeds(
+            as(Users.Banned, { banned: true })
+                .doc(`projects/${Projects.Shared}`)
+                .update({ timestamp: 7 }),
+        );
+    });
+
+    it('still cannot re-publish that project after un-publishing it', async () => {
+        const banned = as(Users.Banned, { banned: true });
+        await assertSucceeds(
+            banned.doc(`projects/${Projects.Shared}`).update({ public: false }),
+        );
+        await assertFails(
+            banned.doc(`projects/${Projects.Shared}`).update({ public: true }),
+        );
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`projects/${Projects.Shared}`)
+                .update({ public: true });
+        });
     });
 
     it('cannot publish a gallery they curate', async () => {

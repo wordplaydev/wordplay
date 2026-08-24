@@ -55,8 +55,12 @@ for (const scheme of ['light', 'dark'] as const) {
                 await expect(page.getByTestId('preview').first()).toBeVisible({
                     timeout: LOAD_TIMEOUT,
                 });
+                // Both colour schemes run this against one emulator, so the
+                // second pass starts with the first pass's folder already there.
+                const folders = page.locator('section.folder');
+                const before = await folders.count();
                 await page.locator('[data-uiid="new-folder"]').click();
-                await expect(page.locator('section.folder')).toHaveCount(1);
+                await expect(folders).toHaveCount(before + 1);
                 const tile = page
                     .locator('[data-folder="none"] .project')
                     .first();
