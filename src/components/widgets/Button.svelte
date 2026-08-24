@@ -50,6 +50,16 @@
         spinIcon?: boolean;
         /** An optional shortcut string for ARIA */
         shortcut?: string;
+        /** For a disclosure button: whether what it controls is showing, and
+         *  the id of the region it shows. Screen readers announce a
+         *  disclosure's state from these, and there's no way to infer them
+         *  from the icon. */
+        expanded?: boolean | undefined;
+        controls?: string | undefined;
+        /** For a button that turns a mode on and off: whether the mode is on.
+         *  Distinct from the internal `pressed`, which is only the momentary
+         *  press animation. */
+        toggled?: boolean | undefined;
         /** Whether to wrap the text in the button */
         wrap?: boolean;
         /** Show the standard loading indicator instead of the button's
@@ -65,6 +75,11 @@
         onPress?: ((event: PointerEvent) => void) | undefined;
         /** Pairs with `onPress`, on pointer up or cancel. */
         onRelease?: ((event: PointerEvent) => void) | undefined;
+        /** Keys this button handles beyond activation — arrows, Escape, and so
+         *  on, for a control that enters a mode. Runs before the built-in
+         *  Enter/Space handling, and a handler that calls preventDefault stops
+         *  it, so a mode can claim a key activation would otherwise take. */
+        onKeyDown?: ((event: KeyboardEvent) => void) | undefined;
         /** The label */
         children?: import('svelte').Snippet | undefined;
     }
@@ -85,11 +100,15 @@
         size = undefined,
         testid = undefined,
         shortcut = undefined,
+        expanded = undefined,
+        controls = undefined,
+        toggled = undefined,
         wrap = false,
         icon,
         spinIcon = false,
         loading = false,
         onPress = undefined,
+        onKeyDown = undefined,
         onRelease = undefined,
         children,
     }: Props = $props();
@@ -177,6 +196,9 @@
     aria-label={tooltip}
     aria-disabled={!active}
     aria-keyshortcuts={shortcut}
+    aria-expanded={expanded}
+    aria-controls={controls}
+    aria-pressed={toggled}
     onpointerdown={(event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -229,17 +251,22 @@
               if (onPress) return;
               event.button === 0 && active ? doAction(event) : undefined;
           }}
-    onkeydown={acting
-        ? null
-        : (event) =>
-              (event.key === 'Enter' || event.key === ' ') &&
-              // Only activate with no modifiers down. Enter is used for other shortcuts.
-              !event.shiftKey &&
-              !event.ctrlKey &&
-              !event.altKey &&
-              !event.metaKey
-                  ? doAction(event)
-                  : undefined}
+    onkeydown={(event) => {
+        // A button that enters a mode gets first refusal on the keystroke, so
+        // it can claim keys (arrows, Escape) that activation doesn't use — and
+        // can claim one that it does, by preventing default.
+        onKeyDown?.(event);
+        if (event.defaultPrevented || acting) return;
+        if (
+            (event.key === 'Enter' || event.key === ' ') &&
+            // Only activate with no modifiers down. Enter is used for other shortcuts.
+            !event.shiftKey &&
+            !event.ctrlKey &&
+            !event.altKey &&
+            !event.metaKey
+        )
+            doAction(event);
+    }}
     >{#if busy}<!-- 1em, not the 2rem default: literally the button's content
             line, so a busy button is exactly as tall as a resting one. 1.5rem
             read as meeting that intent but is 24px against a ~13px line, which

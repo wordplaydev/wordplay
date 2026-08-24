@@ -6901,6 +6901,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~elimină limbile pe care codul acestui proiect nu le folosește",
                     "label": "$~elimină cele nefolosite"
+                },
+                "tinker": {
+                    "label": "$?",
+                    "tip": "$?"
                 }
             },
             "field": {
@@ -6996,8 +7000,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~mergi la proiectul din care a fost remixat acesta"
-            }
+                "remixOf": "$~mergi la proiectul din care a fost remixat acesta",
+                "backTo": "$?"
+            },
+            "scratch": "$?",
+            "untitled": "$?"
         },
         "checkpoints": {
             "label": {
@@ -7959,6 +7966,10 @@
                     },
                     "remix": {
                         "explanation": "$~Un /remix/ este o copie a unui proiect pe care cineva a schimbat-o pentru a o face a sa. Ținem minte de unde vine un remix, așa că persoana care a făcut originalul primește în continuare credit."
+                    },
+                    "research": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -7985,6 +7996,11 @@
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
                         ]
+                    },
+                    "research": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -8271,7 +8287,7 @@
                     "link": "$~detalii"
                 },
                 "delete": "$~ștergeți această notificare",
-                "popup": "$~notificare nouă"
+                "popup": "$!notificare nouă"
             },
             "locale": {
                 "header": "$~Limbă",
@@ -8413,7 +8429,11 @@
                     "tip": "$~începe o discuție cu tine însuți sau cu ceilalți."
                 },
                 "delete": "$~șterge acest mesaj",
-                "confirmDelete": "$~confirmați ștergerea?"
+                "confirmDelete": "$~confirmați ștergerea?",
+                "transfer": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
             },
             "moderation": {
                 "header": "$~Raportează acest mesaj",
@@ -8434,7 +8454,8 @@
                 "unowned": "$~Acest proiect nu este stocat online, deci nu poate avea chat sau colaboratori.",
                 "offline": "$~Nu se poate încărca acest chat.",
                 "empty": "$~Niciun mesaj.",
-                "deleted": "$~Acest mesaj a fost șters."
+                "deleted": "$~Acest mesaj a fost șters.",
+                "transferGallery": "$?"
             },
             "prompt": {
                 "solo": "$~Discutați cu dumneavoastră înșivă sau adăugați...",
@@ -8461,6 +8482,9 @@
                 "commenters": "$~/Comentatorii/ pot *discuta* proiectul cu tine, dar nu îl pot *edita*.",
                 "viewers": "$~/Vizualizatorii/ pot *vizualiza* proiectul și *codul* său, dar nu îl pot *discuta* sau *edita*.",
                 "restrict": "$~Când un proiect se află într-o *galerie*, în mod implicit, *toți* cei care pot vedea galeria pot vedea proiectul dvs. Comutatorul /restricționare/ îl *ascunde* de toată lumea, cu excepția dvs. și a curatorilor galeriei."
+            },
+            "announce": {
+                "transferred": "$?"
             }
         },
         "palette": {
@@ -9181,7 +9205,48 @@
                     "nodeletes": "$~Trebuie să fii<logged in@://login> pentru a șterge proiectele arhivate.",
                     "delete": "$~Oops, nu am putut șterge proiectul!"
                 },
-                "installedprompt": "$~Folosești Wordplay ca aplicație instalată, iar aceasta își păstrează propriile proiecte, separate de cele din navigatorul tău web. Orice proiect făcut în navigator este încă acolo. <Autentifică-te@://login> ca să vezi toate proiectele tale din ambele locuri."
+                "installedprompt": "$~Folosești Wordplay ca aplicație instalată, iar aceasta își păstrează propriile proiecte, separate de cele din navigatorul tău web. Orice proiect făcut în navigator este încă acolo. <Autentifică-te@://login> ca să vezi toate proiectele tale din ambele locuri.",
+                "sort": {
+                    "label": "$?",
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "none": "$?",
+                    "button": {
+                        "create": "$?",
+                        "expand": "$?",
+                        "collapse": "$?"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$?",
+                            "prompt": "$?"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$?",
+                        "moved": "$?",
+                        "movedOut": "$?",
+                        "expanded": "$?",
+                        "collapsed": "$?",
+                        "selected": "$?",
+                        "created": "$?",
+                        "deleted": "$?",
+                        "renamed": "$?",
+                        "projectSelected": "$?",
+                        "cleared": "$?"
+                    },
+                    "instructions": {
+                        "none": "$?",
+                        "project": "$?",
+                        "folder": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Galerii",
@@ -9725,7 +9790,9 @@
                     "$~Încă un lucru despre a face un proiect *public*. Proiectele publice sunt împărtășite sub <licența Creative Commons Atribuire-Distribuire în condiții identice@https://creativecommons.org/licenses/by-sa/4.0/>. Asta înseamnă că oricine poate /remixa/ proiectul tău public — poate să facă propria copie a lui și să o schimbe — iar tu poți remixa proiectul oricui altcuiva.",
                     "Trei lucruri vin cu acea licență. Cei care remixează trebuie să dea credit celui care a făcut originalul. Trebuie să împărtășească remixul lor sub aceeași licență, ca să rămână deschis pentru următoarea persoană. Și nu pot lua un proiect public pentru a-l face privat și a-l păstra doar pentru ei.",
                     "Noi ajutăm cu partea de credit: când cineva remixează un proiect, ținem minte de unde a venit și arătăm un link înapoi la el. A face un proiect public este felul în care spui da la toate acestea, așa că, dacă preferi ca nimeni să nu remixeze un proiect, păstrează-l privat."
-                ]
+                ],
+                "research": ["$?"],
+                "warnings": ["$?"]
             },
             "donate": {
                 "header": "$~Dona",
@@ -10127,6 +10194,24 @@
         },
         "error": {
             "notmod": "$~Se pare că nu ești moderator. Dacă ți s-au acordat recent privilegii de moderator, este posibil să fie nevoie să te autentifici din nou. Dacă nu, consultă wiki-ul pentru a afla cum să soliciți privilegii de moderare."
+        },
+        "report": {
+            "button": "$?",
+            "confirm": "$?",
+            "sent": "$?",
+            "announce": "$?",
+            "flagged": "$?"
+        },
+        "strike": {
+            "issue": "$?",
+            "consequence": "$?",
+            "confirm": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "banned": "$?",
+            "warned": "$?",
+            "notification": "$?"
         }
     },
     "gallery": {

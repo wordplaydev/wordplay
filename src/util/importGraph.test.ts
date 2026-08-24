@@ -113,13 +113,50 @@ test('resolving a color needs no basis', () => {
  * same move #774 made for character path curves, for the same feature. Image
  * import becoming a mode of its own rather than a command added one more label,
  * tip and instruction to the same file, which is the last +0.01MB here.
+ *
+ * Every page's +2 files is the two settings modules folders needed (#831):
+ * ProjectFoldersSetting and ProjectSortSetting, reached through
+ * SettingsDatabase like every other setting. Both are leaves — a type, a
+ * validator, and a Setting — so they add no subgraph, only themselves.
+ *
+ * The last +1 file is linkHref.ts, the one place that turns a URL token in
+ * markup into an href — an email's `mailto:`, the schemeless internal-path
+ * convention, and the scheme allowlist. Every page reaches markup, so every
+ * page reaches it; it imports nothing but a regex from the tokenizer.
+ *
+ * The +1 file on every entry is the creator's moderation record (#193), which
+ * Database watches for whoever is signed in: one module holding a $state
+ * object and a snapshot listener, reached the same way notifications are. The
+ * bytes are its text — what a warning means, what losing public sharing means,
+ * and how to ask for it back — in en-US.json, which every page carries.
+ *
+ * The last +0.01MB on every entry is "test it" (#1044): the button's label and
+ * tip, the note explaining what a scratch project is, and the way back to the
+ * guide, all in en-US.json. No new file reaches these entries — the scratch
+ * module itself is pulled in by the guide, not by the layout.
+ *
+ * The bytes move with them, plus the folder and sort strings in en-US.json
+ * that every page carries. The projects page's larger +0.03MB is its own five
+ * modules and its own share of that text.
+ *
+ * The projects page's further +5 is the folder feature itself: the folder
+ * component, the group controls, the two pure modules that group and order
+ * projects, and the announcement builders. All are that page's own; nothing
+ * else imports them.
+ *
+ * Page's next +0.01MB is per-project research consent (#922): a subheader, an
+ * explanation, a two-mode toggle, and the paragraphs on the rights page that
+ * explain what consenting means, all in en-US.json, which every page carries.
+ * No new file and no new subgraph — the same move as the three entries above.
+ * Consent text is deliberately long: it is a permission a creator gives, so it
+ * says plainly what it covers and what turning it off can and cannot undo.
  */
 test.each([
-    ['src/routes/+layout.svelte', 477, 3.42],
-    ['src/components/app/Page.svelte', 498, 3.64],
-    ['src/routes/[[locale]]/+page.svelte', 514, 3.73],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 515, 3.73],
-    ['src/routes/[[locale]]/projects/+page.svelte', 518, 3.73],
+    ['src/routes/+layout.svelte', 481, 3.45],
+    ['src/components/app/Page.svelte', 502, 3.67],
+    ['src/routes/[[locale]]/+page.svelte', 518, 3.76],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 519, 3.76],
+    ['src/routes/[[locale]]/projects/+page.svelte', 527, 3.79],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

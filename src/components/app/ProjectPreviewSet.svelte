@@ -1,42 +1,40 @@
 <script lang="ts">
-    import type { LocaleTextAccessor } from '@locale/Locales';
     import { type Snippet } from 'svelte';
     import { disconnected, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import sortProjects from '@db/projects/sortProjects';
+    import type {
+        ProjectAction,
+        ProjectConfirmAction,
+        ProjectInteraction,
+    } from '@components/app/projectControls';
+    import type { ProjectSort } from '@db/settings/ProjectSortSetting';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import ProjectPreview from '@components/app/ProjectPreview.svelte';
 
     interface Props {
         set: Project[];
-        edit:
-            | {
-                  description: LocaleTextAccessor;
-                  label: string;
-                  action: (project: Project) => void;
-              }
-            | false;
-        remove: (project: Project) =>
-            | {
-                  description: LocaleTextAccessor;
-                  prompt: LocaleTextAccessor;
-                  label: string;
-                  action: () => void;
-              }
-            | false;
-        copy:
-            | {
-                  description: LocaleTextAccessor;
-                  label: string;
-                  action: (project: Project) => void;
-              }
-            | false;
+        edit: ProjectAction;
+        remove: ProjectConfirmAction;
+        copy: ProjectAction;
         children?: Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
         searchTerm?: string;
         /** Map from project ID to match snippet, for results matched on source content */
         matchTexts?: Map<string, string>;
+        /** How to order the set. The projects page decides this once and hands
+         *  it to every set on the page, so the top level and each folder agree;
+         *  everywhere else keeps the alphabetical default. */
+        sort?: ProjectSort;
+        /** The folder a project is in, shown under its name. Only used where
+         *  folders aren't drawn — a flattened search result, which would
+         *  otherwise give no clue where the project actually lives. */
+        folderName?: (project: Project) => string | undefined;
+        /** How these tiles take part in choosing and moving projects. Omitted
+         *  everywhere but the projects page, where tiles are just tiles. */
+        interaction?: ProjectInteraction;
     }
 
     let {
@@ -49,15 +47,16 @@
         showCollaborators = false,
         searchTerm = '',
         matchTexts = undefined,
+        sort = 'name',
+        folderName = undefined,
+        interaction = undefined,
     }: Props = $props();
 
-    function sortProjects(projects: Project[]): Project[] {
-        return [...projects].sort((a, b) =>
-            a.getName().localeCompare(b.getName(), $locales.getLanguages()),
-        );
-    }
-
-    let listed = $derived(sortProjects(set).filter((p) => p.isListed()));
+    let listed = $derived(
+        sortProjects(set, sort, $locales.getLanguages()).filter((p) =>
+            p.isListed(),
+        ),
+    );
 </script>
 
 <div class="projects">
@@ -72,6 +71,20 @@
             {...matchTexts?.has(project.getID())
                 ? { matchText: matchTexts.get(project.getID())! }
                 : {}}
+            {...(() => {
+                const folder = folderName?.(project);
+                return folder === undefined ? {} : { folderName: folder };
+            })()}
+            {...interaction === undefined
+                ? {}
+                : {
+                      selected: interaction.selected(project),
+                      select: () => interaction.select(project),
+                      key: (event: KeyboardEvent) =>
+                          interaction.key(event, project),
+                      grab: (event: PointerEvent) =>
+                          interaction.grab(event, project),
+                  }}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}
@@ -104,8 +117,8 @@
         width: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(min(100%, 28em), 1fr));
-        column-gap: calc(4 * var(--wordplay-spacing));
-        row-gap: calc(2 * var(--wordplay-spacing));
+        column-gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
         align-items: start;
         justify-items: start;
     }

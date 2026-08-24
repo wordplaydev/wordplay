@@ -6889,6 +6889,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~bu projenin kodunun kullanmadığı dilleri kaldır",
                     "label": "$~kullanılmayanları kaldır"
+                },
+                "tinker": {
+                    "label": "$?",
+                    "tip": "$?"
                 }
             },
             "field": {
@@ -6988,8 +6992,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~bunun yeniden düzenlendiği projeye git"
-            }
+                "remixOf": "$~bunun yeniden düzenlendiği projeye git",
+                "backTo": "$?"
+            },
+            "scratch": "$?",
+            "untitled": "$?"
         },
         "checkpoints": {
             "label": {
@@ -7708,6 +7715,10 @@
                     },
                     "remix": {
                         "explanation": "$~Bir /yeniden düzenleme/, birinin kendine ait yapmak için değiştirdiği bir proje kopyasıdır. Bir yeniden düzenlemenin nereden geldiğini hatırlarız, böylece orijinali yapan kişi hâlâ emeğinin karşılığını alır."
+                    },
+                    "research": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -7734,6 +7745,11 @@
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
                         ]
+                    },
+                    "research": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -8131,7 +8147,7 @@
                     "moderationHeader": "$~\"$name\" başlıklı mesaj moderasyon gerektiriyor."
                 },
                 "delete": "$~Bu bildirimi sil",
-                "popup": "$~yeni bildirim"
+                "popup": "$!yeni bildirim"
             }
         },
         "collaborate": {
@@ -8159,13 +8175,18 @@
                     "tip": "$~kendinle veya başkalarıyla bir tartışma başlat."
                 },
                 "delete": "$~bu mesajı sil",
-                "confirmDelete": "$~Silme işlemini onaylıyor musunuz?"
+                "confirmDelete": "$~Silme işlemini onaylıyor musunuz?",
+                "transfer": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
             },
             "error": {
                 "unowned": "$~Bu proje çevrimiçi olarak saklanmadığından, bir sohbet veya işbirlikçileri olamaz.",
                 "offline": "$~Bu sohbet yüklenemedi.",
                 "empty": "$~Mesaj yok.",
-                "deleted": "$~Bu mesaj silindi."
+                "deleted": "$~Bu mesaj silindi.",
+                "transferGallery": "$?"
             },
             "prompt": {
                 "solo": "$~Kendinle sohbet et veya ekle...",
@@ -8207,6 +8228,9 @@
                 "commenters": "$~Yorum yapanlar projeyi sizinle *tartışabilirler*, ancak *düzenleyemezler*.",
                 "viewers": "$~İzleyiciler projeyi ve kodunu görüntüleyebilirler, ancak üzerinde tartışamazlar veya düzenleyemezler.",
                 "restrict": "$~Bir proje bir *galeride* olduğunda, varsayılan olarak galeriyi görebilen *herkes* projenizi görebilir. /restrict/ seçeneği, projeyi sizden ve galeri yöneticilerinden başka herkesten *gizler*."
+            },
+            "announce": {
+                "transferred": "$?"
             }
         },
         "palette": {
@@ -8744,7 +8768,48 @@
                     "description": "$~Projeleri ve kaynak dosyalarını arayın.",
                     "noResults": "$~Hiçbir sonuç bulunamadı."
                 },
-                "installedprompt": "$~Wordplay'i yüklenmiş bir uygulama olarak kullanıyorsun. Bu uygulama kendi projelerini tutar. Bunlar web tarayıcındaki projelerden ayrıdır. Tarayıcında yaptığın projeler hâlâ oradadır. Her iki yerdeki tüm projelerini görmek için <giriş yap@://login>."
+                "installedprompt": "$~Wordplay'i yüklenmiş bir uygulama olarak kullanıyorsun. Bu uygulama kendi projelerini tutar. Bunlar web tarayıcındaki projelerden ayrıdır. Tarayıcında yaptığın projeler hâlâ oradadır. Her iki yerdeki tüm projelerini görmek için <giriş yap@://login>.",
+                "sort": {
+                    "label": "$?",
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "none": "$?",
+                    "button": {
+                        "create": "$?",
+                        "expand": "$?",
+                        "collapse": "$?"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$?",
+                            "prompt": "$?"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$?",
+                        "moved": "$?",
+                        "movedOut": "$?",
+                        "expanded": "$?",
+                        "collapsed": "$?",
+                        "selected": "$?",
+                        "created": "$?",
+                        "deleted": "$?",
+                        "renamed": "$?",
+                        "projectSelected": "$?",
+                        "cleared": "$?"
+                    },
+                    "instructions": {
+                        "none": "$?",
+                        "project": "$?",
+                        "folder": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Galeriler",
@@ -8934,7 +8999,9 @@
                     "$~Bir projeyi *herkese açık* yapmakla ilgili bir şey daha. Herkese açık projeler <Creative Commons Atıf-AynıLisanslaPaylaş lisansı@https://creativecommons.org/licenses/by-sa/4.0/> altında paylaşılır. Bu, herkesin senin herkese açık projeni /yeniden düzenleyebileceği/ — kendi kopyasını oluşturup değiştirebileceği — ve senin de başkasınınkini yeniden düzenleyebileceğin anlamına gelir.",
                     "Bu lisansla birlikte üç şey gelir. Yeniden düzenleyenler, orijinali yapan kişinin emeğini belirtmek zorundadır. Yeniden düzenlemelerini bu aynı lisans altında paylaşmak zorundadır, böylece bir sonraki kişi için açık kalır. Ve herkese açık bir projeyi kendine saklamak için özele çeviremezler.",
                     "Emeği belirtme kısmında yardımcı oluruz: biri bir projeyi yeniden düzenlediğinde, nereden geldiğini hatırlar ve ona geri dönen bir bağlantı gösteririz. Bir projeyi herkese açık yapmak, tüm bunlara evet demenin yoludur; bu yüzden bir projeyi kimsenin yeniden düzenlememesini istersen, onu özel tut."
-                ]
+                ],
+                "research": ["$?"],
+                "warnings": ["$?"]
             },
             "donate": {
                 "header": "$~Bağış yapmak",
@@ -10124,6 +10191,24 @@
         "done": "$~Başka ölçülecek bir şey yok!",
         "error": {
             "notmod": "$~Moderatör olmadığınız anlaşılıyor. Yakın zamanda moderatör ayrıcalıkları verildiyse, tekrar oturum açmanız gerekebilir. Verilmediyse, moderasyon ayrıcalıklarının nasıl talep edileceğine dair wiki'ye bakın."
+        },
+        "report": {
+            "button": "$?",
+            "confirm": "$?",
+            "sent": "$?",
+            "announce": "$?",
+            "flagged": "$?"
+        },
+        "strike": {
+            "issue": "$?",
+            "consequence": "$?",
+            "confirm": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "banned": "$?",
+            "warned": "$?",
+            "notification": "$?"
         }
     },
     "gallery": {

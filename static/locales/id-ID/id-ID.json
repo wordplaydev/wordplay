@@ -6907,6 +6907,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~hapus bahasa yang tidak dipakai oleh kode proyek ini",
                     "label": "$~hapus yang tidak dipakai"
+                },
+                "tinker": {
+                    "label": "$?",
+                    "tip": "$?"
                 }
             },
             "field": {
@@ -7002,8 +7006,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~buka proyek asal remix ini"
-            }
+                "remixOf": "$~buka proyek asal remix ini",
+                "backTo": "$?"
+            },
+            "scratch": "$?",
+            "untitled": "$?"
         },
         "checkpoints": {
             "label": {
@@ -7965,6 +7972,10 @@
                     },
                     "remix": {
                         "explanation": "$~/Remix/ adalah salinan sebuah proyek yang diubah seseorang menjadi miliknya sendiri. Kami mengingat asal sebuah remix, agar orang yang membuat proyek asli tetap mendapat penghargaan."
+                    },
+                    "research": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -7991,6 +8002,11 @@
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
                         ]
+                    },
+                    "research": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -8274,7 +8290,7 @@
                     "link": "$~detail"
                 },
                 "delete": "$~Hapus pemberitahuan ini",
-                "popup": "$~pemberitahuan baru"
+                "popup": "$!pemberitahuan baru"
             },
             "locale": {
                 "header": "$~Bahasa",
@@ -8416,7 +8432,11 @@
                     "tip": "$~Mulailah diskusi dengan diri sendiri atau orang lain."
                 },
                 "delete": "$~hapus pesan ini",
-                "confirmDelete": "$~Konfirmasi penghapusan?"
+                "confirmDelete": "$~Konfirmasi penghapusan?",
+                "transfer": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
             },
             "moderation": {
                 "header": "$~Laporkan pesan ini",
@@ -8437,7 +8457,8 @@
                 "unowned": "$~Proyek ini tidak disimpan secara online, jadi tidak dapat memiliki fitur obrolan atau kolaborator.",
                 "offline": "$~Obrolan ini tidak dapat dimuat.",
                 "empty": "$~Tidak ada pesan.",
-                "deleted": "$~Pesan ini telah dihapus."
+                "deleted": "$~Pesan ini telah dihapus.",
+                "transferGallery": "$?"
             },
             "prompt": {
                 "solo": "$~Berbincanglah dengan diri sendiri atau tambahkan...",
@@ -8464,6 +8485,9 @@
                 "commenters": "$~Para pemberi komentar dapat *mendiskusikan* proyek tersebut dengan Anda, tetapi mereka tidak dapat *mengedit*nya.",
                 "viewers": "$~Para penonton dapat *melihat* proyek dan *kode*-nya, tetapi mereka tidak dapat *mendiskusikan* atau *mengedit*nya.",
                 "restrict": "$~Saat sebuah proyek berada di *galeri*, secara default *semua orang* yang dapat melihat galeri dapat melihat proyek Anda. Tombol /restrict/ *menyembunyikannya* dari semua orang kecuali Anda dan kurator galeri."
+            },
+            "announce": {
+                "transferred": "$?"
             }
         },
         "palette": {
@@ -9187,7 +9211,48 @@
                     "nodeletes": "$~Anda pasti<logged in@://login> untuk menghapus proyek yang diarsipkan.",
                     "delete": "$~Ups, kami tidak dapat menghapus proyek tersebut!"
                 },
-                "installedprompt": "$~Kamu menggunakan Wordplay sebagai aplikasi yang terpasang, dan aplikasi ini menyimpan proyeknya sendiri, terpisah dari proyek di peramban webmu. Semua proyek yang kamu buat di peramban masih ada di sana. <Masuk@://login> untuk melihat semua proyekmu di kedua tempat."
+                "installedprompt": "$~Kamu menggunakan Wordplay sebagai aplikasi yang terpasang, dan aplikasi ini menyimpan proyeknya sendiri, terpisah dari proyek di peramban webmu. Semua proyek yang kamu buat di peramban masih ada di sana. <Masuk@://login> untuk melihat semua proyekmu di kedua tempat.",
+                "sort": {
+                    "label": "$?",
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "none": "$?",
+                    "button": {
+                        "create": "$?",
+                        "expand": "$?",
+                        "collapse": "$?"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$?",
+                            "prompt": "$?"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$?",
+                        "moved": "$?",
+                        "movedOut": "$?",
+                        "expanded": "$?",
+                        "collapsed": "$?",
+                        "selected": "$?",
+                        "created": "$?",
+                        "deleted": "$?",
+                        "renamed": "$?",
+                        "projectSelected": "$?",
+                        "cleared": "$?"
+                    },
+                    "instructions": {
+                        "none": "$?",
+                        "project": "$?",
+                        "folder": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Galeri",
@@ -9731,7 +9796,9 @@
                     "$~Satu hal lagi tentang membuat proyek menjadi *publik*. Proyek publik dibagikan dengan <lisensi Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Artinya, siapa pun boleh me-/remix/ proyek publikmu — membuat salinan sendiri dan mengubahnya — dan kamu boleh me-remix proyek milik orang lain.",
                     "Ada tiga hal yang datang bersama lisensi itu. Orang yang me-remix harus memberi penghargaan kepada pembuat proyek asli. Mereka harus membagikan remix mereka dengan lisensi yang sama, agar tetap terbuka untuk orang berikutnya. Dan mereka tidak boleh menjadikan proyek publik sebagai proyek pribadi untuk disimpan sendiri.",
                     "Kami membantu bagian penghargaan: ketika seseorang me-remix sebuah proyek, kami mengingat asalnya dan menampilkan tautan kembali ke proyek itu. Membuat proyek menjadi publik adalah caramu menyetujui semua ini, jadi jika kamu lebih suka tidak ada yang me-remix sebuah proyek, biarkan proyek itu tetap pribadi."
-                ]
+                ],
+                "research": ["$?"],
+                "warnings": ["$?"]
             },
             "donate": {
                 "header": "$~Menyumbangkan",
@@ -10133,6 +10200,24 @@
         },
         "error": {
             "notmod": "$~Sepertinya Anda bukan moderator. Jika Anda baru-baru ini diberi hak akses moderator, Anda mungkin perlu masuk lagi. Jika belum, lihat wiki untuk mengetahui cara meminta hak akses moderasi."
+        },
+        "report": {
+            "button": "$?",
+            "confirm": "$?",
+            "sent": "$?",
+            "announce": "$?",
+            "flagged": "$?"
+        },
+        "strike": {
+            "issue": "$?",
+            "consequence": "$?",
+            "confirm": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "banned": "$?",
+            "warned": "$?",
+            "notification": "$?"
         }
     },
     "gallery": {

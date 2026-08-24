@@ -83,6 +83,8 @@ To work around the lack of a parent, we have [Root.ts](https://github.com/wordpl
 
 A Wordplay Project is a list of `Source`, with a name, ID, and other metadata. One piece of that metadata is `remixOf`, the ID of the project a project was remixed from (or `null` for an original). It's written once when the remix is created and never edited, so it doesn't participate in the per-field merge; it's a plain top-level field because the share dialog queries it directly to find a project's remixes.
 
+Two more pieces are the creator's decisions about the project rather than the program in it. `folder` is the ID of the folder they filed it under on the projects page (or `null` for the top level) — flat, with the folder's own name and collapsed state living in the creator's settings, so renaming one doesn't rewrite every project it holds. `researchConsent` records whether they've allowed Wordplay to show the project anonymously in research and communications about the platform; it's off by default, only its owner may change it (enforced in `firestore.rules`), and it's a plain boolean so maintainers can find consenting projects with a query, the same reason `public` is one. Both are in `StampedMetadataFields`, so they merge field by field across a creator's devices.
+
 Overall, it's best to think of the nodes as the center of everything: they define a program's structure, behavior, description, and more, and so most other things in Wordplay rely on nodes and trees to do their work.
 
 ### Type Checking
@@ -298,6 +300,12 @@ To avoid opening multiple hardware sessions when multiple sensor streams run con
 - **`AudioSource`** ([src/input/AudioSource.ts](https://github.com/wordplaydev/wordplay/blob/main/src/input/AudioSource.ts)) — a single `MediaStream` + `AudioContext` per microphone device, shared by `Volume`, `Pitch`, and `Speech` streams. Each consumer builds its own AnalyserNode at its needed fft-size, connected to the shared source node.
 
 These shared resources eliminate the ~30MB/s frame-pooling cost and redundant `getUserMedia` calls that plagued earlier implementations.
+
+#### Moderation, warnings, and public sharing
+
+Moderation has three parts. **Flags** on a project record what a moderator found (`Moderation.ts`), and drive the start gate below. **Reports** are how anyone signed in asks for a public project to be looked at: they live in their own top-level `reports` collection rather than on the project, because someone who isn't a contributor can't write the project document at all, and only moderators can read them. **Strikes** are the record of what moderators decided, at `strikes/{uid}` — server-written and client-readable, mirroring `usage/{uid}` for the same reason: a creator who could write their own record could clear it.
+
+The `moderateProject` callable ([functions/src/moderateProject.ts](https://github.com/wordplaydev/wordplay/blob/main/functions/src/moderateProject.ts)) is the only thing that writes any of that: it records the flags, makes a project that broke the rules private, resolves the reports about it, adds a strike, and — at the third — sets the `banned` custom claim and takes down what that creator has already published. The rules then enforce the ban with the claim alone (`mayBePublic()`), never by reading the record: a `get()` there would cost a document read on every project write, which is the app's hottest path. Because a claim only reaches a session when its token refreshes, the client watches its own record and forces a refresh the moment it changes.
 
 #### Start gate (permissions, moderation, and photosensitivity)
 

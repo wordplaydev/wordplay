@@ -48,10 +48,46 @@ service cloud.firestore {
           );
       }
 
-      allow create: if request.auth != null;
+      allow create: if request.auth != null && mayBePublic();
       allow read: if canReadProject(resource.data);
+      // Research consent is the owner's to give: it permits Wordplay to show
+      // *their* work anonymously, so a collaborator, curator, or moderator —
+      // all of whom may update the doc for other reasons — must not be able to
+      // flip it. Comparing the two values costs no document reads.
+      function researchConsentUnchangedOrOwner() {
+        return !('researchConsent' in resource.data) ||
+          request.resource.data.researchConsent == resource.data.researchConsent ||
+          resource.data.owner == request.auth.uid;
+      }
+
+      // Losing the ability to make anything public (#193). The check is the
+      // `banned` custom claim rather than a read of strikes/{uid}: rules would
+      // have to get() that document on every project write, which is the app's
+      // hottest path, and this file's budget is already spent on the gallery
+      // read above. A banned creator can still write, edit, and collaborate —
+      // they simply can't write `public == true`.
+      function notBanned() {
+        return !("banned" in request.auth.token) || request.auth.token.banned != true;
+      }
+      function mayBePublic() {
+        return notBanned() || request.resource.data.public != true;
+      }
+
+      // Ownership is the owner's to hand over (#189). Collaborators can update
+      // the doc for every other reason, so without this any collaborator could
+      // simply write themselves in as owner and lock the owner out of deleting
+      // their own project. Comparing the two values costs no document reads.
+      function ownerUnchangedOrOwner() {
+        return request.resource.data.owner == resource.data.owner ||
+          resource.data.owner == request.auth.uid ||
+          ("mod" in request.auth.token && request.auth.token.mod);
+      }
+
       allow update:
         if request.auth != null &&
+          mayBePublic() &&
+          researchConsentUnchangedOrOwner() &&
+          ownerUnchangedOrOwner() &&
           (
             resource.data.owner == request.auth.uid ||
             request.auth.uid in resource.data.collaborators ||
@@ -134,8 +170,42 @@ service cloud.firestore {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow write: if false;
     }
+    // A creator's moderation record (#193). Server-authoritative for the same
+    // reason usage/{uid} is: a creator who could write this could clear their
+    // own strikes. Readable by its subject, so the app can explain why public
+    // sharing is unavailable, and by moderators, so they can see the
+    // consequence of the decision they're about to make. Written only by the
+    // moderateProject callable, through the Admin SDK.
+    match /strikes/{uid} {
+      allow read: if request.auth != null &&
+        (request.auth.uid == uid || ("mod" in request.auth.token && request.auth.token.mod));
+      allow write: if false;
+    }
+    // Reports of public content (#193). A separate collection because the
+    // person reporting can't write the project document — the project rules
+    // admit only its owner, collaborators, curators, and moderators — so a
+    // `reported` field on the project itself is not expressible.
+    //
+    // Only moderators can read them: a report is a request for review, not a
+    // public accusation, and neither the reporter nor the creator should be
+    // able to enumerate them.
+    match /reports/{report} {
+      allow create: if request.auth != null
+        && request.resource.data.reporter == request.auth.uid
+        && "project" in request.resource.data
+        && request.resource.data.resolved == false;
+      allow read, update, delete: if request.auth != null
+        && "mod" in request.auth.token && request.auth.token.mod;
+    }
     match /galleries/{gallery} {
-      allow create: if request.auth != null;
+      // The same ban as on projects (#193): a creator who has lost public
+      // sharing can still curate a gallery, but can't publish one. Checked
+      // against the custom claim, so it costs no document reads.
+      function galleryMayBePublic() {
+        return (!("banned" in request.auth.token) || request.auth.token.banned != true)
+          || request.resource.data.public != true;
+      }
+      allow create: if request.auth != null && galleryMayBePublic();
       // Public galleries can be read, as can private ones if the creator is a curator, creator, or a how to viewer.
       allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (
         request.auth != null && (
@@ -152,6 +222,7 @@ service cloud.firestore {
       
       allow update: 
         if request.auth != null && 
+          galleryMayBePublic() &&
           // Curators can update anything
           // Creators can't update public status or creator or curator list.
           (

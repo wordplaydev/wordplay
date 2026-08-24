@@ -18,7 +18,7 @@ import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
-import { COPY_SYMBOL } from '@parser/Symbols';
+import { REMIX_SYMBOL } from '@parser/Symbols';
 import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
@@ -381,11 +381,13 @@ export class CharactersDatabase {
         const base =
             slash >= 0 ? character.name.slice(slash + 1) : character.name;
 
-        // Mark it as a copy with the copy symbol, adding more until the bare
-        // name is unused among the user's characters.
-        let name = base + COPY_SYMBOL;
+        // Mark it as a duplicate with the remix symbol — the same glyph a
+        // remixed project's name gets — adding more until the bare name is
+        // unused among the user's characters. Not the copy symbol: that means
+        // "put this on the clipboard" everywhere else.
+        let name = base + REMIX_SYMBOL;
         while (this.getEditableCharacterWithName(name) !== undefined)
-            name += COPY_SYMBOL;
+            name += REMIX_SYMBOL;
 
         return this.createCharacter({
             ...character,

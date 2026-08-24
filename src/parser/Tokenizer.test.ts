@@ -236,6 +236,40 @@ test.each([
     ['¶a $ b¶', [Sym.Doc, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End]],
     // A dotless host is still a URL.
     [
+        // An email address is a link a creator can write down (#193). Before
+        // this, `hi` was words and `@wordplay.dev` was a concept link that
+        // resolved to nothing.
+        '¶write to hi@wordplay.dev today¶',
+        [Sym.Doc, Sym.Words, Sym.URL, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    ['¶hi@wordplay.dev¶', [Sym.Doc, Sym.URL, Sym.Doc, Sym.End]],
+    [
+        // A concept link still is one, as long as it doesn't follow an email
+        // local part — the same rule plain text literals have always had.
+        '¶see @Phrase now¶',
+        [Sym.Doc, Sym.Words, Sym.Concept, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    [
+        // The `/` form stays unambiguous mid-word: a domain never has one.
+        '¶hi@amy/cat¶',
+        [Sym.Doc, Sym.Words, Sym.Concept, Sym.Doc, Sym.End],
+    ],
+    [
+        // A labelled mailto link: the first @ separates, the second belongs to
+        // the address.
+        '¶<Email us@mailto:hi@wordplay.dev>¶',
+        [
+            Sym.Doc,
+            Sym.TagOpen,
+            Sym.Words,
+            Sym.Link,
+            Sym.URL,
+            Sym.TagClose,
+            Sym.Doc,
+            Sym.End,
+        ],
+    ],
+    [
         '¶see http://localhost:8080 now¶',
         [Sym.Doc, Sym.Words, Sym.URL, Sym.Words, Sym.Doc, Sym.End],
     ],

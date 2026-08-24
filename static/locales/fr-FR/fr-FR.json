@@ -6899,6 +6899,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~retirer les langues que le code de ce projet n'utilise pas",
                     "label": "$~retirer les inutilisées"
+                },
+                "tinker": {
+                    "label": "$?",
+                    "tip": "$?"
                 }
             },
             "field": {
@@ -6998,8 +7002,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~aller au projet à partir duquel celui-ci a été remixé"
-            }
+                "remixOf": "$~aller au projet à partir duquel celui-ci a été remixé",
+                "backTo": "$?"
+            },
+            "scratch": "$?",
+            "untitled": "$?"
         },
         "gallery": {
             "untitled": "$~Sans titre",
@@ -7701,6 +7708,10 @@
                     },
                     "remix": {
                         "explanation": "$~Un /remix/ est une copie d'un projet que quelqu'un a modifiée pour en faire la sienne. Nous nous souvenons d'où vient un remix, pour que la personne qui a créé l'original reçoive toujours son mérite."
+                    },
+                    "research": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -7727,6 +7738,11 @@
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
                         ]
+                    },
+                    "research": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -8127,7 +8143,7 @@
                     "moderationHeader": "$~Le message dans « $name » nécessite une intervention de modération"
                 },
                 "delete": "$~supprimer cette notification",
-                "popup": "$~nouvelle notification"
+                "popup": "$!nouvelle notification"
             }
         },
         "palette": {
@@ -8555,7 +8571,48 @@
                     "description": "$~Rechercher des projets et des fichiers sources",
                     "noResults": "$~Aucun résultat trouvé."
                 },
-                "installedprompt": "$~Tu utilises Wordplay comme une application installée. Elle garde ses propres projets, à part de ceux dans ton navigateur web. Tous les projets que tu as créés dans ton navigateur sont encore là. <Connecte-toi@://login> pour voir tous tes projets aux deux endroits."
+                "installedprompt": "$~Tu utilises Wordplay comme une application installée. Elle garde ses propres projets, à part de ceux dans ton navigateur web. Tous les projets que tu as créés dans ton navigateur sont encore là. <Connecte-toi@://login> pour voir tous tes projets aux deux endroits.",
+                "sort": {
+                    "label": "$?",
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "none": "$?",
+                    "button": {
+                        "create": "$?",
+                        "expand": "$?",
+                        "collapse": "$?"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$?",
+                            "prompt": "$?"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$?",
+                        "moved": "$?",
+                        "movedOut": "$?",
+                        "expanded": "$?",
+                        "collapsed": "$?",
+                        "selected": "$?",
+                        "created": "$?",
+                        "deleted": "$?",
+                        "renamed": "$?",
+                        "projectSelected": "$?",
+                        "cleared": "$?"
+                    },
+                    "instructions": {
+                        "none": "$?",
+                        "project": "$?",
+                        "folder": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Galeries",
@@ -8745,7 +8802,9 @@
                     "$~Encore une chose au sujet de rendre un projet *public*. Les projets publics sont partagés sous la <licence Creative Commons Attribution-Partage dans les mêmes conditions@https://creativecommons.org/licenses/by-sa/4.0/>. Cela veut dire que tout le monde peut /remixer/ ton projet public — en faire sa propre copie et la modifier — et que tu peux remixer celui de n'importe qui d'autre.",
                     "Trois choses viennent avec cette licence. Les personnes qui remixent doivent créditer celui ou celle qui a créé l'original. Elles doivent partager leur remix sous cette même licence, pour qu'il reste ouvert à la personne suivante. Et elles ne peuvent pas rendre privé un projet public pour le garder pour elles.",
                     "Nous aidons pour la partie du mérite : quand quelqu'un remixe un projet, nous nous souvenons d'où il vient et nous montrons un lien qui y ramène. Rendre un projet public, c'est ta façon de dire oui à tout cela. Donc, si tu préfères que personne ne remixe un projet, garde-le privé."
-                ]
+                ],
+                "research": ["$?"],
+                "warnings": ["$?"]
             },
             "donate": {
                 "header": "$~Faire un don",
@@ -9452,13 +9511,18 @@
                     "tip": "$~commencer une discussion avec toi-même ou avec d'autres."
                 },
                 "delete": "$~supprimer ce message",
-                "confirmDelete": "$~confirmer la suppression ?"
+                "confirmDelete": "$~confirmer la suppression ?",
+                "transfer": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
             },
             "error": {
                 "unowned": "$~Ce projet n'a pas de propriétaire, il ne peut donc pas avoir de chat.",
                 "offline": "$~Impossible de charger ce chat.",
                 "empty": "$~Aucun message.",
-                "deleted": "$~Ce message a été supprimé."
+                "deleted": "$~Ce message a été supprimé.",
+                "transferGallery": "$?"
             },
             "prompt": {
                 "solo": "$~Discute avec toi-même ou ajoute...",
@@ -9500,6 +9564,9 @@
                 "commenters": "$~Les commentateurs peuvent discuter du projet avec vous, mais ils ne peuvent pas le modifier.",
                 "viewers": "$~Les /Viewers/ peuvent *voir* le projet et son *code*, mais ils ne peuvent ni le *discuter* ni le *modifier*.",
                 "restrict": "$~Lorsqu'un projet est dans une galerie, par défaut, toute personne ayant accès à la galerie peut le voir. L'option /restrict/ le masque à tous, sauf à vous et aux responsables de la galerie."
+            },
+            "announce": {
+                "transferred": "$?"
             }
         },
         "checkpoints": {
@@ -10137,6 +10204,24 @@
         "done": "$~Rien d'autre à modérer !",
         "error": {
             "notmod": "$~Il semble que vous n'êtes pas modérateur. Si vous avez récemment obtenu des privilèges de modérateur, vous devrez peut-être vous reconnecter. Sinon, consultez le wiki pour savoir comment demander des privilèges de modération."
+        },
+        "report": {
+            "button": "$?",
+            "confirm": "$?",
+            "sent": "$?",
+            "announce": "$?",
+            "flagged": "$?"
+        },
+        "strike": {
+            "issue": "$?",
+            "consequence": "$?",
+            "confirm": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "banned": "$?",
+            "warned": "$?",
+            "notification": "$?"
         }
     },
     "gallery": {

@@ -41,6 +41,7 @@
         getConceptPath,
         getDragged,
         getUser,
+        setTinkerable,
         type ConceptPath,
     } from '@components/project/Contexts';
     import getScrollParent from '@components/util/getScrollParent';
@@ -81,6 +82,13 @@
     import { tick, untrack } from 'svelte';
     import { get } from 'svelte/store';
     import HowToConceptView from './HowToConceptView.svelte';
+
+    // Examples in the guide offer to open as an editable scratch project
+    // (#1044). Set here rather than in the standalone route so it covers the
+    // guide wherever it renders — its own page and the project's docs tile —
+    // while leaving out the how-to authoring form and tutorial dialogue, where
+    // a second copy of the code would only be a distraction.
+    setTinkerable(true);
 
     interface Props {
         project: Project;

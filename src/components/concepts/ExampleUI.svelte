@@ -29,6 +29,7 @@
         type EditorState,
     } from '@components/project/Contexts';
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
+    import { getTinkerable, getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -37,12 +38,23 @@
     import type Caret from '@edit/caret/Caret';
     import Example from '@nodes/Example';
     import type Node from '@nodes/Node';
+    import { ensureScratch } from '@db/projects/scratch';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import openWindow from '@util/openWindow';
+    import { localePath, unlocalePath } from '@util/localeGoto';
+    import { page } from '$app/state';
+    import { scratchIDFor } from '@db/projects/scratch';
+    import {
+        PROJECT_MODE_EDIT,
+        PROJECT_PARAM_FROM,
+        PROJECT_PARAM_MODE,
+    } from '../../routes/[[locale]]/project/constants';
     import type Spaces from '@parser/Spaces';
     import {
         BLOCK_EDITING_SYMBOL,
         CONFIRM_SYMBOL,
         COPY_SYMBOL,
+        REMIX_SYMBOL,
         TEXT_EDITING_SYMBOL,
     } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
@@ -57,6 +69,23 @@
     }
 
     let { example, spaces, evaluated }: Props = $props();
+
+    /** Whether this example offers to open as an editable scratch project.
+     *  True in the guide; false where an example is only being quoted. */
+    const tinkerable = getTinkerable();
+    const user = getUser();
+
+    /** The example's code, as a creator would type it. */
+    let code = $derived(
+        example.program.toWordplay(getPreferredSpaces(example.program)),
+    );
+
+    /** Where the scratch project lives, known before the click so this can be a
+     *  real link: the ID is derived from the code itself. `from` is what gets
+     *  the reader back to the page they were reading. */
+    let scratchLink = $derived(
+        `/project/${scratchIDFor(code)}?${PROJECT_PARAM_MODE}=${PROJECT_MODE_EDIT}&${PROJECT_PARAM_FROM}=${encodeURIComponent(unlocalePath(page.url.pathname) + page.url.search)}`,
+    );
 
     /** Whether the output preview is currently playing (vs. showing the static
      *  first frame). Examples start playing so their animations run on load
@@ -366,11 +395,7 @@
                     tip={(l) => l.ui.project.button.copy.tip}
                     action={() => {
                         copied = true;
-                        toClipboard(
-                            example.program.toWordplay(
-                                getPreferredSpaces(example.program),
-                            ),
-                        );
+                        toClipboard(code);
                         setTimeout(() => (copied = false), 1000);
                     }}
                     icon={COPY_SYMBOL}
@@ -378,6 +403,35 @@
                 >
                     {#if copied}{CONFIRM_SYMBOL}{/if}</Button
                 >
+
+                {#if tinkerable}
+                    <!-- Uses the remix glyph rather than a copy one: this makes
+                         a copy you can change, which is what remixing already
+                         means everywhere else on the site. -->
+                    <Button
+                        tip={(l) => l.ui.project.button.tinker.tip}
+                        label={(l) => l.ui.project.button.tinker.label}
+                        action={() => {
+                            // Everything before the window opens must be
+                            // synchronous: a popup blocker rejects a window
+                            // opened after an await. The projects database is
+                            // already loaded here — the guide warms it on
+                            // mount — and if it somehow isn't, the link still
+                            // opens and the project route makes it.
+                            const projects = DB.MaybeProjects;
+                            if (projects)
+                                ensureScratch(
+                                    projects,
+                                    code,
+                                    $locales.getLocales(),
+                                    $user?.uid ?? null,
+                                );
+                            openWindow(localePath(scratchLink));
+                        }}
+                        icon={REMIX_SYMBOL}
+                        background={true}
+                    ></Button>
+                {/if}
 
                 <Mode
                     icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}

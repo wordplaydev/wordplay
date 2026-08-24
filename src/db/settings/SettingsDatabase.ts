@@ -26,6 +26,15 @@ import { DarkSetting } from '@db/settings/DarkSetting';
 import { FaceSetting } from '@db/settings/FaceSetting';
 import { HowToNotificationsSetting } from '@db/settings/HowToNotificationsSetting';
 import { LayoutsSetting } from '@db/settings/LayoutsSetting';
+import {
+    ProjectFoldersSetting,
+    type ProjectFolder,
+    type ProjectFolders,
+} from '@db/settings/ProjectFoldersSetting';
+import {
+    ProjectSortSetting,
+    type ProjectSort,
+} from '@db/settings/ProjectSortSetting';
 import { LineSetting } from '@db/settings/LinesSetting';
 import { CaptionSizeSetting } from '@db/settings/CaptionSizeSetting';
 import { LocalesSetting } from '@db/settings/LocalesSetting';
@@ -84,11 +93,37 @@ export type SettingsSchemaV4 = Omit<SettingsSchemaV3, 'v' | 'tutorial'> & {
     tutorial: TutorialState;
 };
 
-export type SettingsSchema = SettingsSchemaV4;
-const SettingsSchemaLatestVersion = 4;
+/**
+ * v5 adds the projects page's organization: the creator's folders, and the one
+ * sort order that applies to all of them.
+ *
+ * Both live here rather than in localStorage because filing your projects is
+ * organization you expect to find again on another device — and because folder
+ * *membership* is already on the project doc, which syncs. Splitting the two
+ * halves across a synced field and a device-local one would show a creator
+ * their projects filed into folders that don't exist on that device.
+ *
+ * The document this becomes is overwritten wholesale by uploadSettings, so
+ * anything added here has to be read in syncUser and written in toObject in
+ * the same change, or the next write of any other setting silently drops it.
+ */
+export type SettingsSchemaV5 = Omit<SettingsSchemaV4, 'v'> & {
+    v: 5;
+    /** The creator's project folders, by ID. */
+    projectFolders: ProjectFolders;
+    /** How the projects page orders projects, everywhere. */
+    projectSort: ProjectSort;
+};
+
+export type SettingsSchema = SettingsSchemaV5;
+const SettingsSchemaLatestVersion = 5;
 
 type SettingsSchemaUnknown =
-    SettingsSchemaV1 | SettingsSchemaV2 | SettingsSchemaV3 | SettingsSchema;
+    | SettingsSchemaV1
+    | SettingsSchemaV2
+    | SettingsSchemaV3
+    | SettingsSchemaV4
+    | SettingsSchema;
 
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
     switch (settings.v) {
@@ -110,6 +145,15 @@ function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
                     mode: 'complete',
                     progress: { complete: settings.tutorial },
                 },
+            });
+        case 4:
+            // v4→v5: a creator who predates folders has none, and the default
+            // ordering is the alphabetical one the page has always used.
+            return upgradeSettings({
+                ...settings,
+                v: 5,
+                projectFolders: {},
+                projectSort: 'name',
             });
         case SettingsSchemaLatestVersion:
             return settings;
@@ -154,6 +198,8 @@ export default class SettingsDatabase {
         musicDucking: MusicDuckingSetting,
         haptics: HapticsSetting,
         captionSize: CaptionSizeSetting,
+        projectFolders: ProjectFoldersSetting,
+        projectSort: ProjectSortSetting,
     };
 
     constructor(database: Database, locales: SupportedLocale[]) {
@@ -225,6 +271,11 @@ export default class SettingsDatabase {
                 this.database,
                 data.newHowToNotifications,
             );
+            this.settings.projectFolders.set(
+                this.database,
+                data.projectFolders,
+            );
+            this.settings.projectSort.set(this.database, data.projectSort);
         }
     }
 
@@ -252,6 +303,39 @@ export default class SettingsDatabase {
 
     setLayout(layouts: Record<string, SerializedLayout>) {
         this.settings.layouts.set(this.database, layouts);
+    }
+
+    /** The creator's project folders, by ID. */
+    getProjectFolders(): ProjectFolders {
+        return this.settings.projectFolders.get();
+    }
+
+    /** Add or replace one folder. */
+    setProjectFolder(id: string, folder: ProjectFolder) {
+        this.settings.projectFolders.set(this.database, {
+            ...this.settings.projectFolders.get(),
+            [id]: folder,
+        });
+    }
+
+    /** Forget a folder. Its projects are the caller's to deal with first —
+     *  a project pointing at a folder that no longer exists falls back to the
+     *  top level rather than disappearing, but that's a safety net, not the
+     *  intended path. */
+    removeProjectFolder(id: string) {
+        const folders = this.getProjectFolders();
+        if (!(id in folders)) return;
+        const next = { ...folders };
+        delete next[id];
+        this.settings.projectFolders.set(this.database, next);
+    }
+
+    getProjectSort(): ProjectSort {
+        return this.settings.projectSort.get();
+    }
+
+    setProjectSort(sort: ProjectSort) {
+        this.settings.projectSort.set(this.database, sort);
     }
 
     /** The persisted caret (offset, range, or node path) for a project source,
@@ -548,6 +632,8 @@ export default class SettingsDatabase {
             tutorial: this.settings.tutorial.get(),
             writingLayout: this.settings.writingLayout.get(),
             newHowToNotifications: this.settings.howToNotifications.get(),
+            projectFolders: this.settings.projectFolders.get(),
+            projectSort: this.settings.projectSort.get(),
         };
     }
 }

@@ -44,6 +44,7 @@ import { toTokens } from '@parser/toTokens';
 import { PROJECT_PARAM_MODE } from '../../routes/[[locale]]/project/constants';
 import type LocalesDatabase from '@db/locales/LocalesDatabase';
 import { type ModerationState, unknownFlags } from '@db/projects/Moderation';
+import { ScratchPrefix } from '@db/projects/ScratchPrefix';
 import {
     type Analysis,
     type AnalysisInProgress,
@@ -182,7 +183,7 @@ export type LocaleUsage = {
  *      is rare to change concurrently; mergeWith picks local sources
  *      and lets the CRDT reconcile their text content.
  */
-const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
+export const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
     'name',
     'locales',
     'owner',
@@ -198,6 +199,8 @@ const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
     'viewers',
     'commenters',
     'preview',
+    'folder',
+    'researchConsent',
 ];
 
 type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
@@ -416,6 +419,8 @@ export default class Project {
             stamps: emptyStamps(),
             crdt: null,
             remixOf: null,
+            folder: null,
+            researchConsent: false,
         });
     }
 
@@ -1329,6 +1334,39 @@ export default class Project {
         return this.revised({ owner });
     }
 
+    /**
+     * Hand ownership to `uid`, keeping the former owner as a collaborator so a
+     * transfer never costs them access to their own work.
+     *
+     * Both halves matter. The new owner leaves the collaborator list because
+     * the owner is not their own collaborator anywhere else in the model, and
+     * `getContributors` would otherwise count them twice. The former owner
+     * joins it because Firestore's project rules grant edit access to the owner
+     * and collaborators only — without this they'd be locked out of a project
+     * they made. They do lose deletion, which is owner-only in the rules, and
+     * that is the point of a transfer.
+     *
+     * Transferring to the current owner, or to nobody, is a no-op rather than
+     * an error: the caller is a list of collaborators, and a stale render
+     * shouldn't be able to empty the collaborator list.
+     */
+    withOwnerTransferredTo(uid: string) {
+        const previous = this.data.owner;
+        if (previous === uid) return this;
+        return this.revised({
+            owner: uid,
+            collaborators: [
+                ...this.data.collaborators.filter(
+                    (collaborator) => collaborator !== uid,
+                ),
+                ...(previous !== null &&
+                !this.data.collaborators.includes(previous)
+                    ? [previous]
+                    : []),
+            ],
+        });
+    }
+
     getCollaborators() {
         return [...this.data.collaborators];
     }
@@ -1547,6 +1585,8 @@ export default class Project {
             // Firestore and throw. See ProjectSchemaV8 and ProjectSchemaV9.
             crdt: project.crdt ?? null,
             remixOf: project.remixOf ?? null,
+            folder: project.folder ?? null,
+            researchConsent: project.researchConsent ?? false,
         });
     }
 
@@ -1689,6 +1729,28 @@ export default class Project {
 
     withGallery(id: string | null) {
         return this.revised({ gallery: id });
+    }
+
+    /** The ID of the folder this project is filed under, or null for the top level. */
+    getFolder() {
+        return this.data.folder;
+    }
+
+    withFolder(folder: string | null) {
+        return this.revised({ folder });
+    }
+
+    /** Whether the creator has allowed this project to be shown anonymously in
+     *  research and communications about Wordplay. Deliberately not inherited by
+     *  a copy or a remix: consent is given for a particular project by the
+     *  person who made it, and `copy()` routes through `make`, which defaults
+     *  it to false. */
+    hasResearchConsent() {
+        return this.data.researchConsent;
+    }
+
+    withResearchConsent(consent: boolean) {
+        return this.revised({ researchConsent: consent });
     }
 
     getFlags() {
@@ -1864,6 +1926,8 @@ export default class Project {
             },
             crdt: this.data.crdt ?? null,
             remixOf: this.data.remixOf ?? null,
+            folder: this.data.folder ?? null,
+            researchConsent: this.data.researchConsent ?? false,
         };
         // Firestore rejects literal `undefined` field values, and the schema
         // marks `preview` as optional — so omit the key entirely when unset.
@@ -1874,6 +1938,20 @@ export default class Project {
 
     isTutorial() {
         return this.getID().startsWith('tutorial-');
+    }
+
+    /** A throwaway project made from a guide example so someone can tinker with
+     *  it. See scratch.ts. */
+    isScratch() {
+        return this.getID().startsWith(ScratchPrefix);
+    }
+
+    /** Whether this project is kept on this device only, never written to the
+     *  cloud. Tutorial and scratch projects are both incidental to somewhere
+     *  else in the app — a lesson, a guide page — rather than work a creator
+     *  went looking for, so neither belongs in their cloud project list. */
+    isLocalOnly() {
+        return this.isTutorial() || this.isScratch();
     }
 
     getSourceByteSize() {
@@ -2194,6 +2272,12 @@ export default class Project {
             return mergeField(this.data[field], a, other.data[field], b);
         };
 
+        // Every field in StampedMetadataFields has to appear below, or the
+        // `...this.data` spread silently keeps the local value and the remote's
+        // edit is lost — which is what happened to v10's `folder` and
+        // `researchConsent` the moment they were added to that list. The list
+        // is written out rather than looped so each field's merge is explicit;
+        // Project.merge.test.ts fails if the two ever drift apart.
         const mergedData: ProjectData = {
             ...this.data,
             // Stamped metadata fields
@@ -2211,6 +2295,8 @@ export default class Project {
             restrictedGallery: pick('restrictedGallery'),
             viewers: pick('viewers'),
             commenters: pick('commenters'),
+            folder: pick('folder'),
+            researchConsent: pick('researchConsent'),
             // Source structure stays local. The Yjs CRDT
             // (ProjectCRDT.ts) is the authoritative merge for code and
             // source names; ProjectsDatabase.foldRemoteCRDT applies the

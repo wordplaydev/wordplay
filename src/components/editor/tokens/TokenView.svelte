@@ -29,6 +29,7 @@
     import Token from '@nodes/Token';
     import Unit from '@nodes/Unit';
     import WebLink from '@nodes/WebLink';
+    import linkHref from '@parser/linkHref';
     import { emojiRuns, withColorEmoji } from '@unicode/emoji';
 
     interface TokenProps {
@@ -230,7 +231,10 @@
     let linkedURL = $derived(
         node.isSymbol(Sym.URL) &&
             !($caret?.isIn(node, true) ?? false) &&
-            !(root?.getParent(node) instanceof WebLink),
+            !(root?.getParent(node) instanceof WebLink) &&
+            // Not every URL token is a link we'll follow: a bare email needs
+            // its scheme added, and a scheme we don't allow isn't a link at all.
+            linkHref(node.getText()) !== undefined,
     );
 
     /**
@@ -291,7 +295,7 @@
         data-uiid={!format.block ? node.getDescriptor() : undefined}
         id={!format.block ? `node-${node.id}` : undefined}
         aria-label={!format.block ? description : undefined}
-        href={node.getText()}
+        href={linkHref(node.getText())}
         target="_blank"
         rel="noreferrer"
         onpointerdown={(event) => event.stopPropagation()}>{node.getText()}</a

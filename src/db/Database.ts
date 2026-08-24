@@ -39,6 +39,7 @@ import { ProjectSchema } from '@db/projects/ProjectSchemas';
 import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
 import retryableLoad from '@util/retryableLoad';
+import { syncStrikes } from '@db/creators/strikes.svelte';
 
 // Intercept console.log and console.error
 
@@ -999,6 +1000,12 @@ export class Database {
         // regardless of login/logout.
         this.Settings.syncUser();
 
+        // The creator's moderation record (#193). One document, watched
+        // regardless of login state so signing out clears it: what it says
+        // gates the public-sharing control and raises a notification, and both
+        // must be about whoever is signed in now.
+        syncStrikes(user);
+
         if (user === null) {
             // Logout (or an involuntary auth drop): tear down every realtime
             // listener and reset the per-domain sync status. These syncUser
@@ -1292,6 +1299,8 @@ export const musicVolume = Settings.settings.musicVolume.value;
 export const musicDucking = Settings.settings.musicDucking.value;
 export const haptics = Settings.settings.haptics.value;
 export const captionSize = Settings.settings.captionSize.value;
+export const projectFolders = Settings.settings.projectFolders.value;
+export const projectSort = Settings.settings.projectSort.value;
 export const status = DB.Status;
 
 /** Per-domain cloud-sync state, updated by each domain's realtime listener via

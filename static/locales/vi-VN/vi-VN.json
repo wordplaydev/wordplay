@@ -6900,6 +6900,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~xóa các ngôn ngữ mà mã số của dự án này không dùng",
                     "label": "$~xóa cái chưa dùng"
+                },
+                "tinker": {
+                    "label": "$?",
+                    "tip": "$?"
                 }
             },
             "field": {
@@ -6996,8 +7000,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~đi tới dự án gốc mà bản này được phối lại từ đó"
-            }
+                "remixOf": "$~đi tới dự án gốc mà bản này được phối lại từ đó",
+                "backTo": "$?"
+            },
+            "scratch": "$?",
+            "untitled": "$?"
         },
         "checkpoints": {
             "label": {
@@ -7955,6 +7962,10 @@
                     },
                     "remix": {
                         "explanation": "$~Một /bản phối lại/ là bản sao của một dự án mà ai đó đã thay đổi để tạo thành của riêng họ. Chúng tôi ghi nhớ bản phối lại đến từ đâu, để người tạo ra bản gốc vẫn được ghi công."
+                    },
+                    "research": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -7981,6 +7992,11 @@
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
                         ]
+                    },
+                    "research": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -8264,7 +8280,7 @@
                     "link": "$~chi tiết"
                 },
                 "delete": "$~xóa thông báo này",
-                "popup": "$~thông báo mới"
+                "popup": "$!thông báo mới"
             },
             "locale": {
                 "header": "$~Ngôn ngữ",
@@ -8406,7 +8422,11 @@
                     "tip": "$~Bắt đầu cuộc thảo luận với chính mình hoặc với người khác."
                 },
                 "delete": "$~xóa tin nhắn này",
-                "confirmDelete": "$~Xác nhận xóa?"
+                "confirmDelete": "$~Xác nhận xóa?",
+                "transfer": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
             },
             "moderation": {
                 "header": "$~Báo cáo tin nhắn này",
@@ -8427,7 +8447,8 @@
                 "unowned": "$~Dự án này không được lưu trữ trực tuyến, vì vậy không thể có chức năng trò chuyện hoặc cộng tác viên.",
                 "offline": "$~Không thể tải cuộc trò chuyện này.",
                 "empty": "$~Không có tin nhắn nào.",
-                "deleted": "$~Tin nhắn này đã bị xóa."
+                "deleted": "$~Tin nhắn này đã bị xóa.",
+                "transferGallery": "$?"
             },
             "prompt": {
                 "solo": "$~Trò chuyện với chính mình hoặc thêm...",
@@ -8454,6 +8475,9 @@
                 "commenters": "$~Người bình luận có thể *thảo luận* về dự án với bạn, nhưng không được phép *chỉnh sửa* nó.",
                 "viewers": "$~Người xem có thể xem dự án và mã nguồn của nó, nhưng không thể thảo luận hoặc chỉnh sửa.",
                 "restrict": "$~Khi một dự án nằm trong *thư viện ảnh*, theo mặc định *mọi người* có thể xem thư viện đều có thể thấy dự án của bạn. Nút /restrict/ sẽ *ẩn* dự án đó khỏi mọi người ngoại trừ bạn và người quản lý thư viện."
+            },
+            "announce": {
+                "transferred": "$?"
             }
         },
         "palette": {
@@ -8991,7 +9015,48 @@
                     "description": "$~Tìm kiếm dự án và tệp nguồn",
                     "noResults": "$~Không tìm thấy kết quả nào."
                 },
-                "installedprompt": "$~Bạn đang dùng Wordplay như một ứng dụng đã cài đặt, và nó giữ các dự án riêng, tách biệt với các dự án trong trình duyệt web của bạn. Bất kỳ dự án nào bạn đã tạo trong trình duyệt vẫn còn ở đó. <Đăng nhập@://login> để xem tất cả dự án của bạn ở cả hai nơi."
+                "installedprompt": "$~Bạn đang dùng Wordplay như một ứng dụng đã cài đặt, và nó giữ các dự án riêng, tách biệt với các dự án trong trình duyệt web của bạn. Bất kỳ dự án nào bạn đã tạo trong trình duyệt vẫn còn ở đó. <Đăng nhập@://login> để xem tất cả dự án của bạn ở cả hai nơi.",
+                "sort": {
+                    "label": "$?",
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "none": "$?",
+                    "button": {
+                        "create": "$?",
+                        "expand": "$?",
+                        "collapse": "$?"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$?",
+                            "prompt": "$?"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$?",
+                        "moved": "$?",
+                        "movedOut": "$?",
+                        "expanded": "$?",
+                        "collapsed": "$?",
+                        "selected": "$?",
+                        "created": "$?",
+                        "deleted": "$?",
+                        "renamed": "$?",
+                        "projectSelected": "$?",
+                        "cleared": "$?"
+                    },
+                    "instructions": {
+                        "none": "$?",
+                        "project": "$?",
+                        "folder": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Phòng trưng bày",
@@ -9535,7 +9600,9 @@
                     "$~Còn một điều nữa về việc tạo một dự án *công khai*. Các dự án công khai được chia sẻ theo <giấy phép Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Điều đó nghĩa là bất kỳ ai cũng có thể /phối lại/ dự án công khai của bạn — tạo bản sao của riêng họ và thay đổi nó — và bạn cũng có thể phối lại dự án của bất kỳ ai khác.",
                     "Giấy phép đó đi kèm ba điều. Người phối lại phải ghi công người đã tạo ra bản gốc. Họ phải chia sẻ bản phối lại của mình theo cùng giấy phép này, để nó vẫn mở cho người tiếp theo. Và họ không thể biến một dự án công khai thành riêng tư để giữ cho riêng mình.",
                     "Chúng tôi giúp bạn phần ghi công: khi ai đó phối lại một dự án, chúng tôi ghi nhớ nó đến từ đâu và hiển thị một liên kết trở lại. Tạo một dự án công khai là cách bạn đồng ý với tất cả điều này, vì vậy nếu bạn không muốn ai phối lại một dự án, hãy giữ nó riêng tư."
-                ]
+                ],
+                "research": ["$?"],
+                "warnings": ["$?"]
             },
             "donate": {
                 "header": "$~Quyên tặng",
@@ -10136,6 +10203,24 @@
         },
         "error": {
             "notmod": "$~Có vẻ như bạn không phải là người điều hành. Nếu gần đây bạn được cấp quyền điều hành, bạn có thể cần đăng nhập lại. Nếu không, hãy xem hướng dẫn trên wiki để biết cách yêu cầu quyền điều hành."
+        },
+        "report": {
+            "button": "$?",
+            "confirm": "$?",
+            "sent": "$?",
+            "announce": "$?",
+            "flagged": "$?"
+        },
+        "strike": {
+            "issue": "$?",
+            "consequence": "$?",
+            "confirm": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "banned": "$?",
+            "warned": "$?",
+            "notification": "$?"
         }
     },
     "gallery": {

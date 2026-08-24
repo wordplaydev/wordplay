@@ -16065,6 +16065,18 @@
                             "additionalProperties": false,
                             "description": "The project chat",
                             "properties": {
+                                "announce": {
+                                    "additionalProperties": false,
+                                    "description": "Announcements made as collaboration changes",
+                                    "properties": {
+                                        "transferred": {
+                                            "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22project%22%5D%3E",
+                                            "description": "[plain] Said when the project is handed to a new owner"
+                                        }
+                                    },
+                                    "required": ["transferred"],
+                                    "type": "object"
+                                },
                                 "button": {
                                     "additionalProperties": false,
                                     "description": "Buttons in the chat tile",
@@ -16084,13 +16096,18 @@
                                         "submit": {
                                             "$ref": "#/definitions/ButtonText",
                                             "description": "The chat send button"
+                                        },
+                                        "transfer": {
+                                            "$ref": "#/definitions/ConfirmText",
+                                            "description": "The button that hands ownership of the project to a collaborator"
                                         }
                                     },
                                     "required": [
                                         "submit",
                                         "start",
                                         "delete",
-                                        "confirmDelete"
+                                        "confirmDelete",
+                                        "transfer"
                                     ],
                                     "type": "object"
                                 },
@@ -16110,6 +16127,10 @@
                                             "description": "[plain] Offline, or couldn't load the chat",
                                             "type": "string"
                                         },
+                                        "transferGallery": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Shown next to the ownership transfer control when the project is in a gallery, since gallery membership doesn't follow the project to its new owner"
+                                        },
                                         "unowned": {
                                             "description": "[plain] The project isn't owned by a person",
                                             "type": "string"
@@ -16119,7 +16140,8 @@
                                         "unowned",
                                         "offline",
                                         "empty",
-                                        "deleted"
+                                        "deleted",
+                                        "transferGallery"
                                     ],
                                     "type": "object"
                                 },
@@ -16323,6 +16345,7 @@
                                 "button",
                                 "moderation",
                                 "error",
+                                "announce",
                                 "prompt",
                                 "restrictGalleryCreatorAccess",
                                 "tour"
@@ -16824,8 +16847,8 @@
                                             "type": "string"
                                         },
                                         "popup": {
-                                            "description": "[plain] ARIA label for the new-notification popup indicator",
-                                            "type": "string"
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                            "description": "[plain] Said to screen readers when notifications arrive. Carries the count, because a live region handed the same string twice stays silent — a constant here is heard once and never again."
                                         }
                                     },
                                     "required": [
@@ -17123,9 +17146,17 @@
                                                 "public": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                                                     "description": "The public/private toggle mode widget"
+                                                },
+                                                "research": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "The research consent toggle mode widget"
                                                 }
                                             },
-                                            "required": ["public", "preview"],
+                                            "required": [
+                                                "public",
+                                                "preview",
+                                                "research"
+                                            ],
                                             "type": "object"
                                         },
                                         "options": {
@@ -17203,6 +17234,10 @@
                                                 "remix": {
                                                     "$ref": "#/definitions/ExplanationText",
                                                     "description": "The remix provenance section's explanation"
+                                                },
+                                                "research": {
+                                                    "$ref": "#/definitions/HeaderAndExplanationText",
+                                                    "description": "The research consent subheader and explanation. Sits inside the public/private section, since it is a second, narrower permission about the same project."
                                                 }
                                             },
                                             "required": [
@@ -17210,7 +17245,8 @@
                                                 "public",
                                                 "pii",
                                                 "preview",
-                                                "remix"
+                                                "remix",
+                                                "research"
                                             ],
                                             "type": "object"
                                         },
@@ -22339,6 +22375,151 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "folder": {
+                                            "additionalProperties": false,
+                                            "description": "Folders, which a creator uses to organize their own projects",
+                                            "properties": {
+                                                "announce": {
+                                                    "additionalProperties": false,
+                                                    "description": "What screen readers are told as projects are organized. Each names what changed rather than summarizing, since a summary reads the same every time and is heard only once.",
+                                                    "properties": {
+                                                        "cleared": {
+                                                            "description": "[plain] Nothing is selected any more",
+                                                            "type": "string"
+                                                        },
+                                                        "collapsed": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22folder%22%2C%22%23count%22%5D%3E",
+                                                            "description": "[plain] A folder was collapsed, and how many projects it holds"
+                                                        },
+                                                        "created": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22folder%22%5D%3E",
+                                                            "description": "[plain] A folder was created"
+                                                        },
+                                                        "deleted": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22folder%22%2C%22%23count%22%5D%3E",
+                                                            "description": "[plain] A folder was deleted and its projects archived"
+                                                        },
+                                                        "destination": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22project%22%2C%22folder%22%5D%3E",
+                                                            "description": "[plain] Where a project being moved would land"
+                                                        },
+                                                        "expanded": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22folder%22%2C%22%23count%22%5D%3E",
+                                                            "description": "[plain] A folder was expanded, and how many projects it holds"
+                                                        },
+                                                        "moved": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22project%22%2C%22folder%22%5D%3E",
+                                                            "description": "[plain] A project was moved into a folder"
+                                                        },
+                                                        "movedOut": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22project%22%5D%3E",
+                                                            "description": "[plain] A project was moved out of every folder"
+                                                        },
+                                                        "projectSelected": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22project%22%5D%3E",
+                                                            "description": "[plain] A project was selected"
+                                                        },
+                                                        "renamed": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22folder%22%5D%3E",
+                                                            "description": "[plain] A folder was renamed"
+                                                        },
+                                                        "selected": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22folder%22%2C%22%23count%22%5D%3E",
+                                                            "description": "[plain] A folder was selected, and how many projects it holds"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "destination",
+                                                        "moved",
+                                                        "movedOut",
+                                                        "expanded",
+                                                        "collapsed",
+                                                        "selected",
+                                                        "projectSelected",
+                                                        "cleared",
+                                                        "created",
+                                                        "deleted",
+                                                        "renamed"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "button": {
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "collapse": {
+                                                            "description": "[plain] Hide the projects inside a folder",
+                                                            "type": "string"
+                                                        },
+                                                        "create": {
+                                                            "description": "[plain] Make a new folder",
+                                                            "type": "string"
+                                                        },
+                                                        "expand": {
+                                                            "description": "[plain] Show the projects inside a folder",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "create",
+                                                        "expand",
+                                                        "collapse"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "confirm": {
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "delete": {
+                                                            "$ref": "#/definitions/ConfirmText",
+                                                            "description": "Delete a folder, archiving the projects inside it"
+                                                        }
+                                                    },
+                                                    "required": ["delete"],
+                                                    "type": "object"
+                                                },
+                                                "instructions": {
+                                                    "additionalProperties": false,
+                                                    "description": "What to do with whatever is selected, shown below the project list and pointed at by the list's aria-describedby. Anything a pointer can do here has to have a key that does it too, so this is where those keys are named.",
+                                                    "properties": {
+                                                        "folder": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] Shown when a folder is selected"
+                                                        },
+                                                        "none": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] Shown when nothing is selected"
+                                                        },
+                                                        "project": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] Shown when a project is selected"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "none",
+                                                        "project",
+                                                        "folder"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "name": {
+                                                    "$ref": "#/definitions/FieldText",
+                                                    "description": "The folder name field, shown in a folder's header while it's selected"
+                                                },
+                                                "none": {
+                                                    "description": "[plain] What the top level is called in the list of places a project can move to",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "name",
+                                                "none",
+                                                "button",
+                                                "instructions",
+                                                "confirm",
+                                                "announce"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "header": {
                                             "description": "[plain] Header for the projects page",
                                             "type": "string"
@@ -22370,6 +22551,10 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "sort": {
+                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                            "description": "How the project list is ordered. One choice, applied to the top level and inside every folder."
+                                        },
                                         "subheader": {
                                             "additionalProperties": false,
                                             "description": "Buttons on the project page",
@@ -22393,6 +22578,8 @@
                                         "archiveprompt",
                                         "installedprompt",
                                         "subheader",
+                                        "sort",
+                                        "folder",
                                         "search",
                                         "button",
                                         "confirm",
@@ -22428,13 +22615,29 @@
                                                 "$ref": "#/definitions/FormattedText"
                                             },
                                             "type": "array"
+                                        },
+                                        "research": {
+                                            "description": "[formatted] Paragraphs about letting Wordplay show a project anonymously in research and communications about the platform.",
+                                            "items": {
+                                                "$ref": "#/definitions/FormattedText"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "warnings": {
+                                            "description": "[formatted] How warnings work, what three of them mean, and how to ask for public sharing back.",
+                                            "items": {
+                                                "$ref": "#/definitions/FormattedText"
+                                            },
+                                            "type": "array"
                                         }
                                     },
                                     "required": [
                                         "header",
                                         "content",
                                         "consequences",
-                                        "license"
+                                        "warnings",
+                                        "license",
+                                        "research"
                                     ],
                                     "type": "object"
                                 },
@@ -23468,6 +23671,10 @@
                                             "$ref": "#/definitions/ButtonText",
                                             "description": "Shows the sharing dialog"
                                         },
+                                        "tinker": {
+                                            "$ref": "#/definitions/ButtonText",
+                                            "description": "The button that opens a guide example as an editable scratch project"
+                                        },
                                         "translate": {
                                             "$ref": "#/definitions/ButtonText",
                                             "description": "Show translation button"
@@ -23483,6 +23690,7 @@
                                         "copy",
                                         "addSource",
                                         "remix",
+                                        "tinker",
                                         "revert",
                                         "focusOutput",
                                         "focusSource",
@@ -23616,7 +23824,6 @@
                                 },
                                 "error": {
                                     "additionalProperties": false,
-                                    "description": "The error shown when a project ID is unknown.",
                                     "properties": {
                                         "reset": {
                                             "description": "[plain] The button label for an error reset",
@@ -23690,12 +23897,16 @@
                                 "link": {
                                     "additionalProperties": false,
                                     "properties": {
+                                        "backTo": {
+                                            "$ref": "#/definitions/Template%3C%5B%22place%22%5D%3E",
+                                            "description": "[plain] The link from a scratch project back to where it was opened from, naming that place"
+                                        },
                                         "remixOf": {
                                             "description": "[plain] Tooltip on the link from a remixed project back to the project it was remixed from",
                                             "type": "string"
                                         }
                                     },
-                                    "required": ["remixOf"],
+                                    "required": ["remixOf", "backTo"],
                                     "type": "object"
                                 },
                                 "options": {
@@ -23786,6 +23997,10 @@
                                     ],
                                     "type": "object"
                                 },
+                                "scratch": {
+                                    "$ref": "#/definitions/FormattedText",
+                                    "description": "[formatted] Shown in a scratch project — a copy of a guide example, kept on this device and left out of the project list"
+                                },
                                 "subheader": {
                                     "additionalProperties": false,
                                     "properties": {
@@ -23872,11 +24087,17 @@
                                         "checkpoints"
                                     ],
                                     "type": "object"
+                                },
+                                "untitled": {
+                                    "description": "[plain] What to call a project that has no name, in the browser tab",
+                                    "type": "string"
                                 }
                             },
                             "required": [
                                 "label",
                                 "defaults",
+                                "scratch",
+                                "untitled",
                                 "error",
                                 "button",
                                 "field",
@@ -25941,6 +26162,79 @@
                     "$ref": "#/definitions/Template%3C%5B%22moderated%22%2C%22remaining%22%5D%3E",
                     "description": "[formatted] Progress message"
                 },
+                "report": {
+                    "additionalProperties": false,
+                    "description": "Reporting public content for a moderator to look at (#193)",
+                    "properties": {
+                        "announce": {
+                            "$ref": "#/definitions/Template%3C%5B%22project%22%5D%3E",
+                            "description": "[plain] Said to screen readers when a report is sent"
+                        },
+                        "button": {
+                            "description": "[plain] The tooltip on the report button shown on someone else's public project",
+                            "type": "string"
+                        },
+                        "confirm": {
+                            "description": "[plain] What pressing report will do, shown before it happens",
+                            "type": "string"
+                        },
+                        "flagged": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a moderator above a project someone reported, explaining why it came up first"
+                        },
+                        "sent": {
+                            "description": "[plain] Shown in place of the tip once a report has been sent",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "button",
+                        "confirm",
+                        "sent",
+                        "announce",
+                        "flagged"
+                    ],
+                    "type": "object"
+                },
+                "strike": {
+                    "additionalProperties": false,
+                    "description": "Warnings, and the loss of public sharing they can lead to (#193)",
+                    "properties": {
+                        "banned": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a creator who has lost the ability to make anything public"
+                        },
+                        "confirm": {
+                            "$ref": "#/definitions/ConfirmText",
+                            "description": "The moderator's confirmation for a decision that carries a warning"
+                        },
+                        "consequence": {
+                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22%23remaining%22%5D%3E",
+                            "description": "[formatted] What issuing this warning will do to this creator, shown to the moderator before they confirm"
+                        },
+                        "issue": {
+                            "description": "[plain] The moderator's checkbox for attaching a warning to a decision",
+                            "type": "string"
+                        },
+                        "notification": {
+                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                            "description": "[plain] The notification saying a warning has arrived"
+                        },
+                        "warned": {
+                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22%23remaining%22%5D%3E",
+                            "description": "[formatted] Shown to a creator who has been warned but can still share publicly"
+                        }
+                    },
+                    "required": [
+                        "issue",
+                        "consequence",
+                        "confirm",
+                        "banned",
+                        "warned",
+                        "notification"
+                    ],
+                    "type": "object"
+                },
                 "unmoderated": {
                     "$ref": "#/definitions/HeaderAndExplanationText",
                     "description": "What to sa when content has not yet been moderated"
@@ -25959,6 +26253,8 @@
                 "progress",
                 "done",
                 "button",
+                "report",
+                "strike",
                 "error"
             ],
             "type": "object"
@@ -26055,6 +26351,9 @@
         "SupportedFace": {
             "description": "The font face names supported. To add one, carefully add metadata to Faces and files to /static/fonts/.",
             "type": ["string"]
+        },
+        "Template<[\"#count\",\"#remaining\"]>": {
+            "type": "string"
         },
         "Template<[\"#count\",\"cap\"]>": {
             "type": "string"
@@ -26197,6 +26496,12 @@
         "Template<[\"first\",\"second\"]>": {
             "type": "string"
         },
+        "Template<[\"folder\",\"#count\"]>": {
+            "type": "string"
+        },
+        "Template<[\"folder\"]>": {
+            "type": "string"
+        },
         "Template<[\"forms\"]>": {
             "type": "string"
         },
@@ -26326,6 +26631,9 @@
         "Template<[\"name\",\"layout\",\"pose\",\"color\"]>": {
             "type": "string"
         },
+        "Template<[\"name\",\"project\"]>": {
+            "type": "string"
+        },
         "Template<[\"name\",\"scope\"]>": {
             "type": "string"
         },
@@ -26386,7 +26694,16 @@
         "Template<[\"permission\"]>": {
             "type": "string"
         },
+        "Template<[\"place\"]>": {
+            "type": "string"
+        },
         "Template<[\"position\"]>": {
+            "type": "string"
+        },
+        "Template<[\"project\",\"folder\"]>": {
+            "type": "string"
+        },
+        "Template<[\"project\"]>": {
             "type": "string"
         },
         "Template<[\"property\",\"value\"]>": {

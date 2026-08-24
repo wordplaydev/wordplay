@@ -6895,6 +6895,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~remover os idiomas que o código deste projeto não usa",
                     "label": "$~remover não usados"
+                },
+                "tinker": {
+                    "label": "$?",
+                    "tip": "$?"
                 }
             },
             "field": {
@@ -6991,8 +6995,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~ir ao projeto de onde este foi remisturado"
-            }
+                "remixOf": "$~ir ao projeto de onde este foi remisturado",
+                "backTo": "$?"
+            },
+            "scratch": "$?",
+            "untitled": "$?"
         },
         "checkpoints": {
             "label": {
@@ -7944,6 +7951,10 @@
                     },
                     "remix": {
                         "explanation": "$~Uma /remistura/ é uma cópia de um projeto que alguém mudou para fazer o seu próprio. Nós lembramo-nos de onde veio uma remistura, para que a pessoa que fez o original continue a receber o crédito."
+                    },
+                    "research": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -7970,6 +7981,11 @@
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
                         ]
+                    },
+                    "research": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -8253,7 +8269,7 @@
                     "link": "detalhes"
                 },
                 "delete": "apagar esta notificação",
-                "popup": "nova notificação"
+                "popup": "$!nova notificação"
             },
             "locale": {
                 "header": "Idioma",
@@ -8395,7 +8411,11 @@
                     "tip": "Inicie uma conversa consigo próprio ou com outras pessoas."
                 },
                 "delete": "apagar esta mensagem",
-                "confirmDelete": "Confirmar eliminação?"
+                "confirmDelete": "Confirmar eliminação?",
+                "transfer": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
             },
             "moderation": {
                 "header": "denunciar esta mensagem",
@@ -8416,7 +8436,8 @@
                 "unowned": "Este projeto não está armazenado online, pelo que não pode ter chat nem colaboradores.",
                 "offline": "Não foi possível carregar este chat.",
                 "empty": "Nenhuma mensagem.",
-                "deleted": "Esta mensagem foi apagada."
+                "deleted": "Esta mensagem foi apagada.",
+                "transferGallery": "$?"
             },
             "prompt": {
                 "solo": "Converse consigo mesmo ou adicione...",
@@ -8443,6 +8464,9 @@
                 "commenters": "Os comentadores podem *discutir* o projeto consigo, mas não podem *editá-lo*.",
                 "viewers": "Os /Visualizadores/ podem *visualizar* o projeto e o seu *código*, mas não podem *discuti-lo* ou *editá-lo*.",
                 "restrict": "Quando um projeto está numa *galeria*, por defeito, *todos* os que conseguem ver a galeria podem também ver o seu projeto. A opção /restrict/ *oculta* o projeto de todos, exceto de si e dos curadores da galeria."
+            },
+            "announce": {
+                "transferred": "$?"
             }
         },
         "palette": {
@@ -9062,7 +9086,48 @@
                     "nodeletes": "Necessita de estar <logado em@://login> para eliminar projetos arquivados.",
                     "delete": "Ups, não conseguimos apagar o projeto!"
                 },
-                "installedprompt": "$~Está a usar o Wordplay como uma aplicação instalada, e ela mantém os seus próprios projetos, separados dos que estão no seu navegador de internet. Todos os projetos que criou no navegador continuam lá. <Inicie sessão@://login> para ver todos os seus projetos nos dois lugares."
+                "installedprompt": "$~Está a usar o Wordplay como uma aplicação instalada, e ela mantém os seus próprios projetos, separados dos que estão no seu navegador de internet. Todos os projetos que criou no navegador continuam lá. <Inicie sessão@://login> para ver todos os seus projetos nos dois lugares.",
+                "sort": {
+                    "label": "$?",
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "none": "$?",
+                    "button": {
+                        "create": "$?",
+                        "expand": "$?",
+                        "collapse": "$?"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$?",
+                            "prompt": "$?"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$?",
+                        "moved": "$?",
+                        "movedOut": "$?",
+                        "expanded": "$?",
+                        "collapsed": "$?",
+                        "selected": "$?",
+                        "created": "$?",
+                        "deleted": "$?",
+                        "renamed": "$?",
+                        "projectSelected": "$?",
+                        "cleared": "$?"
+                    },
+                    "instructions": {
+                        "none": "$?",
+                        "project": "$?",
+                        "folder": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "Galerias",
@@ -9606,7 +9671,9 @@
                     "$~Mais uma coisa sobre tornar um projeto *público*. Os projetos públicos são partilhados sob a <licença Creative Commons Atribuição-CompartilhaIgual@https://creativecommons.org/licenses/by-sa/4.0/>. Isso significa que qualquer pessoa pode /remisturar/ o teu projeto público — fazer a sua própria cópia dele e mudá-lo — e tu podes remisturar o de qualquer outra pessoa.",
                     "Três coisas vêm com essa licença. Quem remistura tem de dar crédito a quem fez o original. Tem de partilhar a sua remistura sob esta mesma licença, para que continue aberta para a próxima pessoa. E não pode tornar um projeto público privado para o guardar só para si.",
                     "Nós ajudamos com a parte do crédito: quando alguém remistura um projeto, lembramo-nos de onde veio e mostramos uma ligação de volta a ele. Tornar um projeto público é a maneira de dizeres sim a tudo isto, por isso, se preferires que ninguém remisture um projeto, mantém-no privado."
-                ]
+                ],
+                "research": ["$?"],
+                "warnings": ["$?"]
             },
             "donate": {
                 "header": "Doar",
@@ -10122,6 +10189,24 @@
         },
         "error": {
             "notmod": "Parece que não é moderador. Se recebeu privilégios de moderador recentemente, poderá ter de fazer login novamente. Caso contrário, consulte o wiki para saber como solicitar privilégios de moderação."
+        },
+        "report": {
+            "button": "$?",
+            "confirm": "$?",
+            "sent": "$?",
+            "announce": "$?",
+            "flagged": "$?"
+        },
+        "strike": {
+            "issue": "$?",
+            "consequence": "$?",
+            "confirm": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "banned": "$?",
+            "warned": "$?",
+            "notification": "$?"
         }
     },
     "gallery": {

@@ -4,6 +4,8 @@
     import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import Options from '@components/widgets/Options.svelte';
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -79,7 +81,32 @@
                     set={(choice) =>
                         Projects.reviseProject(project.asPublic(choice === 1))}
                     flags={project.getFlags()}
+                    checkStanding
                 />
+                <!-- Research consent lives with public/private because it's a
+                     second, narrower permission about the same project, not a
+                     sixth kind of sharing. Only the owner sees it: consent is
+                     given by the person whose work it is, not by a
+                     collaborator on their behalf. -->
+                {#if $user !== undefined && project.isOwner($user.uid)}
+                    <Subheader
+                        text={(l) =>
+                            l.ui.dialog.share.subheader.research.header}
+                    />
+                    <MarkupHTMLView
+                        markup={(l) =>
+                            l.ui.dialog.share.subheader.research.explanation}
+                    />
+                    <Mode
+                        modes={(l) => l.ui.dialog.share.mode.research}
+                        choice={project.hasResearchConsent() ? 1 : 0}
+                        select={(choice) =>
+                            Projects.reviseProject(
+                                project.withResearchConsent(choice === 1),
+                            )}
+                        icons={['🚫', '🔬']}
+                    />
+                {/if}
             {:else if tab === 2}
                 <Preview {project} />
             {:else if tab === 3}

@@ -6868,6 +6868,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~移除這個工程的程式碼沒有使用的語言",
                     "label": "$~移除未使用的"
+                },
+                "tinker": {
+                    "label": "$?",
+                    "tip": "$?"
                 }
             },
             "field": {
@@ -6967,8 +6971,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~前往這個工程重混的來源"
-            }
+                "remixOf": "$~前往這個工程重混的來源",
+                "backTo": "$?"
+            },
+            "scratch": "$?",
+            "untitled": "$?"
         },
         "gallery": {
             "untitled": "未命名",
@@ -7670,6 +7677,10 @@
                     },
                     "remix": {
                         "explanation": "$~/重混/ 是某個人複製一個工程後修改成自己的版本。我們會記住重混的來源，所以做出原版的人仍然會得到功勞。"
+                    },
+                    "research": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -7696,6 +7707,11 @@
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
                         ]
+                    },
+                    "research": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -8087,7 +8103,7 @@
                     "moderationHeader": "$~「$name」中的訊息需要版主處理"
                 },
                 "delete": "$~刪除這則通知",
-                "popup": "$~新通知"
+                "popup": "$!新通知"
             }
         },
         "palette": {
@@ -8515,7 +8531,48 @@
                     "description": "$~搜尋工程和來源檔案",
                     "noResults": "未找到結果。"
                 },
-                "installedprompt": "$~你正在以安裝好的應用程式使用 Wordplay，它會保存自己的工程，和你在網路瀏覽器裡的工程分開。你在瀏覽器裡做的工程都還在。<登入@://login> 就能看到你在兩個地方的所有工程。"
+                "installedprompt": "$~你正在以安裝好的應用程式使用 Wordplay，它會保存自己的工程，和你在網路瀏覽器裡的工程分開。你在瀏覽器裡做的工程都還在。<登入@://login> 就能看到你在兩個地方的所有工程。",
+                "sort": {
+                    "label": "$?",
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "none": "$?",
+                    "button": {
+                        "create": "$?",
+                        "expand": "$?",
+                        "collapse": "$?"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$?",
+                            "prompt": "$?"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$?",
+                        "moved": "$?",
+                        "movedOut": "$?",
+                        "expanded": "$?",
+                        "collapsed": "$?",
+                        "selected": "$?",
+                        "created": "$?",
+                        "deleted": "$?",
+                        "renamed": "$?",
+                        "projectSelected": "$?",
+                        "cleared": "$?"
+                    },
+                    "instructions": {
+                        "none": "$?",
+                        "project": "$?",
+                        "folder": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "畫廊",
@@ -8700,7 +8757,9 @@
                     "$~關於把工程設為 *公開* 的最後一件事。公開的工程是根據 <創用 CC 姓名標示—相同方式分享授權條款@https://creativecommons.org/licenses/by-sa/4.0/> 分享的。這表示任何人都可以 /重混/ 你的公開工程——製作他們自己的副本並修改它——你也可以重混別人的工程。",
                     "這個授權條款帶來三件事。重混的人必須標示做出原版的人。他們必須用相同的授權條款分享他們的重混作品，讓它對下一個人保持開放。而且他們不能把公開的工程變成私人的，好獨自佔有。",
                     "我們會幫忙處理標示功勞的部分：當有人重混一個工程時，我們會記住它的來源，並顯示一個連回原版的連結。把工程設為公開，就是你對這一切說好的方式。所以如果你寧願沒有人重混某個工程，就把它保持為私人的。"
-                ]
+                ],
+                "research": ["$?"],
+                "warnings": ["$?"]
             },
             "donate": {
                 "header": "捐贈",
@@ -9399,13 +9458,18 @@
                     "tip": "$~和自己或別人開始討論。"
                 },
                 "delete": "$~刪除這則訊息",
-                "confirmDelete": "$~確認刪除？"
+                "confirmDelete": "$~確認刪除？",
+                "transfer": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
             },
             "error": {
                 "unowned": "$~這個工程沒有存在線上，所以無法有聊天或協作者。",
                 "offline": "$~無法載入這個聊天。",
                 "empty": "$~沒有訊息。",
-                "deleted": "$~這則訊息已被刪除。"
+                "deleted": "$~這則訊息已被刪除。",
+                "transferGallery": "$?"
             },
             "prompt": {
                 "solo": "$~和自己聊天或新增...",
@@ -9447,6 +9511,9 @@
                 "commenters": "$~/留言者/ 可以和你 *討論* 工程，但不能 *編輯* 它。",
                 "viewers": "$~/觀看者/ 可以 *檢視* 工程和它的 *程式碼*，但不能 *討論* 或 *編輯* 它。",
                 "restrict": "$~當工程在 *作品集* 裡時，預設 *所有* 能看到作品集的人都能看到你的工程。/限制/ 開關會把它從所有人 *隱藏*，只留下你和作品集策展人。"
+            },
+            "announce": {
+                "transferred": "$?"
             }
         },
         "checkpoints": {
@@ -10082,6 +10149,24 @@
         "done": "$~沒有其他要審核的了！",
         "error": {
             "notmod": "$~看起來你不是審核員。如果你最近才拿到審核員權限，可能需要重新登入。如果不是，請看 wiki 了解如何申請審核權限。"
+        },
+        "report": {
+            "button": "$?",
+            "confirm": "$?",
+            "sent": "$?",
+            "announce": "$?",
+            "flagged": "$?"
+        },
+        "strike": {
+            "issue": "$?",
+            "consequence": "$?",
+            "confirm": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "banned": "$?",
+            "warned": "$?",
+            "notification": "$?"
         }
     },
     "gallery": {

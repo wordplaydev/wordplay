@@ -14,10 +14,12 @@ import type {
     EmailExistsInputs,
     EmailExistsOutput,
     GetLLMTranslationsInputs,
+    ModerateProjectInputs,
 } from 'shared-types';
 
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
 import createClassHandler from './createClass.js';
+import moderateProjectHandler from './moderateProject.js';
 import emailExistsHandler from './emailExists.js';
 import galleryEditedHandler from './galleryEdited.js';
 import getCreatorsHandler from './getCreators.js';
@@ -129,6 +131,12 @@ export const compactProjectUpdates = onSchedule(
  * Given a teacher user ID, credential information for several students, and
  * a name and description for a class, create a class and return it's ID
  */
+/** #193: a moderator's decision about a project, and its consequences. */
+export const moderateProject = onCall<ModerateProjectInputs>(
+    cors,
+    moderateProjectHandler,
+);
+
 export const createClass = onCall<
     CreateClassInputs,
     Promise<CreateClassOutput>

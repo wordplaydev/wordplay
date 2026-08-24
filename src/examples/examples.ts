@@ -105,6 +105,10 @@ export function parseSerializedProject(
         stamps: { lamport: 0, fields: {} },
         crdt: null,
         remixOf: null,
+        // An example is nobody's project to organize or consent for; it is
+        // read-only and never persisted (see ProjectsDatabase.get).
+        folder: null,
+        researchConsent: false,
     };
 }
 

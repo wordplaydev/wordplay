@@ -6874,6 +6874,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~移除项目代码没有使用的语言",
                     "label": "$~移除未使用的"
+                },
+                "tinker": {
+                    "label": "$?",
+                    "tip": "$?"
                 }
             },
             "field": {
@@ -6973,8 +6977,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~前往这个项目再创作的来源项目"
-            }
+                "remixOf": "$~前往这个项目再创作的来源项目",
+                "backTo": "$?"
+            },
+            "scratch": "$?",
+            "untitled": "$?"
         },
         "gallery": {
             "untitled": "未命名",
@@ -7676,6 +7683,10 @@
                     },
                     "remix": {
                         "explanation": "$~/再创作/是别人复制一个项目后，修改成自己的版本。我们会记住再创作来自哪里，这样制作原始项目的人仍然会得到肯定。"
+                    },
+                    "research": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -7702,6 +7713,11 @@
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
                         ]
+                    },
+                    "research": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -8080,7 +8096,7 @@
                     "moderationHeader": "$~“$name”中的消息需要管理员处理"
                 },
                 "delete": "$~删除此通知",
-                "popup": "$~新通知"
+                "popup": "$!新通知"
             }
         },
         "palette": {
@@ -8508,7 +8524,48 @@
                     "description": "$~搜索项目和源文件",
                     "noResults": "未找到结果。"
                 },
-                "installedprompt": "$~你正在使用安装好的 Wordplay 应用程序。它会保存自己的项目，和你在网页浏览器里的项目分开存放。你在浏览器里做的项目都还在。<登录@://login> 就能看到这两个地方的所有项目。"
+                "installedprompt": "$~你正在使用安装好的 Wordplay 应用程序。它会保存自己的项目，和你在网页浏览器里的项目分开存放。你在浏览器里做的项目都还在。<登录@://login> 就能看到这两个地方的所有项目。",
+                "sort": {
+                    "label": "$?",
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "none": "$?",
+                    "button": {
+                        "create": "$?",
+                        "expand": "$?",
+                        "collapse": "$?"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$?",
+                            "prompt": "$?"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$?",
+                        "moved": "$?",
+                        "movedOut": "$?",
+                        "expanded": "$?",
+                        "collapsed": "$?",
+                        "selected": "$?",
+                        "created": "$?",
+                        "deleted": "$?",
+                        "renamed": "$?",
+                        "projectSelected": "$?",
+                        "cleared": "$?"
+                    },
+                    "instructions": {
+                        "none": "$?",
+                        "project": "$?",
+                        "folder": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "画廊",
@@ -8693,7 +8750,9 @@
                     "$~关于把项目设为*公开*，还有一件事要说。公开的项目会以<知识共享署名-相同方式共享许可@https://creativecommons.org/licenses/by-sa/4.0/>分享。这表示任何人都可以对你的公开项目/再创作/——复制一份并修改它——你也可以对别人的项目再创作。",
                     "这个许可有三个要求。再创作的人必须肯定制作原始项目的人。他们必须用同样的许可分享自己的再创作，让它对下一个人也保持开放。他们也不能把一个公开的项目变成私有，只留给自己。",
                     "关于肯定原作者这一点，我们会帮忙：当有人再创作一个项目时，我们会记住它来自哪里，并显示一个返回原项目的链接。把项目设为公开，就是你同意这一切。所以如果你不希望别人再创作某个项目，就把它保持为私有。"
-                ]
+                ],
+                "research": ["$?"],
+                "warnings": ["$?"]
             },
             "donate": {
                 "header": "捐赠",
@@ -9392,13 +9451,18 @@
                     "tip": "$~和你自己或别人开始一段讨论。"
                 },
                 "delete": "$~删除这条信息",
-                "confirmDelete": "$~确认删除？"
+                "confirmDelete": "$~确认删除？",
+                "transfer": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
             },
             "error": {
                 "unowned": "$~这个项目没有保存在网上，所以不能有聊天或协作者。",
                 "offline": "$~无法加载这个聊天。",
                 "empty": "$~没有信息。",
-                "deleted": "$~这条信息已被删除。"
+                "deleted": "$~这条信息已被删除。",
+                "transferGallery": "$?"
             },
             "prompt": {
                 "solo": "$~和自己聊天或添加……",
@@ -9440,6 +9504,9 @@
                 "commenters": "$~/评论者/可以和你*讨论*项目，但他们不能*编辑*它。",
                 "viewers": "$~/查看者/可以*查看*项目和它的*代码*，但他们不能*讨论*或*编辑*它。",
                 "restrict": "$~当一个项目在*作品库*里时，默认情况下*每个*能看到这个作品库的人都能看到你的项目。/限制/开关会把它对除你自己和作品库策展人以外的所有人*隐藏*起来。"
+            },
+            "announce": {
+                "transferred": "$?"
             }
         },
         "checkpoints": {
@@ -10075,6 +10142,24 @@
         "done": "$~没有其他需要审核的内容了！",
         "error": {
             "notmod": "$~看起来你不是审核员。如果你最近被授予了审核员权限，你可能需要重新登录。如果不是，请查看维基了解如何申请审核权限。"
+        },
+        "report": {
+            "button": "$?",
+            "confirm": "$?",
+            "sent": "$?",
+            "announce": "$?",
+            "flagged": "$?"
+        },
+        "strike": {
+            "issue": "$?",
+            "consequence": "$?",
+            "confirm": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "banned": "$?",
+            "warned": "$?",
+            "notification": "$?"
         }
     },
     "gallery": {

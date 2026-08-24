@@ -155,11 +155,17 @@ export const EDIT_SYMBOL = '✎';
 export const VIEW_SYMBOL = '👁';
 export const TOOLTIP_SYMBOL = '💭';
 export const CUT_SYMBOL = '✄';
+/** Putting something on the clipboard — and only that. Duplicating a thing is
+ * REMIX_SYMBOL, so one glyph doesn't mean both "copy this text" and "make me
+ * another one of these". */
 export const COPY_SYMBOL = '📚';
-/** Marks a project remixed from another, and the action that makes one. Distinct
- * from COPY_SYMBOL because a remix records where it came from; a copy doesn't. */
+/** Making an editable duplicate: a remixed project, a duplicated character, a
+ * guide example opened to tinker with. Where the duplicate records what it came
+ * from, as a project remix does, this marks that link too. */
 export const REMIX_SYMBOL = '⧉';
 export const PASTE_SYMBOL = '📋';
+/** Marks the owner of a project, and the action that hands ownership over. */
+export const OWNER_SYMBOL = '👑';
 export const CANCEL_SYMBOL = '×';
 export const CONFIRM_SYMBOL = '✓';
 export const SELECTION_SYMBOL = '⬚';

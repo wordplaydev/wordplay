@@ -167,6 +167,7 @@
         getFullscreen,
         getUser,
         IdleKind,
+        isAuthenticated,
         setAnimatingNodes,
         setConceptIndex,
         setConflicts,
@@ -186,7 +187,11 @@
         type EmphasizedConflict,
         type KeyModifierState,
     } from '@components/project/Contexts';
+    import Link from '@components/app/Link.svelte';
     import RemixButton from '@components/project/RemixButton.svelte';
+    import { PARAM_CONCEPT } from '@concepts/ConceptParams';
+    import { PROJECT_PARAM_FROM } from '../../routes/[[locale]]/project/constants';
+    import ReportButton from '@components/project/ReportButton.svelte';
     import Layout from '@components/project/Layout';
     import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
     import PositionAdjuster from '@components/project/PositionAdjuster.svelte';
@@ -1625,6 +1630,46 @@
      * appear.
      */
     const showModeration = $derived(warn && isAudience($user, project));
+
+    /** Where a scratch project was opened from (#1044). Only ever a same-origin
+     *  path: anything else in the parameter is someone else's link, and
+     *  following it would make this an open redirect. `//host` is a protocol-
+     *  relative URL, so a leading slash alone isn't enough. */
+    const returnTo = $derived.by(() => {
+        if (!project.isScratch()) return undefined;
+        const from = page.url.searchParams.get(PROJECT_PARAM_FROM);
+        return from !== null && from.startsWith('/') && !from.startsWith('//')
+            ? from
+            : undefined;
+    });
+
+    /** What to call the place the link goes back to. The guide names the thing
+     *  being explained in its own URL, so "back to Phrase" says where you're
+     *  going; anything else falls back to the guide itself. */
+    const returnLabel = $derived.by(() => {
+        if (returnTo === undefined) return undefined;
+        const concept = new URLSearchParams(
+            returnTo.slice(returnTo.indexOf('?')),
+        ).get(PARAM_CONCEPT);
+        return $locales
+            .concretize((l) => l.ui.project.link.backTo, {
+                place:
+                    concept !== null && concept.length > 0
+                        ? concept
+                        : $locales.getPrimaryPlainText(
+                              (l) => l.ui.page.guide.header,
+                          ),
+            })
+            .toText();
+    });
+
+    /** Whether this viewer can report this project (#193). Audience only — its
+     *  own creators have the share dialog for anything wrong with it — and
+     *  signed in, since a report has to name who made it and an anonymous one
+     *  would be neither accountable nor rate-limitable. */
+    const reportable = $derived(
+        isAuthenticated($user) && isAudience($user, project),
+    );
     const contentWarnings = $derived<GateWarning[]>([
         ...(showModeration
             ? [
@@ -2774,12 +2819,19 @@
     function revert() {
         if (original) Projects.reviseProject(original);
     }
+
+    /** A project with no name — a scratch copy of an example, or one nobody has
+     *  named yet — would otherwise leave the tab titled "Wordplay - ", which is
+     *  both a WCAG failure and useless for telling two open projects apart. */
+    const documentTitle = $derived.by(() => {
+        const name = getLocalizedProjectName(project, $locales);
+        return name.length > 0
+            ? name
+            : $locales.getPrimaryPlainText((l) => l.ui.project.untitled);
+    });
 </script>
 
-<svelte:head
-    ><title>Wordplay - {getLocalizedProjectName(project, $locales)}</title
-    ></svelte:head
->
+<svelte:head><title>Wordplay - {documentTitle}</title></svelte:head>
 
 <svelte:window
     onkeydown={handleKey}
@@ -2998,6 +3050,17 @@
                             }}
                         >
                             {#snippet title()}{/snippet}
+
+                            {#snippet controls()}
+                                <!-- Reporting sits in the stage's top corner,
+                                     next to fullscreen, and only for someone
+                                     who is an audience for this project: its
+                                     own creators have the share dialog, and
+                                     nobody can report what isn't public. -->
+                                {#if tile.kind === TileKind.Output && reportable && isAuthenticated($user)}
+                                    <ReportButton {project} uid={$user.uid} />
+                                {/if}
+                            {/snippet}
 
                             {#snippet help()}
                                 {#if tile.kind === TileKind.Output}
@@ -3458,6 +3521,36 @@
                                                 dismiss={clearInternalClipboard}
                                             />
                                         {/if}
+                                        <!-- What a scratch project is, and the
+                                             two things worth doing with it.
+                                             Here rather than in the project
+                                             footer because the whole point of
+                                             the copy is to edit it, so this is
+                                             where someone is looking. Only on
+                                             the selected editor, so a project
+                                             with several files says it once. -->
+                                        {#if project.isScratch() && getSourceIndexByID(tile.id) === selectedSourceIndex}
+                                            <EditorNotice>
+                                                <div class="scratch">
+                                                    <span class="explanation"
+                                                        ><MarkupHTMLView
+                                                            inline
+                                                            markup={(l) =>
+                                                                l.ui.project
+                                                                    .scratch}
+                                                        /></span
+                                                    >
+                                                    <span class="actions">
+                                                        <RemixButton
+                                                            {project}
+                                                        />{#if returnTo !== undefined && returnLabel !== undefined}<Link
+                                                                to={returnTo}
+                                                                >{returnLabel}</Link
+                                                            >{/if}
+                                                    </span>
+                                                </div>
+                                            </EditorNotice>
+                                        {/if}
                                         <!-- "Viewing an older checkpoint — Restore" banner. -->
                                         {#if checkpointed}
                                             <EditorNotice
@@ -3678,6 +3771,44 @@
     /* The debugger's controls when their home tile is hidden: pinned above
        the footer, in the debug band's own color so they read as the same
        instrument. */
+    /* The sentence takes the room it needs and wraps; the two controls stay
+       together at the inline end. Letting them share the text's flow instead
+       broke "back to Group" across lines and left the wrapped lines touching. */
+    .scratch {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: var(--wordplay-spacing);
+        width: 100%;
+    }
+
+    /* A basis rather than `auto`: the controls never shrink, so without a
+       floor the sentence gets squeezed to one word per line in a narrow
+       editor. Below the floor the controls wrap to their own line instead,
+       still at the inline end. */
+    .scratch .explanation {
+        flex: 1 1 16em;
+        min-width: 0;
+        line-height: 1.4;
+    }
+
+    .scratch .actions {
+        flex: 0 0 auto;
+        margin-inline-start: auto;
+        white-space: nowrap;
+    }
+
+    /* Baseline again inside the group: a button is a flex container, so it
+       contributes its own box baseline unless its content is aligned too. */
+    .scratch .actions :global(button) {
+        align-items: baseline;
+    }
+
+    .scratch .actions :global(.link) {
+        margin-inline-start: var(--wordplay-spacing);
+    }
+
     .floating-debug {
         position: absolute;
         inset-block-end: var(--wordplay-spacing);

@@ -105,6 +105,9 @@ beforeAll(async () => {
             collaborators: [Users.Collaborator],
             commenters: [Users.Commenter],
             viewers: [Users.Viewer],
+            // Every v10 doc carries this, and the rule that protects it reads
+            // both sides, so the fixtures have to carry it too.
+            researchConsent: false,
         };
         await db.doc(`projects/${Projects.Unrestricted}`).set({
             ...roles,
@@ -279,6 +282,92 @@ for (const sub of ['updates', 'presence']) {
         });
     });
 }
+
+describe("research consent is the owner's alone to change", () => {
+    // #922. Collaborators, curators, and moderators can all update a project
+    // doc for other reasons. Consent permits Wordplay to show *the owner's*
+    // work, so none of them may flip it — while their other edits must keep
+    // working, or the clause would have broken ordinary collaboration.
+    it('the owner can turn research consent on and off', async () => {
+        await assertSucceeds(
+            projectDoc(Users.Owner, Projects.Unrestricted).update({
+                researchConsent: true,
+            }),
+        );
+        await assertSucceeds(
+            projectDoc(Users.Owner, Projects.Unrestricted).update({
+                researchConsent: false,
+            }),
+        );
+    });
+
+    it('a collaborator, curator, and moderator cannot change it', async () => {
+        for (const uid of [Users.Collaborator, Users.Curator, Users.Mod])
+            await assertFails(
+                projectDoc(uid, Projects.Unrestricted).update({
+                    researchConsent: true,
+                }),
+            );
+    });
+
+    it('their other edits still succeed', async () => {
+        for (const uid of [Users.Collaborator, Users.Curator, Users.Mod])
+            await assertSucceeds(
+                projectDoc(uid, Projects.Unrestricted).update({
+                    timestamp: 1,
+                }),
+            );
+    });
+});
+
+describe('ownership can only be handed over by the owner', () => {
+    // #189. A transfer is an ordinary project update performed by the current
+    // owner, so the rules have to tell it apart from a collaborator writing
+    // themselves in as owner — which they could do freely before, since the
+    // update rule admits collaborators and never looked at which fields changed.
+    it('the owner can hand the project to a collaborator', async () => {
+        await assertSucceeds(
+            projectDoc(Users.Owner, Projects.Public).update({
+                owner: Users.Collaborator,
+                collaborators: [Users.Owner],
+            }),
+        );
+        // Put it back, so the fixture is what the other tests expect.
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`projects/${Projects.Public}`)
+                .update({
+                    owner: Users.Owner,
+                    collaborators: [Users.Collaborator],
+                });
+        });
+    });
+
+    it('a collaborator cannot make themselves the owner', async () => {
+        await assertFails(
+            projectDoc(Users.Collaborator, Projects.Unrestricted).update({
+                owner: Users.Collaborator,
+            }),
+        );
+    });
+
+    it('a gallery curator cannot take a project in their gallery', async () => {
+        await assertFails(
+            projectDoc(Users.Curator, Projects.Unrestricted).update({
+                owner: Users.Curator,
+            }),
+        );
+    });
+
+    it('a collaborator can still make every other edit', async () => {
+        await assertSucceeds(
+            projectDoc(Users.Collaborator, Projects.Unrestricted).update({
+                timestamp: 2,
+            }),
+        );
+    });
+});
 
 describe('updates writes stay owner/collaborator-only', () => {
     // Unique per run: updates are immutable (`allow update: if false`), so a

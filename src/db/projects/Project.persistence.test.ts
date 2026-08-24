@@ -253,6 +253,29 @@ describe('upgradeProject — schema migration from pre-CRDT shapes', () => {
         expect(upgraded.remixOf).toBeNull();
     });
 
+    test('initializes the new v10 folder and researchConsent fields', () => {
+        // A project that predates folders is at the top level, and research
+        // consent is opt-in, so its absence means no — never a silent yes.
+        const upgraded = upgradeProject(v4Project());
+        expect(upgraded.folder).toBeNull();
+        expect(upgraded.researchConsent).toBe(false);
+    });
+
+    test('a doc already claiming v10 but missing the new fields still parses', () => {
+        // upgradeProject only backfills docs *below* the latest version, so a
+        // doc written by a client that claimed v10 without these keys would
+        // otherwise fail schema validation on every read forever. The zod
+        // `.default()` is what makes a missing field readable rather than
+        // fatal — same guard v8's crdt and v9's remixOf carry.
+        const complete = upgradeProject(v4Project());
+        const missing: Record<string, unknown> = { ...complete };
+        delete missing.folder;
+        delete missing.researchConsent;
+        const parsed = ProjectSchema.parse(missing);
+        expect(parsed.folder).toBeNull();
+        expect(parsed.researchConsent).toBe(false);
+    });
+
     test('preserves user data across migration', () => {
         const upgraded = upgradeProject(v4Project());
         expect(upgraded.id).toBe('old-project');
@@ -378,6 +401,33 @@ describe('Project.serialize — Firestore-compatible output', () => {
         // any drift between Project's in-memory shape and the schema
         // both halves of the storage layer parse against.
         expect(() => ProjectSchema.parse(serialized)).not.toThrow();
+    });
+
+    test('folder and research consent round-trip through serialize', () => {
+        const filed = makeBase()
+            .withFolder('folder-1')
+            .withResearchConsent(true);
+        const serialized = filed.serialize();
+        expect(serialized.folder).toBe('folder-1');
+        expect(serialized.researchConsent).toBe(true);
+        expect(() => ProjectSchema.parse(serialized)).not.toThrow();
+    });
+
+    test('a new project starts at the top level without research consent', () => {
+        const fresh = makeBase();
+        expect(fresh.getFolder()).toBeNull();
+        expect(fresh.hasResearchConsent()).toBe(false);
+    });
+
+    test('a copy inherits neither the folder nor research consent', () => {
+        // Consent is given for a particular project by the person who made it,
+        // and someone else's filing is not the copier's organization.
+        const filed = makeBase()
+            .withFolder('folder-1')
+            .withResearchConsent(true);
+        const copy = filed.copy('someone-else');
+        expect(copy.getFolder()).toBeNull();
+        expect(copy.hasResearchConsent()).toBe(false);
     });
 
     test('serialize omits `preview` when undefined (Firestore rejects literal undefined)', () => {

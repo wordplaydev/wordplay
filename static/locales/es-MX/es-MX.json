@@ -6892,6 +6892,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~quitar los idiomas que el código de este proyecto no usa",
                     "label": "$~quitar los que no se usan"
+                },
+                "tinker": {
+                    "label": "$?",
+                    "tip": "$?"
                 }
             },
             "field": {
@@ -6991,8 +6995,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~ir al proyecto del que se hizo esta mezcla"
-            }
+                "remixOf": "$~ir al proyecto del que se hizo esta mezcla",
+                "backTo": "$?"
+            },
+            "scratch": "$?",
+            "untitled": "$?"
         },
         "gallery": {
             "untitled": "Intitulada",
@@ -7694,6 +7701,10 @@
                     },
                     "remix": {
                         "explanation": "$~Una /versión/ es una copia de un proyecto que alguien cambió para hacerla suya. Recordamos de dónde viene una versión, para que la persona que hizo el original siga recibiendo el crédito."
+                    },
+                    "research": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -7720,6 +7731,11 @@
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
                         ]
+                    },
+                    "research": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -8120,7 +8136,7 @@
                     "moderationHeader": "$~El mensaje en \"$name\" requiere una acción de moderación"
                 },
                 "delete": "$~eliminar esta notificación",
-                "popup": "$~nueva notificación"
+                "popup": "$!nueva notificación"
             }
         },
         "palette": {
@@ -8548,7 +8564,48 @@
                     "description": "$~Buscar proyectos y fuentes",
                     "noResults": "$~No se encontraron resultados."
                 },
-                "installedprompt": "$~Estás usando Wordplay como una aplicación instalada, y guarda sus propios proyectos, aparte de los que tienes en tu navegador web. Todos los proyectos que hiciste en tu navegador siguen ahí. <Inicia sesión@://login> para ver todos tus proyectos en ambos lugares."
+                "installedprompt": "$~Estás usando Wordplay como una aplicación instalada, y guarda sus propios proyectos, aparte de los que tienes en tu navegador web. Todos los proyectos que hiciste en tu navegador siguen ahí. <Inicia sesión@://login> para ver todos tus proyectos en ambos lugares.",
+                "sort": {
+                    "label": "$?",
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "none": "$?",
+                    "button": {
+                        "create": "$?",
+                        "expand": "$?",
+                        "collapse": "$?"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$?",
+                            "prompt": "$?"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$?",
+                        "moved": "$?",
+                        "movedOut": "$?",
+                        "expanded": "$?",
+                        "collapsed": "$?",
+                        "selected": "$?",
+                        "created": "$?",
+                        "deleted": "$?",
+                        "renamed": "$?",
+                        "projectSelected": "$?",
+                        "cleared": "$?"
+                    },
+                    "instructions": {
+                        "none": "$?",
+                        "project": "$?",
+                        "folder": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "Galerías",
@@ -8738,7 +8795,9 @@
                     "$~Una cosa más sobre hacer un proyecto *público*. Los proyectos públicos se comparten bajo la <licencia Creative Commons Atribución-CompartirIgual@https://creativecommons.org/licenses/by-sa/4.0/>. Eso significa que cualquiera puede /remezclar/ tu proyecto público — hacer su propia copia y cambiarla — y tú puedes remezclar el de cualquier otra persona.",
                     "Con esa licencia vienen tres cosas. Quienes remezclan deben dar crédito a quien hizo el original. Deben compartir su remezcla bajo esta misma licencia, para que siga abierta para la siguiente persona. Y no pueden hacer privado un proyecto público para quedárselo.",
                     "Nosotros ayudamos con la parte del crédito: cuando alguien remezcla un proyecto, recordamos de dónde vino y mostramos un enlace de vuelta a él. Hacer público un proyecto es la forma de decir que sí a todo esto, así que si prefieres que nadie remezcle un proyecto, mantenlo privado."
-                ]
+                ],
+                "research": ["$?"],
+                "warnings": ["$?"]
             },
             "donate": {
                 "header": "Donar",
@@ -9445,13 +9504,18 @@
                     "tip": "$~comienza una conversación contigo o con otras personas."
                 },
                 "delete": "$~borrar este mensaje",
-                "confirmDelete": "$~¿confirmar borrado?"
+                "confirmDelete": "$~¿confirmar borrado?",
+                "transfer": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
             },
             "error": {
                 "unowned": "$~Este proyecto no se guarda en línea, así que no puede tener chat ni colaboradoras.",
                 "offline": "$~No se pudo cargar este chat.",
                 "empty": "$~No hay mensajes.",
-                "deleted": "$~Este mensaje se eliminó."
+                "deleted": "$~Este mensaje se eliminó.",
+                "transferGallery": "$?"
             },
             "prompt": {
                 "solo": "$~Chatea contigo o agrega...",
@@ -9493,6 +9557,9 @@
                 "commenters": "$~Las /comentadoras/ pueden *conversar* sobre el proyecto contigo, pero no pueden *editarlo*.",
                 "viewers": "$~Las /espectadoras/ pueden *ver* el proyecto y su *código*, pero no pueden *conversar* ni *editarlo*.",
                 "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todas* las personas que pueden ver la galería pueden ver tu proyecto. El botón /restringir/ lo *oculta* de todas menos de ti y de las curadoras de la galería."
+            },
+            "announce": {
+                "transferred": "$?"
             }
         },
         "checkpoints": {
@@ -10130,6 +10197,24 @@
         "done": "$~¡Nada más que moderar!",
         "error": {
             "notmod": "$~Parece que no eres moderador. Si te dieron privilegios de moderador hace poco, puede que necesites iniciar sesión otra vez. Si no, mira la wiki para saber cómo pedir privilegios de moderación."
+        },
+        "report": {
+            "button": "$?",
+            "confirm": "$?",
+            "sent": "$?",
+            "announce": "$?",
+            "flagged": "$?"
+        },
+        "strike": {
+            "issue": "$?",
+            "consequence": "$?",
+            "confirm": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "banned": "$?",
+            "warned": "$?",
+            "notification": "$?"
         }
     },
     "gallery": {

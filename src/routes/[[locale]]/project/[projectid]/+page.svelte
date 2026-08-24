@@ -120,10 +120,6 @@
     onMount(() => void DB.startProjectWork());
 </script>
 
-<svelte:head>
-    <title>{project ? project.getName() : '…'}</title>
-</svelte:head>
-
 {#if project}
     <!-- The project view fills the page and scrolls its own tiles, so the page's
          scroller would only ever be a way to pan the whole layout out of view. -->
