@@ -8547,7 +8547,9 @@
                 "choosePlaceholder": "$?",
                 "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
-                "fewerLanguages": "$?"
+                "fewerLanguages": "$?",
+                "translating": "$?",
+                "translated": "$?"
             },
             "announce": {
                 "transferred": "$~$name ಈಗ $project ಯ ಮಾಲೀಕರಾಗಿದ್ದಾರೆ"

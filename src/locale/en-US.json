@@ -8579,7 +8579,9 @@
                 "choosePlaceholder": "Choose a language",
                 "currentLanguagePlaceholder": "Use current language",
                 "moreLanguages": "Search for another language",
-                "fewerLanguages": "Hide language search"
+                "fewerLanguages": "Hide language search",
+                "translating": "Translating messages",
+                "translated": "$#count[Translated $count message to $language.|Translated $count messages to $language.]"
             },
             "role": {
                 "owner": "owner",

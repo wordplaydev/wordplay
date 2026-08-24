@@ -8570,7 +8570,9 @@
                 "choosePlaceholder": "$?",
                 "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
-                "fewerLanguages": "$?"
+                "fewerLanguages": "$?",
+                "translating": "$?",
+                "translated": "$?"
             },
             "announce": {
                 "transferred": "$~Si $name na ngayon ang may-ari ng $project"

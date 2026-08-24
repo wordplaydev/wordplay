@@ -9677,7 +9677,9 @@
                 "choosePlaceholder": "$?",
                 "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
-                "fewerLanguages": "$?"
+                "fewerLanguages": "$?",
+                "translating": "$?",
+                "translated": "$?"
             },
             "announce": {
                 "transferred": "$~$name est maintenant le propriétaire de $project"
