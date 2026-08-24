@@ -5,6 +5,9 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import LocaleName from '@components/settings/LocaleName.svelte';
+    import LocaleSearch, {
+        filterLocalesByQuery,
+    } from '@components/settings/LocaleSearch.svelte';
     import Options from '@components/widgets/Options.svelte';
     import { getAnnouncer, getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
@@ -30,12 +33,13 @@
         localeToString,
         localesAreEqual,
         stringToLocale,
+        type Locale,
     } from '@locale/Locale';
     import { getMultilingualLanguageLabel } from '@locale/LocaleText';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, SEARCH_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
     import { tick, untrack } from 'svelte';
 
@@ -65,6 +69,54 @@
     // getTranslatableLocales() is built from Object.entries(Languages), which
     // has unique keys, so no additional dedupe is needed here.
     const translatableLocales = getTranslatableLocales();
+
+    // The languages actually relevant to this chat: the viewer's own locale first
+    // (so the message-language default below always has a matching option, even
+    // for a locale like ta-IN-LK-SG that TranslatableLocales only lists as separate
+    // single-region entries), then the chat's declared language, then every
+    // language a message in the chat is already tagged with. This keeps both
+    // pickers below to a handful of options instead of every translatable locale
+    // (~250 languages, ~650 language+region combinations) with no way to filter.
+    let chatLocales = $derived.by(() => {
+        const seen = new Set<string>();
+        const found: Locale[] = [];
+        const add = (localeString: string | undefined) => {
+            if (localeString === undefined || seen.has(localeString)) return;
+            const locale = stringToLocale(localeString);
+            if (locale === undefined) return;
+            seen.add(localeString);
+            found.push(locale);
+        };
+        add(localeToString($locales.getLocale()));
+        if (chat) {
+            add(chat.getLanguage());
+            for (const msg of chat.getMessages()) add(msg.language);
+        }
+        return found;
+    });
+
+    /** Whether the "more languages" search is showing for the translate-to and
+     *  message-language pickers, and the query typed into each. Collapsed by
+     *  default so the two pickers don't permanently cost extra width for a list
+     *  almost nobody needs to search. */
+    let translateSearchExpanded = $state(false);
+    let translateQuery = $state('');
+    let messageSearchExpanded = $state(false);
+    let messageQuery = $state('');
+
+    /** The options shown in a language picker: the chat's own short list of
+     *  languages normally, or every translatable locale filtered by the search
+     *  query once the picker's search is expanded. */
+    function languagePickerLocales(expanded: boolean, query: string): Locale[] {
+        return expanded
+            ? filterLocalesByQuery(
+                  translatableLocales,
+                  query,
+                  (locale) => locale,
+                  $locales.getLanguages(),
+              )
+            : chatLocales;
+    }
 
     // The language the creator has chosen to tag their next message with.
     // Defaults to the viewer's current UI locale (matching startChat) so
@@ -650,7 +702,10 @@
                         label: (l) =>
                             l.ui.collaborate.translate.choosePlaceholder,
                     },
-                    ...translatableLocales.map((locale) => ({
+                    ...languagePickerLocales(
+                        translateSearchExpanded,
+                        translateQuery,
+                    ).map((locale) => ({
                         value: localeToString(locale),
                         label: (_l: any) =>
                             getMultilingualLanguageLabel(locale),
@@ -658,6 +713,22 @@
                 ]}
                 change={(ls) => queueTranslateMessages(ls)}
             />
+            <Button
+                tip={translateSearchExpanded
+                    ? (l) => l.ui.collaborate.translate.fewerLanguages
+                    : (l) => l.ui.collaborate.translate.moreLanguages}
+                action={() =>
+                    (translateSearchExpanded = !translateSearchExpanded)}
+                expanded={translateSearchExpanded}
+                controls="translate-language-search"
+                icon={SEARCH_SYMBOL}
+            />
+            {#if translateSearchExpanded}
+                <LocaleSearch
+                    id="translate-language-search"
+                    bind:query={translateQuery}
+                />
+            {/if}
         </div>
         {#if translateError}
             <Notice
@@ -702,7 +773,10 @@
                             l.ui.collaborate.translate
                                 .currentLanguagePlaceholder,
                     },
-                    ...translatableLocales.map((locale) => ({
+                    ...languagePickerLocales(
+                        messageSearchExpanded,
+                        messageQuery,
+                    ).map((locale) => ({
                         value: localeToString(locale),
                         label: (_l: any) =>
                             getMultilingualLanguageLabel(locale),
@@ -710,6 +784,21 @@
                 ]}
                 change={(ls) => (messageLanguage = ls)}
             />
+            <Button
+                tip={messageSearchExpanded
+                    ? (l) => l.ui.collaborate.translate.fewerLanguages
+                    : (l) => l.ui.collaborate.translate.moreLanguages}
+                action={() => (messageSearchExpanded = !messageSearchExpanded)}
+                expanded={messageSearchExpanded}
+                controls="message-language-search"
+                icon={SEARCH_SYMBOL}
+            />
+            {#if messageSearchExpanded}
+                <LocaleSearch
+                    id="message-language-search"
+                    bind:query={messageQuery}
+                />
+            {/if}
         </div>
         <form class="new" data-sveltekit-keepfocus>
             <div class="editor">
@@ -773,7 +862,10 @@
 
     .language {
         display: flex;
+        align-items: center;
         justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing-half);
         flex-shrink: 0;
         padding-block: calc(0.5 * var(--wordplay-spacing));
     }
@@ -781,6 +873,7 @@
     .translate-bar {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         flex-shrink: 0;
         padding-block: calc(0.5 * var(--wordplay-spacing));

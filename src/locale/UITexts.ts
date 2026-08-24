@@ -1091,6 +1091,10 @@ type UITexts = {
             choosePlaceholder: string;
             /** [plain] Placeholder option in the message language picker, meaning the message isn't tagged with a specific language */
             currentLanguagePlaceholder: string;
+            /** [plain] Tip for the button that reveals a search field for languages beyond the ones already in this chat */
+            moreLanguages: string;
+            /** [plain] Tip for the button that hides the language search field */
+            fewerLanguages: string;
         };
         /** The chat message input field */
         field: {

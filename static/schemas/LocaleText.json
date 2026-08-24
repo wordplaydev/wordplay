@@ -16772,6 +16772,10 @@
                                             "$ref": "#/definitions/Template%3C%5B%22to%22%5D%3E",
                                             "description": "[plain] Shown below the translate control when the whole chat couldn't be translated; $to is the target language name"
                                         },
+                                        "fewerLanguages": {
+                                            "description": "[plain] Tip for the button that hides the language search field",
+                                            "type": "string"
+                                        },
                                         "label": {
                                             "description": "[plain] Label for the control that translates received messages",
                                             "type": "string"
@@ -16792,6 +16796,10 @@
                                             "description": "[plain] Visible label for the message language picker",
                                             "type": "string"
                                         },
+                                        "moreLanguages": {
+                                            "description": "[plain] Tip for the button that reveals a search field for languages beyond the ones already in this chat",
+                                            "type": "string"
+                                        },
                                         "off": {
                                             "description": "[plain] Button label and tip to clear the current translation target",
                                             "type": "string"
@@ -16807,7 +16815,9 @@
                                         "direction",
                                         "messageLanguageLabel",
                                         "choosePlaceholder",
-                                        "currentLanguagePlaceholder"
+                                        "currentLanguagePlaceholder",
+                                        "moreLanguages",
+                                        "fewerLanguages"
                                     ],
                                     "type": "object"
                                 }
