@@ -65,6 +65,9 @@
            column's `align-items: flex-start` would otherwise let one code
            example set the width of the whole page. */
         min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
         width: 100%;
         box-sizing: border-box;
     }
