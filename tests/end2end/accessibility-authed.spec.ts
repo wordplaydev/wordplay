@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations } from '../helpers/checkAccessibility';
+import { createTestCharacter } from '../helpers/createCharacter';
+import { editTrianglePoints } from '../helpers/drawCharacterPath';
 import { loginNewContext } from '../helpers/loginNewContext';
 
 /**
@@ -34,6 +36,42 @@ for (const scheme of ['light', 'dark'] as const) {
             }
         });
 
+        test(`projects list with a folder has no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            // Folders add a disclosure, an inline rename field, tiles that can
+            // be chosen and dragged, and an instructions region — none of which
+            // the plain list scan above covers. A project is left chosen, since
+            // the focusable tile and its aria-current are the parts most likely
+            // to be wrong.
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                await page.goto('/en-US/projects');
+                await expect(page.getByTestId('preview').first()).toBeVisible({
+                    timeout: LOAD_TIMEOUT,
+                });
+                // Both colour schemes run this against one emulator, so the
+                // second pass starts with the first pass's folder already there.
+                const folders = page.locator('section.folder');
+                const before = await folders.count();
+                await page.locator('[data-uiid="new-folder"]').click();
+                await expect(folders).toHaveCount(before + 1);
+                const tile = page
+                    .locator('[data-folder="none"] .project')
+                    .first();
+                await tile.click({ position: { x: 4, y: 4 } });
+                await expect(tile).toHaveAttribute('aria-current', 'true');
+                await expectNoAxeViolations(page);
+            } finally {
+                await context.close();
+            }
+        });
+
         test(`project editor has no WCAG 2.2 AA violations`, async ({
             browser,
         }) => {
@@ -61,6 +99,38 @@ for (const scheme of ['light', 'dark'] as const) {
             }
         });
 
+        test(`languages dialog has no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            // The translate tab carries a progress bar and a budget meter, both
+            // of which need an accessible name and AA-contrast text in both
+            // schemes, and neither is reachable from the editor scan above.
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                await page.goto('/en-US/project/seed-collab-project');
+                await expect(page.locator('#project-name')).toHaveValue(
+                    'Shared Sketch',
+                    { timeout: LOAD_TIMEOUT },
+                );
+                await page
+                    .locator('[data-uiid="languagesButton"] button')
+                    .first()
+                    .click();
+                await page.getByRole('tab').nth(1).click();
+                await expect(
+                    page.locator('#languages-tabs-panel'),
+                ).toBeVisible();
+                await expectNoAxeViolations(page);
+            } finally {
+                await context.close();
+            }
+        });
+
         test(`character editor has no WCAG 2.2 AA violations`, async ({
             browser,
         }) => {
@@ -79,6 +149,58 @@ for (const scheme of ['light', 'dark'] as const) {
                 await expect(page.getByRole('application').first()).toBeVisible(
                     { timeout: LOAD_TIMEOUT },
                 );
+                await expectNoAxeViolations(page);
+            } finally {
+                await context.close();
+            }
+        });
+
+        /**
+         * The image importer's crop region is a role="application" the creator
+         * drives with the keyboard, and it only renders once its mode is chosen.
+         */
+        test(`the character image importer has no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                await createTestCharacter(page);
+                await page
+                    .getByRole('radio', { name: 'image', exact: true })
+                    .click();
+                await expect(
+                    page
+                        .getByRole('button', { name: /choose an image file/i })
+                        .first(),
+                ).toBeVisible({ timeout: LOAD_TIMEOUT });
+                await expectNoAxeViolations(page);
+            } finally {
+                await context.close();
+            }
+        });
+
+        /**
+         * Opening a character is not enough to reach the point handles: they need
+         * a path, and they bring their own overlay and toolbar with them. A
+         * freshly drawn triangle is the smallest state that renders all of it.
+         */
+        test(`character point editing has no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                await createTestCharacter(page);
+                await editTrianglePoints(page);
                 await expectNoAxeViolations(page);
             } finally {
                 await context.close();

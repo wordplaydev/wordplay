@@ -48,3 +48,38 @@ for (const scheme of ['light', 'dark'] as const) {
         }
     });
 }
+
+/**
+ * The landing page's carousel, which the route scan above can't reach: it
+ * doesn't exist until a visitor presses for it, because loading it downloads
+ * the language runtime. Its tab list, its read-only code, and the running
+ * output are all new surfaces, so they get the same gate in both schemes.
+ */
+for (const scheme of ['light', 'dark'] as const) {
+    test.describe(`landing carousel (${scheme})`, () => {
+        test.use({ colorScheme: scheme });
+
+        test('has no WCAG 2.2 AA violations', async ({ page }) => {
+            await page.goto('/en-US');
+            const show = page.getByRole('button', {
+                name: /show me/i,
+            });
+            await expect(show).toBeVisible({ timeout: 15000 });
+            await show.click();
+            // The tab list only exists once the runtime chunk has arrived.
+            await expect(page.getByRole('tab').first()).toBeVisible({
+                timeout: 30000,
+            });
+            await expectNoAxeViolations(page);
+
+            // And again on an example the viewer has switched to, since each
+            // renders different output and different code.
+            await page.getByRole('tab').nth(6).click();
+            await expect(page.getByRole('tab').nth(6)).toHaveAttribute(
+                'aria-selected',
+                'true',
+            );
+            await expectNoAxeViolations(page);
+        });
+    });
+}

@@ -341,7 +341,7 @@ function conflictsFor(notes: NoteData[]) {
     return {
         code: revised.getMain().code.toString(),
         entries,
-        conflicts: revised.getConflicts().map((c) => c.constructor.name),
+        conflicts: revised.analyze().conflicts.map((c) => c.constructor.name),
     };
 }
 

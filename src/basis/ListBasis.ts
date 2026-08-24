@@ -408,25 +408,9 @@ export default function bootstrapList(locales: Locales) {
                             );
                     },
                 ),
-                createBasisFunction(
-                    locales,
-                    (locale) => locale.basis.List.function.sans,
-                    undefined,
-                    [ListTypeVariable.getReference()],
-                    ListType.make(ListTypeVariable.getReference()),
-                    (requestor, evaluation) => {
-                        const list = evaluation.getClosure();
-                        const value = evaluation.getInput(0);
-                        if (list instanceof ListValue && value !== undefined)
-                            return list.sansAll(requestor, value);
-                        else
-                            return evaluation.getValueOrTypeException(
-                                requestor,
-                                ListType.make(),
-                                list,
-                            );
-                    },
-                ),
+                // One definition for all four names (without/sans/withoutAll/
+                // sansAll): `sans` was a second, identical definition whose name
+                // promised it removed only the first copy, which it never did.
                 createBasisFunction(
                     locales,
                     (locale) => locale.basis.List.function.sansAll,
@@ -1014,10 +998,21 @@ export default function bootstrapList(locales: Locales) {
                             new ListValue(
                                 expression,
                                 info.keyed
-                                    .sort(
-                                        (a, b) =>
-                                            a[0].toNumber() - b[0].toNumber(),
-                                    )
+                                    .sort((a, b) => {
+                                        const left = a[0].toNumber();
+                                        const right = b[0].toNumber();
+                                        // A not-a-number key has no place in an
+                                        // order. Subtracting gives NaN for every
+                                        // pair it touches, which is an
+                                        // inconsistent comparator — that can
+                                        // scramble elements that have nothing to
+                                        // do with it, not just misplace this one.
+                                        // Send them to the end instead.
+                                        if (Number.isNaN(left))
+                                            return Number.isNaN(right) ? 0 : 1;
+                                        if (Number.isNaN(right)) return -1;
+                                        return left - right;
+                                    })
                                     .map((pair) => pair[1]),
                             ),
                     ),

@@ -12,6 +12,7 @@
     import { unescapeMarkupSymbols } from '@parser/Tokenizer';
     import { BULLET_SYMBOL } from '@parser/Symbols';
     import Link from '@components/app/Link.svelte';
+    import linkHref from '@parser/linkHref';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import TermView from '@components/concepts/TermView.svelte';
     import ExternalExampleView from '@components/concepts/ExternalExampleView.svelte';
@@ -45,10 +46,11 @@
         return /^[ \t\n]+$/.test(space) && !space.includes('\n\n');
     }
 
-    // Mirror WebLinkHTMLView: a schemeless ://path URL is an internal wordplay path.
+    // Shared with WebLinkHTMLView and the editor's two link views, so a bare
+    // email, an internal ://path, and an ordinary URL all resolve the same way
+    // — and so nothing renders a link to a scheme we don't allow.
     function getTokenURL(token: Token) {
-        const text = token.getText();
-        return text.startsWith('://') ? text.replace('://', '/') : text;
+        return linkHref(token.getText());
     }
 
     function getTokenText(token: Token) {
@@ -99,9 +101,12 @@
 {:else if segment instanceof Words}<WordsHTMLView words={segment} {spaces} />
     <!-- Remove the bullet if the words start with one. -->
 {:else if segment instanceof Token}{#if isTokenSpaced(segment)}&nbsp;{/if}{#if segment.isSymbol(Sym.URL)}{@const url =
-            getTokenURL(segment)}<Link external={!url.startsWith('/')} to={url}
-            >{segment.getText()}</Link
-        >{:else}<EmojisRepaired text={getTokenText(segment)} />{/if}{/if}
+            getTokenURL(segment)}{#if url !== undefined}<Link
+                external={!url.startsWith('/')}
+                to={url}>{segment.getText()}</Link
+            >{:else}{segment.getText()}{/if}{:else}<EmojisRepaired
+            text={getTokenText(segment)}
+        />{/if}{/if}
 
 <style>
     /* Keep the stand-in on the text baseline so a line of prose doesn't jump

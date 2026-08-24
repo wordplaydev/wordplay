@@ -14,16 +14,15 @@ import type {
     EmailExistsInputs,
     EmailExistsOutput,
     GetLLMTranslationsInputs,
+    ModerateProjectInputs,
 } from 'shared-types';
 
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
 import createClassHandler from './createClass.js';
+import moderateProjectHandler from './moderateProject.js';
 import emailExistsHandler from './emailExists.js';
 import galleryEditedHandler from './galleryEdited.js';
 import getCreatorsHandler from './getCreators.js';
-import getTranslationsHandler, {
-    type GetTranslationsInputs,
-} from './getTranslations.js';
 import getLLMTranslationsHandler from './getLLMTranslations.js';
 import analyzeLocalizationHandler from './analyzeLocalization.js';
 import getPagePreviewHandler from './getPagePreview.js';
@@ -60,27 +59,34 @@ export const emailExists = onCall<
     Promise<EmailExistsOutput>
 >(cors, emailExistsHandler);
 
-/**
- * Given a from to locale (using ll, where ll is a two character language code),
- * and a list of strings, use Google Cloud Translate to translate the list of strings into the target language.
- */
-export const getTranslations = onCall<GetTranslationsInputs>(
-    cors,
-    getTranslationsHandler,
-);
-
 /** The Anthropic API key, for the Claude-backed project translation. Set with
  *  `firebase functions:secrets:set ANTHROPIC_API_KEY` (and, for the emulator,
  *  in the gitignored functions/.env.local). */
 const anthropicKey = defineSecret('ANTHROPIC_API_KEY');
 
 /**
- * Like getTranslations, but uses Claude for higher-quality, context-aware
- * project translation. The Google getTranslations remains registered as a
- * fallback. The SDK reads ANTHROPIC_API_KEY from the bound secret.
+ * Translate a project's strings with Claude. The SDK reads ANTHROPIC_API_KEY
+ * from the bound secret.
+ *
+ * `timeoutSeconds` is raised well above the 60s v2 default because a chunk of a
+ * large project routinely runs longer than that, and the timeout — not the model
+ * — was what made translating a big project look like it hung (#1276). The
+ * client raises its own callable timeout to match.
+ *
+ * `maxInstances` is the global half of the abuse defence (#1073): the per-creator
+ * daily budget in translationBudget.ts bounds what one account can spend, and
+ * this bounds what everyone can spend at once. A single global Firestore counter
+ * was considered and rejected — it would be a hot document that chat translation
+ * would push past Firestore's per-document write ceiling, and it would turn one
+ * abuser into a denial of service for every creator.
  */
 export const getLLMTranslations = onCall<GetLLMTranslationsInputs>(
-    { ...cors, secrets: [anthropicKey] },
+    {
+        ...cors,
+        secrets: [anthropicKey],
+        timeoutSeconds: 300,
+        maxInstances: 10,
+    },
     getLLMTranslationsHandler,
 );
 
@@ -125,6 +131,12 @@ export const compactProjectUpdates = onSchedule(
  * Given a teacher user ID, credential information for several students, and
  * a name and description for a class, create a class and return it's ID
  */
+/** #193: a moderator's decision about a project, and its consequences. */
+export const moderateProject = onCall<ModerateProjectInputs>(
+    cors,
+    moderateProjectHandler,
+);
+
 export const createClass = onCall<
     CreateClassInputs,
     Promise<CreateClassOutput>

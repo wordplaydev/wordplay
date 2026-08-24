@@ -428,10 +428,15 @@ export function getDropConflicts(
 
     const [newProject] = dropNodeOnSource(project, source, dragged, target);
     // `before` comes from the live project's CACHED analysis (the app already computed it for the
-    // annotations UI), so it costs nothing. `after` must be computed fresh on the never-analyzed
-    // newProject; getMajorConflictsNow() is the right tool there because it computes conflicts only,
-    // skipping the evaluation/dependency graphs that full analysis would also build.
-    const before = project.getConflicts().filter((c) => !c.isMinor());
+    // annotations UI), so it usually costs nothing. When there isn't one — analysis is skipped
+    // during a typing flurry — compute it, because taking "no analysis" for "no conflicts" would
+    // make every conflict the program already had look like one this drop introduced. `after` must
+    // be computed fresh on the never-analyzed newProject; getMajorConflictsNow() is the right tool
+    // for both because it computes conflicts only, skipping the call and dependency graphs that a
+    // full analysis would also build, and it already excludes minor conflicts.
+    const before =
+        project.getConflicts()?.filter((c) => !c.isMinor()) ??
+        project.getMajorConflictsNow();
     const after = newProject.getMajorConflictsNow();
     // The conflicts reference nodes in newProject, so return it too for resolving their context.
     return {

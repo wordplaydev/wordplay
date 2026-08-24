@@ -13,7 +13,7 @@ import Shape, { toShape } from '@output/Output/Shape/Shape';
 import Music, { toMusic } from '@output/Music/Music';
 import { toStack } from '@output/Arrangement/Stack';
 import type Arrangement from '@output/Arrangement/Arrangement';
-import { NameGenerator, DefaultSize } from '@output/Output/Stage';
+import { NameGenerator, DefaultSize, toStage } from '@output/Output/Stage';
 import RenderContext from '@output/RenderContext';
 import { reflectX } from '@output/Place/Place';
 import type { WritingDirection } from '@locale/Scripts';
@@ -28,7 +28,16 @@ function evalValue(code: string) {
         DefaultLocale,
     );
     const evaluator = new Evaluator(project, DB, [DefaultLocale]);
-    return { project, value: evaluator.getInitialValue() };
+    return { project, evaluator, value: evaluator.getInitialValue() };
+}
+
+/** The Stage a program evaluates to, for asking what its layout reports. */
+function stageFrom(code: string) {
+    const { evaluator, value } = evalValue(code);
+    if (value === undefined) throw new Error(`no value from ${code}`);
+    const stage = toStage(evaluator, value);
+    if (stage === undefined) throw new Error(`expected a Stage from ${code}`);
+    return stage;
 }
 
 /** A Shape whose layout size comes from its Rectangle form, so layout is
@@ -190,4 +199,66 @@ test('a Grid mirrors its columns under RTL', () => {
     // First cell precedes the second under LTR, and follows it under RTL.
     expect(ltr.places[0][1].x).toBeLessThan(ltr.places[1][1].x);
     expect(rtl.places[0][1].x).toBeGreaterThan(rtl.places[1][1].x);
+});
+
+/**
+ * The camera's zoom-in bound follows the nearest thing on stage, so every container reports
+ * the nearest z beneath it. z is absolute rather than relative to a parent's place
+ * (`Place.offset` deliberately leaves it alone), so this is a plain minimum with no
+ * accumulation — which is what these tests really pin down.
+ *
+ * Groups carry the z here because a `Shape` has no place of its own (it offsets instead) and
+ * a `Phrase` cannot be laid out without a DOM. `Music` is the footprint-free filler a Group
+ * will accept.
+ */
+const heard = () => 'Music(Track([1]))';
+
+test('a stage with nothing placed forward reports the stage plane', () => {
+    // Seeded at 0 to match how the x/y bounds seed at the origin: content lives on the
+    // plane unless a project says otherwise.
+    expect(stageFrom('Stage([])').getLayout(contextFor('ltr')).nearest).toBe(0);
+    expect(
+        stageFrom(`Stage([Group(Free() [${heard()}])])`).getLayout(
+            contextFor('ltr'),
+        ).nearest,
+    ).toBe(0);
+});
+
+test('a stage reports the nearest of its placed children', () => {
+    const stage = stageFrom(`Stage([
+        Group(Free() [${heard()}] place: Place(z: -3m))
+        Group(Free() [${heard()}])
+    ])`);
+    expect(stage.getLayout(contextFor('ltr')).nearest).toBe(-3);
+});
+
+test('a stage reaches through an arrangement to a nested z', () => {
+    // The reason the layout type carries `nearest` rather than the Stage simply reading its
+    // own children's places: an arrangement holds its children's places, so a z nested
+    // inside one is invisible from the top.
+    for (const [arrangement, z] of [
+        ['Row()', -5],
+        ['Stack()', -6],
+    ] as const) {
+        const stage = stageFrom(`Stage([
+            Group(${arrangement} [
+                Group(${arrangement} [${heard()}] place: Place(z: ${z}m))
+            ])
+        ])`);
+        expect(stage.getLayout(contextFor('ltr')).nearest).toBe(z);
+    }
+});
+
+test('nearest reports the z an arrangement actually lays out at', () => {
+    // Free honours only a Phrase's place, and Grid hardcodes its cells to the stage plane,
+    // so a Group nested in either is *drawn* at z = 0 whatever place it was given. Reporting
+    // its authored z instead would bound the camera against a depth nothing occupies.
+    for (const arrangement of ['Free()', 'Grid(1 1)']) {
+        const stage = stageFrom(`Stage([
+            Group(${arrangement} [
+                Group(${arrangement} [${heard()}] place: Place(z: -4m))
+            ])
+        ])`);
+        expect(stage.getLayout(contextFor('ltr')).nearest).toBe(0);
+    }
 });

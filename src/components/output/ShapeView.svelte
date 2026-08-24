@@ -163,9 +163,13 @@
 </script>
 
 {#if visible}
+    <!-- Non-selectable shapes are exposed as images, exactly as phrases are: a
+         role is required for aria-label/aria-roledescription to be legal ARIA
+         on a div, and without one axe rejects the label outright — so the
+         description a screen reader is meant to hear was thrown away. -->
     <div
         bind:this={view}
-        role={selectable ? 'button' : null}
+        role={selectable ? 'button' : 'img'}
         aria-disabled={!selectable}
         aria-label={description}
         aria-roledescription={!selectable ? shapeKindName : null}

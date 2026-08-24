@@ -4,6 +4,7 @@ import NumberType from '@nodes/NumberType';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Unit from '@nodes/Unit';
+import { NOT_A_NUMBER_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import NoneValue from '@values/NoneValue';
 import Decimal from 'decimal.js';
@@ -71,8 +72,10 @@ export default class NumberValue extends SimpleValue {
         let num;
         let precision;
 
-        // Not a number
-        if (text === '!#') return [new Decimal(NaN), undefined];
+        // The not-a-number literal, recognized by its own sym rather than its
+        // text so a hand-built token can't be mistaken for one.
+        if (number.isSymbol(Sym.NotANumber) || text === NOT_A_NUMBER_SYMBOL)
+            return [new Decimal(NaN), undefined];
         // Infinity
         else if (number.isSymbol(Sym.Infinity) || text === '∞') {
             [num, precision] = [
@@ -230,10 +233,22 @@ export default class NumberValue extends SimpleValue {
         return new NumberValue(requestor, this.num.ceil(), this.unit);
     }
 
+    /**
+     * Two numbers are equal when they measure the same amount of the same
+     * thing. Not-a-number is one value, so two of them are equal: IEEE made it
+     * unequal to itself so hardware could flag a bad operation without
+     * trapping, but Wordplay asks `=` whether two values are the same thing,
+     * and it has `ø` and exceptions for signalling. Without this, `!# = !#` was
+     * always `⊥`, which meant a creator converting typed input had no way to
+     * ask whether it worked — `= !#` is the only phrasing available, and it
+     * was exactly the one that could never be true. Units still count, so
+     * `!#m = !#s` is false, just as `1m = 1` is.
+     */
     isEqualTo(operand: Value): boolean {
         return (
             operand instanceof NumberValue &&
-            this.num.equals(operand.num) &&
+            (this.num.equals(operand.num) ||
+                (this.num.isNaN() && operand.num.isNaN())) &&
             this.unit.isEqualTo(operand.unit)
         );
     }
@@ -261,16 +276,20 @@ export default class NumberValue extends SimpleValue {
         );
     }
 
+    // Sine, cosine, and tangent of an angle are ratios of two lengths, so they are
+    // unitless whatever the angle was measured in — the same reason their inverses
+    // below are. They kept the input's unit until #363 made `45° → #rad` possible
+    // and so made `(45° → #rad).sin()` a thing a creator would actually write.
     cos(requestor: Expression) {
-        return new NumberValue(requestor, this.num.cos(), this.unit);
+        return new NumberValue(requestor, this.num.cos(), Unit.Empty);
     }
 
     sin(requestor: Expression) {
-        return new NumberValue(requestor, this.num.sin(), this.unit);
+        return new NumberValue(requestor, this.num.sin(), Unit.Empty);
     }
 
     tan(requestor: Expression) {
-        return new NumberValue(requestor, this.num.tan(), this.unit);
+        return new NumberValue(requestor, this.num.tan(), Unit.Empty);
     }
 
     // Inverse trig, logarithms, and exponentials are transcendental, so their
@@ -315,7 +334,7 @@ export default class NumberValue extends SimpleValue {
     toWordplay(): string {
         return `${
             this.num.isNaN()
-                ? '!#'
+                ? NOT_A_NUMBER_SYMBOL
                 : !this.num.isFinite()
                   ? `${this.num.isPositive() ? '' : '-'}∞`
                   : this.num.toString()
@@ -330,7 +349,8 @@ export default class NumberValue extends SimpleValue {
      */
     toText(locale: Locale): string {
         // Non-finite values have no localized form; mirror toWordplay.
-        if (this.num.isNaN()) return `!#${this.unit.toString()}`;
+        if (this.num.isNaN())
+            return `${NOT_A_NUMBER_SYMBOL}${this.unit.toString()}`;
         if (!this.num.isFinite())
             return `${this.num.isPositive() ? '' : '-'}∞${this.unit.toString()}`;
 
@@ -345,7 +365,8 @@ export default class NumberValue extends SimpleValue {
     }
 
     getRepresentativeText() {
-        return this.num.toString();
+        // Say `!#`, not JavaScript's "NaN", matching toWordplay and toText.
+        return this.num.isNaN() ? NOT_A_NUMBER_SYMBOL : this.num.toString();
     }
 
     getSize() {

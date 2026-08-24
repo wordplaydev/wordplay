@@ -1,3 +1,4 @@
+import UnknownColumn from '@conflicts/UnknownColumn';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import InvalidRow from '@conflicts/InvalidRow';
 import MissingCell from '@conflicts/MissingCell';
@@ -42,4 +43,18 @@ test.each([
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡+ 2 3⎦ ⎡+ 3 4⎦', '⎡ 1 2 ⎦\n⎡ 2 3 ⎦\n⎡ 3 4 ⎦'],
 ])('%s = %s', (code: string, value: string) => {
     expect(evaluateCode(code)?.toWordplay(DefaultLocales)).toBe(value);
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([
+    [
+        'table: ⎡one•#⎦\ntable⎡+ one:1⎦',
+        'table: ⎡one•#⎦\ntable⎡+ two:1⎦',
+        Insert,
+        UnknownColumn,
+        0,
+    ],
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
+    testConflict(good, bad, node, conflict, index);
 });

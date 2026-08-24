@@ -174,7 +174,9 @@ describe('Project.remix — provenance', () => {
         // which would block every save for the whole batch, not just this doc.
         const serialized = makeBase().serialize();
         expect(serialized.remixOf).toBeNull();
-        expect(Object.values(serialized).includes(undefined)).toBe(false);
+        expect(Object.values(serialized).some((v) => v === undefined)).toBe(
+            false,
+        );
     });
 
     test('mergeWith preserves provenance from either side', () => {
@@ -249,6 +251,29 @@ describe('upgradeProject — schema migration from pre-CRDT shapes', () => {
         // an original — there's no source to recover retroactively.
         const upgraded = upgradeProject(v4Project());
         expect(upgraded.remixOf).toBeNull();
+    });
+
+    test('initializes the new v10 folder and researchConsent fields', () => {
+        // A project that predates folders is at the top level, and research
+        // consent is opt-in, so its absence means no — never a silent yes.
+        const upgraded = upgradeProject(v4Project());
+        expect(upgraded.folder).toBeNull();
+        expect(upgraded.researchConsent).toBe(false);
+    });
+
+    test('a doc already claiming v10 but missing the new fields still parses', () => {
+        // upgradeProject only backfills docs *below* the latest version, so a
+        // doc written by a client that claimed v10 without these keys would
+        // otherwise fail schema validation on every read forever. The zod
+        // `.default()` is what makes a missing field readable rather than
+        // fatal — same guard v8's crdt and v9's remixOf carry.
+        const complete = upgradeProject(v4Project());
+        const missing: Record<string, unknown> = { ...complete };
+        delete missing.folder;
+        delete missing.researchConsent;
+        const parsed = ProjectSchema.parse(missing);
+        expect(parsed.folder).toBeNull();
+        expect(parsed.researchConsent).toBe(false);
     });
 
     test('preserves user data across migration', () => {
@@ -378,11 +403,59 @@ describe('Project.serialize — Firestore-compatible output', () => {
         expect(() => ProjectSchema.parse(serialized)).not.toThrow();
     });
 
+    test('folder and research consent round-trip through serialize', () => {
+        const filed = makeBase()
+            .withFolder('folder-1')
+            .withResearchConsent(true);
+        const serialized = filed.serialize();
+        expect(serialized.folder).toBe('folder-1');
+        expect(serialized.researchConsent).toBe(true);
+        expect(() => ProjectSchema.parse(serialized)).not.toThrow();
+    });
+
+    test('a new project starts at the top level without research consent', () => {
+        const fresh = makeBase();
+        expect(fresh.getFolder()).toBeNull();
+        expect(fresh.hasResearchConsent()).toBe(false);
+    });
+
+    test('a copy inherits neither the folder nor research consent', () => {
+        // Consent is given for a particular project by the person who made it,
+        // and someone else's filing is not the copier's organization.
+        const filed = makeBase()
+            .withFolder('folder-1')
+            .withResearchConsent(true);
+        const copy = filed.copy('someone-else');
+        expect(copy.getFolder()).toBeNull();
+        expect(copy.hasResearchConsent()).toBe(false);
+    });
+
     test('serialize omits `preview` when undefined (Firestore rejects literal undefined)', () => {
         const p = makeBase();
         expect(p.getPreview()).toBeUndefined();
         const serialized = p.serialize();
         expect('preview' in serialized).toBe(false);
+    });
+
+    test('withPreview(undefined) removes the key rather than setting it undefined', () => {
+        // Unpinning a preview (ProjectsDatabase.clearPreview) used to write
+        // `preview: undefined` into the project data, which serialize() then
+        // had to filter back out. The schema's exactOptional makes the absent
+        // key the only representable "no preview".
+        const pinned = makeBase().withPreview({
+            mode: 'manual',
+            text: 'a',
+            foreground: null,
+            background: null,
+            face: null,
+            characterName: null,
+        });
+        expect(pinned.getPreview()?.text).toBe('a');
+
+        const cleared = pinned.withPreview(undefined);
+        expect(cleared.getPreview()).toBeUndefined();
+        expect('preview' in cleared.serialize()).toBe(false);
+        expect(() => ProjectSchema.parse(cleared.serialize())).not.toThrow();
     });
 
     test('serialize always stamps the latest schema version — old docs get migrated forward on next save', () => {

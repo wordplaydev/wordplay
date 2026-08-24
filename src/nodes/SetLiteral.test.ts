@@ -1,3 +1,6 @@
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import SetLiteral from '@nodes/SetLiteral';
+import { testConflict } from '@conflicts/TestUtilities';
 import { expect, test } from 'vitest';
 import evaluateCode from '@runtime/evaluate';
 
@@ -42,3 +45,12 @@ test('set intersection finds common elements', () => {
 test('set difference removes elements', () => {
     expect(evaluateCode('{1 2 3}.difference({2 3})')?.toString()).toBe('{1}');
 });
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([['{1 2}', '{1 2', SetLiteral, UnclosedDelimiter, 0]])(
+    '%s => no conflict, %s => conflict',
+    (good, bad, node, conflict, index) => {
+        testConflict(good, bad, node, conflict, index);
+    },
+);

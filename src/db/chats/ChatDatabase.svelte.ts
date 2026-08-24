@@ -59,11 +59,11 @@ const MessageSchemaV2 = MessageSchemaV1.extend(
          * pending moderation action,
          * removed due to moderation action,
          * approved after review */
-        moderation: z.enum(['pending', 'removed', 'approved']).optional(),
+        moderation: z.enum(['pending', 'removed', 'approved']).exactOptional(),
         /** The user who reported the message */
-        reporter: z.string().optional(),
+        reporter: z.string().exactOptional(),
         /** The user who took moderation action */
-        moderator: z.string().optional(),
+        moderator: z.string().exactOptional(),
     }).shape,
 );
 

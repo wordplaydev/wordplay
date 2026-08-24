@@ -15,7 +15,7 @@
 {#if updated.current && !dismissed}
     <Banner
         message={(l) => l.ui.update.message}
-        variant="info"
+        variant="notice"
         kind="update"
         dismiss={() => (dismissed = true)}
     >
@@ -30,12 +30,3 @@
         {/snippet}
     </Banner>
 {/if}
-
-<style>
-    /* The Link anchor sets `align-self: flex-start`, which pins it to the top
-       of the centered actions row next to the taller Refresh button. Center it
-       so its text lines up with the button's label. */
-    :global(.banner .actions a.link) {
-        align-self: center;
-    }
-</style>

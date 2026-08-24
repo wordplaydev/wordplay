@@ -99,9 +99,8 @@ describe('Conflict resolver registry', () => {
                 [],
                 DefaultLocale,
             );
-            project.analyze();
             const conflict = project
-                .getAnalysis()
+                .analyze()
                 .conflicts.find(
                     (c): c is IncompatibleType => c instanceof IncompatibleType,
                 );

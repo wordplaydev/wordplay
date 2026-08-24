@@ -1,13 +1,6 @@
 import UnicodeString from '@unicode/UnicodeString';
 import BasisCharacters from '../../lore/BasisCharacters';
 
-/** The multilingual glyph pool used by the floating {@link Background}. */
-export function getWorldSymbols(): string[] {
-    return new UnicodeString(
-        '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ',
-    ).getGraphemes();
-}
-
 /** A random element of a non-empty array. */
 export function pickRandom<Type>(items: Type[]): Type {
     return items[Math.floor(Math.random() * items.length)];

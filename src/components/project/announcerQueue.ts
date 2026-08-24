@@ -65,6 +65,9 @@ const Lanes = {
     fold: 'queued',
     selection: 'queued',
     'model-loading': 'queued',
+    // Translation start, finish, and failure: discrete results a creator asked
+    // for, so they are queued rather than coalesced and never dropped.
+    translation: 'queued',
     'project-mode': 'queued',
     'tutorial-dialog': 'queued',
     // Music that can't be heard — no audio context, or the viewer muted it —
@@ -75,13 +78,27 @@ const Lanes = {
     /** A note added, removed, or moved in the music editor. */
     'note-edit': 'queued',
     'tour-step': 'queued',
+    // Choosing an example in the landing page's carousel. Queued rather than
+    // coalesced: each choice is a discrete answer to a press, and naming the
+    // example is what keeps consecutive choices from deduping into silence.
+    tour: 'queued',
     collaborator: 'queued',
+    /** A committed change to how projects are organized: one moved into or out
+     *  of a folder, or a folder created, expanded, collapsed, selected, or
+     *  deleted. Each is a discrete result, so none may be dropped. */
+    'project-folder': 'queued',
     notification: 'queued',
     update: 'queued',
     'delete-account-confirm': 'queued',
     'move-mode': 'queued',
+    /** Whether the camera has left anything on the stage — a discrete state change on
+     *  both edges, not the latest of a stream. */
+    'stage-visibility': 'queued',
     /** Confirmations that a command did something (see Command.feedback). */
     command: 'queued',
+    /** A discrete result in the character editor — a point added, a segment
+     *  straightened, an edit undone. Never dropped, since each is its own event. */
+    'character-edit': 'queued',
     // coalesce
     // The caret must keep up with navigation, and outrank the screen
     // reader's own chatter, so it doesn't wait behind paced announcements.
@@ -91,12 +108,30 @@ const Lanes = {
     'stage-entered': 'coalesce',
     'stage-changed': 'coalesce',
     'stage-moved': 'coalesce',
+    /** The stage zoom level, which a held key, a wheel, or a pinch streams; only the
+     *  latest matters. Its own kind rather than 'command-state', whose single slot the
+     *  editor's step feedback owns — a stage zoom would overwrite a step. */
+    'stage-zoom': 'coalesce',
     'character-selection': 'coalesce',
     'drawing-cursor': 'coalesce',
+    /** Where the character editor's cursor, selection, or path handle is now, and what
+     *  a drag is drawing. Held keys and drags stream these, so only the latest matters. */
+    'character-point': 'coalesce',
+    /** How far back or forward through the character editor's history an undo has got.
+     *  A held undo streams it, and only where it landed matters. */
+    'character-history': 'coalesce',
     'canvas-moved': 'coalesce',
     'howto-moved': 'coalesce',
+    /** Which folder a project being moved on the projects page would land in.
+     *  A held arrow key and a pointer drag both stream this, so only the
+     *  latest destination matters. */
+    'project-move': 'coalesce',
     /** Command feedback whose value changes as a key repeats (zoom, step). */
     'command-state': 'coalesce',
+    /** How far a translation has got. A continuous stream where only the latest
+     *  count matters, and separate from 'translation' so a progress line can't
+     *  displace the start or finish line it sits between. */
+    'translation-progress': 'coalesce',
 } satisfies Record<string, LaneRegistration>;
 
 export type AnnouncementKind = keyof typeof Lanes;

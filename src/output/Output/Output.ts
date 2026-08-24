@@ -84,6 +84,11 @@ export default abstract class Output extends Valued {
         ascent: number;
         descent: number;
         places: [Output, Place][];
+        /** The nearest z of anything in this subtree, in stage coordinates — z is absolute
+         *  (`Place.offset` deliberately leaves it alone), so it needs no accumulation. A
+         *  leaf reports Infinity: its own z is reported by whichever parent placed it.
+         *  The camera's zoom-in bound follows this; see `nearestZ` in fit.ts. */
+        nearest: number;
     };
 
     abstract getOutput(): (Output | null)[];

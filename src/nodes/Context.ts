@@ -30,6 +30,11 @@ export default class Context {
 
     definitions: Map<Node, Definition[]> = new Map();
 
+    /** How many cycles this context's type inference has run into. Only ever
+     * compared against itself, to tell whether one computation went through a
+     * cycle; see {@link Context.getType}. */
+    private cycles = 0;
+
     /**
      * Computed types that actually stem from streams. Used by expressions like Changed, Previous, and Reaction,
      * which rely on knowing the stream type from which a value type emerged.
@@ -86,23 +91,27 @@ export default class Context {
         if (cache === undefined) {
             // If we visited the node already in this call to getType(), the type depends on itself.
             if (this.visited(node)) {
+                this.cycles++;
                 cache = new CycleType(
                     node,
                     this.stack.slice(this.stack.indexOf(node)),
                 );
             } else {
                 this.visit(node);
-                // Compute the type.
+                // Note the cycle count before computing, so we can tell whether
+                // this type was derived from one.
+                const cyclesBefore = this.cycles;
                 cache = node.computeType(this);
-                // Cache before unvisiting so the visited check catches re-entry during getTypeSet
-                // (if getTypeSet calls getType on the same node, it should detect the cycle).
-                if (
-                    !cache
-                        .getTypeSet(this)
-                        .list()
-                        .some((t) => t instanceof UnknownType)
-                )
-                    this.types.set(node, cache);
+                // Memoize unless the computation went through a cycle. A cycle's
+                // type depends on where the traversal entered it, so caching one
+                // would let the entry point decide every later answer. Nothing
+                // else is order-dependent, so everything else is safe to keep —
+                // including the unknown types of a program being typed, which is
+                // most programs most of the time. Refusing to cache those (the
+                // rule this replaces) recomputed them on every ask: 5,460 of the
+                // 8,807 type computations in one 280-line example, against one
+                // actual cycle in the whole file.
+                if (this.cycles === cyclesBefore) this.types.set(node, cache);
                 this.unvisit();
             }
         }

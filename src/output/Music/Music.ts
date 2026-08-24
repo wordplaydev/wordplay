@@ -246,6 +246,9 @@ export default class Music extends Output {
             ascent: 0,
             descent: 0,
             places: [],
+            // A leaf has nothing of its own to report: its z lives in the place its
+            // parent gave it, and Infinity loses every Math.min on the way up.
+            nearest: Infinity,
         };
     }
 

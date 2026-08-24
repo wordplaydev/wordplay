@@ -74,6 +74,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'Hira',
             'Layers',
             'Chamber',
+            'Orbits',
             'Pounce',
             'FootBall',
             'Christmas',
@@ -95,6 +96,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'Chimes',
             'Fireworks',
             'Lyrics',
+            'VirtualPiano',
         ],
     },
     AV: {

@@ -87,6 +87,11 @@ const NounlessCounts = new Set([
     'ui.palette.music.track',
     // "music 2" — which music, not how many, so it is an ordinal label.
     'ui.palette.music.unnamed',
+    // "undid step 3 of 12", "layer 2 of 5" — both numbers count the same noun,
+    // which is named ahead of them and never inflects.
+    'ui.page.character.announce.undone',
+    'ui.page.character.announce.redone',
+    'ui.page.character.announce.arranged',
 ]);
 
 test('no en-US string interpolates a count without a plural form', () => {

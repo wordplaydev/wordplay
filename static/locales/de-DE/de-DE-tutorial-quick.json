@@ -134,7 +134,7 @@
                             "curious",
                             "$~Manche Programmiersprachen erlauben dir, den type einer variable anzugeben, damit du sicherstellen kannst, dass alle Verwendungen der Variable gültig sind:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplay ist auch typisiert, aber die Typen werden *abgeleitet*. Meist musst du sie nicht angeben, aber manchmal musst du es vielleicht, wenn sie nicht abgeleitet werden können."
+                            "$~@wordplay hat auch einen Typ, aber Typen werden *erschlossen*. Meistens musst du sie nicht angeben. Manchmal musst du es aber doch, wenn wordplay den Typ nicht erschließen kann. Ein Listen-Typ kann auch für jede Stelle in einer Liste einen eigenen Typ angeben, so wie \\[# '']\\ für eine Liste mit genau zwei Dingen: einer Zahl, dann einem Wort."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

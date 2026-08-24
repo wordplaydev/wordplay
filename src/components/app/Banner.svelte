@@ -16,8 +16,9 @@
     interface Props {
         /** The message to show. */
         message: LocaleTextAccessor;
-        /** Color treatment. 'error' reads as a problem; 'info' is a neutral notice. */
-        variant?: 'error' | 'info';
+        /** Color treatment. 'error' reads as a problem; 'notice' is a
+         * neutral announcement that shouldn't borrow the error hue. */
+        variant?: 'error' | 'notice';
         /** When provided, a ✕ button is shown that calls this to dismiss. */
         dismiss?: (() => void) | undefined;
         /** Optional action buttons/links rendered after the message. */
@@ -54,6 +55,7 @@
 
 <div
     class="banner {variant}"
+    class:saturated-surface={variant === 'error'}
     data-testid="app-banner"
     transition:slide={{ duration: $animationDuration }}
 >
@@ -73,8 +75,8 @@
     .banner {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
-        justify-content: space-between;
         gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
         font-family: var(--wordplay-app-font);
@@ -82,31 +84,51 @@
         font-size: var(--wordplay-font-size);
         flex-grow: 0;
         flex-shrink: 0;
+        /* Both fills are solid colors the gold link color nearly vanishes
+           against, so links take the strip's own text color and show their
+           underline at rest — the .highlight-surface convention in app.html. */
+        --wordplay-link-color: currentColor;
+        --wordplay-link-underline-color: currentColor;
     }
 
-    /* Error-colored to read as a problem the user should see. */
+    /* Error-colored to read as a problem the user should see. The fill is a
+       1.32:1 luminance match for the focus ring, so this variant also takes
+       `saturated-surface` (app.html) to give controls a second band; the
+       notice variant's chrome fill clears 3:1 on its own and doesn't. */
     .banner.error {
         background: var(--wordplay-error);
         color: var(--wordplay-background);
     }
 
-    /* Neutral notice — standard colors with a bottom border to delineate it
-       from the page content, so a routine message doesn't read as an error
-       (mirrors EditorNotice's rationale). */
-    .banner.info {
-        background: var(--wordplay-background);
-        color: var(--wordplay-foreground);
-        border-bottom: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
+    /* Neutral notice — the app's own chrome color, filled like the error
+       banner so both read as the same kind of strip, but with no alarm hue:
+       routine news shouldn't spend the color that means something is wrong,
+       and when both strips are stacked they stay tellable apart. */
+    .banner.notice {
+        background: var(--wordplay-header);
+        color: var(--wordplay-background);
     }
 
+    /* Link sets `align-self: flex-start`, which pins it to the top of the row
+       next to a taller button. Center it so the two labels line up. */
+    .actions :global(a.link) {
+        align-self: center;
+    }
+
+    /* Claim the leftover width so the actions and the dismiss button end up
+       together at the end of the strip rather than at some arbitrary fraction
+       of it. The basis lets a narrow screen wrap the actions onto their own
+       line instead of squeezing the message into a column of words. */
     .message {
-        text-align: center;
+        flex: 1 1 12em;
+        min-width: 0;
+        text-align: start;
     }
 
     .actions {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
         gap: var(--wordplay-spacing);
     }

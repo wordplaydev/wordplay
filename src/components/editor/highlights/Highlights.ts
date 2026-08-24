@@ -200,7 +200,9 @@ export function getProjectHighlights(
     if (stepNode) highlights.add(source, stepNode, 'evaluating');
     if (exceptionNode) highlights.add(source, exceptionNode, 'exception');
 
-    for (const [node, conflicts] of project.getConflictedNodes())
+    // No analysis yet means no conflict underlines, rather than treating the
+    // absence of an answer as the answer "no conflicts".
+    for (const [node, conflicts] of project.getConflictedNodes() ?? [])
         highlights.add(
             source,
             node,

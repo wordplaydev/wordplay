@@ -61,8 +61,10 @@ Layered on top of this is an optional **localized-keyword** facility (see [Local
 Each built-in construct (`ƒ`, `•`, `#`, `ø`, `⊤`/`⊥`, `↓`, `↑`, `→`, `↦`, `?`, `??`, `???`, `…`, `∆`, `◆`, `←`, `⬚`) and the logical connectives (`&`, `|`, `~`) has a localized **keyword** word per locale (stored in each locale's `keyword` block; see `Keywords.ts`). Each keyword must be a **single token** — no spaces or hyphens — since the tokenizer matches it as one whole name-run. Punctuation and delimiters (`( ) [ ] { } , : . / _` quotes, etc.) are never localized, because they have no spaces and would be indistinguishable from names.
 
 - **Reading.** A per-user setting toggles display between symbols (default) and words; in words mode each construct renders as its locale word, and conversely a word-typed construct renders as its symbol in symbols mode. This is render-only — the stored source is unchanged.
-- **Which words are recognized.** Only those of the languages the project **declares** it is written in — the list a creator edits in the languages dialog, which is also what decides which localized names bind. A keyword word is therefore a _parse_ dependency, not just a name lookup: removing a language degrades its words to plain names. The tooling accounts for that (`Project.getKeywordLocalesUsed` treats a language whose keyword words the code uses as used, so nothing suggests removing it), but it is the reason a project's declared languages are its own data and never follow the reader's.
+- **Which words are recognized.** Only those of the languages the project **declares** it is written in — the list a creator edits in the languages dialog, which is also what decides which localized names bind. A keyword word is therefore a _parse_ dependency, not just a name lookup: removing a language degrades its words to plain names. Declaring or removing a language re-tokenizes the project's sources immediately, and a fresh project recognizes its declared languages' words from the first keystroke. The tooling accounts for that (`Project.getKeywordLocalesUsed` treats a language whose keyword words the code uses as used, so nothing suggests removing it), but it is the reason a project's declared languages are its own data and never follow the reader's.
 - **Writing.** When a program declares locales, typing a keyword word lexes it as a **dual-type** token carrying both `Name` and the construct's canonical `Sym`. The parser picks by position: the construct where the grammar expects one (e.g. `función(x) x` is a function definition), a plain name elsewhere. So a binding named like a keyword (e.g. `número`) still works — it _shadows_ the keyword rather than being reserved. A name that shadows a keyword whose construct wins at expression start raises a low-severity advisory.
+- **Meaning.** A keyword token also carries its construct's **canonical symbol**, and anything that needs the token's _meaning_ reads that rather than its text — one `Sym` can have two words of opposite meaning (`⊤`/`⊥` are both `Boolean`), so a typed `true` is true because its canonical symbol is `⊤`, and a word-form connective short-circuits and narrows exactly like its symbol. Operator words also resolve by their canonical symbol when the typed word isn't a name of the function, so a locale whose keyword differs from its function name still works.
+- **Prefix negation.** The word for `~` starts a unary negation when an operand follows **on the same line** (`not ⊤`). The symbol form instead requires **no space** before its operand (`~⊤`, to disambiguate `-`); a word needs the space, so its rule is line-based. A word for `~` at the end of a line stays a plain name, so a binding that shadows it is still usable.
 - **Copy/paste.** Copying rewrites keyword constructs to their canonical symbols, so copied code is locale-neutral and pastes into any project (and renders in the reader's words).
 
 Three design decisions shape which symbols are localized and how:
@@ -127,7 +129,8 @@ Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `
 > extrabold → `^`  
 > link → `@`  
 > mention → `$(?:[?!]|#?[a-zA-Z0-9]+)`  
-> concept → `@(?!(https?)?://)NAME([.]NAME|/NAME)?` where NAME does not mix Latin and non-Latin script  
+> concept → `@(?!(https?)?://|mailto:)NAME([.]NAME|/NAME)?` where NAME does not mix Latin and non-Latin script
+> email → `LOCAL@DOMAIN`, an ordinary email address  
 > externalexample → `\[a-z]+\|[^\\]*(\\[a-z]+\|[^\\]*)*\\`
 
 An external example embeds code from another programming language for documentation that contrasts Wordplay with other languages. It is delimited like `code` (with `\`) but is tag-first: each variant is a short lowercase language tag, a `|`, then the verbatim code, with variants separated by a single `\` and the whole terminated by a `\` — e.g. `\py| a = 5\js| let a = 5;\`. The leading `<tag>|` distinguishes it from a Wordplay `code` example (`\1 + 1\`); the body is captured verbatim and never tokenized, type-checked, or evaluated (so it cannot itself contain a `\`). Renderers highlight the variant matching the reader's chosen contrast language. Any lowercase tag is accepted; known tags map to a syntax-highlighting grammar, and unknown tags render plain.
@@ -150,7 +153,7 @@ A `$` mention whose name is a key in the locale's **word list** (`terms`) is a *
 
 > words → _any sequence of characters between `markup` that aren't markup delimeters above_
 
-Markup delimiters only tokenize as delimiters where they have syntactic meaning; everywhere else they are ordinary `words` characters, so a stray symbol never breaks markup parsing. Specifically: `[` opens a branch only immediately after a mention; `|` and `]` are branch delimiters only inside an open branch; `<` opens a link only when the whole `<…@…>` tag follows on the line; `@` (the link separator) and `>` are tag delimiters only inside an open link tag; and any character that matches no markup token at all is a word, never an unknown token. A bare URL (`https://…`) is its own token so that its `//` isn't folded by the escape rule below, and it reads as word-like content. Doubling a markup symbol (e.g. `**`, `[[`, `@@`) always escapes it as a literal character.
+Markup delimiters only tokenize as delimiters where they have syntactic meaning; everywhere else they are ordinary `words` characters, so a stray symbol never breaks markup parsing. Specifically: `[` opens a branch only immediately after a mention; `|` and `]` are branch delimiters only inside an open branch; `<` opens a link only when the whole `<…@…>` tag follows on the line; `@` (the link separator) and `>` are tag delimiters only inside an open link tag; and any character that matches no markup token at all is a word, never an unknown token. A bare URL (`https://…`) is its own token so that its `//` isn't folded by the escape rule below, and it reads as word-like content; a bare email address is a token for the same reason, so that its `@` isn't read as the start of a concept link. Doubling a markup symbol (e.g. `**`, `[[`, `@@`) always escapes it as a literal character.
 
 Compound data structures have several delimiters:
 
@@ -337,6 +340,36 @@ But this is a type error, because the units aren't compatible:
 
 The unit type system is not arbitrarily sophisticated: when mathematical operators go beyond the semantics of products, sums, and powers, units are dropped.
 
+#### _built-in units_
+
+Every unit below can be converted to and from every other unit in its row, with `→`. Conversions are defined between each unit and the **bold** hub of its row; [Convert](#convert) searches the conversion graph for a path, so `1km → #mi` works even though no conversion between those two is declared. A unit not listed here is still a perfectly good unit — it just has no built-in conversions, and a [conversion definition](#convert) can give it some.
+
+| Measure     | Units                                                                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Time        | `ns` `µs` `ms` **`s`** `min` `h` `day` `wk` `yr`                                                                          |
+| Length      | `pm` `nm` `µm` `mm` `cm` `dm` **`m`** `hm` `km` `Mm` `Gm` `Tm` `in` `ft` `yd` `mi` `nmi` `au` `ly`                        |
+| Mass        | `µg` `mg` **`g`** `kg` `t` `oz` `lb` `st` `uston` `ukton`                                                                 |
+| Temperature | **`°C`** `°F` `K`                                                                                                         |
+| Angle       | **`°`** `rad`                                                                                                             |
+| Area        | `mm^2` `cm^2` **`m^2`** `km^2` `in^2` `ft^2` `yd^2` `mi^2` `ha` `acre`                                                    |
+| Volume      | `mL` `cL` `dL` **`L`** `kL` `cm^3` `m^3` `tsp` `tbsp` `cup` `usfloz` `uspt` `usqt` `usgal` `ukfloz` `ukpt` `ukqt` `ukgal` |
+| Speed       | **`m/s`** `km/h` `mi/h` `ft/s` `kn`                                                                                       |
+| Pressure    | **`Pa`** `hPa` `kPa` `bar` `atm` `psi` `mmHg`                                                                             |
+| Energy      | **`J`** `kJ` `cal` `kcal` `Wh` `kWh` `BTU` `eV`                                                                           |
+| Power       | `mW` **`W`** `kW` `MW` `GW` `hp`                                                                                          |
+| Current     | `µA` `mA` **`A`** `kA`                                                                                                    |
+| Voltage     | `mV` **`V`** `kV`                                                                                                         |
+| Resistance  | `mΩ` **`Ω`** `kΩ` `MΩ`                                                                                                    |
+| Frequency   | **`Hz`** `kHz` `MHz` `GHz` `bpm`                                                                                          |
+| Data        | `b` **`B`** `kB` `MB` `GB` `TB` `KiB` `MiB` `GiB` `TiB`                                                                   |
+| Illuminance | **`lux`** `fc`                                                                                                            |
+
+Three of these need saying out loud:
+
+- **Temperature shifts as well as scales.** `0°C → #°F` is `32°F`, not `0°F`. Temperature is the only measure that works this way, and there are deliberately no prefixed temperature units, so an offset is never compounded with a prefix.
+- **Volumes name their system.** There is no bare `gal`, `floz`, `pt` or `qt`, because those differ between US customary and British imperial measure; `usgal` and `ukgal` are the two different things they could mean. Units that are the same in both — `oz`, `lb`, `mi`, `ft`, `in`, `yd` — are unqualified. `t` is the metric tonne; `uston` and `ukton` are the short and long tons. `tsp`, `tbsp`, and `cup` are the metric-legal 5 mL, 15 mL, and 240 mL.
+- **`°` and `rad` measure the same thing.** `sin`, `cos`, and `tan` take radians, so an angle in degrees — which is what [Place](#place) rotations and [Color](#color) hues are — has to be converted first: `(45° → #rad).sin()`. Those three functions and their inverses are unitless, since a ratio of two lengths has no unit.
+
 A library may give a unit meaning of its own by declaring the units it accepts and reading them back. `Track`'s note list does this with the western note values (`𝅝` a whole note, `𝅗𝅥` a half, `𝅘𝅥` a quarter, `𝅘𝅥𝅮` an eighth, `𝅘𝅥𝅯` a sixteenth, each optionally followed by `𝅭` to lengthen it by half), so `3𝅗𝅥` is the third degree of the scale played for two beats. This is an ordinary unit on an ordinary number — nothing about the language changes — and the units are meaningless outside the type that declares them.
 
 A number _type_ distinguishes three unit cases:
@@ -354,6 +387,8 @@ A concrete number value always has either no unit (e.g. `1`) or a specific unit 
 
 The same matching rule applies to `-` and the inequality comparisons (`<`, `≤`, `≥`, `>`): the two operands must have the same unit. Products (`·`), quotients (`÷`), and powers combine units instead, so they accept operands with any units (e.g. `1 · 1m` is `#m` and `2m ÷ 2s` is `#m/s`).
 
+`!#` is the **not-a-number** literal, written the same way in every language (like `∞` and `π`). Most not-a-numbers come from a computation rather than being written: a text that isn't a number (`'abc' → #`), `√-1`, `arcsin` outside its domain, `∞ - ∞`. It takes a unit like any other number (`!#m`). Dividing by zero is **not** one of these — see the next paragraph.
+
 Divide `÷` and remainder `%` evaluate to `ø` when the divisor is zero (never a silent `NaN`), so their output type is `# | ø`. To keep ordinary arithmetic concise, the type is narrowed back to `#` when the divisor is provably non-zero — a non-zero number literal, the `.length()` of a non-empty literal list, set, map, or table, or a name bound (transitively) to one of those. Otherwise the result is `# | ø`, and using it where a number is required is a conflict that suggests handling the possible zero with `??` (e.g. `total ÷ count ?? 0`).
 
 #### _evaluation_
@@ -364,6 +399,8 @@ Number literals evaluate to a number value that stores an immutable [decimal.js]
 
 Numbers are only equal to other numbers that have identical decimal values and equivalent units. Units are only equivalent when the set of dimensions specified on each unit are equivalent and the power of each dimension specified is equivalent.
 
+Two not-a-numbers with the same unit are equal, so `!# = !#` is `⊤` and a creator can ask whether a computation came back not-a-number. (IEEE-754 makes NaN unequal to itself so hardware can flag a bad operation without trapping; Wordplay's `=` asks whether two values are the same thing, and it has `ø` and exceptions for signalling.) Units still count, so `!#m = !#s` is `⊥`, just as `1m = 1` is. Because `≤` and `≥` mean "less/greater than **or equal**", `!# ≤ !#` and `!# ≥ !#` are `⊤`, while the strict `<` and `>` are `⊥` — ordering something that isn't a number has no answer. `min` and `max` still propagate not-a-number, and sorting a list by a not-a-number key puts those items last.
+
 ### Text
 
 > TEXT → TRANSLATION＊  
@@ -372,7 +409,7 @@ Numbers are only equal to other numbers that have identical decimal values and e
 > LANGUAGE → _any valid ISO 639 language code_  
 > REGION → _any valid ISO 3166 country code_
 
-A locale tag may list multiple languages joined by `_` (e.g. `/es_en` for mixed Spanish and English) and, after the `-`, multiple regions joined by `_` (e.g. `/en-US_CA`). The full tag serializes as `lang1_lang2-region1_region2`. Operations that combine text union the languages and regions of their inputs (see _Text_ below).
+A locale tag may list multiple languages joined by `_` (e.g. `/es_en` for mixed Spanish and English) and, after the `-`, multiple regions joined by `_` (e.g. `/en-US_CA`). The full tag serializes as `lang1_lang2-region1_region2`. Operations that combine text union the languages and regions of their inputs (see _Text_ below). The tag also decides whose casing rules `uppercase`/`lowercase` apply — a multilingual tag uses its primary language, and untagged text uses Unicode's locale-independent root mapping, so a program's result never depends on the machine running it. Letters only have case in bicameral scripts, so text in a script without one is unchanged. Text also supports `subsequence` (a slice), `index` (where another text first appears), `replace` (every copy of one text swapped for another, unioning the locales as `+` does), `trim`, and `reverse`. Every one of these counts in graphemes, as `length` and `→ ['']` do, so a symbol built from several code points is never cut in half; `subsequence` and `index` count from 1 and `subsequence` includes both ends, matching @List's.
 
 Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in a few ways:
 
@@ -420,17 +457,12 @@ Text literals first get the environment's list of preferred locales and then sel
 
 #### _equality_
 
-Text is equal to other text with an identical sequence of graphemes and equivalent locale.
+Text is equal to other text with an identical sequence of graphemes. The locale takes no part (see above), so only the graphemes decide.
 
-Two text values with different text delimiters are considered equivalent:
+Two text values with different text delimiters are considered equivalent, and so are two with different language declarations:
 
 ```
 'hi' = 『hi』
-```
-
-Two text values with different language declarations, however, are not equivalent, even if they have the same graphemes:
-
-```
 'hi'/en = 『hi』/ja
 ```
 
@@ -440,8 +472,8 @@ Two text values with different language declarations, however, are not equivalen
 > FORMATTED → `` ` `` CONTENT `` ` `` LANGUAGE  
 > CONTENT → PARAGRAPH＊  
 > PARAGRAPH → SEGMENT＊  
-> SEGMENT → words ｜ url ｜ LINK ｜ concept ｜ CODE ｜ MENTION ｜ BRANCH  
-> LINK → `<` words `@` words `>`  
+> SEGMENT → words ｜ url ｜ email ｜ LINK ｜ concept ｜ CODE ｜ MENTION ｜ BRANCH  
+> LINK → `<` words `@` url `>`  
 > CODE → `\` PROGRAM `\`  
 > BRANCH → mention `[` SEGMENT＊ (`|` SEGMENT＊)＊ `]`
 
@@ -455,17 +487,26 @@ The final basic value is markup, which behaves identically to text values aside 
 
 These three values are 1) a link, 2) a hello world with underscores, italics, and extra bold, and 3) a sentence with an embedded code example.
 
+An email address is a link too, and needs no delimiters: writing one in markup makes it a link that opens a message to that address.
+
+```
+`write to hi@wordplay.dev`
+`<email us@mailto:hi@wordplay.dev>`
+```
+
+A link's URL is a single URL token, not arbitrary words: it is an `http`/`https` address, a `mailto:` address, a schemeless `://path` within Wordplay, or a bare email address. Only those become links; anything else in a link's URL position renders as its description, unlinked.
+
 #### _evaluation_
 
 Formatted literals first get the environment's list of preferred locales and then select the first translation in the list of translations that match the exact language and region, and if there isn't one, then the first translation that matches the language, and if there isn't one, then the first translation. The selected translation's locale travels with the resulting markup value (just as a text value carries its locale), so operations and output rendering can localize it.
 
 #### _operations_
 
-Markup values support the same locale-aware operations as text, via the `` `…` `` type: `length`, `=`/`≠`, `has`, `starts`, `ends`, `repeat`, and `+` (combine, which concatenates the markup and unions the operands' locales). They also convert to and from @Text (`` `…` `` → `''` drops formatting; `''` → `` `…` `` interprets any markup in the text). Like text, combining markup with differing locales unions them, and the `/` locale operator overrides a computed markup's locale.
+Markup values support the same locale-aware operations as text, via the `` `…` `` type: `length`, `=`/`≠`, `has`, `starts`, `ends`, `repeat`, `+` (combine, which concatenates the markup and unions the operands' locales), and `uppercase`/`lowercase`, which convert only the prose, leaving formatting delimiters, `@concept` links, `\example\` code, `$mention` keys, and link URLs as they are. They also convert to a @List of their symbols (`→ ['']`, which drops formatting) and to a @Number. They also convert to and from @Text (`` `…` `` → `''` drops formatting; `''` → `` `…` `` interprets any markup in the text). Like text, combining markup with differing locales unions them, and the `/` locale operator overrides a computed markup's locale.
 
 #### _equality_
 
-Markup values follow the same equality rules as text: but also must have the exact same markup structure.
+Markup values follow the same equality rules as text — the locale takes no part — but must also have the exact same markup structure.
 
 ### Pattern
 
@@ -495,7 +536,7 @@ A pattern literal is delimited by `⣿ ⣿` and contains a small sub-grammar; it
 
 The base classes are `◌` (any grapheme), `_` (a letter), `#` (a digit), and `␣` (a space, horizontal whitespace only); `…` matches the rest of the input (a possessive `≥0 ◌`). A `/property` narrows a class to a Unicode category, binary property, script, or `Property=Value` (e.g. `_/greek`, `◌/emoji`, `◌/Script=Greek`), tested against the grapheme cluster's base (first) scalar. Property names come from a curated, **localizable** registry (`letter`, `digit`, `emoji`, `linebreak`, scripts like `greek`/`han`, …), with the canonical Unicode id (`Lu`, `Nd`, `Script=Greek`) always available as a fallback; an unrecognized name is a conflict, not a silent match. Quantifier counts precede the atom they repeat (`3 #`, `>0 #`, `≤1 #`, `2–4 #`); the range dash is written `–` but a typed hyphen `-` is accepted as an alias (so `2-4 #` and `'a'-'z'` work without the en-dash). A bare name is a backreference to an earlier capture, or — if no such capture exists — a named class (e.g. `linebreak`).
 
-A literal `"…"` is **raw**: the whole quoted span is one token, matched grapheme-exact with no escaping, markup, embedded expressions, codepoint resolution, `/lang` tag, or multiple translations — so `⣿"@foo"⣿` matches the characters `@foo` and `⣿"1+1"⣿` matches `1+1`. Any Wordplay text delimiter works (`'…'`, `"…"`, `«…»`, …); choose one the text doesn't contain, since there is no escape. To match a specific character, write it (`⣿"✓"⣿`). `Aa(…)` folds case over its subpattern — bare `Aa` uses Unicode's default folding, `Aa/lang` applies locale-specific casing (e.g. Turkic `i`/`İ`), and a backreference inside the scope folds too. `▭`/`┊` (word and word-edge) **require** a `/lang` tag, since word segmentation has no locale-independent answer. Case is sensitive, lines have no special mode (`◌` matches a line break; compose line anchors from `⊢`/`⊣`, lookaround, and `linebreak`), and `⣿⣿` empties match only empty text.
+A literal `"…"` is **raw**: the whole quoted span is one token, matched grapheme-exact with no escaping, markup, embedded expressions, codepoint resolution, `/lang` tag, or multiple translations — so `⣿"@foo"⣿` matches the characters `@foo` and `⣿"1+1"⣿` matches `1+1`. Any Wordplay text delimiter works (`'…'`, `"…"`, `«…»`, …); choose one the text doesn't contain, since there is no escape. To match a specific character, write it (`⣿"✓"⣿`). `Aa(…)` folds case over its subpattern — bare `Aa` uses Unicode's default folding, `Aa/lang` applies locale-specific casing (e.g. Turkic `i`/`İ`), and a backreference inside the scope folds too. A tag with no BCP-47 form, such as a multilingual `Aa/es_en`, folds by its primary language. `▭`/`┊` (word and word-edge) **require** a `/lang` tag, since word segmentation has no locale-independent answer. Case is sensitive, lines have no special mode (`◌` matches a line break; compose line anchors from `⊢`/`⊣`, lookaround, and `linebreak`), and `⣿⣿` empties match only empty text.
 
 Matching is a **possessive parsing expression grammar (PEG)**: greedy with no backtracking, so it runs in linear time and is immune to catastrophic backtracking. Alternation is **longest-match** and order-independent — of the `|` branches that fit, the longest wins (`"cat" | "cats"` ≡ `"cats" | "cat"`) — consistent with the language's "match as much as you can" rule. It is still possessive: a shorter branch that would leave room for what follows is not reconsidered, so `⣿("aa" | "a") "ab"⣿` fails on `"aab"`. Sequences read strictly left to right with no precedence; group with `(…)`. Text is compared as NFC extended grapheme clusters, so a pattern behaves the same across languages and scripts.
 
@@ -932,7 +973,7 @@ But one can also convert text to a set of unique characters like this:
 
 Internally, it found the conversion to `[]`, and then it found the conversion from `[]` to `{}`
 
-The same works for numbers with units, as numerous conversion functions are defined for numbers with different units:
+The same works for numbers with units, as numerous conversion functions are defined for numbers with different units (see [built-in units](#built-in-units) for the full list):
 
 ```
 1km → #m
@@ -1211,6 +1252,12 @@ Some are events from the physics engine:
 ```
 Collision()
 ```
+
+`Collision` emits a `Rebound` each time two things in the stage's physical world begin to touch, and then `ø` immediately after, since a collision is over as soon as it happens — a program counting collisions has to check that the value it has is a `Rebound` rather than reacting to every change, or it counts each touch twice. A `Rebound` carries the `subject` and `object` names that touched and the unit `direction` from the first to the second, normalized so that the name given as `Collision`'s own `subject` is always reported as the rebound's. An output is **in the physical world** if it has `Matter`, if a `Motion` places it, if it is a `Shape` directly on the `Stage`, or if some `Collision` names it — that last clause is what lets two named `Phrase` notice each other with no `Matter` at all. A name is what makes output _detectable_; `Matter` **together with a `Motion`** is what makes it _solid_. Only a body a `Motion` simulates is pushed by a contact — output the program places is kinematic, so it goes exactly where the program puts it and passes through whatever it touches, while still reporting the touch — and `Shape` barriers are always solid. `Matter`'s `text` and `ground` decide what an output can bump into at all, so turning one off hides that whole category from `Collision` rather than merely letting it pass through. Given two names, a `Collision` reports only those two touching; given one, it reports that one touching anything else in the physical world; given none, it reports every touch among things already there. Named `Shape` barriers appear in rebounds by name, so a program can react to a particular wall or exempt one from a catch-all. Only output placed directly on the `Stage` is simulated: a `Group` has its own coordinate system, so its contents are invisible to `Collision`, and the `Group` itself is what can be named and watched.
+
+Output can also be a _source_ of gravity rather than only a subject of it. `Matter`'s `pull` is `0` by default, meaning the output attracts nothing; any other value makes it draw every simulated body toward it, with an acceleration proportional to its `mass` times its `pull` and falling off with the square of the distance. A negative `pull` pushes away instead, which is how a repelling magnet or a force field is written. Only output whose place comes from a `Motion` can be moved by a pull, since only a simulated body responds to a force at all — so an attractor with an ordinary `Place` sits still and pulls, which is what a sun or a magnet usually wants. Attraction reaches only within one depth: each distinct `z` is a separate simulation, so output on different layers never pulls on each other. Very near an attractor the falloff is capped rather than growing without bound, so a direct hit slings a body past instead of launching it off stage. As with `Collision`, only output placed directly on the `Stage` takes part: a `Group` has its own coordinate system, so an attractor inside one pulls on nothing.
+
+`Stage`'s `air` scales how quickly moving output slows down. It is `1` by default, the air resistance every project has always had; `0` is outer space, where a body keeps whatever speed it has, which is what an orbit needs to survive more than a second or two. Values above `1` are thicker than air, and a negative `air` is read as `0`, since air that pushed a body faster the longer it travelled would have no meaning.
 
 Some are events from playing output:
 

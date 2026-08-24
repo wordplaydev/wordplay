@@ -7,8 +7,11 @@ test.describe('Editor → Output cross-component flow', () => {
     test('home page loads with title and header', async ({ page }) => {
         await page.goto('/en-US');
         await expect(page).toHaveTitle('Wordplay', { timeout: 8000 });
+        // Exact: the feature list below the stage heads each of its blocks with
+        // a sentence about Wordplay, and `name` matches by substring, so every
+        // one of them answers to a bare "Wordplay".
         await expect(
-            page.getByRole('heading', { name: 'Wordplay' }),
+            page.getByRole('heading', { name: 'Wordplay', exact: true }),
         ).toBeVisible();
     });
 

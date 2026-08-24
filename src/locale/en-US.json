@@ -262,6 +262,7 @@
         "TeluguNumeral": "telugu numeral",
         "Pi": "pi",
         "Infinity": "infinity",
+        "NotANumber": "not a number",
         "TableOpen": "table open",
         "TableClose": "table close",
         "Select": "select",
@@ -2491,7 +2492,8 @@
                 }
             },
             "conversion": {
-                "text": "Converts a @Boolean to the equivalent @Text values, \\'⊤'\\ and \\'⊥'\\"
+                "text": "Converts a @Boolean to the equivalent @Text values, \\'⊤'\\ and \\'⊥'\\",
+                "number": "Converts a @Boolean to a @Number, \\1\\ for \\⊤\\ and \\0\\ for \\⊥\\"
             }
         },
         "None": {
@@ -2615,6 +2617,107 @@
                         }
                     ]
                 },
+                "uppercase": {
+                    "doc": [
+                        "I make a new @Text that's me, with every letter in uppercase:",
+                        "\\'hello'.uppercase()\\",
+                        "Letters only have cases in some writing systems, so text in a writing system without them, like Japanese or Arabic, is unchanged.",
+                        "My language tag decides whose rules to use. Turkish has a dotted and a dotless i, and only text tagged as Turkish uppercases them the Turkish way:",
+                        "\\'iyi'/tr.uppercase()\\",
+                        "\\'iyi'.uppercase()\\"
+                    ],
+                    "names": ["🔠", "uppercase"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "I make a new @Text that's me, with every letter in lowercase:",
+                        "\\'HELLO'.lowercase()\\",
+                        "Make two texts lowercase to compare them without caring about capitalization. This keeps every word that starts with an a, whether or not it's capitalized:",
+                        "\\['Apple' 'apricot' 'Banana'].filter(ƒ(word•'') word.lowercase().starts('a'))\\",
+                        "Like @Text/uppercase, letters only have cases in some writing systems, and my language tag decides whose rules to use."
+                    ],
+                    "names": ["🔡", "lowercase"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "I make a new @Text from a piece of me. Counting starts at 1, and both ends are included:",
+                        "\\'hello'.subsequence(2 4)\\",
+                        "Leave the end out and I go all the way to my last symbol:",
+                        "\\'hello'.subsequence(3)\\",
+                        "I count symbols the way you see them, so an emoji made of several parts is still one symbol and never gets cut in half:",
+                        "\\'🐈📚!'.subsequence(1 2)\\",
+                        "If you ask for more than I have, I give you what I have."
+                    ],
+                    "names": ["subsequence"],
+                    "inputs": [
+                        {
+                            "doc": "The place to start, counting from 1.",
+                            "names": "start"
+                        },
+                        {
+                            "doc": "The place to stop, counting from 1. Leave it out to go to the end.",
+                            "names": "end"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "I tell you where the given @Text first shows up in me, counting from 1:",
+                        "\\'hello'.index('ll')\\",
+                        "If it isn't in me at all, I give @None instead:",
+                        "\\'hello'.index('z')\\",
+                        "Together with @Text/subsequence I can take everything up to something — here, the first word:",
+                        "\\phrase: 'hello world'\nphrase.subsequence(1 (phrase.index(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["index"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to look for in me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "I make a new @Text with every occurence of one @Text swapped for another:",
+                        "\\'2026-08-21'.replace('-' '/')\\",
+                        "Every occurrence changes, not just the first:",
+                        "\\'ha ha ha'.replace('ha' 'ho')\\",
+                        "If you ask me to replace an empty @Text, I give myself back unchanged."
+                    ],
+                    "names": ["replace"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to look for in me.",
+                            "names": "of"
+                        },
+                        {
+                            "doc": "The @Text to put in its place.",
+                            "names": "replacement"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "I make a new @Text with the blank space taken off both of my ends. Space in the middle stays:",
+                        "\\'  hello  '.trim()\\",
+                        "This is handy for text someone typed, which often carries extra spaces you didn't ask for."
+                    ],
+                    "names": ["trim"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "I make a new @Text with my symbols in the opposite order:",
+                        "\\'hello'.reverse()\\",
+                        "I reverse the order of my symbols the way you see them, so emoji stay whole and letters keep their accents:",
+                        "\\'🐈📚'.reverse()\\"
+                    ],
+                    "names": ["reversed", "reverse"],
+                    "inputs": []
+                },
                 "repeat": {
                     "doc": [
                         "I make a new @Text that's me, repeated the number of times of \\count\\:",
@@ -2690,7 +2793,10 @@
             },
             "conversion": {
                 "list": "Splits the text into a list of individual characters.",
-                "number": "Converts text into a @Number, and if it's not a number, a not a number value.",
+                "number": [
+                    "Converts text into a @Number, and if it's not a number, a not a number value, which shows up as \\!#\\:",
+                    "\\'hi' → #\\"
+                ],
                 "formatted": "Converts text into formatted text, interpreting any markup it contains."
             }
         },
@@ -2729,7 +2835,7 @@
                 },
                 "has": {
                     "doc": "\\⊤\\ if my plain text contains the given @Text. I ignore formatting and paragraph breaks when I look.",
-                    "names": ["has"],
+                    "names": ["⊆", "has"],
                     "inputs": [
                         {
                             "doc": "The @Text to look for in my text.",
@@ -2757,6 +2863,24 @@
                         }
                     ]
                 },
+                "uppercase": {
+                    "doc": [
+                        "I make new formatted text that's me, with every letter in uppercase. Only my words change; my formatting, links, and examples stay as they are:",
+                        "\\`*hi* there`.uppercase()\\",
+                        "Like @Text/uppercase, letters only have cases in some writing systems, and my language tag decides whose rules to use."
+                    ],
+                    "names": ["🔠", "uppercase"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "I make new formatted text that's me, with every letter in lowercase. Only my words change; my formatting, links, and examples stay as they are:",
+                        "\\`*HI* THERE`.lowercase()\\",
+                        "Like @Text/lowercase, letters only have cases in some writing systems, and my language tag decides whose rules to use."
+                    ],
+                    "names": ["🔡", "lowercase"],
+                    "inputs": []
+                },
                 "repeat": {
                     "doc": "I make new formatted text that's me, repeated the given number of times. If I have more than one paragraph, the breaks are kept between copies.",
                     "names": ["×", "·", "🔁", "repeated", "repeat"],
@@ -2779,7 +2903,12 @@
                 }
             },
             "conversion": {
-                "text": "Converts formatted text into plain @Text, removing all formatting."
+                "text": "Converts formatted text into plain @Text, removing all formatting.",
+                "list": "Converts formatted text into a @List of @Text, one for each symbol of my words. Formatting can't survive being cut into single symbols, so it's dropped.",
+                "number": [
+                    "Converts my words into a @Number, and if they aren't a number, a not a number value, which shows up as \\!#\\:",
+                    "\\`hi` → #\\"
+                ]
             }
         },
         "Number": {
@@ -3132,52 +3261,134 @@
                     "I convert a number to a list of the numbers from \\1\\ to whatever number is given. For example:",
                     "\\10→[]\\"
                 ],
-                "s2m": "Seconds to minutes",
-                "s2h": "Seconds to hours",
-                "s2day": "Seconds to days",
-                "s2wk": "Seconds to weeks",
-                "s2year": "Seconds to years",
-                "s2ms": "Seconds to milliseconds",
-                "ms2s": "Milliseconds to seconds",
-                "min2s": "Minutes to seconds",
-                "h2s": "Hours to seconds",
-                "day2s": "Days to seconds",
-                "wk2s": "Weeks to seconds",
-                "yr2s": "Years to seconds",
-                "m2pm": "Meters to picometers",
-                "m2nm": "Meters to nanometers",
-                "m2micro": "Meters to micrometers",
-                "m2mm": "Meters to millimeters",
-                "m2cm": "Meters to centimeters",
-                "m2dm": "Meters to decimeters",
-                "m2km": "Meters to kilometers",
-                "m2Mm": "Meters to megameters",
-                "m2Gm": "Meters to gigameters",
-                "m2Tm": "Meters to terameters",
-                "pm2m": "Picometers to meters",
-                "nm2m": "Nanometers to meters",
-                "micro2m": "Micrometers to meters",
-                "mm2m": "Millimeters to meters",
-                "cm2m": "Centimeters to meters",
-                "dm2m": "Decimeters to meters",
-                "km2m": "Kilometers to meters",
-                "Mm2m": "Megameters to meters",
-                "Gm2m": "Gigameters to meters",
-                "Tm2m": "Terameters to meters",
-                "km2mi": "Kilometers to miles",
-                "mi2km": "Miles to kilometers",
-                "cm2in": "Centimeters to inches",
-                "in2cm": "Inches to centimeters",
-                "m2ft": "Meters to feet",
-                "ft2m": "Feet to meters",
-                "g2mg": "Grams to milligrams",
-                "mg2g": "Milligrams to grams",
-                "g2kg": "Grams to kilograms",
-                "kg2g": "Kilograms to grams",
-                "g2oz": "Grams to ounces",
-                "oz2g": "Ounces to grams",
-                "oz2lb": "Ounces to pounds",
-                "lb2oz": "Pounds to ounces"
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "nanoseconds",
+                "us": "microseconds",
+                "ms": "milliseconds",
+                "s": "seconds",
+                "min": "minutes",
+                "h": "hours",
+                "day": "days",
+                "wk": "weeks",
+                "yr": "years",
+                "pm": "picometers",
+                "nm": "nanometers",
+                "um": "micrometers",
+                "mm": "millimeters",
+                "cm": "centimeters",
+                "dm": "decimeters",
+                "m": "meters",
+                "hm": "hectometers",
+                "km": "kilometers",
+                "Mm": "megameters",
+                "Gm": "gigameters",
+                "Tm": "terameters",
+                "in": "inches",
+                "ft": "feet",
+                "yd": "yards",
+                "mi": "miles",
+                "nmi": "nautical miles",
+                "au": "astronomical units",
+                "ly": "light years",
+                "ug": "micrograms",
+                "mg": "milligrams",
+                "g": "grams",
+                "kg": "kilograms",
+                "t": "metric tons",
+                "oz": "ounces",
+                "lb": "pounds",
+                "st": "stones",
+                "uston": "US short tons",
+                "ukton": "British long tons",
+                "degC": "degrees Celsius",
+                "degF": "degrees Fahrenheit",
+                "K": "kelvins",
+                "deg": "degrees of angle",
+                "rad": "radians",
+                "mm2": "square millimeters",
+                "cm2": "square centimeters",
+                "m2": "square meters",
+                "km2": "square kilometers",
+                "in2": "square inches",
+                "ft2": "square feet",
+                "yd2": "square yards",
+                "mi2": "square miles",
+                "ha": "hectares",
+                "acre": "acres",
+                "mL": "milliliters",
+                "cL": "centiliters",
+                "dL": "deciliters",
+                "L": "liters",
+                "kL": "kiloliters",
+                "cm3": "cubic centimeters",
+                "m3": "cubic meters",
+                "tsp": "teaspoons",
+                "tbsp": "tablespoons",
+                "cup": "cups",
+                "usfloz": "US fluid ounces",
+                "uspt": "US pints",
+                "usqt": "US quarts",
+                "usgal": "US gallons",
+                "ukfloz": "British fluid ounces",
+                "ukpt": "British pints",
+                "ukqt": "British quarts",
+                "ukgal": "British gallons",
+                "mps": "meters per second",
+                "kmph": "kilometers per hour",
+                "miph": "miles per hour",
+                "ftps": "feet per second",
+                "kn": "knots",
+                "Pa": "pascals",
+                "hPa": "hectopascals",
+                "kPa": "kilopascals",
+                "bar": "bars",
+                "atm": "standard atmospheres",
+                "psi": "pounds per square inch",
+                "mmHg": "millimeters of mercury",
+                "J": "joules",
+                "kJ": "kilojoules",
+                "cal": "calories",
+                "kcal": "kilocalories",
+                "Wh": "watt hours",
+                "kWh": "kilowatt hours",
+                "BTU": "British thermal units",
+                "eV": "electronvolts",
+                "mW": "milliwatts",
+                "W": "watts",
+                "kW": "kilowatts",
+                "MW": "megawatts",
+                "GW": "gigawatts",
+                "hp": "horsepower",
+                "uA": "microamperes",
+                "mA": "milliamperes",
+                "A": "amperes",
+                "kA": "kiloamperes",
+                "mV": "millivolts",
+                "V": "volts",
+                "kV": "kilovolts",
+                "mohm": "milliohms",
+                "ohm": "ohms",
+                "kohm": "kiloohms",
+                "Mohm": "megaohms",
+                "Hz": "hertz",
+                "kHz": "kilohertz",
+                "MHz": "megahertz",
+                "GHz": "gigahertz",
+                "bpm": "beats per minute",
+                "bit": "bits",
+                "B": "bytes",
+                "kB": "kilobytes",
+                "MB": "megabytes",
+                "GB": "gigabytes",
+                "TB": "terabytes",
+                "KiB": "kibibytes",
+                "MiB": "mebibytes",
+                "GiB": "gibibytes",
+                "TiB": "tebibytes",
+                "lux": "lux",
+                "fc": "foot-candles"
             }
         },
         "List": {
@@ -3348,25 +3559,12 @@
                     "names": ["withoutLast", "sansLast"],
                     "inputs": []
                 },
-                "sans": {
-                    "doc": [
-                        "Me, but without the first occurrences of the given @value.",
-                        "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
-                    ],
-                    "names": ["without", "sans"],
-                    "inputs": [
-                        {
-                            "doc": "The @value to remove the first occurence of.",
-                            "names": "value"
-                        }
-                    ]
-                },
                 "sansAll": {
                     "doc": [
-                        "Me, but without all occurrences of the given @value.",
-                        "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
+                        "Me, but without the given @value. Every copy goes, not just the first one, whichever of my names you use:",
+                        "\\['apple' 'banana' 'mango' 'apple'].without('apple')\\"
                     ],
-                    "names": ["withoutAll", "sansAll"],
+                    "names": ["without", "sans", "withoutAll", "sansAll"],
                     "inputs": [
                         {
                             "doc": "The @value to remove all occurences of from the list.",
@@ -4709,18 +4907,19 @@
             "names": "Collision",
             "doc": [
                 "It's a stream of @Rebound values for when named @Output bump into each other.",
-                "This is a great way to do something when @Output bump into each other, other than the normal bouncing off each other they might do.",
-                "Just give it a name of @Output, and it'll make a new @Rebound @value whenever that name bumps into another. A @Rebound has info about the names that collided and the direction of their collision.",
-                "And if you give it two names, it'll only make a new value when the two names bump into each other.",
-                "Right after it makes a new value, it'll make a \\ø\\ since the collision is done after it happens. This indicates that there's no more collision."
+                "To have two @Output notice each other, give them both names, then give me both names. I'll make a new @Rebound whenever they touch. They don't need @Matter for that — a name is all I need to watch something.",
+                "Give me one name instead, and I'll tell you whenever that @Output touches anything else in the physical world. An @Output is in the physical world if it has @Matter, if a @Motion places it, if it's a @Shape directly on the @Stage, or if I'm watching its name too.",
+                "Noticing isn't the same as bouncing. @Output only pushes other @Output around if it has @Matter and a @Motion moving it. @Output that your program places goes exactly where you put it, so it passes through whatever it touches — I'll still tell you about the touch.",
+                "A @Rebound has the names that touched and the direction they touched from. Right after I make one, I'll make a \\ø\\, since a collision is over as soon as it happens.",
+                "I can only watch @Output placed directly on the @Stage. Anything inside a @Group moves in that group's own space, so I can't see it — give the @Group a name and watch that instead."
             ],
             "subject": {
                 "names": "subject",
-                "doc": "The name of the @Output I should look for collisions on."
+                "doc": "The name of the @Output I should watch. Watching it is enough to put it in the physical world, so it doesn't need @Matter."
             },
             "object": {
                 "names": "other",
-                "doc": "The name of the other @Output I should look for collisions on."
+                "doc": "The name of the other @Output I should watch. With this given too, I only report those two touching; leave it out and I report the first one touching anything in the physical world."
             }
         },
         "Beat": {
@@ -4883,7 +5082,7 @@
                 "names": "content"
             },
             "matter": {
-                "doc": "How I should react if I were to bump into something else with matter.",
+                "doc": "How heavy, bouncy, and slippery I am, and what makes me solid when a @Motion moves me.",
                 "names": "matter"
             },
             "size": {
@@ -5009,7 +5208,7 @@
                 "names": "direction"
             },
             "matter": {
-                "doc": "The properties to use if I bump into things!",
+                "doc": "How heavy, bouncy, and slippery I am, and what makes me solid when a @Motion moves me.",
                 "names": "matter"
             },
             "aura": {
@@ -6464,7 +6663,7 @@
             }
         },
         "Matter": {
-            "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
+            "doc": "I say how heavy, bouncy, and slippery @Output is. @Output that has me and a @Motion is solid: it bounces off the @Shape on the @Stage and off other moving @Output. @Output that your program places goes where you put it instead, and passes through what it touches. @Output doesn't need me to be noticed by @Collision — a name is enough for that.",
             "names": ["⚛️", "Matter"],
             "mass": {
                 "doc": "A weight, in kilograms",
@@ -6483,12 +6682,16 @@
                 "names": "roundedness"
             },
             "text": {
-                "doc": "Whether it can collide with other output.",
+                "doc": "Whether I can bump into other @Phrase and @Group at all; ⊥ means I don't notice them and @Collision says nothing about them.",
                 "names": "text"
             },
             "shapes": {
-                "doc": "Whether it can collide with other shapes.",
+                "doc": "Whether I can bump into the @Shape on the @Stage at all; ⊥ means I fall through walls and floors and @Collision says nothing about them.",
                 "names": "ground"
+            },
+            "pull": {
+                "doc": "How strongly I pull other output toward me. 0 means not at all, which is normal. Bigger numbers pull harder, and a negative number pushes away instead. Only output placed by a @Motion can be pulled.",
+                "names": "pull"
             }
         },
         "Aura": {
@@ -6621,6 +6824,10 @@
             "overlay": {
                 "doc": "A list of @Output pinned flat to the screen as a heads-up display, unaffected by the stage's @Place camera or depth.",
                 "names": "overlay"
+            },
+            "air": {
+                "doc": "How much the air slows down moving output. 1 is normal air, 0 is outer space, where things keep going forever, and bigger numbers are thicker than air.",
+                "names": "air"
             },
             "defaultDescription": "stage $name[$name |]of $#count[$count output|$count outputs]$frame[with frame $frame|] $pose $color[$color|]"
         },
@@ -6762,9 +6969,12 @@
             "defaults": {
                 "starterCode": "¶Welcome to your blank project! This is a comment.\nYou can use it to describe your project, take notes, and\nexplain what you want people to know about your work.\nIt supports *bold*, /italic/, <links@https://wordplay.dev> and more.¶\nPhrase('hi')"
             },
+            "scratch": "This is a temporary copy of an example. Remix to keep it.",
+            "untitled": "Untitled project",
             "error": {
                 "unknown": "This project doesn't exist or you don't have access to it.",
                 "translate": "There was a problem translating your project.",
+                "translateBroken": "Translating would have caused errors in your program, so nothing changed. Try a different language, or translate again.",
                 "tile": "Oops, there was an error",
                 "reset": "Attempt to reset..."
             },
@@ -6805,6 +7015,10 @@
                 "removeUnusedLanguages": {
                     "tip": "remove the languages this project's code doesn't use",
                     "label": "remove unused"
+                },
+                "tinker": {
+                    "label": "test it…",
+                    "tip": "open a copy of this example in a new window, so you can change it and see what happens"
                 }
             },
             "field": {
@@ -6846,6 +7060,15 @@
                         "You can add a language to write in, remove one you aren't using, or translate the whole project into a new language."
                     ],
                     "count": "$#count[$count language|$count languages]",
+                    "prompt": "translate",
+                    "mode": {
+                        "label": "what translating does",
+                        "labels": ["add", "rewrite"],
+                        "tips": [
+                            "add the new language to your project, keeping everything you wrote",
+                            "rewrite your project in the new language, replacing what you wrote"
+                        ]
+                    },
                     "meaning": [
                         "A project's languages decide which names and words its code can use. If your project is written in Spanish, it needs Spanish here, or names like \\Frase\\ won't mean anything.",
                         "Everyone who opens your project loads these languages, and the first one decides how your output is laid out. English names always work, in every project."
@@ -6881,7 +7104,8 @@
                 }
             },
             "link": {
-                "remixOf": "go to the project this was remixed from"
+                "remixOf": "go to the project this was remixed from",
+                "backTo": "back to $place"
             },
             "tour": {
                 "launch": "take a tour of the project controls",
@@ -7196,6 +7420,20 @@
                 "unknown": "This how-to space doesn't exist or isn't public."
             }
         },
+        "translation": {
+            "used": "You have translated $used of $#limit[$limit character|$limit characters] today",
+            "meter": "translation used today",
+            "exhaustedHours": "You've used up today's translating. Try again in about $#hours[$hours hour|$hours hours].",
+            "exhaustedMinutes": "You've used up today's translating. Try again in about $#minutes[$minutes minute|$minutes minutes].",
+            "signIn": "Translating needs an account, so everyone gets a fair share of it. <Sign in or join@/login> to translate your project.",
+            "progressLabel": "translation progress",
+            "analyzing": "Reading your program…",
+            "revising": "Putting the new words in…",
+            "started": "Translating $#count[$count phrase|$count phrases] into $language…",
+            "progress": "Translated $done of $#total[$total phrase|$total phrases]",
+            "finished": "Your project now speaks $language.",
+            "finishedPartial": "Your project now speaks $language, but $#kept[$kept phrase|$kept phrases] kept the original words."
+        },
         "source": {
             "label": "source",
             "title": "code",
@@ -7355,7 +7593,7 @@
                 "tidy": "tidy spacing",
                 "elide": "toggle elision",
                 "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.",
-                "tab": "Tab moves keyboard focus. To insert a tab, press Ctrl+$alt+Tab, use the insert button below, or change this in settings.",
+                "tab": "Tab moves keyboard focus. To insert a tab, press $control+$alt+Tab, use the insert button below, or change this in settings.",
                 "ignored": {
                     "readOnly": "Source is read only",
                     "blockSpace": "No tabs allowed here",
@@ -7503,9 +7741,19 @@
                 "zoomIn": "zoom into the stage",
                 "zoomOut": "zoom out from the stage",
                 "resetZoom": "clear your pan and zoom",
+                "resetZoomAt": "clear your pan and zoom, now $percent percent of the project's own view",
                 "perform": "perform: restart the program, play it, and fill the screen with the stage",
                 "rotate": "rotate $name",
                 "resize": "resize $name"
+            },
+            "announce": {
+                "zoom": "stage zoom $percent percent",
+                "hidden": "nothing is on stage at $percent percent; clear your zoom to show everything",
+                "shown": "everything is back on stage"
+            },
+            "hidden": {
+                "message": "Everything is off the stage.",
+                "show": "show everything"
             },
             "options": {
                 "locale": "preferred language for output",
@@ -7882,6 +8130,10 @@
                     },
                     "remix": {
                         "explanation": "A /remix/ is a copy of a project that someone changed to make their own. We remember where a remix came from, so the person who made the original still gets credit."
+                    },
+                    "research": {
+                        "header": "Research",
+                        "explanation": "Sometimes we write and talk about Wordplay — in research papers, in talks, and in what we show teachers and families. If you turn this on, we can show this project as an example, without your name, your username, or anything else that says the account is yours.\n\nYou can turn this off any time. Turning it off means we stop using your project in anything new, but it can't take back something we already published or presented."
                     }
                 },
                 "tab": {
@@ -7933,6 +8185,14 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "research",
+                        "labels": ["not shared", "shared anonymously"],
+                        "tips": [
+                            "don't show this project in research or communications about Wordplay",
+                            "let Wordplay show this project anonymously in research and communications about Wordplay"
                         ]
                     }
                 },
@@ -8188,7 +8448,7 @@
                     "link": "details"
                 },
                 "delete": "delete this notification",
-                "popup": "new notification"
+                "popup": "$#count[1 notification|$count notifications]"
             },
             "locale": {
                 "header": "Language",
@@ -8340,7 +8600,11 @@
                     "tip": "begin a discussion with yourself or others."
                 },
                 "delete": "delete this message",
-                "confirmDelete": "confirm delete?"
+                "confirmDelete": "confirm delete?",
+                "transfer": {
+                    "description": "make this person the owner of the project",
+                    "prompt": "Make them the owner? You will stay a collaborator and can keep editing, but you will no longer be able to delete this project."
+                }
             },
             "moderation": {
                 "header": "Report this message",
@@ -8362,7 +8626,8 @@
                 "offline": "Unable to load this chat.",
                 "empty": "No messages.",
                 "deleted": "This message was deleted.",
-                "untaggedMessage": "Tag your message with the language it was written in."
+                "untaggedMessage": "Tag your message with the language it was written in.",
+                "transferGallery": "This project is in a gallery. Giving it to someone else does not add them to that gallery, so they may not be able to see it there."
             },
             "prompt": {
                 "solo": "Chat with yourself or add...",
@@ -8389,6 +8654,9 @@
                 "commenters": "/Commenters/ can *discuss* the project with you, but they cannot *edit* it.",
                 "viewers": "/Viewers/ can *view* the project and its *code*, but they cannot *discuss* or *edit* it.",
                 "restrict": "When a project is in a *gallery*, by default *everyone* who can see the gallery can see your project. The /restrict/ toggle *hides* it from everyone except you and the gallery curators."
+            },
+            "announce": {
+                "transferred": "$name is now the owner of $project"
             }
         },
         "presence": {
@@ -8701,22 +8969,134 @@
             },
             "landing": {
                 "value": "Create interactive stories with words, symbols, emojis, and code with us! Get started in ",
-                "chooseLocales": " or choose ",
-                "description": [
-                    "@wordplay is a programming language that enables you to:",
-                    "• Playfully animate words and emojis 🤪",
-                    "• Use time 🕦, sound 🎤, faces 🙂, hands 🖐️, websites 🔗, and physics 🌎",
-                    "• Speak with text to speech 🗣️ and play music 🎼",
-                    "• Share 🤝 with friends, groups, or anyone",
-                    "• Code in any world language 🌐",
-                    "• Edit with mice 🖱️, touch 👆, and keyboards ⌨️",
-                    "• Debug forwards ⏩ and backwards ⏪",
-                    "• View with screens 🖥️ and screen readers 🔊",
-                    "Free forever from the <University of Washington@https://ischool.uw.edu/>."
-                ],
                 "beta": [
                     "@wordplay is in *beta*, so it might not work as intended or be complete. Report bugs and share ideas in <GitHub@https://github.com/wordplaydev/wordplay/issues>, see our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
+                "chooseLocales": " or choose ",
+                "tagline": "accessible, multilingual, creative coding",
+                "tour": {
+                    "button": "show me",
+                    "loading": "Loading…",
+                    "failed": "The examples couldn't be loaded. Check your connection and try again.",
+                    "restart": "start this example over",
+                    "examples": {
+                        "label": "Example programs",
+                        "tips": [
+                            "Text can glow and animate",
+                            "Music is data, sound, and sight",
+                            "Time ticks and words are multilingual",
+                            "Text can respond to pointers, clicks, taps, and keys",
+                            "Audiences can make choices",
+                            "Audiences can chat with programs and words are shapes",
+                            "Physics and gravity can make text tumble and bounce",
+                            "Programs can listen to your speech",
+                            "Programs can watch your face, hands, and objects"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "music": "\\¶Music is notes on real instruments, at a tempo, in a key. The stage draws what it hears.¶\nMusic(\n\tTrack([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "\\¶Code can react to input like @Time, and text can be multilingual and spoken.¶\nhellos: ['hello'/en 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhello: hellos.random() … ∆ Time(1000ms) … hellos.random()\nPhrase(hello 4m)\nSay(hello)\\",
+                        "keys": "\\¶Code can react to pointers, keys, clicks, and taps.¶\nkey: Key()\nclick: Button()\nfaces: ['🙂' '😮' '😎' '🤩']\nwhich: 1 … ∆ key | ∆ click … (which % 4) + 1\nStage([Phrase(faces[which] 5m place: Pointer())] place: Place(0m 0m -12m))\\",
+                        "choose": "\\¶Layout text and make it selectable.¶\nfruit: ƒ(e•'') Phrase(e 3m name: e selectable: ⊤)\npicked: Choice()\nshown: '?' … ∆ picked … picked\nGroup(Stack(padding: 1m) [\n\tPhrase(shown 4m)\n\tGroup(Row(padding: 1m) [fruit('🍎') fruit('🍐') fruit('🍒')])\n])\\",
+                        "letters": "\\¶Chat with programs and use the shape of fonts and symbols.¶\nmessage: Chat()\nword: 'hi' … ∆ message … message\nline: Contour(word 'Noto Sans' 8m)\nticks: 0 … ∆ Time(30ms) … ticks + 1\nshown: ((line.length() × ticks) ÷ 66).roundDown() + 1\ndots: line.subsequence(1 shown).translate(ƒ(p) Phrase('•' place: p))\nStage(dots.add(Phrase(word 8m opacity: 15%)))\\",
+                        "pile": "\\¶Text can have physics.¶\ntoss: ƒ(emoji•'' x•#m y•#m vx•#m/s) \nPhrase(\n\temoji 2m\n\tplace: Motion(Place(x y) Velocity(vx 0m/s))\n\tmatter: Matter(1kg 0.55 0.06 0.5)\n)\nStage(\n\t[\n\t\ttoss('🍎' -2m 5m 2.2m/s)\n\t\ttoss('🍊' 2m 7m -2.6m/s)\n\t\ttoss('🍋' -1m 9m 1.4m/s)\n\t\ttoss('🍇' 1.5m 11m -1.9m/s)\n\t\ttoss('🫐' 0.5m 15m -1.2m/s)\n\t\tShape(Rectangle(-4m -3m 4m -3.6m))\n\t\tShape(Rectangle(-4.6m 4m -4m -3m))\n\t\tShape(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "\\¶Code can react to the @Volume and @Pitch of your mic.¶\nPhrase('📣' 1m + (Volume() × 8m) rotation: (Pitch() ÷ 1hz) × 0.1°)\\",
+                        "smile": "\\¶Code can react to your @Face, and other things on @Camera.¶\nPhrase(Face().smiling ? '😄 thank you!' '🙂 smile at the camera' 2m)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "Wordplay is a programming language",
+                        "bullets": [
+                            "• Every program is an expression that becomes a value. \\1 + 1\\ is a program, and so is \\Phrase('hi')\\.",
+                            "• Numbers carry units, so \\1m + 1m\\ is meters, and \\1cat + 1dog\\🪲 is a mistake @wordplay catches before it runs.",
+                            "• Functions are values you can name, hand around, and call: \\ƒ double(n•#) n × 2\\.",
+                            "• When input changes, @wordplay reevaluates your program and shows its new value. No need to respond to events.",
+                            "• @wordplay finds mistakes before the program runs, and explains each problem."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "Wordplay is multilingual",
+                        "bullets": [
+                            "• Every programming language feature has a name in every language, so the code reads in words you already know.",
+                            "• Your own names can be multilingual too:\n\\cat/en, gato/es: '🐈'\nPhrase(cat)\\",
+                            "• Text carries a language, and shows the language your audience reads: \\'hello'/en'hola'/es\\.",
+                            "• The site itself is in 29 languages and you can choose more than one at a time; text appears in each.",
+                            "• You can help translate @wordplay itself, right inside the app at <localize@://localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "Wordplay is accessible",
+                        "bullets": [
+                            "• Anything you can do with a mouse, you can do with a keyboard.",
+                            "• Screen readers describe the stage as it changes, not only when it loads.",
+                            "• You can read and write your code as blocks instead of text, and switch whenever you like.",
+                            "• Motion can be slowed down, or turned off completely.",
+                            "• Spoken output can be captioned on stage for anyone who can't hear it."
+                        ]
+                    },
+                    "senses": {
+                        "title": "Wordplay senses the world",
+                        "bullets": [
+                            "• Time passing: \\Time(1000ms)\\ ticks along, and \\Now()\\ knows today's date in your own calendar and time zone.",
+                            "• Where your audience points, what they touch, and which keys they press.",
+                            "• Programs can respond to your mic: how loud it is with @Volume, what pitch with @Pitch, and what words with @Speech.",
+                            "• Your audience can type in @Chat, and pick stage content with @Choice.",
+                            "• Programs can respond to the beat of the music they play, with @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "Wordplay performs",
+                        "bullets": [
+                            "• @Phrase puts words and emoji on the stage.",
+                            "• @Group arranges them in rows, stacks, grids, or wherever you place them.",
+                            "• @Pose and @Sequence turn, fade, scale, and move things around.",
+                            "• @Say speaks text aloud instead of showing it.",
+                            "• @Music plays tracks of notes on real instruments, at a tempo, in a key:\n\\Music(Track([1 3 5] instrument: Instrument.bell) tempo: 90beats/min)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "Wordplay is typography",
+                        "bullets": [
+                            "• Hundreds of faces, covering the world's writing systems.",
+                            "• You can draw your <custom characters@://characters> and use them anywhere an emoji goes.",
+                            "• The outline of every letter is data you can read and animate, with @Contour: \\Contour('a' 'Noto Sans')\\.",
+                            "• Text wraps by the rules of the language it's written in.",
+                            "• Right-to-left and vertical writing are laid out the way they should be."
+                        ]
+                    },
+                    "docs": {
+                        "title": "Wordplay explains itself",
+                        "bullets": [
+                            "• Documentation is part of the language with @Doc, not a comment beside it.",
+                            "• A searchable <guide@://guide> explains every built-in feature, with examples.",
+                            "• Every mistake is explained where it happened, in your language.",
+                            "• You can step through a program forwards /and/ backwards to debug what happened.",
+                            "• While you step, every value is shown right in the code that made it."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "Wordplay is for sharing",
+                        "bullets": [
+                            "• Your projects are yours, and you decide who can see them.",
+                            "• You can invite other people to build a project with you.",
+                            "• <Galleries@://galleries> gather projects around a theme.",
+                            "• Teachers can make classes and follow their students' work: <teach@://teach>.",
+                            "• You can remix anyone's public project and make it your own."
+                        ]
+                    },
+                    "free": {
+                        "title": "Wordplay is free and open",
+                        "bullets": [
+                            "• @wordplay is free and it always will be.",
+                            "• It's open source: you can read how it works and you can help us change it.",
+                            "• It comes from the <University of Washington@https://ischool.uw.edu/> Information School.",
+                            "• There's a community of creators, teachers, and contributors.",
+                            "• <Donations@://donate> pay for what it costs to run."
+                        ]
+                    }
+                },
                 "link": {
                     "learn": "Learn the language with a dramatic cast of characters",
                     "teach": "Manage classes of students and their projects",
@@ -8996,6 +9376,7 @@
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
+                "installedprompt": "You're using Wordplay as an installed app, and it keeps its own projects, separate from the ones in your web browser. Any projects you made in your browser are still there. <Log in@://login> to see all of your projects in both places.",
                 "subheader": {
                     "shared": "Shared",
                     "archived": "Archived"
@@ -9025,6 +9406,50 @@
                     "newgallery": "We couldn't create a new gallery.",
                     "nodeletes": "You must be <logged in@://login> to delete archived projects.",
                     "delete": "Oops, we couldn't delete the project!"
+                },
+                "sort": {
+                    "label": "order",
+                    "labels": ["name", "recently edited"],
+                    "tips": [
+                        "order projects by name",
+                        "order projects by when you last changed them"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "what this folder is called",
+                        "placeholder": "folder"
+                    },
+                    "none": "no folder",
+                    "button": {
+                        "create": "make a new folder",
+                        "expand": "show what is in this folder",
+                        "collapse": "hide what is in this folder"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "delete this folder and archive the projects in it",
+                            "prompt": "Delete folder and archive its projects"
+                        }
+                    },
+                    "announce": {
+                        "destination": "move $project to $folder",
+                        "moved": "$project moved to $folder",
+                        "movedOut": "$project moved out of its folder",
+                        "expanded": "$folder expanded, $#count[1 project|$count projects]",
+                        "collapsed": "$folder collapsed, $#count[1 project|$count projects]",
+                        "selected": "$folder selected, $#count[1 project|$count projects]",
+                        "projectSelected": "$project chosen",
+                        "cleared": "nothing chosen",
+                        "created": "$folder created",
+                        "deleted": "$folder deleted, $#count[1 project archived|$count projects archived]",
+                        "renamed": "folder renamed to $folder"
+                    },
+                    "instructions": {
+                        "none": "Click a project or a folder to choose it.",
+                        "project": "Move this project with the *up* and *down* arrow keys, or drag it onto a folder. Press *escape* when you are done.",
+                        "folder": "Type in the name to rename this folder. Deleting it puts everything inside it in your archive."
+                    }
                 }
             },
             "galleries": {
@@ -9089,14 +9514,16 @@
                 "header": "Character",
                 "instructions": {
                     "empty": "Choose a drawing mode in the palette to create shapes.",
-                    "unselected": "Choose a drawing mode or select and edit shapes.",
-                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use the controls below to change the selected shapes.",
+                    "unselected": "Choose a drawing mode or select and edit shapes. Use *$control-a* to select everything and *$control-z* to undo.",
+                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use *$control-c* and *$control-v* to copy and paste, and *$control-z* to undo. With one path selected, press *enter* to edit its points. Use the controls below to change the selected shapes.",
                     "eraser": "To erase shapes, click or tap on them. Drag to erase pixels. Use the *arrow* keys to move the eraser and *space* to delete.",
                     "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel. *Double-click* to fill.",
                     "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
                     "ellipse": "To draw ellipses and circles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
                     "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point.",
-                    "emoji": "Choose an emoji to import as pixels, then modify as you like."
+                    "symbol": "Choose whether to add pixels or an outline, then pick a letter, symbol, or emoji. An outline can be resized and turned without blurring; pixels can be recolored one at a time. Click or tap something you've already made to select it instead.",
+                    "image": "Choose an image, then choose the square of it to keep. It replaces the pixels, and sits under any shapes you've drawn. Click or tap something you've already made to select it instead.",
+                    "points": "*Tab* between the points of the path. Use the *arrow* keys to move the selected point, *enter* to add a point next to it, and *delete* to remove it. Use *curve* to bend the segment arriving at a point, then move its handle; *delete* on a handle straightens it again. Press *escape* when you're done."
                 },
                 "shape": {
                     "shape": "shape",
@@ -9105,7 +9532,10 @@
                     "rect": "rectangle",
                     "ellipse": "ellipse",
                     "path": "path",
-                    "emoji": "emoji"
+                    "emoji": "emoji",
+                    "glyph": "outline",
+                    "symbol": "symbol",
+                    "image": "image"
                 },
                 "share": {
                     "dialog": {
@@ -9148,7 +9578,8 @@
                             "rectangle",
                             "ellipse",
                             "path",
-                            "emoji"
+                            "symbol",
+                            "image"
                         ],
                         "tips": [
                             "select shapes and pixels",
@@ -9157,7 +9588,8 @@
                             "draw rectangles",
                             "draw ellipses",
                             "draw paths",
-                            "import an emoji as pixels"
+                            "add a letter, symbol, or emoji",
+                            "add an image as pixels"
                         ]
                     },
                     "fill": {
@@ -9183,6 +9615,31 @@
                     "strokeWidth": {
                         "label": "stroke width",
                         "tip": "how wide the stroke is rendered"
+                    },
+                    "brushSize": {
+                        "label": "size",
+                        "tip": "how many cells across the brush and eraser cover"
+                    },
+                    "insertion": {
+                        "label": "add as",
+                        "labels": ["pixels", "outline"],
+                        "tips": [
+                            "add the symbol as pixels you can recolor one at a time",
+                            "add the symbol as an outline you can resize and turn without blurring"
+                        ]
+                    },
+                    "face": {
+                        "label": "font",
+                        "tip": "which font to take the symbol's shape from"
+                    },
+                    "weight": {
+                        "label": "weight",
+                        "tip": "how heavy the symbol's strokes are"
+                    },
+                    "italic": "italic",
+                    "glyphSize": {
+                        "label": "symbol size",
+                        "tip": "how many cells across the symbol is"
                     },
                     "radius": {
                         "label": "corner radius",
@@ -9265,11 +9722,11 @@
                     },
                     "horizontal": {
                         "label": "flip horizontal",
-                        "tip": "flip the points horizontally around the center"
+                        "tip": "flip the selection horizontally"
                     },
                     "vertical": {
                         "label": "flip vertical",
-                        "tip": "flip the points vertically around the center"
+                        "tip": "flip the selection vertically"
                     },
                     "fit": {
                         "label": "fit",
@@ -9278,9 +9735,59 @@
                     "dismissError": {
                         "label": "dismiss",
                         "tip": "dismiss the error message"
+                    },
+                    "editPoints": {
+                        "label": "points",
+                        "tip": "edit the points of the selected path"
+                    },
+                    "donePoints": {
+                        "label": "done",
+                        "tip": "stop editing points"
+                    },
+                    "addPoint": {
+                        "label": "add point",
+                        "tip": "add a point next to the selected one"
+                    },
+                    "deletePoint": {
+                        "label": "remove point",
+                        "tip": "remove the selected point"
+                    },
+                    "curve": {
+                        "label": "curve",
+                        "tip": "bend the segment arriving at the selected point"
+                    },
+                    "straighten": {
+                        "label": "straighten",
+                        "tip": "straighten the segment arriving at the selected point"
+                    }
+                },
+                "image": {
+                    "instructions": "Drag the square to move it, or use the *size* slider to change how much of the image to keep. With the keyboard, press *enter* to start moving, then use the *arrow* keys, and *enter* again when you're done.",
+                    "button": {
+                        "label": "upload",
+                        "tip": "choose an image file from this device"
+                    },
+                    "add": {
+                        "label": "add",
+                        "tip": "add the chosen square to the character as pixels"
+                    },
+                    "crop": {
+                        "label": "crop box",
+                        "tip": "the square of the image to keep"
+                    },
+                    "preview": "what will be added",
+                    "size": {
+                        "label": "size",
+                        "tip": "how much of the image to keep"
                     }
                 },
                 "feedback": {
+                    "imageTooBig": "That image is $size MB. Please choose one smaller than $limit MB.",
+                    "imageUnreadable": "We couldn't read that file as an image.",
+                    "glyphLoading": "Getting the font…",
+                    "glyphMissing": "This font has no shape for that symbol. Try another font.",
+                    "glyphEmpty": "That symbol has nothing to draw.",
+                    "glyphUnreadable": "We couldn't read that font. Check your connection, or try another font.",
                     "name": "Characters need a valid Wordplay name of at least 1 character long. It can't be 'UI', a decimal or hexadecimal number, or the name of a built-in language feature.",
                     "description": "Characters need a description so those who can't see know what they represent.",
                     "end": "or press escape.",
@@ -9292,8 +9799,32 @@
                     "untitledproject": "Untitled Project"
                 },
                 "announce": {
+                    "cropped": "crop box at $x $y",
+                    "cropMoving": "moving the crop box",
+                    "cropDone": "crop box placed",
+                    "imported": "added $#count[one pixel|$count pixels] from $x $y",
                     "position": "at $x $y",
-                    "selection": "$shapes[selected $shapes|nothing selected]"
+                    "selection": "$shapes[selected $shapes|nothing selected]",
+                    "editing": "editing $#count[one point|$count points]",
+                    "editingDone": "done editing points",
+                    "point": "point $index at $x $y",
+                    "control": "curve $index at $x $y",
+                    "pointAdded": "added point $index at $x $y",
+                    "pointRemoved": "removed point $index, $#count[one point|$count points] left",
+                    "curved": "curved segment $index",
+                    "straightened": "straightened segment $index",
+                    "moved": "moved to $x $y",
+                    "drew": "drew at $x $y",
+                    "erased": "erased at $x $y",
+                    "finished": "made $shape at $x $y",
+                    "deleted": "deleted, $#count[one shape|$count shapes] left",
+                    "undone": "undid step $step of $total",
+                    "redone": "redid step $step of $total",
+                    "copied": "copied $#count[one $shapes|$count shapes: $shapes]",
+                    "pasted": "pasted at $x $y",
+                    "arranged": "layer $index of $total",
+                    "flipped": "flipped, now at $x $y",
+                    "fitted": "grew shapes to fill the canvas"
                 }
             },
             "about": {
@@ -9334,6 +9865,7 @@
                     "join": "Or, <create an account@://join> to start.",
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
+                    "paste": "Did the link open somewhere else? Installed apps sometimes open email links in a web browser instead. Copy the link from your email and paste it here to finish signing in.",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
                     "passwordrule": "Passwords must be at least 6 characters long; if you're not using a password manager, choose three long words you'll remember.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
@@ -9360,7 +9892,7 @@
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
                     "mismatched": "The passwords don't match.",
                     "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again.",
-                    "unsaved": "You have changes that aren't saved online yet. Reconnect and wait for them to save first, or they'll be lost from this device."
+                    "unsaved": "You have changes that aren't saved online yet. If you log out now, they'll be lost from this device."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",
@@ -9372,6 +9904,10 @@
                     "email": {
                         "description": "edit login email",
                         "placeholder": "email"
+                    },
+                    "link": {
+                        "description": "paste login link",
+                        "placeholder": "link"
                     },
                     "username": {
                         "description": "login username, don't use personally identifiable information",
@@ -9450,10 +9986,20 @@
                     "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message, and curators can approve or remove messages.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
                 ],
+                "warnings": [
+                    "Here is exactly what happens if public content of yours breaks these rules. A moderator reviews it, it stops being public, and you get a warning in your notifications saying which one it is. Anyone signed in can ask a moderator to look at public content using the report button on it.",
+                    "After three warnings you can still make projects, still share them with people you choose, and still use everything else here. What you lose is the ability to make anything public.",
+                    "If you think a warning was a mistake, or it was a long time ago and you'd like to share publicly again, write to hi@wordplay.dev and tell us your username and why. A person will read it."
+                ],
                 "license": [
                     "One more thing about making a project *public*. Public projects are shared under the <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. That means anyone can /remix/ your public project — make their own copy of it and change it — and you can remix anyone else's.",
                     "Three things come with that license. Remixers have to credit whoever made the original. They have to share their remix under this same license, so it stays open for the next person. And they can't take a public project private to keep it to themselves.",
                     "We help with the credit part: when someone remixes a project, we remember where it came from and show a link back to it. Making a project public is how you say yes to all of this, so if you'd rather nobody remixed a project, keep it private."
+                ],
+                "research": [
+                    "One last choice, and it is entirely yours. We sometimes write and talk about Wordplay — in research papers, in talks, and in what we show teachers and families. We would love to show what people actually make with it, but we will not show your project unless you say we can.",
+                    "Every project has a *Research* setting in its sharing options, and it starts off. Turning it on lets us show that one project as an example, without your name, your username, or anything else that says the account is yours. It is per project, so saying yes to one says nothing about the others.",
+                    "You can turn it off any time. Turning it off means we stop using your project in anything new, but it can't take back something we already published or presented."
                 ]
             },
             "donate": {
@@ -9773,6 +10319,24 @@
             },
             "property": "Whether the project has this property"
         },
+        "report": {
+            "button": "Alert moderator",
+            "confirm": "Alert moderator",
+            "sent": "a moderator has been asked to look at this",
+            "announce": "a moderator has been asked to look at $project",
+            "flagged": "Someone reported this project, so it is first in line."
+        },
+        "strike": {
+            "issue": "warn this creator",
+            "consequence": "This will be warning number $#count[1|$count] for this creator. $banning[This warning takes away their ability to make anything public.|They will be able to make things public for $#remaining[1 more warning|$remaining more warnings].]",
+            "confirm": {
+                "description": "record this decision and warn the creator",
+                "prompt": "Warn them"
+            },
+            "banned": "You've been warned about public content three times, so you can no longer make projects or galleries public. You can still make projects, and still share them with people you choose. If you think this is a mistake, or it was a long time ago and you would like to share publicly again, write to hi@wordplay.dev and tell us your username and why.",
+            "warned": "Some public content of yours broke the sharing rules, so it is no longer public. This is warning $#count[1|$count]. $#remaining[One more and you will no longer be able to make anything public.|After $remaining more you will no longer be able to make anything public.]",
+            "notification": "Warning $#count[1|$count] about something you shared publicly."
+        },
         "error": {
             "notmod": "It looks like you're not a moderator. If you were recently given moderator privileges, you may need to login again. If not, see the wiki for how to request moderation privileges."
         }
@@ -9837,7 +10401,8 @@
         "imageDescription": "The Wordplay logo — a speech bubble holding a circle, a triangle, and a square — beside the name Wordplay, surrounded by a faded crowd of symbols for everything Wordplay programs can sense and say.",
         "noscript": "Wordplay uses JavaScript. Your browser doesn't support it, or it is disabled.",
         "unsupportedHeading": "Unsupported Browser",
-        "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version."
+        "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version.",
+        "appDescription": "Accessible, multilingual, programmable typography."
     },
     "keyword": {
         "function": "function",

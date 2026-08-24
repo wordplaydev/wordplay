@@ -5,7 +5,10 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
-import { fetchContributorsData } from './contributors.js';
+import {
+    fetchContributorsData,
+    serializeContributors,
+} from './contributors.js';
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 
@@ -22,5 +25,5 @@ const dest = resolve(
     scriptDir,
     '../../src/routes/[[locale]]/thanks/contributors.json',
 );
-writeFileSync(dest, JSON.stringify(data, null, 2));
+writeFileSync(dest, serializeContributors(data));
 console.log(`Saved to ${dest}`);

@@ -107,13 +107,12 @@ function locate<C extends Conflict>(
         extraSources.map((s) => new Source(s.name, s.code)),
         DefaultLocale,
     );
-    project.analyze();
     const conflict = project
-        .getAnalysis()
+        .analyze()
         .conflicts.find((c): c is C => c instanceof cls);
     if (conflict === undefined) {
         const seen = project
-            .getAnalysis()
+            .analyze()
             .conflicts.map((c) => c.constructor.name)
             .join(', ');
         throw new Error(
@@ -216,9 +215,7 @@ describe('UnknownName', () => {
         expect(repaired).toBe(expected);
         // And the repair actually resolves the problem, rather than moving it.
         newProject.analyze();
-        expect(newProject.getAnalysis().conflicts.map((c) => `${c}`)).toEqual(
-            [],
-        );
+        expect(newProject.analyze().conflicts.map((c) => `${c}`)).toEqual([]);
     });
 
     test('a suggestion that would not type-check is not offered', () => {
@@ -326,10 +323,10 @@ describe('ImpossibleType', () => {
 });
 
 describe('NotANumber', () => {
-    test('`!#` (literal NaN) → repair (strip non-numeric)', () => {
-        // The "not a number" literal — only triggers NotANumber when the
-        // number cannot be parsed into a real Decimal.
-        expectRepair('!#', NotANumber);
+    test('`2;9` (base 2 with a digit 9) → repair (replace with 0)', () => {
+        // A number we can't read at all. Not `!#`, which says not-a-number on
+        // purpose and so raises nothing.
+        expectRepair('2;9', NotANumber);
     });
 });
 
@@ -468,9 +465,8 @@ describe('OrderOfOperations', () => {
     function applyFirstRepair(code: string): Project {
         const source = new Source('main', code);
         const project = Project.make(null, 'test', source, [], DefaultLocale);
-        project.analyze();
         const conflict = project
-            .getAnalysis()
+            .analyze()
             .conflicts.find(
                 (c): c is OrderOfOperations => c instanceof OrderOfOperations,
             );
@@ -494,7 +490,7 @@ describe('OrderOfOperations', () => {
         const fixed = applyFirstRepair('1 + 2 · 3');
         expect(
             fixed
-                .getAnalysis()
+                .analyze()
                 .conflicts.some((c) => c instanceof OrderOfOperations),
         ).toBe(false);
     });
@@ -513,15 +509,14 @@ describe('OrderOfOperations', () => {
         // any other position would produce the same chain-wide repair.
         const source = new Source('main', '1 + 2 · 3 - 4');
         const project = Project.make(null, 'test', source, [], DefaultLocale);
-        project.analyze();
         const count = project
-            .getAnalysis()
+            .analyze()
             .conflicts.filter((c) => c instanceof OrderOfOperations).length;
         expect(count).toBe(1);
 
         const fixed = applyFirstRepair('1 + 2 · 3 - 4');
         const remaining = fixed
-            .getAnalysis()
+            .analyze()
             .conflicts.filter((c) => c instanceof OrderOfOperations).length;
         expect(remaining).toBe(0);
     });
@@ -532,9 +527,8 @@ describe('OrderOfOperations', () => {
         // exactly one conflict at the chain root.
         const source = new Source('main', '1 · 2 + 3 + 4');
         const project = Project.make(null, 'test', source, [], DefaultLocale);
-        project.analyze();
         const count = project
-            .getAnalysis()
+            .analyze()
             .conflicts.filter((c) => c instanceof OrderOfOperations).length;
         expect(count).toBe(1);
     });
@@ -546,7 +540,7 @@ describe('OrderOfOperations', () => {
         // so we just verify the cross-precedence case rebuilds cleanly.
         const fixed = applyFirstRepair('2 ^ 3 · 5');
         const remaining = fixed
-            .getAnalysis()
+            .analyze()
             .conflicts.filter((c) => c instanceof OrderOfOperations).length;
         expect(remaining).toBe(0);
     });

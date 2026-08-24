@@ -4,8 +4,9 @@ import type LanguageCode from '@locale/LanguageCode';
 import { TranslatableLocales } from '@locale/LanguageCode';
 import { getConventionsForPrompt } from '@locale/getConventionsForPrompt';
 import { getGlossaryForPrompt } from '@locale/Glossary';
-import { getPluralRulesForPrompt } from '@locale/plurals';
+import { getPluralCount, getPluralRulesForPrompt } from '@locale/plurals';
 import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
+import { chunkUnits } from '@util/chunkUnits';
 import type Locale from '@locale/Locale';
 import { stringToLocale } from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -21,7 +22,9 @@ import {
     ConceptPattern,
     hasUnclosedText,
     mismatchedConceptLinks,
+    mismatchedPluralBranch,
     mismatchedDelimiter,
+    hasResidualLinkMask,
     protectConceptLinks,
     repairMentionsPositional,
     restoreConceptLinks,
@@ -29,20 +32,79 @@ import {
     splitMarkupAndCode,
 } from './protect';
 import type Translator from './Translator';
+import type { TranslatorUsage } from './Translator';
 
-/** Model used for locale translation. Opus for maximum quality (cost is
- *  negligible at this volume — see docs/translation-evaluation.md). */
-const MODEL = 'claude-opus-4-8';
 /**
- * How many markup segments to send per request.
- *
- * Kept small on purpose. Segments are not uniform: a chunk of UI labels is a
- * few hundred characters, while a chunk of `@Music` documentation is thousands,
- * and at 100 segments the latter asked for ~11,000 characters of output in one
- * request — minutes of generation, with nothing printed until it landed. That
- * is what made a working run indistinguishable from a wedged one.
+ * The model that carries the bulk of a run — prose, docs, examples — chosen for
+ * price (2.5× cheaper than Opus per token, both directions). The validators
+ * downstream (delimiters, concept links, residual masks, example conflict
+ * checks) are what make a cheaper model safe here: anything it garbles is
+ * caught and retried on the repair model rather than shipped.
  */
-const CHUNK_SIZE = 25;
+const DEFAULT_MODEL =
+    process.env.WORDPLAY_TRANSLATOR_MODEL ?? 'claude-sonnet-5';
+/**
+ * The stronger model, reserved for the work where a mistake is expensive or
+ * already happened: per-string retries of strings the default model garbled,
+ * and identifier names (`options.names`), where a bad output is a cross-locale
+ * name collision rather than one awkward sentence. Those are a tiny fraction
+ * of a run's tokens, so the quality is nearly free.
+ */
+const REPAIR_MODEL =
+    process.env.WORDPLAY_TRANSLATOR_REPAIR_MODEL ?? 'claude-opus-4-8';
+
+/**
+ * $ per million tokens, from https://platform.claude.com/docs/en/about-claude/pricing
+ * (checked 2026-08-19). Cache multipliers per the same page: a 5-minute cache
+ * write bills at 1.25× the input price, a cache read at 0.1×. A model missing
+ * here reports its tokens with no dollar estimate rather than a wrong one.
+ */
+const PRICES = new Map<string, { input: number; output: number }>([
+    ['claude-sonnet-5', { input: 2, output: 10 }],
+    ['claude-opus-5', { input: 5, output: 25 }],
+    ['claude-opus-4-8', { input: 5, output: 25 }],
+    ['claude-haiku-4-5', { input: 1, output: 5 }],
+]);
+
+/** Estimate the dollar cost of one model's usage, or undefined if the model's
+ *  price isn't known. */
+export function estimateCost(
+    usage: Omit<TranslatorUsage, 'cost'>,
+): number | undefined {
+    const price = PRICES.get(usage.model);
+    if (price === undefined) return undefined;
+    return (
+        (usage.inputTokens * price.input +
+            usage.outputTokens * price.output +
+            usage.cacheReadTokens * price.input * 0.1 +
+            usage.cacheWriteTokens * price.input * 1.25) /
+        1_000_000
+    );
+}
+
+/**
+ * Translate only the distinct strings in `units`, mapping the results back to
+ * every occurrence. Locale files repeat boilerplate (~15% of en-US's strings
+ * are duplicates of another), and two identical masked units always translate
+ * identically — each occurrence still restores its own `@Concept` links, since
+ * masking replaced them with position-stable `⟦n⟧` placeholders.
+ */
+export async function translateDeduped(
+    units: string[],
+    translateUnique: (unique: string[]) => Promise<(string | null)[]>,
+): Promise<(string | null)[]> {
+    const unique = [...new Set(units)];
+    const translated = await translateUnique(unique);
+    const byText = new Map<string, string | null>(
+        unique.map((unit, index) => [unit, translated[index] ?? null]),
+    );
+    return units.map((unit) => byText.get(unit) ?? null);
+}
+// The request-chunking policy lives in a dependency-free module so browser code
+// (the in-app project translator) can share the same bounds; re-exported here so
+// this file's importers and chunkUnits.test.ts are unchanged.
+export { chunkUnits };
+
 /** Output cap; structured JSON of a chunk this size stays well under this. */
 const MAX_TOKENS = 16000;
 /**
@@ -134,8 +196,14 @@ export function describeClaudeError(error: unknown): string {
         return "the API key lacks permission for this model, or the org can't use it";
     if (error instanceof Anthropic.RateLimitError)
         return 'rate limited even after retries — lower concurrency or wait';
+    // A spend cap arrives as a 400, so it lands here rather than in
+    // RateLimitError — and reads as a malformed request, which is the one thing
+    // it isn't. It is also the only failure that resolves on a date rather than
+    // by changing anything, so say so plainly.
     if (error instanceof Anthropic.BadRequestError)
-        return `bad request — ${error.message}`;
+        return /usage limit/i.test(error.message)
+            ? `the account's API usage limit is spent, so nothing more will translate until it resets or is raised — ${error.message}`
+            : `bad request — ${error.message}`;
     // Before APIConnectionError, which it extends. Getting this order wrong
     // reports a deadline we set as a network we can't reach, and sends whoever
     // reads it looking at their connection and their API key — neither of
@@ -147,6 +215,66 @@ export function describeClaudeError(error: unknown): string {
     if (error instanceof Anthropic.APIError)
         return `Anthropic API error ${error.status ?? ''} — ${error.message}`;
     return String(error);
+}
+
+/**
+ * Translate text that may contain Wordplay markup, keeping the model away from
+ * anything it shouldn't rewrite.
+ *
+ * `translateChunk` is the unprotected entry point — the splitting and masking
+ * live in `translate()`, above it — so anything calling it directly hands the
+ * model raw markup. Localizing an embedded example did exactly that, and a doc
+ * whose text carries its own `\code\` came back with the code translated and
+ * the backslashes gone, which fails `mismatchedDelimiter` and costs the entire
+ * example. Only markup segments are sent; code is passed through untouched and
+ * `@Concept` links are masked across the round trip.
+ *
+ * An element whose translation failed is returned unchanged, so a partial
+ * failure costs a name or a sentence rather than a valid program.
+ */
+export async function translateProtectedMarkup(
+    texts: string[],
+    translateUnits: (units: string[]) => Promise<(string | null)[]>,
+): Promise<string[]> {
+    const segmented = texts.map(splitMarkupAndCode);
+    const units: string[] = [];
+    const unitLinks: string[][] = [];
+    for (const segments of segmented)
+        for (const segment of segments)
+            if (segment.kind === 'markup' && segment.text.trim().length > 0) {
+                const { masked, links } = protectConceptLinks(segment.text);
+                units.push(masked);
+                unitLinks.push(links);
+            }
+    if (units.length === 0) return texts;
+    const out = await translateUnits(units);
+    let unit = 0;
+    return segmented.map((segments, index) => {
+        let failed = false;
+        const rebuilt = segments
+            .map((segment) => {
+                if (segment.kind === 'code' || segment.text.trim().length === 0)
+                    return segment.text;
+                const translated = out[unit];
+                const links = unitLinks[unit] ?? [];
+                unit++;
+                if (translated === null || translated === undefined) {
+                    failed = true;
+                    return segment.text;
+                }
+                const restored = restoreConceptLinks(translated, links);
+                // `splitMarkupAndCode` already took every `\…\` and `` `…` ``
+                // out of this unit, so a delimiter in what came back is one the
+                // model invented. Left in, it unbalances the rebuilt example and
+                // the caller discards the whole thing; dropping just this unit
+                // costs one sentence instead.
+                if (mismatchedDelimiter(segment.text, restored))
+                    return segment.text;
+                return restored;
+            })
+            .join('');
+        return failed ? texts[index] : rebuilt;
+    });
 }
 
 export default class ClaudeTranslator implements Translator {
@@ -220,11 +348,23 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         system: string,
         sourceLocale: string,
         targetLocale: string,
+        model: string,
         isRetry = false,
     ): Promise<(string | null)[]> {
         const response = await this.client.messages.create({
-            model: MODEL,
+            model,
             max_tokens: MAX_TOKENS,
+            // The default model thinks adaptively when left alone, and on hard
+            // scripts it spent more tokens reasoning about a routine chunk than
+            // writing it (10k of 17k on one Kannada slice) — enough to erase
+            // its price advantage over the repair model. Translation here is a
+            // mechanical transform whose failures are caught by validators and
+            // escalated, so the bulk path turns thinking off; the repair model
+            // keeps its default, since it gets exactly the strings that needed
+            // more than mechanics.
+            ...(model === REPAIR_MODEL
+                ? {}
+                : { thinking: { type: 'disabled' } }),
             system: [
                 {
                     type: 'text',
@@ -236,10 +376,16 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             messages: [
                 {
                     role: 'user',
-                    content: `Translate these ${chunk.length} strings from ${sourceLocale} to ${targetLocale}. Each input is {"index","text"}; return JSON {"translations":[{"index","text"}]} with one object per input, echoing each input's "index".\n\n${JSON.stringify(chunk.map((text, index) => ({ index, text })))}`,
+                    // The source/target pair and the response shape are already
+                    // in the cached system block and the enforced output schema;
+                    // repeating them here would just bill again on every request.
+                    // The index-echo ask is the one semantic the schema can't
+                    // express.
+                    content: `Translate these ${chunk.length} strings, echoing each input's "index".\n\n${JSON.stringify(chunk.map((text, index) => ({ index, text })))}`,
                 },
             ],
         });
+        this.recordUsage(model, response.usage);
 
         if (response.stop_reason === 'refusal') {
             log.warning('Claude refused a chunk; marking it unwritten.');
@@ -265,6 +411,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                     system,
                     sourceLocale,
                     targetLocale,
+                    model,
                 )),
                 ...(await this.translateChunk(
                     log,
@@ -272,6 +419,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                     system,
                     sourceLocale,
                     targetLocale,
+                    model,
                 )),
             ];
         }
@@ -291,6 +439,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                     system,
                     sourceLocale,
                     targetLocale,
+                    model,
                     true,
                 );
             log.warning(
@@ -318,6 +467,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             system,
             sourceLocale,
             targetLocale,
+            model,
             true,
         );
         missing.forEach((originalIndex, k) => {
@@ -326,12 +476,124 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         return reconciled;
     }
 
+    /** Tokens consumed so far, per model, accumulated from every response. */
+    private readonly usageByModel = new Map<
+        string,
+        Omit<TranslatorUsage, 'model' | 'cost'>
+    >();
+
+    /** Accumulate one response's usage so the run can report tokens and cost. */
+    private recordUsage(
+        model: string,
+        usage: Anthropic.Messages.Usage | undefined,
+    ): void {
+        if (usage === undefined) return;
+        const total = this.usageByModel.get(model) ?? {
+            requests: 0,
+            inputTokens: 0,
+            outputTokens: 0,
+            cacheReadTokens: 0,
+            cacheWriteTokens: 0,
+            thinkingTokens: 0,
+        };
+        total.requests += 1;
+        total.inputTokens += usage.input_tokens;
+        total.outputTokens += usage.output_tokens;
+        total.cacheReadTokens += usage.cache_read_input_tokens ?? 0;
+        total.cacheWriteTokens += usage.cache_creation_input_tokens ?? 0;
+        total.thinkingTokens +=
+            usage.output_tokens_details?.thinking_tokens ?? 0;
+        this.usageByModel.set(model, total);
+    }
+
+    getUsage(): TranslatorUsage[] {
+        return [...this.usageByModel.entries()].map(([model, usage]) => ({
+            model,
+            ...usage,
+            cost: estimateCost({ model, ...usage }),
+        }));
+    }
+
+    /**
+     * Translate units in bounded chunks, deduplicating identical units so
+     * repeated boilerplate is paid for once. Returns results aligned 1:1 with
+     * `units` plus how many chunks failed outright; a failed chunk leaves its
+     * own units null and the rest stand, so a re-run picks up only what's
+     * missing rather than losing eight good chunks because the ninth timed out.
+     */
+    private async translateUnitsInChunks(
+        log: Log,
+        units: string[],
+        system: string,
+        sourceLocale: string,
+        targetLocale: string,
+        model: string,
+    ): Promise<{ results: (string | null)[]; failures: number }> {
+        let failures = 0;
+        const results = await translateDeduped(units, async (unique) => {
+            if (units.length > unique.length)
+                log.say(
+                    `Reusing translations for ${units.length - unique.length} duplicate segments`,
+                );
+            const translated: (string | null)[] = [];
+            let done = 0;
+            // A phase can be thousands of segments, and without per-chunk
+            // reporting the run is silent between chunks — indistinguishable
+            // from being stuck, and read as exactly that.
+            for (const chunk of chunkUnits(unique)) {
+                const characters = chunk.reduce(
+                    (total, unit) => total + unit.length,
+                    0,
+                );
+                done += chunk.length;
+                const started = Date.now();
+                const elapsed = () =>
+                    ((Date.now() - started) / 1000).toFixed(1);
+                try {
+                    translated.push(
+                        ...(await this.translateChunk(
+                            log,
+                            chunk,
+                            system,
+                            sourceLocale,
+                            targetLocale,
+                            model,
+                        )),
+                    );
+                    log.say(
+                        `${done}/${unique.length} text segments, ${characters} chars in ${elapsed()}s`,
+                    );
+                } catch (error) {
+                    failures++;
+                    translated.push(...chunk.map(() => null));
+                    // A failed chunk is a sibling of the successes around it,
+                    // not a level above them — one outcome of the same loop.
+                    log.bad(
+                        `Chunk of ${chunk.length} segments (${characters} chars) failed after ${elapsed()}s: ${describeClaudeError(error)}`,
+                    );
+                }
+            }
+            return translated;
+        });
+        return { results, failures };
+    }
+
     /** Cache of loaded target locale texts, used to localize embedded examples'
      *  standard-library references to the locale's names. */
     private readonly localeTextCache = new Map<
         string,
         LocaleText | undefined
     >();
+
+    /**
+     * Localized examples this instance has already produced, keyed by locale
+     * pair and source code. One translator serves a whole locale run (locale
+     * file, both tutorials, every how-to), so an example that appears in more
+     * than one file is localized once. Safe to reuse across calls because the
+     * caller writes the locale file (the names examples retarget against)
+     * before the tutorial and how-to passes read it.
+     */
+    private readonly exampleCache = new Map<string, string>();
 
     /** Load a locale's text for example localization. The verifier loads locale
      *  JSON as LocaleText throughout (see DefaultLocale / LocaleSchema); we
@@ -348,8 +610,81 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
 
     /** Analyze a project and count its conflicted nodes (mirrors verifyTutorial). */
     private countConflicts(project: Project): number {
-        project.analyze();
-        return Array.from(project.getConflictedNodes().values()).flat().length;
+        return Array.from(project.analyze().conflictedNodes.values()).flat()
+            .length;
+    }
+
+    /**
+     * Strip an example's `\…\` delimiters to recover the program source, or
+     * return undefined when there is nothing to localize: an empty program, or
+     * one with no letter in any script — e.g. the text-delimiter demos
+     * `""`/`“”`/`«»`/`「」` or pure number/symbol programs. Sending those to the
+     * model risks normalizing the very delimiters they demonstrate (`“”` → `''`),
+     * so they stay verbatim.
+     */
+    private prepareExample(
+        code: string,
+    ): { inner: string; terminated: boolean } | undefined {
+        let inner = code;
+        let terminated = false;
+        if (inner.startsWith('\\')) inner = inner.slice(1);
+        if (inner.endsWith('\\')) {
+            inner = inner.slice(0, -1);
+            terminated = true;
+        }
+        if (inner.trim().length === 0) return undefined;
+        if (!/\p{L}/u.test(inner)) return undefined;
+        return { inner, terminated };
+    }
+
+    /**
+     * The gather half of example localization: parse the example and record the
+     * texts `translateProjectContent` would ask a translator for — names, docs,
+     * text literals — without sending anything. Extraction is deterministic, so
+     * a later `localizeExample` with a lookup translator asks for exactly these
+     * strings; pooling the union across all of a file's examples into shared
+     * bounded chunks is what turned ~900 one-example requests per locale into a
+     * few dozen.
+     */
+    private async collectExampleTexts(
+        code: string,
+        sourceLocale: string,
+        targetLocale: string,
+        targetLocaleText: LocaleText | undefined,
+    ): Promise<string[]> {
+        const sourceObj = stringToLocale(sourceLocale);
+        const targetObj = stringToLocale(targetLocale);
+        if (sourceObj === undefined || targetObj === undefined) return [];
+        const prepared = this.prepareExample(code);
+        if (prepared === undefined) return [];
+        const texts: string[] = [];
+        try {
+            const project = Project.make(
+                null,
+                'example',
+                new Source('start', prepared.inner),
+                [],
+                DefaultLocale,
+            );
+            // Returning null aborts translateProjectContent right after the
+            // texts are requested, so the gather pass costs parsing, not tree
+            // rewriting.
+            await translateProjectContent(
+                project,
+                sourceObj,
+                targetObj,
+                (requested) => {
+                    texts.push(...requested);
+                    return Promise.resolve(null);
+                },
+                targetLocaleText,
+                true,
+            );
+        } catch {
+            // Best-effort: an example that fails to parse here also fails in
+            // localizeExample, which keeps the original.
+        }
+        return texts;
     }
 
     /**
@@ -358,6 +693,8 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
      * standard-library references use the target locale's names. The original is
      * kept verbatim if anything fails or if localization introduces new
      * conflicts (the "re-serialize, re-analyze conflict-free" guarantee).
+     * `translateTexts` supplies the translations — a pooled lookup in the batch
+     * path, a direct per-example request in `localizeOneExample`.
      */
     private async localizeExample(
         log: Log,
@@ -365,26 +702,15 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         sourceLocale: string,
         targetLocale: string,
         targetLocaleText: LocaleText | undefined,
-        system: string,
+        translateTexts: RawTranslator,
     ): Promise<string> {
         const sourceObj = stringToLocale(sourceLocale);
         const targetObj = stringToLocale(targetLocale);
         if (sourceObj === undefined || targetObj === undefined) return code;
 
-        // Strip the `\…\` delimiters to recover the program source.
-        let inner = code;
-        let terminated = false;
-        if (inner.startsWith('\\')) inner = inner.slice(1);
-        if (inner.endsWith('\\')) {
-            inner = inner.slice(0, -1);
-            terminated = true;
-        }
-        if (inner.trim().length === 0) return code;
-        // Nothing to localize if there's no letter in any script — e.g. the
-        // text-delimiter demos `""`/`“”`/`«»`/`「」` or pure number/symbol programs.
-        // Sending these to the model risks normalizing the very delimiters they
-        // demonstrate (`“”` → `''`), so keep them verbatim.
-        if (!/\p{L}/u.test(inner)) return code;
+        const prepared = this.prepareExample(code);
+        if (prepared === undefined) return code;
+        const { inner, terminated } = prepared;
 
         try {
             const project = Project.make(
@@ -396,32 +722,11 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             );
             const baseline = this.countConflicts(project);
 
-            // Reuse the markup chunk translator to translate the example's
-            // names/text/docs (translateProjectContent rebuilds valid names).
-            const rawTranslator: RawTranslator = async (texts) => {
-                if (texts.length === 0) return [];
-                try {
-                    const out = await this.translateChunk(
-                        log,
-                        texts,
-                        system,
-                        sourceLocale,
-                        targetLocale,
-                    );
-                    // Keep the original for any element that couldn't translate, so
-                    // the example stays a valid program (a partial failure here just
-                    // means a name/text isn't localized, not a broken example).
-                    return out.map((t, i) => t ?? texts[i]);
-                } catch {
-                    return null;
-                }
-            };
-
             const localized = await translateProjectContent(
                 project,
                 sourceObj,
                 targetObj,
-                rawTranslator,
+                translateTexts,
                 targetLocaleText,
                 true,
             );
@@ -498,13 +803,32 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             targetLocale,
             targetLocaleText,
         );
+        // One-off use, so a direct per-example request rather than the pooled
+        // path `translate()` takes.
+        const direct: RawTranslator = async (texts) => {
+            if (texts.length === 0) return [];
+            try {
+                return await translateProtectedMarkup(texts, async (units) =>
+                    this.translateChunk(
+                        log,
+                        units,
+                        system,
+                        sourceLocale,
+                        targetLocale,
+                        DEFAULT_MODEL,
+                    ),
+                );
+            } catch {
+                return null;
+            }
+        };
         return this.localizeExample(
             log,
             code,
             sourceLocale,
             targetLocale,
             targetLocaleText,
-            system,
+            direct,
         );
     }
 
@@ -514,11 +838,16 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         sourceLocale: string,
         targetLocale: string,
         targetText?: LocaleText,
+        options?: { names?: boolean },
     ): Promise<(string | null)[] | undefined> {
         // Everything this call reports — chunk progress, refusals, the final
         // count — belongs to one translation, so group it under the pair being
         // translated rather than scattering it beside the caller's own lines.
         const log = parentLog.scope(`${sourceLocale} → ${targetLocale}`);
+
+        // Identifier names go to the stronger model: they are a tiny fraction
+        // of a run's tokens, and a bad one is a cross-locale name collision.
+        const model = options?.names === true ? REPAIR_MODEL : DEFAULT_MODEL;
 
         // Split each string into markup and code segments. Markup is translated
         // as text; `\code\` (embedded Wordplay programs) is localized separately
@@ -550,48 +879,20 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
 
         const system = this.buildSystem(sourceLocale, targetLocale, targetText);
 
-        // Translate units in chunks, reporting size and elapsed time per chunk.
-        // A phase can be thousands of segments, and without this the run is
-        // silent between chunks — which is indistinguishable from being stuck,
-        // and was read as exactly that.
-        //
-        // A chunk that fails leaves its own segments null and the rest stand:
-        // the caller keeps a null segment's source unwritten, so a re-run picks
-        // up only what's missing. Losing eight good chunks because the ninth
-        // timed out is a worse trade than a locale that finishes in two passes.
-        const translatedUnits: (string | null)[] = [];
-        let failures = 0;
-        for (let i = 0; i < units.length; i += CHUNK_SIZE) {
-            const chunk = units.slice(i, i + CHUNK_SIZE);
-            const characters = chunk.reduce(
-                (total, unit) => total + unit.length,
-                0,
+        // Translate units in bounded, deduplicated chunks. A chunk that fails
+        // leaves its own segments null and the rest stand: the caller keeps a
+        // null segment's source unwritten, so a re-run picks up only what's
+        // missing. Losing eight good chunks because the ninth timed out is a
+        // worse trade than a locale that finishes in two passes.
+        const { results: translatedUnits, failures } =
+            await this.translateUnitsInChunks(
+                log,
+                units,
+                system,
+                sourceLocale,
+                targetLocale,
+                model,
             );
-            const started = Date.now();
-            const elapsed = () => ((Date.now() - started) / 1000).toFixed(1);
-            try {
-                translatedUnits.push(
-                    ...(await this.translateChunk(
-                        log,
-                        chunk,
-                        system,
-                        sourceLocale,
-                        targetLocale,
-                    )),
-                );
-                log.say(
-                    `${Math.min(i + CHUNK_SIZE, units.length)}/${units.length} text segments, ${characters} chars in ${elapsed()}s`,
-                );
-            } catch (error) {
-                failures++;
-                translatedUnits.push(...chunk.map(() => null));
-                // A failed chunk is a sibling of the successes around it, not a
-                // level above them — it's one outcome of the same loop.
-                log.bad(
-                    `Chunk of ${chunk.length} segments (${characters} chars) failed after ${elapsed()}s: ${describeClaudeError(error)}`,
-                );
-            }
-        }
 
         // Nothing landed at all: the caller's "check your credentials" advice
         // is worth giving here, and only here.
@@ -604,12 +905,11 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
 
         // Localize each unique embedded `\code\` example so it reads natively in
         // the target language (names/text/docs replaced, references retargeted).
-        // Deduplicated and done once per example; failures fall back to verbatim.
+        // Done once per example per locale pair — the instance-level cache means
+        // an example the locale file already localized isn't re-done for the
+        // tutorial or a how-to. Failures fall back to verbatim.
         const targetLocaleText =
             targetText ?? this.loadLocaleText(log, targetLocale);
-        const codeMap = new Map<string, string>();
-        // Example localization is serial and the slow part of a run (each is a
-        // full parse/translate/re-analyze cycle), so log progress as we go.
         const uniqueCodes = [
             ...new Set(
                 allSegments.flatMap((segments) =>
@@ -619,85 +919,269 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                 ),
             ),
         ];
-        const examples =
-            uniqueCodes.length > 0
-                ? log.pending(
-                      `Localizing ${uniqueCodes.length} embedded examples`,
-                  )
-                : log;
-        for (let c = 0; c < uniqueCodes.length; c++) {
-            codeMap.set(
-                uniqueCodes[c],
-                await this.localizeExample(
-                    examples,
-                    uniqueCodes[c],
-                    sourceLocale,
-                    targetLocale,
-                    targetLocaleText,
-                    system,
-                ),
+        const exampleKey = (code: string) =>
+            `${sourceLocale}→${targetLocale}\n${code}`;
+        const pending = uniqueCodes.filter(
+            (code) => !this.exampleCache.has(exampleKey(code)),
+        );
+        if (pending.length > 0) {
+            const examples = log.pending(
+                `Localizing ${pending.length} embedded examples`,
             );
-            if ((c + 1) % 25 === 0 || c + 1 === uniqueCodes.length)
-                examples.say(
-                    `${c + 1}/${uniqueCodes.length} examples localized`,
+            // Gather pass: extract every example's translatable texts locally,
+            // with no API calls.
+            const textsByCode = new Map<string, string[]>();
+            for (const code of pending)
+                textsByCode.set(
+                    code,
+                    await this.collectExampleTexts(
+                        code,
+                        sourceLocale,
+                        targetLocale,
+                        targetLocaleText,
+                    ),
                 );
+            // Translate the union once, in shared bounded chunks, instead of
+            // one request per example — the per-example requests were a few
+            // short identifiers each riding a full system prompt, and were
+            // most of a run's input tokens.
+            const allTexts = [...new Set([...textsByCode.values()].flat())];
+            const translatedByText = new Map<string, string>();
+            if (allTexts.length > 0) {
+                const translated = await translateProtectedMarkup(
+                    allTexts,
+                    async (chunkedUnits) =>
+                        (
+                            await this.translateUnitsInChunks(
+                                examples,
+                                chunkedUnits,
+                                system,
+                                sourceLocale,
+                                targetLocale,
+                                model,
+                            )
+                        ).results,
+                );
+                allTexts.forEach((original, index) =>
+                    translatedByText.set(original, translated[index]),
+                );
+            }
+            // Apply pass: localize each example against the pooled results. A
+            // text the pool couldn't translate resolves to itself, which is
+            // the same keep-the-source outcome the per-example path had.
+            const lookup: RawTranslator = (requested) =>
+                Promise.resolve(
+                    requested.map(
+                        (original) =>
+                            translatedByText.get(original) ?? original,
+                    ),
+                );
+            let applied = 0;
+            for (const code of pending) {
+                this.exampleCache.set(
+                    exampleKey(code),
+                    await this.localizeExample(
+                        examples,
+                        code,
+                        sourceLocale,
+                        targetLocale,
+                        targetLocaleText,
+                        lookup,
+                    ),
+                );
+                applied++;
+                if (applied % 25 === 0 || applied === pending.length)
+                    examples.say(
+                        `${applied}/${pending.length} examples localized`,
+                    );
+            }
         }
+        const codeMap = new Map<string, string>(
+            uniqueCodes.map((code) => [
+                code,
+                this.exampleCache.get(exampleKey(code)) ?? code,
+            ]),
+        );
+
+        // How many plural forms this locale distinguishes — one for Japanese,
+        // six for Arabic. What a translation's `$#name` branches are measured
+        // against, since English's two say nothing about what it needs.
+        const pluralForms = getPluralCount(targetLocale);
+
+        // Reassemble one string from its translated units, validating it. A
+        // `null` means the translation is unusable and the caller keeps the
+        // source unwritten rather than shipping something broken.
+        const reassemble = (
+            segments: { kind: 'markup' | 'code'; text: string }[],
+            source: string,
+            unitsFor: (string | null)[],
+            linksFor: string[][],
+            quiet: boolean,
+        ): string | null => {
+            let failed = false;
+            let index = 0;
+            const rebuilt = segments
+                .map((seg) => {
+                    if (seg.kind === 'code')
+                        return codeMap.get(seg.text) ?? seg.text;
+                    if (seg.text.trim().length === 0) return seg.text;
+                    const at = index++;
+                    const unit = unitsFor[at];
+                    if (unit === null) failed = true;
+                    // Put the masked links back where the translation left
+                    // their placeholders — which may not be where they
+                    // started, since grammar reorders sentences.
+                    return unit === null || unit === undefined
+                        ? ''
+                        : restoreConceptLinks(unit, linksFor[at] ?? []);
+                })
+                .join('');
+            // A markup unit couldn't be translated → signal null so the caller
+            // keeps the source unwritten ($?) rather than shipping English.
+            if (failed) return null;
+            // Safety belt (cross-backend repair): restore mangled @Concept
+            // links and $name mentions. If the `\…\`/`` `…` `` delimiters no
+            // longer match the source, the string would break tokenization —
+            // signal null instead of shipping a corrupt (or English) string.
+            const repaired = repairMentionsPositional(
+                source,
+                restoreReferences(source, rebuilt, ConceptPattern),
+            );
+            const complain = (message: string) => {
+                if (!quiet) log.warning(message);
+                return null;
+            };
+            if (mismatchedDelimiter(source, repaired) !== undefined)
+                return complain(
+                    `A translation left an unbalanced delimiter; marking it unwritten (${targetLocale}).`,
+                );
+            // Masking should mean the links came back untouched. If one is
+            // renamed or missing anyway — a dropped placeholder, or a link
+            // the model invented — the string would render as the
+            // unknown-character glyph, so keep the source unwritten and let
+            // a re-run retry it. This is what makes "the translator can't
+            // break links" true rather than merely likely (#1263).
+            const link = mismatchedConceptLinks(source, repaired);
+            if (link !== undefined)
+                return complain(
+                    `A translation altered the concept link ${link}; marking it unwritten (${targetLocale}).`,
+                );
+            // A placeholder that outlived restoration means the restore
+            // silently failed, and `mismatchedConceptLinks` can't always
+            // see it: when the source carries no links of its own, source
+            // and translation both count zero and the raw `⟦0⟧` sails
+            // through into the locale file. Seven did.
+            if (hasResidualLinkMask(repaired))
+                return complain(
+                    `A translation kept a link placeholder instead of the link; marking it unwritten (${targetLocale}).`,
+                );
+            // A dropped `$#name` leaves the arms behind as a literal bracket
+            // group, which a screen reader reads out bars and all. Nothing above
+            // catches it: the arms repeat the other inputs, so the mention
+            // counts don't line up and positional repair declines to guess.
+            // Locales with the most forms are where it happens — ar-SA lost it
+            // twice while the other 28 kept it — which is exactly the case the
+            // per-string retry on the repair model is for.
+            const plural = mismatchedPluralBranch(
+                source,
+                repaired,
+                pluralForms,
+            );
+            if (plural !== undefined)
+                return complain(
+                    `A translation dropped the plural forms of $${plural}; marking it unwritten (${targetLocale}).`,
+                );
+            return repaired;
+        };
 
         // Reassemble each string: translated markup in place, localized code.
         let unitIndex = 0;
+        const unitRange: { start: number; count: number }[] = [];
         const result: (string | null)[] = allSegments.map(
             (segments, stringIndex) => {
-                let failed = false;
-                const rebuilt = segments
-                    .map((seg) => {
-                        if (seg.kind === 'code')
-                            return codeMap.get(seg.text) ?? seg.text;
-                        if (seg.text.trim().length === 0) return seg.text;
-                        const index = unitIndex++;
-                        const unit = translatedUnits[index];
-                        if (unit === null) failed = true;
-                        // Put the masked links back where the translation left
-                        // their placeholders — which may not be where they
-                        // started, since grammar reorders sentences.
-                        return unit === null || unit === undefined
-                            ? ''
-                            : restoreConceptLinks(unit, unitLinks[index] ?? []);
-                    })
-                    .join('');
-                // A markup unit couldn't be translated → signal null so the caller
-                // keeps the source unwritten ($?) rather than shipping English.
-                if (failed) return null;
-                // Safety belt (cross-backend repair): restore mangled @Concept
-                // links and $name mentions. If the `\…\`/`` `…` `` delimiters no
-                // longer match the source, the string would break tokenization —
-                // signal null instead of shipping a corrupt (or English) string.
-                const source = text[stringIndex];
-                const repaired = repairMentionsPositional(
-                    source,
-                    restoreReferences(source, rebuilt, ConceptPattern),
+                const start = unitIndex;
+                const count = segments.filter(
+                    (seg) =>
+                        seg.kind === 'markup' && seg.text.trim().length > 0,
+                ).length;
+                unitIndex += count;
+                unitRange.push({ start, count });
+                return reassemble(
+                    segments,
+                    text[stringIndex],
+                    translatedUnits.slice(start, start + count),
+                    unitLinks.slice(start, start + count),
+                    // Stay quiet on the first attempt: a retry may well fix it,
+                    // and warning twice about one string reads as two problems.
+                    true,
                 );
-                if (mismatchedDelimiter(source, repaired) !== undefined) {
-                    log.warning(
-                        `A translation left an unbalanced delimiter; marking it unwritten (${targetLocale}).`,
-                    );
-                    return null;
-                }
-                // Masking should mean the links came back untouched. If one is
-                // renamed or missing anyway — a dropped placeholder, or a link
-                // the model invented — the string would render as the
-                // unknown-character glyph, so keep the source unwritten and let
-                // a re-run retry it. This is what makes "the translator can't
-                // break links" true rather than merely likely (#1263).
-                const link = mismatchedConceptLinks(source, repaired);
-                if (link !== undefined) {
-                    log.warning(
-                        `A translation altered the concept link ${link}; marking it unwritten (${targetLocale}).`,
-                    );
-                    return null;
-                }
-                return repaired;
             },
         );
+
+        // Retry the strings that came back unusable, one string per request.
+        //
+        // Every rejection above is the model losing track of a `⟦n⟧` placeholder
+        // or a delimiter, and it does that far more readily in a 25-segment
+        // request than in one holding a single string. Retrying only the
+        // failures costs a handful of small requests and recovers most of them;
+        // without it the same strings fail every run forever, which is exactly
+        // where 42 of them ended up.
+        const retryable = result
+            .map((value, index) => ({ value, index }))
+            .filter(
+                ({ value, index }) =>
+                    value === null && unitRange[index].count > 0,
+            );
+        if (retryable.length > 0) {
+            const retryLog = log.pending(
+                `Retrying ${retryable.length} string(s) the model garbled, one at a time`,
+            );
+            let recovered = 0;
+            for (const { index } of retryable) {
+                const { start, count } = unitRange[index];
+                const segments = allSegments[index];
+                const links = unitLinks.slice(start, start + count);
+                let units: (string | null)[];
+                try {
+                    units = await this.translateChunk(
+                        log,
+                        // Re-mask from the source so the retry is independent of
+                        // whatever the first attempt did to the placeholders.
+                        segments
+                            .filter(
+                                (seg) =>
+                                    seg.kind === 'markup' &&
+                                    seg.text.trim().length > 0,
+                            )
+                            .map((seg) => protectConceptLinks(seg.text).masked),
+                        system,
+                        sourceLocale,
+                        targetLocale,
+                        // The default model already lost track of this string
+                        // once; give the retry to the stronger model. These are
+                        // a handful of single-string requests per locale, so
+                        // the quality costs pennies.
+                        REPAIR_MODEL,
+                    );
+                } catch {
+                    continue;
+                }
+                const second = reassemble(
+                    segments,
+                    text[index],
+                    units,
+                    links,
+                    false,
+                );
+                if (second !== null) {
+                    result[index] = second;
+                    recovered++;
+                }
+            }
+            retryLog.good(
+                `Recovered ${recovered} of ${retryable.length} on retry.`,
+            );
+        }
 
         log.good(`Translated ${text.length} strings with Claude.`);
         return result;

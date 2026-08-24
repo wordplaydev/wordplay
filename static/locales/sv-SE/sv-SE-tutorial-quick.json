@@ -134,7 +134,7 @@
                             "curious",
                             "$~Vissa programmeringsspråk låter dig ange @type för en @variable, så att du kan se till att alla sätt du använder variabeln på är giltiga:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplay är också typat, men typer *härleds*. Du behöver oftast inte deklarera dem, men ibland kan du behöva det om de inte kan härledas."
+                            "$~@wordplay har också en typ, men typer *härleds*. Du behöver oftast inte skriva ut dem själv, men ibland måste du om de inte kan härledas. En listtyp kan också ange en typ för varje plats i listan, som \\[# '']\\ för en lista med exakt två saker: ett tal, sedan ett ord."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

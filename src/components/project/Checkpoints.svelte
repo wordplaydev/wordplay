@@ -12,17 +12,30 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
+    import {
+        getCheckpoint,
+        getCheckpointIndex,
+        getCheckpointOrder,
+        stepCheckpoint,
+        type CheckpointAnchor,
+    } from '@components/project/checkpoints';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { onMount } from 'svelte';
     import { withMonoEmoji } from '@unicode/emoji';
 
     let {
         project,
-        // -1 represents nothing choice, 0-N represents the index into the checkpoint history
-        checkpoint = $bindable(-1),
-    }: { project: Project; checkpoint: number } = $props();
+        // The time of the checkpoint being viewed, or null for now. Anchored on
+        // time rather than position because the list shifts underneath a
+        // browsing creator; see checkpoints.ts.
+        checkpoint = $bindable(null),
+    }: { project: Project; checkpoint: CheckpointAnchor } = $props();
 
-    let history = $derived(project.getCheckpoints().toReversed());
+    let history = $derived(getCheckpointOrder(project.getCheckpoints()));
+    let index = $derived(
+        getCheckpointIndex(project.getCheckpoints(), checkpoint),
+    );
+    let current = $derived(getCheckpoint(project.getCheckpoints(), checkpoint));
 
     let now = $state(Date.now());
     onMount(() => {
@@ -77,17 +90,23 @@
             tip={(l) => l.ui.checkpoints.button.clear}
             prompt={(l) => l.ui.checkpoints.button.clear}
             action={() => {
+                // Return to now before the history goes away, so nothing
+                // renders against an anchor that no longer resolves.
+                checkpoint = null;
                 Projects.reviseProject(project.withoutHistory());
-                checkpoint = -1;
                 return;
             }}>{CANCEL_SYMBOL}</ConfirmButton
         >
         <Button
             background
             tip={(l) => l.ui.checkpoints.button.back}
-            active={checkpoint < history.length - 1}
+            active={index < history.length - 1}
             action={() => {
-                checkpoint++;
+                checkpoint = stepCheckpoint(
+                    project.getCheckpoints(),
+                    checkpoint,
+                    1,
+                );
                 return;
             }}
             icon="⏴"
@@ -95,9 +114,13 @@
         <Button
             background
             tip={(l) => l.ui.checkpoints.button.forward}
-            active={checkpoint > -1}
+            active={index > -1}
             action={() => {
-                checkpoint--;
+                checkpoint = stepCheckpoint(
+                    project.getCheckpoints(),
+                    checkpoint,
+                    -1,
+                );
                 return;
             }}
             icon="⏵"
@@ -105,20 +128,20 @@
         <Button
             background
             tip={(l) => l.ui.checkpoints.button.now}
-            active={checkpoint > -1}
+            active={index > -1}
             action={() => {
-                checkpoint = -1;
+                checkpoint = null;
                 return;
             }}
             icon="⏵⏵"
         ></Button>
         <span class="checkpoint">
-            {#if checkpoint === -1}
+            {#if current === undefined}
                 <LocalizedText path={(l) => l.ui.checkpoints.label.now} />
                 <span class="time"> / {history.length}</span>
             {:else}
-                {@const duration = getDelta(history[checkpoint].time)}
-                {checkpoint + 1}/{history.length}
+                {@const duration = getDelta(current.time)}
+                {index + 1}/{history.length}
                 <span class="time"
                     ><MarkupHTMLView
                         inline

@@ -6,6 +6,10 @@ import BooleanType from '@nodes/BooleanType';
 import type Expression from '@nodes/Expression';
 import FormattedType from '@nodes/FormattedType';
 import NumberType from '@nodes/NumberType';
+import NoneType from '@nodes/NoneType';
+import NoneLiteral from '@nodes/NoneLiteral';
+import UnionType from '@nodes/UnionType';
+import NoneValue from '@values/NoneValue';
 import NameType from '@nodes/NameType';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { getResultTypeNames } from '@output/Result/Result';
@@ -82,12 +86,160 @@ export default function bootstrapText(locales: Locales) {
                     (requestor, evaluator) =>
                         (evaluator.getClosure() as TextValue).length(requestor),
                 ),
+                // Case conversion takes its locale from the receiver's own tag,
+                // since only the tag says what language the letters are in; an
+                // untagged text uses Unicode's root mapping, so the result
+                // doesn't depend on the machine the program runs on.
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.uppercase,
+                    undefined,
+                    [],
+                    TextType.make(undefined, (left) => left),
+                    (requestor, evaluation) =>
+                        (evaluation.getClosure() as TextValue).uppercase(
+                            requestor,
+                        ),
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.lowercase,
+                    undefined,
+                    [],
+                    TextType.make(undefined, (left) => left),
+                    (requestor, evaluation) =>
+                        (evaluation.getClosure() as TextValue).lowercase(
+                            requestor,
+                        ),
+                ),
+                // Position-based operations count in graphemes, matching
+                // `length` and `→ ['']`, so an emoji is never cut in half.
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.subsequence,
+                    undefined,
+                    [
+                        NumberType.make(),
+                        [
+                            UnionType.make(NumberType.make(), NoneType.make()),
+                            NoneLiteral.make(),
+                        ],
+                    ],
+                    TextType.make(undefined, (left) => left),
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure();
+                        const start = evaluation.getInput(0);
+                        const end = evaluation.getInput(1);
+                        if (!(text instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text,
+                            );
+                        if (!(start instanceof NumberValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                NumberType.make(),
+                                start,
+                            );
+                        if (!(
+                            end instanceof NumberValue ||
+                            end instanceof NoneValue
+                        ))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                UnionType.make(
+                                    NumberType.make(),
+                                    NoneType.make(),
+                                ),
+                                end,
+                            );
+                        return text.subsequence(
+                            requestor,
+                            start.toNumber(),
+                            end instanceof NumberValue
+                                ? end.toNumber()
+                                : undefined,
+                        );
+                    },
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.index,
+                    undefined,
+                    [TextType.make()],
+                    UnionType.make(NumberType.make(), NoneType.make()),
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure() as TextValue;
+                        const input = evaluation.getInput(0);
+                        if (!(input instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                input,
+                            );
+                        const index = text.index(input);
+                        return index === undefined
+                            ? new NoneValue(requestor)
+                            : new NumberValue(requestor, index);
+                    },
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.replace,
+                    undefined,
+                    [TextType.make(), TextType.make()],
+                    // The replacement's words end up in the result, so its
+                    // locale counts too, exactly as in combine.
+                    TextType.make(undefined, (left, right) =>
+                        Language.union(left, right),
+                    ),
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure() as TextValue;
+                        const of = evaluation.getInput(0);
+                        const replacement = evaluation.getInput(1);
+                        if (!(of instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                of,
+                            );
+                        if (!(replacement instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                replacement,
+                            );
+                        return text.replace(requestor, of, replacement);
+                    },
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.trim,
+                    undefined,
+                    [],
+                    TextType.make(undefined, (left) => left),
+                    (requestor, evaluation) =>
+                        (evaluation.getClosure() as TextValue).trim(requestor),
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.reverse,
+                    undefined,
+                    [],
+                    TextType.make(undefined, (left) => left),
+                    (requestor, evaluation) =>
+                        (evaluation.getClosure() as TextValue).reverse(
+                            requestor,
+                        ),
+                ),
                 createBasisFunction(
                     locales,
                     (locale) => locale.basis.Text.function.repeat,
                     undefined,
                     [NumberType.make()],
-                    TextType.make(),
+                    // Repeating keeps the source's locale, so say so.
+                    TextType.make(undefined, (left) => left),
                     (requestor, evaluation) => {
                         const text = evaluation.getClosure();
                         const count = evaluation.getInput(0);

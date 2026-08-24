@@ -52,6 +52,42 @@
 
     let { children, footer = true, scroll = true }: Props = $props();
 
+    /**
+     * The tabs arrive and leave rather than blinking in and out — they slide up
+     * into the bar when the page's own copy of the same destinations scrolls
+     * away, and back down when it returns.
+     *
+     * Leaving needs the tabs to outlive `footer` going false, so `showNav`
+     * trails it by the length of the animation; nothing focusable lingers,
+     * because the exit is short and ends in an unmount. Motion-gated: at factor
+     * 0 the timeout is zero and both directions are instant.
+     */
+    let navPhase: 'in' | 'out' | undefined = $state(undefined);
+    // svelte-ignore state_referenced_locally
+    let showNav = $state(footer);
+    // Deliberately the initial value: this records what `footer` was on the
+    // previous run so the effect can tell a change from a re-render.
+    // svelte-ignore state_referenced_locally
+    let hadFooter = footer;
+    $effect(() => {
+        const wanted = footer;
+        if (wanted === hadFooter) return;
+        hadFooter = wanted;
+        const duration = 400 * $animationFactor;
+        if (wanted) {
+            showNav = true;
+            navPhase = 'in';
+            const settle = setTimeout(() => (navPhase = undefined), duration);
+            return () => clearTimeout(settle);
+        }
+        navPhase = 'out';
+        const settle = setTimeout(() => {
+            showNav = false;
+            navPhase = undefined;
+        }, duration);
+        return () => clearTimeout(settle);
+    });
+
     let main: HTMLElement | undefined = $state();
     let scrollY = $state(0);
     let showBackToTop = $derived(scrollY > 200);
@@ -138,7 +174,7 @@
      *  pickers and menus that move a selection, and the code editor, which binds
      *  every one of them to a caret movement. */
     const KeyOwners =
-        'input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="listbox"], [role="menu"], [role="radiogroup"], [data-testid="editor"]';
+        'input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="listbox"], [role="menu"], [role="radiogroup"], [role="tablist"], [data-uiid="stage"], [data-testid="editor"]';
 
     /**
      * Whether something other than the page should answer a scroll key: a control
@@ -246,20 +282,27 @@
             </div>
         </div>
     {/if}
-    <footer class:fullscreen={$fullscreen.on}>
+    <footer
+        class:fullscreen={$fullscreen.on}
+        class:arriving={navPhase === 'in'}
+        class:leaving={navPhase === 'out'}
+    >
         <nav>
             {#snippet navHome()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
+                        tab
+                        graphic
                         tip={(l) => l.ui.widget.home}
                         ariaLabel={(l) => l.ui.widget.home}
                         to="/"
-                        ><span style:font-size="150%"
-                            ><!-- The exemplar glyph of the viewer's primary
-                                 locale's script (Logo's default). -->
-                            <Logo /></span
-                        ></Link
+                        ><!-- The exemplar glyph of the viewer's primary
+                             locale's script (Logo's default), at the nav's own
+                             size rather than the 150% it used to be: in a tab
+                             the prominence comes from the chrome, and a bigger
+                             mark would make this tab taller than the rest. -->
+                        <Logo /></Link
                     >
                 {/if}
             {/snippet}
@@ -267,9 +310,11 @@
                 <Settings />
             {/snippet}
             {#snippet navProjects()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
+                        tab
+                        within={['/project']}
                         tip={(l) => l.ui.page.projects.header}
                         to="/projects"
                     >
@@ -282,9 +327,11 @@
                 {/if}
             {/snippet}
             {#snippet navGalleries()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
+                        tab
+                        within={['/gallery']}
                         tip={(l) => l.ui.page.galleries.header}
                         to="/galleries"
                     >
@@ -297,9 +344,11 @@
                 {/if}
             {/snippet}
             {#snippet navCharacters()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
+                        tab
+                        within={['/character']}
                         tip={(l) => l.ui.page.characters.header}
                         to="/characters"
                     >
@@ -312,9 +361,10 @@
                 {/if}
             {/snippet}
             {#snippet navLearn()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
+                        tab
                         tip={(l) => l.ui.page.learn.header}
                         to="/learn"
                     >
@@ -327,9 +377,10 @@
                 {/if}
             {/snippet}
             {#snippet navGuide()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
+                        tab
                         tip={(l) => l.ui.page.guide.header}
                         to="/guide"
                     >
@@ -343,9 +394,10 @@
                 {/if}
             {/snippet}
             {#snippet navTeach()}
-                {#if footer}
+                {#if showNav}
                     <Link
                         nowrap
+                        tab
                         tip={(l) => l.ui.page.teach.header}
                         to="/teach"
                     >
@@ -467,6 +519,51 @@
         container-type: inline-size;
     }
 
+    /* The arrival and departure described on `navPhase`. The tabs are fully
+       opaque whenever they are settled — the ramp only runs while they are on
+       their way in or out, and outside those few hundred milliseconds they are
+       either solid or not rendered at all. */
+    footer.arriving :global(.pinned-start) {
+        animation: nav-arrive calc(var(--animation-factor) * 0.4s) ease-out;
+    }
+
+    footer.leaving :global(.pinned-start) {
+        animation: nav-arrive calc(var(--animation-factor) * 0.4s) ease-in
+            reverse forwards;
+    }
+
+    @keyframes nav-arrive {
+        0% {
+            transform: translateY(1em);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* The link underline is drawn on the label, not on the anchor: a line
+       running under an emoji reads as noise rather than as a link, and the
+       footer's logo shouldn't carry one at all. Rest is the same 2px the
+       global `a` rule reserves; hover and focus thicken it to the focus blue,
+       exactly as they do for any other link in the app. */
+    footer :global(.link.tab .nav-label) {
+        text-decoration: calc(var(--wordplay-focus-width) / 2) underline
+            var(--wordplay-link-color);
+    }
+
+    footer :global(a.link.tab:hover .nav-label),
+    footer :global(a.link.tab:focus .nav-label) {
+        text-decoration-thickness: var(--wordplay-focus-width);
+        text-decoration-color: var(--wordplay-focus-color);
+    }
+
+    /* The section's own landing page isn't a link. */
+    footer :global(.link.tab.current.inactive .nav-label) {
+        text-decoration: none;
+    }
+
     /* Small gap between each link's emoji icon and its text label.
        Because it lives on the label and not the parent, when the label
        collapses to `display: none` below the container-query threshold,
@@ -482,6 +579,21 @@
     @container (max-width: 800px) {
         footer :global(.nav-label) {
             display: none;
+        }
+
+        /* Icon-only tabs give up their inline padding, not their spacing: the
+           24px minimum below is target enough, which lands the row at roughly
+           the width the bare links occupied before #836. */
+        footer :global(.link.tab) {
+            padding-inline: 0;
+        }
+
+        /* With the labels hidden there is no text to underline, so hover and
+           focus become the same bar the logo uses year-round. */
+        footer :global(a.link.tab:hover),
+        footer :global(a.link.tab:focus) {
+            box-shadow: inset 0 calc(-1 * var(--wordplay-focus-width)) 0
+                var(--wordplay-focus-color);
         }
     }
 
@@ -523,9 +635,15 @@
         background-repeat: repeat;
     }
 
-    footer {
-        border-top: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
+    /* The rule the nav's tabs attach to. It sits on the nav rather than on the
+       footer because the footer's `overflow: auto` clips its descendants at the
+       padding box — inside the border — which shaved off exactly the 1px the
+       current page's tab overhangs, leaving the rule drawn straight across its
+       top. Inside the clip, the tab's own background covers that segment and
+       the tab merges with the page above it. */
+    footer nav {
+        border-block-start: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 
     nav {
@@ -545,8 +663,29 @@
        centered, producing an obvious vertical mismatch when the row is
        taller than a single line (the LOGO emoji at 150% font-size makes it
        tall here). */
-    nav :global(.link) {
+    nav :global(.link:not(.tab)) {
         align-self: center;
+    }
+
+    /* Tabs stretch instead, to a common height (see Link's .tab). This rule
+       would otherwise outrank the variant's own align-self. The row runs to
+       the footer's top border so the current page's tab can overhang it, and
+       carries Tabbed's own inter-tab gap. */
+    footer :global(.pinned-start) {
+        align-self: stretch;
+        align-items: stretch;
+        gap: var(--wordplay-spacing-half);
+        /* Only the tab row gives up the nav's top padding, by pulling up
+           through it to the rule it merges with. Zeroing the padding instead
+           made every other control in the row sit high, since they're centered
+           in what was then an asymmetric box. */
+        margin-block-start: calc(-1 * var(--wordplay-spacing-half));
+    }
+
+    /* The toolbar has to be the nav's full height for the tab row to stretch
+       to it. */
+    footer nav > :global(.overflow-toolbar) {
+        align-self: stretch;
     }
 
     /* Settings.svelte uses margin-inline-start:auto to push itself to the

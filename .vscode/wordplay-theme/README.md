@@ -120,10 +120,44 @@ Two deliberate departures, both noted in the generator:
 
 The palette is colorblind-safe and contains no green, so the theme leaves
 terminal ANSI colors to VS Code's defaults rather than inventing one, and Git's
-"added" decoration borrows the gold link color. Every text color on a brand
-fill is picked by the same rule the app uses for `--wordplay-error-text-color`
-and checked against WCAG 2.2 AA at generation time — the generator throws
-rather than emitting an illegible pair.
+"added" decoration borrows the gold link color.
+
+## Contrast
+
+Every text color on a brand fill is picked by the same rule the app uses for
+`--wordplay-error-text-color`, and `vscodeThemeContrast.test.ts` measures the
+generated files against WCAG 2.2 rather than trusting that the palette's own
+guarantees carry over. They don't carry over on their own, because the theme
+recombines the palette in three ways the app never does:
+
+- **Text lands on the widget chrome.** The palette's AA variants clear 4.5:1 on
+  a pane with room to spare and sit at 4.66-5.09:1 on the alternating grey that
+  hovers, suggestions, menus, and peek results paint themselves in. The doc
+  purple, which isn't an AA variant at all, measured 4.06:1 there. So the
+  generator deepens every color it draws as text until it clears AA on the pane,
+  on that chrome, and under a selection drawn over either.
+- **Highlights are backgrounds.** A selection or hover tint is a background for
+  whatever it covers, so its strength is bounded by the dimmest thing that can
+  sit under it — the app's 29% gold hover left a dimmed tab label at 4.43:1 and
+  a gold list match at 4.17:1. Each tint is weakened from the strength the app
+  authors until the text on it holds AA.
+- **Badges are small.** AA's 4.5:1 is calibrated for roughly 16px text, and VS
+  Code draws badges and status-bar pills at 9-11px. The gold notification
+  circles passed AA at 5.87:1 and were still the hardest thing in the window to
+  read, so pill fills are deepened until their labels reach 7:1.
+
+A hover on a filled control moves that control's own hue away from its label
+rather than switching hue, which is both what makes the hover visible and what
+keeps the label legible — swapping the button's blue for the doc purple on hover
+had put a white label on a pale purple at 1.84:1.
+
+Colors that draw a meaningful graphic rather than text — squiggles, ruler marks,
+notification icons — are held to 1.4.11's 3:1 instead. Gold is the one hue where
+that distinction bites, since `--color-yellow` is a background hue that measures
+3.01:1 on white and 2.71:1 on the notification chrome, so anything shaped like
+text or an icon takes the AA gold instead. Pure decorations — indent guides,
+whitespace dots, the whitespace ruler — carry no minimum and are listed by name
+in the test, so a new low-contrast color has to be argued for rather than added.
 
 ## Highlighting `.wp` files
 

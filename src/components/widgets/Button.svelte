@@ -50,6 +50,12 @@
         spinIcon?: boolean;
         /** An optional shortcut string for ARIA */
         shortcut?: string;
+        /** For a disclosure button: whether what it controls is showing, and
+         *  the id of the region it shows. Screen readers announce a
+         *  disclosure's state from these, and there's no way to infer them
+         *  from the icon. */
+        expanded?: boolean | undefined;
+        controls?: string | undefined;
         /** Whether to wrap the text in the button */
         wrap?: boolean;
         /** Show the standard loading indicator instead of the button's
@@ -85,6 +91,8 @@
         size = undefined,
         testid = undefined,
         shortcut = undefined,
+        expanded = undefined,
+        controls = undefined,
         wrap = false,
         icon,
         spinIcon = false,
@@ -177,6 +185,8 @@
     aria-label={tooltip}
     aria-disabled={!active}
     aria-keyshortcuts={shortcut}
+    aria-expanded={expanded}
+    aria-controls={controls}
     onpointerdown={(event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -229,21 +239,24 @@
               if (onPress) return;
               event.button === 0 && active ? doAction(event) : undefined;
           }}
-    onkeydown={acting
-        ? null
-        : (event) =>
-              (event.key === 'Enter' || event.key === ' ') &&
-              // Only activate with no modifiers down. Enter is used for other shortcuts.
-              !event.shiftKey &&
-              !event.ctrlKey &&
-              !event.altKey &&
-              !event.metaKey
-                  ? doAction(event)
-                  : undefined}
-    >{#if busy}<!-- 1.5rem, not the 2rem default: sized to the button's
-            content line so the button doesn't grow while busy.
+    onkeydown={(event) => {
+        if (event.defaultPrevented || acting) return;
+        if (
+            (event.key === 'Enter' || event.key === ' ') &&
+            // Only activate with no modifiers down. Enter is used for other shortcuts.
+            !event.shiftKey &&
+            !event.ctrlKey &&
+            !event.altKey &&
+            !event.metaKey
+        )
+            doAction(event);
+    }}
+    >{#if busy}<!-- 1em, not the 2rem default: literally the button's content
+            line, so a busy button is exactly as tall as a resting one. 1.5rem
+            read as meeting that intent but is 24px against a ~13px line, which
+            grew the footer whenever the save status synced.
         --><Spinning
-            size={1.5}
+            size="1em"
         />{:else}{#if icon}{#if spinIcon}<span class="spin-icon"
                     >{withMonoEmoji(icon)}</span
                 >{:else}{withMonoEmoji(icon)}{/if}{/if}
@@ -258,6 +271,14 @@
 </button>
 
 <style>
+    /* The spinner is an inline-block, so on the baseline the strut's descender
+       hangs below it and grows the button by a couple of pixels; aligning it to
+       the top of the line box keeps a busy button exactly as tall as a resting
+       one. */
+    button :global(.spinner) {
+        vertical-align: top;
+    }
+
     .spin-icon {
         display: inline-block;
         transform-origin: center;
@@ -395,8 +416,10 @@
         background: var(--wordplay-focus-color);
         color: var(--wordplay-background);
         border-color: var(--wordplay-border-color);
-        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-border-color);
+        box-shadow:
+            var(--wordplay-border-width) var(--wordplay-border-width) 0
+                var(--wordplay-border-color),
+            var(--wordplay-focus-band, 0 0 0 0 transparent);
         text-shadow: 0 var(--wordplay-border-width) var(--wordplay-border-width)
             var(--color-shadow);
         color: var(--wordplay-foreground);
@@ -406,8 +429,12 @@
 
     button:hover:not(.pressed)[aria-disabled='false'] {
         background: var(--wordplay-hover);
-        /* Keep nested links legible on the gold hover background (#1216). */
-        --wordplay-link-color: var(--color-white);
+        /* Text and links on the gold, per --wordplay-hover-text in app.html:
+           --wordplay-foreground is white in dark mode and measures 3.58:1 here,
+           and the old --color-white link override measured 3.01:1 in light
+           (#1216). The orange underline is what still marks a link. */
+        color: var(--wordplay-hover-text);
+        --wordplay-link-color: currentColor;
         --wordplay-link-underline-color: var(--color-orange);
         transform: translate(-1px, -1px);
     }
@@ -428,12 +455,17 @@
         transform: translate(-1px, -1px);
     }
 
-    /* Hover on background buttons: lift with larger shadow */
+    /* Hover on background buttons: lift with larger shadow. These buttons
+       declare their own shadow, which would replace the focus band a
+       saturated surface hands down (see app.html), so append it here; the
+       no-op default means nothing changes on ordinary surfaces. */
     button.background:hover:not(.pressed)[aria-disabled='false'],
     button.background:focus {
         border-color: var(--wordplay-border-color);
-        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-border-color);
+        box-shadow:
+            var(--wordplay-border-width) var(--wordplay-border-width) 0
+                var(--wordplay-border-color),
+            var(--wordplay-focus-band, 0 0 0 0 transparent);
     }
 
     button.pressed {

@@ -222,6 +222,9 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
             tokens.hasNext() &&
             // If the next is a unary operator, then it has to have no preceding space to be parsed as a binary evaluate.
             (!tokens.nextIsUnary() || tokens.nextLacksPrecedingSpace()) &&
+            // A word for ~ on a new line starts a fresh prefix negation, not an infix
+            // continuation — the word parallel of the spaced-unary-symbol stop above.
+            !(tokens.nextIsUnaryWord() && tokens.nextHasPrecedingLineBreak()) &&
             (tokens.nextIs(Sym.Operator) ||
                 (tokens.nextIs(Sym.Type) &&
                     !tokens.nextHasPrecedingLineBreak())),
@@ -257,7 +260,10 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                     ? parseNone(tokens)
                     : // Unary expressions are a unary operator and then any expression.
                       // The only exception is if it's immediately followed except for an eval open and close. This allows functions with operator names to be evaluated.
-                      tokens.nextIsUnary() &&
+                      // A typed keyword word for ~ also starts a unary (nextIsUnaryWord), with a
+                      // same-line rule instead of the symbol's no-space rule, since a word needs
+                      // the space before its operand. See LANGUAGE.md.
+                      (tokens.nextIsUnary() || tokens.nextIsUnaryWord()) &&
                         !tokens.nextAre(
                             Sym.Operator,
                             Sym.EvalOpen,

@@ -134,7 +134,7 @@
                             "curious",
                             "$~有些编程语言允许你指定一个 @variable 的 @type，这样你就能确保你使用这个变量的所有方式都是有效的：",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~@wordplay 也是有类型的，但类型是 *推断出来的*。你通常不需要声明它们，但有时候如果无法推断，你可能就得声明。"
+                            "$~@wordplay 也是有类型的，但类型是 *推断* 出来的。通常你不需要声明它们，但有时候如果没法推断出来，你就得自己写上了。列表类型还可以给列表里每个位置单独指定一个类型，比如\\[# '']\\ 表示一个正好有两项内容的列表：先是一个数字，然后是一个词。"
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

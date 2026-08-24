@@ -23,6 +23,7 @@
     import { firestore } from '@db/firebase';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import { type LocaleTextsAccessor } from '@locale/Locales';
+    import { getManifestPath } from '@locale/SupportedLocales';
     import {
         SupportedLocales,
         type SupportedLocale,
@@ -90,6 +91,17 @@
                 'dir',
                 getLanguageDirection(language),
             );
+            // And the manifest, so an install names the app in the language on
+            // screen. hooks.server.ts sets this per prerendered page, but an
+            // unprefixed route (`/projects`) has no locale to render from and
+            // gets en-US; browsers read the manifest from the live DOM at
+            // install time, so updating the link here is enough.
+            const manifest = document.querySelector('link[rel="manifest"]');
+            if (manifest !== null)
+                manifest.setAttribute(
+                    'href',
+                    getManifestPath($locales.getLocaleString()),
+                );
         }
     });
 

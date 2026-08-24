@@ -19,6 +19,7 @@ import { shouldReplayRemotePlainCode } from '@db/projects/crdtFold';
 import { EditFailure } from '@db/projects/EditFailure';
 import isSweepable from '@db/projects/isSweepable';
 import { unknownFlags } from '@db/projects/Moderation';
+import { buildKeywordIndex } from '@parser/Keywords';
 import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
 import Project from '@db/projects/Project';
 import ProjectCRDT, {
@@ -447,7 +448,7 @@ export default class ProjectsDatabase {
             this.track(
                 project,
                 true,
-                project.isTutorial()
+                project.isLocalOnly()
                     ? PersistenceType.Local
                     : PersistenceType.Online,
                 // Mark as unsaved when the on-disk shape was older than the
@@ -1492,7 +1493,14 @@ export default class ProjectsDatabase {
         const newProject = Project.make(
             null,
             '',
-            new Source(locales[0].glossary.start.word, code),
+            // Recognize typed keyword words from the very first keystroke, just as
+            // deserialization does — without this, words like `true` stay plain
+            // names until the project is reloaded.
+            new Source(
+                locales[0].glossary.start.word,
+                code,
+                buildKeywordIndex(locales.map((l) => l.keyword)),
+            ),
             [],
             // The project starts with all of the locales currently selected in the config.
             locales,
@@ -1559,7 +1567,7 @@ export default class ProjectsDatabase {
                     this.track(
                         proj,
                         true,
-                        proj.isTutorial()
+                        proj.isLocalOnly()
                             ? PersistenceType.Local
                             : PersistenceType.Online,
                         false,
@@ -2081,11 +2089,12 @@ export default class ProjectsDatabase {
             const sendable: typeof unsaved = [];
             for (const history of unsaved) {
                 const current = history.getCurrent();
-                current.analyze();
                 if (
                     current
-                        .getConflicts()
-                        .some((conflict) => conflict instanceof PossiblePII)
+                        .analyze()
+                        .conflicts.some(
+                            (conflict) => conflict instanceof PossiblePII,
+                        )
                 )
                     failures.push(
                         projectFailure(

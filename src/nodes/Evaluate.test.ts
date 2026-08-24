@@ -1,3 +1,5 @@
+import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
@@ -186,7 +188,7 @@ doors.filter(ƒ(d•Door) go(d.room).needs = '')`;
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     project.analyze();
     expect(
-        Array.from(project.getConflictedNodes().keys()).map((n) =>
+        Array.from(project.analyze().conflictedNodes.keys()).map((n) =>
             n.toWordplay(),
         ),
     ).toEqual([]);
@@ -220,4 +222,19 @@ test('Test generics', () => {
     // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}→[][1]", NumberType);
     // Infer from map values
     // testTypes("{ 1:'a' 2:'b' 3:'c' }→[][1]", TextType);
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test.each([
+    ['ƒ f(a•#) a\nf(1)', 'ƒ f(a•#) a\nf(1', Evaluate, UnclosedDelimiter, 0],
+    [
+        "•T(a•#) ()\nƒ g(x•'' y•'') x\ng('a' 'b')",
+        "•T(a•#) ()\nƒ g(x•'' y•'') x\ng(T (1))",
+        Evaluate,
+        SeparatedEvaluate,
+        0,
+    ],
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
+    testConflict(good, bad, node, conflict, index);
 });

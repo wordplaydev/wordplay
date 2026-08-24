@@ -23,6 +23,8 @@ type PageText = {
         changePassword: string;
         /** [plain] Asks the creator to enter their email if they opened the email link in a different browser. */
         enter: string;
+        /** [formatted] Offers to finish login by pasting the emailed link, for when it opened somewhere else, such as a browser instead of the installed app. */
+        paste: FormattedText;
         /** [plain] Encouragement to go create after logging in. */
         play: string;
         /** [plain] Description of password rules */
@@ -37,7 +39,7 @@ type PageText = {
         delete: string;
         /** [plain] Offers to really delete account forever */
         reallyDelete: string;
-        /** [name] Pick an emoji as a name */
+        /** [plain] Prompt inviting the creator to pick an emoji or character as their name */
         name: string;
     };
     /** [plain] Shown in the footer a creator is not logged in. */
@@ -45,6 +47,8 @@ type PageText = {
     field: {
         /** The login email */
         email: FieldText;
+        /** The emailed login link, pasted in by hand */
+        link: FieldText;
         /** The login username */
         username: FieldText;
         /** The login password */
@@ -90,9 +94,9 @@ type PageText = {
         mismatched: string;
         /** [plain] When there are too mant failed attempts */
         tooMany: string;
-        /** [plain] Warning shown when logout or account deletion is blocked
-         *  because there are edits not yet saved online (e.g. made offline);
-         *  leaving would discard them from this device. */
+        /** [plain] Warning shown before logging out when there are edits not
+         *  yet saved online (e.g. made offline); logging out discards them
+         *  from this device. */
         unsaved: string;
     };
     button: {

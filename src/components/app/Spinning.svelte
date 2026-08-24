@@ -5,13 +5,18 @@
 
     interface Props {
         label?: LocaleTextAccessor | undefined;
-        size?: number;
+        /** A number is rem; a string is any CSS length, so a caller can size
+         *  the mark to its own line box rather than to a root-relative value
+         *  that may not fit it. */
+        size?: number | string;
         spin?: boolean;
     }
 
     /* Default of 2rem: any smaller and the typing dots inside the bubble
        stop being legible. */
     let { label = undefined, size = 2, spin = true }: Props = $props();
+
+    const length = $derived(typeof size === 'number' ? `${size}rem` : size);
 </script>
 
 <!-- A span, not a div, because this is rendered inline inside phrasing-only
@@ -24,7 +29,7 @@
 <span
     class="spinner"
     class:spin
-    style="width: {size}rem; height: {size}rem;"
+    style="width: {length}; height: {length};"
     role="status"
     aria-label={$locales.getPrimaryPlainText(
         label ?? ((l) => l.ui.widget.loading.message),
@@ -34,7 +39,7 @@
          wave is factor-gated inside Logo, so reduced motion shows a still
          mark. The mark is decorative here; this span's label carries the
          meaning. -->
-    <Logo variant="shapes" pulse={spin} size="{size}rem" />
+    <Logo variant="shapes" pulse={spin} size={length} />
 </span>
 
 <style>

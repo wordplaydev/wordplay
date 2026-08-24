@@ -12,9 +12,14 @@
     } from '@output/animation/Animator';
     import Group from '@output/Output/Group';
     import {
-        composeZ,
+        boundZoom,
+        composeZoom,
+        contentVisibility,
         refit,
         responsiveZ,
+        zoomBySteps,
+        zoomByWheel,
+        zoomPercent,
         type Box,
     } from '@components/output/fit';
     import {
@@ -75,6 +80,11 @@
         renderedFocus: Place;
         /** Reflects whether the audience has panned or zoomed away from the base focus. */
         focusAdjusted?: boolean;
+        /** The audience's zoom, as a ratio of the base camera's scale; 1 is the base. */
+        zoom?: number;
+        /** Whether the audience's own pan or zoom has put all of the content off the
+         * stage, so the view can offer them a way back. */
+        contentHidden?: boolean;
         /** Whether this is a thumbnail-sized preview, which opts out of the automatic
          * pull-back on small viewports — a thumbnail is small on purpose. */
         mini?: boolean;
@@ -93,6 +103,8 @@
         background,
         renderedFocus = $bindable(),
         focusAdjusted = $bindable(false),
+        zoom = $bindable(1),
+        contentHidden = $bindable(false),
         mini = false,
     }: Props = $props();
 
@@ -172,10 +184,15 @@
      *  isn't a camera move, so it snaps rather than eases; see the focus effect below. */
     let focusStarted = false;
 
-    /** The audience's pan/zoom, as an offset from whatever base focus is in play. Composing
-     *  rather than replacing is what lets a viewer zoom out of a project that moves its own
-     *  camera without freezing it. */
-    let offset = $state({ x: 0, y: 0, z: 0 });
+    /** The audience's pan/zoom: metres of pan, and a *ratio* of the base camera's scale for
+     *  zoom. Composing rather than replacing is what lets a viewer zoom out of a project that
+     *  moves its own camera without freezing it; a ratio rather than a distance is what makes
+     *  their adjustment mean the same thing before and after that camera moves. */
+    let offset = $state({ x: 0, y: 0, zoom: 1 });
+
+    /** How long the content must stay out of view before the stage says so. Long enough that
+     *  a pinch passing through a hidden state doesn't flash a message. */
+    const HiddenDelay = 400;
 
     /** A stage to manage entries, exits, animations. A new one each time the for each project. */
     let animator = $state<Animator | undefined>();
@@ -211,15 +228,36 @@
     let viewportHeight = $state(0);
     let changed = $state(false);
 
-    /** Nudge the audience's pan/zoom. Relative, so it rides on top of a moving base focus
+    /** Nudge the audience's pan. Relative, so it rides on top of a moving base focus
      *  instead of replacing it. */
-    export const adjustFocus = (dx: number, dy: number, dz: number) => {
-        setOffset(offset.x + dx, offset.y + dy, offset.z + dz);
+    export const adjustFocus = (dx: number, dy: number) => {
+        setOffset(offset.x + dx, offset.y + dy, offset.zoom);
     };
 
-    /** Set the audience's pan/zoom outright, for gestures that anchor at their start. */
-    export const setOffset = (x: number, y: number, z: number) => {
-        offset = { x, y, z };
+    /** Zoom by whole clicks; positive is in, negative is out. */
+    export const zoomSteps = (steps: number) => {
+        setOffset(
+            offset.x,
+            offset.y,
+            zoomBySteps(zoomLimits, offset.zoom, steps),
+        );
+    };
+
+    /** Zoom by a wheel or trackpad delta. */
+    export const zoomWheel = (deltaY: number, deltaMode: number) => {
+        setOffset(
+            offset.x,
+            offset.y,
+            zoomByWheel(zoomLimits, offset.zoom, deltaY, deltaMode),
+        );
+    };
+
+    /** Set the audience's pan/zoom outright, for gestures that anchor at their start. The
+     *  zoom is bounded here, where it is stored, so the store and the picture can never
+     *  disagree — but writing is only half of it, since the bound itself moves whenever the
+     *  camera or the content does. See the re-bounding effect below. */
+    export const setOffset = (x: number, y: number, zoom: number) => {
+        offset = { x, y, zoom: boundZoom(zoomLimits, zoom) };
     };
 
     /** The audience's pan/zoom at the start of a gesture, so a drag or pinch can anchor. */
@@ -227,7 +265,7 @@
 
     /** Hand the camera back to the program or the platform. */
     export const resetFocus = () => {
-        offset = { x: 0, y: 0, z: 0 };
+        offset = { x: 0, y: 0, zoom: 1 };
     };
 
     let editing = $derived($evaluation?.playing === false);
@@ -463,10 +501,14 @@
      *  so panning and zooming stay responsive while a program's camera still pans smoothly. */
     let renderedBase: Place = $state(createPlace(evaluator, 0, 0, -12));
 
-    /** Compose the audience's pan/zoom onto a base camera, bounding only how near the
-     *  audience may come; zooming out is unbounded. */
+    /** Compose the audience's pan/zoom onto a base camera, bounded at both ends: how near
+     *  they may come follows the nearest thing on stage, and how far out they may go is
+     *  capped so home stays a countable number of clicks away. */
     function compose(base: Place) {
-        const z = composeZ(base.z, offset.z);
+        const z = composeZoom(
+            { baseZ: base.z, nearestContentZ: contentBounds.nearest },
+            offset.zoom,
+        );
         return offset.x === 0 && offset.y === 0 && z === base.z
             ? base
             : createPlace(evaluator, base.x + offset.x, base.y + offset.y, z);
@@ -528,9 +570,133 @@
         renderedFocus = compose(renderedBase);
     });
 
+    /** What bounds the audience's zoom right now: the camera they are looking at — the
+     *  rendered one, not the one it may still be easing toward, since what has to hold
+     *  instantly is that a gesture did something — and the nearest thing on stage. */
+    let zoomLimits = $derived({
+        baseZ: renderedBase.z,
+        nearestContentZ: contentBounds.nearest,
+    });
+
+    /** Re-bound the stored zoom whenever the bound itself moves.
+     *
+     *  Bounding only when a gesture writes is not enough, because the ceiling is not a
+     *  constant: it follows the base camera and the nearest content, and both move on their
+     *  own. Leave the store above a ceiling that has since come down and `compose` still
+     *  clamps the picture while the stored ratio does not — so the next scroll-out spends
+     *  itself shedding a number nobody could see, and the toolbar reports a zoom the stage
+     *  is not showing. That is the dead zone, in miniature, and this is what closes it.
+     *
+     *  Reads the offset untracked and writes only on a real change, so it cannot feed
+     *  itself. */
+    $effect(() => {
+        const limits = zoomLimits;
+        const current = untrack(() => offset);
+        const bounded = boundZoom(limits, current.zoom);
+        if (bounded !== current.zoom) offset = { ...current, zoom: bounded };
+    });
+
     /** Mirror the adjustment out to the parent so the toolbar can reflect it. */
     $effect(() => {
-        focusAdjusted = offset.x !== 0 || offset.y !== 0 || offset.z !== 0;
+        focusAdjusted = offset.x !== 0 || offset.y !== 0 || offset.zoom !== 1;
+        zoom = offset.zoom;
+    });
+
+    /** Say the zoom level as the audience changes it, so a zoom is not silent. Not gated on
+     *  playing: a zoom is the viewer's own action in every mode. The percent varies with
+     *  every click by construction, which is what keeps the announcement audible — a
+     *  coalesced announcement whose text repeats is heard once and then never again. */
+    let announcedZoom: number | undefined = undefined;
+    $effect(() => {
+        const level = offset.zoom;
+        // The first run is the initial state rather than an adjustment the viewer made.
+        if (announcedZoom === undefined) {
+            announcedZoom = level;
+            return;
+        }
+        if (level === announcedZoom) return;
+        announcedZoom = level;
+        if (!interactive || mini || !$announcer) return;
+        untrack(() =>
+            $announcer?.(
+                'stage-zoom',
+                $locales.getLocale().language,
+                $locales
+                    .concretize((l) => l.ui.output.announce.zoom, {
+                        percent: zoomPercent(level),
+                    })
+                    .toText(),
+            ),
+        );
+    });
+
+    /** Whether the audience's own adjustment has put the content out of view. Only their
+     *  own: a creator whose content is genuinely tiny or off-origin gets no lecture, and
+     *  gating this way is what guarantees the hint can never occlude content the viewer
+     *  cannot uncover. */
+    let contentOutOfView = $derived(
+        focusAdjusted &&
+            contentVisibility(
+                contentBounds,
+                renderedFocus,
+                viewportWidth,
+                viewportHeight,
+            ) !== 'visible',
+    );
+
+    /** Hold before saying the content is gone, but restore the moment it is back: a pinch
+     *  passes through hidden states on its way somewhere, and a hint that strobes is worse
+     *  than one that arrives a beat late. */
+    let hiddenTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
+    $effect(() => {
+        const hidden = contentOutOfView;
+        if (hiddenTimeout !== undefined) {
+            clearTimeout(hiddenTimeout);
+            hiddenTimeout = undefined;
+        }
+        if (!hidden) {
+            contentHidden = false;
+            return;
+        }
+        hiddenTimeout = setTimeout(() => {
+            hiddenTimeout = undefined;
+            contentHidden = true;
+        }, HiddenDelay);
+    });
+
+    onDestroy(() => {
+        if (hiddenTimeout !== undefined) clearTimeout(hiddenTimeout);
+    });
+
+    /** Say when everything has left the stage, and say when it is back. Announcing *both*
+     *  edges is what keeps this audible: the queued lane drops a repeat of the last thing
+     *  it said, so an entry message alone would be heard once and then be silent forever. */
+    let announcedHidden: boolean | undefined = undefined;
+    $effect(() => {
+        const hidden = contentHidden;
+        const level = untrack(() => offset.zoom);
+        if (announcedHidden === undefined) {
+            announcedHidden = hidden;
+            return;
+        }
+        if (hidden === announcedHidden) return;
+        announcedHidden = hidden;
+        if (!interactive || mini || !$announcer) return;
+        untrack(() =>
+            $announcer?.(
+                'stage-visibility',
+                $locales.getLocale().language,
+                hidden
+                    ? $locales
+                          .concretize((l) => l.ui.output.announce.hidden, {
+                              percent: zoomPercent(level),
+                          })
+                          .toText()
+                    : $locales.getPrimaryPlainText(
+                          (l) => l.ui.output.announce.shown,
+                      ),
+            ),
+        );
     });
 
     /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */

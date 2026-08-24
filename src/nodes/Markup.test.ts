@@ -52,3 +52,47 @@ test('example texts collapse multi-line code to a single line', () => {
 test('markup without examples has no example texts', () => {
     expect(Markup.words('Just prose.').getExampleTexts()).toHaveLength(0);
 });
+
+// withMappedWords converts prose and nothing else. Doc markup is the only place
+// examples, mentions, and links actually occur, so it is where they're tested.
+test.each([
+    ['hello there', 'HELLO THERE'],
+    // A concept link is an identifier the docs resolve, not a word.
+    ['see @Text now', 'SEE @Text NOW'],
+    // Example code is code, and its identifiers are case sensitive.
+    ["run \\Phrase('hi')\\ now", "RUN \\Phrase('hi')\\ NOW"],
+    // A mention is a template key that concretize matches by name.
+    ['hello $name here', 'HELLO $name HERE'],
+    // Words in a caseless script come back untouched, spacing intact.
+    ['\u65e5\u672c\u8a9e hi', '\u65e5\u672c\u8a9e HI'],
+])('uppercasing "%s" gives "%s"', (input, expected) => {
+    expect(
+        Markup.words(input)
+            .withMappedWords((text) => text.toUpperCase())
+            .toText(),
+    ).toBe(expected);
+});
+
+test('mapped markup keeps its paragraphs and metadata', () => {
+    const original = Markup.words('one two\n\nthree');
+    const mapped = original.withMappedWords((text) => text.toUpperCase());
+    expect(mapped.paragraphs).toHaveLength(2);
+    expect(mapped.getPlainText()).toBe(original.getPlainText().toUpperCase());
+    expect(mapped.metadata).toEqual(original.metadata);
+});
+
+test('formatting delimiters survive, and the words inside them convert', () => {
+    const mapped = Markup.words('/hello/ *world*').withMappedWords((text) =>
+        text.toUpperCase(),
+    );
+    expect(mapped.toWordplay(mapped.spaces)).toBe('/HELLO/ *WORLD*');
+});
+
+test("a link's description converts but its URL does not", () => {
+    const mapped = Markup.words(
+        '<wordplay@https://wordplay.dev/Guide>',
+    ).withMappedWords((text) => text.toUpperCase());
+    expect(mapped.toWordplay(mapped.spaces)).toBe(
+        '<WORDPLAY@https://wordplay.dev/Guide>',
+    );
+});

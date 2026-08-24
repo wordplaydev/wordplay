@@ -48,10 +48,81 @@ service cloud.firestore {
           );
       }
 
-      allow create: if request.auth != null;
+      allow create: if request.auth != null && mayCreatePublic();
       allow read: if canReadProject(resource.data);
+      // Research consent is the owner's to give: it permits Wordplay to show
+      // *their* work anonymously, so a collaborator, curator, or moderator —
+      // all of whom may update the doc for other reasons — must not be able to
+      // flip it. Comparing the two values costs no document reads.
+      //
+      // Every field access here is guarded with `in`, for the same reason
+      // canReadProject guards its own: reading a property that isn't on the
+      // document is a hard CEL evaluation error, not a null. It fails closed,
+      // so one unguarded access blocks every save of a document that predates
+      // the field — including saves that have nothing to do with it.
+      function researchConsentUnchangedOrOwner() {
+        return (('owner' in resource.data) && resource.data.owner == request.auth.uid) ||
+          // Unchanged: the same value on both sides of the write.
+          (('researchConsent' in resource.data) &&
+            ('researchConsent' in request.resource.data) &&
+            request.resource.data.researchConsent == resource.data.researchConsent) ||
+          // Absent before, because the document predates the field. Someone
+          // other than the owner may still save it — they just can't be the
+          // one who turns consent on. Passing the whole write here (which is
+          // what `!('researchConsent' in resource.data)` alone did) let any
+          // collaborator or curator consent on the owner's behalf.
+          (!('researchConsent' in resource.data) &&
+            (!('researchConsent' in request.resource.data) ||
+              request.resource.data.researchConsent != true));
+      }
+
+      // Losing the ability to make anything public (#193). The check is the
+      // `banned` custom claim rather than a read of strikes/{uid}: rules would
+      // have to get() that document on every project write, which is the app's
+      // hottest path, and this file's budget is already spent on the gallery
+      // read above. A banned creator can still write, edit, and collaborate —
+      // they simply can't write `public == true`.
+      function notBanned() {
+        return !("banned" in request.auth.token) || request.auth.token.banned != true;
+      }
+      // A write that doesn't leave the document public is never a publish.
+      function notPublic() {
+        return !('public' in request.resource.data) ||
+          request.resource.data.public != true;
+      }
+      // On create there is nothing to compare against, so a banned creator
+      // simply can't make public content.
+      function mayCreatePublic() {
+        return notBanned() || notPublic();
+      }
+      // On update, what a ban forbids is *making* something public, not editing
+      // something that already is. A banned creator may still be a collaborator
+      // on someone else's public project, or curate a gallery full of them, and
+      // comparing the new value alone locked them out of both. Un-publishing
+      // then re-publishing doesn't get around it: the second write sees a
+      // private document and is refused.
+      function mayUpdatePublic() {
+        return notBanned() || notPublic() ||
+          (('public' in resource.data) && resource.data.public == true);
+      }
+
+      // Ownership is the owner's to hand over (#189). Collaborators can update
+      // the doc for every other reason, so without this any collaborator could
+      // simply write themselves in as owner and lock the owner out of deleting
+      // their own project. Comparing the two values costs no document reads.
+      function ownerUnchangedOrOwner() {
+        return !('owner' in resource.data) ||
+          resource.data.owner == request.auth.uid ||
+          ("mod" in request.auth.token && request.auth.token.mod) ||
+          (('owner' in request.resource.data) &&
+            request.resource.data.owner == resource.data.owner);
+      }
+
       allow update:
         if request.auth != null &&
+          mayUpdatePublic() &&
+          researchConsentUnchangedOrOwner() &&
+          ownerUnchangedOrOwner() &&
           (
             resource.data.owner == request.auth.uid ||
             request.auth.uid in resource.data.collaborators ||
@@ -123,8 +194,54 @@ service cloud.firestore {
     match /creators/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
+    // Server-authoritative usage counters, currently the daily translation
+    // budget (#1073). Readable by its owner so the meter is live without a
+    // round trip; never client-writable, since a creator who could write this
+    // could reset their own budget. Only the Admin SDK writes it, which
+    // bypasses rules. Deliberately not a field on creators/{uid}: that document
+    // is client-writable and the client overwrites it wholesale when settings
+    // change, so a counter there would be both forgeable and clobbered.
+    match /usage/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+    // A creator's moderation record (#193). Server-authoritative for the same
+    // reason usage/{uid} is: a creator who could write this could clear their
+    // own strikes. Readable by its subject, so the app can explain why public
+    // sharing is unavailable, and by moderators, so they can see the
+    // consequence of the decision they're about to make. Written only by the
+    // moderateProject callable, through the Admin SDK.
+    match /strikes/{uid} {
+      allow read: if request.auth != null &&
+        (request.auth.uid == uid || ("mod" in request.auth.token && request.auth.token.mod));
+      allow write: if false;
+    }
+    // Reports of public content (#193). A separate collection because the
+    // person reporting can't write the project document — the project rules
+    // admit only its owner, collaborators, curators, and moderators — so a
+    // `reported` field on the project itself is not expressible.
+    //
+    // Only moderators can read them: a report is a request for review, not a
+    // public accusation, and neither the reporter nor the creator should be
+    // able to enumerate them.
+    match /reports/{report} {
+      allow create: if request.auth != null
+        && request.resource.data.reporter == request.auth.uid
+        && "project" in request.resource.data
+        && request.resource.data.resolved == false;
+      allow read, update, delete: if request.auth != null
+        && "mod" in request.auth.token && request.auth.token.mod;
+    }
     match /galleries/{gallery} {
-      allow create: if request.auth != null;
+      // The same ban as on projects (#193): a creator who has lost public
+      // sharing can still curate a gallery, but can't publish one. Checked
+      // against the custom claim, so it costs no document reads.
+      function galleryMayBePublic() {
+        return (!("banned" in request.auth.token) || request.auth.token.banned != true)
+          || !('public' in request.resource.data)
+          || request.resource.data.public != true;
+      }
+      allow create: if request.auth != null && galleryMayBePublic();
       // Public galleries can be read, as can private ones if the creator is a curator, creator, or a how to viewer.
       allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (
         request.auth != null && (
@@ -141,6 +258,7 @@ service cloud.firestore {
       
       allow update: 
         if request.auth != null && 
+          galleryMayBePublic() &&
           // Curators can update anything
           // Creators can't update public status or creator or curator list.
           (

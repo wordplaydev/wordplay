@@ -11,6 +11,7 @@
         getLocalize,
         getProject,
         getRoot,
+        getWrapping,
     } from '@components/project/Contexts';
     import { locales, words } from '@db/Database';
     import { getOperatorKeyword, getRenderableKeyword } from '@parser/Keywords';
@@ -28,6 +29,7 @@
     import Token from '@nodes/Token';
     import Unit from '@nodes/Unit';
     import WebLink from '@nodes/WebLink';
+    import linkHref from '@parser/linkHref';
     import { emojiRuns, withColorEmoji } from '@unicode/emoji';
 
     interface TokenProps {
@@ -229,17 +231,31 @@
     let linkedURL = $derived(
         node.isSymbol(Sym.URL) &&
             !($caret?.isIn(node, true) ?? false) &&
-            !(root?.getParent(node) instanceof WebLink),
+            !(root?.getParent(node) instanceof WebLink) &&
+            // Not every URL token is a link we'll follow: a bare email needs
+            // its scheme added, and a scheme we don't allow isn't a link at all.
+            linkHref(node.getText()) !== undefined,
     );
 
-    // Prepare the text for rendering by replacing spaces with non-breaking spaces
-    // and adding variation selectors after emoji to guarantee the correct emoji font is chosen.
+    /**
+     * Prepare the text for rendering: spaces become non-breaking, and emoji get
+     * variation selectors so the right emoji font is chosen.
+     *
+     * A wrapping view keeps ordinary spaces, because a non-breaking one offers
+     * the line nowhere to break — which is what left a paragraph of
+     * documentation running off the side of a narrow read-only view instead of
+     * wrapping. See `setWrapping`; it is off unless a view asks.
+     */
+    const wrapping = getWrapping();
+    const spaced = $derived(
+        wrapping === true ? text : text.replaceAll(' ', '\xa0'),
+    );
     let renderedText = $derived(
         node.isSymbol(Sym.Name) ||
             node.isSymbol(Sym.Text) ||
             node.isSymbol(Sym.Words)
-            ? withColorEmoji(text.replaceAll(' ', '\xa0'))
-            : text.replaceAll(' ', '\xa0'),
+            ? withColorEmoji(spaced)
+            : spaced,
     );
 
     // Emoji render plan (undefined = a single bare text node). Rendered inline by
@@ -279,7 +295,7 @@
         data-uiid={!format.block ? node.getDescriptor() : undefined}
         id={!format.block ? `node-${node.id}` : undefined}
         aria-label={!format.block ? description : undefined}
-        href={node.getText()}
+        href={linkHref(node.getText())}
         target="_blank"
         rel="noreferrer"
         onpointerdown={(event) => event.stopPropagation()}>{node.getText()}</a

@@ -100,6 +100,10 @@
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
+    import {
+        getCheckpoint,
+        type CheckpointAnchor,
+    } from '@components/project/checkpoints';
     import Color from '@output/Color/Color';
     import {
         CANCEL_SYMBOL,
@@ -151,6 +155,8 @@
         getMusicWarnings,
         getPhotosensitivityWarnings,
     } from '@components/output/gate.svelte';
+    import { zoomGauge, zoomPercent } from '@components/output/fit';
+    import { withMonoEmoji } from '@unicode/emoji';
     import OutputView from '@components/output/OutputView.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import Palette from '@components/palette/Palette.svelte';
@@ -161,6 +167,7 @@
         getFullscreen,
         getUser,
         IdleKind,
+        isAuthenticated,
         setAnimatingNodes,
         setConceptIndex,
         setConflicts,
@@ -180,7 +187,11 @@
         type EmphasizedConflict,
         type KeyModifierState,
     } from '@components/project/Contexts';
+    import Link from '@components/app/Link.svelte';
     import RemixButton from '@components/project/RemixButton.svelte';
+    import { PARAM_CONCEPT } from '@concepts/ConceptParams';
+    import { PROJECT_PARAM_FROM } from '../../routes/[[locale]]/project/constants';
+    import ReportButton from '@components/project/ReportButton.svelte';
     import Layout from '@components/project/Layout';
     import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
     import PositionAdjuster from '@components/project/PositionAdjuster.svelte';
@@ -338,11 +349,26 @@
     /** The background color of the output, so we can make the tile match. */
     let outputBackground = $state<Color | string | null>(null);
 
-    /** The current checkpoint chosen in the checkpoint chooser */
-    let checkpoint = $state(-1);
+    /** The checkpoint chosen in the checkpoint chooser, as its time, or null
+     * for now. See checkpoints.ts for why it's a time and not an index. */
+    let checkpoint = $state<CheckpointAnchor>(null);
+
+    /** The chosen checkpoint, or undefined for now — and for an anchor whose
+     * checkpoint has since been deleted, shifted off by the size limit, or
+     * dropped by a remote merge. */
+    let checkpointed = $derived(
+        getCheckpoint(project.getCheckpoints(), checkpoint),
+    );
+
+    /** Having lost the checkpoint being viewed, return to now, so the chooser
+     * and the restore banner agree with the sources actually being shown. */
+    $effect(() => {
+        if (checkpoint !== null && checkpointed === undefined)
+            checkpoint = null;
+    });
 
     /** Whether the project is editable and viewing an older checkpoint */
-    let editableAndCurrent = $derived(editable && checkpoint === -1);
+    let editableAndCurrent = $derived(editable && checkpoint === null);
 
     /** The new source recently added. Used to remember to keep it expanded initially. */
     let newSource = $state<Source | undefined>(undefined);
@@ -362,10 +388,8 @@
 
     /** The current sources being viewed, either the project's source, or a checkpointed one */
     const sources = $derived(
-        checkpoint >= 0
-            ? project
-                  .getCheckpoints()
-                  [checkpoint].sources.map((s) => new Source(s.names, s.code))
+        checkpointed
+            ? checkpointed.sources.map((s) => new Source(s.names, s.code))
             : project.getSources(),
     );
 
@@ -633,8 +657,19 @@
     });
 
     function getCheckpointProject(proj: Project) {
+        // Only replace sources the checkpoint actually has: a checkpoint taken
+        // when the project had fewer sources would otherwise pair one with
+        // undefined.
         return proj.withSources(
-            proj.getSources().map((s, index) => [s, sources[index]]),
+            proj
+                .getSources()
+                .map((s, index): [Source, Source | undefined] => [
+                    s,
+                    sources[index],
+                ])
+                .filter(
+                    (pair): pair is [Source, Source] => pair[1] !== undefined,
+                ),
         );
     }
 
@@ -650,7 +685,7 @@
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
             // Is the checkpoint not now? Use the old sources instead of the current ones.
-            checkpoint >= 0 ? getCheckpointProject(newProject) : newProject,
+            checkpointed ? getCheckpointProject(newProject) : newProject,
             DB,
             // Choose the selected evaluation locale or if not selected, the project's embedded locales
             evaluationLocale ? [evaluationLocale] : localesUsed,
@@ -735,6 +770,14 @@
         };
     }
 
+    /** The last project rendered. `onDestroy` runs after the parent has already
+     * updated its state, so the `project` prop can read undefined there — which
+     * is exactly what it did when the page unmounted the view. */
+    let lastProject = project;
+    $effect(() => {
+        lastProject = project;
+    });
+
     /** Clean up the evaluator when unmounting. */
     onDestroy(() => {
         catchUp.cancel();
@@ -753,7 +796,7 @@
         // evaluator anyway.
         if (
             $evaluator !== undefined &&
-            $evaluator.getLatestSourceValue(project.getMain()) === undefined
+            $evaluator.getLatestSourceValue(lastProject.getMain()) === undefined
         ) {
             try {
                 $evaluator.getInitialValue();
@@ -795,8 +838,8 @@
 
     function writePreviewFromEvaluator() {
         if ($evaluator === undefined) return;
-        if (project.getPreview()?.mode === 'manual') return;
-        const value = $evaluator.getLatestSourceValue(project.getMain());
+        if (lastProject.getPreview()?.mode === 'manual') return;
+        const value = $evaluator.getLatestSourceValue(lastProject.getMain());
         // The evaluator may not have produced a value yet (fresh project,
         // just-recreated evaluator, etc.). Stamping `EXCEPTION_SYMBOL` over
         // a cached good preview is worse than waiting — bail out and let
@@ -1587,6 +1630,46 @@
      * appear.
      */
     const showModeration = $derived(warn && isAudience($user, project));
+
+    /** Where a scratch project was opened from (#1044). Only ever a same-origin
+     *  path: anything else in the parameter is someone else's link, and
+     *  following it would make this an open redirect. `//host` is a protocol-
+     *  relative URL, so a leading slash alone isn't enough. */
+    const returnTo = $derived.by(() => {
+        if (!project.isScratch()) return undefined;
+        const from = page.url.searchParams.get(PROJECT_PARAM_FROM);
+        return from !== null && from.startsWith('/') && !from.startsWith('//')
+            ? from
+            : undefined;
+    });
+
+    /** What to call the place the link goes back to. The guide names the thing
+     *  being explained in its own URL, so "back to Phrase" says where you're
+     *  going; anything else falls back to the guide itself. */
+    const returnLabel = $derived.by(() => {
+        if (returnTo === undefined) return undefined;
+        const concept = new URLSearchParams(
+            returnTo.slice(returnTo.indexOf('?')),
+        ).get(PARAM_CONCEPT);
+        return $locales
+            .concretize((l) => l.ui.project.link.backTo, {
+                place:
+                    concept !== null && concept.length > 0
+                        ? concept
+                        : $locales.getPrimaryPlainText(
+                              (l) => l.ui.page.guide.header,
+                          ),
+            })
+            .toText();
+    });
+
+    /** Whether this viewer can report this project (#193). Audience only — its
+     *  own creators have the share dialog for anything wrong with it — and
+     *  signed in, since a report has to name who made it and an anonymous one
+     *  would be neither accountable nor rate-limitable. */
+    const reportable = $derived(
+        isAuthenticated($user) && isAudience($user, project),
+    );
     const contentWarnings = $derived<GateWarning[]>([
         ...(showModeration
             ? [
@@ -1672,12 +1755,11 @@
 
         // Analyzed? Update the conflicts immediately.
         if (project.analyzed === 'analyzed') {
-            conflicts.set(project.getConflicts());
+            conflicts.set(project.getConflicts() ?? []);
         }
         // Not yet analyzed? Run analysis now and publish.
         else if (project.analyzed === 'unanalyzed') {
-            project.analyze();
-            conflicts.set(project.getConflicts());
+            conflicts.set(project.analyze().conflicts);
         }
         // Still analyzing (re-entrant case)? Try again shortly.
         else {
@@ -1753,6 +1835,17 @@
 
     /** Tracks whether the audience has overridden the stage's computed focus, so the reset-zoom button can be disabled when there is nothing to reset. */
     let focusAdjusted = $state(false);
+
+    /** Labels the stage's zoom controls. The app's own search idiom, forced monochrome the
+     *  way the animation control's icon is — the group used to borrow the language's
+     *  pattern-search operator for this, which is not chrome's to spend. */
+    const ZoomIcon = withMonoEmoji('🔍');
+
+    /** The audience's zoom, as a ratio of the project's own view; 1 is the project's. */
+    let stageZoom = $state(1);
+    let stageZoomPercent = $derived(zoomPercent(stageZoom));
+    /** Where the gauge fills to: 0 fully out, 0.5 the project's own view, 1 fully in. */
+    let stageZoomLevel = $derived(zoomGauge(stageZoom));
 
     let adjusting = $state(false);
 
@@ -2726,12 +2819,19 @@
     function revert() {
         if (original) Projects.reviseProject(original);
     }
+
+    /** A project with no name — a scratch copy of an example, or one nobody has
+     *  named yet — would otherwise leave the tab titled "Wordplay - ", which is
+     *  both a WCAG failure and useless for telling two open projects apart. */
+    const documentTitle = $derived.by(() => {
+        const name = getLocalizedProjectName(project, $locales);
+        return name.length > 0
+            ? name
+            : $locales.getPrimaryPlainText((l) => l.ui.project.untitled);
+    });
 </script>
 
-<svelte:head
-    ><title>Wordplay - {getLocalizedProjectName(project, $locales)}</title
-    ></svelte:head
->
+<svelte:head><title>Wordplay - {documentTitle}</title></svelte:head>
 
 <svelte:window
     onkeydown={handleKey}
@@ -2951,6 +3051,17 @@
                         >
                             {#snippet title()}{/snippet}
 
+                            {#snippet controls()}
+                                <!-- Reporting sits in the stage's top corner,
+                                     next to fullscreen, and only for someone
+                                     who is an audience for this project: its
+                                     own creators have the share dialog, and
+                                     nobody can report what isn't public. -->
+                                {#if tile.kind === TileKind.Output && reportable && isAuthenticated($user)}
+                                    <ReportButton {project} uid={$user.uid} />
+                                {/if}
+                            {/snippet}
+
                             {#snippet help()}
                                 {#if tile.kind === TileKind.Output}
                                     <Button
@@ -3054,37 +3165,80 @@
                                             class="zoom-group"
                                             data-uiid="stageZoom"
                                         >
-                                            <Button
+                                            <!-- Labels the group rather than acting, so it
+                                                 is hidden from screen readers: each button
+                                                 already carries its own label. Mono so it
+                                                 sits with the glyphs instead of shouting
+                                                 over them. -->
+                                            <span
+                                                class="zoom-icon"
+                                                aria-hidden="true"
+                                                >{ZoomIcon}</span
+                                            ><Button
+                                                uiid="stageZoomOut"
                                                 background
                                                 action={() =>
                                                     outputView?.adjustZoom(-1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomOut}
-                                                ><Emoji text="–⌕" /></Button
+                                                >–</Button
                                             >
+                                            <!-- The clear control, in the middle, always
+                                                 present. Always, because it used to appear
+                                                 and vanish with the adjustment and carry a
+                                                 percentage whose width changed with its
+                                                 value — three widths, changing on every
+                                                 gesture, which made the toolbar re-decide
+                                                 what to collapse and sent other controls
+                                                 hopping into the overflow menu. A gauge is
+                                                 the same information at a constant width,
+                                                 and it shows the level moving rather than
+                                                 only reporting it. The exact percentage is
+                                                 still spoken: it is in this button's label,
+                                                 which is why the gauge itself is hidden from
+                                                 screen readers. -->
                                             <Button
+                                                uiid="stageZoomReset"
+                                                classes="zoom-reset"
+                                                active={focusAdjusted}
+                                                action={() =>
+                                                    outputView?.resetZoom()}
+                                                tip={() =>
+                                                    stageZoomPercent === 100
+                                                        ? $locales.getPrimaryPlainText(
+                                                              (l) =>
+                                                                  l.ui.output
+                                                                      .button
+                                                                      .resetZoom,
+                                                          )
+                                                        : $locales
+                                                              .concretize(
+                                                                  (l) =>
+                                                                      l.ui
+                                                                          .output
+                                                                          .button
+                                                                          .resetZoomAt,
+                                                                  {
+                                                                      percent:
+                                                                          stageZoomPercent,
+                                                                  },
+                                                              )
+                                                              .toText()}
+                                                background
+                                                ><span
+                                                    class="zoom-gauge"
+                                                    style:--level={stageZoomLevel}
+                                                    aria-hidden="true"
+                                                ></span></Button
+                                            ><Button
+                                                uiid="stageZoomIn"
                                                 background
                                                 action={() =>
                                                     outputView?.adjustZoom(1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomIn}
-                                                ><Emoji text="+⌕" /></Button
+                                                >+</Button
                                             >
-                                            <!-- Shown whenever the audience has panned or
-                                                 zoomed, with or without a program camera,
-                                                 since it now means "clear my adjustment". -->
-                                            {#if focusAdjusted}
-                                                <Button
-                                                    uiid="stageZoomReset"
-                                                    action={() =>
-                                                        outputView?.resetZoom()}
-                                                    tip={(l) =>
-                                                        l.ui.output.button
-                                                            .resetZoom}
-                                                    background
-                                                    ><Emoji text="⟲⌕" /></Button
-                                                >
-                                            {/if}
                                         </span>
                                     {/snippet}
                                     {#snippet outputGridFit()}
@@ -3252,6 +3406,7 @@
                                         bind:painting
                                         bind:hasStagePlace
                                         bind:focusAdjusted
+                                        bind:zoom={stageZoom}
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                         editable={editableNow}
@@ -3314,7 +3469,7 @@
                                                         getSourceIndexByID(
                                                             tile.id,
                                                         ))}
-                                                multipleSourcesVisible={layout.getVisibleSourceCount() >=
+                                                multipleSources={sources.length >=
                                                     2}
                                                 notify={getEditorNotifier(
                                                     tile.id,
@@ -3366,8 +3521,38 @@
                                                 dismiss={clearInternalClipboard}
                                             />
                                         {/if}
+                                        <!-- What a scratch project is, and the
+                                             two things worth doing with it.
+                                             Here rather than in the project
+                                             footer because the whole point of
+                                             the copy is to edit it, so this is
+                                             where someone is looking. Only on
+                                             the selected editor, so a project
+                                             with several files says it once. -->
+                                        {#if project.isScratch() && getSourceIndexByID(tile.id) === selectedSourceIndex}
+                                            <EditorNotice>
+                                                <div class="scratch">
+                                                    <span class="explanation"
+                                                        ><MarkupHTMLView
+                                                            inline
+                                                            markup={(l) =>
+                                                                l.ui.project
+                                                                    .scratch}
+                                                        /></span
+                                                    >
+                                                    <span class="actions">
+                                                        <RemixButton
+                                                            {project}
+                                                        />{#if returnTo !== undefined && returnLabel !== undefined}<Link
+                                                                to={returnTo}
+                                                                >{returnLabel}</Link
+                                                            >{/if}
+                                                    </span>
+                                                </div>
+                                            </EditorNotice>
+                                        {/if}
                                         <!-- "Viewing an older checkpoint — Restore" banner. -->
-                                        {#if checkpoint > -1}
+                                        {#if checkpointed}
                                             <EditorNotice
                                                 ><LocalizedText
                                                     path={(l) =>
@@ -3379,7 +3564,6 @@
                                                     tip={(l) =>
                                                         l.ui.checkpoints.button
                                                             .restore}
-                                                    active={checkpoint > -1}
                                                     action={() => {
                                                         // Save a version of the project with the current source in the history and the new source the old source.
                                                         Projects.reviseProject(
@@ -3387,7 +3571,7 @@
                                                                 project.withCheckpoint(),
                                                             ),
                                                         );
-                                                        checkpoint = -1;
+                                                        checkpoint = null;
                                                     }}
                                                     label={(l) =>
                                                         l.ui.checkpoints.button
@@ -3479,7 +3663,7 @@
                  editor, and on a phone's one-tile layout there would otherwise
                  be no way to step at all. -->
             {#if uiMode === 'debug' && outputTileHidden}
-                <div class="floating-debug">
+                <div class="floating-debug saturated-surface">
                     {@render outputStepRow()}
                 </div>
             {/if}
@@ -3587,6 +3771,44 @@
     /* The debugger's controls when their home tile is hidden: pinned above
        the footer, in the debug band's own color so they read as the same
        instrument. */
+    /* The sentence takes the room it needs and wraps; the two controls stay
+       together at the inline end. Letting them share the text's flow instead
+       broke "back to Group" across lines and left the wrapped lines touching. */
+    .scratch {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: var(--wordplay-spacing);
+        width: 100%;
+    }
+
+    /* A basis rather than `auto`: the controls never shrink, so without a
+       floor the sentence gets squeezed to one word per line in a narrow
+       editor. Below the floor the controls wrap to their own line instead,
+       still at the inline end. */
+    .scratch .explanation {
+        flex: 1 1 16em;
+        min-width: 0;
+        line-height: 1.4;
+    }
+
+    .scratch .actions {
+        flex: 0 0 auto;
+        margin-inline-start: auto;
+        white-space: nowrap;
+    }
+
+    /* Baseline again inside the group: a button is a flex container, so it
+       contributes its own box baseline unless its content is aligned too. */
+    .scratch .actions :global(button) {
+        align-items: baseline;
+    }
+
+    .scratch .actions :global(.link) {
+        margin-inline-start: var(--wordplay-spacing);
+    }
+
     .floating-debug {
         position: absolute;
         inset-block-end: var(--wordplay-spacing);
@@ -3712,7 +3934,60 @@
         flex-direction: column;
     }
 
-    /* Group the two zoom buttons so the Tour can highlight them together. */
+    /* The zoom level, as a bar filling a fixed-size track with a line across the middle
+       marking the project's own view. Fixed size is the point: this control used to carry a
+       percentage, and a number that changes width as it changes value is what made the
+       toolbar reshuffle. Drawn with a --level custom property like MusicView's bars. */
+    .zoom-gauge {
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        width: 6px;
+        height: var(--wordplay-widget-height);
+        background: var(--wordplay-alternating-color);
+        /* The track is nearly the same value as the surface behind it (1.1:1), so the
+           border is what makes its extent visible; the fill and the line below are the
+           parts that carry meaning and they clear 3:1 on their own. */
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        overflow: hidden;
+    }
+
+    /* Fills from the bottom. Its own color rather than currentColor, so the button going
+       inactive at home cannot wash out the reading. */
+    .zoom-gauge::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        bottom: 0;
+        height: calc(var(--level) * 100%);
+        background: var(--wordplay-foreground);
+        transition: height calc(var(--animation-factor) * 100ms);
+    }
+
+    /* The project's own view. The fill crosses it, so it has to read against both the fill
+       and the empty track — orange is the one token that clears 3:1 on both in both modes. */
+    .zoom-gauge::after {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 50%;
+        height: var(--wordplay-border-width);
+        background: var(--color-orange-text);
+    }
+
+    /* Tighter than its neighbours so a taller gauge still leaves the three buttons the
+       same outer height. */
+    :global(button.zoom-reset.background) {
+        padding: var(--wordplay-spacing-half);
+    }
+
+    /* Sized down from the buttons it labels: it names the group, it isn't a control. */
+    .zoom-icon {
+        font-size: var(--wordplay-small-font-size);
+    }
+
+    /* Group the zoom controls so the Tour can highlight them together. */
     .zoom-group {
         display: inline-flex;
         align-items: center;

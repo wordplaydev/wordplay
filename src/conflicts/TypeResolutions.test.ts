@@ -44,7 +44,7 @@ function getConflictAndRepairs(
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     project.analyze();
     const context = project.getContext(source);
-    const conflict = project.getAnalysis().conflicts.find(predicate);
+    const conflict = project.analyze().conflicts.find(predicate);
     if (conflict === undefined)
         return { project, conflict: undefined, repairs: [] };
     const resolutions = conflict.getResolutions(context, Templates);
@@ -85,9 +85,8 @@ describe('TypeResolutions — literal annotation (#1025)', () => {
                 ctx,
                 project.getLocales(),
             ).newProject;
-            newProject.analyze();
             const remaining = newProject
-                .getAnalysis()
+                .analyze()
                 .conflicts.filter(TYPE_MISMATCH);
             expect(remaining).toHaveLength(0);
         }
@@ -153,7 +152,7 @@ describe('TypeResolutions — add missing input', () => {
         // and add-placeholder). Both produce an Evaluate as the replacement.
         const ctx = project.getContext(project.getMain());
         const conflict = project
-            .getAnalysis()
+            .analyze()
             .conflicts.find(
                 (c): c is MissingInput => c instanceof MissingInput,
             );

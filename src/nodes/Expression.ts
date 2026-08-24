@@ -4,6 +4,7 @@ import type Step from '@runtime/Step';
 import type Value from '@values/Value';
 import type Locales from '@locale/Locales';
 import type Bind from '@nodes/Bind';
+import type { CallGraph } from '@db/projects/Analysis';
 import type Context from '@nodes/Context';
 import type Markup from '@nodes/Markup';
 import Node from '@nodes/Node';
@@ -95,9 +96,31 @@ export default abstract class Expression extends Node {
 
     abstract getDependencies(_: Context): Expression[];
 
+    /**
+     * This expression's dependencies, plus any that only a call graph reveals.
+     * Overridden by `Bind`, whose value comes from whoever calls the definition
+     * it is an input of. Separate from `getDependencies` because the project
+     * derives those caller edges itself from the finished call graph, and a node
+     * asking for them mid-analysis is what #808 was about.
+     */
+    getExtendedDependencies(context: Context, _?: CallGraph): Expression[] {
+        return this.getDependencies(context);
+    }
+
+    /**
+     * Every expression this one transitively depends on.
+     *
+     * Pass `calls` to follow a function's input binds out to the calls that
+     * decide their values — a stream handed to a function is only reachable
+     * that way. It is optional and not merely for convenience: the call graph
+     * does not exist during the phase of analysis that builds it, and a caller
+     * that has no graph must say what it does without one rather than get a
+     * silently truncated walk. See #808.
+     */
     getAllDependencies(
         context: Context,
         dependencies?: Set<Expression>,
+        calls?: CallGraph,
     ): Set<Expression> {
         // Keep track of whether this is the first in the recursive change of dependencies, so we
         // can remove it from the dependency list. (The list should only contain dependencies, not the initial expression
@@ -114,9 +137,10 @@ export default abstract class Expression extends Node {
         // Visit this.
         dependencies.add(this);
 
-        // Get all dependencies of this.
-        for (const dep of this.getDependencies(context))
-            dep.getAllDependencies(context, dependencies);
+        // Get all dependencies of this, plus any this node reaches only through
+        // the call graph (see Bind's override).
+        for (const dep of this.getExtendedDependencies(context, calls))
+            dep.getAllDependencies(context, dependencies, calls);
 
         // Don't include this if we started with it.
         if (start) dependencies.delete(this);

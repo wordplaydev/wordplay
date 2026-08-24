@@ -305,7 +305,9 @@ export function getRenderableKeyword(token: Token): KeywordId | undefined {
  * Keyword Syms whose construct WINS over a name at expression start (via the early atomic checks or
  * the parser-position fix in parseAtomicExpression). A name spelled like one of these is shadowed
  * where it's used as a value or call, so it's worth a (low-severity) advisory. Other keyword
- * collisions — the number type, operators — leave the name fully usable, so we don't warn there.
+ * collisions — the number type, the and/or connectives — leave the name fully usable, so we don't
+ * warn there. The word for ~ also wins (prefix negation), but only it among the operators, so
+ * Name.getShadowedKeyword special-cases it by canonical text rather than listing Sym.Operator here.
  */
 export const ExpressionStartKeywordSyms: Set<SymType> = new Set([
     Sym.Function,

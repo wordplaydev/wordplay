@@ -11,6 +11,7 @@ import {
     FIXED_STEP_MS,
     GravityPxPerS2PerUnit,
     OutputBody,
+    pullAcceleration,
 } from '@output/physics/Physics';
 import Evaluator from '@runtime/Evaluator';
 import { getRapier, loadRapier, onRapierLoaded } from './rapierLoader';
@@ -62,7 +63,12 @@ function addFloor(world: RAPIER.World) {
 /** A 1m × 1m body dropped from `height` meters above the floor. Its collider is
  *  a plain cuboid with 32px half-extents, so it rests with its center at
  *  engine y = -32. */
-function drop(world: RAPIER.World, height: number, matter?: Matter) {
+function drop(
+    world: RAPIER.World,
+    height: number,
+    matter?: Matter,
+    detectable = false,
+) {
     return new OutputBody(
         world,
         'body',
@@ -73,6 +79,7 @@ function drop(world: RAPIER.World, height: number, matter?: Matter) {
         0,
         0,
         matter,
+        detectable,
         undefined,
     );
 }
@@ -266,4 +273,249 @@ test('angular velocity survives a step at the rates projects actually use', () =
     // clears it, so anything near a halving means the cap has started biting.
     expect(body.rigidBody.angvel() / spin).toBeGreaterThan(0.98);
     expect(body.rigidBody.angvel() / spin).toBeLessThanOrEqual(1);
+});
+
+/**
+ * The rest of this file characterizes what Matter does. These four cover what a
+ * *name* does: a Collision watching a name is enough to put an output in the
+ * physical world, so two named phrases notice each other with no Matter at all
+ * (#548). Such a body is always a sensor, so joining the world can report a
+ * contact without changing how anything moves.
+ */
+
+/** A body at rest at engine y = 0, positioned to overlap a body dropped onto
+ *  it, built the way Physics builds one for an output nothing places. */
+function watchedSensor(world: RAPIER.World, detectable = true) {
+    const RAPIER = getRapier();
+    const body = drop(world, 0, undefined, detectable);
+    body.rigidBody.setBodyType(
+        RAPIER.RigidBodyType.KinematicPositionBased,
+        true,
+    );
+    body.collider.setSensor(true);
+    return body;
+}
+
+test('a body with no matter collides when something is watching its name', () => {
+    const RAPIER = getRapier();
+    const world = makeWorld();
+    // Neither body has Matter. Both are watched, so both get the full filter.
+    watchedSensor(world);
+    const falling = drop(world, 4.5, undefined, true);
+    falling.collider.setSensor(true);
+    const events = new RAPIER.EventQueue(true);
+
+    let started = 0;
+    for (let step = 0; step < 300; step++) {
+        world.step(events);
+        events.drainCollisionEvents((_h1, _h2, begin) => {
+            if (begin) started++;
+        });
+    }
+
+    // It falls onto the resting body and reports the touch. Without the watch
+    // both filters would be empty and this would be 0, which is #548.
+    expect(started).toBeGreaterThanOrEqual(1);
+    // And it passes straight through: detectable is not solid.
+    expect(falling.rigidBody.translation().y).toBeGreaterThan(100);
+});
+
+test('a body nothing is watching reports no collision at all', () => {
+    const RAPIER = getRapier();
+    const world = makeWorld();
+    // The same pair, with nothing watching either name: empty filters, silence.
+    watchedSensor(world, false);
+    const falling = drop(world, 4.5, undefined, false);
+    falling.collider.setSensor(true);
+    const events = new RAPIER.EventQueue(true);
+
+    let started = 0;
+    for (let step = 0; step < 300; step++) {
+        world.step(events);
+        events.drainCollisionEvents((_h1, _h2, begin) => {
+            if (begin) started++;
+        });
+    }
+
+    expect(started).toBe(0);
+});
+
+test('making a matterless motion body a sensor does not change how it falls', () => {
+    // Physics now makes any body without Matter a sensor, including a
+    // Motion-driven one that used to be solid with an empty filter. That was
+    // already contacting nothing, so the fall must be identical — if Rapier
+    // dropped a sensor collider's mass contribution, it would not be.
+    const solidWorld = makeWorld();
+    const solid = drop(solidWorld, 4.5);
+
+    const sensorWorld = makeWorld();
+    const sensor = drop(sensorWorld, 4.5);
+    sensor.collider.setSensor(true);
+
+    for (let step = 0; step < 120; step++) {
+        solidWorld.step();
+        sensorWorld.step();
+    }
+
+    expect(sensor.rigidBody.translation().y).toBeCloseTo(
+        solid.rigidBody.translation().y,
+        6,
+    );
+});
+
+test('a watched sensor takes no impulse from the body it reports', () => {
+    const world = makeWorld();
+    addFloor(world);
+    // A bouncy solid body lands on a watched matterless sensor sitting on the
+    // floor. The sensor must neither move nor stop the body: being detectable
+    // is not being solid.
+    const sensor = watchedSensor(world);
+    const restingY = sensor.rigidBody.translation().y;
+    const falling = drop(world, 4.5, matter(0.8), true);
+
+    settle(world, falling);
+
+    expect(sensor.rigidBody.translation().y).toBeCloseTo(restingY, 6);
+    // The solid body carried on to the floor rather than resting on the sensor.
+    expect(falling.rigidBody.translation().y).toBeGreaterThan(-33);
+    expect(falling.rigidBody.translation().y).toBeLessThan(-28);
+});
+
+/**
+ * Attraction (#20). Rapier has no n-body gravity, so Physics computes the pull
+ * itself and applies it as a per-substep impulse. These characterize the
+ * calibration the way the tests above characterize gravity and bounce: whether
+ * PullPxPerS2PerKg produces an orbit a project can actually build on.
+ */
+
+/** A 1m × 1m dynamic body centred on the given stage metres, with air
+ *  resistance off — the `air: 0` a stage in space would set. */
+function orbiter(world: RAPIER.World, xMeters: number, yMeters: number) {
+    const body = new OutputBody(
+        world,
+        'orbiter',
+        xMeters - 0.5,
+        yMeters - 0.5,
+        1,
+        1,
+        0,
+        0,
+        undefined,
+        // Nothing is watching it: a pull moves a body whether or not a
+        // Collision can see it.
+        false,
+        undefined,
+    );
+    body.rigidBody.setLinearDamping(0);
+    body.rigidBody.setAngularDamping(0);
+    return body;
+}
+
+/** One sub-step of what Physics.applyAttraction does, for an attractor sitting
+ *  at the engine origin. Mirrors the loop there: acceleration from
+ *  pullAcceleration, turned into an impulse by the body's own mass. */
+function attract(world: RAPIER.World, body: OutputBody, strength: number) {
+    const at = body.rigidBody.translation();
+    const pull = pullAcceleration(-at.x, -at.y, strength);
+    const impulse = body.rigidBody.mass() * world.timestep;
+    body.rigidBody.applyImpulse(
+        { x: pull.x * impulse, y: pull.y * impulse },
+        true,
+    );
+}
+
+/** How far the body is from the origin, in stage metres. */
+function radius(body: OutputBody) {
+    const at = body.rigidBody.translation();
+    return Math.hypot(at.x, at.y) / PX_PER_METER;
+}
+
+test('a body orbits an attractor without spiralling in or flying off', () => {
+    // The calibration test. A 1000kg attractor with pull 1, orbited at 5m: the
+    // acceleration is PullPxPerS2PerKg × 1000 / 5² = 400 px/s², and a circular
+    // orbit at radius r needs v = √(a·r) = √(400 × 320) ≈ 358 px/s.
+    const world = makeWorld(0);
+    const body = orbiter(world, 5, 0);
+    const acceleration = (10 * 1000) / (5 * 5);
+    const speed = Math.sqrt(acceleration * 5 * PX_PER_METER);
+    body.rigidBody.setLinvel({ x: 0, y: speed }, true);
+
+    // ~351 steps is one orbit at this radius, so this is about two of them.
+    let low = Infinity;
+    let high = 0;
+    let sweep = 0;
+    let previous = Math.atan2(0, 5 * PX_PER_METER);
+    for (let step = 0; step < 700; step++) {
+        attract(world, body, 1000);
+        world.step();
+        const at = body.rigidBody.translation();
+        const angle = Math.atan2(at.y, at.x);
+        let delta = angle - previous;
+        // Unwrap the seam so a full turn accumulates rather than cancelling.
+        if (delta > Math.PI) delta -= 2 * Math.PI;
+        if (delta < -Math.PI) delta += 2 * Math.PI;
+        sweep += delta;
+        previous = angle;
+        low = Math.min(low, radius(body));
+        high = Math.max(high, radius(body));
+    }
+
+    // It goes round, rather than falling straight in or shooting off.
+    // 0.20.0: 1.99 turns in these 700 steps, matching the computed period.
+    expect(Math.abs(sweep)).toBeGreaterThan(2 * Math.PI);
+    // And the orbit stays an orbit. A fixed 16ms step integrates this well
+    // enough to be visually circular: 0.20.0 holds 4.96m-5.05m around the 5m
+    // target across both turns, so under ±1%. The tolerance here is wide enough
+    // to survive an engine bump but not a spiral in or an escape, which is what
+    // would break the Orbits example.
+    expect(low).toBeGreaterThan(4.8);
+    expect(high).toBeLessThan(5.3);
+});
+
+test('a negative pull pushes a body away', () => {
+    const world = makeWorld(0);
+    const body = orbiter(world, 2, 0);
+    const before = radius(body);
+
+    for (let step = 0; step < 120; step++) {
+        attract(world, body, -500);
+        world.step();
+    }
+
+    expect(radius(body)).toBeGreaterThan(before);
+});
+
+test('a body with nothing pulling on it stays put', () => {
+    // Matter.pull defaults to 0, so this is what every existing project sees.
+    const world = makeWorld(0);
+    const body = orbiter(world, 3, 0);
+    const before = body.rigidBody.translation();
+
+    for (let step = 0; step < 120; step++) {
+        attract(world, body, 0);
+        world.step();
+    }
+
+    const after = body.rigidBody.translation();
+    expect(after.x).toBeCloseTo(before.x);
+    expect(after.y).toBeCloseTo(before.y);
+});
+
+test('air resistance is what stops a coasting body, and space does not', () => {
+    // Stage.air scales the damping every body has always had: 1 is that
+    // damping, 0 is space. This is what makes an orbit possible at all.
+    const world = makeWorld(0);
+    const inAir = orbiter(world, 0, 0);
+    inAir.rigidBody.setLinearDamping(0.6);
+    const inSpace = orbiter(world, 10, 0);
+    inAir.rigidBody.setLinvel({ x: 300, y: 0 }, true);
+    inSpace.rigidBody.setLinvel({ x: 300, y: 0 }, true);
+
+    // One second of steps.
+    for (let step = 0; step < 62; step++) world.step();
+
+    // 0.6/s exponential decay leaves about 55% of the speed after a second,
+    // which is what would wind an orbit down in a couple of seconds.
+    expect(inAir.rigidBody.linvel().x).toBeLessThan(200);
+    expect(inSpace.rigidBody.linvel().x).toBeCloseTo(300, 0);
 });

@@ -20,12 +20,22 @@ import {
     getLocalePath,
     LocaleValidator,
 } from '@util/verify-locales/LocaleSchema';
+import {
+    driftSince,
+    getCheckablePathKinds,
+    getDriftBase,
+    getTranslatableTutorialPathKinds,
+    markStale,
+    readJSON,
+    type Stale,
+} from '@util/verify-locales/drift';
 import Log from '@util/verify-locales/Log';
 import {
     getDefaultTutorial,
     getTutorialJSON,
     getTutorialPath,
 } from '@util/verify-locales/TutorialSchema';
+import type Tutorial from '../../tutorial/Tutorial';
 import {
     describeReport,
     isEmptyReport,
@@ -45,12 +55,18 @@ import {
 import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
 import findUntaggedStrings from '@util/verify-locales/findUntaggedStrings';
 import getTranslator from '@util/verify-locales/getTranslator';
+import type Translator from '@util/verify-locales/Translator';
+import {
+    describeUsage,
+    UsageLineMarker,
+} from '@util/verify-locales/Translator';
 import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
 import generateEmojisForLocale from '@util/verify-locales/generateEmojis';
 import generateChoosePrompts from '@util/verify-locales/generateChoosePrompts';
 import generateNameIndex from '@util/verify-locales/generateNameIndex';
+import generateManifests from '@util/verify-locales/generateManifests';
 import verifyDateTimes from '@util/verify-locales/verifyDateTimes';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import {
@@ -140,9 +156,14 @@ log.say(
 
 // The translation backend must be chosen explicitly (no silent default), so a
 // long run can't quietly use the wrong one. Validate and report it up front.
+// One instance serves the whole run — the locale file, both tutorials, and
+// every how-to — so its caches (localized examples, loaded locale texts) and
+// its usage accounting span everything rather than one call.
+let translator: Translator | undefined;
 if (TranslationRequested) {
     try {
-        log.say(`Using the "${getTranslator().id}" translation backend.`);
+        translator = getTranslator();
+        log.say(`Using the "${translator.id}" translation backend.`);
     } catch (error) {
         log.exit(error instanceof Error ? error.message : String(error));
     }
@@ -162,7 +183,7 @@ async function handleLocale(
     localeIsNew: boolean,
     globals: Map<string, { locale: string; path: LocalePath }[]>,
     translatedPaths: Set<string>,
-) {
+): Promise<LocaleText> {
     const locale = toLocaleString(localeText);
 
     // Validate, repair, and translate the locale file.
@@ -179,6 +200,7 @@ async function handleLocale(
         globals,
         translatedPaths,
         localeFilter,
+        translator,
     );
 
     // If the locale was revised, write the results (Prettier-formatted).
@@ -283,6 +305,7 @@ async function handleLocale(
                 FixRequested || TranslationRequested,
                 targets,
                 mode,
+                translator,
             );
 
             // If the tutorial was revised, write the results (Prettier-formatted).
@@ -312,6 +335,10 @@ async function handleLocale(
         TranslationRequested && selection.isIncluded('howto'),
         OverrideMachineTranslations,
         selection.howtoIds(),
+        translator,
+        // The revised locale, not the one loaded at startup: how-tos retarget
+        // example references against names this run may have just translated.
+        revisedLocale,
     );
 
     // Regenerate the per-locale how-to bundle the runtime loads. Only fix/translate
@@ -341,6 +368,12 @@ async function handleLocale(
         FixRequested ||
             (TranslationRequested && selection.isIncluded('datetimes')),
     );
+
+    // Hand the revision back so the caller can keep its in-memory locale set
+    // current: the artifact generators after the locale loop (names.json, choose
+    // prompts, manifests) read that set, and building them from pre-repair text
+    // left name-changing repairs out of the artifacts until a second run.
+    return revisedLocale;
 }
 
 /** Generate this locale's emoji translations in-process. Best-effort — it does
@@ -457,8 +490,10 @@ if (sourceLocaleText !== undefined) {
 const translatedPaths = new Set<string>();
 
 // Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
-for (const localeText of allLocaleText) {
-    await handleLocale(
+// Keep the revised text, so the artifact generators below build from what was just written.
+for (let index = 0; index < allLocaleText.length; index++) {
+    const localeText = allLocaleText[index];
+    allLocaleText[index] = await handleLocale(
         log.scope(`Checking ${toLocaleString(localeText)}`),
         localeText,
         revisedStrings,
@@ -522,6 +557,85 @@ if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
     );
 }
 
+// Translations left behind by an en-US rewording this branch made (#1144). This is
+// the cheap half of drift detection — two blob reads per file against the branch
+// point, about a second — so it can run on every verify, including the watch-mode
+// one, instead of waiting for CI. The full history census stays in
+// `npm run locales-drift`, which is far too slow to run on every save.
+if (FocalLocale === null) {
+    const base = getDriftBase();
+    if (base !== undefined && sourceLocaleText !== undefined) {
+        const driftLog = log.scope('Drift from en-US');
+        const sourceTutorial = readJSON<Tutorial>(getTutorialPath('en-US'));
+        const localeKinds = getCheckablePathKinds(sourceLocaleText);
+        const tutorialKinds =
+            sourceTutorial === undefined
+                ? new Map()
+                : getTranslatableTutorialPathKinds(sourceTutorial);
+        const behind: Stale[] = [];
+        for (const localeText of allLocaleText) {
+            const locale = toLocaleString(localeText);
+            if (locale === SourceLocale) continue;
+            for (const [source, target, kinds] of [
+                [
+                    getLocalePath(SourceLocale),
+                    getLocalePath(locale),
+                    localeKinds,
+                ],
+                [
+                    getTutorialPath(SourceLocale),
+                    getTutorialPath(locale),
+                    tutorialKinds,
+                ],
+            ] as const)
+                behind.push(
+                    ...driftSince(base, source, target, locale, kinds).map(
+                        (entry) => ({ ...entry }) as Stale,
+                    ),
+                );
+        }
+        const queueable = behind.filter((entry) => entry.kind !== 'name');
+        if (queueable.length > 0) {
+            if (FixRequested || TranslationRequested) {
+                // Mark here so the ordinary repair step queues the work and the
+                // translate step that follows fixes it, rather than drift
+                // waiting on someone remembering to run a separate command.
+                let marked = 0;
+                for (const localeText of allLocaleText) {
+                    const locale = toLocaleString(localeText);
+                    if (locale === SourceLocale) continue;
+                    for (const [file, kinds] of [
+                        [getLocalePath(locale), localeKinds],
+                        [getTutorialPath(locale), tutorialKinds],
+                    ] as const) {
+                        const entries = queueable.filter(
+                            (entry) =>
+                                entry.locale === locale && entry.file === file,
+                        );
+                        if (entries.length === 0) continue;
+                        const text = readJSON(file);
+                        if (text === undefined) continue;
+                        const count = markStale(entries, kinds, text);
+                        if (count === 0) continue;
+                        await writeFormatted(
+                            file,
+                            JSON.stringify(text, null, 4),
+                        );
+                        marked += count;
+                    }
+                }
+                if (marked > 0)
+                    driftLog.good(
+                        `Marked ${marked} translation(s) "$!" whose en-US source this branch reworded; they will be re-translated.`,
+                    );
+            } else
+                driftLog.warning(
+                    `${queueable.length} translation(s) are behind en-US strings this branch reworded. Run "npm run locales-fix" to queue them.`,
+                );
+        }
+    }
+}
+
 // Build the word → locale index the languages dialog uses to find languages a project needs
 // but doesn't declare (#1246). It reads every locale's basis, so it can only be built on a
 // full run; a focal run leaves the committed artifact alone.
@@ -538,6 +652,16 @@ if (FocalLocale === null) {
 if (FocalLocale === null) {
     await generateChoosePrompts(
         log.scope('Language prompts'),
+        allLocaleText,
+        FixRequested || TranslationRequested,
+    );
+}
+
+// Build one web app manifest per locale, so an installed Wordplay is named and
+// described in the language it was installed from (#564).
+if (FocalLocale === null) {
+    await generateManifests(
+        log.scope('App manifests'),
         allLocaleText,
         FixRequested || TranslationRequested,
     );
@@ -626,6 +750,24 @@ if (
         globals,
         translatedPaths,
     );
+}
+
+// Report what the run consumed and roughly cost, so a change in the pipeline's
+// efficiency is visible from one run to the next. The machine-readable line at
+// the end is for batch.ts, which sums it across its per-locale children — it
+// bypasses Log on purpose so its format is stable regardless of log styling.
+if (translator?.getUsage !== undefined) {
+    const usage = translator.getUsage();
+    if (usage.length > 0) {
+        const usageLog = log.scope('API usage');
+        for (const entry of usage) usageLog.say(describeUsage(entry));
+        const known = usage.filter((entry) => entry.cost !== undefined);
+        if (known.length > 0)
+            usageLog.say(
+                `Estimated cost: $${known.reduce((sum, entry) => sum + (entry.cost ?? 0), 0).toFixed(2)}`,
+            );
+        console.log(`${UsageLineMarker}${JSON.stringify(usage)}`);
+    }
 }
 
 // Exit non-zero if any errors were reported, so `verify` fails the run

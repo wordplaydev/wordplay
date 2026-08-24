@@ -29,14 +29,42 @@
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
     import {
+        canCurve,
+        clampToGrid,
+        curvePathPoint,
+        deletePathPoint,
+        flipShape,
+        getBrushCells,
+        getLineCells,
+        getPriorPoint,
+        getShapeBounds,
+        getShapesBounds,
+        insertPathPoint,
+        MaxBrushSize,
+        straightenPathPoint,
+        transformPathPoints,
+    } from '@db/characters/paths';
+    import {
+        canRedo,
+        canUndo,
+        currentState,
+        record,
+        redo as redoHistory,
+        startHistory,
+        undo as undoHistory,
+        type History,
+    } from '@db/characters/history';
+    import {
         CharacterSize,
         characterToSVG,
         getPathCenter,
+        getShapeAnchor,
         getSharedColor,
         moveShape,
         pixelsAreEqual,
         type Character,
         type CharacterEllipse,
+        type CharacterGlyph,
         type CharacterPath,
         type CharacterPixel,
         type CharacterRectangle,
@@ -47,11 +75,31 @@
     import { Creator } from '@db/creators/CreatorDatabase';
     import { DB, CharactersDB, disconnected, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
+    import ImageImporter from './ImageImporter.svelte';
+    import {
+        Faces,
+        faceSupportsWeight,
+        FontWeights,
+        type FontWeight,
+    } from '@basis/faces/Fonts';
+    import FaceName from '@components/settings/FaceName.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import { MaxPaletteColors } from '@components/widgets/ColorChooser.svelte';
+    import { traceGlyph, type GlyphError } from '@db/characters/glyph';
+    import { pixelsFromRGBA, withPixelLayer } from '@db/characters/raster';
+    import { hasEmoji } from '@unicode/emoji';
     import Locales from '@locale/Locales';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+        TemplateInput,
+    } from '@locale/Locales';
+    import { controlKeyLabel } from '@components/editor/commands/shortcuts';
     import type LocaleText from '@locale/LocaleText';
+    import type { Template } from '@locale/LocaleText';
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import { RGBtoLCH } from '@output/Color/ColorJS';
     import { toProgram } from '@parser/parseProgram';
     import {
         BORROW_SYMBOL,
@@ -68,7 +116,7 @@
     import { NameRegExPattern } from '@parser/Tokenizer';
     import UnicodeString from '@unicode/UnicodeString';
     import { localeGoto } from '@util/localeGoto';
-    import { untrack, onMount } from 'svelte';
+    import { untrack, onMount, tick } from 'svelte';
 
     const DrawingMode = {
         Select: 0,
@@ -77,7 +125,8 @@
         Rect: 3,
         Ellipse: 4,
         Path: 5,
-        Emoji: 6,
+        Symbol: 6,
+        Image: 7,
     } as const;
     type DrawingMode = (typeof DrawingMode)[keyof typeof DrawingMode];
     const DrawingModeNames = [
@@ -87,7 +136,8 @@
         'Rect',
         'Ellipse',
         'Path',
-        'Emoji',
+        'Symbol',
+        'Image',
     ] as const;
     function drawingModeName(m: DrawingMode): string {
         return DrawingModeNames[m];
@@ -111,11 +161,12 @@
     /** The current list of shapes of the character */
     let shapes: CharacterShape[] = $state([]);
 
-    /** The history of shapes, to support undo/redo */
-    let history: CharacterShape[][] = $state.raw([]);
+    /** The undo history, whose current state is always what the editor is showing. */
+    let history: History<CharacterShape[]> = $state.raw(startHistory([]));
 
-    /** Where we are in the undo history, to support redo */
-    let historyIndex = $state(0);
+    /** The character `history` holds the past of, so a reload of the same
+     *  character doesn't restart it. Not $state: nothing renders from it. */
+    let historyFor: string | undefined = undefined;
 
     /** The current drawing mode of the editor*/
     let mode: DrawingMode = $state(DrawingMode.Select);
@@ -150,6 +201,33 @@
     /** The current stroke width */
     let currentStrokeWidth = $state(1);
 
+    /** How many cells across the pixel brush and the eraser cover (#898). */
+    let currentBrushSize = $state(1);
+
+    /** Whether a chosen symbol is added as pixels or as a traced outline (#924).
+     *  One tool, two ways in: the chooser is the same either way, so there is
+     *  nothing to validate and no second tool to find. */
+    let currentInsertion = $state<'pixels' | 'outline'>('pixels');
+
+    /** Which face a symbol is rasterized or traced from. Emoji get the
+     *  monochrome emoji face by default: the color one is a bitmap/OT-SVG face
+     *  with no outline to trace, and rasterizing wants color, so the default
+     *  follows the insertion. */
+    let currentFace = $state<string>('Noto Sans');
+    let currentWeight = $state<FontWeight>(400);
+    let currentItalic = $state(false);
+    /** How many cells across a traced symbol is placed. */
+    let currentGlyphSize = $state(CharacterSize);
+
+    /** The last symbol the chooser picked, so changing a font or weight retraces
+     *  it rather than making the creator pick again. */
+    let currentSymbol = $state<string | undefined>(undefined);
+    /** Why the last trace failed, if it did. */
+    let glyphProblem = $state<GlyphError | undefined>(undefined);
+    let glyphLoading = $state(false);
+    /** Bumped per request so a slow trace can't overwrite a newer one. */
+    let glyphRequest = 0;
+
     /** The current border radius for rectangles */
     let currentCorner = $state(0);
 
@@ -162,8 +240,56 @@
     /** The last pixel drawn while dragging, so we can fill in pixels between them with interpolation. */
     let lastPixel = $state<CharacterPixel | undefined>(undefined);
 
+    /** Where each tool last sampled, so a drag can fill the gap between samples.
+     *  Tracked as cursor positions rather than pixels: a sample that changed
+     *  nothing still moved the cursor, and the stroke has to follow it. */
+    let lastDrawn = $state<Point | undefined>(undefined);
+    let lastErased = $state<Point | undefined>(undefined);
+
     /** The HTML element of the canvas */
     let canvasView: HTMLDivElement | null = $state(null);
+
+    /**
+     * The width below which the editor stacks its three columns.
+     *
+     * Kept in sync by hand with the `@container (max-width: 700px)` rule in this
+     * component's style block: CSS can't tell the script what matched, and the
+     * toolbar's contents depend on the layout, not just its shape.
+     */
+    const NARROW_THRESHOLD_PX = 700;
+
+    let editorView: HTMLDivElement | null = $state(null);
+    let narrow = $state(false);
+
+    $effect(() => {
+        const view = editorView;
+        if (view === null || typeof ResizeObserver === 'undefined') return;
+        const observer = new ResizeObserver(() => {
+            narrow = view.clientWidth < NARROW_THRESHOLD_PX;
+        });
+        observer.observe(view);
+        return () => observer.disconnect();
+    });
+
+    /**
+     * Return focus to the canvas when a command the creator was on disappears.
+     *
+     * Narrow, the toolbar drops commands as they stop being usable, and a button
+     * that is removed while focused leaves focus on <body> — where no key does
+     * anything and a screen reader says nothing. The canvas is where the work
+     * is, so that's where focus goes.
+     */
+    function handleToolbarFocusOut(event: FocusEvent) {
+        if (!narrow || event.relatedTarget !== null) return;
+        // The button may simply have been clicked; only rescue focus that has
+        // actually fallen off the document's interactive content.
+        if (
+            document.activeElement !== null &&
+            document.activeElement !== document.body
+        )
+            return;
+        if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
+    }
 
     /** Pixels drawn or erased in a stroke */
     let strokePixels = $state(0);
@@ -180,6 +306,350 @@
 
     /** The pendig path */
     let pendingPath: CharacterPath | undefined = $state(undefined);
+
+    /** The path whose individual points are being edited, if any. */
+    let editedPath: CharacterPath | undefined = $state(undefined);
+
+    /** Which handle is chosen: a point, or the control point bending the segment arriving at it. */
+    let editedHandle: { index: number; curve: boolean } | undefined =
+        $state(undefined);
+
+    /** Whether a handle is being dragged, so pointer moves reposition it. */
+    let draggingHandle = $state(false);
+
+    /** The one path the selection is, when it is exactly one: what point editing can act on. */
+    let editablePath = $derived.by(() => {
+        const only = selection.length === 1 ? selection[0] : undefined;
+        return only !== undefined && only.type === 'path' ? only : undefined;
+    });
+
+    /** Whether the chosen handle's segment exists, and so can be bent or straightened. */
+    let curvableSegment = $derived.by(() => {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return false;
+        return canCurve(path.points, handle.index, path.closed);
+    });
+
+    /** Whether the chosen handle's segment is already curved. */
+    let curvedSegment = $derived.by(() => {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return false;
+        return path.points[handle.index]?.curve !== undefined;
+    });
+
+    /**
+     * The box the cursor indicator draws, so it shows the cells a stroke will
+     * actually cover rather than always one. Mirrors getBrushCells' origin bias
+     * for even sizes, which is why the offset isn't simply half the size.
+     */
+    let cursorBrush = $derived.by(() => ({
+        left: drawingCursorPosition.x - Math.floor((currentBrushSize - 1) / 2),
+        top: drawingCursorPosition.y - Math.floor((currentBrushSize - 1) / 2),
+        size:
+            mode === DrawingMode.Pixel || mode === DrawingMode.Eraser
+                ? currentBrushSize
+                : 1,
+    }));
+
+    /**
+     * One command in the editor's toolbar.
+     *
+     * The toolbar is data rather than markup because a narrow layout renders
+     * only the commands that are currently usable: twenty-one buttons wrap into
+     * a wall on a phone, and most of them are disabled most of the time.
+     */
+    type CharacterCommand = {
+        /** Stable across renders so the {#each} can key on it, and a button the
+         *  creator is reaching for isn't torn down when a sibling appears. */
+        id: string;
+        tip: LocaleTextAccessor;
+        label: LocaleTextAccessor;
+        icon: string;
+        action: () => void;
+        active: boolean;
+    };
+
+    let commands: CharacterCommand[] = $derived.by(() => [
+        {
+            id: 'undo',
+            tip: (l) => l.ui.page.character.button.undo.tip,
+            label: (l) => l.ui.page.character.button.undo.label,
+            icon: UNDO_SYMBOL,
+            action: () => undo(),
+            active: canUndo(history),
+        },
+        {
+            id: 'redo',
+            tip: (l) => l.ui.page.character.button.redo.tip,
+            label: (l) => l.ui.page.character.button.redo.label,
+            icon: REDO_SYMBOL,
+            action: () => redo(),
+            active: canRedo(history),
+        },
+        {
+            id: 'all',
+            tip: (l) => l.ui.page.character.button.all.tip,
+            label: (l) => l.ui.page.character.button.all.label,
+            icon: SELECTION_SYMBOL,
+            action: () => selectAll(),
+            active: shapes.length > 0,
+        },
+        {
+            id: 'allColor',
+            tip: (l) => l.ui.page.character.button.allColor.tip,
+            label: (l) => l.ui.page.character.button.allColor.label,
+            icon: SELECTION_SYMBOL,
+            action: () => selectAllOfColor(),
+            // Active if there's one or more pixels with the same color
+            active:
+                shapes.length > 0 &&
+                new Set(
+                    selection
+                        .filter((s) => s.fill !== undefined && s.fill !== null)
+                        .map((s) =>
+                            s.fill ? `${s.fill.l}${s.fill.c}${s.fill.h}` : '',
+                        ),
+                ).size === 1,
+        },
+        {
+            id: 'saturationUp',
+            tip: (l) => l.ui.page.character.button.saturationUp.tip,
+            label: (l) => l.ui.page.character.button.saturationUp.label,
+            icon: '↑',
+            action: () => saturation(5),
+            // every() is vacuously true on an empty character, which offered
+            // saturation as the only command on a blank canvas.
+            active:
+                shapes.length > 0 &&
+                shapes.every(
+                    (s) =>
+                        (s.fill && s.fill.c < 100) ||
+                        ('stroke' in s &&
+                            s.stroke &&
+                            s.stroke.color &&
+                            s.stroke.color.c < 100),
+                ),
+        },
+        {
+            id: 'saturationDown',
+            tip: (l) => l.ui.page.character.button.saturationDown.tip,
+            label: (l) => l.ui.page.character.button.saturationDown.label,
+            icon: '↓',
+            action: () => saturation(-5),
+            active:
+                shapes.length > 0 &&
+                shapes.every(
+                    (s) =>
+                        (s.fill && s.fill.c > 0) ||
+                        ('stroke' in s &&
+                            s.stroke &&
+                            s.stroke.color &&
+                            s.stroke.color.c > 0),
+                ),
+        },
+        {
+            id: 'fit',
+            tip: (l) => l.ui.page.character.button.fit.tip,
+            label: (l) => l.ui.page.character.button.fit.label,
+            icon: '✥',
+            action: () => fit(),
+            active: shapes.length > 0,
+        },
+        {
+            id: 'toBack',
+            tip: (l) => l.ui.page.character.button.toBack.tip,
+            label: (l) => l.ui.page.character.button.toBack.label,
+            icon: '⇡',
+            action: () => arrange('toBack'),
+            active: selection.length > 0 && shapes.length > 1,
+        },
+        {
+            id: 'back',
+            tip: (l) => l.ui.page.character.button.back.tip,
+            label: (l) => l.ui.page.character.button.back.label,
+            icon: SHARE_SYMBOL,
+            action: () => arrange('back'),
+            active: selection.length > 0 && shapes.length > 1,
+        },
+        {
+            id: 'forward',
+            tip: (l) => l.ui.page.character.button.forward.tip,
+            label: (l) => l.ui.page.character.button.forward.label,
+            icon: BORROW_SYMBOL,
+            action: () => arrange('forward'),
+            active: selection.length > 0 && shapes.length > 1,
+        },
+        {
+            id: 'toFront',
+            tip: (l) => l.ui.page.character.button.toFront.tip,
+            label: (l) => l.ui.page.character.button.toFront.label,
+            icon: '⇡',
+            action: () => arrange('toFront'),
+            active: selection.length > 0 && shapes.length > 1,
+        },
+        {
+            id: 'copy',
+            tip: (l) => l.ui.page.character.button.copy.tip,
+            label: (l) => l.ui.page.character.button.copy.label,
+            icon: COPY_SYMBOL,
+            action: copyShapes,
+            active: selection.length > 0,
+        },
+        {
+            id: 'paste',
+            tip: (l) => l.ui.page.character.button.paste.tip,
+            label: (l) => l.ui.page.character.button.paste.label,
+            icon: PASTE_SYMBOL,
+            action: pasteShapes,
+            active: copy !== undefined,
+        },
+        // Point editing is reachable entirely from here, so no key is required
+        // to find it; the keys on the handles are the accelerator.
+        ...(editedPath === undefined
+            ? [
+                  {
+                      id: 'editPoints',
+                      tip: (l: LocaleText) =>
+                          l.ui.page.character.button.editPoints.tip,
+                      label: (l: LocaleText) =>
+                          l.ui.page.character.button.editPoints.label,
+                      icon: '⌗',
+                      action: editPoints,
+                      active: editablePath !== undefined,
+                  },
+              ]
+            : [
+                  {
+                      id: 'donePoints',
+                      tip: (l: LocaleText) =>
+                          l.ui.page.character.button.donePoints.tip,
+                      label: (l: LocaleText) =>
+                          l.ui.page.character.button.donePoints.label,
+                      icon: '⌗',
+                      action: stopEditingPoints,
+                      active: true,
+                  },
+                  {
+                      id: 'addPoint',
+                      tip: (l: LocaleText) =>
+                          l.ui.page.character.button.addPoint.tip,
+                      label: (l: LocaleText) =>
+                          l.ui.page.character.button.addPoint.label,
+                      icon: '✚',
+                      action: addPoint,
+                      active: editedHandle !== undefined,
+                  },
+                  {
+                      id: 'deletePoint',
+                      tip: (l: LocaleText) =>
+                          l.ui.page.character.button.deletePoint.tip,
+                      label: (l: LocaleText) =>
+                          l.ui.page.character.button.deletePoint.label,
+                      icon: CANCEL_SYMBOL,
+                      action: removePoint,
+                      active:
+                          editedHandle !== undefined &&
+                          !editedHandle.curve &&
+                          editedPath.points.length > 2,
+                  },
+                  curvedSegment
+                      ? {
+                            id: 'straighten',
+                            tip: (l: LocaleText) =>
+                                l.ui.page.character.button.straighten.tip,
+                            label: (l: LocaleText) =>
+                                l.ui.page.character.button.straighten.label,
+                            icon: '╱',
+                            action: straightenSegment,
+                            active: true,
+                        }
+                      : {
+                            id: 'curve',
+                            tip: (l: LocaleText) =>
+                                l.ui.page.character.button.curve.tip,
+                            label: (l: LocaleText) =>
+                                l.ui.page.character.button.curve.label,
+                            icon: '◡',
+                            action: curveSegment,
+                            active: curvableSegment,
+                        },
+              ]),
+        {
+            id: 'clearPixels',
+            tip: (l) => l.ui.page.character.button.clearPixels.tip,
+            label: (l) => l.ui.page.character.button.clearPixels.label,
+            icon: ERASE_SYMBOL,
+            action: () => setShapes(shapes.filter((s) => s.type !== 'pixel')),
+            active: shapes.some((s) => s.type === 'pixel'),
+        },
+        {
+            id: 'clear',
+            tip: (l) => l.ui.page.character.button.clear.tip,
+            label: (l) => l.ui.page.character.button.clear.label,
+            icon: ERASE_SYMBOL,
+            action: () => setShapes([]),
+            active: shapes.length > 0,
+        },
+    ]);
+
+    /**
+     * The commands the toolbar shows. Stacked under the canvas there is no room
+     * for a wall of mostly-disabled buttons, so only what's usable is offered;
+     * beside the canvas the full set stays put, so a command doesn't move under
+     * the pointer as the selection changes.
+     */
+    let visibleCommands = $derived(
+        narrow ? commands.filter((command) => command.active) : commands,
+    );
+
+    /**
+     * What the instructions region says, chosen by tool and selection state.
+     * The two arms that name a modifier key pass $control rather than writing
+     * "ctrl/cmd": `/` is markup's italic delimiter, so the literal opened an
+     * emphasis run that swallowed the rest of the paragraph, and the label
+     * needs to be the platform's anyway. concretize substitutes inputs after
+     * parsing the template, so a substituted ⌘ can't open a run of its own.
+     */
+    let instructions:
+        | LocaleTextsAccessor
+        | [LocaleTextsAccessor, Record<string, TemplateInput>] = $derived.by(
+        () => {
+            const control = { control: controlKeyLabel() };
+            if (editedPath !== undefined)
+                return (l) => l.ui.page.character.instructions.points;
+            if (mode === DrawingMode.Select) {
+                if (shapes.length === 0)
+                    return (l) => l.ui.page.character.instructions.empty;
+                return selection.length === 0
+                    ? [
+                          (l) => l.ui.page.character.instructions.unselected,
+                          control,
+                      ]
+                    : [
+                          (l) => l.ui.page.character.instructions.selected,
+                          control,
+                      ];
+            }
+            switch (mode) {
+                case DrawingMode.Symbol:
+                    return (l) => l.ui.page.character.instructions.symbol;
+                case DrawingMode.Image:
+                    return (l) => l.ui.page.character.instructions.image;
+                case DrawingMode.Eraser:
+                    return (l) => l.ui.page.character.instructions.eraser;
+                case DrawingMode.Pixel:
+                    return (l) => l.ui.page.character.instructions.pixel;
+                case DrawingMode.Rect:
+                    return (l) => l.ui.page.character.instructions.rect;
+                case DrawingMode.Ellipse:
+                    return (l) => l.ui.page.character.instructions.ellipse;
+                case DrawingMode.Path:
+                    return (l) => l.ui.page.character.instructions.path;
+            }
+        },
+    );
 
     /** The persisted character */
     let persisted = $state<Character | 'loading' | 'failed' | 'unknown'>(
@@ -226,43 +696,47 @@
             persisted !== 'unknown',
     );
 
-    /** The colors used by the current shapes */
+    /**
+     * The colors the current shapes use, most-used first and capped.
+     *
+     * Counted into a map rather than deduplicated by scanning the rest of the
+     * list: an imported photo can leave hundreds of distinct colors on a 32x32
+     * grid, which made the old pairwise scan hundreds of thousands of
+     * comparisons on every shape change — and offered every one of them as a
+     * focusable swatch, burying the standard colors under a wall of near
+     * duplicates. Ordering by use is what makes the cap keep the ones a
+     * creator would actually reach for.
+     */
     let colors: [number, number, number][] = $derived.by(() => {
-        return (
-            shapes
-                // Convert all the shapes to a list of colors
-                .map((s) => {
-                    const colors: { l: number; c: number; h: number }[] = [];
-                    switch (s.type) {
-                        case 'pixel':
-                            if (s.fill) colors.push(s.fill);
-                            break;
-                        case 'rect':
-                        case 'ellipse':
-                        case 'path':
-                            if (s.fill) colors.push(s.fill);
-                            if (s.stroke && s.stroke.color !== null)
-                                colors.push(s.stroke.color);
-                    }
-                    return colors;
-                })
-                // Flatten it to a list of colors
-                .flat()
-                // Convert to color list
-                .map((c) => [c.l * 100, c.c, c.h] as [number, number, number])
-                // Remove duplicates
-                .filter(
-                    (c, index, list) =>
-                        !list
-                            .slice(index + 1)
-                            .some(
-                                (c2) =>
-                                    c[0] == c2[0] &&
-                                    c[1] == c2[1] &&
-                                    c[2] == c2[2],
-                            ),
-                )
-        );
+        const counts = new Map<
+            string,
+            { color: [number, number, number]; count: number }
+        >();
+        function count(c: { l: number; c: number; h: number }) {
+            const color: [number, number, number] = [c.l * 100, c.c, c.h];
+            const key = color.join(',');
+            const seen = counts.get(key);
+            if (seen) seen.count++;
+            else counts.set(key, { color, count: 1 });
+        }
+        for (const s of shapes) {
+            switch (s.type) {
+                case 'pixel':
+                    if (s.fill) count(s.fill);
+                    break;
+                case 'rect':
+                case 'ellipse':
+                case 'path':
+                case 'glyph':
+                    if (s.fill) count(s.fill);
+                    if (s.stroke && s.stroke.color !== null)
+                        count(s.stroke.color);
+            }
+        }
+        return Array.from(counts.values())
+            .sort((a, b) => b.count - a.count)
+            .slice(0, MaxPaletteColors)
+            .map(({ color }) => color);
     });
 
     /** Track an error message to show the user if a project edit fails. */
@@ -284,18 +758,6 @@
 
         // Get the raw, non-proxied value.
         const raw = $state.snapshot(editedCharacter) as Character;
-
-        // Remove any undefined fields that accidentally slipped in due to optional properties in Zod permitting undefined values.
-        const removeEmpty = (obj: Record<any, any>) => {
-            let newObj: Record<any, any> = {};
-            Object.keys(obj).forEach((key) => {
-                if (obj[key] === Object(obj[key]))
-                    newObj[key] = removeEmpty(obj[key]);
-                else if (obj[key] !== undefined) newObj[key] = obj[key];
-            });
-            return newObj;
-        };
-        removeEmpty(raw);
 
         // Save the character.
         const result = await CharactersDB.updateCharacter(
@@ -350,9 +812,17 @@
                     isPublic = loadedCharacter.public;
                     collaborators = loadedCharacter.collaborators;
 
-                    // Start history with the loaded shapes.
-                    history = [structuredClone(loadedCharacter.shapes)];
-                    historyIndex = 0;
+                    // Only when this is a different character. This effect
+                    // re-runs on any URL change, and Dialog persists its open
+                    // state with goto() — so closing a dialog used to throw
+                    // away the undo stack, which is what left an image import
+                    // with nothing to undo.
+                    if (historyFor !== loadedCharacter.id) {
+                        history = startHistory(
+                            structuredClone(loadedCharacter.shapes),
+                        );
+                        historyFor = loadedCharacter.id;
+                    }
 
                     persisted = loadedCharacter;
                     loadedCharacter === undefined
@@ -386,6 +856,21 @@
             currentFillSetting = 'set';
     });
 
+    // Point editing belongs to one path in one mode; when the selection moves on,
+    // or a drawing tool takes over, so does it. Reset rather than
+    // stopEditingPoints, so switching tools doesn't pull focus back to the canvas
+    // or talk over the mode change.
+    $effect(() => {
+        const path = editablePath;
+        const drawing = mode !== DrawingMode.Select;
+        untrack(() => {
+            if (editedPath !== undefined && (drawing || editedPath !== path)) {
+                editedPath = undefined;
+                editedHandle = undefined;
+            }
+        });
+    });
+
     // When the selection changes, announce it.
     $effect(() => {
         selection;
@@ -401,15 +886,7 @@
                                 shapes:
                                     selection.length === 0
                                         ? undefined
-                                        : selection
-                                              .map((s) =>
-                                                  $locales.getPrimaryPlainText(
-                                                      (l) =>
-                                                          l.ui.page.character
-                                                              .shape[s.type],
-                                                  ),
-                                              )
-                                              .join(', '),
+                                        : describeShapeKinds(selection),
                             },
                         )
                         .toText(),
@@ -446,50 +923,117 @@
             return;
         }
 
-        // Remove the future if we're in the past
-        if (historyIndex < history.length - 1)
-            history = history.slice(0, historyIndex + 1);
-
-        // Remove any selection that's no longer in the shapes.
-        selection = selection.filter((s) => shapes.includes(s));
-
-        // Clone the current shapes and add them to the history the shapes to the history
-        if (remember) {
-            history = [
-                ...history,
-                structuredClone($state.snapshot(shapes)) as CharacterShape[],
-            ];
-        }
+        // Drop any shape that's no longer here, but only reassign when one
+        // actually went: the selection announcement fires on every assignment,
+        // and a constant one alternating with an edit's announcement is heard
+        // as the editor saying "selected path" after every arrow key.
+        const kept = selection.filter((s) => newShapes.includes(s));
+        if (kept.length !== selection.length) selection = kept;
 
         // Update the shapes.
         shapes = newShapes;
 
-        // Move the index to the present.
-        historyIndex = history.length - 1;
+        // Record where this landed, not where it came from: callers that mutate
+        // in place and callers that build a new array have to agree on what one
+        // undo means.
+        if (remember)
+            history = record(
+                history,
+                structuredClone($state.snapshot(shapes)) as CharacterShape[],
+            );
+    }
 
-        // No more than 250 steps back, just to be conservative about memory.
-        if (history.length > 250) {
-            history.shift();
+    /** Say where an undo or redo landed in the history. */
+    function announceHistory(
+        path: (locale: LocaleText) => Template<['step', 'total']>,
+    ) {
+        announceEdit(
+            'character-history',
+            $locales
+                .concretize(path, {
+                    step: history.index + 1,
+                    total: history.states.length,
+                })
+                .toText(),
+        );
+    }
+
+    /**
+     * Re-anchor the selection and point editing after the history swaps in a fresh
+     * clone of the shapes. Everything holding a shape — the selection, the edited
+     * path — is pointing into the array that was just replaced, so without this the
+     * point handles keep drawing the state the undo just discarded. Shapes keep
+     * their order through the history, so their index is what survives it.
+     */
+    function reanchor(previous: CharacterShape[]) {
+        const selected = selection.map((shape) => previous.indexOf(shape));
+        const edited = editedPath ? previous.indexOf(editedPath) : -1;
+
+        selection = selected
+            .map((index) => shapes[index])
+            .filter((shape) => shape !== undefined);
+
+        const path = edited >= 0 ? shapes[edited] : undefined;
+        if (path === undefined || path.type !== 'path') {
+            editedPath = undefined;
+            editedHandle = undefined;
+            return;
+        }
+        editedPath = path;
+        // The undo may have taken the point, or the curve, that was chosen.
+        if (editedHandle) {
+            const index = Math.min(editedHandle.index, path.points.length - 1);
+            editedHandle = {
+                index,
+                curve:
+                    editedHandle.curve &&
+                    path.points[index]?.curve !== undefined,
+            };
         }
     }
 
     function undo() {
-        if (historyIndex > 0) {
-            historyIndex--;
-            const previousShapes = history[historyIndex];
-            if (previousShapes) shapes = previousShapes;
-        }
+        if (!canUndo(history)) return;
+        history = undoHistory(history);
+        restoreShapes();
+        announceHistory((l) => l.ui.page.character.announce.undone);
     }
 
     function redo() {
-        if (historyIndex < history.length - 1) {
-            historyIndex++;
-            const futureShapes = history[historyIndex];
-            if (futureShapes) shapes = futureShapes;
-        }
+        if (!canRedo(history)) return;
+        history = redoHistory(history);
+        restoreShapes();
+        announceHistory((l) => l.ui.page.character.announce.redone);
+    }
+
+    /** Show the state the history is now on. Cloned rather than handed over, since
+     *  the editor edits shapes in place and would otherwise rewrite its own past. */
+    function restoreShapes() {
+        const restoring = currentState(history);
+        if (restoring === undefined) return;
+        // An undo that changes the number of points removes the handle focus was
+        // on, and focus falls to the document — so put it back, but only if it
+        // was here to begin with, so a Ctrl+Z typed in the palette stays there.
+        const focused = document.activeElement;
+        const wasOnHandle =
+            focused instanceof Element &&
+            focused.closest('[data-handle]') !== null;
+        const previous = shapes;
+        shapes = structuredClone(restoring) as CharacterShape[];
+        reanchor(previous);
+        if (wasOnHandle && editedHandle)
+            focusHandle(editedHandle.index, editedHandle.curve);
     }
 
     /** Set the pixel at the current position and fill. */
+    /**
+     * Paint the brush at a point, in one edit.
+     *
+     * A brush wider than one cell covers a square, so this rebuilds the shapes
+     * array once for the whole square rather than once per cell: the filter is
+     * linear in the drawing, and a size-8 brush would otherwise do sixty-four
+     * passes over it per sample of a drag.
+     */
     function setPixel(
         remember = true,
         x?: number | undefined,
@@ -499,55 +1043,97 @@
         x = x ?? drawingCursorPosition.x;
         y = y ?? drawingCursorPosition.y;
 
-        const candidate: CharacterPixel = {
+        const fill = { ...(color ?? currentFill) };
+        const cells = getBrushCells({ x, y }, currentBrushSize);
+        const candidates: CharacterPixel[] = cells.map((point) => ({
             type: 'pixel',
-            point: { x, y },
-            fill: { ...(color ?? currentFill) },
-        };
-        const match = shapes
-            // Remove pixels at the same position
-            .find((s) => s.type === 'pixel' && pixelsAreEqual(s, candidate));
+            point,
+            fill: { ...fill },
+        }));
 
-        const pixelAtPosition = shapes.find(
+        // Nothing to do when every cell already holds this exact pixel, which
+        // is what keeps a stationary pointer from filling the undo history.
+        const covered = new Set(cells.map((c) => `${c.x},${c.y}`));
+        const existing = shapes.filter(
             (s): s is CharacterPixel =>
-                s.type === 'pixel' && s.point.x === x && s.point.y === y,
+                s.type === 'pixel' && covered.has(`${s.point.x},${s.point.y}`),
         );
+        if (
+            existing.length === candidates.length &&
+            candidates.every((candidate) =>
+                existing.some((s) => pixelsAreEqual(s, candidate)),
+            )
+        )
+            return undefined;
 
-        // Already an identical pixel? Do nothing.
-        if (match) return undefined;
-
-        // Remember the replaced pixel so we can can fill if there's a later double click.
-        replacedPixel = pixelAtPosition;
+        // Remember the pixel the cursor's own cell replaced, so a later double
+        // click can flood fill what was there.
+        replacedPixel = existing.find(
+            (s) => s.point.x === x && s.point.y === y,
+        );
 
         setShapes(
             [
-                ...shapes
-                    // Remove pixels at the same position
-                    .filter(
-                        (s) =>
-                            s.type !== 'pixel' ||
-                            s.point.x !== x ||
-                            s.point.y !== y,
-                    ),
-                // Add the new pixel.
-                candidate,
+                ...shapes.filter(
+                    (s) =>
+                        s.type !== 'pixel' ||
+                        !covered.has(`${s.point.x},${s.point.y}`),
+                ),
+                ...candidates,
             ],
             remember,
         );
 
-        return candidate;
+        announceEdit(
+            'character-point',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.drew, { x, y })
+                .toText(),
+        );
+
+        // The cell under the cursor is what the caller tracks as the last
+        // pixel, so interpolation joins cursor positions rather than corners.
+        return candidates.find((c) => c.point.x === x && c.point.y === y);
     }
 
-    function erasePixel(remember = true) {
+    function erasePixel(remember = true, at?: Point) {
+        const { x, y } = at ?? drawingCursorPosition;
+        const covered = new Set(
+            getBrushCells({ x, y }, currentBrushSize).map(
+                (c) => `${c.x},${c.y}`,
+            ),
+        );
         const removed = shapes.filter(
             (s) =>
-                s.type !== 'pixel' ||
-                s.point.x !== drawingCursorPosition.x ||
-                s.point.y !== drawingCursorPosition.y,
+                s.type !== 'pixel' || !covered.has(`${s.point.x},${s.point.y}`),
         );
         if (removed.length === shapes.length) return false;
         setShapes(removed, remember);
+        announceEdit(
+            'character-point',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.erased, {
+                    x,
+                    y,
+                })
+                .toText(),
+        );
         return true;
+    }
+
+    /** The width every palette row gives its label, so the widgets beside them
+     *  line up with each other rather than starting wherever the text ends. */
+    const PaletteLabelWidth = '4em';
+
+    /** Whether a shape is boxed by a width and height the size sliders can set. */
+    function isSizable(
+        shape: CharacterShape,
+    ): shape is CharacterRectangle | CharacterEllipse | CharacterGlyph {
+        return (
+            shape.type === 'rect' ||
+            shape.type === 'ellipse' ||
+            shape.type === 'glyph'
+        );
     }
 
     /** Null if inherented, undefined if none, or the current fill color if set */
@@ -572,6 +1158,10 @@
     }
 
     function getCurrentRect(): CharacterRectangle {
+        // Null fill means "inherit currentColor" — a real value — so test
+        // definedness, not truthiness, and omit the key when there is none.
+        const fill = getCurrentFill();
+        const stroke = getCurrentStroke();
         return {
             ...{
                 type: 'rect',
@@ -582,8 +1172,8 @@
                 width: 1,
                 height: 1,
             },
-            ...(getCurrentFill() && { fill: getCurrentFill() }),
-            ...(getCurrentStroke() && { stroke: getCurrentStroke() }),
+            ...(fill !== undefined && { fill }),
+            ...(stroke !== undefined && { stroke }),
             ...(currentCorner !== 1 && { corner: currentCorner }),
             ...(currentAngle !== 0 && { angle: currentAngle }),
         };
@@ -608,6 +1198,8 @@
     }
 
     function getCurrentEllipse(): CharacterEllipse {
+        const fill = getCurrentFill();
+        const stroke = getCurrentStroke();
         return {
             ...{
                 type: 'ellipse',
@@ -618,29 +1210,23 @@
                 width: 1,
                 height: 1,
             },
-            ...(getCurrentFill() && {
-                fill: getCurrentFill(),
-            }),
-            ...(getCurrentStroke() && {
-                stroke: getCurrentStroke(),
-            }),
+            ...(fill !== undefined && { fill }),
+            ...(stroke !== undefined && { stroke }),
             ...(currentAngle !== 0 && { angle: currentAngle }),
         };
     }
 
     function getCurrentPath(): CharacterPath {
+        const fill = getCurrentFill();
+        const stroke = getCurrentStroke();
         return {
             type: 'path',
             points: [
                 { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
             ],
             closed: currentClosed,
-            ...(getCurrentFill() && {
-                fill: getCurrentFill(),
-            }),
-            ...(getCurrentStroke() && {
-                stroke: getCurrentStroke(),
-            }),
+            ...(fill !== undefined && { fill }),
+            ...(stroke !== undefined && { stroke }),
             ...(currentAngle !== 0 && { angle: currentAngle }),
         };
     }
@@ -679,6 +1265,9 @@
             for (const shape of selection)
                 moveShape(shape, dx, dy, 'translate');
             rememberShapes();
+            announceSelectionPosition(
+                (l) => l.ui.page.character.announce.moved,
+            );
         }
         // In all other moves, move the drawing cursor.
         else {
@@ -799,23 +1388,6 @@
             return;
         }
 
-        // Handle undo
-        if (event.key === 'z' && control) {
-            if (event.shiftKey) redo();
-            else undo();
-            event.stopPropagation();
-            event.preventDefault();
-            return;
-        }
-
-        // Handle redo
-        if (event.key === 'y' && control) {
-            undo();
-            event.stopPropagation();
-            event.preventDefault();
-            return;
-        }
-
         // Handle select all
         if (event.key === 'a' && control) {
             selectAll();
@@ -853,9 +1425,13 @@
             }
             // If there is one, finish it
             else {
+                const finished = pendingRectOrEllipse;
                 selection = [pendingRectOrEllipse];
                 pendingRectOrEllipse = undefined;
                 mode = DrawingMode.Select;
+                // Mark history, as finishing with the pointer does.
+                rememberShapes();
+                announceFinished(finished);
             }
             event.stopPropagation();
         }
@@ -885,6 +1461,16 @@
             }
         }
         if (mode === DrawingMode.Select) {
+            if (
+                (event.key === 'Enter' || event.key === ' ') &&
+                editablePath !== undefined &&
+                editedPath === undefined
+            ) {
+                editPoints();
+                event.stopPropagation();
+                event.preventDefault();
+                return;
+            }
             if (event.key === 'Escape') {
                 selection = [];
                 event.stopPropagation();
@@ -892,8 +1478,20 @@
             }
             // Handle deletion.
             else if (event.key === 'Delete' || event.key === 'Backspace') {
-                setShapes(shapes.filter((s) => !selection.includes(s)));
+                const remaining = shapes.filter((s) => !selection.includes(s));
+                setShapes(remaining);
                 selection = [];
+                announceEdit(
+                    'character-edit',
+                    $locales
+                        .concretize(
+                            (l) => l.ui.page.character.announce.deleted,
+                            {
+                                count: remaining.length,
+                            },
+                        )
+                        .toText(),
+                );
                 event.stopPropagation();
                 return;
             }
@@ -961,6 +1559,15 @@
         copy = selection.map(
             (s) => structuredClone($state.snapshot(s)) as CharacterShape,
         );
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.copied, {
+                    shapes: describeShapeKinds(selection),
+                    count: selection.length,
+                })
+                .toText(),
+        );
     }
 
     function pasteShapes() {
@@ -978,7 +1585,28 @@
             addShapes(copies);
             // Select all the copies so they can be moved.
             selection = [...copies];
+            // Pasting is one discrete result, not a stream, so it goes in the
+            // lane that never drops it.
+            announceSelectionPosition(
+                (l) => l.ui.page.character.announce.pasted,
+                'character-edit',
+            );
         }
+    }
+
+    /** Say that a shape is done, and where it ended up. */
+    function announceFinished(shape: CharacterShape) {
+        const corner = shapeCorner(shape);
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.finished, {
+                    shape: describeShapeKinds([shape]),
+                    x: corner.x,
+                    y: corner.y,
+                })
+                .toText(),
+        );
     }
 
     function endPath() {
@@ -987,13 +1615,349 @@
                 setShapes(shapes.filter((s) => s !== pendingPath));
                 pendingPath = undefined;
             } else {
+                const finished = pendingPath;
                 selection = [pendingPath];
                 pendingPath = undefined;
                 // Mark history
                 rememberShapes();
                 mode = DrawingMode.Select;
+                announceFinished(finished);
             }
         }
+    }
+
+    /** The kinds of shape in a list, named in the language the live region declares. */
+    function describeShapeKinds(list: CharacterShape[]): string {
+        return list
+            .map((shape) =>
+                $locales.getPrimaryPlainText(
+                    (l) => l.ui.page.character.shape[shape.type],
+                ),
+            )
+            .join(', ');
+    }
+
+    /** Where a shape sits, as the top left corner of the box it occupies. */
+    function shapeCorner(shape: CharacterShape): Point {
+        const box = getShapeBounds(shape);
+        return { x: Math.round(box.left), y: Math.round(box.top) };
+    }
+
+    /** Where the selection sits now, as its top left corner on the grid. */
+    function selectionCorner(): Point {
+        const box = getShapesBounds(selection);
+        return box === undefined
+            ? { x: 0, y: 0 }
+            : { x: Math.round(box.left), y: Math.round(box.top) };
+    }
+
+    /** Announce something that has to name where the selection landed, because the
+     *  destination is the only part of "moved" or "flipped" that differs between
+     *  two presses — without it the region repeats itself and is heard once. */
+    function announceSelectionPosition(
+        path: (locale: LocaleText) => Template<['x', 'y']>,
+        kind: 'character-point' | 'character-edit' = 'character-point',
+    ) {
+        if (selection.length === 0) return;
+        const corner = selectionCorner();
+        announceEdit(
+            kind,
+            $locales.concretize(path, { x: corner.x, y: corner.y }).toText(),
+        );
+    }
+
+    /** Say something about an edit, in the one language the live region declares. */
+    function announceEdit(
+        kind:
+            | 'character-point'
+            | 'character-edit'
+            | 'character-history'
+            // A refusal — nothing in it can vary between two firings, which is
+            // exactly what the interrupt lane is for.
+            | 'ignored',
+        message: string,
+    ) {
+        if ($announce) $announce(kind, $locales.getLanguages()[0], message);
+    }
+
+    /** The grid point under a pointer, in path coordinates — intersections, not cells. */
+    function pointerToGrid(event: PointerEvent): Point | undefined {
+        if (canvasView === null) return undefined;
+        const bounds = canvasView.getBoundingClientRect();
+        return clampToGrid({
+            x: ((event.clientX - bounds.left) / bounds.width) * CharacterSize,
+            y: ((event.clientY - bounds.top) / bounds.height) * CharacterSize,
+        });
+    }
+
+    /** The live position of the chosen handle, which callers may move in place. */
+    function handlePoint(): Point | undefined {
+        if (editedPath === undefined || editedHandle === undefined)
+            return undefined;
+        const point = editedPath.points[editedHandle.index];
+        if (point === undefined) return undefined;
+        return editedHandle.curve ? point.curve : point;
+    }
+
+    /** How a handle is named, both as its focus-time label and when it moves. */
+    function describeHandle(
+        index: number,
+        curve: boolean,
+        position: Point,
+    ): string {
+        const inputs = { index: index + 1, x: position.x, y: position.y };
+        return (
+            curve
+                ? $locales.concretize(
+                      (l) => l.ui.page.character.announce.control,
+                      inputs,
+                  )
+                : $locales.concretize(
+                      (l) => l.ui.page.character.announce.point,
+                      inputs,
+                  )
+        ).toText();
+    }
+
+    /**
+     * Say where the chosen handle is. Only ever on a change: a handle's aria-label
+     * already says this when it takes focus, and announcing that too would say it twice.
+     */
+    function announceHandle() {
+        const handle = editedHandle;
+        const position = handlePoint();
+        if (handle === undefined || position === undefined) return;
+        announceEdit(
+            'character-point',
+            describeHandle(handle.index, handle.curve, position),
+        );
+    }
+
+    /** Move focus to a handle once it exists in the DOM. */
+    async function focusHandle(index: number, curve: boolean) {
+        await tick();
+        const view = canvasView?.querySelector(
+            `[data-handle="${curve ? 'curve' : 'point'}-${index}"]`,
+        );
+        if (view instanceof HTMLElement)
+            setKeyboardFocus(view, 'Focus the path handle.');
+    }
+
+    function editPoints() {
+        const path = editablePath;
+        if (path === undefined) return;
+        editedPath = path;
+        editedHandle = { index: 0, curve: false };
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.editing, {
+                    count: path.points.length,
+                })
+                .toText(),
+        );
+        focusHandle(0, false);
+    }
+
+    function stopEditingPoints() {
+        if (editedPath === undefined) return;
+        editedPath = undefined;
+        editedHandle = undefined;
+        if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
+        announceEdit(
+            'character-edit',
+            $locales.getPrimaryPlainText(
+                (l) => l.ui.page.character.announce.editingDone,
+            ),
+        );
+    }
+
+    /** Put the chosen handle somewhere, snapped and clamped. Remembering is the caller's
+     *  job, so a drag leaves one history entry rather than one per pixel crossed. */
+    function setHandlePosition(position: Point) {
+        const target = handlePoint();
+        if (target === undefined) return;
+        const { x, y } = clampToGrid(position);
+        target.x = x;
+        target.y = y;
+    }
+
+    function moveHandle(dx: number, dy: number) {
+        const target = handlePoint();
+        if (target === undefined) return;
+        setHandlePosition({ x: target.x + dx, y: target.y + dy });
+        rememberShapes();
+        announceHandle();
+    }
+
+    function addPoint() {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return;
+        const result = insertPathPoint(path.points, handle.index, path.closed);
+        if (result.points === path.points) return;
+        path.points = result.points;
+        rememberShapes();
+        editedHandle = { index: result.index, curve: false };
+        const added = path.points[result.index];
+        if (added)
+            announceEdit(
+                'character-edit',
+                $locales
+                    .concretize(
+                        (l) => l.ui.page.character.announce.pointAdded,
+                        { index: result.index + 1, x: added.x, y: added.y },
+                    )
+                    .toText(),
+            );
+        focusHandle(result.index, false);
+    }
+
+    function removePoint() {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return;
+        // On a curve's handle, removing means straightening the segment: the point
+        // it bends toward is still wanted, the bend isn't.
+        if (handle.curve) return straightenSegment();
+        const remaining = deletePathPoint(path.points, handle.index);
+        if (remaining === undefined) return;
+        path.points = remaining;
+        rememberShapes();
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.pointRemoved, {
+                    index: handle.index + 1,
+                    count: remaining.length,
+                })
+                .toText(),
+        );
+        const index = Math.min(handle.index, remaining.length - 1);
+        editedHandle = { index, curve: false };
+        focusHandle(index, false);
+    }
+
+    function curveSegment() {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return;
+        const curved = curvePathPoint(path.points, handle.index, path.closed);
+        if (curved === undefined) return;
+        path.points = curved;
+        rememberShapes();
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.curved, {
+                    index: handle.index + 1,
+                })
+                .toText(),
+        );
+        // Bending it is the next thing they want, so put them on the new handle.
+        editedHandle = { index: handle.index, curve: true };
+        focusHandle(handle.index, true);
+    }
+
+    function straightenSegment() {
+        const path = editedPath;
+        const handle = editedHandle;
+        if (path === undefined || handle === undefined) return;
+        if (path.points[handle.index]?.curve === undefined) return;
+        path.points = straightenPathPoint(path.points, handle.index);
+        rememberShapes();
+        announceEdit(
+            'character-edit',
+            $locales
+                .concretize((l) => l.ui.page.character.announce.straightened, {
+                    index: handle.index + 1,
+                })
+                .toText(),
+        );
+        editedHandle = { index: handle.index, curve: false };
+        focusHandle(handle.index, false);
+    }
+
+    function startHandleDrag(
+        event: PointerEvent,
+        index: number,
+        curve: boolean,
+    ) {
+        if (!(event.currentTarget instanceof HTMLElement)) return;
+        editedHandle = { index, curve };
+        draggingHandle = true;
+        event.currentTarget.setPointerCapture(event.pointerId);
+        event.stopPropagation();
+        // Preventing the default keeps the canvas from taking the gesture, but it
+        // also suppresses the focus this press would have given the button — and
+        // without focus the next arrow key moves the whole path rather than the
+        // point just dragged. So take it explicitly.
+        event.preventDefault();
+        setKeyboardFocus(event.currentTarget, 'Focus the path handle.');
+    }
+
+    function dragHandle(event: PointerEvent) {
+        if (!draggingHandle) return;
+        const position = pointerToGrid(event);
+        if (position === undefined) return;
+        setHandlePosition(position);
+        event.stopPropagation();
+    }
+
+    function cancelHandleDrag() {
+        draggingHandle = false;
+    }
+
+    function endHandleDrag(event: PointerEvent) {
+        if (!draggingHandle) return;
+        draggingHandle = false;
+        if (
+            event.currentTarget instanceof HTMLElement &&
+            event.currentTarget.hasPointerCapture(event.pointerId)
+        )
+            event.currentTarget.releasePointerCapture(event.pointerId);
+        rememberShapes();
+        announceHandle();
+        event.stopPropagation();
+    }
+
+    /**
+     * Activation that didn't come from a press we already handled. A real keypress
+     * acts on keydown and is preventDefaulted, so it synthesizes no click, and a
+     * pointer press carries a detail count — leaving a detail-less click as an
+     * assistive technology (VoiceOver, switch access, voice control) activating
+     * the button, which would otherwise do nothing at all.
+     */
+    function handleHandleClick(
+        event: MouseEvent,
+        index: number,
+        curve: boolean,
+    ) {
+        if (event.detail !== 0) return;
+        editedHandle = { index, curve };
+        addPoint();
+    }
+
+    function handleHandleKey(
+        event: KeyboardEvent,
+        index: number,
+        curve: boolean,
+    ) {
+        // Tab stays Tab: it's how one moves between handles, and swallowing it
+        // inside role="application" would trap the keyboard here.
+        if (event.key === 'Tab') return;
+        editedHandle = { index, curve };
+        if (event.key === 'ArrowLeft') moveHandle(-1, 0);
+        else if (event.key === 'ArrowRight') moveHandle(1, 0);
+        else if (event.key === 'ArrowUp') moveHandle(0, -1);
+        else if (event.key === 'ArrowDown') moveHandle(0, 1);
+        else if (event.key === 'Enter' || event.key === ' ') addPoint();
+        else if (event.key === 'Delete' || event.key === 'Backspace')
+            removePoint();
+        else if (event.key === 'Escape') stopEditingPoints();
+        else return;
+        event.stopPropagation();
+        event.preventDefault();
     }
 
     function getShapeUnderPointer(event: PointerEvent): CharacterShape | null {
@@ -1014,55 +1978,57 @@
         return null;
     }
 
-    /** Try to fill pixels between the two given points, to allow for strokes without gaps */
-    function interpolate(startPixel: CharacterPixel, endPixel: CharacterPixel) {
-        const start = startPixel.point;
-        const end = endPixel.point;
+    /**
+     * Fill the gap a fast drag leaves between two sampled positions.
+     *
+     * Both tools need this: without it a quick stroke draws — or erases — a
+     * dotted line, which is half of what #898 reported as having to erase
+     * "box by box".
+     */
+    function interpolate(
+        startPoint: Point,
+        endPoint: Point,
+        fill: CharacterPixel['fill'] | undefined,
+    ) {
+        const cells = getLineCells(startPoint, endPoint).flatMap((cell) =>
+            getBrushCells(cell, currentBrushSize),
+        );
+        if (cells.length === 0) return;
 
-        // If the manhattan distance is > 2, fill the gap. Otherwise, it's probably not necessary.
-        if (Math.abs(start.x - end.x) + Math.abs(start.y - end.y) >= 2) {
-            // Linear interpolation between two points.
-            let slope =
-                start.x === end.x
-                    ? Infinity
-                    : (end.y - start.y) / (end.x - start.x);
-            const newPixels: CharacterPixel[] = [];
-            if (slope === Infinity) {
-                for (
-                    let y = Math.min(start.y, end.y);
-                    y <= Math.max(start.y, end.y);
-                    y++
-                ) {
-                    newPixels.push({
-                        type: 'pixel',
-                        point: { x: start.x, y },
-                        fill: startPixel.fill,
-                    });
-                }
-            } else {
-                // Iterate through the x positions and calculate the y position based on the slope.
-                for (
-                    let x = start.x;
-                    x !== end.x;
-                    x += start.x < end.x ? 1 : -1
-                ) {
-                    const y = Math.round(slope * (x - start.x) + start.y);
-                    newPixels.push({
-                        type: 'pixel',
-                        point: { x, y },
-                        fill: startPixel.fill,
-                    });
-                }
-            }
-            const nonRedundantPixels = newPixels.filter(
-                (p) =>
-                    !shapes.some(
-                        (s) => s.type === 'pixel' && pixelsAreEqual(s, p),
-                    ),
+        const covered = new Set(cells.map((c) => `${c.x},${c.y}`));
+        // Erasing: fill is undefined, so the cells are removed rather than added.
+        if (fill === undefined) {
+            const removed = shapes.filter(
+                (s) =>
+                    s.type !== 'pixel' ||
+                    !covered.has(`${s.point.x},${s.point.y}`),
             );
-            if (nonRedundantPixels.length > 0)
-                setShapes([...shapes, ...nonRedundantPixels], false);
+            if (removed.length !== shapes.length) setShapes(removed, false);
+            return;
         }
+
+        const painted: CharacterPixel[] = cells.map((point) => ({
+            type: 'pixel',
+            point,
+            fill: fill === null ? null : { ...fill },
+        }));
+        if (
+            painted.every((p) =>
+                shapes.some((s) => s.type === 'pixel' && pixelsAreEqual(s, p)),
+            )
+        )
+            return;
+        setShapes(
+            [
+                ...shapes.filter(
+                    (s) =>
+                        s.type !== 'pixel' ||
+                        !covered.has(`${s.point.x},${s.point.y}`),
+                ),
+                ...painted,
+            ],
+            false,
+        );
     }
 
     function handlePointerDown(event: PointerEvent, move: boolean) {
@@ -1110,20 +2076,27 @@
         // In pixel mode? Drop a pixel.
         if (mode === DrawingMode.Pixel) {
             selection = [];
+            // A press starts a new stroke, so it has nothing to join back to.
+            if (!move) lastDrawn = undefined;
+            // Read where the last sample was before painting this one; the two
+            // are joined by cursor position rather than by the pixel setPixel
+            // returns, which is undefined whenever the cell was already this
+            // color — passing over an old pixel would otherwise break the chain
+            // and leave the rest of the stroke dotted.
+            const previous = lastDrawn;
             const newPixel = setPixel(false);
             if (newPixel) {
                 lastPixel = newPixel;
                 strokePixels = 1;
             }
 
-            if (move) {
-                // If we're dragging and there's a last pixel, draw pixels between them.
-                if (lastPixel !== undefined && newPixel !== undefined) {
-                    interpolate($state.snapshot(lastPixel), newPixel);
-                    strokePixels++;
-                }
-                if (newPixel !== undefined) lastPixel = newPixel;
+            if (move && previous !== undefined) {
+                interpolate(previous, drawingCursorPosition, {
+                    ...currentFill,
+                });
+                strokePixels++;
             }
+            lastDrawn = { ...drawingCursorPosition };
 
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
@@ -1132,6 +2105,9 @@
             // If not moving, see what shape is under the pointer and delete it.
             if (!move) {
                 strokePixels = 0;
+                // Where the stroke starts, so the first drag sample joins back
+                // to the press rather than leaving the cells between untouched.
+                lastErased = { ...drawingCursorPosition };
                 const under = getShapeUnderPointer(event);
                 if (under !== null) {
                     const removed = shapes.filter((s) => s !== under);
@@ -1141,7 +2117,12 @@
                     }
                 }
             } else {
+                // Join this sample to the last one, so a fast drag erases a
+                // stroke rather than a dotted line.
+                if (lastErased !== undefined)
+                    interpolate(lastErased, drawingCursorPosition, undefined);
                 if (erasePixel(false)) strokePixels++;
+                lastErased = { ...drawingCursorPosition };
             }
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
@@ -1169,9 +2150,28 @@
             } else updatePendingPath();
 
             return;
-        } else if (mode === DrawingMode.Select) {
+        } else if (
+            mode === DrawingMode.Select ||
+            mode === DrawingMode.Symbol ||
+            mode === DrawingMode.Image
+        ) {
+            // Symbol and image add their content from the palette rather than by
+            // drawing, so a press on the canvas did nothing at all in those
+            // modes. Pointing at something picks it up and switches to the mode
+            // that edits it, which is also where a drag can carry on from.
+            const placing = mode !== DrawingMode.Select;
+            // A drag begun in a placing mode has nothing to carry: bail before
+            // the offsets below, which would otherwise be left behind for the
+            // next real drag to read.
+            if (placing && move) return;
+
             if (!move) {
                 const under = getShapeUnderPointer(event);
+                // Pressing empty canvas keeps the tool: losing it to a mistap
+                // would be worse than doing nothing, which is what it did before.
+                if (placing && under === null) return;
+                if (placing) mode = DrawingMode.Select;
+
                 if (under !== null) {
                     if (!selection.includes(under)) {
                         if (event.shiftKey) selection = [...selection, under];
@@ -1185,28 +2185,16 @@
 
             // No drag position yet? Set one.
             if (dragOffsets === undefined) {
-                dragOffsets = [];
                 firstDrag = true;
-                for (const shape of selection) {
-                    switch (shape.type) {
-                        // These three are easy.
-                        case 'rect':
-                        case 'ellipse':
-                        case 'pixel':
-                            dragOffsets.push({
-                                x: x - shape.point.x,
-                                y: y - shape.point.y,
-                            });
-                        case 'path':
-                            if (shape.type === 'path') {
-                                const center = getPathCenter(shape);
-                                dragOffsets.push({
-                                    x: x - center.x,
-                                    y: y - center.y,
-                                });
-                            }
-                    }
-                }
+                // One offset per selected shape, by construction. This used to
+                // push per shape kind, which meant a kind with no case (glyphs)
+                // contributed nothing — so it wouldn't drag, and every shape
+                // after it in a mixed selection read someone else's offset and
+                // jumped.
+                dragOffsets = selection.map((shape) => {
+                    const anchor = getShapeAnchor(shape);
+                    return { x: x - anchor.x, y: y - anchor.y };
+                });
             }
             // Are we moving? Move the selection, accounting for the shape's offsets.
             else {
@@ -1258,7 +2246,9 @@
     }
 
     function handleDoubleClick() {
-        if (mode === DrawingMode.Path) {
+        if (mode === DrawingMode.Select) {
+            if (editedPath === undefined) editPoints();
+        } else if (mode === DrawingMode.Path) {
             endPath();
         } else if (mode === DrawingMode.Pixel) {
             // Undo the pixel that just happened, so they're not part of the history or shapes.
@@ -1350,99 +2340,185 @@
         rememberShapes();
     }
 
-    /** Given an emoji, render it to a canvas, get its pixels, and place the pixels in the character's shapes. */
-    function importEmoji(emoji: string) {
-        emoji = new UnicodeString(emoji).at(0)?.toString() ?? '';
-        if (emoji.length === 0) return;
+    /**
+     * Replace the pixel layer in one edit, keeping every other shape.
+     *
+     * Both ways of importing land here, so they behave the same: an import is a
+     * background to draw on, not a stamp added to what's there. The pixel brush
+     * still appends, so a stroke drawn by hand lands on top.
+     *
+     * One rebuild of the shapes array rather than one per pixel: a 32x32 import
+     * is up to 1,024 pixels, and setPixel filters the whole drawing each time,
+     * which made importing quadratic and fired the per-pixel announcement a
+     * thousand times.
+     */
+    function setPixelLayer(pixels: CharacterPixel[]) {
+        if (pixels.length === 0) return;
+        setShapes(withPixelLayer($state.snapshot(shapes), pixels), true);
+    }
 
+    /** Rasterize a symbol in the chosen face and lay it down as pixels. */
+    function importSymbolAsPixels(symbol: string) {
+        const character = new UnicodeString(symbol).at(0)?.toString() ?? '';
+        if (character.length === 0) return;
+
+        // A detached canvas rasterizes the same as an attached one; the old
+        // code appended it to the document to look at it while debugging.
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
         if (ctx === null) return;
-        canvas.width = 32;
-        canvas.height = 32;
+        canvas.width = CharacterSize;
+        canvas.height = CharacterSize;
 
-        document.body.appendChild(canvas); // Optional: To see the canvas
-
-        // Draw emoji to canvas
-        ctx.font = '29px "Noto Color Emoji"';
+        // Emoji only have color in the color face; everything else follows the
+        // creator's chosen font, which the old hard-coded emoji face ignored.
+        const face = hasEmoji(character) ? 'Noto Color Emoji' : currentFace;
+        ctx.font = `${currentItalic ? 'italic ' : ''}${currentWeight} ${CharacterSize - 3}px "${face}"`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
-        ctx.fillText(emoji, 16, 33);
+        ctx.fillText(character, CharacterSize / 2, CharacterSize + 1);
 
-        // Get image data
-        const imageData = ctx.getImageData(0, 0, 32, 32);
-        const pixels = imageData.data;
+        setPixelLayer(
+            pixelsFromRGBA(
+                ctx.getImageData(0, 0, CharacterSize, CharacterSize).data,
+            ),
+        );
+        showCanvas();
+    }
 
-        // Convert pixel data to 2D array
-        for (let y = 0; y < 32; y++) {
-            for (let x = 0; x < 32; x++) {
-                const index = (y * 32 + x) * 4;
-                const r = pixels[index];
-                const g = pixels[index + 1];
-                const b = pixels[index + 2];
-                const a = pixels[index + 3];
+    /**
+     * Trace a symbol's outline and place it, centered, as a glyph shape.
+     *
+     * Asynchronous, because the font file has to be fetched: the request token
+     * drops a slow trace whose result is no longer what was asked for, which is
+     * what a quick change of font would otherwise leave on the canvas.
+     */
+    async function importSymbolAsOutline(symbol: string) {
+        const character = new UnicodeString(symbol).at(0)?.toString() ?? '';
+        if (character.length === 0) return;
 
-                if (a > 0) {
-                    const color = RGBtoLCH(r / 255, g / 255, b / 255);
-                    setPixel(false, x, y, {
-                        l: (color.coords[0] ?? 0) / 100,
-                        c: color.coords[1] ?? 0,
-                        h: isNaN(color.coords[2] ?? 0)
-                            ? 0
-                            : (color.coords[2] ?? 0),
-                    });
-                }
-            }
+        const token = ++glyphRequest;
+        glyphLoading = true;
+        glyphProblem = undefined;
+
+        // The color emoji face is a bitmap/SVG face with no outline to trace,
+        // so an emoji traces from the monochrome one instead of being refused.
+        const face = hasEmoji(character) ? 'Noto Emoji' : currentFace;
+        const traced = await traceGlyph({
+            character,
+            face,
+            weight: currentWeight,
+            italic: currentItalic,
+        });
+        if (token !== glyphRequest) return;
+        glyphLoading = false;
+
+        if (typeof traced === 'string') {
+            glyphProblem = traced;
+            announceEdit(
+                'ignored',
+                $locales.getPrimaryPlainText(glyphProblemText(traced)),
+            );
+            return;
         }
 
-        document.body.removeChild(canvas);
+        // Fit the traced ink inside a square of the chosen size without
+        // distorting it, then center it on the canvas.
+        const height =
+            traced.aspect >= 1
+                ? currentGlyphSize / traced.aspect
+                : currentGlyphSize;
+        const width = height * traced.aspect;
+        const glyph: CharacterGlyph = {
+            type: 'glyph',
+            character,
+            // The face the trace actually used, which may not be the chosen one
+            // when that face has no shape for this character.
+            face: traced.face,
+            weight: currentWeight,
+            point: {
+                x: (CharacterSize - width) / 2,
+                y: (CharacterSize - height) / 2,
+            },
+            width,
+            height,
+            d: traced.d,
+            ...(currentItalic ? { italic: true } : {}),
+            ...(getCurrentFill() !== undefined
+                ? { fill: getCurrentFill() ?? null }
+                : {}),
+        };
+        addShapes(glyph, true);
+        // Select what `shapes` holds, not the literal above: assigning into
+        // $state wraps it, and everything that acts on a selection — the
+        // dashed outline, the drag, the size sliders — compares by identity, so
+        // selecting the unwrapped object left a glyph that looked selected and
+        // couldn't be moved.
+        const placed = shapes.at(-1);
+        selection = placed ? [placed] : [];
+        // Back to Select, as finishing a rectangle or an ellipse does: the
+        // point of placing a symbol is to then position and size it, and only
+        // Select mode drags.
+        mode = DrawingMode.Select;
+        showCanvas();
+        announceFinished(glyph);
+    }
+
+    /** The faces a symbol can be traced or rasterized from. The color emoji face
+     *  is omitted: it has no outlines to trace, and emoji already route to it
+     *  for rasterizing regardless of what's chosen here. */
+    let faceOptions = $derived(
+        Object.entries(Faces)
+            .filter(([name]) => name !== 'Noto Color Emoji')
+            .map(([name, face]) => ({ value: name, label: name, face })),
+    );
+
+    /** Only the weights the chosen face actually has files for. */
+    let weightOptions = $derived.by(() => {
+        const face = Faces[currentFace];
+        return FontWeights.filter(
+            (weight) => face === undefined || faceSupportsWeight(face, weight),
+        ).map((weight) => ({ value: `${weight}`, label: `${weight}` }));
+    });
+
+    /** Narrow a chooser's string back to a weight, since Options speaks strings. */
+    function toFontWeight(value: string | undefined): FontWeight {
+        const weight = FontWeights.find((w) => `${w}` === value);
+        return weight ?? 400;
+    }
+
+    /**
+     * Bring the canvas back into view after the palette adds something to it.
+     *
+     * The chooser and the importer sit at the bottom of a tall palette, and the
+     * canvas is above it when the layout is stacked — so what a creator just
+     * added could land off screen with nothing to say it had worked. 'nearest'
+     * scrolls the least that makes it visible, and does nothing when it already is.
+     */
+    function showCanvas() {
+        canvasView?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
+
+    /** Which message explains a failed trace. */
+    function glyphProblemText(problem: GlyphError): LocaleTextAccessor {
+        switch (problem) {
+            case 'uncovered':
+            case 'unsupported':
+                return (l) => l.ui.page.character.feedback.glyphMissing;
+            case 'empty':
+                return (l) => l.ui.page.character.feedback.glyphEmpty;
+            default:
+                return (l) => l.ui.page.character.feedback.glyphUnreadable;
+        }
     }
 
     /** Analyze the current shapes extends and grow them to fill the box */
     function fit() {
         // Find the bounds of all the shapes.
-        const bounds = shapes
-            .map((s) =>
-                s.type === 'pixel'
-                    ? {
-                          type: 'pixel',
-                          left: s.point.x,
-                          top: s.point.y,
-                          right: s.point.x,
-                          bottom: s.point.y,
-                      }
-                    : s.type === 'rect'
-                      ? {
-                            type: 'rect',
-                            left: s.point.x,
-                            top: s.point.y,
-                            right: s.point.x + s.width,
-                            bottom: s.point.y + s.height,
-                        }
-                      : s.type === 'ellipse'
-                        ? {
-                              type: 'ellipse',
-                              left: s.point.x,
-                              top: s.point.y,
-                              right: s.point.x + s.width,
-                              bottom: s.point.y + s.height,
-                          }
-                        : s.type === 'path'
-                          ? {
-                                type: 'path',
-                                left: Math.min(...s.points.map((p) => p.x)),
-                                top: Math.min(...s.points.map((p) => p.y)),
-                                right: Math.max(...s.points.map((p) => p.x)),
-                                bottom: Math.max(...s.points.map((p) => p.y)),
-                            }
-                          : undefined,
-            )
-            .filter((b) => b !== undefined);
-
-        const left = Math.min(...bounds.map((b) => b.left));
-        const top = Math.min(...bounds.map((b) => b.top));
-        const right = Math.max(...bounds.map((b) => b.right));
-        const bottom = Math.max(...bounds.map((b) => b.bottom));
+        // Nothing to grow, and the arithmetic below would be NaN all the way down.
+        const bounds = getShapesBounds(shapes);
+        if (bounds === undefined) return;
+        const { left, top, right, bottom } = bounds;
 
         // Determine the center of the shapes
         const centerXOffset =
@@ -1461,6 +2537,8 @@
             .snapshot(shapes)
             .map((shape) => {
                 switch (shape.type) {
+                    // A glyph is boxed like a rectangle, so it scales like one.
+                    case 'glyph':
                     case 'rect': {
                         const width = shape.width * scale;
                         const height = shape.height * scale;
@@ -1502,30 +2580,30 @@
                     // No need to update this shape.
                     case 'pixel':
                         return shape;
-                    case 'path':
+                    case 'path': {
                         // Get the center
-                        const center = getPathCenter(shape as CharacterPath);
+                        const center = getPathCenter(shape);
 
                         // Offset the points by the translation, and blow them out around the center by the scale.
-                        const points = shape.points.map((point) => ({
-                            x:
-                                point.x -
-                                centerXOffset -
-                                ((center.x - point.x) * scale) / 2,
-                            y:
-                                point.y -
-                                centerYOffset -
-                                ((center.y - point.y) * scale) / 2,
-                        }));
                         return {
                             ...shape,
-                            points: [points[0], ...points.slice(1)],
+                            points: transformPathPoints(
+                                shape.points,
+                                ({ x, y }) => ({
+                                    x:
+                                        x -
+                                        centerXOffset -
+                                        ((center.x - x) * scale) / 2,
+                                    y:
+                                        y -
+                                        centerYOffset -
+                                        ((center.y - y) * scale) / 2,
+                                }),
+                            ),
                         } satisfies CharacterPath;
-                    default:
-                        return undefined;
+                    }
                 }
-            })
-            .filter((s) => s !== undefined);
+            });
 
         // Stretch on the horizontal of it's wider than it is tall.
         const horizontal = right - left > bottom - top;
@@ -1577,6 +2655,15 @@
             [...fitShapes.filter((s) => s.type !== 'pixel'), ...newPixels],
             true,
         );
+
+        // Nothing varies here because nothing varies in the action: fitting
+        // twice does nothing the second time, so there is nothing new to say.
+        announceEdit(
+            'character-edit',
+            $locales.getPrimaryPlainText(
+                (l) => l.ui.page.character.announce.fitted,
+            ),
+        );
     }
 
     function arrange(direction: 'back' | 'toBack' | 'forward' | 'toFront') {
@@ -1599,21 +2686,36 @@
                 rememberShapes();
             }
         }
+        const moved = selection[0];
+        if (moved)
+            announceEdit(
+                'character-edit',
+                $locales
+                    .concretize((l) => l.ui.page.character.announce.arranged, {
+                        index: shapes.indexOf(moved) + 1,
+                        total: shapes.length,
+                    })
+                    .toText(),
+            );
     }
 
+    /**
+     * Mirror the selection as a group, about the box it occupies. Flipping each
+     * shape about its own center is why this used to touch paths only: a
+     * rectangle, an ellipse and a pixel are symmetric about their own centers, so
+     * there was nothing for it to do to them, and the button silently did nothing
+     * for every shape but a path. Mirroring about the selection's box also keeps a
+     * path inside the box it already had, which the old point-average axis did not.
+     */
     function flip(direction: 'horizontal' | 'vertical') {
-        for (const shape of selection) {
-            if (shape.type === 'path') {
-                const center = getPathCenter(shape);
-                for (const point of shape.points) {
-                    if (direction === 'horizontal') {
-                        point.x = center.x - (point.x - center.x);
-                    } else {
-                        point.y = center.y - (point.y - center.y);
-                    }
-                }
-            }
-        }
+        const box = getShapesBounds(selection);
+        if (box === undefined) return;
+        for (const shape of selection) flipShape(shape, box, direction);
+        rememberShapes();
+        announceSelectionPosition(
+            (l) => l.ui.page.character.announce.flipped,
+            'character-edit',
+        );
     }
 
     // Renaming a character rewrites the projects that reference it, which
@@ -1701,6 +2803,160 @@
     </style>
 {/snippet}
 
+{#snippet handles()}
+    {#if editedPath}
+        {@const path = editedPath}
+        <!-- The guides sit under the handles and take no pointer events, so that
+             getShapeUnderPointer's elementFromPoint never mistakes one for a shape. -->
+        <svg
+            class="guides"
+            viewBox="0 0 {CharacterSize} {CharacterSize}"
+            aria-hidden="true"
+        >
+            {#each path.points as point, index (index)}
+                {@const from = getPriorPoint(path.points, index, path.closed)}
+                {#if point.curve && from}
+                    <line
+                        x1={from.x}
+                        y1={from.y}
+                        x2={point.curve.x}
+                        y2={point.curve.y}
+                    />
+                    <line
+                        x1={point.curve.x}
+                        y1={point.curve.y}
+                        x2={point.x}
+                        y2={point.y}
+                    />
+                {/if}
+            {/each}
+        </svg>
+        <div class="handles">
+            {#each path.points as point, index (index)}
+                {#if point.curve}
+                    {@const control = point.curve}
+                    <button
+                        type="button"
+                        class="handle curve"
+                        class:chosen={editedHandle?.index === index &&
+                            editedHandle.curve}
+                        data-handle="curve-{index}"
+                        style:left="{(100 * control.x) / CharacterSize}%"
+                        style:top="{(100 * control.y) / CharacterSize}%"
+                        aria-label={describeHandle(index, true, control)}
+                        onfocus={() => (editedHandle = { index, curve: true })}
+                        onclick={(event) =>
+                            handleHandleClick(event, index, true)}
+                        onkeydown={(event) =>
+                            handleHandleKey(event, index, true)}
+                        onpointerdown={(event) =>
+                            startHandleDrag(event, index, true)}
+                        onpointermove={dragHandle}
+                        onpointerup={endHandleDrag}
+                        onpointercancel={cancelHandleDrag}
+                    ></button>
+                {/if}
+                <button
+                    type="button"
+                    class="handle point"
+                    class:chosen={editedHandle?.index === index &&
+                        !editedHandle.curve}
+                    data-handle="point-{index}"
+                    style:left="{(100 * point.x) / CharacterSize}%"
+                    style:top="{(100 * point.y) / CharacterSize}%"
+                    aria-label={describeHandle(index, false, point)}
+                    onfocus={() => (editedHandle = { index, curve: false })}
+                    onclick={(event) => handleHandleClick(event, index, false)}
+                    onkeydown={(event) => handleHandleKey(event, index, false)}
+                    onpointerdown={(event) =>
+                        startHandleDrag(event, index, false)}
+                    onpointermove={dragHandle}
+                    onpointerup={endHandleDrag}
+                    onpointercancel={cancelHandleDrag}
+                ></button>
+            {/each}
+        </div>
+    {/if}
+
+    <style>
+        .guides {
+            pointer-events: none;
+
+            line {
+                stroke: var(--wordplay-highlight-color);
+                stroke-width: 0.25;
+                stroke-dasharray: 0.5, 0.5;
+            }
+        }
+
+        .handles {
+            position: absolute;
+            inset: 0;
+            /* Only the handles themselves take pointer events, so the canvas
+               underneath still handles clicks that miss one. */
+            pointer-events: none;
+        }
+
+        /* The box is the target, not the dot: WCAG 2.5.8 wants 24px, but a
+           point sits on a 32-unit grid where 24px spans two whole units, so the
+           mark that shows where the point *is* has to stay small. The button is
+           a transparent 24px square centered on the point and the dot is drawn
+           inside it. */
+        .handle {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            border: none;
+            background: none;
+            transform: translate(-50%, -50%);
+            pointer-events: auto;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .handle::before {
+            content: '';
+            display: block;
+            width: 1em;
+            height: 1em;
+            background: var(--wordplay-background);
+            border: solid var(--wordplay-foreground) var(--wordplay-focus-width);
+        }
+
+        .handle.point::before {
+            border-radius: 50%;
+        }
+
+        /* A control point is drawn smaller and cornered so it reads as a handle
+           for a segment rather than a point of the path itself. */
+        .handle.curve::before {
+            width: 0.75em;
+            height: 0.75em;
+            border-color: var(--wordplay-highlight-color);
+            rotate: 45deg;
+        }
+
+        /* Chosen carries a shape change as well as a fill, so it survives
+           forced-colors mode and reads without color. */
+        .handle.chosen::before {
+            background: var(--wordplay-highlight-color);
+            scale: 1.35;
+        }
+
+        .handle:focus-visible {
+            outline: none;
+        }
+
+        .handle:focus-visible::before {
+            outline: var(--wordplay-focus-color) solid
+                var(--wordplay-focus-width);
+        }
+    </style>
+{/snippet}
+
 {#snippet sizeSlider(width: boolean)}
     <Slider
         label={width
@@ -1719,10 +2975,7 @@
                 const widths = [
                     ...new Set(
                         selection
-                            .filter(
-                                (s) =>
-                                    s.type === 'rect' || s.type === 'ellipse',
-                            )
+                            .filter((s) => isSizable(s))
                             .map((s) => (width ? s.width : s.height)),
                     ),
                 ];
@@ -1730,7 +2983,7 @@
             },
             (val) => {
                 for (const shape of selection)
-                    if (shape.type === 'rect' || shape.type === 'ellipse')
+                    if (isSizable(shape))
                         if (width) shape.width = val;
                         else shape.height = val;
             }
@@ -1749,10 +3002,24 @@
         >
         <Mode
             modes={(l) => l.ui.page.character.field.mode}
-            icons={[SELECTION_SYMBOL, ERASE_SYMBOL, '■', '🔲', '⚪️', '╱', '🙂']}
+            icons={[
+                SELECTION_SYMBOL,
+                ERASE_SYMBOL,
+                '■',
+                '🔲',
+                '⚪️',
+                '╱',
+                '🙂',
+                '🖼',
+            ]}
             choice={mode}
             select={(choice: number) => {
                 mode = choice as DrawingMode;
+                // Drop the selection: the palette heading names the selection
+                // before the mode, so a leftover one hid which tool was
+                // chosen — and every property of a selected shape is editable
+                // in Select mode anyway.
+                selection = [];
                 if (canvasView)
                     setKeyboardFocus(canvasView, 'Focus the canvas.');
             }}
@@ -1782,8 +3049,10 @@
                 />
             {:else if mode === DrawingMode.Path}
                 <LocalizedText path={(l) => l.ui.page.character.shape.path} />
-            {:else if mode === DrawingMode.Emoji}
-                <LocalizedText path={(l) => l.ui.page.character.shape.emoji} />
+            {:else if mode === DrawingMode.Symbol}
+                <LocalizedText path={(l) => l.ui.page.character.shape.symbol} />
+            {:else if mode === DrawingMode.Image}
+                <LocalizedText path={(l) => l.ui.page.character.shape.image} />
             {:else}
                 <LocalizedText
                     path={(l) => l.ui.page.character.field.mode.labels[0]}
@@ -1791,33 +3060,32 @@
             {/if}
         </h2>
 
-        <MarkupHTMLView
-            markup={mode === DrawingMode.Select && shapes.length === 0
-                ? (l) => l.ui.page.character.instructions.empty
-                : mode === DrawingMode.Emoji
-                  ? (l) => l.ui.page.character.instructions.emoji
-                  : mode === DrawingMode.Select &&
-                      shapes.length > 0 &&
-                      selection.length === 0
-                    ? (l) => l.ui.page.character.instructions.unselected
-                    : mode === DrawingMode.Select &&
-                        shapes.length > 0 &&
-                        selection.length > 0
-                      ? (l) => l.ui.page.character.instructions.selected
-                      : mode === DrawingMode.Eraser
-                        ? (l) => l.ui.page.character.instructions.eraser
-                        : mode === DrawingMode.Pixel
-                          ? (l) => l.ui.page.character.instructions.pixel
-                          : mode === DrawingMode.Rect
-                            ? (l) => l.ui.page.character.instructions.rect
-                            : mode === DrawingMode.Ellipse
-                              ? (l) => l.ui.page.character.instructions.ellipse
-                              : mode === DrawingMode.Path
-                                ? (l) => l.ui.page.character.instructions.path
-                                : '—'}
-        ></MarkupHTMLView>
+        <!-- The canvas points at this with aria-describedby, so the id belongs
+             here rather than on the view inside, which takes no id. -->
+        <div id="instructions">
+            <MarkupHTMLView markup={instructions}></MarkupHTMLView>
+        </div>
 
-        {#if (mode !== DrawingMode.Select && mode !== DrawingMode.Emoji) || selection.length > 0}
+        <!-- How wide the brush and the eraser are. Shown for both tools, so the
+             size the eraser will clear is the size the brush just drew (#898).
+             The slider is a native range, so it voices its own value; adding an
+             announcement here would be a second describer for one change. -->
+        {#if mode === DrawingMode.Pixel || mode === DrawingMode.Eraser}
+            <Slider
+                label={(l) => l.ui.page.character.field.brushSize.label}
+                tip={(l) => l.ui.page.character.field.brushSize.tip}
+                min={1}
+                max={MaxBrushSize}
+                increment={1}
+                precision={0}
+                unit={''}
+                bind:value={currentBrushSize}
+            ></Slider>
+        {/if}
+
+        <!-- Nothing in this section applies to a symbol or an image: neither
+             places a shape whose fill, stroke or size is set here. -->
+        {#if (mode !== DrawingMode.Select && mode !== DrawingMode.Symbol && mode !== DrawingMode.Image) || selection.length > 0}
             {@const selectedFillStates = Array.from(
                 new Set(
                     selection.map((s) =>
@@ -1972,8 +3240,11 @@
                     /></h3
                 >
             {/if}
-            <!-- Only rects and radii have a width and height -->
-            {#if selection.every((s) => s.type === 'rect' || s.type === 'ellipse')}
+            <!-- Rectangles, ellipses and glyphs are all boxed by a width and
+                 height. every() is true of an empty selection, so the length
+                 check is what stops the sliders rendering with nothing to
+                 drive. -->
+            {#if selection.length > 0 && selection.every((s) => isSizable(s))}
                 {@render sizeSlider(true)}
                 {@render sizeSlider(false)}
             {/if}
@@ -2079,7 +3350,10 @@
                         path={(l) => l.ui.page.character.button.vertical.label}
                     />
                 </Button>
-                <label>
+                <Labeled
+                    label={(l) => l.ui.page.character.field.closed}
+                    fixed={PaletteLabelWidth}
+                >
                     <Checkbox
                         id="closed-path"
                         bind:on={
@@ -2112,20 +3386,123 @@
                             }
                         }
                         label={(l) => l.ui.page.character.field.closed}
-                    ></Checkbox><LocalizedText
-                        path={(l) => l.ui.page.character.field.closed}
-                    />
-                </label>
+                    ></Checkbox>
+                </Labeled>
             {/if}
         {/if}
-        {#if mode === DrawingMode.Emoji}
+        {#if mode === DrawingMode.Image}
+            <ImageImporter
+                add={(pixels, crop) => {
+                    setPixelLayer(pixels);
+                    showCanvas();
+                    announceEdit(
+                        'character-edit',
+                        $locales
+                            .concretize(
+                                (l) => l.ui.page.character.announce.imported,
+                                { count: pixels.length, x: crop.x, y: crop.y },
+                            )
+                            .toText(),
+                    );
+                }}
+                announce={(message) => announceEdit('character-point', message)}
+            />
+        {/if}
+        {#if mode === DrawingMode.Symbol}
+            <!-- One tool for letters, symbols and emoji, added either way. The
+                 chooser can only return a single character, so there is nothing
+                 to validate and no message to write for an invalid one. -->
+            <!-- Labeled, not hand-rolled <label>s: it carries the spacing
+                 between a label and its widget, puts the label first the way
+                 every other row does, and a shared width lines the widgets up
+                 with each other. Mode draws its own label at its own width, so
+                 it hands that job over here to line up with the rows below. -->
+            <Labeled
+                label={(l) => l.ui.page.character.field.insertion.label}
+                fixed={PaletteLabelWidth}
+            >
+                <Mode
+                    modes={(l) => l.ui.page.character.field.insertion}
+                    icons={['■', '◌']}
+                    choice={currentInsertion === 'pixels' ? 0 : 1}
+                    select={(choice) =>
+                        (currentInsertion =
+                            choice === 0 ? 'pixels' : 'outline')}
+                    labeled={false}
+                ></Mode>
+            </Labeled>
+            <Labeled
+                label={(l) => l.ui.page.character.field.face.label}
+                fixed={PaletteLabelWidth}
+            >
+                <Options
+                    value={currentFace}
+                    label={(l) => l.ui.page.character.field.face.label}
+                    id="character-face"
+                    width="10em"
+                    options={faceOptions}
+                    change={(value) => (currentFace = value ?? 'Noto Sans')}
+                >
+                    {#snippet item(option)}
+                        <FaceName
+                            name={option.value ?? ''}
+                            face={option.face}
+                        />
+                    {/snippet}
+                </Options>
+            </Labeled>
+            <Labeled
+                label={(l) => l.ui.page.character.field.weight.label}
+                fixed={PaletteLabelWidth}
+            >
+                <Options
+                    value={`${currentWeight}`}
+                    label={(l) => l.ui.page.character.field.weight.label}
+                    id="character-weight"
+                    width="6em"
+                    options={weightOptions}
+                    change={(value) => (currentWeight = toFontWeight(value))}
+                ></Options>
+            </Labeled>
+            <Labeled
+                label={(l) => l.ui.page.character.field.italic}
+                fixed={PaletteLabelWidth}
+            >
+                <Checkbox
+                    id="character-italic"
+                    on={currentItalic}
+                    label={(l) => l.ui.page.character.field.italic}
+                    changed={(value) => (currentItalic = value === true)}
+                ></Checkbox>
+            </Labeled>
+            {#if currentInsertion === 'outline'}
+                <Slider
+                    label={(l) => l.ui.page.character.field.glyphSize.label}
+                    tip={(l) => l.ui.page.character.field.glyphSize.tip}
+                    min={4}
+                    max={CharacterSize}
+                    increment={1}
+                    precision={0}
+                    unit={''}
+                    bind:value={currentGlyphSize}
+                ></Slider>
+            {/if}
+            {#if glyphLoading}
+                <Spinning
+                    label={(l) => l.ui.page.character.feedback.glyphLoading}
+                ></Spinning>
+            {:else if glyphProblem !== undefined}
+                <Notice text={glyphProblemText(glyphProblem)} />
+            {/if}
             <EmojiChooser
                 showCustom={false}
-                pick={(emoji) => {
-                    importEmoji(emoji);
-                    rememberShapes();
+                pick={(symbol) => {
+                    currentSymbol = symbol;
+                    if (currentInsertion === 'pixels')
+                        importSymbolAsPixels(symbol);
+                    else void importSymbolAsOutline(symbol);
                 }}
-                glyph="🙂"
+                glyph={currentSymbol ?? '🙂'}
             />
         {/if}
     </div>
@@ -2152,137 +3529,17 @@
 {/snippet}
 
 {#snippet toolbar()}
-    <div class="toolbar">
-        <Button
-            tip={(l) => l.ui.page.character.button.undo.tip}
-            action={() => undo()}
-            active={historyIndex > 0}
-            icon={UNDO_SYMBOL}
-            label={(l) => l.ui.page.character.button.undo.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.redo.tip}
-            action={() => redo()}
-            active={historyIndex < history.length - 1}
-            icon={REDO_SYMBOL}
-            label={(l) => l.ui.page.character.button.redo.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.all.tip}
-            action={() => selectAll()}
-            active={shapes.length > 0}
-            icon={SELECTION_SYMBOL}
-            label={(l) => l.ui.page.character.button.all.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.allColor.tip}
-            action={() => selectAllOfColor()}
-            // Active if there's one or more pixels with the same color
-            active={shapes.length > 0 &&
-                new Set(
-                    selection
-                        .filter((s) => s.fill !== undefined && s.fill !== null)
-                        .map((s) =>
-                            s.fill ? `${s.fill.l}${s.fill.c}${s.fill.h}` : '',
-                        ),
-                ).size === 1}
-            icon={SELECTION_SYMBOL}
-            label={(l) => l.ui.page.character.button.allColor.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.saturationUp.tip}
-            action={() => saturation(5)}
-            active={shapes.every(
-                (s) =>
-                    (s.fill && s.fill.c < 100) ||
-                    ('stroke' in s &&
-                        s.stroke &&
-                        s.stroke.color &&
-                        s.stroke.color.c < 100),
-            )}
-            icon="↑"
-            label={(l) => l.ui.page.character.button.saturationUp.label}
-        /><Button
-            tip={(l) => l.ui.page.character.button.saturationDown.tip}
-            action={() => saturation(-5)}
-            active={shapes.every(
-                (s) =>
-                    (s.fill && s.fill.c > 0) ||
-                    ('stroke' in s &&
-                        s.stroke &&
-                        s.stroke.color &&
-                        s.stroke.color.c > 0),
-            )}
-            icon="↓"
-            label={(l) => l.ui.page.character.button.saturationDown.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.fit.tip}
-            action={() => fit()}
-            active={shapes.length > 0}
-            icon="✥"
-            label={(l) => l.ui.page.character.button.fit.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.toBack.tip}
-            action={() => arrange('toBack')}
-            active={selection.length > 0 && shapes.length > 1}
-            icon="⇡"
-            label={(l) => l.ui.page.character.button.toBack.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.back.tip}
-            action={() => arrange('back')}
-            active={selection.length > 0 && shapes.length > 1}
-            icon={SHARE_SYMBOL}
-            label={(l) => l.ui.page.character.button.back.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.forward.tip}
-            action={() => arrange('forward')}
-            active={selection.length > 0 && shapes.length > 1}
-            icon={BORROW_SYMBOL}
-            label={(l) => l.ui.page.character.button.forward.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.toFront.tip}
-            action={() => arrange('toFront')}
-            active={selection.length > 0 && shapes.length > 1}
-            icon="⇡"
-            label={(l) => l.ui.page.character.button.toFront.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.copy.tip}
-            action={copyShapes}
-            active={selection.length > 0}
-            icon={COPY_SYMBOL}
-            label={(l) => l.ui.page.character.button.copy.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.paste.tip}
-            action={pasteShapes}
-            active={copy !== undefined}
-            icon={PASTE_SYMBOL}
-            label={(l) => l.ui.page.character.button.paste.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.clearPixels.tip}
-            action={() => {
-                setShapes(shapes.filter((s) => s.type !== 'pixel'));
-            }}
-            active={shapes.some((s) => s.type === 'pixel')}
-            icon={ERASE_SYMBOL}
-            label={(l) => l.ui.page.character.button.clearPixels.label}
-        />
-        <Button
-            tip={(l) => l.ui.page.character.button.clear.tip}
-            action={() => {
-                setShapes([]);
-            }}
-            active={shapes.length > 0}
-            icon={ERASE_SYMBOL}
-            label={(l) => l.ui.page.character.button.clear.label}
-        />
+    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+    <div class="toolbar" onfocusout={handleToolbarFocusOut}>
+        {#each visibleCommands as command (command.id)}
+            <Button
+                tip={command.tip}
+                label={command.label}
+                icon={command.icon}
+                action={command.action}
+                active={command.active}
+            />
+        {/each}
     </div>
 
     <style>
@@ -2291,8 +3548,107 @@
             flex-direction: column;
             flex-wrap: wrap;
             align-items: end;
+            gap: var(--wordplay-spacing);
         }
     </style>
+{/snippet}
+
+{#snippet metaPreview()}
+    <div class="preview">
+        {#if editedCharacter}
+            {@html characterToSVG(editedCharacter, '32px')}
+        {/if}
+    </div>
+{/snippet}
+
+{#snippet metaName()}
+    <h1 style:z-index="2" style:margin="0">
+        <TextField
+            id="character-name"
+            bind:text={name}
+            placeholder={(l) => l.ui.page.character.field.name.placeholder}
+            description={(l) => l.ui.page.character.field.name.description}
+            validator={isValidName}
+            max="8em"
+            maxlength={MAX_NAME_LENGTH}
+        ></TextField>
+    </h1>
+{/snippet}
+
+{#snippet metaPhrase()}
+    <RootView
+        node={toProgram(
+            `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${Creator.getUsername($user?.email ?? '')}/${name}\`)`,
+        )}
+        blocks={false}
+    />
+{/snippet}
+
+{#snippet metaDescription()}
+    <TextBox
+        id="character-description"
+        bind:text={description}
+        maxrows={3}
+        maxlength={MAX_DESCRIPTION_LENGTH}
+        placeholder={(l) => l.ui.page.character.field.description.placeholder}
+        description={(l) => l.ui.page.character.field.description.description}
+        validator={isValidDescription}
+    ></TextBox>
+{/snippet}
+
+{#snippet metaShare()}
+    <Dialog
+        id="character-share"
+        header={(l) => l.ui.page.character.share.dialog.header}
+        explanation={(l) => l.ui.page.character.share.dialog.explanation}
+        button={{
+            background: true,
+            tip: (l) => l.ui.page.character.share.button.tip,
+            icon: isPublic ? GLOBE1_SYMBOL : '🤫',
+            label: isPublic
+                ? (l) => l.ui.page.character.share.public.labels[0]
+                : (l) => l.ui.page.character.share.public.labels[1],
+        }}
+    >
+        <Mode
+            modes={(l) => l.ui.page.character.share.public}
+            choice={isPublic ? 0 : 1}
+            select={(mode) => (isPublic = mode === 0)}
+            icons={[GLOBE1_SYMBOL, '🤫']}
+        />
+        <Labeled label={(l) => l.ui.page.character.share.collaborators}>
+            <CreatorList
+                uids={collaborators}
+                editable
+                anonymize={false}
+                add={(userID) => (collaborators = [...collaborators, userID])}
+                remove={(userID) =>
+                    (collaborators = collaborators.filter((c) => c !== userID))}
+                removable={() => true}
+            />
+        </Labeled>
+    </Dialog>
+{/snippet}
+
+{#snippet metaDelete()}
+    {#if isAuthenticated($user) && editedCharacter !== null && $user.uid === editedCharacter.owner}
+        <ConfirmButton
+            tip={(l) => l.ui.page.character.share.delete.tip}
+            action={async () => {
+                if (
+                    editedCharacter &&
+                    (await CharactersDB.deleteCharacter(editedCharacter.id))
+                )
+                    localeGoto('/characters');
+            }}
+            prompt={(l) => l.ui.page.character.share.delete.tip}
+            enabled={editedCharacter !== null && !$disconnected}
+            >{CANCEL_SYMBOL}
+            <LocalizedText
+                path={(l) => l.ui.page.character.share.delete.label}
+            /></ConfirmButton
+        >
+    {/if}
 {/snippet}
 
 <svelte:body onpointerup={handlePointerUp} />
@@ -2302,116 +3658,18 @@
         <PageHeaderRow header={(l) => l.ui.page.character.header}>
             {#snippet controls()}
                 {#if loaded}
-                    <div class="meta">
-                        <div class="preview">
-                            {#if editedCharacter}
-                                {@html characterToSVG(editedCharacter, '32px')}
-                            {/if}
-                        </div>
-                        <h1 style:z-index="2" style:margin="0">
-                            <TextField
-                                id="character-name"
-                                bind:text={name}
-                                placeholder={(l) =>
-                                    l.ui.page.character.field.name.placeholder}
-                                description={(l) =>
-                                    l.ui.page.character.field.name.description}
-                                validator={isValidName}
-                                max="8em"
-                                maxlength={MAX_NAME_LENGTH}
-                            ></TextField>
-                        </h1>
-                        <RootView
-                            node={toProgram(
-                                `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${Creator.getUsername($user?.email ?? '')}/${name}\`)`,
-                            )}
-                            blocks={false}
-                        />
-                        <Dialog
-                            id="character-share"
-                            header={(l) =>
-                                l.ui.page.character.share.dialog.header}
-                            explanation={(l) =>
-                                l.ui.page.character.share.dialog.explanation}
-                            button={{
-                                background: true,
-                                tip: (l) =>
-                                    l.ui.page.character.share.button.tip,
-                                icon: isPublic ? GLOBE1_SYMBOL : '🤫',
-                                label: isPublic
-                                    ? (l) =>
-                                          l.ui.page.character.share.public
-                                              .labels[0]
-                                    : (l) =>
-                                          l.ui.page.character.share.public
-                                              .labels[1],
-                            }}
-                        >
-                            <Mode
-                                modes={(l) => l.ui.page.character.share.public}
-                                choice={isPublic ? 0 : 1}
-                                select={(mode) => (isPublic = mode === 0)}
-                                icons={[GLOBE1_SYMBOL, '🤫']}
-                            />
-                            <Labeled
-                                label={(l) =>
-                                    l.ui.page.character.share.collaborators}
-                            >
-                                <CreatorList
-                                    uids={collaborators}
-                                    editable
-                                    anonymize={false}
-                                    add={(userID) =>
-                                        (collaborators = [
-                                            ...collaborators,
-                                            userID,
-                                        ])}
-                                    remove={(userID) =>
-                                        (collaborators = collaborators.filter(
-                                            (c) => c !== userID,
-                                        ))}
-                                    removable={() => true}
-                                />
-                            </Labeled>
-                        </Dialog>
-                        {#if isAuthenticated($user) && editedCharacter !== null && $user.uid === editedCharacter.owner}
-                            <ConfirmButton
-                                tip={(l) =>
-                                    l.ui.page.character.share.delete.tip}
-                                action={async () => {
-                                    if (
-                                        editedCharacter &&
-                                        (await CharactersDB.deleteCharacter(
-                                            editedCharacter.id,
-                                        ))
-                                    )
-                                        localeGoto('/characters');
-                                }}
-                                prompt={(l) =>
-                                    l.ui.page.character.share.delete.tip}
-                                enabled={editedCharacter !== null &&
-                                    !$disconnected}
-                                >{CANCEL_SYMBOL}
-                                <LocalizedText
-                                    path={(l) =>
-                                        l.ui.page.character.share.delete.label}
-                                /></ConfirmButton
-                            >
-                        {/if}
-                        <TextBox
-                            id="character-description"
-                            bind:text={description}
-                            maxrows={3}
-                            maxlength={MAX_DESCRIPTION_LENGTH}
-                            placeholder={(l) =>
-                                l.ui.page.character.field.description
-                                    .placeholder}
-                            description={(l) =>
-                                l.ui.page.character.field.description
-                                    .description}
-                            validator={isValidDescription}
-                        ></TextBox>
-                    </div>
+                    <!-- The character's identity, as an overflow toolbar rather
+                         than a wrapping row: on a phone the name, description
+                         and share controls wrapped into a stack that pushed the
+                         canvas off the screen. The preview is pinned so the
+                         character is always in sight, and the description —
+                         the widest and least urgent of these — is the first to
+                         fold into the hamburger. -->
+                    <OverflowToolbar
+                        pinnedStart={[metaPreview]}
+                        items={[metaName, metaPhrase, metaDescription]}
+                        pinned={[metaShare, metaDelete]}
+                    />
                 {/if}
             {/snippet}
         </PageHeaderRow>
@@ -2468,7 +3726,7 @@
                 <Notice text={(l) => l.ui.page.character.feedback.taken} />
             {/if}
 
-            <div class="editor">
+            <div class="editor" bind:this={editorView}>
                 {@render toolbar()}
                 <div class="content">
                     <!-- role="application" is correct for a drawing canvas
@@ -2500,19 +3758,18 @@
                                 selection,
                             )}
                         {/if}
+                        {@render handles()}
                         {#if mode !== DrawingMode.Select}
                             <div
                                 class="position"
-                                style:left="{(100 * drawingCursorPosition.x) /
+                                style:left="{(100 * cursorBrush.left) /
                                     CharacterSize}%"
-                                style:top="{(100 * drawingCursorPosition.y) /
+                                style:top="{(100 * cursorBrush.top) /
                                     CharacterSize}%"
-                                style:width={'calc(100% / ' +
-                                    CharacterSize +
-                                    ')'}
-                                style:height={'calc(100% / ' +
-                                    CharacterSize +
-                                    ')'}
+                                style:width="{(100 * cursorBrush.size) /
+                                    CharacterSize}%"
+                                style:height="{(100 * cursorBrush.size) /
+                                    CharacterSize}%"
                             ></div>
                         {/if}
                     </div>
@@ -2553,6 +3810,9 @@
         height: 100%;
         background: var(--wordplay-background);
         padding: var(--wordplay-spacing);
+        /* The editor lays itself out against this, not the viewport, so it
+           stacks the same whether the window is narrow or the page is. */
+        container-type: inline-size;
     }
 
     .editor {
@@ -2568,6 +3828,12 @@
         flex-direction: column;
         position: relative;
         gap: var(--wordplay-spacing);
+    }
+
+    /* The instructions are reference text, read once per tool and then ignored;
+       at body size they pushed the color and size controls below the fold. */
+    #instructions {
+        font-size: var(--wordplay-small-font-size);
     }
 
     .preview {
@@ -2628,18 +3894,11 @@
         cursor: default;
     }
 
-    .meta {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        align-items: center;
-    }
-
     .rect,
     .ellipse,
     .path,
-    .pixel {
+    .pixel,
+    .eraser {
         cursor: crosshair;
     }
 
@@ -2649,5 +3908,50 @@
         left: var(--wordplay-spacing);
         right: var(--wordplay-spacing);
         z-index: 2;
+    }
+    /* Narrow: three columns become one, in the order they're used — draw on
+       the character, reach for a command, then set what the next stroke looks
+       like. Three columns at phone width were about 100px each, which is
+       neither a usable canvas nor a usable palette.
+
+       Keep NARROW_THRESHOLD_PX in the script in sync with this. */
+    @container (max-width: 700px) {
+        .editor {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .content {
+            order: 1;
+            /* Start, like main's own alignment: centering inset the canvas
+               further than the palette below it. */
+            align-items: start;
+        }
+
+        .toolbar {
+            order: 2;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .palette {
+            order: 3;
+            /* Fill the column rather than the 40vw that made sense beside two
+               other columns. */
+            width: 100%;
+            /* And let the color choosers fill it too, rather than keeping the
+               12em ceiling that suits a column beside two others. */
+            --color-chooser-max-width: none;
+        }
+
+        .canvas {
+            /* All of the column, not 90% of it: section's padding is the page's
+               standard inset, and taking a further 5% a side made the canvas sit
+               in from everything stacked below it. */
+            width: min(100%, 60vh);
+            height: min(100%, 60vh);
+        }
     }
 </style>

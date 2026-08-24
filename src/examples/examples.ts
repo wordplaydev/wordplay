@@ -99,10 +99,16 @@ export function parseSerializedProject(
         restrictedGallery: false,
         viewers: [],
         commenters: [],
-        preview,
+        // Omit the key when there's no preview glyph; `preview` is exactly
+        // optional, and Firestore rejects an undefined field value.
+        ...(preview !== undefined && { preview }),
         stamps: { lamport: 0, fields: {} },
         crdt: null,
         remixOf: null,
+        // An example is nobody's project to organize or consent for; it is
+        // read-only and never persisted (see ProjectsDatabase.get).
+        folder: null,
+        researchConsent: false,
     };
 }
 
@@ -220,6 +226,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Hira',
                 'Layers',
                 'Chamber',
+                'Orbits',
                 'Pounce',
                 'FootBall',
                 'Christmas',
@@ -242,6 +249,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Chimes',
                 'Fireworks',
                 'Lyrics',
+                'VirtualPiano',
             ],
             locales,
         ),

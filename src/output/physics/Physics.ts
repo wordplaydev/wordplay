@@ -10,7 +10,7 @@ import {
 import { get } from 'svelte/store';
 import { animationFactor } from '@db/Database';
 import type { ReboundEvent } from '@input/Collision/Collision';
-import Collision from '@input/Collision/Collision';
+import Collision, { getWatchedNames } from '@input/Collision/Collision';
 import { getPlacingMotion } from '@input/Motion/Motion';
 import type Evaluator from '@runtime/Evaluator';
 import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
@@ -23,7 +23,7 @@ import type Matter from '@output/physics/Matter';
 import { PX_PER_METER } from '@output/Output/outputToCSS';
 import Phrase from '@output/Output/Phrase';
 import Shape from '@output/Output/Shape/Shape';
-import Stage, { DefaultGravity } from '@output/Output/Stage';
+import Stage from '@output/Output/Stage';
 
 /** Interaction-group membership bits (Rapier packs membership in the high 16
  *  bits and the filter mask in the low 16 bits of a single u32). */
@@ -53,6 +53,21 @@ export const GravityPxPerS2PerUnit = 1_000_000 / (20 * 2 * PX_PER_METER);
  *  0.99^60 ≈ e^(-0.603·t), so ≈0.6 per second on both axes. Without this,
  *  restitution-1 bodies bounce forever. */
 const AirDamping = 0.6;
+
+/** Attraction calibration: the acceleration in px/s² that one unit of pull
+ *  strength (mass × Matter.pull, in kg) produces one stage meter away. Like the
+ *  gravity and velocity constants above this is a feel number, not a physical
+ *  one — the three existing scale factors each reproduce a Matter.js behavior
+ *  rather than any consistent unit system, so there is no G to derive. Picked so
+ *  a 1000kg attractor pulls at about a tenth of default stage gravity from 5m,
+ *  which orbits at a speed projects already write. */
+const PullPxPerS2PerKg = 10;
+
+/** How close two bodies may count as being, in stage meters, when computing
+ *  attraction. Newton's 1/r² is unbounded as r → 0 and the engine has no notion
+ *  of one body being inside another, so without a floor a direct hit flings
+ *  output off stage. MaxSpeed is a backstop, not a substitute. */
+const MinPullDistance = 0.5;
 
 /**
  * A Rapier physics world to keep Scene simpler.
@@ -109,6 +124,17 @@ export default class Physics {
     /** True once we've registered to re-evaluate when a pending Rapier load
      *  finishes, so we register at most one callback per outstanding load. */
     private awaitingRapier = false;
+
+    /** The bodies that pull on others, with their strength (mass × pull, kg),
+     *  rebuilt each sync because both come from a Matter that is re-read every
+     *  frame. Empty for every project that never writes pull, which is what
+     *  keeps attraction free for everyone else. Keyed by world because
+     *  applyAttraction runs once per world per sub-step, and grouping here
+     *  keeps it from filtering a flat list that many times a frame. */
+    private attractors = new Map<
+        RAPIER.World,
+        { rigidBody: RAPIER.RigidBody; strength: number }[]
+    >();
 
     constructor(evaluator: Evaluator) {
         this.evaluator = evaluator;
@@ -260,6 +286,18 @@ export default class Physics {
         // REMOVE all of the exited outputs from the world.
         for (const name of exiting.keys()) this.removeOutputBody(name);
 
+        // What the Collision streams are watching for. A name something is
+        // watching is reason enough to give an output a body, so naming two
+        // things is all it takes to make them notice each other (#548).
+        // Recomputed every sync because the names are runtime values: a stream
+        // can be handed a different one on any evaluation.
+        const watched = getWatchedNames(
+            this.evaluator.getBasisStreamsOfType(Collision),
+        );
+
+        // Rebuilt below from whatever currently has a non-zero Matter.pull.
+        this.attractors.clear();
+
         // CREATE and UPDATE bodies for all outputs currently in the scene.
 
         // Iterate through all of the output in the current scene.
@@ -278,8 +316,7 @@ export default class Physics {
                 for (const world of this.worldsByZ.values()) {
                     world.gravity.x = 0;
                     world.gravity.y =
-                        (info.output.gravity ?? DefaultGravity) *
-                        GravityPxPerS2PerUnit;
+                        info.output.gravity * GravityPxPerS2PerUnit;
                 }
             }
             // Other kind of output? Sync it.
@@ -297,8 +334,17 @@ export default class Physics {
                 // decide whether a move is worth tweening.
                 const motion = getPlacingMotion(this.evaluator, info.output);
 
-                // If the output has matter or is in motion, make sure it's in the physics world.
-                if (matter || motion) {
+                // Is a Collision watching this name? Then it needs a body
+                // to be detected in, whatever else is true of it. A Shape
+                // directly on the Stage is excepted: it's already in the world
+                // as a barrier below, and a second body under the same name
+                // would report every touch twice.
+                const detectable =
+                    watched.has(name) && !(info.output instanceof Shape);
+
+                // If the output has matter, is in motion, or is being watched,
+                // make sure it's in the physics world.
+                if (matter || motion || detectable) {
                     // First frame that actually needs physics: kick off the
                     // Rapier load and skip until it resolves (retried next
                     // frame). Cheap once loaded — returns the cached module.
@@ -321,13 +367,19 @@ export default class Physics {
                         // Get the world for this z depth
                         const world = this.getWorldAtZ(info.global.z);
 
-                        // If we already had a body, remove it so we can replace with a new one.
-                        if (shape !== undefined) {
-                            this.removeOutputBody(name);
-                        }
-
-                        // Make a new body for this new output.
-                        shape = this.createOutputBody(info, matter, world);
+                        // Make the new body before retiring the one it replaces.
+                        // removeOutputBody frees a world that empties, so
+                        // removing first would free this one out from under the
+                        // body about to be built in it, whenever the body being
+                        // replaced is the only one at its depth (#1315).
+                        const previous = shape;
+                        shape = this.createOutputBody(
+                            info,
+                            matter,
+                            detectable,
+                            world,
+                        );
+                        if (previous !== undefined) this.removeOutputBody(name);
 
                         // Remember the body by name and its collider handle.
                         this.bodyByName.set(name, shape);
@@ -405,6 +457,27 @@ export default class Physics {
                         shape.resetInterpolation();
                     }
 
+                    // Air resistance is a property of the stage, not the body,
+                    // so it is re-applied per frame like the matter properties
+                    // below: a program can put its output in space and take it
+                    // out again. AirDamping is the multiplier's 1.
+                    const drag = AirDamping * stage.air;
+                    shape.rigidBody.setLinearDamping(drag);
+                    shape.rigidBody.setAngularDamping(drag);
+
+                    // Does this output pull on others? Remember it for tick().
+                    // A kinematic body attracts perfectly well without being
+                    // attracted itself, which is what makes a fixed sun work.
+                    if (matter && matter.pull !== 0) {
+                        const pulling = this.attractors.get(shape.world);
+                        const attractor = {
+                            rigidBody: shape.rigidBody,
+                            strength: matter.mass * matter.pull,
+                        };
+                        if (pulling) pulling.push(attractor);
+                        else this.attractors.set(shape.world, [attractor]);
+                    }
+
                     // Set matter properties if available.
                     if (matter) {
                         shape.collider.setRestitution(matter.bounciness);
@@ -418,9 +491,10 @@ export default class Physics {
                         );
                     }
 
-                    // Set the collision filter based on the matter settings.
+                    // Set the collision filter based on the matter settings
+                    // and whether anything is watching this name.
                     shape.collider.setCollisionGroups(
-                        getInteractionGroups(matter),
+                        getInteractionGroups(matter, detectable),
                     );
 
                     // Bodies whose position is set externally (by Placement or
@@ -430,9 +504,17 @@ export default class Physics {
                     // this, the solver pushes overlapping bodies apart every
                     // step, sync teleports them back, and Collision oscillates
                     // between start/end at frame rate.
-                    shape.collider.setSensor(motion === undefined);
+                    //
+                    // Matter is also what makes a body solid, so one without it
+                    // is a sensor however it's placed: a body pulled in only
+                    // because a Collision watches its name reports contacts
+                    // without being able to change how anything moves.
+                    shape.collider.setSensor(
+                        motion === undefined || matter === undefined,
+                    );
                 }
-                // No motion or matter? Remove it from the world so it doesn't mess with collisions.
+                // No motion, matter, or watcher? Remove it from the world
+                // so it doesn't mess with collisions.
                 else {
                     this.removeOutputBody(name);
                 }
@@ -564,6 +646,7 @@ export default class Physics {
                     });
                 }
                 for (const world of this.worldsByZ.values()) {
+                    this.applyAttraction(world, RAPIER);
                     world.step(events);
                     this.drainCollisions(world, events);
                     clampSpeeds(world, RAPIER);
@@ -575,6 +658,50 @@ export default class Physics {
         for (const [shape, move] of this.sweepingBodies)
             shape.rigidBody.setTranslation(move.to, true);
         this.sweepingBodies.clear();
+    }
+
+    /** Pull every dynamic body in this world toward the attractors in it.
+     *
+     *  Applied as a one-shot impulse per sub-step rather than addForce, because
+     *  Rapier user forces persist until resetForces: a force would have to be
+     *  cleared every sub-step as the bodies move, where an impulse composes
+     *  with clampSpeeds directly after the step. Waking is not optional — a
+     *  settled body ignores forces entirely until it wakes (see the sleep test
+     *  in simulation.test.ts).
+     *
+     *  Attraction only reaches within one world, so output at different depths
+     *  never pulls on each other; each z has a world of its own. */
+    private applyAttraction(world: RAPIER.World, rapier: typeof RAPIER) {
+        // Nothing pulls here: the case every project that never writes pull
+        // takes, and the case of a depth with no attractor of its own.
+        const attractors = this.attractors.get(world);
+        if (attractors === undefined) return;
+
+        world.bodies.forEach((body: RAPIER.RigidBody) => {
+            // Only a dynamic body responds to an impulse at all, which is why a
+            // Motion is what makes output movable by a pull.
+            if (body.bodyType() !== rapier.RigidBodyType.Dynamic) return;
+            const at = body.translation();
+            const mass = body.mass();
+            let x = 0;
+            let y = 0;
+            for (const attractor of attractors) {
+                // A body never pulls on itself.
+                if (attractor.rigidBody === body) continue;
+                const source = attractor.rigidBody.translation();
+                const pull = pullAcceleration(
+                    source.x - at.x,
+                    source.y - at.y,
+                    attractor.strength,
+                );
+                x += pull.x;
+                y += pull.y;
+            }
+            if (x === 0 && y === 0) return;
+            // Impulse is mass × Δv, and Δv is the acceleration over one step.
+            const impulse = mass * world.timestep;
+            body.applyImpulse({ x: x * impulse, y: y * impulse }, true);
+        });
     }
 
     /** Lazily create the reused event queue. */
@@ -645,6 +772,10 @@ export default class Physics {
             outputBody.world.removeRigidBody(outputBody.rigidBody);
             this.bodyByName.delete(name);
 
+            // A removed body must not still be swept: tick() finalizes every
+            // sweep, which would move a rigid body that no longer exists.
+            this.sweepingBodies.delete(outputBody);
+
             // If the world is now empty, remove it.
             if (outputBody.world.bodies.len() === 0) {
                 for (const [z, world] of this.worldsByZ) {
@@ -661,6 +792,7 @@ export default class Physics {
     createOutputBody(
         info: OutputInfo,
         matter: Matter | undefined,
+        detectable: boolean,
         world: RAPIER.World,
     ) {
         const { width, height } = info.output.getLayout(info.context);
@@ -676,6 +808,7 @@ export default class Physics {
             (matter?.roundedness ?? 0.1) *
                 (info.output.size ?? info.context.size),
             matter,
+            detectable,
             // A Shape's collision body matches its form (circle/polygon); everything else (Phrase,
             // Group, a Rectangle Shape) uses its bounding box. width/height stay the bounding box so
             // the position/place math is form-agnostic.
@@ -835,6 +968,46 @@ function regularPolygonVertices(sides: number, radius: number): Float32Array {
     return points;
 }
 
+/**
+ * The acceleration, in px/s², that an attractor of the given strength
+ * (mass × pull, in kg) imparts on a body offset from it by (dx, dy) px.
+ *
+ * Expressed as an acceleration rather than a force so the pulled body's own
+ * mass cancels, as it does in reality. That matters here beyond tidiness: a
+ * Motion body with no Matter is given mass 10 rather than 1 (see OutputBody),
+ * so anything proportional to the pulled mass would behave ten times
+ * differently for a phrase that simply never mentioned Matter.
+ *
+ * Separated out from the engine so the whole of the attraction math can be
+ * tested without Rapier, as planSteps and interpolateTransform are.
+ */
+export function pullAcceleration(
+    dx: number,
+    dy: number,
+    strength: number,
+): { x: number; y: number } {
+    // Work in stage meters: the constant is calibrated per meter, and metres are
+    // what a creator reasons about when placing output.
+    const x = dx / PX_PER_METER;
+    const y = dy / PX_PER_METER;
+    const distance = Math.hypot(x, y);
+    // Exactly coincident: no direction to pull in, so no pull. Non-finite
+    // values fall out here too — strength carries the program's own mass and
+    // pull, and one NaN impulse spreads to every position in the world within
+    // a step. An infinite distance needs the explicit test: it survives a
+    // > 0 check and then divides itself into NaN.
+    if (
+        distance === 0 ||
+        !Number.isFinite(distance) ||
+        !Number.isFinite(strength)
+    )
+        return { x: 0, y: 0 };
+    const softened = Math.max(distance, MinPullDistance);
+    const magnitude = (PullPxPerS2PerKg * strength) / (softened * softened);
+    // Toward the attractor for positive strength, away for negative.
+    return { x: (x / distance) * magnitude, y: (y / distance) * magnitude };
+}
+
 /** Clamp every dynamic body's speed to MaxSpeed (px/s). */
 function clampSpeeds(world: RAPIER.World, rapier: typeof RAPIER) {
     world.bodies.forEach((body: RAPIER.RigidBody) => {
@@ -865,6 +1038,7 @@ export class OutputBody {
         angle: number,
         corner: number,
         matter: Matter | undefined,
+        detectable: boolean,
         form: Form | undefined,
     ) {
         // Constructed only from Physics.createOutputBody, past the load gate.
@@ -916,7 +1090,7 @@ export class OutputBody {
                     { x: 0, y: 0 },
                     PreventSpinInertia,
                 )
-                .setCollisionGroups(getInteractionGroups(matter))
+                .setCollisionGroups(getInteractionGroups(matter, detectable))
                 .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS)
                 .setActiveCollisionTypes(AllCollisionTypes(RAPIER)),
             this.rigidBody,
@@ -985,7 +1159,7 @@ export class OutputBody {
 }
 
 /** Abstract away the interaction-group packing for output bodies. */
-function getInteractionGroups(matter: Matter | undefined) {
+function getInteractionGroups(matter: Matter | undefined, detectable: boolean) {
     // Rapier packs membership in the high 16 bits, the filter mask in the low 16.
     if (matter) {
         const filter =
@@ -993,6 +1167,10 @@ function getInteractionGroups(matter: Matter | undefined) {
             (matter.shapes ? ShapeCategory : 0);
         return (TextCategory << 16) | filter;
     }
-    // No matter: member of Text, but collides with nothing (empty filter).
+    // No matter, but a Collision is watching this name: collide with everything
+    // so it is detected. Such a body is always a sensor, so joining the world
+    // reports contacts without changing how anything moves.
+    if (detectable) return (TextCategory << 16) | TextCategory | ShapeCategory;
+    // Watched by nothing: member of Text, but collides with nothing.
     return TextCategory << 16;
 }

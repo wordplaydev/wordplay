@@ -61,6 +61,11 @@
          * the tile name rather than mixed in with the toolbar. */
         help?: Snippet;
         extra?: Snippet;
+        /** Optional controls rendered at the start of the tile's control
+         *  cluster, before collapse and fullscreen — the tile's top corner,
+         *  for actions about what the tile is showing rather than about the
+         *  tile itself. */
+        controls?: Snippet;
         /** Optional second toolbar row below the header, sharing its coloring —
          *  for controls that don't fit the main row (e.g. stepping controls). */
         subtoolbar?: Snippet | undefined;
@@ -103,6 +108,7 @@
         title,
         help,
         extra,
+        controls,
         subtoolbar,
         content,
         startMargin,
@@ -419,6 +425,7 @@
                     </div>
                 {/if}
                 <div class="tile-controls">
+                    {@render controls?.()}
                     {#if !layout.isFullscreen()}
                         <Button
                             background={false}

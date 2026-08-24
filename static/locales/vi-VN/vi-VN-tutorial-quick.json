@@ -134,7 +134,7 @@
                             "curious",
                             "$~Một số ngôn ngữ lập trình cho phép bạn chỉ định @type của một @variable, để bạn bảo đảm mọi cách dùng variable đó đều hợp lệ:",
                             "$~\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
-                            "$~@wordplay cũng có type, nhưng các type được *suy ra*. Bạn thường không cần khai báo chúng, nhưng đôi khi bạn có thể phải làm vậy nếu không thể suy ra được."
+                            "$~@wordplay cũng có kiểu, nhưng kiểu được *suy ra*. Bạn thường không cần khai báo kiểu, nhưng đôi khi bạn phải làm vậy nếu kiểu không thể suy ra được. Một kiểu danh sách cũng có thể đặt tên kiểu cho từng vị trí trong danh sách, ví dụ như \\[# '']\\ cho một danh sách gồm đúng hai thứ: một số, rồi một từ."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },

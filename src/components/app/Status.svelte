@@ -145,9 +145,13 @@
             )
         )
             return {
-                icon: undefined,
-                spin: false,
-                loading: true,
+                // The icon + label shape every other state uses, spun via
+                // Button's spinIcon path; `loading` would replace the whole
+                // button with a taller spinner and resize the footer. The
+                // label is what distinguishes this from saving.
+                icon: withMonoEmoji('🌐'),
+                spin: true,
+                loading: false,
                 text: (l: LocaleText) => l.ui.save.status.state.loading,
                 tip: (l: LocaleText) => l.ui.project.button.savedOnline,
                 salient: false,

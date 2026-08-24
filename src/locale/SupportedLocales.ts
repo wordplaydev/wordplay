@@ -38,3 +38,18 @@ export const SupportedLocales = Array.from(
 
 /** A type to represent one of the strings above */
 export type SupportedLocale = (typeof SupportedLocales)[number];
+
+/**
+ * The web app manifest a page in the given locale links to: there's one per
+ * locale, since a manifest carries only one language and an installed app
+ * should be named in the language it was installed from (#564). A code with no
+ * manifest — an unknown segment, or a multilingual tag like `es_en-MX` — falls
+ * back to en-US, so this never returns a 404 that would quietly make the app
+ * uninstallable.
+ */
+export function getManifestPath(locale: string): string {
+    const supported = SupportedLocales.some(
+        (candidate: SupportedLocale) => candidate === locale,
+    );
+    return `/manifests/${supported ? locale : 'en-US'}.webmanifest`;
+}

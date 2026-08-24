@@ -1,5 +1,4 @@
-import admin from 'firebase-admin';
-import type { UserIdentifier } from 'firebase-admin/auth';
+import { getAuth, type UserIdentifier } from 'firebase-admin/auth';
 import type { CallableRequest } from 'firebase-functions/v2/https';
 
 export type UserMatch = {
@@ -21,7 +20,7 @@ export default async function getCreators(
         chunks.push(identifiers.slice(i, i + GET_USERS_LIMIT));
 
     const results = await Promise.all(
-        chunks.map((chunk) => admin.auth().getUsers(chunk)),
+        chunks.map((chunk) => getAuth().getUsers(chunk)),
     );
 
     const matches: UserMatch[] = [];

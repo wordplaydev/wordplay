@@ -20,8 +20,7 @@ import type Program from '@nodes/Program';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
 import Source from '@nodes/Source';
-import type StreamDefinition from '@nodes/StreamDefinition';
-import type StructureDefinition from '@nodes/StructureDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import { v4 as uuidv4 } from 'uuid';
@@ -45,6 +44,19 @@ import { toTokens } from '@parser/toTokens';
 import { PROJECT_PARAM_MODE } from '../../routes/[[locale]]/project/constants';
 import type LocalesDatabase from '@db/locales/LocalesDatabase';
 import { type ModerationState, unknownFlags } from '@db/projects/Moderation';
+import { ScratchPrefix } from '@db/projects/ScratchPrefix';
+import {
+    type Analysis,
+    type AnalysisInProgress,
+    type AnalysisState,
+    CallGraph,
+    type Callable,
+    DependencyGraph,
+    type SourceAnalysis,
+    dedupeConflicts,
+    emptyAnalysis,
+    mergeConflicts,
+} from '@db/projects/Analysis';
 import {
     type ProjectID,
     ProjectSchemaLatestVersion,
@@ -171,7 +183,7 @@ export type LocaleUsage = {
  *      is rare to change concurrently; mergeWith picks local sources
  *      and lets the CRDT reconcile their text content.
  */
-const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
+export const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
     'name',
     'locales',
     'owner',
@@ -187,27 +199,9 @@ const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
     'viewers',
     'commenters',
     'preview',
+    'folder',
+    'researchConsent',
 ];
-
-type Analysis = {
-    conflicts: Conflict[];
-    conflictedNodes: Map<Node, Conflict[]>;
-    /** Evaluations by function and structures they evaluate (a call graph) */
-    evaluations: Map<
-        FunctionDefinition | StructureDefinition | StreamDefinition,
-        Set<Evaluate>
-    >;
-    /** Expression dependencies */
-    /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
-    dependencies: Map<Expression, Set<Expression>>;
-};
-
-/**
- * One source's share of an `Analysis`, cached so an edit to one source doesn't
- * re-derive every other source's. Same shape as the whole, since merging is
- * just unioning the pieces.
- */
-type SourceAnalysis = Analysis;
 
 type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
 
@@ -255,14 +249,12 @@ export default class Project {
     /** The localized basis bindings */
     readonly basis: Basis;
 
-    /** Conflicts. */
-    analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
-    analysis: Analysis = {
-        conflicts: [],
-        conflictedNodes: new Map(),
-        evaluations: new Map(),
-        dependencies: new Map(),
-    };
+    /**
+     * Where this project is in its analysis. A discriminated union rather than
+     * a flag beside a half-filled result, so that reading a layer that isn't
+     * built yet is a thing the type checker makes you say out loud. See #808.
+     */
+    private state: AnalysisState = { kind: 'unanalyzed' };
 
     /** Each source's share of the analysis above, so a revision can keep the
      * shares belonging to sources it didn't touch. */
@@ -319,11 +311,17 @@ export default class Project {
      * thousands of notes in one, and re-inferring them made each edit to the
      * two-line program that plays them take about a second.
      *
-     * A source's types and constants depend on its own nodes, on the basis, and
-     * on whatever it borrows. So the safe cases to carry are the ones that are
+     * A source's types depend on its own nodes, on the basis, and on whatever it
+     * borrows. So the safe cases to carry are the ones that are
      * identity-unchanged (which `withSources` guarantees for sources it doesn't
      * replace), borrow nothing, and share our basis — which is per-locale
      * memoized, so it holds whenever the locales did not change.
+     *
+     * A source's *later* analysis layers additionally depend on the whole
+     * project's call graph, which a change elsewhere can move; `analyze` drops
+     * and redoes those for any carried source a freshly analyzed one calls
+     * into. `constants` is deliberately not carried for the same reason and is
+     * not worth the same treatment: it is derived lazily and only at runtime.
      */
     /**
      * A revision of this project, keeping the analysis of every source the
@@ -340,6 +338,16 @@ export default class Project {
      */
     private revised(data: Partial<ProjectData>): Project {
         return new Project({ ...this.data, ...data }, this);
+    }
+
+    /**
+     * A revision with `preview` removed. Firestore rejects an undefined field
+     * value, so "no preview" is an absent key — which a `revised()` spread
+     * can't express. Carries caches exactly as `revised()` does.
+     */
+    private withoutPreview(): Project {
+        const { preview: _, ...rest } = this.data;
+        return new Project(rest, this);
     }
 
     private adoptCaches(carry: Project) {
@@ -411,6 +419,8 @@ export default class Project {
             stamps: emptyStamps(),
             crdt: null,
             remixOf: null,
+            folder: null,
+            researchConsent: false,
         });
     }
 
@@ -566,263 +576,217 @@ export default class Project {
         return this.basis;
     }
 
-    getAnalysis() {
-        // If there's a cycle, return the analysis thus far.
-        return this.analysis;
-    }
-
-    analyze() {
-        if (this.analyzed === 'analyzed' || this.analyzed === 'analyzing')
-            return this.analysis;
-
-        this.analyzed = 'analyzing';
-
-        this.analysis = {
-            conflicts: [],
-            conflictedNodes: new Map(),
-            evaluations: new Map(),
-            dependencies: new Map(),
-        };
-
-        for (const source of this.getSources()) {
-            const cached = this.sourceAnalysis.get(source);
-            if (cached !== undefined) this.mergeAnalysis(cached);
-            else this.sourceAnalysis.set(source, this.analyzeSource(source));
-        }
-
-        this.analyzed = 'analyzed';
-
-        return this.analysis;
-    }
-
-    /** Fold one source's share into the whole project's analysis. */
-    private mergeAnalysis(share: SourceAnalysis, parts?: (keyof Analysis)[]) {
-        const wanted = (part: keyof Analysis) =>
-            parts === undefined || parts.includes(part);
-
-        if (wanted('conflicts'))
-            this.analysis.conflicts = this.analysis.conflicts.concat(
-                share.conflicts,
-            );
-
-        // A node belongs to one source, but a conflict may point at one in
-        // another, so these merge rather than overwrite.
-        if (wanted('conflictedNodes'))
-            for (const [node, conflicts] of share.conflictedNodes)
-                this.analysis.conflictedNodes.set(node, [
-                    ...(this.analysis.conflictedNodes.get(node) ?? []),
-                    ...conflicts,
-                ]);
-
-        // Definitions and dependencies are shared across sources — a basis
-        // function is called from all of them — so these union.
-        if (wanted('evaluations'))
-            for (const [fun, evaluates] of share.evaluations) {
-                const set = this.analysis.evaluations.get(fun) ?? new Set();
-                for (const evaluate of evaluates) set.add(evaluate);
-                this.analysis.evaluations.set(fun, set);
-            }
-        if (wanted('dependencies'))
-            for (const [dependency, dependents] of share.dependencies) {
-                const set =
-                    this.analysis.dependencies.get(dependency) ?? new Set();
-                for (const dependent of dependents) set.add(dependent);
-                this.analysis.dependencies.set(dependency, set);
-            }
+    /**
+     * This project's completed analysis, or undefined if it hasn't finished
+     * one. Callers must decide what they mean by "no analysis yet" — before
+     * this returned a half-built result that read as an empty one, so a project
+     * nobody had analyzed reported that it had no conflicts. See #808.
+     */
+    getAnalysis(): Analysis | undefined {
+        return this.state.kind === 'analyzed' ? this.state.analysis : undefined;
     }
 
     /**
-     * Everything analysis knows that comes from one source: its conflicts, the
-     * evaluations it makes, and the dependencies it creates. Kept per source so
-     * an edit to one doesn't re-derive the others — see `adoptCaches`.
-     *
-     * Each part is folded into the project's analysis as it is computed, not at
-     * the end, because the later parts read the earlier ones: `Bind`'s
-     * dependencies are the calls to the function it sits in, which it asks the
-     * project for. Building the whole share in private and merging once leaves
-     * that read empty, and a reaction inside a function stops reevaluating.
+     * The layers of the analysis built so far, for the few things that legitimately
+     * run *during* one. Each layer is undefined until its phase completes, so a
+     * reader has to say what it does without it rather than silently treating a
+     * partial answer as the whole one.
      */
-    private analyzeSource(source: Source): SourceAnalysis {
-        const context = this.getContext(source);
-        const contribution: SourceAnalysis = {
-            conflicts: [],
-            conflictedNodes: new Map(),
-            evaluations: new Map(),
-            dependencies: new Map(),
+    getAnalysisInProgress(): AnalysisInProgress {
+        return this.state.kind === 'analyzing'
+            ? this.state.partial
+            : this.state.kind === 'analyzed'
+              ? this.state.analysis
+              : { calls: undefined, dependencies: undefined };
+    }
+
+    /** Kept for the UI, which schedules around the three states. */
+    get analyzed(): 'unanalyzed' | 'analyzing' | 'analyzed' {
+        return this.state.kind;
+    }
+
+    /**
+     * Derive everything analysis knows, in three project-wide phases.
+     *
+     * The order is the order the layers actually depend on each other, and it
+     * has to be project-wide rather than per source. The call graph comes first
+     * because it is derived from types alone. The dependency graph reads it: a
+     * bind in a function has no value until someone calls the function, so its
+     * dependencies are those calls. Conflicts come last because some of them
+     * consult both — `Reaction` asks whether anything its condition depends on
+     * is a stream, which for a stream passed *into* a function is only knowable
+     * from the call graph.
+     *
+     * Running these per source instead, as this used to, meant one source's
+     * conflicts were computed before another source's calls were known. Two
+     * things went wrong: a reaction over a function input was told it had
+     * nothing to react to, and a function defined in one source and called from
+     * another never recorded the call as a dependency, so reactions inside it
+     * stopped reevaluating.
+     */
+    analyze(): Analysis {
+        if (this.state.kind === 'analyzed') return this.state.analysis;
+        // Re-entrant call during analysis: hand back what exists so far rather
+        // than restarting the walk. Readers that mean to do this go through
+        // getAnalysisInProgress(), which makes the gaps explicit.
+        if (this.state.kind === 'analyzing') {
+            const { calls, dependencies } = this.state.partial;
+            return {
+                calls: calls ?? new CallGraph(),
+                dependencies: dependencies ?? new DependencyGraph(),
+                conflicts: [],
+                conflictedNodes: new Map(),
+            };
+        }
+
+        const analysis = emptyAnalysis();
+        const partial: AnalysisInProgress = {
+            calls: undefined,
+            dependencies: undefined,
         };
+        this.state = { kind: 'analyzing', partial };
 
-        // Compute all of the conflicts in this source.
-        const rawConflicts = source.expression.getAllConflicts(context);
+        // Each source's share, carried from the project this one revises where
+        // there is one to carry. `fresh` is the ones we have to derive.
+        const shares = this.getSources().map(
+            (source): [Source, SourceAnalysis, boolean] => {
+                const cached = this.sourceAnalysis.get(source);
+                return [
+                    source,
+                    cached ?? emptyAnalysis(),
+                    cached === undefined,
+                ];
+            },
+        );
 
-        // Drop structural duplicates (same constructor + same Node fields).
-        // `Conflict.isEqualTo` exists but no caller used it for dedup; the
-        // Annotations UI did a defensive identity-Set pass instead. With
-        // the type-rooted cascade gates in place, true duplicates are
-        // already rare — this is a backstop for any that slip through. #1146
-        for (const c of rawConflicts)
-            if (!contribution.conflicts.some((d) => d.isEqualTo(c)))
-                contribution.conflicts.push(c);
+        // Phase A: the call graph, for every source.
+        for (const [source, share, fresh] of shares) {
+            if (fresh) this.analyzeSourceCalls(source, share);
+            analysis.calls.merge(share.calls);
+        }
+        partial.calls = analysis.calls;
 
-        for (const conflict of contribution.conflicts) {
+        // A carried source's dependencies and conflicts were derived against
+        // the call graph of the project it came from. If a source we just
+        // analyzed calls into one we carried, that source's later layers are
+        // stale, so drop them and redo just those. A borrowed source nothing
+        // calls into — a table of data, a song's notes — never trips this,
+        // which is what keeps carrying it worthwhile.
+        const stale = this.staleFromNewCalls(shares, analysis.calls);
+        for (const entry of shares)
+            if (stale.has(entry[0])) {
+                const kept = emptyAnalysis();
+                kept.calls.merge(entry[1].calls);
+                entry[1] = kept;
+                entry[2] = true;
+            }
+
+        // Phase B: the dependency graph, which reads the call graph.
+        for (const [source, share, fresh] of shares) {
+            if (fresh) this.analyzeSourceDependencies(source, share);
+            analysis.dependencies.merge(share.dependencies);
+        }
+        // The edges a call implies: every call to a definition decides what its
+        // input binds are. Derived here, from the whole project's call graph,
+        // rather than by `Bind` asking the project mid-analysis for calls it
+        // could not yet see.
+        for (const [fun, evaluates] of analysis.calls.entries())
+            if (
+                fun instanceof FunctionDefinition ||
+                fun instanceof StructureDefinition
+            )
+                for (const input of fun.inputs)
+                    for (const evaluate of evaluates)
+                        analysis.dependencies.add(evaluate, input);
+        partial.dependencies = analysis.dependencies;
+
+        // Phase C: conflicts, which may read either graph above.
+        for (const [source, share, fresh] of shares) {
+            if (fresh) this.analyzeSourceConflicts(source, share);
+            mergeConflicts(analysis, share);
+        }
+
+        for (const [source, share] of shares)
+            this.sourceAnalysis.set(source, share);
+
+        this.state = { kind: 'analyzed', analysis };
+
+        return analysis;
+    }
+
+    /**
+     * Carried sources whose later layers a freshly analyzed source's calls
+     * invalidate. See the call in {@link Project.analyze}.
+     */
+    private staleFromNewCalls(
+        shares: [Source, SourceAnalysis, boolean][],
+        calls: CallGraph,
+    ): Set<Source> {
+        const stale = new Set<Source>();
+        const carried = shares.filter(([, , fresh]) => !fresh);
+        const fresh = shares.filter(([, , isFresh]) => isFresh);
+        if (carried.length === 0 || fresh.length === 0) return stale;
+        for (const [fun, evaluates] of calls.entries())
+            for (const evaluate of evaluates) {
+                // Only a call made from a source we just analyzed can be new.
+                if (!fresh.some(([source]) => source.root.has(evaluate)))
+                    continue;
+                const target = carried.find(([source]) => source.root.has(fun));
+                if (target !== undefined) stale.add(target[0]);
+            }
+        return stale;
+    }
+
+    /** Phase A for one source: which definitions its `Evaluate`s call. */
+    private analyzeSourceCalls(source: Source, share: SourceAnalysis) {
+        const context = this.getContext(source);
+        for (const node of source.nodes()) {
+            if (!(node instanceof Evaluate)) continue;
+            const fun = node.getFunction(context);
+            if (fun === undefined) continue;
+            share.calls.add(fun, node);
+
+            // Is it a higher order function? Get the function input and add the
+            // Evaluate as a caller of the function input.
+            if (fun instanceof FunctionDefinition)
+                for (const input of node.inputs) {
+                    const type = input.getType(context);
+                    if (type instanceof FunctionType && type.definition)
+                        share.calls.add(type.definition, node);
+                }
+        }
+    }
+
+    /** Phase B for one source: which expressions depend on which. */
+    private analyzeSourceDependencies(source: Source, share: SourceAnalysis) {
+        const context = this.getContext(source);
+        for (const node of source.nodes())
+            if (node instanceof Expression)
+                for (const dependency of node.getDependencies(context))
+                    share.dependencies.add(dependency, node);
+    }
+
+    /** Phase C for one source: its conflicts, and the nodes they point at. */
+    private analyzeSourceConflicts(source: Source, share: SourceAnalysis) {
+        const context = this.getContext(source);
+        share.conflicts = dedupeConflicts(
+            source.expression.getAllConflicts(context),
+        );
+        for (const conflict of share.conflicts) {
             const node = conflict.getConflictingNode(context, Templates);
-            contribution.conflictedNodes.set(node, [
-                ...(contribution.conflictedNodes.get(node) ?? []),
+            share.conflictedNodes.set(node, [
+                ...(share.conflictedNodes.get(node) ?? []),
                 conflict,
             ]);
         }
-        this.mergeAnalysis(contribution, ['conflicts', 'conflictedNodes']);
-
-        // Build a mapping from functions and structures to their evaluations.
-        for (const node of source.nodes()) {
-            // Find all Evaluates
-            if (node instanceof Evaluate) {
-                // Find the function called.
-                const fun = node.getFunction(context);
-                if (fun) {
-                    // Add this evaluate to the function's list of calls.
-                    const evaluates =
-                        contribution.evaluations.get(fun) ?? new Set();
-                    evaluates.add(node);
-                    contribution.evaluations.set(fun, evaluates);
-
-                    // Is it a higher order function? Get the function input
-                    // and add the Evaluate as a caller of the function input.
-                    if (fun instanceof FunctionDefinition) {
-                        for (const input of node.inputs) {
-                            const type = input.getType(context);
-                            if (
-                                type instanceof FunctionType &&
-                                type.definition
-                            ) {
-                                const hofEvaluates =
-                                    contribution.evaluations.get(
-                                        type.definition,
-                                    ) ?? new Set();
-                                hofEvaluates.add(node);
-                                contribution.evaluations.set(
-                                    type.definition,
-                                    hofEvaluates,
-                                );
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        this.mergeAnalysis(contribution, ['evaluations']);
-
-        // Now create the dependency graph using the call graph.
-        for (const node of source.nodes()) {
-            // Build the dependency graph by asking each expression node for its dependencies.
-            // Determine whether the node is constant.
-            if (node instanceof Expression) {
-                const dependencies = node.getDependencies(context);
-                for (const dependency of dependencies) {
-                    const set = contribution.dependencies.get(dependency);
-                    if (set) set.add(node);
-                    else
-                        contribution.dependencies.set(
-                            dependency,
-                            new Set([node]),
-                        );
-                }
-            }
-        }
-        this.mergeAnalysis(contribution, ['dependencies']);
-
-        return contribution;
     }
 
-    static analyze(project: Project): Analysis {
-        let newAnalysis: Analysis = {
-            conflicts: [],
-            conflictedNodes: new Map(),
-            evaluations: new Map(),
-            dependencies: new Map(),
-        };
-
-        // Build a mapping from nodes to conflicts.
-        for (const source of project.getSources()) {
-            const context = project.getContext(source);
-
-            // Compute all of the conflicts in the program.
-            newAnalysis.conflicts = newAnalysis.conflicts.concat(
-                source.expression.getAllConflicts(context),
-            );
-
-            // Build conflict indices by going through each conflict, asking for the conflicting nodes
-            // and adding to the conflict to each node's list of conflicts.
-            for (const conflict of newAnalysis.conflicts) {
-                const node = conflict.getConflictingNode(context, Templates);
-                newAnalysis.conflictedNodes.set(node, [
-                    ...(newAnalysis.conflictedNodes.get(node) ?? []),
-                    conflict,
-                ]);
-            }
-
-            // Build a mapping from functions and structures to their evaluations.
-            for (const node of source.nodes()) {
-                // Find all Evaluates
-                if (node instanceof Evaluate) {
-                    // Find the function called.
-                    const fun = node.getFunction(context);
-                    if (fun) {
-                        // Add this evaluate to the function's list of calls.
-                        const evaluates =
-                            newAnalysis.evaluations.get(fun) ?? new Set();
-                        evaluates.add(node);
-                        newAnalysis.evaluations.set(fun, evaluates);
-
-                        // Is it a higher order function? Get the function input
-                        // and add the Evaluate as a caller of the function input.
-                        if (fun instanceof FunctionDefinition) {
-                            for (const input of node.inputs) {
-                                const type = input.getType(context);
-                                if (
-                                    type instanceof FunctionType &&
-                                    type.definition
-                                ) {
-                                    const hofEvaluates =
-                                        newAnalysis.evaluations.get(
-                                            type.definition,
-                                        ) ?? new Set();
-                                    hofEvaluates.add(node);
-                                    newAnalysis.evaluations.set(
-                                        type.definition,
-                                        hofEvaluates,
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Now create the dependency graph using the call graph.
-            for (const node of source.nodes()) {
-                // Build the dependency graph by asking each expression node for its dependencies.
-                // Determine whether the node is constant.
-                if (node instanceof Expression) {
-                    const dependencies = node.getDependencies(context);
-                    for (const dependency of dependencies) {
-                        const set = newAnalysis.dependencies.get(dependency);
-                        if (set) set.add(node);
-                        else
-                            newAnalysis.dependencies.set(
-                                dependency,
-                                new Set([node]),
-                            );
-                    }
-                }
-            }
-        }
-
-        return newAnalysis;
-    }
-
-    getConflicts() {
-        return this.getAnalysis().conflicts;
+    /** The conflicts of a completed analysis, or undefined if there isn't one.
+     * Undefined and "no conflicts" are different answers, and treating the
+     * first as the second is how an un-analyzed project reported a clean bill
+     * of health. */
+    getConflicts(): Conflict[] | undefined {
+        return this.getAnalysis()?.conflicts;
     }
 
     /**
@@ -942,27 +906,29 @@ export default class Project {
         return false;
     }
 
-    getConflictedNodes() {
-        return this.getAnalysis().conflictedNodes;
+    getConflictedNodes(): Map<Node, Conflict[]> | undefined {
+        return this.getAnalysis()?.conflictedNodes;
     }
 
     nodeInvolvedInConflicts(node: Node) {
-        return this.getConflictedNodes().has(node);
+        return this.getAnalysis()?.conflictedNodes.has(node) ?? false;
     }
 
     /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
     getConflictsInvolvingNode(node: Node) {
-        return this.getConflictedNodes().get(node);
+        return this.getAnalysis()?.conflictedNodes.get(node);
     }
 
-    getEvaluationsOf(
-        fun: FunctionDefinition | StructureDefinition | StreamDefinition,
-    ): Evaluate[] {
-        return Array.from(this.getAnalysis().evaluations.get(fun) ?? []);
+    getEvaluationsOf(fun: Callable): Evaluate[] {
+        return this.getAnalysis()?.calls.getEvaluationsOf(fun) ?? [];
     }
 
     getExpressionsAffectedBy(expression: Expression): Set<Expression> {
-        return this.getAnalysis().dependencies.get(expression) ?? new Set();
+        return (
+            this.getAnalysis()?.dependencies.getExpressionsAffectedBy(
+                expression,
+            ) ?? new Set()
+        );
     }
 
     /**
@@ -974,19 +940,20 @@ export default class Project {
             const analysis = this.analyze();
             this.#changeDependentExpressions = new Set();
 
-            const changes = Array.from(analysis.dependencies.entries()).filter(
-                (s) => s[0] instanceof Changed,
-            );
+            const changes = analysis.dependencies
+                .entries()
+                .filter((s) => s[0] instanceof Changed);
             while (changes.length > 0) {
                 const [, dependents] = changes.pop()!;
                 for (const dependent of dependents) {
                     if (!this.#changeDependentExpressions.has(dependent)) {
                         this.#changeDependentExpressions.add(dependent);
                         const furtherDependents =
-                            analysis.dependencies.get(dependent);
-                        if (furtherDependents) {
+                            analysis.dependencies.getExpressionsAffectedBy(
+                                dependent,
+                            );
+                        if (furtherDependents.size > 0)
                             changes.push([dependent, furtherDependents]);
-                        }
                     }
                 }
             }
@@ -1171,7 +1138,7 @@ export default class Project {
         return this.revised({
             locales: [...this.data.locales, ...added.map(localeToString)],
             localeTexts: [...this.data.localeTexts, ...added],
-        });
+        }).withKeywordedSources();
     }
 
     /** Copies this project without the given declared locales. Refuses to empty the
@@ -1188,7 +1155,26 @@ export default class Project {
             localeTexts: this.data.localeTexts.filter((l) =>
                 remaining.includes(localeToString(l)),
             ),
-        });
+        }).withKeywordedSources();
+    }
+
+    /** Re-tokenize every source with this project's keyword index, so a language change
+     * takes effect immediately instead of at the next reload: an added language's keyword
+     * words become constructs, and a removed language's words degrade to plain names.
+     * Routed through withSources so carets follow their replaced sources.
+     *
+     * Rebuilds every source, so a caller holding nodes gathered from the old tree must
+     * call this last — which is why `withPrimaryLocale` doesn't do it for you. */
+    withKeywordedSources(): Project {
+        const keywords = this.getKeywordIndex();
+        const replacements: [Source, Source][] = [];
+        for (const source of this.getSources()) {
+            const rekeyed = source.withKeywords(keywords);
+            if (rekeyed !== source) replacements.push([source, rekeyed]);
+        }
+        return replacements.length === 0
+            ? this
+            : this.withSources(replacements);
     }
 
     withCaret(source: Source, caret: CaretPosition) {
@@ -1269,6 +1255,14 @@ export default class Project {
 
         // Go through each replacement and generate a new source.
         for (const [original, replacement] of nodes) {
+            // Replacing a node with itself is a no-op by definition, but doing
+            // the work is not: each `replace` rebuilds the source, which
+            // orphans every other node the caller gathered up front. A caller
+            // that passes "leave this one alone" pairs alongside real ones —
+            // `translateProjectContent` does, for every doc it decides not to
+            // translate — then silently loses the real replacements that come
+            // after them.
+            if (original === replacement) continue;
             const source = this.getSourceOf(original);
             if (source === undefined) {
                 console.error(
@@ -1338,6 +1332,39 @@ export default class Project {
 
     withOwner(owner: string | null) {
         return this.revised({ owner });
+    }
+
+    /**
+     * Hand ownership to `uid`, keeping the former owner as a collaborator so a
+     * transfer never costs them access to their own work.
+     *
+     * Both halves matter. The new owner leaves the collaborator list because
+     * the owner is not their own collaborator anywhere else in the model, and
+     * `getContributors` would otherwise count them twice. The former owner
+     * joins it because Firestore's project rules grant edit access to the owner
+     * and collaborators only — without this they'd be locked out of a project
+     * they made. They do lose deletion, which is owner-only in the rules, and
+     * that is the point of a transfer.
+     *
+     * Transferring to the current owner, or to nobody, is a no-op rather than
+     * an error: the caller is a list of collaborators, and a stale render
+     * shouldn't be able to empty the collaborator list.
+     */
+    withOwnerTransferredTo(uid: string) {
+        const previous = this.data.owner;
+        if (previous === uid) return this;
+        return this.revised({
+            owner: uid,
+            collaborators: [
+                ...this.data.collaborators.filter(
+                    (collaborator) => collaborator !== uid,
+                ),
+                ...(previous !== null &&
+                !this.data.collaborators.includes(previous)
+                    ? [previous]
+                    : []),
+            ],
+        });
     }
 
     getCollaborators() {
@@ -1545,7 +1572,10 @@ export default class Project {
             restrictedGallery: project.restrictedGallery,
             viewers: project.viewers,
             commenters: project.commenters,
-            preview: project.preview,
+            // Omit the key when absent; `preview` is exactly optional, so
+            // assigning undefined would put a value Firestore rejects into
+            // memory. Same reasoning as the crdt/remixOf coalescing below.
+            ...(project.preview !== undefined && { preview: project.preview }),
             stamps: {
                 lamport: project.stamps.lamport,
                 fields: { ...project.stamps.fields },
@@ -1555,6 +1585,8 @@ export default class Project {
             // Firestore and throw. See ProjectSchemaV8 and ProjectSchemaV9.
             crdt: project.crdt ?? null,
             remixOf: project.remixOf ?? null,
+            folder: project.folder ?? null,
+            researchConsent: project.researchConsent ?? false,
         });
     }
 
@@ -1697,6 +1729,28 @@ export default class Project {
 
     withGallery(id: string | null) {
         return this.revised({ gallery: id });
+    }
+
+    /** The ID of the folder this project is filed under, or null for the top level. */
+    getFolder() {
+        return this.data.folder;
+    }
+
+    withFolder(folder: string | null) {
+        return this.revised({ folder });
+    }
+
+    /** Whether the creator has allowed this project to be shown anonymously in
+     *  research and communications about Wordplay. Deliberately not inherited by
+     *  a copy or a remix: consent is given for a particular project by the
+     *  person who made it, and `copy()` routes through `make`, which defaults
+     *  it to false. */
+    hasResearchConsent() {
+        return this.data.researchConsent;
+    }
+
+    withResearchConsent(consent: boolean) {
+        return this.revised({ researchConsent: consent });
     }
 
     getFlags() {
@@ -1872,6 +1926,8 @@ export default class Project {
             },
             crdt: this.data.crdt ?? null,
             remixOf: this.data.remixOf ?? null,
+            folder: this.data.folder ?? null,
+            researchConsent: this.data.researchConsent ?? false,
         };
         // Firestore rejects literal `undefined` field values, and the schema
         // marks `preview` as optional — so omit the key entirely when unset.
@@ -1882,6 +1938,20 @@ export default class Project {
 
     isTutorial() {
         return this.getID().startsWith('tutorial-');
+    }
+
+    /** A throwaway project made from a guide example so someone can tinker with
+     *  it. See scratch.ts. */
+    isScratch() {
+        return this.getID().startsWith(ScratchPrefix);
+    }
+
+    /** Whether this project is kept on this device only, never written to the
+     *  cloud. Tutorial and scratch projects are both incidental to somewhere
+     *  else in the app — a lesson, a guide page — rather than work a creator
+     *  went looking for, so neither belongs in their cloud project list. */
+    isLocalOnly() {
+        return this.isTutorial() || this.isScratch();
     }
 
     getSourceByteSize() {
@@ -1901,7 +1971,9 @@ export default class Project {
     }
 
     withPreview(preview: SerializedPreview | undefined): Project {
-        return this.revised({ preview });
+        return preview === undefined
+            ? this.withoutPreview()
+            : this.revised({ preview });
     }
 
     /** The ID of the project this was remixed from, or null if it's an original. */
@@ -2200,6 +2272,12 @@ export default class Project {
             return mergeField(this.data[field], a, other.data[field], b);
         };
 
+        // Every field in StampedMetadataFields has to appear below, or the
+        // `...this.data` spread silently keeps the local value and the remote's
+        // edit is lost — which is what happened to v10's `folder` and
+        // `researchConsent` the moment they were added to that list. The list
+        // is written out rather than looped so each field's merge is explicit;
+        // Project.merge.test.ts fails if the two ever drift apart.
         const mergedData: ProjectData = {
             ...this.data,
             // Stamped metadata fields
@@ -2217,7 +2295,8 @@ export default class Project {
             restrictedGallery: pick('restrictedGallery'),
             viewers: pick('viewers'),
             commenters: pick('commenters'),
-            preview: pick('preview'),
+            folder: pick('folder'),
+            researchConsent: pick('researchConsent'),
             // Source structure stays local. The Yjs CRDT
             // (ProjectCRDT.ts) is the authoritative merge for code and
             // source names; ProjectsDatabase.foldRemoteCRDT applies the
@@ -2235,6 +2314,13 @@ export default class Project {
             persisted: this.data.persisted || other.data.persisted,
             stamps: mergeStamps(localStamps, remoteStamps),
         };
+        // `preview` is the only stamped field that can be absent, and it's
+        // exactly optional, so set-or-delete it rather than letting the
+        // `...this.data` base carry a stale one past a merge that dropped it.
+        const mergedPreview = pick('preview');
+        if (mergedPreview === undefined) delete mergedData.preview;
+        else mergedData.preview = mergedPreview;
+
         // Sources and carets come from `this` (see above), so its caches
         // still describe them.
         return new Project(mergedData, this);

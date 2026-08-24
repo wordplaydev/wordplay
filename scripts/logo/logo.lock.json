@@ -5,7 +5,8 @@
         "scripts/logo/fonts/NotoSans-700.ttf": "9f0ce911354e554bbac00c399dcea71c785962cebfd86e965656f0bd011dfca9",
         "scripts/logo/generate.ts": "f859fde6b19a070a69727fbe4b366921583fe0b8118115c276b9377fda824b42",
         "scripts/logo/ico.ts": "d5768fa06717badf4b2366c03b56b9045cca4f06994fd7714e4df487d8bebbe6",
-        "scripts/logo/manifest.ts": "7b0672d2658f1df5fa60f504ce24ed1943850f2bdb98036e5b7152b6e797f92f",
+        "scripts/logo/manifest.ts": "2d14042068e348cf1f30dc3aa4919e63ead2a3930267efec232832cf8d55b34e",
+        "src/components/app/cast.ts": "24a886794b3e51a22c6b58e540c45df7ae1b5719938a87f3a1ae92f602176adb",
         "src/components/app/logoMark.ts": "e5b3c298897528bb4ff7bd5fa9bec4023a4a850cc995fb24b0b9b7bd25a354af"
     },
     "outputs": {

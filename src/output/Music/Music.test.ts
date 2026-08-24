@@ -440,7 +440,7 @@ test('a note value in a note list type-checks and a stray unit does not', () => 
         const source = new Source('test', code);
         const project = Project.make(null, 'test', source, [], DefaultLocale);
         project.analyze();
-        return project.getConflicts();
+        return project.analyze().conflicts;
     }
     expect(
         conflictsIn(`Music(Track([1 2${Half} {3${Eighth} 5}]))`),

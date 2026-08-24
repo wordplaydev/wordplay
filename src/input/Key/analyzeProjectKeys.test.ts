@@ -1,10 +1,15 @@
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 import Project from '@db/projects/Project';
 import Source from '@nodes/Source';
 import DefaultLocale from '@locale/DefaultLocale';
 import { Locales } from '@db/Database';
 import { readProjects } from '../../examples/readProjects';
 import analyzeProjectKeys, { type KeyAnalysis } from './analyzeProjectKeys';
+
+// Every test here builds a Project, and the first one to run in a worker pays for
+// constructing the basis (~1.5s). That lands on a different test each run, so the
+// allowance is set for the file rather than for whichever test happened to be first.
+vi.setConfig({ testTimeout: 60000 });
 
 function analyze(code: string): KeyAnalysis {
     const project = Project.make(

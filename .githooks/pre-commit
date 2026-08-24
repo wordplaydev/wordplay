@@ -19,3 +19,13 @@ if git diff --cached --name-only |
 	echo "Locale sources staged; checking generated locale artifacts..."
 	npx vitest run src/util/verify-locales/localeArtifactsSync.test.ts || exit 1
 fi
+
+# An in-place edit to an en-US string leaves every translation describing older
+# English, and nothing else notices — `$!` has to be typed by hand and almost
+# never is (#1144). This compares the staged en-US against HEAD (two blob reads,
+# no history walk) and names what changed. A warning, not a gate: the fix is a
+# translation run, so blocking the commit would be the wrong shape.
+if git diff --cached --name-only |
+	grep -qE '^(src/locale/en-US\.json|static/locales/en-US/en-US-tutorial\.json)$'; then
+	npx tsx src/util/verify-locales/driftCLI.ts --staged || true
+fi

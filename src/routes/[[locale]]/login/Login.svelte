@@ -31,6 +31,16 @@
     let password = $state('');
     let email = $state('');
 
+    /** True once we've sent a login link, which reveals the paste field below. */
+    let linkSent = $state(false);
+
+    /** The login link, pasted in by hand. Needed because the emailed link can
+     *  land somewhere this page can't see: an installed app opens email links in
+     *  a browser, whose storage is a separate container on iOS, so the sign-in
+     *  would complete there instead of here. Pasting crosses that boundary, and
+     *  covers reading the email on another device too. */
+    let link = $state('');
+
     /** When true, login submission button shows loading spinner */
     let loading = $state(false);
 
@@ -104,9 +114,13 @@
                         // after returning to the link above.
                         window.localStorage.setItem('email', email);
                         emailFeedback = (l) => l.ui.page.login.prompt.sent;
+                        linkSent = true;
                     }
                 } else {
                     emailFeedback = (l) => l.ui.page.login.prompt.sent;
+                    // Reveal the paste field even when no account matched, so
+                    // this page never confirms whether an email has an account.
+                    linkSent = true;
                 }
             } catch (err) {
                 emailFeedback = getAuthErrorDescription(err);
@@ -116,7 +130,11 @@
         }
     }
 
-    function finishEmailLogin(): string | undefined {
+    /** Finish signing in with an emailed link — this page's own URL by default,
+     *  or one the creator pasted in when the link opened somewhere else. */
+    function finishEmailLogin(
+        url: string = window.location.href,
+    ): string | undefined {
         if (auth) {
             try {
                 // If this is on the same device and browser, then the email should be in local storage.
@@ -128,23 +146,28 @@
                 }
                 // Sign in.
                 else {
-                    signInWithEmailLink(
-                        auth,
-                        storedEmail ?? email,
-                        window.location.href,
-                    ).then(() => {
-                        // Remove the email we might have stored.
-                        window.localStorage.removeItem('email');
+                    signInWithEmailLink(auth, storedEmail ?? email, url)
+                        .then(() => {
+                            // Remove the email we might have stored.
+                            window.localStorage.removeItem('email');
 
-                        // Provide success feedback (which likely won't be visible, since we're navigating immediately)
-                        emailFeedback = (l) => l.ui.page.login.prompt.success;
+                            // Provide success feedback (which likely won't be visible, since we're navigating immediately)
+                            emailFeedback = (l) =>
+                                l.ui.page.login.prompt.success;
 
-                        // Log login event in analytics
-                        if (analytics) logEvent(analytics, 'login');
+                            // Log login event in analytics
+                            if (analytics) logEvent(analytics, 'login');
 
-                        // Remove the query on the URL, showing the profile view.
-                        localeGoto('/profile');
-                    });
+                            // Remove the query on the URL, showing the profile view.
+                            localeGoto('/profile');
+                        })
+                        // The try/catch can't see this: the failure is a rejected
+                        // promise, and an expired or already-used link is the
+                        // likeliest way a pasted one fails.
+                        .catch(
+                            (err) =>
+                                (emailFeedback = getAuthErrorDescription(err)),
+                        );
                 }
             } catch (err) {
                 emailFeedback = getAuthErrorDescription(err);
@@ -234,6 +257,43 @@
         {/if}
     </div>
 </LoginForm>
+
+<!-- Offer to finish with a pasted link once one has been sent. The emailed link
+     can open somewhere this page can't see — an installed app hands email links
+     to a browser, and on iOS that's a separate storage container — so pasting is
+     the only way to finish signing in here. It covers reading the email on
+     another device too. -->
+{#if linkSent}
+    <LoginForm feedback={undefined} testid="paste-link-form">
+        <Note
+            ><MarkupHTMLView
+                markup={(l) => l.ui.page.login.prompt.paste}
+            /></Note
+        >
+        <div class="form">
+            <TextField
+                id="login-link-field"
+                description={(l) => l.ui.page.login.field.link.description}
+                placeholder={(l) => l.ui.page.login.field.link.placeholder}
+                bind:text={link}
+                editable={!loading}
+                validator={(text) =>
+                    auth === undefined || isSignInWithEmailLink(auth, text)
+                        ? true
+                        : (l) => l.ui.page.login.error.invalid}
+            />
+            <Button
+                background
+                submit
+                tip={(l) => l.ui.page.login.button.login}
+                active={auth !== undefined && isSignInWithEmailLink(auth, link)}
+                action={() => {
+                    finishEmailLogin(link);
+                }}>&gt;</Button
+            >
+        </div>
+    </LoginForm>
+{/if}
 
 <style>
     .form {

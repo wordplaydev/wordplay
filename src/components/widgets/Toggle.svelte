@@ -195,7 +195,11 @@
         padding: var(--wordplay-spacing);
         cursor: pointer;
         width: fit-content;
-        min-height: var(--wordplay-widget-height);
+        /* WCAG 2.5.8's 24px minimum target, as Button and Mode state it. The
+           widget height alone is ~20px, so a narrow glyph (✎, ☰) cleared it
+           only incidentally, via padding. */
+        min-width: max(var(--wordplay-widget-height), 24px);
+        min-height: max(var(--wordplay-widget-height), 24px);
         overflow: visible;
         white-space: nowrap;
         transition:
@@ -234,13 +238,20 @@
         display: flex;
         flex-direction: row;
         align-items: baseline;
+        /* This block child fills the button's box, so once the min-width
+           above exceeds the glyph, centering is what keeps it off the edge. */
+        justify-content: center;
         gap: var(--wordplay-spacing-half);
     }
 
     button:not(.on):hover {
         background: var(--wordplay-hover);
-        /* Keep nested links legible on the gold hover background (#1216). */
-        --wordplay-link-color: var(--color-white);
+        /* Text and links on the gold, per --wordplay-hover-text in app.html:
+           --wordplay-foreground is white in dark mode and measures 3.58:1 here,
+           and the old --color-white link override measured 3.01:1 in light
+           (#1216). The orange underline is what still marks a link. */
+        color: var(--wordplay-hover-text);
+        --wordplay-link-color: currentColor;
         --wordplay-link-underline-color: var(--color-orange);
     }
 

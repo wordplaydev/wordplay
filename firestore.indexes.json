@@ -4,87 +4,182 @@
             "collectionGroup": "galleries",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "public", "order": "ASCENDING" },
-                { "fieldPath": "featured", "order": "ASCENDING" },
-                { "fieldPath": "id", "order": "ASCENDING" }
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "featured",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "id",
+                    "order": "ASCENDING"
+                }
             ]
         },
         {
             "collectionGroup": "projects",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "flags.disclosure", "order": "ASCENDING" },
-                { "fieldPath": "public", "order": "ASCENDING" },
-                { "fieldPath": "timestamp", "order": "ASCENDING" }
+                {
+                    "fieldPath": "flags.disclosure",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "timestamp",
+                    "order": "ASCENDING"
+                }
             ]
         },
         {
             "collectionGroup": "projects",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "flags.misinformation", "order": "ASCENDING" },
-                { "fieldPath": "public", "order": "ASCENDING" },
-                { "fieldPath": "timestamp", "order": "ASCENDING" }
+                {
+                    "fieldPath": "flags.misinformation",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "timestamp",
+                    "order": "ASCENDING"
+                }
             ]
         },
         {
             "collectionGroup": "projects",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "flags.violence", "order": "ASCENDING" },
-                { "fieldPath": "public", "order": "ASCENDING" },
-                { "fieldPath": "timestamp", "order": "ASCENDING" }
+                {
+                    "fieldPath": "flags.violence",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "timestamp",
+                    "order": "ASCENDING"
+                }
             ]
         },
         {
             "collectionGroup": "projects",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "flags.dehumanization", "order": "ASCENDING" },
-                { "fieldPath": "public", "order": "ASCENDING" },
-                { "fieldPath": "timestamp", "order": "ASCENDING" }
+                {
+                    "fieldPath": "flags.dehumanization",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "timestamp",
+                    "order": "ASCENDING"
+                }
             ]
         },
         {
             "collectionGroup": "projects",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "restrictedGallery", "order": "ASCENDING" },
-                { "fieldPath": "gallery", "order": "ASCENDING" }
+                {
+                    "fieldPath": "restrictedGallery",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "gallery",
+                    "order": "ASCENDING"
+                }
             ]
         },
         {
             "collectionGroup": "projects",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "archived", "order": "ASCENDING" },
-                { "fieldPath": "timestamp", "order": "ASCENDING" }
+                {
+                    "fieldPath": "archived",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "timestamp",
+                    "order": "ASCENDING"
+                }
             ]
         },
         {
             "collectionGroup": "projects",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "remixOf", "order": "ASCENDING" },
-                { "fieldPath": "public", "order": "ASCENDING" },
-                { "fieldPath": "timestamp", "order": "DESCENDING" }
+                {
+                    "fieldPath": "remixOf",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "timestamp",
+                    "order": "DESCENDING"
+                }
             ]
         },
         {
             "collectionGroup": "howtos",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "published", "order": "ASCENDING" },
-                { "fieldPath": "galleryId", "order": "ASCENDING" }
+                {
+                    "fieldPath": "published",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "galleryId",
+                    "order": "ASCENDING"
+                }
             ]
         },
         {
             "collectionGroup": "howtos",
             "queryScope": "COLLECTION",
             "fields": [
-                { "fieldPath": "published", "order": "ASCENDING" },
-                { "fieldPath": "scopeOverwrite", "order": "ASCENDING" },
-                { "fieldPath": "viewersFlat", "arrayConfig": "CONTAINS" }
+                {
+                    "fieldPath": "published",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "scopeOverwrite",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "viewersFlat",
+                    "arrayConfig": "CONTAINS"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "reports",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "resolved",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "time",
+                    "order": "ASCENDING"
+                }
             ]
         }
     ],

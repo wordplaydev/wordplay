@@ -4,6 +4,8 @@ declare global {
     interface Window {
         /** Set by this test's init script; counts animations built per frame. */
         __animationCounts: { animate: number; frames: number };
+        /** Set by the tween test; the ball's x on each painted frame. */
+        __ballSamples: number[];
     }
 }
 
@@ -127,19 +129,29 @@ test('output that only has matter still tweens its moves', async ({ page }) => {
     await page.mouse.move(300, 400);
     await page.waitForTimeout(1200);
     const before = await x();
-    await page.mouse.move(1000, 400);
 
-    // Sample through the default 0.25s tween.
-    const during: number[] = [];
-    for (let i = 0; i < 12; i++) {
-        during.push(await x());
-        await page.waitForTimeout(25);
-    }
-    await page.waitForTimeout(600);
+    // Sample through the default 0.25s tween from inside the page, once per
+    // painted frame. Sampling over the protocol instead costs ~170ms a round
+    // trip on a loaded runner — longer than the tween itself — so every sample
+    // but the first reads the settled place and a real slide looks like a jump.
+    await page.evaluate(() => {
+        const target = document.querySelector('[data-id="output-basketball"]');
+        const samples: number[] = [];
+        window.__ballSamples = samples;
+        const step = () => {
+            if (target !== null)
+                samples.push(Math.round(target.getBoundingClientRect().x));
+            requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+    });
+    await page.mouse.move(1000, 400);
+    await page.waitForTimeout(1000);
+    const during = await page.evaluate(() => window.__ballSamples);
 
     // It followed the pointer...
     expect(await x()).toBeGreaterThan(before + 100);
     // ...passing through the places in between rather than jumping. A teleport
-    // yields 1 distinct sample; the slide measures 5.
+    // yields 1 distinct sample; the slide measures a sample per frame.
     expect(new Set(during).size).toBeGreaterThan(2);
 });

@@ -17,6 +17,7 @@
     import { untrack, onMount } from 'svelte';
     import { writable } from 'svelte/store';
     import Writing from '@components/app/Writing.svelte';
+    import Title from '@components/widgets/Title.svelte';
 
     let user = getUser();
 
@@ -120,10 +121,6 @@
     onMount(() => void DB.startProjectWork());
 </script>
 
-<svelte:head>
-    <title>{project ? project.getName() : '…'}</title>
-</svelte:head>
-
 {#if project}
     <!-- The project view fills the page and scrolls its own tiles, so the page's
          scroller would only ever be a way to pan the whole layout out of view. -->
@@ -140,7 +137,12 @@
         {/key}
     </Page>
 {:else if loading}
+    <!-- ProjectView owns the title once there's a project to name, so these two
+         states had none at all — and nothing else sets one, so a cold load of a
+         slow or bad project URL left the document untitled. -->
+    <Title text={(l) => l.ui.project.label} />
     <Loading />
 {:else if page.params.projectid || error}
+    <Title text={(l) => l.ui.project.label} />
     <Writing><Notice text={(l) => l.ui.project.error.unknown} /></Writing>
 {/if}

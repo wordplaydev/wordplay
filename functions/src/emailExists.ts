@@ -1,4 +1,4 @@
-import admin from 'firebase-admin';
+import { getAuth } from 'firebase-admin/auth';
 import type { CallableRequest } from 'firebase-functions/v2/https';
 import type { EmailExistsInputs, EmailExistsOutput } from 'shared-types';
 
@@ -23,9 +23,9 @@ export default async function emailExists(
     try {
         for (let i = 0; i < valid.length; i += MAX_BATCH) {
             const chunk = valid.slice(i, i + MAX_BATCH);
-            const { users } = await admin
-                .auth()
-                .getUsers(chunk.map((email) => ({ email })));
+            const { users } = await getAuth().getUsers(
+                chunk.map((email) => ({ email })),
+            );
             const existing = new Set(users.map((u) => u.email));
             for (const email of chunk) found[email] = existing.has(email);
         }

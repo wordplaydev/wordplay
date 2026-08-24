@@ -14,6 +14,7 @@
         ShowKeyboardHelp,
     } from '@components/editor/commands/Commands';
     import Checkpoints from '@components/project/Checkpoints.svelte';
+    import type { CheckpointAnchor } from '@components/project/checkpoints';
     import CopyProjectButton from '@components/project/CopyProjectButton.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CurrentLayout from '@components/project/CurrentLayout.svelte';
@@ -84,7 +85,7 @@
         addSource: () => void;
         toggleTile: (tile: Tile) => void;
         launchTour: () => void;
-        checkpoint: number;
+        checkpoint: CheckpointAnchor;
         /** The project's evaluation mode, mirrored here so it's reachable when
          * the output tile (and its switcher) is collapsed. */
         mode: ProjectMode;
@@ -160,7 +161,7 @@
     /** Whether the first evaluation mode is truthfully "edit" right now: an
      *  editable project on its current version. Browsing an old checkpoint is
      *  read-only, so the switcher says 👁 view there, matching the editor. */
-    const editableAndCurrent = $derived(editable && checkpoint === -1);
+    const editableAndCurrent = $derived(editable && checkpoint === null);
 
     // Indices in the toggle-group items list:
     //   0..addSourceOffset-1     : add-source button (when editable)
@@ -277,8 +278,11 @@
                         /></span
                     >
                 </span>
+                <!-- A scratch project is a copy of an example to poke at, so
+                     there's nothing worth naming; the row below says what it
+                     is instead. -->
                 <span data-uiid="projectName">
-                    {#if editable}
+                    {#if project.isScratch()}{:else if editable}
                         {#if multipleNames && !editingName}
                             <!-- Multilingual name, not editing: show the
                                  localized name like the read-only view. -->
@@ -373,15 +377,21 @@
                 {/if}
             {:else if i < nonSourcesEnd}
                 {@const tile = visibleNonSources[i - sourcesEnd]}
-                <NonSourceTileToggle
-                    {project}
-                    {tile}
-                    toggle={() => toggleTile(tile)}
-                    notification={tile.kind === TileKind.Collaborate &&
-                        !!chat &&
-                        isAuthenticated($user) &&
-                        chat.hasUnread($user.uid)}
-                />
+                <!-- Guarded like the source branch above: the toolbar renders
+                     this snippet at three independent index ranges and decides
+                     how many fit from a ResizeObserver, so the index and the
+                     list it indexes aren't guaranteed to be read together. -->
+                {#if tile}
+                    <NonSourceTileToggle
+                        {project}
+                        {tile}
+                        toggle={() => toggleTile(tile)}
+                        notification={tile.kind === TileKind.Collaborate &&
+                            !!chat &&
+                            isAuthenticated($user) &&
+                            chat.hasUnread($user.uid)}
+                    />
+                {/if}
             {:else}
                 <!-- Narrow mode: second-row items are appended to the
                      toggle-group's items so everything overflows into a
@@ -479,7 +489,10 @@
 
     .footer-row.main-row {
         display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        /* `minmax(0, auto)` on the left track, not `auto`: an `auto` track
+           can't shrink below its content, so anything wide there takes the
+           row and leaves the toggles nothing. */
+        grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
         grid-template-areas: 'left toggles right';
         align-items: center;
         height: fit-content;

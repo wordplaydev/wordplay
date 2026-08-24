@@ -3,6 +3,7 @@ import type LocaleText from '@locale/LocaleText';
 import Project from '@db/projects/Project';
 import Reference from '@nodes/Reference';
 import Source from '@nodes/Source';
+import Sym from '@nodes/Sym';
 import { buildKeywordIndex } from '@parser/Keywords';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
@@ -192,7 +193,7 @@ test('a symbolic name only en-US declares still binds everywhere', () => {
     // And the operator names, which were the bulk of what came out.
     const math = new Source('math', '1 = 1');
     const mathProject = Project.make('p', 'p', math, [], [es]);
-    expect(mathProject.getAnalysis().conflicts).toHaveLength(0);
+    expect(mathProject.analyze().conflicts).toHaveLength(0);
 });
 
 test('a language named only by the code is used; one named nowhere is not', () => {
@@ -242,4 +243,57 @@ test('a localized keyword counts as using its language', () => {
         DefaultLocale,
     );
     expect(english.getKeywordLocalesUsed().size).toBe(0);
+});
+
+test('declaring a language re-tokenizes sources so its keyword words take effect immediately', () => {
+    // Without Spanish declared, `verdadero` is a plain name.
+    const project = Project.make(
+        'p',
+        'p',
+        new Source('start', 'verdadero'),
+        [],
+        DefaultLocale,
+    );
+    const before = project
+        .getMain()
+        .tokens.find((t) => t.getText() === 'verdadero');
+    expect(before?.isSymbol(Sym.Boolean)).toBe(false);
+
+    // Declaring Spanish must re-key the source: the word becomes the ⊤ construct
+    // right away, not at the next reload.
+    const spanish = project.withLocales([es]);
+    const after = spanish
+        .getMain()
+        .tokens.find((t) => t.getText() === 'verdadero');
+    expect(after?.isSymbol(Sym.Boolean)).toBe(true);
+    expect(after?.getCanonicalText()).toBe('⊤');
+});
+
+test('removing a language degrades its keyword words to plain names immediately', () => {
+    const locales = [DefaultLocale, es];
+    const project = Project.make(
+        'p',
+        'p',
+        new Source(
+            'start',
+            'verdadero',
+            buildKeywordIndex(locales.map((l) => l.keyword)),
+        ),
+        [],
+        locales,
+    );
+    expect(
+        project
+            .getMain()
+            .tokens.find((t) => t.getText() === 'verdadero')
+            ?.isSymbol(Sym.Boolean),
+    ).toBe(true);
+
+    const english = project.withoutLocales(['es-MX']);
+    expect(
+        english
+            .getMain()
+            .tokens.find((t) => t.getText() === 'verdadero')
+            ?.isSymbol(Sym.Boolean),
+    ).toBe(false);
 });

@@ -43,6 +43,32 @@ function highlightSurfaceTextColor(): string {
     return getPaletteHex(color[1]);
 }
 
+/** Read a `--name: #rrggbbaa;` translucent palette declaration out of app.html. */
+function getPaletteHexAlpha(name: string): { hex: string; alpha: number } {
+    const match = appHtml.match(
+        new RegExp(`--${name}:\\s*#([0-9a-fA-F]{6})([0-9a-fA-F]{2})\\s*;`),
+    );
+    if (match === null)
+        throw new Error(`No translucent declaration for --${name} in app.html`);
+    return { hex: `#${match[1]}`, alpha: parseInt(match[2], 16) / 255 };
+}
+
+/** Composite a translucent color over an opaque one, as the browser paints it. */
+function composite(
+    top: { hex: string; alpha: number },
+    bottom: string,
+): string {
+    const channels = (hex: string) =>
+        [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    const [tr, tg, tb] = channels(top.hex);
+    const [br, bg, bb] = channels(bottom);
+    const mix = (t: number, b: number) =>
+        Math.round(t * top.alpha + b * (1 - top.alpha))
+            .toString(16)
+            .padStart(2, '0');
+    return `#${mix(tr, br)}${mix(tg, bg)}${mix(tb, bb)}`;
+}
+
 /** The text-role palette pairs introduced for the AA text/background split. */
 const TEXT_COLORS = ['gold-text', 'grey-text', 'blue-text', 'orange-text'];
 
@@ -53,6 +79,21 @@ describe.each(['light', 'dark'] as const)('%s mode', (mode) => {
         getPaletteHex(`white-${mode}`),
         getPaletteHex(`very-light-grey-${mode}`),
     ];
+
+    test(`a link on the selection tint meets ${AA_TEXT}:1`, () => {
+        // --wordplay-hover-light tints a hovered or chosen project tile, and a
+        // tile carries its project's name as a link. A tint is a background for
+        // whatever it covers, so it is bounded by the text on it — which the
+        // `*-text` cases above never see, since they only measure the opaque
+        // page colors. Dark shipped at 4.16:1 and axe caught it on the projects
+        // page. Measured against the page background, which is what a tile sits
+        // on; the alternating color is not a tile surface.
+        const tint = getPaletteHexAlpha(`yellow-transparent-${mode}`);
+        const link = getPaletteHex(`gold-text-${mode}`);
+        expect(
+            contrast(link, composite(tint, getPaletteHex(`white-${mode}`))),
+        ).toBeGreaterThanOrEqual(AA_TEXT);
+    });
 
     test.each(TEXT_COLORS)(
         `--${'%s'}-${mode} meets ${AA_TEXT}:1 on both backgrounds`,
@@ -154,6 +195,70 @@ describe.each(['light', 'dark'] as const)('%s mode', (mode) => {
             ),
             `foreground on --focus-blue-${mode}`,
         ).toBeGreaterThanOrEqual(AA_TEXT);
+    });
+
+    /**
+     * The fills the app paints behind controls, by palette pair name. These
+     * are the surfaces that must carry `saturated-surface` (app.html): the
+     * focus ring is a luminance match for each of them, so the ring alone is
+     * not a discernible indicator there.
+     */
+    const SATURATED_FILLS = ['orange-text', 'yellow', 'pink'];
+
+    test.each(SATURATED_FILLS)(
+        `the focus ring misses ${NON_TEXT}:1 on --%s, so that fill needs a band`,
+        (name) => {
+            // Asserts the hazard, like the link-on-gold test above: if the
+            // palette ever moves so the ring passes on one of these on its
+            // own, that surface can drop `saturated-surface`.
+            const fill = getPaletteHex(`${name}-${mode}`);
+            expect(
+                contrast(getPaletteHex(`focus-blue-${mode}`), fill),
+                `--focus-blue-${mode} on --${name}-${mode} ${fill}`,
+            ).toBeLessThan(NON_TEXT);
+        },
+    );
+
+    test(`the focus band is discernible against the ring and every saturated fill`, () => {
+        // `.saturated-surface` draws its second band in --wordplay-background.
+        // That works as a universal band only if it clears 1.4.11 against both
+        // the ring it sits inside and every fill it sits on — which is what
+        // makes the two-band indicator survive a surface the ring can't reach,
+        // and survive greyscale, where the ring's hue difference is gone.
+        const band = getPaletteHex(`white-${mode}`);
+        expect(
+            contrast(band, getPaletteHex(`focus-blue-${mode}`)),
+            `the band ${band} against the focus ring`,
+        ).toBeGreaterThanOrEqual(NON_TEXT);
+        for (const name of SATURATED_FILLS) {
+            const fill = getPaletteHex(`${name}-${mode}`);
+            expect(
+                contrast(band, fill),
+                `the band ${band} on --${name}-${mode} ${fill}`,
+            ).toBeGreaterThanOrEqual(NON_TEXT);
+        }
+    });
+
+    test(`the chrome grey is the one fill the band can't rescue in light mode`, () => {
+        // --wordplay-chrome is where both halves of the scheme run out: the
+        // ring misses 1.4.11 on it in both modes, and in light mode so does a
+        // page-background band (2.65:1), so `saturated-surface` would not
+        // rescue it there. Dark mode's darker grey does take a band (4.06:1).
+        // Only SensorMonitor paints this fill and nothing focusable sits on it
+        // today; this records the gap so a control landing there later is a
+        // decision rather than an accident.
+        const chrome = getPaletteHex(`light-grey-${mode}`);
+        expect(
+            contrast(getPaletteHex(`focus-blue-${mode}`), chrome),
+            `--focus-blue-${mode} on the chrome grey`,
+        ).toBeLessThan(NON_TEXT);
+        const banded = contrast(getPaletteHex(`white-${mode}`), chrome);
+        if (mode === 'light')
+            expect(
+                banded,
+                'a band now works on the light chrome grey; it could host controls',
+            ).toBeLessThan(NON_TEXT);
+        else expect(banded).toBeGreaterThanOrEqual(NON_TEXT);
     });
 
     test(`the border grey's 1.4.11 status is as documented`, () => {

@@ -401,6 +401,18 @@ export const [getLocalize, setLocalize] =
 /** Whether to render line numbers */
 export const [getShowLines, setShowLines] = createContext<Writable<boolean>>();
 
+/**
+ * Whether a code view may wrap its lines.
+ *
+ * The editor renders every space as a non-breaking one, so a line holds its
+ * shape while it is edited and the caret's column never depends on where the
+ * box happens to end. A read-only view has no caret and no edits, and on a
+ * narrow column a line that cannot break just leaves the page. This lets such a
+ * view ask for ordinary spaces instead. Optional and off by default: only a
+ * view that knows it is inert should turn it on.
+ */
+export const [getWrapping, setWrapping] = createOptionalContext<boolean>();
+
 // DOCUMENTATION-WIDE CONTEXTS
 
 /** The guide's navigation history: a flat stack of visited locations (home is the
@@ -425,6 +437,20 @@ export function getConceptPathOptional(): Writable<ConceptPath> | undefined {
 }
 export function setConceptPath(path: Writable<ConceptPath>): void {
     setContext(ConceptPathSymbol, path);
+}
+
+/**
+ * Whether examples rendered here offer to open as an editable scratch project
+ * (#1044). Set by the guide, so the button appears on documentation and how-to
+ * examples but not on the ones embedded in authoring forms or tutorial
+ * dialogue, where a second copy of the code would be a distraction.
+ */
+const TinkerableSymbol = Symbol('tinkerable');
+export function getTinkerable(): boolean {
+    return getContext<boolean | undefined>(TinkerableSymbol) ?? false;
+}
+export function setTinkerable(tinkerable: boolean): void {
+    setContext(TinkerableSymbol, tinkerable);
 }
 
 /** The current index of concepts */
