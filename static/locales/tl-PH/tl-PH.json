@@ -8530,7 +8530,6 @@
                 "offline": "$~Hindi ma-load ang chat na ito.",
                 "empty": "$~Walang mga mensahe.",
                 "deleted": "$~Binura na ang mensaheng ito.",
-                "untaggedMessage": "$?",
                 "transferGallery": "$~Nasa isang gallery ang proyektong ito. Kapag ibinigay mo ito sa iba, hindi sila awtomatikong naidaragdag sa gallery na iyon, kaya maaaring hindi nila ito makita doon."
             },
             "prompt": {

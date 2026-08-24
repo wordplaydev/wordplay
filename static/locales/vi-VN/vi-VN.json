@@ -8534,8 +8534,7 @@
                 "offline": "$~Không thể tải cuộc trò chuyện này.",
                 "empty": "$~Không có tin nhắn nào.",
                 "deleted": "$~Tin nhắn này đã bị xóa.",
-                "transferGallery": "$~Dự án này nằm trong một phòng trưng bày. Trao nó cho người khác không thêm họ vào phòng trưng bày đó, nên họ có thể sẽ không thấy được nó ở đó.",
-                "untaggedMessage": "$?"
+                "transferGallery": "$~Dự án này nằm trong một phòng trưng bày. Trao nó cho người khác không thêm họ vào phòng trưng bày đó, nên họ có thể sẽ không thấy được nó ở đó."
             },
             "prompt": {
                 "solo": "$~Trò chuyện với chính mình hoặc thêm...",

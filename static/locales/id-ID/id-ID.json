@@ -8547,8 +8547,7 @@
                 "offline": "$~Obrolan ini tidak dapat dimuat.",
                 "empty": "$~Tidak ada pesan.",
                 "deleted": "$~Pesan ini telah dihapus.",
-                "transferGallery": "$~Proyek ini ada di dalam galeri. Memberikannya kepada orang lain tidak menambahkan mereka ke galeri itu, jadi mereka mungkin tidak bisa melihatnya di sana.",
-                "untaggedMessage": "$?"
+                "transferGallery": "$~Proyek ini ada di dalam galeri. Memberikannya kepada orang lain tidak menambahkan mereka ke galeri itu, jadi mereka mungkin tidak bisa melihatnya di sana."
             },
             "prompt": {
                 "solo": "$~Berbincanglah dengan diri sendiri atau tambahkan...",

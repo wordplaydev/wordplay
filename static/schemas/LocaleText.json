@@ -16544,10 +16544,6 @@
                                         "unowned": {
                                             "description": "[plain] The project isn't owned by a person",
                                             "type": "string"
-                                        },
-                                        "untaggedMessage": {
-                                            "description": "[plain] Shown when the user tries to send a message without tagging its language",
-                                            "type": "string"
                                         }
                                     },
                                     "required": [
@@ -16555,7 +16551,6 @@
                                         "offline",
                                         "empty",
                                         "deleted",
-                                        "untaggedMessage",
                                         "transferGallery"
                                     ],
                                     "type": "object"

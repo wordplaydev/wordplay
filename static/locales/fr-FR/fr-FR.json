@@ -9622,7 +9622,6 @@
                 "offline": "$~Impossible de charger ce chat.",
                 "empty": "$~Aucun message.",
                 "deleted": "$~Ce message a été supprimé.",
-                "untaggedMessage": "$?",
                 "transferGallery": "$~Ce projet se trouve dans une galerie. Le donner à quelqu'un d'autre ne l'ajoute pas à cette galerie, donc cette personne pourrait ne pas pouvoir l'y voir."
             },
             "prompt": {

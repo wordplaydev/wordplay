@@ -9615,7 +9615,6 @@
                 "offline": "$~No se pudo cargar este chat.",
                 "empty": "$~No hay mensajes.",
                 "deleted": "$~Este mensaje se eliminó.",
-                "untaggedMessage": "$?",
                 "transferGallery": "$~este proyecto está en una galería. darlo a alguien más no lo agrega a esa galería, así que quizás no pueda verlo ahí."
             },
             "prompt": {

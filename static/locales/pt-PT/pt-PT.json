@@ -8526,8 +8526,7 @@
                 "offline": "Não foi possível carregar este chat.",
                 "empty": "Nenhuma mensagem.",
                 "deleted": "Esta mensagem foi apagada.",
-                "transferGallery": "$~Este projeto está numa galeria. Dá-lo a outra pessoa não a adiciona a essa galeria, por isso ela pode não conseguir vê-lo lá.",
-                "untaggedMessage": "$?"
+                "transferGallery": "$~Este projeto está numa galeria. Dá-lo a outra pessoa não a adiciona a essa galeria, por isso ela pode não conseguir vê-lo lá."
             },
             "prompt": {
                 "solo": "Converse consigo mesmo ou adicione...",

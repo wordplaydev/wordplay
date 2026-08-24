@@ -8630,7 +8630,7 @@
                 "offline": "Unable to load this chat.",
                 "empty": "No messages.",
                 "deleted": "This message was deleted.",
-                "untaggedMessage": "Tag your message with the language it was written in.",
+
                 "transferGallery": "This project is in a gallery. Giving it to someone else does not add them to that gallery, so they may not be able to see it there."
             },
             "prompt": {

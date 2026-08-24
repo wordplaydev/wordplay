@@ -8293,7 +8293,6 @@
                 "offline": "$~Nie można załadować tego czatu.",
                 "empty": "$~Brak wiadomości.",
                 "deleted": "$~Ta wiadomość została usunięta.",
-                "untaggedMessage": "$?",
                 "transferGallery": "$~Ten projekt znajduje się w galerii. Przekazanie go komuś innemu nie dodaje tej osoby do tej galerii, więc może ona nie mieć tam do niego dostępu."
             },
             "prompt": {

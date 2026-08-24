@@ -9610,7 +9610,6 @@
                 "offline": "$~Dieser Chat konnte nicht geladen werden.",
                 "empty": "$~Keine Nachrichten.",
                 "deleted": "$~Diese Nachricht wurde gelöscht.",
-                "untaggedMessage": "$?",
                 "transferGallery": "$~Dieses Projekt ist in einer Galerie. Wenn du es einer anderen Person gibst, wird sie nicht automatisch zu dieser Galerie hinzugefügt. Sie kann das Projekt dort dann vielleicht nicht sehen."
             },
             "prompt": {

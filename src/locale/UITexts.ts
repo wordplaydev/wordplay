@@ -1149,8 +1149,7 @@ type UITexts = {
             empty: string;
             /** [plain] A message was deleted */
             deleted: string;
-            /** [plain] Shown when the user tries to send a message without tagging its language */
-            untaggedMessage: string;
+
             /** [formatted] Shown next to the ownership transfer control when the project is in a gallery, since gallery membership doesn't follow the project to its new owner */
             transferGallery: FormattedText;
         };

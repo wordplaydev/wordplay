@@ -8541,7 +8541,6 @@
                 "offline": "$~Nu se poate încărca acest chat.",
                 "empty": "$~Niciun mesaj.",
                 "deleted": "$~Acest mesaj a fost șters.",
-                "untaggedMessage": "$?",
                 "transferGallery": "$~Acest proiect se află într-o galerie. Dacă îl dai altcuiva, acea persoană nu este adăugată automat la acea galerie, deci s-ar putea să nu îl poată vedea acolo."
             },
             "prompt": {
