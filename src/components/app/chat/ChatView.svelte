@@ -333,6 +333,12 @@
                 (msg.moderation === undefined || msg.moderation === 'approved');
             if (!isVisibleMessage || msg.text === null) continue;
 
+            // A creator already understands what they wrote — never translate
+            // (or pay to translate) the viewer's own messages. This is also
+            // what the rights page promises: only *other* participants'
+            // messages are ever sent to the translation service.
+            if ($user && msg.creator === $user.uid) continue;
+
             // Reuse a sidecar-delivered cached translation immediately.
             const cached = sidecarTranslations[msg.id]?.text;
             if (cached !== undefined) {
@@ -433,21 +439,36 @@
     // them on the next pass.
     $effect(() => {
         if (!chat || translateTo === undefined) return;
+        const currentChat = chat;
         const target = translateTo;
         // Clear stale entries from the previous target language.
         sidecarTranslations = {};
         const unsub = Chats.subscribeChatTranslations(
-            chat.getProjectID(),
+            currentChat.getProjectID(),
             target,
             (entries) => {
                 if (target !== translateTo) return;
+                // A viewer's own messages are never translated going forward
+                // (see the matching skip in translateMessages), but a sidecar
+                // written before that existed may still carry one — filter it
+                // out here so it can never be displayed.
+                const ownMessageIDs = new Set(
+                    $user
+                        ? currentChat
+                              .getMessages()
+                              .filter((m) => m.creator === $user.uid)
+                              .map((m) => m.id)
+                        : [],
+                );
                 sidecarTranslations = {
                     ...sidecarTranslations,
                     ...Object.fromEntries(
-                        Object.entries(entries).map(([id, text]) => [
-                            id,
-                            { language: target, text },
-                        ]),
+                        Object.entries(entries)
+                            .filter(([id]) => !ownMessageIDs.has(id))
+                            .map(([id, text]) => [
+                                id,
+                                { language: target, text },
+                            ]),
                     ),
                 };
             },
