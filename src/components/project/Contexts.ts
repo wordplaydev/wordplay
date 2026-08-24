@@ -439,6 +439,20 @@ export function setConceptPath(path: Writable<ConceptPath>): void {
     setContext(ConceptPathSymbol, path);
 }
 
+/**
+ * Whether examples rendered here offer to open as an editable scratch project
+ * (#1044). Set by the guide, so the button appears on documentation and how-to
+ * examples but not on the ones embedded in authoring forms or tutorial
+ * dialogue, where a second copy of the code would be a distraction.
+ */
+const TinkerableSymbol = Symbol('tinkerable');
+export function getTinkerable(): boolean {
+    return getContext<boolean | undefined>(TinkerableSymbol) ?? false;
+}
+export function setTinkerable(tinkerable: boolean): void {
+    setContext(TinkerableSymbol, tinkerable);
+}
+
 /** The current index of concepts */
 export type ConceptIndexContext = { index: ConceptIndex | undefined };
 export const [getConceptIndex, setConceptIndex] = createOptionalContext<

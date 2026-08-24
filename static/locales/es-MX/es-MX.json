@@ -2448,7 +2448,8 @@
                 }
             },
             "conversion": {
-                "text": "Convierte un @Boolean a el equivalente valor de @Text \\'⊤'\\ and \\'⊥'\\"
+                "text": "Convierte un @Boolean a el equivalente valor de @Text \\'⊤'\\ and \\'⊥'\\",
+                "number": "$~Convierte un @Boolean en un @Number, \\1\\ para \\⊤\\ y \\0\\ para \\⊥\\"
             }
         },
         "None": {
@@ -3108,52 +3109,134 @@
                     "$~Convierto un número en una lista de los números desde \\1\\ hasta el número que se me dé. Por ejemplo:",
                     "\\10→[]\\"
                 ],
-                "s2m": "Segundos a minutos",
-                "s2h": "Segunados a horas",
-                "s2day": "Segundos a dias",
-                "s2wk": "Segundos a semanas",
-                "s2year": "Segundos a años",
-                "s2ms": "$~Segundos a milisegundos",
-                "ms2s": "Millisegundos a segundos",
-                "min2s": "Minutos a segundos",
-                "h2s": "Horas a segundos",
-                "day2s": "Dias a segundos",
-                "wk2s": "Semanas a segundos",
-                "yr2s": "Años a segundos",
-                "m2pm": "Metros a picometros",
-                "m2nm": "Metros a nanometros",
-                "m2micro": "Metros a micrometers",
-                "m2mm": "Metros a milimetros",
-                "m2cm": "$~Metros a centímetros",
-                "m2dm": "Metros a decimetros",
-                "m2km": "Metros a kilometros",
-                "m2Mm": "Metros a megametros",
-                "m2Gm": "Metros a gigametros",
-                "m2Tm": "Metros a terametros",
-                "pm2m": "Picometros a metros",
-                "nm2m": "Nanometros a metros",
-                "micro2m": "Micrometros a metros",
-                "mm2m": "Milimetros a metros",
-                "cm2m": "Centimetros a metros",
-                "dm2m": "Decimetros a metros",
-                "km2m": "Kilometros a metros",
-                "Mm2m": "Megametros a metros",
-                "Gm2m": "Gigametros a metros",
-                "Tm2m": "Terametros a metros",
-                "km2mi": "Kilometros a millas",
-                "mi2km": "Millas a kilometros",
-                "cm2in": "Centimetros a pulgadas",
-                "in2cm": "Pulgadas a centimetros",
-                "m2ft": "Metros a pies",
-                "ft2m": "Pies a metros",
-                "g2mg": "Gramos a miligramos",
-                "mg2g": "Miligramos a gramos",
-                "g2kg": "Gramos a kilogramos",
-                "kg2g": "Kilogramos a gramos",
-                "g2oz": "Gramos a onzas",
-                "oz2g": "Onzas a gramos",
-                "oz2lb": "Onzas a libras",
-                "lb2oz": "Libras a onzas"
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "$~nanosegundos",
+                "us": "$~microsegundos",
+                "ms": "$~milisegundos",
+                "s": "$~segundos",
+                "min": "$~minutos",
+                "h": "$~horas",
+                "day": "$~días",
+                "wk": "$~semanas",
+                "yr": "$~años",
+                "pm": "$~picómetros",
+                "nm": "$~nanómetros",
+                "um": "$~micrómetros",
+                "mm": "$~milímetros",
+                "cm": "$~centímetros",
+                "dm": "$~decímetros",
+                "m": "$~metros",
+                "hm": "$~hectómetros",
+                "km": "$~kilómetros",
+                "Mm": "$~megámetros",
+                "Gm": "$~gigámetros",
+                "Tm": "$~terámetros",
+                "in": "$~pulgadas",
+                "ft": "$~pies",
+                "yd": "$~yardas",
+                "mi": "$~millas",
+                "nmi": "$~millas náuticas",
+                "au": "$~unidades astronómicas",
+                "ly": "$~años luz",
+                "ug": "$~microgramos",
+                "mg": "$~miligramos",
+                "g": "$~gramos",
+                "kg": "$~kilogramos",
+                "t": "$~toneladas métricas",
+                "oz": "$~onzas",
+                "lb": "$~libras",
+                "st": "stones",
+                "uston": "$~toneladas cortas de Estados Unidos",
+                "ukton": "$~toneladas largas británicas",
+                "degC": "$~grados Celsius",
+                "degF": "$~grados Fahrenheit",
+                "K": "$~kelvins",
+                "deg": "$~grados de ángulo",
+                "rad": "$~radianes",
+                "mm2": "$~milímetros cuadrados",
+                "cm2": "$~centímetros cuadrados",
+                "m2": "$~metros cuadrados",
+                "km2": "$~kilómetros cuadrados",
+                "in2": "$~pulgadas cuadradas",
+                "ft2": "$~pies cuadrados",
+                "yd2": "$~yardas cuadradas",
+                "mi2": "$~millas cuadradas",
+                "ha": "$~hectáreas",
+                "acre": "$~acres",
+                "mL": "$~mililitros",
+                "cL": "$~centilitros",
+                "dL": "$~decilitros",
+                "L": "$~litros",
+                "kL": "$~kilolitros",
+                "cm3": "$~centímetros cúbicos",
+                "m3": "$~metros cúbicos",
+                "tsp": "$~cucharaditas",
+                "tbsp": "$~cucharadas",
+                "cup": "$~tazas",
+                "usfloz": "$~onzas líquidas estadounidenses",
+                "uspt": "$~pintas estadounidenses",
+                "usqt": "$~cuartos estadounidenses",
+                "usgal": "$~galones estadounidenses",
+                "ukfloz": "$~onzas líquidas británicas",
+                "ukpt": "$~pintas británicas",
+                "ukqt": "$~cuartos británicos",
+                "ukgal": "$~galones británicos",
+                "mps": "$~metros por segundo",
+                "kmph": "$~kilómetros por hora",
+                "miph": "$~millas por hora",
+                "ftps": "$~pies por segundo",
+                "kn": "$~nudos",
+                "Pa": "$~pascales",
+                "hPa": "$~hectopascales",
+                "kPa": "$~kilopascales",
+                "bar": "$~bares",
+                "atm": "$~atmósferas estándar",
+                "psi": "$~libras por pulgada cuadrada",
+                "mmHg": "$~milímetros de mercurio",
+                "J": "$~julios",
+                "kJ": "$~kilojulios",
+                "cal": "$~calorías",
+                "kcal": "$~kilocalorías",
+                "Wh": "$~vatios hora",
+                "kWh": "$~kilovatios hora",
+                "BTU": "$~unidades térmicas británicas",
+                "eV": "$~electronvoltios",
+                "mW": "$~milivatios",
+                "W": "$~vatios",
+                "kW": "$~kilovatios",
+                "MW": "$~megavatios",
+                "GW": "$~gigavatios",
+                "hp": "$~caballos de fuerza",
+                "uA": "$~microamperios",
+                "mA": "$~miliamperios",
+                "A": "$~amperios",
+                "kA": "$~kiloamperios",
+                "mV": "$~milivoltios",
+                "V": "$~voltios",
+                "kV": "$~kilovoltios",
+                "mohm": "$~miliohmios",
+                "ohm": "$~ohmios",
+                "kohm": "$~kiloohmios",
+                "Mohm": "$~megaohmios",
+                "Hz": "$~hercios",
+                "kHz": "$~kilohercios",
+                "MHz": "$~megahercios",
+                "GHz": "$~gigahercios",
+                "bpm": "$~latidos por minuto",
+                "bit": "$~bits",
+                "B": "$~bytes",
+                "kB": "$~kilobytes",
+                "MB": "$~megabytes",
+                "GB": "$~gigabytes",
+                "TB": "$~terabytes",
+                "KiB": "$~kibibytes",
+                "MiB": "$~mebibytes",
+                "GiB": "$~gibibytes",
+                "TiB": "$~tebibytes",
+                "lux": "$~lux",
+                "fc": "$~pies-candela"
             }
         },
         "List": {
@@ -6892,6 +6975,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~quitar los idiomas que el código de este proyecto no usa",
                     "label": "$~quitar los que no se usan"
+                },
+                "tinker": {
+                    "label": "$~pruébalo…",
+                    "tip": "$~abrir una copia de este ejemplo en una ventana nueva, para que puedas cambiarlo y ver qué pasa"
                 }
             },
             "field": {
@@ -6991,8 +7078,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~ir al proyecto del que se hizo esta mezcla"
-            }
+                "remixOf": "$~ir al proyecto del que se hizo esta mezcla",
+                "backTo": "$~volver a $place"
+            },
+            "scratch": "$~Esta es una copia temporal de un ejemplo. Remézclalo para conservarlo.",
+            "untitled": "$~Proyecto sin título"
         },
         "gallery": {
             "untitled": "Intitulada",
@@ -7694,6 +7784,10 @@
                     },
                     "remix": {
                         "explanation": "$~Una /versión/ es una copia de un proyecto que alguien cambió para hacerla suya. Recordamos de dónde viene una versión, para que la persona que hizo el original siga recibiendo el crédito."
+                    },
+                    "research": {
+                        "header": "$~Investigación",
+                        "explanation": "$~A veces escribimos y hablamos sobre Wordplay — en artículos de investigación, en charlas y en lo que les mostramos a maestras y familias. Si activas esto, podemos mostrar este proyecto como ejemplo, sin tu nombre, tu nombre de usuaria ni nada que diga que la cuenta es tuya.\n\nPuedes desactivar esto en cualquier momento. Desactivarlo significa que dejamos de usar tu proyecto en algo nuevo, pero no podemos retirar algo que ya publicamos o presentamos."
                     }
                 },
                 "field": {
@@ -7719,6 +7813,17 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~investigación",
+                        "labels": [
+                            "$~no compartido",
+                            "$~compartido de forma anónima"
+                        ],
+                        "tips": [
+                            "$~no mostrar este proyecto en investigaciones ni comunicaciones sobre Wordplay",
+                            "$~permitir que Wordplay muestre este proyecto de forma anónima en investigaciones y comunicaciones sobre Wordplay"
                         ]
                     }
                 },
@@ -8120,7 +8225,7 @@
                     "moderationHeader": "$~El mensaje en \"$name\" requiere una acción de moderación"
                 },
                 "delete": "$~eliminar esta notificación",
-                "popup": "$~nueva notificación"
+                "popup": "$~$#count[1 notificación|$#count notificaciones|$count notificaciones]"
             }
         },
         "palette": {
@@ -8548,7 +8653,51 @@
                     "description": "$~Buscar proyectos y fuentes",
                     "noResults": "$~No se encontraron resultados."
                 },
-                "installedprompt": "$~Estás usando Wordplay como una aplicación instalada, y guarda sus propios proyectos, aparte de los que tienes en tu navegador web. Todos los proyectos que hiciste en tu navegador siguen ahí. <Inicia sesión@://login> para ver todos tus proyectos en ambos lugares."
+                "installedprompt": "$~Estás usando Wordplay como una aplicación instalada, y guarda sus propios proyectos, aparte de los que tienes en tu navegador web. Todos los proyectos que hiciste en tu navegador siguen ahí. <Inicia sesión@://login> para ver todos tus proyectos en ambos lugares.",
+                "sort": {
+                    "label": "$~orden",
+                    "labels": ["$~nombre", "$~editado recientemente"],
+                    "tips": [
+                        "$~ordenar proyectos por nombre",
+                        "$~ordenar proyectos por la última vez que los cambiaste"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~cómo se llama esta carpeta",
+                        "placeholder": "$~carpeta"
+                    },
+                    "none": "$~sin carpeta",
+                    "button": {
+                        "create": "$~crear una carpeta nueva",
+                        "expand": "$~mostrar lo que hay en esta carpeta",
+                        "collapse": "$~ocultar lo que hay en esta carpeta"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~eliminar esta carpeta y archivar los proyectos que contiene",
+                            "prompt": "$~eliminar carpeta y archivar sus proyectos"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~mover $project a $folder",
+                        "moved": "$~$project movido a $folder",
+                        "movedOut": "$~$project sacado de su carpeta",
+                        "expanded": "$~$folder expandida, $#count[1 proyecto|$#count proyectos|$count proyectos]",
+                        "collapsed": "$~$folder colapsada, $#count[1 proyecto|$#count proyectos|$count proyectos]",
+                        "selected": "$~$folder seleccionada, $#count[1 proyecto|$#count proyectos|$count proyectos]",
+                        "created": "$~$folder creada",
+                        "deleted": "$~$folder eliminada, $#count[1 proyecto archivado|$#count proyectos archivados|$count proyectos archivados]",
+                        "renamed": "$~carpeta renombrada a $folder",
+                        "projectSelected": "$~$project elegido",
+                        "cleared": "$~nada elegido"
+                    },
+                    "instructions": {
+                        "none": "$~haz clic en un proyecto o una carpeta para elegirlo.",
+                        "project": "$~mueve este proyecto con las teclas de flecha *arriba* y *abajo*, o arrástralo hacia una carpeta. presiona *escape* cuando termines.",
+                        "folder": "$~escribe el nombre para renombrar esta carpeta. si la eliminas, todo lo que hay dentro pasa a tu archivo."
+                    }
+                }
             },
             "galleries": {
                 "header": "Galerías",
@@ -8639,7 +8788,7 @@
                     "invalidPassword": "$~Las contraseñas deben tener al menos 6 caracteres.",
                     "mismatched": "$~Las contraseñas no coinciden.",
                     "usernameTaken": "$~Este nombre de usuario ya está ocupado.",
-                    "unsaved": "$~Tienes cambios que aún no se guardan en línea. Vuelve a conectarte y espera a que se guarden primero, o se perderán de este dispositivo.",
+                    "unsaved": "$~Tienes cambios que aún no se guardan en línea. Si cierras sesión ahora, se perderán de este dispositivo.",
                     "deletePartial": "$~Quitamos los datos de tu cuenta, pero no pudimos terminar de eliminar tu cuenta. Inténtalo de nuevo o contáctanos si sigue pasando."
                 },
                 "feedback": {
@@ -8738,6 +8887,16 @@
                     "$~Una cosa más sobre hacer un proyecto *público*. Los proyectos públicos se comparten bajo la <licencia Creative Commons Atribución-CompartirIgual@https://creativecommons.org/licenses/by-sa/4.0/>. Eso significa que cualquiera puede /remezclar/ tu proyecto público — hacer su propia copia y cambiarla — y tú puedes remezclar el de cualquier otra persona.",
                     "Con esa licencia vienen tres cosas. Quienes remezclan deben dar crédito a quien hizo el original. Deben compartir su remezcla bajo esta misma licencia, para que siga abierta para la siguiente persona. Y no pueden hacer privado un proyecto público para quedárselo.",
                     "Nosotros ayudamos con la parte del crédito: cuando alguien remezcla un proyecto, recordamos de dónde vino y mostramos un enlace de vuelta a él. Hacer público un proyecto es la forma de decir que sí a todo esto, así que si prefieres que nadie remezcle un proyecto, mantenlo privado."
+                ],
+                "research": [
+                    "$~una última decisión, y es solo tuya. a veces escribimos y hablamos sobre Wordplay, en artículos de investigación, en pláticas, y en lo que mostramos a maestras y familias. nos encantaría mostrar lo que la gente realmente crea con esto, pero no mostraremos tu proyecto a menos que tú digas que sí podemos.",
+                    "cada proyecto tiene una configuración de *Investigación* en sus opciones para compartir, y empieza apagada. activarla nos permite mostrar ese proyecto como ejemplo, sin tu nombre, tu nombre de usuaria ni nada más que diga que la cuenta es tuya. es por proyecto, así que decir que sí a uno no dice nada sobre los demás.",
+                    "puedes apagarla en cualquier momento. apagarla significa que dejamos de usar tu proyecto en cualquier cosa nueva, pero no puede deshacer algo que ya publicamos o presentamos."
+                ],
+                "warnings": [
+                    "$~esto es exactamente lo que pasa si tu contenido público rompe estas reglas. una persona moderadora lo revisa, deja de ser público, y recibes una advertencia en tus notificaciones que dice cuál es. cualquiera que tenga sesión iniciada puede pedirle a una persona moderadora que revise contenido público usando el botón de reportar que aparece en él.",
+                    "después de tres advertencias, todavía puedes crear proyectos, seguir compartiéndolos con quien tú elijas, y seguir usando todo lo demás aquí. lo que pierdes es la capacidad de hacer algo público.",
+                    "si crees que una advertencia fue un error, o pasó hace mucho tiempo y te gustaría volver a compartir públicamente, escribe a hi@wordplay.dev y cuéntanos tu nombre de usuaria y por qué. una persona lo leerá."
                 ]
             },
             "donate": {
@@ -9445,13 +9604,18 @@
                     "tip": "$~comienza una conversación contigo o con otras personas."
                 },
                 "delete": "$~borrar este mensaje",
-                "confirmDelete": "$~¿confirmar borrado?"
+                "confirmDelete": "$~¿confirmar borrado?",
+                "transfer": {
+                    "description": "$~hacer a esta persona propietaria del proyecto",
+                    "prompt": "$~¿hacerla propietaria? seguirás siendo colaboradora y podrás seguir editando, pero ya no podrás eliminar este proyecto."
+                }
             },
             "error": {
                 "unowned": "$~Este proyecto no se guarda en línea, así que no puede tener chat ni colaboradoras.",
                 "offline": "$~No se pudo cargar este chat.",
                 "empty": "$~No hay mensajes.",
-                "deleted": "$~Este mensaje se eliminó."
+                "deleted": "$~Este mensaje se eliminó.",
+                "transferGallery": "$~este proyecto está en una galería. darlo a alguien más no lo agrega a esa galería, así que quizás no pueda verlo ahí."
             },
             "prompt": {
                 "solo": "$~Chatea contigo o agrega...",
@@ -9493,6 +9657,9 @@
                 "commenters": "$~Las /comentadoras/ pueden *conversar* sobre el proyecto contigo, pero no pueden *editarlo*.",
                 "viewers": "$~Las /espectadoras/ pueden *ver* el proyecto y su *código*, pero no pueden *conversar* ni *editarlo*.",
                 "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todas* las personas que pueden ver la galería pueden ver tu proyecto. El botón /restringir/ lo *oculta* de todas menos de ti y de las curadoras de la galería."
+            },
+            "announce": {
+                "transferred": "$~$name ahora es propietaria de $project"
             }
         },
         "checkpoints": {
@@ -10130,6 +10297,24 @@
         "done": "$~¡Nada más que moderar!",
         "error": {
             "notmod": "$~Parece que no eres moderador. Si te dieron privilegios de moderador hace poco, puede que necesites iniciar sesión otra vez. Si no, mira la wiki para saber cómo pedir privilegios de moderación."
+        },
+        "report": {
+            "button": "$~alertar a moderadora",
+            "confirm": "$~alertar a moderadora",
+            "sent": "$~se le pidió a una persona moderadora que revisara esto",
+            "announce": "$~se le pidió a una persona moderadora que revisara $project",
+            "flagged": "$~alguien reportó este proyecto, así que está primero en la fila."
+        },
+        "strike": {
+            "issue": "$~advertir a esta creadora",
+            "consequence": "$~Esta será la advertencia número $#count[1|$#count|$count] para esta creadora. $banning[Esta advertencia le quita la posibilidad de hacer público cualquier proyecto.|Podrá seguir haciendo proyectos públicos durante $#remaining[1 advertencia más|$#remaining advertencias más|$remaining advertencias más].]",
+            "confirm": {
+                "description": "$~registrar esta decisión y advertir a la creadora",
+                "prompt": "$~advertirle"
+            },
+            "banned": "$~Ya te advertimos tres veces sobre contenido público, así que ya no puedes hacer públicos tus proyectos o galerías. Todavía puedes crear proyectos y compartirlos con las personas que elijas. Si crees que esto es un error, o pasó hace mucho tiempo y quieres volver a compartir de forma pública, escribe a hi@wordplay.dev y dinos tu nombre de usuario y por qué.",
+            "warned": "$~Algo de tu contenido público rompió las reglas para compartir, así que ya no es público. Esta es la advertencia $#count[1|$#count|$count]. $#remaining[Con una advertencia más ya no podrás hacer nada público.|Después de $#remaining advertencias más ya no podrás hacer nada público.|Después de $remaining advertencias más ya no podrás hacer nada público.]",
+            "notification": "$~Advertencia $#count[1|$#count|$count] sobre algo que compartiste públicamente."
         }
     },
     "gallery": {

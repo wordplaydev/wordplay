@@ -18,7 +18,7 @@
         "test:rules": "firebase emulators:exec --only firestore \"npx vitest run --config vitest.rules.config.ts\" --project=demo-wordplay --log-verbosity QUIET",
         "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay --log-verbosity QUIET",
         "dev": "vite dev",
-        "emu": "npx tsx scripts/seed.ts & firebase emulators:start --project=demo-wordplay",
+        "emu": "npx tsx scripts/seed.ts & npx tsx scripts/emulate.ts",
         "env": "run-script-os",
         "env:default": "cp .env.${GCLOUD_PROJECT:-template} .env",
         "env:windows": "copy .env.template .env",

@@ -50,7 +50,16 @@
             stretch
             {tip}
             testid={testid + '-confirm'}
-            action={() => action()}
+            action={() => {
+                // Collapse back to the unarmed button once the action is
+                // taken. Everywhere this is used on a list item the button
+                // unmounts and the leftover state is invisible, but a control
+                // that outlives what it acted on — deleting a folder from the
+                // projects page — would otherwise stay armed, so the next
+                // press cancels instead of confirming.
+                confirming = false;
+                return action();
+            }}
             label={prompt}
         />
     {/if}

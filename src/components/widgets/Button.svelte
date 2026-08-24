@@ -50,6 +50,12 @@
         spinIcon?: boolean;
         /** An optional shortcut string for ARIA */
         shortcut?: string;
+        /** For a disclosure button: whether what it controls is showing, and
+         *  the id of the region it shows. Screen readers announce a
+         *  disclosure's state from these, and there's no way to infer them
+         *  from the icon. */
+        expanded?: boolean | undefined;
+        controls?: string | undefined;
         /** Whether to wrap the text in the button */
         wrap?: boolean;
         /** Show the standard loading indicator instead of the button's
@@ -85,6 +91,8 @@
         size = undefined,
         testid = undefined,
         shortcut = undefined,
+        expanded = undefined,
+        controls = undefined,
         wrap = false,
         icon,
         spinIcon = false,
@@ -177,6 +185,8 @@
     aria-label={tooltip}
     aria-disabled={!active}
     aria-keyshortcuts={shortcut}
+    aria-expanded={expanded}
+    aria-controls={controls}
     onpointerdown={(event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -229,17 +239,18 @@
               if (onPress) return;
               event.button === 0 && active ? doAction(event) : undefined;
           }}
-    onkeydown={acting
-        ? null
-        : (event) =>
-              (event.key === 'Enter' || event.key === ' ') &&
-              // Only activate with no modifiers down. Enter is used for other shortcuts.
-              !event.shiftKey &&
-              !event.ctrlKey &&
-              !event.altKey &&
-              !event.metaKey
-                  ? doAction(event)
-                  : undefined}
+    onkeydown={(event) => {
+        if (event.defaultPrevented || acting) return;
+        if (
+            (event.key === 'Enter' || event.key === ' ') &&
+            // Only activate with no modifiers down. Enter is used for other shortcuts.
+            !event.shiftKey &&
+            !event.ctrlKey &&
+            !event.altKey &&
+            !event.metaKey
+        )
+            doAction(event);
+    }}
     >{#if busy}<!-- 1em, not the 2rem default: literally the button's content
             line, so a busy button is exactly as tall as a resting one. 1.5rem
             read as meeting that intent but is 24px against a ~13px line, which

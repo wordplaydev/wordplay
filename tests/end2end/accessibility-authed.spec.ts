@@ -36,6 +36,42 @@ for (const scheme of ['light', 'dark'] as const) {
             }
         });
 
+        test(`projects list with a folder has no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            // Folders add a disclosure, an inline rename field, tiles that can
+            // be chosen and dragged, and an instructions region — none of which
+            // the plain list scan above covers. A project is left chosen, since
+            // the focusable tile and its aria-current are the parts most likely
+            // to be wrong.
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                await page.goto('/en-US/projects');
+                await expect(page.getByTestId('preview').first()).toBeVisible({
+                    timeout: LOAD_TIMEOUT,
+                });
+                // Both colour schemes run this against one emulator, so the
+                // second pass starts with the first pass's folder already there.
+                const folders = page.locator('section.folder');
+                const before = await folders.count();
+                await page.locator('[data-uiid="new-folder"]').click();
+                await expect(folders).toHaveCount(before + 1);
+                const tile = page
+                    .locator('[data-folder="none"] .project')
+                    .first();
+                await tile.click({ position: { x: 4, y: 4 } });
+                await expect(tile).toHaveAttribute('aria-current', 'true');
+                await expectNoAxeViolations(page);
+            } finally {
+                await context.close();
+            }
+        });
+
         test(`project editor has no WCAG 2.2 AA violations`, async ({
             browser,
         }) => {

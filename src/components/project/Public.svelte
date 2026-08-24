@@ -11,17 +11,38 @@
         type ModerationState,
     } from '@db/projects/Moderation';
     import Notice from '@components/app/Notice.svelte';
+    import {
+        isBanned,
+        strikes,
+        strikesRemaining,
+    } from '@db/creators/strikes.svelte';
 
     interface Props {
         isPublic: boolean;
         set: (choice: number) => void;
         flags?: ModerationState | undefined;
+        /** Whether this creator has lost the ability to make anything public
+         *  (#193). Off by default: this component is also rendered for a
+         *  gallery, whose curator's own standing is what matters there. */
+        checkStanding?: boolean;
         /** Whether to title the section. Off inside the share dialog, where the
          *  tab already names it; on where this sits among other sections. */
         header?: boolean;
     }
 
-    let { isPublic, set, flags = undefined, header = true }: Props = $props();
+    let {
+        isPublic,
+        set,
+        flags = undefined,
+        header = true,
+        checkStanding = false,
+    }: Props = $props();
+
+    // A creator's own standing, which decides whether the control below is
+    // theirs to use. Read from the server-written record; the security rules
+    // enforce the same thing regardless of what's rendered here.
+    let banned = $derived(checkStanding && isBanned());
+    let warnings = $derived(strikes.record?.count ?? 0);
 </script>
 
 {#if header}
@@ -67,9 +88,31 @@
     </ul>
 {/if}
 
+<!-- What their standing means for this control. Shown above it rather than
+     after a failed press: someone who can't publish should find that out when
+     they look, not when they try. -->
+{#if banned}
+    <Notice
+        ><MarkupHTMLView markup={(l) => l.moderation.strike.banned} /></Notice
+    >
+{:else if checkStanding && warnings > 0}
+    <Notice
+        ><MarkupHTMLView
+            markup={[
+                (l) => l.moderation.strike.warned,
+                {
+                    count: warnings,
+                    remaining: strikesRemaining(),
+                },
+            ]}
+        /></Notice
+    >
+{/if}
+
 <Mode
     modes={(l) => l.ui.dialog.share.mode.public}
     choice={isPublic ? 1 : 0}
     select={set}
+    active={!banned}
     icons={['🤫', GLOBE1_SYMBOL]}
 />

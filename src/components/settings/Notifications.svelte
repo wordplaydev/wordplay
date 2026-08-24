@@ -13,7 +13,9 @@
             // message in a project chat needs moderation
             | 'projectmoderation'
             // message in a how-to chat needs moderation
-            | 'howtomoderation';
+            | 'howtomoderation'
+            // a moderator warned this creator about something they made public
+            | 'strike';
     };
 
     // list of chats that need moderation action from the current user
@@ -48,6 +50,7 @@
     import { untrack } from 'svelte';
     import { SvelteMap } from 'svelte/reactivity';
     import { notifications } from '@db/notifications.svelte';
+    import { strikes } from '@db/creators/strikes.svelte';
     import { localeGoto } from '@util/localeGoto';
 
     let showDialog: boolean = $state(false);
@@ -59,21 +62,43 @@
     // notifications to screen readers, since a color change alone isn't
     // perceivable to them.
     $effect(() => {
-        const hasUnread = notifications.size > 0;
+        // Carry the count, not just the fact. The old text was a constant, and
+        // a live region handed the same string twice stays silent — so every
+        // notification after the first was inaudible, which is the exact
+        // failure this app's announcement rule exists to prevent.
+        const count = notifications.size;
 
-        if (hasUnread && announce) {
+        if (count > 0 && announce) {
             untrack(() => {
                 if ($announce) {
                     $announce(
                         'notification',
                         $locales.getLanguages()[0],
-                        $locales.getPrimaryPlainText(
-                            (l) => l.ui.dialog.notifications.popup,
-                        ),
+                        $locales
+                            .concretize(
+                                (l) => l.ui.dialog.notifications.popup,
+                                { count },
+                            )
+                            .toText(),
                     );
                 }
             });
         }
+    });
+
+    // A warning from a moderator (#193). Derived from the server-written record
+    // rather than pushed, like every other notification here, and keyed by the
+    // count so a second warning is a second notification rather than a
+    // duplicate of the first.
+    $effect(() => {
+        const record = strikes.record;
+        if (record === undefined || record.count === 0) return;
+        notifications.set(`strike-${record.count}`, {
+            title: '',
+            galleryID: undefined,
+            itemID: `strike-${record.count}`,
+            type: 'strike',
+        });
     });
 
     // get messages that need moderation from this user
@@ -158,6 +183,19 @@
                 accessor = (l) =>
                     l.ui.dialog.notifications.notification.moderationHeader;
                 break;
+            case 'strike':
+                // Counted, so a second warning doesn't read identically to the
+                // first — and because "which warning is this" is the single
+                // most important thing the message carries.
+                return (
+                    docToMarkup(
+                        $locales.getMultilingualText(
+                            (l) => l.moderation.strike.notification,
+                        ),
+                    ).concretize($locales, {
+                        count: strikes.record?.count ?? 1,
+                    }) ?? ''
+                );
             default:
                 throw Error(`Unknown notification type: ${notification.type}`);
         }
@@ -213,7 +251,16 @@
                     tip={(l) => l.ui.dialog.notifications.delete}
                 />
             </div>
-            {#if notification.type === 'projectchat'}
+            {#if notification.type === 'strike'}
+                <Button
+                    tip={(l) => l.ui.dialog.notifications.notification.link}
+                    icon={'🔗'}
+                    action={() => {
+                        showDialog = false;
+                        localeGoto('/rights');
+                    }}
+                />
+            {:else if notification.type === 'projectchat'}
                 <Button
                     tip={(l) => l.ui.dialog.notifications.notification.link}
                     icon={'🔗'}

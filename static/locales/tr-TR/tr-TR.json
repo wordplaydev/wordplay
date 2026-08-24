@@ -2448,7 +2448,8 @@
                 }
             },
             "conversion": {
-                "text": "$~@Boolean'ı eşdeğer @Text değerlerine dönüştürür, \\'⊤'\\ ve \\'⊥'\\"
+                "text": "$~@Boolean'ı eşdeğer @Text değerlerine dönüştürür, \\'⊤'\\ ve \\'⊥'\\",
+                "number": "$~@Boolean değerini @Number değerine dönüştürür, \\1\\ için \\⊤\\ ve \\0\\ için \\⊥\\"
             }
         },
         "None": {
@@ -3108,52 +3109,134 @@
                     "$~Bir sayıyı \\1\\'den verilen herhangi bir sayıya kadar olan bir sayı listesine dönüştürüyorum. Örneğin:",
                     "\\10→[]\\"
                 ],
-                "s2m": "$~Saniyelerden dakikalara",
-                "s2h": "$~Saniyeler saatlere",
-                "s2day": "$~Saniyeler günlere",
-                "s2wk": "$~Saniyelerden haftalara",
-                "s2year": "$~Saniyelerden yıllara",
-                "s2ms": "$~Saniyeden milisaniyeye",
-                "ms2s": "$~Milisaniyelerden saniyelere",
-                "min2s": "$~Dakikalar saniyelere",
-                "h2s": "$~Saatler saniyelere",
-                "day2s": "$~Günlerden saniyelere",
-                "wk2s": "$~Haftalar saniyelere",
-                "yr2s": "$~Yıllar saniyelere",
-                "m2pm": "$~Metreden pikometreye",
-                "m2nm": "$~Metreden nanometreye",
-                "m2micro": "$~Metrelerden mikrometrelere",
-                "m2mm": "$~Metre milimetreye",
-                "m2cm": "$~Metreden santimetreye",
-                "m2dm": "$~Metreden desimetreye",
-                "m2km": "$~Metreden kilometreye",
-                "m2Mm": "$~Metrelerden megametrelere",
-                "m2Gm": "$~Metrelerden gigametrelere",
-                "m2Tm": "$~Metrelerden Terametrelere",
-                "pm2m": "$~Pikometrelerden metrelere",
-                "nm2m": "$~Nanometreden metreye",
-                "micro2m": "$~Mikrometrelerden metrelere",
-                "mm2m": "$~Milimetreden metreye",
-                "cm2m": "$~Santimetreden metreye",
-                "dm2m": "$~Desimetreden metreye",
-                "km2m": "$~Kilometreler metrelere",
-                "Mm2m": "$~Megametrelerden metrelere",
-                "Gm2m": "$~Gigametrelerden metrelere",
-                "Tm2m": "$~Terametrelerden metrelere",
-                "km2mi": "$~Kilometreden mile",
-                "mi2km": "$~Milden kilometreye",
-                "cm2in": "$~Santimetreden inçlere",
-                "in2cm": "$~İnçten santimetreye",
-                "m2ft": "$~Metreden ayağa",
-                "ft2m": "$~Ayaktan metreye",
-                "g2mg": "$~Gramdan miligrama",
-                "mg2g": "$~Miligramdan grama",
-                "g2kg": "$~Gramdan kilograma",
-                "kg2g": "$~Kilogramdan grama",
-                "g2oz": "$~Gramdan onsa",
-                "oz2g": "$~Ons'tan grama",
-                "oz2lb": "$~Ons'tan pound'a",
-                "lb2oz": "$~Pound'dan onsa"
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "$~nanosaniye",
+                "us": "$~mikrosaniye",
+                "ms": "$~milisaniye",
+                "s": "$~saniye",
+                "min": "$~dakika",
+                "h": "$~saat",
+                "day": "$~gün",
+                "wk": "$~hafta",
+                "yr": "$~yıl",
+                "pm": "$~pikometre",
+                "nm": "$~nanometre",
+                "um": "$~mikrometre",
+                "mm": "$~milimetre",
+                "cm": "$~santimetre",
+                "dm": "$~desimetre",
+                "m": "$~metre",
+                "hm": "$~hektometre",
+                "km": "$~kilometre",
+                "Mm": "$~megametre",
+                "Gm": "$~gigametre",
+                "Tm": "$~terametre",
+                "in": "$~inç",
+                "ft": "$~fit",
+                "yd": "$~yarda",
+                "mi": "$~mil",
+                "nmi": "$~deniz mili",
+                "au": "$~astronomik birim",
+                "ly": "$~ışık yılı",
+                "ug": "$~mikrogram",
+                "mg": "$~miligram",
+                "g": "$~gram",
+                "kg": "$~kilogram",
+                "t": "$~metrik ton",
+                "oz": "$~ons",
+                "lb": "$~pound",
+                "st": "$~stone",
+                "uston": "$~ABD kısa tonu",
+                "ukton": "$~İngiliz uzun tonu",
+                "degC": "$~santigrat derece",
+                "degF": "$~fahrenhayt derece",
+                "K": "$~kelvin",
+                "deg": "$~açı derecesi",
+                "rad": "$~radyan",
+                "mm2": "$~milimetrekare",
+                "cm2": "$~santimetrekare",
+                "m2": "$~metrekare",
+                "km2": "$~kilometrekare",
+                "in2": "$~inçkare",
+                "ft2": "$~ayakkare",
+                "yd2": "$~yardakare",
+                "mi2": "$~milkare",
+                "ha": "$~hektar",
+                "acre": "akre",
+                "mL": "$~mililitre",
+                "cL": "$~santilitre",
+                "dL": "$~desilitre",
+                "L": "$~litre",
+                "kL": "$~kilolitre",
+                "cm3": "$~santimetreküp",
+                "m3": "$~metreküp",
+                "tsp": "$~çay kaşığı",
+                "tbsp": "$~yemek kaşığı",
+                "cup": "$~bardak",
+                "usfloz": "$~ABD sıvı onsu",
+                "uspt": "$~ABD pintı",
+                "usqt": "$~ABD kuartı",
+                "usgal": "$~ABD galonu",
+                "ukfloz": "$~İngiliz sıvı onsu",
+                "ukpt": "$~İngiliz pintı",
+                "ukqt": "$~İngiliz kuartı",
+                "ukgal": "$~İngiliz galonu",
+                "mps": "$~saniyede metre",
+                "kmph": "$~saatte kilometre",
+                "miph": "$~saatte mil",
+                "ftps": "$~saniyede fit",
+                "kn": "knot",
+                "Pa": "$~paskal",
+                "hPa": "$~hektopaskal",
+                "kPa": "$~kilopaskal",
+                "bar": "$~bar",
+                "atm": "$~standart atmosferler",
+                "psi": "$~inç kare başına pound",
+                "mmHg": "$~milimetre cıva",
+                "J": "$~jul",
+                "kJ": "$~kilojul",
+                "cal": "$~kalori",
+                "kcal": "$~kilokalori",
+                "Wh": "$~vat saat",
+                "kWh": "$~kilovat saat",
+                "BTU": "$~İngiliz termal birimi",
+                "eV": "$~elektronvolt",
+                "mW": "$~miliwatt",
+                "W": "$~vat",
+                "kW": "$~kilovat",
+                "MW": "$~megavat",
+                "GW": "$~gigavat",
+                "hp": "$~beygir gücü",
+                "uA": "$~mikroamper",
+                "mA": "$~miliamper",
+                "A": "$~amper",
+                "kA": "$~kiloamper",
+                "mV": "$~milivolt",
+                "V": "$~volt",
+                "kV": "$~kilovolt",
+                "mohm": "$~miliohm",
+                "ohm": "$~ohm",
+                "kohm": "$~kiloohm",
+                "Mohm": "$~megaohm",
+                "Hz": "$~hertz",
+                "kHz": "$~kilohertz",
+                "MHz": "$~megahertz",
+                "GHz": "$~gigahertz",
+                "bpm": "$~dakikadaki vuruş sayısı",
+                "bit": "$~bit",
+                "B": "$~bayt",
+                "kB": "$~kilobayt",
+                "MB": "$~megabayt",
+                "GB": "$~gigabayt",
+                "TB": "$~terabayt",
+                "KiB": "$~kibibayt",
+                "MiB": "$~mebibayt",
+                "GiB": "$~gibibayt",
+                "TiB": "$~tebibayt",
+                "lux": "$~lüks",
+                "fc": "$~foot-candle"
             }
         },
         "List": {
@@ -6889,6 +6972,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~bu projenin kodunun kullanmadığı dilleri kaldır",
                     "label": "$~kullanılmayanları kaldır"
+                },
+                "tinker": {
+                    "label": "$~deneyin…",
+                    "tip": "$~bu örneğin bir kopyasını yeni bir pencerede aç, böylece değiştirip ne olduğunu görebilirsin"
                 }
             },
             "field": {
@@ -6988,8 +7075,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~bunun yeniden düzenlendiği projeye git"
-            }
+                "remixOf": "$~bunun yeniden düzenlendiği projeye git",
+                "backTo": "$~$place adresine geri dön"
+            },
+            "scratch": "$~Bu, bir örneğin geçici bir kopyasıdır. Kalıcı olması için yeniden karıştır.",
+            "untitled": "$~Adsız proje"
         },
         "checkpoints": {
             "label": {
@@ -7708,6 +7798,10 @@
                     },
                     "remix": {
                         "explanation": "$~Bir /yeniden düzenleme/, birinin kendine ait yapmak için değiştirdiği bir proje kopyasıdır. Bir yeniden düzenlemenin nereden geldiğini hatırlarız, böylece orijinali yapan kişi hâlâ emeğinin karşılığını alır."
+                    },
+                    "research": {
+                        "header": "$~Araştırma",
+                        "explanation": "$~Bazen Wordplay hakkında yazılar yazıp konuşuyoruz — araştırma yazılarında, konuşmalarda ve öğretmenlere, ailelere gösterdiğimiz şeylerde. Bunu açarsan, bu projeyi bir örnek olarak gösterebiliriz; isminle, kullanıcı adınla ya da hesabının sana ait olduğunu gösteren başka hiçbir bilgiyle değil.\n\nBunu istediğin zaman kapatabilirsin. Kapatmak, projeni yeni hiçbir şeyde kullanmayacağımız anlamına gelir. Ancak daha önce yayımladığımız ya da sunduğumuz bir şeyi geri alamayız."
                     }
                 },
                 "field": {
@@ -7733,6 +7827,17 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~araştırma",
+                        "labels": [
+                            "$~paylaşılmadı",
+                            "$~anonim olarak paylaşıldı"
+                        ],
+                        "tips": [
+                            "$~bu projeyi Wordplay hakkındaki araştırmalarda veya duyurularda gösterme",
+                            "$~Wordplay'in bu projeyi Wordplay hakkındaki araştırmalarda ve duyurularda anonim olarak göstermesine izin ver"
                         ]
                     }
                 },
@@ -8131,7 +8236,7 @@
                     "moderationHeader": "$~\"$name\" başlıklı mesaj moderasyon gerektiriyor."
                 },
                 "delete": "$~Bu bildirimi sil",
-                "popup": "$~yeni bildirim"
+                "popup": "$~$#count[1 bildirim|$count bildirim]"
             }
         },
         "collaborate": {
@@ -8159,13 +8264,18 @@
                     "tip": "$~kendinle veya başkalarıyla bir tartışma başlat."
                 },
                 "delete": "$~bu mesajı sil",
-                "confirmDelete": "$~Silme işlemini onaylıyor musunuz?"
+                "confirmDelete": "$~Silme işlemini onaylıyor musunuz?",
+                "transfer": {
+                    "description": "$~bu kişiyi projenin sahibi yap",
+                    "prompt": "$~Onu sahip yapmak istiyor musun? Sen bir işbirlikçi olarak kalırsın ve düzenlemeye devam edebilirsin. Ama artık bu projeyi silemezsin."
+                }
             },
             "error": {
                 "unowned": "$~Bu proje çevrimiçi olarak saklanmadığından, bir sohbet veya işbirlikçileri olamaz.",
                 "offline": "$~Bu sohbet yüklenemedi.",
                 "empty": "$~Mesaj yok.",
-                "deleted": "$~Bu mesaj silindi."
+                "deleted": "$~Bu mesaj silindi.",
+                "transferGallery": "$~Bu proje bir galeride bulunuyor. Projeyi başka birine vermek, onu o galeriye eklemez. Bu yüzden proje o galeride görünmeyebilir."
             },
             "prompt": {
                 "solo": "$~Kendinle sohbet et veya ekle...",
@@ -8207,6 +8317,9 @@
                 "commenters": "$~Yorum yapanlar projeyi sizinle *tartışabilirler*, ancak *düzenleyemezler*.",
                 "viewers": "$~İzleyiciler projeyi ve kodunu görüntüleyebilirler, ancak üzerinde tartışamazlar veya düzenleyemezler.",
                 "restrict": "$~Bir proje bir *galeride* olduğunda, varsayılan olarak galeriyi görebilen *herkes* projenizi görebilir. /restrict/ seçeneği, projeyi sizden ve galeri yöneticilerinden başka herkesten *gizler*."
+            },
+            "announce": {
+                "transferred": "$~$name artık $project projesinin sahibi"
             }
         },
         "palette": {
@@ -8744,7 +8857,51 @@
                     "description": "$~Projeleri ve kaynak dosyalarını arayın.",
                     "noResults": "$~Hiçbir sonuç bulunamadı."
                 },
-                "installedprompt": "$~Wordplay'i yüklenmiş bir uygulama olarak kullanıyorsun. Bu uygulama kendi projelerini tutar. Bunlar web tarayıcındaki projelerden ayrıdır. Tarayıcında yaptığın projeler hâlâ oradadır. Her iki yerdeki tüm projelerini görmek için <giriş yap@://login>."
+                "installedprompt": "$~Wordplay'i yüklenmiş bir uygulama olarak kullanıyorsun. Bu uygulama kendi projelerini tutar. Bunlar web tarayıcındaki projelerden ayrıdır. Tarayıcında yaptığın projeler hâlâ oradadır. Her iki yerdeki tüm projelerini görmek için <giriş yap@://login>.",
+                "sort": {
+                    "label": "$~sıralama",
+                    "labels": ["$~isim", "$~son düzenlenen"],
+                    "tips": [
+                        "$~projeleri isme göre sırala",
+                        "$~projeleri son değiştirdiğin zamana göre sırala"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~bu klasörün adı",
+                        "placeholder": "$~klasör"
+                    },
+                    "none": "$~klasör yok",
+                    "button": {
+                        "create": "$~yeni bir klasör oluştur",
+                        "expand": "$~bu klasörün içindekileri göster",
+                        "collapse": "$~bu klasörün içindekileri gizle"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~bu klasörü sil ve içindeki projeleri arşivle",
+                            "prompt": "$~Klasörü sil ve projelerini arşivle"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~$project projesini $folder klasörüne taşı",
+                        "moved": "$~$project, $folder klasörüne taşındı",
+                        "movedOut": "$~$project, klasöründen çıkarıldı",
+                        "expanded": "$~$folder açıldı, $#count[1 proje|$count proje]",
+                        "collapsed": "$~$folder daraltıldı, $#count[1 proje|$count proje]",
+                        "selected": "$~$folder seçildi, $#count[1 proje|$count proje]",
+                        "created": "$~$folder oluşturuldu",
+                        "deleted": "$~$folder silindi, $#count[1 proje arşivlendi|$count proje arşivlendi]",
+                        "renamed": "$~klasör adı $folder olarak değiştirildi",
+                        "projectSelected": "$~$project seçildi",
+                        "cleared": "$~hiçbir şey seçilmedi"
+                    },
+                    "instructions": {
+                        "none": "$~Seçmek için bir projeye ya da klasöre tıkla.",
+                        "project": "$~Bu projeyi *yukarı* ve *aşağı* ok tuşlarıyla taşı, ya da bir klasörün üzerine sürükle. Bitirdiğinde *escape* tuşuna bas.",
+                        "folder": "$~Bu klasörün adını değiştirmek için yeni ismi yaz. Klasörü silmek, içindeki her şeyi arşivine koyar."
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Galeriler",
@@ -8836,7 +8993,7 @@
                     "invalidPassword": "$~Şifreler en az 6 karakter uzunluğunda olmalıdır.",
                     "mismatched": "$~Şifreler uyuşmuyor.",
                     "usernameTaken": "$~Bu kullanıcı adı zaten alınmış.",
-                    "unsaved": "$~Henüz çevrimiçi olarak kaydedilmemiş değişiklikleriniz var. Yeniden bağlanın ve önce kaydedilmelerini bekleyin, aksi takdirde bu cihazdan kaybolacaklar.",
+                    "unsaved": "$~Çevrimiçi olarak kaydedilmemiş değişikliklerin var. Şimdi çıkış yaparsan, bu cihazdan silinirler.",
                     "deletePartial": "$~Hesabınızın verilerini sildik, ancak hesabınızı tamamen silemedik. Lütfen tekrar deneyin veya sorun devam ederse bizimle iletişime geçin."
                 },
                 "feedback": {
@@ -8934,6 +9091,16 @@
                     "$~Bir projeyi *herkese açık* yapmakla ilgili bir şey daha. Herkese açık projeler <Creative Commons Atıf-AynıLisanslaPaylaş lisansı@https://creativecommons.org/licenses/by-sa/4.0/> altında paylaşılır. Bu, herkesin senin herkese açık projeni /yeniden düzenleyebileceği/ — kendi kopyasını oluşturup değiştirebileceği — ve senin de başkasınınkini yeniden düzenleyebileceğin anlamına gelir.",
                     "Bu lisansla birlikte üç şey gelir. Yeniden düzenleyenler, orijinali yapan kişinin emeğini belirtmek zorundadır. Yeniden düzenlemelerini bu aynı lisans altında paylaşmak zorundadır, böylece bir sonraki kişi için açık kalır. Ve herkese açık bir projeyi kendine saklamak için özele çeviremezler.",
                     "Emeği belirtme kısmında yardımcı oluruz: biri bir projeyi yeniden düzenlediğinde, nereden geldiğini hatırlar ve ona geri dönen bir bağlantı gösteririz. Bir projeyi herkese açık yapmak, tüm bunlara evet demenin yoludur; bu yüzden bir projeyi kimsenin yeniden düzenlememesini istersen, onu özel tut."
+                ],
+                "research": [
+                    "$~Son bir seçim var ve bu tamamen sana ait. Wordplay hakkında zaman zaman yazılar yazıyor ve konuşuyoruz — araştırma makalelerinde, konuşmalarda ve öğretmenlere ile ailelere gösterdiğimiz şeylerde. İnsanların onunla gerçekten neler yaptığını göstermeyi çok isteriz, ama sen izin vermedikçe projeni göstermeyiz.",
+                    "Her projenin paylaşım ayarlarında bir *Araştırma* seçeneği vardır ve başlangıçta kapalıdır. Bunu açmak, o tek projeyi örnek olarak göstermemize izin verir; adını, kullanıcı adını ya da hesabının sana ait olduğunu gösteren başka hiçbir şeyi göstermeyiz. Bu ayar her proje için ayrıdır, yani birine evet demen diğerleri hakkında hiçbir şey söylemez.",
+                    "Bunu istediğin zaman kapatabilirsin. Kapatmak, projeni yeni hiçbir şeyde kullanmayacağımız anlamına gelir, ama daha önce yayınladığımız ya da sunduğumuz bir şeyi geri alamaz."
+                ],
+                "warnings": [
+                    "$~Senin genel (herkese açık) içeriğin bu kurallara aykırıysa tam olarak şu olur: Bir moderatör onu inceler, içerik artık herkese açık olmaktan çıkar ve bildirimlerinde hangi içerik olduğunu söyleyen bir uyarı alırsın. Oturum açmış herkes, üzerindeki bildir düğmesini kullanarak bir moderatörden herkese açık içeriği incelemesini isteyebilir.",
+                    "Üç uyarıdan sonra bile projeler oluşturabilir, bunları seçtiğin kişilerle paylaşabilir ve buradaki her şeyi kullanmaya devam edebilirsin. Kaybettiğin tek şey, herhangi bir şeyi herkese açık yapabilme yeteneğidir.",
+                    "Bir uyarının hatalı olduğunu düşünüyorsan ya da uzun zaman önce olduysa ve yeniden herkese açık paylaşım yapmak istiyorsan, hi@wordplay.dev adresine yaz ve bize kullanıcı adını ile nedenini söyle. Bir kişi bunu okuyacak."
                 ]
             },
             "donate": {
@@ -10124,6 +10291,24 @@
         "done": "$~Başka ölçülecek bir şey yok!",
         "error": {
             "notmod": "$~Moderatör olmadığınız anlaşılıyor. Yakın zamanda moderatör ayrıcalıkları verildiyse, tekrar oturum açmanız gerekebilir. Verilmediyse, moderasyon ayrıcalıklarının nasıl talep edileceğine dair wiki'ye bakın."
+        },
+        "report": {
+            "button": "$~Moderatörü uyar",
+            "confirm": "$~Moderatörü uyar",
+            "sent": "$~bir moderatörden buna bakması istendi",
+            "announce": "$~bir moderatörden $project projesine bakması istendi",
+            "flagged": "$~Birisi bu projeyi bildirdi, bu yüzden sırada ilk o var."
+        },
+        "strike": {
+            "issue": "$~bu içerik üreticisini uyar",
+            "consequence": "$~Bu, bu kullanıcı için $#count[1 numaralı|$count numaralı] uyarı olacak. $banning[Bu uyarı, onların herhangi bir şeyi herkese açık yapma yeteneğini elinden alır.|$#remaining[1 uyarı daha|$remaining uyarı daha] alana kadar bir şeyleri herkese açık yapabilecekler.]",
+            "confirm": {
+                "description": "$~bu kararı kaydet ve içerik üreticisini uyar",
+                "prompt": "$~Onları uyar"
+            },
+            "banned": "$~Herkese açık içerik hakkında üç kez uyarıldın, bu yüzden artık proje veya galerileri herkese açık yapamazsın. Yine de proje yapabilir ve seçtiğin kişilerle paylaşabilirsin. Bunun bir hata olduğunu düşünüyorsan ya da bu uzun zaman önce oldu ve yeniden herkese açık paylaşım yapmak istiyorsan, hi@wordplay.dev adresine yaz ve kullanıcı adını ve nedenini bize bildir.",
+            "warned": "$~Herkese açık içeriklerinden biri paylaşım kurallarını ihlal etti, bu yüzden artık herkese açık değil. Bu, $#count[1. uyarın.|$count. uyarın.] $#remaining[Bir uyarı daha alırsan artık hiçbir şeyi herkese açık yapamayacaksın.|$remaining uyarı daha alırsan artık hiçbir şeyi herkese açık yapamayacaksın.]",
+            "notification": "$~Herkese açık paylaştığın bir şey hakkında $#count[1. uyarı.|$count. uyarı.]"
         }
     },
     "gallery": {

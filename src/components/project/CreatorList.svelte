@@ -2,7 +2,7 @@
 <script lang="ts">
     import isValidUsername from '@db/creators/isValidUsername';
     import type LocaleText from '@locale/LocaleText';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, OWNER_SYMBOL } from '@parser/Symbols';
     import { Creator } from '@db/creators/CreatorDatabase';
     import validEmail from '@db/creators/isValidEmail';
     import { DB } from '@db/Database';
@@ -10,6 +10,7 @@
     import Feedback from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import TextField from '@components/widgets/TextField.svelte';
 
     interface Props {
@@ -17,6 +18,11 @@
         add?: undefined | ((uid: string, emailOrUsername: string) => void);
         remove?: undefined | ((uid: string, emailOrUsername: string) => void);
         removable?: undefined | ((uid: string) => boolean);
+        /** Hand ownership of whatever this list belongs to to this person.
+         *  Rendered as a confirmation, since it can't be undone by the person
+         *  who does it — only by the new owner. */
+        transfer?: undefined | ((uid: string, emailOrUsername: string) => void);
+        transferable?: undefined | ((uid: string) => boolean);
         editable: boolean;
         anonymize: boolean;
         /** A uid by metadata list, if provided, it's rendered as a table instead. */
@@ -35,6 +41,8 @@
         add,
         remove,
         removable,
+        transfer,
+        transferable,
         editable,
         anonymize,
         metadata,
@@ -110,7 +118,13 @@
 {/snippet}
 
 {#snippet removeButton(uid: string, email: string)}
-    {#if editable && removable && remove}<Button
+    {#if editable && transferable && transfer}<ConfirmButton
+            tip={(l) => l.ui.collaborate.button.transfer.description}
+            prompt={(l) => l.ui.collaborate.button.transfer.prompt}
+            enabled={transferable(uid)}
+            action={() => transfer(uid, email)}
+            icon={OWNER_SYMBOL}
+        ></ConfirmButton>{/if}{#if editable && removable && remove}<Button
             tip={(l) => l.ui.project.button.removeCollaborator}
             active={removable(uid)}
             action={() => remove(uid, email)}

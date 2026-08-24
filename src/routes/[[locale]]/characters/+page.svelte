@@ -13,7 +13,7 @@
     import { characterToSVG, type Character } from '@db/characters/Character';
     import { CharactersDB, disconnected } from '@db/Database';
     import { firestore } from '@db/firebase';
-    import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
     import NewCharacterButton from './NewCharacterButton.svelte';
 
@@ -61,7 +61,7 @@
         <div class="tools">
             <Button
                 tip={(l) => l.ui.page.characters.button.copy}
-                icon={COPY_SYMBOL}
+                icon={REMIX_SYMBOL}
                 background
                 action={async () => {
                     const id = await CharactersDB.copy(character);

@@ -10,7 +10,7 @@
     import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import { DB, SaveStatus, status } from '@db/Database';
+    import { DB } from '@db/Database';
     import { isModerator } from '@db/projects/Moderation';
     import { localeGoto } from '@util/localeGoto';
     import { updateProfile, type User } from 'firebase/auth';
@@ -28,9 +28,9 @@
 
     let moderator = $state(false);
 
-    // Items (across every domain) with edits not yet saved online. Logout and
-    // account deletion wipe the local cache, so doing either with unsaved work
-    // would discard it permanently — guard both on this.
+    // Items (across every domain) with edits not yet saved online. Logout wipes
+    // the local cache, so it discards them; warn when there are any, but never
+    // block, since a save that keeps failing would trap someone signed in.
     let unsaved = $derived(DB.getUnsavedCount());
 
     /** Writable holding the current Firebase user. We need a handle on the
@@ -94,7 +94,6 @@
             background
             tip={(l) => l.ui.page.login.button.logout.tip}
             action={logout}
-            enabled={$status.status === SaveStatus.Saved && unsaved === 0}
             prompt={(l) => l.ui.page.login.button.logout.label}
             label={(l) => l.ui.page.login.button.logout.label}
             testid="logout"

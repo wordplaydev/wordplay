@@ -2492,7 +2492,8 @@
                 }
             },
             "conversion": {
-                "text": "Converts a @Boolean to the equivalent @Text values, \\'⊤'\\ and \\'⊥'\\"
+                "text": "Converts a @Boolean to the equivalent @Text values, \\'⊤'\\ and \\'⊥'\\",
+                "number": "Converts a @Boolean to a @Number, \\1\\ for \\⊤\\ and \\0\\ for \\⊥\\"
             }
         },
         "None": {
@@ -3260,52 +3261,134 @@
                     "I convert a number to a list of the numbers from \\1\\ to whatever number is given. For example:",
                     "\\10→[]\\"
                 ],
-                "s2m": "Seconds to minutes",
-                "s2h": "Seconds to hours",
-                "s2day": "Seconds to days",
-                "s2wk": "Seconds to weeks",
-                "s2year": "Seconds to years",
-                "s2ms": "Seconds to milliseconds",
-                "ms2s": "Milliseconds to seconds",
-                "min2s": "Minutes to seconds",
-                "h2s": "Hours to seconds",
-                "day2s": "Days to seconds",
-                "wk2s": "Weeks to seconds",
-                "yr2s": "Years to seconds",
-                "m2pm": "Meters to picometers",
-                "m2nm": "Meters to nanometers",
-                "m2micro": "Meters to micrometers",
-                "m2mm": "Meters to millimeters",
-                "m2cm": "Meters to centimeters",
-                "m2dm": "Meters to decimeters",
-                "m2km": "Meters to kilometers",
-                "m2Mm": "Meters to megameters",
-                "m2Gm": "Meters to gigameters",
-                "m2Tm": "Meters to terameters",
-                "pm2m": "Picometers to meters",
-                "nm2m": "Nanometers to meters",
-                "micro2m": "Micrometers to meters",
-                "mm2m": "Millimeters to meters",
-                "cm2m": "Centimeters to meters",
-                "dm2m": "Decimeters to meters",
-                "km2m": "Kilometers to meters",
-                "Mm2m": "Megameters to meters",
-                "Gm2m": "Gigameters to meters",
-                "Tm2m": "Terameters to meters",
-                "km2mi": "Kilometers to miles",
-                "mi2km": "Miles to kilometers",
-                "cm2in": "Centimeters to inches",
-                "in2cm": "Inches to centimeters",
-                "m2ft": "Meters to feet",
-                "ft2m": "Feet to meters",
-                "g2mg": "Grams to milligrams",
-                "mg2g": "Milligrams to grams",
-                "g2kg": "Grams to kilograms",
-                "kg2g": "Kilograms to grams",
-                "g2oz": "Grams to ounces",
-                "oz2g": "Ounces to grams",
-                "oz2lb": "Ounces to pounds",
-                "lb2oz": "Pounds to ounces"
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "nanoseconds",
+                "us": "microseconds",
+                "ms": "milliseconds",
+                "s": "seconds",
+                "min": "minutes",
+                "h": "hours",
+                "day": "days",
+                "wk": "weeks",
+                "yr": "years",
+                "pm": "picometers",
+                "nm": "nanometers",
+                "um": "micrometers",
+                "mm": "millimeters",
+                "cm": "centimeters",
+                "dm": "decimeters",
+                "m": "meters",
+                "hm": "hectometers",
+                "km": "kilometers",
+                "Mm": "megameters",
+                "Gm": "gigameters",
+                "Tm": "terameters",
+                "in": "inches",
+                "ft": "feet",
+                "yd": "yards",
+                "mi": "miles",
+                "nmi": "nautical miles",
+                "au": "astronomical units",
+                "ly": "light years",
+                "ug": "micrograms",
+                "mg": "milligrams",
+                "g": "grams",
+                "kg": "kilograms",
+                "t": "metric tons",
+                "oz": "ounces",
+                "lb": "pounds",
+                "st": "stones",
+                "uston": "US short tons",
+                "ukton": "British long tons",
+                "degC": "degrees Celsius",
+                "degF": "degrees Fahrenheit",
+                "K": "kelvins",
+                "deg": "degrees of angle",
+                "rad": "radians",
+                "mm2": "square millimeters",
+                "cm2": "square centimeters",
+                "m2": "square meters",
+                "km2": "square kilometers",
+                "in2": "square inches",
+                "ft2": "square feet",
+                "yd2": "square yards",
+                "mi2": "square miles",
+                "ha": "hectares",
+                "acre": "acres",
+                "mL": "milliliters",
+                "cL": "centiliters",
+                "dL": "deciliters",
+                "L": "liters",
+                "kL": "kiloliters",
+                "cm3": "cubic centimeters",
+                "m3": "cubic meters",
+                "tsp": "teaspoons",
+                "tbsp": "tablespoons",
+                "cup": "cups",
+                "usfloz": "US fluid ounces",
+                "uspt": "US pints",
+                "usqt": "US quarts",
+                "usgal": "US gallons",
+                "ukfloz": "British fluid ounces",
+                "ukpt": "British pints",
+                "ukqt": "British quarts",
+                "ukgal": "British gallons",
+                "mps": "meters per second",
+                "kmph": "kilometers per hour",
+                "miph": "miles per hour",
+                "ftps": "feet per second",
+                "kn": "knots",
+                "Pa": "pascals",
+                "hPa": "hectopascals",
+                "kPa": "kilopascals",
+                "bar": "bars",
+                "atm": "standard atmospheres",
+                "psi": "pounds per square inch",
+                "mmHg": "millimeters of mercury",
+                "J": "joules",
+                "kJ": "kilojoules",
+                "cal": "calories",
+                "kcal": "kilocalories",
+                "Wh": "watt hours",
+                "kWh": "kilowatt hours",
+                "BTU": "British thermal units",
+                "eV": "electronvolts",
+                "mW": "milliwatts",
+                "W": "watts",
+                "kW": "kilowatts",
+                "MW": "megawatts",
+                "GW": "gigawatts",
+                "hp": "horsepower",
+                "uA": "microamperes",
+                "mA": "milliamperes",
+                "A": "amperes",
+                "kA": "kiloamperes",
+                "mV": "millivolts",
+                "V": "volts",
+                "kV": "kilovolts",
+                "mohm": "milliohms",
+                "ohm": "ohms",
+                "kohm": "kiloohms",
+                "Mohm": "megaohms",
+                "Hz": "hertz",
+                "kHz": "kilohertz",
+                "MHz": "megahertz",
+                "GHz": "gigahertz",
+                "bpm": "beats per minute",
+                "bit": "bits",
+                "B": "bytes",
+                "kB": "kilobytes",
+                "MB": "megabytes",
+                "GB": "gigabytes",
+                "TB": "terabytes",
+                "KiB": "kibibytes",
+                "MiB": "mebibytes",
+                "GiB": "gibibytes",
+                "TiB": "tebibytes",
+                "lux": "lux",
+                "fc": "foot-candles"
             }
         },
         "List": {
@@ -6886,6 +6969,8 @@
             "defaults": {
                 "starterCode": "¶Welcome to your blank project! This is a comment.\nYou can use it to describe your project, take notes, and\nexplain what you want people to know about your work.\nIt supports *bold*, /italic/, <links@https://wordplay.dev> and more.¶\nPhrase('hi')"
             },
+            "scratch": "This is a temporary copy of an example. Remix to keep it.",
+            "untitled": "Untitled project",
             "error": {
                 "unknown": "This project doesn't exist or you don't have access to it.",
                 "translate": "There was a problem translating your project.",
@@ -6930,6 +7015,10 @@
                 "removeUnusedLanguages": {
                     "tip": "remove the languages this project's code doesn't use",
                     "label": "remove unused"
+                },
+                "tinker": {
+                    "label": "test it…",
+                    "tip": "open a copy of this example in a new window, so you can change it and see what happens"
                 }
             },
             "field": {
@@ -7015,7 +7104,8 @@
                 }
             },
             "link": {
-                "remixOf": "go to the project this was remixed from"
+                "remixOf": "go to the project this was remixed from",
+                "backTo": "back to $place"
             },
             "tour": {
                 "launch": "take a tour of the project controls",
@@ -8040,6 +8130,10 @@
                     },
                     "remix": {
                         "explanation": "A /remix/ is a copy of a project that someone changed to make their own. We remember where a remix came from, so the person who made the original still gets credit."
+                    },
+                    "research": {
+                        "header": "Research",
+                        "explanation": "Sometimes we write and talk about Wordplay — in research papers, in talks, and in what we show teachers and families. If you turn this on, we can show this project as an example, without your name, your username, or anything else that says the account is yours.\n\nYou can turn this off any time. Turning it off means we stop using your project in anything new, but it can't take back something we already published or presented."
                     }
                 },
                 "tab": {
@@ -8091,6 +8185,14 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "research",
+                        "labels": ["not shared", "shared anonymously"],
+                        "tips": [
+                            "don't show this project in research or communications about Wordplay",
+                            "let Wordplay show this project anonymously in research and communications about Wordplay"
                         ]
                     }
                 },
@@ -8346,7 +8448,7 @@
                     "link": "details"
                 },
                 "delete": "delete this notification",
-                "popup": "new notification"
+                "popup": "$#count[1 notification|$count notifications]"
             },
             "locale": {
                 "header": "Language",
@@ -8488,7 +8590,11 @@
                     "tip": "begin a discussion with yourself or others."
                 },
                 "delete": "delete this message",
-                "confirmDelete": "confirm delete?"
+                "confirmDelete": "confirm delete?",
+                "transfer": {
+                    "description": "make this person the owner of the project",
+                    "prompt": "Make them the owner? You will stay a collaborator and can keep editing, but you will no longer be able to delete this project."
+                }
             },
             "moderation": {
                 "header": "Report this message",
@@ -8509,7 +8615,8 @@
                 "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
                 "offline": "Unable to load this chat.",
                 "empty": "No messages.",
-                "deleted": "This message was deleted."
+                "deleted": "This message was deleted.",
+                "transferGallery": "This project is in a gallery. Giving it to someone else does not add them to that gallery, so they may not be able to see it there."
             },
             "prompt": {
                 "solo": "Chat with yourself or add...",
@@ -8536,6 +8643,9 @@
                 "commenters": "/Commenters/ can *discuss* the project with you, but they cannot *edit* it.",
                 "viewers": "/Viewers/ can *view* the project and its *code*, but they cannot *discuss* or *edit* it.",
                 "restrict": "When a project is in a *gallery*, by default *everyone* who can see the gallery can see your project. The /restrict/ toggle *hides* it from everyone except you and the gallery curators."
+            },
+            "announce": {
+                "transferred": "$name is now the owner of $project"
             }
         },
         "presence": {
@@ -9285,6 +9395,50 @@
                     "newgallery": "We couldn't create a new gallery.",
                     "nodeletes": "You must be <logged in@://login> to delete archived projects.",
                     "delete": "Oops, we couldn't delete the project!"
+                },
+                "sort": {
+                    "label": "order",
+                    "labels": ["name", "recently edited"],
+                    "tips": [
+                        "order projects by name",
+                        "order projects by when you last changed them"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "what this folder is called",
+                        "placeholder": "folder"
+                    },
+                    "none": "no folder",
+                    "button": {
+                        "create": "make a new folder",
+                        "expand": "show what is in this folder",
+                        "collapse": "hide what is in this folder"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "delete this folder and archive the projects in it",
+                            "prompt": "Delete folder and archive its projects"
+                        }
+                    },
+                    "announce": {
+                        "destination": "move $project to $folder",
+                        "moved": "$project moved to $folder",
+                        "movedOut": "$project moved out of its folder",
+                        "expanded": "$folder expanded, $#count[1 project|$count projects]",
+                        "collapsed": "$folder collapsed, $#count[1 project|$count projects]",
+                        "selected": "$folder selected, $#count[1 project|$count projects]",
+                        "projectSelected": "$project chosen",
+                        "cleared": "nothing chosen",
+                        "created": "$folder created",
+                        "deleted": "$folder deleted, $#count[1 project archived|$count projects archived]",
+                        "renamed": "folder renamed to $folder"
+                    },
+                    "instructions": {
+                        "none": "Click a project or a folder to choose it.",
+                        "project": "Move this project with the *up* and *down* arrow keys, or drag it onto a folder. Press *escape* when you are done.",
+                        "folder": "Type in the name to rename this folder. Deleting it puts everything inside it in your archive."
+                    }
                 }
             },
             "galleries": {
@@ -9727,7 +9881,7 @@
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
                     "mismatched": "The passwords don't match.",
                     "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again.",
-                    "unsaved": "You have changes that aren't saved online yet. Reconnect and wait for them to save first, or they'll be lost from this device."
+                    "unsaved": "You have changes that aren't saved online yet. If you log out now, they'll be lost from this device."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",
@@ -9820,10 +9974,20 @@
                     "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message, and curators can approve or remove messages.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
                 ],
+                "warnings": [
+                    "Here is exactly what happens if public content of yours breaks these rules. A moderator reviews it, it stops being public, and you get a warning in your notifications saying which one it is. Anyone signed in can ask a moderator to look at public content using the report button on it.",
+                    "After three warnings you can still make projects, still share them with people you choose, and still use everything else here. What you lose is the ability to make anything public.",
+                    "If you think a warning was a mistake, or it was a long time ago and you'd like to share publicly again, write to hi@wordplay.dev and tell us your username and why. A person will read it."
+                ],
                 "license": [
                     "One more thing about making a project *public*. Public projects are shared under the <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. That means anyone can /remix/ your public project — make their own copy of it and change it — and you can remix anyone else's.",
                     "Three things come with that license. Remixers have to credit whoever made the original. They have to share their remix under this same license, so it stays open for the next person. And they can't take a public project private to keep it to themselves.",
                     "We help with the credit part: when someone remixes a project, we remember where it came from and show a link back to it. Making a project public is how you say yes to all of this, so if you'd rather nobody remixed a project, keep it private."
+                ],
+                "research": [
+                    "One last choice, and it is entirely yours. We sometimes write and talk about Wordplay — in research papers, in talks, and in what we show teachers and families. We would love to show what people actually make with it, but we will not show your project unless you say we can.",
+                    "Every project has a *Research* setting in its sharing options, and it starts off. Turning it on lets us show that one project as an example, without your name, your username, or anything else that says the account is yours. It is per project, so saying yes to one says nothing about the others.",
+                    "You can turn it off any time. Turning it off means we stop using your project in anything new, but it can't take back something we already published or presented."
                 ]
             },
             "donate": {
@@ -10142,6 +10306,24 @@
                 "label": "skip"
             },
             "property": "Whether the project has this property"
+        },
+        "report": {
+            "button": "Alert moderator",
+            "confirm": "Alert moderator",
+            "sent": "a moderator has been asked to look at this",
+            "announce": "a moderator has been asked to look at $project",
+            "flagged": "Someone reported this project, so it is first in line."
+        },
+        "strike": {
+            "issue": "warn this creator",
+            "consequence": "This will be warning number $#count[1|$count] for this creator. $banning[This warning takes away their ability to make anything public.|They will be able to make things public for $#remaining[1 more warning|$remaining more warnings].]",
+            "confirm": {
+                "description": "record this decision and warn the creator",
+                "prompt": "Warn them"
+            },
+            "banned": "You've been warned about public content three times, so you can no longer make projects or galleries public. You can still make projects, and still share them with people you choose. If you think this is a mistake, or it was a long time ago and you would like to share publicly again, write to hi@wordplay.dev and tell us your username and why.",
+            "warned": "Some public content of yours broke the sharing rules, so it is no longer public. This is warning $#count[1|$count]. $#remaining[One more and you will no longer be able to make anything public.|After $remaining more you will no longer be able to make anything public.]",
+            "notification": "Warning $#count[1|$count] about something you shared publicly."
         },
         "error": {
             "notmod": "It looks like you're not a moderator. If you were recently given moderator privileges, you may need to login again. If not, see the wiki for how to request moderation privileges."

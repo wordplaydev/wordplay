@@ -2453,7 +2453,8 @@
                 }
             },
             "conversion": {
-                "text": "$~Mengonversi @Boolean ke nilai @Text yang setara, \\'⊤'\\ dan \\'⊥'\\"
+                "text": "$~Mengonversi @Boolean ke nilai @Text yang setara, \\'⊤'\\ dan \\'⊥'\\",
+                "number": "$~Mengubah @Boolean menjadi @Number, \\1\\ untuk \\⊤\\ dan \\0\\ untuk \\⊥\\"
             }
         },
         "None": {
@@ -3113,52 +3114,134 @@
                     "$~Saya mengubah sebuah angka menjadi daftar angka dari 1 hingga angka yang diberikan. Misalnya:",
                     "\\10→[]\\"
                 ],
-                "s2m": "$~Detik hingga menit",
-                "s2h": "$~Detik hingga jam",
-                "s2day": "$~Detik hingga hari",
-                "s2wk": "$~Detik hingga minggu",
-                "s2year": "$~Detik hingga tahun",
-                "s2ms": "$~Detik ke milidetik",
-                "ms2s": "$~Milidetik hingga detik",
-                "min2s": "$~Menit ke detik",
-                "h2s": "$~Jam menjadi detik",
-                "day2s": "$~Hari menjadi detik",
-                "wk2s": "$~Minggu menjadi detik",
-                "yr2s": "$~Tahun ke detik",
-                "m2pm": "$~Meter ke pikometer",
-                "m2nm": "$~Meter ke nanometer",
-                "m2micro": "$~Meter ke mikrometer",
-                "m2mm": "$~Meter ke milimeter",
-                "m2cm": "$~Meter ke sentimeter",
-                "m2dm": "$~Meter ke desimeter",
-                "m2km": "$~Meter ke kilometer",
-                "m2Mm": "$~Meter ke megameter",
-                "m2Gm": "$~Meter hingga gigameter",
-                "m2Tm": "$~Meter ke terimeter",
-                "pm2m": "$~Pikometer ke meter",
-                "nm2m": "$~Nanometer ke meter",
-                "micro2m": "$~Mikrometer ke meter",
-                "mm2m": "$~Milimeter ke meter",
-                "cm2m": "$~Sentimeter ke meter",
-                "dm2m": "$~Desimeter ke meter",
-                "km2m": "$~Kilometer ke meter",
-                "Mm2m": "$~Megameter ke meter",
-                "Gm2m": "$~Gigameter ke meter",
-                "Tm2m": "$~Meter ke meter",
-                "km2mi": "$~Kilometer ke mil",
-                "mi2km": "$~Mil ke kilometer",
-                "cm2in": "$~Sentimeter ke inci",
-                "in2cm": "$~Inci ke sentimeter",
-                "m2ft": "$~Meter ke kaki",
-                "ft2m": "$~Kaki ke meter",
-                "g2mg": "$~Gram ke miligram",
-                "mg2g": "$~Miligram ke gram",
-                "g2kg": "$~Gram ke kilogram",
-                "kg2g": "$~Kilogram ke gram",
-                "g2oz": "$~Gram ke ons",
-                "oz2g": "$~Ons ke gram",
-                "oz2lb": "$~Ons ke pon",
-                "lb2oz": "$~Pon ke ons"
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "$~nanodetik",
+                "us": "$~mikrodetik",
+                "ms": "$~milidetik",
+                "s": "$~detik",
+                "min": "$~menit",
+                "h": "$~jam",
+                "day": "$~hari",
+                "wk": "$~minggu",
+                "yr": "$~tahun",
+                "pm": "$~pikometer",
+                "nm": "$~nanometer",
+                "um": "$~mikrometer",
+                "mm": "$~milimeter",
+                "cm": "$~sentimeter",
+                "dm": "$~desimeter",
+                "m": "$~meter",
+                "hm": "$~hektometer",
+                "km": "$~kilometer",
+                "Mm": "$~megameter",
+                "Gm": "$~gigameter",
+                "Tm": "$~terameter",
+                "in": "$~inci",
+                "ft": "$~kaki",
+                "yd": "$~yard",
+                "mi": "$~mil",
+                "nmi": "$~mil laut",
+                "au": "$~satuan astronomi",
+                "ly": "$~tahun cahaya",
+                "ug": "$~mikrogram",
+                "mg": "$~miligram",
+                "g": "$~gram",
+                "kg": "$~kilogram",
+                "t": "$~ton metrik",
+                "oz": "ounce",
+                "lb": "$~pon",
+                "st": "$~stone",
+                "uston": "$~ton pendek AS",
+                "ukton": "$~ton panjang Inggris",
+                "degC": "$~derajat Celsius",
+                "degF": "$~derajat Fahrenheit",
+                "K": "$~kelvin",
+                "deg": "$~derajat sudut",
+                "rad": "$~radian",
+                "mm2": "$~milimeter persegi",
+                "cm2": "$~sentimeter persegi",
+                "m2": "$~meter persegi",
+                "km2": "$~kilometer persegi",
+                "in2": "$~inci persegi",
+                "ft2": "$~kaki persegi",
+                "yd2": "$~yard persegi",
+                "mi2": "$~mil persegi",
+                "ha": "$~hektar",
+                "acre": "akre",
+                "mL": "$~mililiter",
+                "cL": "$~centiliter",
+                "dL": "$~desiliter",
+                "L": "$~liter",
+                "kL": "$~kiloliter",
+                "cm3": "$~sentimeter kubik",
+                "m3": "$~meter kubik",
+                "tsp": "$~sendok teh",
+                "tbsp": "$~sendok makan",
+                "cup": "$~cangkir",
+                "usfloz": "ounce cairan AS",
+                "uspt": "$~pint AS",
+                "usqt": "$~quart AS",
+                "usgal": "$~galon AS",
+                "ukfloz": "ounce cairan Inggris",
+                "ukpt": "$~pint Inggris",
+                "ukqt": "$~quart Inggris",
+                "ukgal": "$~galon Inggris",
+                "mps": "$~meter per detik",
+                "kmph": "$~kilometer per jam",
+                "miph": "$~mil per jam",
+                "ftps": "$~kaki per detik",
+                "kn": "$~knot",
+                "Pa": "$~pascal",
+                "hPa": "$~hektopascal",
+                "kPa": "$~kilopascal",
+                "bar": "$~bar",
+                "atm": "$~atmosfer standar",
+                "psi": "$~pon per inci persegi",
+                "mmHg": "$~milimeter air raksa",
+                "J": "$~joule",
+                "kJ": "$~kilojoule",
+                "cal": "$~kalori",
+                "kcal": "$~kilokalori",
+                "Wh": "$~watt jam",
+                "kWh": "$~kilowatt jam",
+                "BTU": "$~satuan termal Inggris",
+                "eV": "$~elektronvolt",
+                "mW": "$~miliwatt",
+                "W": "$~watt",
+                "kW": "$~kilowatt",
+                "MW": "$~megawatt",
+                "GW": "$~gigawatt",
+                "hp": "$~tenaga kuda",
+                "uA": "$~mikroampere",
+                "mA": "$~miliampere",
+                "A": "$~ampere",
+                "kA": "$~kiloampere",
+                "mV": "$~milivolt",
+                "V": "$~volt",
+                "kV": "$~kilovolt",
+                "mohm": "$~miliohm",
+                "ohm": "$~ohm",
+                "kohm": "$~kiloohm",
+                "Mohm": "$~megaohm",
+                "Hz": "$~hertz",
+                "kHz": "$~kilohertz",
+                "MHz": "$~megahertz",
+                "GHz": "$~gigahertz",
+                "bpm": "$~detak per menit",
+                "bit": "$~bit",
+                "B": "$~byte",
+                "kB": "$~kilobyte",
+                "MB": "$~megabyte",
+                "GB": "$~gigabyte",
+                "TB": "$~terabyte",
+                "KiB": "$~kibibyte",
+                "MiB": "$~mebibyte",
+                "GiB": "$~gibibita",
+                "TiB": "$~tebibita",
+                "lux": "$~lux",
+                "fc": "$~foot-candle"
             }
         },
         "List": {
@@ -6907,6 +6990,10 @@
                 "removeUnusedLanguages": {
                     "tip": "$~hapus bahasa yang tidak dipakai oleh kode proyek ini",
                     "label": "$~hapus yang tidak dipakai"
+                },
+                "tinker": {
+                    "label": "$~coba…",
+                    "tip": "$~buka salinan contoh ini di jendela baru, supaya kamu bisa mengubahnya dan melihat apa yang terjadi"
                 }
             },
             "field": {
@@ -7002,8 +7089,11 @@
                 }
             },
             "link": {
-                "remixOf": "$~buka proyek asal remix ini"
-            }
+                "remixOf": "$~buka proyek asal remix ini",
+                "backTo": "$~kembali ke $place"
+            },
+            "scratch": "$~Ini adalah salinan sementara dari sebuah contoh. Remix untuk menyimpannya.",
+            "untitled": "$~Proyek tanpa judul"
         },
         "checkpoints": {
             "label": {
@@ -7965,6 +8055,10 @@
                     },
                     "remix": {
                         "explanation": "$~/Remix/ adalah salinan sebuah proyek yang diubah seseorang menjadi miliknya sendiri. Kami mengingat asal sebuah remix, agar orang yang membuat proyek asli tetap mendapat penghargaan."
+                    },
+                    "research": {
+                        "header": "$~Penelitian",
+                        "explanation": "$~Kadang kami menulis dan berbicara tentang Wordplay — dalam makalah penelitian, dalam presentasi, dan dalam hal yang kami tunjukkan kepada guru dan keluarga. Jika kamu mengaktifkan ini, kami bisa menampilkan proyek ini sebagai contoh, tanpa namamu, nama penggunamu, atau apa pun yang menunjukkan bahwa akun ini milikmu.\n\nKamu bisa menonaktifkannya kapan saja. Menonaktifkannya berarti kami berhenti menggunakan proyekmu dalam hal-hal baru, tetapi tidak bisa menarik kembali sesuatu yang sudah kami terbitkan atau tampilkan sebelumnya."
                     }
                 },
                 "field": {
@@ -7990,6 +8084,17 @@
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~penelitian",
+                        "labels": [
+                            "$~tidak dibagikan",
+                            "$~dibagikan secara anonim"
+                        ],
+                        "tips": [
+                            "$~jangan tampilkan proyek ini dalam penelitian atau komunikasi tentang Wordplay",
+                            "$~izinkan Wordplay menampilkan proyek ini secara anonim dalam penelitian dan komunikasi tentang Wordplay"
                         ]
                     }
                 },
@@ -8274,7 +8379,7 @@
                     "link": "$~detail"
                 },
                 "delete": "$~Hapus pemberitahuan ini",
-                "popup": "$~pemberitahuan baru"
+                "popup": "$~$#count[$count pemberitahuan]"
             },
             "locale": {
                 "header": "$~Bahasa",
@@ -8416,7 +8521,11 @@
                     "tip": "$~Mulailah diskusi dengan diri sendiri atau orang lain."
                 },
                 "delete": "$~hapus pesan ini",
-                "confirmDelete": "$~Konfirmasi penghapusan?"
+                "confirmDelete": "$~Konfirmasi penghapusan?",
+                "transfer": {
+                    "description": "$~jadikan orang ini sebagai pemilik proyek",
+                    "prompt": "$~Jadikan mereka pemilik? Kamu akan tetap menjadi kolaborator dan bisa terus mengedit, tetapi kamu tidak akan bisa lagi menghapus proyek ini."
+                }
             },
             "moderation": {
                 "header": "$~Laporkan pesan ini",
@@ -8437,7 +8546,8 @@
                 "unowned": "$~Proyek ini tidak disimpan secara online, jadi tidak dapat memiliki fitur obrolan atau kolaborator.",
                 "offline": "$~Obrolan ini tidak dapat dimuat.",
                 "empty": "$~Tidak ada pesan.",
-                "deleted": "$~Pesan ini telah dihapus."
+                "deleted": "$~Pesan ini telah dihapus.",
+                "transferGallery": "$~Proyek ini ada di dalam galeri. Memberikannya kepada orang lain tidak menambahkan mereka ke galeri itu, jadi mereka mungkin tidak bisa melihatnya di sana."
             },
             "prompt": {
                 "solo": "$~Berbincanglah dengan diri sendiri atau tambahkan...",
@@ -8464,6 +8574,9 @@
                 "commenters": "$~Para pemberi komentar dapat *mendiskusikan* proyek tersebut dengan Anda, tetapi mereka tidak dapat *mengedit*nya.",
                 "viewers": "$~Para penonton dapat *melihat* proyek dan *kode*-nya, tetapi mereka tidak dapat *mendiskusikan* atau *mengedit*nya.",
                 "restrict": "$~Saat sebuah proyek berada di *galeri*, secara default *semua orang* yang dapat melihat galeri dapat melihat proyek Anda. Tombol /restrict/ *menyembunyikannya* dari semua orang kecuali Anda dan kurator galeri."
+            },
+            "announce": {
+                "transferred": "$~$name sekarang menjadi pemilik $project"
             }
         },
         "palette": {
@@ -9187,7 +9300,51 @@
                     "nodeletes": "$~Anda pasti<logged in@://login> untuk menghapus proyek yang diarsipkan.",
                     "delete": "$~Ups, kami tidak dapat menghapus proyek tersebut!"
                 },
-                "installedprompt": "$~Kamu menggunakan Wordplay sebagai aplikasi yang terpasang, dan aplikasi ini menyimpan proyeknya sendiri, terpisah dari proyek di peramban webmu. Semua proyek yang kamu buat di peramban masih ada di sana. <Masuk@://login> untuk melihat semua proyekmu di kedua tempat."
+                "installedprompt": "$~Kamu menggunakan Wordplay sebagai aplikasi yang terpasang, dan aplikasi ini menyimpan proyeknya sendiri, terpisah dari proyek di peramban webmu. Semua proyek yang kamu buat di peramban masih ada di sana. <Masuk@://login> untuk melihat semua proyekmu di kedua tempat.",
+                "sort": {
+                    "label": "$~urutan",
+                    "labels": ["$~nama", "$~baru saja diedit"],
+                    "tips": [
+                        "$~urutkan proyek berdasarkan nama",
+                        "$~urutkan proyek berdasarkan waktu terakhir kamu mengubahnya"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~nama folder ini",
+                        "placeholder": "$~folder"
+                    },
+                    "none": "$~tidak ada folder",
+                    "button": {
+                        "create": "$~buat folder baru",
+                        "expand": "$~tampilkan isi folder ini",
+                        "collapse": "$~sembunyikan isi folder ini"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~hapus folder ini dan arsipkan proyek di dalamnya",
+                            "prompt": "$~Hapus folder dan arsipkan proyeknya"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~pindahkan $project ke $folder",
+                        "moved": "$~$project dipindahkan ke $folder",
+                        "movedOut": "$~$project dipindahkan keluar dari foldernya",
+                        "expanded": "$~$folder dibuka, $#count[$count proyek]",
+                        "collapsed": "$~$folder ditutup, $#count[$count proyek]",
+                        "selected": "$~$folder dipilih, $#count[$count proyek]",
+                        "created": "$~$folder dibuat",
+                        "deleted": "$~$folder dihapus, $#count[$count proyek diarsipkan]",
+                        "renamed": "$~nama folder diganti menjadi $folder",
+                        "projectSelected": "$~$project dipilih",
+                        "cleared": "$~tidak ada yang dipilih"
+                    },
+                    "instructions": {
+                        "none": "$~Klik sebuah proyek atau folder untuk memilihnya.",
+                        "project": "$~Pindahkan proyek ini dengan tombol panah *atas* dan *bawah*, atau seret ke sebuah folder. Tekan *escape* jika sudah selesai.",
+                        "folder": "$~Ketikkan nama untuk mengganti nama folder ini. Jika kamu menghapusnya, semua isinya akan masuk ke arsipmu."
+                    }
+                }
             },
             "galleries": {
                 "header": "$~Galeri",
@@ -9633,7 +9790,7 @@
                     "wrongPassword": "$~Nama pengguna dan kata sandi tidak valid. Kata sandi Anda salah, atau orang lain sudah menggunakan nama pengguna ini.",
                     "mismatched": "$~Kata sandinya tidak cocok.",
                     "tooMany": "$~Anda telah mencoba masuk dan gagal terlalu banyak kali. Anda harus menunggu untuk mencoba lagi.",
-                    "unsaved": "$~Anda memiliki perubahan yang belum tersimpan secara online. Sambungkan kembali dan tunggu hingga perubahan tersebut tersimpan terlebih dahulu, jika tidak, perubahan tersebut akan hilang dari perangkat ini.",
+                    "unsaved": "$~Kamu punya perubahan yang belum tersimpan secara daring. Jika kamu keluar sekarang, perubahan itu akan hilang dari perangkat ini.",
                     "deletePartial": "$~Kami telah menghapus data akun Anda, tetapi tidak dapat menyelesaikan penghapusan akun Anda. Silakan coba lagi, atau hubungi kami jika hal ini terus terjadi."
                 },
                 "feedback": {
@@ -9731,6 +9888,16 @@
                     "$~Satu hal lagi tentang membuat proyek menjadi *publik*. Proyek publik dibagikan dengan <lisensi Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Artinya, siapa pun boleh me-/remix/ proyek publikmu — membuat salinan sendiri dan mengubahnya — dan kamu boleh me-remix proyek milik orang lain.",
                     "Ada tiga hal yang datang bersama lisensi itu. Orang yang me-remix harus memberi penghargaan kepada pembuat proyek asli. Mereka harus membagikan remix mereka dengan lisensi yang sama, agar tetap terbuka untuk orang berikutnya. Dan mereka tidak boleh menjadikan proyek publik sebagai proyek pribadi untuk disimpan sendiri.",
                     "Kami membantu bagian penghargaan: ketika seseorang me-remix sebuah proyek, kami mengingat asalnya dan menampilkan tautan kembali ke proyek itu. Membuat proyek menjadi publik adalah caramu menyetujui semua ini, jadi jika kamu lebih suka tidak ada yang me-remix sebuah proyek, biarkan proyek itu tetap pribadi."
+                ],
+                "research": [
+                    "$~Ini pilihan terakhir, dan sepenuhnya milikmu. Kami kadang menulis dan berbicara tentang Wordplay — dalam makalah penelitian, dalam presentasi, dan dalam apa yang kami tunjukkan kepada guru dan keluarga. Kami ingin sekali menunjukkan apa yang benar-benar dibuat orang dengan Wordplay, tapi kami tidak akan menampilkan proyekmu kecuali kamu mengizinkannya.",
+                    "Setiap proyek memiliki pengaturan *Penelitian* di opsi berbaginya, dan pengaturan ini awalnya dimatikan. Menyalakannya membuat kami bisa menampilkan proyek itu sebagai contoh, tanpa namamu, nama penggunamu, atau apa pun yang menunjukkan bahwa akun itu milikmu. Pengaturan ini berlaku per proyek, jadi menyetujui satu proyek tidak berarti apa-apa untuk proyek lainnya.",
+                    "Kamu bisa mematikannya kapan saja. Mematikannya berarti kami berhenti memakai proyekmu untuk hal baru, tapi kami tidak bisa menarik kembali sesuatu yang sudah kami terbitkan atau tampilkan."
+                ],
+                "warnings": [
+                    "$~Berikut ini yang terjadi jika konten publikmu melanggar aturan ini. Seorang moderator akan memeriksanya, konten itu berhenti menjadi publik, dan kamu mendapat peringatan di notifikasimu yang menyebutkan konten mana yang dimaksud. Siapa pun yang sudah masuk bisa meminta moderator memeriksa konten publik dengan tombol lapor pada konten tersebut.",
+                    "Setelah tiga peringatan, kamu masih bisa membuat proyek, masih bisa membagikannya kepada orang yang kamu pilih, dan masih bisa memakai semua fitur lain di sini. Yang kamu kehilangan adalah kemampuan untuk membuat sesuatu menjadi publik.",
+                    "Jika kamu merasa sebuah peringatan adalah kesalahan, atau peringatan itu sudah lama dan kamu ingin berbagi secara publik lagi, tulis surat ke hi@wordplay.dev dan beri tahu kami nama penggunamu serta alasannya. Seseorang akan membacanya."
                 ]
             },
             "donate": {
@@ -10133,6 +10300,24 @@
         },
         "error": {
             "notmod": "$~Sepertinya Anda bukan moderator. Jika Anda baru-baru ini diberi hak akses moderator, Anda mungkin perlu masuk lagi. Jika belum, lihat wiki untuk mengetahui cara meminta hak akses moderasi."
+        },
+        "report": {
+            "button": "$~Beri tahu moderator",
+            "confirm": "$~Beri tahu moderator",
+            "sent": "$~seorang moderator telah diminta untuk memeriksa ini",
+            "announce": "$~seorang moderator telah diminta untuk memeriksa $project",
+            "flagged": "$~Seseorang melaporkan proyek ini, jadi ini menjadi yang pertama diperiksa."
+        },
+        "strike": {
+            "issue": "$~peringatkan pembuat ini",
+            "consequence": "$~Ini akan menjadi peringatan nomor $#count[$count] untuk pembuat ini. $banning[Peringatan ini menghilangkan kemampuan mereka untuk membuat sesuatu menjadi publik.|Mereka masih bisa membuat sesuatu menjadi publik selama $#remaining[$remaining peringatan lagi].]",
+            "confirm": {
+                "description": "$~catat keputusan ini dan peringatkan pembuatnya",
+                "prompt": "$~Peringatkan mereka"
+            },
+            "banned": "$~Kamu sudah diperingatkan tiga kali tentang konten publik, jadi kamu tidak bisa lagi membuat proyek atau galeri bersifat publik. Kamu masih bisa membuat proyek, dan tetap bisa membagikannya kepada orang yang kamu pilih. Jika menurutmu ini suatu kesalahan, atau sudah lama sekali dan kamu ingin membagikan sesuatu secara publik lagi, tulis surat ke hi@wordplay.dev dan beri tahu kami nama penggunamu serta alasannya.",
+            "warned": "$~Beberapa konten publik milikmu melanggar aturan berbagi, jadi konten itu tidak lagi bersifat publik. Ini adalah peringatan $#count[$count]. $#remaining[Setelah $remaining lagi kamu tidak akan bisa membuat apa pun menjadi publik.]",
+            "notification": "$~Peringatan ke-$#count[$count] tentang sesuatu yang kamu bagikan secara publik."
         }
     },
     "gallery": {

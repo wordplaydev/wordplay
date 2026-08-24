@@ -278,8 +278,11 @@
                         /></span
                     >
                 </span>
+                <!-- A scratch project is a copy of an example to poke at, so
+                     there's nothing worth naming; the row below says what it
+                     is instead. -->
                 <span data-uiid="projectName">
-                    {#if editable}
+                    {#if project.isScratch()}{:else if editable}
                         {#if multipleNames && !editingName}
                             <!-- Multilingual name, not editing: show the
                                  localized name like the read-only view. -->
@@ -486,7 +489,10 @@
 
     .footer-row.main-row {
         display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        /* `minmax(0, auto)` on the left track, not `auto`: an `auto` track
+           can't shrink below its content, so anything wide there takes the
+           row and leaves the toggles nothing. */
+        grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
         grid-template-areas: 'left toggles right';
         align-items: center;
         height: fit-content;

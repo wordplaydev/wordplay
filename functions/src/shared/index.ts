@@ -107,3 +107,65 @@ export type CreateClassOutput = {
     /** Any errors returned by the function */
     error: undefined | CreateClassError;
 };
+
+// FUNCTION moderateProject
+/** One moderator decision recorded against a creator (#193). */
+export type Strike = {
+    /** The project that was reviewed. */
+    project: string;
+    /** Which guidelines it broke, by flag name. */
+    flags: string[];
+    /** The moderator who decided. */
+    moderator: string;
+    /** When, in epoch milliseconds. */
+    time: number;
+    /** The moderator's decision this came from, so a retry of that decision
+     *  can't count twice. Absent on strikes recorded before decisions were
+     *  identified; an absent one never matches a new decision, which is the
+     *  safe direction. */
+    decision?: string;
+};
+
+/**
+ * A creator's moderation record, at `strikes/{uid}`.
+ *
+ * Server-written and client-readable, like `usage/{uid}` — a creator who could
+ * write this could clear their own strikes. The client reads it to explain why
+ * public sharing is unavailable and to raise the notification; enforcement
+ * itself is the `banned` custom claim, which costs no document reads in the
+ * security rules.
+ */
+export type Strikes = {
+    v: 1;
+    /** How many times this creator has been found to have broken the rules. */
+    count: number;
+    /** Each decision, oldest first. */
+    strikes: Strike[];
+    /** Whether they've lost the ability to make anything public. */
+    banned: boolean;
+    /** When that happened, in epoch milliseconds, or null if it hasn't. */
+    bannedAt: number | null;
+};
+
+/** What `moderateProject` is called with. */
+export type ModerateProjectInputs = {
+    /** The project being decided on. */
+    project: string;
+    /** The flag states to write, by flag name. */
+    flags: Record<string, boolean | null>;
+    /** Whether this decision counts as a strike against the project's owner.
+     *  False for a decision that clears a project, and for a report dismissed
+     *  as unfounded. */
+    strike: boolean;
+    /** Identifies this decision, so submitting it twice warns its creator once.
+     *  One per time a moderator is shown a project — kept across retries of the
+     *  same submission, new when the project comes up for review again. */
+    decision: string;
+};
+
+/** What it answers with: the owner's record after the decision, so the
+ *  moderator sees the consequence they just caused. */
+export type ModerateProjectOutput = {
+    count: number;
+    banned: boolean;
+};

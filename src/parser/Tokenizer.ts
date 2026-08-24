@@ -116,7 +116,30 @@ export const OperatorRegEx = new RegExp(`^[${OPERATORS}]`, 'u');
 // optional so dotless hosts (e.g. `http://localhost:8080`) still lex as URLs.
 const URLRegExPattern =
     /(https?)?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}(\.[a-zA-Z0-9()]{1,6})?\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/;
-export const StrictURLRegEx = new RegExp(`^${URLRegExPattern.source}`, 'u');
+/**
+ * An email address, so markup can name one (#193 needed a contact address and
+ * couldn't write one down). The local part is the same ASCII set the plain-text
+ * reference rule uses, and the domain needs at least one dot so an `@Concept`
+ * link is never mistaken for one.
+ */
+const EmailRegExPattern =
+    /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/;
+export const EmailRegEx = new RegExp(`^${EmailRegExPattern.source}`, 'u');
+/** An unanchored matcher, for finding an email inside a run of markup words. */
+const EmailInWordsRegEx = new RegExp(EmailRegExPattern.source, 'u');
+const WholeEmailRegEx = new RegExp(`^${EmailRegExPattern.source}$`, 'u');
+/** Whether some text is exactly an email address, so a link's URL can be given
+ *  the `mailto:` scheme it needs. */
+export function isEmail(text: string): boolean {
+    return WholeEmailRegEx.test(text);
+}
+
+export const StrictURLRegEx = new RegExp(
+    // A `mailto:` URL has no `//`, so it needs its own alternative — and it
+    // carries an `@`, which is why the concept rule below has to yield first.
+    `^(mailto:${EmailRegExPattern.source}|${URLRegExPattern.source})`,
+    'u',
+);
 /** An unanchored matcher for finding a URL inside markup words, so URLs become URL tokens
  * rather than words whose // would be folded as an escaped italic symbol. */
 const URLInWordsRegEx = new RegExp(URLRegExPattern.source, 'u');
@@ -766,7 +789,18 @@ export const ReferenceNameRegExPattern = `(?:${LatinNameCharacter}+|${NonLatinNa
 // (`@username/charactername`). The separator must be followed by at least one
 // name character, so a sentence period after a link (e.g. `see @Color.`) is
 // left as punctuation.
-export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)${ReferenceNameRegExPattern}([./]${ReferenceNameRegExPattern})?`;
+/**
+ * The lookahead exempts `mailto:` for the same reason it already exempts
+ * `http://`: in `<Email us@mailto:hi@x.dev>` the `@` is the link's own
+ * separator, and this rule is consulted before the one that reads it as one.
+ *
+ * Keeping an email's own `@` out of this pattern is *not* done here. In markup
+ * the email is tokenized whole before this rule ever sees its `@` (see the
+ * email lookahead in the words branch), and in plain text
+ * `findCharacterReference` applies the email rule with the exception this
+ * pattern can't express — that a `/` reference works mid-word anyway.
+ */
+export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://|mailto:)${ReferenceNameRegExPattern}([./]${ReferenceNameRegExPattern})?`;
 
 /** A global matcher for finding character references inside plain text, so
  *  references (e.g. @amy/cat or @U/1F600) are tokenized as concept tokens there
@@ -1212,6 +1246,14 @@ function getNextToken(
             const urlMatch = source.match(PermissiveURLRegEx);
             if (urlMatch !== null) return new Token(urlMatch[0], Sym.URL);
 
+            // Then emails, for the same reason and with one difference: `@` is
+            // a markup symbol, so words always stop *before* the `@` and the
+            // address is never inside the words match. Look ahead in the source
+            // instead, and cut the words at the address's local part so the next
+            // token starts there.
+            const emailMatch = source.match(EmailRegEx);
+            if (emailMatch !== null) return new Token(emailMatch[0], Sym.URL);
+
             const wordsMatch = source.match(WordsRegEx);
             if (wordsMatch !== null) {
                 // Take everything up until two newlines separated only by space.
@@ -1226,6 +1268,23 @@ function getNextToken(
                         url.index > 0
                     )
                         match = match.substring(0, url.index);
+                }
+                // Only an address that *starts* inside this run can cut it
+                // short, and one is at most 254 characters (RFC 5321), so
+                // everything that could matter lies in this window. Searching
+                // the whole remaining source instead made tokenizing quadratic
+                // in a document's length — and since documentation is full of
+                // `@` concept links, the cheap guard never rejected.
+                const ahead = source.substring(0, match.length + 254);
+                if (ahead.includes('@')) {
+                    const email = ahead.match(EmailInWordsRegEx);
+                    if (
+                        email !== null &&
+                        email.index !== undefined &&
+                        email.index > 0 &&
+                        email.index < match.length
+                    )
+                        match = match.substring(0, email.index);
                 }
                 if (match.length > 0)
                     // Add the preceding space back on, since it's part of the words.

@@ -83,6 +83,10 @@ const Lanes = {
     // example is what keeps consecutive choices from deduping into silence.
     tour: 'queued',
     collaborator: 'queued',
+    /** A committed change to how projects are organized: one moved into or out
+     *  of a folder, or a folder created, expanded, collapsed, selected, or
+     *  deleted. Each is a discrete result, so none may be dropped. */
+    'project-folder': 'queued',
     notification: 'queued',
     update: 'queued',
     'delete-account-confirm': 'queued',
@@ -118,6 +122,10 @@ const Lanes = {
     'character-history': 'coalesce',
     'canvas-moved': 'coalesce',
     'howto-moved': 'coalesce',
+    /** Which folder a project being moved on the projects page would land in.
+     *  A held arrow key and a pointer drag both stream this, so only the
+     *  latest destination matters. */
+    'project-move': 'coalesce',
     /** Command feedback whose value changes as a key repeats (zoom, step). */
     'command-state': 'coalesce',
     /** How far a translation has got. A continuous stream where only the latest
