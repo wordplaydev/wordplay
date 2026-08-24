@@ -8554,7 +8554,9 @@
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?"
+                "messageLanguageLabel": "$?",
+                "choosePlaceholder": "$?",
+                "currentLanguagePlaceholder": "$?"
             },
             "announce": {
                 "transferred": "$~Ο/Η $name είναι τώρα ο ιδιοκτήτης του $project"

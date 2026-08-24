@@ -9652,7 +9652,9 @@
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?"
+                "messageLanguageLabel": "$?",
+                "choosePlaceholder": "$?",
+                "currentLanguagePlaceholder": "$?"
             }
         },
         "checkpoints": {

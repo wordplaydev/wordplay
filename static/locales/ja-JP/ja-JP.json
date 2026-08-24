@@ -8335,7 +8335,9 @@
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?"
+                "messageLanguageLabel": "$?",
+                "choosePlaceholder": "$?",
+                "currentLanguagePlaceholder": "$?"
             }
         },
         "palette": {

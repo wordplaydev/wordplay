@@ -8598,7 +8598,9 @@
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?"
+                "messageLanguageLabel": "$?",
+                "choosePlaceholder": "$?",
+                "currentLanguagePlaceholder": "$?"
             }
         },
         "presence": {

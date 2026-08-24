@@ -8567,7 +8567,9 @@
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?"
+                "messageLanguageLabel": "$?",
+                "choosePlaceholder": "$?",
+                "currentLanguagePlaceholder": "$?"
             },
             "announce": {
                 "transferred": "$~Si $name na ngayon ang may-ari ng $project"

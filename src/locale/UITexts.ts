@@ -1087,6 +1087,10 @@ type UITexts = {
             direction: Template<['from', 'to']>;
             /** [plain] Visible label for the message language picker */
             messageLanguageLabel: string;
+            /** [plain] Placeholder option in the translate-to picker, before a target language is chosen */
+            choosePlaceholder: string;
+            /** [plain] Placeholder option in the message language picker, meaning the message isn't tagged with a specific language */
+            currentLanguagePlaceholder: string;
         };
         /** The chat message input field */
         field: {

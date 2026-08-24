@@ -647,7 +647,8 @@
                 options={[
                     {
                         value: undefined,
-                        label: () => 'Choose a language',
+                        label: () =>
+                            'l.ui.collaborate.translate.choosePlaceholder',
                     },
                     ...translatableLocales.map((locale) => ({
                         value: localeToString(locale),
@@ -697,7 +698,8 @@
                 options={[
                     {
                         value: undefined,
-                        label: () => 'Use current language',
+                        label: () =>
+                            'l.ui.collaborate.translate.currentLanguagePlaceholder',
                     },
                     ...translatableLocales.map((locale) => ({
                         value: localeToString(locale),

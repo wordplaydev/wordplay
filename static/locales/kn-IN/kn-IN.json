@@ -8544,7 +8544,9 @@
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?"
+                "messageLanguageLabel": "$?",
+                "choosePlaceholder": "$?",
+                "currentLanguagePlaceholder": "$?"
             },
             "announce": {
                 "transferred": "$~$name ಈಗ $project ಯ ಮಾಲೀಕರಾಗಿದ್ದಾರೆ"

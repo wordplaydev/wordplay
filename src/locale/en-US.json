@@ -8575,7 +8575,9 @@
                 "messageError": "A message from $sender couldn't be translated.",
                 "messageErrors": "$#count[$count message couldn't be translated.|$count messages couldn't be translated.]",
                 "direction": "$from → $to",
-                "messageLanguageLabel": "Message language"
+                "messageLanguageLabel": "Message language",
+                "choosePlaceholder": "Choose a language",
+                "currentLanguagePlaceholder": "Use current language"
             },
             "role": {
                 "owner": "owner",

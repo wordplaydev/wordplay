@@ -9640,7 +9640,9 @@
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?"
+                "messageLanguageLabel": "$?",
+                "choosePlaceholder": "$?",
+                "currentLanguagePlaceholder": "$?"
             },
             "announce": {
                 "transferred": "$~이제 $name 이(가) $project 의 소유자입니다"

@@ -8317,7 +8317,9 @@
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?"
+                "messageLanguageLabel": "$?",
+                "choosePlaceholder": "$?",
+                "currentLanguagePlaceholder": "$?"
             },
             "announce": {
                 "transferred": "$~$name är nu ägare av $project"

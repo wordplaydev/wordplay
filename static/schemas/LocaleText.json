@@ -16756,6 +16756,14 @@
                                     "additionalProperties": false,
                                     "description": "Controls for translating received messages into another language",
                                     "properties": {
+                                        "choosePlaceholder": {
+                                            "description": "[plain] Placeholder option in the translate-to picker, before a target language is chosen",
+                                            "type": "string"
+                                        },
+                                        "currentLanguagePlaceholder": {
+                                            "description": "[plain] Placeholder option in the message language picker, meaning the message isn't tagged with a specific language",
+                                            "type": "string"
+                                        },
                                         "direction": {
                                             "$ref": "#/definitions/Template%3C%5B%22from%22%2C%22to%22%5D%3E",
                                             "description": "[plain] Translation direction label; $from is the source language name, $to is the target language name"
@@ -16797,7 +16805,9 @@
                                         "messageError",
                                         "messageErrors",
                                         "direction",
-                                        "messageLanguageLabel"
+                                        "messageLanguageLabel",
+                                        "choosePlaceholder",
+                                        "currentLanguagePlaceholder"
                                     ],
                                     "type": "object"
                                 }
