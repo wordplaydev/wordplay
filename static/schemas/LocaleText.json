@@ -22248,7 +22248,7 @@
                                                     "type": "string"
                                                 },
                                                 "unsaved": {
-                                                    "description": "[plain] Warning shown when logout or account deletion is blocked because there are edits not yet saved online (e.g. made offline); leaving would discard them from this device.",
+                                                    "description": "[plain] Warning shown before logging out when there are edits not yet saved online (e.g. made offline); logging out discards them from this device.",
                                                     "type": "string"
                                                 },
                                                 "usernameTaken": {
@@ -26103,6 +26103,22 @@
                                     "required": ["button", "popup"],
                                     "type": "object"
                                 },
+                                "synced": {
+                                    "additionalProperties": false,
+                                    "description": "The cloud badge marking a setting that follows a creator's account rather than staying on one device",
+                                    "properties": {
+                                        "saved": {
+                                            "description": "[plain] Tooltip for the cloud badge when the creator is signed in: this setting is saved to their account, so it will be there on their other devices",
+                                            "type": "string"
+                                        },
+                                        "signedOut": {
+                                            "description": "[plain] Tooltip for the cloud badge when the creator is signed out: this setting would follow them to their other devices if they signed in",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["saved", "signedOut"],
+                                    "type": "object"
+                                },
                                 "table": {
                                     "additionalProperties": false,
                                     "description": "An editable table",
@@ -26133,6 +26149,7 @@
                                 "dialog",
                                 "loading",
                                 "home",
+                                "synced",
                                 "logo",
                                 "table",
                                 "formatted",

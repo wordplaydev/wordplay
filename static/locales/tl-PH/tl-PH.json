@@ -6904,6 +6904,10 @@
             },
             "logo": {
                 "description": "$~Isang bula ng usapan na may isang letra ng iyong sistema ng pagsulat sa loob"
+            },
+            "synced": {
+                "saved": "$~Naka-save sa lahat ng device",
+                "signedOut": "$~Naka-save sa lahat ng device kapag naka-sign in ka"
             }
         },
         "tile": {

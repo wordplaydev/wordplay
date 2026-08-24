@@ -6909,6 +6909,10 @@
             },
             "logo": {
                 "description": "$~Une bulle de parole avec une lettre de ton système d'écriture à l'intérieur"
+            },
+            "synced": {
+                "saved": "$~Enregistré sur tous les appareils",
+                "signedOut": "$~Enregistré sur tous les appareils quand vous êtes connecté"
             }
         },
         "tile": {

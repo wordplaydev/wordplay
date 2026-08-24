@@ -6902,6 +6902,10 @@
             },
             "logo": {
                 "description": "$~Un globo de diálogo con una letra de tu sistema de escritura adentro"
+            },
+            "synced": {
+                "saved": "$~guardado en todos los dispositivos",
+                "signedOut": "$~guardado en todos los dispositivos cuando iniciaste sesión"
             }
         },
         "tile": {

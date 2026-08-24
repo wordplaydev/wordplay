@@ -6,6 +6,7 @@
     } from '@components/widgets/tipTriggers';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import OptionTips from '@components/widgets/OptionTips.svelte';
+    import Synced from '@components/widgets/Synced.svelte';
     import {
         getFocusableOption,
         getNextOption,
@@ -58,6 +59,9 @@
         vertical?: boolean;
         /** An optional data-uiid placed on the button group, for tutorial highlighting. */
         uiid?: string;
+        /** Whether this setting follows the creator's account rather than staying
+         *  on this device, marked with a cloud after the buttons. */
+        synced?: boolean;
     }
 
     let {
@@ -75,6 +79,7 @@
         indented = false,
         vertical = false,
         uiid = undefined,
+        synced = false,
     }: Props = $props();
 
     // The ARIA wiring needs ids that are stable across a render and identical on
@@ -154,12 +159,7 @@
     }
 </script>
 
-<div class="mode" class:grid class:vertical>
-    {#if labeled}
-        <!-- A span, not a label: `for` only resolves against form controls, and a
-             radiogroup isn't one, so the group references this with aria-labelledby. -->
-        <span class="label" id={labelID}>{label}</span>
-    {/if}
+{#snippet buttons()}
     <div
         class="group"
         class:wrap
@@ -234,6 +234,20 @@
             {/if}
         {/each}
     </div>
+{/snippet}
+
+<div class="mode" class:grid class:vertical>
+    {#if labeled}
+        <!-- A span, not a label: `for` only resolves against form controls, and a
+             radiogroup isn't one, so the group references this with aria-labelledby. -->
+        <span class="label" id={labelID}>{label}</span>
+    {/if}
+    {#if synced}
+        <!-- Under `grid` a Mode contributes exactly two cells, so the badge
+             shares the control cell with the buttons rather than claiming a
+             third and shifting every cell after it by one. -->
+        <span class="control">{@render buttons()}<Synced /></span>
+    {:else}{@render buttons()}{/if}
     {#if modeLabels}
         <OptionTips
             id={group}
@@ -292,6 +306,16 @@
 
     .label {
         font-style: italic;
+    }
+
+    /* Holds the button group and its cloud badge in a single grid cell, so a
+       synced row still contributes exactly two cells like every other row. */
+    .control {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing-half);
+        align-items: baseline;
+        min-width: 0;
     }
 
     button {

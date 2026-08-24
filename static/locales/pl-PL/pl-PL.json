@@ -6913,6 +6913,10 @@
             },
             "logo": {
                 "description": "$~Dymek z literą Twojego systemu pisma w środku"
+            },
+            "synced": {
+                "saved": "$~Zapisane na wszystkich urządzeniach",
+                "signedOut": "$~Zapisane na wszystkich urządzeniach, gdy jesteś zalogowany"
             }
         },
         "tile": {

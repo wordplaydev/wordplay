@@ -127,6 +127,13 @@ type UITexts = {
         };
         /** [plain] The go home button description */
         home: string;
+        /** The cloud badge marking a setting that follows a creator's account rather than staying on one device */
+        synced: {
+            /** [plain] Tooltip for the cloud badge when the creator is signed in: this setting is saved to their account, so it will be there on their other devices */
+            saved: string;
+            /** [plain] Tooltip for the cloud badge when the creator is signed out: this setting would follow them to their other devices if they signed in */
+            signedOut: string;
+        };
         /** The Wordplay logo mark */
         logo: {
             /** [plain] Accessible description of the Wordplay logo: a speech bubble holding one letter of the reader's writing system */

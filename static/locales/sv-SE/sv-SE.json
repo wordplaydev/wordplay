@@ -6892,6 +6892,10 @@
             },
             "logo": {
                 "description": "$~En pratbubbla med en bokstav från ditt skriftsystem inuti"
+            },
+            "synced": {
+                "saved": "$~Sparas mellan enheter",
+                "signedOut": "$~Sparas mellan enheter när du är inloggad"
             }
         },
         "tile": {
