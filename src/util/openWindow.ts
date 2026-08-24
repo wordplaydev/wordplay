@@ -17,7 +17,32 @@
  * the project and losing the guide in the same gesture. The window we open is
  * our own same-origin page, so what `noopener` protects against doesn't apply.
  */
-export default function openWindow(url: string): void {
-    const opened = window.open(url, '_blank');
-    if (opened === null) window.location.href = url;
+export default function openWindow(
+    url: string,
+    ready?: Promise<unknown>,
+): void {
+    // The window must be opened during the gesture, before any await. When the
+    // destination isn't ready yet, open a blank one now and point it at the URL
+    // once it is — the new document is a separate database connection, so it
+    // must not start reading before the thing it reads has been written.
+    const opened = window.open(
+        ready === undefined ? url : 'about:blank',
+        '_blank',
+    );
+    if (ready === undefined) {
+        if (opened === null) window.location.href = url;
+        return;
+    }
+    // Navigate on failure too: a project that didn't save is better shown as
+    // missing than as a window that stays blank forever.
+    void ready.then(
+        () => {
+            if (opened === null) window.location.href = url;
+            else opened.location.href = url;
+        },
+        () => {
+            if (opened === null) window.location.href = url;
+            else opened.location.href = url;
+        },
+    );
 }

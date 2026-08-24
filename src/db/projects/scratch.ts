@@ -42,20 +42,22 @@ export function scratchIDFor(code: string): string {
 /**
  * The scratch project for this code, making and tracking it if it's new.
  *
- * Synchronous on purpose: it has to run inside the click handler that opens
- * the window, because a popup blocker rejects a window opened after an await.
+ * Returns the save it started as well as the id: the window that opens next is
+ * a separate document that can only find the project through IndexedDB, so it
+ * must not be pointed at the project until that save has landed.
  */
 export function ensureScratch(
     projects: ProjectsDatabase,
     code: string,
     locales: LocaleText[],
     owner: string | null,
-): string {
+): { id: string; saved: Promise<unknown> } {
     const id = scratchIDFor(code);
 
     // Already made, and possibly already edited — reuse it rather than
     // overwriting whatever tinkering happened last time.
-    if (projects.getHistory(id) !== undefined) return id;
+    if (projects.getHistory(id) !== undefined)
+        return { id, saved: Promise.resolve() };
 
     // No name: a scratch project is a copy of an example to poke at, and
     // naming it is beside the point. The project view says what it is instead.
@@ -84,12 +86,11 @@ export function ensureScratch(
     // Write it to the device now rather than on the usual one-second debounce.
     // The window that opens next is a different document with its own
     // in-memory database, and the only thing they share is IndexedDB — so if
-    // the save is still pending when it boots, it finds nothing and shows
-    // "unknown project". Not awaited, because the caller must reach
-    // `window.open` inside the click that started it or a popup blocker
-    // rejects the window; starting the transaction here is enough to order it
-    // ahead of the new window's read.
-    void projects.persist();
-
-    return id;
+    // the save hasn't committed when it boots, it finds nothing and shows
+    // "unknown project". Starting the transaction here does *not* order it
+    // ahead of the other document's read, which is what this used to assume:
+    // the two connections are independent, and the new window won the race
+    // often enough to fail every automated run. So hand the save back and let
+    // the caller point the window at the project once it has landed.
+    return { id, saved: projects.persist() };
 }

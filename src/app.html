@@ -167,7 +167,13 @@
                 --yellow-light: #c88800;
                 --yellow-dark: #b67c00;
                 --yellow-transparent-light: #ffb0004b;
-                --yellow-transparent-dark: #b67c004b;
+                /* A selection or hover tint is a background for whatever it
+                   covers, so its alpha is bounded by the dimmest text that can
+                   sit on it — here a gold link, which is the same hue. At 4b
+                   the composite over the dark page is #362400 and a link on it
+                   measures 4.16:1, under AA; 38 gives 4.71:1. Light needs no
+                   such bound: it already measures 4.69:1. */
+                --yellow-transparent-dark: #b67c0038;
                 --white-light: #ffffff;
                 --white-dark: #000000;
                 --black-light: #000000;

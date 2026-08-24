@@ -28,6 +28,8 @@ test('a guide example opens as a scratch project without disturbing the guide', 
         tinker.click(),
     ]);
     await opened.waitForLoadState('domcontentloaded');
+    // Same as above: the window starts blank, so give it the navigation.
+    await expect(opened).toHaveURL(/\/project\/scratch-/, { timeout: 30000 });
 
     // The reader's place in the guide is untouched: the example opens beside
     // it, not on top of it.
@@ -57,7 +59,9 @@ test('a guide example opens as a scratch project without disturbing the guide', 
         context.waitForEvent('page'),
         tinker.click(),
     ]);
-    await again.waitForLoadState('domcontentloaded');
+    // The window is opened blank inside the click and pointed at the project
+    // once it has been saved, so wait for the URL rather than the first load.
+    await expect(again).toHaveURL(/\/project\/scratch-/, { timeout: 30000 });
     expect(new URL(again.url()).pathname).toBe(new URL(opened.url()).pathname);
 
     // It stays out of the project list: this is somewhere to tinker, not work

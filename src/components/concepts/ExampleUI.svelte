@@ -418,15 +418,26 @@
                             // already loaded here — the guide warms it on
                             // mount — and if it somehow isn't, the link still
                             // opens and the project route makes it.
-                            const projects = DB.MaybeProjects;
-                            if (projects)
-                                ensureScratch(
-                                    projects,
-                                    code,
-                                    $locales.getLocales(),
-                                    $user?.uid ?? null,
-                                );
-                            openWindow(localePath(scratchLink));
+                            // openWindow opens a blank window inside this
+                            // gesture and navigates it when the promise
+                            // settles, so nothing here has to be synchronous.
+                            // That matters twice: the projects database may
+                            // not have loaded yet, and nothing downstream
+                            // creates the scratch project if it hasn't — and
+                            // the new window reads the project out of
+                            // IndexedDB, so it must not get there first.
+                            openWindow(
+                                localePath(scratchLink),
+                                DB.loadProjects().then(
+                                    (projects) =>
+                                        ensureScratch(
+                                            projects,
+                                            code,
+                                            $locales.getLocales(),
+                                            $user?.uid ?? null,
+                                        ).saved,
+                                ),
+                            );
                         }}
                         icon={REMIX_SYMBOL}
                         background={true}

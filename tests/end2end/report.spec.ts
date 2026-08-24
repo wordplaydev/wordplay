@@ -54,7 +54,9 @@ test('a creator cannot report their own project', async ({ browser }) => {
     );
     try {
         await page.goto(`/en-US/project/${PublicProject}?mode=play`);
-        await expect(page.getByTestId('editor').first()).toBeVisible({
+        // Anchor on the stage, not the editor: play mode renders no editor at
+        // all, so waiting for one waited out the timeout on every run.
+        await expect(page.getByTestId('output').first()).toBeVisible({
             timeout: 30000,
         });
         await expect(page.getByTestId('report-project')).toHaveCount(0);

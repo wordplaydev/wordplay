@@ -31,10 +31,44 @@ async function createListedProject(page: import('@playwright/test').Page) {
 
 /** Make a folder and return its section. */
 async function newFolder(page: import('@playwright/test').Page) {
-    const before = await page.locator('section.folder').count();
+    const folders = page.locator('section.folder');
+    const ids = () =>
+        folders.evaluateAll((nodes) =>
+            nodes.map((node) => node.getAttribute('data-folder')),
+        );
+    const before = await ids();
     await page.locator('[data-uiid="new-folder"]').click();
-    await expect(page.locator('section.folder')).toHaveCount(before + 1);
-    return page.locator('section.folder').last();
+    await expect(folders).toHaveCount(before.length + 1);
+    // Folders are sorted, and a new one takes the default name, so the newest
+    // is not reliably last once a test file has made several. Find it by the
+    // id that just appeared rather than by position.
+    const added = (await ids()).find(
+        (id) => id !== null && !before.includes(id),
+    );
+    expect(added).toBeTruthy();
+    return page.locator(`section.folder[data-folder="${added}"]`);
+}
+
+/**
+ * Choose the first loose project, move it up one destination, and return the
+ * folder it landed in.
+ *
+ * Up moves to the destination immediately above, and the destinations are the
+ * folders in the order they are drawn followed by the top level — so a loose
+ * project lands in the *last* folder, which is not necessarily the one a test
+ * just made: every test in this file runs as the same worker account, and the
+ * folders earlier ones created are still there.
+ */
+async function fileFirstProject(page: import('@playwright/test').Page) {
+    const tile = page.locator('[data-folder="none"] .project').first();
+    await tile.click({ position: { x: 4, y: 4 } });
+    await expect(tile).toHaveAttribute('aria-current', 'true');
+    await page.keyboard.press('ArrowUp');
+    const landed = page.locator('section.folder').last();
+    await expect(
+        landed.locator('[data-testid="preview"]').first(),
+    ).toBeVisible();
+    return landed;
 }
 
 test.describe('project folders', () => {
@@ -83,14 +117,8 @@ test.describe('project folders', () => {
     }) => {
         test.setTimeout(90000);
         await createListedProject(page);
-        const folder = await newFolder(page);
-
-        const tile = page.locator('[data-folder="none"] .project').first();
-        await tile.click({ position: { x: 4, y: 4 } });
-        await page.keyboard.press('ArrowUp');
-        await expect(
-            folder.locator('[data-testid="preview"]').first(),
-        ).toBeVisible();
+        await newFolder(page);
+        const folder = await fileFirstProject(page);
         await page.keyboard.press('ArrowDown');
         await expect(folder.locator('[data-testid="preview"]')).toHaveCount(0);
     });
@@ -110,14 +138,8 @@ test.describe('project folders', () => {
     test('a collapsed folder still shows what is in it', async ({ page }) => {
         test.setTimeout(90000);
         await createListedProject(page);
-        const folder = await newFolder(page);
-
-        const tile = page.locator('[data-folder="none"] .project').first();
-        await tile.click({ position: { x: 4, y: 4 } });
-        await page.keyboard.press('ArrowUp');
-        await expect(
-            folder.locator('[data-testid="preview"]').first(),
-        ).toBeVisible();
+        await newFolder(page);
+        const folder = await fileFirstProject(page);
 
         const disclosure = folder.locator('.header button').first();
         await expect(disclosure).toHaveAttribute('aria-expanded', 'true');
@@ -135,16 +157,10 @@ test.describe('project folders', () => {
     }) => {
         test.setTimeout(90000);
         await createListedProject(page);
-        const folder = await newFolder(page);
+        await newFolder(page);
         await page.keyboard.insertText('Homework');
         await page.keyboard.press('Tab');
-
-        const tile = page.locator('[data-folder="none"] .project').first();
-        await tile.click({ position: { x: 4, y: 4 } });
-        await page.keyboard.press('ArrowUp');
-        await expect(
-            folder.locator('[data-testid="preview"]').first(),
-        ).toBeVisible();
+        await fileFirstProject(page);
 
         // A match hidden inside a folder would make search lie, so results are
         // shown flat, labeled with the folder they live in.
@@ -168,16 +184,10 @@ test.describe('project folders', () => {
     }) => {
         test.setTimeout(90000);
         await createListedProject(page);
-        const folder = await newFolder(page);
+        await newFolder(page);
         await page.keyboard.insertText('Homework');
         await page.keyboard.press('Tab');
-
-        const tile = page.locator('[data-folder="none"] .project').first();
-        await tile.click({ position: { x: 4, y: 4 } });
-        await page.keyboard.press('ArrowUp');
-        await expect(
-            folder.locator('[data-testid="preview"]').first(),
-        ).toBeVisible();
+        const folder = await fileFirstProject(page);
 
         // Delete is only offered for the chosen folder, and clicking one is
         // what chooses it.
