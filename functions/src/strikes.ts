@@ -19,8 +19,25 @@ export function noStrikes(): Strikes {
  *
  * Pure, so both the callable and the client's explanation of "this is their
  * second" agree without either of them owning the rule.
+ *
+ * Idempotent on `decision`: a decision already recorded leaves the record
+ * exactly as it was. The moderator's page keeps a project's decision id across
+ * a retry, so re-submitting after a failure whose response was lost cannot warn
+ * a creator twice — and at three warnings a spurious one is a ban. Deduping by
+ * project instead would be wrong: a creator can publish the same project again
+ * and break the same rule again, and that is a second warning.
  */
 export function withStrike(current: Strikes, strike: Strike): Strikes {
+    // Only a decision that says which one it is can be recognised again. An
+    // absent or empty id is not a match for anything, or every strike recorded
+    // before decisions were identified would match every other.
+    if (
+        strike.decision !== undefined &&
+        strike.decision !== '' &&
+        current.strikes.some((past) => past.decision === strike.decision)
+    )
+        return current;
+
     const count = current.count + 1;
     const banned = count >= StrikesUntilBanned;
     return {

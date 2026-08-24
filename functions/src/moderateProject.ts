@@ -37,11 +37,15 @@ export default async function moderateProject(
             'Only moderators can moderate projects.',
         );
 
-    const { project: projectID, flags, strike } = request.data;
+    const { project: projectID, flags, strike, decision } = request.data;
     if (typeof projectID !== 'string' || projectID.length === 0)
         throw new HttpsError('invalid-argument', 'Expected a project id.');
     if (typeof flags !== 'object' || flags === null)
         throw new HttpsError('invalid-argument', 'Expected flags.');
+    // Required even for a decision that doesn't strike, so a caller can't
+    // silently opt out of being counted once by omitting it.
+    if (typeof decision !== 'string' || decision.length === 0)
+        throw new HttpsError('invalid-argument', 'Expected a decision id.');
 
     const db = getFirestore();
     const auth = getAuth();
@@ -86,7 +90,10 @@ export default async function moderateProject(
         const current: Strikes = existing.exists
             ? { ...noStrikes(), ...existing.data() }
             : noStrikes();
+        // withStrike is idempotent on this, so a retry of a decision whose
+        // response was lost leaves the record alone.
         const next = withStrike(current, {
+            decision,
             project: projectID,
             flags: Object.entries(flags)
                 .filter(([, state]) => state === true)
