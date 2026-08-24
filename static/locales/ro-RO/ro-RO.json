@@ -9781,7 +9781,7 @@
                     "wrongPassword": "$~Nume de utilizator și parolă nevalide. Fie parola este greșită, fie altcineva are acest nume de utilizator.",
                     "mismatched": "$~Parolele nu se potrivesc.",
                     "tooMany": "$~Ai încercat să te conectezi de prea multe ori și ai eșuat. Va trebui să aștepți înainte să încerci din nou.",
-                    "unsaved": "$~Aveți modificări care nu sunt încă salvate online. Reconectați-vă și așteptați ca acestea să fie salvate mai întâi, altfel se vor pierde de pe acest dispozitiv.",
+                    "unsaved": "$~Ai modificări care nu sunt încă salvate online. Dacă te deconectezi acum, se vor pierde de pe acest dispozitiv.",
                     "deletePartial": "$~Am eliminat datele contului dvs., dar nu am putut finaliza eliminarea contului. Vă rugăm să încercați din nou sau să ne contactați dacă problema persistă."
                 },
                 "feedback": {

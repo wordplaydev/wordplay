@@ -8983,7 +8983,7 @@
                     "invalidPassword": "$~Lösenord måste vara minst 6 tecken långa.",
                     "mismatched": "$~Lösenorden stämmer inte överens.",
                     "usernameTaken": "$~Detta användarnamn är redan upptaget.",
-                    "unsaved": "$~Du har ändringar som inte är sparade online än. Återanslut och vänta tills de sparas först, annars försvinner de från den här enheten.",
+                    "unsaved": "$~Du har ändringar som inte är sparade online än. Om du loggar ut nu försvinner de från den här enheten.",
                     "deletePartial": "$~Vi tog bort dina kontouppgifter, men det gick inte att slutföra borttagningen av ditt konto. Försök igen eller kontakta oss om det fortsätter att hända."
                 },
                 "feedback": {

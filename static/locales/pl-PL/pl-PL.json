@@ -9011,7 +9011,7 @@
                     "invalidPassword": "$~Hasło musi mieć co najmniej 6 znaków.",
                     "mismatched": "$~Hasła nie są takie same.",
                     "usernameTaken": "$~Ta nazwa użytkownika jest już zajęta.",
-                    "unsaved": "$~Masz zmiany, które nie zostały jeszcze zapisane online. Połącz się ponownie i poczekaj, aż zostaną zapisane, w przeciwnym razie zostaną utracone z tego urządzenia.",
+                    "unsaved": "$~Masz zmiany, które nie zostały jeszcze zapisane online. Jeśli teraz się wylogujesz, znikną z tego urządzenia.",
                     "deletePartial": "$~Usunęliśmy dane Twojego konta, ale nie udało nam się go dokończyć. Spróbuj ponownie lub skontaktuj się z nami, jeśli problem będzie się powtarzał."
                 },
                 "feedback": {

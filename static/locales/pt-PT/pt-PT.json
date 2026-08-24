@@ -9665,7 +9665,7 @@
                     "wrongPassword": "Nome de utilizador e palavra-passe inválidos. Ou a sua palavra-passe está incorreta, ou outra pessoa já está a utilizar este nome de utilizador.",
                     "mismatched": "As palavras-passe não coincidem.",
                     "tooMany": "Tentou fazer login muitas vezes sem sucesso. Terá que esperar para tentar novamente.",
-                    "unsaved": "Tem alterações que ainda não foram guardadas online. Volte a ligar-se e aguarde até que sejam guardadas primeiro, ou serão perdidas deste dispositivo.",
+                    "unsaved": "$~Tem alterações que ainda não foram guardadas online. Se terminar a sessão agora, essas alterações serão perdidas neste dispositivo.",
                     "deletePartial": "Removemos os dados da sua conta, mas não conseguimos concluir a remoção. Tente novamente ou contacte-nos se o problema persistir."
                 },
                 "feedback": {

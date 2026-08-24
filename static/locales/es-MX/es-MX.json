@@ -8788,7 +8788,7 @@
                     "invalidPassword": "$~Las contraseñas deben tener al menos 6 caracteres.",
                     "mismatched": "$~Las contraseñas no coinciden.",
                     "usernameTaken": "$~Este nombre de usuario ya está ocupado.",
-                    "unsaved": "$~Tienes cambios que aún no se guardan en línea. Vuelve a conectarte y espera a que se guarden primero, o se perderán de este dispositivo.",
+                    "unsaved": "$~Tienes cambios que aún no se guardan en línea. Si cierras sesión ahora, se perderán de este dispositivo.",
                     "deletePartial": "$~Quitamos los datos de tu cuenta, pero no pudimos terminar de eliminar tu cuenta. Inténtalo de nuevo o contáctanos si sigue pasando."
                 },
                 "feedback": {

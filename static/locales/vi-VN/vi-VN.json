@@ -9591,7 +9591,7 @@
                     "wrongPassword": "$~Tên người dùng và mật khẩu không hợp lệ. Có thể mật khẩu của bạn sai hoặc người khác đã sử dụng tên người dùng này.",
                     "mismatched": "$~Mật khẩu không khớp.",
                     "tooMany": "$~Bạn đã đăng nhập không thành công quá nhiều lần. Bạn phải đợi để thử lại.",
-                    "unsaved": "$~Bạn có những thay đổi chưa được lưu trực tuyến. Hãy kết nối lại và đợi cho đến khi các thay đổi được lưu xong, nếu không chúng sẽ bị mất khỏi thiết bị này.",
+                    "unsaved": "$~Bạn có những thay đổi chưa được lưu trực tuyến. Nếu bạn đăng xuất ngay bây giờ, các thay đổi đó sẽ bị mất khỏi thiết bị này.",
                     "deletePartial": "$~Chúng tôi đã xóa dữ liệu tài khoản của bạn, nhưng không thể hoàn tất việc xóa tài khoản. Vui lòng thử lại hoặc liên hệ với chúng tôi nếu sự việc vẫn tiếp diễn."
                 },
                 "feedback": {

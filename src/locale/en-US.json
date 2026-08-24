@@ -9881,7 +9881,7 @@
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
                     "mismatched": "The passwords don't match.",
                     "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again.",
-                    "unsaved": "You have changes that aren't saved online yet. Reconnect and wait for them to save first, or they'll be lost from this device."
+                    "unsaved": "You have changes that aren't saved online yet. If you log out now, they'll be lost from this device."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",

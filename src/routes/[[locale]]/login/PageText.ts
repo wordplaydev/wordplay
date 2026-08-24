@@ -94,9 +94,9 @@ type PageText = {
         mismatched: string;
         /** [plain] When there are too mant failed attempts */
         tooMany: string;
-        /** [plain] Warning shown when logout or account deletion is blocked
-         *  because there are edits not yet saved online (e.g. made offline);
-         *  leaving would discard them from this device. */
+        /** [plain] Warning shown before logging out when there are edits not
+         *  yet saved online (e.g. made offline); logging out discards them
+         *  from this device. */
         unsaved: string;
     };
     button: {

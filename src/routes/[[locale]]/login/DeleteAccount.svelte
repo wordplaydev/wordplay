@@ -25,10 +25,6 @@
 
     let creator = $derived(Creator.from(user));
 
-    // Edits not yet saved online (across every domain). Deleting the account
-    // wipes the local cache, so block it while there's unsaved work.
-    let unsaved = $derived(DB.getUnsavedCount());
-
     let deleteRequested = $state(false);
 
     /** Announce the confirmation prompt when it appears through the
@@ -89,15 +85,12 @@
 
 {#if !deleteSubmitted}
     <p><LocalizedText path={(l) => l.ui.page.login.prompt.delete} /></p>
-    {#if unsaved > 0}
-        <Notice text={(l) => l.ui.page.login.error.unsaved} />
-    {/if}
     <p
         ><Button
             background
             tip={(l) => l.ui.page.login.button.delete.tip}
             action={() => (deleteRequested = !deleteRequested)}
-            active={!deleteRequested && unsaved === 0}
+            active={!deleteRequested}
             label={(l) => l.ui.page.login.button.delete.label}
         />
     </p>

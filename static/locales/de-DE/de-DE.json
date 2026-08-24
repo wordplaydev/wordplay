@@ -8784,7 +8784,7 @@
                     "invalidPassword": "$~Passwörter müssen mindestens 6 Zeichen lang sein.",
                     "mismatched": "$~Die Passwörter stimmen nicht überein.",
                     "usernameTaken": "$~Dieser Benutzername ist bereits vergeben.",
-                    "unsaved": "$~Ihre Änderungen wurden noch nicht online gespeichert. Stellen Sie die Verbindung erneut her und warten Sie, bis die Änderungen gespeichert sind, sonst gehen sie auf diesem Gerät verloren.",
+                    "unsaved": "$~Du hast Änderungen, die noch nicht online gespeichert sind. Wenn du dich jetzt abmeldest, gehen sie auf diesem Gerät verloren.",
                     "deletePartial": "$~Wir haben Ihre Kontodaten entfernt, konnten Ihr Konto aber nicht vollständig löschen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns, falls das Problem weiterhin besteht."
                 },
                 "feedback": {

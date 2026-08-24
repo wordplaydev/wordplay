@@ -8993,7 +8993,7 @@
                     "invalidPassword": "$~Şifreler en az 6 karakter uzunluğunda olmalıdır.",
                     "mismatched": "$~Şifreler uyuşmuyor.",
                     "usernameTaken": "$~Bu kullanıcı adı zaten alınmış.",
-                    "unsaved": "$~Henüz çevrimiçi olarak kaydedilmemiş değişiklikleriniz var. Yeniden bağlanın ve önce kaydedilmelerini bekleyin, aksi takdirde bu cihazdan kaybolacaklar.",
+                    "unsaved": "$~Çevrimiçi olarak kaydedilmemiş değişikliklerin var. Şimdi çıkış yaparsan, bu cihazdan silinirler.",
                     "deletePartial": "$~Hesabınızın verilerini sildik, ancak hesabınızı tamamen silemedik. Lütfen tekrar deneyin veya sorun devam ederse bizimle iletişime geçin."
                 },
                 "feedback": {

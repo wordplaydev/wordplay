@@ -9669,7 +9669,7 @@
                     "wrongPassword": "$~Hindi wastong username at password. Maaaring mali ang iyong password, o may ibang gumagamit nito.",
                     "mismatched": "$~Hindi magkatugma ang mga password.",
                     "tooMany": "$~Napakaraming beses mo nang sinubukang mag-log in at nabigo. Kailangan mong maghintay para subukan muli.",
-                    "unsaved": "$~Mayroon kang mga pagbabago na hindi pa nase-save online. Kumonekta muli at hintaying ma-save muna ang mga ito, kung hindi ay mawawala ang mga ito sa device na ito.",
+                    "unsaved": "$~May mga pagbabago ka na hindi pa na-save online. Kung mag-log out ka ngayon, mawawala ang mga ito sa device na ito.",
                     "deletePartial": "$~Inalis namin ang data ng iyong account, ngunit hindi namin matapos ang pag-alis nito. Pakisubukang muli, o makipag-ugnayan sa amin kung patuloy itong nangyayari."
                 },
                 "feedback": {
