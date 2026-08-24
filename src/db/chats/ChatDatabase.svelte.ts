@@ -591,7 +591,7 @@ export class ChatDatabase {
     private async modifyChatMessage(
         chatID: string,
         messageID: string,
-        transform: (m: SerializedMessage) => Record<string, unknown>,
+        transform: (m: SerializedMessage) => SerializedMessage,
     ) {
         if (firestore === undefined) return;
         const chatRef = doc(firestore, ChatsCollection, chatID);
