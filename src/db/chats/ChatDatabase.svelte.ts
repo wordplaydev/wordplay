@@ -77,9 +77,6 @@ const MessageSchemaV3 = MessageSchemaV2.extend(
          * before locale tagging existed have no value; new messages set it
          * from the creator's chosen locale. */
         language: z.string().optional(),
-        /** Cached translations of this message's text, keyed by target
-         * Wordplay locale string (e.g. "es-MX"). */
-        translations: z.record(z.string(), z.string()).optional(),
     }).shape,
 );
 
@@ -161,47 +158,10 @@ export function upgradeChat(
 // need to cap it.
 const MAX_CHAT_MESSAGES_BYTES = 131072;
 
-// Cached translations get their own, separate cap so they can never push a
-// real message out of the chat. When they exceed it, the oldest cached
-// translations are evicted first — before any message text is ever touched.
-const MAX_CHAT_TRANSLATIONS_BYTES = 131072;
-
-const messageTranslationsSize = (message: SerializedMessage) =>
-    Object.values(message.translations ?? {}).reduce(
-        (sum, text) => sum + text.length,
-        0,
-    );
-
-const trimChatTranslations = (messages: SerializedMessage[]) => {
-    let translationsSize = messages.reduce(
-        (size, message) => size + messageTranslationsSize(message),
-        0,
-    );
-    if (translationsSize <= MAX_CHAT_TRANSLATIONS_BYTES) return messages;
-
-    return messages.map((message) => {
-        if (translationsSize <= MAX_CHAT_TRANSLATIONS_BYTES) return message;
-        const size = messageTranslationsSize(message);
-        if (size === 0) return message;
-        translationsSize -= size;
-        const { translations, ...withoutTranslations } = message;
-        return withoutTranslations;
-    });
-};
-
 /** An immutable wrapper class for accessing and manipulating chat data */
 export default class Chat {
     /** The data of the chat. */
     private readonly data: SerializedChat;
-
-    /**
-     * IDs of messages whose `translations` field was dropped during
-     * construction to keep the chat within `MAX_CHAT_TRANSLATIONS_BYTES`.
-     * Used by ChatView to avoid re-translating these messages: doing so would
-     * just save them back, trigger a snapshot, and evict a different message —
-     * paying for the same LLM calls indefinitely.
-     */
-    readonly evictedTranslationIDs: ReadonlySet<string>;
 
     constructor(data: SerializedChat) {
         this.data = data;
@@ -223,24 +183,6 @@ export default class Chat {
                 newSize -= message.text?.length ?? 0;
             }
         }
-
-        // Cached translations are disposable: if they exceed their own budget,
-        // drop the oldest ones until they fit, never touching message text.
-        // Track which IDs were evicted so translateMessages can skip them.
-        const preTrim = messages;
-        messages = trimChatTranslations(messages);
-        const evictedIDs = new Set<string>();
-        if (messages !== preTrim) {
-            for (let i = 0; i < preTrim.length; i++) {
-                if (
-                    preTrim[i].translations !== undefined &&
-                    messages[i].translations === undefined
-                ) {
-                    evictedIDs.add(preTrim[i].id);
-                }
-            }
-        }
-        this.evictedTranslationIDs = evictedIDs;
 
         if (messages !== data.messages) this.data = { ...data, messages };
     }
@@ -325,24 +267,6 @@ export default class Chat {
         );
 
         return new Chat({ ...this.data, messages: mergedMessages });
-    }
-
-    /** Cache translations for several messages into the given language. */
-    withMessagesTranslations(
-        translations: Map<string, string>,
-        language: string,
-    ) {
-        return new Chat({
-            ...this.data,
-            messages: this.data.messages.map((m) => {
-                const text = translations.get(m.id);
-                if (text === undefined) return m;
-                return {
-                    ...m,
-                    translations: { ...m.translations, [language]: text },
-                };
-            }),
-        });
     }
 
     /** Keep the message, but replace it's text with nothing. */
@@ -717,9 +641,6 @@ export class ChatDatabase {
             chat.getProjectID(),
             chat.withReportedMessage(message, reporterID),
         );
-        // Preserve cached translations: the message text is unchanged, only its
-        // moderation flag is being set. Wiping translations here would force every
-        // viewer to re-translate a message whose content hasn't changed.
         await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
             ...m,
             moderation: 'pending',
@@ -738,27 +659,14 @@ export class ChatDatabase {
             chat.getProjectID(),
             chat.withModeratedMessage(message, action, moderatorID),
         );
-        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => {
-            if (action === 'approved') {
-                return {
-                    ...m,
-                    moderation: action,
-                    moderator: moderatorID,
-                };
-            }
-
-            const { translations: _translations, ...withoutTranslations } = m;
-            return {
-                ...withoutTranslations,
-                moderation: action,
-                moderator: moderatorID,
-            };
-        });
-        // The on-message translations field above is only ever a partial
-        // cache (see trimChatTranslations); the source of truth for a
-        // message's cached translations is the per-language sidecar, which
-        // this doesn't touch on its own. Without this, a removed message's
-        // text survives indefinitely in the sidecar, readable by anyone.
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
+            ...m,
+            moderation: action,
+            moderator: moderatorID,
+        }));
+        // A removed message's cached translations live only in the
+        // per-language sidecar, which the update above doesn't touch. Without
+        // this, its text would survive indefinitely there, readable by anyone.
         if (action === 'removed')
             await this.deleteMessageTranslations(
                 chat.getProjectID(),
@@ -769,16 +677,12 @@ export class ChatDatabase {
     /** Clear a message's text (soft delete that preserves the message slot). */
     async deleteMessage(chat: Chat, message: SerializedMessage) {
         this.chats.set(chat.getProjectID(), chat.withoutMessage(message));
-        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => {
-            const { translations: _translations, ...withoutTranslations } = m;
-            return {
-                ...withoutTranslations,
-                text: null,
-            };
-        });
-        // See the matching comment in moderateMessage: the sidecar is a
-        // separate store from the message's own `translations` field and
-        // must be cleared explicitly too.
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
+            ...m,
+            text: null,
+        }));
+        // See the matching comment in moderateMessage: a deleted message's
+        // cached translations live in the sidecar and must be cleared explicitly.
         await this.deleteMessageTranslations(chat.getProjectID(), message.id);
     }
 

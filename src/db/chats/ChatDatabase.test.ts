@@ -262,8 +262,6 @@ describe('ChatDatabase granular message operations', () => {
                 moderation: 'pending',
                 reporter: 'user-1',
             });
-
-            expect(data.messages[0].translations).toBeUndefined();
         });
     });
 
@@ -304,7 +302,6 @@ describe('ChatDatabase granular message operations', () => {
                 moderation: 'removed',
                 moderator: 'mod-uid',
             });
-            expect('translations' in data.messages[0]).toBe(false);
         });
 
         it('deletes the removed message from every translation sidecar', async () => {
@@ -469,13 +466,12 @@ describe('ChatDatabase granular message operations', () => {
     });
 
     describe('deleteMessage', () => {
-        it('uses a transaction that nulls the message text in-place and clears translations', async () => {
+        it('uses a transaction that nulls the message text in-place', async () => {
             const existingMessage: SerializedMessage = {
                 id: 'm1',
                 time: 1000,
                 creator: 'user-1',
                 text: 'oops',
-                translations: { es: 'ups' },
             };
             transactionReadSnap = {
                 exists: () => true,
@@ -501,7 +497,6 @@ describe('ChatDatabase granular message operations', () => {
                 id: 'm1',
                 text: null,
             });
-            expect('translations' in data.messages[0]).toBe(false);
         });
 
         it('deletes the message from every translation sidecar', async () => {
@@ -510,7 +505,6 @@ describe('ChatDatabase granular message operations', () => {
                 time: 1000,
                 creator: 'user-1',
                 text: 'oops',
-                translations: { es: 'ups' },
             };
             transactionReadSnap = {
                 exists: () => true,
@@ -672,114 +666,5 @@ describe('upgradeChat (upgrade-on-load)', () => {
     it('throws on an unknown version', () => {
         // @ts-expect-error — deliberately invalid version for the test.
         expect(() => upgradeChat({ v: 999, project: 'p1' })).toThrow();
-    });
-});
-
-// ---------------------------------------------------------------------------
-// Chat constructor
-// ---------------------------------------------------------------------------
-
-describe('Chat constructor', () => {
-    it('evicts oversized cached translations instead of dropping the message', () => {
-        const oversizedChat = makeChat({}, [
-            {
-                id: 'm1',
-                time: 1,
-                creator: 'user-1',
-                text: '',
-                translations: {
-                    es: 'x'.repeat(131072 + 1),
-                },
-            },
-        ]);
-
-        const messages = oversizedChat.getMessages();
-        expect(messages).toHaveLength(1);
-        expect(messages[0].translations).toBeUndefined();
-    });
-});
-
-// ---------------------------------------------------------------------------
-// Chat.withMessagesTranslations
-// ---------------------------------------------------------------------------
-
-describe('Chat.withMessagesTranslations', () => {
-    it('adds translations to matched messages and leaves others unchanged', () => {
-        const chat = makeChat({}, [
-            { id: 'm1', time: 1, creator: 'user-1', text: 'hello' },
-            { id: 'm2', time: 2, creator: 'user-2', text: 'world' },
-        ]);
-        const updated = chat.withMessagesTranslations(
-            new Map([['m1', 'hola']]),
-            'es-MX',
-        );
-        const msgs = updated.getMessages();
-        expect(msgs[0].translations).toEqual({ 'es-MX': 'hola' });
-        // m2 had no translation entry — must be untouched.
-        expect(msgs[1].translations).toBeUndefined();
-    });
-
-    it('merges with existing translations without clobbering them', () => {
-        const chat = makeChat({}, [
-            {
-                id: 'm1',
-                time: 1,
-                creator: 'user-1',
-                text: 'hello',
-                translations: { 'fr-FR': 'bonjour' },
-            },
-        ]);
-        const updated = chat.withMessagesTranslations(
-            new Map([['m1', 'hola']]),
-            'es-MX',
-        );
-        expect(updated.getMessages()[0].translations).toEqual({
-            'fr-FR': 'bonjour',
-            'es-MX': 'hola',
-        });
-    });
-
-    it('overwrites an existing entry for the same language', () => {
-        const chat = makeChat({}, [
-            {
-                id: 'm1',
-                time: 1,
-                creator: 'user-1',
-                text: 'hello',
-                translations: { 'es-MX': 'old' },
-            },
-        ]);
-        const updated = chat.withMessagesTranslations(
-            new Map([['m1', 'nueva']]),
-            'es-MX',
-        );
-        expect(updated.getMessages()[0].translations?.['es-MX']).toBe('nueva');
-    });
-
-    it('is non-mutating — the original chat is unchanged', () => {
-        const chat = makeChat({}, [
-            { id: 'm1', time: 1, creator: 'user-1', text: 'hello' },
-        ]);
-        chat.withMessagesTranslations(new Map([['m1', 'hola']]), 'es-MX');
-        expect(chat.getMessages()[0].translations).toBeUndefined();
-    });
-
-    it('returns an equal chat when the translations map is empty', () => {
-        const chat = makeChat({}, [
-            { id: 'm1', time: 1, creator: 'user-1', text: 'hello' },
-        ]);
-        const updated = chat.withMessagesTranslations(new Map(), 'es-MX');
-        expect(updated.getMessages()[0].translations).toBeUndefined();
-    });
-
-    it('ignores ids that do not match any message', () => {
-        const chat = makeChat({}, [
-            { id: 'm1', time: 1, creator: 'user-1', text: 'hello' },
-        ]);
-        const updated = chat.withMessagesTranslations(
-            new Map([['no-such-id', 'hola']]),
-            'es-MX',
-        );
-        expect(updated.getMessages()[0].translations).toBeUndefined();
     });
 });
