@@ -15,7 +15,6 @@
 
     let { locale, supported = true, showDraft = true }: Props = $props();
 
-    
     let languageLabel = $derived(getMultilingualLanguageLabel(locale));
     let regions = $derived(
         typeof locale === 'string'
