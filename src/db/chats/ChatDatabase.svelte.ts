@@ -745,12 +745,35 @@ export class ChatDatabase {
         translations: Map<string, string>,
     ) {
         if (translations.size === 0 || firestore === undefined) return;
+
+        const currentIDs = new Set(chat.getMessages().map((m) => m.id));
+
+        // Never cache a translation for a message that has already been
+        // trimmed from the chat — it would never be shown and just inflates
+        // the sidecar doc.
+        const toWrite: Record<string, string> = {};
+        for (const [id, text] of translations) {
+            if (currentIDs.has(id)) toWrite[id] = text;
+        }
+        if (Object.keys(toWrite).length === 0) return;
+
         const ref = doc(
             firestore,
             ChatTranslationsCollection,
             chatTranslationsDocID(chat.getProjectID(), language),
         );
-        await setDoc(ref, Object.fromEntries(translations), { merge: true });
+
+        // Read the current sidecar so we can delete fields for messages that have since been trimmed from the chat.
+        const snap = await getDoc(ref);
+        const update: Record<string, string | ReturnType<typeof deleteField>> =
+            { ...toWrite };
+        if (snap.exists()) {
+            for (const id of Object.keys(snap.data())) {
+                if (!currentIDs.has(id)) update[id] = deleteField();
+            }
+        }
+
+        await setDoc(ref, update, { merge: true });
     }
 
     /** Subscribe to the per-chat, per-language translation sidecar.  The
