@@ -148,7 +148,6 @@
 <style>
     .fold-button {
         cursor: pointer;
-        user-select: none;
         background: none;
         border: none;
         padding: 0;

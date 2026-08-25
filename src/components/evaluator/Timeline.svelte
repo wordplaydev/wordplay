@@ -361,7 +361,6 @@
         overflow-x: hidden;
         position: relative;
         white-space: nowrap;
-        user-select: none;
         cursor: pointer;
         border-inline-start: var(--wordplay-border-color) solid
             var(--wordplay-border-width);

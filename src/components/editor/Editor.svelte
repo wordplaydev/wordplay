@@ -4238,6 +4238,8 @@
            above its background, below its content — never beneath anything
            outside the editor. */
         isolation: isolate;
+        /* Not redundant with the global `user-select: none`: the editor models
+           selection with its own caret, so it keeps this if that ever goes. */
         user-select: none;
         padding: var(--wordplay-spacing);
         flex: 1;
@@ -4316,6 +4318,12 @@
        as plain wrapped text, that grey band lands near, but not on, the node the
        editor has drawn its own highlight around. Make its selection paint
        nothing; the range itself, and so the accessibility bounds, are untouched. */
+    /* NodeView's debug bubbles render through ValueView, selectable elsewhere;
+       here that would compete with the caret's own selection. */
+    .editor :global(.value) {
+        user-select: none;
+    }
+
     .keyboard-input::selection {
         background-color: transparent;
         color: transparent;

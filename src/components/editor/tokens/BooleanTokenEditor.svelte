@@ -51,7 +51,6 @@
     div {
         display: inline-block;
         cursor: pointer;
-        user-select: none;
     }
 
     /* Focus can't be a color swap alone: ring the token with a box-shadow,

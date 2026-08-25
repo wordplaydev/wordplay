@@ -3044,7 +3044,6 @@
         color: var(--wordplay-foreground);
         font-size: 1em;
         line-height: 1;
-        user-select: none;
         padding: 4px 6px;
     }
 

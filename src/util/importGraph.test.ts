@@ -181,10 +181,19 @@ test('resolving a color needs no basis', () => {
  * update, previous, conversion targets, and the numeral encoder are all new code in nodes the
  * editor reaches. The layout's last hundredth is the unit-category table and the locale strings
  * naming each category, which every entry carries in en-US.json.
+ *
+ * Page's last +0.01MB buys no code at all: making interface chrome unselectable
+ * added CSS comments to three components Page already reaches (MarkupHTMLView,
+ * Subheader, CreatorView) explaining why each opts back out of the global
+ * `user-select: none`. It reaches no new file and no new subgraph — the file
+ * count is unchanged — and it deletes more declarations than it adds. Page had
+ * 23 bytes of headroom, so a rule that would otherwise read as unexplained
+ * couldn't be justified in place without this. The other four entries absorbed
+ * it with the slack they had.
  */
 test.each([
     ['src/routes/+layout.svelte', 483, 3.48],
-    ['src/components/app/Page.svelte', 505, 3.7],
+    ['src/components/app/Page.svelte', 505, 3.71],
     ['src/routes/[[locale]]/+page.svelte', 520, 3.79],
     ['src/routes/[[locale]]/galleries/+page.svelte', 522, 3.79],
     ['src/routes/[[locale]]/projects/+page.svelte', 530, 3.82],

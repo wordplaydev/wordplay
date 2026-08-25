@@ -51,6 +51,8 @@
 
 <style>
     .creator {
+        /* A username is someone's data, not a label, and worth copying. */
+        user-select: text;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;

@@ -412,7 +412,6 @@
         white-space: nowrap;
         /* border: 1px solid var(--wordplay-chrome); */
         border-radius: var(--wordplay-border-radius);
-        user-select: none;
     }
 
     .group.vertical {

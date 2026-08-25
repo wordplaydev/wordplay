@@ -840,6 +840,14 @@
                    its own hover, active, focus, and selection feedback, so the
                    platform default only ever adds a stray box on top. */
                 -webkit-tap-highlight-color: transparent;
+                /* Chrome isn't body text: a select-all used to rake in tile names,
+                   toolbar labels, and footer links along with the few things worth
+                   copying. Selection is off by default and opted back in below, and
+                   in MarkupHTMLView, ValueView, CreatorView, and PhraseView.
+                   Unprefixed only: those opt-ins are unprefixed too, so a prefixed
+                   `none` here would win on an engine that reads only the prefix and
+                   silently make opted-in text unselectable. */
+                user-select: none;
             }
 
             * {
@@ -891,6 +899,31 @@
 
             li:not(:last-of-type) {
                 margin-block-end: var(--wordplay-spacing-half);
+            }
+
+            /* The elements that only ever hold content here: prose, the headings
+               that title it, and tabular data. Links and inline markup inside them
+               inherit, so they need no rule of their own. Deliberately not `code`
+               (RootView renders a program inside one, and the editor draws its own
+               selection) and not `li` (also used for grids of draggable previews;
+               markup's own lists inherit from `.markup` instead). */
+            p,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            td,
+            th {
+                user-select: text;
+            }
+
+            /* WebKit stops honoring a field's own selection, and its editing, when
+               an ancestor is `none`, so fields have to ask for it back. */
+            input,
+            textarea {
+                user-select: text;
             }
 
             *:focus {

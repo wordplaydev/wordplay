@@ -876,7 +876,6 @@
     .sep {
         flex-shrink: 0;
         color: var(--wordplay-relation-color);
-        user-select: none;
     }
 
     .result {

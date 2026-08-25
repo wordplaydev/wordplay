@@ -122,7 +122,6 @@
         align-items: center;
         /* Anchors the two localization tip badges to the switch's corners. */
         position: relative;
-        user-select: none;
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);

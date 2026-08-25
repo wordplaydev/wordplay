@@ -61,6 +61,29 @@ test.describe('how-to editor form', () => {
         expect(JSON.stringify(howTo?.title)).toContain('My First Draft');
     });
 
+    test('a how-to tile is unselectable even though its title renders as markup', async ({
+        page,
+    }) => {
+        // The tile disables selection so every mousedown goes to the drag path
+        // (a mousedown skimming the title used to start a selection and leave a
+        // stuck rectangle). Its title is block markup, which opts back into
+        // selection everywhere else — and a descendant's own rule beats an
+        // ancestor's, so the tile has to opt it out again explicitly.
+        const galleryId = await createTestGallery(
+            page,
+            'How-to Selection Gallery',
+        );
+        await waitForDocumentUpdate(page, 'galleries', galleryId, (d) => !!d);
+        await createDraftViaForm(page, galleryId, 'A Draggable Draft');
+
+        await page.goto(`/en-US/gallery/${galleryId}/howto`);
+        const title = page.locator('.howto .markup').first();
+        await title.waitFor();
+        expect(
+            await title.evaluate((e) => getComputedStyle(e).userSelect),
+        ).toBe('none');
+    });
+
     test('editing a draft autosaves the new title to the cloud', async ({
         page,
     }) => {

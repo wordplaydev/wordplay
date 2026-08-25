@@ -16,6 +16,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- 📋 Selecting all text on a page used to sweep up buttons, tab names, and footer links along with the words you actually wanted. Now only real text can be chosen: paragraphs, headers, what your program shows, the help and guide writing, page titles, names, and anything you can type into.
 - 💡 The menu now groups units by what they measure, so finding `km` means opening Length instead of scrolling past all 126 units. The plain number choices come first now, instead of last.
 
 ### Fixed

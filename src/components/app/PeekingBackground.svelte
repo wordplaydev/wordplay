@@ -175,7 +175,6 @@
         /* Matches how tutorial characters render elsewhere: text symbols stay crisp, while emoji
            fall through to Noto Color Emoji (in color, since this is a full-opacity foreground). */
         font-family: var(--wordplay-code-font);
-        user-select: none;
         color: var(--wordplay-foreground);
         transition: transform calc(var(--animation-factor, 1) * 600ms)
             ease-in-out;

@@ -183,7 +183,6 @@
         appearance: none;
         line-height: 1;
         transform-origin: center;
-        user-select: none;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         border-top-left-radius: 0;
