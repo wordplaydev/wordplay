@@ -3236,6 +3236,24 @@
                 "TiB": "$~tebibyte",
                 "lux": "$~lux",
                 "fc": "$~fotcandela"
+            },
+            "category": {
+                "time": "$~Tid",
+                "length": "$~Längd",
+                "weight": "$~Vikt",
+                "temperature": "$~Temperatur",
+                "angle": "$~Vinkel",
+                "area": "$~Area",
+                "volume": "$~Volym",
+                "speed": "$~Hastighet",
+                "pressure": "$~Tryck",
+                "energy": "$~Energi",
+                "power": "$~Effekt",
+                "electricity": "$~Elektricitet",
+                "frequency": "$~Frekvens",
+                "data": "$~Data",
+                "brightness": "$~Ljusstyrka",
+                "other": "$~Annat"
             }
         },
         "List": {

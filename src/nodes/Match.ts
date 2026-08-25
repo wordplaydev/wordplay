@@ -66,7 +66,9 @@ export default class Match extends Expression {
     static make(value?: Expression, cases?: KeyValue[], other?: Expression) {
         return new Match(
             value ?? ExpressionPlaceholder.make(),
-            new Token(MATCH_SYMBOL, Sym.BooleanType),
+            // Sym.Match, matching the tokenizer: Sym.BooleanType printed the same `???` but
+            // reparsed differently, so the menu's soundness gate dropped it.
+            new Token(MATCH_SYMBOL, Sym.Match),
             cases ?? [
                 KeyValue.make(
                     ExpressionPlaceholder.make(),
@@ -78,16 +80,10 @@ export default class Match extends Expression {
     }
 
     static getPossibleReplacements({ node }: ReplaceContext) {
-        // Wrap the value in a match with the value as a default
-        return node instanceof Expression
-            ? [
-                  Match.make(
-                      undefined,
-                      undefined,
-                      node instanceof Expression ? node : undefined,
-                  ),
-              ]
-            : [];
+        // The selected expression becomes the value being matched — that's what "wrap in a
+        // match" means. Putting it in the default slot instead left the value a placeholder,
+        // so the match's type was unknown and every expected type filtered it out.
+        return node instanceof Expression ? [Match.make(node)] : [];
     }
 
     static getPossibleInsertions() {

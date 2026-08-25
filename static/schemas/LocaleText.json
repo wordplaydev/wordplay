@@ -1200,7 +1200,7 @@
             "required": ["doc", "inputs", "names"],
             "type": "object"
         },
-        "FunctionText<alias-1184849637-145-178-1184849637-0-34005>": {
+        "FunctionText<alias-1184849637-145-178-1184849637-0-36003>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1387,7 +1387,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "not": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
@@ -1470,11 +1470,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1490,7 +1490,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -1712,7 +1712,7 @@
                                             "type": "object"
                                         },
                                         "first": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
@@ -1724,11 +1724,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "last": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1736,7 +1736,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "random": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
@@ -1744,7 +1744,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansAll": {
@@ -1752,15 +1752,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansFirst": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansLast": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "shuffled": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sorted": {
@@ -2024,7 +2024,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -2163,6 +2163,95 @@
                             "additionalProperties": false,
                             "description": "A number value, e.g., `5` or `-23.3`",
                             "properties": {
+                                "category": {
+                                    "additionalProperties": false,
+                                    "description": "The heading over each group of units in the editor's menu. A creator picking a unit reads a short list of one kind of measurement instead of every unit there is.",
+                                    "properties": {
+                                        "angle": {
+                                            "description": "[plain] The heading for the group of units that measure angle",
+                                            "type": "string"
+                                        },
+                                        "area": {
+                                            "description": "[plain] The heading for the group of units that measure area",
+                                            "type": "string"
+                                        },
+                                        "brightness": {
+                                            "description": "[plain] The heading for the group of units that measure brightness",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "[plain] The heading for the group of units that measure data",
+                                            "type": "string"
+                                        },
+                                        "electricity": {
+                                            "description": "[plain] The heading for the group of units that measure electricity",
+                                            "type": "string"
+                                        },
+                                        "energy": {
+                                            "description": "[plain] The heading for the group of units that measure energy",
+                                            "type": "string"
+                                        },
+                                        "frequency": {
+                                            "description": "[plain] The heading for the group of units that measure frequency",
+                                            "type": "string"
+                                        },
+                                        "length": {
+                                            "description": "[plain] The heading for the group of units that measure length",
+                                            "type": "string"
+                                        },
+                                        "other": {
+                                            "description": "[plain] The heading for the group of units that measure other",
+                                            "type": "string"
+                                        },
+                                        "power": {
+                                            "description": "[plain] The heading for the group of units that measure power",
+                                            "type": "string"
+                                        },
+                                        "pressure": {
+                                            "description": "[plain] The heading for the group of units that measure pressure",
+                                            "type": "string"
+                                        },
+                                        "speed": {
+                                            "description": "[plain] The heading for the group of units that measure speed",
+                                            "type": "string"
+                                        },
+                                        "temperature": {
+                                            "description": "[plain] The heading for the group of units that measure temperature",
+                                            "type": "string"
+                                        },
+                                        "time": {
+                                            "description": "[plain] The heading for the group of units that measure time",
+                                            "type": "string"
+                                        },
+                                        "volume": {
+                                            "description": "[plain] The heading for the group of units that measure volume",
+                                            "type": "string"
+                                        },
+                                        "weight": {
+                                            "description": "[plain] The heading for the group of units that measure weight",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "time",
+                                        "length",
+                                        "weight",
+                                        "temperature",
+                                        "angle",
+                                        "area",
+                                        "volume",
+                                        "speed",
+                                        "pressure",
+                                        "energy",
+                                        "power",
+                                        "electricity",
+                                        "frequency",
+                                        "data",
+                                        "brightness",
+                                        "other"
+                                    ],
+                                    "type": "object"
+                                },
                                 "conversion": {
                                     "additionalProperties": false,
                                     "description": "Conversions in the type",
@@ -2196,19 +2285,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arccos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arcsin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arctan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "cos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "divide": {
@@ -2220,7 +2309,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "exp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterOrEqual": {
@@ -2260,7 +2349,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "positive": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "power": {
@@ -2276,19 +2365,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "round": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundDown": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundUp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subtract": {
@@ -2296,7 +2385,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "tan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -2971,6 +3060,7 @@
                                 }
                             },
                             "required": [
+                                "category",
                                 "conversion",
                                 "doc",
                                 "function",
@@ -3070,7 +3160,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -3313,11 +3403,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "matches": {
@@ -3337,7 +3427,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "search": {
@@ -3357,11 +3447,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "trim": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },

@@ -70,6 +70,7 @@ import StreamType from '@nodes/StreamType';
 import StructureDefinition from '@nodes/StructureDefinition';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
+import getSuggestionScope from '@nodes/suggestionScope';
 import { Sym } from '@nodes/Sym';
 import type Token from '@nodes/Token';
 import type Type from '@nodes/Type';
@@ -163,8 +164,14 @@ export default class Evaluate extends Expression {
                 ? nodeBeingReplaced.getType(context)
                 : undefined;
 
-        // All the definitions outside the given node.
-        const functionsInScope = anchor.getDefinitionsInScope(context) ?? [];
+        // All the definitions outside the given node. When inserting beside the anchor rather
+        // than replacing it, an operator anchor's scope (the left operand's members) is the
+        // wrong pool — see getSuggestionScope.
+        const functionsInScope =
+            (replace
+                ? anchor
+                : getSuggestionScope(anchor, context)
+            ).getDefinitionsInScope(context) ?? [];
 
         // All the functions inside the given node's internal scope.
         const structureFunctions = nodeBeingReplaced
@@ -177,8 +184,15 @@ export default class Evaluate extends Expression {
                         nodeBeingReplaced,
                         context,
                     )
-                  : // Otherwise, nothing extra
-                    []
+                  : // If the scope names the definition itself (a selected `Sequence`), only
+                    // its statics can be evaluated on it.
+                    scopingType instanceof StructureDefinitionType
+                    ? scopingType.getStaticDefinitions(
+                          nodeBeingReplaced,
+                          context,
+                      )
+                    : // Otherwise, nothing extra
+                      []
             : [];
 
         // Get the definitions in the structure type we found,

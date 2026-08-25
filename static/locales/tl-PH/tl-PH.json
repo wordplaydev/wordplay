@@ -3239,6 +3239,24 @@
                 "TiB": "$~tebibytes",
                 "lux": "$~lux",
                 "fc": "$~foot-candles"
+            },
+            "category": {
+                "time": "$~Oras",
+                "length": "$~Haba",
+                "weight": "$~Bigat",
+                "temperature": "$~Temperatura",
+                "angle": "$~Anggulo",
+                "area": "$~Sukat ng Lawak",
+                "volume": "$~Dami",
+                "speed": "$~Bilis",
+                "pressure": "$~Presyon",
+                "energy": "$~Enerhiya",
+                "power": "$~Kapangyarihan",
+                "electricity": "$~Kuryente",
+                "frequency": "$~Dalas",
+                "data": "$~Datos",
+                "brightness": "$~Liwanag",
+                "other": "$~Iba pa"
             }
         },
         "List": {

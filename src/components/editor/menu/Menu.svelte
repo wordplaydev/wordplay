@@ -168,14 +168,17 @@
                                   node instanceof Token &&
                                   node.getText().startsWith(event.key),
                           )
-                    : $locales
-                          .getUnannotatedPrimaryText(
-                              (l) =>
-                                  l.ui.docs.purposes[revision.purpose].header,
+                    : // Through getHeader, so typing a letter finds a set named by its group
+                      // (a unit category) and not only one named by its purpose.
+                      $locales
+                          .getUnannotatedPrimaryText((l) =>
+                              revision.getHeader(l),
                           )
                           .startsWith(event.key),
             );
-            if (match)
+            // >= 0, not truthiness: findIndex returns 0 for the first item (falsy, so typing
+            // its letter did nothing) and -1 for no match (truthy, selecting index -1).
+            if (match >= 0)
                 menu = menu.inSubmenu()
                     ? menu.withSelection([menu.getSelectionIndex()[0], match])
                     : menu.withSelection([match, undefined]);
@@ -222,9 +225,7 @@
                     id="menuitem-{itemIndex}"
                     aria-expanded={menu.getSelectionIndex()[0] === itemIndex &&
                         menu.getSelectionIndex()[1] !== undefined}
-                    aria-label={$locales.getLocale().ui.docs.purposes[
-                        entry.purpose
-                    ].header}
+                    aria-label={entry.getHeader($locales.getLocale())}
                     class={`revisionset ${
                         menu.getSelection() === entry ? 'selected' : ''
                     }`}
@@ -243,10 +244,7 @@
                         menu = menu.withSelection([itemIndex, undefined]);
                     }}
                 >
-                    <MarkupHTMLView
-                        markup={(l) =>
-                            l.ui.docs.purposes[entry.purpose]?.header}
-                    />
+                    <MarkupHTMLView markup={(l) => entry.getHeader(l)} />
                 </div>
                 <div
                     class="submenu"
@@ -257,9 +255,7 @@
                     )}
                     role="menu"
                     tabindex="-1"
-                    aria-label={$locales.getLocale().ui.docs.purposes[
-                        entry.purpose
-                    ].header}
+                    aria-label={entry.getHeader($locales.getLocale())}
                 >
                     <!-- Only mount a submenu's items once it's the open one, so
                          closed submenus don't build their preview trees up front. -->

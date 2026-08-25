@@ -16,7 +16,6 @@ import { UnknownName } from '@conflicts/UnknownName';
 import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import UnimplementedException from '@values/UnimplementedException';
-import BasisType from '@nodes/BasisType';
 import Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
@@ -70,23 +69,14 @@ export default class PropertyReference extends Expression {
         context: Context,
     ) {
         if (node instanceof PropertyReference) {
-            const selectionType = node.structure.getType(context);
-            const definition =
-                selectionType instanceof StructureType
-                    ? selectionType.definition
-                    : selectionType instanceof BasisType
-                      ? context
-                            .getBasis()
-                            .getStructureDefinition(
-                                selectionType.getBasisTypeName(),
-                            )
-                      : undefined;
-            // Is the type a structure? Suggest reference to it's properties.
-            if (definition) {
+            // Ask the reference itself, so a subject naming the definition (`Sequence.`) offers
+            // only its statics, exactly as resolving that name does.
+            const definitions = node.getDefinitions(node, context);
+            // Anything to reference? Suggest each of its properties and functions.
+            if (definitions.length > 0) {
                 const prefix = node.name?.getName() ?? '';
                 return (
-                    definition
-                        .getDefinitions(node, context)
+                    definitions
                         // Filter my matching prefixes
                         .filter((def) =>
                             def

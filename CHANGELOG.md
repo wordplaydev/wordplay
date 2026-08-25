@@ -11,9 +11,19 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔣 You can now choose whether an emoji you add is in color or black and white. Pick which one in the emoji chooser, and Wordplay keeps your choice when it shows the emoji and when you copy it.
 - 📋 You can now select the text your program shows and copy it somewhere else. This works while a project is playing, and on anything your program shows that isn't a stage.
 - 🔊 The notes your music is playing now light up in your code as you hear and see them. In a melody written as a list of numbers, each number glows when its turn comes.
+- 💡 The menu you get while writing code can now build much more of the language. You can take an item out of a list or a map, change a number's kind with `→`, ask a question with `???`, look back at a stream with `←`, change one part of a structure, and update a table.
+- 🔢 You can now write numbers in Roman, Han, Thai, Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu numerals, and in base 2 and base 16. Pick a digit to start, then add more digits before, inside, or after it to build up a bigger number. There's no keyboard for these, so the menu is the only easy way to write them.
+
+### Changed
+
+- 💡 The menu now groups units by what they measure, so finding `km` means opening Length instead of scrolling past all 126 units. The plain number choices come first now, instead of last.
 
 ### Fixed
 
+- 💡 Ready-made things like `Sequence.sway()` and `Color.random()` never showed up when you typed a dot after their name. Now they do.
+- 💡 The menu used to offer code that couldn't work. After a dot it forgot the name you picked, so `a.` offered `a()` instead of `a.📏()`, and after a `+` it offered things that only work on the number before it.
+- 🧩 Choosing your whole program gave you an empty menu. It now offers to add something to your program.
+- 💡 Typing a letter in the menu skipped the very first choice, so that one could never be picked that way.
 - 🔍 We fixed the search box in the emoji and symbol chooser. It used to lose your place after the first letter, so everything you typed after that went nowhere.
 - ✍️ We fixed how chosen code looks when it has an emoji in it. Choosing one emoji, or a stretch that starts or ends with one, used to show no highlight at all.
 - 📖 A word in our explanations pointed at a page that didn't exist, so it showed an empty box instead of a link. Markup and type variable now have their own pages in the [Guide](https://wordplay.dev/guide), and the markup page shows an example you can try.

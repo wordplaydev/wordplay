@@ -3244,6 +3244,24 @@
                 "TiB": "$~tebibyte",
                 "lux": "$~lux",
                 "fc": "$~foot-candle"
+            },
+            "category": {
+                "time": "$~Thời gian",
+                "length": "$~Chiều dài",
+                "weight": "$~Cân nặng",
+                "temperature": "$~Nhiệt độ",
+                "angle": "$~Góc",
+                "area": "$~Diện tích",
+                "volume": "$~Thể tích",
+                "speed": "$~Tốc độ",
+                "pressure": "$~Áp suất",
+                "energy": "$~Năng lượng",
+                "power": "$~Công suất",
+                "electricity": "$~Điện",
+                "frequency": "$~Tần số",
+                "data": "$~Dữ liệu",
+                "brightness": "$~Độ sáng",
+                "other": "$~Khác"
             }
         },
         "List": {

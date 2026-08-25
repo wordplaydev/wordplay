@@ -1,5 +1,8 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
 import { Purpose, type PurposeType } from '@concepts/Purpose';
+import { UnitCategories } from '@basis/UnitConversions';
+import getUnitGroup, { type UnitGroup } from '@edit/menu/unitCategory';
+import type LocaleText from '@locale/LocaleText';
 import type Project from '@db/projects/Project';
 import { type CaretPosition } from '@edit/caret/Caret';
 import type Locales from '@locale/Locales';
@@ -125,25 +128,53 @@ export default class Menu {
                     !priority.includes(revision) && !revision.isRemoval(),
             );
 
-            // Organize by purpose.
-            const kinds: Map<PurposeType, Revision[]> = new Map();
+            // Organize by purpose, and within a purpose by group where one applies. Every unit
+            // reports Purpose.Numbers, so grouping on purpose alone left one undifferentiated
+            // set of 126 units — and, since that was the only purpose present, the `kinds.size`
+            // gate below then flattened it into a wall of items with the numbers at the bottom.
+            const kinds: Map<
+                string,
+                {
+                    purpose: PurposeType;
+                    group: UnitGroup | undefined;
+                    revisions: Revision[];
+                }
+            > = new Map();
             for (const other of others) {
                 const purpose = other.getPurpose(this.concepts);
-                if (purpose !== undefined) {
-                    const revisions = kinds.get(purpose);
-                    if (revisions) kinds.set(purpose, [...revisions, other]);
-                    else kinds.set(purpose, [other]);
-                }
+                if (purpose === undefined) continue;
+                const newNode = other.getNewNode(this.concepts.locales);
+                const group = newNode ? getUnitGroup(newNode) : undefined;
+                const key = `${purpose}/${group ?? ''}`;
+                const existing = kinds.get(key);
+                if (existing) existing.revisions.push(other);
+                else kinds.set(key, { purpose, group, revisions: [other] });
             }
 
-            // Make an sorted array of the revision sets.
-            const grouped = Array.from(kinds.entries())
+            // Make a sorted array of the revision sets. A set with no group comes first within
+            // its purpose, so the number suggestions lead and the unit categories follow in the
+            // order the conversion table declares them.
+            const groupOrder = Object.keys(UnitCategories) as UnitGroup[];
+            const rank = (group: UnitGroup | undefined) =>
+                group === undefined
+                    ? -1
+                    : groupOrder.indexOf(group) + 1 || groupOrder.length + 1;
+            const grouped = Array.from(kinds.values())
                 .toSorted(
-                    (a, b) => PurposeRelevance[a[0]] - PurposeRelevance[b[0]],
+                    (a, b) =>
+                        PurposeRelevance[a.purpose] -
+                            PurposeRelevance[b.purpose] ||
+                        rank(a.group) - rank(b.group),
                 )
                 .map(
-                    ([purpose, revisions]) =>
-                        new RevisionSet(purpose, revisions),
+                    ({ purpose, group, revisions }) =>
+                        new RevisionSet(
+                            purpose,
+                            revisions,
+                            group === undefined
+                                ? undefined
+                                : (l) => l.basis.Number.category[group],
+                        ),
                 );
 
             organization = [
@@ -366,10 +397,25 @@ export default class Menu {
 export class RevisionSet {
     readonly purpose: PurposeType;
     readonly revisions: Revision[];
+    /** What names this set, when its purpose doesn't. Several sets can share a purpose — every
+     *  unit is Purpose.Numbers — and then the purpose's header would label them all the same. */
+    readonly label: ((locale: LocaleText) => string) | undefined;
 
-    constructor(purpose: PurposeType, revisions: Revision[]) {
+    constructor(
+        purpose: PurposeType,
+        revisions: Revision[],
+        label?: (locale: LocaleText) => string,
+    ) {
         this.purpose = purpose;
         this.revisions = revisions;
+        this.label = label;
+    }
+
+    /** The text at the top of this set, whether it's named by its group or by its purpose. */
+    getHeader(locale: LocaleText): string {
+        return (
+            this.label?.(locale) ?? locale.ui.docs.purposes[this.purpose].header
+        );
     }
 
     size() {

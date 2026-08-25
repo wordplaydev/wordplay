@@ -3239,6 +3239,24 @@
                 "TiB": "$~tebibytes",
                 "lux": "$~lucși",
                 "fc": "$~foot-candles"
+            },
+            "category": {
+                "time": "$~Timp",
+                "length": "$~Lungime",
+                "weight": "$~Greutate",
+                "temperature": "$~Temperatură",
+                "angle": "$~Unghi",
+                "area": "$~Suprafață",
+                "volume": "$~Volum",
+                "speed": "$~Viteză",
+                "pressure": "$~Presiune",
+                "energy": "$~Energie",
+                "power": "$~Putere",
+                "electricity": "$~Electricitate",
+                "frequency": "$~Frecvență",
+                "data": "$~Date",
+                "brightness": "$~Luminozitate",
+                "other": "$~Altele"
             }
         },
         "List": {

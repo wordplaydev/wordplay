@@ -3244,6 +3244,24 @@
                 "TiB": "$~tebibita",
                 "lux": "$~lux",
                 "fc": "$~foot-candle"
+            },
+            "category": {
+                "time": "$~Waktu",
+                "length": "$~Panjang",
+                "weight": "$~Berat",
+                "temperature": "$~Suhu",
+                "angle": "$~Sudut",
+                "area": "$~Luas",
+                "volume": "$~Volume",
+                "speed": "$~Kecepatan",
+                "pressure": "$~Tekanan",
+                "energy": "$~Energi",
+                "power": "$~Daya",
+                "electricity": "$~Listrik",
+                "frequency": "$~Frekuensi",
+                "data": "$~Data",
+                "brightness": "$~Kecerahan",
+                "other": "$~Lainnya"
             }
         },
         "List": {

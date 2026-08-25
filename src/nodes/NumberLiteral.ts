@@ -7,7 +7,7 @@ import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import NumberValue from '@values/NumberValue';
-import type Decimal from 'decimal.js';
+import Decimal from 'decimal.js';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
@@ -18,6 +18,12 @@ import Literal from '@nodes/Literal';
 import type Node from '@nodes/Node';
 import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
+import {
+    NumeralSyms,
+    numeralDigits,
+    renderBase,
+    renderNumeral,
+} from '@values/numerals';
 import { Sym, type SymType } from '@nodes/Sym';
 import { NOT_A_NUMBER_SYMBOL } from '@parser/Symbols';
 import Token from '@nodes/Token';
@@ -64,6 +70,96 @@ export default class NumberLiteral extends Literal {
         );
     }
 
+    /**
+     * The value written in every numeral system that can represent it exactly, carrying the
+     * given unit. These are the hardest literals in the language to type — a creator has no
+     * keyboard for Ⅴ or 五 — so the menu is realistically the only way to reach them.
+     */
+    static getPossibleNumerals(value: Decimal, unit: Unit | undefined) {
+        return [
+            ...NumeralSyms.map((sym) => {
+                const text = renderNumeral(value, sym);
+                return text === undefined
+                    ? undefined
+                    : NumberLiteral.make(text, unit?.clone(), sym);
+            }),
+            // Two bases, rather than all fifteen: enough to show the form exists.
+            ...[2, 16].map((base) => {
+                const text = renderBase(value, base);
+                return text === undefined
+                    ? undefined
+                    : NumberLiteral.make(text, unit?.clone(), Sym.Base);
+            }),
+        ].filter((literal): literal is NumberLiteral => literal !== undefined);
+    }
+
+    /**
+     * Every single numeral glyph, as a literal, so each is reachable in one step. A creator has
+     * no keyboard for Ⅴ or ๗, which makes the menu the only practical way to write them.
+     */
+    static getPossibleDigits(unit: Unit | undefined) {
+        return [
+            // Arabic first: it's what most creators are typing anyway.
+            ...Array.from({ length: 10 }, (_, digit) =>
+                NumberLiteral.make(digit, unit?.clone()),
+            ),
+            ...NumeralSyms.map((sym) =>
+                numeralDigits(sym).map((text) =>
+                    NumberLiteral.make(text, unit?.clone(), sym),
+                ),
+            ).flat(),
+        ];
+    }
+
+    /** The numeral system this literal is written in, if it isn't decimal. */
+    getNumeralSym(): SymType | undefined {
+        return NumeralSyms.find((sym) => this.number.isSymbol(sym));
+    }
+
+    /**
+     * This literal with one of its own system's digits inserted at every position — before it,
+     * inside it, and after it. Assembling a numeral a glyph at a time is the whole point: with
+     * no keyboard for Ⅰ or ๗, `Ⅴ` becomes `ⅤⅠ` only if the menu can put a digit next to one
+     * that's already there. Roman and Han are included, since Roman is exactly the case a
+     * creator hits first.
+     *
+     * A candidate that doesn't read back as a number is dropped, which is what keeps a glyph
+     * that means something else in the middle of a word (a Han place marker in a spot that
+     * makes the number unreadable) out of the menu.
+     */
+    getPossibleDigitInsertions(at?: number): NumberLiteral[] {
+        const sym = this.getNumeralSym();
+        const text = this.number.getText();
+        // A caret says where the creator means to add a glyph, so offer only that spot; without
+        // one (the whole literal is selected) offer every spot.
+        if (at !== undefined && (at < 0 || at > text.length)) return [];
+        // Base literals carry their base in the same token (`16;FF`), so splicing a digit in
+        // can corrupt the prefix rather than build a number. Left alone.
+        if (this.number.isSymbol(Sym.Base) || text.includes(';')) return [];
+        const digits =
+            sym === undefined
+                ? Array.from({ length: 10 }, (_, digit) => String(digit))
+                : numeralDigits(sym);
+        const seen = new Set<string>([text]);
+        const insertions: NumberLiteral[] = [];
+        const first = at ?? 0;
+        const last = at ?? text.length;
+        for (let position = first; position <= last; position++)
+            for (const digit of digits) {
+                const candidate =
+                    text.slice(0, position) + digit + text.slice(position);
+                if (seen.has(candidate)) continue;
+                seen.add(candidate);
+                const literal = NumberLiteral.make(
+                    candidate,
+                    this.unit?.clone(),
+                    sym,
+                );
+                if (!literal.getValue().num.isNaN()) insertions.push(literal);
+            }
+        return insertions;
+    }
+
     /** Given a type and source context,  */
     static getPossibleNumbers(
         node: Node | undefined,
@@ -80,26 +176,54 @@ export default class NumberLiteral extends Literal {
 
         // If a type is provided, and it has a unit, suggest numbers with corresponding units.
         if (possibleNumberTypes && possibleNumberTypes.length > 0) {
-            return possibleNumberTypes.map((numberType) => {
-                const unit =
-                    numberType.unit instanceof Unit
-                        ? numberType.unit.clone()
-                        : undefined;
-                return numberType.isLiteral()
-                    ? numberType.getLiteral()
-                    : node instanceof NumberLiteral
-                      ? node.withUnit(unit)
-                      : NumberLiteral.make(1, unit);
-            });
+            return possibleNumberTypes
+                .map((numberType) => {
+                    const unit =
+                        numberType.unit instanceof Unit
+                            ? numberType.unit.clone()
+                            : undefined;
+                    const literal = numberType.isLiteral()
+                        ? numberType.getLiteral()
+                        : node instanceof NumberLiteral
+                          ? node.withUnit(unit)
+                          : NumberLiteral.make(1, unit);
+                    return [
+                        literal,
+                        // The same value written in every other numeral system.
+                        ...NumberLiteral.getPossibleNumerals(
+                            literal.getValue().num,
+                            unit,
+                        ),
+                        // With a literal already here, assembling it is the useful offer; the
+                        // whole glyph palette is for starting a number, not extending one.
+                        ...(node instanceof NumberLiteral
+                            ? node.getPossibleDigitInsertions()
+                            : NumberLiteral.getPossibleDigits(unit)),
+                    ];
+                })
+                .flat();
         }
-        // No type provided, but there's a node? Suggest numbers with all possible units.
+        // No type provided, but there's a node? Suggest numbers with all possible units,
+        // and the same value written in every numeral system.
         else if (node instanceof NumberLiteral) {
-            return getPossibleDimensions(context).map((dimension) =>
-                NumberLiteral.make(
-                    node.number.getText(),
-                    new Unit(undefined, [Dimension.make(false, dimension, 1)]),
+            return [
+                ...getPossibleDimensions(context).map((dimension) =>
+                    NumberLiteral.make(
+                        node.number.getText(),
+                        new Unit(undefined, [
+                            Dimension.make(false, dimension, 1),
+                        ]),
+                    ),
                 ),
-            );
+                ...NumberLiteral.getPossibleNumerals(
+                    node.getValue().num,
+                    node.unit === undefined || node.unit.isUnitless()
+                        ? undefined
+                        : node.unit,
+                ),
+                // How ๑ becomes ๑๒, and Ⅴ becomes ⅤⅠ, when there's no keyboard for the script.
+                ...node.getPossibleDigitInsertions(),
+            ];
         }
         // No type? Suggest some common numbers and hard to type numbers.
         else
@@ -112,6 +236,7 @@ export default class NumberLiteral extends Literal {
                     undefined,
                     Sym.NotANumber,
                 ),
+                ...NumberLiteral.getPossibleDigits(undefined),
             ];
     }
 

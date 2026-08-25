@@ -93,9 +93,15 @@ export default class Insert extends Expression {
             ? [
                   Insert.make(
                       node,
-                      tableType.columns.map((c) =>
-                          ExpressionPlaceholder.make(c.getType(context)),
-                      ),
+                      // Filtered: a table type built mid-edit can hold an undefined column,
+                      // and mapping over it threw rather than offering a shorter row.
+                      tableType.columns
+                          .filter((column) => column !== undefined)
+                          .map((column) =>
+                              ExpressionPlaceholder.make(
+                                  column.getType(context),
+                              ),
+                          ),
                   ),
               ]
             : [];

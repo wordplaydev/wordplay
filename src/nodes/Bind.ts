@@ -160,6 +160,9 @@ export default class Bind extends Expression {
                     ),
                 ];
         }
+
+        // Falling off the end returns undefined, which getNodeRevisions reads as "offer removal".
+        return [];
     }
 
     static getPossibleInsertions({ locales, parent }: InsertContext) {

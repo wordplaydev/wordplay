@@ -3239,6 +3239,24 @@
                 "TiB": "$~tebibayt",
                 "lux": "$~lüks",
                 "fc": "$~foot-candle"
+            },
+            "category": {
+                "time": "$~Zaman",
+                "length": "$~Uzunluk",
+                "weight": "$~Ağırlık",
+                "temperature": "$~Sıcaklık",
+                "angle": "$~Açı",
+                "area": "$~Alan",
+                "volume": "$~Hacim",
+                "speed": "$~Hız",
+                "pressure": "$~Basınç",
+                "energy": "$~Enerji",
+                "power": "$~Güç",
+                "electricity": "$~Elektrik",
+                "frequency": "$~Frekans",
+                "data": "$~Veri",
+                "brightness": "$~Parlaklık",
+                "other": "$~Diğer"
             }
         },
         "List": {

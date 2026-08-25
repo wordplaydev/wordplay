@@ -3236,6 +3236,24 @@
                 "TiB": "$~太比字节",
                 "lux": "$~勒克斯",
                 "fc": "$~英尺烛光"
+            },
+            "category": {
+                "time": "$~时间",
+                "length": "$~长度",
+                "weight": "$~重量",
+                "temperature": "$~温度",
+                "angle": "$~角度",
+                "area": "$~面积",
+                "volume": "$~体积",
+                "speed": "$~速度",
+                "pressure": "$~压强",
+                "energy": "$~能量",
+                "power": "$~功率",
+                "electricity": "$~电",
+                "frequency": "$~频率",
+                "data": "$~数据",
+                "brightness": "$~亮度",
+                "other": "$~其他"
             }
         },
         "List": {

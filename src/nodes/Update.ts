@@ -66,7 +66,9 @@ export default class Update extends Expression {
         return new Update(
             table,
             new Row(
-                new Token(UPDATE_SYMBOL, Sym.Select),
+                // Sym.Update, matching the tokenizer: Sym.Select printed the same `⎡:` but
+                // reparsed differently, so the soundness gate silently dropped every update.
+                new Token(UPDATE_SYMBOL, Sym.Update),
                 [],
                 new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose),
             ),

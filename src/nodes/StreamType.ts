@@ -5,6 +5,7 @@ import { STREAM_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import Characters from '../lore/BasisCharacters';
 import AnyType from '@nodes/AnyType';
+import TypePlaceholder from '@nodes/TypePlaceholder';
 import type Context from '@nodes/Context';
 import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
@@ -48,7 +49,19 @@ export default class StreamType extends Type {
     }
 
     getPurpose() {
-        return Purpose.Hidden;
+        // Types, like every other concrete type: Hidden kept it out of the menu's replacements,
+        // so `•…#` could never be chosen even though the language documents it.
+        return Purpose.Types;
+    }
+
+    /** Offer `…_` wherever a type is expected. A TypePlaceholder rather than make()'s default
+     *  AnyType, which the parser never produces and so wouldn't round-trip. */
+    static getPossibleReplacements() {
+        return [StreamType.make(TypePlaceholder.make())];
+    }
+
+    static getPossibleInsertions() {
+        return [StreamType.make(TypePlaceholder.make())];
     }
 
     getGrammar(): Grammar {

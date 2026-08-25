@@ -2507,9 +2507,9 @@
             return;
         }
 
-        // Blocks mode? There's no free text input — typing is handled by
-        // per-token text fields, and paste is handled by handlePaste directly.
-        // Revert whatever landed in the mirror.
+        // Blocks mode? Typing still reaches Caret.insert via the keydown command path; what
+        // it doesn't go through is this mirrored-textarea input event, and paste is handled by
+        // handlePaste directly. Revert whatever landed in the mirror.
         if ($blocks) {
             syncMirror($caret);
             return;

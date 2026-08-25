@@ -3242,6 +3242,24 @@
                 "TiB": "$~Tebibyte",
                 "lux": "$~Lux",
                 "fc": "$~Footcandle"
+            },
+            "category": {
+                "time": "$~Zeit",
+                "length": "$~Länge",
+                "weight": "$~Gewicht",
+                "temperature": "$~Temperatur",
+                "angle": "$~Winkel",
+                "area": "$~Fläche",
+                "volume": "$~Volumen",
+                "speed": "$~Geschwindigkeit",
+                "pressure": "$~Druck",
+                "energy": "$~Energie",
+                "power": "$~Leistung",
+                "electricity": "$~Elektrizität",
+                "frequency": "$~Frequenz",
+                "data": "$~Daten",
+                "brightness": "$~Helligkeit",
+                "other": "$~Andere"
             }
         },
         "List": {

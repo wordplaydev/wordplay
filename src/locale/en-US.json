@@ -3391,6 +3391,24 @@
                 "TiB": "tebibytes",
                 "lux": "lux",
                 "fc": "foot-candles"
+            },
+            "category": {
+                "time": "Time",
+                "length": "Length",
+                "weight": "Weight",
+                "temperature": "Temperature",
+                "angle": "Angle",
+                "area": "Area",
+                "volume": "Volume",
+                "speed": "Speed",
+                "pressure": "Pressure",
+                "energy": "Energy",
+                "power": "Power",
+                "electricity": "Electricity",
+                "frequency": "Frequency",
+                "data": "Data",
+                "brightness": "Brightness",
+                "other": "Other"
             }
         },
         "List": {

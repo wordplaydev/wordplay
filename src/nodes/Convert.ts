@@ -29,6 +29,7 @@ import { getConcreteConversionTypeVariable } from '@nodes/Generics';
 import Names from '@nodes/Names';
 import NameType from '@nodes/NameType';
 import NeverType from '@nodes/NeverType';
+import type Node from '@nodes/Node';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import { NotAType } from '@nodes/NotAType';
 import TextType from '@nodes/TextType';
@@ -60,11 +61,52 @@ export default class Convert extends Expression {
         );
     }
 
-    static getPossibleReplacements({ node, type }: ReplaceContext) {
-        // Have an expected type? If so, suggest conversions to that type.
-        return node instanceof Expression && type !== undefined
-            ? [Convert.make(node, type)]
-            : [];
+    /** The distinct one-hop conversion targets reachable from an expression's type: the
+     *  conversions the type itself declares, plus any declared in enclosing blocks. */
+    static getConversionTargets(
+        expression: Expression,
+        from: Node,
+        context: Context,
+    ): Type[] {
+        const scopeConversions =
+            context
+                .getRoot(from)
+                ?.getAncestors(from)
+                ?.filter((a): a is Block => a instanceof Block)
+                ?.reduce(
+                    (list: ConversionDefinition[], block) => [
+                        ...list,
+                        ...block.statements.filter(
+                            (s): s is ConversionDefinition =>
+                                s instanceof ConversionDefinition,
+                        ),
+                    ],
+                    [],
+                ) ?? [];
+        // getAllConversions returns every conversion the basis declares, not just this type's,
+        // so filter by what each actually accepts — otherwise a list is offered `→ #km`.
+        const inputType = expression.getType(context);
+        const seen = new Set<string>();
+        return [...inputType.getAllConversions(context), ...scopeConversions]
+            .filter((conversion) => conversion.convertsType(inputType, context))
+            .map((conversion) => conversion.output)
+            .filter((output) => {
+                const key = output.toWordplay();
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+    }
+
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
+        // Offer a conversion to each type actually reachable from this expression's. Converting
+        // to the expected type alone was useless for a selected node, whose expected type is its
+        // own type — an identity conversion, which has no definition and so no type.
+        if (!(node instanceof Expression)) return [];
+        const own = node.getType(context).toWordplay();
+        return Convert.getConversionTargets(node, node, context)
+            .filter((output) => output.toWordplay() !== own)
+            .map((output) => Convert.make(node, output));
     }
 
     static getPossibleInsertions({ type }: InsertContext) {
@@ -115,33 +157,9 @@ export default class Convert extends Expression {
      *  from the expression's type (one-hop, type-defined and scope-defined).
      *  Excludes the current target. */
     getReplacementsForTokenAnchor(context: Context): Convert[] {
-        const inputType = this.expression.getType(context);
-        const typeConversions = inputType.getAllConversions(context);
-        const scopeConversions =
-            context
-                .getRoot(this)
-                ?.getAncestors(this)
-                ?.filter((a): a is Block => a instanceof Block)
-                ?.reduce(
-                    (list: ConversionDefinition[], block) => [
-                        ...list,
-                        ...block.statements.filter(
-                            (s): s is ConversionDefinition =>
-                                s instanceof ConversionDefinition,
-                        ),
-                    ],
-                    [],
-                ) ?? [];
-        const seen = new Set<string>();
-        seen.add(this.type.toWordplay());
-        return [...typeConversions, ...scopeConversions]
-            .map((conv) => conv.output)
-            .filter((output) => {
-                const key = output.toWordplay();
-                if (seen.has(key)) return false;
-                seen.add(key);
-                return true;
-            })
+        const current = this.type.toWordplay();
+        return Convert.getConversionTargets(this.expression, this, context)
+            .filter((output) => output.toWordplay() !== current)
             .map(
                 (output) => new Convert(this.expression, this.convert, output),
             );

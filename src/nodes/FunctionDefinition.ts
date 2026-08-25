@@ -172,9 +172,17 @@ export default class FunctionDefinition extends DefinitionExpression {
             typeof nameOrLocales === 'string'
                 ? nameOrLocales
                 : nameOrLocales.getName(this.names, symbolic);
+        // The subject is the function itself only when its type is this function's — `Complete`
+        // adding `(` to the `f` or `Sequence.sway` it follows. Every other caller means the
+        // structure, so the name must be kept, or `boomy.meow()` prints as `boomy()`.
+        const subjectType =
+            structureType instanceof Expression
+                ? structureType.getType(context)
+                : undefined;
         const fun =
-            structureType instanceof Reference ||
-            structureType instanceof PropertyReference
+            structureType instanceof Expression &&
+            subjectType instanceof FunctionType &&
+            subjectType.definition === this
                 ? structureType
                 : structureType instanceof Expression
                   ? PropertyReference.make(structureType, Reference.make(name))

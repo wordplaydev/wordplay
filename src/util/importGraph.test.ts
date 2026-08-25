@@ -170,13 +170,24 @@ test('resolving a color needs no basis', () => {
  * choice through to a font in unicode/emoji.ts, which every page reaches via
  * Emoji and EmojisRepaired. No new file and no new subgraph — the same move as
  * the entries above. The three page budgets had enough slack to absorb it.
+ *
+ * The last +2 files on every entry are the edit menu's reachability work: `values/numerals.ts`,
+ * which holds the numeral tables both the tokenizer's number parsing and the menu's numeral
+ * suggestions read (moved out of NumberValue, so its bytes moved rather than grew), and
+ * `nodes/suggestionScope.ts`, the one-rule helper deciding whose scope a suggestion for a
+ * neighbouring field comes from. Both are leaves reached from the editor, which every entry
+ * already carries. The +0.01MB is the menu's new suggestion generators rather than those two
+ * files: the numeral tables only moved out of NumberValue, but list and set access, table
+ * update, previous, conversion targets, and the numeral encoder are all new code in nodes the
+ * editor reaches. The layout's last hundredth is the unit-category table and the locale strings
+ * naming each category, which every entry carries in en-US.json.
  */
 test.each([
-    ['src/routes/+layout.svelte', 481, 3.46],
-    ['src/components/app/Page.svelte', 503, 3.69],
-    ['src/routes/[[locale]]/+page.svelte', 518, 3.77],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 520, 3.77],
-    ['src/routes/[[locale]]/projects/+page.svelte', 528, 3.8],
+    ['src/routes/+layout.svelte', 483, 3.48],
+    ['src/components/app/Page.svelte', 505, 3.7],
+    ['src/routes/[[locale]]/+page.svelte', 520, 3.79],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 522, 3.79],
+    ['src/routes/[[locale]]/projects/+page.svelte', 530, 3.82],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

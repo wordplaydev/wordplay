@@ -3239,6 +3239,24 @@
                 "TiB": "$~tébioctets",
                 "lux": "$~lux",
                 "fc": "$~foot-candles"
+            },
+            "category": {
+                "time": "$~Temps",
+                "length": "$~Longueur",
+                "weight": "$~Poids",
+                "temperature": "$~Température",
+                "angle": "$~Angle",
+                "area": "$~Surface",
+                "volume": "$~Volume",
+                "speed": "$~Vitesse",
+                "pressure": "$~Pression",
+                "energy": "$~Énergie",
+                "power": "$~Puissance",
+                "electricity": "$~Électricité",
+                "frequency": "$~Fréquence",
+                "data": "$~Données",
+                "brightness": "$~Luminosité",
+                "other": "$~Autre"
             }
         },
         "List": {

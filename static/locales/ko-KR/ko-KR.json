@@ -3239,6 +3239,24 @@
                 "TiB": "$~테비바이트",
                 "lux": "$~럭스",
                 "fc": "$~풋캔들"
+            },
+            "category": {
+                "time": "$~시간",
+                "length": "$~길이",
+                "weight": "$~무게",
+                "temperature": "$~온도",
+                "angle": "$~각도",
+                "area": "$~넓이",
+                "volume": "$~부피",
+                "speed": "$~속력",
+                "pressure": "$~압력",
+                "energy": "$~에너지",
+                "power": "$~일률",
+                "electricity": "$~전기",
+                "frequency": "$~진동수",
+                "data": "$~데이터",
+                "brightness": "$~밝기",
+                "other": "$~기타"
             }
         },
         "List": {

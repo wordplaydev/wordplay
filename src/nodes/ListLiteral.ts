@@ -16,6 +16,7 @@ import TypeException from '@values/TypeException';
 import AnyType from '@nodes/AnyType';
 import CompositeLiteral from '@nodes/CompositeLiteral';
 import type Context from '@nodes/Context';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import getExpectedType from '@nodes/getExpectedType';
 import ListCloseToken from '@nodes/ListCloseToken';
@@ -59,8 +60,10 @@ export default class ListLiteral extends CompositeLiteral {
         );
     }
 
-    static getPossibleReplacements() {
-        // Offer to wrap the element in a list
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        // Offer to wrap the element in a list. The parameter has to be destructured: without it
+        // `node` resolved to the imported grammar helper, which is never an Expression, so this
+        // silently returned nothing while still typechecking.
         return node instanceof Expression ? [ListLiteral.make([node])] : [];
     }
 

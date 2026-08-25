@@ -38,7 +38,9 @@ export default class IsLocale extends SimpleExpression {
         // The bare codepoint, not LOCALE_SYMBOL: that carries U+FE0E for mono
         // UI rendering, and the tokenizer no longer strips the mono selector,
         // so it would survive into the source and lex as a stray name.
-        return new IsLocale(new Token(GLOBE1_SYMBOL, Sym.Change), language);
+        // Sym.Locale, matching what the tokenizer lexes 🌎 as: a mismatched Sym prints
+        // identically but reparses to a different tree, so the menu's soundness gate drops it.
+        return new IsLocale(new Token(GLOBE1_SYMBOL, Sym.Locale), language);
     }
 
     static getPossibleReplacements() {

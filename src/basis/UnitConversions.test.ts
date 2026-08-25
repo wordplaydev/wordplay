@@ -8,7 +8,10 @@ import { describe, expect, test } from 'vitest';
 import {
     AffineConversions,
     Dimensions,
+    UnitCategories,
     Units,
+    getUnitCategory,
+    type UnitCategory,
     type UnitKey,
 } from '@basis/UnitConversions';
 
@@ -193,5 +196,45 @@ describe('a conversion documents itself with both unit names', () => {
             expect(
                 conversion.docs.getMarkup(DefaultLocales)[0]?.toText(),
             ).not.toMatch(/\$(from|to)/);
+    });
+});
+
+describe('unit categories', () => {
+    // The categories mirror the comment blocks in Units, and comments can't be checked. This
+    // is what keeps the two from drifting: a unit added to the table without a category, or
+    // listed in two, fails here rather than quietly landing in the menu's "other" pile.
+    test('every unit belongs to exactly one category', () => {
+        const homes = new Map<UnitKey, UnitCategory[]>();
+        for (const key of Object.keys(Units) as UnitKey[])
+            homes.set(
+                key,
+                (Object.keys(UnitCategories) as UnitCategory[]).filter(
+                    (category) =>
+                        (
+                            UnitCategories[category] as readonly UnitKey[]
+                        ).includes(key),
+                ),
+            );
+        expect(
+            [...homes]
+                .filter(([, categories]) => categories.length !== 1)
+                .map(([key, categories]) => `${key}: ${categories.length}`),
+        ).toEqual([]);
+    });
+
+    test('no category names a unit the table does not define', () => {
+        const keys = new Set(Object.keys(Units));
+        for (const [category, members] of Object.entries(UnitCategories))
+            for (const key of members)
+                expect(keys.has(key), `${category} names ${key}`).toBe(true);
+    });
+
+    test('getUnitCategory answers for every unit', () => {
+        for (const key of Object.keys(Units) as UnitKey[])
+            expect(getUnitCategory(key), key).toBeDefined();
+        expect(getUnitCategory('km')).toBe('length');
+        expect(getUnitCategory('ohm')).toBe('electricity');
+        expect(getUnitCategory('degF')).toBe('temperature');
+        expect(getUnitCategory('m2')).toBe('area');
     });
 });

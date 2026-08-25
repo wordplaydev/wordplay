@@ -3245,6 +3245,24 @@
                 "TiB": "$~テビバイト",
                 "lux": "$~ルクス",
                 "fc": "$~フィートキャンドル"
+            },
+            "category": {
+                "time": "$~時間",
+                "length": "$~長さ",
+                "weight": "$~重さ",
+                "temperature": "$~温度",
+                "angle": "$~角度",
+                "area": "$~面積",
+                "volume": "$~体積",
+                "speed": "$~速さ",
+                "pressure": "$~圧力",
+                "energy": "$~エネルギー",
+                "power": "$~仕事率",
+                "electricity": "$~電気",
+                "frequency": "$~周波数",
+                "data": "$~データ",
+                "brightness": "$~明るさ",
+                "other": "$~その他"
             }
         },
         "List": {
