@@ -3657,23 +3657,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Maaari akong kumuha ng isang listahan, at gumawa ng isang bagong listahan na nakaayos ang mga halaga nito. Tulad nito:",
-                        "\\[1 5 8 0 2].sorted()\\",
-                        "Magagawa ko rin ito para sa mga halaga ng @Text",
-                        "\\['orange' 'kiwi' 'banana' 'apple'].sorted()\\",
-                        "At kung mayroon kang listahan ng mga halaga na hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na gagawing @Number ang bawat item para maiayos ko ito. Halimbawa, narito ang isang listahan ng mga listahan na may iba't ibang haba; kung bibigyan mo ako ng isang function na gagawing haba ang bawat listahan, maaari kong ayusin ayon sa kanilang haba.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\"
+                        "$~Kaya kong kumuha ng isang listahan, at gumawa ng bagong listahan na may mga halaga nitong pinagsunod-sunod. Ganito:",
+                        "\\[1 5 8 0 2].inayos()\\",
+                        "Kaya ko rin itong gawin para sa mga halagang @Text, ayon sa pagkakasunod-sunod ng alpabeto. Ang malaking letra ay isinasunod sa katabi ng maliit na letra nito, kaya ang isang salita ay hindi ipinapadala sa dulo lang dahil nagsisimula ito sa malaking letra:",
+                        "\\['Kahel' 'kiwi' 'Saging' 'mansanas'].inayos()\\",
+                        "At kung mayroon kang listahan ng mga halaga na hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na nagpapalit ng bawat item sa isang @Number o isang @Text para mapagsunod-sunod ko ito. Halimbawa, dito mayroon tayong listahan ng mga listahan na may iba't ibang haba; kung bibigyan mo ako ng isang function na nagpapalit ng bawat listahan sa haba nito, kaya kong pagsunod-sunurin ayon sa haba nila.",
+                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan2) listahan2.haba()\n)\\",
+                        "Ang isang function na gumagawa ng @Text ay paraan kung paano mo pagsunod-sunurin ang mga bagay ayon sa isang salitang kinakwenta mo, sa halip na ayon sa halaga mismo. Dito, pinagsunod-sunod ko ang mga pangalan ayon sa huling pangalan:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan2•'') (pangalan2 ÷ ' ').huli()\n)\\"
                     ],
                     "names": "$~inayos",
                     "inputs": [
                         {
-                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para ayusin ang isang listahan @value. Dapat nitong gawing @Number ang halaga na maaaring gamitin para ayusin ang listahan.",
+                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para pagsunod-sunurin ang isang listahang @value. Dapat nito palitan ang halaga sa isang @Number o isang @Text na maaaring gamitin para pagsunod-sunurin ang listahan.",
                             "names": "$~sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Ang @value na gagawing @Number.",
+                            "doc": "$~Ang @value na ipapalit sa isang @Number o isang @Text.",
                             "names": "$~halaga"
                         }
                     ]

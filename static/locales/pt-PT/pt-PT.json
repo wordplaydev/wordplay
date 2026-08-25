@@ -3651,23 +3651,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Posso pegar numa lista e criar uma nova lista com os seus valores ordenados. Assim:",
+                        "$~Consigo pegar numa lista, e fazer uma nova lista com os seus valores ordenados. Assim:",
                         "\\[1 5 8 0 2].ordenado()\\",
-                        "Também o posso fazer para valores @Text",
-                        "\\['laranja' 'kiwi' 'banana' 'maçã'].ordenado()\\",
-                        "E se tiveres uma lista de valores que não são @Number nem @Text, podes dar-me uma @FunctionDefinition que transforme cada item num @Number para eu o poder ordenar. Por exemplo, aqui temos uma lista de listas de comprimentos diferentes; se me deres uma função que transforme cada lista no seu comprimento, posso ordenar pelo seu comprimento.",
-                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(ƒ(lista) lista.📏())\\"
+                        "Também consigo fazer isto para valores @Text, por ordem alfabética. Uma letra maiúscula ordena-se junto à sua minúscula, para que uma palavra não seja enviada para o fim só por começar com maiúscula:",
+                        "\\['Laranja' 'quivi' 'Banana' 'maçã'].ordenado()\\",
+                        "E se tiver uma lista de valores que não são @Number ou @Text, pode dar-me um @FunctionDefinition que transforma cada elemento num @Number ou num @Text, para que eu o possa ordenar. Por exemplo, aqui temos uma lista de listas de comprimentos diferentes; se me der uma função que transforma cada lista no seu comprimento, consigo ordená-las pelo comprimento.",
+                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista2) lista2.comprimento()\n)\\",
+                        "Uma função que produz @Text é a forma de ordenar por uma palavra que se calcula, em vez de pelo próprio valor. Aqui ordeno nomes pelo último:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nome2•'') (nome2 ÷ ' ').último()\n)\\"
                     ],
                     "names": "ordenado",
                     "inputs": [
                         {
-                            "doc": "$~A @FunctionDefinition opcional a usar para ordenar um @value de lista. Deve transformar o valor num @Number que possa ser usado para ordenar a lista.",
+                            "doc": "$~O @FunctionDefinition opcional a usar para ordenar uma lista @value. Deve transformar o valor num @Number ou num @Text que possa ser usado para ordenar a lista.",
                             "names": "sequenciador"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~O @value para transformar num @Number.",
+                            "doc": "$~O @value a transformar num @Number ou num @Text.",
                             "names": "valor"
                         }
                     ]

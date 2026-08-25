@@ -3652,23 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Bir liste alabilir ve değerleri sıralanmış yeni bir liste yapabilirim. Şöyle:",
+                        "$~Bir liste alıp, değerleri sıralanmış yeni bir liste oluşturabilirim. İşte böyle:",
                         "\\[1 5 8 0 2].sıralanmış()\\",
-                        "Bunu @Text değerleri için de yapabilirim",
-                        "\\['portakal' 'kivi' 'muz' 'elma'].sıralanmış()\\",
-                        "Ve eğer @Number ya da @Text olmayan bir değer listeniz varsa, bana her öğeyi bir @Number değerine dönüştüren bir @FunctionDefinition verebilirsiniz ki onu sıralayabileyim. Örneğin, burada farklı uzunlukta listelerden oluşan bir listemiz var; her listeyi kendi uzunluğuna dönüştüren bir fonksiyon verirseniz, onları uzunluklarına göre sıralayabilirim.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste) liste.uzunluk()\n)\\"
+                        "@Text değerleri için de bunu alfabetik sırayla yapabilirim. Büyük bir harf, küçük harfli haliyle yan yana sıralanır, bu yüzden bir kelime sadece büyük harfle başladığı için sona atılmaz:",
+                        "\\['Portakal' 'kivi' 'Muz' 'elma'].sıralanmış()\\",
+                        "Ve eğer @Number veya @Text olmayan değerlerden oluşan bir listen varsa, bana her öğeyi bir @Number ya da @Text değerine çeviren bir @FunctionDefinition verebilirsin, böylece onu sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; bana her listeyi kendi uzunluğuna çeviren bir işlev verirsen, onları uzunluklarına göre sıralayabilirim.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste2) liste2.uzunluk()\n)\\",
+                        "@Text oluşturan bir işlev, değerin kendisine göre değil, hesapladığın bir kelimeye göre sıralamanı sağlar. Burada isimleri soyadına göre sıralıyorum:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim2•'') (isim2 ÷ ' ').son()\n)\\"
                     ],
                     "names": "$~sıralanmış",
                     "inputs": [
                         {
-                            "doc": "$~Bir listeyi @value sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Değeri, listeyi sıralamak için kullanılabilecek bir @Number değerine dönüştürmelidir.",
+                            "doc": "$~Bir @value listesini sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Bu, değeri listeyi sıralamak için kullanılabilecek bir @Number ya da @Text değerine çevirmelidir.",
                             "names": "$~sıralayıcı"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Bir @Number değerine dönüştürülecek @value.",
+                            "doc": "$~Bir @Number ya da @Text değerine çevrilecek olan @value.",
                             "names": "$~değer"
                         }
                     ]

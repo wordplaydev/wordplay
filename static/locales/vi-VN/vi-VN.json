@@ -3656,23 +3656,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Tôi có thể nhận một danh sách và tạo một danh sách mới với các giá trị đã được sắp xếp. Như thế này:",
+                        "$~Mình có thể lấy một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Ví dụ như thế này:",
                         "\\[1 5 8 0 2].đãsắpxếp()\\",
-                        "Tôi cũng có thể làm điều đó với các giá trị @Text",
-                        "\\['quả cam' 'quả kiwi' 'quả chuối' 'quả táo'].đãsắpxếp()\\",
-                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition biến mỗi phần tử thành một @Number để tôi có thể sắp xếp. Ví dụ, ở đây chúng ta có một danh sách gồm các danh sách với độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài của chúng.",
-                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách) danhSách.chiềudài()\n)\\"
+                        "Mình cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa được sắp xếp cạnh chữ cái viết thường của nó, nên một từ sẽ không bị đưa xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
+                        "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
+                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho mình một @FunctionDefinition để biến mỗi phần tử thành một @Number hoặc một @Text để mình có thể sắp xếp nó. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn đưa cho mình một hàm biến mỗi danh sách thành độ dài của nó, mình có thể sắp xếp theo độ dài của chúng.",
+                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
+                        "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ mà bạn tính toán ra, thay vì theo chính giá trị đó. Ở đây mình sắp xếp các tên theo họ:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
                     ],
                     "names": "$~đãsắpxếp",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number có thể dùng để sắp xếp danh sách.",
+                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó cần biến giá trị thành một @Number hoặc một @Text để có thể dùng cho việc sắp xếp danh sách.",
                             "names": "$~bộđiềukhiểntrìnhtự"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value cần biến thành một @Number.",
+                            "doc": "$~@value cần biến thành một @Number hoặc một @Text.",
                             "names": "$~giátrị"
                         }
                     ]

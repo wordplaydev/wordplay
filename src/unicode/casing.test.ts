@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { lowerCase, toCasingLocale, upperCase } from '@unicode/casing';
+import { lowerCase, toIntlLocale, upperCase } from '@unicode/casing';
 
 test.each([
     // Turkish dotted/dotless i, the canonical locale-sensitive case.
@@ -35,14 +35,14 @@ test.each([
 test.each(['es_en', 'a', 'foo-BAR', 'en_US-US', ''])(
     'the unusable tag %s falls back to root casing',
     (tag) => {
-        expect(toCasingLocale(tag)).toBeUndefined();
+        expect(toIntlLocale(tag)).toBeUndefined();
         expect(lowerCase('I', tag)).toBe('i');
         expect(upperCase('i', tag)).toBe('I');
     },
 );
 
 test('a usable tag is canonicalized and cached', () => {
-    expect(toCasingLocale('TR')).toBe('tr');
-    expect(toCasingLocale('TR')).toBe('tr');
-    expect(toCasingLocale('en-us')).toBe('en-US');
+    expect(toIntlLocale('TR')).toBe('tr');
+    expect(toIntlLocale('TR')).toBe('tr');
+    expect(toIntlLocale('en-us')).toBe('en-US');
 });

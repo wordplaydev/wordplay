@@ -3652,23 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Pot lua o listă și să creez o listă nouă cu valorile sale sortate. Astfel:",
-                        "\\[1 5 8 0 2].sorted()\\",
-                        "Pot face asta și pentru valorile @Text",
-                        "\\['portocală' 'kiwi' 'banană' 'măr'].sorted()\\",
-                        "Și dacă aveți o listă de valori care nu sunt @Number sau @Text, puteți să-mi dați o @FunctionDefinition care transformă fiecare element într-un @Number, astfel încât să-l pot sorta. De exemplu, aici avem o listă de liste de lungimi diferite; dacă îmi dați o funcție care transformă fiecare listă în lungimea sa, pot sorta după lungimea acesteia.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(listă) listă.lungime())\\"
+                        "$~Pot să iau o listă și să fac o listă nouă cu valorile ei sortate. Uite așa:",
+                        "\\[1 5 8 0 2].sortat()\\",
+                        "Pot face asta și pentru valori de tip @Text, în ordine alfabetică. O literă mare este sortată lângă cea mică corespunzătoare, așa că un cuvânt nu ajunge la sfârșit doar pentru că începe cu literă mare:",
+                        "\\['Portocală' 'kiwi' 'Banană' 'măr'].sortat()\\",
+                        "Iar dacă ai o listă de valori care nu sunt de tip @Number sau @Text, îmi poți da un @FunctionDefinition care transformă fiecare element într-un @Number sau un @Text, ca să pot să le sortez. De exemplu, aici avem o listă de liste de lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot să sortez după lungime.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă2) listă2.lungime())\\",
+                        "O funcție care face @Text este modul în care sortezi după un cuvânt calculat, în loc de valoarea în sine. Aici sortez numele după cel din urmă:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume2•'') (nume2 ÷ ' ').dura()\n)\\"
                     ],
                     "names": "$~sortat",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opțional care se folosește pentru a sorta o listă @value. Ea ar trebui să transforme valoarea într-un @Number care poate fi folosit pentru a sorta lista.",
+                            "doc": "$~@FunctionDefinition opțional folosit pentru a sorta o listă @value. Ar trebui să transforme valoarea într-un @Number sau un @Text care poate fi folosit pentru sortarea listei.",
                             "names": "$~secvențiator"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value care se transformă într-un @Number.",
+                            "doc": "$~@value de transformat într-un @Number sau un @Text.",
                             "names": "$~valoare"
                         }
                     ]

@@ -47,6 +47,55 @@ test.each([
     ['[{} {1 2} {3 2 1}].sorted(ƒ(set•{#}) set.size())', '[{} {1 2} {3 2 1}]'],
     ['[1 2 3 4 5].sorted(ƒ(v) -v)', '[5 4 3 2 1]'],
     ['["い" "あ" "う" "お" "え"].sorted()', '["あ" "い" "う" "え" "お"]'],
+    // #1322: text used to sort by a number computed from its code points, which
+    // made case the primary key — every capital before every lowercase, so
+    // "adhe" landed after every word starting with a capital A. Collation makes
+    // case the last tiebreaker instead.
+    [
+        '["apple" "Zebra" "Adea" "adhe" "Aeon" "zoo"].sorted()',
+        '["Adea" "adhe" "Aeon" "apple" "Zebra" "zoo"]',
+    ],
+    // Code points put every accented letter after "z"; collation doesn't.
+    [
+        '["Éclair" "élan" "apple" "Zebra"].sorted()',
+        '["apple" "Éclair" "élan" "Zebra"]',
+    ],
+    // Case still decides, it just decides last. Collation is a strict order, so
+    // these never tie — code points gave ["AB" "Ab" "aB" "ab"].
+    ['["Ab" "aB" "ab" "AB"].sorted()', '["ab" "aB" "Ab" "AB"]'],
+    // Emoji are grouped the way Unicode means them rather than by code point,
+    // which only clusters them by accident. By code point this is
+    // ["🍎" "🐈" "😀" "🚀" "🤖"].
+    ['["😀" "🚀" "🤖" "🍎" "🐈"].sorted()', '["😀" "🤖" "🐈" "🍎" "🚀"]'],
+    ['["🚀" "❤" "🧡" "🍎"].sorted()', '["❤" "🧡" "🍎" "🚀"]'],
+    // A sequencer can now make a text key, which is the only way to sort a
+    // value that isn't itself a number or text. The list keeps the original
+    // values; only the key is folded.
+    [
+        '["Banana" "apple" "Cherry"].sorted(ƒ(w) w.lowercase())',
+        '["apple" "Banana" "Cherry"]',
+    ],
+    // Numbers and text in one list need a defined order. Numbers come first,
+    // which is also what keeps ø — which keys to 0 — before text.
+    ['[3 "b" 1 "a"].sorted()', '[1 3 "a" "b"]'],
+    // Collation follows the text's own tag: Swedish puts ä after z, root
+    // sorts it with a.
+    ['["ä"/sv "z"/sv].sorted()', '["z"/sv "ä"/sv]'],
+    // An untagged value abstains rather than vetoing, so the one tag decides.
+    ['["ä"/sv "z"].sorted()', '["z" "ä"/sv]'],
+    // Two tags disagree about where ä goes, so neither wins.
+    ['["ä"/sv "z"/de].sorted()', '["ä"/sv "z"/de]'],
+    // Sorting capitals as a group is what the old default did, and it is now
+    // one sequencer away rather than the only option — as is the reverse,
+    // which was not expressible at all before a key could be text.
+    [
+        `["adhe" "Apple" "apple" "Adea"].sorted(ƒ(w•'') (w = w.lowercase() ? 'b' 'a') + w)`,
+        '["Adea" "Apple" "adhe" "apple"]',
+    ],
+    [
+        `["adhe" "Apple" "apple" "Adea"].sorted(ƒ(w•'') (w = w.lowercase() ? 'a' 'b') + w)`,
+        '["adhe" "apple" "Adea" "Apple"]',
+    ],
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
 });
@@ -63,6 +112,12 @@ test.each([
     ['[1 3 5 7 9].filter(ƒ(v) v > 6)'],
     ['[1 3 5 7 9].all(ƒ(v) v > 6)'],
     ['[1 3 5 7 9].until(ƒ(v) v > 6)'],
+    // A sort key may be a number or text, so all three of these must analyze.
+    // Evaluation alone wouldn't prove it: an unaccepted sequencer type is a
+    // conflict, not a runtime failure.
+    ['[1 3 5 7 9].sorted(ƒ(v) -v)'],
+    [`["b" "a"].sorted(ƒ(w) w.lowercase())`],
+    [`["b" "a"].sorted(ƒ(w•'') w.lowercase())`],
 ])('Expect %s to have no conflicts', (code) => {
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
@@ -102,4 +157,15 @@ test('a not-a-number key sorts to the end without disturbing the rest', () => {
     expect(
         evaluateCode("['b' 'a' 'c'].sorted(ƒ(t•'') 'x' → #)")?.toWordplay(),
     ).toBe('["b" "a" "c"]');
+});
+
+// The shape #1322 was reported against: a glossary of structures sorted by one
+// of its text fields, which no numeric sort key could express.
+test('a list of structures sorts by a text field', () => {
+    expect(
+        evaluateCode(
+            `•Word(word•'' meaning•'')
+[Word('cat' 'a feline') Word('Ant' 'an insect') Word('bee' 'a bug')].sorted(ƒ(w•Word) w.word).translate(ƒ(w•Word) w.word)`,
+        )?.toString(),
+    ).toBe('["Ant" "bee" "cat"]');
 });

@@ -3651,23 +3651,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Je peux prendre une liste et faire une nouvelle liste avec ses valeurs triées. Comme ceci :",
+                        "$~Je peux prendre une liste, et faire une nouvelle liste avec ses valeurs triées. Comme ceci :",
                         "\\[1 5 8 0 2].trié()\\",
-                        "Je peux aussi le faire pour des valeurs @Text",
-                        "\\['orange' 'kiwi' 'banane' 'pomme'].trié()\\",
-                        "Et si tu as une liste de valeurs qui ne sont ni @Number ni @Text, tu peux me donner une @FunctionDefinition qui transforme chaque élément en un @Number pour que je puisse le trier. Par exemple, ici nous avons une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux trier par longueur.",
-                        "\\[[1] [2 3] [4 8 12] [8]].trié(ƒ(liste) liste.longueur())\\"
+                        "Je peux aussi le faire pour des valeurs @Text, par ordre alphabétique. Une lettre majuscule se trie juste à côté de sa version minuscule, donc un mot n'est pas envoyé à la fin juste parce qu'il commence par une majuscule :",
+                        "\\['Orange' 'kiwi' 'Banane' 'pomme'].trié()\\",
+                        "Et si tu as une liste de valeurs qui ne sont ni @Number ni @Text, tu peux me donner un @FunctionDefinition qui transforme chaque élément en un @Number ou un @Text pour que je puisse le trier. Par exemple, voici une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux trier selon cette longueur.",
+                        "\\[[1] [2 3] [4 8 12] [8]].trié(ƒ(liste2) liste2.longueur())\\",
+                        "Une fonction qui crée @Text permet de trier selon un mot que tu calcules, au lieu de la valeur elle-même. Ici, je trie des noms selon le dernier nom :",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].trié(\n\tƒ(nom2•'') (nom2 ÷ ' ').dernier()\n)\\"
                     ],
                     "names": "$~trié",
                     "inputs": [
                         {
-                            "doc": "$~La @FunctionDefinition optionnelle à utiliser pour trier une liste @value. Elle devrait transformer la valeur en un @Number qui peut servir à trier la liste.",
+                            "doc": "$~Le @FunctionDefinition facultatif à utiliser pour trier une liste @value. Il doit transformer la valeur en un @Number ou un @Text qui peut servir à trier la liste.",
                             "names": "$~séquenceur"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Le @value à transformer en un @Number.",
+                            "doc": "$~Le @value à transformer en un @Number ou un @Text.",
                             "names": "$~valeur"
                         }
                     ]

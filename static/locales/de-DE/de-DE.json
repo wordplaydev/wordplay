@@ -3654,23 +3654,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Ich kann eine Liste nehmen und eine neue Liste mit ihren sortierten Werten erstellen. So:",
+                        "$~Ich kann eine Liste nehmen und eine neue Liste mit sortierten Werten machen. So geht das:",
                         "\\[1 5 8 0 2].sortiert()\\",
-                        "Ich kann das auch für @Text-Werte machen",
+                        "Ich kann das auch für @Text-Werte tun, in alphabetischer Reihenfolge. Ein Großbuchstabe wird neben seinen Kleinbuchstaben einsortiert, sodass ein Wort nicht nur deshalb ans Ende rutscht, weil es großgeschrieben ist:",
                         "\\['Orange' 'Kiwi' 'Banane' 'Apfel'].sortiert()\\",
-                        "Und wenn du eine Liste mit Werten hast, die keine @Number oder @Text sind, kannst du mir einen @FunctionDefinition geben, der jedes Element in ein @Number verwandelt, damit ich es sortieren kann. Hier haben wir zum Beispiel eine Liste von Listen mit unterschiedlichen Längen; wenn du mir eine Funktion gibst, die jede Liste in ihre Länge verwandelt, kann ich nach ihrer Länge sortieren.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste) liste.Länge())\\"
+                        "Und wenn du eine Liste von Werten hast, die nicht @Number oder @Text sind, kannst du mir ein @FunctionDefinition geben, das jeden Eintrag in ein @Number oder ein @Text umwandelt, damit ich es sortieren kann. Zum Beispiel haben wir hier eine Liste von Listen mit unterschiedlichen Längen. Wenn du mir eine Funktion gibst, die jede Liste in ihre Länge umwandelt, kann ich nach der Länge sortieren.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste2) liste2.Länge())\\",
+                        "Eine Funktion, die @Text erzeugt, ist der Weg, um nach einem berechneten Wort zu sortieren, statt nach dem Wert selbst. Hier sortiere ich Namen nach dem Nachnamen:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortiert(\n\tƒ(name2•'') (name2 ÷ ' ').zuletzt()\n)\\"
                     ],
                     "names": "$~sortiert",
                     "inputs": [
                         {
-                            "doc": "$~Der optionale @FunctionDefinition, der zum Sortieren einer Liste @value verwendet wird. Er sollte den Wert in ein @Number verwandeln, das zum Sortieren der Liste genutzt werden kann.",
+                            "doc": "$~Das optionale @FunctionDefinition, mit dem eine Liste @value sortiert wird. Es sollte den Wert in ein @Number oder ein @Text umwandeln, das zum Sortieren der Liste verwendet werden kann.",
                             "names": "$~Sequenzer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Der @value, der in ein @Number verwandelt werden soll.",
+                            "doc": "$~Das @value, das in ein @Number oder ein @Text umgewandelt werden soll.",
                             "names": "$~Wert"
                         }
                     ]

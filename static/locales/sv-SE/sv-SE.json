@@ -3650,22 +3650,24 @@
                 "sorted": {
                     "doc": [
                         "$~Jag kan ta en lista och göra en ny lista med dess värden sorterade. Så här:",
-                        "\\[1 5 8 0 2].sorted()\\",
-                        "Jag kan också göra det för @Text-värden",
-                        "\\['orange' 'kiwi' 'banan' 'äpple'].sorted()\\",
-                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör varje objekt till ett @Number så att jag kan sortera det. Här har vi till exempel en lista med listor av olika längd; om du ger mig en funktion som förvandlar varje lista till sin längd, kan jag sortera efter deras längd.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\"
+                        "\\[1 5 8 0 2].sorterad()\\",
+                        "Jag kan också göra det för @Text-värden, i bokstavsordning. En stor bokstav sorteras bredvid sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
+                        "\\['Apelsin' 'kiwi' 'Banan' 'äpple'].sorterad()\\",
+                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör om varje element till en @Number eller en @Text så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd. Om du ger mig en funktion som gör om varje lista till dess längd, kan jag sortera efter längden.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista2) lista2.längd())\\",
+                        "En funktion som ger @Text är hur du sorterar efter ett ord du räknar ut, istället för efter själva värdet. Här sorterar jag namn efter efternamnet:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn2•'') (namn2 ÷ ' ').sista()\n)\\"
                     ],
                     "names": "$~sorterad",
                     "inputs": [
                         {
-                            "doc": "$~Den valfria @FunctionDefinition som används för att sortera en lista @value. Den ska omvandla värdet till en @Number som kan användas för att sortera listan.",
+                            "doc": "$~Den valfria @FunctionDefinition som används för att sortera en lista @value. Den ska göra om värdet till en @Number eller en @Text som kan användas för att sortera listan.",
                             "names": "$~sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value som ska omvandlas till en @Number.",
+                            "doc": "$~@value som ska göras om till en @Number eller en @Text.",
                             "names": "$~värde"
                         }
                     ]

@@ -12,8 +12,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🧲 Turn on collision cues and you can hear things bump into each other on your stage. A harder hit is louder, and several things landing at once sound like several things.
 - 🎞️ Turn on animation cues and you can hear what an animation is doing: turning changes the pitch, moving side to side moves the sound side to side, and fading out makes it quieter. An animation that repeats plays the same little tune every time around.
 
+### Changed
+
+- 🔤 `sorted` can now use a word to sort by, not just a number, so you can sort a list of things by one of their names, like sorting people by their last name. Emoji now sort by what they are, so hearts sit next to hearts. (#1322)
+
 ### Fixed
 
+- 🔤 Sorting words used to put every word starting with a capital letter before every word starting with a small letter, so a word like "amy" ended up far away from "Amy". Now words sort in alphabetical order, the way a dictionary does, independent of case. (#1322)
 - 🐛 We fixed a crash that could happen when you added a new input like `Speech()` above one you already had. Wordplay was replaying your earlier key presses and clicks into the wrong input.
 
 ## 0.30.1 - 2026-08-24

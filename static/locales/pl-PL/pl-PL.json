@@ -3652,23 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Mogę wziąć listę i stworzyć nową listę z posortowanymi wartościami. Tak jak tutaj:",
-                        "\\[1 5 8 0 2].sorted()\\",
-                        "Mogę to zrobić również dla wartości @Text",
-                        "\\['pomarańczowy' 'kiwi' 'banan' 'jabłko'].sorted()\\",
-                        "A jeśli masz listę wartości, które nie są @Number lub @Text, możesz podać mi @FunctionDefinition, która zamienia każdy element na @Number, abym mógł je posortować. Na przykład tutaj mamy listę list o różnych długościach; jeśli podasz mi funkcję, która zamienia każdą listę na jej długość, mogę sortować według ich długości.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(lista) lista.długość())\\"
+                        "$~Mogę wziąć listę i zrobić nową listę z posortowanymi wartościami. Tak jak tutaj:",
+                        "\\[1 5 8 0 2].posortowane()\\",
+                        "Mogę też to zrobić dla wartości @Text, w kolejności alfabetycznej. Wielka litera sortuje się obok swojej małej litery, więc słowo nie trafia na koniec tylko dlatego, że zaczyna się wielką literą:",
+                        "\\['Pomarańcza' 'kiwi' 'Banan' 'jabłko'].posortowane()\\",
+                        "A jeśli masz listę wartości, które nie są @Number ani @Text, możesz podać mi @FunctionDefinition, która zamienia każdy element w @Number lub @Text, żebym mógł to posortować. Na przykład tutaj mamy listę list o różnych długościach; jeśli podasz mi funkcję, która zamienia każdą listę w jej długość, mogę posortować według długości.",
+                        "\\[[1] [2 3] [4 8 12] [8]].posortowane(\n\tƒ(lista2) lista2.długość()\n)\\",
+                        "Funkcja, która tworzy @Text, pozwala sortować według obliczonego przez ciebie słowa, zamiast według samej wartości. Tutaj sortuję imiona według nazwiska:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].posortowane(\n\tƒ(nazwa2•'') (nazwa2 ÷ ' ').ostatni()\n)\\"
                     ],
                     "names": "$~posortowane",
                     "inputs": [
                         {
-                            "doc": "$~Opcjonalne @FunctionDefinition, którego użyjesz do posortowania listy @value. Powinno zamienić wartość w @Number, którego można użyć do sortowania listy.",
+                            "doc": "$~Opcjonalna @FunctionDefinition używana do sortowania listy @value. Powinna zamieniać wartość w @Number lub @Text, którą można użyć do sortowania listy.",
                             "names": "$~sekwencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value, które zamienisz w @Number.",
+                            "doc": "$~@value do zamiany w @Number lub @Text.",
                             "names": "$~wartość"
                         }
                     ]
