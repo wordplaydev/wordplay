@@ -10,8 +10,11 @@ import AnyType from '@nodes/AnyType';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import StreamDefinition from '@nodes/StreamDefinition';
 import { STREAM_SYMBOL } from '@parser/Symbols';
+import type { StreamKind } from '@values/StreamValue';
 
 export default class ReactionStream extends StreamValue<Value, null> {
+    readonly kind: StreamKind = 'reaction';
+
     readonly reaction: Reaction;
 
     constructor(

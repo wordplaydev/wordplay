@@ -15,6 +15,7 @@ import type Locales from '@locale/Locales';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const PlaceType = evaluator.project.shares.output.Place;
@@ -38,6 +39,8 @@ export default class Pointer extends SingletonStreamValue<
     StructureValue,
     { x: number; y: number }
 > {
+    readonly kind: StreamKind = 'pointer';
+
     readonly evaluator: Evaluator;
     on = false;
 

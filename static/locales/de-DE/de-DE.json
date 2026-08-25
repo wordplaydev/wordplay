@@ -7544,7 +7544,7 @@
                 "timeline": "$~Mit der /Zeitleiste/ kannst du *vorwärts* und *rückwärts* durch die Auswertung deines Programms gehen, einen Schritt nach dem anderen. Sie erscheint in der Werkzeugleiste der Bühne im ✏️ *Bearbeiten*- und ⏸️ *Fehlersuche*-Modus. Sie ist eine gute Möglichkeit zu sehen, *wie* dein Programm seinen Wert berechnet, und um eine Vorstellung davon aufzubauen, wie @wordplay-Programme auswerten – besonders, wenn du nicht das Verhalten siehst, das du möchtest.",
                 "annotations": "$~Im Fenster „/annotations/“ werden die Erläuterungen zu jedem einzelnen Schritt angezeigt. Während Sie Ihr Programm schrittweise ausführen, können Sie hier nachlesen, was gerade passiert ist.",
                 "editor": "$~Der Editor zeigt Ihren Code an. Beim schrittweisen Ausführen wird der *Wert* jedes Programmteils neben diesem Teil angezeigt, *nachdem* er ausgewertet wurde. So können Sie beobachten, wie sich die Werte während der Programmausführung ansammeln.",
-                "history": "$~Das Verzeichnis /history/ zeigt alle *Eingaben* an, die Ihr Programm erhalten hat, wie z. B. Tastatureingaben, Zeitstempel und Mausereignisse. Es ist *verschiebbar*, sodass Sie durch einfaches Ziehen zu jedem beliebigen Zeitpunkt in der Programmhistorie zurückkehren können.",
+                "history": "$~Der /Verlauf/ zeigt jedes *Eingabe*-Ereignis, das dein Programm erhalten hat, wie Tasten, Zeitschritte und Zeigerereignisse. Er ist *ziehbar*, du kannst also zu jedem Moment im Ablauf des Programms zurückkehren, einfach indem du ziehst. Wenn du diese Eingaben lieber *hören* statt sehen möchtest, schalte /Auswertungssignale/ in den Einstellungen ein. Dann spielt @wordplay für jede Eingabe einen kurzen Ton ab, mit einem eigenen Ton für jede Art von Eingabe.",
                 "stepControls": "$~Die Schrittsteuerung ermöglicht eine präzise Navigation durch die Auswertung. Sie können zum *Anfang* oder *Ende* springen, schrittweise *vorwärts* oder *rückwärts* gehen, um *eine Eingabe* springen, eine Funktion *verlassen* oder zum *aktuell ausgewählten* Teil des Codes springen.",
                 "modes": "$~Der /Modus-Umschalter/ wählt aus, wie dein Programm auswertet. Im ✏️ *Bearbeiten*-Modus pausiert das Programm dort, wo es gerade ist, und du kannst es ändern – deine Änderungen laufen erneut, um ihre Wirkung an dieser Stelle zu zeigen. Im ⏸️ *Fehlersuche*-Modus ist der Code nur lesbar, und der *aktuelle Wert* jedes Teils deines Programms erscheint daneben im Editor und in der Palette. Im ▶️ *Wiedergabe*-Modus läuft dein Programm live von dort, wo es ist, und reagiert in Echtzeit auf Eingaben. Neben dem Umschalter beginnt die Schaltfläche /Vorführen/ – ein Wiedergabe-Dreieck, umgeben von Vollbild-Ecken – eine Vorführung von oben und füllt den Bildschirm mit der Bühne, und ↻ setzt das Programm in jedem Modus zurück."
             }
@@ -8090,6 +8090,30 @@
                             "$~zeigt die Farben eines Projekts genau so, wie es sie geschrieben hat, auch auf einem dunklen Bildschirm",
                             "$~auf einem dunklen Bildschirm werden die Farben eines hellen Projekts dunkel umgekehrt: Jede Farbe behält ihren Farbton, und die Farben bleiben so weit voneinander entfernt, wie das Projekt es festgelegt hat"
                         ]
+                    },
+                    "cues": {
+                        "label": "$~Auswertungssignale",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Keinen Ton abspielen, wenn das Programm erneut ausgewertet wird",
+                            "$~Bei jeder erneuten Auswertung des Programms einen kurzen Ton abspielen, einen für jede Art von Eingabe"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~Animationssignale",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Keinen Ton abspielen, wenn Ausgabe animiert wird",
+                            "$~Bei jeder Animation, die eine Pose erreicht, einen kurzen Ton abspielen, passend zu dem, was die Pose macht"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~Kollisionssignale",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Keinen Ton abspielen, wenn Ausgabe zusammenstößt",
+                            "$~Bei einem Zusammenstoß von Ausgabe einen kurzen Ton abspielen, lauter bei einem härteren Stoß"
+                        ]
                     }
                 },
                 "options": {
@@ -8116,7 +8140,8 @@
                 },
                 "subheader": {
                     "music": "$~Musik",
-                    "say": "$~Sprich"
+                    "say": "$~Sprich",
+                    "cues": "$~Signale"
                 }
             },
             "locale": {

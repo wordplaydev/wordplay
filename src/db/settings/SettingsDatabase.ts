@@ -38,6 +38,11 @@ import {
 } from '@db/settings/ProjectSortSetting';
 import { LineSetting } from '@db/settings/LinesSetting';
 import { CaptionSizeSetting } from '@db/settings/CaptionSizeSetting';
+import {
+    AnimationCuesSetting,
+    ContactCuesSetting,
+    CuesSetting,
+} from '@db/settings/CuesSetting';
 import { LocalesSetting } from '@db/settings/LocalesSetting';
 import { MicSetting } from '@db/settings/MicSetting';
 import type { MusicVisualization } from '@db/settings/MusicSettings';
@@ -227,6 +232,9 @@ export default class SettingsDatabase {
         musicVolume: MusicVolumeSetting,
         musicDucking: MusicDuckingSetting,
         haptics: HapticsSetting,
+        cues: CuesSetting,
+        animationCues: AnimationCuesSetting,
+        contactCues: ContactCuesSetting,
         captionSize: CaptionSizeSetting,
         projectFolders: ProjectFoldersSetting,
         projectSort: ProjectSortSetting,
@@ -542,6 +550,30 @@ export default class SettingsDatabase {
 
     getMusicDucking() {
         return this.settings.musicDucking.get();
+    }
+
+    setContactCues(on: boolean) {
+        this.settings.contactCues.set(this.database, on);
+    }
+
+    getContactCues() {
+        return this.settings.contactCues.get();
+    }
+
+    setAnimationCues(on: boolean) {
+        this.settings.animationCues.set(this.database, on);
+    }
+
+    getAnimationCues() {
+        return this.settings.animationCues.get();
+    }
+
+    setCues(on: boolean) {
+        this.settings.cues.set(this.database, on);
+    }
+
+    getCues() {
+        return this.settings.cues.get();
     }
 
     setHaptics(on: boolean) {

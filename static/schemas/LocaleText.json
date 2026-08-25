@@ -17407,6 +17407,10 @@
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "The animation off/slowdown/auto mode (last entry is \"auto\", which follows the device prefers-reduced-motion setting)."
                                                 },
+                                                "animationCues": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether to sound what an animation is doing as it reaches each pose"
+                                                },
                                                 "blockDensity": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "The block-editing density mode (compact/normal/spacious)"
@@ -17418,6 +17422,14 @@
                                                 "captionSize": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "How big the caption of what Say is speaking is, as a multiple of the standard text size"
+                                                },
+                                                "contactCues": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether to sound the stage's physics collisions"
+                                                },
+                                                "cues": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether to sound a short cue each time the program reevaluates, naming what caused it"
                                                 },
                                                 "dark": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
@@ -17485,6 +17497,9 @@
                                                 "musicVolume",
                                                 "musicDucking",
                                                 "haptics",
+                                                "cues",
+                                                "contactCues",
+                                                "animationCues",
                                                 "captionSize"
                                             ],
                                             "type": "object"
@@ -17524,8 +17539,12 @@
                                         },
                                         "subheader": {
                                             "additionalProperties": false,
-                                            "description": "Names the output each group of settings belongs to, so the labels beneath them don't each have to repeat it. Both are the names of Wordplay's own output types.",
+                                            "description": "Names the output each group of settings belongs to, so the labels beneath them don't each have to repeat it. Music and Say are the names of Wordplay's own output types; cues are the app's own sounds rather than a program's.",
                                             "properties": {
+                                                "cues": {
+                                                    "description": "[plain] Heads the settings for the sounds the app makes as a program evaluates",
+                                                    "type": "string"
+                                                },
                                                 "music": {
                                                     "description": "[plain] Heads the settings for Music output",
                                                     "type": "string"
@@ -17535,7 +17554,11 @@
                                                     "type": "string"
                                                 }
                                             },
-                                            "required": ["music", "say"],
+                                            "required": [
+                                                "music",
+                                                "say",
+                                                "cues"
+                                            ],
                                             "type": "object"
                                         },
                                         "tab": {

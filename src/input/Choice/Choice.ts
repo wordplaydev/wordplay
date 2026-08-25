@@ -9,9 +9,12 @@ import StreamType from '@nodes/StreamType';
 import TextType from '@nodes/TextType';
 import TextValue from '@values/TextValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 /** A series of selected output, chosen by mouse or keyboard, allowing for programs that work for both mouse and keyboard. */
 export default class Choice extends SingletonStreamValue<TextValue, string> {
+    readonly kind: StreamKind = 'choice';
+
     readonly evaluator: Evaluator;
 
     on = true;

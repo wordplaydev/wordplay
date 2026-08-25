@@ -7548,7 +7548,7 @@
                 "timeline": "$~Med /tidslinjen/ kan du stega *framåt* och *bakåt* genom ditt programs utvärdering, ett steg i taget. Den visas i scenens verktygsrad i lägena ✏️ *redigera* och ⏸️ *felsök*, och den är ett bra sätt att se *hur* ditt program beräknar sitt värde. Den hjälper dig också att bygga en mental modell av hur @wordplay-program utvärderas, särskilt om du inte ser det beteende du vill ha.",
                 "annotations": "$~I fönstret /annotations/ visas förklaringar av varje steg. När du går igenom programmet kan du läsa vad som just hände.",
                 "editor": "$~/Editor/ visar din kod. När du stegar kommer *värdet* för varje del av ditt program att visas bredvid den delen *efter* att den har utvärderats, så att du kan se värdena byggas upp medan programmet körs.",
-                "history": "$~/History/ visar alla *indata* som ditt program har mottagit, som tangenter, tidstick och pekarhändelser. Den är *drabar*, så du kan återgå till när som helst i programmets utvärderingshistorik genom att bara dra.",
+                "history": "$~/Historiken/ visar varje *inmatning* ditt program har fått, som tangenter, tidssteg och pekarhändelser. Den är *dragbar*, så du kan gå tillbaka till vilket ögonblick som helst i programmets historik bara genom att dra. Om du hellre vill *höra* dessa inmatningar än se dem, slå på /utvärderingsljud/ i inställningarna, så spelar @wordplay upp ett kort ljud för varje inmatning, med ett eget ljud för varje typ av inmatning.",
                 "stepControls": "$~Med /step-kontrollerna/ kan du gå igenom utvärderingen exakt. Du kan hoppa till *start* eller *slut*, gå *framåt* eller *bakåt* ett steg i taget, hoppa *en inmatning*, gå *ut* ur en funktion eller hoppa till den *nu valda* delen av koden.",
                 "modes": "$~Med /lägesväxlaren/ väljer du hur ditt program utvärderas. I läget ✏️ *redigera* pausas programmet där det är och du kan ändra det — dina ändringar spelas upp igen för att visa sin effekt vid den punkten. I läget ⏸️ *felsök* går koden bara att läsa, och det *aktuella värdet* för varje del av ditt program visas bredvid den i redigeraren och i paletten. I läget ▶️ *spela* körs ditt program direkt från där det är och svarar på inmatningar i realtid. Bredvid växlaren finns knappen /uppträd/ — en spela-triangel omgiven av helskärmshörn — som startar ett uppträdande från toppen och fyller skärmen med scenen, och ↻ återställer programmet i alla lägen."
             }
@@ -8091,6 +8091,30 @@
                             "$~visa ett projekts färger exakt som det skrev dem, även på en mörk skärm",
                             "$~på en mörk skärm, vänd ett ljust projekts färger till mörka: varje färg behåller sin nyans, och färgerna förblir lika olika som projektet gjorde dem"
                         ]
+                    },
+                    "cues": {
+                        "label": "$~utvärderingsljud",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Gör inget ljud när programmet utvärderas på nytt",
+                            "$~Spela upp ett kort ljud varje gång programmet utvärderas på nytt, ett för varje typ av inmatning"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~animationsljud",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Gör inget ljud när utdata animeras",
+                            "$~Spela upp ett kort ljud varje gång en animation når en pose, där ljudet följer vad posen gör"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~kollisionsljud",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Gör inget ljud när utdata krockar",
+                            "$~Spela upp ett kort ljud när utdata krockar, högre ju hårdare krocken är"
+                        ]
                     }
                 },
                 "options": {
@@ -8117,7 +8141,8 @@
                 },
                 "subheader": {
                     "music": "$~Musik",
-                    "say": "$~Säg"
+                    "say": "$~Säg",
+                    "cues": "$~Ljud"
                 }
             },
             "locale": {

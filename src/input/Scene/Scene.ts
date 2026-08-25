@@ -22,11 +22,14 @@ import Bind from '@nodes/Bind';
 import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 export default class Scene extends StreamValue<
     StructureValue | NoneValue,
     StructureValue | NoneValue
 > {
+    readonly kind: StreamKind = 'scene';
+
     /** The current index in the list of outputs being shown. We start before the first output, but immediately move to it when the stream starts. */
     private index = -1;
     /** The animated output values we're currently tracking, or undefined if we aren't waiting for any */

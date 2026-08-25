@@ -25,6 +25,7 @@ import { createPlaceStructure } from '@output/Place/Place';
 import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 type Direction = -1 | 0 | 1;
 export type PlacementEvent = { x: Direction; y: Direction; z: Direction };
@@ -33,6 +34,8 @@ export default class Placement extends SingletonStreamValue<
     StructureValue,
     PlacementEvent
 > {
+    readonly kind: StreamKind = 'placement';
+
     readonly evaluator: Evaluator;
 
     on = false;

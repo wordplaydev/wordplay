@@ -17,6 +17,7 @@ import type Evaluator from '@runtime/Evaluator';
 import BoolValue from '@values/BoolValue';
 import SingletonStreamValue from '@values/SingletonStreamValue';
 import TextValue from '@values/TextValue';
+import type { StreamKind } from '@values/StreamValue';
 
 /** Look up the locale's keyboard-key-name table. Bundled in the main locale
  *  JSON under `ui.input.Key.keys` (see InputTexts.ts), so it's synchronously
@@ -85,6 +86,8 @@ export default class Key extends SingletonStreamValue<
     TextValue,
     { key: string; down: boolean }
 > {
+    readonly kind: StreamKind = 'key';
+
     readonly evaluator: Evaluator;
     on = false;
 

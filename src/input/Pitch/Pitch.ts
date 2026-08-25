@@ -18,11 +18,14 @@ import {
     computePitch,
     createPitchDetector,
 } from '@input/AudioAnalysisMath';
+import type { StreamKind } from '@values/StreamValue';
 const DEFAULT_FREQUENCY = 50;
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
 export default class Pitch extends AudioStream {
+    readonly kind: StreamKind = 'pitch';
+
     readonly amplitudes = new Float32Array(PITCH_FFT_SIZE);
     readonly detector: PitchDetector<Float32Array>;
 

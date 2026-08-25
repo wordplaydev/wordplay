@@ -7548,7 +7548,7 @@
                 "timeline": "$~La /chronologie/ te permet d'avancer et de reculer dans l'évaluation de ton programme, une étape à la fois. Elle apparaît dans la barre d'outils de la scène en modes ✏️ *édition* et ⏸️ *débogage*. C'est un très bon moyen de voir *comment* ton programme calcule sa valeur, et de te faire une idée claire de la façon dont les programmes @wordplay s'évaluent, surtout si tu ne vois pas le comportement que tu veux.",
                 "annotations": "$~La fenêtre /annotations/ contient les explications de chaque étape. Au fur et à mesure que vous exécutez votre programme, c'est ici que vous lirez ce qui s'est passé.",
                 "editor": "$~L'éditeur (/editor/) affiche votre code. Lors du débogage pas à pas, la *valeur* de chaque partie de votre programme apparaît à côté de cette partie *après* son évaluation, ce qui vous permet de suivre l'évolution des valeurs au fur et à mesure de l'exécution du programme.",
-                "history": "$~L'historique (/history/) affiche toutes les entrées reçues par votre programme, comme les touches de frappe, les incréments de temps et les événements de pointeur. Il est déplaçable : vous pouvez donc revenir à n'importe quel moment de l'historique d'exécution du programme par simple glisser-déposer.",
+                "history": "$~L'/historique/ montre chaque *entrée* que ton programme a reçue, comme les touches, les temps qui passent et les clics de pointeur. Il est *déplaçable*, donc tu peux revenir à n'importe quel moment de l'historique d'évaluation du programme juste en le faisant glisser. Si tu préfères *entendre* ces entrées plutôt que les voir, active les /signaux d'évaluation/ dans les réglages, et @wordplay jouera un petit son pour chacune, avec un son différent pour chaque type d'entrée.",
                 "stepControls": "$~Les commandes /step/ permettent de se déplacer précisément dans l'exécution. Vous pouvez accéder au *début* ou à la *fin*, avancer ou reculer d'un pas à la fois, avancer d'une valeur, sortir d'une fonction ou accéder à la partie du code *actuellement sélectionnée*.",
                 "modes": "$~Le /sélecteur de mode/ choisit comment ton programme s'évalue. En mode ✏️ *édition*, le programme s'arrête là où il en est et tu peux le modifier — tes modifications rejouent pour montrer leur effet à cet endroit. En mode ⏸️ *débogage*, le code est en lecture seule, et la *valeur actuelle* de chaque partie de ton programme apparaît à côté d'elle dans l'éditeur et dans la palette. En mode ▶️ *lecture*, ton programme s'exécute en direct depuis où il en est, et répond aux entrées en temps réel. À côté du sélecteur, le bouton /jouer/ — un triangle de lecture entouré de coins plein écran — commence une exécution depuis le haut et remplit l'écran avec la scène, et ↻ réinitialise le programme dans n'importe quel mode."
             }
@@ -8097,6 +8097,30 @@
                             "$~afficher les couleurs d'un projet exactement comme il les a écrites, même sur un écran sombre",
                             "$~sur un écran sombre, inverser les couleurs d'un projet clair pour les rendre sombres : chaque couleur garde sa teinte, et les couleurs restent aussi éloignées les unes des autres que le projet les avait faites"
                         ]
+                    },
+                    "cues": {
+                        "label": "$~signaux d'évaluation",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Ne fait aucun son quand le programme se réévalue",
+                            "$~Joue un petit son à chaque fois que le programme se réévalue, un pour chaque type d'entrée"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~signaux d'animation",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Ne fait aucun son quand une sortie s'anime",
+                            "$~Joue un petit son à chaque fois qu'une animation atteint une pose, le son correspondant à ce que fait la pose"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~signaux de collision",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Ne fait aucun son quand une sortie entre en collision",
+                            "$~Joue un petit son quand une sortie entre en collision, plus fort si le choc est violent"
+                        ]
                     }
                 },
                 "options": {
@@ -8123,7 +8147,8 @@
                 },
                 "subheader": {
                     "music": "$~Musique",
-                    "say": "$~Say"
+                    "say": "$~Say",
+                    "cues": "$~Signaux"
                 }
             },
             "locale": {

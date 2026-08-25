@@ -1591,13 +1591,16 @@ type UITexts = {
             /** The tabs that switch between groups of settings */
             tab: ModeText<[string, string, string, string]>;
             /** Names the output each group of settings belongs to, so the labels
-             *  beneath them don't each have to repeat it. Both are the names of
-             *  Wordplay's own output types. */
+             *  beneath them don't each have to repeat it. Music and Say are the
+             *  names of Wordplay's own output types; cues are the app's own
+             *  sounds rather than a program's. */
             subheader: {
                 /** [plain] Heads the settings for Music output */
                 music: string;
                 /** [plain] Heads the settings for Say output */
                 say: string;
+                /** [plain] Heads the settings for the sounds the app makes as a program evaluates */
+                cues: string;
             };
             mode: {
                 /** The project tile layout mode */
@@ -1650,6 +1653,12 @@ type UITexts = {
                 musicDucking: ModeText<[string, string, string]>;
                 /** Whether to vibrate on the beat where the device supports it */
                 haptics: ModeText<[string, string]>;
+                /** Whether to sound a short cue each time the program reevaluates, naming what caused it */
+                cues: ModeText<[string, string]>;
+                /** Whether to sound the stage's physics collisions */
+                contactCues: ModeText<[string, string]>;
+                /** Whether to sound what an animation is doing as it reaches each pose */
+                animationCues: ModeText<[string, string]>;
                 /** How big the caption of what Say is speaking is, as a multiple of the standard text size */
                 captionSize: ModeText<[string, string, string, string, string]>;
             };

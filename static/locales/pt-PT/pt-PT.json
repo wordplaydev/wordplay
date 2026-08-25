@@ -7791,7 +7791,7 @@
                 "timeline": "$~A /linha temporal/ permite-te avançar para a *frente* e para *trás* pela avaliação do teu programa, um passo de cada vez. Ela aparece na barra de ferramentas do palco nos modos ✏️ *edição* e ⏸️ *depuração*, e é uma ótima forma de ver *como* o teu programa calcula o seu valor, e de construir um modelo mental de como os programas em @wordplay avaliam, especialmente se não estiveres a ver o comportamento que queres.",
                 "annotations": "A janela /annotations/ é onde aparecem as explicações de cada passo. À medida que executa o programa passo a passo, é aqui que irá ler o que acabou de acontecer.",
                 "editor": "O /editor/ apresenta o seu código. Ao depurar passo a passo, o *valor* de cada parte do seu programa aparecerá ao lado dessa parte *após* a sua avaliação, permitindo-lhe observar os valores a acumularem-se à medida que o programa é executado.",
-                "history": "O /histórico/ mostra todas as *entradas* que o seu programa recebeu, como teclas premidas, intervalos de tempo e eventos de ponteiros. É *arrastável*, pelo que pode voltar a qualquer momento no histórico de avaliação do programa simplesmente arrastando.",
+                "history": "$~O /histórico/ mostra cada *entrada* que o seu programa recebeu, como teclas, avanços de tempo e eventos do ponteiro. É *arrastável*, por isso pode voltar a qualquer momento do histórico de avaliação do programa só por arrastar. Se preferir *ouvir* essas entradas em vez de as ver, ative as /pistas de avaliação/ nas definições, e @wordplay vai tocar um som curto para cada uma, com um som diferente para cada tipo de entrada.",
                 "stepControls": "Os controlos de /passo/ permitem-lhe navegar pela avaliação com precisão. Pode saltar para o *início* ou *fim*, avançar ou recuar um passo de cada vez, saltar por *uma entrada*, *sair* de uma função ou saltar para a parte do código *atualmente selecionada*.",
                 "modes": "$~O /seletor de modo/ escolhe como o teu programa avalia. No modo ✏️ *edição*, o programa pausa onde estiver e podes alterá-lo — as tuas edições repetem-se para mostrar o seu efeito nesse ponto. No modo ⏸️ *depuração*, o código é apenas de leitura e o *valor atual* de cada parte do teu programa aparece ao lado dela no editor e na paleta. No modo ▶️ *reprodução*, o teu programa corre ao vivo a partir de onde está, respondendo às entradas em tempo real. Ao lado do seletor, o botão /atuar/ — um triângulo de reprodução envolvido em cantos de ecrã inteiro — começa uma atuação desde o topo e enche o ecrã com o palco, e ↻ reinicia o programa em qualquer modo."
             }
@@ -8337,6 +8337,30 @@
                             "$~mostrar as cores de um projeto exatamente como foram escritas, mesmo num ecrã escuro",
                             "$~num ecrã escuro, inverter as cores de um projeto claro para escuras: cada cor mantém a sua matiz, e as cores continuam tão afastadas entre si como foram feitas no projeto"
                         ]
+                    },
+                    "cues": {
+                        "label": "$~pistas de avaliação",
+                        "labels": ["$~desativado", "$~ativado"],
+                        "tips": [
+                            "$~Não fazer nenhum som quando o programa é reavaliado",
+                            "$~Tocar um som curto sempre que o programa é reavaliado, um para cada tipo de entrada"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~pistas de animação",
+                        "labels": ["$~desativado", "$~ativado"],
+                        "tips": [
+                            "$~Não fazer nenhum som quando o resultado é animado",
+                            "$~Tocar um som curto sempre que uma animação chega a uma pose, com o som a seguir o que a pose faz"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~pistas de colisão",
+                        "labels": ["$~desativado", "$~ativado"],
+                        "tips": [
+                            "$~Não fazer nenhum som quando o resultado colide",
+                            "$~Tocar um som curto quando o resultado colide, mais alto quanto mais forte for o impacto"
+                        ]
                     }
                 },
                 "options": {
@@ -8363,7 +8387,8 @@
                 },
                 "subheader": {
                     "music": "$~Música",
-                    "say": "$~Falar"
+                    "say": "$~Falar",
+                    "cues": "$~Pistas"
                 }
             },
             "notifications": {

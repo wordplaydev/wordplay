@@ -170,6 +170,17 @@ class MusicAudio implements MusicAudioLike {
     }
 
     /**
+     * The one output context, created on demand — or undefined where Web Audio
+     * doesn't exist. Exposed so accessibility cues can sound without a context
+     * of their own; browsers cap how many can exist, so a second one is not an
+     * option. Cues connect to the destination rather than to the master below,
+     * which is what keeps them out of the music's volume, ducking, and limiter.
+     */
+    outputContext(): AudioContext | undefined {
+        return this.ensure();
+    }
+
+    /**
      * The current spectrum, 0-255 per bin, low frequencies first — or
      * undefined before any audio exists. The array is reused between calls,
      * since this is read every frame.

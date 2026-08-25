@@ -7541,7 +7541,7 @@
                 "timeline": "$~La /línea de tiempo/ te deja avanzar *hacia adelante* y *hacia atrás* por la evaluación de tu programa, un paso a la vez. Aparece en la barra de herramientas del escenario en los modos ✏️ *editar* y ⏸️ *depurar*. Es una gran manera de ver *cómo* tu programa calcula su valor. También te ayuda a formar una idea mental de cómo evalúan los programas de @wordplay, sobre todo si no ves el comportamiento que quieres.",
                 "annotations": "$~La ventana de /anotaciones/ es donde aparecen las explicaciones de cada paso. Mientras avanzas por tu programa, aquí lees qué acaba de pasar.",
                 "editor": "$~El /editor/ muestra tu código. Mientras avanzas paso a paso, el *valor* de cada parte de tu programa aparece junto a esa parte *después* de evaluarla, así que puedes ver cómo se van formando los valores mientras corre el programa.",
-                "history": "$~El /historial/ muestra cada *entrada* que ha recibido tu programa, como teclas, marcas de tiempo y eventos del puntero. Es *arrastrable*, así que puedes volver a cualquier momento del historial de evaluación del programa con solo arrastrar.",
+                "history": "$~El /historial/ muestra cada *entrada* que tu programa ha recibido, como teclas, marcas de tiempo y eventos del puntero. Es *arrastrable*, así que puedes volver a cualquier momento del historial de evaluación del programa solo con arrastrar. Si prefieres *escuchar* esas entradas en lugar de verlas, activa las /señales de evaluación/ en configuración, y @wordplay reproducirá un sonido corto por cada una, con un sonido distinto para cada tipo de entrada.",
                 "stepControls": "$~Los /controles de paso/ te dejan moverte por la evaluación con precisión. Puedes saltar al *comienzo* o al *final*, avanzar *hacia adelante* o *hacia atrás* un paso a la vez, saltar *una entrada*, *salir* de una función o saltar a la parte del código *seleccionada actualmente*.",
                 "modes": "$~El /cambiador de modo/ elige cómo evalúa tu programa. En el modo ✏️ *editar*, el programa se pausa donde esté y puedes cambiarlo: tus ediciones se vuelven a reproducir para mostrar su efecto en ese punto. En el modo ⏸️ *depurar*, el código es de solo lectura y el *valor actual* de cada parte de tu programa aparece junto a ella en el editor y en la paleta. En el modo ▶️ *jugar*, tu programa corre en vivo desde donde esté y responde a las entradas en tiempo real. Junto al cambiador, el botón /actuar/ —un triángulo de reproducción rodeado por esquinas de pantalla completa— comienza una actuación desde el inicio y llena la pantalla con el escenario, y ↻ reinicia el programa en cualquier modo."
             }
@@ -8090,6 +8090,30 @@
                             "$~mostrar los colores de un proyecto tal como se escribieron, incluso en una pantalla oscura",
                             "$~en una pantalla oscura, invertir los colores brillantes de un proyecto para oscurecerlos: cada color mantiene su tono, y los colores quedan tan separados entre sí como los hizo el proyecto"
                         ]
+                    },
+                    "cues": {
+                        "label": "$~señales de evaluación",
+                        "labels": ["$~apagado", "$~encendido"],
+                        "tips": [
+                            "$~no hacer sonido cuando el programa se vuelve a evaluar",
+                            "$~reproducir un sonido corto cada vez que el programa se vuelve a evaluar, uno para cada tipo de entrada"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~señales de animación",
+                        "labels": ["$~apagado", "$~encendido"],
+                        "tips": [
+                            "$~no hacer sonido cuando la salida se anima",
+                            "$~reproducir un sonido corto cada vez que una animación llega a una pose, con el sonido siguiendo lo que hace la pose"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~señales de colisión",
+                        "labels": ["$~apagado", "$~encendido"],
+                        "tips": [
+                            "$~no hacer sonido cuando la salida choca",
+                            "$~reproducir un sonido corto cuando la salida choca, más fuerte cuanto más fuerte es el golpe"
+                        ]
                     }
                 },
                 "options": {
@@ -8116,7 +8140,8 @@
                 },
                 "subheader": {
                     "music": "$~Música",
-                    "say": "$~Decir"
+                    "say": "$~Decir",
+                    "cues": "$~Señales"
                 }
             },
             "locale": {

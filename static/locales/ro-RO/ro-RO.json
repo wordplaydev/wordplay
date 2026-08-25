@@ -7798,7 +7798,7 @@
                 "timeline": "$~/Cronologia/ îți permite să treci *înainte* și *înapoi* prin evaluarea programului tău, câte un pas pe rând. Apare în bara de instrumente a scenei în modurile ✏️ *editare* și ⏸️ *depanare* și este o cale bună să vezi *cum* calculează programul tău valoarea și să îți creezi o imagine mentală despre cum evaluează programele @wordplay, mai ales dacă nu vezi comportamentul pe care îl vrei.",
                 "annotations": "$~Fereastra /adnotări/ este locul unde apar explicațiile fiecărui pas. Pe măsură ce parcurgeți programul, aici veți citi ce tocmai s-a întâmplat.",
                 "editor": "$~/Editorul/ afișează codul. În timpul execuției pas cu pas, *valoarea* fiecărei părți a programului va apărea lângă acea parte *după* evaluare, astfel încât să puteți urmări cum se acumulează valori pe măsură ce programul rulează.",
-                "history": "$~/Istoricul/ afișează fiecare *intrare* pe care programul a primit-o, cum ar fi chei, intervale de timp și evenimente de indicator. Este *glisabil*, așa că poți reveni la orice moment din istoricul de evaluare al programului pur și simplu trăgând.",
+                "history": "$~/Istoricul/ arată fiecare *intrare* pe care programul tău a primit-o, cum ar fi taste, momente de timp și evenimente ale cursorului. Este *tras cu mouse-ul*, așa că te poți întoarce la orice moment din istoricul evaluării programului doar trăgând. Dacă preferi să *auzi* aceste intrări în loc să le vezi, activează /semnalele de evaluare/ din setări, iar @wordplay va reda un sunet scurt pentru fiecare, cu un sunet diferit pentru fiecare tip de intrare.",
                 "stepControls": "$~Comenzile /step/ vă permit să parcurgeți evaluarea cu precizie. Puteți sări la *start* sau *sfârșit*, să mergeți *înainte* sau *înapoi* pas cu pas, să săriți cu *o intrare*, să ieșiți *din funcție* sau să sari la partea *selectată în prezent* a codului.",
                 "modes": "$~/Comutatorul de mod/ alege cum evaluează programul tău. În modul ✏️ *editare*, programul se oprește acolo unde este și îl poți schimba — modificările tale se redau din nou ca să arate efectul lor în acel punct. În modul ⏸️ *depanare*, codul se poate doar citi, iar *valoarea curentă* a fiecărei părți din programul tău apare lângă ea în editor și în paletă. În modul ▶️ *redare*, programul tău rulează în direct de acolo unde este și răspunde la intrări în timp real. Lângă comutator, butonul /executare/ — un triunghi de redare încadrat de colțuri de ecran complet — pornește o execuție de la capăt și umple ecranul cu scena, iar ↻ resetează programul în orice mod."
             }
@@ -8352,6 +8352,30 @@
                             "$~arată culorile unui proiect exact cum au fost scrise, chiar și pe un ecran întunecat",
                             "$~pe un ecran întunecat, întoarce culorile unui proiect luminos în culori întunecate: fiecare culoare își păstrează nuanța, iar culorile rămân la fel de diferite între ele cum au fost făcute în proiect"
                         ]
+                    },
+                    "cues": {
+                        "label": "$~semnale de evaluare",
+                        "labels": ["$~dezactivat", "$~activat"],
+                        "tips": [
+                            "$~Nu reda niciun sunet când programul se reevaluează",
+                            "$~Redă un sunet scurt de fiecare dată când programul se reevaluează, câte unul pentru fiecare tip de intrare"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~semnale de animație",
+                        "labels": ["$~dezactivat", "$~activat"],
+                        "tips": [
+                            "$~Nu reda niciun sunet când ieșirea se animează",
+                            "$~Redă un sunet scurt de fiecare dată când o animație ajunge la o poziție, cu sunetul potrivit acțiunii poziției"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~semnale de coliziune",
+                        "labels": ["$~dezactivat", "$~activat"],
+                        "tips": [
+                            "$~Nu reda niciun sunet când ieșirea se ciocnește",
+                            "$~Redă un sunet scurt când ieșirea se ciocnește, mai tare cu cât lovitura e mai puternică"
+                        ]
                     }
                 },
                 "options": {
@@ -8378,7 +8402,8 @@
                 },
                 "subheader": {
                     "music": "$~Muzică",
-                    "say": "$~Say"
+                    "say": "$~Say",
+                    "cues": "$~Semnale"
                 }
             },
             "notifications": {

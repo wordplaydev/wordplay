@@ -24,6 +24,7 @@ import NumberValue from '@values/NumberValue';
 import StructureValue, { createStructure } from '@values/StructureValue';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import type Value from '@values/Value';
+import type { StreamKind } from '@values/StreamValue';
 
 /** A single pixel in LCH color space. */
 type LCHPixel = { l: number; c: number; h: number };
@@ -56,6 +57,8 @@ function imageDataToLCH(image: ImageData): LCHFrame {
 }
 
 export default class Camera extends TemporalStreamValue<ListValue, LCHFrame> {
+    readonly kind: StreamKind = 'camera';
+
     feed: CameraFeed;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
     frequency: number;

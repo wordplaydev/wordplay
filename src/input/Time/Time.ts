@@ -17,10 +17,13 @@ import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 const DEFAULT_FREQUENCY = 33;
 
 export default class Time extends TemporalStreamValue<NumberValue, number> {
+    readonly kind: StreamKind = 'time';
+
     firstTime: number | undefined = undefined;
     frequency = 33;
     relative: boolean;

@@ -18,6 +18,7 @@ import NoneValue from '@values/NoneValue';
 import type StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 export type ReboundEvent =
     | {
@@ -33,6 +34,8 @@ export default class Collision extends StreamValue<
     StructureValue | NoneValue,
     ReboundEvent
 > {
+    readonly kind: StreamKind = 'collision';
+
     subject: string | undefined;
     object: string | undefined;
 

@@ -4,6 +4,18 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.31.0 - 2026-08-25
+
+### Added
+
+- 🔊 Turn on evaluation cues in settings and Wordplay makes a short sound each time your program runs again, with a different sound for each kind of input. The tour of the time slider explains them. (#537)
+- 🧲 Turn on collision cues and you can hear things bump into each other on your stage. A harder hit is louder, and several things landing at once sound like several things.
+- 🎞️ Turn on animation cues and you can hear what an animation is doing: turning changes the pitch, moving side to side moves the sound side to side, and fading out makes it quieter. An animation that repeats plays the same little tune every time around.
+
+### Fixed
+
+- 🐛 We fixed a crash that could happen when you added a new input like `Speech()` above one you already had. Wordplay was replaying your earlier key presses and clicks into the wrong input.
+
 ## 0.30.1 - 2026-08-24
 
 ### Added

@@ -79,3 +79,51 @@ test('the schema writes nothing beyond the synced settings', () => {
     );
     expect(fields.length).toBe(syncedEntries().length);
 });
+
+test('each cue source has its own switch, and none is a master', () => {
+    // A row that means anything other than what its label says reads as broken,
+    // so turning one off must leave the others alone.
+    for (const key of ['cues', 'contactCues', 'animationCues'] as const) {
+        const setting = Settings.settings[key];
+        expect(setting.defaultValue, key).toBe(false);
+        expect(setting.device, key).toBe(true);
+    }
+});
+
+test('animation cues are their own switch, also off', () => {
+    // Separate from `cues` because animation sounds continuously where the
+    // other sources sound on an event: someone may want the sparse cues
+    // without a stage that sings.
+    const setting = Settings.settings.animationCues;
+    expect(setting.defaultValue).toBe(false);
+    expect(setting.device).toBe(true);
+    const original = setting.get();
+    try {
+        Settings.setAnimationCues(true);
+        expect(Settings.getAnimationCues()).toBe(true);
+        // And it is genuinely independent of the cues switch.
+        expect(Settings.settings.cues.get()).toBe(
+            Settings.settings.cues.defaultValue,
+        );
+    } finally {
+        setting.set(DB, original);
+    }
+});
+
+test('evaluation cues are off until asked for', () => {
+    // A creator who hasn't asked for a sound on every keypress must not get
+    // one, and cues are heard at a device rather than by an account, so the
+    // setting stays device-specific like the other audio settings.
+    const setting = Settings.settings.cues;
+    expect(setting.defaultValue).toBe(false);
+    expect(setting.device).toBe(true);
+    const original = setting.get();
+    try {
+        Settings.setCues(true);
+        expect(Settings.getCues()).toBe(true);
+        Settings.setCues(false);
+        expect(Settings.getCues()).toBe(false);
+    } finally {
+        setting.set(DB, original);
+    }
+});

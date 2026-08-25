@@ -8,8 +8,11 @@ import StreamType from '@nodes/StreamType';
 import TextType from '@nodes/TextType';
 import TextValue from '@values/TextValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 export default class Chat extends SingletonStreamValue<TextValue, string> {
+    readonly kind: StreamKind = 'chat';
+
     constructor(evaluation: Evaluation) {
         super(
             evaluation,

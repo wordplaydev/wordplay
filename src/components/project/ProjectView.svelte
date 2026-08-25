@@ -189,6 +189,7 @@
         type KeyModifierState,
     } from '@components/project/Contexts';
     import Link from '@components/app/Link.svelte';
+    import EvaluationCues from '@components/project/EvaluationCues.svelte';
     import RemixButton from '@components/project/RemixButton.svelte';
     import { PARAM_CONCEPT } from '@concepts/ConceptParams';
     import { PROJECT_PARAM_FROM } from '../../routes/[[locale]]/project/constants';
@@ -2855,6 +2856,9 @@
         if (!document.fullscreenElement) browserFullscreen = false;
     }}
 />
+
+<!-- Audible re-evaluation cues, which render nothing. -->
+<EvaluationCues />
 
 <!-- Content warnings (moderation, photosensitivity) are shown to read-only
      viewers in the output's blocking start gate, unified with permissions. -->

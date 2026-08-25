@@ -1,4 +1,9 @@
 import { getPlacingMotion } from '@input/Motion/Motion';
+import {
+    cancelAnimation,
+    listeningForAnimations,
+    reportAnimation,
+} from '@output/Cues/animations';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import { Easings, type EasingName } from '@output/animation/easing';
@@ -469,6 +474,31 @@ export default class OutputAnimation {
         this.animator.startingSequence(nodes);
     }
 
+    /** Hand this tween to the cue layer, so what it does can be heard. */
+    private reportToCues(
+        transitions: Transition[],
+        totalMs: number,
+        fromMs: number,
+    ) {
+        const evaluator = this.animator.evaluator;
+        if (evaluator === undefined || !listeningForAnimations(evaluator))
+            return;
+        reportAnimation(evaluator, {
+            name: this.name,
+            state: this.state,
+            transitions,
+            totalMs,
+            fromMs,
+        });
+    }
+
+    /** Take back whatever this animation had scheduled to sound. */
+    private cancelCues() {
+        const evaluator = this.animator.evaluator;
+        if (evaluator === undefined) return;
+        cancelAnimation(evaluator, this.name);
+    }
+
     /** Stop reporting whatever this animation last announced. */
     private unannounce() {
         if (this.announced === undefined) return;
@@ -587,6 +617,12 @@ export default class OutputAnimation {
             duration: totalDuration * 1000,
         });
 
+        // Offer it to the cue layer, which sounds what the poses do. Reported
+        // here rather than in retarget(), which is the point: output the
+        // simulation places retargets every frame and never comes through
+        // start(), so a physics stage stays silent of animation cues.
+        this.reportToCues(transitions, totalDuration * 1000, 0);
+
         // When the animation is done, update the animation state.
         this.animation.onfinish = () => {
             this.finish();
@@ -600,6 +636,8 @@ export default class OutputAnimation {
      *  do this: it's written for an animation that already ended, so it would
      *  leave this one running and let its onfinish finish it a second time. */
     settle() {
+        // Whatever it was going to sound, it is no longer doing.
+        this.cancelCues();
         // Drop the tween, so the element renders at its own transform again.
         if (this.animation) {
             this.animation.onfinish = null;
@@ -881,11 +919,27 @@ export default class OutputAnimation {
      */
     suspend() {
         if (this.animation?.playState === 'running') this.animation.pause();
+        // Cues are scheduled a whole animation ahead, so a pause has to take
+        // back what has not sounded yet — otherwise a frozen stage goes on
+        // describing motion it isn't making.
+        this.cancelCues();
     }
 
     /** Continue an animation held by `suspend`. */
     resume() {
-        if (this.animation?.playState === 'paused') this.animation.play();
+        if (this.animation?.playState !== 'paused') return;
+        this.animation.play();
+        // Re-offer the rest of the figure from where it actually is, rather
+        // than replaying the poses the stage already passed while playing.
+        const elapsed = this.animation.currentTime;
+        const effect = this.animation.effect;
+        const total = effect?.getTiming().duration;
+        if (
+            this.sequence !== undefined &&
+            typeof elapsed === 'number' &&
+            typeof total === 'number'
+        )
+            this.reportToCues(this.sequence, total, elapsed);
     }
 
     done() {
@@ -893,6 +947,9 @@ export default class OutputAnimation {
 
         // If there's a sequence animating, notify the stage we're ending it.
         this.unannounce();
+
+        // And take back anything it had scheduled to sound.
+        this.cancelCues();
 
         // Permananently mark the state as done.
         this.state = AnimationState.Done;

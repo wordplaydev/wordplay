@@ -7880,7 +7880,7 @@
                 "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, the program pauses wherever it is and you can change it — your edits replay to show their effect at that point. In ⏸️ *debug* mode, the code is read-only and the *current value* of each part of your program appears next to it in the editor and in the palette. In ▶️ *play* mode, your program runs live from where it is, responding to inputs in real time. Beside the switcher, the /perform/ button — a play triangle wrapped in full screen corners — begins a performance from the top and fills the screen with the stage, and ↻ resets the program in any mode.",
                 "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
                 "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
-                "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging.",
+                "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging. If you'd rather *hear* those inputs than see them, turn on /evaluation cues/ in settings, and @wordplay will play a short sound for each one, with a different sound for each kind of input.",
                 "stepControls": "The /step controls/ let you move through evaluation precisely. You can jump to the *start* or *end*, step *forward* or *backward* one step at a time, jump by *one input*, step *out* of a function, or jump to the *currently selected* part of the code."
             }
         },
@@ -8260,7 +8260,8 @@
                 },
                 "subheader": {
                     "music": "Music",
-                    "say": "Say"
+                    "say": "Say",
+                    "cues": "Cues"
                 },
                 "mode": {
                     "layout": {
@@ -8434,6 +8435,30 @@
                         "tips": [
                             "Don't vibrate on the beat",
                             "Vibrate on the beat, where the device supports it"
+                        ]
+                    },
+                    "cues": {
+                        "label": "evaluation cues",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Make no sound when the program reevaluates",
+                            "Play a short sound each time the program reevaluates, one for each kind of input"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "collision cues",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Make no sound when output collides",
+                            "Play a short sound when output collides, louder the harder the hit"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "animation cues",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Make no sound when output animates",
+                            "Play a short sound each time an animation reaches a pose, with the sound following what the pose does"
                         ]
                     },
                     "captionSize": {

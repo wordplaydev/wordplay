@@ -7798,7 +7798,7 @@
                 "timeline": "$~/dòng thời gian/ cho phép bạn bước *tới* và *lui* qua quá trình tính toán của chương trình, mỗi lần một bước. Nó hiện ra trong thanh công cụ của sân khấu ở chế độ ✏️ *chỉnh sửa* và ⏸️ *gỡ lỗi*, và đây là cách tuyệt vời để thấy chương trình tính giá trị của nó *ra sao*, và để xây dựng một mô hình trong đầu về cách các chương trình @wordplay tính toán, nhất là khi bạn chưa thấy hành vi mà bạn muốn.",
                 "annotations": "$~Cửa sổ /annotations/ là nơi hiển thị giải thích cho từng bước. Khi bạn thực thi chương trình từng bước, đây là nơi bạn sẽ đọc những gì vừa xảy ra.",
                 "editor": "$~Cửa sổ /editor/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
-                "history": "$~Cửa sổ /history/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận được, chẳng hạn như phím bấm, thời gian cập nhật và sự kiện con trỏ. Cửa sổ này *có thể kéo thả*, vì vậy bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử thực thi của chương trình chỉ bằng cách kéo.",
+                "history": "$~/Lịch sử/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận, như phím bấm, nhịp thời gian, và sự kiện con trỏ. Nó *có thể kéo được*, nên bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử tính toán của chương trình chỉ bằng cách kéo. Nếu bạn muốn *nghe* các đầu vào đó thay vì nhìn, hãy mở /tín hiệu tính toán/ trong phần cài đặt, và @wordplay sẽ phát một âm thanh ngắn cho mỗi đầu vào, với âm thanh khác nhau cho mỗi loại đầu vào.",
                 "stepControls": "$~Các điều khiển /step/ cho phép bạn di chuyển chính xác trong quá trình đánh giá. Bạn có thể nhảy đến *đầu* hoặc *cuối*, tiến *về* hoặc lùi *về* từng bước một, nhảy theo *một đầu vào*, thoát khỏi *một hàm* hoặc nhảy đến phần mã *đang được chọn*.",
                 "modes": "$~/bộ chuyển chế độ/ chọn cách chương trình của bạn tính toán. Ở chế độ ✏️ *chỉnh sửa*, chương trình tạm dừng ở chỗ nó đang chạy và bạn có thể thay đổi nó — các chỉnh sửa của bạn chạy lại để thể hiện tác động tại điểm đó. Ở chế độ ⏸️ *gỡ lỗi*, mã số chỉ được đọc và *giá trị hiện tại* của từng phần trong chương trình hiện ra ngay bên cạnh nó trong trình chỉnh sửa và trong bảng màu. Ở chế độ ▶️ *chạy*, chương trình của bạn chạy trực tiếp từ chỗ nó đang ở, phản hồi các đầu vào theo thời gian thực. Bên cạnh bộ chuyển, nút /biểu diễn/ — một hình tam giác chạy bọc trong các góc toàn màn hình — bắt đầu một buổi biểu diễn từ đầu và lấp đầy màn hình bằng sân khấu, và nút ↻ đặt lại chương trình ở bất kỳ chế độ nào."
             }
@@ -8345,6 +8345,30 @@
                             "$~hiển thị màu sắc của dự án đúng như dự án đã đặt, kể cả trên màn hình tối",
                             "$~trên màn hình tối, đảo ngược màu sắc sáng của dự án thành tối: mỗi màu vẫn giữ nguyên sắc màu của nó, và các màu vẫn cách xa nhau như dự án đã đặt"
                         ]
+                    },
+                    "cues": {
+                        "label": "$~tín hiệu tính toán",
+                        "labels": ["$~tắt", "$~mở"],
+                        "tips": [
+                            "$~Không phát âm thanh khi chương trình tính toán lại",
+                            "$~Phát một âm thanh ngắn mỗi khi chương trình tính toán lại, một âm cho mỗi loại đầu vào"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~tín hiệu hoạt ảnh",
+                        "labels": ["$~tắt", "$~mở"],
+                        "tips": [
+                            "$~Không phát âm thanh khi đầu ra chuyển động",
+                            "$~Phát một âm thanh ngắn mỗi khi hoạt ảnh đạt đến một dáng, với âm thanh khớp theo hành động của dáng đó"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~tín hiệu va chạm",
+                        "labels": ["$~tắt", "$~mở"],
+                        "tips": [
+                            "$~Không phát âm thanh khi đầu ra va chạm",
+                            "$~Phát một âm thanh khi đầu ra va chạm, va càng mạnh thì âm càng lớn"
+                        ]
                     }
                 },
                 "options": {
@@ -8371,7 +8395,8 @@
                 },
                 "subheader": {
                     "music": "$~Nhạc",
-                    "say": "$~Nói"
+                    "say": "$~Nói",
+                    "cues": "$~Tín hiệu"
                 }
             },
             "notifications": {
@@ -8844,7 +8869,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "phrase": "$~\\¶Cụm từ xuất hiện trên sân khấu, với bất kỳ màu sắc, ánh sáng và chuyển động nào bạn muốn.¶\nCụmtừ(\n\t'xin chào!'\n\t6m\n\tmàusắc: Màusắc(60% 90 200°)\n\thàoquang: Hàoquang(Màusắc(80% 80 200°) 0.3m)\n\tnghỉngơi: Sựliêntiếp.đungđưa(8°)\n)\\",
                         "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
                         "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
                         "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m địađiểm: Contrỏ())]\n\tđịađiểm: Địađiểm(0m 0m -12m)\n)\\",

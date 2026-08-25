@@ -9,6 +9,8 @@ import {
 } from '@output/physics/rapierLoader';
 import { get } from 'svelte/store';
 import { animationFactor } from '@db/Database';
+import type { Contact } from '@output/Cues/contacts';
+import { listeningForContacts, reportContacts } from '@output/Cues/contacts';
 import type { ReboundEvent } from '@input/Collision/Collision';
 import Collision, { getWatchedNames } from '@input/Collision/Collision';
 import { getPlacingMotion } from '@input/Motion/Motion';
@@ -39,6 +41,25 @@ const PreventSpinInertia = 1e8;
 /** Safety clamp on body speed, in px/s. Matter.js clamped to ±100 px per
  *  16.7ms frame, i.e. 6000 px/s; keep the same effective cap. */
 const MaxSpeed = 6000;
+
+/**
+ * The contact impulse a cue treats as a full-strength hit.
+ *
+ * Rapier's impulses are in this engine's own units, which are calibrated to
+ * reproduce Matter.js's feel rather than to be SI (see physicsCalibration.ts),
+ * so there is nothing to derive this from. Measured instead, from the 32
+ * letters of the Hiragana example landing: 265 contacts in the half second of
+ * the fall, median impulse 471 and 95th percentile 3347. Set at the 95th, so
+ * the loudest hits reach full strength and the median lands quiet — a burst
+ * that all sounded alike would be one thump however many cues it took.
+ */
+const ContactImpulseReference = 3000;
+
+/** Below this, a contact is a body resting or grazing rather than hitting.
+ *  A settled pile in Hiragana reports about one contact every few seconds, all
+ *  of impulse zero, so this is mostly about the grazes during a pile-up: it
+ *  drops the quietest third of them, which are inaudible anyway. */
+const MinContactStrength = 0.06;
 
 /** Gravity calibration. Matter.js applied gravity as
  *  (g/20) × (1/(2·PX_PER_METER)) px/ms²; in px/s² (×1000²) that's g × 390.625
@@ -715,6 +736,10 @@ export default class Physics {
      *  resolving handles to names and computing a direction vector. */
     private drainCollisions(world: RAPIER.World, events: RAPIER.EventQueue) {
         const rebounds: ReboundEvent[] = [];
+        // Only computed when something is actually listening, since a stage no
+        // one is cueing should pay nothing for the arithmetic below.
+        const listening = listeningForContacts(this.evaluator);
+        const contacts: Contact[] = [];
         events.drainCollisionEvents((handle1, handle2, started) => {
             const subject = this.nameByColliderHandle.get(handle1);
             const object = this.nameByColliderHandle.get(handle2);
@@ -736,6 +761,23 @@ export default class Physics {
                             // The normal points from the first to the second shape;
                             // un-flip so it's always subject→object.
                             normal = flipped ? { x: -n.x, y: -n.y } : n;
+                            // How hard the hit was, from the solver's own
+                            // impulses — free here, where the manifold is
+                            // already open, and impossible afterward: the
+                            // velocities readable after the step are the ones
+                            // the collision already changed, so a body that
+                            // landed and stopped dead would measure as nothing.
+                            if (listening) {
+                                let impulse = 0;
+                                for (let i = 0; i < manifold.numContacts(); i++)
+                                    impulse += manifold.contactImpulse(i);
+                                const strength = Math.min(
+                                    1,
+                                    impulse / ContactImpulseReference,
+                                );
+                                if (strength >= MinContactStrength)
+                                    contacts.push({ strength });
+                            }
                         },
                     );
                     // Sensors generate no contact manifold; fall back to the
@@ -762,6 +804,9 @@ export default class Physics {
             });
         });
         if (rebounds.length > 0) this.report(rebounds);
+        // Independent of the streams: a contact is worth hearing whether or not
+        // the program asked to know about it.
+        reportContacts(this.evaluator, contacts);
     }
 
     removeOutputBody(name: string) {

@@ -200,13 +200,29 @@ test('resolving a color needs no basis', () => {
  * a persisted preview string and must not drag the whole Color structure
  * definition (or colorjs.io, which an earlier draft did pull in here) onto a
  * page that never evaluates a program.
+ *
+ * Audible re-evaluation cues (#537) add exactly one file to every entry: the
+ * setting that turns them on, reached through the settings dialog. The cues
+ * themselves — the sound table, the Web Audio graph that renders it, and the
+ * driver that watches for reactions — hang off ProjectView, which none of these
+ * entries reach, so a page that never evaluates a program carries none of it.
+ * The +0.01MB on four of the five is that setting's mode row in en-US.json (a
+ * label, two labels, two tips, and a subheader) plus the sentence about cues in
+ * the evaluation tour, which every page carries; the landing page had enough
+ * slack to absorb it.
+ *
+ * Making animation audible costs no new file at all — its setting sits in the
+ * file the cues setting already occupies, and the figure mapping and the
+ * animation layer it hooks hang off ProjectView, which none of these entries
+ * reach. The landing page's last hundredth is the second mode row in
+ * en-US.json, which is the slack it had been living on since the row above.
  */
 test.each([
-    ['src/routes/+layout.svelte', 486, 3.48],
-    ['src/components/app/Page.svelte', 508, 3.71],
-    ['src/routes/[[locale]]/+page.svelte', 523, 3.8],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 526, 3.8],
-    ['src/routes/[[locale]]/projects/+page.svelte', 534, 3.83],
+    ['src/routes/+layout.svelte', 487, 3.49],
+    ['src/components/app/Page.svelte', 509, 3.72],
+    ['src/routes/[[locale]]/+page.svelte', 524, 3.81],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 527, 3.81],
+    ['src/routes/[[locale]]/projects/+page.svelte', 535, 3.84],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

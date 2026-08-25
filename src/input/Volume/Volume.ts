@@ -13,10 +13,13 @@ import Unit from '@nodes/Unit';
 import AudioStream, { DEFAULT_FREQUENCY } from '@input/AudioStream';
 import createStreamEvaluator from '@input/createStreamEvaluator';
 import { VOLUME_FFT_SIZE, computeVolume } from '@input/AudioAnalysisMath';
+import type { StreamKind } from '@values/StreamValue';
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
 export default class Volume extends AudioStream {
+    readonly kind: StreamKind = 'volume';
+
     frequencies: Uint8Array<ArrayBuffer> = new Uint8Array(VOLUME_FFT_SIZE);
 
     constructor(evaluation: Evaluation, frequency: number | undefined) {

@@ -20,7 +20,10 @@
         blockDensity,
         blocks,
         camera,
+        animationCues,
         captionSize,
+        contactCues,
+        cues,
         dark,
         haptics,
         insertTab,
@@ -537,6 +540,42 @@
                             icons={['◌', '📳']}
                         />
                     {/if}
+                    <!-- The app's own sounds, not a program's, so they sit in
+                         their own group rather than under Music. -->
+                    <Subheader compact
+                        >🔔 <LocalizedText
+                            path={(l) => l.ui.dialog.settings.subheader.cues}
+                        /></Subheader
+                    >
+                    <div class="header-row-end"></div>
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.cues}
+                        choice={$cues ? 1 : 0}
+                        select={(choice) => Settings.setCues(choice === 1)}
+                        icons={['◌', '🔔']}
+                    />
+                    <!-- Its own row, since a contact is not a re-evaluation —
+                         it sounds whether or not the program watches for one —
+                         and a landing is twenty cues where a keypress is one. -->
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.contactCues}
+                        choice={$contactCues ? 1 : 0}
+                        select={(choice) =>
+                            Settings.setContactCues(choice === 1)}
+                        icons={['◌', '💥']}
+                    />
+                    <!-- Its own row, since animation sounds continuously where
+                         the others sound on an event. -->
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.animationCues}
+                        choice={$animationCues ? 1 : 0}
+                        select={(choice) =>
+                            Settings.setAnimationCues(choice === 1)}
+                        icons={['◌', '🎭']}
+                    />
                     <Subheader compact
                         >🔊 <LocalizedText
                             path={(l) => l.ui.dialog.settings.subheader.say}

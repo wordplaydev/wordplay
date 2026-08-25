@@ -21,6 +21,7 @@ import MessageException from '@values/MessageException';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 /**
  * Webpage stream values can be one of three things:
@@ -62,6 +63,8 @@ export default class Webpage extends StreamValue<
     ListValue | NumberValue | ExceptionValue,
     FetchResponse
 > {
+    readonly kind: StreamKind = 'webpage';
+
     url: string;
     query: string;
     frequency: number;

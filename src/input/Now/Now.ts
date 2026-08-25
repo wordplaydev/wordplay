@@ -31,6 +31,7 @@ import StructureValue from '@values/StructureValue';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import TextValue from '@values/TextValue';
 import { createCalendarType } from '@input/Moment/Moment';
+import type { StreamKind } from '@values/StreamValue';
 
 const DEFAULT_FREQUENCY_MS = 1000;
 
@@ -91,6 +92,8 @@ export default class Now extends TemporalStreamValue<
     StructureValue | ExceptionValue,
     number
 > {
+    readonly kind: StreamKind = 'now';
+
     frequency: number = DEFAULT_FREQUENCY_MS;
     timezone: string | undefined;
     calendar: string | undefined;

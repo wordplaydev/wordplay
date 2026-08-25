@@ -7569,7 +7569,7 @@
                 "timeline": "$~/Oś czasu/ pozwala ci przechodzić *do przodu* i *do tyłu* przez wykonywanie twojego programu, krok po kroku. Pojawia się na pasku narzędzi sceny w trybie ✏️ *edycji* i ⏸️ *debugowania*. To świetny sposób, aby zobaczyć, *jak* twój program oblicza swoją wartość, i zbudować w głowie obraz tego, jak programy @wordplay się wykonują, zwłaszcza gdy nie widzisz zachowania, którego chcesz.",
                 "annotations": "$~W oknie /adnotacje/ pojawiają się objaśnienia każdego kroku. Podczas przechodzenia przez program, tutaj dowiesz się, co się właśnie wydarzyło.",
                 "editor": "$~/Edytor/ pokazuje Twój kod. Podczas wykonywania kroków, *wartość* każdej części programu pojawi się obok tej części *po* jej ocenie, dzięki czemu możesz obserwować, jak wartości rosną w miarę działania programu.",
-                "history": "$~W zakładce /history/ wyświetlane są wszystkie *dane wejściowe* otrzymane przez program, takie jak klawisze, znaczniki czasu i zdarzenia wskaźnika. Można ją *przeciągać*, więc możesz wrócić do dowolnego momentu w historii ewaluacji programu, po prostu przeciągając.",
+                "history": "$~/Historia/ pokazuje każde *wejście*, które otrzymał twój program, takie jak klawisze, upływ czasu i zdarzenia wskaźnika. Można ją *przeciągać*, więc możesz wrócić do dowolnej chwili w historii działania programu, po prostu ją przeciągając. Jeśli wolisz te wejścia *usłyszeć* niż zobaczyć, włącz /sygnały oceniania/ w ustawieniach, a @wordplay odtworzy krótki dźwięk dla każdego z nich, inny dla każdego rodzaju wejścia.",
                 "stepControls": "$~Sterowanie krokami pozwala precyzyjnie poruszać się po ewaluacji. Możesz przejść do *początku* lub *końca*, przejść *do przodu* lub *do tyłu* o jeden krok na raz, przejść o *jeden element wejściowy*, *wyjść* z funkcji lub przejść do *aktualnie zaznaczonego* fragmentu kodu.",
                 "modes": "$~/Przełącznik trybu/ wybiera, jak twój program się wykonuje. W trybie ✏️ *edycji* program zatrzymuje się tam, gdzie jest, i możesz go zmieniać — twoje zmiany odtwarzają się ponownie, aby pokazać ich wpływ w tym miejscu. W trybie ⏸️ *debugowania* kod jest tylko do odczytu, a *bieżąca wartość* każdej części twojego programu pojawia się obok niej w edytorze i w palecie. W trybie ▶️ *odtwarzania* twój program działa na żywo od miejsca, w którym jest, i reaguje na wejścia w czasie rzeczywistym. Obok przełącznika przycisk /wykonaj/ — trójkąt odtwarzania otoczony narożnikami pełnego ekranu — rozpoczyna wykonanie od góry i wypełnia ekran sceną, a ↻ resetuje program w każdym trybie."
             }
@@ -8119,6 +8119,30 @@
                             "$~pokaż kolory projektu dokładnie tak, jak zostały zapisane, nawet na ciemnym ekranie",
                             "$~na ciemnym ekranie zmień jasne kolory projektu na ciemne: każdy kolor zachowuje swój odcień, a kolory pozostają od siebie tak różne, jak zaplanował to projekt"
                         ]
+                    },
+                    "cues": {
+                        "label": "$~sygnały oceniania",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wydawaj dźwięku, gdy program ocenia od nowa",
+                            "$~Odtwarzaj krótki dźwięk za każdym razem, gdy program ocenia od nowa, inny dla każdego rodzaju wejścia"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~sygnały animacji",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wydawaj dźwięku, gdy wynik się animuje",
+                            "$~Odtwarzaj krótki dźwięk za każdym razem, gdy animacja osiąga pozę, tak by dźwięk pasował do tego, co robi poza"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~sygnały zderzeń",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wydawaj dźwięku, gdy wynik się zderza",
+                            "$~Odtwarzaj krótki dźwięk, gdy wynik się zderza, tym głośniejszy, im mocniejsze jest uderzenie"
+                        ]
                     }
                 },
                 "options": {
@@ -8145,7 +8169,8 @@
                 },
                 "subheader": {
                     "music": "$~Muzyka",
-                    "say": "$~Mów"
+                    "say": "$~Mów",
+                    "cues": "$~Sygnały"
                 }
             },
             "locale": {

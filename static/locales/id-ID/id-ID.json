@@ -7804,7 +7804,7 @@
                 "timeline": "$~/timeline/ memungkinkan kamu melangkah *maju* dan *mundur* melewati evaluasi programmu, satu langkah setiap kali. Ini muncul di bilah alat panggung dalam mode ✏️ *edit* dan ⏸️ *debug*. Ini cara yang bagus untuk melihat *bagaimana* programmu menghitung nilainya, dan untuk membangun gambaran di kepalamu tentang cara program @wordplay dievaluasi, terutama jika kamu belum melihat perilaku yang kamu inginkan.",
                 "annotations": "$~Jendela /annotations/ adalah tempat penjelasan setiap langkah muncul. Saat Anda menjalankan program langkah demi langkah, di sinilah Anda akan membaca apa yang baru saja terjadi.",
                 "editor": "$~Editor menampilkan kode Anda. Saat melakukan eksekusi langkah demi langkah, *nilai* setiap bagian program Anda akan muncul di sebelah bagian tersebut *setelah* dievaluasi, sehingga Anda dapat melihat nilai-nilai tersebut bertambah seiring berjalannya program.",
-                "history": "$~Bagian /history/ menampilkan setiap *input* yang diterima program Anda, seperti tombol, detak waktu, dan kejadian penunjuk. Bagian ini *dapat diseret*, sehingga Anda dapat kembali ke momen mana pun dalam riwayat evaluasi program hanya dengan menyeretnya.",
+                "history": "$~/Riwayat/ menunjukkan setiap *masukan* yang diterima programmu, seperti tombol, waktu, dan sentuhan penunjuk. Riwayat ini *bisa diseret*, jadi kamu bisa kembali ke momen mana pun dalam riwayat evaluasi program hanya dengan menyeretnya. Jika kamu lebih suka *mendengar* masukan itu daripada melihatnya, aktifkan /isyarat evaluasi/ di pengaturan, dan @wordplay akan memutar suara pendek untuk setiap masukan, dengan suara berbeda untuk setiap jenis masukan.",
                 "stepControls": "$~Kontrol langkah memungkinkan Anda untuk bergerak melalui evaluasi dengan tepat. Anda dapat melompat ke *awal* atau *akhir*, melangkah *maju* atau *mundur* satu langkah pada satu waktu, melompat sebanyak *satu input*, keluar dari suatu fungsi, atau melompat ke bagian kode yang *sedang dipilih*.",
                 "modes": "$~/mode switcher/ memilih cara programmu dievaluasi. Di mode ✏️ *edit*, program berhenti di posisinya dan kamu bisa mengubahnya — suntinganmu diputar ulang untuk menunjukkan efeknya di titik itu. Di mode ⏸️ *debug*, kode hanya bisa dibaca dan *nilai saat ini* dari setiap bagian programmu muncul di sebelahnya di editor dan di palet. Di mode ▶️ *play*, programmu berjalan langsung dari posisinya, menanggapi input secara langsung. Di samping switcher, tombol /perform/ — sebuah segitiga play yang dikelilingi sudut layar penuh — memulai pertunjukan dari atas dan memenuhi layar dengan panggung, dan ↻ mereset program di mode mana pun."
             }
@@ -8358,6 +8358,30 @@
                             "$~tampilkan warna proyek persis seperti yang ditulis, bahkan di layar gelap",
                             "$~di layar gelap, balikkan warna proyek yang terang menjadi gelap: setiap warna tetap dengan rona aslinya, dan warna tetap sejauh yang dibuat oleh proyek"
                         ]
+                    },
+                    "cues": {
+                        "label": "$~isyarat evaluasi",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan buat suara saat program dievaluasi ulang",
+                            "$~Putar suara pendek setiap kali program dievaluasi ulang, satu suara untuk setiap jenis masukan"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~isyarat animasi",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan buat suara saat keluaran beranimasi",
+                            "$~Putar suara pendek setiap kali animasi mencapai suatu pose, dengan suara yang mengikuti apa yang dilakukan pose itu"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~isyarat tabrakan",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan buat suara saat keluaran bertabrakan",
+                            "$~Putar suara saat keluaran bertabrakan, makin keras benturannya makin keras suaranya"
+                        ]
                     }
                 },
                 "options": {
@@ -8384,7 +8408,8 @@
                 },
                 "subheader": {
                     "music": "$~Musik",
-                    "say": "$~Ucapkan"
+                    "say": "$~Ucapkan",
+                    "cues": "$~Isyarat"
                 }
             },
             "notifications": {

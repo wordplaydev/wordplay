@@ -20,6 +20,7 @@ import {
     SilentDownbeat,
     type DownbeatState,
 } from '@output/Music/Downbeat';
+import type { StreamKind } from '@values/StreamValue';
 
 /**
  * What the music player hands to the stream on each audible beat: everything
@@ -36,6 +37,8 @@ export type BeatEvent = DownbeatState;
  * Pointer does the same with a zero Place.
  */
 export default class Beat extends StreamValue<StructureValue, BeatEvent> {
+    readonly kind: StreamKind = 'beat';
+
     /** An optional Music name to filter beats to. */
     name: string | undefined;
 
