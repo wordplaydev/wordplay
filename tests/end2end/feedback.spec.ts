@@ -1,5 +1,3 @@
-import { initializeApp } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
 import { v4 as uuidv4 } from 'uuid';
 import { expect, test } from '../../playwright/fixtures';
 import {
@@ -7,35 +5,7 @@ import {
     getTestFirestore,
     waitForDocumentUpdate,
 } from '../helpers/firestore';
-
-/** Reuses the auth-admin app if already initialized (calling initializeApp
- * twice with the default name throws). */
-let authApp: ReturnType<typeof initializeApp> | null = null;
-function getAuthAdmin() {
-    process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
-    if (authApp === null) {
-        try {
-            authApp = initializeApp(
-                { projectId: 'demo-wordplay' },
-                'auth-admin',
-            );
-        } catch (e) {
-            // initializeApp throws if the named app exists; getAuth() works
-            // either way once any app is initialized.
-            void e;
-        }
-    }
-    return getAuth(authApp ?? undefined);
-}
-
-/** The fixture user logs in via username; the actual Firebase email is
- * derived from it (see Creator.usernameEmail). We resolve the UID through the
- * auth emulator's admin API. */
-async function getUidForUsername(username: string): Promise<string> {
-    const email = `${username}@u.wordplay.dev`;
-    const user = await getAuthAdmin().getUserByEmail(email);
-    return user.uid;
-}
+import { uidForUsername } from '../helpers/loginNewContext';
 
 /**
  * E2E coverage for the granular feedback operations introduced to replace the
@@ -119,7 +89,7 @@ test('adding a comment on feedback appends to the comments array', async ({
     // Firestore rules restrict feedback updates affecting `comments` to the
     // feedback's creator or a moderator, so seed feedback owned by the test
     // user (the realistic "user comments on their own item" case).
-    const userUid = await getUidForUsername(loggedInUsername);
+    const userUid = await uidForUsername(loggedInUsername);
     const { id: feedbackId, title } = await seedFeedback({ creator: userUid });
 
     await openFeedbackDialog(page);
@@ -164,7 +134,7 @@ test('deleting a comment removes it from the comments array', async ({
     // Resolve the test user's UID via the auth emulator. We need the UID to
     // seed a comment attributable to this user so the delete button is shown
     // (the comment's `creator` field must match the signed-in user).
-    const userUid = await getUidForUsername(loggedInUsername);
+    const userUid = await uidForUsername(loggedInUsername);
 
     const existingComment = {
         creator: userUid,
