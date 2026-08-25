@@ -9,6 +9,8 @@ import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
+import type Expression from '@nodes/Expression';
+import { getInputExpression } from '@output/Output/sourceExpression';
 import Valued, { getOutputInputs } from '@output/Output/Valued';
 import { toBoolean, toNumber } from '@output/Output/Stage';
 import type Instrument from '@output/Music/Instrument';
@@ -34,6 +36,12 @@ export function createTrackType(locales: Locales) {
 
 /** One normalized entry in a track: what sounds, for how long, how loud. */
 export type NoteEntry = {
+    /** The expression that determined this note, so the editor can highlight it
+     *  while it sounds — the number in a written melody, or the whole notes
+     *  expression when the melody was computed and each number's own creator is
+     *  the basis' arithmetic. Undefined when neither is in the project.
+     *  Dropped again at the plain-data boundary in `Music.toData`. */
+    creator: Expression | undefined;
     /** The degrees sounding together; empty is a rest. */
     degrees: readonly number[];
     /** Beats this entry lasts; undefined means the track's beat. */
@@ -125,6 +133,8 @@ export function toTrack(
     ] = getOutputInputs(value);
 
     if (!(notesVal instanceof ListValue)) return undefined;
+    // Stands in for any entry whose own creator isn't in the project.
+    const written = getInputExpression(project, value, notesVal);
     const notes: NoteEntry[] = [];
     for (const entry of notesVal.values) {
         if (
@@ -134,6 +144,9 @@ export function toTrack(
             const note = toNote(entry);
             if (note === undefined) return undefined;
             notes.push({
+                creator: project.contains(entry.creator)
+                    ? entry.creator
+                    : written,
                 degrees: note.degrees,
                 beats: note.beats,
                 volume: note.volume,
@@ -145,6 +158,9 @@ export function toTrack(
             // own length without the ceremony of a ♪; undefined still means
             // "last the track's beat".
             notes.push({
+                creator: project.contains(entry.creator)
+                    ? entry.creator
+                    : written,
                 degrees,
                 beats: toDuration(entry),
                 volume: undefined,

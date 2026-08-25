@@ -109,11 +109,64 @@ describe('getProjectHighlights', () => {
                 undefined,
                 undefined,
                 undefined,
+                undefined,
                 [stage],
                 blocks,
             ),
         };
     }
+
+    /** Project highlights for `code`, with runtime node sets chosen from its
+     *  own tree so identities match the source being highlighted. */
+    function runtimeHighlights(
+        code: string,
+        pick: (source: Source) => { animating?: Node[]; sounding?: Node[] },
+    ) {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        const picked = pick(source);
+        return {
+            source,
+            highlights: getProjectHighlights(
+                source,
+                project,
+                undefined,
+                undefined,
+                picked.animating ? new Set(picked.animating) : undefined,
+                picked.sounding ? new Set(picked.sounding) : undefined,
+                undefined,
+                false,
+            ),
+        };
+    }
+
+    test('animating and sounding nodes get their own highlight kinds', () => {
+        // Both are runtime highlights drawn under the code, and one node can
+        // carry both — a number determining a note inside a phrase that is
+        // also animating. Asserted on the node itself, so marking some other
+        // node instead wouldn't pass.
+        let number: NumberLiteral | undefined;
+        const { highlights } = runtimeHighlights("Phrase(1→'')", (source) => {
+            number = source.find<NumberLiteral>(NumberLiteral);
+            expect(number).toBeDefined();
+            return { animating: [number!], sounding: [number!] };
+        });
+        expect(highlights.get(number!)).toEqual(['animating', 'sounding']);
+    });
+
+    test('runtime nodes from another source are ignored', () => {
+        // The animating and sounding sets are per-evaluator while highlights
+        // are per-source, so a node this source doesn't hold must not be
+        // marked — that filter is what discards basis-built nodes.
+        const other = new Source('other', "Phrase(2→'')");
+        const stray = other.find<NumberLiteral>(NumberLiteral);
+        expect(stray).toBeDefined();
+        const { highlights } = runtimeHighlights("Phrase(1→'')", () => ({
+            animating: [stray!],
+            sounding: [stray!],
+        }));
+        expect([...highlights.entries()]).toEqual([]);
+    });
 
     test('marks the whole selected Evaluate, not just its name', () => {
         // Selection means "the caret is somewhere inside this output", so the mark

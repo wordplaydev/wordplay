@@ -80,6 +80,7 @@
         IdleKind,
         deriveSteppedEvaluation,
         getAnimatingNodes,
+        getSoundingNodes,
         getAnnouncer,
         getConceptIndex,
         getConflicts,
@@ -639,6 +640,7 @@
     if (steppedEvaluation !== undefined)
         setSteppedEvaluation(steppedEvaluation);
     const animatingNodes = getAnimatingNodes();
+    const soundingNodes = getSoundingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
     const resetKeyboardIdle = getResetKeyboardIdle();
@@ -3426,6 +3428,7 @@
         const stepNode = projectStepNode;
         const exceptionNode = projectExceptionNode;
         const animating = $animatingNodes;
+        const sounding = $soundingNodes;
         const outputs = selectedOutputs;
         const inBlocks = $blocks;
         const _src = source;
@@ -3446,6 +3449,7 @@
             stepNode,
             exceptionNode,
             animating,
+            sounding,
             outputs,
             inBlocks,
         );

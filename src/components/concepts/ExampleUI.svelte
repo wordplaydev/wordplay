@@ -18,6 +18,7 @@
         getConceptIndex,
         IdleKind,
         setAnimatingNodes,
+        setSoundingNodes,
         setConflicts,
         setEditors,
         setEvaluation,
@@ -175,6 +176,9 @@
 
     const animatingNodes = writable<Set<Node>>(new Set());
     setAnimatingNodes(animatingNodes);
+
+    const soundingNodes = writable<Set<Node>>(new Set());
+    setSoundingNodes(soundingNodes);
 
     // Isolate the keyboardEditIdle context too: the example is read-only,
     // so its typing state should always be Idle. Without this, typing in

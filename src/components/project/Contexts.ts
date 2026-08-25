@@ -229,6 +229,10 @@ export const [getCaretTokenSummary, setCaretTokenSummary] =
 export const [getAnimatingNodes, setAnimatingNodes] =
     createOptionalContext<Writable<Set<Node>>>();
 
+/** The set of nodes that determined the notes sounding at runtime */
+export const [getSoundingNodes, setSoundingNodes] =
+    createOptionalContext<Writable<Set<Node>>>();
+
 /** Various components outside the editor use this to apply edits */
 
 /** In a ProjectView, all of the editor states for each source file. */

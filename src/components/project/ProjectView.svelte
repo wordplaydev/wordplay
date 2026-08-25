@@ -169,6 +169,7 @@
         IdleKind,
         isAuthenticated,
         setAnimatingNodes,
+        setSoundingNodes,
         setConceptIndex,
         setConflicts,
         setDragged,
@@ -898,6 +899,9 @@
     /** Several store contexts for tracking evaluator state. */
     const animatingNodes = writable<Set<Node>>(new Set());
     setAnimatingNodes(animatingNodes);
+
+    const soundingNodes = writable<Set<Node>>(new Set());
+    setSoundingNodes(soundingNodes);
 
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());

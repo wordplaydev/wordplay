@@ -10,6 +10,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🔣 You can now choose whether an emoji you add is in color or black and white. Pick which one in the emoji chooser, and Wordplay keeps your choice when it shows the emoji and when you copy it.
 - 📋 You can now select the text your program shows and copy it somewhere else. This works while a project is playing, and on anything your program shows that isn't a stage.
+- 🔊 The notes your music is playing now light up in your code as you hear and see them. In a melody written as a list of numbers, each number glows when its turn comes.
 
 ### Fixed
 
@@ -18,6 +19,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📖 A word in our explanations pointed at a page that didn't exist, so it showed an empty box instead of a link. Markup and type variable now have their own pages in the [Guide](https://wordplay.dev/guide), and the markup page shows an example you can try.
 - 🌐 In several languages the word markup was translated as the money kind, like a price markup or a page margin, instead of text with bold words and links. It now means formatted text in every language.
 - ✍️ We fixed an extra space that crept in before a linked word in code, so `a @Phrase` no longer looks like `a  @Phrase`.
+- 🎞️ We fixed which code lights up while something on stage is moving. A ready-made motion like `Sequence.sway()` used to light up nothing at all, and a motion that never really moves used to light up as if it did. (#543)
 
 ## 0.30.0 - 2026-08-22
 

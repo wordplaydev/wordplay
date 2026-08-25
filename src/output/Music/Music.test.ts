@@ -31,6 +31,22 @@ function musicFrom(code: string): Music | undefined {
     return value ? toMusic(project, value, new NameGenerator()) : undefined;
 }
 
+/** Build a Music by evaluating and converting within one project, so the values
+ *  carry the very nodes that project holds — which is what provenance tests
+ *  need, and what `musicFrom`'s two-project trick deliberately gives up. */
+function musicIn(code: string) {
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
+    const value = evaluator.getInitialValue();
+    const music = value
+        ? toMusic(project, value, new NameGenerator())
+        : undefined;
+    evaluator.stop();
+    if (music === undefined) throw new Error('expected a music');
+    return music;
+}
+
 /** Build a Stage from a program, for collection tests. */
 function stageFrom(code: string) {
     const source = new Source('test', code);
@@ -467,4 +483,44 @@ test('the guitar split keeps older projects playing', () => {
         'electricGuitar',
     );
     expect(toInstrument(evaluateCode('🔈.⚡'))?.id).toBe('electricGuitar');
+});
+
+/**
+ * Each note keeps the value it was read from, so the editor can highlight the
+ * expression that determined a sounding note. The plain-data `MusicData` the
+ * player takes still drops it — this is above that boundary.
+ */
+
+test('a note written as a number remembers the number that wrote it', () => {
+    const notes = musicIn(`Music([Track([1 2 3])])`).tracks[0].notes;
+    expect(notes).toHaveLength(3);
+    expect(notes.map((note) => note.creator?.toWordplay().trim())).toEqual([
+        '1',
+        '2',
+        '3',
+    ]);
+    // Distinct nodes, so three notes highlight three places in the source.
+    expect(new Set(notes.map((note) => note.creator)).size).toBe(3);
+});
+
+test('a computed note falls back to the notes expression', () => {
+    // Arithmetic produces its number from the basis' internal `+`, which is in
+    // no Source, so per-note precision isn't available here. The whole melody
+    // expression is the nearest thing the creator wrote — highlighting it beats
+    // highlighting nothing, which is what a bare creator would have done.
+    const notes = musicIn(`Music([Track([1 2 3].translate(ƒ(n•#) n + 1))])`)
+        .tracks[0].notes;
+    expect(notes).toHaveLength(3);
+    for (const note of notes)
+        expect(note.creator?.toWordplay().trim()).toBe(
+            `[123].translate(ƒ(n•#)n+1)`,
+        );
+});
+
+test('a note written as a Note structure remembers that structure', () => {
+    const notes = musicIn(`Music([Track([♪(1) ♪(2)])])`).tracks[0].notes;
+    expect(notes.map((note) => note.creator?.toWordplay().trim())).toEqual([
+        '♪(1)',
+        '♪(2)',
+    ]);
 });

@@ -3,12 +3,15 @@ import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import { Easings, type EasingName } from '@output/animation/easing';
 import type Animator from '@output/animation/Animator';
+import { getAnimatingNodes } from '@output/animation/animatingNodes';
 import type {
     Orientation,
     OutputInfo,
     OutputName,
 } from '@output/animation/Animator';
+import type Node from '@nodes/Node';
 import type Output from '@output/Output/Output';
+import type Valued from '@output/Output/Valued';
 import {
     PX_PER_METER,
     sizeToPx,
@@ -61,6 +64,12 @@ export default class OutputAnimation {
 
     /** The curren transitions animating */
     sequence: Transition[] | undefined = undefined;
+
+    /** The nodes currently reported to the animator as animating. Stored rather
+     *  than recomputed at the end, so what we stop reporting is always exactly
+     *  what we started reporting — the animator refcounts them, and an
+     *  unmatched end would un-highlight code another output is still animating. */
+    private announced: Node[] | undefined = undefined;
 
     constructor(
         scene: Animator,
@@ -425,6 +434,48 @@ export default class OutputAnimation {
     }
 
     // Must have at least two transitions.
+    /** The output property driving the current state, whose call site stands in
+     *  when the poses themselves were built outside the creator's code. */
+    private getAnimationSource(): Valued | undefined {
+        switch (this.state) {
+            case AnimationState.Entering:
+                return this.output.entering;
+            case AnimationState.Moving:
+                return this.output.moving ?? this.output.pose;
+            case AnimationState.Exiting:
+                return this.output.exiting;
+            default:
+                return this.output.resting;
+        }
+    }
+
+    /** The nodes the given tween should highlight, or none if it holds still. */
+    private resolveAnimatingNodes(transitions: Transition[]): Node[] {
+        const project = this.animator.evaluator?.project;
+        if (project === undefined || !changesOverTime(transitions)) return [];
+        return getAnimatingNodes(
+            project,
+            this.output,
+            this.getAnimationSource(),
+            transitions,
+        );
+    }
+
+    /** Report a tween's nodes as animating. */
+    private announce(transitions: Transition[]) {
+        const nodes = this.resolveAnimatingNodes(transitions);
+        if (nodes.length === 0) return;
+        this.announced = nodes;
+        this.animator.startingSequence(nodes);
+    }
+
+    /** Stop reporting whatever this animation last announced. */
+    private unannounce() {
+        if (this.announced === undefined) return;
+        this.animator.endingSequence(this.announced);
+        this.announced = undefined;
+    }
+
     start(
         state: AnimationState,
         transitions: [Transition, Transition, ...Transition[]],
@@ -452,10 +503,8 @@ export default class OutputAnimation {
         }
 
         // End any current sequence first.
-        if (this.sequence) {
-            this.animator.endingSequence(this.sequence);
-            this.sequence = undefined;
-        }
+        this.unannounce();
+        this.sequence = undefined;
 
         // Update to the requested state.
         this.state = state;
@@ -529,7 +578,7 @@ export default class OutputAnimation {
         this.sequence = transitions;
 
         // Notify the stage that we're starting the sequence.
-        this.animator.startingSequence(transitions);
+        this.announce(transitions);
 
         // Start the Web Animation API animation...
         this.animation?.cancel();
@@ -560,10 +609,8 @@ export default class OutputAnimation {
         // Stop highlighting its nodes, as finish() and start() both do. Cleared
         // before rest(), so a resting Sequence starting there doesn't end the
         // sequence it just began.
-        if (this.sequence) {
-            this.animator.endingSequence(this.sequence);
-            this.sequence = undefined;
-        }
+        this.unannounce();
+        this.sequence = undefined;
         this.rest();
         // A Scene may be waiting on this reaching rest, and finish() reports the
         // same transition, so a move that ends early has to report it too.
@@ -640,12 +687,16 @@ export default class OutputAnimation {
 
         // Only republish the animating nodes when they actually changed: this
         // runs every frame, and each notification allocates and broadcasts a set.
+        // The pose-creator comparison is the cheap gate; whether the tween moves
+        // at all is checked too, since a move whose place stopped changing must
+        // stop being reported even though its poses are unchanged.
         if (
             this.sequence === undefined ||
-            !sameAnimatingNodes(this.sequence, transitions)
+            !sameAnimatingNodes(this.sequence, transitions) ||
+            changesOverTime(transitions) !== (this.announced !== undefined)
         ) {
-            if (this.sequence) this.animator.endingSequence(this.sequence);
-            this.animator.startingSequence(transitions);
+            this.unannounce();
+            this.announce(transitions);
         }
         this.sequence = transitions;
 
@@ -795,7 +846,7 @@ export default class OutputAnimation {
         this.log(`Finished; determining next state`);
 
         // If there's a sequence animating, notify the stage we're ending it.
-        if (this.sequence) this.animator.endingSequence(this.sequence);
+        this.unannounce();
 
         // Reset the current sequence.
         this.sequence = undefined;
@@ -835,7 +886,7 @@ export default class OutputAnimation {
         this.log(`Animation is done`);
 
         // If there's a sequence animating, notify the stage we're ending it.
-        if (this.sequence) this.animator.endingSequence(this.sequence);
+        this.unannounce();
 
         // Permananently mark the state as done.
         this.state = AnimationState.Done;
@@ -959,10 +1010,9 @@ export function isPlaceOnlyTween(transitions: Transition[]): boolean {
     );
 }
 
-/** Whether two tweens highlight the same nodes. Animator tracks animating nodes
- *  by each transition's pose creator, so a move that repeats with the same pose
- *  needs no new notification. Compared index-wise to avoid allocating a set per
- *  output per frame. */
+/** Whether two tweens would resolve to the same highlighted nodes. A cheap
+ *  pointer comparison used as the per-frame gate before the more expensive node
+ *  resolution, so a move that repeats with the same poses costs nothing. */
 export function sameAnimatingNodes(
     before: Transition[],
     after: Transition[],
@@ -974,5 +1024,25 @@ export function sameAnimatingNodes(
                 transition.pose.value.creator ===
                 after[index].pose.value.creator,
         )
+    );
+}
+
+/** Whether a tween changes anything visible over its duration. Two identical
+ *  keyframes animate nothing, so the editor must not say the code is animating:
+ *  `Sequence({0%: Pose()})` compiles to one pose held for its duration, and a
+ *  move to the place the output already occupies holds still too. Note this
+ *  says nothing about whether the animation should *run* — it still governs the
+ *  state machine's return to rest — only about what the editor reports. */
+export function changesOverTime(transitions: Transition[]): boolean {
+    const first = transitions[0];
+    if (first === undefined) return false;
+    return transitions.some(
+        (transition) =>
+            !transition.pose.equals(first.pose) ||
+            transition.size !== first.size ||
+            (transition.place === undefined) !== (first.place === undefined) ||
+            (transition.place !== undefined &&
+                first.place !== undefined &&
+                !transition.place.equals(first.place)),
     );
 }

@@ -56,6 +56,17 @@ export type PlayerDeps = {
     onBeat?: (beat: BeatTick) => void;
     /** Report what is sounding, for the visualizations. */
     onSound?: (music: string, notes: readonly ScheduledNote[]) => void;
+    /**
+     * Report everything a music has sounding right now, emitted only when that
+     * set changes.
+     *
+     * `onSound` fires at onset, which is all a meter or a light show needs, but
+     * nothing there ever says a note *stopped* — so it can't drive anything
+     * that has to be taken away again, like the editor's highlight of the
+     * expression a note came from. This closes that gap by reporting the set
+     * rather than the events.
+     */
+    onSounding?: (music: string, notes: readonly ScheduledNote[]) => void;
     /** Forget a music's activity when it stops. */
     onSilent?: (music: string) => void;
     vibrate?: (ms: number) => void;
@@ -124,6 +135,10 @@ export default class MusicPlayer {
     private pendingBeats: BeatTick[] = [];
     /** Scheduled notes waiting to become audible, for the visualizations. */
     private pendingSounds: ScheduledNote[] = [];
+    /** Notes that have become audible and have not yet ended, for `onSounding`. */
+    private soundingNotes: ScheduledNote[] = [];
+    /** What each music last reported sounding, so an unchanged set is silent. */
+    private readonly soundingKeys = new Map<string, string>();
     private nextVoiceId = 0;
     /** Where each music was at each of the caller's history marks, oldest
      * first. Read by `positionsAt`; see it for why this is display-only. */
@@ -274,7 +289,7 @@ export default class MusicPlayer {
                         if (entry.voices.length === 0)
                             this.entries.delete(name);
                     } else this.entries.delete(name);
-                    this.deps.onSilent?.(name);
+                    this.goSilent(name);
                     break;
                 case 'keep':
                     break;
@@ -333,7 +348,7 @@ export default class MusicPlayer {
         if (entry.stopping) {
             this.cancelVoices(entry);
             this.entries.delete(name);
-            this.deps.onSilent?.(name);
+            this.goSilent(name);
             return;
         }
 
@@ -349,7 +364,7 @@ export default class MusicPlayer {
         this.pendingSounds = this.pendingSounds.filter(
             (note) => note.music !== name || note.startTime <= now,
         );
-        this.deps.onSilent?.(name);
+        this.goSilent(name);
     }
 
     /** Pick the piece up at the beat it froze on. */
@@ -427,7 +442,7 @@ export default class MusicPlayer {
                 entry.voices.every((held) => held.voice.released)
             ) {
                 entry.finished = true;
-                this.deps.onSilent?.(name);
+                this.goSilent(name);
             }
         }
 
@@ -447,7 +462,16 @@ export default class MusicPlayer {
             }
             for (const [name, notes] of byMusic)
                 this.deps.onSound?.(name, notes);
+            this.soundingNotes.push(...sounding);
         }
+
+        // Retire notes whose span has passed and report the current set. Done
+        // every tick rather than only on an onset, since the last note of a
+        // piece ends without anything else starting.
+        this.soundingNotes = this.soundingNotes.filter(
+            (note) => note.startTime + note.durationSeconds > now,
+        );
+        this.reportSounding();
 
         // Emit beats when they are heard, not when they were scheduled: a
         // 2.5s hidden-tab lookahead would otherwise run visuals seconds ahead
@@ -567,15 +591,55 @@ export default class MusicPlayer {
      * neither. The shared principle is that play should resume the performance,
      * and for a sentence resuming and repeating are the same thing.
      */
+    /** Tell the listener what each music has sounding, when it has changed. */
+    private reportSounding() {
+        if (this.deps.onSounding === undefined) return;
+        const byMusic = new Map<string, ScheduledNote[]>();
+        for (const note of this.soundingNotes) {
+            const list = byMusic.get(note.music) ?? [];
+            list.push(note);
+            byMusic.set(note.music, list);
+        }
+        for (const [name, notes] of byMusic) {
+            const key = notes
+                .map((note) => `${note.trackIndex}:${note.noteIndex}`)
+                .sort()
+                .join(',');
+            if (this.soundingKeys.get(name) === key) continue;
+            this.soundingKeys.set(name, key);
+            this.deps.onSounding(name, notes);
+        }
+        // A music that has just gone quiet has to be told so too, or whatever
+        // it was showing stays on screen for good.
+        for (const name of [...this.soundingKeys.keys()])
+            if (!byMusic.has(name)) {
+                this.soundingKeys.delete(name);
+                this.deps.onSounding(name, []);
+            }
+    }
+
+    /** Announce that a music has stopped, and forget what it had sounding. Every
+     *  path that goes quiet comes through here, so the two can't drift apart —
+     *  a music whose notes were left behind would highlight them forever. */
+    private goSilent(name: string) {
+        this.soundingNotes = this.soundingNotes.filter(
+            (note) => note.music !== name,
+        );
+        this.soundingKeys.delete(name);
+        this.deps.onSilent?.(name);
+    }
+
     silence() {
         for (const [name, entry] of this.entries) {
             this.cancelVoices(entry);
-            this.deps.onSilent?.(name);
+            this.goSilent(name);
         }
         this.entries.clear();
         this.marks.clear();
         this.pendingBeats = [];
         this.pendingSounds = [];
+        this.soundingNotes = [];
+        this.soundingKeys.clear();
         this.stopTimer();
     }
 

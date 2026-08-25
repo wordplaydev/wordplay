@@ -5,6 +5,7 @@ import DefaultLocales from '@locale/DefaultLocales';
 import Source from '@nodes/Source';
 import { getPlacingMotion } from '@input/Motion/Motion';
 import {
+    changesOverTime,
     isPlaceOnlyTween,
     sameAnimatingNodes,
 } from '@output/animation/OutputAnimation';
@@ -13,6 +14,7 @@ import type Stage from '@output/Output/Stage';
 import { toStage } from '@output/Output/Stage';
 import type Pose from '@output/animation/Pose';
 import { toPose } from '@output/animation/Pose';
+import { createPlace } from '@output/Place/Place';
 import Transition from '@output/animation/Transition';
 import Evaluator from '@runtime/Evaluator';
 import ListValue from '@values/ListValue';
@@ -57,6 +59,72 @@ function tween(given: Pose[]): Transition[] {
         (pose) => new Transition(undefined, 1, pose, 0.125, undefined),
     );
 }
+
+/** Transitions carrying the given poses at the given x positions, the shape a
+ *  move builds. Needs an evaluator, since a Place is a value. */
+function placedTween(given: Pose[], xs: number[]): Transition[] {
+    const { evaluator } = stageOf(`Phrase('a')`);
+    const transitions = given.map(
+        (pose, index) =>
+            new Transition(
+                createPlace(evaluator, xs[index], 0, 0),
+                1,
+                pose,
+                0.125,
+                undefined,
+            ),
+    );
+    evaluator.stop();
+    return transitions;
+}
+
+test('a sequence of one pose holds still, so it animates nothing', () => {
+    // What Sequence.compile() builds for `Sequence({0%: Pose()})`: the same
+    // Pose object at both ends of the tween. The browser animates it and
+    // nothing moves, which is exactly what must not be reported as animating.
+    const [only] = poses('[Pose()]');
+    expect(changesOverTime(tween([only, only]))).toBe(false);
+});
+
+test('a sequence whose poses are equal holds still too', () => {
+    // Distinct Pose values written in two places, but nothing differs between
+    // the keyframes, so there is still no animation to report.
+    const same = poses('[Pose(scale: 2) Pose(scale: 2)]');
+    expect(changesOverTime(tween(same))).toBe(false);
+});
+
+test('a sequence whose poses differ changes over time', () => {
+    const differing = poses('[Pose(opacity: 0%) Pose(opacity: 100%)]');
+    expect(changesOverTime(tween(differing))).toBe(true);
+});
+
+test('a move changes over time even when its pose never does', () => {
+    // A place-only tween: the whole point of a move with no moving: pose.
+    const same = poses('[Pose(rotation: 15°) Pose(rotation: 15°)]');
+    expect(changesOverTime(placedTween(same, [0, 5]))).toBe(true);
+});
+
+test('a move to the place the output already occupies holds still', () => {
+    const same = poses('[Pose(rotation: 15°) Pose(rotation: 15°)]');
+    expect(changesOverTime(placedTween(same, [3, 3]))).toBe(false);
+});
+
+test('a tween that only resizes changes over time', () => {
+    const same = poses('[Pose() Pose()]');
+    const [first, second] = tween(same);
+    expect(
+        changesOverTime([
+            first,
+            new Transition(
+                second.place,
+                2,
+                second.pose,
+                second.duration,
+                second.style,
+            ),
+        ]),
+    ).toBe(true);
+});
 
 test('a tween whose poses are all equal moves the output without posing it', () => {
     // Three separate Pose values, equal by content but distinct objects — the

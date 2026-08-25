@@ -242,6 +242,14 @@
                 --wordplay-chrome: var(--color-light-grey);
                 --wordplay-border-color: var(--color-light-grey);
                 --wordplay-evaluation-color: var(--color-pink);
+                /* A note sounding right now, filled behind the expression that
+                   wrote it. Purple rather than the highlight gold because the
+                   token text on this fill is painted --wordplay-background,
+                   and white on gold measures 3.01:1 — under AA. Purple gives
+                   4.51:1 light and 11.4:1 dark. Distinct from the evaluation
+                   pink too, so a phrase animating while a melody plays doesn't
+                   read as one thing. */
+                --wordplay-sounding-color: var(--color-purple);
                 --wordplay-highlight-color: var(--color-yellow);
                 /* Link/term text color. The AA gold text variant, NOT the
                    highlight gold: gold as text needs 4.5:1 contrast, gold as

@@ -14,6 +14,11 @@ import { get } from 'svelte/store';
 import { haptics } from '@db/Database';
 import supportsVibration from '@db/settings/supportsVibration';
 import { clearActivity, reportActivity } from '@output/Music/activity';
+import {
+    clearSounding,
+    reportSounding,
+    type SoundingNote,
+} from '@output/Music/sounding';
 
 export type MusicPlayerHandle = {
     readonly player: MusicPlayer;
@@ -75,7 +80,31 @@ export function acquireMusicPlayer(
                         seconds: note.durationSeconds,
                     })),
                 ),
-            onSilent: (music) => clearActivity(music),
+            onSounding: (music, notes) =>
+                reportSounding(
+                    music,
+                    // A chord contributes one ScheduledNote per voice, which
+                    // all came from the same entry, so the same position can
+                    // arrive several times; the editor wants it once.
+                    notes.reduce<SoundingNote[]>((unique, note) => {
+                        if (
+                            !unique.some(
+                                (had) =>
+                                    had.track === note.trackIndex &&
+                                    had.note === note.noteIndex,
+                            )
+                        )
+                            unique.push({
+                                track: note.trackIndex,
+                                note: note.noteIndex,
+                            });
+                        return unique;
+                    }, []),
+                ),
+            onSilent: (music) => {
+                clearActivity(music);
+                clearSounding(music);
+            },
             vibrate: (ms: number) => {
                 if (get(haptics) && supportsVibration()) navigator.vibrate(ms);
             },

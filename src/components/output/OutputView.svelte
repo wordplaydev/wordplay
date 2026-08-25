@@ -29,9 +29,12 @@
         getPaletteOpen,
         getRevealPalette,
         getSelectedOutput,
+        getSoundingNodes,
         IdleKind,
         setSensorPanelStack,
     } from '@components/project/Contexts';
+    import type Node from '@nodes/Node';
+    import { soundingNotes } from '@output/Music/sounding';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
@@ -2075,9 +2078,42 @@
     // above. Music is frozen while paused or stepping, so a stage being read
     // with the caret and echo announcements is never played over — and picks up
     // where it stopped when the stage plays again.
-    let musics = $derived(
-        (stageValue?.getMusic() ?? []).map((music) => music.toData()),
-    );
+    // The Music output is kept alongside the data the player takes, since it is
+    // the only thing that still knows which expression wrote each note.
+    let musicOutput = $derived(stageValue?.getMusic() ?? []);
+    let musics = $derived(musicOutput.map((music) => music.toData()));
+
+    /**
+     * The expressions that determined the notes sounding right now, for the
+     * editor to highlight. Resolved here because this is what holds the `Music`
+     * output the player's track/note positions index into; the player itself
+     * stays on plain data.
+     */
+    const soundingNodes = getSoundingNodes();
+    $effect(() => {
+        if (!interactive || soundingNodes === undefined) return;
+        const sounding = $soundingNotes;
+        const byName = new Map(
+            musicOutput.map((music) => [music.getName(), music]),
+        );
+        const nodes = new Set<Node>();
+        for (const [name, notes] of sounding) {
+            const music = byName.get(name);
+            if (music === undefined) continue;
+            for (const { track, note } of notes) {
+                const creator = music.tracks[track]?.notes[note]?.creator;
+                if (creator !== undefined) nodes.add(creator);
+            }
+        }
+        // Publish only on change: this can tick every 25ms, and each publish
+        // re-runs the editor's whole project-highlight pass.
+        soundingNodes.update((current) =>
+            current.size === nodes.size &&
+            [...nodes].every((node) => current.has(node))
+                ? current
+                : nodes,
+        );
+    });
 
     /** Tracks as well as musics, because the renderings disagree about what
      *  counts as present — see `musicFloorHeight`. */

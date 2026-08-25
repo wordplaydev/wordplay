@@ -16,6 +16,7 @@
     import {
         IdleKind,
         setAnimatingNodes,
+        setSoundingNodes,
         setEvaluation,
         setKeyboardEditIdle,
         setProject,
@@ -148,10 +149,12 @@
         ownEvaluator ? getEvalContext(ownEvaluator) : undefined,
     );
     const animatingNodes = writable<Set<Node>>(new Set());
+    const soundingNodes = writable<Set<Node>>(new Set());
     if (selfContained) {
         setProject(projectStore);
         setEvaluation(evaluation);
         setAnimatingNodes(animatingNodes);
+        setSoundingNodes(soundingNodes);
         setKeyboardEditIdle(writable(IdleKind.Idle));
         setResetKeyboardIdle(() => {});
         setSelectedOutput(new SelectedOutput());

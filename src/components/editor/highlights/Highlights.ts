@@ -64,6 +64,8 @@ export const HighlightTypes = {
     attention: true,
     // A node that is animated
     animating: false,
+    // A node that determined a note sounding right now
+    sounding: false,
     // The name of output that is selected on stage
     output: true,
     // Highlight of a block-level node when blocks are enabled
@@ -192,6 +194,7 @@ export function getProjectHighlights(
     /** The node responsible for the latest source-level exception, if any. */
     exceptionNode: Node | undefined,
     animatingNodes: Set<Node> | undefined,
+    soundingNodes: Set<Node> | undefined,
     selectedOutput: Node[] | undefined,
     blocks: boolean,
 ): Highlights {
@@ -219,6 +222,11 @@ export function getProjectHighlights(
         for (const animating of animatingNodes)
             if (source.has(animating))
                 highlights.add(source, animating, 'animating');
+
+    if (soundingNodes)
+        for (const sounding of soundingNodes)
+            if (source.has(sounding))
+                highlights.add(source, sounding, 'sounding');
 
     // Mark the whole Evaluate, matching what selection actually means: the caret being
     // anywhere inside the output selects it, so marking one token would understate it.
@@ -530,6 +538,7 @@ export function getHighlights(
     hovered: Node | undefined,
     insertion: InsertionPoint | AssignmentPoint | undefined,
     animatingNodes: Set<Node> | undefined,
+    soundingNodes: Set<Node> | undefined,
     selectedOutput: Node[] | undefined,
     blocks: boolean,
     selecting: boolean,
@@ -548,6 +557,7 @@ export function getHighlights(
             evaluator.getStepNode(),
             exceptionNode,
             animatingNodes,
+            soundingNodes,
             selectedOutput,
             blocks,
         ),
