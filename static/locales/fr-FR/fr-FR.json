@@ -8089,6 +8089,14 @@
                             "$~Afficher les légendes deux fois plus grandes",
                             "$~Afficher les légendes trois fois plus grandes"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~couleurs du projet",
+                        "labels": ["$~garder", "$~inverser"],
+                        "tips": [
+                            "$~afficher les couleurs d'un projet exactement comme il les a écrites, même sur un écran sombre",
+                            "$~sur un écran sombre, inverser les couleurs d'un projet clair pour les rendre sombres : chaque couleur garde sa teinte, et les couleurs restent aussi éloignées les unes des autres que le projet les avait faites"
+                        ]
                     }
                 },
                 "options": {

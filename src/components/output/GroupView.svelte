@@ -215,11 +215,17 @@
     style:height={sizeToPx(layout.height)}
     style:font-family={getFaceCSS(localContext.face)}
     style:font-size={getSizeCSS(localContext.size)}
-    style:background={group instanceof Group ? group.background?.toCSS() : null}
-    style:outline-color={group instanceof Group
-        ? group.background?.toCSS()
+    style:background={group instanceof Group
+        ? group.background?.toCSS(localContext.adapting)
         : null}
-    style:color={getColorCSS(group.getFirstRestPose(), group.pose)}
+    style:outline-color={group instanceof Group
+        ? group.background?.toCSS(localContext.adapting)
+        : null}
+    style:color={getColorCSS(
+        group.getFirstRestPose(),
+        group.pose,
+        localContext.adapting,
+    )}
     style:opacity={getOpacityCSS(group.getFirstRestPose(), group.pose)}
     style:transform={toOutputTransform(
         group.getFirstRestPose(),

@@ -8111,6 +8111,14 @@
                             "$~Pokaż napisy dwa razy większe",
                             "$~Pokaż napisy trzy razy większe"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~kolory projektu",
+                        "labels": ["$~zachowaj", "$~odwróć"],
+                        "tips": [
+                            "$~pokaż kolory projektu dokładnie tak, jak zostały zapisane, nawet na ciemnym ekranie",
+                            "$~na ciemnym ekranie zmień jasne kolory projektu na ciemne: każdy kolor zachowuje swój odcień, a kolory pozostają od siebie tak różne, jak zaplanował to projekt"
+                        ]
                     }
                 },
                 "options": {

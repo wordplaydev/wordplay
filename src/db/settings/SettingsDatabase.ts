@@ -11,6 +11,7 @@ import { AnimationFactorSetting } from '@db/settings/AnimationFactorSetting';
 import { AnnotationsSetting } from '@db/settings/AnnotationsSetting';
 import type { ArrangementType } from '@db/settings/Arrangement';
 import { ArrangementSetting } from '@db/settings/ArrangementSetting';
+import { AdaptOutputSetting } from '@db/settings/AdaptOutputSetting';
 import {
     BlockDensitySetting,
     type BlockDensity,
@@ -212,6 +213,7 @@ export default class SettingsDatabase {
         words: WordsSetting,
         blockDensity: BlockDensitySetting,
         dark: DarkSetting,
+        adaptOutput: AdaptOutputSetting,
         space: SpaceSetting,
         lines: LineSetting,
         wrap: WrapSetting,
@@ -568,6 +570,14 @@ export default class SettingsDatabase {
 
     setDark(dark: boolean | null) {
         this.settings.dark.set(this.database, dark);
+    }
+
+    setAdaptOutput(on: boolean) {
+        this.settings.adaptOutput.set(this.database, on);
+    }
+
+    getAdaptOutput() {
+        return this.settings.adaptOutput.get();
     }
 
     setSpace(space: boolean) {

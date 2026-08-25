@@ -15,6 +15,7 @@
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import Synced from '@components/widgets/Synced.svelte';
     import {
+        adaptOutput,
         arrangement,
         blockDensity,
         blocks,
@@ -250,6 +251,19 @@
                             )}
                         icons={['☼', '☽', '☼/☽']}
                     />
+                    <!-- Hidden when the creator has forced light, since a
+                         project's colors are only ever flipped on a dark screen. -->
+                    {#if $dark !== false}
+                        <Mode
+                            grid
+                            indented
+                            modes={(l) => l.ui.dialog.settings.mode.adaptOutput}
+                            choice={$adaptOutput ? 1 : 0}
+                            select={(choice) =>
+                                Settings.setAdaptOutput(choice === 1)}
+                            icons={['🎨', '🌗']}
+                        />
+                    {/if}
                     <Mode
                         grid
                         modes={(l) => l.ui.dialog.settings.mode.layout}

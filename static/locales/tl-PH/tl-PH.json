@@ -8333,6 +8333,14 @@
                             "$~Ipakita ang mga kapsyon na dalawang beses na mas malaki",
                             "$~Ipakita ang mga kapsyon na tatlong beses na mas malaki"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~mga kulay ng proyekto",
+                        "labels": ["$~panatilihin", "$~baligtarin"],
+                        "tips": [
+                            "$~ipakita ang mga kulay ng proyekto nang kapareho ng pagkasulat nito, kahit sa maitim na screen",
+                            "$~sa maitim na screen, baligtarin ang mga maliwanag na kulay ng proyekto para maging madilim: pinapanatili ng bawat kulay ang sarili nitong tint, at nananatiling magkalayo ang mga kulay ayon sa itinakda ng proyekto"
+                        ]
                     }
                 },
                 "options": {

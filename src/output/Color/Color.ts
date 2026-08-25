@@ -1,3 +1,4 @@
+import { adaptLightness } from '@output/Color/adapt';
 import { LCHtoRGB } from '@output/Color/lch';
 import { getBind } from '@locale/getBind';
 import { SHARE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
@@ -294,15 +295,38 @@ export default class Color extends Valued {
         );
     }
 
+    /**
+     * This color as it renders on an adapted (dark) canvas. Returns `this`
+     * when not adapting, so the identity case allocates nothing. Used a few
+     * times per stage — for the grid color, the published background, and the
+     * color-scheme decision; per-phrase color goes through `toCSS` instead.
+     */
+    adapted(adapting: boolean): Color {
+        return adapting
+            ? new Color(
+                  this.value,
+                  new Decimal(adaptLightness(this.lightness.toNumber())),
+                  this.chroma,
+                  this.hue,
+              )
+            : this;
+    }
+
     hash() {
         return `${this.lightness}${this.chroma}${this.hue}`;
     }
 
-    toCSS() {
+    /** Pass `adapting` to render this color on a dark canvas. The flag lives
+     *  here rather than in a transformed `Color` because this is the per-frame
+     *  path: it already extracts numbers, so adapting costs one subtraction and
+     *  no allocation. Chrome that must show the authored color — the value
+     *  inspector's swatch, the palette's sequence previews — omits it. */
+    toCSS(adapting = false) {
         // We should be able to return a direct LCH value, but Safari doesn't handle CSS opacity on LCH colors of symbols well.
         // return opaque === true ? color.to('srgb').toString() : color.display();
+        const lightness = this.lightness.toNumber();
         return LCHtoRGB(
-            this.lightness.toNumber(),
+            adapting ? adaptLightness(lightness) : lightness,
             this.chroma.toNumber(),
             this.hue.toNumber(),
         );

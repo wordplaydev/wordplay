@@ -8350,6 +8350,14 @@
                             "$~Tampilkan keterangan dua kali lebih besar",
                             "$~Tampilkan keterangan tiga kali lebih besar"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~warna proyek",
+                        "labels": ["$~pertahankan", "$~balik"],
+                        "tips": [
+                            "$~tampilkan warna proyek persis seperti yang ditulis, bahkan di layar gelap",
+                            "$~di layar gelap, balikkan warna proyek yang terang menjadi gelap: setiap warna tetap dengan rona aslinya, dan warna tetap sejauh yang dibuat oleh proyek"
+                        ]
                     }
                 },
                 "options": {

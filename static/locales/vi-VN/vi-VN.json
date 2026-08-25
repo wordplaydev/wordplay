@@ -8337,6 +8337,14 @@
                             "$~Hiển thị phụ đề lớn gấp đôi",
                             "$~Hiển thị phụ đề lớn gấp ba"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~màu sắc dự án",
+                        "labels": ["$~giữ nguyên", "$~đảo ngược"],
+                        "tips": [
+                            "$~hiển thị màu sắc của dự án đúng như dự án đã đặt, kể cả trên màn hình tối",
+                            "$~trên màn hình tối, đảo ngược màu sắc sáng của dự án thành tối: mỗi màu vẫn giữ nguyên sắc màu của nó, và các màu vẫn cách xa nhau như dự án đã đặt"
+                        ]
                     }
                 },
                 "options": {

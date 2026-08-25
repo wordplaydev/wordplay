@@ -8093,6 +8093,14 @@
                             "$~Altyazıları iki kat büyük göster",
                             "$~Altyazıları üç kat büyük göster"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~proje renkleri",
+                        "labels": ["$~koru", "$~çevir"],
+                        "tips": [
+                            "$~bir projenin renklerini, karanlık bir ekranda bile tam olarak yazıldığı gibi göster",
+                            "$~karanlık bir ekranda, parlak bir projenin renklerini koyu renklere çevir: her renk kendi tonunu korur ve renkler projenin belirlediği kadar birbirinden uzak kalır"
+                        ]
                     }
                 },
                 "options": {

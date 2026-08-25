@@ -9,7 +9,8 @@
     import Spinning from '@components/app/Spinning.svelte';
     import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
     import { characterToSVG, type Character } from '@db/characters/Character';
-    import { CharactersDB } from '@db/Database';
+    import { adaptPreviewColors } from '@components/app/adaptPreview';
+    import { adaptingOutput, CharactersDB } from '@db/Database';
     import type { SerializedPreviewContent } from '@db/projects/ProjectSchemas';
 
     interface Props {
@@ -47,20 +48,31 @@
             cancelled = true;
         };
     });
+
+    /** The preview's colors as this viewer should see them: adapted when they
+     *  are in dark mode and the project is bright. Derived rather than computed
+     *  per render, so the color parse happens only when one of the two changes. */
+    const colors = $derived(adaptPreviewColors(preview, $adaptingOutput));
 </script>
 
 <div
     class="glyph"
     role="presentation"
-    style:background={preview?.background ?? null}
-    style:color={preview?.foreground ?? null}
+    style:background={colors.background}
+    style:color={colors.foreground}
     style:font-family={preview?.face ?? null}
+    style:color-scheme={colors.scheme}
     class:blurred
 >
     {#if preview === null}
         <Spinning />
     {:else if character}
-        {@html characterToSVG(character, '100%')}
+        {@html characterToSVG(
+            character,
+            '100%',
+            undefined,
+            colors.scheme === 'dark',
+        )}
     {:else}
         <EmojisRepaired text={preview.text} />
     {/if}
@@ -74,9 +86,8 @@
         justify-content: center;
         width: 100%;
         height: 100%;
-        /* Previews show creator output — keep a stable light canvas (matching
-           OutputView/StageView) so its background/foreground don't invert in dark. */
-        color-scheme: light;
+        /* The color scheme is declared inline from the preview's own background
+           (see adaptPreviewColors), matching OutputView/StageView. */
         background: var(--wordplay-background);
         text-decoration: none;
         color: var(--wordplay-foreground);

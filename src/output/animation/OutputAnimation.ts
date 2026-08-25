@@ -743,8 +743,14 @@ export default class OutputAnimation {
         return transitions.map((transition) => {
             const keyframe: Keyframe = {};
 
+            // Animated pose colors are written straight into WAAPI keyframes
+            // and never pass through the Svelte markup, so they need the
+            // stage's adapt flag applied here or animated output would stay
+            // bright while everything static around it went dark.
             if (transition.pose.color !== undefined)
-                keyframe.color = transition.pose.color.toCSS();
+                keyframe.color = transition.pose.color.toCSS(
+                    this.context.adapting,
+                );
             if (transition.pose.opacity !== undefined)
                 keyframe.opacity = transition.pose.opacity;
 

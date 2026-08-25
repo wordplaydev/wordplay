@@ -17399,6 +17399,10 @@
                                         "mode": {
                                             "additionalProperties": false,
                                             "properties": {
+                                                "adaptOutput": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether a project's colors are shown as written or flipped to suit a dark screen"
+                                                },
                                                 "animate": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "The animation off/slowdown/auto mode (last entry is \"auto\", which follows the device prefers-reduced-motion setting)."
@@ -17468,6 +17472,7 @@
                                                 "layout",
                                                 "animate",
                                                 "dark",
+                                                "adaptOutput",
                                                 "writing",
                                                 "blocks",
                                                 "words",

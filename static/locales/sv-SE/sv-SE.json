@@ -8083,6 +8083,14 @@
                             "$~Visa bildtexter dubbelt så stora",
                             "$~Visa bildtexter tre gånger så stora"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~projektfärger",
+                        "labels": ["$~behåll", "$~vänd"],
+                        "tips": [
+                            "$~visa ett projekts färger exakt som det skrev dem, även på en mörk skärm",
+                            "$~på en mörk skärm, vänd ett ljust projekts färger till mörka: varje färg behåller sin nyans, och färgerna förblir lika olika som projektet gjorde dem"
+                        ]
                     }
                 },
                 "options": {

@@ -7,7 +7,10 @@
         type Character,
     } from '@db/characters/Character';
 
-    let { name }: { name: CharacterName } = $props();
+    let {
+        name,
+        adapting = false,
+    }: { name: CharacterName; adapting?: boolean } = $props();
 
     let character = $state<Character | 'loading' | null>('loading');
     /** When the character changes, load the character */
@@ -28,7 +31,7 @@
 {:else}
     <div class="character">
         {#if character}
-            {@html characterToSVG(character, '.9em')}
+            {@html characterToSVG(character, '.9em', undefined, adapting)}
         {:else}
             {@html unknownCharacterSVG('.9em')}
         {/if}

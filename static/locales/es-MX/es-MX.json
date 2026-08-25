@@ -8082,6 +8082,14 @@
                             "$~mostrar subtítulos dos veces más grandes",
                             "$~mostrar subtítulos tres veces más grandes"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~colores del proyecto",
+                        "labels": ["$~mantener", "$~invertir"],
+                        "tips": [
+                            "$~mostrar los colores de un proyecto tal como se escribieron, incluso en una pantalla oscura",
+                            "$~en una pantalla oscura, invertir los colores brillantes de un proyecto para oscurecerlos: cada color mantiene su tono, y los colores quedan tan separados entre sí como los hizo el proyecto"
+                        ]
                     }
                 },
                 "options": {

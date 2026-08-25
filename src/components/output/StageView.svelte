@@ -88,6 +88,9 @@
         /** Whether this is a thumbnail-sized preview, which opts out of the automatic
          * pull-back on small viewports — a thumbnail is small on purpose. */
         mini?: boolean;
+        /** Whether this stage's colors are being flipped for a dark canvas.
+         * Decided by OutputView, since it owns the run this is latched to. */
+        adapting?: boolean;
     }
 
     let {
@@ -106,6 +109,7 @@
         zoom = $bindable(1),
         contentHidden = $bindable(false),
         mini = false,
+        adapting = false,
     }: Props = $props();
 
     const evaluation = getEvaluation();
@@ -408,8 +412,27 @@
             // condition the selection chrome uses, so a placeholder never appears
             // without a palette to edit it in.
             $evaluation?.playing === false && !painting && inspectable,
+            adapting,
         );
     });
+
+    /** The stage background as it is actually painted, which is what the grid
+     *  and the color scheme have to agree with. */
+    let renderedBack = $derived(stage.back.adapted(adapting));
+
+    /** The color scheme this canvas is, so the theme tokens output falls back to
+     *  — the stage's own foreground, a Shape's untinted fill, a Group's frame —
+     *  resolve against the canvas rather than the UI around it. Derived from
+     *  the painted background, so a project that authors a dark background gets
+     *  dark-mode tokens even in a light UI with adaptation off. Null when the
+     *  stage isn't painting a background, so it inherits. */
+    let scheme = $derived(
+        background
+            ? renderedBack.lightness.greaterThan(0.5)
+                ? 'light'
+                : 'dark'
+            : null,
+    );
     let contentBounds = $derived(stage.getLayout(context));
 
     /** Permanently disable autofit when the user starts a palette edit, so the
@@ -859,10 +882,15 @@
         data-selectable={stage.selectable}
         style:font-family={getFaceCSS(stage.face)}
         style:font-size={getSizeCSS(context.size)}
-        style:background={background ? stage.back.toCSS() : null}
-        style:color={getColorCSS(stage.getFirstRestPose(), stage.pose)}
+        style:background={background ? stage.back.toCSS(adapting) : null}
+        style:color={getColorCSS(
+            stage.getFirstRestPose(),
+            stage.pose,
+            adapting,
+        )}
         style:opacity={getOpacityCSS(stage.getFirstRestPose(), stage.pose)}
-        style:--grid-color={stage.back.contrasting().toCSS()}
+        style:--grid-color={renderedBack.contrasting().toCSS()}
+        style:color-scheme={scheme}
         bind:this={view}
     >
         <!-- The light show tints the stage beneath its output, when the
@@ -1078,10 +1106,9 @@
         position: relative;
         flex-grow: 1;
 
-        /* Keep stages a stable light canvas even when rendered outside OutputView
-           (e.g. project previews), so the fallbacks below resolve light and don't
-           invert under a dark UI. */
-        color-scheme: light;
+        /* The scheme is declared inline from the background actually painted
+           (see `scheme`), not from the app's, so the fallbacks below resolve
+           against the canvas a creator made rather than the UI around it. */
         color: var(--wordplay-foreground);
 
         --grid-color: currentColor;

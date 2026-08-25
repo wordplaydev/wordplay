@@ -1622,6 +1622,8 @@ type UITexts = {
                 >;
                 /** The dark on/off/automatic mode */
                 dark: ModeText<[string, string, string]>;
+                /** Whether a project's colors are shown as written or flipped to suit a dark screen */
+                adaptOutput: ModeText<[string, string]>;
                 /** The writing layout direction (automatic, horizontal, vertical rtl, vertical ltr) */
                 writing: ModeText<[string, string, string, string]>;
                 /** The blocks on/off mode */

@@ -11,6 +11,7 @@
  */
 // From the standalone module, not Color: Character is reachable from the
 // database, and Color pulls the whole basis.
+import { adaptLightness } from '@output/Color/adapt';
 import { LCHtoRGB } from '@output/Color/lch';
 import z from 'zod';
 
@@ -208,8 +209,13 @@ export function characterToSVG(
     character: Character,
     size: number | string,
     selection?: CharacterShape[],
+    /** Whether the stage this is drawn on is having its colors flipped for a
+     *  dark canvas. A character's explicit fills are creator colors like any
+     *  other, so leaving them out would put the one bright thing on a dark
+     *  stage. A `null` fill is `currentColor` and follows the phrase already. */
+    adapting = false,
 ): string {
-    return `<svg width="${size}" height="${size}" viewBox="0 0 ${CharacterSize} ${CharacterSize}">${character.shapes.map((s) => shapeToSVG(s, selection)).join('')}</svg>`;
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${CharacterSize} ${CharacterSize}">${character.shapes.map((s) => shapeToSVG(s, selection, adapting)).join('')}</svg>`;
 }
 
 export function unknownCharacterSVG(size: number | string) {
@@ -219,25 +225,27 @@ export function unknownCharacterSVG(size: number | string) {
 export function shapeToSVG(
     shape: CharacterShape,
     selection?: CharacterShape[],
+    adapting = false,
 ): string {
     const selected = selection?.some((s) => s === shape);
     switch (shape.type) {
         case 'rect':
-            return rectToSVG(shape, selected);
+            return rectToSVG(shape, selected, adapting);
         case 'ellipse':
-            return ellipseToSVG(shape, selected);
+            return ellipseToSVG(shape, selected, adapting);
         case 'pixel':
-            return pixelToSVG(shape, selected);
+            return pixelToSVG(shape, selected, adapting);
         case 'path':
-            return pathToSVG(shape, selected);
+            return pathToSVG(shape, selected, adapting);
         case 'glyph':
-            return glyphToSVG(shape, selected);
+            return glyphToSVG(shape, selected, adapting);
     }
 }
 
 function rectToSVG(
     rect: CharacterRectangle,
     selected: boolean = false,
+    adapting = false,
 ): string {
     const selectionStrokeWidth = Math.max(
         SelectionStrokeWidth,
@@ -250,9 +258,9 @@ function rectToSVG(
         height: Math.abs(rect.height),
         rx: rect.corner,
         ry: rect.corner,
-        fill: colorToSVG(rect.fill),
+        fill: colorToSVG(rect.fill, adapting),
         stroke: rect.stroke
-            ? colorToSVG(rect.stroke.color)
+            ? colorToSVG(rect.stroke.color, adapting)
             : selected
               ? 'currentColor'
               : undefined,
@@ -272,6 +280,7 @@ function rectToSVG(
 function ellipseToSVG(
     ellipse: CharacterEllipse,
     selected: boolean = false,
+    adapting = false,
 ): string {
     const selectionStrokeWidth = Math.max(
         SelectionStrokeWidth,
@@ -283,9 +292,9 @@ function ellipseToSVG(
         cy: ellipse.point.y + ellipse.height / 2,
         rx: Math.abs(ellipse.width / 2),
         ry: Math.abs(ellipse.height / 2),
-        fill: colorToSVG(ellipse.fill),
+        fill: colorToSVG(ellipse.fill, adapting),
         stroke: ellipse.stroke
-            ? colorToSVG(ellipse.stroke.color)
+            ? colorToSVG(ellipse.stroke.color, adapting)
             : selected
               ? 'currentColor'
               : undefined,
@@ -302,14 +311,18 @@ function ellipseToSVG(
     });
 }
 
-function pixelToSVG(pixel: CharacterPixel, selected: boolean = false): string {
+function pixelToSVG(
+    pixel: CharacterPixel,
+    selected: boolean = false,
+    adapting = false,
+): string {
     return tag('rect', {
         class: selected ? 'selected' : undefined,
         x: pixel.point.x,
         y: pixel.point.y,
         width: 1,
         height: 1,
-        fill: colorToSVG(pixel.fill),
+        fill: colorToSVG(pixel.fill, adapting),
         stroke: selected ? 'currentColor' : undefined,
         'stroke-width': selected ? SelectionStrokeWidth : undefined,
     });
@@ -320,7 +333,11 @@ function segmentToSVG({ x, y, curve }: PathPoint): string {
     return curve ? `Q ${curve.x} ${curve.y} ${x} ${y}` : `L ${x} ${y}`;
 }
 
-function pathToSVG(path: CharacterPath, selected: boolean = false): string {
+function pathToSVG(
+    path: CharacterPath,
+    selected: boolean = false,
+    adapting = false,
+): string {
     const [first, ...rest] = path.points;
     const points = [
         `${first.x} ${first.y}`,
@@ -344,10 +361,10 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
             path.fill === null
                 ? 'currentColor'
                 : path.fill !== undefined
-                  ? LCHtoRGB(path.fill.l, path.fill.c, path.fill.h)
+                  ? fillToSVG(path.fill, adapting)
                   : 'none',
         stroke: path.stroke
-            ? colorToSVG(path.stroke.color)
+            ? colorToSVG(path.stroke.color, adapting)
             : selected
               ? 'currentColor'
               : undefined,
@@ -375,7 +392,11 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
  * glyph would multiply the stroke too, and the shared stroke-width slider would
  * do something different depending on which shape was selected.
  */
-function glyphToSVG(glyph: CharacterGlyph, selected: boolean = false): string {
+function glyphToSVG(
+    glyph: CharacterGlyph,
+    selected: boolean = false,
+    adapting = false,
+): string {
     const selectionStrokeWidth = Math.max(
         SelectionStrokeWidth,
         glyph.stroke?.width ?? SelectionStrokeWidth,
@@ -383,9 +404,9 @@ function glyphToSVG(glyph: CharacterGlyph, selected: boolean = false): string {
     return tag('path', {
         class: selected ? 'selected' : undefined,
         d: glyph.d,
-        fill: colorToSVG(glyph.fill),
+        fill: colorToSVG(glyph.fill, adapting),
         stroke: glyph.stroke
-            ? colorToSVG(glyph.stroke.color)
+            ? colorToSVG(glyph.stroke.color, adapting)
             : selected
               ? 'currentColor'
               : undefined,
@@ -409,12 +430,21 @@ function glyphToSVG(glyph: CharacterGlyph, selected: boolean = false): string {
     });
 }
 
-function colorToSVG(fill: Color | undefined | null): string | undefined {
+function colorToSVG(
+    fill: Color | undefined | null,
+    adapting = false,
+): string | undefined {
     return fill === null
         ? 'currentColor'
         : fill
-          ? LCHtoRGB(fill.l, fill.c, fill.h)
+          ? fillToSVG(fill, adapting)
           : 'none';
+}
+
+/** The one place a character's LCH fill becomes CSS, so the adapt flag can't
+ *  be applied to some of a character's shapes and not others. */
+function fillToSVG(fill: Color, adapting: boolean): string {
+    return LCHtoRGB(adapting ? adaptLightness(fill.l) : fill.l, fill.c, fill.h);
 }
 
 function tag(

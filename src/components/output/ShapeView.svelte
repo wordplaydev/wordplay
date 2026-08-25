@@ -190,9 +190,15 @@
         data-selectable={selectable}
         style:font-family={getFaceCSS(context.face)}
         style:font-size={getSizeCSS(context.size)}
-        style:border-color={shape.getDefaultPose()?.color?.toCSS()}
-        style:background={shape.background?.toCSS() ?? null}
-        style:color={getColorCSS(shape.getFirstRestPose(), shape.pose)}
+        style:border-color={shape
+            .getDefaultPose()
+            ?.color?.toCSS(context.adapting)}
+        style:background={shape.background?.toCSS(context.adapting) ?? null}
+        style:color={getColorCSS(
+            shape.getFirstRestPose(),
+            shape.pose,
+            context.adapting,
+        )}
         style:opacity={getOpacityCSS(shape.getFirstRestPose(), shape.pose)}
         style:width="{width}px"
         style:height="{height}px"
@@ -222,7 +228,7 @@
             <path
                 class="border"
                 d={shape.form.toSVGPath(0, 0)}
-                fill={shape.background?.toCSS() ?? null}
+                fill={shape.background?.toCSS(context.adapting) ?? null}
             />
         </svg>
         <!-- Handles render after the SVG so the (opaque) form fill doesn't paint over them.

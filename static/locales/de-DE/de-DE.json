@@ -8082,6 +8082,14 @@
                             "$~Untertitel doppelt so groß anzeigen",
                             "$~Untertitel dreimal so groß anzeigen"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~Projektfarben",
+                        "labels": ["$~beibehalten", "$~umkehren"],
+                        "tips": [
+                            "$~zeigt die Farben eines Projekts genau so, wie es sie geschrieben hat, auch auf einem dunklen Bildschirm",
+                            "$~auf einem dunklen Bildschirm werden die Farben eines hellen Projekts dunkel umgekehrt: Jede Farbe behält ihren Farbton, und die Farben bleiben so weit voneinander entfernt, wie das Projekt es festgelegt hat"
+                        ]
                     }
                 },
                 "options": {

@@ -8316,6 +8316,14 @@
                             "use the current device setting"
                         ]
                     },
+                    "adaptOutput": {
+                        "label": "project colors",
+                        "labels": ["keep", "flip"],
+                        "tips": [
+                            "show a project's colors exactly as it wrote them, even on a dark screen",
+                            "on a dark screen, flip a bright project's colors dark: every color keeps its hue, and colors stay as far apart as the project made them"
+                        ]
+                    },
                     "blocks": {
                         "label": "editor",
                         "labels": ["text", "blocks"],

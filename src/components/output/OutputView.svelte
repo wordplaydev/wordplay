@@ -43,7 +43,13 @@
     import ButtonWidget from '@components/widgets/Button.svelte';
     import Note from '@components/widgets/Note.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { animationFactor, DB, locales, voice } from '@db/Database';
+    import {
+        adaptingOutput,
+        animationFactor,
+        DB,
+        locales,
+        voice,
+    } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import Button from '@input/Button/Button';
@@ -78,6 +84,7 @@
     import type LocaleText from '@locale/LocaleText';
     import Evaluate from '@nodes/Evaluate';
     import { describeColorLocalized } from '@output/Color/BasicColors';
+    import { backgroundInvitesAdaptation } from '@output/Color/adapt';
     import Color, { toColor } from '@output/Color/Color';
     import {
         PX_PER_METER,
@@ -642,13 +649,58 @@
             $keyboardEditIdle === IdleKind.Typing,
     );
 
-    /** Keep the bindable background color up to date. */
+    /** The stage background the adapt decision is made from: the first one this
+     *  run produced. Latched to the run rather than recomputed per frame — a
+     *  program that animates its background across the threshold would
+     *  otherwise flip every color on the stage mid-performance, and contrast
+     *  only holds if they all move together. Every revision builds a new
+     *  Evaluator, so a creator dragging the background in the palette still
+     *  sees the decision change immediately. */
+    let decided = $state<{ evaluator: Evaluator; back: Color } | undefined>();
+    $effect(() => {
+        const run = evaluator;
+        const settled = untrack(() => decided?.evaluator === run);
+        // Only read the stage until this run has decided; afterwards the
+        // effect's only dependency is `evaluator`, so it stops running per frame.
+        const back = settled ? undefined : stageValue?.background;
+        untrack(() => {
+            if (!settled && back !== undefined)
+                decided = { evaluator: run, back };
+        });
+    });
+
+    /** Whether this stage's colors are being flipped for a dark canvas: the
+     *  viewer is in dark mode and hasn't opted out, and the stage is bright
+     *  enough to be worth it. All of the stage's colors follow this one flag. */
+    const adapting = $derived(
+        $adaptingOutput &&
+            decided?.evaluator === evaluator &&
+            backgroundInvitesAdaptation(decided.back.lightness.toNumber()),
+    );
+
+    /** Keep the bindable background color up to date. Publishes the *adapted*
+     *  color, so the tile, the fullscreen body, and the pause glyph describe
+     *  what is actually on screen rather than what was authored. */
     $effect(() => {
         background =
             value instanceof ExceptionValue
                 ? 'var(--wordplay-error)'
-                : (stageValue?.background ?? null);
+                : (stageValue?.background?.adapted(adapting) ?? null);
     });
+
+    /** The color scheme this surface is, so theme tokens inside output resolve
+     *  against the canvas rather than the UI around it. A stage declares its own
+     *  (see StageView), so this only has to answer for the no-stage case: a plain
+     *  value has no creator colors to protect, so it follows the app. */
+    const scheme = $derived(
+        stageValue !== undefined
+            ? null
+            : background instanceof Color
+              ? background.lightness.greaterThan(0.5)
+                  ? 'light'
+                  : 'dark'
+              : null,
+    );
 
     /** Keep the bindable hasStagePlace flag up to date. */
     $effect(() => {
@@ -2357,6 +2409,7 @@
         class="value"
         class:ignored
         class:typing
+        style:color-scheme={scheme}
         tabIndex="0"
         bind:this={valueView}
         onkeydown={interactive ? handleKeyDown : null}
@@ -2500,6 +2553,7 @@
                 {evaluator}
                 stage={stageValue}
                 background
+                {adapting}
                 bind:fit
                 bind:grid
                 bind:painting
@@ -2823,14 +2877,13 @@
     }
 
     .value {
-        /* Creator output is a stable light canvas: pin the color scheme so the
-           theme tokens (--wordplay-background/foreground) and any native inputs
-           inside output resolve to their light values even when the UI chrome is
-           dark. Absolute lch() program colors are unaffected, so a program that
-           sets dark colors still gets them. (On browsers without light-dark()
-           the legacy @media dark fallback in app.html is global and can't be
-           overridden per element — acceptable legacy degradation.) */
-        color-scheme: light;
+        /* The color scheme is declared inline from the canvas actually painted
+           (see `scheme`, and StageView's own), so theme tokens and native inputs
+           inside output resolve against the creator's background rather than the
+           UI chrome around it. Absolute lch() program colors are unaffected
+           either way. (On browsers without light-dark() the legacy @media dark
+           fallback in app.html is global and can't be overridden per element —
+           acceptable legacy degradation.) */
 
         transform-origin: top right;
 

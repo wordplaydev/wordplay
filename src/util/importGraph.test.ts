@@ -190,13 +190,23 @@ test('resolving a color needs no basis', () => {
  * 23 bytes of headroom, so a rule that would otherwise read as unexplained
  * couldn't be justified in place without this. The other four entries absorbed
  * it with the slack they had.
+ *
+ * Adapting project output to a dark canvas (#65) adds three small files to
+ * every entry — the OS color-scheme store, the setting, and the pure lightness
+ * transform — and a fourth (adaptPreview) to the three that show project tiles.
+ * The three tile-showing entries move a hundredth of an MB; the other two
+ * absorb it in the slack they had. The transform deliberately
+ * lives in its own module rather than on `Color`, because a project tile paints
+ * a persisted preview string and must not drag the whole Color structure
+ * definition (or colorjs.io, which an earlier draft did pull in here) onto a
+ * page that never evaluates a program.
  */
 test.each([
-    ['src/routes/+layout.svelte', 483, 3.48],
-    ['src/components/app/Page.svelte', 505, 3.71],
-    ['src/routes/[[locale]]/+page.svelte', 520, 3.79],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 522, 3.79],
-    ['src/routes/[[locale]]/projects/+page.svelte', 530, 3.82],
+    ['src/routes/+layout.svelte', 486, 3.48],
+    ['src/components/app/Page.svelte', 508, 3.71],
+    ['src/routes/[[locale]]/+page.svelte', 523, 3.8],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 526, 3.8],
+    ['src/routes/[[locale]]/projects/+page.svelte', 534, 3.83],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔊 The notes your music is playing now light up in your code as you hear and see them. In a melody written as a list of numbers, each number glows when its turn comes.
 - 💡 The menu you get while writing code can now build much more of the language. You can take an item out of a list or a map, change a number's kind with `→`, ask a question with `???`, look back at a stream with `←`, change one part of a structure, and update a table.
 - 🔢 You can now write numbers in Roman, Han, Thai, Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu numerals, and in base 2 and base 16. Pick a digit to start, then add more digits before, inside, or after it to build up a bigger number. There's no keyboard for these, so the menu is the only easy way to write them.
+- 🌙 Your projects can now go dark along with the rest of Wordplay, so a bright stage isn't a bright white square at night. Every color keeps its own hue and stays as far from the others as you made it, projects that are already dark are left alone, and you can turn this off in settings to always see the colors you wrote. (#65)
 
 ### Changed
 
@@ -31,6 +32,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🌐 In several languages the word markup was translated as the money kind, like a price markup or a page margin, instead of text with bold words and links. It now means formatted text in every language.
 - ✍️ We fixed an extra space that crept in before a linked word in code, so `a @Phrase` no longer looks like `a  @Phrase`.
 - 🎞️ We fixed which code lights up while something on stage is moving. A ready-made motion like `Sequence.sway()` used to light up nothing at all, and a motion that never really moves used to light up as if it did. (#543)
+- 🎨 A project that paints itself a dark background used to draw its outlines and edges in colors picked for a light page, which made them hard to see. They now match the background you chose.
 
 ## 0.30.0 - 2026-08-22
 

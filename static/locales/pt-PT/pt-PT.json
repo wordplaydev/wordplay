@@ -8329,6 +8329,14 @@
                             "$~Mostrar legendas duas vezes maiores",
                             "$~Mostrar legendas três vezes maiores"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~cores do projeto",
+                        "labels": ["$~manter", "$~inverter"],
+                        "tips": [
+                            "$~mostrar as cores de um projeto exatamente como foram escritas, mesmo num ecrã escuro",
+                            "$~num ecrã escuro, inverter as cores de um projeto claro para escuras: cada cor mantém a sua matiz, e as cores continuam tão afastadas entre si como foram feitas no projeto"
+                        ]
                     }
                 },
                 "options": {

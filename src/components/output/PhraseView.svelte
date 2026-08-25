@@ -508,8 +508,13 @@
         onkeydown={editable && interactive ? handleKeyDown : null}
         style:font-family={getFaceCSS(localContext.face)}
         style:font-size={getSizeCSS(localContext.size)}
-        style:background={phrase.background?.toCSS() ?? null}
-        style:color={getColorCSS(phrase.getFirstRestPose(), phrase.pose)}
+        style:background={phrase.background?.toCSS(localContext.adapting) ??
+            null}
+        style:color={getColorCSS(
+            phrase.getFirstRestPose(),
+            phrase.pose,
+            localContext.adapting,
+        )}
         style:opacity={getOpacityCSS(phrase.getFirstRestPose(), phrase.pose)}
         style:width="{metrics.width}px"
         style:height="{metrics.height}px"
@@ -532,8 +537,12 @@
             ? `${getSizeCSS(phrase.aura.offsetX ?? 0)} ${getSizeCSS(
                   phrase.aura.offsetY ?? 0,
               )} ${getSizeCSS(phrase.aura.blur ?? 0)} ${
-                  phrase.aura.color?.toCSS() ??
-                  getColorCSS(phrase.getFirstRestPose(), phrase.pose) ??
+                  phrase.aura.color?.toCSS(localContext.adapting) ??
+                  getColorCSS(
+                      phrase.getFirstRestPose(),
+                      phrase.pose,
+                      localContext.adapting,
+                  ) ??
                   ''
               }`
             : null}
@@ -572,6 +581,7 @@
             />
         {:else if typeof displayed === 'string'}<PlainTextView
                 text={displayed}
+                adapting={localContext.adapting}
             />{:else}<MarkupHTMLView markup={displayed} inline />{/if}
     </div>
 {/if}
