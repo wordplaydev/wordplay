@@ -4241,6 +4241,7 @@
         /* Not redundant with the global `user-select: none`: the editor models
            selection with its own caret, so it keeps this if that ever goes. */
         user-select: none;
+        -webkit-user-select: none;
         padding: var(--wordplay-spacing);
         flex: 1;
         cursor: text;
@@ -4322,6 +4323,7 @@
        here that would compete with the caret's own selection. */
     .editor :global(.value) {
         user-select: none;
+        -webkit-user-select: none;
     }
 
     .keyboard-input::selection {

@@ -113,5 +113,6 @@
         opacity: 0.6;
         white-space: nowrap;
         user-select: none;
+        -webkit-user-select: none;
     }
 </style>

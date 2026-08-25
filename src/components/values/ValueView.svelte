@@ -42,6 +42,7 @@
         /* Output is worth copying. Scoped here on purpose: four other
            components render a `value` class, the editor's included. */
         user-select: text;
+        -webkit-user-select: text;
         color: var(--wordplay-evaluation-color);
         max-width: 100%;
 

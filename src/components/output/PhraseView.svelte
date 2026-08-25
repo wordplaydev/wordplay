@@ -624,6 +624,7 @@
     :global(.stage.readonly) .phrase {
         pointer-events: auto;
         user-select: text;
+        -webkit-user-select: text;
     }
 
     .phrase[data-selectable='true'] {

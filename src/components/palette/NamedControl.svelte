@@ -38,6 +38,7 @@
         /* A form-row label, not a heading over content. Opted out here rather
            than on .property: a descendant's rule beats an ancestor's. */
         user-select: none;
+        -webkit-user-select: none;
         flex-basis: 5em;
         text-align: start;
         margin: 0;

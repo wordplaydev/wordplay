@@ -268,6 +268,7 @@
         /* The stage suppresses gestures; these are taps, not pans. */
         touch-action: none;
         user-select: none;
+        -webkit-user-select: none;
     }
 
     .key-pad :global(button.key.wide) {

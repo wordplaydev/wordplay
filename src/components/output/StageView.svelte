@@ -1103,6 +1103,7 @@
            OutputView — so there is nothing to compete with there, and their
            phrase text opts back in (see PhraseView). */
         user-select: none;
+        -webkit-user-select: none;
         position: relative;
         flex-grow: 1;
 

@@ -1,4 +1,4 @@
-import { chromium, expect, test, type Page } from '@playwright/test';
+import { expect, test, type Browser, type Page } from '@playwright/test';
 
 /**
  * Interface chrome is not selectable; content is.
@@ -15,26 +15,33 @@ import { chromium, expect, test, type Page } from '@playwright/test';
  * anywhere the app is served.
  */
 
-/** A fresh signed-out context: none of this needs an account. */
-async function anonymousPage(): Promise<{
+/** A fresh signed-out context: none of this needs an account. Built from the
+ *  project's own browser rather than a hardcoded one, since the WebKit nightly
+ *  installs only WebKit and a `chromium.launch()` here had nothing to launch. */
+async function anonymousPage(browser: Browser): Promise<{
     page: Page;
     close: () => Promise<void>;
 }> {
-    const browser = await chromium.launch();
     const context = await browser.newContext({
         baseURL: 'http://127.0.0.1:5002',
         storageState: { cookies: [], origins: [] },
     });
     const page = await context.newPage();
-    return { page, close: () => browser.close() };
+    // Close the context, not the browser — the browser is Playwright's fixture.
+    return { page, close: () => context.close() };
 }
 
-/** The computed `user-select` of the first match, so a failure names the rule that broke. */
+/** The computed `user-select` of the first match, so a failure names the rule
+ *  that broke. WebKit doesn't expose the unprefixed property on the computed
+ *  style, so fall back to `-webkit-user-select` before reporting nothing. */
 function selectability(page: Page, selector: string) {
     return page.evaluate((s) => {
         const element = document.querySelector(s);
         if (element === null) return `no element matched ${s}`;
-        return getComputedStyle(element).userSelect;
+        const style = getComputedStyle(element);
+        return (
+            style.userSelect || style.getPropertyValue('-webkit-user-select')
+        );
     }, selector);
 }
 
@@ -47,9 +54,11 @@ async function openProject(page: Page) {
     await page.locator('#project-name:not([disabled])').waitFor();
 }
 
-test('the project view makes its chrome unselectable and its content selectable', async () => {
+test('the project view makes its chrome unselectable and its content selectable', async ({
+    browser,
+}) => {
     test.setTimeout(60000);
-    const { page, close } = await anonymousPage();
+    const { page, close } = await anonymousPage(browser);
     try {
         await openProject(page);
 
@@ -66,9 +75,11 @@ test('the project view makes its chrome unselectable and its content selectable'
     }
 });
 
-test('documentation prose is selectable while the chrome around it is not', async () => {
+test('documentation prose is selectable while the chrome around it is not', async ({
+    browser,
+}) => {
     test.setTimeout(60000);
-    const { page, close } = await anonymousPage();
+    const { page, close } = await anonymousPage(browser);
     try {
         await page.goto('/en-US/guide');
         await page.locator('.markup').first().waitFor();
@@ -110,9 +121,11 @@ test('documentation prose is selectable while the chrome around it is not', asyn
  * ancestor's. The other one — HowToPreview's markup title inside its drag tile
  * — needs a gallery, so it lives in howto-form.spec.ts.
  */
-test('the editor keeps its own selection model even though ValueView opts in', async () => {
+test('the editor keeps its own selection model even though ValueView opts in', async ({
+    browser,
+}) => {
     test.setTimeout(60000);
-    const { page, close } = await anonymousPage();
+    const { page, close } = await anonymousPage(browser);
     try {
         await openProject(page);
 
@@ -137,7 +150,12 @@ test('the editor keeps its own selection model even though ValueView opts in', a
                     (rule): rule is CSSStyleRule =>
                         rule instanceof CSSStyleRule &&
                         /^\.value\.svelte-[a-z0-9]+$/.test(rule.selectorText) &&
-                        rule.style.getPropertyValue('user-select') === 'text',
+                        // WebKit drops the unprefixed declaration it can't
+                        // parse, so the prefixed one is all that survives there.
+                        (rule.style.getPropertyValue('user-select') ||
+                            rule.style.getPropertyValue(
+                                '-webkit-user-select',
+                            )) === 'text',
                 );
             if (scoped === undefined) return false;
 

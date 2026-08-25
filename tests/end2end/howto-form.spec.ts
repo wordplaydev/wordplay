@@ -17,12 +17,14 @@ import {
  * `howTos`) online first, then drives the form in /gallery/<id>/howto.
  */
 
-/** Open the how-to space's "+" form, type a title, and save it as a draft.
- *  A fresh gallery has no guiding questions, so a title alone is a valid draft. */
-async function createDraftViaForm(
+/** Open the how-to space's "+" form, type a title, and save it — as a draft by
+ *  default, or posted to the canvas. A fresh gallery has no guiding questions,
+ *  so a title alone is a valid how-to either way. */
+async function createViaForm(
     page: Page,
     galleryId: string,
     title: string,
+    post = false,
 ): Promise<void> {
     await page.goto(`/en-US/gallery/${galleryId}/howto`);
     await page.getByRole('button', { name: 'Create a new how-to' }).click();
@@ -30,7 +32,11 @@ async function createDraftViaForm(
     await titleField.waitFor();
     await titleField.fill(title);
     await page
-        .getByRole('button', { name: 'save your how-to as a draft' })
+        .getByRole('button', {
+            name: post
+                ? 'post your how-to to the space'
+                : 'save your how-to as a draft',
+        })
         .click();
 }
 
@@ -43,7 +49,7 @@ test.describe('how-to editor form', () => {
         const galleryId = await createTestGallery(page, 'How-to CRUD Gallery');
         await waitForDocumentUpdate(page, 'galleries', galleryId, (d) => !!d);
 
-        await createDraftViaForm(page, galleryId, 'My First Draft');
+        await createViaForm(page, galleryId, 'My First Draft');
 
         // addHowTo writes the how-to doc AND arrayUnions its id onto the
         // gallery in one batch — assert both landed.
@@ -74,13 +80,24 @@ test.describe('how-to editor form', () => {
             'How-to Selection Gallery',
         );
         await waitForDocumentUpdate(page, 'galleries', galleryId, (d) => !!d);
-        await createDraftViaForm(page, galleryId, 'A Draggable Draft');
+        // Post rather than save-as-draft: a draft renders in the drafts list,
+        // and only a published how-to renders as a `.howto` tile on the canvas.
+        await createViaForm(page, galleryId, 'A Draggable Draft', true);
 
         await page.goto(`/en-US/gallery/${galleryId}/howto`);
+        // Attached, not visible: canvas tiles are virtualized to the camera's
+        // viewport, and a computed style reads fine off an unrendered tile.
         const title = page.locator('.howto .markup').first();
-        await title.waitFor();
+        await title.waitFor({ state: 'attached' });
+        // WebKit exposes only the prefixed property on the computed style.
         expect(
-            await title.evaluate((e) => getComputedStyle(e).userSelect),
+            await title.evaluate((e) => {
+                const style = getComputedStyle(e);
+                return (
+                    style.userSelect ||
+                    style.getPropertyValue('-webkit-user-select')
+                );
+            }),
         ).toBe('none');
     });
 
@@ -89,7 +106,7 @@ test.describe('how-to editor form', () => {
     }) => {
         const galleryId = await createTestGallery(page, 'How-to Edit Gallery');
         await waitForDocumentUpdate(page, 'galleries', galleryId, (d) => !!d);
-        await createDraftViaForm(page, galleryId, 'Before Edit');
+        await createViaForm(page, galleryId, 'Before Edit');
 
         const gallery = await waitForDocumentUpdate(
             page,
