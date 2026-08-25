@@ -8650,11 +8650,11 @@
                     "accessible": {
                         "title": "$~Wordplay är tillgängligt",
                         "bullets": [
-                            "$~• Allt du kan göra med en mus, kan du göra med ett tangentbord.",
-                            "• Skärmläsare beskriver scenen medan den ändras, inte bara när den laddas.",
-                            "• Du kan läsa och skriva koden din som block istället för text, och byta när du vill.",
-                            "• Rörelser kan sakta ner, eller stängas av helt.",
-                            "• Talat ljud kan visas som text på scenen för den som inte kan höra det."
+                            "$~• Allt du kan göra med en mus kan du göra med ett tangentbord.",
+                            "• Skärmläsare beskriver scenen när den ändras, och valfria ljud visar vad som räknas om, vad som animeras och vad som kolliderar.",
+                            "• Du kan läsa och skriva din koda som block istället för text, och byta när du vill.",
+                            "• Rörelse kan göras långsammare, eller stängas av helt.",
+                            "• Talat ljud kan visas som text på scenen för de som inte kan höra det."
                         ]
                     },
                     "senses": {

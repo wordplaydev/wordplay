@@ -9076,7 +9076,7 @@
                         "title": "Wordplay is accessible",
                         "bullets": [
                             "• Anything you can do with a mouse, you can do with a keyboard.",
-                            "• Screen readers describe the stage as it changes, not only when it loads.",
+                            "• Screen readers describe the stage as it changes, and optional sounds mark what reevaluates, what animates, and what collides.",
                             "• You can read and write your code as blocks instead of text, and switch whenever you like.",
                             "• Motion can be slowed down, or turned off completely.",
                             "• Spoken output can be captioned on stage for anyone who can't hear it."

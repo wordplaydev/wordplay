@@ -8983,10 +8983,10 @@
                         "title": "$~Naa-access ang Wordplay",
                         "bullets": [
                             "$~• Anumang magagawa mo gamit ang mouse, magagawa mo rin gamit ang keyboard.",
-                            "• Inilalarawan ng mga screen reader ang stage habang ito ay nagbabago, hindi lang kapag ito ay nag-load.",
-                            "• Pwede mong basahin at isulat ang iyong kodigo bilang mga block sa halip na teksto, at lumipat kahit kailan mo gusto.",
-                            "• Ang paggalaw ay pwedeng bagalan, o patayin nang lubusan.",
-                            "• Ang sinasalitang output ay pwedeng bigyan ng caption sa stage para sa sinumang hindi ito naririnig."
+                            "• Inilalarawan ng mga screen reader ang stage habang nagbabago ito, at may mga opsyonal na tunog na nagsasaad kung ano ang muling sinusuri, ano ang gumagalaw, at ano ang nagbabanggaan.",
+                            "• Puwede mong basahin at isulat ang iyong kodigo bilang blocks sa halip na teksto, at lumipat kahit kailan mo gusto.",
+                            "• Ang paggalaw ay puwedeng bagalan, o patayin nang tuluyan.",
+                            "• Ang sinasalitang output ay puwedeng lagyan ng caption sa stage para sa sinumang hindi ito naririnig."
                         ]
                     },
                     "senses": {

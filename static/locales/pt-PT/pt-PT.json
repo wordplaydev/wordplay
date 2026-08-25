@@ -8979,10 +8979,10 @@
                         "title": "$~O Wordplay é acessível",
                         "bullets": [
                             "$~• Tudo o que pode fazer com um rato, também pode fazer com um teclado.",
-                            "• Os leitores de ecrã descrevem o palco à medida que muda, não só quando carrega.",
-                            "• Pode ler e escrever o seu código como blocos em vez de texto, e mudar sempre que quiser.",
-                            "• O movimento pode ser abrandado, ou desligado por completo.",
-                            "• A saída falada pode ter legendas no palco, para quem não a consegue ouvir."
+                            "• Os leitores de ecrã descrevem o palco à medida que este muda, e existem sons opcionais que marcam o que é avaliado de novo, o que se anima e o que colide.",
+                            "• Pode ler e escrever o seu código em blocos em vez de texto, e mudar entre os dois sempre que quiser.",
+                            "• O movimento pode ser tornado mais lento, ou desligado por completo.",
+                            "• A saída falada pode ter legendas no palco, para quem não a consiga ouvir."
                         ]
                     },
                     "senses": {

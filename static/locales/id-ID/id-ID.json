@@ -8999,11 +8999,11 @@
                     "accessible": {
                         "title": "$~Wordplay mudah diakses",
                         "bullets": [
-                            "$~• Apa pun yang bisa kamu lakukan dengan mouse, bisa juga kamu lakukan dengan keyboard.",
-                            "• Pembaca layar menjelaskan panggung saat isinya berubah, bukan hanya saat dimuat.",
-                            "• Kamu bisa membaca dan menulis kode sebagai blok, bukan hanya teks, dan bisa berganti kapan saja.",
+                            "$~• Apa pun yang bisa kamu lakukan dengan tetikus, bisa kamu lakukan dengan papan ketik.",
+                            "• Pembaca layar menjelaskan pentas saat berubah, dan bunyi pilihan menandai apa yang dihitung ulang, apa yang bergerak, dan apa yang bertabrakan.",
+                            "• Kamu bisa membaca dan menulis kode sebagai blok alih-alih teks, dan berpindah kapan saja kamu suka.",
                             "• Gerakan bisa diperlambat, atau dimatikan sepenuhnya.",
-                            "• Suara yang diucapkan bisa ditampilkan sebagai teks di panggung untuk siapa pun yang tidak bisa mendengarnya."
+                            "• Suara ucapan bisa diberi teks di pentas untuk siapa saja yang tidak bisa mendengarnya."
                         ]
                     },
                     "senses": {

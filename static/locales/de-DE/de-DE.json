@@ -8566,11 +8566,11 @@
                     "accessible": {
                         "title": "$~Wordplay ist barrierefrei",
                         "bullets": [
-                            "$~• Alles, was du mit einer Maus machen kannst, kannst du auch mit einer Tastatur machen.",
-                            "• Bildschirmleseprogramme beschreiben die Bühne, während sie sich verändert, nicht nur beim Laden.",
-                            "• Du kannst deinen Code als Blöcke statt als Text lesen und schreiben, und jederzeit wechseln.",
-                            "• Bewegung kann verlangsamt oder ganz ausgeschaltet werden.",
-                            "• Gesprochene Ausgabe kann auf der Bühne als Untertitel angezeigt werden, für alle, die sie nicht hören können."
+                            "$~• Alles, was du mit der Maus machen kannst, kannst du auch mit der Tastatur machen.",
+                            "• Bildschirmleseprogramme beschreiben die Bühne, wenn sie sich verändert. Töne zeigen dir, was sich neu berechnet, was sich bewegt und was zusammenstößt.",
+                            "• Du kannst deinen Code als Blöcke statt als Text lesen und schreiben. Du kannst jederzeit wechseln.",
+                            "• Bewegungen können langsamer gemacht oder ganz ausgeschaltet werden.",
+                            "• Gesprochene Ausgaben können auf der Bühne als Untertitel gezeigt werden, für alle, die sie nicht hören können."
                         ]
                     },
                     "senses": {

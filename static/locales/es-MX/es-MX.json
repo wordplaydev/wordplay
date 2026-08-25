@@ -8567,10 +8567,10 @@
                         "title": "$~Wordplay es accesible",
                         "bullets": [
                             "$~• Todo lo que puedes hacer con un mouse, lo puedes hacer con un teclado.",
-                            "• Los lectores de pantalla describen el escenario mientras cambia, no solo cuando carga.",
-                            "• Puedes leer y escribir tu código como bloques en lugar de texto, y cambiar cuando quieras.",
-                            "• El movimiento se puede hacer más lento, o apagar por completo.",
-                            "• La salida hablada puede mostrarse en subtítulos en el escenario, para quien no puede escucharla."
+                            "• Los lectores de pantalla describen el escenario mientras cambia, y sonidos opcionales marcan qué se vuelve a evaluar, qué se anima y qué choca.",
+                            "• Puedes leer y escribir tu código como bloques en vez de texto, y cambiar cuando quieras.",
+                            "• El movimiento se puede hacer más lento, o desactivar por completo.",
+                            "• La voz hablada puede mostrarse como subtítulos en el escenario, para quien no pueda escucharla."
                         ]
                     },
                     "senses": {

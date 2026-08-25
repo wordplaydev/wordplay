@@ -8904,11 +8904,11 @@
                     "accessible": {
                         "title": "$~Wordplay dễ tiếp cận",
                         "bullets": [
-                            "$~• Bất cứ việc gì làm được bằng chuột, bạn cũng có thể làm bằng bàn phím.",
-                            "• Trình đọc màn hình sẽ mô tả sân khấu mỗi khi nó thay đổi, không chỉ khi tải xong.",
-                            "• Bạn có thể đọc và viết mã số của mình dưới dạng khối thay vì chữ, và đổi qua lại bất cứ lúc nào.",
-                            "• Chuyển động có thể làm chậm lại, hoặc tắt hẳn.",
-                            "• Âm thanh nói có thể hiện thành phụ đề trên sân khấu cho ai không nghe được."
+                            "$~• Bất cứ điều gì em làm được với chuột, em cũng làm được với bàn phím.",
+                            "• Trình đọc màn hình mô tả sân khấu mỗi khi nó thay đổi. Em cũng có thể bật âm thanh để báo cho biết điều gì đang được tính lại, điều gì đang chuyển động, và điều gì đang va chạm.",
+                            "• Em có thể đọc và viết mã số của mình dưới dạng khối thay vì chữ, và đổi qua lại bất cứ lúc nào.",
+                            "• Chuyển động có thể được làm chậm lại, hoặc tắt hẳn.",
+                            "• Lời nói phát ra có thể hiện thành chữ trên sân khấu, dành cho những ai không nghe được."
                         ]
                     },
                     "senses": {

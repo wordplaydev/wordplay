@@ -8660,11 +8660,11 @@
                     "accessible": {
                         "title": "$~Wordplay erişilebilir",
                         "bullets": [
-                            "$~• Fareyle yapabildiğin her şeyi, klavyeyle de yapabilirsin.",
-                            "• Ekran okuyucular sahneyi sadece yüklendiğinde değil, değiştikçe de anlatır.",
-                            "• Kodunu metin yerine bloklar olarak okuyabilir ve yazabilirsin, istediğin zaman değiştirebilirsin.",
+                            "$~• Farenle yapabileceğin her şeyi klavyenle de yapabilirsin.",
+                            "• Ekran okuyucular, sahne değiştikçe onu anlatır. İsteğe bağlı sesler de neyin yeniden hesaplandığını, neyin canlandığını ve neyin çarpıştığını belirtir.",
+                            "• Kodunu metin yerine bloklar olarak okuyup yazabilirsin. İstediğin zaman ikisi arasında geçiş yapabilirsin.",
                             "• Hareket yavaşlatılabilir ya da tamamen kapatılabilir.",
-                            "• Sesli çıktı, duyamayan herkes için sahnede alt yazı olarak gösterilebilir."
+                            "• Sesli çıkışı duyamayan biri için sahnede altyazı olarak gösterilebilir."
                         ]
                     },
                     "senses": {

@@ -8993,11 +8993,11 @@
                     "accessible": {
                         "title": "$~Wordplay este accesibil",
                         "bullets": [
-                            "$~• Tot ce poți face cu mausul, poți face și cu tastatura.",
-                            "• Cititoarele de ecran descriu scena pe măsură ce se schimbă, nu doar când se încarcă.",
-                            "• Poți citi și scrie codul tău sub formă de blocuri în loc de text, și poți trece de la una la alta oricând vrei.",
-                            "• Mișcarea poate fi încetinită sau oprită complet.",
-                            "• Sunetul vorbit poate fi afișat ca text pe scenă, pentru cei care nu îl pot auzi."
+                            "$~• Orice poți face cu mausul, poți face și cu tastatura.",
+                            "• Cititoarele de ecran descriu scena pe măsură ce se schimbă, iar sunete opționale arată ce se reevaluează, ce se animă și ce se ciocnește.",
+                            "• Poți citi și scrie codul tău ca blocuri în loc de text și poți schimba oricând vrei.",
+                            "• Mișcarea poate fi încetinită sau dezactivată complet.",
+                            "• Sunetul vorbit poate avea subtitrare pe scenă pentru cei care nu îl pot auzi."
                         ]
                     },
                     "senses": {

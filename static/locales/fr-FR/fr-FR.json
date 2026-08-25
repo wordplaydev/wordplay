@@ -8574,10 +8574,10 @@
                         "title": "$~Wordplay est accessible",
                         "bullets": [
                             "$~• Tout ce que tu peux faire avec une souris, tu peux le faire avec un clavier.",
-                            "• Les lecteurs d'écran décrivent la scène à chaque changement, pas seulement au chargement.",
-                            "• Tu peux lire et écrire ton code sous forme de blocs plutôt que de texte, et changer quand tu veux.",
-                            "• Le mouvement peut être ralenti, ou complètement désactivé.",
-                            "• Les sorties vocales peuvent être sous-titrées sur la scène pour ceux qui ne peuvent pas les entendre."
+                            "• Les lecteurs d'écran décrivent la scène qui change, et des sons facultatifs indiquent ce qui se recalcule, ce qui s'anime et ce qui se heurte.",
+                            "• Tu peux lire et écrire ton code sous forme de blocs au lieu de texte, et changer quand tu veux.",
+                            "• Le mouvement peut être ralenti, ou complètement arrêté.",
+                            "• Les paroles peuvent être sous-titrées sur la scène pour ceux qui ne peuvent pas les entendre."
                         ]
                     },
                     "senses": {

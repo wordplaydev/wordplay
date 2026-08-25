@@ -8678,11 +8678,11 @@
                     "accessible": {
                         "title": "$~Wordplay jest dostępne dla wszystkich",
                         "bullets": [
-                            "$~• Wszystko, co da się zrobić myszką, da się zrobić klawiaturą.",
-                            "• Czytniki ekranu opisują scenę na bieżąco, nie tylko wtedy, gdy się ładuje.",
-                            "• Możesz czytać i pisać swój kod jako bloki zamiast tekstu i przełączać się, kiedy chcesz.",
+                            "$~• Wszystko, co można zrobić myszką, można też zrobić klawiaturą.",
+                            "• Czytniki ekranu opisują scenę, gdy się zmienia, a dodatkowe dźwięki oznaczają, co się przelicza, co się porusza i co się zderza.",
+                            "• Kod możesz czytać i pisać jako bloki zamiast tekstu i zmieniać sposób, kiedy tylko chcesz.",
                             "• Ruch można spowolnić albo całkiem wyłączyć.",
-                            "• Mowę można wyświetlać jako napisy na scenie dla osób, które jej nie słyszą."
+                            "• Mówiony dźwięk może mieć napisy na scenie dla osób, które go nie słyszą."
                         ]
                     },
                     "senses": {
