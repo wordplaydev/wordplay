@@ -37,7 +37,6 @@
     import Button from '@components/widgets/Button.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
@@ -135,8 +134,8 @@
     );
 
     // Layout responsiveness:
-    //  - Below the container query threshold (see CSS), the "project"
-    //    header label and emoji hide to give the name field more room.
+    //  - Below the container query threshold (see CSS), the project
+    //    emoji hides to give the name field more room.
     //  - The toggle-group (add-source + per-tile toggles) is wrapped in
     //    OverflowToolbar so individual toggles drop into a hamburger
     //    popup as the row narrows, instead of overlapping the right
@@ -270,14 +269,8 @@
                     icon="↺"
                 ></Button>{/if}
             <Subheader compact>
-                <span class="project-meta">
-                    <Emoji text={PROJECT_SYMBOL} />
-                    <span class="project-label"
-                        ><LocalizedText
-                            path={(l) => l.ui.project.label}
-                        /></span
-                    >
-                </span>
+                <span class="project-meta"><Emoji text={PROJECT_SYMBOL} /></span
+                >
                 <!-- A scratch project is a copy of an example to poke at, so
                      there's nothing worth naming; the row below says what it
                      is instead. -->
@@ -308,7 +301,7 @@
                                     Projects.reviseProject(
                                         project.withName(name),
                                     )}
-                                max={narrow ? '3rem' : '5em'}
+                                max={narrow ? '6ch' : '10ch'}
                                 maxlength={MAX_NAME_LENGTH}
                             />
                         {/if}
@@ -529,16 +522,13 @@
     .project-meta {
         display: inline-flex;
         align-items: center;
-        gap: var(--wordplay-spacing-half);
-    }
-
-    .project-label {
+        /* Separates the emoji from the name field beside it; template
+           whitespace alone reads as too tight at header size. */
         margin-inline-end: var(--wordplay-spacing-half);
     }
 
-    /* Hide the "project" header label/emoji on narrow footers so the
-       editable name field has room and the right-section controls don't
-       overlap the name. */
+    /* Hide the project emoji on narrow footers so the editable name field
+       has room and the right-section controls don't overlap the name. */
     @container (max-width: 700px) {
         .project-meta {
             display: none;
@@ -551,16 +541,6 @@
     @container (max-width: 900px) {
         .toggle-group :global(.toggle-label) {
             display: none;
-        }
-
-        /* The name field's width resolves against Subheader's `min(4vw, 16pt)`
-           font, so on a phone `5em` is a fifth of the screen and the toggles in
-           the 1fr track get nothing. The `max` prop above drops to a
-           root-relative 3rem here; TextField's own `min-width: 3em` scales the
-           same viewport-relative way and, since min-width beats max-width,
-           would defeat that cap on its own. */
-        .left-section :global(#project-name) {
-            min-width: 2rem;
         }
     }
 </style>
