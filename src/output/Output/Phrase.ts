@@ -12,6 +12,7 @@ import MarkupValue from '@values/MarkupValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import { describeColorLocalized } from '@output/Color/BasicColors';
+import { describeFaceWithName } from '@basis/faces/faceWords';
 import Fonts, {
     SupportedFontsFamiliesType,
     type FontWeight,
@@ -466,7 +467,11 @@ export default class Phrase extends Output {
                             ? this.name.text
                             : undefined,
                     size: this.size,
-                    face: this.face,
+                    // The face's own words, not just its family name: a creator
+                    // who can't see the stage has no other way to learn what
+                    // "Creepster" looks like. Falls back to the bare name for a
+                    // face we have no words for.
+                    face: describeFaceWithName(locales, this.face),
                     animation: animationDescription,
                     color: colorDescription,
                 })

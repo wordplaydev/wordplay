@@ -6864,7 +6864,45 @@
         "font": {
             "app": "Noto Sans Korean",
             "code": "Noto Mono",
-            "missing": "$~아니요"
+            "missing": "$~아니요",
+            "form": {
+                "sans": "$~삐침 없는 글꼴",
+                "serif": "$~삐침 있는 글꼴",
+                "slab": "$~두꺼운 삐침 글꼴",
+                "typewriter": "$~타자기 글꼴",
+                "handwriting": "$~손글씨",
+                "brush": "$~붓글씨 글꼴",
+                "script": "$~흘림체 글꼴",
+                "poster": "$~포스터 글꼴",
+                "pixel": "$~픽셀 글꼴",
+                "outline": "$~속이 빈 글꼴",
+                "textured": "$~질감 있는 글꼴",
+                "emoji": "$~글자가 아니라 그림"
+            },
+            "impression": {
+                "calm": "$~차분함",
+                "oldFashioned": "$~옛스러움",
+                "strong": "$~강함",
+                "quirky": "$~엉뚱함",
+                "playful": "$~장난스러움",
+                "excited": "$~신남",
+                "childlike": "$~아이 같음",
+                "artistic": "$~예술적임",
+                "futuristic": "$~미래적임",
+                "energetic": "$~활기참",
+                "cute": "$~귀여움",
+                "cheerful": "$~명랑함",
+                "fancy": "$~화려함"
+            },
+            "mechanic": {
+                "sameWidth": "$~모든 글자가 같은 너비",
+                "tallLowercase": "$~소문자가 대문자만큼 큰 글자",
+                "shortLowercase": "$~소문자가 대문자보다 훨씬 작은 글자"
+            },
+            "description": {
+                "and": "$~$first 와 $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~안녕하세요"

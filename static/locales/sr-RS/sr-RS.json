@@ -6873,7 +6873,45 @@
         "font": {
             "app": "$~Ното Санс",
             "code": "$~Ното Санс Моно",
-            "missing": "$~не"
+            "missing": "$~не",
+            "form": {
+                "sans": "$~безсерифно писмо",
+                "serif": "$~серифно писмо",
+                "slab": "$~писмо са дебелим серифима",
+                "typewriter": "$~писмо као на писаћој машини",
+                "handwriting": "$~рукопис",
+                "brush": "$~писмо као да је сликано четком",
+                "script": "$~курзивно писмо",
+                "poster": "$~писмо за постере",
+                "pixel": "$~пиксел писмо",
+                "outline": "$~шупље писмо",
+                "textured": "$~писмо са текстуром",
+                "emoji": "$~слике, не слова"
+            },
+            "impression": {
+                "calm": "$~смирено",
+                "oldFashioned": "$~старомодно",
+                "strong": "$~снажно",
+                "quirky": "$~чудновато",
+                "playful": "$~разиграно",
+                "excited": "$~узбуђено",
+                "childlike": "$~детињасто",
+                "artistic": "$~уметничко",
+                "futuristic": "$~футуристичко",
+                "energetic": "$~енергично",
+                "cute": "$~слатко",
+                "cheerful": "$~весело",
+                "fancy": "$~кичасто"
+            },
+            "mechanic": {
+                "sameWidth": "$~свако слово исте ширине",
+                "tallLowercase": "$~мала слова висока као велика",
+                "shortLowercase": "$~мала слова много нижа од великих"
+            },
+            "description": {
+                "and": "$~$first и $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~здраво"

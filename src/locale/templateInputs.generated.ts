@@ -647,6 +647,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.feedback.searchMatch': ['index', 'count'],
     'ui.feedback.step': ['step', 'node'],
     'ui.feedback.zoom': ['percent'],
+    'ui.font.description.and': ['first', 'second'],
+    'ui.font.description.full': ['form', 'impression', 'mechanics'],
     'ui.gallery.projects': ['#count'],
     'ui.howto.announce.canvasPosition': ['x', 'y'],
     'ui.howto.announce.howToPosition': ['title', 'x', 'y'],

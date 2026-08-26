@@ -6874,7 +6874,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~नाही"
+            "missing": "$~नाही",
+            "form": {
+                "sans": "$~साधी, बिनआकडी अक्षरशैली",
+                "serif": "$~आकडीयुक्त अक्षरशैली",
+                "slab": "$~जाड-आकडी अक्षरशैली",
+                "typewriter": "$~टंकलेखनयंत्रासारखी अक्षरशैली",
+                "handwriting": "$~हस्ताक्षर",
+                "brush": "$~कुंचल्याने रेखाटलेली अक्षरशैली",
+                "script": "$~वळणदार अक्षरशैली",
+                "poster": "$~जाहिरातीसारखी अक्षरशैली",
+                "pixel": "$~ठिपक्यांची अक्षरशैली",
+                "outline": "$~पोकळ अक्षरशैली",
+                "textured": "$~पृष्ठभागाचा पोत असलेली अक्षरशैली",
+                "emoji": "$~चित्रे, अक्षरे नाहीत"
+            },
+            "impression": {
+                "calm": "$~शांत",
+                "oldFashioned": "$~जुन्या पद्धतीचे",
+                "strong": "$~भक्कम",
+                "quirky": "$~विचित्र",
+                "playful": "$~खेळकर",
+                "excited": "$~उत्साही",
+                "childlike": "$~लहान मुलासारखे",
+                "artistic": "$~कलात्मक",
+                "futuristic": "$~भविष्यकालीन",
+                "energetic": "$~चैतन्यशील",
+                "cute": "$~गोडसे",
+                "cheerful": "$~आनंदी",
+                "fancy": "$~नक्षीदार"
+            },
+            "mechanic": {
+                "sameWidth": "$~प्रत्येक अक्षर सारख्याच रुंदीचे",
+                "tallLowercase": "$~मोठ्या अक्षरांइतकीच उंच छोटी अक्षरे",
+                "shortLowercase": "$~मोठ्या अक्षरांपेक्षा खूप लहान छोटी अक्षरे"
+            },
+            "description": {
+                "and": "$~$first आणि $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~नमस्कार"

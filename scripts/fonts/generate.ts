@@ -8,6 +8,7 @@ import {
 } from './lockfile';
 import type { Lockfile } from './lockfile';
 import { buildFaces, buildFallback } from './faces';
+import { readMetrics, writeMetrics } from './metrics';
 import type { FaceRecord } from './faces';
 import { emitFontsCss, emitFontsFallbackCss } from './stylesheets';
 import { writeRenderableGenerated } from './renderableSet';
@@ -54,6 +55,15 @@ function emitFace(name: string, face: FaceRecord): string {
     if (face.preloaded) lines.push(`        preloaded: true,`);
     const ranges = fmtRanges(face.ranges);
     if (ranges !== undefined) lines.push(`        ranges: ${ranges},`);
+    if (face.form !== undefined) lines.push(`        form: '${face.form}',`);
+    if (face.impression !== undefined)
+        lines.push(
+            `        impression: [${face.impression
+                .map((i) => `'${i}'`)
+                .join(', ')}],`,
+        );
+    if (face.ratio !== undefined) lines.push(`        ratio: ${face.ratio},`);
+    if (face.mono) lines.push(`        mono: true,`);
     lines.push(`    },`);
     return lines.join('\n');
 }
@@ -79,7 +89,7 @@ export async function emojiRanges(): Promise<Record<string, string>> {
  * static/fonts/fonts-fallback.css, which is what actually drives fallback glyph
  * loading. */
 export async function emitFacesGenerated(lock: Lockfile): Promise<string> {
-    const faces = buildFaces(lock, await emojiRanges());
+    const faces = buildFaces(lock, await emojiRanges(), await readMetrics());
     const fallback = buildFallback(lock);
 
     const facesBody = Object.entries(faces)
@@ -185,9 +195,11 @@ export async function build(): Promise<void> {
 export async function fix(): Promise<void> {
     const lock = await buildLockfile(readLock(), true);
     writeLock(lock);
+    // Before build(), which reads the metrics back in to emit faces.generated.ts.
+    await writeMetrics();
     await build();
     await writeRenderableGenerated();
     console.log(
-        `Regenerated the lockfile, faces.generated.ts, both stylesheets, and renderable.generated.ts.`,
+        `Regenerated the lockfile, metrics.generated.ts, faces.generated.ts, both stylesheets, and renderable.generated.ts.`,
     );
 }

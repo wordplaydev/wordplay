@@ -6883,7 +6883,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~TIDAK"
+            "missing": "$~TIDAK",
+            "form": {
+                "sans": "$~gaya huruf sans-serif",
+                "serif": "$~gaya huruf serif",
+                "slab": "$~gaya huruf slab-serif",
+                "typewriter": "$~gaya huruf mesin tik",
+                "handwriting": "$~tulisan tangan",
+                "brush": "$~gaya huruf sapuan kuas",
+                "script": "$~gaya huruf sambung",
+                "poster": "$~gaya huruf poster",
+                "pixel": "$~gaya huruf piksel",
+                "outline": "$~gaya huruf berongga",
+                "textured": "$~gaya huruf bertekstur",
+                "emoji": "$~gambar, bukan huruf"
+            },
+            "impression": {
+                "calm": "$~tenang",
+                "oldFashioned": "$~kuno",
+                "strong": "$~kuat",
+                "quirky": "$~unik",
+                "playful": "$~jenaka",
+                "excited": "$~bersemangat",
+                "childlike": "$~kekanak-kanakan",
+                "artistic": "$~artistik",
+                "futuristic": "$~futuristik",
+                "energetic": "$~energik",
+                "cute": "$~lucu",
+                "cheerful": "$~ceria",
+                "fancy": "$~mewah"
+            },
+            "mechanic": {
+                "sameWidth": "$~setiap huruf memiliki lebar yang sama",
+                "tallLowercase": "$~huruf kecil setinggi huruf besar",
+                "shortLowercase": "$~huruf kecil jauh lebih pendek daripada huruf besar"
+            },
+            "description": {
+                "and": "$~$first dan $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Halo"

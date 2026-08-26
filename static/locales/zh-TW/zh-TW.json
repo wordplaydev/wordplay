@@ -6848,7 +6848,45 @@
         "font": {
             "app": "Noto Sans Traditional Chinese",
             "code": "Noto Sans Mono",
-            "missing": "$~否"
+            "missing": "$~否",
+            "form": {
+                "sans": "$~無襯線字體",
+                "serif": "$~襯線字體",
+                "slab": "$~粗襯線字體",
+                "typewriter": "$~打字機字體",
+                "handwriting": "$~手寫字",
+                "brush": "$~毛筆字體",
+                "script": "$~手寫連體字體",
+                "poster": "$~海報字體",
+                "pixel": "$~像素字體",
+                "outline": "$~空心字體",
+                "textured": "$~有紋理的字體",
+                "emoji": "$~圖案，不是文字"
+            },
+            "impression": {
+                "calm": "$~平靜",
+                "oldFashioned": "$~復古",
+                "strong": "$~強烈",
+                "quirky": "$~古怪",
+                "playful": "$~俏皮",
+                "excited": "$~興奮",
+                "childlike": "$~童趣",
+                "artistic": "$~藝術感",
+                "futuristic": "$~未來感",
+                "energetic": "$~充滿活力",
+                "cute": "$~可愛",
+                "cheerful": "$~歡樂",
+                "fancy": "$~華麗"
+            },
+            "mechanic": {
+                "sameWidth": "$~每個字母寬度相同",
+                "tallLowercase": "$~小寫字母和大寫字母一樣高",
+                "shortLowercase": "$~小寫字母比大寫字母矮很多"
+            },
+            "description": {
+                "and": "$~$first 和 $second",
+                "full": "$~$form$impression[，$impression|]$mechanics[，$mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "你好"

@@ -6906,7 +6906,45 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "no"
+            "missing": "no",
+            "form": {
+                "sans": "a sans-serif face",
+                "serif": "a serif face",
+                "slab": "a slab-serif face",
+                "typewriter": "a typewriter face",
+                "handwriting": "handwriting",
+                "brush": "a brush face",
+                "script": "a cursive face",
+                "poster": "a poster face",
+                "pixel": "a pixel face",
+                "outline": "a hollow face",
+                "textured": "a textured face",
+                "emoji": "pictures, not letters"
+            },
+            "impression": {
+                "calm": "calm",
+                "oldFashioned": "old-fashioned",
+                "strong": "strong",
+                "quirky": "quirky",
+                "playful": "playful",
+                "excited": "excited",
+                "childlike": "childlike",
+                "artistic": "artistic",
+                "futuristic": "futuristic",
+                "energetic": "energetic",
+                "cute": "cute",
+                "cheerful": "cheerful",
+                "fancy": "fancy"
+            },
+            "mechanic": {
+                "sameWidth": "every letter the same width",
+                "tallLowercase": "small letters as tall as the capitals",
+                "shortLowercase": "small letters much shorter than the capitals"
+            },
+            "description": {
+                "and": "$first and $second",
+                "full": "$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "hello"

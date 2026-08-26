@@ -6865,7 +6865,45 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "$~नहीं"
+            "missing": "$~नहीं",
+            "form": {
+                "sans": "$~बिना सेरिफ़ वाला फ़ॉन्ट",
+                "serif": "$~सेरिफ़ वाला फ़ॉन्ट",
+                "slab": "$~मोटी सेरिफ़ वाला फ़ॉन्ट",
+                "typewriter": "$~टाइपराइटर जैसा फ़ॉन्ट",
+                "handwriting": "$~हस्तलेखन",
+                "brush": "$~ब्रश जैसा फ़ॉन्ट",
+                "script": "$~बहती लिखावट वाला फ़ॉन्ट",
+                "poster": "$~पोस्टर जैसा फ़ॉन्ट",
+                "pixel": "$~पिक्सेल फ़ॉन्ट",
+                "outline": "$~खोखला फ़ॉन्ट",
+                "textured": "$~बनावट वाला फ़ॉन्ट",
+                "emoji": "$~अक्षर नहीं, तस्वीरें"
+            },
+            "impression": {
+                "calm": "$~शांत",
+                "oldFashioned": "$~पुराने ज़माने का",
+                "strong": "$~मज़बूत",
+                "quirky": "$~अजीबोग़रीब",
+                "playful": "$~चंचल",
+                "excited": "$~उत्साहित",
+                "childlike": "$~बच्चों जैसा",
+                "artistic": "$~कलात्मक",
+                "futuristic": "$~भविष्यवादी",
+                "energetic": "$~ऊर्जावान",
+                "cute": "$~प्यारा",
+                "cheerful": "$~खुशनुमा",
+                "fancy": "$~शानदार"
+            },
+            "mechanic": {
+                "sameWidth": "$~हर अक्षर एक ही चौड़ाई का",
+                "tallLowercase": "$~छोटे अक्षर बड़े अक्षरों जितने लंबे",
+                "shortLowercase": "$~छोटे अक्षर बड़े अक्षरों से बहुत छोटे"
+            },
+            "description": {
+                "and": "$~$first और $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~नमस्ते"

@@ -6872,7 +6872,45 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "Não"
+            "missing": "Não",
+            "form": {
+                "sans": "$~um tipo de letra sem serifa",
+                "serif": "$~um tipo de letra com serifa",
+                "slab": "$~um tipo de letra com serifa grossa",
+                "typewriter": "$~um tipo de letra de máquina de escrever",
+                "handwriting": "$~letra manuscrita",
+                "brush": "$~um tipo de letra de pincel",
+                "script": "$~um tipo de letra cursiva",
+                "poster": "$~um tipo de letra de cartaz",
+                "pixel": "$~um tipo de letra em pixels",
+                "outline": "$~um tipo de letra oca",
+                "textured": "$~um tipo de letra com textura",
+                "emoji": "$~imagens, não letras"
+            },
+            "impression": {
+                "calm": "$~calmo",
+                "oldFashioned": "$~antiquado",
+                "strong": "$~forte",
+                "quirky": "$~excêntrico",
+                "playful": "$~brincalhão",
+                "excited": "$~entusiasmado",
+                "childlike": "$~infantil",
+                "artistic": "$~artístico",
+                "futuristic": "$~futurista",
+                "energetic": "$~enérgico",
+                "cute": "$~giro",
+                "cheerful": "$~alegre",
+                "fancy": "$~sofisticado"
+            },
+            "mechanic": {
+                "sameWidth": "$~todas as letras com a mesma largura",
+                "tallLowercase": "$~letras minúsculas tão altas como as maiúsculas",
+                "shortLowercase": "$~letras minúsculas muito mais baixas do que as maiúsculas"
+            },
+            "description": {
+                "and": "$~$first e $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "Olá"

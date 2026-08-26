@@ -6869,7 +6869,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~না"
+            "missing": "$~না",
+            "form": {
+                "sans": "$~সেরিফ ছাড়া একটি হরফ",
+                "serif": "$~সেরিফযুক্ত একটি হরফ",
+                "slab": "$~মোটা-সেরিফযুক্ত একটি হরফ",
+                "typewriter": "$~টাইপরাইটারের মতো একটি হরফ",
+                "handwriting": "$~হাতের লেখা",
+                "brush": "$~তুলি দিয়ে আঁকা একটি হরফ",
+                "script": "$~বাঁকা-লেখা একটি হরফ",
+                "poster": "$~পোস্টারের মতো একটি হরফ",
+                "pixel": "$~পিক্সেলের মতো একটি হরফ",
+                "outline": "$~ফাঁপা একটি হরফ",
+                "textured": "$~বুননযুক্ত একটি হরফ",
+                "emoji": "$~ছবি, অক্ষর নয়"
+            },
+            "impression": {
+                "calm": "$~শান্ত",
+                "oldFashioned": "$~সেকেলে",
+                "strong": "$~শক্তিশালী",
+                "quirky": "$~অদ্ভুত",
+                "playful": "$~খেলাধুলাপূর্ণ",
+                "excited": "$~উত্তেজিত",
+                "childlike": "$~শিশুসুলভ",
+                "artistic": "$~শৈল্পিক",
+                "futuristic": "$~ভবিষ্যতের মতো",
+                "energetic": "$~প্রাণবন্ত",
+                "cute": "$~মিষ্টি",
+                "cheerful": "$~হাসিখুশি",
+                "fancy": "$~জমকালো"
+            },
+            "mechanic": {
+                "sameWidth": "$~প্রতিটি অক্ষর একই প্রস্থের",
+                "tallLowercase": "$~ছোট অক্ষরগুলো বড় হাতের অক্ষরের মতোই লম্বা",
+                "shortLowercase": "$~ছোট অক্ষরগুলো বড় হাতের অক্ষরের চেয়ে অনেক ছোট"
+            },
+            "description": {
+                "and": "$~$first এবং $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~হ্যালো"

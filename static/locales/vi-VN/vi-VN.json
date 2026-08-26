@@ -6877,7 +6877,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~KHÔNG"
+            "missing": "$~KHÔNG",
+            "form": {
+                "sans": "$~một kiểu chữ không chân",
+                "serif": "$~một kiểu chữ có chân",
+                "slab": "$~một kiểu chữ chân vuông",
+                "typewriter": "$~một kiểu chữ máy đánh chữ",
+                "handwriting": "$~chữ viết tay",
+                "brush": "$~một kiểu chữ nét cọ",
+                "script": "$~một kiểu chữ thảo",
+                "poster": "$~một kiểu chữ áp phích",
+                "pixel": "$~một kiểu chữ điểm ảnh",
+                "outline": "$~một kiểu chữ rỗng",
+                "textured": "$~một kiểu chữ có họa tiết",
+                "emoji": "$~hình ảnh, không phải chữ cái"
+            },
+            "impression": {
+                "calm": "$~bình yên",
+                "oldFashioned": "$~cổ điển",
+                "strong": "$~mạnh mẽ",
+                "quirky": "$~kỳ quặc",
+                "playful": "$~vui nhộn",
+                "excited": "$~hào hứng",
+                "childlike": "$~ngây thơ như trẻ nhỏ",
+                "artistic": "$~nghệ thuật",
+                "futuristic": "$~tương lai",
+                "energetic": "$~tràn đầy năng lượng",
+                "cute": "$~dễ thương",
+                "cheerful": "$~vui tươi",
+                "fancy": "$~cầu kỳ"
+            },
+            "mechanic": {
+                "sameWidth": "$~mỗi chữ cái có cùng độ rộng",
+                "tallLowercase": "$~chữ thường cao bằng chữ hoa",
+                "shortLowercase": "$~chữ thường thấp hơn nhiều so với chữ hoa"
+            },
+            "description": {
+                "and": "$~$first và $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Xin chào"

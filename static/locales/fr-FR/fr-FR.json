@@ -6879,7 +6879,45 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "$~Non"
+            "missing": "$~Non",
+            "form": {
+                "sans": "$~une police sans empattement",
+                "serif": "$~une police à empattement",
+                "slab": "$~une police à empattement carré",
+                "typewriter": "$~une police de machine à écrire",
+                "handwriting": "$~une écriture manuscrite",
+                "brush": "$~une police au pinceau",
+                "script": "$~une police cursive",
+                "poster": "$~une police d'affiche",
+                "pixel": "$~une police en pixels",
+                "outline": "$~une police creuse",
+                "textured": "$~une police texturée",
+                "emoji": "$~des images, pas des lettres"
+            },
+            "impression": {
+                "calm": "$~calme",
+                "oldFashioned": "$~démodé",
+                "strong": "$~fort",
+                "quirky": "$~étrange",
+                "playful": "$~joueur",
+                "excited": "$~excité",
+                "childlike": "$~enfantin",
+                "artistic": "$~artistique",
+                "futuristic": "$~futuriste",
+                "energetic": "$~énergique",
+                "cute": "$~mignon",
+                "cheerful": "$~joyeux",
+                "fancy": "$~chic"
+            },
+            "mechanic": {
+                "sameWidth": "$~chaque lettre a la même largeur",
+                "tallLowercase": "$~les petites lettres sont aussi hautes que les majuscules",
+                "shortLowercase": "$~les petites lettres sont bien plus courtes que les majuscules"
+            },
+            "description": {
+                "and": "$~$first et $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Bonjour"

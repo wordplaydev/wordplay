@@ -4,6 +4,16 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.31.1 - 2026-08-26
+
+### Added
+
+- 🔠 Every font now says what it looks like, so you can pick one without seeing it. The font chooser reads "Creepster, a textured face, strong and old-fashioned" instead of just the name, and a phrase tells you what face it's wearing. There are 12 words for the shape of the letters and 13 for how a font feels, and they're translated into every language Wordplay speaks. (#298)
+
+### Fixed
+
+- 🔠 The font chooser used to read a font's markers out loud as "no tilde asterisk caret slash", and read the writing a font supports in that writing's own letters, so an English voice said "Ελληνικά" letter by letter. Now it says "no light, bold, extra, italic" and "Greek", while still showing the symbols and the letters on screen. (#298)
+
 ## 0.31.0 - 2026-08-25
 
 ### Added

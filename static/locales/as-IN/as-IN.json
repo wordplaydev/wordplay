@@ -6864,7 +6864,45 @@
         "font": {
             "app": "$~নোটো ছান্স",
             "code": "$~নোটো ছান্স মনো",
-            "missing": "$~নহয়"
+            "missing": "$~নহয়",
+            "form": {
+                "sans": "$~সান্স-ছেৰিফ আখৰ",
+                "serif": "$~ছেৰিফ আখৰ",
+                "slab": "$~স্লাব-ছেৰিফ আখৰ",
+                "typewriter": "$~টাইপৰাইটাৰ আখৰ",
+                "handwriting": "$~হাতে লিখা আখৰ",
+                "brush": "$~তুলিকাৰে লিখা আখৰ",
+                "script": "$~কাৰ্ছিভ আখৰ",
+                "poster": "$~পোষ্টাৰ আখৰ",
+                "pixel": "$~পিক্সেল আখৰ",
+                "outline": "$~ফাঁপা আখৰ",
+                "textured": "$~বুনাটযুক্ত আখৰ",
+                "emoji": "$~ছবি, আখৰ নহয়"
+            },
+            "impression": {
+                "calm": "$~শান্ত",
+                "oldFashioned": "$~পুৰণি ধৰণৰ",
+                "strong": "$~শক্তিশালী",
+                "quirky": "$~অস্বাভাৱিক",
+                "playful": "$~মজাৰ",
+                "excited": "$~উৎসাহিত",
+                "childlike": "$~শিশুসদৃশ",
+                "artistic": "$~কলামুখী",
+                "futuristic": "$~ভবিষ্যমুখী",
+                "energetic": "$~শক্তিৰে ভৰা",
+                "cute": "$~সুন্দৰ",
+                "cheerful": "$~আনন্দময়",
+                "fancy": "$~জাকজমকীয়া"
+            },
+            "mechanic": {
+                "sameWidth": "$~সকলো আখৰ একেই প্ৰস্থৰ",
+                "tallLowercase": "$~সৰু আখৰ ডাঙৰ আখৰৰ সমান উচ্চতাৰ",
+                "shortLowercase": "$~সৰু আখৰ ডাঙৰ আখৰতকৈ বহু চুটি"
+            },
+            "description": {
+                "and": "$~$first আৰু $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~নমস্কাৰ"

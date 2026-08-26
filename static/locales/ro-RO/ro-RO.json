@@ -6877,7 +6877,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~nu"
+            "missing": "$~nu",
+            "form": {
+                "sans": "$~un font fără serife",
+                "serif": "$~un font cu serife",
+                "slab": "$~un font cu serife groase",
+                "typewriter": "$~un font ca de mașină de scris",
+                "handwriting": "$~scris de mână",
+                "brush": "$~un font ca desenat cu pensula",
+                "script": "$~un font cursiv",
+                "poster": "$~un font de afiș",
+                "pixel": "$~un font din pixeli",
+                "outline": "$~un font gol pe interior",
+                "textured": "$~un font texturat",
+                "emoji": "$~imagini, nu litere"
+            },
+            "impression": {
+                "calm": "$~calm",
+                "oldFashioned": "$~de modă veche",
+                "strong": "$~puternic",
+                "quirky": "$~ciudățel",
+                "playful": "$~jucăuș",
+                "excited": "$~entuziasmat",
+                "childlike": "$~copilăresc",
+                "artistic": "$~artistic",
+                "futuristic": "$~futurist",
+                "energetic": "$~energic",
+                "cute": "$~drăguț",
+                "cheerful": "$~vesel",
+                "fancy": "$~elegant"
+            },
+            "mechanic": {
+                "sameWidth": "$~fiecare literă are aceeași lățime",
+                "tallLowercase": "$~literele mici sunt la fel de înalte ca majusculele",
+                "shortLowercase": "$~literele mici sunt mult mai scurte decât majusculele"
+            },
+            "description": {
+                "and": "$~$first și $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Buna ziua"

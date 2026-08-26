@@ -6872,7 +6872,45 @@
         "font": {
             "app": "$~નોટો સેન્સ",
             "code": "$~નોટો સેન્સ મોનો",
-            "missing": "$~ના"
+            "missing": "$~ના",
+            "form": {
+                "sans": "$~સેન્સ-સેરિફ ફોન્ટ",
+                "serif": "$~સેરિફ ફોન્ટ",
+                "slab": "$~સ્લેબ-સેરિફ ફોન્ટ",
+                "typewriter": "$~ટાઇપરાઇટર ફોન્ટ",
+                "handwriting": "$~હસ્તાક્ષર",
+                "brush": "$~બ્રશ ફોન્ટ",
+                "script": "$~કર્સિવ ફોન્ટ",
+                "poster": "$~પોસ્ટર ફોન્ટ",
+                "pixel": "$~પિક્સેલ ફોન્ટ",
+                "outline": "$~ખાલી-અંદરનું ફોન્ટ",
+                "textured": "$~રચનાવાળું ફોન્ટ",
+                "emoji": "$~અક્ષરો નહીં, ચિત્રો"
+            },
+            "impression": {
+                "calm": "$~શાંત",
+                "oldFashioned": "$~જૂના જમાનાનું",
+                "strong": "$~મજબૂત",
+                "quirky": "$~વિચિત્ર",
+                "playful": "$~રમતિયાળ",
+                "excited": "$~ઉત્સાહિત",
+                "childlike": "$~બાળક જેવું",
+                "artistic": "$~કલાત્મક",
+                "futuristic": "$~ભવિષ્યવાદી",
+                "energetic": "$~ઊર્જાવાન",
+                "cute": "$~પ્યારું",
+                "cheerful": "$~આનંદી",
+                "fancy": "$~શણગારેલું"
+            },
+            "mechanic": {
+                "sameWidth": "$~દરેક અક્ષર સરખી પહોળાઈનો",
+                "tallLowercase": "$~નાના અક્ષરો કેપિટલ જેટલા ઊંચા",
+                "shortLowercase": "$~નાના અક્ષરો કેપિટલ કરતાં ઘણા ટૂંકા"
+            },
+            "description": {
+                "and": "$~$first અને $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~હેલો"

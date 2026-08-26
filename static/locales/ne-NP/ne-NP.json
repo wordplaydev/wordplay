@@ -6874,7 +6874,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~होइन"
+            "missing": "$~होइन",
+            "form": {
+                "sans": "$~सान्स-सेरिफ शैली",
+                "serif": "$~सेरिफ शैली",
+                "slab": "$~स्ल्याब-सेरिफ शैली",
+                "typewriter": "$~टाइपराइटर शैली",
+                "handwriting": "$~हस्तलेखन",
+                "brush": "$~ब्रस शैली",
+                "script": "$~घुम्रिएको लेखन शैली",
+                "poster": "$~पोस्टर शैली",
+                "pixel": "$~पिक्सेल शैली",
+                "outline": "$~खाली आकारको शैली",
+                "textured": "$~बनावट भएको शैली",
+                "emoji": "$~अक्षर होइन, तस्बिरहरू"
+            },
+            "impression": {
+                "calm": "$~शान्त",
+                "oldFashioned": "$~पुरानो जमानाको",
+                "strong": "$~बलियो",
+                "quirky": "$~अनौठो",
+                "playful": "$~रमाइलो",
+                "excited": "$~उत्साहित",
+                "childlike": "$~बालसुलभ",
+                "artistic": "$~कलात्मक",
+                "futuristic": "$~भविष्यमुखी",
+                "energetic": "$~ऊर्जावान",
+                "cute": "$~राम्रो",
+                "cheerful": "$~खुसीयाली",
+                "fancy": "$~सजावटी"
+            },
+            "mechanic": {
+                "sameWidth": "$~हरेक अक्षरको चौडाइ उस्तै",
+                "tallLowercase": "$~सानो अक्षरहरू ठूला अक्षरहरू जत्तिकै अग्ला",
+                "shortLowercase": "$~सानो अक्षरहरू ठूला अक्षरहरूभन्दा धेरै छोटा"
+            },
+            "description": {
+                "and": "$~$first र $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~नमस्ते"

@@ -18,6 +18,10 @@ export type FaceRecord = {
     format: string;
     preloaded?: boolean;
     ranges?: string | string[];
+    form?: string;
+    impression?: readonly string[];
+    ratio?: number;
+    mono?: boolean;
 };
 
 /** The ordered slice ranges for a face, or a single string / undefined for a
@@ -57,6 +61,7 @@ function weights(entry: FontManifestEntry): FaceRecord['weights'] {
 export function buildFaces(
     lock: Lockfile,
     emojiRanges: Record<string, string> = {},
+    metrics: Record<string, { ratio?: number; mono?: boolean }> = {},
 ): Record<string, FaceRecord> {
     const faces: Record<string, FaceRecord> = {};
     for (const entry of FontManifest) {
@@ -72,6 +77,14 @@ export function buildFaces(
             format: entry.format,
             ...(entry.delivery === 'preload' ? { preloaded: true } : {}),
             ...(ranges !== undefined ? { ranges } : {}),
+            ...(entry.form !== undefined ? { form: entry.form } : {}),
+            ...(entry.impression !== undefined
+                ? { impression: [...entry.impression] }
+                : {}),
+            ...(metrics[entry.name]?.ratio !== undefined
+                ? { ratio: metrics[entry.name].ratio }
+                : {}),
+            ...(metrics[entry.name]?.mono ? { mono: true } : {}),
         };
     }
     return faces;

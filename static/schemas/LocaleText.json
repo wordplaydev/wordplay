@@ -18510,12 +18510,202 @@
                                     "$ref": "#/definitions/SupportedFace",
                                     "description": "[plain] The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
                                 },
+                                "description": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "and": {
+                                            "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
+                                            "description": "[plain] Joins two of the words above. $first: the first word, $second: the second"
+                                        },
+                                        "full": {
+                                            "$ref": "#/definitions/Template%3C%5B%22form%22%2C%22impression%22%2C%22mechanics%22%5D%3E",
+                                            "description": "[plain] A whole description of a face. $form: what shape the letters are, $impression: what it feels like, $mechanics: what was measured. Any of the three may be empty."
+                                        }
+                                    },
+                                    "required": ["and", "full"],
+                                    "type": "object"
+                                },
+                                "form": {
+                                    "additionalProperties": false,
+                                    "description": "What a font face looks like, said in words, for creators who can't see it. One small vocabulary rather than a description per font: Wordplay ships in thirty languages, so these terms are translated once and hold when a font is added. See faceWords.ts.",
+                                    "properties": {
+                                        "brush": {
+                                            "description": "[plain] Painted with a brush or a marker.",
+                                            "type": "string"
+                                        },
+                                        "emoji": {
+                                            "description": "[plain] Pictures instead of letters.",
+                                            "type": "string"
+                                        },
+                                        "handwriting": {
+                                            "description": "[plain] Written by hand, with the letters apart.",
+                                            "type": "string"
+                                        },
+                                        "outline": {
+                                            "description": "[plain] Hollow or shadowed letters.",
+                                            "type": "string"
+                                        },
+                                        "pixel": {
+                                            "description": "[plain] Letters built out of squares or dots.",
+                                            "type": "string"
+                                        },
+                                        "poster": {
+                                            "description": "[plain] Fat letters made for big words.",
+                                            "type": "string"
+                                        },
+                                        "sans": {
+                                            "description": "[plain] Letters with no feet on them.",
+                                            "type": "string"
+                                        },
+                                        "script": {
+                                            "description": "[plain] Joined up, like cursive.",
+                                            "type": "string"
+                                        },
+                                        "serif": {
+                                            "description": "[plain] Letters with small feet.",
+                                            "type": "string"
+                                        },
+                                        "slab": {
+                                            "description": "[plain] Letters with thick square feet.",
+                                            "type": "string"
+                                        },
+                                        "textured": {
+                                            "description": "[plain] Letters that look worn, sketched, or scratchy.",
+                                            "type": "string"
+                                        },
+                                        "typewriter": {
+                                            "description": "[plain] A face where every letter is the same width.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "sans",
+                                        "serif",
+                                        "slab",
+                                        "typewriter",
+                                        "handwriting",
+                                        "brush",
+                                        "script",
+                                        "poster",
+                                        "pixel",
+                                        "outline",
+                                        "textured",
+                                        "emoji"
+                                    ],
+                                    "type": "object"
+                                },
+                                "impression": {
+                                    "additionalProperties": false,
+                                    "description": "[plain] What a face feels like. At most two are said about any face.",
+                                    "properties": {
+                                        "artistic": {
+                                            "description": "[plain] Looks hand-made or drawn.",
+                                            "type": "string"
+                                        },
+                                        "calm": {
+                                            "description": "[plain] Quiet and ordinary; a face for reading rather than for effect.",
+                                            "type": "string"
+                                        },
+                                        "cheerful": {
+                                            "description": "[plain] Bright and happy.",
+                                            "type": "string"
+                                        },
+                                        "childlike": {
+                                            "description": "[plain] Looks like a child wrote it.",
+                                            "type": "string"
+                                        },
+                                        "cute": {
+                                            "description": "[plain] Small, round and sweet.",
+                                            "type": "string"
+                                        },
+                                        "energetic": {
+                                            "description": "[plain] Quick and lively.",
+                                            "type": "string"
+                                        },
+                                        "excited": {
+                                            "description": "[plain] Loud and full of energy.",
+                                            "type": "string"
+                                        },
+                                        "fancy": {
+                                            "description": "[plain] Elegant and decorated.",
+                                            "type": "string"
+                                        },
+                                        "futuristic": {
+                                            "description": "[plain] Looks like the future, or a machine.",
+                                            "type": "string"
+                                        },
+                                        "oldFashioned": {
+                                            "description": "[plain] Looks like it comes from another time.",
+                                            "type": "string"
+                                        },
+                                        "playful": {
+                                            "description": "[plain] Fun and not serious.",
+                                            "type": "string"
+                                        },
+                                        "quirky": {
+                                            "description": "[plain] Odd or uneven on purpose.",
+                                            "type": "string"
+                                        },
+                                        "strong": {
+                                            "description": "[plain] Heavy and forceful.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "calm",
+                                        "oldFashioned",
+                                        "strong",
+                                        "quirky",
+                                        "playful",
+                                        "excited",
+                                        "childlike",
+                                        "artistic",
+                                        "futuristic",
+                                        "energetic",
+                                        "cute",
+                                        "cheerful",
+                                        "fancy"
+                                    ],
+                                    "type": "object"
+                                },
+                                "mechanic": {
+                                    "additionalProperties": false,
+                                    "description": "[plain] Facts measured from the font file rather than judged.",
+                                    "properties": {
+                                        "sameWidth": {
+                                            "description": "[plain] Every letter takes up the same amount of room.",
+                                            "type": "string"
+                                        },
+                                        "shortLowercase": {
+                                            "description": "[plain] The small letters are much shorter than the capital letters.",
+                                            "type": "string"
+                                        },
+                                        "tallLowercase": {
+                                            "description": "[plain] The small letters are as tall as the capital letters.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "sameWidth",
+                                        "tallLowercase",
+                                        "shortLowercase"
+                                    ],
+                                    "type": "object"
+                                },
                                 "missing": {
                                     "description": "[plain] The word shown before the markup symbols that a font face doesn't support (e.g. \"missing * ^\" for a face without bold or extra bold)",
                                     "type": "string"
                                 }
                             },
-                            "required": ["app", "code", "missing"],
+                            "required": [
+                                "app",
+                                "code",
+                                "missing",
+                                "form",
+                                "impression",
+                                "mechanic",
+                                "description"
+                            ],
                             "type": "object"
                         },
                         "gallery": {
@@ -27058,6 +27248,9 @@
             "type": "string"
         },
         "Template<[\"folder\"]>": {
+            "type": "string"
+        },
+        "Template<[\"form\",\"impression\",\"mechanics\"]>": {
             "type": "string"
         },
         "Template<[\"forms\"]>": {

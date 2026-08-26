@@ -6866,7 +6866,45 @@
         "font": {
             "app": "$~נוטו סאנס",
             "code": "$~נוטו סאנס מונו",
-            "missing": "$~לֹא"
+            "missing": "$~לֹא",
+            "form": {
+                "sans": "$~גופן ללא תגים",
+                "serif": "$~גופן עם תגים",
+                "slab": "$~גופן עם תגים עבים",
+                "typewriter": "$~גופן מכונת כתיבה",
+                "handwriting": "$~כתב יד",
+                "brush": "$~גופן מברשת",
+                "script": "$~גופן רהוט",
+                "poster": "$~גופן כרזה",
+                "pixel": "$~גופן פיקסלים",
+                "outline": "$~גופן חלול",
+                "textured": "$~גופן מרוקם",
+                "emoji": "$~תמונות, לא אותיות"
+            },
+            "impression": {
+                "calm": "$~רגוע",
+                "oldFashioned": "$~ישן ומיושן",
+                "strong": "$~חזק",
+                "quirky": "$~מוזר וייחודי",
+                "playful": "$~שובב",
+                "excited": "$~נרגש",
+                "childlike": "$~ילדותי",
+                "artistic": "$~אמנותי",
+                "futuristic": "$~עתידני",
+                "energetic": "$~מלא אנרגיה",
+                "cute": "$~חמוד",
+                "cheerful": "$~שמח",
+                "fancy": "$~מפואר"
+            },
+            "mechanic": {
+                "sameWidth": "$~כל אות באותו רוחב",
+                "tallLowercase": "$~אותיות קטנות בגובה של אותיות גדולות",
+                "shortLowercase": "$~אותיות קטנות נמוכות בהרבה מהאותיות הגדולות"
+            },
+            "description": {
+                "and": "$~$first ו-$second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~שלום"

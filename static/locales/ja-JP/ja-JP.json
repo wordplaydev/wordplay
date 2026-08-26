@@ -6874,7 +6874,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~いいえ"
+            "missing": "$~いいえ",
+            "form": {
+                "sans": "$~サンセリフ体",
+                "serif": "$~セリフ体",
+                "slab": "$~スラブセリフ体",
+                "typewriter": "$~タイプライター体",
+                "handwriting": "$~手書き文字",
+                "brush": "$~筆記体風の書体",
+                "script": "$~筆記体",
+                "poster": "$~ポスター体",
+                "pixel": "$~ピクセル体",
+                "outline": "$~中抜き文字",
+                "textured": "$~テクスチャ入り書体",
+                "emoji": "$~文字ではなく絵"
+            },
+            "impression": {
+                "calm": "$~落ち着いた",
+                "oldFashioned": "$~昔ながらの",
+                "strong": "$~力強い",
+                "quirky": "$~個性的な",
+                "playful": "$~遊び心のある",
+                "excited": "$~わくわくする",
+                "childlike": "$~子どもっぽい",
+                "artistic": "$~芸術的な",
+                "futuristic": "$~未来的な",
+                "energetic": "$~元気な",
+                "cute": "$~かわいい",
+                "cheerful": "$~明るい",
+                "fancy": "$~おしゃれな"
+            },
+            "mechanic": {
+                "sameWidth": "$~すべての文字が同じ幅",
+                "tallLowercase": "$~小文字が大文字と同じ高さ",
+                "shortLowercase": "$~小文字が大文字よりずっと低い"
+            },
+            "description": {
+                "and": "$~$first、$second",
+                "full": "$~$form$impression[、$impression|]$mechanics[、$mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~こんにちは"

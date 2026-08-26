@@ -103,6 +103,80 @@ type UITexts = {
         code: SupportedFace;
         /** [plain] The word shown before the markup symbols that a font face doesn't support (e.g. "missing * ^" for a face without bold or extra bold) */
         missing: string;
+        /** What a font face looks like, said in words, for creators who can't see
+         * it. One small vocabulary rather than a description per font: Wordplay
+         * ships in thirty languages, so these terms are translated once and hold
+         * when a font is added. See faceWords.ts. */
+        form: {
+            /** [plain] Letters with no feet on them. */
+            sans: string;
+            /** [plain] Letters with small feet. */
+            serif: string;
+            /** [plain] Letters with thick square feet. */
+            slab: string;
+            /** [plain] A face where every letter is the same width. */
+            typewriter: string;
+            /** [plain] Written by hand, with the letters apart. */
+            handwriting: string;
+            /** [plain] Painted with a brush or a marker. */
+            brush: string;
+            /** [plain] Joined up, like cursive. */
+            script: string;
+            /** [plain] Fat letters made for big words. */
+            poster: string;
+            /** [plain] Letters built out of squares or dots. */
+            pixel: string;
+            /** [plain] Hollow or shadowed letters. */
+            outline: string;
+            /** [plain] Letters that look worn, sketched, or scratchy. */
+            textured: string;
+            /** [plain] Pictures instead of letters. */
+            emoji: string;
+        };
+        /** [plain] What a face feels like. At most two are said about any face. */
+        impression: {
+            /** [plain] Quiet and ordinary; a face for reading rather than for effect. */
+            calm: string;
+            /** [plain] Looks like it comes from another time. */
+            oldFashioned: string;
+            /** [plain] Heavy and forceful. */
+            strong: string;
+            /** [plain] Odd or uneven on purpose. */
+            quirky: string;
+            /** [plain] Fun and not serious. */
+            playful: string;
+            /** [plain] Loud and full of energy. */
+            excited: string;
+            /** [plain] Looks like a child wrote it. */
+            childlike: string;
+            /** [plain] Looks hand-made or drawn. */
+            artistic: string;
+            /** [plain] Looks like the future, or a machine. */
+            futuristic: string;
+            /** [plain] Quick and lively. */
+            energetic: string;
+            /** [plain] Small, round and sweet. */
+            cute: string;
+            /** [plain] Bright and happy. */
+            cheerful: string;
+            /** [plain] Elegant and decorated. */
+            fancy: string;
+        };
+        /** [plain] Facts measured from the font file rather than judged. */
+        mechanic: {
+            /** [plain] Every letter takes up the same amount of room. */
+            sameWidth: string;
+            /** [plain] The small letters are as tall as the capital letters. */
+            tallLowercase: string;
+            /** [plain] The small letters are much shorter than the capital letters. */
+            shortLowercase: string;
+        };
+        description: {
+            /** [plain] Joins two of the words above. $first: the first word, $second: the second */
+            and: Template<['first', 'second']>;
+            /** [plain] A whole description of a face. $form: what shape the letters are, $impression: what it feels like, $mechanics: what was measured. Any of the three may be empty. */
+            full: Template<['form', 'impression', 'mechanics']>;
+        };
     };
     phrases: {
         /** [plain] Placeholder text used in code examples. */

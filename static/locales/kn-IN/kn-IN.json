@@ -6874,7 +6874,45 @@
         "font": {
             "app": "$~ನೋಟೊ ಸ್ಯಾನ್ಸ್",
             "code": "$~ನೋಟೊ ಸ್ಯಾನ್ಸ್ ಮೊನೊ",
-            "missing": "$~ಇಲ್ಲ"
+            "missing": "$~ಇಲ್ಲ",
+            "form": {
+                "sans": "$~ಸಾನ್ಸ್-ಸೆರಿಫ್ ಮುಖ",
+                "serif": "$~ಸೆರಿಫ್ ಮುಖ",
+                "slab": "$~ಸ್ಲ್ಯಾಬ್-ಸೆರಿಫ್ ಮುಖ",
+                "typewriter": "$~ಟೈಪ್‌ರೈಟರ್ ಮುಖ",
+                "handwriting": "$~ಕೈಬರಹ",
+                "brush": "$~ಬ್ರಷ್ ಮುಖ",
+                "script": "$~ಕರ್ಸಿವ್ ಮುಖ",
+                "poster": "$~ಪೋಸ್ಟರ್ ಮುಖ",
+                "pixel": "$~ಪಿಕ್ಸೆಲ್ ಮುಖ",
+                "outline": "$~ಟೊಳ್ಳಾದ ಮುಖ",
+                "textured": "$~ವಿನ್ಯಾಸಭರಿತ ಮುಖ",
+                "emoji": "$~ಅಕ್ಷರಗಳಲ್ಲ, ಚಿತ್ರಗಳು"
+            },
+            "impression": {
+                "calm": "$~ಶಾಂತ",
+                "oldFashioned": "$~ಹಳೆಯ ಶೈಲಿ",
+                "strong": "$~ಬಲಿಷ್ಠ",
+                "quirky": "$~ವಿಚಿತ್ರ",
+                "playful": "$~ತಮಾಷೆಯ",
+                "excited": "$~ಉತ್ಸಾಹಭರಿತ",
+                "childlike": "$~ಮಗುವಿನಂತಹ",
+                "artistic": "$~ಕಲಾತ್ಮಕ",
+                "futuristic": "$~ಭವಿಷ್ಯದ ಶೈಲಿಯ",
+                "energetic": "$~ಚೈತನ್ಯಶೀಲ",
+                "cute": "$~ಮುದ್ದಾದ",
+                "cheerful": "$~ಹರ್ಷಚಿತ್ತ",
+                "fancy": "$~ಅಲಂಕೃತ"
+            },
+            "mechanic": {
+                "sameWidth": "$~ಪ್ರತಿ ಅಕ್ಷರವೂ ಒಂದೇ ಅಗಲ",
+                "tallLowercase": "$~ಸಣ್ಣ ಅಕ್ಷರಗಳು ದೊಡ್ಡ ಅಕ್ಷರಗಳಷ್ಟೇ ಎತ್ತರ",
+                "shortLowercase": "$~ಸಣ್ಣ ಅಕ್ಷರಗಳು ದೊಡ್ಡ ಅಕ್ಷರಗಳಿಗಿಂತ ಬಹಳ ಚಿಕ್ಕವು"
+            },
+            "description": {
+                "and": "$~$first ಮತ್ತು $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~ನಮಸ್ಕಾರ"

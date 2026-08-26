@@ -2,11 +2,13 @@ import { describe, expect, test } from 'vitest';
 import {
     checkHashes,
     checkCssConsistency,
+    checkMetrics,
     checkRegistryConsistency,
 } from '../../../scripts/fonts/verify';
 import { emojiRanges } from '../../../scripts/fonts/generate';
 import { readLock } from '../../../scripts/fonts/lockfile';
 import { Faces } from './faces.generated';
+import { FaceMetrics } from './metrics.generated';
 import { FallbackFaces } from './faces.fallback.generated';
 
 /**
@@ -35,5 +37,9 @@ describe('font artifacts are in sync with the manifest + font files', () => {
             await emojiRanges(),
         );
         expect(problems).toEqual([]);
+    });
+
+    test('metrics.generated.ts matches what the font files measure', async () => {
+        expect(await checkMetrics(FaceMetrics)).toEqual([]);
     });
 });

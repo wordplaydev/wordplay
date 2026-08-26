@@ -6869,7 +6869,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~HAYIR"
+            "missing": "$~HAYIR",
+            "form": {
+                "sans": "$~çıkıntısız (sans-serif) bir yazı biçimi",
+                "serif": "$~çıkıntılı (serif) bir yazı biçimi",
+                "slab": "$~kalın çıkıntılı bir yazı biçimi",
+                "typewriter": "$~daktilo görünümlü bir yazı biçimi",
+                "handwriting": "$~el yazısı",
+                "brush": "$~fırça ile çizilmiş bir yazı biçimi",
+                "script": "$~bitişik bir yazı biçimi",
+                "poster": "$~afiş tarzı bir yazı biçimi",
+                "pixel": "$~piksel görünümlü bir yazı biçimi",
+                "outline": "$~içi boş bir yazı biçimi",
+                "textured": "$~dokulu bir yazı biçimi",
+                "emoji": "$~harfler değil, resimler"
+            },
+            "impression": {
+                "calm": "$~sakin",
+                "oldFashioned": "$~eski moda",
+                "strong": "$~güçlü",
+                "quirky": "$~tuhaf",
+                "playful": "$~eğlenceli",
+                "excited": "$~heyecanlı",
+                "childlike": "$~çocuksu",
+                "artistic": "$~sanatsal",
+                "futuristic": "$~fütüristik",
+                "energetic": "$~enerjik",
+                "cute": "$~şirin",
+                "cheerful": "$~neşeli",
+                "fancy": "$~gösterişli"
+            },
+            "mechanic": {
+                "sameWidth": "$~her harf aynı genişlikte",
+                "tallLowercase": "$~küçük harfler büyük harfler kadar uzun",
+                "shortLowercase": "$~küçük harfler büyük harflerden çok daha kısa"
+            },
+            "description": {
+                "and": "$~$first ve $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Merhaba"

@@ -209,6 +209,7 @@
                                                 value: name,
                                                 label: () =>
                                                     getFaceDescription(
+                                                        $locales,
                                                         name,
                                                         face,
                                                     ),

@@ -6874,7 +6874,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~hindi"
+            "missing": "$~hindi",
+            "form": {
+                "sans": "$~isang estilong sans-serif",
+                "serif": "$~isang estilong serif",
+                "slab": "$~isang estilong slab-serif",
+                "typewriter": "$~isang estilong makinilya",
+                "handwriting": "$~sulat-kamay",
+                "brush": "$~isang estilong brush",
+                "script": "$~isang estilong cursive",
+                "poster": "$~isang estilong poster",
+                "pixel": "$~isang estilong pixel",
+                "outline": "$~isang estilong hollow",
+                "textured": "$~isang estilong texture",
+                "emoji": "$~mga larawan, hindi mga titik"
+            },
+            "impression": {
+                "calm": "$~kalmado",
+                "oldFashioned": "$~makaluma",
+                "strong": "$~malakas",
+                "quirky": "$~kakaiba",
+                "playful": "$~malikot",
+                "excited": "$~masigla",
+                "childlike": "$~parang bata",
+                "artistic": "$~artistiko",
+                "futuristic": "$~makabago",
+                "energetic": "$~masigasig",
+                "cute": "$~nakakagigil",
+                "cheerful": "$~masayahin",
+                "fancy": "$~pino"
+            },
+            "mechanic": {
+                "sameWidth": "$~pare-pareho ang lapad ng bawat titik",
+                "tallLowercase": "$~kasintaas ng malalaking titik ang maliliit na titik",
+                "shortLowercase": "$~mas maikli nang malaki ang maliliit na titik kaysa sa malalaking titik"
+            },
+            "description": {
+                "and": "$~$first at $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~kumusta"

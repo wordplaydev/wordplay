@@ -6862,7 +6862,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~inga"
+            "missing": "$~inga",
+            "form": {
+                "sans": "$~ett typsnitt utan klackar",
+                "serif": "$~ett typsnitt med klackar",
+                "slab": "$~ett typsnitt med kraftiga klackar",
+                "typewriter": "$~ett skrivmaskinstypsnitt",
+                "handwriting": "$~handstil",
+                "brush": "$~ett penseltypsnitt",
+                "script": "$~ett kursivt typsnitt",
+                "poster": "$~ett postertypsnitt",
+                "pixel": "$~ett pixeltypsnitt",
+                "outline": "$~ett ihåligt typsnitt",
+                "textured": "$~ett typsnitt med struktur",
+                "emoji": "$~bilder, inte bokstäver"
+            },
+            "impression": {
+                "calm": "$~lugnt",
+                "oldFashioned": "$~gammaldags",
+                "strong": "$~starkt",
+                "quirky": "$~udda",
+                "playful": "$~lekfullt",
+                "excited": "$~upprymt",
+                "childlike": "$~barnsligt",
+                "artistic": "$~konstnärligt",
+                "futuristic": "$~futuristiskt",
+                "energetic": "$~energiskt",
+                "cute": "$~gulligt",
+                "cheerful": "$~glatt",
+                "fancy": "$~flott"
+            },
+            "mechanic": {
+                "sameWidth": "$~varje bokstav lika bred",
+                "tallLowercase": "$~små bokstäver lika höga som versaler",
+                "shortLowercase": "$~små bokstäver mycket kortare än versaler"
+            },
+            "description": {
+                "and": "$~$first och $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Hej"

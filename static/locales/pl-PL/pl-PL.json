@@ -6883,7 +6883,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~NIE"
+            "missing": "$~NIE",
+            "form": {
+                "sans": "$~krój bezszeryfowy",
+                "serif": "$~krój szeryfowy",
+                "slab": "$~krój szeryfowy o grubych szeryfach",
+                "typewriter": "$~krój jak z maszyny do pisania",
+                "handwriting": "$~pismo ręczne",
+                "brush": "$~krój jak pędzlem",
+                "script": "$~krój kursywny",
+                "poster": "$~krój plakatowy",
+                "pixel": "$~krój pikselowy",
+                "outline": "$~krój z pustymi środkami liter",
+                "textured": "$~krój z teksturą",
+                "emoji": "$~obrazki, nie litery"
+            },
+            "impression": {
+                "calm": "$~spokojny",
+                "oldFashioned": "$~staromodny",
+                "strong": "$~mocny",
+                "quirky": "$~oryginalny",
+                "playful": "$~żartobliwy",
+                "excited": "$~pełen emocji",
+                "childlike": "$~dziecięcy",
+                "artistic": "$~artystyczny",
+                "futuristic": "$~futurystyczny",
+                "energetic": "$~pełen energii",
+                "cute": "$~uroczy",
+                "cheerful": "$~radosny",
+                "fancy": "$~wyszukany"
+            },
+            "mechanic": {
+                "sameWidth": "$~każda litera o tej samej szerokości",
+                "tallLowercase": "$~małe litery tak wysokie jak wielkie",
+                "shortLowercase": "$~małe litery znacznie niższe niż wielkie"
+            },
+            "description": {
+                "and": "$~$first i $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Witam"

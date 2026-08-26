@@ -6863,7 +6863,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~لا"
+            "missing": "$~لا",
+            "form": {
+                "sans": "$~خط بلا زوائد",
+                "serif": "$~خط بزوائد",
+                "slab": "$~خط بزوائد سميكة",
+                "typewriter": "$~خط آلة كاتبة",
+                "handwriting": "$~خط يد",
+                "brush": "$~خط فرشاة",
+                "script": "$~خط مائل متصل",
+                "poster": "$~خط ملصقات",
+                "pixel": "$~خط بكسل",
+                "outline": "$~خط مجوّف",
+                "textured": "$~خط ذو ملمس",
+                "emoji": "$~صور، لا حروف"
+            },
+            "impression": {
+                "calm": "$~هادئ",
+                "oldFashioned": "$~قديم الطراز",
+                "strong": "$~قوي",
+                "quirky": "$~غريب الشكل",
+                "playful": "$~مرح",
+                "excited": "$~متحمس",
+                "childlike": "$~طفولي",
+                "artistic": "$~فني",
+                "futuristic": "$~مستقبلي",
+                "energetic": "$~نشيط",
+                "cute": "$~لطيف",
+                "cheerful": "$~مبهج",
+                "fancy": "$~فاخر"
+            },
+            "mechanic": {
+                "sameWidth": "$~كل حرف بنفس العرض",
+                "tallLowercase": "$~الحروف الصغيرة بنفس ارتفاع الحروف الكبيرة",
+                "shortLowercase": "$~الحروف الصغيرة أقصر بكثير من الحروف الكبيرة"
+            },
+            "description": {
+                "and": "$~$first و $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~مرحبًا"

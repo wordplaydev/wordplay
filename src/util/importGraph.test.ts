@@ -216,13 +216,23 @@ test('resolving a color needs no basis', () => {
  * animation layer it hooks hang off ProjectView, which none of these entries
  * reach. The landing page's last hundredth is the second mode row in
  * en-US.json, which is the slack it had been living on since the row above.
+ *
+ * The +1 file across all five (#298) is faceWords.ts, which says in words what a
+ * typeface looks like for creators who can't see it. It is the same kind of move
+ * as the three above: one small file whose only imports — the generated face
+ * registry and a locale type — were already inside chrome via Fonts.ts, which
+ * the settings dialog reaches to render the font chooser. Not a new subgraph.
+ * Its ~0.01MB is the same shape as the row above: the module itself, thirty new
+ * terms in en-US.json, and four fields per pickable face in faces.generated.ts —
+ * a fixed vocabulary rather than a description per font, which is what keeps it
+ * to one step instead of growing with the catalogue.
  */
 test.each([
-    ['src/routes/+layout.svelte', 487, 3.49],
-    ['src/components/app/Page.svelte', 509, 3.72],
-    ['src/routes/[[locale]]/+page.svelte', 524, 3.81],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 527, 3.81],
-    ['src/routes/[[locale]]/projects/+page.svelte', 535, 3.84],
+    ['src/routes/+layout.svelte', 488, 3.5],
+    ['src/components/app/Page.svelte', 510, 3.74],
+    ['src/routes/[[locale]]/+page.svelte', 525, 3.83],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 528, 3.83],
+    ['src/routes/[[locale]]/projects/+page.svelte', 536, 3.86],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(
