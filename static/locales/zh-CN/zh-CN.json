@@ -5520,7 +5520,11 @@
                 "doc": "@Output 是否应该y轴对称，代替默认值。",
                 "names": "垂直翻转"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]",
+            "music": {
+                "doc": "$~当我的动画状态开始时，或者当一个 @Sequence 碰到我时，我应该播放的 @Music。它是一段很短的声音，我只会完整播放一遍。",
+                "names": "$~音乐"
+            }
         },
         "Color": {
             "doc": [

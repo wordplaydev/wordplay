@@ -5527,7 +5527,11 @@
                 "doc": "$~ما إذا كان يجب عكس @Output على المحور الرأسي، بدلاً من قيمته الافتراضية.",
                 "names": "$~flipy"
             },
-            "description": "$~$opacity[شفاف $opacity|] $rotation[مُدار $rotation درجة|] $scale[مُكبّر $scale|] $flipx[معكوس أفقياً|] $flipy[معكوس رأسياً|] $blur[الظل مموّه $blur بكسل|]"
+            "description": "$~$opacity[شفاف $opacity|] $rotation[مُدار $rotation درجة|] $scale[مُكبّر $scale|] $flipx[معكوس أفقياً|] $flipy[معكوس رأسياً|] $blur[الظل مموّه $blur بكسل|]",
+            "music": {
+                "doc": "$~@Music الذي يجب أن يُشغَّل عندما تبدأ حالة حركتي، أو عندما يصل إليّ @Sequence. الهدف هو صوت قصير؛ فأنا أُشغَّل مرة واحدة فقط.",
+                "names": "$~موسيقى"
+            }
         },
         "Color": {
             "doc": [

@@ -5642,7 +5642,11 @@
                 "doc": "$~@Output 이 기본값이 아닌 y축에 미러링되어야 하는지 여부입니다.",
                 "names": "$~플리피"
             },
-            "description": "$~$opacity[투명 $opacity|] $rotation[$rotation 회전|] $scale[크기 조정 $scale|] $flipx[수평으로 뒤집음|] $flipy[수직으로 뒤집음|] $blur[흐린 그림자 $blur|]"
+            "description": "$~$opacity[투명 $opacity|] $rotation[$rotation 회전|] $scale[크기 조정 $scale|] $flipx[수평으로 뒤집음|] $flipy[수직으로 뒤집음|] $blur[흐린 그림자 $blur|]",
+            "music": {
+                "doc": "$~제 애니메이션 상태가 시작되거나 @Sequence 이 저에게 닿을 때 재생할 @Music 입니다. 짧은 소리가 핵심입니다. 저는 딱 한 번만 재생됩니다.",
+                "names": "$~음악"
+            }
         },
         "Color": {
             "names": ["$~색상"],

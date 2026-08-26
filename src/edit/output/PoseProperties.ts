@@ -6,6 +6,7 @@ import NumberLiteral from '@nodes/NumberLiteral';
 import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
 import { createColorLiteral } from '@output/Color/Color';
+import { createMusicLiteral } from '@output/Music/Music';
 import OutputProperty from '@edit/output/OutputProperty';
 import OutputPropertyRange from '@edit/output/OutputPropertyRange';
 
@@ -100,6 +101,20 @@ export default function getPoseProperties(
             false,
             (expr) => expr instanceof BooleanLiteral,
             () => BooleanLiteral.make(false),
+        ),
+        // Edited as a nested structure, which for a `Music` is the music's own
+        // palette rows. Its notes are edited where every other music's are: put
+        // the caret on it and the staff opens, since the editor's music chooser
+        // scans the whole project rather than only the stage's content.
+        new OutputProperty(
+            (l) => l.output.Pose.music.names,
+            'structure',
+            false,
+            false,
+            (expr, context) =>
+                expr instanceof Evaluate &&
+                expr.is(project.shares.output.Music, context),
+            (locales) => createMusicLiteral(project, locales),
         ),
     ];
 }

@@ -5556,7 +5556,11 @@
                 "doc": "$~Dacă o valoare @Output ar trebui oglindită pe axa y, în loc de valoarea implicită.",
                 "names": "$~flip"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotit $rotation grade|] $scale[scalat $scale|] $flipx[întors pe orizontală|] $flipy[întors pe verticală|] $blur[umbră estompată $blur pixeli|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[rotit $rotation grade|] $scale[scalat $scale|] $flipx[întors pe orizontală|] $flipy[întors pe verticală|] $blur[umbră estompată $blur pixeli|]",
+            "music": {
+                "doc": "$~@Music pe care ar trebui să îl redau atunci când începe starea mea de animație sau când mă atinge un @Sequence. Ideea este un sunet scurt; îl redau doar o singură dată.",
+                "names": "$~muzică"
+            }
         },
         "Color": {
             "doc": [

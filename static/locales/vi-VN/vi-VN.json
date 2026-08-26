@@ -5541,7 +5541,11 @@
                 "doc": "$~Liệu một @Output có nên được phản chiếu trên trục y, thay vì vị trí mặc định của nó hay không.",
                 "names": "$~lật"
             },
-            "description": "$~$opacity[trong suốt $opacity|] $rotation[xoay $rotation độ|] $scale[thu nhỏ $scale|] $flipx[lật ngang|] $flipy[lật dọc|] $blur[bóng mờ $blur pixel|]"
+            "description": "$~$opacity[trong suốt $opacity|] $rotation[xoay $rotation độ|] $scale[thu nhỏ $scale|] $flipx[lật ngang|] $flipy[lật dọc|] $blur[bóng mờ $blur pixel|]",
+            "music": {
+                "doc": "$~@Music tôi nên phát khi trạng thái hoạt ảnh của tôi bắt đầu, hoặc khi một @Sequence chạm tới tôi. Đây là một âm thanh ngắn; tôi chỉ phát một lần duy nhất.",
+                "names": "$~âmNhạc"
+            }
         },
         "Color": {
             "doc": [

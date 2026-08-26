@@ -5530,7 +5530,11 @@
                 "doc": "$~האם יש לשקף @Output על ציר ה-y, במקום על ציר ברירת המחדל שלו.",
                 "names": "$~פליפי"
             },
-            "description": "$~$opacity[שקוף $opacity|] $rotation[סיבוב $rotation מעלות|] $scale[קנה מידה $scale|] $flipx[הפוך אופקית|] $flipy[הפוך אנכית|] $blur[צל מטושטש $blur פיקסלים|]"
+            "description": "$~$opacity[שקוף $opacity|] $rotation[סיבוב $rotation מעלות|] $scale[קנה מידה $scale|] $flipx[הפוך אופקית|] $flipy[הפוך אנכית|] $blur[צל מטושטש $blur פיקסלים|]",
+            "music": {
+                "doc": "$~ה־@Music שעליי לנגן כשמצב האנימציה שלי מתחיל, או כש@Sequence מגיע אליי. הרעיון הוא צליל קצר; אני מנגן אותו פעם אחת בלבד.",
+                "names": "$~מוזיקה"
+            }
         },
         "Color": {
             "doc": [

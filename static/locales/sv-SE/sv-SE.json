@@ -5526,7 +5526,11 @@
                 "doc": "$~Huruvida en @Output ska speglas på y-axeln, istället för att den är standard.",
                 "names": "$~flipy"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[roterad $rotation grader|] $scale[skalad $scale|] $flipx[vänd horisontellt|] $flipy[vänd vertikalt|] $blur[skugga suddig $blur pixlar|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[roterad $rotation grader|] $scale[skalad $scale|] $flipx[vänd horisontellt|] $flipy[vänd vertikalt|] $blur[skugga suddig $blur pixlar|]",
+            "music": {
+                "doc": "$~@Music jag ska spela när mitt animeringstillstånd börjar eller när en @Sequence når mig. En kort ljud är poängen; jag spelar bara igenom en gång.",
+                "names": "$~musik"
+            }
         },
         "Color": {
             "doc": [

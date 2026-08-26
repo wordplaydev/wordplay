@@ -22,6 +22,7 @@ import getArrangementProperties from '@edit/output/getArrangementProperties';
 import getAuraProperties from '@edit/output/getAuraProperties';
 import getFormProperties from '@edit/output/getFormProperties';
 import getMatterProperties from '@edit/output/getMatterProperties';
+import { getMusicProperties } from '@edit/output/MusicProperties';
 import getPlaceProperties from '@edit/output/getPlaceProperties';
 import getPlacementProperties from '@edit/output/getPlacementProperties';
 import getVelocityProperties from '@edit/output/getVelocityProperties';
@@ -121,6 +122,8 @@ export default function getStructureProperties(
     if (definition === output.Aura) return getAuraProperties(project, locales);
     if (definition === output.Place)
         return getPlaceProperties(project, locales);
+    if (definition === output.Music)
+        return getMusicProperties(project, locales);
     if (definition === output.Velocity)
         return getVelocityProperties(project, locales);
     if (definition === input.Placement)

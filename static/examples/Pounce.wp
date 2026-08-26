@@ -1,7 +1,18 @@
 🧶
 "Pounce"/en"扑击"/zh-CN"撲擊"/zh-TW
 === start
-¶Steer a cat with the arrow keys and pounce.¶
+¶Steer a cat with the arrow keys and pounce.
+
+The cat meows every time it moves. The meow hangs on the first @Pose of its
+moving animation: a @Pose can carry a @Music, which plays the moment that pose
+is struck, and a move strikes its poses each time one begins. The sway is
+written out rather than left as \Sequence.sway()\ because the ready-made
+animations build their own poses, and a pose is where the sound has to go.¶
+
+¶One short cry. Two moves close together share a meow rather than stacking two,
+since the second arrives while the first sway is still swaying.¶
+meow: 🎼(🎶([1] instrument: 🔈.🐱) volume: 45% name: 'meow')
+
 •CatPosition(position•#m direction•#)
 
 key: Key()
@@ -19,7 +30,15 @@ kitty: Phrase(
     size: 2m
     place: Place(kittyPlace.position 0m)
     resting: Pose(flipx: kittyPlace.direction < 0)
-    moving: Sequence.sway(5° 0.25s "zippy")
+    moving: Sequence(
+        {
+            0%: Pose(rotation: -5° music: meow)
+            50%: Pose(rotation: 5°)
+            100%: Pose(rotation: -5°)
+        }
+        0.25s
+        "zippy"
+    )
     matter: Matter(1000kg roundedness: 0.5)
 )
 

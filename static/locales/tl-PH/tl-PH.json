@@ -5553,7 +5553,11 @@
                 "doc": "$~Kung dapat bang i-mirror ang isang @Output sa y-axis, sa halip na sa default nito.",
                 "names": "$~mabaliw"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[pinaikot $rotation degrees|] $scale[naka-scale $scale|] $flipx[binaligtad nang pahalang|] $flipy[binaligtad nang patayo|] $blur[malabo ang anino $blur pixels|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[pinaikot $rotation degrees|] $scale[naka-scale $scale|] $flipx[binaligtad nang pahalang|] $flipy[binaligtad nang patayo|] $blur[malabo ang anino $blur pixels|]",
+            "music": {
+                "doc": "$~Ang @Music na dapat kong tugtugin kapag nagsimula ang estado ng aking animation, o kapag inabot ako ng isang @Sequence. Isang maikling tunog lang ang punto; isang pagtugtog lang ang gagawin ko.",
+                "names": "$~musika"
+            }
         },
         "Color": {
             "doc": [

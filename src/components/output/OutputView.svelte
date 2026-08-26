@@ -106,9 +106,16 @@
         instrumentBinds,
     } from '@output/Music/referencedInstruments';
     import type Source from '@nodes/Source';
-    import { musicInstruments, type MusicData } from '@output/Music/musicData';
+    import {
+        musicInstruments,
+        musicReady,
+        type MusicData,
+    } from '@output/Music/musicData';
     import { missedReplays } from '@output/Music/missedReplays';
     import projectReplaysMusic from '@output/Music/replayBinding';
+    import type Music from '@output/Music/Music';
+    import { stagePoseMusic } from '@output/animation/poseMusic';
+    import { onPoseMusic } from '@output/animation/poseMusicEvents';
     import audio, { musicSuspended } from '@output/Music/MusicAudio';
     import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
@@ -495,7 +502,8 @@
      *  there's nothing to say — no music, or everything ready. Named with each
      *  instrument's own localized name rather than its internal key. */
     let musicLoadingLabel = $derived.by(() => {
-        if (musics.length === 0) return undefined;
+        if (musics.length === 0 && poseMusicOutput.length === 0)
+            return undefined;
         const binds = instrumentBinds(project);
         const naming = (ids: string[]) =>
             ids
@@ -526,7 +534,10 @@
      *  can't see it; the evaluated tracks can. Requesting is idempotent. */
     $effect(() => {
         if (mini || typeof window === 'undefined') return;
-        for (const music of musics)
+        for (const music of [
+            ...musics,
+            ...poseMusicOutput.map((music) => music.toData()),
+        ])
             for (const instrument of musicInstruments(music))
                 samples.request(instrument);
     });
@@ -2135,6 +2146,15 @@
     let musicOutput = $derived(stageValue?.getMusic() ?? []);
     let musics = $derived(musicOutput.map((music) => music.toData()));
 
+    /** The music the stage's poses can strike. Never handed to the player — a
+     *  pose's music is present only for the instant it is struck — but the things
+     *  that ask *whether a project makes sound at all* have to count it: which
+     *  recordings to fetch, whether to say they're still loading, and which
+     *  expression a sounding note came from. */
+    let poseMusicOutput = $derived(
+        stageValue === undefined ? [] : stagePoseMusic(project, stageValue),
+    );
+
     /**
      * The expressions that determined the notes sounding right now, for the
      * editor to highlight. Resolved here because this is what holds the `Music`
@@ -2146,7 +2166,10 @@
         if (!interactive || soundingNodes === undefined) return;
         const sounding = $soundingNotes;
         const byName = new Map(
-            musicOutput.map((music) => [music.getName(), music]),
+            [...musicOutput, ...poseMusicOutput].map((music) => [
+                music.getName(),
+                music,
+            ]),
         );
         const nodes = new Set<Node>();
         for (const [name, notes] of sounding) {
@@ -2204,6 +2227,154 @@
     let replays = $derived(
         source !== undefined && projectReplaysMusic(project),
     );
+
+    /**
+     * Pose music struck this instant, awaiting the one update that delivers it.
+     *
+     * Plain maps, deliberately not `$state`: the music effect below both reads
+     * the present list and this path clears it, and making either reactive is a
+     * loop. Nothing a strike touches is read reactively.
+     */
+    let poseStruck: Map<string, MusicData> = new Map();
+    /** How to take back each strike an animation has scheduled but not yet
+     *  played, by output name, so a cancelled or paused animation can. Cancels
+     *  rather than timer handles, since a strike can also be waiting on its
+     *  instrument's recordings rather than on the clock. */
+    let poseWaiting: Map<string, (() => void)[]> = new Map();
+
+    /** Names of the pose music already described this performance. */
+    let describedPoseMusic = new Set<string>();
+    let describedPosePerformance: number | undefined = undefined;
+
+    function cancelPoseStrikes(name: string) {
+        for (const cancel of poseWaiting.get(name) ?? []) cancel();
+        poseWaiting.delete(name);
+    }
+
+    function waitToStrike(name: string, cancel: () => void) {
+        poseWaiting.set(name, [...(poseWaiting.get(name) ?? []), cancel]);
+    }
+
+    /**
+     * Play what a pose carries, once, now.
+     *
+     * It rides the stage's own player rather than a bus of its own, so it is
+     * scaled by the viewer's volume, ducked while something is speaking, held
+     * under the same limiter, and heard by `@Beat` — none of which a second
+     * player would give it. Two things about the data make it a *trigger*:
+     *
+     * `replay` is required, not decorative. `reconcile` checks it before
+     * anything else, so a piece that has already played to its end restarts
+     * instead of reading as `keep` — which is what would leave the second strike
+     * and every one after it silent.
+     *
+     * `loop` is dropped. It defaults to true on every track, and a pose is an
+     * instant with nothing that could ever say "stop looping now", so a looping
+     * pose sound would outlive the moment that made it with no owner.
+     */
+    function strikePoseMusic(name: string, music: Music) {
+        // Never reach the player when nothing can be heard: `audio.now()`
+        // *constructs* the AudioContext, which a preview must never cause.
+        if (
+            musicHandle === undefined ||
+            !playing ||
+            !sound ||
+            $isPreviewing ||
+            evaluator.isInPast()
+        )
+            return;
+        const data = music.toData();
+        // A strike is present for one update and gone, so unlike music standing
+        // on the stage it gets no second chance: the player defers a piece whose
+        // recordings haven't arrived and replays the last update it was given,
+        // and the next strike overwrites that. So wait here instead. This is the
+        // ordinary case for the first sound of a freshly opened project, which
+        // is exactly the one a creator is most likely to have written.
+        if (!musicReady(data, (instrument) => samples.ready(instrument))) {
+            for (const instrument of musicInstruments(data))
+                samples.request(instrument);
+            const stop = samples.observe(() => {
+                if (!musicReady(data, (i) => samples.ready(i))) return;
+                stop();
+                strikePoseMusic(name, music);
+            });
+            waitToStrike(name, stop);
+            return;
+        }
+        poseStruck.set(data.name, {
+            ...data,
+            replay: true,
+            tracks: data.tracks.map((track) => ({ ...track, loop: false })),
+        });
+        const mark = evaluator.getStepIndex();
+        musicHandle.player.update(
+            scaleMusic([...musics, ...poseStruck.values()]),
+            true,
+            mark,
+            false,
+        );
+        // Cleared, not handed back in a second update: the next ordinary one
+        // omits it, and a non-looping music that leaves the stage *drains* —
+        // it plays to its own end rather than being cut off. Leaving it in the
+        // player's remembered last update is deliberate, and is what makes a
+        // strike survive its own recordings still loading: the player defers a
+        // piece whose instruments aren't ready and replays that update when they
+        // arrive. Delivering the list without it, which is the obvious thing to
+        // do here, threw the deferred sound away instead — the first strike of a
+        // freshly opened project, every time.
+        poseStruck.clear();
+        describePoseMusic(music, data.name);
+    }
+
+    /** Describe a pose sound that can't be heard, once per performance — the
+     *  cadence the `Say` caption uses, and the only honest one here: nothing
+     *  about a repeated ding varies between two firings, so a live region would
+     *  go quiet after the first anyway. */
+    function describePoseMusic(music: Music, name: string) {
+        const performance = $evaluation?.performance;
+        if (performance !== describedPosePerformance) {
+            describedPosePerformance = performance;
+            describedPoseMusic.clear();
+        }
+        if (
+            !($musicVolume === 0 || audio.isSuspended()) ||
+            announce === undefined ||
+            !$announce ||
+            describedPoseMusic.has(name)
+        )
+            return;
+        describedPoseMusic.add(name);
+        const text = music.description?.text ?? music.getDescription($locales);
+        if (text.length > 0)
+            $announce('music-description', $locales.getLanguages()[0], text);
+    }
+
+    // Schedule what each animation's poses strike. The animation layer reports
+    // only from `start()`, never from the per-frame `retarget()`, so a physics
+    // stage never comes through here at all.
+    $effect(() => {
+        if (mini) return;
+        const target = evaluator;
+        return onPoseMusic(target, {
+            started: (event) => {
+                cancelPoseStrikes(event.name);
+                for (const strike of event.strikes) {
+                    if (strike.atMs <= 0)
+                        strikePoseMusic(event.name, strike.music);
+                    else {
+                        const timer = setTimeout(
+                            () => strikePoseMusic(event.name, strike.music),
+                            strike.atMs,
+                        );
+                        waitToStrike(event.name, () => clearTimeout(timer));
+                    }
+                }
+            },
+            // Only what hasn't sounded yet: a piece already playing rings out,
+            // the rule every other cut in the music subsystem follows.
+            stopped: (name) => cancelPoseStrikes(name),
+        });
+    });
 
     /** The viewer's volume scales every music; muting is volume 0. */
     function scaleMusic(present: MusicData[]): MusicData[] {
@@ -2278,8 +2449,17 @@
             musicHandle.release();
             musicHandle = undefined;
             musicEvaluator = undefined;
+            for (const name of [...poseWaiting.keys()]) cancelPoseStrikes(name);
         }
-        if (present.length === 0 && musicHandle === undefined) return;
+        // A project whose only sound is a pose's still needs a player — but it
+        // needs one no earlier than a project whose music stands on the stage,
+        // and the player builds no AudioContext until something actually plays.
+        if (
+            present.length === 0 &&
+            poseMusicOutput.length === 0 &&
+            musicHandle === undefined
+        )
+            return;
         if (musicHandle === undefined) {
             musicHandle = acquireMusicPlayer(evaluator);
             musicEvaluator = evaluator;
@@ -2349,6 +2529,7 @@
         // Only this view's says: a cancel that reached every source would
         // silence music still playing elsewhere on the page.
         speech.cancel(SaySource);
+        for (const name of [...poseWaiting.keys()]) cancelPoseStrikes(name);
         musicHandle?.release();
         musicHandle = undefined;
         musicEvaluator = undefined;

@@ -5551,7 +5551,11 @@
                 "doc": "Indica se um @Output deve ser espelhado no eixo y, em vez do seu padrão.",
                 "names": "invertiry"
             },
-            "description": "$opacity[transparente $opacity|] $rotation[rotacionado $rotation graus|] $scale[escalado $scale|] $flipx[invertido horizontalmente|] $flipy[invertido verticalmente|] $blur[sombra desfocada $blur pixels|]"
+            "description": "$opacity[transparente $opacity|] $rotation[rotacionado $rotation graus|] $scale[escalado $scale|] $flipx[invertido horizontalmente|] $flipy[invertido verticalmente|] $blur[sombra desfocada $blur pixels|]",
+            "music": {
+                "doc": "$~O @Music que devo tocar quando o meu estado de animação começa ou quando um @Sequence me alcança. É um som curto; só toco uma vez.",
+                "names": "$~música"
+            }
         },
         "Color": {
             "doc": [

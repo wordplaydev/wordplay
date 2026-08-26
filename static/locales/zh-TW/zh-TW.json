@@ -5626,7 +5626,11 @@
                 "doc": "@Output 是否應該y軸對稱,取代預設值。",
                 "names": "垂直翻轉"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]",
+            "music": {
+                "doc": "$~當我的動畫狀態開始，或是有 @Sequence 傳到我這裡時，我應該播放的 @Music。重點是一段短短的聲音，我只會播放一次而已。",
+                "names": "$~音樂"
+            }
         },
         "Color": {
             "doc": [

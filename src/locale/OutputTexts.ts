@@ -355,6 +355,8 @@ type OutputTexts = {
         scale: NameAndDoc;
         flipx: NameAndDoc;
         flipy: NameAndDoc;
+        /** Music that sounds when this pose is applied: when its animation state begins, or when a sequence reaches its percentage. */
+        music: NameAndDoc;
         /** [formatted] Templated description of the pose. $1: optional opacity, $2: optional rotation degrees, $3: optional scale, $4: optional flipx, $5: optional flipy, $6: optional blur */
         description: Template<
             ['opacity', 'rotation', 'scale', 'flipx', 'flipy', 'blur']

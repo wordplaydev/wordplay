@@ -5547,7 +5547,11 @@
                 "doc": "$~Czy @Output powinno być odbite lustrzanie na osi y, zamiast domyślnie.",
                 "names": "$~chytry"
             },
-            "description": "$~$opacity[przezroczysty $opacity|] $rotation[obrócony o $rotation stopnie|] $scale[skalowany $scale|] $flipx[odwrócony w poziomie|] $flipy[odwrócony w pionie|] $blur[cień rozmyty $blur pikseli|]"
+            "description": "$~$opacity[przezroczysty $opacity|] $rotation[obrócony o $rotation stopnie|] $scale[skalowany $scale|] $flipx[odwrócony w poziomie|] $flipy[odwrócony w pionie|] $blur[cień rozmyty $blur pikseli|]",
+            "music": {
+                "doc": "$~@Music, który powinienem odtworzyć, gdy zacznie się mój stan animacji lub gdy dosięgnie mnie @Sequence. Chodzi o krótki dźwięk; odtwarzam go tylko raz od początku do końca.",
+                "names": "$~muzyka"
+            }
         },
         "Color": {
             "doc": [

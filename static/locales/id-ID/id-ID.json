@@ -5562,7 +5562,11 @@
                 "doc": "$~Apakah sebuah @Output harus dicerminkan pada sumbu y, alih-alih posisi default-nya.",
                 "names": "$~membalik"
             },
-            "description": "$~$opacity[transparan $opacity|] $rotation[diputar $rotation derajat|] $scale[diskalakan $scale|] $flipx[dibalik mendatar|] $flipy[dibalik tegak|] $blur[bayangan dikaburkan $blur piksel|]"
+            "description": "$~$opacity[transparan $opacity|] $rotation[diputar $rotation derajat|] $scale[diskalakan $scale|] $flipx[dibalik mendatar|] $flipy[dibalik tegak|] $blur[bayangan dikaburkan $blur piksel|]",
+            "music": {
+                "doc": "$~@Music yang harus saya mainkan saat keadaan animasi saya mulai atau saat sebuah @Sequence mencapai saya. Suara pendek adalah intinya; saya hanya memainkannya satu kali.",
+                "names": "$~musik"
+            }
         },
         "Color": {
             "doc": [

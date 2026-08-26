@@ -5540,7 +5540,11 @@
                 "doc": "$~@Output を y 軸で鏡のように反転するかどうか、標準のかわりに使います。",
                 "names": "$~縦反転"
             },
-            "description": "$~$opacity[透明度 $opacity|] $rotation[$rotation 度回転|] $scale[$scale 倍に拡大|] $flipx[左右反転|] $flipy[上下反転|] $blur[影を $blur ピクセルぼかす|]"
+            "description": "$~$opacity[透明度 $opacity|] $rotation[$rotation 度回転|] $scale[$scale 倍に拡大|] $flipx[左右反転|] $flipy[上下反転|] $blur[影を $blur ピクセルぼかす|]",
+            "music": {
+                "doc": "$~アニメーションの状態が始まったとき、または@Sequenceが私に届いたときに再生する@Musicです。短い音がねらいで、私は一度だけ最後まで再生します。",
+                "names": "$~音楽"
+            }
         },
         "Color": {
             "doc": [

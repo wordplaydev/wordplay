@@ -5977,6 +5977,10 @@
                 "doc": "Whether a @Output should be mirrored on the y-axis, instead of it's default.",
                 "names": "flipy"
             },
+            "music": {
+                "doc": "The @Music I should play when my animation state begins or when a @Sequence reaches me. A short sound is the point; I only ever play through once.",
+                "names": "music"
+            },
             "description": "$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
         },
         "Color": {

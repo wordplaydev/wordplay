@@ -14380,6 +14380,10 @@
                                 "flipy": {
                                     "$ref": "#/definitions/NameAndDoc"
                                 },
+                                "music": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Music that sounds when this pose is applied: when its animation state begins, or when a sequence reaches its percentage."
+                                },
                                 "names": {
                                     "$ref": "#/definitions/NameText",
                                     "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
@@ -14406,6 +14410,7 @@
                                 "doc",
                                 "flipx",
                                 "flipy",
+                                "music",
                                 "names",
                                 "offset",
                                 "opacity",

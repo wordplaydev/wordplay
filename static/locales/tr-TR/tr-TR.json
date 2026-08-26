@@ -5533,7 +5533,11 @@
                 "doc": "$~@Output'un varsayılanı yerine y ekseninde yansıtılıp yansıtılmayacağı.",
                 "names": "$~tersyüz"
             },
-            "description": "$~$opacity[şeffaf $opacity|] $rotation[2 derece döndürülmüş|] $scale[ölçeklenmiş $scale|] $flipx[yatay olarak çevrilmiş|] $flipy[dikey olarak çevrilmiş|] $blur[gölge bulanık $blur piksel|]"
+            "description": "$~$opacity[şeffaf $opacity|] $rotation[2 derece döndürülmüş|] $scale[ölçeklenmiş $scale|] $flipx[yatay olarak çevrilmiş|] $flipy[dikey olarak çevrilmiş|] $blur[gölge bulanık $blur piksel|]",
+            "music": {
+                "doc": "$~Animasyon durumum başladığında veya bir @Sequence bana ulaştığında çalmam gereken @Music. Amaç kısa bir ses; sadece bir kez baştan sona çalarım.",
+                "names": "$~müzik"
+            }
         },
         "Color": {
             "doc": [

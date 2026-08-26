@@ -12,6 +12,15 @@ export default class Transition {
     readonly pose: Pose;
     readonly duration: number;
     readonly style: string | undefined;
+    /**
+     * True only for a transition a `Sequence` compiled, false for the lead-in and
+     * lead-out `OutputAnimation` builds around one — the prior rest pose `rest()`
+     * prepends, the first rest pose `enter()` appends, the `rest ?? move` `move()`
+     * ends on. Only a sequence's own steps are moments the creator keyed, so only
+     * they can sound a pose's music; guessing that from the index is what this
+     * exists to avoid.
+     */
+    readonly step: boolean;
 
     constructor(
         place: Place | undefined,
@@ -19,12 +28,14 @@ export default class Transition {
         pose: Pose,
         duration: number,
         style: string | undefined,
+        step = false,
     ) {
         this.place = place;
         this.size = size;
         this.pose = pose;
         this.duration = duration;
         this.style = style;
+        this.step = step;
     }
 
     withPlace(place: Place) {
@@ -34,6 +45,7 @@ export default class Transition {
             this.pose,
             this.duration,
             this.style,
+            this.step,
         );
     }
 
@@ -44,6 +56,7 @@ export default class Transition {
             this.pose,
             duration,
             this.style,
+            this.step,
         );
     }
 }

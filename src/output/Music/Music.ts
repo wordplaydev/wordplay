@@ -1,6 +1,10 @@
 import toStructure from '@basis/toStructure';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
+import Evaluate from '@nodes/Evaluate';
+import ListLiteral from '@nodes/ListLiteral';
+import NumberLiteral from '@nodes/NumberLiteral';
+import Reference from '@nodes/Reference';
 import { getBind } from '@locale/getBind';
 import { SHARE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 import Decimal from 'decimal.js';
@@ -302,6 +306,31 @@ export default class Music extends Output {
     gatherFaces(set: Set<import('@basis/faces/Fonts').SupportedFace>) {
         return set;
     }
+}
+
+/**
+ * A minimal `Music` for the palette to write, mirroring `createPoseLiteral`.
+ * One short unnamed track: the shortest thing that makes a sound, which the
+ * music editor then opens on.
+ */
+export function createMusicLiteral(project: Project, locales: Locales) {
+    const MusicType = project.shares.output.Music;
+    const TrackType = project.shares.output.Track;
+    return Evaluate.make(
+        Reference.make(locales.getName(MusicType.names), MusicType),
+        [
+            Evaluate.make(
+                Reference.make(locales.getName(TrackType.names), TrackType),
+                [
+                    ListLiteral.make([
+                        NumberLiteral.make(1),
+                        NumberLiteral.make(3),
+                        NumberLiteral.make(5),
+                    ]),
+                ],
+            ),
+        ],
+    );
 }
 
 export function toMusic(

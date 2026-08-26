@@ -1,5 +1,15 @@
 import { getPlacingMotion } from '@input/Motion/Motion';
 import {
+    cancelPoseMusic,
+    listeningForPoseMusic,
+    reportPoseMusic,
+} from '@output/animation/poseMusicEvents';
+import {
+    shouldStrike,
+    strikesFor,
+    type Struck,
+} from '@output/animation/poseMusic';
+import {
     cancelAnimation,
     listeningForAnimations,
     reportAnimation,
@@ -16,7 +26,6 @@ import type {
 } from '@output/animation/Animator';
 import type Node from '@nodes/Node';
 import type Output from '@output/Output/Output';
-import type Valued from '@output/Output/Valued';
 import {
     PX_PER_METER,
     sizeToPx,
@@ -63,6 +72,11 @@ export default class OutputAnimation {
 
     /** The current animation state */
     state: AnimationState = AnimationState.Rest;
+
+    /** What was last struck in each animation state, so a re-issue of the same
+     *  one — a per-frame rebuild, a stage re-render, a return to rest — doesn't
+     *  sound again. */
+    private readonly struck: Struck = new Map();
 
     /** The current Web API Animation playing, so we can cancel it as necessary. */
     animation: Animation | undefined;
@@ -234,6 +248,13 @@ export default class OutputAnimation {
                 this.start(AnimationState.Rest, sequence);
             }
         }
+        // A resting pose that isn't being tweened to starts no animation at all,
+        // so it never reaches start() — but it still has a moment: the instant the
+        // output comes to rest in it. `renewed` is false here because nothing is
+        // beginning, so only an actual change sounds; `Animator.animate()` calls
+        // this on every present output on every re-render.
+        else if (currentPose instanceof Pose)
+            this.strikePoseMusic([], 0, false);
     }
 
     /** Change to the entering state.  */
@@ -441,7 +462,7 @@ export default class OutputAnimation {
     // Must have at least two transitions.
     /** The output property driving the current state, whose call site stands in
      *  when the poses themselves were built outside the creator's code. */
-    private getAnimationSource(): Valued | undefined {
+    private getAnimationSource(): Pose | Sequence | undefined {
         switch (this.state) {
             case AnimationState.Entering:
                 return this.output.entering;
@@ -492,6 +513,50 @@ export default class OutputAnimation {
         });
     }
 
+    /**
+     * Sound whatever this animation's poses carry, if this is a new performance
+     * of them rather than a re-issue of the one already running.
+     */
+    private strikePoseMusic(
+        transitions: readonly Transition[],
+        totalMs: number,
+        renewed: boolean,
+    ) {
+        const source = this.getAnimationSource();
+        const fresh = shouldStrike(this.struck, this.state, source, renewed);
+        if (fresh) this.struck.set(this.state, source);
+        this.reportPoseStrikes(transitions, totalMs, 0, fresh);
+    }
+
+    /** Hand this tween's music to the player, so what the poses carry is heard. */
+    private reportPoseStrikes(
+        transitions: readonly Transition[],
+        totalMs: number,
+        fromMs: number,
+        fresh: boolean,
+    ) {
+        const evaluator = this.animator.evaluator;
+        if (evaluator === undefined || !listeningForPoseMusic(evaluator))
+            return;
+        const strikes = strikesFor(
+            evaluator.project,
+            this.getAnimationSource(),
+            transitions,
+            totalMs,
+            fromMs,
+            fresh,
+        );
+        if (strikes.length > 0)
+            reportPoseMusic(evaluator, { name: this.name, strikes });
+    }
+
+    /** Take back whatever this animation had scheduled to play. */
+    private cancelPoseStrikes() {
+        const evaluator = this.animator.evaluator;
+        if (evaluator === undefined) return;
+        cancelPoseMusic(evaluator, this.name);
+    }
+
     /** Take back whatever this animation had scheduled to sound. */
     private cancelCues() {
         const evaluator = this.animator.evaluator;
@@ -526,6 +591,10 @@ export default class OutputAnimation {
         // still land here but has no valid context to animate against.
         if (this.animator.evaluator === undefined) return;
 
+        // Whether a *new* animation is beginning, rather than one still running
+        // being rebuilt. Read before the cancel below, which is what erases it.
+        const renewed = this.animation?.playState !== 'running';
+
         // Cancel any current animation.
         if (this.animation) {
             this.animation.onfinish = null;
@@ -548,6 +617,14 @@ export default class OutputAnimation {
                 (total, transition) => total + transition.duration,
                 0,
             );
+
+        // Sound the poses before the early return below: a `duration: 0s`
+        // entrance still happens, it just happens instantly, and a creator who
+        // asked for no tween did not ask for no sound. `retries` guards the
+        // re-entry this method makes while waiting for its DOM element — without
+        // it a sequence would strike three times before sounding once.
+        if (retries === 0)
+            this.strikePoseMusic(transitions, totalDuration * 1000, renewed);
 
         // No duration? End immediately (unless resting, since
         // that would cause an infinite loop).
@@ -636,8 +713,9 @@ export default class OutputAnimation {
      *  do this: it's written for an animation that already ended, so it would
      *  leave this one running and let its onfinish finish it a second time. */
     settle() {
-        // Whatever it was going to sound, it is no longer doing.
+        // Whatever it was going to sound or play, it is no longer doing.
         this.cancelCues();
+        this.cancelPoseStrikes();
         // Drop the tween, so the element renders at its own transform again.
         if (this.animation) {
             this.animation.onfinish = null;
@@ -921,8 +999,10 @@ export default class OutputAnimation {
         if (this.animation?.playState === 'running') this.animation.pause();
         // Cues are scheduled a whole animation ahead, so a pause has to take
         // back what has not sounded yet — otherwise a frozen stage goes on
-        // describing motion it isn't making.
+        // describing motion it isn't making. Pose music is scheduled the same
+        // way and comes back the same way.
         this.cancelCues();
+        this.cancelPoseStrikes();
     }
 
     /** Continue an animation held by `suspend`. */
@@ -938,8 +1018,13 @@ export default class OutputAnimation {
             this.sequence !== undefined &&
             typeof elapsed === 'number' &&
             typeof total === 'number'
-        )
+        ) {
             this.reportToCues(this.sequence, total, elapsed);
+            // Already decided when this animation started; resuming re-offers
+            // what a pause took back, so it doesn't go through the freshness
+            // check again.
+            this.reportPoseStrikes(this.sequence, total, elapsed, true);
+        }
     }
 
     done() {
@@ -948,8 +1033,9 @@ export default class OutputAnimation {
         // If there's a sequence animating, notify the stage we're ending it.
         this.unannounce();
 
-        // And take back anything it had scheduled to sound.
+        // And take back anything it had scheduled to sound or play.
         this.cancelCues();
+        this.cancelPoseStrikes();
 
         // Permananently mark the state as done.
         this.state = AnimationState.Done;

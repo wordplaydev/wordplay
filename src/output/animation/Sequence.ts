@@ -198,13 +198,21 @@ export default class Sequence extends Valued {
         else if (this.poses.length === 1) {
             // Only one pose? Just animate the duration with the same pose.
             return [
-                new Transition(place, size, this.poses[0].pose, 0, this.style),
+                new Transition(
+                    place,
+                    size,
+                    this.poses[0].pose,
+                    0,
+                    this.style,
+                    true,
+                ),
                 new Transition(
                     place,
                     size,
                     this.poses[0].pose,
                     this.duration,
                     this.style,
+                    true,
                 ),
             ];
         }
@@ -230,6 +238,7 @@ export default class Sequence extends Valued {
                                   (current.percent - previous.percent)) /
                                   count,
                         this.style,
+                        true,
                     ),
                 );
             }

@@ -5536,7 +5536,11 @@
                 "doc": "Si un @Output debe reflejarse en el eje y, en lugar de su valor predeterminado.",
                 "names": "volteary"
             },
-            "description": "$~$opacity[transparente $opacity|] $rotation[rotada $rotation grados|] $scale[escalada $scale|] $flipx[volteada horizontalmente|] $flipy[volteada verticalmente|] $blur[sombra difuminada $blur píxeles|]"
+            "description": "$~$opacity[transparente $opacity|] $rotation[rotada $rotation grados|] $scale[escalada $scale|] $flipx[volteada horizontalmente|] $flipy[volteada verticalmente|] $blur[sombra difuminada $blur píxeles|]",
+            "music": {
+                "doc": "$~El @Music que debo reproducir cuando comienza mi estado de animación o cuando un @Sequence me alcanza. Se trata de un sonido corto; solo lo reproduzco una vez.",
+                "names": "$~música"
+            }
         },
         "Color": {
             "doc": [
