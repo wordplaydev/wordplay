@@ -188,6 +188,13 @@
                 --shadow-dark: rgba(227, 227, 227, 0.8);
                 --shadow-transparent-light: rgb(0, 0, 0, 0.05);
                 --shadow-transparent-dark: rgba(227, 227, 227, 0.15);
+                /* The surface of a control that is pressed in (Toggle's on state).
+                   A step in from the background, and a bigger step in dark than
+                   --very-light-grey-dark's #1e1e1e, which is indistinguishable from
+                   a black page at button size. Deliberately not symmetric: near
+                   black a small step reads as nothing, near white it reads at once. */
+                --pressed-light: #dcdcdc;
+                --pressed-dark: #3a3a3a;
 
                 /* AA text variants. Colors rendered as *text* must meet WCAG
                    2.2 AA contrast (4.5:1) against --wordplay-background and
@@ -230,6 +237,7 @@
                 --color-dark-grey: var(--dark-grey-light);
                 --color-shadow: var(--shadow-light);
                 --color-shadow-transparent: var(--shadow-transparent-light);
+                --color-pressed: var(--pressed-light);
                 --color-gold-text: var(--gold-text-light);
                 --color-grey-text: var(--grey-text-light);
                 --color-blue-text: var(--blue-text-light);
@@ -501,6 +509,10 @@
                         var(--shadow-transparent-light),
                         var(--shadow-transparent-dark)
                     );
+                    --color-pressed: light-dark(
+                        var(--pressed-light),
+                        var(--pressed-dark)
+                    );
                     --color-gold-text: light-dark(
                         var(--gold-text-light),
                         var(--gold-text-dark)
@@ -551,6 +563,7 @@
                         --color-shadow-transparent: var(
                             --shadow-transparent-dark
                         );
+                        --color-pressed: var(--pressed-dark);
                         --color-gold-text: var(--gold-text-dark);
                         --color-grey-text: var(--grey-text-dark);
                         --color-blue-text: var(--blue-text-dark);

@@ -19,6 +19,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🎨 A button that's turned on now looks pushed in: it sinks down and darkens. It used to move up instead, and in dark mode it looked lit up rather than pressed, with some buttons losing their picture entirely.
 - 🔤 Sorting words used to put every word starting with a capital letter before every word starting with a small letter, so a word like "amy" ended up far away from "Amy". Now words sort in alphabetical order, the way a dictionary does, independent of case. (#1322)
 - 🐛 We fixed a crash that could happen when you added a new input like `Speech()` above one you already had. Wordplay was replaying your earlier key presses and clicks into the wrong input.
 
