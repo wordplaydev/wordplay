@@ -2570,6 +2570,19 @@
     }
 
     function toggleTile(tile: Tile) {
+        // In a one-tile arrangement the toggles are how you move between tiles, so
+        // hiding the one you're looking at leaves nothing to look at. Single only,
+        // not split: a split still has another tile showing, so collapsing one of
+        // the two is an ordinary "done with the palette" gesture — and a laptop at
+        // 1280x720 is already in split. TileView's own – collapses either way.
+        if (
+            currentArrangement === Arrangement.Single &&
+            layout
+                .getVisibleTiles(currentArrangement)
+                .some((visible) => visible.id === tile.id)
+        )
+            return;
+
         setMode(
             tile,
             tile.mode === TileMode.Expanded && !tile.isInvisible()

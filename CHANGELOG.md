@@ -14,6 +14,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- 🧭 On a small screen, switching between your code, your stage, and your other windows used to take four taps through the ☰ menu. Now they have their own row right above the project name, so it's one tap, and tapping the window you're already looking at keeps it instead of hiding it.
 - 🔤 `sorted` can now use a word to sort by, not just a number, so you can sort a list of things by one of their names, like sorting people by their last name. Emoji now sort by what they are, so hearts sit next to hearts. (#1322)
 
 ### Fixed

@@ -52,7 +52,9 @@
     } from '@db/projects/getLocalizedProjectName';
     import { isFlagged } from '@db/projects/Moderation';
     import type Project from '@db/projects/Project';
-    import { type ArrangementType } from '@db/settings/Arrangement';
+    import Arrangement, {
+        type ArrangementType,
+    } from '@db/settings/Arrangement';
     import type Locale from '@locale/Locale';
     import type Source from '@nodes/Source';
     import {
@@ -162,16 +164,20 @@
      *  read-only, so the switcher says 👁 view there, matching the editor. */
     const editableAndCurrent = $derived(editable && checkpoint === null);
 
-    // Indices in the toggle-group items list:
+    // Indices in `renderToggle`'s items list, which two different toolbars index
+    // into (the tile row below, and the toggle group in the main row):
     //   0..addSourceOffset-1     : add-source button (when editable)
     //   addSourceOffset..sourcesEnd-1 : SourceTileToggle per source
     //   sourcesEnd..nonSourcesEnd-1   : NonSourceTileToggle per visible
-    //   nonSourcesEnd..nonSourcesEnd+3 (when narrow & editable):
-    //                                second-row items appended for
-    //                                single-popup mode
+    //   nonSourcesEnd..nonSourcesEnd+SecondRowItemCount-1 (when narrow &
+    //                                editable): second-row items appended
+    //                                for single-popup mode
     const addSourceOffset = $derived(editable ? 1 : 0);
     const sourcesEnd = $derived(addSourceOffset + sources.length);
     const nonSourcesEnd = $derived(sourcesEnd + visibleNonSources.length);
+
+    /** How many second-row items `renderToggle`'s tail renders; keep in sync with it. */
+    const SecondRowItemCount = 5;
 
     // Match the CSS @container threshold below for toggle-label hiding.
     const NARROW_THRESHOLD_PX = 900;
@@ -192,7 +198,28 @@
 
     const showSecondRow = $derived(editable && !narrow);
     const appendSecondRow = $derived(editable && narrow);
-    const toggleItemCount = $derived(nonSourcesEnd + (appendSecondRow ? 5 : 0));
+
+    /** The layout actually in effect, which differs from the chosen arrangement when
+     *  it's responsive. Derived here the way CurrentLayout does, from the same props. */
+    const computedArrangement = $derived(
+        Layout.getComputedLayout(arrangement, canvasWidth, canvasHeight),
+    );
+
+    /** In one- and two-tile arrangements the tile toggles aren't show/hide controls,
+     *  they're how you navigate between tiles — so on a narrow footer, where they'd
+     *  otherwise be four taps deep in the shared overflow popup, they get their own
+     *  always-visible row. Wider footers already show them inline, one tap away. */
+    const tabbed = $derived(
+        narrow &&
+            (computedArrangement === Arrangement.Single ||
+                computedArrangement === Arrangement.Split),
+    );
+
+    /** The tile toggles alone, for the tile row. */
+    const tileItemCount = $derived(nonSourcesEnd);
+    const toggleItemCount = $derived(
+        nonSourcesEnd + (appendSecondRow ? SecondRowItemCount : 0),
+    );
 </script>
 
 {#snippet creatorItem()}
@@ -258,7 +285,85 @@
     >
 {/snippet}
 
+{#snippet renderToggle(i: number)}
+    {#if editable && i === 0}
+        <Button
+            uiid="addSource"
+            background
+            tip={(l) => l.ui.project.button.addSource}
+            action={addSource}
+            icon="+{Characters.Program.symbols}"
+        ></Button>
+    {:else if i < sourcesEnd}
+        {@const sourceIndex = i - addSourceOffset}
+        {@const source = sources[sourceIndex]}
+        {@const tile = layout.getTileWithID(Layout.getSourceID(sourceIndex))}
+        {#if tile}
+            {#if sourceIndex === 0}
+                <span data-uiid="sourceToggle">
+                    <SourceTileToggle
+                        {project}
+                        {source}
+                        expanded={tile.mode === TileMode.Expanded &&
+                            !tile.isInvisible()}
+                        toggle={() => toggleTile(tile)}
+                    />
+                </span>
+            {:else}
+                <SourceTileToggle
+                    {project}
+                    {source}
+                    expanded={tile.mode === TileMode.Expanded &&
+                        !tile.isInvisible()}
+                    toggle={() => toggleTile(tile)}
+                />
+            {/if}
+        {/if}
+    {:else if i < nonSourcesEnd}
+        {@const tile = visibleNonSources[i - sourcesEnd]}
+        <!-- Guarded like the source branch above: the toolbar renders
+             this snippet at three independent index ranges and decides
+             how many fit from a ResizeObserver, so the index and the
+             list it indexes aren't guaranteed to be read together. -->
+        {#if tile}
+            <NonSourceTileToggle
+                {project}
+                {tile}
+                toggle={() => toggleTile(tile)}
+                notification={tile.kind === TileKind.Collaborate &&
+                    !!chat &&
+                    isAuthenticated($user) &&
+                    chat.hasUnread($user.uid)}
+            />
+        {/if}
+    {:else}
+        <!-- Narrow but not tabbed: the second-row items are appended to the
+             toggle group's items so everything overflows into a single popup.
+             When the tiles have their own row the toggle group renders these
+             five directly instead, so this tail is unreachable. -->
+        {@const localIdx = i - nonSourcesEnd}
+        {#if localIdx === 0}
+            {@render creatorItem()}
+        {:else if localIdx === 1}
+            {@render shareItem()}
+        {:else if localIdx === 2}
+            {@render languagesItem()}
+        {:else if localIdx === 3}
+            {@render checkpointsItem()}
+        {:else}
+            {@render shortcutsItem()}
+        {/if}
+    {/if}
+{/snippet}
+
 <nav class="footer" data-uiid="projectControls" bind:this={footerEl}>
+    {#if tabbed}
+        <div class="footer-row tile-row">
+            <OverflowToolbar
+                items={{ count: tileItemCount, render: renderToggle }}
+            />
+        </div>
+    {/if}
     <div class="footer-row main-row">
         <div class="left-section">
             {#if original}<Button
@@ -332,82 +437,29 @@
                 action={launchTour}
             ></Button>
         </div>
-        {#snippet renderToggle(i: number)}
-            {#if editable && i === 0}
-                <Button
-                    uiid="addSource"
-                    background
-                    tip={(l) => l.ui.project.button.addSource}
-                    action={addSource}
-                    icon="+{Characters.Program.symbols}"
-                ></Button>
-            {:else if i < sourcesEnd}
-                {@const sourceIndex = i - addSourceOffset}
-                {@const source = sources[sourceIndex]}
-                {@const tile = layout.getTileWithID(
-                    Layout.getSourceID(sourceIndex),
-                )}
-                {#if tile}
-                    {#if sourceIndex === 0}
-                        <span data-uiid="sourceToggle">
-                            <SourceTileToggle
-                                {project}
-                                {source}
-                                expanded={tile.mode === TileMode.Expanded &&
-                                    !tile.isInvisible()}
-                                toggle={() => toggleTile(tile)}
-                            />
-                        </span>
-                    {:else}
-                        <SourceTileToggle
-                            {project}
-                            {source}
-                            expanded={tile.mode === TileMode.Expanded &&
-                                !tile.isInvisible()}
-                            toggle={() => toggleTile(tile)}
-                        />
-                    {/if}
-                {/if}
-            {:else if i < nonSourcesEnd}
-                {@const tile = visibleNonSources[i - sourcesEnd]}
-                <!-- Guarded like the source branch above: the toolbar renders
-                     this snippet at three independent index ranges and decides
-                     how many fit from a ResizeObserver, so the index and the
-                     list it indexes aren't guaranteed to be read together. -->
-                {#if tile}
-                    <NonSourceTileToggle
-                        {project}
-                        {tile}
-                        toggle={() => toggleTile(tile)}
-                        notification={tile.kind === TileKind.Collaborate &&
-                            !!chat &&
-                            isAuthenticated($user) &&
-                            chat.hasUnread($user.uid)}
+
+        <div class="toggle-group">
+            {#if tabbed}
+                <!-- The tile toggles have their own row, so only the second-row
+                     items are left to overflow here. Rendered as an array rather
+                     than through renderToggle's tail, which indexes them off the
+                     tile counts this branch no longer uses. -->
+                {#if appendSecondRow}
+                    <OverflowToolbar
+                        items={[
+                            creatorItem,
+                            shareItem,
+                            languagesItem,
+                            checkpointsItem,
+                            shortcutsItem,
+                        ]}
                     />
                 {/if}
             {:else}
-                <!-- Narrow mode: second-row items are appended to the
-                     toggle-group's items so everything overflows into a
-                     single popup. -->
-                {@const localIdx = i - nonSourcesEnd}
-                {#if localIdx === 0}
-                    {@render creatorItem()}
-                {:else if localIdx === 1}
-                    {@render shareItem()}
-                {:else if localIdx === 2}
-                    {@render languagesItem()}
-                {:else if localIdx === 3}
-                    {@render checkpointsItem()}
-                {:else}
-                    {@render shortcutsItem()}
-                {/if}
+                <OverflowToolbar
+                    items={{ count: toggleItemCount, render: renderToggle }}
+                />
             {/if}
-        {/snippet}
-
-        <div class="toggle-group">
-            <OverflowToolbar
-                items={{ count: toggleItemCount, render: renderToggle }}
-            />
         </div>
         <div class="right-section">
             <!-- A second home for the evaluation mode switcher, since the output
@@ -478,6 +530,28 @@
         align-items: center;
         height: fit-content;
         line-height: 1;
+    }
+
+    /* .footer's border-top sits above the tile row, so without a rule of its own the
+       tabs read as chrome belonging to the project row rather than as labels for the
+       tile above them. */
+    .footer-row.tile-row {
+        padding-block-end: var(--wordplay-spacing);
+        border-block-end: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+    }
+
+    /* The tabs are icons: every tile kind has its own emoji, so a label only earns
+       its width when several sources would otherwise share the same one. This also
+       matches the toolbar's hidden measurement clones, so measured widths match
+       rendered ones; the portaled overflow popup escapes this rule, so anything that
+       does overflow keeps its label. */
+    .tile-row :global(.toggle-label) {
+        display: none;
+    }
+
+    .tile-row :global(.toggle-label.named) {
+        display: inline;
     }
 
     .footer-row.main-row {
