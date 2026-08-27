@@ -227,6 +227,16 @@ test('resolving a color needs no basis', () => {
  * a fixed vocabulary rather than a description per font, which is what keeps it
  * to one step instead of growing with the catalogue.
  *
+ * Paths on stage (#167) add **no file** to any of these five — the counts below are
+ * unchanged, and nothing here reaches `Shape/Path.ts`, `Drawing.svelte.ts` or
+ * `PathHandles.svelte`: a Form is only ever constructed by `createDefaultShares`, which
+ * none of these entries evaluate, and drawing hangs off ProjectView, which none of them
+ * reach either. Every hundredth of an MB it costs is en-US.json, which every page carries
+ * — the `Path` block's docs and names, the two new `Shape` flags, one toolbar tip, and the
+ * announcements for drawing a path and editing its points. Three of the five had the slack
+ * to absorb it; Page and projects moved a hundredth for the form, galleries a hundredth
+ * more for the point handles.
+ *
  * The layout's last +0.01MB is alignment guides (#117): the seven anchor words
  * and the four sentences naming what a moved output lined up with, in
  * en-US.json, which every page carries. The snapping itself is not in this
@@ -237,10 +247,10 @@ test('resolving a color needs no basis', () => {
  */
 test.each([
     ['src/routes/+layout.svelte', 488, 3.51],
-    ['src/components/app/Page.svelte', 510, 3.74],
+    ['src/components/app/Page.svelte', 510, 3.75],
     ['src/routes/[[locale]]/+page.svelte', 525, 3.83],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 528, 3.83],
-    ['src/routes/[[locale]]/projects/+page.svelte', 536, 3.86],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 528, 3.84],
+    ['src/routes/[[locale]]/projects/+page.svelte', 536, 3.87],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

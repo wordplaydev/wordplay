@@ -3655,10 +3655,10 @@
                         "\\[1 5 8 0 2].ordenado()\\",
                         "También puedo hacerlo con valores @Text, en orden alfabético. Una letra mayúscula se ordena junto a su versión minúscula, así que una palabra no se manda al final solo por empezar con mayúscula:",
                         "\\['Naranja' 'kiwi' 'Plátano' 'manzana'].ordenado()\\",
-                        "Y si tienes una lista de valores que no son @Number ni @Text, puedes darme un @FunctionDefinition que convierta cada elemento en un @Number o un @Text para que yo pueda ordenarla. Por ejemplo, aquí tenemos una lista de listas de diferentes tamaños; si me das una función que convierta cada lista en su tamaño, puedo ordenarlas por su tamaño.",
-                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista3) lista3.longitud()\n)\\",
-                        "Una función que produce @Text es la forma de ordenar por una palabra que calculas, en lugar de por el valor mismo. Aquí ordeno nombres por el último:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nombre3•'') (nombre3 ÷ ' ').última()\n)\\"
+                        "Y si tienes una lista de valores que no son @Number ni @Text, puedes darme un @FunctionDefinition que convierta cada elemento en un @Number o un @Text para que yo pueda ordenarlo. Por ejemplo, aquí tenemos una lista de listas de distinto tamaño; si me das una función que convierta cada lista en su tamaño, puedo ordenarlas por tamaño.",
+                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista2) lista2.longitud()\n)\\",
+                        "Una función que hace @Text sirve para ordenar por una palabra que tú calculas, en vez de por el valor mismo. Aquí ordeno nombres por el último:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nombre2•'') (nombre2 ÷ ' ').última()\n)\\"
                     ],
                     "names": "ordenado",
                     "inputs": [
@@ -3669,7 +3669,7 @@
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~El @value para convertir en un @Number o un @Text.",
+                            "doc": "$~El @value que se convierte en un @Number o un @Text.",
                             "names": "valor"
                         }
                     ]
@@ -5424,6 +5424,18 @@
             "style": {
                 "doc": "El estilo de animación que debería usar.",
                 "names": "estilo"
+            },
+            "filled": {
+                "doc": "$~Si se debe pintar mi interior. No tengo interior a menos que me cierre, así que un @Path abierto nunca se rellena.",
+                "names": "$~relleno"
+            },
+            "stroked": {
+                "doc": "$~Si se debe pintar mi contorno. Sin relleno y sin contorno soy invisible, lo cual es una manera de hacer una barrera que detiene cosas sin que se vean.",
+                "names": "$~conContorno"
+            },
+            "glyphs": {
+                "doc": "$~Texto para dibujar a lo largo de mi contorno, repetido hasta llenarlo. No tengo palabras a menos que me des algunas.",
+                "names": "$~glifos"
             }
         },
         "Form": {
@@ -6866,6 +6878,30 @@
                 "La mayoría somos /afinados/, o sea que los números de una pista eligen las notas y los números más grandes suenan más agudos. Los demás son /kits/: un número elige un sonido de una lista numerada en vez de una nota, así que una pista se lee como ritmo y no como melodía, y los números que pasan el final de la lista dan la vuelta a su inicio.",
                 "La mayoría también somos grabaciones reales, tomadas de instrumentos que la gente de verdad tocó. Los sintetizadores no imitan nada: están hechos de osciladores, y ese es el sonido que deben tener. Cada uno de nosotros dice abajo cuál es."
             ]
+        },
+        "Path": {
+            "doc": "$~Soy un camino dibujado a través de una lista de lugares, útil para líneas, curvas y colinas en @Stage.",
+            "names": ["$~Trazo"],
+            "points": {
+                "doc": "$~Los lugares por los que paso, en orden. Estoy plano, así que uso mi propia z en vez de la profundidad de cualquier lugar.",
+                "names": "$~puntos"
+            },
+            "closed": {
+                "doc": "$~Si se debe unir mi último lugar de vuelta con mi primero.",
+                "names": "$~cerrado"
+            },
+            "smooth": {
+                "doc": "$~Si se debe curvar a través de mis lugares en vez de girar en ellos. Mis lugares no se mueven de ninguna manera.",
+                "names": "$~suave"
+            },
+            "thickness": {
+                "doc": "$~Qué tan ancho dibujarme.",
+                "names": "$~grosor"
+            },
+            "z": {
+                "doc": "$~La profundidad en la que estoy.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7429,10 +7465,6 @@
                 "fit": {
                     "on": "controlar zoom manualmente",
                     "off": "ajustar zoom al contenido"
-                },
-                "paint": {
-                    "off": "colocar salida",
-                    "on": "pintar salida"
                 }
             },
             "field": {
@@ -7581,7 +7613,16 @@
                 "none": "$~nada con qué alinear en $direction"
             },
             "removed": "$~$#count[$#count salida eliminada|$#count salidas eliminadas|$#count salidas eliminadas]",
-            "notRemovable": "$~que no se puede eliminar por sí sola"
+            "notRemovable": "$~que no se puede eliminar por sí sola",
+            "drew": "$~$#count[dibujó un camino con $#count punto; el dibujo está apagado|dibujó un camino con $#count puntos; el dibujo está apagado|dibujó un camino con $#count puntos; el dibujo está apagado]",
+            "drawing": "$~$#count[$#count punto, en $place|$#count puntos, el último en $place|$#count puntos, el último en $place]",
+            "point": {
+                "label": "$~punto $number de $#count, en $place",
+                "moved": "$~punto $number a $place",
+                "added": "$~agregó el punto $number",
+                "removed": "$~quitó el punto $number",
+                "last": "$~un camino necesita al menos dos puntos"
+            }
         },
         "timeline": {
             "slider": "deslizador de tiempo",
@@ -8510,7 +8551,12 @@
                 "addStage": "$~envuelve todo en un escenario, así puedes controlar la iluminación, el color y los cuadros",
                 "stageExists": "$~ya existe un escenario",
                 "addMusic": "$~agrega música, comenzando con algunas notas para experimentar",
-                "addSay": "$~agrega voz, que se pronuncia en voz alta"
+                "addSay": "$~agrega voz, que se pronuncia en voz alta",
+                "addPath": "$~agrega una línea que puedas doblar y con la que puedas dibujar",
+                "draw": {
+                    "off": "$~dibuja un camino en el escenario",
+                    "on": "$~deja de dibujar"
+                }
             }
         },
         "save": {

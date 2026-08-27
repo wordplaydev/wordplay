@@ -3651,14 +3651,14 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Eu consigo pegar numa lista, e criar uma nova lista com os seus valores ordenados. Assim:",
+                        "$~Eu consigo pegar numa lista e criar uma nova lista com os seus valores ordenados. Assim:",
                         "\\[1 5 8 0 2].ordenado()\\",
-                        "Também consigo fazer isto para valores @Text, por ordem alfabética. Uma letra maiúscula fica ordenada ao lado da sua versão minúscula, por isso uma palavra não vai parar ao fim só por começar com maiúscula:",
-                        "\\['Laranja' 'kiwi' 'Banana' 'maçã'].ordenado()\\",
-                        "E se tiver uma lista de valores que não são @Number nem @Text, pode dar-me um @FunctionDefinition que transforma cada item num @Number ou num @Text para que eu consiga ordená-lo. Por exemplo, aqui temos uma lista de listas de comprimentos diferentes; se me der uma função que transforma cada lista no seu comprimento, consigo ordená-las por esse comprimento.",
-                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista3) lista3.comprimento()\n)\\",
-                        "Uma função que cria @Text é a forma de ordenar por uma palavra que calcula, em vez de pelo próprio valor. Aqui ordeno nomes pelo último:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nome3•'') (nome3 ÷ ' ').último()\n)\\"
+                        "Também consigo fazer isso com valores @Text, por ordem alfabética. Uma letra maiúscula fica junto da sua versão minúscula, para que uma palavra não vá parar ao fim só por começar com maiúscula:",
+                        "\\['Laranja' 'quivi' 'Banana' 'maçã'].ordenado()\\",
+                        "E se tiver uma lista de valores que não são @Number nem @Text, pode dar-me um @FunctionDefinition que transforma cada elemento num @Number ou num @Text para que eu consiga ordená-lo. Por exemplo, aqui temos uma lista de listas com tamanhos diferentes; se me der uma função que transforma cada lista no seu tamanho, eu consigo ordenar por esse tamanho.",
+                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista2) lista2.comprimento()\n)\\",
+                        "Uma função que cria @Text é a forma de ordenar por uma palavra que se calcula, em vez de pelo valor em si. Aqui ordeno nomes pelo último:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nome2•'') (nome2 ÷ ' ').último()\n)\\"
                     ],
                     "names": "ordenado",
                     "inputs": [
@@ -5424,6 +5424,18 @@
             "style": {
                 "doc": "O estilo de animação que devo utilizar.",
                 "names": "estilo"
+            },
+            "filled": {
+                "doc": "$~Se devo pintar o meu interior. Não tenho interior a menos que feche, por isso um @Path aberto nunca é preenchido.",
+                "names": "$~preenchido"
+            },
+            "stroked": {
+                "doc": "$~Se devo pintar o meu contorno. Sem preenchimento e sem contorno sou invisível, o que é uma forma de criar uma barreira que impede coisas sem ser vista.",
+                "names": "$~contornado"
+            },
+            "glyphs": {
+                "doc": "$~Texto a desenhar ao longo do meu contorno, repetido até o preencher. Não tenho palavras a menos que me dê algumas.",
+                "names": "$~glifos"
             }
         },
         "Say": {
@@ -6866,6 +6878,30 @@
                 "A maioria de nós é /afinada/, o que significa que os números de uma pista escolhem notas e números maiores soam mais agudos. Os restantes são /kits/: um número escolhe um som de uma lista numerada em vez de uma nota, por isso uma pista lê-se como ritmo em vez de melodia, e os números que passam do fim da lista voltam ao início dela.",
                 "A maioria de nós também são gravações reais, retiradas de instrumentos que as pessoas realmente tocaram. Os sintetizadores não estão a imitar nada — são feitos a partir de osciladores, e esse é o som que devem ter. Cada um de nós diz abaixo o que é."
             ]
+        },
+        "Path": {
+            "doc": "$~Sou um caminho desenhado através de uma lista de lugares, útil para linhas, curvas e colinas em @Stage.",
+            "names": ["$~Caminho"],
+            "points": {
+                "doc": "$~Os lugares por onde passo, por ordem. Fico deitado, por isso uso o meu próprio z em vez da profundidade de qualquer lugar.",
+                "names": "$~pontos"
+            },
+            "closed": {
+                "doc": "$~Se devo ligar o meu último lugar de volta ao primeiro.",
+                "names": "$~fechado"
+            },
+            "smooth": {
+                "doc": "$~Se devo curvar através dos meus lugares em vez de virar neles. Os meus lugares não se movem de nenhuma das formas.",
+                "names": "$~suave"
+            },
+            "thickness": {
+                "doc": "$~A largura com que devo ser desenhado.",
+                "names": "$~espessura"
+            },
+            "z": {
+                "doc": "$~A profundidade em que fico.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7679,10 +7715,6 @@
                 "fit": {
                     "on": "controlar o zoom manualmente",
                     "off": "Ajustar zoom ao conteúdo"
-                },
-                "paint": {
-                    "off": "colocar saída",
-                    "on": "saída de tinta"
                 }
             },
             "field": {
@@ -7831,7 +7863,16 @@
                 "none": "$~nada para alinhar com $direction"
             },
             "removed": "$~$#count[$#count resultado eliminado|$#count resultados eliminados|$#count resultados eliminados]",
-            "notRemovable": "$~que não pode ser eliminado sozinho"
+            "notRemovable": "$~que não pode ser eliminado sozinho",
+            "drew": "$~$#count[desenhou um caminho com $#count ponto; o desenho está desligado|desenhou um caminho com $#count pontos; o desenho está desligado|desenhou um caminho com $#count pontos; o desenho está desligado]",
+            "drawing": "$~$#count[$#count ponto, em $place|$#count pontos, o último em $place|$#count pontos, o último em $place]",
+            "point": {
+                "label": "$~ponto $number de $#count, em $place",
+                "moved": "$~ponto $number para $place",
+                "added": "$~ponto $number adicionado",
+                "removed": "$~ponto $number removido",
+                "last": "$~um caminho precisa de pelo menos dois pontos"
+            }
         },
         "timeline": {
             "slider": "controle deslizante de tempo",
@@ -8840,7 +8881,12 @@
                 "addStage": "$~envolver tudo num palco, para poder controlar a luz, a cor e os fotogramas",
                 "stageExists": "$~já existe um palco",
                 "addMusic": "$~adicionar música, começando com algumas notas para experimentar",
-                "addSay": "$~adicionar fala, que é dita em voz alta"
+                "addSay": "$~adicionar fala, que é dita em voz alta",
+                "addPath": "$~adicionar uma linha que pode dobrar e desenhar com ela",
+                "draw": {
+                    "off": "$~desenhar um caminho no palco",
+                    "on": "$~parar de desenhar"
+                }
             }
         },
         "save": {

@@ -3654,25 +3654,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Ich kann eine Liste nehmen und eine neue Liste mit sortierten Werten machen. So geht das:",
+                        "$~Ich kann eine Liste nehmen und daraus eine neue Liste machen, deren Werte sortiert sind. So geht das:",
                         "\\[1 5 8 0 2].sortiert()\\",
-                        "Ich kann das auch für @Text Werte machen, in alphabetischer Reihenfolge. Ein Großbuchstabe wird direkt neben seinem Kleinbuchstaben einsortiert, damit ein Wort nicht nur wegen eines großen Anfangsbuchstabens ans Ende rutscht:",
+                        "Ich kann das auch für @Text-Werte machen, in alphabetischer Reihenfolge. Ein Großbuchstabe wird direkt neben seinem Kleinbuchstaben einsortiert, sodass ein Wort nicht nur deshalb ans Ende rutscht, weil es mit einem Großbuchstaben beginnt:",
                         "\\['Orange' 'Kiwi' 'Banane' 'Apfel'].sortiert()\\",
-                        "Und wenn du eine Liste mit Werten hast, die weder @Number noch @Text sind, kannst du mir ein @FunctionDefinition geben, das jedes Element in ein @Number oder ein @Text verwandelt, damit ich es sortieren kann. Hier ist zum Beispiel eine Liste von Listen mit verschiedenen Längen. Wenn du mir eine Funktion gibst, die jede Liste in ihre Länge verwandelt, kann ich nach der Länge sortieren.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste) liste.Länge())\\",
-                        "Eine Funktion, die @Text erzeugt, ist der Weg, um nach einem selbst berechneten Wort zu sortieren, statt nach dem Wert selbst. Hier sortiere ich Namen nach dem Nachnamen:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortiert(\n\tƒ(name3•'') (name3 ÷ ' ').zuletzt()\n)\\"
+                        "Und wenn du eine Liste mit Werten hast, die weder @Number noch @Text sind, kannst du mir ein @FunctionDefinition geben, das jedes Element in eine @Number oder eine @Text verwandelt, damit ich sie sortieren kann. Zum Beispiel haben wir hier eine Liste von Listen unterschiedlicher Länge. Wenn du mir eine Funktion gibst, die jede Liste in ihre Länge verwandelt, kann ich sie nach der Länge sortieren.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste2) liste2.Länge())\\",
+                        "Eine Funktion, die @Text erzeugt, ist der Weg, um nach einem berechneten Wort zu sortieren, statt nach dem Wert selbst. Hier sortiere ich Namen nach dem letzten Namen:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortiert(\n\tƒ(name2•'') (name2 ÷ ' ').zuletzt()\n)\\"
                     ],
                     "names": "$~sortiert",
                     "inputs": [
                         {
-                            "doc": "$~Das optionale @FunctionDefinition, um eine Liste @value zu sortieren. Es sollte den Wert in ein @Number oder ein @Text verwandeln, das zum Sortieren der Liste verwendet werden kann.",
+                            "doc": "$~Das optionale @FunctionDefinition, mit dem eine Liste @value sortiert wird. Es sollte den Wert in eine @Number oder eine @Text verwandeln, die zum Sortieren der Liste verwendet werden kann.",
                             "names": "$~Sequenzer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Das @value, das in ein @Number oder ein @Text verwandelt werden soll.",
+                            "doc": "$~Das @value, das in eine @Number oder eine @Text verwandelt werden soll.",
                             "names": "$~Wert"
                         }
                     ]
@@ -5537,6 +5537,18 @@
                     "$~Eine Beschreibung für Zuschauer, die keine visuellen Ausgaben sehen können."
                 ],
                 "names": "$~Beschreibung"
+            },
+            "filled": {
+                "doc": "$~Ob mein Inneres gefüllt werden soll. Ich habe kein Inneres, außer ich schließe mich, deshalb wird ein offenes @Path nie gefüllt.",
+                "names": "$~gefüllt"
+            },
+            "stroked": {
+                "doc": "$~Ob mein Umriss gezeichnet werden soll. Ohne Füllung und ohne Umriss bin ich unsichtbar. Das ist eine Möglichkeit, eine Barriere zu machen, die Dinge aufhält, ohne gesehen zu werden.",
+                "names": "$~umrandet"
+            },
+            "glyphs": {
+                "doc": "$~Text, der entlang meines Umrisses gezeichnet wird, wiederholt, bis er ihn ausfüllt. Ich habe keine Wörter, außer du gibst mir welche.",
+                "names": "$~Zeichen"
             }
         },
         "Form": {
@@ -6865,6 +6877,30 @@
                 "Die meisten von uns sind /gestimmt/. Das heißt, die Zahlen einer Spur wählen die Noten aus, und größere Zahlen klingen höher. Die anderen sind /Kits/: Eine Zahl wählt einen Klang aus einer nummerierten Liste statt eine Note. So liest sich eine Spur als Rhythmus statt als Melodie, und Zahlen hinter dem Ende der Liste beginnen wieder von vorn.",
                 "Die meisten von uns sind auch echte Aufnahmen, aufgenommen von Instrumenten, die Menschen wirklich gespielt haben. Die Synthesizer ahmen nichts nach — sie sind aus Oszillatoren gebaut, und das ist der Klang, den sie haben sollen. Jeder von uns sagt unten, was er ist."
             ]
+        },
+        "Path": {
+            "doc": "$~Ich bin ein Pfad, der durch eine Liste von Orten gezeichnet wird. Das ist nützlich für Linien, Kurven und Hügel auf @Stage.",
+            "names": ["$~Pfad"],
+            "points": {
+                "doc": "$~Die Orte, durch die ich der Reihe nach gehe. Ich liege flach, deshalb verwende ich meinen eigenen z-Wert statt der Tiefe irgendeines Ortes.",
+                "names": "$~Punkte"
+            },
+            "closed": {
+                "doc": "$~Ob mein letzter Ort wieder mit meinem ersten verbunden werden soll.",
+                "names": "$~geschlossen"
+            },
+            "smooth": {
+                "doc": "$~Ob ich mich durch meine Orte schwingen soll, statt an ihnen abzubiegen. Meine Orte bewegen sich in keinem der beiden Fälle.",
+                "names": "$~glatt"
+            },
+            "thickness": {
+                "doc": "$~Wie breit ich gezeichnet werde.",
+                "names": "$~Dicke"
+            },
+            "z": {
+                "doc": "$~Die Tiefe, in der ich liege.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7428,10 +7464,6 @@
                 "fit": {
                     "on": "$~Zoom manuell steuern",
                     "off": "$~Zoom an Inhalt anpassen"
-                },
-                "paint": {
-                    "on": "$~Farbausgabe",
-                    "off": "$~Ausgabe platzieren"
                 }
             },
             "field": {
@@ -7584,7 +7616,16 @@
                 "none": "$~nichts zum Ausrichten mit $direction"
             },
             "removed": "$~$#count[$#count Ausgabe gelöscht|$#count Ausgaben gelöscht]",
-            "notRemovable": "$~das nicht allein gelöscht werden kann"
+            "notRemovable": "$~das nicht allein gelöscht werden kann",
+            "drew": "$~$#count[hat einen Pfad mit $#count Punkt gezeichnet; Zeichnen ist aus|hat einen Pfad mit $#count Punkten gezeichnet; Zeichnen ist aus]",
+            "drawing": "$~$#count[$#count Punkt, bei $place|$#count Punkte, letzter bei $place]",
+            "point": {
+                "label": "$~Punkt $number von $#count, bei $place",
+                "moved": "$~Punkt $number nach $place",
+                "added": "$~Punkt $number hinzugefügt",
+                "removed": "$~Punkt $number entfernt",
+                "last": "$~ein Pfad braucht mindestens zwei Punkte"
+            }
         },
         "timeline": {
             "slider": "$~Zeitschieberegler",
@@ -8510,7 +8551,12 @@
                 "addStage": "$~Packe alles in eine Bühne ein, damit du Beleuchtung, Farbe und Einzelbilder steuern kannst",
                 "stageExists": "$~Es gibt bereits eine Bühne",
                 "addMusic": "$~Füge Musik hinzu, beginnend mit ein paar Noten zum Ausprobieren",
-                "addSay": "$~Füge Sprache hinzu, die laut ausgesprochen wird"
+                "addSay": "$~Füge Sprache hinzu, die laut ausgesprochen wird",
+                "addPath": "$~eine Linie hinzufügen, die du biegen und mit der du zeichnen kannst",
+                "draw": {
+                    "off": "$~einen Pfad auf der Bühne zeichnen",
+                    "on": "$~Zeichnen stoppen"
+                }
             }
         },
         "save": {

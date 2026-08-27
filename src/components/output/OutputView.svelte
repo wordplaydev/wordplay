@@ -9,7 +9,6 @@
         rotatedOutput,
     } from '@components/output/editHandles';
     import type { GateBlock, GateWarning } from '@components/output/gate';
-    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import SensorMonitor from '@components/output/SensorMonitor.svelte';
     import { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
     import StageView from '@components/output/StageView.svelte';
@@ -18,9 +17,14 @@
         DOMRectCenter,
         DOMRectDistance,
     } from '@components/output/utilities';
-    import moveOutput, {
-        addStageContent,
-    } from '@components/palette/editOutput';
+    import { shouldSample } from '@components/output/drawing';
+    import { withMovedPathPoint } from '@edit/output/editShape';
+    import { SnapIncrement } from '@components/output/snap';
+    import moveOutput from '@components/palette/editOutput';
+    import {
+        commitInsertion,
+        insertDrawnPath,
+    } from '@components/palette/insertOutput';
     import {
         getAnnouncer,
         getConceptIndex,
@@ -33,6 +37,7 @@
         IdleKind,
         setSensorPanelStack,
         setStageGrid,
+        getDrawing,
         getStageScene,
         setStageScene,
     } from '@components/project/Contexts';
@@ -141,7 +146,6 @@
     import describeMove from '@components/output/snapDescription';
     import { shapeYOffset } from '@components/output/keyboardMove';
     import Place, { createPlace } from '@output/Place/Place';
-    import { toExpression } from '@parser/parseExpression';
     import { PAUSE_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import BoolValue from '@values/BoolValue';
@@ -174,8 +178,6 @@
         selectable?: boolean;
         fit?: boolean;
         grid?: boolean;
-        painting?: boolean;
-        paintingConfig?: PaintingConfiguration | undefined;
         mini?: boolean;
         /** Whether this surface may make sound. The main project stage and the
          *  tutorial do; docs examples and previews stay silent until the viewer
@@ -216,8 +218,6 @@
         selectable = editable,
         fit = $bindable(true),
         grid = $bindable(false),
-        painting = $bindable(false),
-        paintingConfig = undefined,
         mini = false,
         sound = true,
         pauseOverlay = false,
@@ -272,6 +272,7 @@
     // output clear of what's already there. Falls back to a channel of this
     // view's own outside a ProjectView (doc examples, previews).
     const inheritedScene = getStageScene();
+    const drawing = getDrawing();
     const stageScene =
         inheritedScene ??
         writable<(() => OutputInfoSet) | undefined>(undefined);
@@ -279,6 +280,34 @@
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();
+
+    /**
+     * A screen-space drag, in stage metres, for an output's own element.
+     *
+     * Every transform up the chain, not just the element's own: the camera's zoom lives on an
+     * ancestor, so reading only the shape's transform undoes its scale and rotation but leaves
+     * the zoom in, and a dragged point crawls behind the pointer. Only the linear part matters
+     * for a delta, and transform-origin doesn't affect that.
+     */
+    function toStageDelta(element: HTMLElement, dx: number, dy: number) {
+        let matrix = new DOMMatrix();
+        for (
+            let at: HTMLElement | null = element;
+            at !== null;
+            at = at.parentElement
+        ) {
+            const transform = getComputedStyle(at).transform;
+            if (transform && transform !== 'none')
+                matrix = new DOMMatrix(transform).multiply(matrix);
+        }
+        const determinant = matrix.a * matrix.d - matrix.b * matrix.c;
+        if (determinant === 0) return undefined;
+        return {
+            x: (matrix.d * dx - matrix.c * dy) / determinant / PX_PER_METER,
+            // The stage is y-up and the screen is y-down.
+            y: -((-matrix.b * dx + matrix.a * dy) / determinant) / PX_PER_METER,
+        };
+    }
 
     // The continuous rotate/size handle drag is owned HERE, on the stable stage view — not in the
     // per-output handle component, which re-mounts on every Projects.revise() (GroupView keys by
@@ -317,7 +346,59 @@
 
             const rotating = selection?.rotationDragging;
             const sizing = selection?.sizeDragging;
-            if (rotating) {
+            const movingPoint = selection?.pointDragging;
+            if (movingPoint) {
+                // A path's point, dragged. The delta is converted through the shape's whole
+                // accumulated transform, so the camera's zoom, the shape's own scale, its
+                // rotation and its flips are all undone at once — a point on a turned path
+                // follows the pointer rather than sliding off at an angle.
+                const context2 = project.getNodeContext(output);
+                const form = output.getInput(
+                    project.shares.output.Shape.inputs[0],
+                    context2,
+                );
+                const element = valueView?.querySelector(
+                    `[data-node-id="${output.id}"]`,
+                );
+                const delta =
+                    element instanceof HTMLElement
+                        ? toStageDelta(
+                              element,
+                              event.clientX - movingPoint.startX,
+                              event.clientY - movingPoint.startY,
+                          )
+                        : undefined;
+                if (form instanceof Evaluate && delta !== undefined) {
+                    const next = withMovedPathPoint(
+                        project,
+                        form,
+                        context2,
+                        movingPoint.index,
+                        {
+                            x:
+                                Math.round(
+                                    (movingPoint.from.x + delta.x) * 100,
+                                ) / 100,
+                            y:
+                                Math.round(
+                                    (movingPoint.from.y + delta.y) * 100,
+                                ) / 100,
+                        },
+                    );
+                    const revised =
+                        next === undefined
+                            ? undefined
+                            : output.withBindAs(
+                                  project.shares.output.Shape.inputs[0],
+                                  next,
+                                  context2,
+                              );
+                    // The same no-op guard the two gestures below use: a revise that changes
+                    // no value still mints node ids, and the stale ids leave the output stuck.
+                    if (revised && !revised.isEqualTo(output))
+                        Projects.revise(project, [[output, revised]]);
+                }
+            } else if (rotating) {
                 const angle =
                     Math.atan2(
                         event.clientY - rotating.cy,
@@ -408,6 +489,80 @@
             moveFrame = undefined;
             flushMove();
         });
+    }
+
+    /**
+     * Commit the stroke in progress, if there is one worth committing.
+     *
+     * This is the only place a drawn path reaches the program: one revision for a whole stroke,
+     * where the painting feature this replaces committed one per sample. Selecting what was
+     * drawn matches every other way of adding output, so its properties are there to edit
+     * without having to go and find it.
+     */
+    /**
+     * What releasing the pointer does while drawing: a drag has swept a whole stroke and ends
+     * it, while a click has placed one more point on a stroke that stays open until Enter or
+     * Escape ends it (#167 asks for both ways of building a path).
+     */
+    function endPointerStroke() {
+        if (drawing === undefined || !drawing.armed || !editable) return;
+        if (drawing.dragging) commitStroke();
+        else if (drawing.pressed !== undefined) {
+            drawing.add(drawing.pressed);
+            drawing.clearPress();
+            announcePoints();
+        }
+    }
+
+    /** Say how many points the open stroke has, and where the last one went — the count alone
+     *  would be the same words twice running once a path is long. */
+    function announcePoints() {
+        if (drawing === undefined || announce === undefined || !$announce)
+            return;
+        const last = drawing.points.at(-1);
+        if (last === undefined) return;
+        $announce(
+            'selection',
+            $locales.getLanguages()[0],
+            $locales
+                .concretize((l) => l.ui.output.drawing, {
+                    count: drawing.points.length,
+                    place: `${last.x}m ${last.y}m`,
+                })
+                .toText(),
+        );
+    }
+
+    /** Say where the drawing cursor is now. The coordinate is what varies between two presses
+     *  of the same arrow, so it is what rides along; "moved right" would be heard once. */
+    function announceCursor() {
+        if (drawing === undefined || announce === undefined || !$announce)
+            return;
+        $announce(
+            'caret',
+            $locales.getLanguages()[0],
+            `${drawing.cursor.x}m ${drawing.cursor.y}m`,
+        );
+    }
+
+    function commitStroke() {
+        if (drawing === undefined || !drawing.armed || !editable) return;
+        const points = drawing.finish();
+        if (points === undefined) return;
+        const insertion = insertDrawnPath(project, $locales, points);
+        if (insertion === undefined) return;
+        const revised = commitInsertion(DB, insertion);
+        selection?.setPaths(revised, [insertion.node], 'output');
+        if (announce && $announce)
+            $announce(
+                'selection',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize((l) => l.ui.output.drew, {
+                        count: points.length,
+                    })
+                    .toText(),
+            );
     }
 
     function flushMove() {
@@ -505,10 +660,6 @@
         }
         return { x: result.x, y: result.y + dragOffset };
     }
-
-    /** A list of points gathered during a painting drag */
-    let paintingPlaces = $state<{ x: number; y: number }[]>([]);
-    let strokeNodeID = $state<number | undefined>();
 
     /* We get these functions from the stage view, if there is one. */
     let stage = $state<ReturnType<typeof StageView> | undefined>();
@@ -1184,6 +1335,41 @@
         // Never handle tab; that's for keyboard navigation.
         if (event.key === 'Tab') return;
 
+        // While drawing, the keyboard builds a path rather than moving the camera, so a path
+        // can be made with no pointer at all. The camera is still reachable — turn drawing off.
+        if (drawing?.armed && editable) {
+            const step = SnapIncrement;
+            const move: Record<string, [number, number]> = {
+                ArrowLeft: [-step, 0],
+                ArrowRight: [step, 0],
+                ArrowUp: [0, step],
+                ArrowDown: [0, -step],
+            };
+            const delta = move[event.key];
+            if (delta !== undefined) {
+                event.preventDefault();
+                event.stopPropagation();
+                drawing.moveCursor(delta[0], delta[1]);
+                announceCursor();
+                return;
+            }
+            if (select) {
+                event.preventDefault();
+                event.stopPropagation();
+                drawing.add({ ...drawing.cursor });
+                announcePoints();
+                return;
+            }
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                event.stopPropagation();
+                // Two points or more is a path worth keeping; anything less was a false
+                // start, and commitStroke drops it rather than leaving a dot in the program.
+                commitStroke();
+                return;
+            }
+        }
+
         // Adjust verse focus
         if (stage && !evaluator.isPlaying()) {
             const increment = 1;
@@ -1571,7 +1757,9 @@
         }
         // If we're selectable and not playing, select output.
         else if (inspecting) {
-            if (painting) {
+            // While drawing, a press starts a stroke rather than selecting: the creator is
+            // adding output, not picking it.
+            if (drawing?.armed && editable) {
                 if (selection) selection.setPaths(project, [], 'output');
             } else if (!selectPointerOutput(event)) {
                 ignore();
@@ -1675,8 +1863,8 @@
                 renderedFocus.z,
             );
             const place =
-                // If painting, the start place is where the click was
-                painting
+                // If drawing, the start place is where the press was
+                drawing?.armed && editable
                     ? new Place(renderedFocus.value, mx, my, 0)
                     : // If moving a selected output, start from its place.
                       movable
@@ -1693,7 +1881,7 @@
             // Placement receive input, and panning with it moves the stage under content
             // that is chasing the pointer. Shift opts into panning, mirroring shift+wheel
             // to zoom; two fingers pan on touch. Paused, a drag pans as it always has.
-            const panning = !painting && !movable;
+            const panning = !(drawing?.armed && editable) && !movable;
             // A gesture that drives the camera is the camera's alone: letting it also feed
             // Pointer moves the stage under content that is chasing the pointer, which is
             // what made panning run away in the first place. Only a gesture that actually
@@ -1718,9 +1906,10 @@
                     selection?.setInteracting(true);
                     startSnapping(selectedOutput);
                 }
-                // Reset the painting places
-                paintingPlaces = [];
-                strokeNodeID = undefined;
+                // Note where the press landed. Whether it becomes a swept stroke or one
+                // clicked-out point isn't known until the pointer moves, and nothing reaches
+                // the project either way until the stroke ends.
+                if (drawing?.armed && editable) drawing.press({ x: mx, y: my });
             }
         }
     }
@@ -1828,56 +2017,25 @@
                 const newX = twoDigits(drag.startPlace.x + renderedDeltaX);
                 const newY = twoDigits(drag.startPlace.y - renderedDeltaY);
 
-                // If painting, gather points
-                if (editable && painting && paintingConfig) {
-                    // Is the new position a certain Euclidian distance from the most recent position? Add a point to the stroke.
-                    const prior = paintingPlaces.at(-1);
+                // If drawing, gather points into component state and nothing else. The
+                // painting feature this replaces re-serialized the whole stroke to source,
+                // re-parsed it, and committed a project revision on every sample; the stroke
+                // reaches the program once, on release, in commitStroke below.
+                if (editable && drawing?.armed) {
+                    // The first move past the sample distance is what makes this a drag; until
+                    // then the press is still a click that will place a single point.
                     if (
-                        prior === undefined ||
-                        Math.sqrt(
-                            Math.pow(prior.x - newX, 2) +
-                                Math.pow(prior.y - newY, 2),
-                        ) > 0.5
-                    ) {
-                        // Add the point
-                        paintingPlaces.push({ x: newX, y: newY });
-
-                        const minX = twoDigits(
-                            Math.min.apply(
-                                null,
-                                paintingPlaces.map((p) => p.x),
-                            ),
-                        );
-                        const minY = twoDigits(
-                            Math.min.apply(
-                                null,
-                                paintingPlaces.map((p) => p.y),
-                            ),
-                        );
-
-                        // Create a stroke. represented as freeform group of phrases with explicit positions.
-                        const group = toExpression(
-                            `Group(Free() [${paintingPlaces
-                                .map(
-                                    (p) =>
-                                        `Place(${twoDigits(
-                                            p.x - minX,
-                                        )}m ${twoDigits(p.y - minY)}m)`,
-                                )
-                                .join(
-                                    ' ',
-                                )}].translate(ƒ(place•Place) Phrase('a' place: place)) place: Place(${minX}m ${minY}m))`,
-                        );
-
-                        // Add the stroke to the project's verse
-                        if (strokeNodeID === undefined) {
-                            addStageContent(DB, project, group);
-                        } else {
-                            const node = project.getNodeByID(strokeNodeID);
-                            if (node) Projects.revise(project, [[node, group]]);
-                        }
-                        strokeNodeID = group.id;
-                    }
+                        !drawing.dragging &&
+                        shouldSample(
+                            [drawing.pressed ?? { x: newX, y: newY }],
+                            {
+                                x: newX,
+                                y: newY,
+                            },
+                        )
+                    )
+                        drawing.beginDrag();
+                    if (drawing.dragging) drawing.extend({ x: newX, y: newY });
                 }
                 // If panning, move focus
                 else {
@@ -1999,8 +2157,7 @@
         drag = undefined;
         movingOutput = false;
         stopSnapping();
-        paintingPlaces = [];
-        strokeNodeID = undefined;
+        endPointerStroke();
         selection?.setInteracting(false);
 
         if (evaluator.isPlaying())
@@ -2749,18 +2906,22 @@
     data-uiid="stage"
     role="group"
     aria-label={$locales.getPrimaryPlainText((l) => l.ui.output.label)}
-    aria-describedby={$evaluation?.playing === false && !painting && inspecting
+    aria-describedby={$evaluation?.playing === false &&
+    !drawing?.armed &&
+    inspecting
         ? 'output-multiselect-help'
         : null}
     class:mini
-    class:editing={$evaluation?.playing === false && !painting && inspecting}
+    class:editing={$evaluation?.playing === false &&
+        !drawing?.armed &&
+        inspecting}
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&
         selection !== undefined &&
         selection.includes(stageValue.value.creator, project)}
 >
-    {#if $evaluation?.playing === false && !painting && selectable}
+    {#if $evaluation?.playing === false && !drawing?.armed && selectable}
         <span id="output-multiselect-help" class="multiselect-help"
             ><LocalizedText path={(l) => l.ui.output.multiselect} /></span
         >
@@ -2922,7 +3083,6 @@
                 {adapting}
                 bind:fit
                 bind:grid
-                bind:painting
                 bind:this={stage}
                 bind:renderedFocus
                 bind:focusAdjusted

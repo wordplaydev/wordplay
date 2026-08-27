@@ -44,12 +44,12 @@ import {
 
 /** The kinds of content the toolbar can add. */
 export type InsertKind =
-    'phrase' | 'rectangle' | 'circle' | 'polygon' | 'music' | 'say';
+    'phrase' | 'rectangle' | 'circle' | 'polygon' | 'path' | 'music' | 'say';
 
 /** The three Forms a Shape can take, which is why there is a button per form
  *  rather than one Shape button: nothing in the palette can turn a Rectangle
  *  into a Circle after the fact. */
-export const FormKinds = ['rectangle', 'circle', 'polygon'] as const;
+export const FormKinds = ['rectangle', 'circle', 'polygon', 'path'] as const;
 export type FormKind = (typeof FormKinds)[number];
 
 export function isFormKind(kind: InsertKind): kind is FormKind {
@@ -251,10 +251,29 @@ function formFor(project: Project, locales: Locales, kind: FormKind): Evaluate {
           ])
         : kind === 'circle'
           ? Evaluate.make(output.Circle.getReference(locales), [m(1)])
-          : Evaluate.make(output.Polygon.getReference(locales), [
-                m(1),
-                NumberLiteral.make(5),
-            ]);
+          : kind === 'path'
+            ? // A zig-zag rather than a straight line, so the shape a path makes is legible
+              // the moment it appears and every point is somewhere different to drag.
+              Evaluate.make(output.Path.getReference(locales), [
+                  ListLiteral.make(
+                      [
+                          [-2, 0],
+                          [-1, 1],
+                          [0, 0],
+                          [1, 1],
+                          [2, 0],
+                      ].map(([x, y]) =>
+                          Evaluate.make(output.Place.getReference(locales), [
+                              m(x),
+                              m(y),
+                          ]),
+                      ),
+                  ),
+              ])
+            : Evaluate.make(output.Polygon.getReference(locales), [
+                  m(1),
+                  NumberLiteral.make(5),
+              ]);
 }
 
 /**
@@ -382,7 +401,9 @@ function definitionFor(project: Project, kind: FormKind): StructureDefinition {
         ? project.shares.output.Rectangle
         : kind === 'circle'
           ? project.shares.output.Circle
-          : project.shares.output.Polygon;
+          : kind === 'path'
+            ? project.shares.output.Path
+            : project.shares.output.Polygon;
 }
 
 /**
@@ -479,9 +500,21 @@ export function insertOutput(
             : placeBelow(contentBoxes(scene, container));
     const node = makeOutput(project, locales, kind, place);
 
-    // The container that changed is what gets laid out, so a content list breaks
-    // across lines as it fills up. The program's block is the exception: it is
-    // the whole program, so only the added statement is new there.
+    return insertAt(project, node, point);
+}
+
+/**
+ * Put a node at an insertion point.
+ *
+ * The container that changed is what gets laid out, so a content list breaks across lines as it
+ * fills up. The program's block is the exception: it is the whole program, so only the added
+ * statement is new there.
+ */
+function insertAt(
+    project: Project,
+    node: Evaluate,
+    point: InsertionPoint,
+): Insertion {
     if (point.kind === 'block') {
         const revised = project.withRevisedNodes([
             [point.block, point.block.withStatement(node)],
@@ -496,6 +529,72 @@ export function insertOutput(
     ]);
     const revised = project.withRevisedNodes([[point.list, list]]);
     return { project: formatChanged(project, revised, list), node };
+}
+
+/**
+ * The insertion a finished stroke makes: one @Shape holding one @Path through the points drawn.
+ *
+ * Unlike every other insertion here it asks for no `place`. A path's points are already stage
+ * coordinates — they are where the creator drew — so placing it below what is there would move
+ * the stroke away from where it was made. Nothing else differs, which is the point of a drawn
+ * path being an ordinary value: it lands in the same content list, formats the same way, and is
+ * selected and edited afterwards like anything else.
+ */
+/**
+ * A `Stage` to draw on, when the program has nothing that would render one.
+ *
+ * Drawing needs a canvas: a program with no result statements evaluates to nothing, so
+ * `toStage` returns undefined, `OutputView` shows a value message instead of a stage, and the
+ * stroke preview — drawn inside the root group — has nowhere to go. Arming the pencil on an
+ * empty program therefore looked like it did nothing at all, and left the creator to work out
+ * that a @Stage was the missing step.
+ *
+ * Deliberately not `addStage`, which seeds its new stage with a placeholder @Phrase: right for
+ * the +🎭 button, wrong here, where the creator asked for somewhere to draw and not for a
+ * phrase to delete. Returns undefined when the program already renders something, so a caller
+ * can tell "nothing to do" from "here is a revised project".
+ */
+export function ensureStage(
+    project: Project,
+    locales: Locales,
+): Project | undefined {
+    // Only a program with no output at all. One that evaluates to something unrenderable — a
+    // number, say — still has no canvas for its first stroke, but the stroke lands correctly,
+    // and covering that case would mean deciding what to do with the value already written.
+    if (classifyOutput(project).kind !== 'none') return undefined;
+
+    const block = project.getMain().expression.expression;
+    const stage = Evaluate.make(
+        project.shares.output.Stage.getReference(locales),
+        [ListLiteral.make([])],
+    );
+    const revised = project.withRevisedNodes([
+        [block, block.withStatement(stage)],
+    ]);
+    return formatChanged(project, revised, stage);
+}
+
+export function insertDrawnPath(
+    project: Project,
+    locales: Locales,
+    points: { x: number; y: number }[],
+): Insertion | undefined {
+    if (points.length < 2) return undefined;
+    const output = project.shares.output;
+    const m = (n: number) => NumberLiteral.make(n, Unit.meters());
+    const node = Evaluate.make(output.Shape.getReference(locales), [
+        Evaluate.make(output.Path.getReference(locales), [
+            ListLiteral.make(
+                points.map((point) =>
+                    Evaluate.make(output.Place.getReference(locales), [
+                        m(point.x),
+                        m(point.y),
+                    ]),
+                ),
+            ),
+        ]),
+    ]);
+    return insertAt(project, node, insertionPoint(project, [], 'path'));
 }
 
 /** An expression as something a @Phrase will take: text as itself, anything

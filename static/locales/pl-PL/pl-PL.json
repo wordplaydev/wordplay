@@ -3652,25 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Potrafię wziąć listę i zrobić nową listę z jej wartościami posortowanymi. Oto przykład:",
+                        "$~Mogę wziąć listę i zrobić nową listę z jej wartościami posortowanymi. Tak jak tutaj:",
                         "\\[1 5 8 0 2].posortowane()\\",
-                        "Potrafię to zrobić także dla wartości @Text, w porządku alfabetycznym. Wielka litera sortuje się obok swojej małej litery, więc słowo nie trafia na koniec tylko dlatego, że zaczyna się wielką literą:",
+                        "Mogę to zrobić też dla wartości @Text, w porządku alfabetycznym. Wielka litera sortuje się obok swojej małej litery, więc słowo nie trafia na koniec tylko dlatego, że zaczyna się wielką literą:",
                         "\\['Pomarańcza' 'kiwi' 'Banan' 'jabłko'].posortowane()\\",
-                        "A jeśli masz listę wartości, które nie są @Number ani @Text, możesz podać mi @FunctionDefinition, która zamienia każdy element w @Number lub @Text, żebym mógł to posortować. Na przykład tutaj mamy listę list o różnej długości; jeśli podasz mi funkcję, która zamienia każdą listę w jej długość, mogę posortować według długości.",
-                        "\\[[1] [2 3] [4 8 12] [8]].posortowane(\n\tƒ(lista3) lista3.długość()\n)\\",
-                        "Funkcja, która tworzy @Text, pozwala sortować według obliczonego słowa, zamiast według samej wartości. Tutaj sortuję imiona według nazwiska:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].posortowane(\n\tƒ(nazwa3•'') (nazwa3 ÷ ' ').ostatni()\n)\\"
+                        "A jeśli masz listę wartości, które nie są @Number ani @Text, możesz podać mi @FunctionDefinition, która zamienia każdy element na @Number lub @Text, żebym mógł to posortować. Na przykład tu mamy listę list o różnych długościach; jeśli podasz mi funkcję, która zamienia każdą listę na jej długość, mogę posortować je według długości.",
+                        "\\[[1] [2 3] [4 8 12] [8]].posortowane(\n\tƒ(lista2) lista2.długość()\n)\\",
+                        "Funkcja, która tworzy @Text, to sposób na sortowanie według obliczonego słowa, zamiast według samej wartości. Tutaj sortuję imiona według nazwiska:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].posortowane(\n\tƒ(nazwa2•'') (nazwa2 ÷ ' ').ostatni()\n)\\"
                     ],
                     "names": "$~posortowane",
                     "inputs": [
                         {
-                            "doc": "$~Opcjonalne @FunctionDefinition używane do sortowania listy @value. Powinno zamieniać wartość w @Number lub @Text, który można wykorzystać do sortowania listy.",
+                            "doc": "$~Opcjonalna @FunctionDefinition używana do sortowania listy @value. Powinna zamieniać wartość na @Number lub @Text, których można użyć do sortowania listy.",
                             "names": "$~sekwencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value do zamiany w @Number lub @Text.",
+                            "doc": "$~@value do zamiany na @Number lub @Text.",
                             "names": "$~wartość"
                         }
                     ]
@@ -5435,6 +5435,18 @@
             "style": {
                 "doc": "$~Styl animacji, którego powinienem użyć.",
                 "names": "$~styl"
+            },
+            "filled": {
+                "doc": "$~Czy pomalować moje wnętrze. Nie mam wnętrza, chyba że się zamknę, więc otwarty @Path nigdy nie jest wypełniony.",
+                "names": "$~wypełniony"
+            },
+            "stroked": {
+                "doc": "$~Czy pomalować mój kontur. Bez wypełnienia i bez konturu jestem niewidoczny, co jest jednym ze sposobów na zrobienie bariery, która zatrzymuje rzeczy, nie będąc widoczną.",
+                "names": "$~obrysowany"
+            },
+            "glyphs": {
+                "doc": "$~Tekst do narysowania wzdłuż mojego konturu, powtarzany aż go wypełni. Nie mam słów, chyba że mi je podasz.",
+                "names": "$~znaki"
             }
         },
         "Form": {
@@ -6877,6 +6889,30 @@
                 "Większość z nas jest /nastrojona/, co znaczy, że liczby ścieżki wybierają nuty, a większe liczby brzmią wyżej. Reszta to /zestawy/: liczba wybiera dźwięk z ponumerowanej listy zamiast nuty, więc ścieżka brzmi jak rytm, a nie melodia. Liczby za końcem listy zawijają się z powrotem na jej początek.",
                 "Większość z nas to też prawdziwe nagrania, próbki z instrumentów, na których ludzie naprawdę grali. Syntezatory niczego nie naśladują — są zbudowane z oscylatorów i taki dźwięk mają mieć. Każdy z nas mówi poniżej, kim jest."
             ]
+        },
+        "Path": {
+            "doc": "$~Jestem ścieżką narysowaną przez listę miejsc, przydatną do linii, krzywych i wzniesień na @Stage.",
+            "names": ["$~Linia"],
+            "points": {
+                "doc": "$~Miejsca, przez które przechodzę, po kolei. Leżę płasko, więc używam własnej głębokości zamiast głębokości jakiegokolwiek miejsca.",
+                "names": "$~punkty"
+            },
+            "closed": {
+                "doc": "$~Czy połączyć moje ostatnie miejsce z powrotem do pierwszego.",
+                "names": "$~zamknięty"
+            },
+            "smooth": {
+                "doc": "$~Czy zakrzywiać się przez moje miejsca zamiast skręcać przy nich. Moje miejsca nie ruszają się w żadnym przypadku.",
+                "names": "$~gładki"
+            },
+            "thickness": {
+                "doc": "$~Jak szeroko mnie narysować.",
+                "names": "$~grubość"
+            },
+            "z": {
+                "doc": "$~Głębokość, na której leżę.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7457,10 +7493,6 @@
                 "fit": {
                     "on": "$~kontroluj zoom ręcznie",
                     "off": "$~dopasuj powiększenie do zawartości"
-                },
-                "paint": {
-                    "off": "$~miejsce wyjścia",
-                    "on": "$~wydajność farby"
                 }
             },
             "field": {
@@ -7609,7 +7641,16 @@
                 "none": "$~nie ma z czym wyrównać w kierunku $direction"
             },
             "removed": "$~$#count[usunięto $#count wynik|usunięto $#count wyniki|usunięto $#count wyników|usunięto $#count wyniku]",
-            "notRemovable": "$~którego nie można usunąć samodzielnie"
+            "notRemovable": "$~którego nie można usunąć samodzielnie",
+            "drew": "$~$#count[narysowano ścieżkę z $#count punktem; rysowanie jest wyłączone|narysowano ścieżkę z $#count punktami; rysowanie jest wyłączone|narysowano ścieżkę z $#count punktami; rysowanie jest wyłączone|narysowano ścieżkę z $#count punktu; rysowanie jest wyłączone]",
+            "drawing": "$~$#count[$#count punkt, w $place|$#count punkty, ostatni w $place|$#count punktów, ostatni w $place|$#count punktu, ostatni w $place]",
+            "point": {
+                "label": "$~punkt $number z $#count, w $place",
+                "moved": "$~punkt $number do $place",
+                "added": "$~dodano punkt $number",
+                "removed": "$~usunięto punkt $number",
+                "last": "$~ścieżka potrzebuje przynajmniej dwóch punktów"
+            }
         },
         "timeline": {
             "slider": "$~suwak czasu",
@@ -8622,7 +8663,12 @@
                 "addStage": "$~owiń wszystko w scenę, aby kontrolować oświetlenie, kolor i klatki",
                 "stageExists": "$~scena już istnieje",
                 "addMusic": "$~dodaj muzykę, zaczynając od kilku nut do zabawy",
-                "addSay": "$~dodaj mowę, która jest wypowiadana na głos"
+                "addSay": "$~dodaj mowę, która jest wypowiadana na głos",
+                "addPath": "$~dodaj linię, którą możesz zginać i rysować",
+                "draw": {
+                    "off": "$~narysuj ścieżkę na scenie",
+                    "on": "$~przestań rysować"
+                }
             }
         },
         "save": {

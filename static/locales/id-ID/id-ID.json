@@ -3657,19 +3657,19 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Saya bisa mengambil sebuah daftar, dan membuat daftar baru dengan nilai-nilainya yang sudah diurutkan. Seperti ini:",
+                        "$~Aku bisa mengambil sebuah daftar, lalu membuat daftar baru dengan nilai-nilainya diurutkan. Seperti ini:",
                         "\\[1 5 8 0 2].diurutkan()\\",
-                        "Saya juga bisa melakukannya untuk nilai @Text, dalam urutan abjad. Huruf besar diurutkan tepat di sebelah huruf kecilnya, jadi sebuah kata tidak diletakkan di akhir hanya karena diawali huruf besar:",
+                        "Aku juga bisa melakukannya untuk nilai @Text, dalam urutan alfabet. Huruf besar diurutkan bersebelahan dengan huruf kecilnya, jadi sebuah kata tidak dikirim ke akhir hanya karena diawali huruf besar:",
                         "\\['Jeruk' 'kiwi' 'Pisang' 'apel'].diurutkan()\\",
-                        "Dan jika kamu punya daftar berisi nilai yang bukan @Number atau @Text, kamu bisa memberi saya sebuah @FunctionDefinition yang mengubah setiap unsur menjadi @Number atau @Text agar saya bisa mengurutkannya. Misalnya, di sini kita punya daftar berisi beberapa daftar dengan panjang berbeda-beda; jika kamu memberi saya sebuah fungsi yang mengubah setiap daftar menjadi panjangnya, saya bisa mengurutkannya berdasarkan panjang tersebut.",
-                        "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar3) daftar3.panjang()\n)\\",
-                        "Sebuah fungsi yang menghasilkan @Text adalah cara untuk mengurutkan berdasarkan kata yang kamu hitung, bukan berdasarkan nilai itu sendiri. Di sini saya mengurutkan nama berdasarkan nama terakhirnya:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama3•'') (nama3 ÷ ' ').terakhir()\n)\\"
+                        "Dan jika kamu punya daftar nilai yang bukan @Number atau @Text, kamu bisa memberiku sebuah @FunctionDefinition yang mengubah tiap item menjadi @Number atau @Text agar aku bisa mengurutkannya. Misalnya, di sini kita punya daftar berisi daftar-daftar dengan panjang berbeda; jika kamu memberiku fungsi yang mengubah tiap daftar menjadi panjangnya, aku bisa mengurutkan berdasarkan panjangnya.",
+                        "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar2) daftar2.panjang()\n)\\",
+                        "Sebuah fungsi yang membuat @Text adalah cara kamu mengurutkan berdasarkan kata yang kamu hitung, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama2•'') (nama2 ÷ ' ').terakhir()\n)\\"
                     ],
                     "names": "$~diurutkan",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition pilihan yang digunakan untuk mengurutkan sebuah daftar @value. Fungsi ini harus mengubah nilai menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar.",
+                            "doc": "$~@FunctionDefinition opsional untuk digunakan mengurutkan sebuah daftar @value. Fungsi ini harus mengubah nilai menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar.",
                             "names": "$~pengurut"
                         }
                     ],
@@ -5435,6 +5435,18 @@
             "style": {
                 "doc": "$~Gaya animasi yang sebaiknya saya gunakan.",
                 "names": "$~gaya"
+            },
+            "filled": {
+                "doc": "$~Apakah bagian dalamku diwarnai. Aku tidak punya bagian dalam kecuali aku tertutup, jadi @Path yang terbuka tidak pernah terisi.",
+                "names": "$~terisi"
+            },
+            "stroked": {
+                "doc": "$~Apakah garis luarku diwarnai. Tanpa isian dan tanpa garis luar, aku menjadi tak terlihat, salah satu cara membuat penghalang yang menghentikan sesuatu tanpa terlihat.",
+                "names": "$~bergaris"
+            },
+            "glyphs": {
+                "doc": "$~Teks yang digambar mengikuti garis luarku, diulang sampai memenuhinya. Aku tidak punya kata apa pun kecuali kamu memberikannya.",
+                "names": "$~glif"
             }
         },
         "Say": {
@@ -6877,6 +6889,30 @@
                 "Sebagian besar dari kami /bernada/, artinya angka sebuah track memilih not dan angka yang lebih besar terdengar lebih tinggi. Sisanya adalah /kit/: sebuah angka memilih suara dari daftar bernomor bukan sebuah not, jadi track terbaca sebagai ritme bukan melodi, dan angka melewati akhir daftar akan berputar kembali ke awalnya.",
                 "Sebagian besar dari kami juga rekaman nyata, disampel dari alat musik yang benar-benar dimainkan orang. Synthesizer tidak meniru apa pun — mereka dibangun dari osilator, dan itulah suara yang seharusnya mereka miliki. Kami masing-masing menyebutkan di bawah kami yang mana."
             ]
+        },
+        "Path": {
+            "doc": "$~Aku adalah jalur yang digambar melalui daftar tempat, berguna untuk garis, lengkungan, dan bukit pada @Stage.",
+            "names": ["$~Jalur"],
+            "points": {
+                "doc": "$~Tempat-tempat yang kulalui, secara berurutan. Aku terletak datar, jadi aku memakai z milikku sendiri, bukan kedalaman tempat mana pun.",
+                "names": "$~titik"
+            },
+            "closed": {
+                "doc": "$~Apakah tempat terakhirku disambungkan kembali ke tempat pertamaku.",
+                "names": "$~tertutup"
+            },
+            "smooth": {
+                "doc": "$~Apakah aku melengkung melewati tempat-tempatku alih-alih berbelok di sana. Tempat-tempatku tidak berpindah dengan cara mana pun.",
+                "names": "$~halus"
+            },
+            "thickness": {
+                "doc": "$~Seberapa lebar aku digambar.",
+                "names": "$~ketebalan"
+            },
+            "z": {
+                "doc": "$~Kedalaman tempatku berada.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7692,10 +7728,6 @@
                 "fit": {
                     "on": "$~kontrol zoom secara manual",
                     "off": "$~sesuaikan zoom dengan konten"
-                },
-                "paint": {
-                    "off": "$~tempat keluaran",
-                    "on": "$~keluaran cat"
                 }
             },
             "field": {
@@ -7844,7 +7876,16 @@
                 "none": "$~tidak ada yang bisa disejajarkan dengan $direction"
             },
             "removed": "$~$#count[$#count keluaran dihapus]",
-            "notRemovable": "$~yang tidak bisa dihapus sendiri"
+            "notRemovable": "$~yang tidak bisa dihapus sendiri",
+            "drew": "$~$#count[menggambar jalur dengan $#count titik; penggambaran mati]",
+            "drawing": "$~$#count[$#count titik, di $place]",
+            "point": {
+                "label": "$~titik $number dari $#count, di $place",
+                "moved": "$~titik $number ke $place",
+                "added": "$~menambahkan titik $number",
+                "removed": "$~menghapus titik $number",
+                "last": "$~sebuah jalur membutuhkan setidaknya dua titik"
+            }
         },
         "timeline": {
             "slider": "$~penggeser waktu",
@@ -8861,7 +8902,12 @@
                 "addStage": "$~bungkus semuanya dalam sebuah panggung, supaya kamu bisa mengatur pencahayaan, warna, dan bingkai",
                 "stageExists": "$~sudah ada panggung",
                 "addMusic": "$~tambahkan musik, mulai dengan beberapa nada untuk dicoba",
-                "addSay": "$~tambahkan ucapan, yaitu suara yang diucapkan dengan keras"
+                "addSay": "$~tambahkan ucapan, yaitu suara yang diucapkan dengan keras",
+                "addPath": "$~tambahkan garis yang bisa kamu bengkokkan dan gambar",
+                "draw": {
+                    "off": "$~gambar jalur di panggung",
+                    "on": "$~berhenti menggambar"
+                }
             }
         },
         "save": {

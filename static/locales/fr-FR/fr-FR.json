@@ -3651,19 +3651,19 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Je peux prendre une liste et créer une nouvelle liste avec ses valeurs triées. Comme ceci :",
+                        "$~Je peux prendre une liste, et faire une nouvelle liste avec ses valeurs triées. Comme ceci :",
                         "\\[1 5 8 0 2].trié()\\",
                         "Je peux aussi le faire pour des valeurs @Text, par ordre alphabétique. Une lettre majuscule se trie juste à côté de sa version minuscule, donc un mot n'est pas envoyé à la fin juste parce qu'il commence par une majuscule :",
                         "\\['Orange' 'kiwi' 'Banane' 'pomme'].trié()\\",
-                        "Et si tu as une liste de valeurs qui ne sont pas des @Number ou des @Text, tu peux me donner un @FunctionDefinition qui transforme chaque élément en @Number ou en @Text pour que je puisse les trier. Par exemple, voici une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux les trier selon leur longueur.",
-                        "\\[[1] [2 3] [4 8 12] [8]].trié(ƒ(liste3) liste3.longueur())\\",
-                        "Une fonction qui crée des @Text te permet de trier selon un mot que tu calcules, plutôt que selon la valeur elle-même. Ici, je trie des noms selon le dernier nom :",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].trié(\n\tƒ(nom3•'') (nom3 ÷ ' ').dernier()\n)\\"
+                        "Et si tu as une liste de valeurs qui ne sont ni @Number ni @Text, tu peux me donner un @FunctionDefinition qui transforme chaque élément en @Number ou en @Text pour que je puisse les trier. Par exemple, voici une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux trier selon leur longueur.",
+                        "\\[[1] [2 3] [4 8 12] [8]].trié(ƒ(liste2) liste2.longueur())\\",
+                        "Une fonction qui produit des @Text permet de trier selon un mot que tu calcules, plutôt que selon la valeur elle-même. Ici, je trie des noms selon le dernier :",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].trié(\n\tƒ(nom2•'') (nom2 ÷ ' ').dernier()\n)\\"
                     ],
                     "names": "$~trié",
                     "inputs": [
                         {
-                            "doc": "$~Le @FunctionDefinition facultatif à utiliser pour trier une liste @value. Il doit transformer la valeur en un @Number ou un @Text qui peut servir à trier la liste.",
+                            "doc": "$~Le @FunctionDefinition facultatif à utiliser pour trier une liste @value. Il doit transformer la valeur en @Number ou en @Text qui peut servir à trier la liste.",
                             "names": "$~séquenceur"
                         }
                     ],
@@ -5545,6 +5545,18 @@
                     "$~Une description à utiliser pour les membres du public qui ne peuvent pas voir la sortie visuelle."
                 ],
                 "names": "$~description"
+            },
+            "filled": {
+                "doc": "$~Indique si je dois peindre mon intérieur. Je n'ai pas d'intérieur tant que je ne me referme pas, donc un @Path ouvert n'est jamais rempli.",
+                "names": "$~rempli"
+            },
+            "stroked": {
+                "doc": "$~Indique si je dois peindre mon contour. Sans remplissage et sans contour, je suis invisible, ce qui est une façon de créer une barrière qui arrête les choses sans être vue.",
+                "names": "$~tracé"
+            },
+            "glyphs": {
+                "doc": "$~Texte à dessiner le long de mon contour, répété jusqu'à ce qu'il le remplisse. Je n'ai pas de mots tant que tu ne m'en donnes pas.",
+                "names": "$~glyphes"
             }
         },
         "Form": {
@@ -6873,6 +6885,30 @@
                 "La plupart d'entre nous sommes /accordés/, ce qui veut dire que les nombres d'une piste choisissent les notes et que les nombres plus grands sonnent plus haut. Les autres sont des /kits/ : un nombre choisit un son dans une liste numérotée plutôt qu'une note, donc une piste se lit comme un rythme plutôt qu'une mélodie, et les nombres au-delà de la fin de la liste reviennent à son début.",
                 "La plupart d'entre nous sommes aussi de vrais enregistrements, échantillonnés à partir d'instruments que des gens ont vraiment joués. Les synthétiseurs n'imitent rien — ils sont construits à partir d'oscillateurs, et c'est le son qu'ils doivent avoir. Chacun de nous dit ci-dessous ce qu'il est."
             ]
+        },
+        "Path": {
+            "doc": "$~Je suis un chemin tracé à travers une liste d'endroits, utile pour des lignes, des courbes et des collines sur @Stage.",
+            "names": ["$~Chemin"],
+            "points": {
+                "doc": "$~Les endroits par lesquels je passe, dans l'ordre. Je suis à plat, donc j'utilise mon propre z plutôt que la profondeur d'un endroit quelconque.",
+                "names": "$~points"
+            },
+            "closed": {
+                "doc": "$~Indique s'il faut relier mon dernier endroit à mon premier.",
+                "names": "$~fermé"
+            },
+            "smooth": {
+                "doc": "$~Indique s'il faut courber entre mes endroits au lieu de tourner à chacun. Mes endroits ne bougent pas dans un cas comme dans l'autre.",
+                "names": "$~lisse"
+            },
+            "thickness": {
+                "doc": "$~Quelle largeur me donner en me dessinant.",
+                "names": "$~épaisseur"
+            },
+            "z": {
+                "doc": "$~La profondeur à laquelle je me trouve.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7436,10 +7472,6 @@
                 "fit": {
                     "on": "$~contrôler le zoom manuellement",
                     "off": "$~Ajuster le zoom au contenu"
-                },
-                "paint": {
-                    "on": "$~rendement de peinture",
-                    "off": "$~placer la sortie"
                 }
             },
             "field": {
@@ -7588,7 +7620,16 @@
                 "none": "$~rien à aligner avec $direction"
             },
             "removed": "$~$#count[$#count sortie supprimée|$#count sorties supprimées|$#count sorties supprimées]",
-            "notRemovable": "$~qui ne peut pas être supprimé seul"
+            "notRemovable": "$~qui ne peut pas être supprimé seul",
+            "drew": "$~$#count[a dessiné un chemin avec $#count point ; le dessin est désactivé|a dessiné un chemin avec $#count points ; le dessin est désactivé|a dessiné un chemin avec $#count points ; le dessin est désactivé]",
+            "drawing": "$~$#count[$#count point, à $place|$#count points, dernier à $place|$#count points, dernier à $place]",
+            "point": {
+                "label": "$~point $number sur $#count, à $place",
+                "moved": "$~point $number vers $place",
+                "added": "$~point $number ajouté",
+                "removed": "$~point $number supprimé",
+                "last": "$~un chemin a besoin d'au moins deux points"
+            }
         },
         "timeline": {
             "slider": "$~curseur temporel",
@@ -8517,7 +8558,12 @@
                 "addStage": "$~entoure tout d'une scène, pour pouvoir contrôler la lumière, la couleur et les images",
                 "stageExists": "$~il y a déjà une scène",
                 "addMusic": "$~ajouter de la musique, en commençant par quelques notes pour t'amuser",
-                "addSay": "$~ajouter une parole, qui est prononcée à voix haute"
+                "addSay": "$~ajouter une parole, qui est prononcée à voix haute",
+                "addPath": "$~ajoute une ligne que tu peux plier et avec laquelle dessiner",
+                "draw": {
+                    "off": "$~dessine un chemin sur la scène",
+                    "on": "$~arrête de dessiner"
+                }
             }
         },
         "save": {

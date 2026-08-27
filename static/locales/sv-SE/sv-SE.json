@@ -3651,12 +3651,12 @@
                     "doc": [
                         "$~Jag kan ta en lista och göra en ny lista med värdena sorterade. Så här:",
                         "\\[1 5 8 0 2].sorterad()\\",
-                        "Jag kan också göra det för @Text värden, i bokstavsordning. En stor bokstav sorteras bredvid sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
+                        "Jag kan också göra det för @Text-värden, i bokstavsordning. En stor bokstav sorteras bredvid sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
                         "\\['Apelsin' 'kiwi' 'Banan' 'äpple'].sorterad()\\",
-                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör om varje del till en @Number eller en @Text, så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd. Om du ger mig en funktion som gör om varje lista till dess längd, kan jag sortera efter längden.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista3) lista3.längd())\\",
+                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör om varje del till en @Number eller en @Text, så jag kan sortera den. Här har vi till exempel en lista med listor av olika längd. Ger du mig en funktion som gör om varje lista till dess längd, kan jag sortera efter längden.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista2) lista2.längd())\\",
                         "En funktion som skapar @Text är ett sätt att sortera efter ett ord du räknar ut, i stället för efter själva värdet. Här sorterar jag namn efter efternamnet:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn3•'') (namn3 ÷ ' ').sista()\n)\\"
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn2•'') (namn2 ÷ ' ').sista()\n)\\"
                     ],
                     "names": "$~sorterad",
                     "inputs": [
@@ -3667,7 +3667,7 @@
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Det @value som ska göras om till en @Number eller en @Text.",
+                            "doc": "$~Den @value som ska göras om till en @Number eller en @Text.",
                             "names": "$~värde"
                         }
                     ]
@@ -5414,6 +5414,18 @@
             "style": {
                 "doc": "$~Animationsstilen jag borde använda.",
                 "names": "$~stil"
+            },
+            "filled": {
+                "doc": "$~Om insidan ska målas. Jag har ingen insida om jag inte är sluten, så en öppen @Path fylls aldrig.",
+                "names": "$~fylld"
+            },
+            "stroked": {
+                "doc": "$~Om konturen ska målas. Utan fyllning och utan kontur är jag osynlig, vilket är ett sätt att göra en barriär som stoppar saker utan att synas.",
+                "names": "$~streckad"
+            },
+            "glyphs": {
+                "doc": "$~Text som ritas längs konturen, upprepad tills den fyller den. Jag har inga ord om du inte ger mig några.",
+                "names": "$~tecken"
             }
         },
         "Form": {
@@ -6856,6 +6868,30 @@
                 "De flesta av oss har /tonhöjd/, vilket betyder att ett spårs siffror väljer toner och större siffror låter högre. Resten är /satser/: en siffra väljer ett ljud från en numrerad lista i stället för en ton, så ett spår läses som rytm snarare än melodi, och siffror efter listans slut viker tillbaka till dess början.",
                 "De flesta av oss är också riktiga inspelningar, tagna från instrument som människor faktiskt spelade. Synthesizrarna härmar ingenting — de är byggda av oscillatorer, och det är ljudet de är menade att ha. Var och en av oss säger nedan vilket vi är."
             ]
+        },
+        "Path": {
+            "doc": "$~Jag är en bana ritad genom en lista med platser, bra för linjer, kurvor och kullar på @Stage.",
+            "names": ["$~Väg"],
+            "points": {
+                "doc": "$~Platserna jag passerar genom, i ordning. Jag ligger platt, så jag använder mitt eget djup i stället för djupet hos någon plats.",
+                "names": "$~punkter"
+            },
+            "closed": {
+                "doc": "$~Om min sista plats ska kopplas tillbaka till min första.",
+                "names": "$~stängd"
+            },
+            "smooth": {
+                "doc": "$~Om jag ska kurva genom mina platser i stället för att vända vid dem. Mina platser rör sig inte i något av fallen.",
+                "names": "$~mjuk"
+            },
+            "thickness": {
+                "doc": "$~Hur bred jag ska ritas.",
+                "names": "$~tjocklek"
+            },
+            "z": {
+                "doc": "$~Djupet jag ligger på.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7436,10 +7472,6 @@
                 "fit": {
                     "on": "$~kontrollera zoomen manuellt",
                     "off": "$~anpassa zoom till innehåll"
-                },
-                "paint": {
-                    "off": "$~placera utgång",
-                    "on": "$~färgutgång"
                 }
             },
             "field": {
@@ -7588,7 +7620,16 @@
                 "none": "$~inget att rikta in med $direction"
             },
             "removed": "$~$#count[$#count utdata borttagen|$#count utdata borttagna]",
-            "notRemovable": "$~som inte kan tas bort på egen hand"
+            "notRemovable": "$~som inte kan tas bort på egen hand",
+            "drew": "$~$#count[ritade en bana med $#count punkt; ritning är av|ritade en bana med $#count punkter; ritning är av]",
+            "drawing": "$~$#count[$#count punkt, vid $place|$#count punkter, senaste vid $place]",
+            "point": {
+                "label": "$~punkt $number av $#count, vid $place",
+                "moved": "$~punkt $number till $place",
+                "added": "$~lade till punkt $number",
+                "removed": "$~tog bort punkt $number",
+                "last": "$~en bana behöver minst två punkter"
+            }
         },
         "timeline": {
             "slider": "$~tidsreglaget",
@@ -8594,7 +8635,12 @@
                 "addStage": "$~lägg allt i en scen, så du kan styra ljus, färg och bildrutor",
                 "stageExists": "$~det finns redan en scen",
                 "addMusic": "$~lägg till musik, med några toner att börja leka med",
-                "addSay": "$~lägg till tal, som uttalas högt"
+                "addSay": "$~lägg till tal, som uttalas högt",
+                "addPath": "$~lägg till en linje du kan böja och rita med",
+                "draw": {
+                    "off": "$~rita en bana på scenen",
+                    "on": "$~sluta rita"
+                }
             }
         },
         "save": {

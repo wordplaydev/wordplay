@@ -3656,25 +3656,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Tôi có thể lấy một danh sách, rồi tạo một danh sách mới với các giá trị đã sắp xếp. Như thế này:",
+                        "$~Mình có thể lấy một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Như thế này:",
                         "\\[1 5 8 0 2].đãsắpxếp()\\",
-                        "Tôi cũng có thể làm vậy với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ in hoa được sắp xếp cạnh chữ thường của nó, nên một từ không bị đẩy xuống cuối chỉ vì bắt đầu bằng chữ in hoa:",
+                        "Mình cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa sẽ được xếp cạnh chữ cái thường tương ứng, nên một từ không bị đẩy xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
                         "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
-                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition để biến mỗi phần tử thành một @Number hoặc một @Text để tôi có thể sắp xếp nó. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài.",
-                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách) danhSách.chiềudài()\n)\\",
-                        "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ do bạn tính toán, thay vì theo chính giá trị đó. Ở đây tôi sắp xếp tên theo họ:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên3•'') (tên3 ÷ ' ').cuốicùng()\n)\\"
+                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho mình một @FunctionDefinition biến mỗi phần tử thành một @Number hay một @Text để mình có thể sắp xếp. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn đưa cho mình một hàm biến mỗi danh sách thành độ dài của nó, mình có thể sắp xếp theo độ dài của chúng.",
+                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
+                        "Một hàm tạo ra @Text là cách để bạn sắp xếp theo một từ mà bạn tính toán, thay vì theo chính giá trị đó. Ở đây mình sắp xếp các tên theo họ:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
                     ],
                     "names": "$~đãsắpxếp",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number hoặc một @Text có thể dùng để sắp xếp danh sách.",
+                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number hay một @Text có thể dùng để sắp xếp danh sách.",
                             "names": "$~bộđiềukhiểntrìnhtự"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value để biến thành một @Number hoặc một @Text.",
+                            "doc": "$~@value cần biến thành một @Number hay một @Text.",
                             "names": "$~giátrị"
                         }
                     ]
@@ -5429,6 +5429,18 @@
             "style": {
                 "doc": "$~Tôi nên sử dụng phong cách hoạt hình nào.",
                 "names": "$~phongcách"
+            },
+            "filled": {
+                "doc": "$~Có tô màu bên trong mình hay không. Mình không có bên trong trừ khi mình khép kín, nên một @Path chưa khép kín thì không bao giờ được tô.",
+                "names": "$~đãTôĐầy"
+            },
+            "stroked": {
+                "doc": "$~Có vẽ đường viền của mình hay không. Không có màu tô và không có đường viền thì mình trở nên vô hình, đây là một cách để tạo ra một rào chắn ngăn mọi thứ mà không bị nhìn thấy.",
+                "names": "$~đãVẽViền"
+            },
+            "glyphs": {
+                "doc": "$~Chữ để vẽ dọc theo đường viền của mình, lặp lại cho đến khi lấp đầy. Mình không có chữ nào trừ khi bạn cho mình một ít.",
+                "names": "$~chữTượngHình"
             }
         },
         "Form": {
@@ -6871,6 +6883,30 @@
                 "Hầu hết chúng tôi thuộc loại /có cao độ/, nghĩa là các con số của một bản nhạc chọn nốt và số càng lớn thì nghe càng cao. Số còn lại là /bộ/: một con số chọn một âm thanh từ một danh sách được đánh số thay vì một nốt, nên một bản nhạc được đọc như nhịp điệu chứ không phải giai điệu, và các con số vượt quá cuối danh sách sẽ quay vòng về đầu.",
                 "Hầu hết chúng tôi cũng là những bản thu thật, lấy mẫu từ các nhạc cụ mà con người thật sự đã chơi. Các bộ tổng hợp âm không bắt chước gì cả — chúng được tạo ra từ các bộ dao động, và đó là âm thanh vốn có của chúng. Mỗi chúng tôi đều ghi rõ ở dưới mình thuộc loại nào."
             ]
+        },
+        "Path": {
+            "doc": "$~Mình là một đường đi được vẽ qua một danh sách các vị trí, hữu ích cho các đường thẳng, đường cong, và các ngọn đồi trên @Stage.",
+            "names": ["$~ĐườngDẫn"],
+            "points": {
+                "doc": "$~Các vị trí mình đi qua, theo thứ tự. Mình nằm phẳng, nên mình dùng độ sâu z của riêng mình thay vì độ sâu của bất kỳ vị trí nào.",
+                "names": "$~điểm"
+            },
+            "closed": {
+                "doc": "$~Có nối vị trí cuối cùng của mình trở lại vị trí đầu tiên hay không.",
+                "names": "$~đãĐóng"
+            },
+            "smooth": {
+                "doc": "$~Có uốn cong qua các vị trí của mình thay vì rẽ ngoặt tại đó hay không. Dù thế nào thì các vị trí của mình cũng không di chuyển.",
+                "names": "$~mượt"
+            },
+            "thickness": {
+                "doc": "$~Vẽ mình rộng bao nhiêu.",
+                "names": "$~độDày"
+            },
+            "z": {
+                "doc": "$~Độ sâu mình nằm ở đó.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7686,10 +7722,6 @@
                 "fit": {
                     "on": "$~điều khiển thu phóng thủ công",
                     "off": "$~Điều chỉnh thu phóng cho phù hợp với nội dung"
-                },
-                "paint": {
-                    "off": "$~đặt đầu ra",
-                    "on": "$~lượng sơn đầu ra"
                 }
             },
             "field": {
@@ -7838,7 +7870,16 @@
                 "none": "$~không có gì để canh với $direction"
             },
             "removed": "$~$#count[đã xóa $#count đầu ra]",
-            "notRemovable": "$~không thể tự xóa một mình"
+            "notRemovable": "$~không thể tự xóa một mình",
+            "drew": "$~$#count[đã vẽ một đường đi với $#count điểm; việc vẽ đã tắt]",
+            "drawing": "$~$#count[$#count điểm, tại $place]",
+            "point": {
+                "label": "$~điểm $number trong số $#count, tại $place",
+                "moved": "$~điểm $number đến $place",
+                "added": "$~đã thêm điểm $number",
+                "removed": "$~đã xóa điểm $number",
+                "last": "$~một đường đi cần ít nhất hai điểm"
+            }
         },
         "timeline": {
             "slider": "$~thanh trượt thời gian",
@@ -8848,7 +8889,12 @@
                 "addStage": "$~bọc mọi thứ trong một sân khấu, để bạn có thể điều khiển ánh sáng, màu sắc và khung hình",
                 "stageExists": "$~đã có một sân khấu rồi",
                 "addMusic": "$~thêm âm nhạc, bắt đầu với vài nốt nhạc để thử nghiệm",
-                "addSay": "$~thêm lời nói, được đọc to lên"
+                "addSay": "$~thêm lời nói, được đọc to lên",
+                "addPath": "$~thêm một đường thẳng bạn có thể uốn cong và vẽ với nó",
+                "draw": {
+                    "off": "$~vẽ một đường đi trên sân khấu",
+                    "on": "$~ngừng vẽ"
+                }
             }
         },
         "save": {

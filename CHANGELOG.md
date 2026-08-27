@@ -11,10 +11,17 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔠 Every font now says what it looks like, so you can pick one without seeing it. The font chooser reads "Creepster, a textured face, strong and old-fashioned" instead of just the name, and a phrase tells you what face it's wearing. There are 12 words for the shape of the letters and 13 for how a font feels, and they're translated into every language Wordplay speaks. (#298)
 - 📐 Things on your stage now line up with each other when you move them. Drag one near another and it snaps to its left or right edge, its middle, or the line its letters sit on, and a line shows you what it lined up with. Turn the grid on and it snaps to the grid too. Hold Alt or Option while you drag to place it anywhere you want. (#117)
 - 📐 You can line things up with the keyboard too. Arrow keys move whatever you picked, and holding shift while you press an arrow jumps it straight to the next thing it can line up with that way. Wordplay says where it landed and what it lined up with, so you can lay out a stage without seeing it. (#117)
-- 🧱 The palette now has a row of ✚ buttons across the top for adding things to your stage: a phrase, a rectangle, a circle, a many-sided shape, music, or speech. It stays put while you scroll, and it's there whether or not you've picked something. Before, a character offered to add one thing at a time and stopped offering once you had one, so a second phrase meant writing it yourself.
+- 🧱 The palette now has a row of + buttons across the top for adding things to your stage: a phrase, a rectangle, a circle, a many-sided shape, a line, music, or speech. It stays put while you scroll, and it's there whether or not you've picked something. Before, a character offered to add one thing at a time and stopped offering once you had one, so a second phrase meant writing it yourself.
 - 🧱 A new thing lands below whatever is already on your stage instead of on top of it, and Wordplay picks it for you so you can start changing it right away. If you picked something first, the new thing goes in beside it.
-- 🔳 Pick two or more things on your stage and press ✚🔳 to collect them into a @Group. When it can't, the button says why. (#119)
+- 🔳 Pick two or more things on your stage and press 🔳 to collect them into a @Group. When it can't, the button says why. (#119)
 - 🔣 You can now make a circle or a many-sided shape, not just a rectangle. Each has its own button, and each shape now has a symbol you can type: `▭`, `●`, and `⬢`.
+- ✏️ You can now draw on your stage. Press the pencil in the palette, then drag to sweep out a line, or click once for each place you want it to bend. Arrow keys move a dot around and Enter drops a point, so you can draw without a mouse, and Escape finishes. Wordplay tidies the line up when you let go, so a wobbly drag doesn't leave hundreds of points in your code. (#167)
+- ✏️ The pencil turns itself off once you've drawn a line, so you won't start another one by accident when you meant to pick the line you already have. If your program is empty, pressing it gives you a @Stage to draw on. (#167)
+- 📐 A new shape, @Path, draws a line through a list of places, and you can type it as `╱`. Ask for `closed` to join the last place back to the first, `smooth` to curve through your places instead of turning at them, and `thickness` to say how thick to draw it. It takes a plain list of places, so anything that makes places can draw one — including @Contour, which traces the outline of letters. (#167)
+- 📐 Pick a line you drew and every place on it gets a handle. Drag one to bend the line, or use the arrow keys. Enter adds a place halfway along, and Delete takes one away. (#167)
+- 🧲 A @Path on your @Stage stops things by its real shape, so you can draw a hill or a valley and watch things roll into it. Circles and many-sided shapes already stopped things by their own shape; lines do now too. (#167)
+- 🔠 Give a shape `glyphs` and Wordplay writes that text along its edge, over and over until it fills. Words can run around a circle or a hexagon, and a line can be drawn out of letters instead of ink. (#167)
+- 🎨 Shapes now have `filled` and `stroked`, so you can have just an outline, or neither — which is how you make a wall that stops things without being seen.
 
 ### Changed
 
@@ -28,6 +35,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🗣️ Screen readers used to read the name of a group or a shape as its symbol, saying "white square button" where they meant "group". Now they say the word.
 - ✍️ Adding something to your program used to pull your project's description up onto the first line of your code.
 - 🎨 Picking a @Say used to show an empty palette. Now you can edit what it says there, like anything else.
+- 🐛 A small shape was drawn lower than the box that picks it, so its outline, its turn and resize handles, and the shape itself all sat in different places. They line up now.
+- 🎨 Using a circle or a many-sided shape as your stage's `frame` cut out the wrong part of the stage. The piece that showed and the edge drawn around it were nowhere near each other.
 
 ## 0.31.0 - 2026-08-25
 

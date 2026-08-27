@@ -692,6 +692,10 @@
                     "type": "string"
                 },
                 {
+                    "const": "Path",
+                    "type": "string"
+                },
+                {
                     "const": "Polygon",
                     "type": "string"
                 },

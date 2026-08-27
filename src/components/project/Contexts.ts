@@ -15,6 +15,7 @@ import type Root from '@nodes/Root';
 import type Token from '@nodes/Token';
 import type Spaces from '@parser/Spaces';
 import type { ProjectMode } from '@components/project/ProjectMode';
+import type Drawing from '@components/output/Drawing.svelte.ts';
 import type { OutputInfoSet } from '@output/animation/Animator';
 import type Evaluator from '@runtime/Evaluator';
 import type { StreamChange } from '@runtime/Evaluator';
@@ -197,6 +198,16 @@ export const [getStageGrid, setStageGrid] =
  */
 export const [getStageScene, setStageScene] =
     createOptionalContext<Writable<(() => OutputInfoSet) | undefined>>();
+
+/**
+ * The stage's drawing mode and the stroke in progress (#167).
+ *
+ * Created by ProjectView, because its three ends are in different tiles: the toggle is in the
+ * palette's insert toolbar, the pointer and keyboard gestures are OutputView's, and the preview
+ * is drawn by StageView inside the root group, where a metre is PX_PER_METER pixels — the same
+ * space the grid and the snap guides are drawn in.
+ */
+export const [getDrawing, setDrawing] = createOptionalContext<Drawing>();
 
 /** A play-rate-decoupled view of the evaluation context: the same shape, but
  * updated only on step-relevant changes — play/pause flips, steps while paused,

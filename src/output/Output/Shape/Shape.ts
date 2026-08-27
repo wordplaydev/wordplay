@@ -17,6 +17,8 @@ import type { DefinitePose } from '@output/animation/Pose';
 import type Sequence from '@output/animation/Sequence';
 import type { NameGenerator } from '@output/Output/Stage';
 import type TextValue from '@values/TextValue';
+import { toText } from '@output/Output/Phrase';
+import { toBoolean } from '@output/Output/Stage';
 import { getOutputInput } from '@output/Output/Valued';
 import { getStyle } from '@output/Output/toOutput';
 
@@ -55,12 +57,27 @@ export function createShapeType(locales: Locales) {
             )
             .flat()
             .join('|')}: "${DefaultStyle}"
+        ${getBind(locales, (locale) => locale.output.Shape.filled)}•?: ⊤
+        ${getBind(locales, (locale) => locale.output.Shape.stroked)}•?: ⊤
+        ${getBind(locales, (locale) => locale.output.Shape.glyphs)}•""|ø: ø
     )
 `);
 }
 
+/** Where `filled` and `stroked` sit in Shape's inputs. Pinned by shapeInputs.test.ts, since
+ *  everything else here reads the style block by fixed offset and would shift silently. */
+export const FilledIndex = 18;
+export const StrokedIndex = 19;
+export const GlyphsIndex = 20;
+
 export default class Shape extends Output {
     readonly form: Form;
+    /** Whether to paint the form's interior. An open form has none, so this can't give it one. */
+    readonly filled: boolean;
+    /** Whether to paint the form's outline. */
+    readonly stroked: boolean;
+    /** Text laid along the form's outline, repeated to fill it, or undefined for none. */
+    readonly glyphs: string | undefined;
 
     constructor(
         value: StructureValue,
@@ -76,6 +93,9 @@ export default class Shape extends Output {
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
         style: string,
+        filled: boolean,
+        stroked: boolean,
+        glyphs: string | undefined,
     ) {
         super(
             value,
@@ -102,6 +122,18 @@ export default class Shape extends Output {
         );
 
         this.form = form;
+        this.filled = filled;
+        this.stroked = stroked;
+        this.glyphs = glyphs;
+    }
+
+    /** Whether anything of the form itself is painted; false leaves only its glyphs, if any. */
+    isVisible() {
+        return (
+            (this.filled && this.form.isClosed()) ||
+            this.stroked ||
+            this.glyphs !== undefined
+        );
     }
 
     find() {
@@ -149,15 +181,21 @@ export default class Shape extends Output {
         // color. Shape's description template is form-driven, so we just
         // concatenate the color string rather than threading another
         // interpolation slot.
+        // The glyphs the form is drawn with are part of what it is, and the SVG that paints
+        // them is presentational, so this is the only place they're spoken.
+        const spoken =
+            this.glyphs === undefined || this.glyphs.length === 0
+                ? base
+                : `${base} ${this.glyphs}`;
         const bg = this.background;
-        if (bg === undefined) return base;
+        if (bg === undefined) return spoken;
         const color = describeColorLocalized(
             locales,
             bg.lightness.toNumber(),
             bg.chroma.toNumber(),
             bg.hue.toNumber(),
         );
-        return `${base} ${color}`.trim();
+        return `${spoken} ${color}`.trim();
     }
 
     getRepresentativeText() {
@@ -185,6 +223,12 @@ export function toShape(
     if (!(value instanceof StructureValue)) return undefined;
 
     const form = toForm(project, getOutputInput(value, 0));
+
+    // Appended after the style block rather than beside `color`, so no style index shifts;
+    // see getStyle's fixed offsets and editHandles' hard-coded bind indices.
+    const filled = toBoolean(getOutputInput(value, FilledIndex)) ?? true;
+    const stroked = toBoolean(getOutputInput(value, StrokedIndex)) ?? true;
+    const glyphs = toText(getOutputInput(value, GlyphsIndex))?.text;
 
     const {
         name,
@@ -219,6 +263,9 @@ export function toShape(
               exit,
               duration,
               style,
+              filled,
+              stroked,
+              glyphs,
           )
         : undefined;
 }

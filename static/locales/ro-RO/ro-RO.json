@@ -3652,25 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Pot lua o listă și pot face o listă nouă cu valorile ei sortate. Așa:",
+                        "$~Pot lua o listă și pot face o listă nouă cu valorile ei ordonate. Uite așa:",
                         "\\[1 5 8 0 2].sortat()\\",
-                        "Pot face asta și pentru valori @Text, în ordine alfabetică. O literă mare este sortată lângă litera ei mică, deci un cuvânt nu ajunge la final doar pentru că începe cu literă mare:",
+                        "Pot face asta și pentru valori @Text, în ordine alfabetică. O literă mare se ordonează lângă litera ei mică, deci un cuvânt nu ajunge la sfârșit doar pentru că începe cu literă mare:",
                         "\\['Portocală' 'kiwi' 'Banană' 'măr'].sortat()\\",
-                        "Iar dacă ai o listă de valori care nu sunt @Number sau @Text, îmi poți da un @FunctionDefinition care transformă fiecare element într-un @Number sau un @Text, ca să pot să le sortez. De exemplu, aici avem o listă de liste cu lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot sorta după lungime.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă3) listă3.lungime())\\",
-                        "O funcție care face @Text este modul în care sortezi după un cuvânt pe care îl calculezi, în loc de valoarea în sine. Aici sortez nume după ultimul nume:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume3•'') (nume3 ÷ ' ').dura()\n)\\"
+                        "Iar dacă ai o listă de valori care nu sunt @Number sau @Text, îmi poți da un @FunctionDefinition care transformă fiecare element într-un @Number sau într-un @Text, ca să o pot ordona. De exemplu, aici avem o listă de liste cu lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot să le ordonez după lungime.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă2) listă2.lungime())\\",
+                        "O funcție care face @Text este felul în care ordonezi după un cuvânt pe care îl calculezi, în loc de valoarea în sine. Aici ordonez numele după ultimul dintre ele:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume2•'') (nume2 ÷ ' ').dura()\n)\\"
                     ],
                     "names": "$~sortat",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opțional folosit pentru a sorta o listă @value. Trebuie să transforme valoarea într-un @Number sau un @Text care poate fi folosit pentru a sorta lista.",
+                            "doc": "$~@FunctionDefinition opțional folosit pentru a ordona o listă @value. Ar trebui să transforme valoarea într-un @Number sau într-un @Text care poate fi folosit la ordonarea listei.",
                             "names": "$~secvențiator"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value de transformat într-un @Number sau un @Text.",
+                            "doc": "$~@value de transformat într-un @Number sau într-un @Text.",
                             "names": "$~valoare"
                         }
                     ]
@@ -5429,6 +5429,18 @@
             "style": {
                 "doc": "$~Stilul de animație pe care ar trebui să-l folosesc.",
                 "names": "$~stil"
+            },
+            "filled": {
+                "doc": "$~Dacă să-mi colorez interiorul. Nu am interior decât dacă mă închid, deci un @Path deschis nu este niciodată umplut.",
+                "names": "$~umplut"
+            },
+            "stroked": {
+                "doc": "$~Dacă să-mi desenez conturul. Fără umplere și fără contur sunt invizibil, ceea ce este o modalitate de a face o barieră care oprește lucrurile fără să fie văzută.",
+                "names": "$~conturat"
+            },
+            "glyphs": {
+                "doc": "$~Text de desenat de-a lungul conturului meu, repetat până îl umple. Nu am cuvinte decât dacă îmi dai tu câteva.",
+                "names": "$~simboluri"
             }
         },
         "Say": {
@@ -6871,6 +6883,30 @@
                 "Cei mai mulți dintre noi avem /ton/, ceea ce înseamnă că numerele unei piese aleg note, iar numerele mai mari sună mai înalt. Restul sunt /kit-uri/: un număr alege un sunet dintr-o listă numerotată în loc de o notă, așa că o piesă se citește ca ritm, nu ca melodie, iar numerele de după sfârșitul listei se întorc înapoi la începutul ei.",
                 "Cei mai mulți dintre noi suntem și înregistrări reale, luate de la instrumente pe care oamenii chiar le-au cântat. Sintetizatoarele nu imită nimic — ele sunt construite din oscilatoare, iar acela este sunetul pe care trebuie să îl aibă. Fiecare dintre noi spune mai jos ce fel este."
             ]
+        },
+        "Path": {
+            "doc": "$~Sunt un traseu desenat printr-o listă de locuri, util pentru linii, curbe și dealuri pe @Stage.",
+            "names": ["$~Cale"],
+            "points": {
+                "doc": "$~Locurile prin care trec, în ordine. Stau întins, așa că folosesc propriul meu z, nu adâncimea vreunui loc.",
+                "names": "$~puncte"
+            },
+            "closed": {
+                "doc": "$~Dacă să-mi unesc ultimul loc înapoi cu primul.",
+                "names": "$~închis"
+            },
+            "smooth": {
+                "doc": "$~Dacă să mă curbez prin locurile mele în loc să cotesc la ele. Locurile mele nu se mișcă în niciun caz.",
+                "names": "$~neted"
+            },
+            "thickness": {
+                "doc": "$~Cât de lat să fiu desenat.",
+                "names": "$~grosime"
+            },
+            "z": {
+                "doc": "$~Adâncimea la care stau.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7686,10 +7722,6 @@
                 "fit": {
                     "on": "$~controlează zoom-ul manual",
                     "off": "$~potrivește zoom-ul la conținut"
-                },
-                "paint": {
-                    "off": "$~locul de ieșire",
-                    "on": "$~producție de vopsea"
                 }
             },
             "field": {
@@ -7838,7 +7870,16 @@
                 "none": "$~nimic cu care să se alinieze pe $direction"
             },
             "removed": "$~$#count[$#count element de ieșire șters|$#count elemente de ieșire șterse|$#count de elemente de ieșire șterse]",
-            "notRemovable": "$~care nu poate fi șters singur"
+            "notRemovable": "$~care nu poate fi șters singur",
+            "drew": "$~$#count[am desenat un traseu cu $#count punct; desenarea este oprită|am desenat un traseu cu $#count puncte; desenarea este oprită|am desenat un traseu cu $#count de puncte; desenarea este oprită]",
+            "drawing": "$~$#count[$#count punct, la $place|$#count puncte, ultimul la $place|$#count de puncte, ultimul la $place]",
+            "point": {
+                "label": "$~punctul $number din $#count, la $place",
+                "moved": "$~punctul $number la $place",
+                "added": "$~punct adăugat $number",
+                "removed": "$~punct eliminat $number",
+                "last": "$~un traseu are nevoie de cel puțin două puncte"
+            }
         },
         "timeline": {
             "slider": "$~cursor de timp",
@@ -8855,7 +8896,12 @@
                 "addStage": "$~învelește totul într-o scenă, ca să poți controla lumina, culoarea și cadrele",
                 "stageExists": "$~există deja o scenă",
                 "addMusic": "$~adaugă muzică, începând cu câteva note cu care să te joci",
-                "addSay": "$~adaugă o vorbire, care este rostită cu voce tare"
+                "addSay": "$~adaugă o vorbire, care este rostită cu voce tare",
+                "addPath": "$~adaugă o linie pe care o poți îndoi și cu care poți desena",
+                "draw": {
+                    "off": "$~desenează un traseu pe scenă",
+                    "on": "$~oprește desenarea"
+                }
             }
         },
         "save": {

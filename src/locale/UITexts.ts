@@ -969,6 +969,23 @@ type UITexts = {
         cleared: string;
         /** [plain] Announced when selected output is deleted from the program. $#count is how many went. */
         removed: Template<['#count']>;
+        /** [plain] Announced when a path is drawn on stage. $#count is how many points it has. */
+        drew: Template<['#count']>;
+        /** [plain] Announced as a path is built point by point. $#count is how many points it has so far, $place where the last one went. */
+        drawing: Template<['#count', 'place']>;
+        /** What a @Path's individual point handles say. */
+        point: {
+            /** [plain] A point handle's label. $number is which point it is, $#count how many there are, $place where it sits. */
+            label: Template<['number', '#count', 'place']>;
+            /** [plain] Announced when a point is moved. $number is which point, $place where it went. */
+            moved: Template<['number', 'place']>;
+            /** [plain] Announced when a point is added. $number is which point it became. */
+            added: Template<['number']>;
+            /** [plain] Announced when a point is removed. $number is which point it was. */
+            removed: Template<['number']>;
+            /** [plain] Announced when a point can't be removed, because a path needs two. */
+            last: string;
+        };
         /** [plain] Announced when selected output can't be deleted, because it isn't something the program can do without */
         notRemovable: string;
         /** [plain] Announced when an output moved on stage. $name is the output, $direction is which way it went, $place is where it landed. */
@@ -1005,8 +1022,6 @@ type UITexts = {
             grid: ToggleText;
             /** Toggle whether output is fit to window */
             fit: ToggleText;
-            /** Toggle whether painting or placing */
-            paint: ToggleText;
         };
         field: {
             key: {
@@ -1382,6 +1397,10 @@ type UITexts = {
             addCircle: string;
             /** [plain] The button that adds a @Shape shaped like a polygon */
             addPolygon: string;
+            /** [plain] The button that adds a @Shape shaped like a drawn path */
+            addPath: string;
+            /** Toggle for drawing a @Path on stage by dragging, clicking, or with the arrow keys */
+            draw: ToggleText;
             /** [plain] A shape button, when it will show the @Form the program already has instead of adding a new one */
             wrapForm: string;
             /** [plain] The button that collects the selected output into a @Group */

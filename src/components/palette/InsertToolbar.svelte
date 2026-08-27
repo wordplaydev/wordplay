@@ -1,6 +1,7 @@
 <script lang="ts">
     import {
         commitInsertion,
+        ensureStage,
         groupProblem,
         groupSelection,
         insertOutput,
@@ -10,12 +11,15 @@
     import { addStage, getStage } from '@components/palette/editOutput';
     import MIDIImporter from '@components/palette/MIDIImporter.svelte';
     import {
+        getDrawing,
         getSelectedOutput,
         getStageScene,
     } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
     import { DB, locales } from '@db/Database';
+    import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import type Evaluate from '@nodes/Evaluate';
@@ -30,6 +34,7 @@
 
     const selection = getSelectedOutput();
     const stageScene = getStageScene();
+    const drawing = getDrawing();
 
     /** What's selected right now, resolved against this project. */
     let selected = $derived<Evaluate[]>(selection?.getOutput(project) ?? []);
@@ -41,6 +46,7 @@
         rectangle: $locales.getName(project.shares.output.Rectangle.names),
         circle: $locales.getName(project.shares.output.Circle.names),
         polygon: $locales.getName(project.shares.output.Polygon.names),
+        path: $locales.getName(project.shares.output.Path.names),
         music: $locales.getName(project.shares.output.Music.names),
         say: $locales.getName(project.shares.output.Say.names),
     });
@@ -76,6 +82,18 @@
         if (revised === undefined) return;
         const made = getStage(revised);
         if (made !== undefined) selection?.setPaths(revised, [made], 'palette');
+    }
+
+    /** Turn drawing on or off. Arming a program that renders nothing gives it a stage first,
+     *  so there is a canvas to draw on and a preview to draw it with — without one the pencil
+     *  looked like it did nothing, and finding the missing @Stage was left to the creator. */
+    function draw() {
+        if (drawing === undefined) return;
+        if (!drawing.armed) {
+            const revised = ensureStage(project, $locales);
+            if (revised !== undefined) Projects.reviseProject(revised);
+        }
+        drawing.toggle();
     }
 
     function group() {
@@ -118,6 +136,13 @@
                 ? (l) => l.ui.palette.toolbar.wrapForm
                 : (l) => l.ui.palette.toolbar.addPolygon,
         },
+        {
+            kind: 'path',
+            glyph: glyphs.path,
+            tip: wrapping.has('path')
+                ? (l) => l.ui.palette.toolbar.wrapForm
+                : (l) => l.ui.palette.toolbar.addPath,
+        },
     ]);
 
     /** What is heard rather than seen, after the things that are seen. */
@@ -137,18 +162,22 @@
     ]);
 
     /** Item layout, each index one overflow unit:
-     *      0…3   the four things you can see
-     *      4     collect the selection into a Group
-     *      5     wrap everything in a Stage
-     *      6     add Music
-     *      7     import a song as Music — beside adding one, since it is the
+     *      0…4   the five things you can see
+     *      5     collect the selection into a Group
+     *      6     wrap everything in a Stage
+     *      7     add Music
+     *      8     import a song as Music — beside adding one, since it is the
      *            other way to get Music rather than a lesser one
-     *      8     add a Say
+     *      9     add a Say
      */
-    const GroupItem = 4;
-    const StageItem = 5;
-    const MusicItem = 6;
-    const ImportItem = 7;
+    /** The drawing toggle's glyph: the same one the Path form is named with, since arming
+     *  the mode is how a creator draws one. */
+    const DRAW_GLYPH = '\u270e';
+
+    const GroupItem = 5;
+    const StageItem = 6;
+    const MusicItem = 7;
+    const ImportItem = 8;
     let itemCount = $derived(adds.length + 5);
 </script>
 
@@ -226,6 +255,21 @@
     <div class="row">
         <OverflowToolbar items={{ count: itemCount, render: renderItem }} />
     </div>
+    <!-- Drawing is a mode, not an insertion: it changes what a press on the
+         stage does until it's turned off, where every button above adds one
+         thing and is done. So it sits outside the row the + labels, on the far
+         side, rather than reading as one more thing the + adds. -->
+    {#if editable}
+        <!-- One button rather than a Switch's pair: the row is already at the width where
+             adding two pushes things into the overflow menu, and a mode is on or off rather
+             than a choice between two named states. -->
+        <Toggle
+            tips={(l) => l.ui.palette.toolbar.draw}
+            on={drawing?.armed ?? false}
+            toggle={draw}
+            uiid="drawToggle">{DRAW_GLYPH}</Toggle
+        >
+    {/if}
 </div>
 
 <style>

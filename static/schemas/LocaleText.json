@@ -14117,6 +14117,50 @@
                             "$ref": "#/definitions/NameAndDoc",
                             "description": "The base interface for Phrase, Group, and Stage, and other types of Output"
                         },
+                        "Path": {
+                            "additionalProperties": false,
+                            "description": "An arbitrary path form, drawn through a list of places",
+                            "properties": {
+                                "closed": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether the path joins back to its first place"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "points": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The places the path passes through"
+                                },
+                                "smooth": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether the path curves through its places instead of turning at them"
+                                },
+                                "thickness": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How wide to draw the path"
+                                },
+                                "z": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The depth the whole path lies at"
+                                }
+                            },
+                            "required": [
+                                "closed",
+                                "doc",
+                                "names",
+                                "points",
+                                "smooth",
+                                "thickness",
+                                "z"
+                            ],
+                            "type": "object"
+                        },
                         "Phrase": {
                             "additionalProperties": false,
                             "description": "A sequence of characters",
@@ -15333,6 +15377,10 @@
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Pose or sequence for when a phrase, group, or stage is leaving stage"
                                 },
+                                "filled": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether to paint the shape's inside"
+                                },
                                 "flipx": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Whether a phrase, group, or stage is flipped horizontally"
@@ -15344,6 +15392,10 @@
                                 "form": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The kind of shape and its details"
+                                },
+                                "glyphs": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Text drawn along the shape's outline"
                                 },
                                 "moving": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -15381,6 +15433,10 @@
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Whether a phrase, group, or stage is selectable by Choice"
                                 },
+                                "stroked": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether to paint the shape's outline"
+                                },
                                 "style": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The transition style of transitions"
@@ -15394,9 +15450,11 @@
                                 "duration",
                                 "entering",
                                 "exiting",
+                                "filled",
                                 "flipx",
                                 "flipy",
                                 "form",
+                                "glyphs",
                                 "moving",
                                 "name",
                                 "names",
@@ -15406,6 +15464,7 @@
                                 "rotation",
                                 "scale",
                                 "selectable",
+                                "stroked",
                                 "style"
                             ],
                             "type": "object"
@@ -15819,6 +15878,7 @@
                         "Form",
                         "Rectangle",
                         "Circle",
+                        "Path",
                         "Polygon",
                         "Pose",
                         "Sequence",
@@ -19805,6 +19865,14 @@
                                     ],
                                     "type": "object"
                                 },
+                                "drawing": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22place%22%5D%3E",
+                                    "description": "[plain] Announced as a path is built point by point. $#count is how many points it has so far, $place where the last one went."
+                                },
+                                "drew": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                    "description": "[plain] Announced when a path is drawn on stage. $#count is how many points it has."
+                                },
                                 "farther": {
                                     "description": "[plain] Announced when an output moved away from the viewer",
                                     "type": "string"
@@ -19988,6 +20056,40 @@
                                     ],
                                     "type": "object"
                                 },
+                                "point": {
+                                    "additionalProperties": false,
+                                    "description": "What a",
+                                    "properties": {
+                                        "added": {
+                                            "$ref": "#/definitions/Template%3C%5B%22number%22%5D%3E",
+                                            "description": "[plain] Announced when a point is added. $number is which point it became."
+                                        },
+                                        "label": {
+                                            "$ref": "#/definitions/Template%3C%5B%22number%22%2C%22%23count%22%2C%22place%22%5D%3E",
+                                            "description": "[plain] A point handle's label. $number is which point it is, $#count how many there are, $place where it sits."
+                                        },
+                                        "last": {
+                                            "description": "[plain] Announced when a point can't be removed, because a path needs two.",
+                                            "type": "string"
+                                        },
+                                        "moved": {
+                                            "$ref": "#/definitions/Template%3C%5B%22number%22%2C%22place%22%5D%3E",
+                                            "description": "[plain] Announced when a point is moved. $number is which point, $place where it went."
+                                        },
+                                        "removed": {
+                                            "$ref": "#/definitions/Template%3C%5B%22number%22%5D%3E",
+                                            "description": "[plain] Announced when a point is removed. $number is which point it was."
+                                        }
+                                    },
+                                    "required": [
+                                        "label",
+                                        "moved",
+                                        "added",
+                                        "removed",
+                                        "last"
+                                    ],
+                                    "type": "object"
+                                },
                                 "removed": {
                                     "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
                                     "description": "[plain] Announced when selected output is deleted from the program. $#count is how many went."
@@ -20118,13 +20220,9 @@
                                         "grid": {
                                             "$ref": "#/definitions/ToggleText",
                                             "description": "Toggle whether grid is shown"
-                                        },
-                                        "paint": {
-                                            "$ref": "#/definitions/ToggleText",
-                                            "description": "Toggle whether painting or placing"
                                         }
                                     },
-                                    "required": ["grid", "fit", "paint"],
+                                    "required": ["grid", "fit"],
                                     "type": "object"
                                 },
                                 "tour": {
@@ -20184,6 +20282,9 @@
                                 "allSelected",
                                 "cleared",
                                 "removed",
+                                "drew",
+                                "drawing",
+                                "point",
                                 "notRemovable",
                                 "moved",
                                 "directions",
@@ -24184,6 +24285,10 @@
                                             "description": "[plain] The button that adds",
                                             "type": "string"
                                         },
+                                        "addPath": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
                                         "addPhrase": {
                                             "description": "[plain] The button that adds a",
                                             "type": "string"
@@ -24203,6 +24308,10 @@
                                         "addStage": {
                                             "description": "[plain] The button that wraps everything in a",
                                             "type": "string"
+                                        },
+                                        "draw": {
+                                            "$ref": "#/definitions/ToggleText",
+                                            "description": "Toggle for drawing a"
                                         },
                                         "group": {
                                             "description": "[plain] The button that collects the selected output into a",
@@ -24244,6 +24353,8 @@
                                         "addRectangle",
                                         "addCircle",
                                         "addPolygon",
+                                        "addPath",
+                                        "draw",
                                         "wrapForm",
                                         "group",
                                         "groupEmpty",
@@ -27207,6 +27318,9 @@
         "Template<[\"#count\",\"notes\"]>": {
             "type": "string"
         },
+        "Template<[\"#count\",\"place\"]>": {
+            "type": "string"
+        },
         "Template<[\"#count\",\"scale\",\"semitones\"]>": {
             "type": "string"
         },
@@ -27499,6 +27613,12 @@
             "type": "string"
         },
         "Template<[\"node\",\"type\"]>": {
+            "type": "string"
+        },
+        "Template<[\"number\",\"#count\",\"place\"]>": {
+            "type": "string"
+        },
+        "Template<[\"number\",\"place\"]>": {
             "type": "string"
         },
         "Template<[\"number\",\"unit\"]>": {

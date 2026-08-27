@@ -3657,25 +3657,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Kaya kong kumuha ng isang listahan, at gumawa ng bagong listahan na may pinagsunod-sunod ang mga halaga nito. Ganito:",
+                        "$~Kaya kong kumuha ng listahan, at gumawa ng bagong listahan kung saan nakaayos ang mga halaga nito. Ganito:",
                         "\\[1 5 8 0 2].inayos()\\",
-                        "Kaya ko rin itong gawin para sa mga halagang @Text, sa ayos na alpabetiko. Ang malaking letra ay pinagsunod kasama ang maliit na letra nito, kaya ang isang salita ay hindi napupunta sa dulo lamang dahil nagsisimula ito sa malaking letra:",
+                        "Kaya ko rin itong gawin para sa mga halagang @Text, ayon sa pagkakasunod-sunod ng alpabeto. Ang malaking titik ay nakaayos katabi ng maliit na bersyon nito, kaya ang isang salita ay hindi ipapadala sa dulo dahil lang nagsisimula ito sa malaking titik:",
                         "\\['Kahel' 'kiwi' 'Saging' 'mansanas'].inayos()\\",
-                        "At kung may listahan ka ng mga halaga na hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na nagpapalit ng bawat item sa isang @Number o isang @Text para makapag-ayos ako nito. Halimbawa, dito may listahan tayo ng mga listahan na iba-iba ang haba; kung bibigyan mo ako ng function na nagpapalit ng bawat listahan sa haba nito, maaari ko itong pagsunod-sunurin base sa haba.",
-                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan3) listahan3.haba()\n)\\",
-                        "Ang function na gumagawa ng @Text ay ang paraan mo para pagsunod-sunurin gamit ang salitang kinakwenta mo, sa halip na gamit ang halaga mismo. Dito, pinagsunod-sunod ko ang mga pangalan base sa huling pangalan:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan3•'') (pangalan3 ÷ ' ').huli()\n)\\"
+                        "At kung mayroon kang listahan ng mga halagang hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na nagpapalit ng bawat item sa isang @Number o isang @Text para maayos ko ito. Halimbawa, narito ang isang listahan ng mga listahan na magkakaiba ang haba; kung bibigyan mo ako ng isang function na nagpapalit sa bawat listahan sa haba nito, maaari kong ayusin ang mga ito base sa haba.",
+                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan2) listahan2.haba()\n)\\",
+                        "Ang isang function na gumagawa ng @Text ay paraan kung paano mo aayusin base sa isang salitang kinakalkula mo, sa halip na base sa halaga mismo. Dito, inaayos ko ang mga pangalan base sa huling pangalan:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan2•'') (pangalan2 ÷ ' ').huli()\n)\\"
                     ],
                     "names": "$~inayos",
                     "inputs": [
                         {
-                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para pagsunod-sunurin ang listahang @value. Dapat ito ay nagpapalit ng halaga sa isang @Number o isang @Text na maaaring gamitin para pagsunod-sunurin ang listahan.",
+                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para ayusin ang isang listahan @value. Dapat nitong palitan ang halaga tungo sa isang @Number o isang @Text na magagamit para ayusin ang listahan.",
                             "names": "$~sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Ang @value na ipapalit sa isang @Number o isang @Text.",
+                            "doc": "$~Ang @value na ipapalit tungo sa isang @Number o isang @Text.",
                             "names": "$~halaga"
                         }
                     ]
@@ -5426,6 +5426,18 @@
             "style": {
                 "doc": "$~Ang istilo ng animation na dapat kong gamitin.",
                 "names": "$~estilo"
+            },
+            "filled": {
+                "doc": "$~Kung kukulayan ba ang aking loob. Wala akong loob maliban kung magsara ako, kaya ang bukas na @Path ay hindi kailanman napupuno.",
+                "names": "$~pinunan"
+            },
+            "stroked": {
+                "doc": "$~Kung gagawa ba ako ng balangkas. Kung walang laman at walang balangkas, hindi ako nakikita, na isang paraan para gumawa ng hadlang na pumipigil sa mga bagay nang hindi ito nakikita.",
+                "names": "$~binatik"
+            },
+            "glyphs": {
+                "doc": "$~Tekstong iguguhit sa kahabaan ng aking balangkas, na inuulit hanggang mapuno ito. Wala akong salita maliban kung bibigyan mo ako ng ilan.",
+                "names": "$~mgaGlyph"
             }
         },
         "Say": {
@@ -6868,6 +6880,30 @@
                 "Ang karamihan sa amin ay /pitched/, ibig sabihin ang mga numero ng track ang pumipili ng mga nota at ang mas malaking numero ay tumutunog nang mas mataas. Ang iba ay /kits/: ang isang numero ay pumipili ng tunog mula sa isang bilang na listahan sa halip na isang nota, kaya ang track ay nababasa bilang ritmo sa halip na himig, at ang mga numero na lampas sa dulo ng listahan ay bumabalik sa simula nito.",
                 "Ang karamihan sa amin ay totoong mga recording din, na kinuha mula sa mga instrumentong talagang tinugtog ng mga tao. Ang mga synthesizer ay hindi gumagaya sa anuman — gawa sila sa mga oscillator, at iyon ang tunog na nararapat sa kanila. Sinasabi ng bawat isa sa amin sa ibaba kung ano kami."
             ]
+        },
+        "Path": {
+            "doc": "$~Ako ay isang landas na iginuhit sa isang listahan ng mga lugar, kapaki-pakinabang para sa mga linya, kurba, at burol sa @Stage.",
+            "names": ["$~Landas"],
+            "points": {
+                "doc": "$~Ang mga lugar na aking dinaraanan, ayon sa pagkakasunod-sunod. Nakahiga akong patag, kaya ginagamit ko ang sarili kong z sa halip na ang lalim ng anumang lugar.",
+                "names": "$~mgaTuldok"
+            },
+            "closed": {
+                "doc": "$~Kung ikakabit ba ang aking huling lugar pabalik sa aking unang lugar.",
+                "names": "$~sarado"
+            },
+            "smooth": {
+                "doc": "$~Kung kukurba ba ako sa aking mga lugar sa halip na lumiko sa mga ito. Hindi gumagalaw ang aking mga lugar sa alinmang paraan.",
+                "names": "$~makinis"
+            },
+            "thickness": {
+                "doc": "$~Gaano ako kalapad na iguguhit.",
+                "names": "$~kapal"
+            },
+            "z": {
+                "doc": "$~Ang lalim kung saan ako nakahiga.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7683,10 +7719,6 @@
                 "fit": {
                     "on": "$~manu-manong kontrolin ang zoom",
                     "off": "$~ibagay ang zoom sa nilalaman"
-                },
-                "paint": {
-                    "off": "$~lugar ng output",
-                    "on": "$~pinturang lumabas"
                 }
             },
             "field": {
@@ -7835,7 +7867,16 @@
                 "none": "$~walang ipagsusunod sa $direction"
             },
             "removed": "$~$#count[$#count na output na binura|$#count na output na binura]",
-            "notRemovable": "$~na hindi mabubura nang mag-isa"
+            "notRemovable": "$~na hindi mabubura nang mag-isa",
+            "drew": "$~$#count[gumuhit ng landas na may $#count puntos; naka-off ang pagguhit|gumuhit ng landas na may $#count na puntos; naka-off ang pagguhit]",
+            "drawing": "$~$#count[$#count puntos, sa $place|$#count na puntos, huli sa $place]",
+            "point": {
+                "label": "$~puntos $number ng $#count, sa $place",
+                "moved": "$~puntos $number tungo sa $place",
+                "added": "$~idinagdag ang puntos $number",
+                "removed": "$~inalis ang puntos $number",
+                "last": "$~kailangan ng landas ng hindi bababa sa dalawang puntos"
+            }
         },
         "timeline": {
             "slider": "$~slider ng oras",
@@ -8844,7 +8885,12 @@
                 "addStage": "$~balutin ang lahat sa isang entablado, para makontrol mo ang ilaw, kulay, at mga frame",
                 "stageExists": "$~may entablado na",
                 "addMusic": "$~magdagdag ng musika, magsimula sa ilang tunog na maglalaro-laro ka",
-                "addSay": "$~magdagdag ng pananalita, na binibigkas nang malakas"
+                "addSay": "$~magdagdag ng pananalita, na binibigkas nang malakas",
+                "addPath": "$~magdagdag ng linyang maaari mong ibaluktot at gamitin sa pagguhit",
+                "draw": {
+                    "off": "$~gumuhit ng landas sa entablado",
+                    "on": "$~itigil ang pagguhit"
+                }
             }
         },
         "save": {

@@ -6,6 +6,7 @@ import Evaluate from '@nodes/Evaluate';
 import ListLiteral from '@nodes/ListLiteral';
 import Source from '@nodes/Source';
 import { DB } from '@db/Database';
+import { getStage } from '@components/palette/editOutput';
 import readMusic, { musicsIn } from '@edit/output/editableMusic';
 import Convert from '@nodes/Convert';
 import RenderContext from '@output/RenderContext';
@@ -16,6 +17,7 @@ import { expect, test } from 'vitest';
 import {
     InsertGap,
     contentBoxes,
+    ensureStage,
     groupProblem,
     groupSelection,
     insertOutput,
@@ -566,4 +568,50 @@ test('output that is not in a list or a statement is left alone', () => {
         e.is(project.shares.output.Rectangle, context),
     );
     expect(removeOutput(project, [form!])).toBeUndefined();
+});
+
+/**
+ * Arming the pencil on a program that renders nothing gives it a canvas to draw on.
+ *
+ * Without one, `toStage` returns undefined, OutputView shows a value message rather than a
+ * stage, and the stroke preview — which lives inside the root group — has nowhere to go, so the
+ * pencil looked like it did nothing at all.
+ */
+test('an empty program gets a stage to draw on', () => {
+    const project = make('');
+    const revised = ensureStage(project, DefaultLocales);
+    expect(revised).toBeDefined();
+    const stage = revised && getStage(revised);
+    expect(stage).toBeDefined();
+    // Empty, not seeded with a placeholder phrase the creator would have to delete — which is
+    // what addStage does, and why this isn't addStage.
+    const context = revised!.getNodeContext(stage!);
+    const content = stage!.getInput(
+        revised!.shares.output.Stage.inputs[0],
+        context,
+    );
+    expect(content).toBeInstanceOf(ListLiteral);
+    expect((content as ListLiteral).values).toHaveLength(0);
+});
+
+test('a program that already renders something is left alone', () => {
+    // Anything with output already has a stage — explicit or the default one toStage wraps a
+    // lone output in — so there is nothing to add and nothing to say.
+    for (const code of [
+        `Phrase('hi')`,
+        `Stage([])`,
+        `Shape(Circle(1m))`,
+        `Phrase('a')
+Phrase('b')`,
+    ])
+        expect(ensureStage(make(code), DefaultLocales)).toBeUndefined();
+});
+
+test('the stage it adds is a program that works', () => {
+    const revised = ensureStage(make(''), DefaultLocales);
+    expect(revised).toBeDefined();
+    revised?.analyze();
+    expect(
+        (revised?.getConflicts() ?? []).map((c) => c.constructor.name),
+    ).toEqual([]);
 });

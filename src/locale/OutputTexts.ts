@@ -151,6 +151,12 @@ type OutputTexts = {
         duration: NameAndDoc;
         /** The transition style of transitions */
         style: NameAndDoc;
+        /** Whether to paint the shape's inside */
+        filled: NameAndDoc;
+        /** Whether to paint the shape's outline */
+        stroked: NameAndDoc;
+        /** Text drawn along the shape's outline */
+        glyphs: NameAndDoc;
     };
     /** A text-to-speech output that speaks a plain text literal */
     Say: NameAndDoc & {
@@ -330,6 +336,19 @@ type OutputTexts = {
         /** Vertical center of the circle */
         y: NameAndDoc;
         /** Z coordinate the circle */
+        z: NameAndDoc;
+    };
+    /** An arbitrary path form, drawn through a list of places */
+    Path: NameAndDoc & {
+        /** The places the path passes through */
+        points: NameAndDoc;
+        /** Whether the path joins back to its first place */
+        closed: NameAndDoc;
+        /** Whether the path curves through its places instead of turning at them */
+        smooth: NameAndDoc;
+        /** How wide to draw the path */
+        thickness: NameAndDoc;
+        /** The depth the whole path lies at */
         z: NameAndDoc;
     };
     /** A regular polygon form */

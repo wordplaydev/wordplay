@@ -68,30 +68,41 @@ export class Polygon extends Form {
         return this.radius * 2;
     }
 
-    /** Compute regular polygon coordinates based on x, y, radius, and sides */
-    getCoordinates() {
+    /** The polygon's corners, in stage meters. */
+    getVertices() {
         const points: { x: number; y: number }[] = [];
-        for (let i = 0; i < this.sides; i++) {
+        for (let i = 0; i < this.sides; i++)
             points.push({
                 x:
-                    PX_PER_METER *
-                    (this.x +
-                        this.radius * Math.cos((2 * Math.PI * i) / this.sides) -
-                        this.getLeft()),
+                    this.x +
+                    this.radius * Math.cos((2 * Math.PI * i) / this.sides),
                 y:
-                    -PX_PER_METER *
-                    (this.y +
-                        this.radius * Math.sin((2 * Math.PI * i) / this.sides) -
-                        this.getTop()),
+                    this.y +
+                    this.radius * Math.sin((2 * Math.PI * i) / this.sides),
             });
-        }
-
         return points;
     }
 
+    /** Compute regular polygon coordinates based on x, y, radius, and sides, in pixels
+     *  relative to the bounding box's top left — the frame the border SVG is drawn in. */
+    getCoordinates() {
+        return this.getVertices().map((point) => ({
+            x: PX_PER_METER * (point.x - this.getLeft()),
+            y: -PX_PER_METER * (point.y - this.getTop()),
+        }));
+    }
+
     toCSSClip() {
-        const points = this.getCoordinates();
-        return `polygon(${points.map((p) => `${p.x}px ${p.y}px`).join(', ')})`;
+        // Stage pixels, not the bounding box's: a clip-path is resolved against the clipped
+        // element, while the frame's border SVG is drawn in box coordinates and *then*
+        // translated onto it. Reading getCoordinates here offset the clip from its border by
+        // the box's own corner.
+        return `polygon(${this.getVertices()
+            .map(
+                (point) =>
+                    `${point.x * PX_PER_METER}px ${-point.y * PX_PER_METER}px`,
+            )
+            .join(', ')})`;
     }
 
     toSVGPath(x: number, y: number) {

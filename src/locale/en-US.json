@@ -5458,6 +5458,18 @@
             "style": {
                 "doc": "The animation style I should use.",
                 "names": "style"
+            },
+            "filled": {
+                "doc": "Whether to paint my inside. I have no inside unless I close, so an open @Path is never filled.",
+                "names": "filled"
+            },
+            "stroked": {
+                "doc": "Whether to paint my outline. With no fill and no outline I am invisible, which is one way to make a barrier that stops things without being seen.",
+                "names": "stroked"
+            },
+            "glyphs": {
+                "doc": "Text to draw along my outline, repeated until it fills. I have no words unless you give me some.",
+                "names": "glyphs"
             }
         },
         "Say": {
@@ -5912,6 +5924,30 @@
             },
             "z": {
                 "doc": "The depth position of the circle.",
+                "names": "z"
+            }
+        },
+        "Path": {
+            "doc": "I am a path drawn through a list of places, useful for lines, curves, and hills on @Stage.",
+            "names": ["╱", "Path"],
+            "points": {
+                "doc": "The places I pass through, in order. I lie flat, so I use my own z rather than the depth of any place.",
+                "names": "points"
+            },
+            "closed": {
+                "doc": "Whether to join my last place back to my first.",
+                "names": "closed"
+            },
+            "smooth": {
+                "doc": "Whether to curve through my places instead of turning at them. My places do not move either way.",
+                "names": "smooth"
+            },
+            "thickness": {
+                "doc": "How wide to draw me.",
+                "names": "thickness"
+            },
+            "z": {
+                "doc": "The depth I lie at.",
                 "names": "z"
             }
         },
@@ -7765,6 +7801,15 @@
             "allSelected": "all outputs selected, $count selected",
             "cleared": "selection cleared",
             "removed": "$#count[$#count output deleted|$#count outputs deleted]",
+            "drew": "$#count[drew a path with $#count point; drawing is off|drew a path with $#count points; drawing is off]",
+            "drawing": "$#count[$#count point, at $place|$#count points, last at $place]",
+            "point": {
+                "label": "point $number of $#count, at $place",
+                "moved": "point $number to $place",
+                "added": "added point $number",
+                "removed": "removed point $number",
+                "last": "a path needs at least two points"
+            },
             "notRemovable": "that can't be deleted on its own",
             "moved": "$name moved $direction to $place",
             "directions": [
@@ -7806,10 +7851,6 @@
                 "fit": {
                     "on": "control zoom manually",
                     "off": "fit zoom to content"
-                },
-                "paint": {
-                    "off": "place output",
-                    "on": "paint output"
                 }
             },
             "field": {
@@ -8826,6 +8867,11 @@
                 "addRectangle": "add a rectangular shape",
                 "addCircle": "add a round shape",
                 "addPolygon": "add a many-sided shape",
+                "addPath": "add a line you can bend and draw with",
+                "draw": {
+                    "off": "draw a path on stage",
+                    "on": "stop drawing"
+                },
                 "wrapForm": "show this form on stage by wrapping it in a shape",
                 "group": "collect what you selected into a group",
                 "groupEmpty": "select some output to collect it into a group",

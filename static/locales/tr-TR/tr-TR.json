@@ -3652,25 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Bir liste alıp, değerleri sıralanmış yeni bir liste oluşturabilirim. Şöyle:",
+                        "$~Bir liste alıp, değerleri sıralanmış yeni bir liste oluşturabilirim. Bunun gibi:",
                         "\\[1 5 8 0 2].sıralanmış()\\",
-                        "@Text değerleri için de bunu alfabetik sırayla yapabilirim. Büyük bir harf, küçük halinin yanına sıralanır, yani bir kelime sadece büyük harfle başladığı için sona atılmaz:",
+                        "Bunu @Text değerleri için de, alfabetik sırayla yapabilirim. Büyük harf, küçük harfiyle yan yana sıralanır, yani bir kelime sadece büyük harfle başladığı için sonda yer almaz:",
                         "\\['Portakal' 'kivi' 'Muz' 'elma'].sıralanmış()\\",
-                        "Ve eğer @Number veya @Text olmayan bir değer listeniz varsa, bana her öğeyi bir @Number veya bir @Text değerine dönüştüren bir @FunctionDefinition verebilirsiniz, böylece sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; eğer bana her listeyi uzunluğuna dönüştüren bir fonksiyon verirseniz, onları uzunluklarına göre sıralayabilirim.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste3) liste3.uzunluk()\n)\\",
-                        "@Text üreten bir fonksiyon, değerin kendisine göre değil, hesapladığınız bir kelimeye göre sıralama yapmanızı sağlar. Burada isimleri soyadına göre sıralıyorum:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim3•'') (isim3 ÷ ' ').son()\n)\\"
+                        "Eğer @Number veya @Text olmayan bir değer listen varsa, bana her ögeyi bir @Number veya @Text değerine dönüştüren bir @FunctionDefinition verebilirsin, böylece sıralayabilirim. Örneğin burada farklı uzunluklarda listelerden oluşan bir liste var; bana her listeyi kendi uzunluğuna dönüştüren bir fonksiyon verirsen, onları uzunluklarına göre sıralayabilirim.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste2) liste2.uzunluk()\n)\\",
+                        "@Text üreten bir fonksiyon, değerin kendisine göre değil, hesapladığın bir kelimeye göre sıralama yapmanın yoludur. Burada isimleri soyadına göre sıralıyorum:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim2•'') (isim2 ÷ ' ').son()\n)\\"
                     ],
                     "names": "$~sıralanmış",
                     "inputs": [
                         {
-                            "doc": "$~Bir @value listesini sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Bu, değeri, listeyi sıralamak için kullanılabilecek bir @Number veya bir @Text değerine dönüştürmelidir.",
+                            "doc": "$~Bir listeyi @value sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Bu, değeri, listeyi sıralamak için kullanılabilecek bir @Number veya @Text değerine dönüştürmelidir.",
                             "names": "$~sıralayıcı"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Bir @Number veya bir @Text değerine dönüştürülecek olan @value.",
+                            "doc": "$~Bir @Number veya @Text değerine dönüştürülecek olan @value.",
                             "names": "$~değer"
                         }
                     ]
@@ -5421,6 +5421,18 @@
             "style": {
                 "doc": "$~Kullanmam gereken animasyon stili.",
                 "names": "$~stil"
+            },
+            "filled": {
+                "doc": "$~İç kısmımın boyanıp boyanmayacağı. Kapanmadığım sürece iç kısmım yoktur, bu yüzden açık bir @Path hiçbir zaman doldurulmaz.",
+                "names": "$~dolu"
+            },
+            "stroked": {
+                "doc": "$~Dış hattımın boyanıp boyanmayacağı. Ne dolgu ne de dış hat olmadan görünmez olurum, bu da görünmeden bir şeyleri durduran bir engel oluşturmanın bir yoludur.",
+                "names": "$~çizgili"
+            },
+            "glyphs": {
+                "doc": "$~Dış hattım boyunca çizilecek, dolana kadar tekrarlanan metin. Sen bana bir şey vermedikçe hiçbir kelimem olmaz.",
+                "names": "$~harfler"
             }
         },
         "Form": {
@@ -6863,6 +6875,30 @@
                 "Çoğumuz /perdeliyiz/, yani bir parçanın sayıları notaları seçer ve daha büyük sayılar daha yüksek ses verir. Geri kalanımız /takımlardır/: bir sayı, bir nota yerine numaralı bir listeden bir ses seçer, böylece bir parça melodiden çok ritim olarak okunur, ve listenin sonunu geçen sayılar başa geri döner.",
                 "Çoğumuz aynı zamanda gerçek kayıtlarız, insanların gerçekten çaldığı enstrümanlardan örneklenmiş. Sentezleyiciler hiçbir şeyi taklit etmez — osilatörlerden yapılmışlardır ve sahip olmaları gereken ses budur. Her birimiz aşağıda hangisi olduğumuzu söyleriz."
             ]
+        },
+        "Path": {
+            "doc": "$~Bir yer listesi boyunca çizilen bir yolum, @Stage üzerinde çizgiler, eğriler ve tepeler için kullanışlıyım.",
+            "names": ["$~Yol"],
+            "points": {
+                "doc": "$~Sırayla içinden geçtiğim yerler. Düz uzanırım, bu yüzden herhangi bir yerin derinliği yerine kendi z değerimi kullanırım.",
+                "names": "$~noktalar"
+            },
+            "closed": {
+                "doc": "$~Son yerimin ilk yerime tekrar bağlanıp bağlanmayacağı.",
+                "names": "$~kapalı"
+            },
+            "smooth": {
+                "doc": "$~Yerlerimde dönmek yerine yerlerim arasında eğri çizip çizmeyeceğim. Her iki durumda da yerlerim hareket etmez.",
+                "names": "$~pürüzsüz"
+            },
+            "thickness": {
+                "doc": "$~Ne kadar geniş çizileceğim.",
+                "names": "$~kalınlık"
+            },
+            "z": {
+                "doc": "$~Bulunduğum derinlik.",
+                "names": "$~z"
+            }
         }
     },
     "ui": {
@@ -7443,10 +7479,6 @@
                 "fit": {
                     "on": "$~yakınlaştırmayı manuel olarak kontrol et",
                     "off": "$~içeriğe uygun yakınlaştırma"
-                },
-                "paint": {
-                    "off": "$~çıktıyı yerleştir",
-                    "on": "$~boya çıktısı"
                 }
             },
             "field": {
@@ -7595,7 +7627,16 @@
                 "none": "$~$direction ile hizalanacak hiçbir şey yok"
             },
             "removed": "$~$#count[$#count çıktı silindi|$#count çıktı silindi]",
-            "notRemovable": "$~tek başına silinemeyen bir öğe"
+            "notRemovable": "$~tek başına silinemeyen bir öğe",
+            "drew": "$~$#count[$#count noktalı bir yol çizildi; çizim kapalı|$#count noktalı bir yol çizildi; çizim kapalı]",
+            "drawing": "$~$#count[$#count nokta, $place konumunda|$#count nokta, sonuncusu $place konumunda]",
+            "point": {
+                "label": "$~$#count noktadan $number. nokta, $place konumunda",
+                "moved": "$~$number numaralı nokta $place konumuna",
+                "added": "$~$number numaralı nokta eklendi",
+                "removed": "$~$number numaralı nokta kaldırıldı",
+                "last": "$~bir yolun en az iki noktaya ihtiyacı vardır"
+            }
         },
         "timeline": {
             "slider": "$~zaman kaydırıcısı",
@@ -8604,7 +8645,12 @@
                 "addStage": "$~her şeyi bir sahnenin içine sar, böylece ışığı, rengi ve kareleri denetleyebilirsin",
                 "stageExists": "$~zaten bir sahne var",
                 "addMusic": "$~müzik ekle; üzerinde oynayabileceğin birkaç nota ile başla",
-                "addSay": "$~yüksek sesle söylenen bir konuşma ekle"
+                "addSay": "$~yüksek sesle söylenen bir konuşma ekle",
+                "addPath": "$~bükebileceğin ve çizebileceğin bir çizgi ekle",
+                "draw": {
+                    "off": "$~sahnede bir yol çiz",
+                    "on": "$~çizmeyi durdur"
+                }
             }
         },
         "save": {
