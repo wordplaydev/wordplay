@@ -306,9 +306,14 @@
     /** The audience's pan/zoom at the start of a gesture, so a drag or pinch can anchor. */
     export const getOffset = () => offset;
 
-    /** Hand the camera back to the program or the platform. */
+    /** Hand the camera back to the program or the platform. The framing envelope
+     *  goes with the offset: handing the camera back means the platform frames
+     *  the content afresh rather than against a box the audience's own view was
+     *  composed with. (This button is only active once the audience has panned or
+     *  zoomed; restarting the performance is what reframes otherwise.) */
     export const resetFocus = () => {
         offset = { x: 0, y: 0, zoom: 1 };
+        framing = undefined;
     };
 
     let editing = $derived($evaluation?.playing === false);
@@ -379,15 +384,19 @@
     }
 
     // When the evaluator changes, stop the animator and create a new animator for the new evaluator.
+    //
+    // The framing envelope deliberately survives this. Every edit builds a new
+    // evaluator — a drag builds one per animation frame — and clearing the box
+    // here meant refitting the *instantaneous* bounds each time, which is exactly
+    // the camera-chasing that growEnvelope exists to prevent (moving one phrase
+    // made the stage dolly in and out under the creator's hand). A new evaluator
+    // is not a new scene; a new performance is, and that is where the box is
+    // started over, below.
     $effect(() => {
         evaluator;
         // Previous scene? Stop it.
         untrack(() => {
             resetAnimator();
-            // A new evaluator is a new scene, so the box it grew to no longer describes
-            // anything. Start framing over rather than inheriting a box sized for the
-            // previous project.
-            framing = undefined;
         });
     });
 
@@ -409,6 +418,10 @@
             if (performance !== animatedPerformance) {
                 animatedPerformance = performance;
                 resetAnimator();
+                // The program is being watched again from the top, so the box the
+                // camera grew no longer describes anything. This is the one thing
+                // that is a new scene; an ordinary edit is not.
+                framing = undefined;
                 if (!playing) {
                     animator?.suspend();
                     overlayAnimator?.suspend();
@@ -487,12 +500,25 @@
      *  Fitting a box that only grows rather than the instantaneous bounds is what stops
      *  the camera chasing moving content; see growEnvelope.
      *
+     *  Held still for the whole of an on-stage gesture, the way it already is for a
+     *  palette one: a creator placing something by hand is framing the stage
+     *  themselves, and a camera that moves under the thing being dragged fights
+     *  them. `moving` also covers the arrow keys and outlasts them by a moment, so
+     *  a held key refits once at the end rather than on every repeat. When the
+     *  gesture ends these flip and the camera refits exactly once.
+     *
      *  The content bounds are read *tracked* so that content arriving after the stage
      *  first renders is framed too — a @Camera's first frame is empty, so a stage fit only
      *  at startup is a stage fit to nothing. Everything this effect writes is read inside
      *  untrack, so it can't feed itself. */
     $effect(() => {
-        if (view && fit && !selectedOutput?.adjusting) {
+        if (
+            view &&
+            fit &&
+            !selectedOutput?.adjusting &&
+            !selectedOutput?.interacting &&
+            !selectedOutput?.moving
+        ) {
             // Leave some padding on the edges.
             const availableWidth = viewportWidth * (3 / 4);
             const availableHeight = viewportHeight * (3 / 4);

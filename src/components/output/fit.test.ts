@@ -165,6 +165,44 @@ test('a roaming pointer settles to a still frame instead of chasing it', () => {
     expect(new Set(zs).size).toBeGreaterThan(1);
 });
 
+/**
+ * The framing envelope has to survive an edit, not just a frame.
+ *
+ * Dragging one phrase commits an edit per animation frame, and StageView used to
+ * discard the envelope whenever the evaluator changed — which every edit does. So
+ * the anti-chase memory this whole module is built on was thrown away sixty times
+ * a second, and the stage fitted the instantaneous bounds after all: the camera
+ * dollied out as the phrase went and back in as it returned, under the creator's
+ * hand. This pins the difference between keeping the envelope and discarding it.
+ */
+test('a dragged phrase settles the frame; forgetting the frame makes it swing', () => {
+    // Out to 6m and back, the way a creator drags something and reconsiders.
+    const path = [0, 2, 4, 6, 4, 2, 0].map((x) => followBounds(x, 0));
+    const fitOf = (b: Box) =>
+        fitZ(b.right - b.left, b.top - b.bottom, 360, 280);
+
+    let envelope: Box | undefined = undefined;
+    const kept = path.map((bounds) => {
+        envelope = growEnvelope(envelope, bounds);
+        return fitOf(envelope);
+    });
+
+    // Kept: the camera only ever pulls back, and holds once the frame covers the trip.
+    for (let i = 1; i < kept.length; i++)
+        expect(kept[i]).toBeLessThanOrEqual(kept[i - 1] as number);
+    expect(kept.at(-1)).toBe(kept[3]);
+
+    // Discarded: the same drag swings the camera back in on the way home.
+    const forgotten = path.map((bounds) =>
+        fitOf(growEnvelope(undefined, bounds)),
+    );
+    expect(
+        forgotten.some(
+            (z, i) => i > 0 && (z as number) > (forgotten[i - 1] as number),
+        ),
+    ).toBe(true);
+});
+
 /** A viewport-sized fit of the given bounds, from nothing framed yet. */
 function firstFit(bounds: Box) {
     return refit(undefined, bounds, 360, 280, undefined);
