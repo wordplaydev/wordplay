@@ -124,6 +124,7 @@
     import { toOutput } from '@output/Output/toOutput';
     import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
     import exceedsMoveThreshold from '@components/output/moveThreshold';
+    import resolveAcrossProjects from '@db/projects/resolveAcrossProjects';
     import {
         getAlignmentTargetsForCreator,
         type AlignmentTargets,
@@ -1977,9 +1978,8 @@
         // Never change the selection while a handle drag is in progress — the drag depends on it.
         if (selection.dragging) return true;
         // If we found the node in the project, add it to the selection.
-        const evaluate = getOutputNodeFromID(
-            getOutputNodeIDUnderPointer(event),
-        );
+        const nodeID = getOutputNodeIDUnderPointer(event);
+        const evaluate = getOutputNodeFromID(nodeID);
         if (evaluate) {
             // If the shift key is down
             let newSelection: Evaluate[];
@@ -2015,14 +2015,19 @@
                     'Focusing output on output selection',
                 );
         }
+        // Something IS under the pointer, but we can't find it in this project.
+        // That isn't a click on the background, so don't answer it by replacing
+        // the creator's selection with the Stage or with nothing — report it and
+        // leave the selection alone.
+        else if (nodeID !== undefined) return false;
         // Nothing under the pointer: select the explicit Stage (so it's still editable in
         // the palette), or clear when the stage is implicit and has no node to select.
-        else if (
-            stageValue?.explicit &&
-            stageValue.value.creator instanceof Evaluate
-        )
-            selection.setPaths(project, [stageValue.value.creator], 'output');
-        else selection.setPaths(project, [], 'output');
+        else {
+            const stageNode = stageValue?.explicit
+                ? getOutputNodeFromID(stageValue.value.creator.id)
+                : undefined;
+            selection.setPaths(project, stageNode ? [stageNode] : [], 'output');
+        }
 
         return true;
     }
@@ -2117,8 +2122,12 @@
     ): Evaluate | undefined {
         if (nodeID === undefined) return undefined;
 
-        // Find the node with the corresponding id in the current project.
-        const node = project.getNodeByID(nodeID);
+        // The stage's data-node-id attributes are written from the EVALUATOR's
+        // project, but this project is the current one, and the two are only in
+        // step when the evaluator has been rebuilt — which is deferred while the
+        // creator is typing. So an id missing here may still name output that is
+        // on stage: find it where it was rendered from and follow its path here.
+        const node = resolveAcrossProjects(evaluator.project, project, nodeID);
         return node instanceof Evaluate ? node : undefined;
     }
 

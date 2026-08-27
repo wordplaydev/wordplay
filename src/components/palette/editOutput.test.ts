@@ -13,9 +13,11 @@ import {
     addSoloPhrase,
     addStage,
     classifyOutput,
+    movedOutput,
     offersFor,
     type OutputKind,
 } from '@components/palette/editOutput';
+import DefaultLocales from '@locale/DefaultLocales';
 
 /** Build a project from a program string. */
 function make(code: string) {
@@ -354,4 +356,92 @@ test('adding music beside a phrase keeps the phrase', () => {
     const revised = addMusic(DB, project);
     expect(musicsIn(revised as Project)).toHaveLength(1);
     expect(revised?.getMain().toWordplay()).toContain('hi');
+});
+
+/** The Phrase evaluate in a program, for the move tests below. */
+function phraseIn(project: Project): Evaluate {
+    const evaluate = project
+        .getMain()
+        .expression.nodes()
+        .find(
+            (n): n is Evaluate =>
+                n instanceof Evaluate &&
+                n.is(project.shares.output.Phrase, project.getNodeContext(n)),
+        );
+    if (evaluate === undefined) throw new Error('No Phrase in the program');
+    return evaluate;
+}
+
+/**
+ * The guard that keeps a drag from committing the same place over and over.
+ * Without it, each no-op revision re-mints node IDs while leaving the text
+ * alone, so `Project.equals` reports no change, the evaluator is never rebuilt,
+ * and the stage is left rendering IDs the project no longer has — which makes
+ * the output unclickable. Snapping makes identical targets routine, since a
+ * drag resting on a guide commits the same coordinates every frame.
+ *
+ * These model a drag: the first frame moves the phrase, and later frames on the
+ * same guide ask for the place it already has. Comparing against the ORIGINAL
+ * source would prove nothing, since the revision writes the locale's own name
+ * for Place (`📍` in en-US) and its explicit depth, so the very first move is
+ * always a real change however little the phrase travelled.
+ */
+function afterMove(
+    code: string,
+    x: number,
+    y: number,
+): { project: Project; phrase: Evaluate } {
+    const project = make(code);
+    const phrase = phraseIn(project);
+    const moved = movedOutput(project, phrase, DefaultLocales, x, y, false);
+    const revised = project.withRevisedNodes([[phrase, moved]]);
+    return { project: revised, phrase: phraseIn(revised) };
+}
+
+test('moving an output to where it already is changes nothing', () => {
+    const { project, phrase } = afterMove(
+        `Phrase('hi' place: Place(1m 2m 0m))`,
+        3,
+        4,
+    );
+    expect(
+        movedOutput(project, phrase, DefaultLocales, 3, 4, false).isEqualTo(
+            phrase,
+        ),
+    ).toBe(true);
+});
+
+test('moving an output somewhere else does change it', () => {
+    const { project, phrase } = afterMove(
+        `Phrase('hi' place: Place(1m 2m 0m))`,
+        3,
+        4,
+    );
+    expect(
+        movedOutput(project, phrase, DefaultLocales, 3, 4.5, false).isEqualTo(
+            phrase,
+        ),
+    ).toBe(false);
+});
+
+test('a relative move of zero changes nothing', () => {
+    const { project, phrase } = afterMove(
+        `Phrase('hi' place: Place(1m 2m 0m))`,
+        3,
+        4,
+    );
+    expect(
+        movedOutput(project, phrase, DefaultLocales, 0, 0, true).isEqualTo(
+            phrase,
+        ),
+    ).toBe(true);
+});
+
+test('a phrase with no place of its own settles after its first move', () => {
+    const { project, phrase } = afterMove(`Phrase('hi')`, 1, 1);
+    expect(
+        movedOutput(project, phrase, DefaultLocales, 1, 1, false).isEqualTo(
+            phrase,
+        ),
+    ).toBe(true);
 });
