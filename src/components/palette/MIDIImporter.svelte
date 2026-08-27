@@ -343,10 +343,14 @@
         icon={`${UPLOAD_GLYPH}${MUSIC_SYMBOL}`}
     ></Button>
     <!-- The real input is hidden because a bare file input can't be styled to
-         match the toolbar; the button above is its label and does the work. -->
+         match the toolbar; the button above is its label and does the work.
+         The uiid is how a test reaches this one input: the toolbar this sits in
+         renders a hidden measurement copy of every item, and strips identifying
+         attributes from it, so only the real input keeps the uiid. -->
     <input
         type="file"
         accept=".mid,.midi,audio/midi"
+        data-uiid="midiPicker"
         bind:this={picker}
         onchange={choose}
         aria-label={$locales.getPrimaryPlainText(
