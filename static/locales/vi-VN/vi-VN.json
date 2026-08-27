@@ -3656,25 +3656,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Mình có thể lấy một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Ví dụ như thế này:",
+                        "$~Tôi có thể lấy một danh sách, rồi tạo một danh sách mới với các giá trị đã sắp xếp. Như thế này:",
                         "\\[1 5 8 0 2].đãsắpxếp()\\",
-                        "Mình cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa được sắp xếp cạnh chữ cái viết thường của nó, nên một từ sẽ không bị đưa xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
+                        "Tôi cũng có thể làm vậy với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ in hoa được sắp xếp cạnh chữ thường của nó, nên một từ không bị đẩy xuống cuối chỉ vì bắt đầu bằng chữ in hoa:",
                         "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
-                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho mình một @FunctionDefinition để biến mỗi phần tử thành một @Number hoặc một @Text để mình có thể sắp xếp nó. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn đưa cho mình một hàm biến mỗi danh sách thành độ dài của nó, mình có thể sắp xếp theo độ dài của chúng.",
-                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
-                        "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ mà bạn tính toán ra, thay vì theo chính giá trị đó. Ở đây mình sắp xếp các tên theo họ:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
+                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition để biến mỗi phần tử thành một @Number hoặc một @Text để tôi có thể sắp xếp nó. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài.",
+                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách) danhSách.chiềudài()\n)\\",
+                        "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ do bạn tính toán, thay vì theo chính giá trị đó. Ở đây tôi sắp xếp tên theo họ:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên3•'') (tên3 ÷ ' ').cuốicùng()\n)\\"
                     ],
                     "names": "$~đãsắpxếp",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó cần biến giá trị thành một @Number hoặc một @Text để có thể dùng cho việc sắp xếp danh sách.",
+                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number hoặc một @Text có thể dùng để sắp xếp danh sách.",
                             "names": "$~bộđiềukhiểntrìnhtự"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value cần biến thành một @Number hoặc một @Text.",
+                            "doc": "$~@value để biến thành một @Number hoặc một @Text.",
                             "names": "$~giátrị"
                         }
                     ]
@@ -5375,7 +5375,7 @@
                 "names": "$~cóthểlựachọn"
             },
             "color": {
-                "doc": "$~Màu sắc của viền trang trí nhà tôi.",
+                "doc": "$~Màu của tôi. Tôi tô bằng màu đó, trừ khi tôi có nền, khi đó nó tô màu cho viền của tôi.",
                 "names": "$~màusắc"
             },
             "background": {
@@ -7823,12 +7823,22 @@
                 "show": "$~hiện tất cả"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
-            }
+                "anchors": [
+                    "$~tâm ngang",
+                    "$~cạnh trái",
+                    "$~cạnh phải",
+                    "$~tâm dọc",
+                    "$~cạnh dưới",
+                    "$~cạnh trên",
+                    "$~đường cơ sở"
+                ],
+                "withOutput": "$~$anchor với $target của $targetAnchor",
+                "withGrid": "$~$anchor trên lưới",
+                "aligned": "$~$constraints, tại $place",
+                "none": "$~không có gì để canh với $direction"
+            },
+            "removed": "$~$#count[đã xóa $#count đầu ra]",
+            "notRemovable": "$~không thể tự xóa một mình"
         },
         "timeline": {
             "slider": "$~thanh trượt thời gian",
@@ -8704,11 +8714,7 @@
                 "down": "$~di chuyển nội dung này xuống",
                 "edit": "$~Chỉnh sửa nội dung này",
                 "sequence": "$~chuyển đổi thành chuỗi",
-                "createPhrase": "$~Tạo một cụm từ, hiển thị giá trị hiện có dưới dạng văn bản.",
-                "createGroup": "$~Tạo một Nhóm, bao bọc bất kỳ Cụm từ hiện có nào.",
-                "createStage": "$~Tạo một Giai đoạn, bao bọc bất kỳ Nhóm hoặc Cụm từ hiện có nào.",
                 "editMode": "$~chuyển sang chế độ chỉnh sửa",
-                "createMusic": "$~thêm @Music vào chương trình",
                 "previousTrack": "$~hiển thị @Track trước đó",
                 "nextTrack": "$~hiển thị @Track tiếp theo",
                 "addTrack": "$~thêm một @Track",
@@ -8726,15 +8732,9 @@
                 "rewind": "$~quay lại từ đầu"
             },
             "prompt": {
-                "offerPhrase": "$~Tôi có nên bọc giá trị này trong @Phrase không?",
-                "offerGroup": "$~Tôi có nên đặt nội dung này vào trong @Group để bạn sắp xếp không?",
-                "offerStage": "$~Tôi có nên bọc nội dung này trong thẻ @Stage để bạn có thể điều khiển ánh sáng, màu sắc và khung hình không?",
-                "select": "$~Để chỉnh sửa, hãy chọn một 💬, 🔳, ⬟, hoặc 🎭 trong mã số, hoặc chọn đầu ra trên @Stage.",
+                "select": "$~Để chỉnh sửa một thứ gì đó, hãy chọn nó trong mã số của bạn hoặc trên @Stage. Để thêm thứ mới, hãy dùng các nút + ở phía trên.",
                 "editing": "$~Hãy chỉnh sửa tôi!",
-                "offerShape": "$~Tôi có nên bọc @Form này trong @Shape để hiển thị nó trên @Stage không?",
-                "offerNothing": "$~Chưa có gì ở đây cả! Tôi có nên thêm @Phrase để bắt đầu không?",
-                "readonly": "$~Các giá trị này *chỉ đọc* trong chế độ này. Hãy chuyển sang chế độ ✏️ *chỉnh sửa* để thay đổi chúng.",
-                "offerMusic": "$~Bạn muốn thêm @Music không? Mình có thể giúp bạn bắt đầu với vài nốt nhạc để thử nghiệm."
+                "readonly": "$~Các giá trị này *chỉ đọc* trong chế độ này. Hãy chuyển sang chế độ ✏️ *chỉnh sửa* để thay đổi chúng."
             },
             "field": {
                 "coordinate": "$~chỉnh sửa tọa độ",
@@ -8832,6 +8832,23 @@
                 },
                 "report": "$~Những gì tôi đã nhập vào",
                 "reportExplanation": "$~Một @Music có thể chứa hầu hết những gì mà một tệp MIDI mô tả, nhưng không phải tất cả. Đây là những gì đã thay đổi khi nhập vào."
+            },
+            "toolbar": {
+                "label": "$~thêm đầu ra",
+                "addPhrase": "$~thêm một cụm từ",
+                "wrapPhrase": "$~hiển thị giá trị này dưới dạng cụm từ",
+                "addRectangle": "$~thêm một hình chữ nhật",
+                "addCircle": "$~thêm một hình tròn",
+                "addPolygon": "$~thêm một hình nhiều cạnh",
+                "wrapForm": "$~hiển thị hình dạng này trên sân khấu bằng cách bọc nó trong một hình",
+                "group": "$~gom những gì bạn đã chọn thành một nhóm",
+                "groupEmpty": "$~chọn một số kết quả để gom chúng thành một nhóm",
+                "groupScattered": "$~một nhóm chỉ có thể gom những kết quả ở cùng một vị trí",
+                "groupKind": "$~một nhóm có thể chứa một cụm từ, một nhóm khác, lời nói, hoặc âm nhạc, nhưng không thể chứa một hình hoặc sân khấu",
+                "addStage": "$~bọc mọi thứ trong một sân khấu, để bạn có thể điều khiển ánh sáng, màu sắc và khung hình",
+                "stageExists": "$~đã có một sân khấu rồi",
+                "addMusic": "$~thêm âm nhạc, bắt đầu với vài nốt nhạc để thử nghiệm",
+                "addSay": "$~thêm lời nói, được đọc to lên"
             }
         },
         "save": {

@@ -16,7 +16,10 @@ type TokenContext = {
     /** The grammar field of the highest ancestor whose first leaf is this token. */
     field: ReturnType<Node['getFieldOfChild']>;
     /** True when this is the very first statement of a root block. */
-    firstInRootBlock: boolean;
+    /** True when nothing precedes this root-block statement, false when something
+     *  does, and undefined when the program is out of reach and so it cannot be
+     *  known — see where it is computed. */
+    firstInRootBlock: boolean | undefined;
     /** Indentation depth, in tabs. */
     depth: number;
     /** The space this token gets with no line breaking at all: '' or ' '. */
@@ -97,11 +100,27 @@ export default function getPreferredSpaces(
         // positional test silently broke `\1 + 2\` open across two lines. When the
         // program opens with docs or borrows, its first leaf is one of those, so the
         // statement keeps its newline and isn't pulled up onto the doc's last line.
-        const firstInRootBlock =
+        //
+        // Undefined means "can't tell": spacing is often rooted at the block
+        // itself (every revision that replaces a program's whole block — adding
+        // a statement, say), and the docs live on the PROGRAM, so from the block
+        // alone there is no way to know whether anything precedes this
+        // statement. Answering "yes, first leaf" there stripped the newline and
+        // pulled a program's doc down onto its first line of code — on every
+        // add. When we can't tell, the token's existing space is the answer,
+        // since it already reflects whatever precedes it.
+        const inFirstRootStatement =
             parent instanceof Block &&
             parent.isRoot() &&
-            parent.statements[0] === spaceRoot &&
-            (root.getParent(parent)?.getFirstLeaf() ?? token) === token;
+            parent.statements[0] === spaceRoot;
+        const program = inFirstRootStatement
+            ? root.getParent(parent)
+            : undefined;
+        const firstInRootBlock = !inFirstRootStatement
+            ? false
+            : program === undefined
+              ? undefined
+              : program.getFirstLeaf() === token;
         const field =
             spaceRoot && !firstInRootBlock
                 ? parent?.getFieldOfChild(spaceRoot)
@@ -185,8 +204,11 @@ export default function getPreferredSpaces(
 
         let revisedSpace = preferredSpaces.get(token) ?? '';
 
-        if (firstInRootBlock) {
+        if (firstInRootBlock === true) {
             revisedSpace = '';
+            preferredSpaces.set(token, revisedSpace);
+        } else if (firstInRootBlock === undefined) {
+            // Can't tell whether anything precedes it; keep what it has.
             preferredSpaces.set(token, revisedSpace);
         } else if (field) {
             const newlinesIncluded = revisedSpace.split('\n').length - 1;

@@ -4,19 +4,30 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.31.1 - 2026-08-26
+## 0.32.0 - 2026-08-26
 
 ### Added
 
 - 🔠 Every font now says what it looks like, so you can pick one without seeing it. The font chooser reads "Creepster, a textured face, strong and old-fashioned" instead of just the name, and a phrase tells you what face it's wearing. There are 12 words for the shape of the letters and 13 for how a font feels, and they're translated into every language Wordplay speaks. (#298)
 - 📐 Things on your stage now line up with each other when you move them. Drag one near another and it snaps to its left or right edge, its middle, or the line its letters sit on, and a line shows you what it lined up with. Turn the grid on and it snaps to the grid too. Hold Alt or Option while you drag to place it anywhere you want. (#117)
 - 📐 You can line things up with the keyboard too. Arrow keys move whatever you picked, and holding shift while you press an arrow jumps it straight to the next thing it can line up with that way. Wordplay says where it landed and what it lined up with, so you can lay out a stage without seeing it. (#117)
+- 🧱 The palette now has a row of ✚ buttons across the top for adding things to your stage: a phrase, a rectangle, a circle, a many-sided shape, music, or speech. It stays put while you scroll, and it's there whether or not you've picked something. Before, a character offered to add one thing at a time and stopped offering once you had one, so a second phrase meant writing it yourself.
+- 🧱 A new thing lands below whatever is already on your stage instead of on top of it, and Wordplay picks it for you so you can start changing it right away. If you picked something first, the new thing goes in beside it.
+- 🔳 Pick two or more things on your stage and press ✚🔳 to collect them into a @Group. When it can't, the button says why. (#119)
+- 🔣 You can now make a circle or a many-sided shape, not just a rectangle. Each has its own button, and each shape now has a symbol you can type: `▭`, `●`, and `⬢`.
+
+### Changed
+
+- 📐 When your program shows more than one thing, they now go exactly where you put them. Wordplay used to quietly gather them into a @Group and stack them, which threw away the up-and-down part of every place you wrote and moved the side-to-side part too. Things with no place of their own now sit on top of each other in the middle, so give them a place — or write a @Group yourself if stacking is what you wanted.
 
 ### Fixed
 
 - 🔠 The font chooser used to read a font's markers out loud as "no tilde asterisk caret slash", and read the writing a font supports in that writing's own letters, so an English voice said "Ελληνικά" letter by letter. Now it says "no light, bold, extra, italic" and "Greek", while still showing the symbols and the letters on screen. (#298)
 - 🖱️ Sometimes you'd click something on your stage and nothing would happen — it got a blue outline but no handles, and the arrow keys wouldn't move it. That could last until you changed your code again. Now a click always finds what you clicked on.
 - 🔍 Your stage used to zoom in and out while you dragged something across it, which made things hard to place. Now it holds still while you move and fits your work again once you let go. If it ends up further out than you want, restart your program and it will frame everything fresh.
+- 🗣️ Screen readers used to read the name of a group or a shape as its symbol, saying "white square button" where they meant "group". Now they say the word.
+- ✍️ Adding something to your program used to pull your project's description up onto the first line of your code.
+- 🎨 Picking a @Say used to show an empty palette. Now you can edit what it says there, like anything else.
 
 ## 0.31.0 - 2026-08-25
 

@@ -3652,19 +3652,19 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Mogę wziąć listę i zrobić nową listę z posortowanymi wartościami. Tak jak tutaj:",
+                        "$~Potrafię wziąć listę i zrobić nową listę z jej wartościami posortowanymi. Oto przykład:",
                         "\\[1 5 8 0 2].posortowane()\\",
-                        "Mogę też to zrobić dla wartości @Text, w kolejności alfabetycznej. Wielka litera sortuje się obok swojej małej litery, więc słowo nie trafia na koniec tylko dlatego, że zaczyna się wielką literą:",
+                        "Potrafię to zrobić także dla wartości @Text, w porządku alfabetycznym. Wielka litera sortuje się obok swojej małej litery, więc słowo nie trafia na koniec tylko dlatego, że zaczyna się wielką literą:",
                         "\\['Pomarańcza' 'kiwi' 'Banan' 'jabłko'].posortowane()\\",
-                        "A jeśli masz listę wartości, które nie są @Number ani @Text, możesz podać mi @FunctionDefinition, która zamienia każdy element w @Number lub @Text, żebym mógł to posortować. Na przykład tutaj mamy listę list o różnych długościach; jeśli podasz mi funkcję, która zamienia każdą listę w jej długość, mogę posortować według długości.",
-                        "\\[[1] [2 3] [4 8 12] [8]].posortowane(\n\tƒ(lista2) lista2.długość()\n)\\",
-                        "Funkcja, która tworzy @Text, pozwala sortować według obliczonego przez ciebie słowa, zamiast według samej wartości. Tutaj sortuję imiona według nazwiska:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].posortowane(\n\tƒ(nazwa2•'') (nazwa2 ÷ ' ').ostatni()\n)\\"
+                        "A jeśli masz listę wartości, które nie są @Number ani @Text, możesz podać mi @FunctionDefinition, która zamienia każdy element w @Number lub @Text, żebym mógł to posortować. Na przykład tutaj mamy listę list o różnej długości; jeśli podasz mi funkcję, która zamienia każdą listę w jej długość, mogę posortować według długości.",
+                        "\\[[1] [2 3] [4 8 12] [8]].posortowane(\n\tƒ(lista3) lista3.długość()\n)\\",
+                        "Funkcja, która tworzy @Text, pozwala sortować według obliczonego słowa, zamiast według samej wartości. Tutaj sortuję imiona według nazwiska:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].posortowane(\n\tƒ(nazwa3•'') (nazwa3 ÷ ' ').ostatni()\n)\\"
                     ],
                     "names": "$~posortowane",
                     "inputs": [
                         {
-                            "doc": "$~Opcjonalna @FunctionDefinition używana do sortowania listy @value. Powinna zamieniać wartość w @Number lub @Text, którą można użyć do sortowania listy.",
+                            "doc": "$~Opcjonalne @FunctionDefinition używane do sortowania listy @value. Powinno zamieniać wartość w @Number lub @Text, który można wykorzystać do sortowania listy.",
                             "names": "$~sekwencer"
                         }
                     ],
@@ -5381,7 +5381,7 @@
                 "names": "$~wybieralny"
             },
             "color": {
-                "doc": "$~Kolor moich obramowań.",
+                "doc": "$~Mój kolor. Wypełniam się nim, chyba że mam tło - wtedy koloruje moją krawędź.",
                 "names": "$~kolor"
             },
             "background": {
@@ -7594,12 +7594,22 @@
                 "show": "$~pokaż wszystko"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
-            }
+                "anchors": [
+                    "$~środek poziomy",
+                    "$~lewa krawędź",
+                    "$~prawa krawędź",
+                    "$~środek pionowy",
+                    "$~dolna krawędź",
+                    "$~górna krawędź",
+                    "$~linia bazowa"
+                ],
+                "withOutput": "$~$anchor z $target obiektu $targetAnchor",
+                "withGrid": "$~$anchor na siatce",
+                "aligned": "$~$constraints, przy $place",
+                "none": "$~nie ma z czym wyrównać w kierunku $direction"
+            },
+            "removed": "$~$#count[usunięto $#count wynik|usunięto $#count wyniki|usunięto $#count wyników|usunięto $#count wyniku]",
+            "notRemovable": "$~którego nie można usunąć samodzielnie"
         },
         "timeline": {
             "slider": "$~suwak czasu",
@@ -8478,11 +8488,7 @@
                 "down": "$~przesuń tę treść w dół",
                 "edit": "$~edytuj tę treść",
                 "sequence": "$~przekonwertować na sekwencję",
-                "createPhrase": "$~utwórz frazę, wyświetlając istniejącą wartość jako tekst",
-                "createGroup": "$~utwórz grupę, obejmując dowolną istniejącą frazę",
-                "createStage": "$~utwórz scenę, obejmując dowolną istniejącą grupę lub frazę",
                 "editMode": "$~przełącz na tryb edycji",
-                "createMusic": "$~dodaj @Music do programu",
                 "previousTrack": "$~pokaż poprzedni @Track",
                 "nextTrack": "$~pokaż następny @Track",
                 "addTrack": "$~dodaj @Track",
@@ -8500,15 +8506,9 @@
                 "rewind": "$~wróć na początek"
             },
             "prompt": {
-                "offerPhrase": "$~Czy powinienem ująć tę wartość w @Phrase ?",
-                "offerGroup": "$~Czy mam umieścić tę treść w @Group , aby można ją było uporządkować?",
-                "offerStage": "$~Czy mam zawinąć tę zawartość w @Stage , aby można było sterować oświetleniem, kolorami i ramkami?",
                 "editing": "$~Edytuj mnie!",
-                "select": "$~Aby edytować, wybierz 💬, 🔳, ⬟ lub 🎭 w kodzie albo wybierz wyjście na @Stage.",
-                "offerShape": "$~Czy mam owinąć ten @Form w @Shape , aby pokazać go na @Stage ?",
-                "offerNothing": "$~Nic tu jeszcze nie ma! Czy mam dodać @Phrase , żeby zacząć?",
-                "readonly": "$~Te wartości są *tylko do odczytu* w tym trybie. Przełącz na tryb ✏️ *edycji*, aby je zmienić.",
-                "offerMusic": "$~Chcesz dodać @Music? Mogę zacząć od kilku nut do zabawy."
+                "select": "$~Aby coś edytować, wybierz to w swoim kodzie lub na @Stage. Aby dodać coś nowego, użyj przycisków + powyżej.",
+                "readonly": "$~Te wartości są *tylko do odczytu* w tym trybie. Przełącz na tryb ✏️ *edycji*, aby je zmienić."
             },
             "field": {
                 "coordinate": "$~edytuj współrzędne",
@@ -8606,6 +8606,23 @@
                 },
                 "report": "$~Co zaimportowałem",
                 "reportExplanation": "$~@Music może pomieścić większość tego, co opisuje plik MIDI, ale nie wszystko. Oto, co zmieniło się po drodze."
+            },
+            "toolbar": {
+                "label": "$~dodaj wynik",
+                "addPhrase": "$~dodaj frazę",
+                "wrapPhrase": "$~pokaż tę wartość jako frazę",
+                "addRectangle": "$~dodaj kształt prostokątny",
+                "addCircle": "$~dodaj okrągły kształt",
+                "addPolygon": "$~dodaj kształt z wieloma bokami",
+                "wrapForm": "$~pokaż tę formę na scenie, owijając ją w kształt",
+                "group": "$~zbierz to, co wybrałeś, w grupę",
+                "groupEmpty": "$~wybierz jakiś wynik, aby zebrać go w grupę",
+                "groupScattered": "$~grupa może zbierać tylko wyniki, które są w tym samym miejscu",
+                "groupKind": "$~grupa może zawierać frazę, grupę, mowę lub muzykę, ale nie kształt ani scenę",
+                "addStage": "$~owiń wszystko w scenę, aby kontrolować oświetlenie, kolor i klatki",
+                "stageExists": "$~scena już istnieje",
+                "addMusic": "$~dodaj muzykę, zaczynając od kilku nut do zabawy",
+                "addSay": "$~dodaj mowę, która jest wypowiadana na głos"
             }
         },
         "save": {

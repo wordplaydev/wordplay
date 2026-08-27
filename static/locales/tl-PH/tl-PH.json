@@ -3657,19 +3657,19 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Kaya kong kumuha ng isang listahan, at gumawa ng bagong listahan na may mga halaga nitong pinagsunod-sunod. Ganito:",
+                        "$~Kaya kong kumuha ng isang listahan, at gumawa ng bagong listahan na may pinagsunod-sunod ang mga halaga nito. Ganito:",
                         "\\[1 5 8 0 2].inayos()\\",
-                        "Kaya ko rin itong gawin para sa mga halagang @Text, ayon sa pagkakasunod-sunod ng alpabeto. Ang malaking letra ay isinasunod sa katabi ng maliit na letra nito, kaya ang isang salita ay hindi ipinapadala sa dulo lang dahil nagsisimula ito sa malaking letra:",
+                        "Kaya ko rin itong gawin para sa mga halagang @Text, sa ayos na alpabetiko. Ang malaking letra ay pinagsunod kasama ang maliit na letra nito, kaya ang isang salita ay hindi napupunta sa dulo lamang dahil nagsisimula ito sa malaking letra:",
                         "\\['Kahel' 'kiwi' 'Saging' 'mansanas'].inayos()\\",
-                        "At kung mayroon kang listahan ng mga halaga na hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na nagpapalit ng bawat item sa isang @Number o isang @Text para mapagsunod-sunod ko ito. Halimbawa, dito mayroon tayong listahan ng mga listahan na may iba't ibang haba; kung bibigyan mo ako ng isang function na nagpapalit ng bawat listahan sa haba nito, kaya kong pagsunod-sunurin ayon sa haba nila.",
-                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan2) listahan2.haba()\n)\\",
-                        "Ang isang function na gumagawa ng @Text ay paraan kung paano mo pagsunod-sunurin ang mga bagay ayon sa isang salitang kinakwenta mo, sa halip na ayon sa halaga mismo. Dito, pinagsunod-sunod ko ang mga pangalan ayon sa huling pangalan:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan2•'') (pangalan2 ÷ ' ').huli()\n)\\"
+                        "At kung may listahan ka ng mga halaga na hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na nagpapalit ng bawat item sa isang @Number o isang @Text para makapag-ayos ako nito. Halimbawa, dito may listahan tayo ng mga listahan na iba-iba ang haba; kung bibigyan mo ako ng function na nagpapalit ng bawat listahan sa haba nito, maaari ko itong pagsunod-sunurin base sa haba.",
+                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan3) listahan3.haba()\n)\\",
+                        "Ang function na gumagawa ng @Text ay ang paraan mo para pagsunod-sunurin gamit ang salitang kinakwenta mo, sa halip na gamit ang halaga mismo. Dito, pinagsunod-sunod ko ang mga pangalan base sa huling pangalan:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan3•'') (pangalan3 ÷ ' ').huli()\n)\\"
                     ],
                     "names": "$~inayos",
                     "inputs": [
                         {
-                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para pagsunod-sunurin ang isang listahang @value. Dapat nito palitan ang halaga sa isang @Number o isang @Text na maaaring gamitin para pagsunod-sunurin ang listahan.",
+                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para pagsunod-sunurin ang listahang @value. Dapat ito ay nagpapalit ng halaga sa isang @Number o isang @Text na maaaring gamitin para pagsunod-sunurin ang listahan.",
                             "names": "$~sequencer"
                         }
                     ],
@@ -5372,7 +5372,7 @@
                 "names": "$~mapipili"
             },
             "color": {
-                "doc": "$~Ang kulay ng aking mga hangganan.",
+                "doc": "$~Ang kulay ko. Pinupuno ko ang sarili ko gamit ito, maliban kung may background ako, kung saan ito ang kumukolor sa aking hangganan.",
                 "names": "$~kulay"
             },
             "background": {
@@ -7820,12 +7820,22 @@
                 "show": "$~ipakita ang lahat"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
-            }
+                "anchors": [
+                    "$~gitnang pahalang",
+                    "$~kaliwang gilid",
+                    "$~kanang gilid",
+                    "$~gitnang patayo",
+                    "$~ibabang gilid",
+                    "$~itaas na gilid",
+                    "$~linya ng patungan"
+                ],
+                "withOutput": "$~$anchor kasama ang $target ng $targetAnchor",
+                "withGrid": "$~$anchor sa grid",
+                "aligned": "$~$constraints, sa $place",
+                "none": "$~walang ipagsusunod sa $direction"
+            },
+            "removed": "$~$#count[$#count na output na binura|$#count na output na binura]",
+            "notRemovable": "$~na hindi mabubura nang mag-isa"
         },
         "timeline": {
             "slider": "$~slider ng oras",
@@ -8700,11 +8710,7 @@
                 "down": "$~ilipat pababa ang nilalamang ito",
                 "edit": "$~i-edit ang nilalamang ito",
                 "sequence": "$~i-convert sa Sequence",
-                "createPhrase": "$~lumikha ng isang Parirala, na nagpapakita ng umiiral na halaga bilang teksto",
-                "createGroup": "$~lumikha ng isang Grupo, na binabalot ang anumang umiiral na Parirala",
-                "createStage": "$~lumikha ng isang Entablado, na binabalot ang anumang umiiral na Grupo o Parirala",
                 "editMode": "$~lumipat sa mode ng pag-edit",
-                "createMusic": "$~idagdag ang @Music sa programa",
                 "previousTrack": "$~ipakita ang nakaraang @Track",
                 "nextTrack": "$~ipakita ang susunod na @Track",
                 "addTrack": "$~magdagdag ng @Track",
@@ -8722,15 +8728,9 @@
                 "rewind": "$~bumalik sa simula"
             },
             "prompt": {
-                "offerPhrase": "$~Ibabalot ko ba ang halagang ito sa isang @Phrase ?",
-                "offerGroup": "$~Ilalagay ko ba ang nilalamang ito sa isang @Group , para maisaayos mo ang mga ito?",
-                "offerStage": "$~Ibabalot ko ba ang nilalamang ito sa isang @Stage , para makontrol mo ang ilaw, kulay, at mga frame?",
-                "select": "$~Para mag-edit, pumili ng 💬, 🔳, ⬟, o 🎭 sa kodigo, o pumili ng output sa @Stage.",
+                "select": "$~Para baguhin ang isang bagay, piliin ito sa iyong kodigo o sa @Stage. Para magdagdag ng bago, gamitin ang mga + button sa itaas.",
                 "editing": "$~I-edit mo ako!",
-                "offerShape": "$~Ibabalot ko ba itong @Form sa @Shape para maipakita sa @Stage ?",
-                "offerNothing": "$~Wala pa rito! Magdaragdag ba ako ng @Phrase para makapagsimula?",
-                "readonly": "$~Ang mga halagang ito ay *para-basa-lamang* sa mode na ito. Lumipat sa ✏️ mode ng *pag-edit* para baguhin ang mga ito.",
-                "offerMusic": "$~Gusto mo bang magdagdag ng @Music? Mabibigyan kita ng ilang nota para masimulan."
+                "readonly": "$~Ang mga halagang ito ay *para-basa-lamang* sa mode na ito. Lumipat sa ✏️ mode ng *pag-edit* para baguhin ang mga ito."
             },
             "field": {
                 "coordinate": "$~i-edit ang coordinate",
@@ -8828,6 +8828,23 @@
                 },
                 "report": "$~Ang aking na-import",
                 "reportExplanation": "$~Kaya ng isang @Music na hawakan ang karamihan sa inilalarawan ng isang MIDI file, ngunit hindi lahat. Narito ang nagbago habang ini-import ito."
+            },
+            "toolbar": {
+                "label": "$~magdagdag ng output",
+                "addPhrase": "$~magdagdag ng phrase",
+                "wrapPhrase": "$~ipakita ang halagang ito bilang phrase",
+                "addRectangle": "$~magdagdag ng hugis na parihaba",
+                "addCircle": "$~magdagdag ng bilog na hugis",
+                "addPolygon": "$~magdagdag ng hugis na may maraming gilid",
+                "wrapForm": "$~ipakita ang anyong ito sa entablado sa pamamagitan ng pagbalot dito ng isang hugis",
+                "group": "$~tipunin ang iyong pinili sa isang grupo",
+                "groupEmpty": "$~pumili ng output para tipunin ito sa isang grupo",
+                "groupScattered": "$~isang grupo lang ang maaaring tipunin ng output na nasa iisang lugar",
+                "groupKind": "$~ang isang grupo ay maaaring maglaman ng isang parirala, isang grupo, salita, o musika, ngunit hindi ng isang hugis o ng entablado",
+                "addStage": "$~balutin ang lahat sa isang entablado, para makontrol mo ang ilaw, kulay, at mga frame",
+                "stageExists": "$~may entablado na",
+                "addMusic": "$~magdagdag ng musika, magsimula sa ilang tunog na maglalaro-laro ka",
+                "addSay": "$~magdagdag ng pananalita, na binibigkas nang malakas"
             }
         },
         "save": {

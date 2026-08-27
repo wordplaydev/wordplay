@@ -1,6 +1,10 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import { parseLocaleDoc, toDocString } from '@locale/LocaleText';
+import Project from '@db/projects/Project';
 import Docs from '@nodes/Docs';
+import Evaluate from '@nodes/Evaluate';
+import Reference from '@nodes/Reference';
+import TextLiteral from '@nodes/TextLiteral';
 import Example from '@nodes/Example';
 import Source from '@nodes/Source';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
@@ -199,3 +203,63 @@ function* docTexts(value: unknown): Generator<string | string[]> {
         else yield* docTexts(child);
     }
 }
+
+describe('spacing a root block on its own', () => {
+    /**
+     * Every revision that replaces a program's whole block — adding a statement
+     * from the palette's toolbar, say — re-spaces that block rooted at the block
+     * itself. A program's docs live on the Program, not the Block, so from there
+     * it cannot be known whether anything precedes the first statement. Guessing
+     * "nothing does" stripped its newline and pulled the doc down onto the first
+     * line of code.
+     */
+    function replacedBlock(code: string) {
+        const project = Project.make(
+            null,
+            'test',
+            new Source('test', code),
+            [],
+            DefaultLocale,
+        );
+        const block = project.getMain().expression.expression;
+        return project
+            .withRevisedNodes([
+                [block, block.replace(block.statements, [...block.statements])],
+            ])
+            .getMain()
+            .toWordplay();
+    }
+
+    test.each([
+        [`¶a doc¶\nPhrase('hi')`],
+        [`Phrase('hi')`],
+        [`¶a doc¶\nx: 1\nPhrase('hi')`],
+        [`x: 1\nPhrase('hi')`],
+    ])(
+        'replacing a block with an identical one changes nothing: %s',
+        (code) => {
+            expect(replacedBlock(code)).toBe(code);
+        },
+    );
+
+    test('a statement appended to a documented program keeps the doc on its own line', () => {
+        const code = `¶a doc¶\nPhrase('hi')`;
+        const project = Project.make(
+            null,
+            'test',
+            new Source('test', code),
+            [],
+            DefaultLocale,
+        );
+        const block = project.getMain().expression.expression;
+        const added = block.withStatement(
+            Evaluate.make(Reference.make('💬'), [TextLiteral.make('hello')]),
+        );
+        expect(
+            project
+                .withRevisedNodes([[block, added]])
+                .getMain()
+                .toWordplay(),
+        ).toBe(`¶a doc¶\nPhrase('hi')\n💬('hello')`);
+    });
+});

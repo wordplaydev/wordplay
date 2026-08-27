@@ -1549,6 +1549,16 @@ While we've generally alluded to how Wordplay programs evaluate through examples
     - The evaluator evaluated too many steps within a single function
     - The evaluator evaluated too many functions (stack overflow)
 
+## What a program shows
+
+A program evaluates to one value, or to a list of them when it has more than one non-`Bind` result expression. That value becomes what is shown:
+
+- A `Stage` is shown as itself.
+- Any other single output — a `Phrase`, `Group`, `Shape`, `Say`, or `Music` — is placed on a default `Stage`.
+- A **list** is placed on one `Stage`, in source order, each element a direct child of it. If the list contains a `Stage`, that one is the stage — it names the background, frame, camera, and gravity, which nothing else in the list can — and everything else in the list joins its content. Values that aren't output at all are dropped.
+
+Every child of the stage is placed where its own `place` says, and a child with no `place` is centred. Several placeless outputs therefore land on top of one another, which is what `place` is for. Nothing is grouped implicitly: a `Group` appears only where a program writes one, so a program's output is never given an arrangement it did not ask for, is never shifted by one, and every top-level output takes part in the stage's physical world (see Collision above, which excludes only what is inside a `Group`).
+
 ## Stage camera
 
 A `Stage`'s optional `place` (`📍|ø`, defaulting to `ø`) is a camera rather than a position: it says where the stage is viewed from, and its `z` is the zoom, since output is scaled by its distance in front of the focus. Its `x` is negated relative to output places, so a camera moving right slides the world left.

@@ -3657,19 +3657,19 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Aku bisa mengambil sebuah daftar, lalu membuat daftar baru dengan nilai-nilainya yang sudah diurutkan. Contohnya begini:",
+                        "$~Saya bisa mengambil sebuah daftar, dan membuat daftar baru dengan nilai-nilainya yang sudah diurutkan. Seperti ini:",
                         "\\[1 5 8 0 2].diurutkan()\\",
-                        "Aku juga bisa melakukannya untuk nilai @Text, dalam urutan abjad. Huruf kapital diurutkan berdampingan dengan huruf kecilnya, jadi sebuah kata tidak diletakkan di akhir hanya karena diawali huruf kapital:",
+                        "Saya juga bisa melakukannya untuk nilai @Text, dalam urutan abjad. Huruf besar diurutkan tepat di sebelah huruf kecilnya, jadi sebuah kata tidak diletakkan di akhir hanya karena diawali huruf besar:",
                         "\\['Jeruk' 'kiwi' 'Pisang' 'apel'].diurutkan()\\",
-                        "Dan jika kamu punya daftar nilai yang bukan @Number atau @Text, kamu bisa memberiku @FunctionDefinition yang mengubah tiap item menjadi @Number atau @Text agar aku bisa mengurutkannya. Sebagai contoh, di sini kita punya daftar berisi daftar-daftar dengan panjang berbeda; jika kamu memberiku fungsi yang mengubah tiap daftar menjadi panjangnya, aku bisa mengurutkannya berdasarkan panjang itu.",
-                        "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar2) daftar2.panjang()\n)\\",
-                        "Sebuah fungsi yang membuat @Text adalah cara mengurutkan berdasarkan kata yang kamu hitung, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama2•'') (nama2 ÷ ' ').terakhir()\n)\\"
+                        "Dan jika kamu punya daftar berisi nilai yang bukan @Number atau @Text, kamu bisa memberi saya sebuah @FunctionDefinition yang mengubah setiap unsur menjadi @Number atau @Text agar saya bisa mengurutkannya. Misalnya, di sini kita punya daftar berisi beberapa daftar dengan panjang berbeda-beda; jika kamu memberi saya sebuah fungsi yang mengubah setiap daftar menjadi panjangnya, saya bisa mengurutkannya berdasarkan panjang tersebut.",
+                        "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar3) daftar3.panjang()\n)\\",
+                        "Sebuah fungsi yang menghasilkan @Text adalah cara untuk mengurutkan berdasarkan kata yang kamu hitung, bukan berdasarkan nilai itu sendiri. Di sini saya mengurutkan nama berdasarkan nama terakhirnya:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama3•'') (nama3 ÷ ' ').terakhir()\n)\\"
                     ],
                     "names": "$~diurutkan",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opsional yang digunakan untuk mengurutkan sebuah daftar @value. Ini harus mengubah nilai tersebut menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar itu.",
+                            "doc": "$~@FunctionDefinition pilihan yang digunakan untuk mengurutkan sebuah daftar @value. Fungsi ini harus mengubah nilai menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar.",
                             "names": "$~pengurut"
                         }
                     ],
@@ -5381,7 +5381,7 @@
                 "names": "$~dapatdipilih"
             },
             "color": {
-                "doc": "$~Warna tepian saya.",
+                "doc": "$~Warna saya. Saya diisi dengan warna ini, kecuali saya punya latar belakang, maka warna ini akan mewarnai batas saya.",
                 "names": "$~warna"
             },
             "background": {
@@ -7829,12 +7829,22 @@
                 "show": "$~tampilkan semuanya"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
-            }
+                "anchors": [
+                    "$~tengah horizontal",
+                    "$~tepi kiri",
+                    "$~tepi kanan",
+                    "$~tengah vertikal",
+                    "$~tepi bawah",
+                    "$~tepi atas",
+                    "$~garis dasar"
+                ],
+                "withOutput": "$~$anchor dengan $target milik $targetAnchor",
+                "withGrid": "$~$anchor pada kisi",
+                "aligned": "$~$constraints, di $place",
+                "none": "$~tidak ada yang bisa disejajarkan dengan $direction"
+            },
+            "removed": "$~$#count[$#count keluaran dihapus]",
+            "notRemovable": "$~yang tidak bisa dihapus sendiri"
         },
         "timeline": {
             "slider": "$~penggeser waktu",
@@ -8717,11 +8727,7 @@
                 "down": "$~pindahkan konten ini ke bawah",
                 "edit": "$~Edit konten ini",
                 "sequence": "$~konversi ke Urutan",
-                "createPhrase": "$~Buat Frasa, yang menampilkan nilai yang ada sebagai teks.",
-                "createGroup": "$~Buat Grup, yang membungkus Frasa yang sudah ada.",
-                "createStage": "$~Buat Tahap, yang membungkus Grup atau Frasa yang sudah ada.",
                 "editMode": "$~beralih ke mode ubah",
-                "createMusic": "$~tambahkan @Music ke program",
                 "previousTrack": "$~tampilkan @Track sebelumnya",
                 "nextTrack": "$~tampilkan @Track berikutnya",
                 "addTrack": "$~tambahkan @Track",
@@ -8739,15 +8745,9 @@
                 "rewind": "$~kembali ke awal"
             },
             "prompt": {
-                "offerPhrase": "$~Apakah saya perlu membungkus nilai ini dengan @Phrase ?",
-                "offerGroup": "$~Apakah saya perlu membungkus konten ini dalam @Group , agar Anda dapat mengaturnya?",
-                "offerStage": "$~Apakah saya perlu membungkus konten ini dalam @Stage , agar Anda dapat mengontrol pencahayaan, warna, dan frame?",
-                "select": "$~Untuk menyunting, pilih 💬, 🔳, ⬟, atau 🎭 di dalam kode, atau pilih output pada @Stage.",
+                "select": "$~Untuk mengubah sesuatu, pilih di kode kamu atau di @Stage. Untuk menambah sesuatu yang baru, gunakan tombol + di atas.",
                 "editing": "$~Edit saya!",
-                "offerShape": "$~Apakah saya perlu membungkus @Form ini dengan @Shape agar dapat ditampilkan di @Stage ?",
-                "offerNothing": "$~Belum ada apa-apa di sini! Haruskah saya menambahkan @Phrase untuk memulainya?",
-                "readonly": "$~Nilai-nilai ini *hanya dapat dibaca* dalam mode ini. Beralih ke mode ✏️ *ubah* untuk mengubahnya.",
-                "offerMusic": "$~Ingin menambahkan @Music? Aku bisa memulaimu dengan beberapa nada untuk dimainkan."
+                "readonly": "$~Nilai-nilai ini *hanya dapat dibaca* dalam mode ini. Beralih ke mode ✏️ *ubah* untuk mengubahnya."
             },
             "field": {
                 "coordinate": "$~edit koordinat",
@@ -8845,6 +8845,23 @@
                 },
                 "report": "$~Apa yang kuimpor",
                 "reportExplanation": "$~Sebuah @Music dapat menyimpan sebagian besar hal yang dijelaskan berkas MIDI, tetapi tidak semuanya. Inilah yang berubah saat masuk."
+            },
+            "toolbar": {
+                "label": "$~tambah keluaran",
+                "addPhrase": "$~tambah sebuah frasa",
+                "wrapPhrase": "$~tampilkan nilai ini sebagai frasa",
+                "addRectangle": "$~tambah sebuah bentuk persegi panjang",
+                "addCircle": "$~tambahkan bentuk bulat",
+                "addPolygon": "$~tambahkan bentuk bersisi banyak",
+                "wrapForm": "$~tampilkan bentuk ini di panggung dengan membungkusnya dalam sebuah bentuk",
+                "group": "$~kumpulkan apa yang kamu pilih menjadi satu kelompok",
+                "groupEmpty": "$~pilih beberapa output untuk mengumpulkannya menjadi satu kelompok",
+                "groupScattered": "$~kelompok hanya bisa mengumpulkan output yang berada di tempat yang sama",
+                "groupKind": "$~kelompok bisa berisi frasa, kelompok lain, ucapan, atau musik, tetapi tidak bisa berisi bentuk atau panggung",
+                "addStage": "$~bungkus semuanya dalam sebuah panggung, supaya kamu bisa mengatur pencahayaan, warna, dan bingkai",
+                "stageExists": "$~sudah ada panggung",
+                "addMusic": "$~tambahkan musik, mulai dengan beberapa nada untuk dicoba",
+                "addSay": "$~tambahkan ucapan, yaitu suara yang diucapkan dengan keras"
             }
         },
         "save": {

@@ -967,6 +967,10 @@ type UITexts = {
         allSelected: Template<['count']>;
         /** [plain] Announced when the selection is cleared */
         cleared: string;
+        /** [plain] Announced when selected output is deleted from the program. $#count is how many went. */
+        removed: Template<['#count']>;
+        /** [plain] Announced when selected output can't be deleted, because it isn't something the program can do without */
+        notRemovable: string;
         /** [plain] Announced when an output moved on stage. $name is the output, $direction is which way it went, $place is where it landed. */
         moved: Template<['name', 'direction', 'place']>;
         /** [plain] The eight directions an output can move, starting at up and proceeding clockwise: up, up and right, right, down and right, down, down and left, left, up and left. */
@@ -1331,14 +1335,6 @@ type UITexts = {
             edit: string;
             /** [plain] Convert a pose to a sequence */
             sequence: string;
-            /** [plain] The button that creates a phrase when there is none */
-            createPhrase: string;
-            /** [plain] The button that creates a group when there is none */
-            createGroup: string;
-            /** [plain] The button that creates a stage when there is none */
-            createStage: string;
-            /** [plain] The button that adds music to the program */
-            createMusic: string;
             /** [plain] The button that shows the previous track of a music */
             previousTrack: string;
             /** [plain] The button that shows the next track of a music */
@@ -1372,19 +1368,40 @@ type UITexts = {
             /** [plain] The button in the palette's read-only prompt that switches to edit mode */
             editMode: string;
         };
+        /** The row of buttons at the top of the palette that add output */
+        toolbar: {
+            /** [plain] The ARIA label for the row of buttons that add output */
+            label: string;
+            /** [plain] The button that adds a @Phrase */
+            addPhrase: string;
+            /** [plain] The button that adds a @Phrase, when it will show the program's existing value as text instead */
+            wrapPhrase: string;
+            /** [plain] The button that adds a @Shape shaped like a rectangle */
+            addRectangle: string;
+            /** [plain] The button that adds a @Shape shaped like a circle */
+            addCircle: string;
+            /** [plain] The button that adds a @Shape shaped like a polygon */
+            addPolygon: string;
+            /** [plain] A shape button, when it will show the @Form the program already has instead of adding a new one */
+            wrapForm: string;
+            /** [plain] The button that collects the selected output into a @Group */
+            group: string;
+            /** [plain] The group button, when nothing is selected to group */
+            groupEmpty: string;
+            /** [plain] The group button, when the selected output is in more than one place */
+            groupScattered: string;
+            /** [plain] The group button, when something selected is not allowed inside a @Group */
+            groupKind: string;
+            /** [plain] The button that wraps everything in a @Stage */
+            addStage: string;
+            /** [plain] The stage button, when there is already a @Stage */
+            stageExists: string;
+            /** [plain] The button that adds @Music */
+            addMusic: string;
+            /** [plain] The button that adds a @Say */
+            addSay: string;
+        };
         prompt: {
-            /** [formatted] The text offering to create a phrase in the palette without a stage */
-            offerPhrase: FormattedText;
-            /** [formatted] The text offering to create a group in the palette without a stage */
-            offerGroup: FormattedText;
-            /** [formatted] The text offering to create a stage in the palette without a stage */
-            offerStage: FormattedText;
-            /** [formatted] The text offering to wrap a form in a shape, or create a shape, in the palette */
-            offerShape: FormattedText;
-            /** [formatted] The text offering to add a placeholder phrase when the program has no output */
-            offerNothing: FormattedText;
-            /** [formatted] The text offering to add music to the program */
-            offerMusic: FormattedText;
             /** [formatted] Prompt if no selection */
             select: FormattedText;
             /** [formatted] The text prompting the creator to edit the selected output */

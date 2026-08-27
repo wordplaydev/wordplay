@@ -1,7 +1,7 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NameText } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { BasisTypeSymbols } from '@parser/Symbols';
+import { BasisTypeSymbols, SymbolNameRegEx } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
 import { EmojiTestRegex } from '@unicode/emoji';
 
@@ -42,23 +42,36 @@ const CONCEPT_NAME = {
 /** The set of valid concept-term ids; an invalid id is a compile error. */
 export type ConceptTermId = keyof typeof CONCEPT_NAME;
 
-/** Mirrors `Name.isSymbolic()` (operator | emoji | basis-type delimiter) with
- *  pure parser/unicode checks. We deliberately avoid `@nodes/Name`/`Names` here:
- *  importing the nodes graph from this locale helper pulls in `Evaluate` → the
- *  values graph, forming an init-order cycle with `ExceptionValue` (a base value
- *  class whose `getDescription` calls `getConceptName`). */
+/** Mirrors `Name.isSymbolic()` (operator | emoji | any other Unicode symbol |
+ *  basis-type delimiter) with pure parser/unicode checks. We deliberately avoid
+ *  `@nodes/Name`/`Names` here: importing the nodes graph from this locale helper
+ *  pulls in `Evaluate` → the values graph, forming an init-order cycle with
+ *  `ExceptionValue` (a base value class whose `getDescription` calls
+ *  `getConceptName`). The `SymbolNameRegEx` clause is shared with `Name` rather
+ *  than restated, because omitting it here is what let `⬟` (Shape), `♪` (Note),
+ *  and `▦` (Grid) pass as words — they are `So` but not `Extended_Pictographic`,
+ *  so the emoji test alone misses them. */
 function isSymbolicName(name: string): boolean {
     return (
         OperatorRegEx.test(name) ||
         EmojiTestRegex.test(name) ||
+        SymbolNameRegEx.test(name) ||
         BasisTypeSymbols.has(name)
     );
 }
 
-/** Pick a readable name from a NameText: prefer a non-symbolic name, then fall
- *  back to the first (symbolic) name — never the developer-facing id, which
- *  `getConceptName` only uses when there are no written names. */
-function pickConceptName(name: NameText): string | undefined {
+/**
+ * Pick a readable name from a NameText: prefer a non-symbolic name, then fall
+ * back to the first (symbolic) name — never the developer-facing id, which
+ * `getConceptName` only uses when there are no written names.
+ *
+ * Exported because anything *spoken* has the same need. A locale lists a type's
+ * emoji first (`["🔳", "Group"]`), so reading `names[0]` hands a screen reader
+ * the glyph — VoiceOver says "white square button" where the creator meant
+ * "group". Anything building a description from a locale's `names` should come
+ * through here rather than `getFirstText`.
+ */
+export function pickReadableName(name: NameText): string | undefined {
     const names = (Array.isArray(name) ? name : [name])
         .map((n) => withoutAnnotations(n))
         .filter((n) => n !== '');
@@ -74,5 +87,5 @@ export default function getConceptName(
     locale: LocaleText,
     id: ConceptTermId,
 ): string {
-    return pickConceptName(CONCEPT_NAME[id](locale)) ?? id;
+    return pickReadableName(CONCEPT_NAME[id](locale)) ?? id;
 }

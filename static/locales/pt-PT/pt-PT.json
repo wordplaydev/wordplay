@@ -3651,14 +3651,14 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Consigo pegar numa lista, e fazer uma nova lista com os seus valores ordenados. Assim:",
+                        "$~Eu consigo pegar numa lista, e criar uma nova lista com os seus valores ordenados. Assim:",
                         "\\[1 5 8 0 2].ordenado()\\",
-                        "Também consigo fazer isto para valores @Text, por ordem alfabética. Uma letra maiúscula ordena-se junto à sua minúscula, para que uma palavra não seja enviada para o fim só por começar com maiúscula:",
-                        "\\['Laranja' 'quivi' 'Banana' 'maçã'].ordenado()\\",
-                        "E se tiver uma lista de valores que não são @Number ou @Text, pode dar-me um @FunctionDefinition que transforma cada elemento num @Number ou num @Text, para que eu o possa ordenar. Por exemplo, aqui temos uma lista de listas de comprimentos diferentes; se me der uma função que transforma cada lista no seu comprimento, consigo ordená-las pelo comprimento.",
-                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista2) lista2.comprimento()\n)\\",
-                        "Uma função que produz @Text é a forma de ordenar por uma palavra que se calcula, em vez de pelo próprio valor. Aqui ordeno nomes pelo último:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nome2•'') (nome2 ÷ ' ').último()\n)\\"
+                        "Também consigo fazer isto para valores @Text, por ordem alfabética. Uma letra maiúscula fica ordenada ao lado da sua versão minúscula, por isso uma palavra não vai parar ao fim só por começar com maiúscula:",
+                        "\\['Laranja' 'kiwi' 'Banana' 'maçã'].ordenado()\\",
+                        "E se tiver uma lista de valores que não são @Number nem @Text, pode dar-me um @FunctionDefinition que transforma cada item num @Number ou num @Text para que eu consiga ordená-lo. Por exemplo, aqui temos uma lista de listas de comprimentos diferentes; se me der uma função que transforma cada lista no seu comprimento, consigo ordená-las por esse comprimento.",
+                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista3) lista3.comprimento()\n)\\",
+                        "Uma função que cria @Text é a forma de ordenar por uma palavra que calcula, em vez de pelo próprio valor. Aqui ordeno nomes pelo último:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nome3•'') (nome3 ÷ ' ').último()\n)\\"
                     ],
                     "names": "ordenado",
                     "inputs": [
@@ -5370,7 +5370,7 @@
                 "names": "selecionável"
             },
             "color": {
-                "doc": "A cor das minhas bordas.",
+                "doc": "$~A minha cor. Eu preencho-me com ela, a não ser que tenha um fundo, caso em que ela colore o meu contorno.",
                 "names": "cor"
             },
             "background": {
@@ -7816,12 +7816,22 @@
                 "show": "$~mostrar tudo"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
-            }
+                "anchors": [
+                    "$~centro horizontal",
+                    "$~margem esquerda",
+                    "$~margem direita",
+                    "$~centro vertical",
+                    "$~margem inferior",
+                    "$~margem superior",
+                    "$~linha de base"
+                ],
+                "withOutput": "$~$anchor com $target de $targetAnchor",
+                "withGrid": "$~$anchor na grelha",
+                "aligned": "$~$constraints, em $place",
+                "none": "$~nada para alinhar com $direction"
+            },
+            "removed": "$~$#count[$#count resultado eliminado|$#count resultados eliminados|$#count resultados eliminados]",
+            "notRemovable": "$~que não pode ser eliminado sozinho"
         },
         "timeline": {
             "slider": "controle deslizante de tempo",
@@ -8696,11 +8706,7 @@
                 "down": "Desloque este conteúdo para baixo.",
                 "edit": "editar este conteúdo",
                 "sequence": "Converter para sequência",
-                "createPhrase": "Criar uma frase, apresentando o valor existente como texto.",
-                "createGroup": "Criar um grupo que envolva qualquer frase existente.",
-                "createStage": "Criar um Palco, envolvendo qualquer Grupo ou Frase existente.",
                 "editMode": "$~mudar para o modo de edição",
-                "createMusic": "$~adicionar @Music ao programa",
                 "previousTrack": "$~mostrar o @Track anterior",
                 "nextTrack": "$~mostrar o próximo @Track",
                 "addTrack": "$~adicionar um @Track",
@@ -8718,15 +8724,9 @@
                 "rewind": "$~voltar ao início"
             },
             "prompt": {
-                "offerPhrase": "$~Devo envolver este valor numa @Phrase ?",
-                "offerGroup": "$~Devo envolver este conteúdo num @Group para que o possa organizar?",
-                "offerStage": "$~Devo envolver este conteúdo num @Stage para que possa controlar a iluminação, a cor e os enquadramentos?",
-                "select": "$~Para editar, selecione um 💬, 🔳, ⬟ ou 🎭 no código, ou selecione a saída no @Stage.",
+                "select": "$~Para editar algo, selecione-o no seu código ou no @Stage. Para acrescentar algo novo, use os botões + acima.",
                 "editing": "Edite-me!",
-                "offerShape": "$~Devo envolver este @Form num @Shape para o exibir no @Stage ?",
-                "offerNothing": "$~Ainda não há nada aqui! Devo adicionar uma @Phrase para começar?",
-                "readonly": "$~Estes valores são *só de leitura* neste modo. Muda para o modo ✏️ *edição* para os alterar.",
-                "offerMusic": "$~Queres juntar @Music? Posso ajudar-te a começar com algumas notas para experimentares."
+                "readonly": "$~Estes valores são *só de leitura* neste modo. Muda para o modo ✏️ *edição* para os alterar."
             },
             "field": {
                 "coordinate": "editar coordenadas",
@@ -8824,6 +8824,23 @@
                 },
                 "report": "$~O que importei",
                 "reportExplanation": "$~Um @Music pode guardar quase tudo o que um ficheiro MIDI descreve, mas não tudo. Aqui está o que mudou durante a importação."
+            },
+            "toolbar": {
+                "label": "$~acrescentar resultado",
+                "addPhrase": "$~acrescentar uma frase",
+                "wrapPhrase": "$~mostrar este valor como frase",
+                "addRectangle": "$~acrescentar uma forma retangular",
+                "addCircle": "$~adicionar uma forma redonda",
+                "addPolygon": "$~adicionar uma forma com muitos lados",
+                "wrapForm": "$~mostrar esta forma no palco, envolvendo-a numa forma",
+                "group": "$~reunir o que selecionou num grupo",
+                "groupEmpty": "$~selecione algum resultado para o reunir num grupo",
+                "groupScattered": "$~um grupo só pode reunir resultados que estejam no mesmo lugar",
+                "groupKind": "$~um grupo pode conter uma frase, um grupo, uma fala ou música, mas não uma forma ou o palco",
+                "addStage": "$~envolver tudo num palco, para poder controlar a luz, a cor e os fotogramas",
+                "stageExists": "$~já existe um palco",
+                "addMusic": "$~adicionar música, começando com algumas notas para experimentar",
+                "addSay": "$~adicionar fala, que é dita em voz alta"
             }
         },
         "save": {

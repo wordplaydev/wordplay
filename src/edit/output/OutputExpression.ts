@@ -17,6 +17,7 @@ import type OutputProperty from '@edit/output/OutputProperty';
 import getPhraseProperties from '@edit/output/PhraseProperties';
 import getStageProperties from '@edit/output/StageProperties';
 import { getMusicProperties } from '@edit/output/MusicProperties';
+import getSayProperties from '@edit/output/SayProperties';
 import { isAnimation } from '@output/animation/Sequence';
 
 /**
@@ -77,6 +78,7 @@ export default class OutputExpression {
                 fun === this.project.shares.output.Group ||
                 fun === this.project.shares.output.Phrase ||
                 fun === this.project.shares.output.Shape ||
+                fun === this.project.shares.output.Say ||
                 fun === this.project.shares.output.Pose ||
                 fun === this.project.shares.output.Sequence ||
                 fun === this.project.shares.output.Music)
@@ -109,9 +111,11 @@ export default class OutputExpression {
                           ? getStageProperties(this.project, locales)
                           : type === this.project.shares.output.Shape
                             ? getShapeProperties(this.project, locales)
-                            : type === this.project.shares.output.Music
-                              ? getMusicProperties(this.project, locales)
-                              : []),
+                            : type === this.project.shares.output.Say
+                              ? getSayProperties(this.project, locales)
+                              : type === this.project.shares.output.Music
+                                ? getMusicProperties(this.project, locales)
+                                : []),
               ];
     }
 

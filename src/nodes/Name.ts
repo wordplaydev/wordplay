@@ -6,7 +6,12 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { type SymType } from '@nodes/Sym';
 import { ExpressionStartKeywordSyms } from '@parser/Keywords';
-import { BasisTypeSymbols, COMMA_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
+import {
+    BasisTypeSymbols,
+    COMMA_SYMBOL,
+    NOT_SYMBOL,
+    SymbolNameRegEx,
+} from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
 import { EmojiTestRegex } from '@unicode/emoji';
 import { Purpose } from '@concepts/Purpose';
@@ -21,9 +26,6 @@ import type { Grammar, Replacement } from '@nodes/Node';
 import Node, { node, optional } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
-
-/** A name made entirely of Unicode symbols, with no letters or digits. */
-const SymbolNameRegEx = /^\p{S}+$/u;
 
 export default class Name extends LanguageTagged {
     readonly name: Token;

@@ -3656,23 +3656,23 @@
                     "doc": [
                         "$~Ich kann eine Liste nehmen und eine neue Liste mit sortierten Werten machen. So geht das:",
                         "\\[1 5 8 0 2].sortiert()\\",
-                        "Ich kann das auch für @Text-Werte tun, in alphabetischer Reihenfolge. Ein Großbuchstabe wird neben seinen Kleinbuchstaben einsortiert, sodass ein Wort nicht nur deshalb ans Ende rutscht, weil es großgeschrieben ist:",
+                        "Ich kann das auch für @Text Werte machen, in alphabetischer Reihenfolge. Ein Großbuchstabe wird direkt neben seinem Kleinbuchstaben einsortiert, damit ein Wort nicht nur wegen eines großen Anfangsbuchstabens ans Ende rutscht:",
                         "\\['Orange' 'Kiwi' 'Banane' 'Apfel'].sortiert()\\",
-                        "Und wenn du eine Liste von Werten hast, die nicht @Number oder @Text sind, kannst du mir ein @FunctionDefinition geben, das jeden Eintrag in ein @Number oder ein @Text umwandelt, damit ich es sortieren kann. Zum Beispiel haben wir hier eine Liste von Listen mit unterschiedlichen Längen. Wenn du mir eine Funktion gibst, die jede Liste in ihre Länge umwandelt, kann ich nach der Länge sortieren.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste2) liste2.Länge())\\",
-                        "Eine Funktion, die @Text erzeugt, ist der Weg, um nach einem berechneten Wort zu sortieren, statt nach dem Wert selbst. Hier sortiere ich Namen nach dem Nachnamen:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortiert(\n\tƒ(name2•'') (name2 ÷ ' ').zuletzt()\n)\\"
+                        "Und wenn du eine Liste mit Werten hast, die weder @Number noch @Text sind, kannst du mir ein @FunctionDefinition geben, das jedes Element in ein @Number oder ein @Text verwandelt, damit ich es sortieren kann. Hier ist zum Beispiel eine Liste von Listen mit verschiedenen Längen. Wenn du mir eine Funktion gibst, die jede Liste in ihre Länge verwandelt, kann ich nach der Länge sortieren.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste) liste.Länge())\\",
+                        "Eine Funktion, die @Text erzeugt, ist der Weg, um nach einem selbst berechneten Wort zu sortieren, statt nach dem Wert selbst. Hier sortiere ich Namen nach dem Nachnamen:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortiert(\n\tƒ(name3•'') (name3 ÷ ' ').zuletzt()\n)\\"
                     ],
                     "names": "$~sortiert",
                     "inputs": [
                         {
-                            "doc": "$~Das optionale @FunctionDefinition, mit dem eine Liste @value sortiert wird. Es sollte den Wert in ein @Number oder ein @Text umwandeln, das zum Sortieren der Liste verwendet werden kann.",
+                            "doc": "$~Das optionale @FunctionDefinition, um eine Liste @value zu sortieren. Es sollte den Wert in ein @Number oder ein @Text verwandeln, das zum Sortieren der Liste verwendet werden kann.",
                             "names": "$~Sequenzer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Das @value, das in ein @Number oder ein @Text umgewandelt werden soll.",
+                            "doc": "$~Das @value, das in ein @Number oder ein @Text verwandelt werden soll.",
                             "names": "$~Wert"
                         }
                     ]
@@ -5477,7 +5477,7 @@
                 "names": "$~wählbar"
             },
             "color": {
-                "doc": "$~Die Farbe meiner Ränder.",
+                "doc": "$~Meine Farbe. Ich fülle mich damit, außer ich habe einen Hintergrund. Dann färbt sie meinen Rand.",
                 "names": "$~Farbe"
             },
             "background": {
@@ -7569,12 +7569,22 @@
                 "show": "$~Alles anzeigen"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
-            }
+                "anchors": [
+                    "$~horizontale Mitte",
+                    "$~linker Rand",
+                    "$~rechter Rand",
+                    "$~vertikale Mitte",
+                    "$~unterer Rand",
+                    "$~oberer Rand",
+                    "$~Grundlinie"
+                ],
+                "withOutput": "$~$anchor mit $target's $targetAnchor",
+                "withGrid": "$~$anchor im Gitter",
+                "aligned": "$~$constraints, bei $place",
+                "none": "$~nichts zum Ausrichten mit $direction"
+            },
+            "removed": "$~$#count[$#count Ausgabe gelöscht|$#count Ausgaben gelöscht]",
+            "notRemovable": "$~das nicht allein gelöscht werden kann"
         },
         "timeline": {
             "slider": "$~Zeitschieberegler",
@@ -8366,11 +8376,7 @@
                 "down": "$~diesen Inhalt nach unten verschieben",
                 "edit": "$~diesen Inhalt bearbeiten",
                 "sequence": "$~in Sequenz umwandeln",
-                "createPhrase": "$~Erstellen Sie eine Phrase, die den vorhandenen Wert als Text anzeigt",
-                "createGroup": "$~Erstellen Sie eine Gruppe, die jede vorhandene Phrase umschließt",
-                "createStage": "$~Erstellen Sie eine Bühne, die eine vorhandene Gruppe oder Phrase umschließt",
                 "editMode": "$~in den Bearbeitungsmodus wechseln",
-                "createMusic": "$~ein @Music zum Programm hinzufügen",
                 "previousTrack": "$~das vorherige @Track zeigen",
                 "nextTrack": "$~das nächste @Track zeigen",
                 "addTrack": "$~ein @Track hinzufügen",
@@ -8388,15 +8394,9 @@
                 "rewind": "$~zurück zum Anfang gehen"
             },
             "prompt": {
-                "offerPhrase": "$~Soll ich diesen Wert in eine @Phrase einbetten?",
-                "offerGroup": "$~Soll ich diesen Inhalt in eine @Group einbetten, damit Sie ihn anordnen können?",
-                "offerStage": "$~Soll ich diesen Inhalt in ein @Stage einbetten, damit Sie Beleuchtung, Farbe und Frames steuern können?",
                 "editing": "$~Bearbeite mich!",
-                "select": "$~Zum Bearbeiten wähle im Code ein 💬, 🔳, ⬟ oder 🎭 aus, oder wähle Output auf dem @Stage.",
-                "offerShape": "$~Soll ich dieses @Form in @Shape einbetten, um es auf @Stage anzuzeigen?",
-                "offerNothing": "$~Hier ist noch nichts! Soll ich eine @Phrase hinzufügen, um loszulegen?",
-                "readonly": "$~Diese Werte sind in diesem Modus *nur lesbar*. Wechsle in den ✏️ *Bearbeitungsmodus*, um sie zu ändern.",
-                "offerMusic": "$~Möchtest du @Music hinzufügen? Ich kann dir ein paar Noten zum Ausprobieren geben."
+                "select": "$~Um etwas zu bearbeiten, wähle es in deinem Code oder auf der @Stage aus. Um etwas Neues hinzuzufügen, nutze die +-Schaltflächen oben.",
+                "readonly": "$~Diese Werte sind in diesem Modus *nur lesbar*. Wechsle in den ✏️ *Bearbeitungsmodus*, um sie zu ändern."
             },
             "field": {
                 "coordinate": "$~Koordinate bearbeiten",
@@ -8494,6 +8494,23 @@
                 },
                 "report": "$~Was ich importiert habe",
                 "reportExplanation": "$~Ein @Music kann das meiste von dem festhalten, was eine MIDI-Datei beschreibt, aber nicht alles. Hier ist, was sich beim Einlesen geändert hat."
+            },
+            "toolbar": {
+                "label": "$~Ausgabe hinzufügen",
+                "addPhrase": "$~eine Phrase hinzufügen",
+                "wrapPhrase": "$~diesen Wert als Phrase anzeigen",
+                "addRectangle": "$~eine rechteckige Form hinzufügen",
+                "addCircle": "$~Füge eine runde Form hinzu",
+                "addPolygon": "$~Füge eine vieleckige Form hinzu",
+                "wrapForm": "$~Zeige diese Form auf der Bühne, indem du sie in eine Form einpackst",
+                "group": "$~Sammle deine Auswahl in einer Gruppe",
+                "groupEmpty": "$~Wähle etwas Output aus, um ihn in einer Gruppe zu sammeln",
+                "groupScattered": "$~Eine Gruppe kann nur Output sammeln, der am gleichen Ort ist",
+                "groupKind": "$~Eine Gruppe kann eine Phrase, eine Gruppe, Sprache oder Musik enthalten, aber keine Form und keine Bühne",
+                "addStage": "$~Packe alles in eine Bühne ein, damit du Beleuchtung, Farbe und Einzelbilder steuern kannst",
+                "stageExists": "$~Es gibt bereits eine Bühne",
+                "addMusic": "$~Füge Musik hinzu, beginnend mit ein paar Noten zum Ausprobieren",
+                "addSay": "$~Füge Sprache hinzu, die laut ausgesprochen wird"
             }
         },
         "save": {

@@ -5379,7 +5379,7 @@
                 "I'm an @Arrangement that lets each @Output sit wherever its @Place says. I'm like, whatever. Sit wherever you want! Just sit somewhere! Make sure all the @Output you give me have a @Place, otherwise they won't know where to go.",
                 "Oh, and remember that the @Place you give each @Output is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
             ],
-            "names": ["Free"],
+            "names": ["❖", "Free"],
             "description": "free-form $#count[$count output|$count outputs]"
         },
         "Shape": {
@@ -5404,7 +5404,7 @@
                 "names": "selectable"
             },
             "color": {
-                "doc": "The color of my borders.",
+                "doc": "My color. I fill with it, unless I have a background, in which case it colors my border.",
                 "names": "color"
             },
             "background": {
@@ -5873,7 +5873,7 @@
         },
         "Rectangle": {
             "doc": "I am a rectangle, useful for making @Stage have a boundary the size of your choosing.",
-            "names": ["Rectangle"],
+            "names": ["▭", "Rectangle"],
             "left": {
                 "doc": "The left edge of the stage on the x-axis",
                 "names": "left"
@@ -5897,7 +5897,7 @@
         },
         "Circle": {
             "doc": "I am a circle, useful for making shapes on @Stage.",
-            "names": ["Circle"],
+            "names": ["●", "Circle"],
             "radius": {
                 "doc": "The radius of the circle",
                 "names": "radius"
@@ -5917,7 +5917,7 @@
         },
         "Polygon": {
             "doc": "I am a 'regular' polygon with equal length sides and angles, useful for making shapes on @Stage.",
-            "names": ["Polygon"],
+            "names": ["⬢", "Polygon"],
             "radius": {
                 "doc": "The radius of the polygon",
                 "names": "radius"
@@ -7764,6 +7764,8 @@
             "deselected": "$name deselected, $count selected",
             "allSelected": "all outputs selected, $count selected",
             "cleared": "selection cleared",
+            "removed": "$#count[$#count output deleted|$#count outputs deleted]",
+            "notRemovable": "that can't be deleted on its own",
             "moved": "$name moved $direction to $place",
             "directions": [
                 "up",
@@ -8800,10 +8802,6 @@
                 "down": "move this content down",
                 "edit": "edit this content",
                 "sequence": "convert to Sequence",
-                "createPhrase": "create a Phrase, showing the existing value as text",
-                "createGroup": "create a Group, wrapping any existing Phrase",
-                "createStage": "create a Stage, wrapping any existing Group or Phrase",
-                "createMusic": "add @Music to the program",
                 "previousTrack": "show the previous @Track",
                 "nextTrack": "show the next @Track",
                 "addTrack": "add a @Track",
@@ -8821,14 +8819,25 @@
                 "unmakeChord": "reduce this chord to one note",
                 "editMode": "switch to edit mode"
             },
+            "toolbar": {
+                "label": "add output",
+                "addPhrase": "add a phrase",
+                "wrapPhrase": "show this value as a phrase",
+                "addRectangle": "add a rectangular shape",
+                "addCircle": "add a round shape",
+                "addPolygon": "add a many-sided shape",
+                "wrapForm": "show this form on stage by wrapping it in a shape",
+                "group": "collect what you selected into a group",
+                "groupEmpty": "select some output to collect it into a group",
+                "groupScattered": "a group can only collect output that is in the same place",
+                "groupKind": "a group can hold a phrase, a group, speech, or music, but not a shape or the stage",
+                "addStage": "wrap everything in a stage, so you can control lighting, color, and frames",
+                "stageExists": "there is already a stage",
+                "addMusic": "add music, starting with a few notes to play with",
+                "addSay": "add speech, which is spoken out loud"
+            },
             "prompt": {
-                "offerPhrase": "Shall I wrap this value in a @Phrase?",
-                "offerGroup": "Shall I wrap this content in a @Group, so you can arrange them?",
-                "offerStage": "Shall I wrap this content in a @Stage, so you can control lighting, color, and frames?",
-                "offerShape": "Shall I wrap this @Form in @Shape to show it on @Stage?",
-                "offerNothing": "Nothing here yet! Shall I add a @Phrase to get started?",
-                "offerMusic": "Want to add @Music? I can start you off with a few notes to play with.",
-                "select": "To edit, select a 💬, 🔳, ⬟, or 🎭 in code, or select output on the @Stage.",
+                "select": "To edit something, select it in your code or on the @Stage. To add something new, use the + buttons above.",
                 "editing": "Edit me!",
                 "readonly": "The palette is *read-only* in this mode. Switch to ✏️ *edit* mode to make changes."
             },

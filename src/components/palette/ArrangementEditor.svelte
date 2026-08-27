@@ -10,6 +10,7 @@
     import Evaluate from '@nodes/Evaluate';
     import Reference from '@nodes/Reference';
     import StructureDefinition from '@nodes/StructureDefinition';
+    import { withMonoEmoji } from '@unicode/emoji';
 
     interface Props {
         project: Project;
@@ -68,10 +69,17 @@
                 ? ''
                 : $locales.getName(values.values[0].bind.names)}
         value={selected}
-        width="8em"
+        width="10em"
         options={types.map((type) => ({
             value: type.names.getNames()[0],
-            label: type.names.getNames()[0],
+            // Glyph AND word, in one string rather than a rich snippet: on
+            // WebKit the snippet is never rendered and this string IS the
+            // option label. Mono, like every other glyph in the app's chrome,
+            // so the four options don't read as two coloured emoji, one
+            // black-and-white symbol, and a bare word.
+            label: `${withMonoEmoji(
+                type.names.getSymbolicName() ?? '',
+            )} ${type.names.getNonSymbolicName() ?? type.names.getNames()[0]}`,
         }))}
         change={changeType}
         {editable}

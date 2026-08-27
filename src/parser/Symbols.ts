@@ -214,6 +214,16 @@ export const BasisTypeSymbols = new Set<string>([
     FORMATTED_TYPE_SYMBOL, // `…`
 ]);
 
+/**
+ * A name made entirely of Unicode symbols, with no letters or digits. Not every
+ * such symbol is an emoji: `♪` (Note), `⬟` (Shape), and `▭` (Rectangle) are `So`
+ * but not `Extended_Pictographic`, so an emoji test alone misses them and they
+ * read as though they were words. Lives here beside `BasisTypeSymbols` so
+ * `Name.isSymbolic` and the locale-side mirror in `getConceptName` test the same
+ * thing — they drifted apart once already.
+ */
+export const SymbolNameRegEx = /^\p{S}+$/u;
+
 export const LOCALE_SYMBOL = withMonoEmoji(GLOBE1_SYMBOL);
 
 export const IDEA_SYMBOL = '💡';

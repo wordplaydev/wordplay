@@ -19935,6 +19935,10 @@
                                     "description": "[plain] Screen-reader instructions for selecting multiple outputs on stage with the keyboard",
                                     "type": "string"
                                 },
+                                "notRemovable": {
+                                    "description": "[plain] Announced when selected output can't be deleted, because it isn't something the program can do without",
+                                    "type": "string"
+                                },
                                 "options": {
                                     "additionalProperties": false,
                                     "properties": {
@@ -19983,6 +19987,10 @@
                                         "retry"
                                     ],
                                     "type": "object"
+                                },
+                                "removed": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                    "description": "[plain] Announced when selected output is deleted from the program. $#count is how many went."
                                 },
                                 "selected": {
                                     "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22count%22%5D%3E",
@@ -20175,6 +20183,8 @@
                                 "deselected",
                                 "allSelected",
                                 "cleared",
+                                "removed",
+                                "notRemovable",
                                 "moved",
                                 "directions",
                                 "closer",
@@ -23652,22 +23662,6 @@
                                             "description": "[plain] The button that removes every note from the track being shown",
                                             "type": "string"
                                         },
-                                        "createGroup": {
-                                            "description": "[plain] The button that creates a group when there is none",
-                                            "type": "string"
-                                        },
-                                        "createMusic": {
-                                            "description": "[plain] The button that adds music to the program",
-                                            "type": "string"
-                                        },
-                                        "createPhrase": {
-                                            "description": "[plain] The button that creates a phrase when there is none",
-                                            "type": "string"
-                                        },
-                                        "createStage": {
-                                            "description": "[plain] The button that creates a stage when there is none",
-                                            "type": "string"
-                                        },
                                         "down": {
                                             "description": "[plain] Move child down in list",
                                             "type": "string"
@@ -23766,10 +23760,6 @@
                                         "down",
                                         "edit",
                                         "sequence",
-                                        "createPhrase",
-                                        "createGroup",
-                                        "createStage",
-                                        "createMusic",
                                         "previousTrack",
                                         "nextTrack",
                                         "addTrack",
@@ -24101,30 +24091,6 @@
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] The text prompting the creator to edit the selected output"
                                         },
-                                        "offerGroup": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to create a group in the palette without a stage"
-                                        },
-                                        "offerMusic": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to add music to the program"
-                                        },
-                                        "offerNothing": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to add a placeholder phrase when the program has no output"
-                                        },
-                                        "offerPhrase": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to create a phrase in the palette without a stage"
-                                        },
-                                        "offerShape": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to wrap a form in a shape, or create a shape, in the palette"
-                                        },
-                                        "offerStage": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to create a stage in the palette without a stage"
-                                        },
                                         "readonly": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] Shown at the top of the palette in step and play modes, explaining that values are read-only"
@@ -24135,12 +24101,6 @@
                                         }
                                     },
                                     "required": [
-                                        "offerPhrase",
-                                        "offerGroup",
-                                        "offerStage",
-                                        "offerShape",
-                                        "offerNothing",
-                                        "offerMusic",
                                         "select",
                                         "editing",
                                         "readonly"
@@ -24212,6 +24172,90 @@
                                     "required": ["button", "field", "preset"],
                                     "type": "object"
                                 },
+                                "toolbar": {
+                                    "additionalProperties": false,
+                                    "description": "The row of buttons at the top of the palette that add output",
+                                    "properties": {
+                                        "addCircle": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addMusic": {
+                                            "description": "[plain] The button that adds",
+                                            "type": "string"
+                                        },
+                                        "addPhrase": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addPolygon": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addRectangle": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addSay": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addStage": {
+                                            "description": "[plain] The button that wraps everything in a",
+                                            "type": "string"
+                                        },
+                                        "group": {
+                                            "description": "[plain] The button that collects the selected output into a",
+                                            "type": "string"
+                                        },
+                                        "groupEmpty": {
+                                            "description": "[plain] The group button, when nothing is selected to group",
+                                            "type": "string"
+                                        },
+                                        "groupKind": {
+                                            "description": "[plain] The group button, when something selected is not allowed inside a",
+                                            "type": "string"
+                                        },
+                                        "groupScattered": {
+                                            "description": "[plain] The group button, when the selected output is in more than one place",
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "description": "[plain] The ARIA label for the row of buttons that add output",
+                                            "type": "string"
+                                        },
+                                        "stageExists": {
+                                            "description": "[plain] The stage button, when there is already a",
+                                            "type": "string"
+                                        },
+                                        "wrapForm": {
+                                            "description": "[plain] A shape button, when it will show the",
+                                            "type": "string"
+                                        },
+                                        "wrapPhrase": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "label",
+                                        "addPhrase",
+                                        "wrapPhrase",
+                                        "addRectangle",
+                                        "addCircle",
+                                        "addPolygon",
+                                        "wrapForm",
+                                        "group",
+                                        "groupEmpty",
+                                        "groupScattered",
+                                        "groupKind",
+                                        "addStage",
+                                        "stageExists",
+                                        "addMusic",
+                                        "addSay"
+                                    ],
+                                    "type": "object"
+                                },
                                 "tour": {
                                     "additionalProperties": false,
                                     "description": "Interactive tour explaining the palette tile",
@@ -24261,6 +24305,7 @@
                                 "label",
                                 "labels",
                                 "button",
+                                "toolbar",
                                 "prompt",
                                 "music",
                                 "field",

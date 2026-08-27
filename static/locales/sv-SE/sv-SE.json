@@ -3649,14 +3649,14 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Jag kan ta en lista och göra en ny lista med dess värden sorterade. Så här:",
+                        "$~Jag kan ta en lista och göra en ny lista med värdena sorterade. Så här:",
                         "\\[1 5 8 0 2].sorterad()\\",
-                        "Jag kan också göra det för @Text-värden, i bokstavsordning. En stor bokstav sorteras bredvid sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
+                        "Jag kan också göra det för @Text värden, i bokstavsordning. En stor bokstav sorteras bredvid sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
                         "\\['Apelsin' 'kiwi' 'Banan' 'äpple'].sorterad()\\",
-                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör om varje element till en @Number eller en @Text så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd. Om du ger mig en funktion som gör om varje lista till dess längd, kan jag sortera efter längden.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista2) lista2.längd())\\",
-                        "En funktion som ger @Text är hur du sorterar efter ett ord du räknar ut, istället för efter själva värdet. Här sorterar jag namn efter efternamnet:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn2•'') (namn2 ÷ ' ').sista()\n)\\"
+                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör om varje del till en @Number eller en @Text, så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd. Om du ger mig en funktion som gör om varje lista till dess längd, kan jag sortera efter längden.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista3) lista3.längd())\\",
+                        "En funktion som skapar @Text är ett sätt att sortera efter ett ord du räknar ut, i stället för efter själva värdet. Här sorterar jag namn efter efternamnet:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn3•'') (namn3 ÷ ' ').sista()\n)\\"
                     ],
                     "names": "$~sorterad",
                     "inputs": [
@@ -3667,7 +3667,7 @@
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value som ska göras om till en @Number eller en @Text.",
+                            "doc": "$~Det @value som ska göras om till en @Number eller en @Text.",
                             "names": "$~värde"
                         }
                     ]
@@ -5360,7 +5360,7 @@
                 "names": "$~valbara"
             },
             "color": {
-                "doc": "$~Färgen på mina bårder.",
+                "doc": "$~Min färg. Jag fylls med den, om jag inte har en bakgrund. Då färgar den istället min kant.",
                 "names": "$~färg"
             },
             "background": {
@@ -7573,12 +7573,22 @@
                 "show": "$~visa allt"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
-            }
+                "anchors": [
+                    "$~horisontell mitt",
+                    "$~vänsterkant",
+                    "$~högerkant",
+                    "$~vertikal mitt",
+                    "$~nederkant",
+                    "$~överkant",
+                    "$~baslinje"
+                ],
+                "withOutput": "$~$anchor med $target's $targetAnchor",
+                "withGrid": "$~$anchor på rutnätet",
+                "aligned": "$~$constraints, vid $place",
+                "none": "$~inget att rikta in med $direction"
+            },
+            "removed": "$~$#count[$#count utdata borttagen|$#count utdata borttagna]",
+            "notRemovable": "$~som inte kan tas bort på egen hand"
         },
         "timeline": {
             "slider": "$~tidsreglaget",
@@ -8450,11 +8460,7 @@
                 "down": "$~flytta detta innehåll nedåt",
                 "edit": "$~redigera detta innehåll",
                 "sequence": "$~konvertera till Sequence",
-                "createPhrase": "$~skapa en fras som visar det befintliga värdet som text",
-                "createGroup": "$~skapa en grupp och slå in alla befintliga fraser",
-                "createStage": "$~skapa en scen, linda en befintlig grupp eller fras",
                 "editMode": "$~byt till redigeringsläge",
-                "createMusic": "$~lägg till @Music i programmet",
                 "previousTrack": "$~visa den föregående @Track",
                 "nextTrack": "$~visa nästa @Track",
                 "addTrack": "$~lägg till en @Track",
@@ -8472,15 +8478,9 @@
                 "rewind": "$~gå tillbaka till början"
             },
             "prompt": {
-                "offerPhrase": "$~Ska jag slå in det här värdet i en @Phrase ?",
-                "offerGroup": "$~Ska jag slå in det här innehållet i en @Group så att du kan ordna det?",
-                "offerStage": "$~Ska jag lägga in det här innehållet i en @Stage så att du kan styra ljussättning, färg och ramar?",
                 "editing": "$~Redigera mig!",
-                "select": "$~För att redigera, välj en 💬, 🔳, ⬟ eller 🎭 i koden, eller välj utdata på @Stage.",
-                "offerShape": "$~Ska jag linda in denna @Form i @Shape för att visa den på @Stage ?",
-                "offerNothing": "$~Inget här än! Ska jag lägga till en @Phrase för att komma igång?",
-                "readonly": "$~Dessa värden är *skrivskyddade* i det här läget. Byt till ✏️ *redigeringsläge* för att ändra dem.",
-                "offerMusic": "$~Vill du lägga till @Music? Jag kan börja med några toner som du kan leka med."
+                "select": "$~För att ändra något, välj det i din kod eller på @Stage. För att lägga till något nytt, använd plus-knapparna ovanför.",
+                "readonly": "$~Dessa värden är *skrivskyddade* i det här läget. Byt till ✏️ *redigeringsläge* för att ändra dem."
             },
             "field": {
                 "coordinate": "$~redigera koordinat",
@@ -8578,6 +8578,23 @@
                 },
                 "report": "$~Vad jag importerade",
                 "reportExplanation": "$~En @Music kan innehålla det mesta av vad en MIDI-fil beskriver, men inte allt. Här är vad som ändrades på vägen in."
+            },
+            "toolbar": {
+                "label": "$~lägg till utdata",
+                "addPhrase": "$~lägg till en fras",
+                "wrapPhrase": "$~visa detta värde som en fras",
+                "addRectangle": "$~lägg till en rektangulär form",
+                "addCircle": "$~lägg till en rund form",
+                "addPolygon": "$~lägg till en mångsidig form",
+                "wrapForm": "$~visa denna form på scenen genom att lägga in den i en form",
+                "group": "$~samla det du valde till en grupp",
+                "groupEmpty": "$~välj något resultat för att samla det till en grupp",
+                "groupScattered": "$~en grupp kan bara samla resultat som är på samma plats",
+                "groupKind": "$~en grupp kan innehålla en fras, en grupp, tal eller musik, men inte en form eller scenen",
+                "addStage": "$~lägg allt i en scen, så du kan styra ljus, färg och bildrutor",
+                "stageExists": "$~det finns redan en scen",
+                "addMusic": "$~lägg till musik, med några toner att börja leka med",
+                "addSay": "$~lägg till tal, som uttalas högt"
             }
         },
         "save": {

@@ -1,3 +1,4 @@
+import { pickReadableName } from '@locale/getConceptName';
 import StructureValue from '@values/StructureValue';
 import {
     SupportedFontsFamiliesType,
@@ -7,7 +8,6 @@ import toStructure from '@basis/toStructure';
 import { describeColorLocalized } from '@output/Color/BasicColors';
 import { getBind } from '@locale/getBind';
 import type Locales from '@locale/Locales';
-import { getFirstText } from '@locale/LocaleText';
 import { GROUP_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
@@ -183,8 +183,8 @@ export default class Group extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextValue
             ? this.name.text
-            : locales.getPrimaryPlainText((l) =>
-                  getFirstText(l.output.Group.names),
+            : locales.getPrimaryPlainText(
+                  (l) => pickReadableName(l.output.Group.names) ?? '',
               );
     }
 

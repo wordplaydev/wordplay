@@ -183,9 +183,6 @@
         data-selectable={selectable}
         style:font-family={getFaceCSS(context.face)}
         style:font-size={getSizeCSS(context.size)}
-        style:border-color={shape
-            .getDefaultPose()
-            ?.color?.toCSS(context.adapting)}
         style:background={shape.background?.toCSS(context.adapting) ?? null}
         style:color={getColorCSS(
             shape.getFirstRestPose(),
@@ -218,10 +215,29 @@
             height={shape.form.getHeight() * PX_PER_METER}
             xmlns="http://www.w3.org/2000/svg"
         >
+            <!-- The fill falls back to the shape's own colour before the grey
+                 default, because the grey is opaque: a shape given a `color`
+                 and no `background` had that grey painted over it and rendered
+                 as a grey blob. A shape given both still gets a coloured border
+                 around a different background, which is what the two inputs are
+                 for — and the border is a stroke on this same path rather than
+                 a CSS border on the box around it, so it follows the actual
+                 form. A polygon's border used to be drawn as a rounded
+                 rectangle, and a circle's was a second circle offset from this
+                 one by the border width, which left a crescent of stage
+                 showing between them. -->
             <path
                 class="border"
                 d={shape.form.toSVGPath(0, 0)}
-                fill={shape.background?.toCSS(context.adapting) ?? null}
+                fill={shape.background?.toCSS(context.adapting) ??
+                    getColorCSS(
+                        shape.getFirstRestPose(),
+                        shape.pose,
+                        context.adapting,
+                    )}
+                stroke={shape
+                    .getDefaultPose()
+                    ?.color?.toCSS(context.adapting) ?? 'none'}
             />
         </svg>
         <!-- Handles render after the SVG so the (opaque) form fill doesn't paint over them.
@@ -247,10 +263,6 @@
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
 
-        border-width: calc(2 * var(--wordplay-border-width));
-        border-style: solid;
-        border-color: transparent;
-
         /* Outputs are inert by default; only become clickable when editing or
            explicitly selectable, matching PhraseView. */
         pointer-events: none;
@@ -270,6 +282,10 @@
        interior/corner regions unselectable. */
     .form {
         fill: var(--wordplay-inactive-color);
+        stroke-width: calc(2 * var(--wordplay-border-width));
+        /* A stroke straddles the path, so half of it falls outside the SVG's
+           own box and would be clipped away. */
+        overflow: visible;
         pointer-events: none;
     }
 

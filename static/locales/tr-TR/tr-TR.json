@@ -3652,25 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Bir liste alıp, değerleri sıralanmış yeni bir liste oluşturabilirim. İşte böyle:",
+                        "$~Bir liste alıp, değerleri sıralanmış yeni bir liste oluşturabilirim. Şöyle:",
                         "\\[1 5 8 0 2].sıralanmış()\\",
-                        "@Text değerleri için de bunu alfabetik sırayla yapabilirim. Büyük bir harf, küçük harfli haliyle yan yana sıralanır, bu yüzden bir kelime sadece büyük harfle başladığı için sona atılmaz:",
+                        "@Text değerleri için de bunu alfabetik sırayla yapabilirim. Büyük bir harf, küçük halinin yanına sıralanır, yani bir kelime sadece büyük harfle başladığı için sona atılmaz:",
                         "\\['Portakal' 'kivi' 'Muz' 'elma'].sıralanmış()\\",
-                        "Ve eğer @Number veya @Text olmayan değerlerden oluşan bir listen varsa, bana her öğeyi bir @Number ya da @Text değerine çeviren bir @FunctionDefinition verebilirsin, böylece onu sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; bana her listeyi kendi uzunluğuna çeviren bir işlev verirsen, onları uzunluklarına göre sıralayabilirim.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste2) liste2.uzunluk()\n)\\",
-                        "@Text oluşturan bir işlev, değerin kendisine göre değil, hesapladığın bir kelimeye göre sıralamanı sağlar. Burada isimleri soyadına göre sıralıyorum:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim2•'') (isim2 ÷ ' ').son()\n)\\"
+                        "Ve eğer @Number veya @Text olmayan bir değer listeniz varsa, bana her öğeyi bir @Number veya bir @Text değerine dönüştüren bir @FunctionDefinition verebilirsiniz, böylece sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; eğer bana her listeyi uzunluğuna dönüştüren bir fonksiyon verirseniz, onları uzunluklarına göre sıralayabilirim.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste3) liste3.uzunluk()\n)\\",
+                        "@Text üreten bir fonksiyon, değerin kendisine göre değil, hesapladığınız bir kelimeye göre sıralama yapmanızı sağlar. Burada isimleri soyadına göre sıralıyorum:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim3•'') (isim3 ÷ ' ').son()\n)\\"
                     ],
                     "names": "$~sıralanmış",
                     "inputs": [
                         {
-                            "doc": "$~Bir @value listesini sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Bu, değeri listeyi sıralamak için kullanılabilecek bir @Number ya da @Text değerine çevirmelidir.",
+                            "doc": "$~Bir @value listesini sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Bu, değeri, listeyi sıralamak için kullanılabilecek bir @Number veya bir @Text değerine dönüştürmelidir.",
                             "names": "$~sıralayıcı"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Bir @Number ya da @Text değerine çevrilecek olan @value.",
+                            "doc": "$~Bir @Number veya bir @Text değerine dönüştürülecek olan @value.",
                             "names": "$~değer"
                         }
                     ]
@@ -5367,7 +5367,7 @@
                 "names": "$~seçilebilir"
             },
             "color": {
-                "doc": "$~Sınırlarımın rengi.",
+                "doc": "$~Benim rengim. Onunla doldururum, ama bir arka planım varsa, bu durumda kenarlığımı renklendirir.",
                 "names": "$~renk"
             },
             "background": {
@@ -7580,12 +7580,22 @@
                 "show": "$~her şeyi göster"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
-            }
+                "anchors": [
+                    "$~yatay merkez",
+                    "$~sol kenar",
+                    "$~sağ kenar",
+                    "$~dikey merkez",
+                    "$~alt kenar",
+                    "$~üst kenar",
+                    "$~taban çizgisi"
+                ],
+                "withOutput": "$~$anchor, $target'in $targetAnchor ile",
+                "withGrid": "$~$anchor ızgarada",
+                "aligned": "$~$constraints, $place konumunda",
+                "none": "$~$direction ile hizalanacak hiçbir şey yok"
+            },
+            "removed": "$~$#count[$#count çıktı silindi|$#count çıktı silindi]",
+            "notRemovable": "$~tek başına silinemeyen bir öğe"
         },
         "timeline": {
             "slider": "$~zaman kaydırıcısı",
@@ -8460,11 +8470,7 @@
                 "down": "$~bu içeriği aşağı taşı",
                 "edit": "$~bu içeriği düzenle",
                 "sequence": "$~Sıraya dönüştür",
-                "createPhrase": "$~mevcut değeri metin olarak gösteren bir Cümle oluşturun",
-                "createGroup": "$~mevcut herhangi bir İfadeyi saran bir Grup oluşturun",
-                "createStage": "$~herhangi bir mevcut Grup veya İfadeyi saran bir Sahne oluşturun",
                 "editMode": "$~düzenleme moduna geç",
-                "createMusic": "$~programa @Music ekle",
                 "previousTrack": "$~önceki @Track öğesini göster",
                 "nextTrack": "$~sonraki @Track öğesini göster",
                 "addTrack": "$~bir @Track ekle",
@@ -8482,15 +8488,9 @@
                 "rewind": "$~başlangıca geri dön"
             },
             "prompt": {
-                "offerPhrase": "$~Bu değeri bir @Phrase içine mi sarmalıyım?",
-                "offerGroup": "$~Bu içeriği @Group etiketi içine alayım mı, böylece siz düzenleyebilirsiniz?",
-                "offerStage": "$~Bu içeriği @Stage etiketiyle sarmalayayım mı, böylece ışıklandırmayı, rengi ve çerçeveleri kontrol edebilirsiniz?",
                 "editing": "$~Beni düzenle!",
-                "select": "$~Düzenlemek için kodda bir 💬, 🔳, ⬟ veya 🎭 seç ya da @Stage üzerindeki çıktıyı seç.",
-                "offerShape": "$~@Form @Shape içine alıp @Stage Stage'de göstermeli miyim?",
-                "offerNothing": "$~Henüz burada bir şey yok! Başlamak için bir @Phrase ekleyeyim mi?",
-                "readonly": "$~Bu değerler bu modda *salt okunurdur*. Onları değiştirmek için ✏️ *düzenleme* moduna geç.",
-                "offerMusic": "$~@Music eklemek ister misin? Oynayabilmen için sana birkaç notayla başlayabilirim."
+                "select": "$~Bir şeyi düzenlemek için, kodunuzda veya @Stage üzerinde seçin. Yeni bir şey eklemek için, yukarıdaki + düğmelerini kullanın.",
+                "readonly": "$~Bu değerler bu modda *salt okunurdur*. Onları değiştirmek için ✏️ *düzenleme* moduna geç."
             },
             "field": {
                 "coordinate": "$~Koordinatı düzenle",
@@ -8588,6 +8588,23 @@
                 },
                 "report": "$~Neyi içe aktardım",
                 "reportExplanation": "$~Bir @Music, bir MIDI dosyasının anlattığı şeylerin çoğunu tutabilir ama hepsini tutamaz. İşte içe aktarma sırasında değişen şeyler."
+            },
+            "toolbar": {
+                "label": "$~çıktı ekle",
+                "addPhrase": "$~bir ifade ekle",
+                "wrapPhrase": "$~bu değeri bir ifade olarak göster",
+                "addRectangle": "$~dikdörtgen bir şekil ekle",
+                "addCircle": "$~yuvarlak bir şekil ekle",
+                "addPolygon": "$~çok kenarlı bir şekil ekle",
+                "wrapForm": "$~bu şekli bir şeklin içine sararak sahnede göster",
+                "group": "$~seçtiğini bir grup içinde topla",
+                "groupEmpty": "$~bir grup içinde toplamak için bazı çıktılar seç",
+                "groupScattered": "$~bir grup, yalnızca aynı yerde olan çıktıyı toplayabilir",
+                "groupKind": "$~bir grup; bir cümle, bir grup, konuşma veya müzik tutabilir, ama bir şekil ya da sahne tutamaz",
+                "addStage": "$~her şeyi bir sahnenin içine sar, böylece ışığı, rengi ve kareleri denetleyebilirsin",
+                "stageExists": "$~zaten bir sahne var",
+                "addMusic": "$~müzik ekle; üzerinde oynayabileceğin birkaç nota ile başla",
+                "addSay": "$~yüksek sesle söylenen bir konuşma ekle"
             }
         },
         "save": {

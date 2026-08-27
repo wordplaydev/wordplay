@@ -33,6 +33,7 @@
         IdleKind,
         setSensorPanelStack,
         setStageGrid,
+        getStageScene,
         setStageScene,
     } from '@components/project/Contexts';
     import type Node from '@nodes/Node';
@@ -52,6 +53,7 @@
         locales,
         voice,
     } from '@db/Database';
+    import { removeOutput } from '@components/palette/insertOutput';
     import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import Button from '@input/Button/Button';
@@ -266,8 +268,14 @@
 
     // The channel StageView publishes the stage's layout on, so this view's
     // pointer drag and the output views' arrow keys read the same scene (#117).
-    const stageScene = writable<(() => OutputInfoSet) | undefined>(undefined);
-    setStageScene(stageScene);
+    // Created by ProjectView, which the palette is also under — it places new
+    // output clear of what's already there. Falls back to a channel of this
+    // view's own outside a ProjectView (doc examples, previews).
+    const inheritedScene = getStageScene();
+    const stageScene =
+        inheritedScene ??
+        writable<(() => OutputInfoSet) | undefined>(undefined);
+    if (inheritedScene === undefined) setStageScene(stageScene);
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();
@@ -1279,6 +1287,48 @@
                     event.stopPropagation();
                     return;
                 }
+            }
+
+            // Delete/Backspace removes everything selected. Editable only, since
+            // it changes the program, and gated on a non-empty selection so it
+            // can't fire on a stray keystroke with nothing chosen. A phrase
+            // being text-edited consumes these keys before they reach here.
+            if (
+                (event.key === 'Backspace' || event.key === 'Delete') &&
+                !command &&
+                !shift &&
+                editable &&
+                !selection.isEmpty()
+            ) {
+                const chosen = selection.getOutput(project);
+                const result = removeOutput(project, chosen);
+                event.preventDefault();
+                event.stopPropagation();
+                if (result === undefined) {
+                    ignore();
+                    if ($announce)
+                        $announce(
+                            'ignored',
+                            lang,
+                            $locales.getPrimaryPlainText(
+                                (l) => l.ui.output.notRemovable,
+                            ),
+                        );
+                    return;
+                }
+                selection.empty();
+                Projects.reviseProject(result.project);
+                if ($announce)
+                    $announce(
+                        'selection',
+                        lang,
+                        $locales
+                            .concretize((l) => l.ui.output.removed, {
+                                count: result.removed.length,
+                            })
+                            .toText(),
+                    );
+                return;
             }
 
             // Cmd/Ctrl+A selects every selectable output on stage.

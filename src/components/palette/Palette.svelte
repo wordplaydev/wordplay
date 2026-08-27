@@ -1,18 +1,7 @@
 <script lang="ts">
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import EditOffer from '@components/palette/EditOffer.svelte';
-    import {
-        addGroup,
-        addShape,
-        addSoloPhrase,
-        addMusic,
-        addStage,
-        classifyOutput,
-        getStage,
-        offersFor,
-    } from '@components/palette/editOutput';
-    import MIDIImporter from '@components/palette/MIDIImporter.svelte';
+    import InsertToolbar from '@components/palette/InsertToolbar.svelte';
     import MusicChooser from '@components/palette/MusicChooser.svelte';
     import MusicEditor from '@components/palette/MusicEditor.svelte';
     import PaletteProperty from '@components/palette/PaletteProperty.svelte';
@@ -28,7 +17,7 @@
     import type { ProjectMode } from '@components/project/ProjectMode';
     import outputAtCaret from '@components/project/outputAtCaret';
     import Button from '@components/widgets/Button.svelte';
-    import { DB, locales } from '@db/Database';
+    import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import type Caret from '@edit/caret/Caret';
     import OutputExpression from '@edit/output/OutputExpression';
@@ -37,13 +26,7 @@
     import Evaluate from '@nodes/Evaluate';
     import type Expression from '@nodes/Expression';
     import type Value from '@values/Value';
-    import {
-        GROUP_SYMBOL,
-        PALETTE_SYMBOL,
-        PHRASE_SYMBOL,
-        MUSIC_SYMBOL,
-        STAGE_SYMBOL,
-    } from '@parser/Symbols';
+    import { PALETTE_SYMBOL } from '@parser/Symbols';
     import { tick, untrack } from 'svelte';
 
     interface Props {
@@ -96,13 +79,6 @@
     let definition = $derived(
         outputs[0]?.node.getFunction(project.getNodeContext(outputs[0].node)),
     );
-
-    // The kind of the program's rendered output, and whether a Stage already exists anywhere — used
-    // to offer only type-correct output-creation actions when nothing is selected.
-    let output = $derived(classifyOutput(project));
-    let outputKind = $derived(output.kind);
-    let stageExists = $derived(getStage(project) !== undefined);
-    let offers = $derived(offersFor(outputKind, stageExists, output.isList));
 
     // Keep a reference to the text, since we need to pass that to the text style.
     let phraseTextValues: OutputPropertyValueSet | undefined =
@@ -209,6 +185,7 @@
                     project.shares.output.Group,
                     project.shares.output.Shape,
                     project.shares.output.Stage,
+                    project.shares.output.Say,
                     project.shares.output.Music,
                 ),
         );
@@ -231,10 +208,25 @@
         return match ? $locales.getName(match.expected.names) : undefined;
     });
 
+    /**
+     * Where in the source a caret is, as a character offset — which is what
+     * "the creator moved the caret" means. Its `position` is a number, a range,
+     * or a Node, and a Node position is a *different object* after every
+     * revision even when the caret hasn't budged, so comparing carets (or their
+     * positions) by identity reports a move on every edit.
+     */
+    function caretOffset(caret: Caret): number | undefined {
+        const position = caret.position;
+        if (typeof position === 'number') return position;
+        if (Array.isArray(position)) return position[0];
+        return caret.source.getNodeFirstPosition(position);
+    }
+
     /** When the caret is inside an editable output, select it so its palette shows. This is the
      *  only caret↔selection sync there is: it lives here because a selection with no palette on
      *  screen has nothing to explain it, and this component exists only while the tile does. */
-    let lastCaret: Caret | undefined = undefined;
+    let lastCaretOffset: number | undefined = undefined;
+    let sawCaret = false;
     $effect(() => {
         const caret = editors.find((editor) => editor.focused)?.caret;
         // No focused editor means the stage owns the selection (a click there sets it
@@ -246,8 +238,15 @@
             // Don't re-derive the selection from the caret mid-drag — a handle drag's revises
             // shift the caret, and clearing/re-selecting here would drop the dragged output.
             if (selection.dragging) return;
-            const moved = lastCaret !== undefined && lastCaret !== caret;
-            lastCaret = caret;
+            // By offset, not by caret identity: every revision mints a new Caret
+            // at the same place, and treating that as a move meant an edit made
+            // anywhere else — adding output from the toolbar, most visibly —
+            // had its selection immediately replaced by whatever the caret
+            // happened to be sitting on.
+            const offset = caretOffset(caret);
+            const moved = sawCaret && lastCaretOffset !== offset;
+            lastCaretOffset = offset;
+            sawCaret = true;
             // A selection already made when this tile appears came from the gesture that opened
             // it — a double-click on stage, which selects and then reveals us. The editor can
             // still report itself focused at that moment, so only an actual caret move replaces
@@ -303,6 +302,13 @@
     aria-label={$locales.getPrimaryPlainText((l) => l.ui.palette.label)}
     bind:this={section}
 >
+    <!-- Pinned above everything, and present whether or not something is
+         selected: adding output used to mean deselecting first, and each offer
+         disappeared once its type existed. Only in edit mode, since nothing
+         else in the palette can change the program either. -->
+    {#if editable && mode === 'edit'}
+        <InsertToolbar {project} {editable} />
+    {/if}
     <!-- The switch-to-edit prompt, shown inside speech bubbles in step and play modes. -->
     {#snippet readonlyPrompt()}
         <MarkupHtmlView markup={(l) => l.ui.palette.prompt.readonly} />
@@ -387,74 +393,6 @@
                         markup={(l) => l.ui.palette.prompt.select}
                     />{/snippet}</Speech
             >
-        {/if}
-        {#if offers.includes('placeholder')}
-            <EditOffer
-                symbols={PHRASE_SYMBOL}
-                locales={$locales}
-                message={(l) => l.ui.palette.prompt.offerNothing}
-                tip={(l) => l.ui.palette.button.createPhrase}
-                action={() => addSoloPhrase(DB, project)}
-                command={`+${PHRASE_SYMBOL}`}
-            />
-        {/if}
-        {#if offers.includes('phrase')}
-            <EditOffer
-                symbols={PHRASE_SYMBOL}
-                locales={$locales}
-                message={(l) => l.ui.palette.prompt.offerPhrase}
-                tip={(l) => l.ui.palette.button.createPhrase}
-                action={() => addSoloPhrase(DB, project)}
-                command={`+${PHRASE_SYMBOL}`}
-            />
-        {/if}
-        {#if offers.includes('shape')}
-            {@const shapeName = project.shares.output.Shape.getNames()[0]}
-            <EditOffer
-                symbols={shapeName}
-                locales={$locales}
-                message={(l) => l.ui.palette.prompt.offerShape}
-                tip={(l) => l.ui.palette.button.addShape}
-                action={() => addShape(DB, project)}
-                command={`+${shapeName}`}
-            />
-        {/if}
-        {#if offers.includes('group')}
-            <EditOffer
-                symbols={GROUP_SYMBOL}
-                locales={$locales}
-                message={(l) => l.ui.palette.prompt.offerGroup}
-                tip={(l) => l.ui.palette.button.createGroup}
-                action={() => addGroup(DB, project)}
-                command={`+${GROUP_SYMBOL}`}
-            />
-        {/if}
-        {#if offers.includes('stage')}
-            <EditOffer
-                symbols={STAGE_SYMBOL}
-                locales={$locales}
-                message={(l) => l.ui.palette.prompt.offerStage}
-                tip={(l) => l.ui.palette.button.createStage}
-                action={() => addStage(DB, project)}
-                command={`+${STAGE_SYMBOL}`}
-            />
-        {/if}
-        {#if offers.includes('music')}
-            <EditOffer
-                symbols={MUSIC_SYMBOL}
-                locales={$locales}
-                message={(l) => l.ui.palette.prompt.offerMusic}
-                tip={(l) => l.ui.palette.button.createMusic}
-                action={() => addMusic(DB, project)}
-                command={`+${MUSIC_SYMBOL}`}
-            >
-                <!-- Beside the button rather than below it: importing a song is
-                     the other way to get music, not a lesser one, and needing a
-                     music before you can import one is backwards. -->
-                {#snippet also()}
-                    <MIDIImporter {project} {editable} />
-                {/snippet}
-            </EditOffer>
         {/if}
     {/if}
 </section>

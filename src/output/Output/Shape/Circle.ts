@@ -1,7 +1,7 @@
+import { pickReadableName } from '@locale/getConceptName';
 import toStructure from '@basis/toStructure';
 import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
-import { getFirstText } from '@locale/LocaleText';
 import type Locales from '@locale/Locales';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
@@ -79,8 +79,8 @@ export class Circle extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.getPrimaryPlainText((l) =>
-            getFirstText(l.output.Circle.names),
+        return locales.getPrimaryPlainText(
+            (l) => pickReadableName(l.output.Circle.names) ?? '',
         );
     }
 }

@@ -116,6 +116,7 @@
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
+    import type { OutputInfoSet } from '@output/animation/Animator';
     import { writable, type Readable, type Writable } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
     import {
@@ -183,6 +184,7 @@
         setResetKeyboardIdle,
         setRevealPalette,
         setSelectedOutput,
+        setStageScene,
         type ConceptPath,
         type EditorState,
         type EmphasizedConflict,
@@ -541,6 +543,13 @@
     /** Make the project global selected output and set it in a context. */
     let selectedOutput = new SelectedOutput();
     setSelectedOutput(selectedOutput);
+
+    /** The channel StageView publishes the stage's layout on (#117). Created
+     *  here rather than in OutputView because the palette reads it too, to
+     *  place new output clear of what's already there, and the two are sibling
+     *  tiles — this is their nearest common ancestor. */
+    const stageScene = writable<(() => OutputInfoSet) | undefined>(undefined);
+    setStageScene(stageScene);
 
     /** The centralized announcer, for narrating mode changes to screen readers. */
     const announce = getAnnouncer();
