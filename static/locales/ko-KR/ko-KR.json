@@ -7556,6 +7556,13 @@
             "hidden": {
                 "message": "$~모든 것이 무대에서 사라졌습니다.",
                 "show": "$~전체 보이기"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {

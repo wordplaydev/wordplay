@@ -45,12 +45,17 @@
     } from '@output/animation/OutputAnimation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import PlainTextView from '@components/output/PlainTextView.svelte';
-    import moveOutput from '@components/palette/editOutput';
+    import moveOutputWithKey, {
+        arrowMove,
+    } from '@components/output/keyboardMove';
     import {
+        getAnnouncer,
         getPaletteOpen,
         getProject,
         getRevealPalette,
         getSelectedOutput,
+        getStageGrid,
+        getStageScene,
     } from '@components/project/Contexts';
 
     interface Props {
@@ -87,6 +92,9 @@
     const project = getProject();
     const revealPalette = getRevealPalette();
     const paletteOpen = getPaletteOpen();
+    const announce = getAnnouncer();
+    const grid = getStageGrid();
+    const stageScene = getStageScene();
 
     // Compute a local context based on size and font.
     let localContext = $derived(phrase.getRenderContext(context));
@@ -404,7 +412,7 @@
             $project === undefined ||
             selection?.isEmpty() ||
             entered ||
-            !event.key.startsWith('Arrow') ||
+            arrowMove(event.key) === undefined ||
             !(phrase.value.creator instanceof Evaluate)
         )
             return;
@@ -424,31 +432,21 @@
         ))
             return;
 
-        const increment = 0.5;
-        let horizontal =
-            event.key === 'ArrowLeft'
-                ? -1 * increment
-                : event.key === 'ArrowRight'
-                  ? increment
-                  : 0;
-        let vertical =
-            event.key === 'ArrowUp'
-                ? 1 * increment
-                : event.key === 'ArrowDown'
-                  ? -1 * increment
-                  : 0;
-
+        // Clear the text-editing caret before revising: the move re-mounts this
+        // view, and a caret index into text that no longer exists is stale.
         select(null);
 
-        moveOutput(
-            DB,
-            $project,
-            [phrase.value.creator],
-            $locales,
-            horizontal,
-            vertical,
-            true,
-        );
+        moveOutputWithKey(event, {
+            db: DB,
+            project: $project,
+            creator: phrase.value.creator,
+            output: phrase,
+            locales: $locales,
+            scene: $stageScene,
+            grid: $grid ?? false,
+            selection,
+            announce: $announce,
+        });
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {

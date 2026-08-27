@@ -7564,6 +7564,13 @@
             "hidden": {
                 "message": "$~Todo está fuera del escenario.",
                 "show": "$~mostrar todo"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {

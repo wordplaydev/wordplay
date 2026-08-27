@@ -7827,6 +7827,13 @@
             "hidden": {
                 "message": "$~Semuanya tidak tampil di panggung.",
                 "show": "$~tampilkan semuanya"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {

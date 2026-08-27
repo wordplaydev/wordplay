@@ -53,6 +53,7 @@
         getAnnouncer,
         getEvaluation,
         getSelectedOutput,
+        getStageScene,
     } from '@components/project/Contexts';
     import GroupView from '@components/output/GroupView.svelte';
     import {
@@ -123,6 +124,12 @@
 
     const GRID_PADDING = 10;
 
+    /** Half the snap lattice, so a move can see the lines it can land between. */
+    const HALF_GRID = 0.5;
+    /** How far a guide pokes past the outputs it relates, in metres, so it reads
+     *  as a line drawn through them rather than an edge of one of them. */
+    const GUIDE_OVERSHOOT = 0.25;
+
     let view: HTMLElement | null = $state(null);
 
     let mounted = $state(false);
@@ -175,6 +182,38 @@
 
     const announcer = getAnnouncer();
     const selectedOutput = getSelectedOutput();
+
+    // Publish a way to lay out what's on stage, which is what anything moving
+    // output lines up against (#117). Done from here because this is where the
+    // stage and its render context live. Handed over as a function so the walk
+    // happens when a move begins rather than on every render, and it goes
+    // through `Animator.layout` so guides are placed by exactly the same
+    // algorithm the renderer places output with.
+    const stageScene = getStageScene();
+    $effect(() => {
+        const currentAnimator = animator;
+        const currentStage = stage;
+        const currentContext = context;
+        stageScene?.set(
+            () =>
+                currentAnimator?.layout(
+                    currentStage,
+                    [],
+                    new Map(),
+                    currentContext,
+                ) ?? new Map(),
+        );
+    });
+
+    // Whether output is being moved, and what it is lined up with (#117). Both
+    // come from the shared selection state rather than props: the gesture that
+    // owns the move is sometimes OutputView (a pointer drag) and sometimes an
+    // individual output view (the arrow keys), and neither is an ancestor here.
+    let moving = $derived(editable && (selectedOutput?.moving ?? false));
+    let guides = $derived(moving ? (selectedOutput?.guides ?? []) : []);
+    // The grid is drawn faintly during a move for positioning clarity, even when
+    // the creator has it off — but only its own toggle makes moving snap to it.
+    let showGrid = $derived(grid || moving);
 
     /** The framing box the auto-fit camera fits. It only ever grows, so it settles instead
      *  of chasing moving content. Reset whenever the evaluator changes; see resetAnimator's
@@ -931,7 +970,7 @@
             {editing}
             {frame}
         >
-            {#if grid}
+            {#if showGrid}
                 {@const left = Math.min(
                     0,
                     Math.floor(contentBounds.left - GRID_PADDING),
@@ -942,18 +981,22 @@
                     Math.floor(contentBounds.bottom - GRID_PADDING),
                 )}
                 {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
-                <!-- Render a grid if this is the root and the grid is on. Apply the same transform that we do the the verse. -->
+                <!-- Render a grid if this is the root and the grid is on, or something
+                     is being moved and wants the reference. Apply the same transform
+                     that we do the the verse. `faint` is the moving-only grid, which
+                     is a reference rather than something anything snaps to. -->
                 {#each range(left, right) as number}
                     {@const left =
                         number * PX_PER_METER - HalfGridlineThickness}
                     <div
                         class="gridline vertical"
+                        class:faint={!grid}
                         style:left="{left}px"
                         style:top="{-top * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                     ></div>
-                    {#if number !== 0}
+                    {#if number !== 0 && grid}
                         <div class="coordinate vertical" style:left="{left}px"
                             >{number}m</div
                         >
@@ -964,28 +1007,84 @@
                         -number * PX_PER_METER - HalfGridlineThickness}
                     <div
                         class="gridline horizontal"
+                        class:faint={!grid}
                         style:top="{top}px"
                         style:left="{left * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:width="{Math.abs(left - right) * PX_PER_METER}px"
                     ></div>
-                    <div class="coordinate horizontal" style:top="{top}px"
-                        >{number}m</div
-                    >
+                    {#if grid}
+                        <div class="coordinate horizontal" style:top="{top}px"
+                            >{number}m</div
+                        >
+                    {/if}
                 {/each}
+                <!-- The lattice a move actually snaps to is half a metre, so while
+                     something is moving, show the lines between the labelled ones. -->
+                {#if grid && moving}
+                    {#each range(left, right - 1) as number}
+                        <div
+                            class="gridline vertical faint"
+                            style:left="{(number + HALF_GRID) * PX_PER_METER -
+                                HalfGridlineThickness}px"
+                            style:top="{-top * PX_PER_METER -
+                                HalfGridlineThickness}px"
+                            style:height="{Math.abs(top - bottom) *
+                                PX_PER_METER}px"
+                        ></div>
+                    {/each}
+                    {#each range(bottom, top - 1) as number}
+                        <div
+                            class="gridline horizontal faint"
+                            style:top="{-(number + HALF_GRID) * PX_PER_METER -
+                                HalfGridlineThickness}px"
+                            style:left="{left * PX_PER_METER -
+                                HalfGridlineThickness}px"
+                            style:width="{Math.abs(left - right) *
+                                PX_PER_METER}px"
+                        ></div>
+                    {/each}
+                {/if}
                 <div
                     class="gridline horizontal axis"
+                    class:faint={!grid}
                     style:top="0px"
                     style:left="{left * PX_PER_METER - HalfGridlineThickness}px"
                     style:width="{Math.abs(left - right) * PX_PER_METER}px"
                 ></div>
                 <div
                     class="gridline vertical axis"
+                    class:faint={!grid}
                     style:left="0px"
                     style:top="{-top * PX_PER_METER - HalfGridlineThickness}px"
                     style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                 ></div>
             {/if}
+            <!-- What the output being moved is currently lined up with (#117).
+                 Drawn here, inside the root group, so it inherits the camera
+                 transform the output itself gets: a metre is PX_PER_METER pixels
+                 and y is negated, with no camera arithmetic of its own. Purely
+                 decorative — the constraint is announced, not read from here. -->
+            {#each guides as guide, index (index)}
+                {@const from =
+                    (guide.span.from - GUIDE_OVERSHOOT) * PX_PER_METER}
+                {@const to = (guide.span.to + GUIDE_OVERSHOOT) * PX_PER_METER}
+                <div
+                    class="guide {guide.axis === 'x'
+                        ? 'vertical'
+                        : 'horizontal'}"
+                    class:grid={guide.target === undefined}
+                    aria-hidden="true"
+                    style:left={guide.axis === 'x'
+                        ? `${guide.position * PX_PER_METER}px`
+                        : `${from}px`}
+                    style:top={guide.axis === 'x'
+                        ? `${-to}px`
+                        : `${-guide.position * PX_PER_METER}px`}
+                    style:width={guide.axis === 'x' ? null : `${to - from}px`}
+                    style:height={guide.axis === 'x' ? `${to - from}px` : null}
+                ></div>
+            {/each}
             <!-- Render exiting nodes -->
             {#each Array.from(exiting.entries()) as [name, info] (name)}
                 {#if info.output instanceof Phrase}
@@ -1175,5 +1274,32 @@
     .axis {
         background-color: var(--grid-color);
         opacity: 0.5;
+    }
+
+    /* The grid shown only because something is being moved. Dimmer than the
+       creator's own grid, since it's a reference rather than something the
+       move is snapping to. */
+    .gridline.faint {
+        opacity: 0.08;
+    }
+
+    .axis.faint {
+        opacity: 0.2;
+    }
+
+    /* What the moved output is lined up with. z-index 1 puts it over the output
+       it relates (which the children snippet renders after this one) while
+       leaving it under the rotate/resize handles, which are interactive. */
+    .guide {
+        position: absolute;
+        background-color: var(--wordplay-highlight-color);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* A grid line the move landed on is already drawn; this just lights it up. */
+    .guide.grid {
+        background-color: var(--grid-color);
+        opacity: 0.7;
     }
 </style>

@@ -384,6 +384,32 @@ export default class Phrase extends Output {
         return [];
     }
 
+    /**
+     * Where this phrase's text baseline sits above the bottom of its box, in
+     * metres — what alignment guides line two phrases up on (#117).
+     *
+     * Derived from the `line-height` PhraseView actually paints, not from face
+     * metrics: `FaceMetrics` carries only x-height over cap-height, which says
+     * nothing about where the baseline lands. With a line box of L and font
+     * ascent A and descent D, the half-leading is (L - A - D) / 2 and the
+     * baseline sits A below the top, so it is (L + D - A) / 2 above the bottom.
+     * Wrapped and vertical text set L = A + D exactly, which reduces to D — the
+     * last line's baseline, since the lines stack from the top.
+     *
+     * Undefined for vertical writing, where the baseline runs the other way and
+     * a horizontal guide through it would mean nothing.
+     */
+    getBaselineOffset(context: RenderContext): number | undefined {
+        const layout = this.direction
+            ? layoutToCSS(this.direction)
+            : context.layout;
+        if (layout !== 'horizontal-tb') return undefined;
+        const { height, ascent, descent } = this.getLayout(context);
+        return this.wrap !== undefined
+            ? descent
+            : (height + descent - ascent) / 2;
+    }
+
     getLayout(context: RenderContext) {
         const metrics = this.getMetrics(context);
         return {

@@ -7571,6 +7571,13 @@
             "hidden": {
                 "message": "$~Allt är utanför scenen.",
                 "show": "$~visa allt"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {

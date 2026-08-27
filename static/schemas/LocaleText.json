@@ -20034,6 +20034,43 @@
                                     "required": ["microphone", "camera"],
                                     "type": "object"
                                 },
+                                "snap": {
+                                    "additionalProperties": false,
+                                    "description": "What an output being moved on stage lined up with",
+                                    "properties": {
+                                        "aligned": {
+                                            "$ref": "#/definitions/Template%3C%5B%22constraints%22%2C%22place%22%5D%3E",
+                                            "description": "[plain] Announced after a move, naming what it lined up with and where it landed. $constraints is what it lined up with, $place is where it is now."
+                                        },
+                                        "anchors": {
+                                            "description": "[plain] The seven parts of an output that can line up with another, in this order: horizontal center, left edge, right edge, vertical center, bottom edge, top edge, text baseline.",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "none": {
+                                            "$ref": "#/definitions/Template%3C%5B%22direction%22%5D%3E",
+                                            "description": "[plain] Announced when there is nothing further to line up with that way. $direction is which way was asked for."
+                                        },
+                                        "withGrid": {
+                                            "$ref": "#/definitions/Template%3C%5B%22anchor%22%5D%3E",
+                                            "description": "[plain] Announced when a moved output lines up with a grid line. $anchor is the part of the moved output that landed on it."
+                                        },
+                                        "withOutput": {
+                                            "$ref": "#/definitions/Template%3C%5B%22anchor%22%2C%22target%22%2C%22targetAnchor%22%5D%3E",
+                                            "description": "[plain] Announced when a moved output lines up with another output. $anchor is the part of the moved output, $target is the other output, $targetAnchor is the part of it they met on."
+                                        }
+                                    },
+                                    "required": [
+                                        "anchors",
+                                        "withOutput",
+                                        "withGrid",
+                                        "aligned",
+                                        "none"
+                                    ],
+                                    "type": "object"
+                                },
                                 "sound": {
                                     "additionalProperties": false,
                                     "description": "The affordance offered when a stage has music but the browser has not yet allowed sound to start",
@@ -20144,6 +20181,7 @@
                                 "farther",
                                 "turned",
                                 "manyChanged",
+                                "snap",
                                 "selectedOnly",
                                 "selectedSuffix",
                                 "toggle",
@@ -27163,6 +27201,12 @@
         "Template<[\"amount\",\"unit\"]>": {
             "type": "string"
         },
+        "Template<[\"anchor\",\"target\",\"targetAnchor\"]>": {
+            "type": "string"
+        },
+        "Template<[\"anchor\"]>": {
+            "type": "string"
+        },
         "Template<[\"beat\"]>": {
             "type": "string"
         },
@@ -27196,6 +27240,9 @@
         "Template<[\"condition\"]>": {
             "type": "string"
         },
+        "Template<[\"constraints\",\"place\"]>": {
+            "type": "string"
+        },
         "Template<[\"control\",\"alt\"]>": {
             "type": "string"
         },
@@ -27218,6 +27265,9 @@
             "type": "string"
         },
         "Template<[\"description\"]>": {
+            "type": "string"
+        },
+        "Template<[\"direction\"]>": {
             "type": "string"
         },
         "Template<[\"done\",\"#total\"]>": {

@@ -32,6 +32,8 @@
         getSoundingNodes,
         IdleKind,
         setSensorPanelStack,
+        setStageGrid,
+        setStageScene,
     } from '@components/project/Contexts';
     import type Node from '@nodes/Node';
     import { soundingNotes } from '@output/Music/sounding';
@@ -122,6 +124,19 @@
     import { toOutput } from '@output/Output/toOutput';
     import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
     import exceedsMoveThreshold from '@components/output/moveThreshold';
+    import {
+        getAlignmentTargetsForCreator,
+        type AlignmentTargets,
+    } from '@components/output/alignmentTargets';
+    import {
+        SnapTolerancePixels,
+        boxAt,
+        offsetGuide,
+        sameGuides,
+        snapPlace,
+    } from '@components/output/snap';
+    import describeMove from '@components/output/snapDescription';
+    import { shapeYOffset } from '@components/output/keyboardMove';
     import Place, { createPlace } from '@output/Place/Place';
     import { toExpression } from '@parser/parseExpression';
     import { PAUSE_SYMBOL } from '@parser/Symbols';
@@ -138,6 +153,8 @@
     import TextValue from '@values/TextValue';
     import type Value from '@values/Value';
     import { onDestroy, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
+    import type { OutputInfoSet } from '@output/animation/Animator';
 
     interface Props {
         project: Project;
@@ -236,6 +253,20 @@
     // Instantiate the sensor panel stack coordinator for this OutputView instance
     const sensorPanelStack = new SensorPanelStack();
     setSensorPanelStack(sensorPanelStack);
+
+    // Publish the grid toggle to the output views below, which own the arrow-key
+    // move and so need to know whether it snaps to the grid (#117).
+    // svelte-ignore state_referenced_locally
+    const gridOn = writable(grid);
+    setStageGrid(gridOn);
+    $effect(() => {
+        gridOn.set(grid);
+    });
+
+    // The channel StageView publishes the stage's layout on, so this view's
+    // pointer drag and the output views' arrow keys read the same scene (#117).
+    const stageScene = writable<(() => OutputInfoSet) | undefined>(undefined);
+    setStageScene(stageScene);
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();
@@ -383,6 +414,87 @@
         if (moveFrame !== undefined) cancelAnimationFrame(moveFrame);
         moveFrame = undefined;
         pendingMoveTarget = undefined;
+    }
+
+    /**
+     * What the output being dragged can align to, resolved ONCE when the gesture
+     * starts (#117). Not per frame: every mid-drag revise mints new nodes, so
+     * the output would only be findable in the scene some of the time — and on a
+     * paused stage, which is the only stage that can be edited, nothing else
+     * moves and the dragged output's size doesn't change, so one read holds.
+     */
+    let dragAlignment: AlignmentTargets | undefined;
+    /** A Shape is placed by its form's TOP-left anchor while its box is measured
+     *  from the bottom-left, so its drag coordinates are offset by its height. */
+    let dragOffset = 0;
+
+    function startSnapping(selected: Evaluate) {
+        const scene = $stageScene?.();
+        dragAlignment = scene
+            ? getAlignmentTargetsForCreator(scene, selected)
+            : undefined;
+        dragOffset = dragAlignment
+            ? shapeYOffset(dragAlignment.output, dragAlignment.moved.height)
+            : 0;
+    }
+
+    function stopSnapping() {
+        dragAlignment = undefined;
+        dragOffset = 0;
+        selection?.setMoving(false);
+    }
+
+    /**
+     * Where a dragged output should actually land: snapped to the grid (when the
+     * creator has it on) and to what else is on stage, unless Alt is held. Also
+     * publishes what it snapped to, and says it — but only when the constraint
+     * changes, since a drag streams positions and a free drag should be silent.
+     */
+    function snapDrag(x: number, y: number, suspended: boolean) {
+        const alignment = dragAlignment;
+        if (
+            suspended ||
+            alignment === undefined ||
+            renderedFocus === undefined
+        ) {
+            if ((selection?.guides.length ?? 0) > 0) selection?.setGuides([]);
+            return { x, y };
+        }
+        // A constant number of screen pixels, so a snap feels the same at any zoom.
+        const scale = rootScale(0, renderedFocus.z);
+        const tolerance =
+            SnapTolerancePixels /
+            (PX_PER_METER *
+                (scale === 0 || !Number.isFinite(scale) ? 1 : scale));
+        const result = snapPlace(
+            boxAt(alignment.moved, x, y - dragOffset),
+            alignment.targets,
+            {
+                tolerance,
+                grid,
+                freeX: alignment.freeX,
+                freeY: alignment.freeY,
+            },
+        );
+        // Guides are computed in the moved output's parent frame and drawn in the
+        // stage's, so shift them by where that parent sits.
+        const guides = result.guides.map((guide) =>
+            offsetGuide(guide, alignment.frame),
+        );
+        if (!sameGuides(guides, selection?.guides ?? [])) {
+            selection?.setGuides(guides);
+            if (guides.length > 0)
+                $announce?.(
+                    'stage-snap',
+                    $locales.getLocale().language,
+                    describeMove($locales, result.guides, {
+                        x: result.x,
+                        y: result.y,
+                        z: 0,
+                    }),
+                );
+        }
+        return { x: result.x, y: result.y + dragOffset };
     }
 
     /** A list of points gathered during a painting drag */
@@ -1272,6 +1384,7 @@
         // If dragging the focus, stop
         if (drag) drag = undefined;
         movingOutput = false;
+        stopSnapping();
 
         // Finally, if the event was ignored by all of the above, pass it to streams.
         pressKey(event.key, true);
@@ -1373,6 +1486,7 @@
         if (pointersByIndex.length >= 2) {
             drag = undefined;
             movingOutput = false;
+            stopSnapping();
         }
 
         // Focus the keyboard sink if it exists, otherwise the chat field.
@@ -1549,7 +1663,10 @@
                 movingOutput = false;
                 // Mark an on-stage gesture in progress when this drag will MOVE an output (not a pan
                 // or paint), so ProjectView can defer conflict/concept-index work until release.
-                if (movable) selection?.setInteracting(true);
+                if (movable) {
+                    selection?.setInteracting(true);
+                    startSnapping(selectedOutput);
+                }
                 // Reset the painting places
                 paintingPlaces = [];
                 strokeNodeID = undefined;
@@ -1742,11 +1859,19 @@
                             )
                         ) {
                             movingOutput = true;
-                            // Show the grid, for clarity on positioning.
-                            grid = true;
+                            // Tell the stage a move is under way, so it can show the
+                            // grid faintly for positioning clarity. This used to
+                            // force the creator's own grid toggle on and never
+                            // restore it — and now that the toggle governs whether
+                            // moving snaps, flipping it silently would change what
+                            // the gesture does.
+                            selection?.setMoving(true);
+                            // Snap to the grid and to what else is on stage, unless
+                            // Alt is held, which is how a creator places freely.
+                            const target = snapDrag(newX, newY, event.altKey);
                             // Defer the revise to one-per-frame (flushed on release); the latest target
                             // wins. Resolves the outputs fresh at flush time (robust to re-mount).
-                            scheduleMove(newX, newY);
+                            scheduleMove(target.x, target.y);
                             event.stopPropagation();
                         }
                     } else if (stage && drag.startOffset && mayPan(event)) {
@@ -1822,6 +1947,7 @@
 
         drag = undefined;
         movingOutput = false;
+        stopSnapping();
         paintingPlaces = [];
         strokeNodeID = undefined;
         selection?.setInteracting(false);

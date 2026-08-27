@@ -7779,6 +7779,21 @@
             "farther": "farther away",
             "turned": "turned",
             "manyChanged": "$#count[$count output|$count outputs] changed in $container, like $example",
+            "snap": {
+                "anchors": [
+                    "horizontal center",
+                    "left edge",
+                    "right edge",
+                    "vertical center",
+                    "bottom edge",
+                    "top edge",
+                    "baseline"
+                ],
+                "withOutput": "$anchor with $target's $targetAnchor",
+                "withGrid": "$anchor on the grid",
+                "aligned": "$constraints, at $place",
+                "none": "nothing to line up with $direction"
+            },
             "selectedOnly": "$name selected, opening palette",
             "selectedSuffix": "selected",
             "toggle": {

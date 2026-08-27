@@ -9,6 +9,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - 🔠 Every font now says what it looks like, so you can pick one without seeing it. The font chooser reads "Creepster, a textured face, strong and old-fashioned" instead of just the name, and a phrase tells you what face it's wearing. There are 12 words for the shape of the letters and 13 for how a font feels, and they're translated into every language Wordplay speaks. (#298)
+- 📐 Things on your stage now line up with each other when you move them. Drag one near another and it snaps to its left or right edge, its middle, or the line its letters sit on, and a line shows you what it lined up with. Turn the grid on and it snaps to the grid too. Hold Alt or Option while you drag to place it anywhere you want. (#117)
+- 📐 You can line things up with the keyboard too. Arrow keys move whatever you picked, and holding shift while you press an arrow jumps it straight to the next thing it can line up with that way. Wordplay says where it landed and what it lined up with, so you can lay out a stage without seeing it. (#117)
 
 ### Fixed
 

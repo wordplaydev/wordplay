@@ -1,7 +1,6 @@
 import type Locales from '@locale/Locales';
 import { formatNumberForLocale } from '@locale/numberFormats';
 import type { Orientation } from '@output/animation/Animator';
-import type Place from '@output/Place/Place';
 
 /**
  * How far something must move, in metres, before the movement is worth
@@ -76,7 +75,12 @@ export default function describeDirection(
  * Rounded to tenths, for the same reason numbers are elsewhere — precision no
  * one can perceive is noise.
  */
-export function describePlace(locales: Locales, place: Place): string {
+export function describePlace(
+    locales: Locales,
+    // Structural rather than a `Place`, so a caller with a candidate position
+    // in hand (an unsnapped drag target) needn't mint a runtime value to say it.
+    place: { x: number; y: number; z: number },
+): string {
     const locale = locales.getLocale();
     const round = (n: number) =>
         `${formatNumberForLocale(

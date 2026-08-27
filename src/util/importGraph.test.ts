@@ -226,9 +226,17 @@ test('resolving a color needs no basis', () => {
  * terms in en-US.json, and four fields per pickable face in faces.generated.ts —
  * a fixed vocabulary rather than a description per font, which is what keeps it
  * to one step instead of growing with the catalogue.
+ *
+ * The layout's last +0.01MB is alignment guides (#117): the seven anchor words
+ * and the four sentences naming what a moved output lined up with, in
+ * en-US.json, which every page carries. The snapping itself is not in this
+ * number and must not be — `snap.ts` and the three modules around it are
+ * reached only from the stage's output views, so no entry here reaches them and
+ * no file count moves. The other four budgets had enough slack to absorb the
+ * text.
  */
 test.each([
-    ['src/routes/+layout.svelte', 488, 3.5],
+    ['src/routes/+layout.svelte', 488, 3.51],
     ['src/components/app/Page.svelte', 510, 3.74],
     ['src/routes/[[locale]]/+page.svelte', 525, 3.83],
     ['src/routes/[[locale]]/galleries/+page.svelte', 528, 3.83],

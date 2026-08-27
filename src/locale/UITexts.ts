@@ -979,6 +979,19 @@ type UITexts = {
         turned: string;
         /** [plain] Announced when too many outputs changed to list them. $count is how many, $container is what holds them, $example is one of the changes. */
         manyChanged: Template<['#count', 'container', 'example']>;
+        /** What an output being moved on stage lined up with */
+        snap: {
+            /** [plain] The seven parts of an output that can line up with another, in this order: horizontal center, left edge, right edge, vertical center, bottom edge, top edge, text baseline. */
+            anchors: string[];
+            /** [plain] Announced when a moved output lines up with another output. $anchor is the part of the moved output, $target is the other output, $targetAnchor is the part of it they met on. */
+            withOutput: Template<['anchor', 'target', 'targetAnchor']>;
+            /** [plain] Announced when a moved output lines up with a grid line. $anchor is the part of the moved output that landed on it. */
+            withGrid: Template<['anchor']>;
+            /** [plain] Announced after a move, naming what it lined up with and where it landed. $constraints is what it lined up with, $place is where it is now. */
+            aligned: Template<['constraints', 'place']>;
+            /** [plain] Announced when there is nothing further to line up with that way. $direction is which way was asked for. */
+            none: Template<['direction']>;
+        };
         /** [plain] Announced when selecting one output and opening the palette. $name is the output. */
         selectedOnly: Template<['name']>;
         /** [plain] Suffix appended to a selected group's accessible name, since a group cannot use aria-pressed */
