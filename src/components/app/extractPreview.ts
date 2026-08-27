@@ -72,8 +72,12 @@ export function extractPreview(
         // Resolve the stage color the same way StageView does — the resting
         // pose wins over the base pose — so previews match projects that set
         // their color via `resting:` (e.g. Maze) rather than the `color:` field.
+        // Never adapted: what this returns is persisted into the project's
+        // SerializedPreview and read by everyone, so a viewer's dark-mode
+        // preference has to be applied where the preview is painted instead
+        // (adaptPreviewColors), not baked in here.
         foreground: stage
-            ? getColorCSS(stage.getFirstRestPose(), stage.pose)
+            ? getColorCSS(stage.getFirstRestPose(), stage.pose, false)
             : 'var(--wordplay-evaluation-color)',
         background: stage
             ? stage.back.toCSS()

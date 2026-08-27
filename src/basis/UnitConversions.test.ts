@@ -1,10 +1,17 @@
+import Project from '@db/projects/Project';
+import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
+import Source from '@nodes/Source';
 import evaluateCode from '@runtime/evaluate';
 import Decimal from 'decimal.js';
 import { describe, expect, test } from 'vitest';
 import {
     AffineConversions,
     Dimensions,
+    UnitCategories,
     Units,
+    getUnitCategory,
+    type UnitCategory,
     type UnitKey,
 } from '@basis/UnitConversions';
 
@@ -142,4 +149,92 @@ test('an angle can be turned into a correct, unitless sine', () => {
     const cosine = evaluateCode('(60° → #rad).cos()')?.toString() ?? '';
     expect(cosine).toMatch(/^[0-9.]+$/);
     expect(Number(cosine)).toBeCloseTo(0.5, 12);
+});
+
+// The docs were never asserted, which is how they could read "kilometers → meters" in
+// every language without anything failing. One template covers all ~220 conversions, so
+// the unit names are the only part of a conversion doc that can be wrong.
+describe('a conversion documents itself with both unit names', () => {
+    const project = Project.make(
+        null,
+        'test',
+        new Source('test', ''),
+        [],
+        DefaultLocale,
+    );
+
+    function docFor(from: UnitKey, to: UnitKey) {
+        return project.basis
+            .getAllConversions()
+            .find(
+                (c) =>
+                    c.input.toWordplay().trim() === `#${symbol(from)}` &&
+                    c.output.toWordplay().trim() === `#${symbol(to)}`,
+            )
+            ?.docs.getMarkup(DefaultLocales)[0]
+            ?.toText();
+    }
+
+    test.each([
+        ['km', 'm', 'kilometers → meters'],
+        ['s', 'min', 'seconds → minutes'],
+        // A compound unit's key and its symbol differ (`mps` is `m/s`), so this also
+        // checks the doc is looked up by the key rather than the text.
+        ['mps', 'kmph', 'meters per second → kilometers per hour'],
+    ] as const)('%s → %s', (from, to, expected) => {
+        expect(docFor(from, to)).toBe(expected);
+    });
+
+    test('every conversion names both of its units', () => {
+        const templated = project.basis.getAllConversions().filter((c) => {
+            const doc = c.docs.getMarkup(DefaultLocales)[0]?.toText() ?? '';
+            return doc.includes('→');
+        });
+        expect(templated.length).toBeGreaterThan(200);
+        // An unfilled `$from`/`$to` means a name went missing from the locale.
+        for (const conversion of templated)
+            expect(
+                conversion.docs.getMarkup(DefaultLocales)[0]?.toText(),
+            ).not.toMatch(/\$(from|to)/);
+    });
+});
+
+describe('unit categories', () => {
+    // The categories mirror the comment blocks in Units, and comments can't be checked. This
+    // is what keeps the two from drifting: a unit added to the table without a category, or
+    // listed in two, fails here rather than quietly landing in the menu's "other" pile.
+    test('every unit belongs to exactly one category', () => {
+        const homes = new Map<UnitKey, UnitCategory[]>();
+        for (const key of Object.keys(Units) as UnitKey[])
+            homes.set(
+                key,
+                (Object.keys(UnitCategories) as UnitCategory[]).filter(
+                    (category) =>
+                        (
+                            UnitCategories[category] as readonly UnitKey[]
+                        ).includes(key),
+                ),
+            );
+        expect(
+            [...homes]
+                .filter(([, categories]) => categories.length !== 1)
+                .map(([key, categories]) => `${key}: ${categories.length}`),
+        ).toEqual([]);
+    });
+
+    test('no category names a unit the table does not define', () => {
+        const keys = new Set(Object.keys(Units));
+        for (const [category, members] of Object.entries(UnitCategories))
+            for (const key of members)
+                expect(keys.has(key), `${category} names ${key}`).toBe(true);
+    });
+
+    test('getUnitCategory answers for every unit', () => {
+        for (const key of Object.keys(Units) as UnitKey[])
+            expect(getUnitCategory(key), key).toBeDefined();
+        expect(getUnitCategory('km')).toBe('length');
+        expect(getUnitCategory('ohm')).toBe('electricity');
+        expect(getUnitCategory('degF')).toBe('temperature');
+        expect(getUnitCategory('m2')).toBe('area');
+    });
 });

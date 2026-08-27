@@ -1,13 +1,30 @@
 🎄
 "Christmas"/en"圣诞节"/zh-CN"聖誕節"/zh-TW
 ===
-¶A Christmas tree that wobbles and shimmies in a looping dance.¶
-Phrase('🎄' resting: (((Sequence({
-  0: Pose(rotation: 0°)
-  1: Pose(rotation: 15°)
-  2: Pose(rotation: 0°)
-  3: Pose(offset: Place(-0.25m))
-  4: Pose(offset: Place(0.25m))
-  5: Pose(offset: Place(-0.25m))} 0.5s)))))
+¶A Christmas tree that wobbles and shimmies in a looping dance, and jingles while
+it does.
 
+The tune hangs on the dance's first @Pose. A @Pose can carry a @Music, and it
+plays the moment that pose is struck — so the phrase begins again every time the
+dance comes round, and the loop of the animation and the loop of the music are
+the same loop. Nothing counts beats to keep them together.
 
+The two lengths are chosen to match: eight beats at 160 is three seconds, and
+five half-second steps take three seconds too. A pose is an instant rather than
+something that lasts, so a @Track's usual looping doesn't apply here — a pose's
+music always plays through exactly once.¶
+
+jingle: 🎼(
+	🎶([3 3 3𝅗𝅥 3 3 3𝅗𝅥] instrument: 🔈.🔔)
+	tempo: 160beats/min
+	volume: 55%
+	name: 'jingle'
+)
+
+Phrase('🎄' resting: Sequence({
+	0: Pose(rotation: 0° music: jingle)
+	1: Pose(rotation: 15°)
+	2: Pose(rotation: 0°)
+	3: Pose(offset: Place(-0.25m))
+	4: Pose(offset: Place(0.25m))
+	5: Pose(offset: Place(-0.25m))} 0.6s))

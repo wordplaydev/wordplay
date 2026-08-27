@@ -12,7 +12,6 @@ import Pose from '@output/animation/Pose';
 import type RenderContext from '@output/RenderContext';
 import Sequence from '@output/animation/Sequence';
 import Stage from '@output/Output/Stage';
-import type Transition from '@output/animation/Transition';
 
 export type OutputName = string;
 
@@ -88,8 +87,14 @@ export default class Animator {
     /** The active animations, responsible for tracking transitions and animations on named output. */
     readonly animations = new Map<OutputName, OutputAnimation>();
 
-    /** The current sequence being animated */
+    /** The nodes of the sequences currently being animated. */
     animatingNodes = new Set<Node>();
+
+    /** How many running animations report each node. One `Phrase(…)` inside a
+     *  `translate` produces many outputs that all resolve to the same node, so
+     *  without a count the first of them to finish un-highlights code the rest
+     *  are still animating. */
+    private readonly animatingCounts = new Map<Node, number>();
 
     /**
      * A callback provided by the instantiator to call when the stage is in need of an update
@@ -465,17 +470,36 @@ export default class Animator {
         this.exit(name);
     }
 
-    startingSequence(transitions: Transition[]) {
-        for (const transition of transitions) {
-            this.animatingNodes.add(transition.pose.value.creator);
-        }
-        this.tick(this.animatingNodes);
+    startingSequence(nodes: Node[]) {
+        for (const node of nodes)
+            this.animatingCounts.set(
+                node,
+                (this.animatingCounts.get(node) ?? 0) + 1,
+            );
+        this.updateAnimatingNodes();
     }
 
-    endingSequence(transitions: Transition[]) {
-        for (const transition of transitions) {
-            this.animatingNodes.delete(transition.pose.value.creator);
+    endingSequence(nodes: Node[]) {
+        for (const node of nodes) {
+            const count = (this.animatingCounts.get(node) ?? 0) - 1;
+            if (count > 0) this.animatingCounts.set(node, count);
+            else this.animatingCounts.delete(node);
         }
+        this.updateAnimatingNodes();
+    }
+
+    /** Republish the animating nodes, but only when the set actually changed —
+     *  starts and ends arrive in bursts as a stage settles, and each
+     *  notification re-runs the editor's highlight pass. */
+    private updateAnimatingNodes() {
+        if (
+            this.animatingCounts.size === this.animatingNodes.size &&
+            [...this.animatingCounts.keys()].every((node) =>
+                this.animatingNodes.has(node),
+            )
+        )
+            return;
+        this.animatingNodes = new Set(this.animatingCounts.keys());
         this.tick(this.animatingNodes);
     }
 

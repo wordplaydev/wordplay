@@ -120,7 +120,7 @@
             return {
                 // Spin the same icon the saved state shows, so saving reads as
                 // "working toward saved" rather than an ambiguous "…".
-                icon: withMonoEmoji(device ? '🖥️' : '🌐'),
+                icon: withMonoEmoji(device ? '🖥️' : '☁️'),
                 spin: true,
                 loading: false,
                 text: (l: LocaleText) => l.ui.save.saving,
@@ -149,7 +149,7 @@
                 // Button's spinIcon path; `loading` would replace the whole
                 // button with a taller spinner and resize the footer. The
                 // label is what distinguishes this from saving.
-                icon: withMonoEmoji('🌐'),
+                icon: withMonoEmoji('☁️'),
                 spin: true,
                 loading: false,
                 text: (l: LocaleText) => l.ui.save.status.state.loading,
@@ -171,7 +171,7 @@
                 salient: true,
             };
         return {
-            icon: withMonoEmoji(device ? '🖥️' : '🌐'),
+            icon: withMonoEmoji(device ? '🖥️' : '☁️'),
             spin: false,
             loading: false,
             text: device

@@ -1,5 +1,11 @@
 import type LocaleText from '@locale/LocaleText';
+import type Locales from '@locale/Locales';
 import { Scripts, type Script } from '@locale/Scripts';
+import {
+    describeFaceLocalized,
+    type FaceForm,
+    type FaceImpression,
+} from '@basis/faces/faceWords';
 import { OR_SYMBOL } from '@parser/Symbols';
 import { writable } from 'svelte/store';
 import type { Font as FontkitFont } from 'fontkit';
@@ -23,6 +29,16 @@ export type Face = {
     readonly format: FontFormat;
     readonly preloaded?: boolean; // True if the font is declared in CSS (app.html, fonts.css, or fonts-fallback.css), and shouldn't be reloaded.
     readonly ranges?: string | readonly string[]; // CSS unicode-range strings. Each index corrresponds to a different numbered file.
+    // What the face looks like, said in words for creators who can't see it —
+    // see faceWords.ts. The first two are authored in the manifest; the last two
+    // are measured from the font file, so they follow the file when it's
+    // swapped. Only faces a creator can pick carry them.
+    readonly form?: FaceForm;
+    readonly impression?: readonly FaceImpression[];
+    /** x-height ÷ cap-height. */
+    readonly ratio?: number;
+    /** True if every letter is the same width. */
+    readonly mono?: boolean;
 };
 
 export type Font = {
@@ -412,8 +428,21 @@ export const SupportedFontsFamiliesType = SupportedFaces.map(
     (font) => `"${font}"`,
 ).join(OR_SYMBOL);
 
-export function getFaceDescription(name: string, face: Face) {
-    return `${name} [${face.scripts.map((s) => Scripts[s]?.name ?? '?').join(' ')}]`;
+/**
+ * A face, in words: its name, what it looks like, and what it can write.
+ *
+ * Load-bearing on WebKit, where `Options` can't render its rich option snippet
+ * and this string *is* the option's accessible name — so anything only shown in
+ * `FaceName.svelte` would be silent there.
+ *
+ * Scripts are named in English (`en`) rather than in their own script, because
+ * this is read aloud: `Scripts[s].name` gives "Ελληνικά", which an English voice
+ * reads as Greek letters rather than as the word "Greek".
+ */
+export function getFaceDescription(locales: Locales, name: string, face: Face) {
+    const words = describeFaceLocalized(locales, face);
+    const scripts = face.scripts.map((s) => Scripts[s]?.en ?? '?').join(', ');
+    return `${name}${words.length > 0 ? ` — ${words}` : ''} [${scripts}]`;
 }
 
 /** Build the static file URL for a specific font file (weight/italic/range), or

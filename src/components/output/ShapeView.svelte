@@ -18,10 +18,13 @@
     import Evaluate from '@nodes/Evaluate';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import OutputHandles from '@components/output/OutputHandles.svelte';
-    import moveOutput from '@components/palette/editOutput';
+    import moveOutputWithKey from '@components/output/keyboardMove';
     import {
+        getAnnouncer,
         getProject,
         getSelectedOutput,
+        getStageGrid,
+        getStageScene,
     } from '@components/project/Contexts';
 
     interface Props {
@@ -56,6 +59,9 @@
 
     const selection = getSelectedOutput();
     const project = getProject();
+    const announce = getAnnouncer();
+    const grid = getStageGrid();
+    const stageScene = getStageScene();
 
     // Visible if z is ahead of focus and font size is greater than 0. Flat
     // (HUD) output ignores z, so it's always in front.
@@ -123,33 +129,20 @@
             !editable ||
             event.altKey ||
             $project === undefined ||
-            creator === undefined ||
-            !event.key.startsWith('Arrow')
+            creator === undefined
         )
             return;
-        const increment = 0.5;
-        const horizontal =
-            event.key === 'ArrowLeft'
-                ? -increment
-                : event.key === 'ArrowRight'
-                  ? increment
-                  : 0;
-        const vertical =
-            event.key === 'ArrowUp'
-                ? increment
-                : event.key === 'ArrowDown'
-                  ? -increment
-                  : 0;
-        event.stopPropagation();
-        moveOutput(
-            DB,
-            $project,
-            [creator],
-            $locales,
-            horizontal,
-            vertical,
-            true,
-        );
+        moveOutputWithKey(event, {
+            db: DB,
+            project: $project,
+            creator,
+            output: shape,
+            locales: $locales,
+            scene: $stageScene,
+            grid: $grid ?? false,
+            selection,
+            announce: $announce,
+        });
     }
 
     let description: string | null = $state(null);
@@ -190,9 +183,15 @@
         data-selectable={selectable}
         style:font-family={getFaceCSS(context.face)}
         style:font-size={getSizeCSS(context.size)}
-        style:border-color={shape.getDefaultPose()?.color?.toCSS()}
-        style:background={shape.background?.toCSS() ?? null}
-        style:color={getColorCSS(shape.getFirstRestPose(), shape.pose)}
+        style:border-color={shape
+            .getDefaultPose()
+            ?.color?.toCSS(context.adapting)}
+        style:background={shape.background?.toCSS(context.adapting) ?? null}
+        style:color={getColorCSS(
+            shape.getFirstRestPose(),
+            shape.pose,
+            context.adapting,
+        )}
         style:opacity={getOpacityCSS(shape.getFirstRestPose(), shape.pose)}
         style:width="{width}px"
         style:height="{height}px"
@@ -222,7 +221,7 @@
             <path
                 class="border"
                 d={shape.form.toSVGPath(0, 0)}
-                fill={shape.background?.toCSS() ?? null}
+                fill={shape.background?.toCSS(context.adapting) ?? null}
             />
         </svg>
         <!-- Handles render after the SVG so the (opaque) form fill doesn't paint over them.

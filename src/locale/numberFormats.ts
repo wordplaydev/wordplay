@@ -11,7 +11,7 @@ import {
     tamilDigits,
     teluguDigits,
     thaiDigits,
-} from '@values/NumberValue';
+} from '@values/numerals';
 
 /**
  * Deterministic, in-repo number formatting for output (#1196). We deliberately
@@ -25,10 +25,8 @@ import {
 /** Positional scripts we render native digits for — the reverse of the digit
  *  maps the tokenizer already uses on input. Any other script (Latin, Arabic,
  *  CJK, …) renders Latin digits, matching current numeral *input* support.
- *  Resolved via a switch (not a prebuilt object) so the imported forward maps
- *  are read at call time: numberFormats and NumberValue import each other, and
- *  a prebuilt object would capture the maps before NumberValue finishes
- *  initializing them. */
+ *  Resolved via a switch (not a prebuilt object) so the imported forward maps are read at call
+ *  time rather than captured during module initialization. */
 function forwardDigitsFor(script: Script): Record<string, string> | undefined {
     switch (script) {
         case 'Deva':

@@ -125,7 +125,7 @@
             "definition": "$~Bir @value ya da bir @FunctionDefinition gösteren bir kelime."
         },
         "markup": {
-            "word": "$~işaretleme",
+            "word": "$~biçimli metin",
             "definition": "$~Biçimlendirilmiş metin, örneğin kalın kelimeler veya bağlantılar."
         },
         "language": {
@@ -478,11 +478,13 @@
             "doc": "$~Ben @TypeVariable'lardan oluşan bir listeyim."
         },
         "Markup": {
-            "name": "$~işaretleme",
-            "description": "$~işaretleme $#count[$count paragraf|$count paragraf]",
+            "name": "$~biçimli metin",
+            "description": "$~biçimli metin $#count[$count paragraf|$count paragraf]",
             "emotion": "serious",
             "doc": [
-                "$~Ben paragrafların bir listesiyim ve açıklamalarda bulunan pek çok @markup türünü kullanırım, örneğin @Words, @WebLink, @ConceptLink ve @Example."
+                "$~Ben bir paragraf listesiyim ve @Doc içinde bulunan birçok biçimli metin türünü kullanıyorum, örneğin @Words, @WebLink, @ConceptLink ve @Example.",
+                "Beni bir @Doc içinde ve @FormattedLiteral içinde bulabilirsin:",
+                "\\¶Ben *kalın* metin içeren bir dokümantasyonum. @Phrase gibi kavramlara başvurabilir, <web'deki şeylere@https://wordplay.dev> bağlantı verebilirim.¶\nİfadeetmek(\n\t`Ben bir @Phrase için biçimli metnim, *kalın*, /italik/ ve _altı çizili_ kullanıyorum`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~paragraflar"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~dal",
-            "description": "$~$condition koşuluna göre işaretleme seçimi",
+            "description": "$~$condition üzerinde biçimli metin seçimi",
             "emotion": "serious",
             "doc": [
                 "$~Açıklama giriş değerinin tanımlanmış veya doğru olmasına göre iki açıklama segmenti arasında seçim yapmanın bir yoluyum.",
@@ -3237,6 +3239,24 @@
                 "TiB": "$~tebibayt",
                 "lux": "$~lüks",
                 "fc": "$~foot-candle"
+            },
+            "category": {
+                "time": "$~Zaman",
+                "length": "$~Uzunluk",
+                "weight": "$~Ağırlık",
+                "temperature": "$~Sıcaklık",
+                "angle": "$~Açı",
+                "area": "$~Alan",
+                "volume": "$~Hacim",
+                "speed": "$~Hız",
+                "pressure": "$~Basınç",
+                "energy": "$~Enerji",
+                "power": "$~Güç",
+                "electricity": "$~Elektrik",
+                "frequency": "$~Frekans",
+                "data": "$~Veri",
+                "brightness": "$~Parlaklık",
+                "other": "$~Diğer"
             }
         },
         "List": {
@@ -3632,23 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Bir liste alabilir ve değerleri sıralanmış yeni bir liste yapabilirim. Şöyle:",
+                        "$~Bir liste alıp, değerleri sıralanmış yeni bir liste oluşturabilirim. İşte böyle:",
                         "\\[1 5 8 0 2].sıralanmış()\\",
-                        "Bunu @Text değerleri için de yapabilirim",
-                        "\\['portakal' 'kivi' 'muz' 'elma'].sıralanmış()\\",
-                        "Ve eğer @Number ya da @Text olmayan bir değer listeniz varsa, bana her öğeyi bir @Number değerine dönüştüren bir @FunctionDefinition verebilirsiniz ki onu sıralayabileyim. Örneğin, burada farklı uzunlukta listelerden oluşan bir listemiz var; her listeyi kendi uzunluğuna dönüştüren bir fonksiyon verirseniz, onları uzunluklarına göre sıralayabilirim.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste) liste.uzunluk()\n)\\"
+                        "@Text değerleri için de bunu alfabetik sırayla yapabilirim. Büyük bir harf, küçük harfli haliyle yan yana sıralanır, bu yüzden bir kelime sadece büyük harfle başladığı için sona atılmaz:",
+                        "\\['Portakal' 'kivi' 'Muz' 'elma'].sıralanmış()\\",
+                        "Ve eğer @Number veya @Text olmayan değerlerden oluşan bir listen varsa, bana her öğeyi bir @Number ya da @Text değerine çeviren bir @FunctionDefinition verebilirsin, böylece onu sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; bana her listeyi kendi uzunluğuna çeviren bir işlev verirsen, onları uzunluklarına göre sıralayabilirim.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste2) liste2.uzunluk()\n)\\",
+                        "@Text oluşturan bir işlev, değerin kendisine göre değil, hesapladığın bir kelimeye göre sıralamanı sağlar. Burada isimleri soyadına göre sıralıyorum:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim2•'') (isim2 ÷ ' ').son()\n)\\"
                     ],
                     "names": "$~sıralanmış",
                     "inputs": [
                         {
-                            "doc": "$~Bir listeyi @value sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Değeri, listeyi sıralamak için kullanılabilecek bir @Number değerine dönüştürmelidir.",
+                            "doc": "$~Bir @value listesini sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Bu, değeri listeyi sıralamak için kullanılabilecek bir @Number ya da @Text değerine çevirmelidir.",
                             "names": "$~sıralayıcı"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Bir @Number değerine dönüştürülecek @value.",
+                            "doc": "$~Bir @Number ya da @Text değerine çevrilecek olan @value.",
                             "names": "$~değer"
                         }
                     ]
@@ -5511,7 +5533,11 @@
                 "doc": "$~@Output'un varsayılanı yerine y ekseninde yansıtılıp yansıtılmayacağı.",
                 "names": "$~tersyüz"
             },
-            "description": "$~$opacity[şeffaf $opacity|] $rotation[2 derece döndürülmüş|] $scale[ölçeklenmiş $scale|] $flipx[yatay olarak çevrilmiş|] $flipy[dikey olarak çevrilmiş|] $blur[gölge bulanık $blur piksel|]"
+            "description": "$~$opacity[şeffaf $opacity|] $rotation[2 derece döndürülmüş|] $scale[ölçeklenmiş $scale|] $flipx[yatay olarak çevrilmiş|] $flipy[dikey olarak çevrilmiş|] $blur[gölge bulanık $blur piksel|]",
+            "music": {
+                "doc": "$~Animasyon durumum başladığında veya bir @Sequence bana ulaştığında çalmam gereken @Music. Amaç kısa bir ses; sadece bir kez baştan sona çalarım.",
+                "names": "$~müzik"
+            }
         },
         "Color": {
             "doc": [
@@ -6843,7 +6869,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~HAYIR"
+            "missing": "$~HAYIR",
+            "form": {
+                "sans": "$~çıkıntısız (sans-serif) bir yazı biçimi",
+                "serif": "$~çıkıntılı (serif) bir yazı biçimi",
+                "slab": "$~kalın çıkıntılı bir yazı biçimi",
+                "typewriter": "$~daktilo görünümlü bir yazı biçimi",
+                "handwriting": "$~el yazısı",
+                "brush": "$~fırça ile çizilmiş bir yazı biçimi",
+                "script": "$~bitişik bir yazı biçimi",
+                "poster": "$~afiş tarzı bir yazı biçimi",
+                "pixel": "$~piksel görünümlü bir yazı biçimi",
+                "outline": "$~içi boş bir yazı biçimi",
+                "textured": "$~dokulu bir yazı biçimi",
+                "emoji": "$~harfler değil, resimler"
+            },
+            "impression": {
+                "calm": "$~sakin",
+                "oldFashioned": "$~eski moda",
+                "strong": "$~güçlü",
+                "quirky": "$~tuhaf",
+                "playful": "$~eğlenceli",
+                "excited": "$~heyecanlı",
+                "childlike": "$~çocuksu",
+                "artistic": "$~sanatsal",
+                "futuristic": "$~fütüristik",
+                "energetic": "$~enerjik",
+                "cute": "$~şirin",
+                "cheerful": "$~neşeli",
+                "fancy": "$~gösterişli"
+            },
+            "mechanic": {
+                "sameWidth": "$~her harf aynı genişlikte",
+                "tallLowercase": "$~küçük harfler büyük harfler kadar uzun",
+                "shortLowercase": "$~küçük harfler büyük harflerden çok daha kısa"
+            },
+            "description": {
+                "and": "$~$first ve $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Merhaba"
@@ -6899,6 +6963,10 @@
             },
             "logo": {
                 "description": "$~İçinde senin yazı sisteminden bir harf olan bir konuşma balonu"
+            },
+            "synced": {
+                "saved": "$~Cihazlar arasında kaydedilir",
+                "signedOut": "$~Giriş yaptığında cihazlar arasında kaydedilir"
             }
         },
         "tile": {
@@ -7510,6 +7578,13 @@
             "hidden": {
                 "message": "$~Her şey sahnenin dışında.",
                 "show": "$~her şeyi göster"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7531,7 +7606,7 @@
                 "timeline": "$~/zaman çizelgesi/ programının değerlendirmesinde bir adım bir adım *ileri* ve *geri* gitmene olanak tanır. ✏️ *düzenle* ve ⏸️ *hata ayıklama* modlarında sahnenin araç çubuğunda görünür. Programının değerini *nasıl* hesapladığını görmek ve @wordplay programlarının nasıl değerlendirildiğine dair zihinsel bir model oluşturmak için harika bir yoldur, özellikle istediğin davranışı göremiyorsan.",
                 "annotations": "$~/annotations/ penceresi, her adımın açıklamalarının göründüğü yerdir. Programınızda adım adım ilerlerken, neler olduğunu burada okuyacaksınız.",
                 "editor": "$~/editör/ kodunuzu gösterir. Adım adım ilerlerken, programınızın her bölümünün *değeri*, değerlendirildikten *sonra* o bölümün yanında görünecektir; böylece program çalışırken değerlerin nasıl biriktiğini izleyebilirsiniz.",
-                "history": "$~/history/ dizini, programınızın aldığı her *girdiyi* gösterir; örneğin tuşlar, zaman işaretleri ve işaretçi olayları. *Sürüklenebilir* olduğundan, programın değerlendirme geçmişindeki herhangi bir ana sürükleyerek geri dönebilirsiniz.",
+                "history": "$~/geçmiş/, programının aldığı her *girdiyi* gösterir: tuşlar, zaman adımları, işaretçi olayları. Bu geçmiş *sürüklenebilir*, yani sürükleyerek programın değerlendirme geçmişindeki herhangi bir ana geri dönebilirsin. Bu girdileri görmek yerine *duymak* istersen, ayarlardan /değerlendirme ipuçlarını/ aç. Böylece @wordplay her girdi için kısa bir ses çalar, her girdi türü için farklı bir sesle.",
                 "stepControls": "$~/Adım kontrolleri/ değerlendirme sürecinde hassas bir şekilde ilerlemenizi sağlar. *Başlangıç* veya *son* noktaya atlayabilir, birer adım ileri veya geri gidebilir, *bir girdi* kadar atlayabilir, bir fonksiyonun dışına çıkabilir veya kodun *şu anda seçili* bölümüne atlayabilirsiniz.",
                 "modes": "$~/mod değiştirici/ programının nasıl değerlendirildiğini seçer. ✏️ *düzenle* modunda program bulunduğu yerde durur ve onu değiştirebilirsin — düzenlemelerin o noktadaki etkisini göstermek için yeniden oynatılır. ⏸️ *hata ayıklama* modunda kod yalnızca okunabilir ve programının her parçasının *şimdiki değeri* düzenleyicide ve palette yanında görünür. ▶️ *oynat* modunda programın bulunduğu yerden canlı çalışır ve girdilere gerçek zamanlı yanıt verir. Değiştiricinin yanında, /performans/ düğmesi — tam ekran köşeleriyle sarılmış bir oynat üçgeni — en baştan bir performans başlatır ve ekranı sahneyle doldurur, ↻ ise programı her modda sıfırlar."
             }
@@ -8069,6 +8144,38 @@
                             "$~Altyazıları iki kat büyük göster",
                             "$~Altyazıları üç kat büyük göster"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~proje renkleri",
+                        "labels": ["$~koru", "$~çevir"],
+                        "tips": [
+                            "$~bir projenin renklerini, karanlık bir ekranda bile tam olarak yazıldığı gibi göster",
+                            "$~karanlık bir ekranda, parlak bir projenin renklerini koyu renklere çevir: her renk kendi tonunu korur ve renkler projenin belirlediği kadar birbirinden uzak kalır"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~değerlendirme ipuçları",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Program yeniden değerlendirildiğinde ses çıkarma",
+                            "$~Program her yeniden değerlendirildiğinde kısa bir ses çal, her girdi türü için ayrı bir ses"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~animasyon ipuçları",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Çıktı hareketlendiğinde ses çıkarma",
+                            "$~Bir animasyon bir poza ulaştığında kısa bir ses çal; ses, pozun ne yaptığına uygun olsun"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~çarpışma ipuçları",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Çıktı çarpıştığında ses çıkarma",
+                            "$~Çıktı çarpıştığında kısa bir ses çal; çarpışma ne kadar sertse ses o kadar yüksek olsun"
+                        ]
                     }
                 },
                 "options": {
@@ -8095,7 +8202,8 @@
                 },
                 "subheader": {
                     "music": "$~Müzik",
-                    "say": "$~Söyle"
+                    "say": "$~Söyle",
+                    "cues": "$~İpuçları"
                 }
             },
             "locale": {
@@ -8619,11 +8727,11 @@
                     "accessible": {
                         "title": "$~Wordplay erişilebilir",
                         "bullets": [
-                            "$~• Fareyle yapabildiğin her şeyi, klavyeyle de yapabilirsin.",
-                            "• Ekran okuyucular sahneyi sadece yüklendiğinde değil, değiştikçe de anlatır.",
-                            "• Kodunu metin yerine bloklar olarak okuyabilir ve yazabilirsin, istediğin zaman değiştirebilirsin.",
+                            "$~• Farenle yapabileceğin her şeyi klavyenle de yapabilirsin.",
+                            "• Ekran okuyucular, sahne değiştikçe onu anlatır. İsteğe bağlı sesler de neyin yeniden hesaplandığını, neyin canlandığını ve neyin çarpıştığını belirtir.",
+                            "• Kodunu metin yerine bloklar olarak okuyup yazabilirsin. İstediğin zaman ikisi arasında geçiş yapabilirsin.",
                             "• Hareket yavaşlatılabilir ya da tamamen kapatılabilir.",
-                            "• Sesli çıktı, duyamayan herkes için sahnede alt yazı olarak gösterilebilir."
+                            "• Sesli çıkışı duyamayan biri için sahnede altyazı olarak gösterilebilir."
                         ]
                     },
                     "senses": {
@@ -9976,7 +10084,12 @@
             "scriptLabel": "$~komut dosyasına göre filtrele",
             "pickFilter": "$~Bir kategori veya senaryo seçin.",
             "moreLanguages": "$~ve daha fazla $count",
-            "moreGlyphs": "$~$count gösteriliyor — daha fazlasını bulmak için arama yap"
+            "moreGlyphs": "$~$count gösteriliyor — daha fazlasını bulmak için arama yap",
+            "presentation": {
+                "label": "$~emoji rengi",
+                "labels": ["$~renk", "$~siyah beyaz"],
+                "tips": ["$~renkli emoji ekle", "$~siyah beyaz emoji ekle"]
+            }
         },
         "localize": {
             "header": "$~Yerelleştir",

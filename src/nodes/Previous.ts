@@ -2,7 +2,7 @@ import conciseRef from '@nodes/conciseRef';
 import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
-import type { InsertContext } from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -22,6 +22,7 @@ import Characters from '../lore/BasisCharacters';
 import AnyType from '@nodes/AnyType';
 import type Context from '@nodes/Context';
 import Expression, { type GuardContext } from '@nodes/Expression';
+import NumberLiteral from '@nodes/NumberLiteral';
 import ListType from '@nodes/ListType';
 import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import NoneType from '@nodes/NoneType';
@@ -65,8 +66,12 @@ export default class Previous extends Expression {
         );
     }
 
-    static getPossibleReplacements() {
-        return [];
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
+        // Offer `←1 stream` on any stream-valued expression. Only the `range` insertion below
+        // existed, which could add the second `←` to a Previous but never make the first one.
+        return node instanceof Expression && isStreamExpression(node, context)
+            ? [Previous.make(node, NumberLiteral.make(1))]
+            : [];
     }
 
     static getPossibleInsertions({ parent, field }: InsertContext) {

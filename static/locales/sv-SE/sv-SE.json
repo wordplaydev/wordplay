@@ -125,7 +125,7 @@
             "definition": "$~Ett ord som pekar på ett @value eller en @FunctionDefinition."
         },
         "markup": {
-            "word": "$~pålägg",
+            "word": "$~formaterad text",
             "definition": "$~Text med formatering, som feta ord eller länkar."
         },
         "language": {
@@ -478,11 +478,13 @@
             "doc": "$~Jag är en lista med @TypeVariable."
         },
         "Markup": {
-            "name": "$~pålägg",
-            "description": "$~pålägg med $#count[$count stycke|$count stycken]",
+            "name": "$~formaterad text",
+            "description": "$~formaterad text med $#count[$count stycke|$count stycken]",
             "emotion": "serious",
             "doc": [
-                "$~Jag är en lista med stycken, som använder de många sorters @markup som finns i förklaringar, såsom @Words, @WebLink, @ConceptLink och @Example."
+                "$~Jag är en lista med stycken, som använder de många sorters formaterad text som finns i @Doc, till exempel @Words, @WebLink, @ConceptLink och @Example.",
+                "Du hittar mig i en @Doc, och i @FormattedLiteral:",
+                "\\¶Jag är dokumentation med *fet* text. Jag kan hänvisa till begrepp som @Phrase och kan länka till <saker på webben@https://wordplay.dev>.¶\nFras(\n\t`Jag är formaterad text för en @Phrase, med *fet*, /kursiv/ och _understruken_ text`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~stycken"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~gren",
-            "description": "$~påläggsval på $condition",
+            "description": "$~val av formaterad text beroende på $condition",
             "emotion": "serious",
             "doc": [
                 "$~Jag är ett sätt att välja mellan två förklaringssegment baserat på om ett förklaringsinmatningsvärde är definierat eller sant.",
@@ -3234,6 +3236,24 @@
                 "TiB": "$~tebibyte",
                 "lux": "$~lux",
                 "fc": "$~fotcandela"
+            },
+            "category": {
+                "time": "$~Tid",
+                "length": "$~Längd",
+                "weight": "$~Vikt",
+                "temperature": "$~Temperatur",
+                "angle": "$~Vinkel",
+                "area": "$~Area",
+                "volume": "$~Volym",
+                "speed": "$~Hastighet",
+                "pressure": "$~Tryck",
+                "energy": "$~Energi",
+                "power": "$~Effekt",
+                "electricity": "$~Elektricitet",
+                "frequency": "$~Frekvens",
+                "data": "$~Data",
+                "brightness": "$~Ljusstyrka",
+                "other": "$~Annat"
             }
         },
         "List": {
@@ -3630,22 +3650,24 @@
                 "sorted": {
                     "doc": [
                         "$~Jag kan ta en lista och göra en ny lista med dess värden sorterade. Så här:",
-                        "\\[1 5 8 0 2].sorted()\\",
-                        "Jag kan också göra det för @Text-värden",
-                        "\\['orange' 'kiwi' 'banan' 'äpple'].sorted()\\",
-                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör varje objekt till ett @Number så att jag kan sortera det. Här har vi till exempel en lista med listor av olika längd; om du ger mig en funktion som förvandlar varje lista till sin längd, kan jag sortera efter deras längd.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\"
+                        "\\[1 5 8 0 2].sorterad()\\",
+                        "Jag kan också göra det för @Text-värden, i bokstavsordning. En stor bokstav sorteras bredvid sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
+                        "\\['Apelsin' 'kiwi' 'Banan' 'äpple'].sorterad()\\",
+                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör om varje element till en @Number eller en @Text så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd. Om du ger mig en funktion som gör om varje lista till dess längd, kan jag sortera efter längden.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista2) lista2.längd())\\",
+                        "En funktion som ger @Text är hur du sorterar efter ett ord du räknar ut, istället för efter själva värdet. Här sorterar jag namn efter efternamnet:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn2•'') (namn2 ÷ ' ').sista()\n)\\"
                     ],
                     "names": "$~sorterad",
                     "inputs": [
                         {
-                            "doc": "$~Den valfria @FunctionDefinition som används för att sortera en lista @value. Den ska omvandla värdet till en @Number som kan användas för att sortera listan.",
+                            "doc": "$~Den valfria @FunctionDefinition som används för att sortera en lista @value. Den ska göra om värdet till en @Number eller en @Text som kan användas för att sortera listan.",
                             "names": "$~sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value som ska omvandlas till en @Number.",
+                            "doc": "$~@value som ska göras om till en @Number eller en @Text.",
                             "names": "$~värde"
                         }
                     ]
@@ -5504,7 +5526,11 @@
                 "doc": "$~Huruvida en @Output ska speglas på y-axeln, istället för att den är standard.",
                 "names": "$~flipy"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[roterad $rotation grader|] $scale[skalad $scale|] $flipx[vänd horisontellt|] $flipy[vänd vertikalt|] $blur[skugga suddig $blur pixlar|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[roterad $rotation grader|] $scale[skalad $scale|] $flipx[vänd horisontellt|] $flipy[vänd vertikalt|] $blur[skugga suddig $blur pixlar|]",
+            "music": {
+                "doc": "$~@Music jag ska spela när mitt animeringstillstånd börjar eller när en @Sequence når mig. En kort ljud är poängen; jag spelar bara igenom en gång.",
+                "names": "$~musik"
+            }
         },
         "Color": {
             "doc": [
@@ -6836,7 +6862,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~inga"
+            "missing": "$~inga",
+            "form": {
+                "sans": "$~ett typsnitt utan klackar",
+                "serif": "$~ett typsnitt med klackar",
+                "slab": "$~ett typsnitt med kraftiga klackar",
+                "typewriter": "$~ett skrivmaskinstypsnitt",
+                "handwriting": "$~handstil",
+                "brush": "$~ett penseltypsnitt",
+                "script": "$~ett kursivt typsnitt",
+                "poster": "$~ett postertypsnitt",
+                "pixel": "$~ett pixeltypsnitt",
+                "outline": "$~ett ihåligt typsnitt",
+                "textured": "$~ett typsnitt med struktur",
+                "emoji": "$~bilder, inte bokstäver"
+            },
+            "impression": {
+                "calm": "$~lugnt",
+                "oldFashioned": "$~gammaldags",
+                "strong": "$~starkt",
+                "quirky": "$~udda",
+                "playful": "$~lekfullt",
+                "excited": "$~upprymt",
+                "childlike": "$~barnsligt",
+                "artistic": "$~konstnärligt",
+                "futuristic": "$~futuristiskt",
+                "energetic": "$~energiskt",
+                "cute": "$~gulligt",
+                "cheerful": "$~glatt",
+                "fancy": "$~flott"
+            },
+            "mechanic": {
+                "sameWidth": "$~varje bokstav lika bred",
+                "tallLowercase": "$~små bokstäver lika höga som versaler",
+                "shortLowercase": "$~små bokstäver mycket kortare än versaler"
+            },
+            "description": {
+                "and": "$~$first och $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Hej"
@@ -6892,6 +6956,10 @@
             },
             "logo": {
                 "description": "$~En pratbubbla med en bokstav från ditt skriftsystem inuti"
+            },
+            "synced": {
+                "saved": "$~Sparas mellan enheter",
+                "signedOut": "$~Sparas mellan enheter när du är inloggad"
             }
         },
         "tile": {
@@ -7503,6 +7571,13 @@
             "hidden": {
                 "message": "$~Allt är utanför scenen.",
                 "show": "$~visa allt"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7524,7 +7599,7 @@
                 "timeline": "$~Med /tidslinjen/ kan du stega *framåt* och *bakåt* genom ditt programs utvärdering, ett steg i taget. Den visas i scenens verktygsrad i lägena ✏️ *redigera* och ⏸️ *felsök*, och den är ett bra sätt att se *hur* ditt program beräknar sitt värde. Den hjälper dig också att bygga en mental modell av hur @wordplay-program utvärderas, särskilt om du inte ser det beteende du vill ha.",
                 "annotations": "$~I fönstret /annotations/ visas förklaringar av varje steg. När du går igenom programmet kan du läsa vad som just hände.",
                 "editor": "$~/Editor/ visar din kod. När du stegar kommer *värdet* för varje del av ditt program att visas bredvid den delen *efter* att den har utvärderats, så att du kan se värdena byggas upp medan programmet körs.",
-                "history": "$~/History/ visar alla *indata* som ditt program har mottagit, som tangenter, tidstick och pekarhändelser. Den är *drabar*, så du kan återgå till när som helst i programmets utvärderingshistorik genom att bara dra.",
+                "history": "$~/Historiken/ visar varje *inmatning* ditt program har fått, som tangenter, tidssteg och pekarhändelser. Den är *dragbar*, så du kan gå tillbaka till vilket ögonblick som helst i programmets historik bara genom att dra. Om du hellre vill *höra* dessa inmatningar än se dem, slå på /utvärderingsljud/ i inställningarna, så spelar @wordplay upp ett kort ljud för varje inmatning, med ett eget ljud för varje typ av inmatning.",
                 "stepControls": "$~Med /step-kontrollerna/ kan du gå igenom utvärderingen exakt. Du kan hoppa till *start* eller *slut*, gå *framåt* eller *bakåt* ett steg i taget, hoppa *en inmatning*, gå *ut* ur en funktion eller hoppa till den *nu valda* delen av koden.",
                 "modes": "$~Med /lägesväxlaren/ väljer du hur ditt program utvärderas. I läget ✏️ *redigera* pausas programmet där det är och du kan ändra det — dina ändringar spelas upp igen för att visa sin effekt vid den punkten. I läget ⏸️ *felsök* går koden bara att läsa, och det *aktuella värdet* för varje del av ditt program visas bredvid den i redigeraren och i paletten. I läget ▶️ *spela* körs ditt program direkt från där det är och svarar på inmatningar i realtid. Bredvid växlaren finns knappen /uppträd/ — en spela-triangel omgiven av helskärmshörn — som startar ett uppträdande från toppen och fyller skärmen med scenen, och ↻ återställer programmet i alla lägen."
             }
@@ -8059,6 +8134,38 @@
                             "$~Visa bildtexter dubbelt så stora",
                             "$~Visa bildtexter tre gånger så stora"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~projektfärger",
+                        "labels": ["$~behåll", "$~vänd"],
+                        "tips": [
+                            "$~visa ett projekts färger exakt som det skrev dem, även på en mörk skärm",
+                            "$~på en mörk skärm, vänd ett ljust projekts färger till mörka: varje färg behåller sin nyans, och färgerna förblir lika olika som projektet gjorde dem"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~utvärderingsljud",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Gör inget ljud när programmet utvärderas på nytt",
+                            "$~Spela upp ett kort ljud varje gång programmet utvärderas på nytt, ett för varje typ av inmatning"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~animationsljud",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Gör inget ljud när utdata animeras",
+                            "$~Spela upp ett kort ljud varje gång en animation når en pose, där ljudet följer vad posen gör"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~kollisionsljud",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Gör inget ljud när utdata krockar",
+                            "$~Spela upp ett kort ljud när utdata krockar, högre ju hårdare krocken är"
+                        ]
                     }
                 },
                 "options": {
@@ -8085,7 +8192,8 @@
                 },
                 "subheader": {
                     "music": "$~Musik",
-                    "say": "$~Säg"
+                    "say": "$~Säg",
+                    "cues": "$~Ljud"
                 }
             },
             "locale": {
@@ -8609,11 +8717,11 @@
                     "accessible": {
                         "title": "$~Wordplay är tillgängligt",
                         "bullets": [
-                            "$~• Allt du kan göra med en mus, kan du göra med ett tangentbord.",
-                            "• Skärmläsare beskriver scenen medan den ändras, inte bara när den laddas.",
-                            "• Du kan läsa och skriva koden din som block istället för text, och byta när du vill.",
-                            "• Rörelser kan sakta ner, eller stängas av helt.",
-                            "• Talat ljud kan visas som text på scenen för den som inte kan höra det."
+                            "$~• Allt du kan göra med en mus kan du göra med ett tangentbord.",
+                            "• Skärmläsare beskriver scenen när den ändras, och valfria ljud visar vad som räknas om, vad som animeras och vad som kolliderar.",
+                            "• Du kan läsa och skriva din koda som block istället för text, och byta när du vill.",
+                            "• Rörelse kan göras långsammare, eller stängas av helt.",
+                            "• Talat ljud kan visas som text på scenen för de som inte kan höra det."
                         ]
                     },
                     "senses": {
@@ -9958,7 +10066,12 @@
             "scriptLabel": "$~filtrera efter skript",
             "pickFilter": "$~Välj en kategori eller ett manus",
             "moreLanguages": "$~och $count mer",
-            "moreGlyphs": "$~Visar $count — sök för att hitta fler"
+            "moreGlyphs": "$~Visar $count — sök för att hitta fler",
+            "presentation": {
+                "label": "$~emoji i färg",
+                "labels": ["$~färg", "$~svartvitt"],
+                "tips": ["$~infoga emoji i färg", "$~infoga emoji i svartvitt"]
+            }
         },
         "localize": {
             "header": "$~Lokalisera",

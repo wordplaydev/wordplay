@@ -45,6 +45,126 @@ export function getNumber(given: Expression): number | undefined {
         : undefined;
 }
 
+/**
+ * Return `evaluate` moved to (or by) the given coordinates — its `place` bind
+ * rewritten, or for a Shape, its form translated, since a Shape has no place.
+ * Returns the evaluate unchanged when there is nothing it can move.
+ *
+ * Pure, and separate from `moveOutput` below, so a move that changes nothing can
+ * be recognized as such before it becomes an edit. See `rotatedOutput` and
+ * `resizedOutput`, which are the same shape for the same reason.
+ */
+export function movedOutput(
+    project: Project,
+    evaluate: Evaluate,
+    locales: Locales,
+    horizontal: number,
+    vertical: number,
+    relative: boolean,
+): Evaluate {
+    const PlaceType = project.shares.output.Place;
+    const ctx = project.getNodeContext(evaluate);
+
+    // Shapes have no place; move them by translating their form's anchor (its
+    // Rectangle edges or Circle/Polygon center) to the target stage position.
+    const ShapeType = project.shares.output.Shape;
+    if (evaluate.is(ShapeType, ctx)) {
+        const form = evaluate.getInput(ShapeType.inputs[0], ctx);
+        const anchor =
+            form instanceof Evaluate
+                ? getFormAnchor(project, form, ctx)
+                : undefined;
+        const newForm =
+            form instanceof Evaluate && anchor
+                ? translateFormTo(
+                      project,
+                      form,
+                      ctx,
+                      relative ? anchor.x + horizontal : horizontal,
+                      relative ? anchor.y + vertical : vertical,
+                  )
+                : undefined;
+        return newForm
+            ? evaluate.withBindAs(ShapeType.inputs[0], newForm, ctx)
+            : evaluate;
+    }
+
+    const given = getPlaceExpression(project, evaluate, ctx);
+    const place =
+        given instanceof Evaluate && given.is(PlaceType, ctx)
+            ? given
+            : undefined;
+
+    const x = place?.getInput(project.shares.output.Place.inputs[0], ctx);
+    const y = place?.getInput(project.shares.output.Place.inputs[1], ctx);
+    const z = place?.getInput(project.shares.output.Place.inputs[2], ctx);
+
+    const xValue = x instanceof Expression ? getNumber(x) : undefined;
+    const yValue = y instanceof Expression ? getNumber(y) : undefined;
+    const zValue = z instanceof Expression ? getNumber(z) : undefined;
+
+    const bind = evaluate.is(project.shares.output.Phrase, ctx)
+        ? project.shares.output.Phrase.inputs[3]
+        : evaluate.is(project.shares.output.Group, ctx)
+          ? project.shares.output.Group.inputs[4]
+          : undefined;
+
+    if (bind === undefined) return evaluate;
+
+    return evaluate.withBindAs(
+        bind,
+        Evaluate.make(
+            Reference.make(locales.getName(PlaceType.names), PlaceType),
+            [
+                // If coordinate is computed, and not a literal, don't change it.
+                x instanceof Expression && xValue === undefined
+                    ? x
+                    : NumberLiteral.make(
+                          relative
+                              ? new Decimal(xValue ?? 0)
+                                    .add(horizontal)
+                                    .toNumber()
+                              : horizontal,
+                          Unit.meters(),
+                      ),
+                y instanceof Expression && yValue === undefined
+                    ? y
+                    : NumberLiteral.make(
+                          relative
+                              ? new Decimal(yValue ?? 0)
+                                    .add(vertical)
+                                    .toNumber()
+                              : vertical,
+                          Unit.meters(),
+                      ),
+                z instanceof Expression && zValue !== undefined
+                    ? z
+                    : NumberLiteral.make(0, Unit.meters()),
+            ],
+        ),
+        ctx,
+    );
+}
+
+/**
+ * Move each of the given outputs, and revise the project — unless nothing
+ * actually moved.
+ *
+ * The no-op check is load-bearing, not an optimization. Every revision mints new
+ * node IDs for the moved node and all of its ancestors, while `Project.equals`
+ * (what ProjectView uses to decide whether to rebuild the evaluator) compares
+ * text and structure and cannot see IDs. So a revision that changes nothing
+ * advances the project and does NOT rebuild the evaluator, and the stage is left
+ * rendering `data-node-id`s that no longer exist in the project — which makes the
+ * output unclickable and unmovable until some edit changes the text.
+ *
+ * A drag produces identical targets routinely: coordinates are rounded to two
+ * decimals, and while snapped to a grid line or an alignment guide the committed
+ * place is pinned to the same value frame after frame. The same guard exists on
+ * the rotate and resize handles (see OutputView's handle drag), whose comment
+ * assumed moving could never hit this because its position changes every frame.
+ * Snapping is what made that false.
+ */
 export default function moveOutput(
     db: Database,
     project: Project,
@@ -54,115 +174,26 @@ export default function moveOutput(
     vertical: number,
     relative: boolean,
 ) {
-    const PlaceType = project.shares.output.Place;
-
-    Projects.revise(
-        project,
-        evaluates.map((evaluate) => {
-            const ctx = project.getNodeContext(evaluate);
-
-            // Shapes have no place; move them by translating their form's anchor (its
-            // Rectangle edges or Circle/Polygon center) to the target stage position.
-            const ShapeType = project.shares.output.Shape;
-            if (evaluate.is(ShapeType, ctx)) {
-                const form = evaluate.getInput(ShapeType.inputs[0], ctx);
-                const anchor =
-                    form instanceof Evaluate
-                        ? getFormAnchor(project, form, ctx)
-                        : undefined;
-                const newForm =
-                    form instanceof Evaluate && anchor
-                        ? translateFormTo(
-                              project,
-                              form,
-                              ctx,
-                              relative ? anchor.x + horizontal : horizontal,
-                              relative ? anchor.y + vertical : vertical,
-                          )
-                        : undefined;
-                return [
+    const revisions = evaluates
+        .map(
+            (evaluate) =>
+                [
                     evaluate,
-                    newForm
-                        ? evaluate.withBindAs(ShapeType.inputs[0], newForm, ctx)
-                        : evaluate,
-                ];
-            }
+                    movedOutput(
+                        project,
+                        evaluate,
+                        locales,
+                        horizontal,
+                        vertical,
+                        relative,
+                    ),
+                ] as [Evaluate, Evaluate],
+        )
+        .filter(([evaluate, moved]) => !moved.isEqualTo(evaluate));
 
-            const given = getPlaceExpression(project, evaluate, ctx);
-            const place =
-                given instanceof Evaluate && given.is(PlaceType, ctx)
-                    ? given
-                    : undefined;
+    if (revisions.length === 0) return;
 
-            const x = place?.getInput(
-                project.shares.output.Place.inputs[0],
-                ctx,
-            );
-            const y = place?.getInput(
-                project.shares.output.Place.inputs[1],
-                ctx,
-            );
-            const z = place?.getInput(
-                project.shares.output.Place.inputs[2],
-                ctx,
-            );
-
-            const xValue = x instanceof Expression ? getNumber(x) : undefined;
-            const yValue = y instanceof Expression ? getNumber(y) : undefined;
-            const zValue = z instanceof Expression ? getNumber(z) : undefined;
-
-            const bind = evaluate.is(project.shares.output.Phrase, ctx)
-                ? project.shares.output.Phrase.inputs[3]
-                : evaluate.is(project.shares.output.Group, ctx)
-                  ? project.shares.output.Group.inputs[4]
-                  : undefined;
-
-            return [
-                evaluate,
-                bind === undefined
-                    ? evaluate
-                    : evaluate.withBindAs(
-                          bind,
-                          Evaluate.make(
-                              Reference.make(
-                                  locales.getName(PlaceType.names),
-                                  PlaceType,
-                              ),
-                              [
-                                  // If coordinate is computed, and not a literal, don't change it.
-                                  x instanceof Expression &&
-                                  xValue === undefined
-                                      ? x
-                                      : NumberLiteral.make(
-                                            relative
-                                                ? new Decimal(xValue ?? 0)
-                                                      .add(horizontal)
-                                                      .toNumber()
-                                                : horizontal,
-                                            Unit.meters(),
-                                        ),
-                                  y instanceof Expression &&
-                                  yValue === undefined
-                                      ? y
-                                      : NumberLiteral.make(
-                                            relative
-                                                ? new Decimal(yValue ?? 0)
-                                                      .add(vertical)
-                                                      .toNumber()
-                                                : vertical,
-                                            Unit.meters(),
-                                        ),
-                                  z instanceof Expression &&
-                                  zValue !== undefined
-                                      ? z
-                                      : NumberLiteral.make(0, Unit.meters()),
-                              ],
-                          ),
-                          ctx,
-                      ),
-            ];
-        }),
-    );
+    Projects.revise(project, revisions);
 }
 
 export function createPlaceholderPhrase(project: Project, locales: Locales) {

@@ -25,6 +25,7 @@ import { createPlaceStructure } from '@output/Place/Place';
 import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
+import type { StreamKind } from '@values/StreamValue';
 
 /** Frames a face may be missing before we revert to the default Expression. */
 const MISSES_TO_LOSE_LOCK = 10;
@@ -62,6 +63,8 @@ const quantizeAngle = (deg: number) => Math.round(deg / 2);
  * CameraLandmarkStream; only the blendshape → ExpressionState mapping is here.
  */
 export default class Face extends CameraLandmarkStream<FaceLandmarkerResult> {
+    readonly kind: StreamKind = 'face';
+
     /** Most recent emitted state — held when MediaPipe misses for a few frames. */
     private state: ExpressionState;
     private consecutiveMisses = 0;

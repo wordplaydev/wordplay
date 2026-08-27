@@ -349,10 +349,24 @@ async function checkLocale(
             // debt rather than failing every locale the moment a new doc key
             // with a `\…\` example lands in en-US.
             const isQueued = (s: string) => isRevised(s) || isUnwritten(s);
+            const anyQueued = (value: unknown): boolean =>
+                typeof value === 'string'
+                    ? isQueued(value)
+                    : Array.isArray(value)
+                      ? value.some(
+                            (item) =>
+                                typeof item === 'string' && isQueued(item),
+                        )
+                      : false;
+            // The en-US source counts too. A `$!` there re-translates every
+            // sibling at this path (see the revisedStrings filter in
+            // checkLocale), so the moment an example is added to an en-US doc,
+            // every locale's count legitimately differs until that pass runs.
+            // Reading only the locale's own status made adding one example a
+            // hard failure in all 29, curable only by marking each locale by
+            // hand — which then mislabels a machine translation as revised.
             const queued =
-                typeof docValue === 'string'
-                    ? isQueued(docValue)
-                    : docValue.some(isQueued);
+                anyQueued(docValue) || anyQueued(path.resolve(DefaultLocale));
 
             // A code (`\…\`) or formatted (`` `…` ``) delimiter the translation
             // dropped or duplicated (vs the en-US source) breaks tokenization
@@ -727,8 +741,9 @@ export async function translateLocale(
         targetText: LocaleText | undefined,
         /** The phase's logger, so the translator's progress nests under it. */
         phaseLog: Log,
-        /** Passed through to the backend; `names` marks identifier phases. */
-        options?: { names?: boolean },
+        /** Passed through to the backend; `names` marks identifier phases and
+         *  `glossary` marks the phase that translates the terms themselves. */
+        options?: { names?: boolean; glossary?: boolean },
     ): Promise<boolean> => {
         // A markup ([formatted]) array is one logical document whose items are
         // paragraphs (an editing convenience, see toDocString) → translate
@@ -882,7 +897,7 @@ export async function translateLocale(
         label: string,
         paths: LocalePath[],
         targetText: LocaleText | undefined,
-        options?: { names?: boolean },
+        options?: { names?: boolean; glossary?: boolean },
     ): Promise<boolean> =>
         paths.length === 0
             ? Promise.resolve(true)
@@ -896,7 +911,10 @@ export async function translateLocale(
             `${glossaryWords.length} glossary terms`,
             glossaryWords,
             undefined,
-            { names: true },
+            // `glossary` tells the backend these strings ARE the terms, so it can
+            // ask for the sense each definition gives. Without it a bare "markup"
+            // went to the financial sense in several locales ("marge", "Aufschlag").
+            { names: true, glossary: true },
         ))
     )
         return revised;

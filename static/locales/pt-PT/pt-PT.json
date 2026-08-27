@@ -479,13 +479,15 @@
         },
         "Markup": {
             "name": "marcação",
-            "description": "$~marcação com $#count[$#count parágrafo|$count parágrafos|$count parágrafos]",
+            "description": "$~formatação $#count[$#count parágrafo|$count parágrafos|$count parágrafos]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "parágrafos"
             },
             "doc": [
-                "$~Sou uma lista de parágrafos, que usa os muitos tipos de @markup disponíveis nas explicações, como @Words, @WebLink, @ConceptLink e @Example."
+                "$~Sou uma lista de parágrafos, usando os vários tipos de formatação disponíveis em @Doc, como @Words, @WebLink, @ConceptLink e @Example.",
+                "Pode encontrar-me num @Doc, e em @FormattedLiteral:",
+                "\\¶Sou documentação com texto em *negrito*. Posso referir conceitos como @Phrase e posso ligar a <coisas na Internet@https://wordplay.dev>.¶\nFrase(\n\t`Sou a formatação de um(a) @Phrase, e uso *negrito*, /itálico/ e _sublinhado_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -576,7 +578,7 @@
                 "Sou uma forma de escolher entre dois segmentos de explicação com base em saber se um valor de entrada da explicação está definido ou é verdadeiro.",
                 "Trata-se principalmente de uma funcionalidade interna, pelo que não precisa de saber isso."
             ],
-            "description": "$~escolha de marcação em $condition"
+            "description": "$~escolha de formatação em $condition"
         },
         "BinaryEvaluate": {
             "name": "avaliaçãobinária",
@@ -3237,6 +3239,24 @@
                 "TiB": "$~tebibytes",
                 "lux": "$~lux",
                 "fc": "$~velas-pé"
+            },
+            "category": {
+                "time": "$~Tempo",
+                "length": "$~Comprimento",
+                "weight": "$~Peso",
+                "temperature": "$~Temperatura",
+                "angle": "$~Ângulo",
+                "area": "$~Área",
+                "volume": "$~Volume",
+                "speed": "$~Velocidade",
+                "pressure": "$~Pressão",
+                "energy": "$~Energia",
+                "power": "$~Potência",
+                "electricity": "$~Eletricidade",
+                "frequency": "$~Frequência",
+                "data": "$~Dados",
+                "brightness": "$~Brilho",
+                "other": "$~Outro"
             }
         },
         "List": {
@@ -3631,23 +3651,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Posso pegar numa lista e criar uma nova lista com os seus valores ordenados. Assim:",
+                        "$~Consigo pegar numa lista, e fazer uma nova lista com os seus valores ordenados. Assim:",
                         "\\[1 5 8 0 2].ordenado()\\",
-                        "Também o posso fazer para valores @Text",
-                        "\\['laranja' 'kiwi' 'banana' 'maçã'].ordenado()\\",
-                        "E se tiveres uma lista de valores que não são @Number nem @Text, podes dar-me uma @FunctionDefinition que transforme cada item num @Number para eu o poder ordenar. Por exemplo, aqui temos uma lista de listas de comprimentos diferentes; se me deres uma função que transforme cada lista no seu comprimento, posso ordenar pelo seu comprimento.",
-                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(ƒ(lista) lista.📏())\\"
+                        "Também consigo fazer isto para valores @Text, por ordem alfabética. Uma letra maiúscula ordena-se junto à sua minúscula, para que uma palavra não seja enviada para o fim só por começar com maiúscula:",
+                        "\\['Laranja' 'quivi' 'Banana' 'maçã'].ordenado()\\",
+                        "E se tiver uma lista de valores que não são @Number ou @Text, pode dar-me um @FunctionDefinition que transforma cada elemento num @Number ou num @Text, para que eu o possa ordenar. Por exemplo, aqui temos uma lista de listas de comprimentos diferentes; se me der uma função que transforma cada lista no seu comprimento, consigo ordená-las pelo comprimento.",
+                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista2) lista2.comprimento()\n)\\",
+                        "Uma função que produz @Text é a forma de ordenar por uma palavra que se calcula, em vez de pelo próprio valor. Aqui ordeno nomes pelo último:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nome2•'') (nome2 ÷ ' ').último()\n)\\"
                     ],
                     "names": "ordenado",
                     "inputs": [
                         {
-                            "doc": "$~A @FunctionDefinition opcional a usar para ordenar um @value de lista. Deve transformar o valor num @Number que possa ser usado para ordenar a lista.",
+                            "doc": "$~O @FunctionDefinition opcional a usar para ordenar uma lista @value. Deve transformar o valor num @Number ou num @Text que possa ser usado para ordenar a lista.",
                             "names": "sequenciador"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~O @value para transformar num @Number.",
+                            "doc": "$~O @value a transformar num @Number ou num @Text.",
                             "names": "valor"
                         }
                     ]
@@ -5529,7 +5551,11 @@
                 "doc": "Indica se um @Output deve ser espelhado no eixo y, em vez do seu padrão.",
                 "names": "invertiry"
             },
-            "description": "$opacity[transparente $opacity|] $rotation[rotacionado $rotation graus|] $scale[escalado $scale|] $flipx[invertido horizontalmente|] $flipy[invertido verticalmente|] $blur[sombra desfocada $blur pixels|]"
+            "description": "$opacity[transparente $opacity|] $rotation[rotacionado $rotation graus|] $scale[escalado $scale|] $flipx[invertido horizontalmente|] $flipy[invertido verticalmente|] $blur[sombra desfocada $blur pixels|]",
+            "music": {
+                "doc": "$~O @Music que devo tocar quando o meu estado de animação começa ou quando um @Sequence me alcança. É um som curto; só toco uma vez.",
+                "names": "$~música"
+            }
         },
         "Color": {
             "doc": [
@@ -6846,7 +6872,45 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "Não"
+            "missing": "Não",
+            "form": {
+                "sans": "$~um tipo de letra sem serifa",
+                "serif": "$~um tipo de letra com serifa",
+                "slab": "$~um tipo de letra com serifa grossa",
+                "typewriter": "$~um tipo de letra de máquina de escrever",
+                "handwriting": "$~letra manuscrita",
+                "brush": "$~um tipo de letra de pincel",
+                "script": "$~um tipo de letra cursiva",
+                "poster": "$~um tipo de letra de cartaz",
+                "pixel": "$~um tipo de letra em pixels",
+                "outline": "$~um tipo de letra oca",
+                "textured": "$~um tipo de letra com textura",
+                "emoji": "$~imagens, não letras"
+            },
+            "impression": {
+                "calm": "$~calmo",
+                "oldFashioned": "$~antiquado",
+                "strong": "$~forte",
+                "quirky": "$~excêntrico",
+                "playful": "$~brincalhão",
+                "excited": "$~entusiasmado",
+                "childlike": "$~infantil",
+                "artistic": "$~artístico",
+                "futuristic": "$~futurista",
+                "energetic": "$~enérgico",
+                "cute": "$~giro",
+                "cheerful": "$~alegre",
+                "fancy": "$~sofisticado"
+            },
+            "mechanic": {
+                "sameWidth": "$~todas as letras com a mesma largura",
+                "tallLowercase": "$~letras minúsculas tão altas como as maiúsculas",
+                "shortLowercase": "$~letras minúsculas muito mais baixas do que as maiúsculas"
+            },
+            "description": {
+                "and": "$~$first e $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "Olá"
@@ -6902,6 +6966,10 @@
             },
             "logo": {
                 "description": "$~Um balão de fala com uma letra do teu sistema de escrita lá dentro"
+            },
+            "synced": {
+                "saved": "$~Guardado em todos os dispositivos",
+                "signedOut": "$~Guardado em todos os dispositivos quando tem sessão iniciada"
             }
         },
         "tile": {
@@ -7746,6 +7814,13 @@
             "hidden": {
                 "message": "$~Tudo está fora do palco.",
                 "show": "$~mostrar tudo"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7767,7 +7842,7 @@
                 "timeline": "$~A /linha temporal/ permite-te avançar para a *frente* e para *trás* pela avaliação do teu programa, um passo de cada vez. Ela aparece na barra de ferramentas do palco nos modos ✏️ *edição* e ⏸️ *depuração*, e é uma ótima forma de ver *como* o teu programa calcula o seu valor, e de construir um modelo mental de como os programas em @wordplay avaliam, especialmente se não estiveres a ver o comportamento que queres.",
                 "annotations": "A janela /annotations/ é onde aparecem as explicações de cada passo. À medida que executa o programa passo a passo, é aqui que irá ler o que acabou de acontecer.",
                 "editor": "O /editor/ apresenta o seu código. Ao depurar passo a passo, o *valor* de cada parte do seu programa aparecerá ao lado dessa parte *após* a sua avaliação, permitindo-lhe observar os valores a acumularem-se à medida que o programa é executado.",
-                "history": "O /histórico/ mostra todas as *entradas* que o seu programa recebeu, como teclas premidas, intervalos de tempo e eventos de ponteiros. É *arrastável*, pelo que pode voltar a qualquer momento no histórico de avaliação do programa simplesmente arrastando.",
+                "history": "$~O /histórico/ mostra cada *entrada* que o seu programa recebeu, como teclas, avanços de tempo e eventos do ponteiro. É *arrastável*, por isso pode voltar a qualquer momento do histórico de avaliação do programa só por arrastar. Se preferir *ouvir* essas entradas em vez de as ver, ative as /pistas de avaliação/ nas definições, e @wordplay vai tocar um som curto para cada uma, com um som diferente para cada tipo de entrada.",
                 "stepControls": "Os controlos de /passo/ permitem-lhe navegar pela avaliação com precisão. Pode saltar para o *início* ou *fim*, avançar ou recuar um passo de cada vez, saltar por *uma entrada*, *sair* de uma função ou saltar para a parte do código *atualmente selecionada*.",
                 "modes": "$~O /seletor de modo/ escolhe como o teu programa avalia. No modo ✏️ *edição*, o programa pausa onde estiver e podes alterá-lo — as tuas edições repetem-se para mostrar o seu efeito nesse ponto. No modo ⏸️ *depuração*, o código é apenas de leitura e o *valor atual* de cada parte do teu programa aparece ao lado dela no editor e na paleta. No modo ▶️ *reprodução*, o teu programa corre ao vivo a partir de onde está, respondendo às entradas em tempo real. Ao lado do seletor, o botão /atuar/ — um triângulo de reprodução envolvido em cantos de ecrã inteiro — começa uma atuação desde o topo e enche o ecrã com o palco, e ↻ reinicia o programa em qualquer modo."
             }
@@ -8305,6 +8380,38 @@
                             "$~Mostrar legendas duas vezes maiores",
                             "$~Mostrar legendas três vezes maiores"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~cores do projeto",
+                        "labels": ["$~manter", "$~inverter"],
+                        "tips": [
+                            "$~mostrar as cores de um projeto exatamente como foram escritas, mesmo num ecrã escuro",
+                            "$~num ecrã escuro, inverter as cores de um projeto claro para escuras: cada cor mantém a sua matiz, e as cores continuam tão afastadas entre si como foram feitas no projeto"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~pistas de avaliação",
+                        "labels": ["$~desativado", "$~ativado"],
+                        "tips": [
+                            "$~Não fazer nenhum som quando o programa é reavaliado",
+                            "$~Tocar um som curto sempre que o programa é reavaliado, um para cada tipo de entrada"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~pistas de animação",
+                        "labels": ["$~desativado", "$~ativado"],
+                        "tips": [
+                            "$~Não fazer nenhum som quando o resultado é animado",
+                            "$~Tocar um som curto sempre que uma animação chega a uma pose, com o som a seguir o que a pose faz"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~pistas de colisão",
+                        "labels": ["$~desativado", "$~ativado"],
+                        "tips": [
+                            "$~Não fazer nenhum som quando o resultado colide",
+                            "$~Tocar um som curto quando o resultado colide, mais alto quanto mais forte for o impacto"
+                        ]
                     }
                 },
                 "options": {
@@ -8331,7 +8438,8 @@
                 },
                 "subheader": {
                     "music": "$~Música",
-                    "say": "$~Falar"
+                    "say": "$~Falar",
+                    "cues": "$~Pistas"
                 }
             },
             "notifications": {
@@ -8938,10 +9046,10 @@
                         "title": "$~O Wordplay é acessível",
                         "bullets": [
                             "$~• Tudo o que pode fazer com um rato, também pode fazer com um teclado.",
-                            "• Os leitores de ecrã descrevem o palco à medida que muda, não só quando carrega.",
-                            "• Pode ler e escrever o seu código como blocos em vez de texto, e mudar sempre que quiser.",
-                            "• O movimento pode ser abrandado, ou desligado por completo.",
-                            "• A saída falada pode ter legendas no palco, para quem não a consegue ouvir."
+                            "• Os leitores de ecrã descrevem o palco à medida que este muda, e existem sons opcionais que marcam o que é avaliado de novo, o que se anima e o que colide.",
+                            "• Pode ler e escrever o seu código em blocos em vez de texto, e mudar entre os dois sempre que quiser.",
+                            "• O movimento pode ser tornado mais lento, ou desligado por completo.",
+                            "• A saída falada pode ter legendas no palco, para quem não a consiga ouvir."
                         ]
                     },
                     "senses": {
@@ -10056,7 +10164,15 @@
             "scriptLabel": "filtrar por script",
             "pickFilter": "Escolha uma categoria ou itinerário",
             "moreLanguages": "e $count mais",
-            "moreGlyphs": "$~A mostrar $count — pesquisa para encontrar mais"
+            "moreGlyphs": "$~A mostrar $count — pesquisa para encontrar mais",
+            "presentation": {
+                "label": "$~cor do emoji",
+                "labels": ["$~cor", "$~preto e branco"],
+                "tips": [
+                    "$~inserir emoji a cores",
+                    "$~inserir emoji a preto e branco"
+                ]
+            }
         },
         "tour": {
             "label": "digressão",

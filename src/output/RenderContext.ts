@@ -18,6 +18,11 @@ export default class RenderContext {
      *  if it were still zero-sized — off in a corner instead of centered. Off while
      *  playing, so an empty phrase never reserves space in front of an audience. */
     readonly placeholders: boolean;
+    /** Whether creator colors are being flipped for a dark canvas. All-or-nothing
+     *  per stage: contrast is a relationship, so a stage that adapts some of its
+     *  colors and not others is exactly what loses it. Decided once per run by
+     *  OutputView and carried here so everything under the stage agrees. */
+    readonly adapting: boolean;
 
     constructor(
         face: SupportedFace,
@@ -27,6 +32,7 @@ export default class RenderContext {
         animationFactor: number,
         layout: WritingLayout,
         placeholders = false,
+        adapting = false,
     ) {
         this.face = face;
         this.size = size;
@@ -35,6 +41,7 @@ export default class RenderContext {
         this.animationFactor = animationFactor;
         this.layout = layout;
         this.placeholders = placeholders;
+        this.adapting = adapting;
     }
 
     withFontAndSize(font: SupportedFace | undefined, size: number | undefined) {
@@ -46,6 +53,7 @@ export default class RenderContext {
             this.animationFactor,
             this.layout,
             this.placeholders,
+            this.adapting,
         );
     }
 }

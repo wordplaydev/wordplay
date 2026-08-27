@@ -323,7 +323,6 @@
         border-block-end: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         white-space: nowrap;
-        user-select: none;
         min-width: 0;
         /* Deliberately no overflow: clipping would cut the overhang that makes the
            selected tab merge with the panel. Use `wrap` for bars that don't fit. */

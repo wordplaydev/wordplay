@@ -43,6 +43,7 @@ import Source from '@nodes/Source';
 import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType, { isStreamBind } from '@nodes/StreamType';
 import StructureDefinition from '@nodes/StructureDefinition';
+import getSuggestionScope from '@nodes/suggestionScope';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
@@ -279,7 +280,16 @@ export default class Reference extends SimpleExpression {
     }
 
     static getPossibleInsertions({ type, parent, context }: InsertContext) {
-        return this.getPossibleReferences(type, parent, false, context);
+        // The scope comes from the anchor we're inserting *beside*, which for a binary or unary
+        // evaluate's operator is the left operand's members — valid in the operator position but
+        // nowhere else. Replacements are unaffected: swapping the `>` in `a > 1` for another
+        // operator is exactly what that scope is for.
+        return this.getPossibleReferences(
+            type,
+            getSuggestionScope(parent, context),
+            false,
+            context,
+        );
     }
 
     getDescriptor(): NodeDescriptor {

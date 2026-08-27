@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.30.0",
+    "version": "0.31.1",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -49,7 +49,7 @@
         "emoji-update": "npx tsx scripts/emoji/update.ts",
         "fonts": "npx tsx scripts/fonts/start.ts verify",
         "fonts-build": "npx tsx scripts/fonts/start.ts build && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts",
-        "fonts-fix": "npx tsx scripts/fonts/start.ts fix && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/faces.fallback.generated.ts src/basis/faces/renderable.generated.ts",
+        "fonts-fix": "npx tsx scripts/fonts/start.ts fix && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/faces.fallback.generated.ts src/basis/faces/renderable.generated.ts src/basis/faces/metrics.generated.ts src/basis/faces/fonts.lock.json",
         "fonts-download": "npx tsx scripts/fonts/start.ts download && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/renderable.generated.ts",
         "logo": "npx tsx scripts/logo/start.ts verify",
         "logo-fix": "npx tsx scripts/logo/start.ts fix && npx prettier --write scripts/logo/logo.lock.json",

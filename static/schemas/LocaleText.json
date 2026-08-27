@@ -1200,7 +1200,7 @@
             "required": ["doc", "inputs", "names"],
             "type": "object"
         },
-        "FunctionText<alias-1184849637-145-178-1184849637-0-34005>": {
+        "FunctionText<alias-1184849637-145-178-1184849637-0-36003>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1387,7 +1387,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "not": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
@@ -1470,11 +1470,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1490,7 +1490,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -1712,7 +1712,7 @@
                                             "type": "object"
                                         },
                                         "first": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
@@ -1724,11 +1724,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "last": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1736,7 +1736,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "random": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
@@ -1744,7 +1744,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansAll": {
@@ -1752,15 +1752,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansFirst": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansLast": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "shuffled": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sorted": {
@@ -2024,7 +2024,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -2163,6 +2163,95 @@
                             "additionalProperties": false,
                             "description": "A number value, e.g., `5` or `-23.3`",
                             "properties": {
+                                "category": {
+                                    "additionalProperties": false,
+                                    "description": "The heading over each group of units in the editor's menu. A creator picking a unit reads a short list of one kind of measurement instead of every unit there is.",
+                                    "properties": {
+                                        "angle": {
+                                            "description": "[plain] The heading for the group of units that measure angle",
+                                            "type": "string"
+                                        },
+                                        "area": {
+                                            "description": "[plain] The heading for the group of units that measure area",
+                                            "type": "string"
+                                        },
+                                        "brightness": {
+                                            "description": "[plain] The heading for the group of units that measure brightness",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "[plain] The heading for the group of units that measure data",
+                                            "type": "string"
+                                        },
+                                        "electricity": {
+                                            "description": "[plain] The heading for the group of units that measure electricity",
+                                            "type": "string"
+                                        },
+                                        "energy": {
+                                            "description": "[plain] The heading for the group of units that measure energy",
+                                            "type": "string"
+                                        },
+                                        "frequency": {
+                                            "description": "[plain] The heading for the group of units that measure frequency",
+                                            "type": "string"
+                                        },
+                                        "length": {
+                                            "description": "[plain] The heading for the group of units that measure length",
+                                            "type": "string"
+                                        },
+                                        "other": {
+                                            "description": "[plain] The heading for the group of units that measure other",
+                                            "type": "string"
+                                        },
+                                        "power": {
+                                            "description": "[plain] The heading for the group of units that measure power",
+                                            "type": "string"
+                                        },
+                                        "pressure": {
+                                            "description": "[plain] The heading for the group of units that measure pressure",
+                                            "type": "string"
+                                        },
+                                        "speed": {
+                                            "description": "[plain] The heading for the group of units that measure speed",
+                                            "type": "string"
+                                        },
+                                        "temperature": {
+                                            "description": "[plain] The heading for the group of units that measure temperature",
+                                            "type": "string"
+                                        },
+                                        "time": {
+                                            "description": "[plain] The heading for the group of units that measure time",
+                                            "type": "string"
+                                        },
+                                        "volume": {
+                                            "description": "[plain] The heading for the group of units that measure volume",
+                                            "type": "string"
+                                        },
+                                        "weight": {
+                                            "description": "[plain] The heading for the group of units that measure weight",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "time",
+                                        "length",
+                                        "weight",
+                                        "temperature",
+                                        "angle",
+                                        "area",
+                                        "volume",
+                                        "speed",
+                                        "pressure",
+                                        "energy",
+                                        "power",
+                                        "electricity",
+                                        "frequency",
+                                        "data",
+                                        "brightness",
+                                        "other"
+                                    ],
+                                    "type": "object"
+                                },
                                 "conversion": {
                                     "additionalProperties": false,
                                     "description": "Conversions in the type",
@@ -2196,19 +2285,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arccos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arcsin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arctan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "cos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "divide": {
@@ -2220,7 +2309,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "exp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterOrEqual": {
@@ -2260,7 +2349,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "positive": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "power": {
@@ -2276,19 +2365,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "round": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundDown": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundUp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subtract": {
@@ -2296,7 +2385,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "tan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -2971,6 +3060,7 @@
                                 }
                             },
                             "required": [
+                                "category",
                                 "conversion",
                                 "doc",
                                 "function",
@@ -3070,7 +3160,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -3313,11 +3403,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "matches": {
@@ -3337,7 +3427,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "search": {
@@ -3357,11 +3447,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "trim": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-34005%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -14290,6 +14380,10 @@
                                 "flipy": {
                                     "$ref": "#/definitions/NameAndDoc"
                                 },
+                                "music": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Music that sounds when this pose is applied: when its animation state begins, or when a sequence reaches its percentage."
+                                },
                                 "names": {
                                     "$ref": "#/definitions/NameText",
                                     "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
@@ -14316,6 +14410,7 @@
                                 "doc",
                                 "flipx",
                                 "flipy",
+                                "music",
                                 "names",
                                 "offset",
                                 "opacity",
@@ -17389,9 +17484,17 @@
                                         "mode": {
                                             "additionalProperties": false,
                                             "properties": {
+                                                "adaptOutput": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether a project's colors are shown as written or flipped to suit a dark screen"
+                                                },
                                                 "animate": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "The animation off/slowdown/auto mode (last entry is \"auto\", which follows the device prefers-reduced-motion setting)."
+                                                },
+                                                "animationCues": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether to sound what an animation is doing as it reaches each pose"
                                                 },
                                                 "blockDensity": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
@@ -17404,6 +17507,14 @@
                                                 "captionSize": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "How big the caption of what Say is speaking is, as a multiple of the standard text size"
+                                                },
+                                                "contactCues": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether to sound the stage's physics collisions"
+                                                },
+                                                "cues": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether to sound a short cue each time the program reevaluates, naming what caused it"
                                                 },
                                                 "dark": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
@@ -17458,6 +17569,7 @@
                                                 "layout",
                                                 "animate",
                                                 "dark",
+                                                "adaptOutput",
                                                 "writing",
                                                 "blocks",
                                                 "words",
@@ -17470,6 +17582,9 @@
                                                 "musicVolume",
                                                 "musicDucking",
                                                 "haptics",
+                                                "cues",
+                                                "contactCues",
+                                                "animationCues",
                                                 "captionSize"
                                             ],
                                             "type": "object"
@@ -17509,8 +17624,12 @@
                                         },
                                         "subheader": {
                                             "additionalProperties": false,
-                                            "description": "Names the output each group of settings belongs to, so the labels beneath them don't each have to repeat it. Both are the names of Wordplay's own output types.",
+                                            "description": "Names the output each group of settings belongs to, so the labels beneath them don't each have to repeat it. Music and Say are the names of Wordplay's own output types; cues are the app's own sounds rather than a program's.",
                                             "properties": {
+                                                "cues": {
+                                                    "description": "[plain] Heads the settings for the sounds the app makes as a program evaluates",
+                                                    "type": "string"
+                                                },
                                                 "music": {
                                                     "description": "[plain] Heads the settings for Music output",
                                                     "type": "string"
@@ -17520,7 +17639,11 @@
                                                     "type": "string"
                                                 }
                                             },
-                                            "required": ["music", "say"],
+                                            "required": [
+                                                "music",
+                                                "say",
+                                                "cues"
+                                            ],
                                             "type": "object"
                                         },
                                         "tab": {
@@ -18297,6 +18420,10 @@
                                     "description": "[plain] Hint shown in the glyph area when no category and no script is selected",
                                     "type": "string"
                                 },
+                                "presentation": {
+                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                    "description": "Whether a picked emoji is inserted in color or black and white"
+                                },
                                 "script": {
                                     "description": "[plain] Placeholder/no-selection label for the script filter dropdown",
                                     "type": "string"
@@ -18315,6 +18442,7 @@
                                 "skinTone",
                                 "script",
                                 "scriptLabel",
+                                "presentation",
                                 "moreLanguages",
                                 "pickFilter",
                                 "moreGlyphs",
@@ -18462,12 +18590,202 @@
                                     "$ref": "#/definitions/SupportedFace",
                                     "description": "[plain] The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
                                 },
+                                "description": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "and": {
+                                            "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
+                                            "description": "[plain] Joins two of the words above. $first: the first word, $second: the second"
+                                        },
+                                        "full": {
+                                            "$ref": "#/definitions/Template%3C%5B%22form%22%2C%22impression%22%2C%22mechanics%22%5D%3E",
+                                            "description": "[plain] A whole description of a face. $form: what shape the letters are, $impression: what it feels like, $mechanics: what was measured. Any of the three may be empty."
+                                        }
+                                    },
+                                    "required": ["and", "full"],
+                                    "type": "object"
+                                },
+                                "form": {
+                                    "additionalProperties": false,
+                                    "description": "What a font face looks like, said in words, for creators who can't see it. One small vocabulary rather than a description per font: Wordplay ships in thirty languages, so these terms are translated once and hold when a font is added. See faceWords.ts.",
+                                    "properties": {
+                                        "brush": {
+                                            "description": "[plain] Painted with a brush or a marker.",
+                                            "type": "string"
+                                        },
+                                        "emoji": {
+                                            "description": "[plain] Pictures instead of letters.",
+                                            "type": "string"
+                                        },
+                                        "handwriting": {
+                                            "description": "[plain] Written by hand, with the letters apart.",
+                                            "type": "string"
+                                        },
+                                        "outline": {
+                                            "description": "[plain] Hollow or shadowed letters.",
+                                            "type": "string"
+                                        },
+                                        "pixel": {
+                                            "description": "[plain] Letters built out of squares or dots.",
+                                            "type": "string"
+                                        },
+                                        "poster": {
+                                            "description": "[plain] Fat letters made for big words.",
+                                            "type": "string"
+                                        },
+                                        "sans": {
+                                            "description": "[plain] Letters with no feet on them.",
+                                            "type": "string"
+                                        },
+                                        "script": {
+                                            "description": "[plain] Joined up, like cursive.",
+                                            "type": "string"
+                                        },
+                                        "serif": {
+                                            "description": "[plain] Letters with small feet.",
+                                            "type": "string"
+                                        },
+                                        "slab": {
+                                            "description": "[plain] Letters with thick square feet.",
+                                            "type": "string"
+                                        },
+                                        "textured": {
+                                            "description": "[plain] Letters that look worn, sketched, or scratchy.",
+                                            "type": "string"
+                                        },
+                                        "typewriter": {
+                                            "description": "[plain] A face where every letter is the same width.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "sans",
+                                        "serif",
+                                        "slab",
+                                        "typewriter",
+                                        "handwriting",
+                                        "brush",
+                                        "script",
+                                        "poster",
+                                        "pixel",
+                                        "outline",
+                                        "textured",
+                                        "emoji"
+                                    ],
+                                    "type": "object"
+                                },
+                                "impression": {
+                                    "additionalProperties": false,
+                                    "description": "[plain] What a face feels like. At most two are said about any face.",
+                                    "properties": {
+                                        "artistic": {
+                                            "description": "[plain] Looks hand-made or drawn.",
+                                            "type": "string"
+                                        },
+                                        "calm": {
+                                            "description": "[plain] Quiet and ordinary; a face for reading rather than for effect.",
+                                            "type": "string"
+                                        },
+                                        "cheerful": {
+                                            "description": "[plain] Bright and happy.",
+                                            "type": "string"
+                                        },
+                                        "childlike": {
+                                            "description": "[plain] Looks like a child wrote it.",
+                                            "type": "string"
+                                        },
+                                        "cute": {
+                                            "description": "[plain] Small, round and sweet.",
+                                            "type": "string"
+                                        },
+                                        "energetic": {
+                                            "description": "[plain] Quick and lively.",
+                                            "type": "string"
+                                        },
+                                        "excited": {
+                                            "description": "[plain] Loud and full of energy.",
+                                            "type": "string"
+                                        },
+                                        "fancy": {
+                                            "description": "[plain] Elegant and decorated.",
+                                            "type": "string"
+                                        },
+                                        "futuristic": {
+                                            "description": "[plain] Looks like the future, or a machine.",
+                                            "type": "string"
+                                        },
+                                        "oldFashioned": {
+                                            "description": "[plain] Looks like it comes from another time.",
+                                            "type": "string"
+                                        },
+                                        "playful": {
+                                            "description": "[plain] Fun and not serious.",
+                                            "type": "string"
+                                        },
+                                        "quirky": {
+                                            "description": "[plain] Odd or uneven on purpose.",
+                                            "type": "string"
+                                        },
+                                        "strong": {
+                                            "description": "[plain] Heavy and forceful.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "calm",
+                                        "oldFashioned",
+                                        "strong",
+                                        "quirky",
+                                        "playful",
+                                        "excited",
+                                        "childlike",
+                                        "artistic",
+                                        "futuristic",
+                                        "energetic",
+                                        "cute",
+                                        "cheerful",
+                                        "fancy"
+                                    ],
+                                    "type": "object"
+                                },
+                                "mechanic": {
+                                    "additionalProperties": false,
+                                    "description": "[plain] Facts measured from the font file rather than judged.",
+                                    "properties": {
+                                        "sameWidth": {
+                                            "description": "[plain] Every letter takes up the same amount of room.",
+                                            "type": "string"
+                                        },
+                                        "shortLowercase": {
+                                            "description": "[plain] The small letters are much shorter than the capital letters.",
+                                            "type": "string"
+                                        },
+                                        "tallLowercase": {
+                                            "description": "[plain] The small letters are as tall as the capital letters.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "sameWidth",
+                                        "tallLowercase",
+                                        "shortLowercase"
+                                    ],
+                                    "type": "object"
+                                },
                                 "missing": {
                                     "description": "[plain] The word shown before the markup symbols that a font face doesn't support (e.g. \"missing * ^\" for a face without bold or extra bold)",
                                     "type": "string"
                                 }
                             },
-                            "required": ["app", "code", "missing"],
+                            "required": [
+                                "app",
+                                "code",
+                                "missing",
+                                "form",
+                                "impression",
+                                "mechanic",
+                                "description"
+                            ],
                             "type": "object"
                         },
                         "gallery": {
@@ -19796,6 +20114,43 @@
                                     "required": ["microphone", "camera"],
                                     "type": "object"
                                 },
+                                "snap": {
+                                    "additionalProperties": false,
+                                    "description": "What an output being moved on stage lined up with",
+                                    "properties": {
+                                        "aligned": {
+                                            "$ref": "#/definitions/Template%3C%5B%22constraints%22%2C%22place%22%5D%3E",
+                                            "description": "[plain] Announced after a move, naming what it lined up with and where it landed. $constraints is what it lined up with, $place is where it is now."
+                                        },
+                                        "anchors": {
+                                            "description": "[plain] The seven parts of an output that can line up with another, in this order: horizontal center, left edge, right edge, vertical center, bottom edge, top edge, text baseline.",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "none": {
+                                            "$ref": "#/definitions/Template%3C%5B%22direction%22%5D%3E",
+                                            "description": "[plain] Announced when there is nothing further to line up with that way. $direction is which way was asked for."
+                                        },
+                                        "withGrid": {
+                                            "$ref": "#/definitions/Template%3C%5B%22anchor%22%5D%3E",
+                                            "description": "[plain] Announced when a moved output lines up with a grid line. $anchor is the part of the moved output that landed on it."
+                                        },
+                                        "withOutput": {
+                                            "$ref": "#/definitions/Template%3C%5B%22anchor%22%2C%22target%22%2C%22targetAnchor%22%5D%3E",
+                                            "description": "[plain] Announced when a moved output lines up with another output. $anchor is the part of the moved output, $target is the other output, $targetAnchor is the part of it they met on."
+                                        }
+                                    },
+                                    "required": [
+                                        "anchors",
+                                        "withOutput",
+                                        "withGrid",
+                                        "aligned",
+                                        "none"
+                                    ],
+                                    "type": "object"
+                                },
                                 "sound": {
                                     "additionalProperties": false,
                                     "description": "The affordance offered when a stage has music but the browser has not yet allowed sound to start",
@@ -19906,6 +20261,7 @@
                                 "farther",
                                 "turned",
                                 "manyChanged",
+                                "snap",
                                 "selectedOnly",
                                 "selectedSuffix",
                                 "toggle",
@@ -26183,6 +26539,22 @@
                                     "required": ["button", "popup"],
                                     "type": "object"
                                 },
+                                "synced": {
+                                    "additionalProperties": false,
+                                    "description": "The cloud badge marking a setting that follows a creator's account rather than staying on one device",
+                                    "properties": {
+                                        "saved": {
+                                            "description": "[plain] Tooltip for the cloud badge when the creator is signed in: this setting is saved to their account, so it will be there on their other devices",
+                                            "type": "string"
+                                        },
+                                        "signedOut": {
+                                            "description": "[plain] Tooltip for the cloud badge when the creator is signed out: this setting would follow them to their other devices if they signed in",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["saved", "signedOut"],
+                                    "type": "object"
+                                },
                                 "table": {
                                     "additionalProperties": false,
                                     "description": "An editable table",
@@ -26213,6 +26585,7 @@
                                 "dialog",
                                 "loading",
                                 "home",
+                                "synced",
                                 "logo",
                                 "table",
                                 "formatted",
@@ -26908,6 +27281,12 @@
         "Template<[\"amount\",\"unit\"]>": {
             "type": "string"
         },
+        "Template<[\"anchor\",\"target\",\"targetAnchor\"]>": {
+            "type": "string"
+        },
+        "Template<[\"anchor\"]>": {
+            "type": "string"
+        },
         "Template<[\"beat\"]>": {
             "type": "string"
         },
@@ -26941,6 +27320,9 @@
         "Template<[\"condition\"]>": {
             "type": "string"
         },
+        "Template<[\"constraints\",\"place\"]>": {
+            "type": "string"
+        },
         "Template<[\"control\",\"alt\"]>": {
             "type": "string"
         },
@@ -26963,6 +27345,9 @@
             "type": "string"
         },
         "Template<[\"description\"]>": {
+            "type": "string"
+        },
+        "Template<[\"direction\"]>": {
             "type": "string"
         },
         "Template<[\"done\",\"#total\"]>": {
@@ -26993,6 +27378,9 @@
             "type": "string"
         },
         "Template<[\"folder\"]>": {
+            "type": "string"
+        },
+        "Template<[\"form\",\"impression\",\"mechanics\"]>": {
             "type": "string"
         },
         "Template<[\"forms\"]>": {

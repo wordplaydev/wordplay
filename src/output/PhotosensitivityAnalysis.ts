@@ -1,4 +1,5 @@
 import type Project from '@db/projects/Project';
+import collectOutputs from '@output/Output/collectOutputs';
 import type Definition from '@nodes/Definition';
 import Color, { isSaturatedRed, luminanceDelta } from '@output/Color/Color';
 import type Output from '@output/Output/Output';
@@ -86,20 +87,6 @@ export default function analyzeOutput(root: Output): Set<PhotosensitivityRisk> {
         risks.add('pattern');
 
     return risks;
-}
-
-/** Iterative DFS over the output tree; `Stage.find` is shallow, so we walk `getOutput()`. */
-function collectOutputs(root: Output): Output[] {
-    const all: Output[] = [];
-    const stack: Output[] = [root];
-    while (stack.length > 0) {
-        const output = stack.pop();
-        if (output === undefined) continue;
-        all.push(output);
-        for (const child of output.getOutput())
-            if (child !== null) stack.push(child);
-    }
-    return all;
 }
 
 /** The animation slots of an output that are Sequences (not static Poses). */

@@ -103,6 +103,80 @@ type UITexts = {
         code: SupportedFace;
         /** [plain] The word shown before the markup symbols that a font face doesn't support (e.g. "missing * ^" for a face without bold or extra bold) */
         missing: string;
+        /** What a font face looks like, said in words, for creators who can't see
+         * it. One small vocabulary rather than a description per font: Wordplay
+         * ships in thirty languages, so these terms are translated once and hold
+         * when a font is added. See faceWords.ts. */
+        form: {
+            /** [plain] Letters with no feet on them. */
+            sans: string;
+            /** [plain] Letters with small feet. */
+            serif: string;
+            /** [plain] Letters with thick square feet. */
+            slab: string;
+            /** [plain] A face where every letter is the same width. */
+            typewriter: string;
+            /** [plain] Written by hand, with the letters apart. */
+            handwriting: string;
+            /** [plain] Painted with a brush or a marker. */
+            brush: string;
+            /** [plain] Joined up, like cursive. */
+            script: string;
+            /** [plain] Fat letters made for big words. */
+            poster: string;
+            /** [plain] Letters built out of squares or dots. */
+            pixel: string;
+            /** [plain] Hollow or shadowed letters. */
+            outline: string;
+            /** [plain] Letters that look worn, sketched, or scratchy. */
+            textured: string;
+            /** [plain] Pictures instead of letters. */
+            emoji: string;
+        };
+        /** [plain] What a face feels like. At most two are said about any face. */
+        impression: {
+            /** [plain] Quiet and ordinary; a face for reading rather than for effect. */
+            calm: string;
+            /** [plain] Looks like it comes from another time. */
+            oldFashioned: string;
+            /** [plain] Heavy and forceful. */
+            strong: string;
+            /** [plain] Odd or uneven on purpose. */
+            quirky: string;
+            /** [plain] Fun and not serious. */
+            playful: string;
+            /** [plain] Loud and full of energy. */
+            excited: string;
+            /** [plain] Looks like a child wrote it. */
+            childlike: string;
+            /** [plain] Looks hand-made or drawn. */
+            artistic: string;
+            /** [plain] Looks like the future, or a machine. */
+            futuristic: string;
+            /** [plain] Quick and lively. */
+            energetic: string;
+            /** [plain] Small, round and sweet. */
+            cute: string;
+            /** [plain] Bright and happy. */
+            cheerful: string;
+            /** [plain] Elegant and decorated. */
+            fancy: string;
+        };
+        /** [plain] Facts measured from the font file rather than judged. */
+        mechanic: {
+            /** [plain] Every letter takes up the same amount of room. */
+            sameWidth: string;
+            /** [plain] The small letters are as tall as the capital letters. */
+            tallLowercase: string;
+            /** [plain] The small letters are much shorter than the capital letters. */
+            shortLowercase: string;
+        };
+        description: {
+            /** [plain] Joins two of the words above. $first: the first word, $second: the second */
+            and: Template<['first', 'second']>;
+            /** [plain] A whole description of a face. $form: what shape the letters are, $impression: what it feels like, $mechanics: what was measured. Any of the three may be empty. */
+            full: Template<['form', 'impression', 'mechanics']>;
+        };
     };
     phrases: {
         /** [plain] Placeholder text used in code examples. */
@@ -127,6 +201,13 @@ type UITexts = {
         };
         /** [plain] The go home button description */
         home: string;
+        /** The cloud badge marking a setting that follows a creator's account rather than staying on one device */
+        synced: {
+            /** [plain] Tooltip for the cloud badge when the creator is signed in: this setting is saved to their account, so it will be there on their other devices */
+            saved: string;
+            /** [plain] Tooltip for the cloud badge when the creator is signed out: this setting would follow them to their other devices if they signed in */
+            signedOut: string;
+        };
         /** The Wordplay logo mark */
         logo: {
             /** [plain] Accessible description of the Wordplay logo: a speech bubble holding one letter of the reader's writing system */
@@ -898,6 +979,19 @@ type UITexts = {
         turned: string;
         /** [plain] Announced when too many outputs changed to list them. $count is how many, $container is what holds them, $example is one of the changes. */
         manyChanged: Template<['#count', 'container', 'example']>;
+        /** What an output being moved on stage lined up with */
+        snap: {
+            /** [plain] The seven parts of an output that can line up with another, in this order: horizontal center, left edge, right edge, vertical center, bottom edge, top edge, text baseline. */
+            anchors: string[];
+            /** [plain] Announced when a moved output lines up with another output. $anchor is the part of the moved output, $target is the other output, $targetAnchor is the part of it they met on. */
+            withOutput: Template<['anchor', 'target', 'targetAnchor']>;
+            /** [plain] Announced when a moved output lines up with a grid line. $anchor is the part of the moved output that landed on it. */
+            withGrid: Template<['anchor']>;
+            /** [plain] Announced after a move, naming what it lined up with and where it landed. $constraints is what it lined up with, $place is where it is now. */
+            aligned: Template<['constraints', 'place']>;
+            /** [plain] Announced when there is nothing further to line up with that way. $direction is which way was asked for. */
+            none: Template<['direction']>;
+        };
         /** [plain] Announced when selecting one output and opening the palette. $name is the output. */
         selectedOnly: Template<['name']>;
         /** [plain] Suffix appended to a selected group's accessible name, since a group cannot use aria-pressed */
@@ -1616,13 +1710,16 @@ type UITexts = {
             /** The tabs that switch between groups of settings */
             tab: ModeText<[string, string, string, string]>;
             /** Names the output each group of settings belongs to, so the labels
-             *  beneath them don't each have to repeat it. Both are the names of
-             *  Wordplay's own output types. */
+             *  beneath them don't each have to repeat it. Music and Say are the
+             *  names of Wordplay's own output types; cues are the app's own
+             *  sounds rather than a program's. */
             subheader: {
                 /** [plain] Heads the settings for Music output */
                 music: string;
                 /** [plain] Heads the settings for Say output */
                 say: string;
+                /** [plain] Heads the settings for the sounds the app makes as a program evaluates */
+                cues: string;
             };
             mode: {
                 /** The project tile layout mode */
@@ -1647,6 +1744,8 @@ type UITexts = {
                 >;
                 /** The dark on/off/automatic mode */
                 dark: ModeText<[string, string, string]>;
+                /** Whether a project's colors are shown as written or flipped to suit a dark screen */
+                adaptOutput: ModeText<[string, string]>;
                 /** The writing layout direction (automatic, horizontal, vertical rtl, vertical ltr) */
                 writing: ModeText<[string, string, string, string]>;
                 /** The blocks on/off mode */
@@ -1673,6 +1772,12 @@ type UITexts = {
                 musicDucking: ModeText<[string, string, string]>;
                 /** Whether to vibrate on the beat where the device supports it */
                 haptics: ModeText<[string, string]>;
+                /** Whether to sound a short cue each time the program reevaluates, naming what caused it */
+                cues: ModeText<[string, string]>;
+                /** Whether to sound the stage's physics collisions */
+                contactCues: ModeText<[string, string]>;
+                /** Whether to sound what an animation is doing as it reaches each pose */
+                animationCues: ModeText<[string, string]>;
                 /** How big the caption of what Say is speaking is, as a multiple of the standard text size */
                 captionSize: ModeText<[string, string, string, string, string]>;
             };
@@ -2148,6 +2253,8 @@ type UITexts = {
         script: string;
         /** [plain] ARIA label for the script filter dropdown */
         scriptLabel: string;
+        /** Whether a picked emoji is inserted in color or black and white */
+        presentation: ModeText<[string, string]>;
         /** [plain] Suffix appended after the first few language names captioning a script option, when more languages use the script than fit. $count is the number of additional languages. */
         moreLanguages: Template<['count']>;
         /** [plain] Hint shown in the glyph area when no category and no script is selected */

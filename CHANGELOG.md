@@ -4,6 +4,70 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.31.1 - 2026-08-26
+
+### Added
+
+- 🔠 Every font now says what it looks like, so you can pick one without seeing it. The font chooser reads "Creepster, a textured face, strong and old-fashioned" instead of just the name, and a phrase tells you what face it's wearing. There are 12 words for the shape of the letters and 13 for how a font feels, and they're translated into every language Wordplay speaks. (#298)
+- 📐 Things on your stage now line up with each other when you move them. Drag one near another and it snaps to its left or right edge, its middle, or the line its letters sit on, and a line shows you what it lined up with. Turn the grid on and it snaps to the grid too. Hold Alt or Option while you drag to place it anywhere you want. (#117)
+- 📐 You can line things up with the keyboard too. Arrow keys move whatever you picked, and holding shift while you press an arrow jumps it straight to the next thing it can line up with that way. Wordplay says where it landed and what it lined up with, so you can lay out a stage without seeing it. (#117)
+
+### Fixed
+
+- 🔠 The font chooser used to read a font's markers out loud as "no tilde asterisk caret slash", and read the writing a font supports in that writing's own letters, so an English voice said "Ελληνικά" letter by letter. Now it says "no light, bold, extra, italic" and "Greek", while still showing the symbols and the letters on screen. (#298)
+- 🖱️ Sometimes you'd click something on your stage and nothing would happen — it got a blue outline but no handles, and the arrow keys wouldn't move it. That could last until you changed your code again. Now a click always finds what you clicked on.
+- 🔍 Your stage used to zoom in and out while you dragged something across it, which made things hard to place. Now it holds still while you move and fits your work again once you let go. If it ends up further out than you want, restart your program and it will frame everything fresh.
+
+## 0.31.0 - 2026-08-25
+
+### Added
+
+- 🔊 Turn on evaluation cues in settings and Wordplay makes a short sound each time your program runs again, with a different sound for each kind of input. The tour of the time slider explains them. (#537)
+- 🧲 Turn on collision cues and you can hear things bump into each other on your stage. A harder hit is louder, and several things landing at once sound like several things.
+- 🎞️ Turn on animation cues and you can hear what an animation is doing: turning changes the pitch, moving side to side moves the sound side to side, and fading out makes it quieter. An animation that repeats plays the same little tune every time around.
+- 🔊 A `@Pose` can now carry a `@Music`, which plays the moment that pose happens. Give the pose you enter with a little sound and it plays as your phrase arrives; put one on a pose inside a `@Sequence` and it plays when the animation reaches it. Before this, making a sound land with an animation meant building something in between for both of them to watch. (#22)
+
+### Changed
+
+- 🧭 On a small screen, switching between your code, your stage, and your other windows used to take four taps through the ☰ menu. Now they have their own row right above the project name, so it's one tap, and tapping the window you're already looking at keeps it instead of hiding it.
+- 🔤 `sorted` can now use a word to sort by, not just a number, so you can sort a list of things by one of their names, like sorting people by their last name. Emoji now sort by what they are, so hearts sit next to hearts. (#1322)
+
+### Fixed
+
+- 🎨 A button that's turned on now looks pushed in: it sinks down and darkens. It used to move up instead, and in dark mode it looked lit up rather than pressed, with some buttons losing their picture entirely.
+- 🔤 Sorting words used to put every word starting with a capital letter before every word starting with a small letter, so a word like "amy" ended up far away from "Amy". Now words sort in alphabetical order, the way a dictionary does, independent of case. (#1322)
+- 🐛 We fixed a crash that could happen when you added a new input like `Speech()` above one you already had. Wordplay was replaying your earlier key presses and clicks into the wrong input.
+
+## 0.30.1 - 2026-08-24
+
+### Added
+
+- 🔣 You can now choose whether an emoji you add is in color or black and white. Pick which one in the emoji chooser, and Wordplay keeps your choice when it shows the emoji and when you copy it.
+- 📋 You can now select the text your program shows and copy it somewhere else. This works while a project is playing, and on anything your program shows that isn't a stage.
+- 🔊 The notes your music is playing now light up in your code as you hear and see them. In a melody written as a list of numbers, each number glows when its turn comes.
+- 💡 The menu you get while writing code can now build much more of the language. You can take an item out of a list or a map, change a number's kind with `→`, ask a question with `???`, look back at a stream with `←`, change one part of a structure, and update a table.
+- 🔢 You can now write numbers in Roman, Han, Thai, Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu numerals, and in base 2 and base 16. Pick a digit to start, then add more digits before, inside, or after it to build up a bigger number. There's no keyboard for these, so the menu is the only easy way to write them.
+- 🌙 Your projects can now go dark along with the rest of Wordplay, so a bright stage isn't a bright white square at night. Every color keeps its own hue and stays as far from the others as you made it, projects that are already dark are left alone, and you can turn this off in settings to always see the colors you wrote. (#65)
+
+### Changed
+
+- 📋 Selecting all text on a page used to sweep up buttons, tab names, and footer links along with the words you actually wanted. Now only real text can be chosen: paragraphs, headers, what your program shows, the help and guide writing, page titles, names, and anything you can type into.
+- 💡 The menu now groups units by what they measure, so finding `km` means opening Length instead of scrolling past all 126 units. The plain number choices come first now, instead of last.
+
+### Fixed
+
+- 💡 Ready-made things like `Sequence.sway()` and `Color.random()` never showed up when you typed a dot after their name. Now they do.
+- 💡 The menu used to offer code that couldn't work. After a dot it forgot the name you picked, so `a.` offered `a()` instead of `a.📏()`, and after a `+` it offered things that only work on the number before it.
+- 🧩 Choosing your whole program gave you an empty menu. It now offers to add something to your program.
+- 💡 Typing a letter in the menu skipped the very first choice, so that one could never be picked that way.
+- 🔍 We fixed the search box in the emoji and symbol chooser. It used to lose your place after the first letter, so everything you typed after that went nowhere.
+- ✍️ We fixed how chosen code looks when it has an emoji in it. Choosing one emoji, or a stretch that starts or ends with one, used to show no highlight at all.
+- 📖 A word in our explanations pointed at a page that didn't exist, so it showed an empty box instead of a link. Markup and type variable now have their own pages in the [Guide](https://wordplay.dev/guide), and the markup page shows an example you can try.
+- 🌐 In several languages the word markup was translated as the money kind, like a price markup or a page margin, instead of text with bold words and links. It now means formatted text in every language.
+- ✍️ We fixed an extra space that crept in before a linked word in code, so `a @Phrase` no longer looks like `a  @Phrase`.
+- 🎞️ We fixed which code lights up while something on stage is moving. A ready-made motion like `Sequence.sway()` used to light up nothing at all, and a motion that never really moves used to light up as if it did. (#543)
+- 🎨 A project that paints itself a dark background used to draw its outlines and edges in colors picked for a light page, which made them hard to see. They now match the background you chose.
+
 ## 0.30.0 - 2026-08-22
 
 ### Added
@@ -31,6 +95,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔬 Each project now has a Research setting in its sharing options, off unless you turn it on. It lets us show that project as an example when we write and talk about Wordplay, without your name or anything else that says it's yours. (#922)
 - 📖 Every example in the [Guide](https://wordplay.dev/guide) now has a Test it button. It opens a copy of the example in a new window that you can change and play with, kept on your device and out of your project list, with a link back to what you were reading. (#1044)
 - 📧 You can now write an email address in a doc or a how-to and it becomes a link that opens a message. Before, the `@` in an address was read as the start of a `@link` and the address disappeared.
+- 💾 Some of your settings stay on the device you set them on, and some follow your account. There was no way to tell which was which, so the ones that follow your account now have a small cloud beside them that says "Saved across devices". Signed out, the cloud is grey and tells you what signing in would do. (#231)
 
 ### Changed
 
@@ -39,15 +104,19 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔢 Two not-a-number values are now equal, so `!# = !#` is true. Asking whether a number came out of text you couldn't read is the whole reason to compare one, and it could never be true before.
 - 📐 On a phone, the character editor was three thin columns and none of them were usable. It's now one column: the character, then the commands you can use, then the colors.
 - 🔣 Making a copy of a character now uses the same symbol as remixing a project, `⧉`. The book symbol means copy to the clipboard everywhere else, and one symbol shouldn't mean two things.
+- 🎨 The saved message at the bottom of the page now shows a cloud instead of a globe. A globe can mean anything on the internet, and we use the cloud everywhere else for work kept in your account. (#231)
+- 💡 Auto-complete now says what each unit means. Picking `km` shows "kilometers" instead of the one note every unit used to share, and if you chose more than one language, you'll see the name in each of them. (#890)
 - 🛠️ We updated internal tooling.
 
 ### Fixed
 
+- 🌐 We fixed the explanations of built-in things, like `#km → #m`, always showing in the language a project was written in instead of the language you chose. Open an English project with French picked and the explanations are now French too.
 - 🔗 A project with no name left the browser tab titled "Wordplay - ", which told you nothing when you had two open. It now says the project is untitled.
 - 🖱️ Two links on a project in your list sat too close together to tap reliably. They're now big enough to hit.
 - 🧲 Writing a strange number like `!#` or `∞` for the @Stage's `gravity` used to freeze everything on the stage that moves. Wordplay now uses ordinary gravity instead. (#1305)
 - 🧲 A @Phrase with @Matter crashed the program the first time it changed size, if it was the only thing physics was moving — like a score that counts up. (#1315)
 - 🐛 Formatted text with a language on it never matched the same formatted text without one, so `` `hi` `` and `` `hi`/en `` looked like different things. Plain text was fixed for this before; now formatted text is too.
+- 💾 Four settings — font face, line numbers, wrap lines, and space markers — were meant to follow your account, but they were never really saved there, so they stayed on one device. They now travel with you. (#231)
 - 🐛 Reversing a list changed the list you started with, instead of leaving it alone and handing you a new one.
 - 🐛 Sorting a list could jumble items that had nothing wrong with them, if any one item's sorting number wasn't a number. Those items go last now, and everything else keeps its order.
 - 📖 Writing `!#` in a help page quietly erased the rest of the sentence, so we couldn't explain the value at all.

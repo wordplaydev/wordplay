@@ -125,7 +125,7 @@
             "definition": "$~Słowo, które odnosi się do @value lub @FunctionDefinition."
         },
         "markup": {
-            "word": "$~znacznik",
+            "word": "$~tekst z formatowaniem",
             "definition": "$~Tekst z formatowaniem, na przykład pogrubione słowa lub linki."
         },
         "language": {
@@ -478,11 +478,13 @@
             "doc": "$~Jestem listą @TypeVariable."
         },
         "Markup": {
-            "name": "$~znacznik",
-            "description": "$~znacznik $#count[$count akapit|$count akapity|$count akapitów|$count akapitu]",
+            "name": "$~tekst z formatowaniem",
+            "description": "$~tekst z formatowaniem $#count[$count akapit|$count akapity|$count akapitów|$count akapitu]",
             "emotion": "serious",
             "doc": [
-                "$~Jestem listą akapitów, korzystającą z wielu rodzajów @markup dostępnych w wyjaśnieniach, takich jak @Words, @WebLink, @ConceptLink i @Example."
+                "$~Jestem listą akapitów, używającą wielu rodzajów tekstu z formatowaniem dostępnych w @Doc, takich jak @Words, @WebLink, @ConceptLink i @Example.",
+                "Znajdziesz mnie w @Doc oraz w @FormattedLiteral:",
+                "\\¶Jestem dokumentacją z tekstem *pogrubionym*. Mogę odwoływać się do pojęć, na przykład @Phrase może prowadzić do <różnych rzeczy w sieci@https://wordplay.dev>.¶\nWyrażenie(\n\t`Jestem tekstem z formatowaniem dla @Phrase, używam *pogrubienia*, /kursywy/ i _podkreślenia_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~akapity"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~oddział",
-            "description": "$~wybór znacznika przy $condition",
+            "description": "$~wybór tekstu z formatowaniem na podstawie $condition",
             "emotion": "serious",
             "doc": [
                 "$~Jestem sposobem wyboru pomiędzy dwoma segmentami wyjaśnienia w zależności od tego, czy wartość wejściowa wyjaśnienia jest zdefiniowana, czy prawdziwa.",
@@ -3237,6 +3239,24 @@
                 "TiB": "$~tebibajty",
                 "lux": "$~luksy",
                 "fc": "$~stopokandele"
+            },
+            "category": {
+                "time": "$~Czas",
+                "length": "$~Długość",
+                "weight": "$~Waga",
+                "temperature": "$~Temperatura",
+                "angle": "$~Kąt",
+                "area": "$~Powierzchnia",
+                "volume": "$~Objętość",
+                "speed": "$~Prędkość",
+                "pressure": "$~Ciśnienie",
+                "energy": "$~Energia",
+                "power": "$~Moc",
+                "electricity": "$~Elektryczność",
+                "frequency": "$~Częstotliwość",
+                "data": "$~Dane",
+                "brightness": "$~Jasność",
+                "other": "$~Inne"
             }
         },
         "List": {
@@ -3632,23 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Mogę wziąć listę i stworzyć nową listę z posortowanymi wartościami. Tak jak tutaj:",
-                        "\\[1 5 8 0 2].sorted()\\",
-                        "Mogę to zrobić również dla wartości @Text",
-                        "\\['pomarańczowy' 'kiwi' 'banan' 'jabłko'].sorted()\\",
-                        "A jeśli masz listę wartości, które nie są @Number lub @Text, możesz podać mi @FunctionDefinition, która zamienia każdy element na @Number, abym mógł je posortować. Na przykład tutaj mamy listę list o różnych długościach; jeśli podasz mi funkcję, która zamienia każdą listę na jej długość, mogę sortować według ich długości.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(lista) lista.długość())\\"
+                        "$~Mogę wziąć listę i zrobić nową listę z posortowanymi wartościami. Tak jak tutaj:",
+                        "\\[1 5 8 0 2].posortowane()\\",
+                        "Mogę też to zrobić dla wartości @Text, w kolejności alfabetycznej. Wielka litera sortuje się obok swojej małej litery, więc słowo nie trafia na koniec tylko dlatego, że zaczyna się wielką literą:",
+                        "\\['Pomarańcza' 'kiwi' 'Banan' 'jabłko'].posortowane()\\",
+                        "A jeśli masz listę wartości, które nie są @Number ani @Text, możesz podać mi @FunctionDefinition, która zamienia każdy element w @Number lub @Text, żebym mógł to posortować. Na przykład tutaj mamy listę list o różnych długościach; jeśli podasz mi funkcję, która zamienia każdą listę w jej długość, mogę posortować według długości.",
+                        "\\[[1] [2 3] [4 8 12] [8]].posortowane(\n\tƒ(lista2) lista2.długość()\n)\\",
+                        "Funkcja, która tworzy @Text, pozwala sortować według obliczonego przez ciebie słowa, zamiast według samej wartości. Tutaj sortuję imiona według nazwiska:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].posortowane(\n\tƒ(nazwa2•'') (nazwa2 ÷ ' ').ostatni()\n)\\"
                     ],
                     "names": "$~posortowane",
                     "inputs": [
                         {
-                            "doc": "$~Opcjonalne @FunctionDefinition, którego użyjesz do posortowania listy @value. Powinno zamienić wartość w @Number, którego można użyć do sortowania listy.",
+                            "doc": "$~Opcjonalna @FunctionDefinition używana do sortowania listy @value. Powinna zamieniać wartość w @Number lub @Text, którą można użyć do sortowania listy.",
                             "names": "$~sekwencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value, które zamienisz w @Number.",
+                            "doc": "$~@value do zamiany w @Number lub @Text.",
                             "names": "$~wartość"
                         }
                     ]
@@ -5525,7 +5547,11 @@
                 "doc": "$~Czy @Output powinno być odbite lustrzanie na osi y, zamiast domyślnie.",
                 "names": "$~chytry"
             },
-            "description": "$~$opacity[przezroczysty $opacity|] $rotation[obrócony o $rotation stopnie|] $scale[skalowany $scale|] $flipx[odwrócony w poziomie|] $flipy[odwrócony w pionie|] $blur[cień rozmyty $blur pikseli|]"
+            "description": "$~$opacity[przezroczysty $opacity|] $rotation[obrócony o $rotation stopnie|] $scale[skalowany $scale|] $flipx[odwrócony w poziomie|] $flipy[odwrócony w pionie|] $blur[cień rozmyty $blur pikseli|]",
+            "music": {
+                "doc": "$~@Music, który powinienem odtworzyć, gdy zacznie się mój stan animacji lub gdy dosięgnie mnie @Sequence. Chodzi o krótki dźwięk; odtwarzam go tylko raz od początku do końca.",
+                "names": "$~muzyka"
+            }
         },
         "Color": {
             "doc": [
@@ -6857,7 +6883,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~NIE"
+            "missing": "$~NIE",
+            "form": {
+                "sans": "$~krój bezszeryfowy",
+                "serif": "$~krój szeryfowy",
+                "slab": "$~krój szeryfowy o grubych szeryfach",
+                "typewriter": "$~krój jak z maszyny do pisania",
+                "handwriting": "$~pismo ręczne",
+                "brush": "$~krój jak pędzlem",
+                "script": "$~krój kursywny",
+                "poster": "$~krój plakatowy",
+                "pixel": "$~krój pikselowy",
+                "outline": "$~krój z pustymi środkami liter",
+                "textured": "$~krój z teksturą",
+                "emoji": "$~obrazki, nie litery"
+            },
+            "impression": {
+                "calm": "$~spokojny",
+                "oldFashioned": "$~staromodny",
+                "strong": "$~mocny",
+                "quirky": "$~oryginalny",
+                "playful": "$~żartobliwy",
+                "excited": "$~pełen emocji",
+                "childlike": "$~dziecięcy",
+                "artistic": "$~artystyczny",
+                "futuristic": "$~futurystyczny",
+                "energetic": "$~pełen energii",
+                "cute": "$~uroczy",
+                "cheerful": "$~radosny",
+                "fancy": "$~wyszukany"
+            },
+            "mechanic": {
+                "sameWidth": "$~każda litera o tej samej szerokości",
+                "tallLowercase": "$~małe litery tak wysokie jak wielkie",
+                "shortLowercase": "$~małe litery znacznie niższe niż wielkie"
+            },
+            "description": {
+                "and": "$~$first i $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Witam"
@@ -6913,6 +6977,10 @@
             },
             "logo": {
                 "description": "$~Dymek z literą Twojego systemu pisma w środku"
+            },
+            "synced": {
+                "saved": "$~Zapisane na wszystkich urządzeniach",
+                "signedOut": "$~Zapisane na wszystkich urządzeniach, gdy jesteś zalogowany"
             }
         },
         "tile": {
@@ -7524,6 +7592,13 @@
             "hidden": {
                 "message": "$~Nic nie jest widoczne na scenie.",
                 "show": "$~pokaż wszystko"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7545,7 +7620,7 @@
                 "timeline": "$~/Oś czasu/ pozwala ci przechodzić *do przodu* i *do tyłu* przez wykonywanie twojego programu, krok po kroku. Pojawia się na pasku narzędzi sceny w trybie ✏️ *edycji* i ⏸️ *debugowania*. To świetny sposób, aby zobaczyć, *jak* twój program oblicza swoją wartość, i zbudować w głowie obraz tego, jak programy @wordplay się wykonują, zwłaszcza gdy nie widzisz zachowania, którego chcesz.",
                 "annotations": "$~W oknie /adnotacje/ pojawiają się objaśnienia każdego kroku. Podczas przechodzenia przez program, tutaj dowiesz się, co się właśnie wydarzyło.",
                 "editor": "$~/Edytor/ pokazuje Twój kod. Podczas wykonywania kroków, *wartość* każdej części programu pojawi się obok tej części *po* jej ocenie, dzięki czemu możesz obserwować, jak wartości rosną w miarę działania programu.",
-                "history": "$~W zakładce /history/ wyświetlane są wszystkie *dane wejściowe* otrzymane przez program, takie jak klawisze, znaczniki czasu i zdarzenia wskaźnika. Można ją *przeciągać*, więc możesz wrócić do dowolnego momentu w historii ewaluacji programu, po prostu przeciągając.",
+                "history": "$~/Historia/ pokazuje każde *wejście*, które otrzymał twój program, takie jak klawisze, upływ czasu i zdarzenia wskaźnika. Można ją *przeciągać*, więc możesz wrócić do dowolnej chwili w historii działania programu, po prostu ją przeciągając. Jeśli wolisz te wejścia *usłyszeć* niż zobaczyć, włącz /sygnały oceniania/ w ustawieniach, a @wordplay odtworzy krótki dźwięk dla każdego z nich, inny dla każdego rodzaju wejścia.",
                 "stepControls": "$~Sterowanie krokami pozwala precyzyjnie poruszać się po ewaluacji. Możesz przejść do *początku* lub *końca*, przejść *do przodu* lub *do tyłu* o jeden krok na raz, przejść o *jeden element wejściowy*, *wyjść* z funkcji lub przejść do *aktualnie zaznaczonego* fragmentu kodu.",
                 "modes": "$~/Przełącznik trybu/ wybiera, jak twój program się wykonuje. W trybie ✏️ *edycji* program zatrzymuje się tam, gdzie jest, i możesz go zmieniać — twoje zmiany odtwarzają się ponownie, aby pokazać ich wpływ w tym miejscu. W trybie ⏸️ *debugowania* kod jest tylko do odczytu, a *bieżąca wartość* każdej części twojego programu pojawia się obok niej w edytorze i w palecie. W trybie ▶️ *odtwarzania* twój program działa na żywo od miejsca, w którym jest, i reaguje na wejścia w czasie rzeczywistym. Obok przełącznika przycisk /wykonaj/ — trójkąt odtwarzania otoczony narożnikami pełnego ekranu — rozpoczyna wykonanie od góry i wypełnia ekran sceną, a ↻ resetuje program w każdym trybie."
             }
@@ -8087,6 +8162,38 @@
                             "$~Pokaż napisy dwa razy większe",
                             "$~Pokaż napisy trzy razy większe"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~kolory projektu",
+                        "labels": ["$~zachowaj", "$~odwróć"],
+                        "tips": [
+                            "$~pokaż kolory projektu dokładnie tak, jak zostały zapisane, nawet na ciemnym ekranie",
+                            "$~na ciemnym ekranie zmień jasne kolory projektu na ciemne: każdy kolor zachowuje swój odcień, a kolory pozostają od siebie tak różne, jak zaplanował to projekt"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~sygnały oceniania",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wydawaj dźwięku, gdy program ocenia od nowa",
+                            "$~Odtwarzaj krótki dźwięk za każdym razem, gdy program ocenia od nowa, inny dla każdego rodzaju wejścia"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~sygnały animacji",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wydawaj dźwięku, gdy wynik się animuje",
+                            "$~Odtwarzaj krótki dźwięk za każdym razem, gdy animacja osiąga pozę, tak by dźwięk pasował do tego, co robi poza"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~sygnały zderzeń",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wydawaj dźwięku, gdy wynik się zderza",
+                            "$~Odtwarzaj krótki dźwięk, gdy wynik się zderza, tym głośniejszy, im mocniejsze jest uderzenie"
+                        ]
                     }
                 },
                 "options": {
@@ -8113,7 +8220,8 @@
                 },
                 "subheader": {
                     "music": "$~Muzyka",
-                    "say": "$~Mów"
+                    "say": "$~Mów",
+                    "cues": "$~Sygnały"
                 }
             },
             "locale": {
@@ -8637,11 +8745,11 @@
                     "accessible": {
                         "title": "$~Wordplay jest dostępne dla wszystkich",
                         "bullets": [
-                            "$~• Wszystko, co da się zrobić myszką, da się zrobić klawiaturą.",
-                            "• Czytniki ekranu opisują scenę na bieżąco, nie tylko wtedy, gdy się ładuje.",
-                            "• Możesz czytać i pisać swój kod jako bloki zamiast tekstu i przełączać się, kiedy chcesz.",
+                            "$~• Wszystko, co można zrobić myszką, można też zrobić klawiaturą.",
+                            "• Czytniki ekranu opisują scenę, gdy się zmienia, a dodatkowe dźwięki oznaczają, co się przelicza, co się porusza i co się zderza.",
+                            "• Kod możesz czytać i pisać jako bloki zamiast tekstu i zmieniać sposób, kiedy tylko chcesz.",
                             "• Ruch można spowolnić albo całkiem wyłączyć.",
-                            "• Mowę można wyświetlać jako napisy na scenie dla osób, które jej nie słyszą."
+                            "• Mówiony dźwięk może mieć napisy na scenie dla osób, które go nie słyszą."
                         ]
                     },
                     "senses": {
@@ -9994,7 +10102,15 @@
             "scriptLabel": "$~filtruj według skryptu",
             "pickFilter": "$~Wybierz kategorię lub skrypt",
             "moreLanguages": "$~i $count więcej",
-            "moreGlyphs": "$~Pokazano $count — szukaj, aby znaleźć więcej"
+            "moreGlyphs": "$~Pokazano $count — szukaj, aby znaleźć więcej",
+            "presentation": {
+                "label": "$~kolor emoji",
+                "labels": ["$~kolor", "$~czarno-białe"],
+                "tips": [
+                    "$~wstaw emoji w kolorze",
+                    "$~wstaw emoji czarno-białe"
+                ]
+            }
         },
         "localize": {
             "header": "$~Zlokalizować",

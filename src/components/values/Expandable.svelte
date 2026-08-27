@@ -83,6 +83,7 @@
         font-size: var(--wordplay-small-font-size);
         white-space: nowrap;
         user-select: none;
+        -webkit-user-select: none;
     }
 
     .controls {

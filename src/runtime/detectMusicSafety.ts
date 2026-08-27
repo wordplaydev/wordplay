@@ -5,6 +5,7 @@ import analyzeMusicSafety, {
     type MusicRisk,
 } from '@output/MusicSafetyAnalysis';
 import { toStage } from '@output/Output/Stage';
+import { stagePoseMusic } from '@output/animation/poseMusic';
 import Evaluator from '@runtime/Evaluator';
 
 /**
@@ -24,5 +25,12 @@ export default function detectMusicRisks(
     if (value === undefined) return new Set();
     const stage = toStage(evaluator, value);
     if (stage === undefined) return new Set();
-    return analyzeMusicSafety(stage.getMusic().map((music) => music.toData()));
+    // Pose music as well as content music: a sound a pose strikes is just as loud
+    // as one standing on the stage, and reading only the content would put a gate
+    // in front of the second and none in front of the first.
+    return analyzeMusicSafety(
+        [...stage.getMusic(), ...stagePoseMusic(project, stage)].map((music) =>
+            music.toData(),
+        ),
+    );
 }

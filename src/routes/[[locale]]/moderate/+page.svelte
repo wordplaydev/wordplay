@@ -132,6 +132,27 @@
     setConceptPath(writable([]));
 
     /**
+     * A read, with one retry when the first attempt fails on connectivity.
+     *
+     * The first reads a freshly loaded page makes are the ones most likely to
+     * lose their race with DB.read's budget: the app's own start-up work can
+     * hold the main thread long enough that the response callback doesn't get
+     * to run, which Safari reaches far more often than Chrome. This page opens
+     * with two such reads back to back, and losing either one cost reported
+     * content the priority this queue exists to give it. Anything that isn't a
+     * connectivity failure — a rule saying no, a malformed query — answers the
+     * same way twice, so it's rethrown on the spot.
+     */
+    async function readRetrying<T>(read: () => Promise<T>): Promise<T> {
+        try {
+            return await DB.read(read());
+        } catch (error) {
+            if (!DB.isConnectivityError(error)) throw error;
+            return await DB.read(read());
+        }
+    }
+
+    /**
      * The next reported project, if any. Reports come first: someone took the
      * trouble to say this one needs looking at, which is a much better signal
      * than "oldest unmoderated".
@@ -141,11 +162,14 @@
      */
     async function nextReported(): Promise<string | undefined> {
         if (firestore === undefined) return undefined;
+        // The closure below defers the read, so hold the checked handle:
+        // narrowing doesn't reach inside a callback.
+        const db = firestore;
         try {
-            const reports = await DB.read(
+            const reports = await readRetrying(() =>
                 getDocs(
                     query(
-                        collection(firestore, ReportsCollection),
+                        collection(db, ReportsCollection),
                         where('resolved', '==', false),
                         orderBy('time'),
                         // Enough to see past the ones passed on this session.
@@ -186,20 +210,32 @@
             done = true;
             return;
         }
+        const db = firestore;
 
         // Reported content jumps the queue.
         reported = false;
         const reportedID = await nextReported();
         if (reportedID !== undefined) {
-            const doc = await DB.read(
-                getDocs(
-                    query(
-                        collection(firestore, ProjectsCollection),
-                        where('id', '==', reportedID),
-                        limit(1),
+            let doc;
+            try {
+                doc = await readRetrying(() =>
+                    getDocs(
+                        query(
+                            collection(db, ProjectsCollection),
+                            where('id', '==', reportedID),
+                            limit(1),
+                        ),
                     ),
-                ),
-            );
+                );
+            } catch (error) {
+                // We know a report is waiting and couldn't fetch what it names.
+                // Say so and stop: falling through to the unmoderated queue
+                // would quietly show other work in its place, and skipping it
+                // would mark a reachable project unactionable for the session
+                // over one failed read.
+                DB.reportBanner((l) => l.ui.banner.loadFailed, error);
+                return;
+            }
             const data = doc.docs[0]?.data();
             if (data !== undefined) {
                 project = await Projects.parseProject(data);

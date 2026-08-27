@@ -242,6 +242,10 @@ export default class ProjectsDatabase {
      *  alongside the CRDT in {@link activateCRDT}. */
     private crdtProviders: Map<string, YjsFirestoreProvider> = new Map();
 
+    /** Projects whose {@link activateCRDT} arrived before their history did.
+     *  Drained by {@link track} the moment the history is registered. */
+    private pendingCRDTActivations: Set<string> = new Set();
+
     /** Active presence trackers, one per collaborative project. Exposes a
      *  reactive SvelteMap of remote peers' caret positions for the editor
      *  overlay to bind to.
@@ -826,6 +830,18 @@ export default class ProjectsDatabase {
                 history = new ProjectHistory(project, persist, saved, Locales);
                 this.projectHistories.set(project.getID(), history);
 
+                // A view already asked to go live on this project before its
+                // history existed. Run that request now, after this call
+                // finishes reconciling, so activation sees the merged project
+                // rather than the one we just constructed.
+                if (this.pendingCRDTActivations.has(project.getID())) {
+                    const pendingID = project.getID();
+                    queueMicrotask(() => {
+                        if (this.pendingCRDTActivations.has(pendingID))
+                            this.activateCRDT(pendingID);
+                    });
+                }
+
                 // Request a save.
                 this.saveSoon();
             }
@@ -976,7 +992,18 @@ export default class ProjectsDatabase {
     activateCRDT(projectID: string): void {
         if (this.projectCRDTs.has(projectID)) return;
         const project = this.projectHistories.get(projectID)?.getCurrent();
-        if (project === undefined) return;
+        // ProjectView asks to activate exactly once, on mount, and it can
+        // mount before the project's history exists — the view renders from
+        // the route's own copy while the doc is still on its way. Dropping the
+        // request there meant the session never got a CRDT provider or a
+        // presence tracker at all: the creator sees the project and edits it,
+        // and nothing they type reaches anyone, with no error to say so. Hold
+        // the request instead and let track() run it when the history lands.
+        if (project === undefined) {
+            this.pendingCRDTActivations.add(projectID);
+            return;
+        }
+        this.pendingCRDTActivations.delete(projectID);
 
         const sources = project.getSources();
         const codes = sources.map((s) => s.code.toString());
@@ -1289,6 +1316,10 @@ export default class ProjectsDatabase {
     }
 
     async deactivateCRDT(projectID: string): Promise<void> {
+        // A view that never went live can still be left; drop its held
+        // request so a later-arriving history doesn't activate a project
+        // nobody is looking at.
+        this.pendingCRDTActivations.delete(projectID);
         const crdt = this.projectCRDTs.get(projectID);
         const provider = this.crdtProviders.get(projectID);
         const tracker = this.presenceTrackers.get(projectID);

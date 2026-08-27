@@ -554,6 +554,14 @@
         -webkit-user-select: none;
     }
 
+    /* The title renders as markup, which opts back into selection everywhere
+       else; inside a drag tile it has to opt out again or a descendant's rule
+       beats the tile's and the stuck-selection bug above comes back. */
+    .howto :global(.markup) {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
     /* While a tile is being dragged or keyboard-moved, hoist it above
        its siblings so it always reads as the active one even when it
        briefly overlaps another tile mid-motion. */

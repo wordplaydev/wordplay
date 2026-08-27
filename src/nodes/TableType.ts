@@ -128,13 +128,19 @@ export default class TableType extends BasisType {
             if (!(type instanceof TableType)) return false;
             if (this.columns.length === 0) return true;
             if (this.columns.length !== type.columns.length) return false;
-            for (let i = 0; i < this.columns.length; i++)
+            for (let i = 0; i < this.columns.length; i++) {
+                const mine = this.columns[i];
+                const theirs = type.columns[i];
+                // A table type built mid-edit can hold an undefined column, and indexing it
+                // threw — crashing the very menu that was offering to complete the table.
+                if (mine === undefined || theirs === undefined) return false;
                 if (
-                    !this.columns[i]
+                    !mine
                         .getType(context)
-                        .accepts(type.columns[i].getType(context), context)
+                        .accepts(theirs.getType(context), context)
                 )
                     return false;
+            }
             return true;
         });
     }

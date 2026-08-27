@@ -153,13 +153,94 @@ test('resolving a color needs no basis', () => {
  * No new file and no new subgraph — the same move as the three entries above.
  * Consent text is deliberately long: it is a permission a creator gives, so it
  * says plainly what it covers and what turning it off can and cannot undo.
+ *
+ * The last +1 file is the cloud badge marking a setting that follows a creator's
+ * account (#231): one component reached through the settings dialog, which Page
+ * mounts, so it lands on every entry that reaches Page. It is a leaf — an emoji,
+ * the tip it already shares with every other widget, and the signed-in check —
+ * so it adds only itself and no subgraph. The layout doesn't reach Page and so
+ * doesn't move at all; the landing page does reach it, but its file budget had a
+ * unit of slack, so only its bytes needed to move. Those bytes are the badge's
+ * two sentences in en-US.json, which every entry carries, and they are what tips
+ * three of the byte budgets over a hundredth of a megabyte.
+ *
+ * The last +0.01MB on the layout and Page is choosing whether an inserted emoji
+ * is color or monochrome: the mode's label, its two labels and its two tips in
+ * en-US.json, which every page carries, plus the run kind that carries the
+ * choice through to a font in unicode/emoji.ts, which every page reaches via
+ * Emoji and EmojisRepaired. No new file and no new subgraph — the same move as
+ * the entries above. The three page budgets had enough slack to absorb it.
+ *
+ * The last +2 files on every entry are the edit menu's reachability work: `values/numerals.ts`,
+ * which holds the numeral tables both the tokenizer's number parsing and the menu's numeral
+ * suggestions read (moved out of NumberValue, so its bytes moved rather than grew), and
+ * `nodes/suggestionScope.ts`, the one-rule helper deciding whose scope a suggestion for a
+ * neighbouring field comes from. Both are leaves reached from the editor, which every entry
+ * already carries. The +0.01MB is the menu's new suggestion generators rather than those two
+ * files: the numeral tables only moved out of NumberValue, but list and set access, table
+ * update, previous, conversion targets, and the numeral encoder are all new code in nodes the
+ * editor reaches. The layout's last hundredth is the unit-category table and the locale strings
+ * naming each category, which every entry carries in en-US.json.
+ *
+ * Page's last +0.01MB buys no code at all: making interface chrome unselectable
+ * added CSS comments to three components Page already reaches (MarkupHTMLView,
+ * Subheader, CreatorView) explaining why each opts back out of the global
+ * `user-select: none`. It reaches no new file and no new subgraph — the file
+ * count is unchanged — and it deletes more declarations than it adds. Page had
+ * 23 bytes of headroom, so a rule that would otherwise read as unexplained
+ * couldn't be justified in place without this. The other four entries absorbed
+ * it with the slack they had.
+ *
+ * Adapting project output to a dark canvas (#65) adds three small files to
+ * every entry — the OS color-scheme store, the setting, and the pure lightness
+ * transform — and a fourth (adaptPreview) to the three that show project tiles.
+ * The three tile-showing entries move a hundredth of an MB; the other two
+ * absorb it in the slack they had. The transform deliberately
+ * lives in its own module rather than on `Color`, because a project tile paints
+ * a persisted preview string and must not drag the whole Color structure
+ * definition (or colorjs.io, which an earlier draft did pull in here) onto a
+ * page that never evaluates a program.
+ *
+ * Audible re-evaluation cues (#537) add exactly one file to every entry: the
+ * setting that turns them on, reached through the settings dialog. The cues
+ * themselves — the sound table, the Web Audio graph that renders it, and the
+ * driver that watches for reactions — hang off ProjectView, which none of these
+ * entries reach, so a page that never evaluates a program carries none of it.
+ * The +0.01MB on four of the five is that setting's mode row in en-US.json (a
+ * label, two labels, two tips, and a subheader) plus the sentence about cues in
+ * the evaluation tour, which every page carries; the landing page had enough
+ * slack to absorb it.
+ *
+ * Making animation audible costs no new file at all — its setting sits in the
+ * file the cues setting already occupies, and the figure mapping and the
+ * animation layer it hooks hang off ProjectView, which none of these entries
+ * reach. The landing page's last hundredth is the second mode row in
+ * en-US.json, which is the slack it had been living on since the row above.
+ *
+ * The +1 file across all five (#298) is faceWords.ts, which says in words what a
+ * typeface looks like for creators who can't see it. It is the same kind of move
+ * as the three above: one small file whose only imports — the generated face
+ * registry and a locale type — were already inside chrome via Fonts.ts, which
+ * the settings dialog reaches to render the font chooser. Not a new subgraph.
+ * Its ~0.01MB is the same shape as the row above: the module itself, thirty new
+ * terms in en-US.json, and four fields per pickable face in faces.generated.ts —
+ * a fixed vocabulary rather than a description per font, which is what keeps it
+ * to one step instead of growing with the catalogue.
+ *
+ * The layout's last +0.01MB is alignment guides (#117): the seven anchor words
+ * and the four sentences naming what a moved output lined up with, in
+ * en-US.json, which every page carries. The snapping itself is not in this
+ * number and must not be — `snap.ts` and the three modules around it are
+ * reached only from the stage's output views, so no entry here reaches them and
+ * no file count moves. The other four budgets had enough slack to absorb the
+ * text.
  */
 test.each([
-    ['src/routes/+layout.svelte', 481, 3.45],
-    ['src/components/app/Page.svelte', 502, 3.67],
-    ['src/routes/[[locale]]/+page.svelte', 518, 3.76],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 519, 3.76],
-    ['src/routes/[[locale]]/projects/+page.svelte', 527, 3.79],
+    ['src/routes/+layout.svelte', 488, 3.51],
+    ['src/components/app/Page.svelte', 510, 3.74],
+    ['src/routes/[[locale]]/+page.svelte', 525, 3.83],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 528, 3.83],
+    ['src/routes/[[locale]]/projects/+page.svelte', 536, 3.86],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

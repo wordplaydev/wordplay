@@ -371,6 +371,18 @@ export default class Layout {
         return this.tiles.filter((tile) => tile.mode !== TileMode.Collapsed);
     }
 
+    /** The tiles this arrangement actually puts on screen: the last expanded tile in
+     *  single, the last two in split, and every expanded tile otherwise. Deliberately
+     *  bounds-free, since a tile's bounds are undefined until the first resize. */
+    getVisibleTiles(arrangement: ArrangementType): Tile[] {
+        const expanded = this.expanded();
+        return arrangement === Arrangement.Single
+            ? expanded.slice(-1)
+            : arrangement === Arrangement.Split
+              ? expanded.slice(-2)
+              : expanded;
+    }
+
     static getComputedLayout(
         arrangement: ArrangementType,
         width: number,
@@ -540,9 +552,7 @@ export default class Layout {
     /** Only two visible at a time, whichever two are last in the list of tiles */
     split(width: number, height: number) {
         // Find the last two visible tiles
-        const visibleTiles = this.tiles
-            .filter((tile) => tile.isExpanded())
-            .slice(-2);
+        const visibleTiles = this.getVisibleTiles(Arrangement.Split);
 
         let newLayout: Layout = this;
 
@@ -585,7 +595,7 @@ export default class Layout {
     /** Only one visible at a time, whichever is first */
     single(width: number, height: number) {
         // Visible tile
-        const visibleTile = this.tiles.findLast((tile) => tile.isExpanded());
+        const visibleTile = this.getVisibleTiles(Arrangement.Single)[0];
 
         if (visibleTile === undefined) return this;
 

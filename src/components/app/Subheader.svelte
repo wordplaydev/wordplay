@@ -41,6 +41,10 @@
     .compact {
         font-size: min(4vw, 16pt);
         margin: 0;
+        /* A control label, not a title over content, so it stays chrome
+           while other headings are selectable. */
+        user-select: none;
+        -webkit-user-select: none;
     }
 
     .wrap {

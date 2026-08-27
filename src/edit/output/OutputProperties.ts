@@ -92,7 +92,7 @@ export function getTypeOutputProperties(
             new OutputPropertyOptions<{ face: { name: string; face: Face } }>(
                 Object.entries(Faces).map(([name, face]) => ({
                     value: name,
-                    label: getFaceDescription(name, face),
+                    label: getFaceDescription(locales, name, face),
                     face: { name, face },
                 })),
                 true,

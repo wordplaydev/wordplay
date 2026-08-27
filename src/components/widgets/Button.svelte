@@ -303,7 +303,6 @@
         font-weight: var(--wordplay-font-weight);
         font-style: inherit;
         transform-origin: center;
-        user-select: none;
         border: none;
         background: none;
         /* Fully drop native rendering. Without this the button stays

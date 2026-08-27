@@ -21,6 +21,7 @@ import TextValue from '@values/TextValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
 import PermissionException from '@values/PermissionException';
 import { denyConsent, Permission } from '@input/permissions';
+import type { StreamKind } from '@values/StreamValue';
 
 // Types for Web Speech API (browser compatibility handling)
 // The Web Speech API is *NOT* fully typed in TypeScript's lib.dom.d.ts
@@ -89,6 +90,8 @@ const SpeechErrors = {
 export type SpeechError = keyof typeof SpeechErrors;
 
 export default class Speech extends StreamValue<TextValue, string> {
+    readonly kind: StreamKind = 'speech';
+
     // Reference to Wordplay evaluator for values and project context
     readonly evaluator: Evaluator;
 

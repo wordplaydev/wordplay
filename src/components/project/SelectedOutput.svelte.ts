@@ -2,6 +2,7 @@ import type Project from '@db/projects/Project';
 import Evaluate from '@nodes/Evaluate';
 import type Node from '@nodes/Node';
 import type { Path } from '@nodes/Root';
+import type { Guide } from '@components/output/snap';
 
 type SelectionOrigin = 'editor' | 'output' | 'palette';
 
@@ -70,6 +71,18 @@ export default class SelectedOutput {
         cy: number;
     } | null = $state(null);
 
+    // True while an output is actually being MOVED — past the click/drag threshold on a pointer
+    // drag, or briefly after an arrow key. StageView reads it to show the grid faintly for
+    // positioning clarity, which is what dragging used to do by force-enabling the creator's
+    // own grid toggle and never restoring it.
+    moving: boolean = $state(false);
+
+    // What the output being moved is currently lined up with (#117). Written by whichever
+    // gesture owns the move — the pointer drag in OutputView, the arrow keys in the output
+    // views — and read by StageView, which draws them. Shared state rather than props because
+    // the two ends are three levels apart and the gesture owner isn't always the same component.
+    guides: Guide[] = $state([]);
+
     // True when the size handle has keyboard focus, so it can be restored after re-mount.
     sizeFocused: boolean = $state(false);
 
@@ -89,6 +102,15 @@ export default class SelectedOutput {
 
     setInteracting(interacting: boolean) {
         this.interacting = interacting;
+    }
+
+    setMoving(moving: boolean) {
+        this.moving = moving;
+        if (!moving) this.guides = [];
+    }
+
+    setGuides(guides: Guide[]) {
+        this.guides = guides;
     }
 
     /**

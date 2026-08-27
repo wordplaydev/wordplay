@@ -120,6 +120,9 @@ export default interface Translator {
      * `options.names` marks the strings as identifier names, where a bad output
      * costs cross-locale name collisions rather than one awkward sentence — a
      * backend may route those to a stronger model.
+     * `options.glossary` marks the strings as the glossary terms themselves, so a
+     * backend can tell the model to translate each in the sense its definition
+     * gives rather than the commonest sense of the bare English word.
      */
     translate(
         log: Log,
@@ -127,7 +130,7 @@ export default interface Translator {
         sourceLocale: string,
         targetLocale: string,
         targetText?: LocaleText,
-        options?: { names?: boolean },
+        options?: { names?: boolean; glossary?: boolean },
     ): Promise<(string | null)[] | undefined>;
 
     /** What this instance has consumed so far, per model, for end-of-run cost

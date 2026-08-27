@@ -29,9 +29,14 @@
         getPaletteOpen,
         getRevealPalette,
         getSelectedOutput,
+        getSoundingNodes,
         IdleKind,
         setSensorPanelStack,
+        setStageGrid,
+        setStageScene,
     } from '@components/project/Contexts';
+    import type Node from '@nodes/Node';
+    import { soundingNotes } from '@output/Music/sounding';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
@@ -40,7 +45,13 @@
     import ButtonWidget from '@components/widgets/Button.svelte';
     import Note from '@components/widgets/Note.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { animationFactor, DB, locales, voice } from '@db/Database';
+    import {
+        adaptingOutput,
+        animationFactor,
+        DB,
+        locales,
+        voice,
+    } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import Button from '@input/Button/Button';
@@ -75,6 +86,7 @@
     import type LocaleText from '@locale/LocaleText';
     import Evaluate from '@nodes/Evaluate';
     import { describeColorLocalized } from '@output/Color/BasicColors';
+    import { backgroundInvitesAdaptation } from '@output/Color/adapt';
     import Color, { toColor } from '@output/Color/Color';
     import {
         PX_PER_METER,
@@ -96,15 +108,36 @@
         instrumentBinds,
     } from '@output/Music/referencedInstruments';
     import type Source from '@nodes/Source';
-    import { musicInstruments, type MusicData } from '@output/Music/musicData';
+    import {
+        musicInstruments,
+        musicReady,
+        type MusicData,
+    } from '@output/Music/musicData';
     import { missedReplays } from '@output/Music/missedReplays';
     import projectReplaysMusic from '@output/Music/replayBinding';
+    import type Music from '@output/Music/Music';
+    import { stagePoseMusic } from '@output/animation/poseMusic';
+    import { onPoseMusic } from '@output/animation/poseMusicEvents';
     import audio, { musicSuspended } from '@output/Music/MusicAudio';
     import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
     import { toOutput } from '@output/Output/toOutput';
     import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
     import exceedsMoveThreshold from '@components/output/moveThreshold';
+    import resolveAcrossProjects from '@db/projects/resolveAcrossProjects';
+    import {
+        getAlignmentTargetsForCreator,
+        type AlignmentTargets,
+    } from '@components/output/alignmentTargets';
+    import {
+        SnapTolerancePixels,
+        boxAt,
+        offsetGuide,
+        sameGuides,
+        snapPlace,
+    } from '@components/output/snap';
+    import describeMove from '@components/output/snapDescription';
+    import { shapeYOffset } from '@components/output/keyboardMove';
     import Place, { createPlace } from '@output/Place/Place';
     import { toExpression } from '@parser/parseExpression';
     import { PAUSE_SYMBOL } from '@parser/Symbols';
@@ -121,6 +154,8 @@
     import TextValue from '@values/TextValue';
     import type Value from '@values/Value';
     import { onDestroy, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
+    import type { OutputInfoSet } from '@output/animation/Animator';
 
     interface Props {
         project: Project;
@@ -219,6 +254,20 @@
     // Instantiate the sensor panel stack coordinator for this OutputView instance
     const sensorPanelStack = new SensorPanelStack();
     setSensorPanelStack(sensorPanelStack);
+
+    // Publish the grid toggle to the output views below, which own the arrow-key
+    // move and so need to know whether it snaps to the grid (#117).
+    // svelte-ignore state_referenced_locally
+    const gridOn = writable(grid);
+    setStageGrid(gridOn);
+    $effect(() => {
+        gridOn.set(grid);
+    });
+
+    // The channel StageView publishes the stage's layout on, so this view's
+    // pointer drag and the output views' arrow keys read the same scene (#117).
+    const stageScene = writable<(() => OutputInfoSet) | undefined>(undefined);
+    setStageScene(stageScene);
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();
@@ -368,6 +417,87 @@
         pendingMoveTarget = undefined;
     }
 
+    /**
+     * What the output being dragged can align to, resolved ONCE when the gesture
+     * starts (#117). Not per frame: every mid-drag revise mints new nodes, so
+     * the output would only be findable in the scene some of the time — and on a
+     * paused stage, which is the only stage that can be edited, nothing else
+     * moves and the dragged output's size doesn't change, so one read holds.
+     */
+    let dragAlignment: AlignmentTargets | undefined;
+    /** A Shape is placed by its form's TOP-left anchor while its box is measured
+     *  from the bottom-left, so its drag coordinates are offset by its height. */
+    let dragOffset = 0;
+
+    function startSnapping(selected: Evaluate) {
+        const scene = $stageScene?.();
+        dragAlignment = scene
+            ? getAlignmentTargetsForCreator(scene, selected)
+            : undefined;
+        dragOffset = dragAlignment
+            ? shapeYOffset(dragAlignment.output, dragAlignment.moved.height)
+            : 0;
+    }
+
+    function stopSnapping() {
+        dragAlignment = undefined;
+        dragOffset = 0;
+        selection?.setMoving(false);
+    }
+
+    /**
+     * Where a dragged output should actually land: snapped to the grid (when the
+     * creator has it on) and to what else is on stage, unless Alt is held. Also
+     * publishes what it snapped to, and says it — but only when the constraint
+     * changes, since a drag streams positions and a free drag should be silent.
+     */
+    function snapDrag(x: number, y: number, suspended: boolean) {
+        const alignment = dragAlignment;
+        if (
+            suspended ||
+            alignment === undefined ||
+            renderedFocus === undefined
+        ) {
+            if ((selection?.guides.length ?? 0) > 0) selection?.setGuides([]);
+            return { x, y };
+        }
+        // A constant number of screen pixels, so a snap feels the same at any zoom.
+        const scale = rootScale(0, renderedFocus.z);
+        const tolerance =
+            SnapTolerancePixels /
+            (PX_PER_METER *
+                (scale === 0 || !Number.isFinite(scale) ? 1 : scale));
+        const result = snapPlace(
+            boxAt(alignment.moved, x, y - dragOffset),
+            alignment.targets,
+            {
+                tolerance,
+                grid,
+                freeX: alignment.freeX,
+                freeY: alignment.freeY,
+            },
+        );
+        // Guides are computed in the moved output's parent frame and drawn in the
+        // stage's, so shift them by where that parent sits.
+        const guides = result.guides.map((guide) =>
+            offsetGuide(guide, alignment.frame),
+        );
+        if (!sameGuides(guides, selection?.guides ?? [])) {
+            selection?.setGuides(guides);
+            if (guides.length > 0)
+                $announce?.(
+                    'stage-snap',
+                    $locales.getLocale().language,
+                    describeMove($locales, result.guides, {
+                        x: result.x,
+                        y: result.y,
+                        z: 0,
+                    }),
+                );
+        }
+        return { x: result.x, y: result.y + dragOffset };
+    }
+
     /** A list of points gathered during a painting drag */
     let paintingPlaces = $state<{ x: number; y: number }[]>([]);
     let strokeNodeID = $state<number | undefined>();
@@ -485,7 +615,8 @@
      *  there's nothing to say — no music, or everything ready. Named with each
      *  instrument's own localized name rather than its internal key. */
     let musicLoadingLabel = $derived.by(() => {
-        if (musics.length === 0) return undefined;
+        if (musics.length === 0 && poseMusicOutput.length === 0)
+            return undefined;
         const binds = instrumentBinds(project);
         const naming = (ids: string[]) =>
             ids
@@ -516,7 +647,10 @@
      *  can't see it; the evaluated tracks can. Requesting is idempotent. */
     $effect(() => {
         if (mini || typeof window === 'undefined') return;
-        for (const music of musics)
+        for (const music of [
+            ...musics,
+            ...poseMusicOutput.map((music) => music.toData()),
+        ])
             for (const instrument of musicInstruments(music))
                 samples.request(instrument);
     });
@@ -639,13 +773,58 @@
             $keyboardEditIdle === IdleKind.Typing,
     );
 
-    /** Keep the bindable background color up to date. */
+    /** The stage background the adapt decision is made from: the first one this
+     *  run produced. Latched to the run rather than recomputed per frame — a
+     *  program that animates its background across the threshold would
+     *  otherwise flip every color on the stage mid-performance, and contrast
+     *  only holds if they all move together. Every revision builds a new
+     *  Evaluator, so a creator dragging the background in the palette still
+     *  sees the decision change immediately. */
+    let decided = $state<{ evaluator: Evaluator; back: Color } | undefined>();
+    $effect(() => {
+        const run = evaluator;
+        const settled = untrack(() => decided?.evaluator === run);
+        // Only read the stage until this run has decided; afterwards the
+        // effect's only dependency is `evaluator`, so it stops running per frame.
+        const back = settled ? undefined : stageValue?.background;
+        untrack(() => {
+            if (!settled && back !== undefined)
+                decided = { evaluator: run, back };
+        });
+    });
+
+    /** Whether this stage's colors are being flipped for a dark canvas: the
+     *  viewer is in dark mode and hasn't opted out, and the stage is bright
+     *  enough to be worth it. All of the stage's colors follow this one flag. */
+    const adapting = $derived(
+        $adaptingOutput &&
+            decided?.evaluator === evaluator &&
+            backgroundInvitesAdaptation(decided.back.lightness.toNumber()),
+    );
+
+    /** Keep the bindable background color up to date. Publishes the *adapted*
+     *  color, so the tile, the fullscreen body, and the pause glyph describe
+     *  what is actually on screen rather than what was authored. */
     $effect(() => {
         background =
             value instanceof ExceptionValue
                 ? 'var(--wordplay-error)'
-                : (stageValue?.background ?? null);
+                : (stageValue?.background?.adapted(adapting) ?? null);
     });
+
+    /** The color scheme this surface is, so theme tokens inside output resolve
+     *  against the canvas rather than the UI around it. A stage declares its own
+     *  (see StageView), so this only has to answer for the no-stage case: a plain
+     *  value has no creator colors to protect, so it follows the app. */
+    const scheme = $derived(
+        stageValue !== undefined
+            ? null
+            : background instanceof Color
+              ? background.lightness.greaterThan(0.5)
+                  ? 'light'
+                  : 'dark'
+              : null,
+    );
 
     /** Keep the bindable hasStagePlace flag up to date. */
     $effect(() => {
@@ -1206,6 +1385,7 @@
         // If dragging the focus, stop
         if (drag) drag = undefined;
         movingOutput = false;
+        stopSnapping();
 
         // Finally, if the event was ignored by all of the above, pass it to streams.
         pressKey(event.key, true);
@@ -1272,6 +1452,24 @@
         }
     }
 
+    /** The kind of the last pointer press, so the touch-only mousedown fix below
+     *  can tell a synthetic post-touch mousedown from a real mouse press. */
+    let lastPointerType = $state<string>('mouse');
+
+    /** Whether a press landed on selectable text rather than on the stage or its
+     *  chrome. Text is selectable on a read-only stage (which never drags or
+     *  pans, so there is no gesture to compete with) and in non-stage value
+     *  output. Used to hold back the preventDefault calls that would otherwise
+     *  stop the browser from starting a selection. */
+    function pressedOnSelectableText(event: Event): boolean {
+        const target = event.target;
+        if (!(target instanceof Element)) return false;
+        // Non-stage output: everything the value view renders is selectable.
+        if (stageValue === undefined)
+            return target.closest('.message') !== null;
+        return !editable && target.closest('.output.phrase') !== null;
+    }
+
     /**
      * When the pointer is pressed down:
      * 1) Focus on the keyboard input if there is any
@@ -1283,11 +1481,13 @@
     function handlePointerDown(event: PointerEvent) {
         // Add event to pointer event cache for
         pointersByIndex.push(event);
+        lastPointerType = event.pointerType;
 
         // A second pointer turns this into a pinch gesture, so abandon any in-progress pan.
         if (pointersByIndex.length >= 2) {
             drag = undefined;
             movingOutput = false;
+            stopSnapping();
         }
 
         // Focus the keyboard sink if it exists, otherwise the chat field.
@@ -1298,7 +1498,10 @@
                 'Focusing output text field on pointer down.',
             );
             event.stopPropagation();
-            event.preventDefault();
+            // Keep the focus and the propagation stop, but let the browser begin
+            // a text selection when the press landed on selectable text —
+            // preventDefault here is what stopped drag-to-select.
+            if (!pressedOnSelectableText(event)) event.preventDefault();
         } else if (valueView) {
             setKeyboardFocus(valueView, 'Focusing on stage');
         }
@@ -1461,7 +1664,10 @@
                 movingOutput = false;
                 // Mark an on-stage gesture in progress when this drag will MOVE an output (not a pan
                 // or paint), so ProjectView can defer conflict/concept-index work until release.
-                if (movable) selection?.setInteracting(true);
+                if (movable) {
+                    selection?.setInteracting(true);
+                    startSnapping(selectedOutput);
+                }
                 // Reset the painting places
                 paintingPlaces = [];
                 strokeNodeID = undefined;
@@ -1654,11 +1860,19 @@
                             )
                         ) {
                             movingOutput = true;
-                            // Show the grid, for clarity on positioning.
-                            grid = true;
+                            // Tell the stage a move is under way, so it can show the
+                            // grid faintly for positioning clarity. This used to
+                            // force the creator's own grid toggle on and never
+                            // restore it — and now that the toggle governs whether
+                            // moving snaps, flipping it silently would change what
+                            // the gesture does.
+                            selection?.setMoving(true);
+                            // Snap to the grid and to what else is on stage, unless
+                            // Alt is held, which is how a creator places freely.
+                            const target = snapDrag(newX, newY, event.altKey);
                             // Defer the revise to one-per-frame (flushed on release); the latest target
                             // wins. Resolves the outputs fresh at flush time (robust to re-mount).
-                            scheduleMove(newX, newY);
+                            scheduleMove(target.x, target.y);
                             event.stopPropagation();
                         }
                     } else if (stage && drag.startOffset && mayPan(event)) {
@@ -1734,6 +1948,7 @@
 
         drag = undefined;
         movingOutput = false;
+        stopSnapping();
         paintingPlaces = [];
         strokeNodeID = undefined;
         selection?.setInteracting(false);
@@ -1763,9 +1978,8 @@
         // Never change the selection while a handle drag is in progress — the drag depends on it.
         if (selection.dragging) return true;
         // If we found the node in the project, add it to the selection.
-        const evaluate = getOutputNodeFromID(
-            getOutputNodeIDUnderPointer(event),
-        );
+        const nodeID = getOutputNodeIDUnderPointer(event);
+        const evaluate = getOutputNodeFromID(nodeID);
         if (evaluate) {
             // If the shift key is down
             let newSelection: Evaluate[];
@@ -1801,14 +2015,19 @@
                     'Focusing output on output selection',
                 );
         }
+        // Something IS under the pointer, but we can't find it in this project.
+        // That isn't a click on the background, so don't answer it by replacing
+        // the creator's selection with the Stage or with nothing — report it and
+        // leave the selection alone.
+        else if (nodeID !== undefined) return false;
         // Nothing under the pointer: select the explicit Stage (so it's still editable in
         // the palette), or clear when the stage is implicit and has no node to select.
-        else if (
-            stageValue?.explicit &&
-            stageValue.value.creator instanceof Evaluate
-        )
-            selection.setPaths(project, [stageValue.value.creator], 'output');
-        else selection.setPaths(project, [], 'output');
+        else {
+            const stageNode = stageValue?.explicit
+                ? getOutputNodeFromID(stageValue.value.creator.id)
+                : undefined;
+            selection.setPaths(project, stageNode ? [stageNode] : [], 'output');
+        }
 
         return true;
     }
@@ -1903,8 +2122,12 @@
     ): Evaluate | undefined {
         if (nodeID === undefined) return undefined;
 
-        // Find the node with the corresponding id in the current project.
-        const node = project.getNodeByID(nodeID);
+        // The stage's data-node-id attributes are written from the EVALUATOR's
+        // project, but this project is the current one, and the two are only in
+        // step when the evaluator has been rebuilt — which is deferred while the
+        // creator is typing. So an id missing here may still name output that is
+        // on stage: find it where it was rendered from and follow its path here.
+        const node = resolveAcrossProjects(evaluator.project, project, nodeID);
         return node instanceof Evaluate ? node : undefined;
     }
 
@@ -2053,9 +2276,54 @@
     // above. Music is frozen while paused or stepping, so a stage being read
     // with the caret and echo announcements is never played over — and picks up
     // where it stopped when the stage plays again.
-    let musics = $derived(
-        (stageValue?.getMusic() ?? []).map((music) => music.toData()),
+    // The Music output is kept alongside the data the player takes, since it is
+    // the only thing that still knows which expression wrote each note.
+    let musicOutput = $derived(stageValue?.getMusic() ?? []);
+    let musics = $derived(musicOutput.map((music) => music.toData()));
+
+    /** The music the stage's poses can strike. Never handed to the player — a
+     *  pose's music is present only for the instant it is struck — but the things
+     *  that ask *whether a project makes sound at all* have to count it: which
+     *  recordings to fetch, whether to say they're still loading, and which
+     *  expression a sounding note came from. */
+    let poseMusicOutput = $derived(
+        stageValue === undefined ? [] : stagePoseMusic(project, stageValue),
     );
+
+    /**
+     * The expressions that determined the notes sounding right now, for the
+     * editor to highlight. Resolved here because this is what holds the `Music`
+     * output the player's track/note positions index into; the player itself
+     * stays on plain data.
+     */
+    const soundingNodes = getSoundingNodes();
+    $effect(() => {
+        if (!interactive || soundingNodes === undefined) return;
+        const sounding = $soundingNotes;
+        const byName = new Map(
+            [...musicOutput, ...poseMusicOutput].map((music) => [
+                music.getName(),
+                music,
+            ]),
+        );
+        const nodes = new Set<Node>();
+        for (const [name, notes] of sounding) {
+            const music = byName.get(name);
+            if (music === undefined) continue;
+            for (const { track, note } of notes) {
+                const creator = music.tracks[track]?.notes[note]?.creator;
+                if (creator !== undefined) nodes.add(creator);
+            }
+        }
+        // Publish only on change: this can tick every 25ms, and each publish
+        // re-runs the editor's whole project-highlight pass.
+        soundingNodes.update((current) =>
+            current.size === nodes.size &&
+            [...nodes].every((node) => current.has(node))
+                ? current
+                : nodes,
+        );
+    });
 
     /** Tracks as well as musics, because the renderings disagree about what
      *  counts as present — see `musicFloorHeight`. */
@@ -2094,6 +2362,154 @@
     let replays = $derived(
         source !== undefined && projectReplaysMusic(project),
     );
+
+    /**
+     * Pose music struck this instant, awaiting the one update that delivers it.
+     *
+     * Plain maps, deliberately not `$state`: the music effect below both reads
+     * the present list and this path clears it, and making either reactive is a
+     * loop. Nothing a strike touches is read reactively.
+     */
+    let poseStruck: Map<string, MusicData> = new Map();
+    /** How to take back each strike an animation has scheduled but not yet
+     *  played, by output name, so a cancelled or paused animation can. Cancels
+     *  rather than timer handles, since a strike can also be waiting on its
+     *  instrument's recordings rather than on the clock. */
+    let poseWaiting: Map<string, (() => void)[]> = new Map();
+
+    /** Names of the pose music already described this performance. */
+    let describedPoseMusic = new Set<string>();
+    let describedPosePerformance: number | undefined = undefined;
+
+    function cancelPoseStrikes(name: string) {
+        for (const cancel of poseWaiting.get(name) ?? []) cancel();
+        poseWaiting.delete(name);
+    }
+
+    function waitToStrike(name: string, cancel: () => void) {
+        poseWaiting.set(name, [...(poseWaiting.get(name) ?? []), cancel]);
+    }
+
+    /**
+     * Play what a pose carries, once, now.
+     *
+     * It rides the stage's own player rather than a bus of its own, so it is
+     * scaled by the viewer's volume, ducked while something is speaking, held
+     * under the same limiter, and heard by `@Beat` — none of which a second
+     * player would give it. Two things about the data make it a *trigger*:
+     *
+     * `replay` is required, not decorative. `reconcile` checks it before
+     * anything else, so a piece that has already played to its end restarts
+     * instead of reading as `keep` — which is what would leave the second strike
+     * and every one after it silent.
+     *
+     * `loop` is dropped. It defaults to true on every track, and a pose is an
+     * instant with nothing that could ever say "stop looping now", so a looping
+     * pose sound would outlive the moment that made it with no owner.
+     */
+    function strikePoseMusic(name: string, music: Music) {
+        // Never reach the player when nothing can be heard: `audio.now()`
+        // *constructs* the AudioContext, which a preview must never cause.
+        if (
+            musicHandle === undefined ||
+            !playing ||
+            !sound ||
+            $isPreviewing ||
+            evaluator.isInPast()
+        )
+            return;
+        const data = music.toData();
+        // A strike is present for one update and gone, so unlike music standing
+        // on the stage it gets no second chance: the player defers a piece whose
+        // recordings haven't arrived and replays the last update it was given,
+        // and the next strike overwrites that. So wait here instead. This is the
+        // ordinary case for the first sound of a freshly opened project, which
+        // is exactly the one a creator is most likely to have written.
+        if (!musicReady(data, (instrument) => samples.ready(instrument))) {
+            for (const instrument of musicInstruments(data))
+                samples.request(instrument);
+            const stop = samples.observe(() => {
+                if (!musicReady(data, (i) => samples.ready(i))) return;
+                stop();
+                strikePoseMusic(name, music);
+            });
+            waitToStrike(name, stop);
+            return;
+        }
+        poseStruck.set(data.name, {
+            ...data,
+            replay: true,
+            tracks: data.tracks.map((track) => ({ ...track, loop: false })),
+        });
+        const mark = evaluator.getStepIndex();
+        musicHandle.player.update(
+            scaleMusic([...musics, ...poseStruck.values()]),
+            true,
+            mark,
+            false,
+        );
+        // Cleared, not handed back in a second update: the next ordinary one
+        // omits it, and a non-looping music that leaves the stage *drains* —
+        // it plays to its own end rather than being cut off. Leaving it in the
+        // player's remembered last update is deliberate, and is what makes a
+        // strike survive its own recordings still loading: the player defers a
+        // piece whose instruments aren't ready and replays that update when they
+        // arrive. Delivering the list without it, which is the obvious thing to
+        // do here, threw the deferred sound away instead — the first strike of a
+        // freshly opened project, every time.
+        poseStruck.clear();
+        describePoseMusic(music, data.name);
+    }
+
+    /** Describe a pose sound that can't be heard, once per performance — the
+     *  cadence the `Say` caption uses, and the only honest one here: nothing
+     *  about a repeated ding varies between two firings, so a live region would
+     *  go quiet after the first anyway. */
+    function describePoseMusic(music: Music, name: string) {
+        const performance = $evaluation?.performance;
+        if (performance !== describedPosePerformance) {
+            describedPosePerformance = performance;
+            describedPoseMusic.clear();
+        }
+        if (
+            !($musicVolume === 0 || audio.isSuspended()) ||
+            announce === undefined ||
+            !$announce ||
+            describedPoseMusic.has(name)
+        )
+            return;
+        describedPoseMusic.add(name);
+        const text = music.description?.text ?? music.getDescription($locales);
+        if (text.length > 0)
+            $announce('music-description', $locales.getLanguages()[0], text);
+    }
+
+    // Schedule what each animation's poses strike. The animation layer reports
+    // only from `start()`, never from the per-frame `retarget()`, so a physics
+    // stage never comes through here at all.
+    $effect(() => {
+        if (mini) return;
+        const target = evaluator;
+        return onPoseMusic(target, {
+            started: (event) => {
+                cancelPoseStrikes(event.name);
+                for (const strike of event.strikes) {
+                    if (strike.atMs <= 0)
+                        strikePoseMusic(event.name, strike.music);
+                    else {
+                        const timer = setTimeout(
+                            () => strikePoseMusic(event.name, strike.music),
+                            strike.atMs,
+                        );
+                        waitToStrike(event.name, () => clearTimeout(timer));
+                    }
+                }
+            },
+            // Only what hasn't sounded yet: a piece already playing rings out,
+            // the rule every other cut in the music subsystem follows.
+            stopped: (name) => cancelPoseStrikes(name),
+        });
+    });
 
     /** The viewer's volume scales every music; muting is volume 0. */
     function scaleMusic(present: MusicData[]): MusicData[] {
@@ -2168,8 +2584,17 @@
             musicHandle.release();
             musicHandle = undefined;
             musicEvaluator = undefined;
+            for (const name of [...poseWaiting.keys()]) cancelPoseStrikes(name);
         }
-        if (present.length === 0 && musicHandle === undefined) return;
+        // A project whose only sound is a pose's still needs a player — but it
+        // needs one no earlier than a project whose music stands on the stage,
+        // and the player builds no AudioContext until something actually plays.
+        if (
+            present.length === 0 &&
+            poseMusicOutput.length === 0 &&
+            musicHandle === undefined
+        )
+            return;
         if (musicHandle === undefined) {
             musicHandle = acquireMusicPlayer(evaluator);
             musicEvaluator = evaluator;
@@ -2239,6 +2664,7 @@
         // Only this view's says: a cancel that reached every source would
         // silence music still playing elsewhere on the page.
         speech.cancel(SaySource);
+        for (const name of [...poseWaiting.keys()]) cancelPoseStrikes(name);
         musicHandle?.release();
         musicHandle = undefined;
         musicEvaluator = undefined;
@@ -2299,6 +2725,7 @@
         class="value"
         class:ignored
         class:typing
+        style:color-scheme={scheme}
         tabIndex="0"
         bind:this={valueView}
         onkeydown={interactive ? handleKeyDown : null}
@@ -2315,10 +2742,14 @@
             // default action blurs the programmatically focused keyboard sink —
             // which is what dismisses the on-screen keyboard a moment after a
             // tap. preventDefault on pointerdown does not suppress it, so it has
-            // to be cancelled here. Real mouse and pen input is already handled
-            // by pointerdown, so in practice only touch reaches this. Same fix
-            // as the editor's textarea.
-            event.preventDefault();
+            // to be cancelled here. Same fix as the editor's textarea.
+            //
+            // Gated on touch: this used to cancel EVERY mousedown, and since a
+            // mousedown's default action is what begins a drag-selection, it
+            // made all output text unselectable with a mouse. Real mouse and pen
+            // input is already fully handled by pointerdown, so the gate costs
+            // the iOS fix nothing.
+            if (lastPointerType === 'touch') event.preventDefault();
         }}
         onpointerup={interactive ? handlePointerUp : null}
         onpointermove={interactive ? handlePointerMove : null}
@@ -2438,6 +2869,7 @@
                 {evaluator}
                 stage={stageValue}
                 background
+                {adapting}
                 bind:fit
                 bind:grid
                 bind:painting
@@ -2761,14 +3193,13 @@
     }
 
     .value {
-        /* Creator output is a stable light canvas: pin the color scheme so the
-           theme tokens (--wordplay-background/foreground) and any native inputs
-           inside output resolve to their light values even when the UI chrome is
-           dark. Absolute lch() program colors are unaffected, so a program that
-           sets dark colors still gets them. (On browsers without light-dark()
-           the legacy @media dark fallback in app.html is global and can't be
-           overridden per element — acceptable legacy degradation.) */
-        color-scheme: light;
+        /* The color scheme is declared inline from the canvas actually painted
+           (see `scheme`, and StageView's own), so theme tokens and native inputs
+           inside output resolve against the creator's background rather than the
+           UI chrome around it. Absolute lch() program colors are unaffected
+           either way. (On browsers without light-dark() the legacy @media dark
+           fallback in app.html is global and can't be overridden per element —
+           acceptable legacy degradation.) */
 
         transform-origin: top right;
 
@@ -2982,7 +3413,6 @@
         color: var(--wordplay-foreground);
         font-size: 1em;
         line-height: 1;
-        user-select: none;
         padding: 4px 6px;
     }
 

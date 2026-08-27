@@ -125,7 +125,7 @@
             "definition": "$~Ein Wort, das sich auf einen @value oder eine @FunctionDefinition bezieht."
         },
         "markup": {
-            "word": "$~Aufschlag",
+            "word": "$~formatierter Text",
             "definition": "$~Text mit Formatierung, wie fette Wörter oder Links."
         },
         "language": {
@@ -478,11 +478,13 @@
             "doc": "$~Ich bin eine Liste von @TypeVariable."
         },
         "Markup": {
-            "name": "$~Auszeichnung",
-            "description": "$~Aufschlag mit $#count[$count Absatz|$count Absätzen]",
+            "name": "$~formatierter Text",
+            "description": "$~formatierter Text $#count[$count Absatz|$count Absätze]",
             "emotion": "serious",
             "doc": [
-                "$~Ich bin eine Liste von Absätzen, die die vielen Arten von @markup nutzt, die in Erklärungen verfügbar sind, wie @Words, @WebLink, @ConceptLink und @Example."
+                "$~Ich bin eine Liste von Absätzen und nutze die vielen Arten von formatiertem Text, die es in @Doc gibt, wie zum Beispiel @Words, @WebLink, @ConceptLink und @Example.",
+                "Du findest mich in einer @Doc und in @FormattedLiteral:",
+                "\\¶Ich bin eine Dokumentation mit *fett* geschriebenem Text. Ich kann auf Konzepte wie @Phrase verweisen und zu <Dingen im Internet@https://wordplay.dev> verlinken.¶\nSatzglied(\n\t`Ich bin formatierter Text für ein @Phrase und nutze *fett*, /kursiv/ und _unterstrichen_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~Absätze"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~Zweig",
-            "description": "$~Aufschlag-Auswahl bei $condition",
+            "description": "$~Auswahl von formatiertem Text bei $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ich biete eine Möglichkeit, zwischen zwei Erklärungssegmenten zu wählen, basierend darauf, ob ein Erklärungseingabewert definiert oder wahr ist.",
@@ -3240,6 +3242,24 @@
                 "TiB": "$~Tebibyte",
                 "lux": "$~Lux",
                 "fc": "$~Footcandle"
+            },
+            "category": {
+                "time": "$~Zeit",
+                "length": "$~Länge",
+                "weight": "$~Gewicht",
+                "temperature": "$~Temperatur",
+                "angle": "$~Winkel",
+                "area": "$~Fläche",
+                "volume": "$~Volumen",
+                "speed": "$~Geschwindigkeit",
+                "pressure": "$~Druck",
+                "energy": "$~Energie",
+                "power": "$~Leistung",
+                "electricity": "$~Elektrizität",
+                "frequency": "$~Frequenz",
+                "data": "$~Daten",
+                "brightness": "$~Helligkeit",
+                "other": "$~Andere"
             }
         },
         "List": {
@@ -3634,23 +3654,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Ich kann eine Liste nehmen und eine neue Liste mit ihren sortierten Werten erstellen. So:",
+                        "$~Ich kann eine Liste nehmen und eine neue Liste mit sortierten Werten machen. So geht das:",
                         "\\[1 5 8 0 2].sortiert()\\",
-                        "Ich kann das auch für @Text-Werte machen",
+                        "Ich kann das auch für @Text-Werte tun, in alphabetischer Reihenfolge. Ein Großbuchstabe wird neben seinen Kleinbuchstaben einsortiert, sodass ein Wort nicht nur deshalb ans Ende rutscht, weil es großgeschrieben ist:",
                         "\\['Orange' 'Kiwi' 'Banane' 'Apfel'].sortiert()\\",
-                        "Und wenn du eine Liste mit Werten hast, die keine @Number oder @Text sind, kannst du mir einen @FunctionDefinition geben, der jedes Element in ein @Number verwandelt, damit ich es sortieren kann. Hier haben wir zum Beispiel eine Liste von Listen mit unterschiedlichen Längen; wenn du mir eine Funktion gibst, die jede Liste in ihre Länge verwandelt, kann ich nach ihrer Länge sortieren.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste) liste.Länge())\\"
+                        "Und wenn du eine Liste von Werten hast, die nicht @Number oder @Text sind, kannst du mir ein @FunctionDefinition geben, das jeden Eintrag in ein @Number oder ein @Text umwandelt, damit ich es sortieren kann. Zum Beispiel haben wir hier eine Liste von Listen mit unterschiedlichen Längen. Wenn du mir eine Funktion gibst, die jede Liste in ihre Länge umwandelt, kann ich nach der Länge sortieren.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste2) liste2.Länge())\\",
+                        "Eine Funktion, die @Text erzeugt, ist der Weg, um nach einem berechneten Wort zu sortieren, statt nach dem Wert selbst. Hier sortiere ich Namen nach dem Nachnamen:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortiert(\n\tƒ(name2•'') (name2 ÷ ' ').zuletzt()\n)\\"
                     ],
                     "names": "$~sortiert",
                     "inputs": [
                         {
-                            "doc": "$~Der optionale @FunctionDefinition, der zum Sortieren einer Liste @value verwendet wird. Er sollte den Wert in ein @Number verwandeln, das zum Sortieren der Liste genutzt werden kann.",
+                            "doc": "$~Das optionale @FunctionDefinition, mit dem eine Liste @value sortiert wird. Es sollte den Wert in ein @Number oder ein @Text umwandeln, das zum Sortieren der Liste verwendet werden kann.",
                             "names": "$~Sequenzer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Der @value, der in ein @Number verwandelt werden soll.",
+                            "doc": "$~Das @value, das in ein @Number oder ein @Text umgewandelt werden soll.",
                             "names": "$~Wert"
                         }
                     ]
@@ -5627,7 +5649,11 @@
                 "doc": "$~Ob ein @Output an der Y-Achse gespiegelt werden soll, statt der Standardeinstellung.",
                 "names": "$~flippig"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[um $rotation Grad gedreht|] $scale[3 skaliert|] $flipx[horizontal gespiegelt|] $flipy[vertikal gespiegelt|] $blur[Schatten unscharf $blur Pixel|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[um $rotation Grad gedreht|] $scale[3 skaliert|] $flipx[horizontal gespiegelt|] $flipy[vertikal gespiegelt|] $blur[Schatten unscharf $blur Pixel|]",
+            "music": {
+                "doc": "$~Der @Music, den ich abspielen soll, wenn mein Animationszustand beginnt oder wenn mich ein @Sequence erreicht. Es geht um einen kurzen Klang; ich spiele immer nur einmal durch.",
+                "names": "$~Musik"
+            }
         },
         "Color": {
             "names": ["$~Farbe"],
@@ -6845,7 +6871,45 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "$~NEIN"
+            "missing": "$~NEIN",
+            "form": {
+                "sans": "$~eine serifenlose Schrift",
+                "serif": "$~eine Serifenschrift",
+                "slab": "$~eine Serifenschrift mit breiten Serifen",
+                "typewriter": "$~eine Schreibmaschinenschrift",
+                "handwriting": "$~Handschrift",
+                "brush": "$~eine Pinselschrift",
+                "script": "$~eine Schreibschrift",
+                "poster": "$~eine Plakatschrift",
+                "pixel": "$~eine Pixelschrift",
+                "outline": "$~eine hohle Schrift",
+                "textured": "$~eine strukturierte Schrift",
+                "emoji": "$~Bilder statt Buchstaben"
+            },
+            "impression": {
+                "calm": "$~ruhig",
+                "oldFashioned": "$~altmodisch",
+                "strong": "$~kräftig",
+                "quirky": "$~schrullig",
+                "playful": "$~verspielt",
+                "excited": "$~aufgeregt",
+                "childlike": "$~kindlich",
+                "artistic": "$~künstlerisch",
+                "futuristic": "$~futuristisch",
+                "energetic": "$~energiegeladen",
+                "cute": "$~niedlich",
+                "cheerful": "$~fröhlich",
+                "fancy": "$~aufwendig"
+            },
+            "mechanic": {
+                "sameWidth": "$~jeder Buchstabe gleich breit",
+                "tallLowercase": "$~kleine Buchstaben so hoch wie die Großbuchstaben",
+                "shortLowercase": "$~kleine Buchstaben viel kleiner als die Großbuchstaben"
+            },
+            "description": {
+                "and": "$~$first und $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "Wilkommen"
@@ -6901,6 +6965,10 @@
             },
             "logo": {
                 "description": "$~Eine Sprechblase mit einem Buchstaben deines Schriftsystems darin"
+            },
+            "synced": {
+                "saved": "$~Auf allen Geräten gespeichert",
+                "signedOut": "$~Wird auf allen Geräten gespeichert, wenn du angemeldet bist"
             }
         },
         "tile": {
@@ -7499,6 +7567,13 @@
             "hidden": {
                 "message": "$~Alles ist von der Bühne verschwunden.",
                 "show": "$~Alles anzeigen"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7520,7 +7595,7 @@
                 "timeline": "$~Mit der /Zeitleiste/ kannst du *vorwärts* und *rückwärts* durch die Auswertung deines Programms gehen, einen Schritt nach dem anderen. Sie erscheint in der Werkzeugleiste der Bühne im ✏️ *Bearbeiten*- und ⏸️ *Fehlersuche*-Modus. Sie ist eine gute Möglichkeit zu sehen, *wie* dein Programm seinen Wert berechnet, und um eine Vorstellung davon aufzubauen, wie @wordplay-Programme auswerten – besonders, wenn du nicht das Verhalten siehst, das du möchtest.",
                 "annotations": "$~Im Fenster „/annotations/“ werden die Erläuterungen zu jedem einzelnen Schritt angezeigt. Während Sie Ihr Programm schrittweise ausführen, können Sie hier nachlesen, was gerade passiert ist.",
                 "editor": "$~Der Editor zeigt Ihren Code an. Beim schrittweisen Ausführen wird der *Wert* jedes Programmteils neben diesem Teil angezeigt, *nachdem* er ausgewertet wurde. So können Sie beobachten, wie sich die Werte während der Programmausführung ansammeln.",
-                "history": "$~Das Verzeichnis /history/ zeigt alle *Eingaben* an, die Ihr Programm erhalten hat, wie z. B. Tastatureingaben, Zeitstempel und Mausereignisse. Es ist *verschiebbar*, sodass Sie durch einfaches Ziehen zu jedem beliebigen Zeitpunkt in der Programmhistorie zurückkehren können.",
+                "history": "$~Der /Verlauf/ zeigt jedes *Eingabe*-Ereignis, das dein Programm erhalten hat, wie Tasten, Zeitschritte und Zeigerereignisse. Er ist *ziehbar*, du kannst also zu jedem Moment im Ablauf des Programms zurückkehren, einfach indem du ziehst. Wenn du diese Eingaben lieber *hören* statt sehen möchtest, schalte /Auswertungssignale/ in den Einstellungen ein. Dann spielt @wordplay für jede Eingabe einen kurzen Ton ab, mit einem eigenen Ton für jede Art von Eingabe.",
                 "stepControls": "$~Die Schrittsteuerung ermöglicht eine präzise Navigation durch die Auswertung. Sie können zum *Anfang* oder *Ende* springen, schrittweise *vorwärts* oder *rückwärts* gehen, um *eine Eingabe* springen, eine Funktion *verlassen* oder zum *aktuell ausgewählten* Teil des Codes springen.",
                 "modes": "$~Der /Modus-Umschalter/ wählt aus, wie dein Programm auswertet. Im ✏️ *Bearbeiten*-Modus pausiert das Programm dort, wo es gerade ist, und du kannst es ändern – deine Änderungen laufen erneut, um ihre Wirkung an dieser Stelle zu zeigen. Im ⏸️ *Fehlersuche*-Modus ist der Code nur lesbar, und der *aktuelle Wert* jedes Teils deines Programms erscheint daneben im Editor und in der Palette. Im ▶️ *Wiedergabe*-Modus läuft dein Programm live von dort, wo es ist, und reagiert in Echtzeit auf Eingaben. Neben dem Umschalter beginnt die Schaltfläche /Vorführen/ – ein Wiedergabe-Dreieck, umgeben von Vollbild-Ecken – eine Vorführung von oben und füllt den Bildschirm mit der Bühne, und ↻ setzt das Programm in jedem Modus zurück."
             }
@@ -8058,6 +8133,38 @@
                             "$~Untertitel doppelt so groß anzeigen",
                             "$~Untertitel dreimal so groß anzeigen"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~Projektfarben",
+                        "labels": ["$~beibehalten", "$~umkehren"],
+                        "tips": [
+                            "$~zeigt die Farben eines Projekts genau so, wie es sie geschrieben hat, auch auf einem dunklen Bildschirm",
+                            "$~auf einem dunklen Bildschirm werden die Farben eines hellen Projekts dunkel umgekehrt: Jede Farbe behält ihren Farbton, und die Farben bleiben so weit voneinander entfernt, wie das Projekt es festgelegt hat"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~Auswertungssignale",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Keinen Ton abspielen, wenn das Programm erneut ausgewertet wird",
+                            "$~Bei jeder erneuten Auswertung des Programms einen kurzen Ton abspielen, einen für jede Art von Eingabe"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~Animationssignale",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Keinen Ton abspielen, wenn Ausgabe animiert wird",
+                            "$~Bei jeder Animation, die eine Pose erreicht, einen kurzen Ton abspielen, passend zu dem, was die Pose macht"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~Kollisionssignale",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Keinen Ton abspielen, wenn Ausgabe zusammenstößt",
+                            "$~Bei einem Zusammenstoß von Ausgabe einen kurzen Ton abspielen, lauter bei einem härteren Stoß"
+                        ]
                     }
                 },
                 "options": {
@@ -8084,7 +8191,8 @@
                 },
                 "subheader": {
                     "music": "$~Musik",
-                    "say": "$~Sprich"
+                    "say": "$~Sprich",
+                    "cues": "$~Signale"
                 }
             },
             "locale": {
@@ -8509,11 +8617,11 @@
                     "accessible": {
                         "title": "$~Wordplay ist barrierefrei",
                         "bullets": [
-                            "$~• Alles, was du mit einer Maus machen kannst, kannst du auch mit einer Tastatur machen.",
-                            "• Bildschirmleseprogramme beschreiben die Bühne, während sie sich verändert, nicht nur beim Laden.",
-                            "• Du kannst deinen Code als Blöcke statt als Text lesen und schreiben, und jederzeit wechseln.",
-                            "• Bewegung kann verlangsamt oder ganz ausgeschaltet werden.",
-                            "• Gesprochene Ausgabe kann auf der Bühne als Untertitel angezeigt werden, für alle, die sie nicht hören können."
+                            "$~• Alles, was du mit der Maus machen kannst, kannst du auch mit der Tastatur machen.",
+                            "• Bildschirmleseprogramme beschreiben die Bühne, wenn sie sich verändert. Töne zeigen dir, was sich neu berechnet, was sich bewegt und was zusammenstößt.",
+                            "• Du kannst deinen Code als Blöcke statt als Text lesen und schreiben. Du kannst jederzeit wechseln.",
+                            "• Bewegungen können langsamer gemacht oder ganz ausgeschaltet werden.",
+                            "• Gesprochene Ausgaben können auf der Bühne als Untertitel gezeigt werden, für alle, die sie nicht hören können."
                         ]
                     },
                     "senses": {
@@ -9977,7 +10085,15 @@
             "scriptLabel": "$~Nach Skript filtern",
             "pickFilter": "$~Wählen Sie eine Kategorie oder ein Skript aus.",
             "moreLanguages": "$~und $count mehr",
-            "moreGlyphs": "$~$count werden angezeigt — suche, um mehr zu finden"
+            "moreGlyphs": "$~$count werden angezeigt — suche, um mehr zu finden",
+            "presentation": {
+                "label": "$~Emoji in Farbe",
+                "labels": ["$~Farbe", "$~schwarz-weiß"],
+                "tips": [
+                    "$~Emoji in Farbe einfügen",
+                    "$~Emoji in schwarz-weiß einfügen"
+                ]
+            }
         },
         "localize": {
             "header": "$~Lokalisieren",

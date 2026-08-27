@@ -209,6 +209,16 @@
         will-change: transform;
     }
 
+    /* A note sounding right now. Deliberately still: the note's own starting
+       and stopping is the motion, and a flash driven at note rate would be a
+       photosensitivity risk at fast tempos. Distinct from animating, which is
+       the same colour but shifts — so a phrase that animates while a melody
+       plays doesn't read as one thing. */
+    .outline.sounding path {
+        fill: var(--wordplay-sounding-color);
+        stroke: var(--wordplay-sounding-color);
+    }
+
     /* In blocks mode, the SVG fill would be hidden behind the block's own
        opaque background, so we treat animating differently: outline the
        block in the evaluation color and animate the block itself with the
@@ -231,6 +241,12 @@
             var(--wordplay-evaluation-color);
     }
 
+    /* And for sounding, for the same reason. Static here too. */
+    :global(.node-view.block.sounding) {
+        box-shadow: 0 0 0 var(--wordplay-focus-width)
+            var(--wordplay-sounding-color);
+    }
+
     /* Make the text legible inside animating/evaluating/dragging nodes —
        only in text mode (i.e. NOT inside .block), where the pink SVG fill
        is what's behind the text. In blocks mode the block keeps its normal
@@ -238,9 +254,11 @@
     :global(
         .node-view:not(.block).evaluating .token-view,
         .node-view:not(.block).animating .token-view,
+        .node-view:not(.block).sounding .token-view,
         .node-view:not(.block).dragging .token-view,
         .token-view:not(.block).evaluating,
         .token-view:not(.block).animating,
+        .token-view:not(.block).sounding,
         .token-view:not(.block).dragging
     ) {
         color: var(--wordplay-background) !important;

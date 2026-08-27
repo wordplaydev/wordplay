@@ -125,7 +125,7 @@
             "definition": "$~Một từ chỉ đến một @value hoặc một @FunctionDefinition."
         },
         "markup": {
-            "word": "$~đánh dấu",
+            "word": "$~văn bản định dạng",
             "definition": "$~Văn bản có định dạng, như chữ in đậm hoặc liên kết."
         },
         "language": {
@@ -483,14 +483,16 @@
             "doc": "$~Tôi là một danh sách các @TypeVariable."
         },
         "Markup": {
-            "name": "$~đánhdấu",
-            "description": "$~đánh dấu $#count[$count đoạn văn]",
+            "name": "$~văn bản định dạng",
+            "description": "$~văn bản định dạng $#count[$count đoạn văn]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~đoạn văn"
             },
             "doc": [
-                "$~Tôi là một danh sách các đoạn văn, dùng nhiều loại @markup có sẵn trong lời giải thích, như @Words, @WebLink, @ConceptLink và @Example."
+                "$~Tôi là một danh sách các đoạn văn, dùng nhiều kiểu văn bản định dạng có trong @Doc, như @Words, @WebLink, @ConceptLink, và @Example.",
+                "Bạn sẽ thấy tôi trong một @Doc, và trong @FormattedLiteral:",
+                "\\¶Tôi là tài liệu có chữ *đậm*. Tôi có thể nhắc đến các khái niệm như @Phrase và liên kết đến <những thứ trên mạng@https://wordplay.dev>.¶\nCụmtừ(\n\t`Tôi là văn bản định dạng cho @Phrase, dùng *đậm*, /nghiêng/, và _gạch chân_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -576,7 +578,7 @@
         },
         "Branch": {
             "name": "$~chinhánh",
-            "description": "$~lựa chọn đánh dấu theo $condition",
+            "description": "$~lựa chọn văn bản định dạng dựa trên $condition",
             "emotion": "serious",
             "doc": [
                 "$~Tôi sử dụng phương pháp lựa chọn giữa hai đoạn giải thích dựa trên việc giá trị đầu vào của đoạn giải thích đó được xác định hay là đúng.",
@@ -3242,6 +3244,24 @@
                 "TiB": "$~tebibyte",
                 "lux": "$~lux",
                 "fc": "$~foot-candle"
+            },
+            "category": {
+                "time": "$~Thời gian",
+                "length": "$~Chiều dài",
+                "weight": "$~Cân nặng",
+                "temperature": "$~Nhiệt độ",
+                "angle": "$~Góc",
+                "area": "$~Diện tích",
+                "volume": "$~Thể tích",
+                "speed": "$~Tốc độ",
+                "pressure": "$~Áp suất",
+                "energy": "$~Năng lượng",
+                "power": "$~Công suất",
+                "electricity": "$~Điện",
+                "frequency": "$~Tần số",
+                "data": "$~Dữ liệu",
+                "brightness": "$~Độ sáng",
+                "other": "$~Khác"
             }
         },
         "List": {
@@ -3636,23 +3656,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Tôi có thể nhận một danh sách và tạo một danh sách mới với các giá trị đã được sắp xếp. Như thế này:",
+                        "$~Mình có thể lấy một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Ví dụ như thế này:",
                         "\\[1 5 8 0 2].đãsắpxếp()\\",
-                        "Tôi cũng có thể làm điều đó với các giá trị @Text",
-                        "\\['quả cam' 'quả kiwi' 'quả chuối' 'quả táo'].đãsắpxếp()\\",
-                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition biến mỗi phần tử thành một @Number để tôi có thể sắp xếp. Ví dụ, ở đây chúng ta có một danh sách gồm các danh sách với độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài của chúng.",
-                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách) danhSách.chiềudài()\n)\\"
+                        "Mình cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa được sắp xếp cạnh chữ cái viết thường của nó, nên một từ sẽ không bị đưa xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
+                        "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
+                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho mình một @FunctionDefinition để biến mỗi phần tử thành một @Number hoặc một @Text để mình có thể sắp xếp nó. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn đưa cho mình một hàm biến mỗi danh sách thành độ dài của nó, mình có thể sắp xếp theo độ dài của chúng.",
+                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
+                        "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ mà bạn tính toán ra, thay vì theo chính giá trị đó. Ở đây mình sắp xếp các tên theo họ:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
                     ],
                     "names": "$~đãsắpxếp",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number có thể dùng để sắp xếp danh sách.",
+                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó cần biến giá trị thành một @Number hoặc một @Text để có thể dùng cho việc sắp xếp danh sách.",
                             "names": "$~bộđiềukhiểntrìnhtự"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value cần biến thành một @Number.",
+                            "doc": "$~@value cần biến thành một @Number hoặc một @Text.",
                             "names": "$~giátrị"
                         }
                     ]
@@ -5519,7 +5541,11 @@
                 "doc": "$~Liệu một @Output có nên được phản chiếu trên trục y, thay vì vị trí mặc định của nó hay không.",
                 "names": "$~lật"
             },
-            "description": "$~$opacity[trong suốt $opacity|] $rotation[xoay $rotation độ|] $scale[thu nhỏ $scale|] $flipx[lật ngang|] $flipy[lật dọc|] $blur[bóng mờ $blur pixel|]"
+            "description": "$~$opacity[trong suốt $opacity|] $rotation[xoay $rotation độ|] $scale[thu nhỏ $scale|] $flipx[lật ngang|] $flipy[lật dọc|] $blur[bóng mờ $blur pixel|]",
+            "music": {
+                "doc": "$~@Music tôi nên phát khi trạng thái hoạt ảnh của tôi bắt đầu, hoặc khi một @Sequence chạm tới tôi. Đây là một âm thanh ngắn; tôi chỉ phát một lần duy nhất.",
+                "names": "$~âmNhạc"
+            }
         },
         "Color": {
             "doc": [
@@ -6851,7 +6877,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~KHÔNG"
+            "missing": "$~KHÔNG",
+            "form": {
+                "sans": "$~một kiểu chữ không chân",
+                "serif": "$~một kiểu chữ có chân",
+                "slab": "$~một kiểu chữ chân vuông",
+                "typewriter": "$~một kiểu chữ máy đánh chữ",
+                "handwriting": "$~chữ viết tay",
+                "brush": "$~một kiểu chữ nét cọ",
+                "script": "$~một kiểu chữ thảo",
+                "poster": "$~một kiểu chữ áp phích",
+                "pixel": "$~một kiểu chữ điểm ảnh",
+                "outline": "$~một kiểu chữ rỗng",
+                "textured": "$~một kiểu chữ có họa tiết",
+                "emoji": "$~hình ảnh, không phải chữ cái"
+            },
+            "impression": {
+                "calm": "$~bình yên",
+                "oldFashioned": "$~cổ điển",
+                "strong": "$~mạnh mẽ",
+                "quirky": "$~kỳ quặc",
+                "playful": "$~vui nhộn",
+                "excited": "$~hào hứng",
+                "childlike": "$~ngây thơ như trẻ nhỏ",
+                "artistic": "$~nghệ thuật",
+                "futuristic": "$~tương lai",
+                "energetic": "$~tràn đầy năng lượng",
+                "cute": "$~dễ thương",
+                "cheerful": "$~vui tươi",
+                "fancy": "$~cầu kỳ"
+            },
+            "mechanic": {
+                "sameWidth": "$~mỗi chữ cái có cùng độ rộng",
+                "tallLowercase": "$~chữ thường cao bằng chữ hoa",
+                "shortLowercase": "$~chữ thường thấp hơn nhiều so với chữ hoa"
+            },
+            "description": {
+                "and": "$~$first và $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Xin chào"
@@ -6907,6 +6971,10 @@
             },
             "logo": {
                 "description": "$~Một bong bóng lời nói với một chữ cái của hệ chữ viết của bạn ở bên trong"
+            },
+            "synced": {
+                "saved": "$~Được lưu trên mọi thiết bị",
+                "signedOut": "$~Được lưu trên mọi thiết bị khi bạn đăng nhập"
             }
         },
         "tile": {
@@ -7753,6 +7821,13 @@
             "hidden": {
                 "message": "$~Mọi thứ đều ở ngoài sân khấu.",
                 "show": "$~hiện tất cả"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7774,7 +7849,7 @@
                 "timeline": "$~/dòng thời gian/ cho phép bạn bước *tới* và *lui* qua quá trình tính toán của chương trình, mỗi lần một bước. Nó hiện ra trong thanh công cụ của sân khấu ở chế độ ✏️ *chỉnh sửa* và ⏸️ *gỡ lỗi*, và đây là cách tuyệt vời để thấy chương trình tính giá trị của nó *ra sao*, và để xây dựng một mô hình trong đầu về cách các chương trình @wordplay tính toán, nhất là khi bạn chưa thấy hành vi mà bạn muốn.",
                 "annotations": "$~Cửa sổ /annotations/ là nơi hiển thị giải thích cho từng bước. Khi bạn thực thi chương trình từng bước, đây là nơi bạn sẽ đọc những gì vừa xảy ra.",
                 "editor": "$~Cửa sổ /editor/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
-                "history": "$~Cửa sổ /history/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận được, chẳng hạn như phím bấm, thời gian cập nhật và sự kiện con trỏ. Cửa sổ này *có thể kéo thả*, vì vậy bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử thực thi của chương trình chỉ bằng cách kéo.",
+                "history": "$~/Lịch sử/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận, như phím bấm, nhịp thời gian, và sự kiện con trỏ. Nó *có thể kéo được*, nên bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử tính toán của chương trình chỉ bằng cách kéo. Nếu bạn muốn *nghe* các đầu vào đó thay vì nhìn, hãy mở /tín hiệu tính toán/ trong phần cài đặt, và @wordplay sẽ phát một âm thanh ngắn cho mỗi đầu vào, với âm thanh khác nhau cho mỗi loại đầu vào.",
                 "stepControls": "$~Các điều khiển /step/ cho phép bạn di chuyển chính xác trong quá trình đánh giá. Bạn có thể nhảy đến *đầu* hoặc *cuối*, tiến *về* hoặc lùi *về* từng bước một, nhảy theo *một đầu vào*, thoát khỏi *một hàm* hoặc nhảy đến phần mã *đang được chọn*.",
                 "modes": "$~/bộ chuyển chế độ/ chọn cách chương trình của bạn tính toán. Ở chế độ ✏️ *chỉnh sửa*, chương trình tạm dừng ở chỗ nó đang chạy và bạn có thể thay đổi nó — các chỉnh sửa của bạn chạy lại để thể hiện tác động tại điểm đó. Ở chế độ ⏸️ *gỡ lỗi*, mã số chỉ được đọc và *giá trị hiện tại* của từng phần trong chương trình hiện ra ngay bên cạnh nó trong trình chỉnh sửa và trong bảng màu. Ở chế độ ▶️ *chạy*, chương trình của bạn chạy trực tiếp từ chỗ nó đang ở, phản hồi các đầu vào theo thời gian thực. Bên cạnh bộ chuyển, nút /biểu diễn/ — một hình tam giác chạy bọc trong các góc toàn màn hình — bắt đầu một buổi biểu diễn từ đầu và lấp đầy màn hình bằng sân khấu, và nút ↻ đặt lại chương trình ở bất kỳ chế độ nào."
             }
@@ -8313,6 +8388,38 @@
                             "$~Hiển thị phụ đề lớn gấp đôi",
                             "$~Hiển thị phụ đề lớn gấp ba"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~màu sắc dự án",
+                        "labels": ["$~giữ nguyên", "$~đảo ngược"],
+                        "tips": [
+                            "$~hiển thị màu sắc của dự án đúng như dự án đã đặt, kể cả trên màn hình tối",
+                            "$~trên màn hình tối, đảo ngược màu sắc sáng của dự án thành tối: mỗi màu vẫn giữ nguyên sắc màu của nó, và các màu vẫn cách xa nhau như dự án đã đặt"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~tín hiệu tính toán",
+                        "labels": ["$~tắt", "$~mở"],
+                        "tips": [
+                            "$~Không phát âm thanh khi chương trình tính toán lại",
+                            "$~Phát một âm thanh ngắn mỗi khi chương trình tính toán lại, một âm cho mỗi loại đầu vào"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~tín hiệu hoạt ảnh",
+                        "labels": ["$~tắt", "$~mở"],
+                        "tips": [
+                            "$~Không phát âm thanh khi đầu ra chuyển động",
+                            "$~Phát một âm thanh ngắn mỗi khi hoạt ảnh đạt đến một dáng, với âm thanh khớp theo hành động của dáng đó"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~tín hiệu va chạm",
+                        "labels": ["$~tắt", "$~mở"],
+                        "tips": [
+                            "$~Không phát âm thanh khi đầu ra va chạm",
+                            "$~Phát một âm thanh khi đầu ra va chạm, va càng mạnh thì âm càng lớn"
+                        ]
                     }
                 },
                 "options": {
@@ -8339,7 +8446,8 @@
                 },
                 "subheader": {
                     "music": "$~Nhạc",
-                    "say": "$~Nói"
+                    "say": "$~Nói",
+                    "cues": "$~Tín hiệu"
                 }
             },
             "notifications": {
@@ -8828,7 +8936,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "phrase": "$~\\¶Cụm từ xuất hiện trên sân khấu, với bất kỳ màu sắc, ánh sáng và chuyển động nào bạn muốn.¶\nCụmtừ(\n\t'xin chào!'\n\t6m\n\tmàusắc: Màusắc(60% 90 200°)\n\thàoquang: Hàoquang(Màusắc(80% 80 200°) 0.3m)\n\tnghỉngơi: Sựliêntiếp.đungđưa(8°)\n)\\",
                         "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
                         "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
                         "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m địađiểm: Contrỏ())]\n\tđịađiểm: Địađiểm(0m 0m -12m)\n)\\",
@@ -8863,11 +8971,11 @@
                     "accessible": {
                         "title": "$~Wordplay dễ tiếp cận",
                         "bullets": [
-                            "$~• Bất cứ việc gì làm được bằng chuột, bạn cũng có thể làm bằng bàn phím.",
-                            "• Trình đọc màn hình sẽ mô tả sân khấu mỗi khi nó thay đổi, không chỉ khi tải xong.",
-                            "• Bạn có thể đọc và viết mã số của mình dưới dạng khối thay vì chữ, và đổi qua lại bất cứ lúc nào.",
-                            "• Chuyển động có thể làm chậm lại, hoặc tắt hẳn.",
-                            "• Âm thanh nói có thể hiện thành phụ đề trên sân khấu cho ai không nghe được."
+                            "$~• Bất cứ điều gì em làm được với chuột, em cũng làm được với bàn phím.",
+                            "• Trình đọc màn hình mô tả sân khấu mỗi khi nó thay đổi. Em cũng có thể bật âm thanh để báo cho biết điều gì đang được tính lại, điều gì đang chuyển động, và điều gì đang va chạm.",
+                            "• Em có thể đọc và viết mã số của mình dưới dạng khối thay vì chữ, và đổi qua lại bất cứ lúc nào.",
+                            "• Chuyển động có thể được làm chậm lại, hoặc tắt hẳn.",
+                            "• Lời nói phát ra có thể hiện thành chữ trên sân khấu, dành cho những ai không nghe được."
                         ]
                     },
                     "senses": {
@@ -9985,7 +10093,15 @@
             "scriptLabel": "$~lọc theo tập lệnh",
             "pickFilter": "$~Chọn một danh mục hoặc kịch bản",
             "moreLanguages": "$~và $count thêm",
-            "moreGlyphs": "$~Đang hiển thị $count — tìm kiếm để xem thêm"
+            "moreGlyphs": "$~Đang hiển thị $count — tìm kiếm để xem thêm",
+            "presentation": {
+                "label": "$~màu biểu tượng cảm xúc",
+                "labels": ["$~màu sắc", "$~đen trắng"],
+                "tips": [
+                    "$~chèn biểu tượng cảm xúc có màu",
+                    "$~chèn biểu tượng cảm xúc đen trắng"
+                ]
+            }
         },
         "localize": {
             "header": "$~Bản địa hóa",

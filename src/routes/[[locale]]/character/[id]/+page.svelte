@@ -81,6 +81,7 @@
         Faces,
         faceSupportsWeight,
         FontWeights,
+        getFaceDescription,
         type FontWeight,
     } from '@basis/faces/Fonts';
     import FaceName from '@components/settings/FaceName.svelte';
@@ -2470,7 +2471,11 @@
     let faceOptions = $derived(
         Object.entries(Faces)
             .filter(([name]) => name !== 'Noto Color Emoji')
-            .map(([name, face]) => ({ value: name, label: name, face })),
+            .map(([name, face]) => ({
+                value: name,
+                label: getFaceDescription($locales, name, face),
+                face,
+            })),
     );
 
     /** Only the weights the chosen face actually has files for. */

@@ -218,7 +218,6 @@
         /* A backstop for words longer than the box in any locale: break them
            rather than letting them spill past the padding. */
         overflow-wrap: break-word;
-        user-select: none;
         pointer-events: none;
         z-index: 3;
         animation: appear 0.25s ease-in-out;

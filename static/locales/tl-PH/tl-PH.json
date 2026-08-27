@@ -479,13 +479,15 @@
         },
         "Markup": {
             "name": "$~markup",
-            "description": "$~markup na $#count[$count talata|$count na talata]",
+            "description": "$~markup $#count[$count na talata|$count na talata]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~mga talata"
             },
             "doc": [
-                "$~Ako ay isang listahan ng mga talata, gamit ang maraming uri ng @markup na makukuha sa mga paliwanag, tulad ng @Words, @WebLink, @ConceptLink, at @Example."
+                "$~Ako ay isang listahan ng mga talata, gamit ang maraming uri ng markup na makukuha sa @Doc, tulad ng @Words, @WebLink, @ConceptLink, at @Example.",
+                "Makikita mo ako sa isang @Doc, at sa @FormattedLiteral:",
+                "\\¶Ako ay dokumentasyon na may *malaking titik* na teksto. Maaari akong tumukoy sa mga konsepto tulad ng @Phrase at maaari ring mag-link sa <mga bagay sa web@https://wordplay.dev>.¶\nParirala(\n\t`Ako ay markup para sa isang @Phrase, gamit ang *malaking titik*, /pahilig/, at _may salungguhit_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~sangay",
-            "description": "$~pagpili ng markup sa $condition",
+            "description": "$~pagpili ng markup batay sa $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ang I ay isang paraan ng pagpili sa pagitan ng dalawang segment ng paliwanag batay sa kung ang isang halaga ng input ng paliwanag ay tinukoy o totoo.",
@@ -3237,6 +3239,24 @@
                 "TiB": "$~tebibytes",
                 "lux": "$~lux",
                 "fc": "$~foot-candles"
+            },
+            "category": {
+                "time": "$~Oras",
+                "length": "$~Haba",
+                "weight": "$~Bigat",
+                "temperature": "$~Temperatura",
+                "angle": "$~Anggulo",
+                "area": "$~Sukat ng Lawak",
+                "volume": "$~Dami",
+                "speed": "$~Bilis",
+                "pressure": "$~Presyon",
+                "energy": "$~Enerhiya",
+                "power": "$~Kapangyarihan",
+                "electricity": "$~Kuryente",
+                "frequency": "$~Dalas",
+                "data": "$~Datos",
+                "brightness": "$~Liwanag",
+                "other": "$~Iba pa"
             }
         },
         "List": {
@@ -3637,23 +3657,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Maaari akong kumuha ng isang listahan, at gumawa ng isang bagong listahan na nakaayos ang mga halaga nito. Tulad nito:",
-                        "\\[1 5 8 0 2].sorted()\\",
-                        "Magagawa ko rin ito para sa mga halaga ng @Text",
-                        "\\['orange' 'kiwi' 'banana' 'apple'].sorted()\\",
-                        "At kung mayroon kang listahan ng mga halaga na hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na gagawing @Number ang bawat item para maiayos ko ito. Halimbawa, narito ang isang listahan ng mga listahan na may iba't ibang haba; kung bibigyan mo ako ng isang function na gagawing haba ang bawat listahan, maaari kong ayusin ayon sa kanilang haba.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\"
+                        "$~Kaya kong kumuha ng isang listahan, at gumawa ng bagong listahan na may mga halaga nitong pinagsunod-sunod. Ganito:",
+                        "\\[1 5 8 0 2].inayos()\\",
+                        "Kaya ko rin itong gawin para sa mga halagang @Text, ayon sa pagkakasunod-sunod ng alpabeto. Ang malaking letra ay isinasunod sa katabi ng maliit na letra nito, kaya ang isang salita ay hindi ipinapadala sa dulo lang dahil nagsisimula ito sa malaking letra:",
+                        "\\['Kahel' 'kiwi' 'Saging' 'mansanas'].inayos()\\",
+                        "At kung mayroon kang listahan ng mga halaga na hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na nagpapalit ng bawat item sa isang @Number o isang @Text para mapagsunod-sunod ko ito. Halimbawa, dito mayroon tayong listahan ng mga listahan na may iba't ibang haba; kung bibigyan mo ako ng isang function na nagpapalit ng bawat listahan sa haba nito, kaya kong pagsunod-sunurin ayon sa haba nila.",
+                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan2) listahan2.haba()\n)\\",
+                        "Ang isang function na gumagawa ng @Text ay paraan kung paano mo pagsunod-sunurin ang mga bagay ayon sa isang salitang kinakwenta mo, sa halip na ayon sa halaga mismo. Dito, pinagsunod-sunod ko ang mga pangalan ayon sa huling pangalan:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan2•'') (pangalan2 ÷ ' ').huli()\n)\\"
                     ],
                     "names": "$~inayos",
                     "inputs": [
                         {
-                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para ayusin ang isang listahan @value. Dapat nitong gawing @Number ang halaga na maaaring gamitin para ayusin ang listahan.",
+                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para pagsunod-sunurin ang isang listahang @value. Dapat nito palitan ang halaga sa isang @Number o isang @Text na maaaring gamitin para pagsunod-sunurin ang listahan.",
                             "names": "$~sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Ang @value na gagawing @Number.",
+                            "doc": "$~Ang @value na ipapalit sa isang @Number o isang @Text.",
                             "names": "$~halaga"
                         }
                     ]
@@ -5531,7 +5553,11 @@
                 "doc": "$~Kung dapat bang i-mirror ang isang @Output sa y-axis, sa halip na sa default nito.",
                 "names": "$~mabaliw"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[pinaikot $rotation degrees|] $scale[naka-scale $scale|] $flipx[binaligtad nang pahalang|] $flipy[binaligtad nang patayo|] $blur[malabo ang anino $blur pixels|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[pinaikot $rotation degrees|] $scale[naka-scale $scale|] $flipx[binaligtad nang pahalang|] $flipy[binaligtad nang patayo|] $blur[malabo ang anino $blur pixels|]",
+            "music": {
+                "doc": "$~Ang @Music na dapat kong tugtugin kapag nagsimula ang estado ng aking animation, o kapag inabot ako ng isang @Sequence. Isang maikling tunog lang ang punto; isang pagtugtog lang ang gagawin ko.",
+                "names": "$~musika"
+            }
         },
         "Color": {
             "doc": [
@@ -6848,7 +6874,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~hindi"
+            "missing": "$~hindi",
+            "form": {
+                "sans": "$~isang estilong sans-serif",
+                "serif": "$~isang estilong serif",
+                "slab": "$~isang estilong slab-serif",
+                "typewriter": "$~isang estilong makinilya",
+                "handwriting": "$~sulat-kamay",
+                "brush": "$~isang estilong brush",
+                "script": "$~isang estilong cursive",
+                "poster": "$~isang estilong poster",
+                "pixel": "$~isang estilong pixel",
+                "outline": "$~isang estilong hollow",
+                "textured": "$~isang estilong texture",
+                "emoji": "$~mga larawan, hindi mga titik"
+            },
+            "impression": {
+                "calm": "$~kalmado",
+                "oldFashioned": "$~makaluma",
+                "strong": "$~malakas",
+                "quirky": "$~kakaiba",
+                "playful": "$~malikot",
+                "excited": "$~masigla",
+                "childlike": "$~parang bata",
+                "artistic": "$~artistiko",
+                "futuristic": "$~makabago",
+                "energetic": "$~masigasig",
+                "cute": "$~nakakagigil",
+                "cheerful": "$~masayahin",
+                "fancy": "$~pino"
+            },
+            "mechanic": {
+                "sameWidth": "$~pare-pareho ang lapad ng bawat titik",
+                "tallLowercase": "$~kasintaas ng malalaking titik ang maliliit na titik",
+                "shortLowercase": "$~mas maikli nang malaki ang maliliit na titik kaysa sa malalaking titik"
+            },
+            "description": {
+                "and": "$~$first at $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~kumusta"
@@ -6904,6 +6968,10 @@
             },
             "logo": {
                 "description": "$~Isang bula ng usapan na may isang letra ng iyong sistema ng pagsulat sa loob"
+            },
+            "synced": {
+                "saved": "$~Naka-save sa lahat ng device",
+                "signedOut": "$~Naka-save sa lahat ng device kapag naka-sign in ka"
             }
         },
         "tile": {
@@ -7750,6 +7818,13 @@
             "hidden": {
                 "message": "$~Wala sa stage ang lahat.",
                 "show": "$~ipakita ang lahat"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7771,7 +7846,7 @@
                 "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong maghakbang *pasulong* at *paatras* sa pagtakbo ng iyong programa, isang hakbang sa bawat pagkakataon. Lumalabas ito sa toolbar ng stage sa ✏️ *edit* at ⏸️ *debug* na mode, at magandang paraan ito para makita *kung paano* kinakalkula ng iyong programa ang halaga nito, at para makabuo ng ideya sa isip kung paano tumatakbo ang mga @wordplay na programa, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
                 "annotations": "$~Ang window na /annotations/ ay kung saan lumalabas ang mga paliwanag ng bawat hakbang. Habang tinatahak mo ang iyong programa, dito mo mababasa ang nangyari.",
                 "editor": "$~Ipinapakita ng /editor/ ang iyong code. Habang nag-step, ang *value* ng bawat bahagi ng iyong programa ay lilitaw sa tabi ng bahaging iyon *pagkatapos* itong masuri, para mapanood mo ang pagtaas ng mga value habang tumatakbo ang programa.",
-                "history": "$~Ipinapakita ng /history/ ang bawat *input* na natanggap ng iyong programa, tulad ng mga key, time tick, at pointer event. Ito ay *maaaring i-drag*, kaya maaari kang bumalik sa anumang sandali sa evaluation history ng programa sa pamamagitan lamang ng pag-drag.",
+                "history": "$~Ipinapakita ng /history/ ang bawat *input* na natanggap ng iyong programa, tulad ng mga susi, tiktik ng oras, at mga pointer event. *Madraggable* ito, kaya maaari kang bumalik sa kahit anong sandali sa kasaysayan ng pagsusuri ng programa sa pamamagitan lamang ng pag-drag. Kung mas nais mong *marinig* ang mga input na ito kaysa makita, buksan ang /evaluation cues/ sa settings, at @wordplay ay magpapatugtog ng maikling tunog para sa bawat isa, may ibang tunog para sa bawat uri ng input.",
                 "stepControls": "$~Ang /step ang kumokontrol sa/ na nagbibigay-daan sa iyong tumpak na pag-usad sa pagsusuri. Maaari kang tumalon sa *simula* o *dulo*, humakbang *pasulong* o *paatras* nang paisa-isang hakbang, tumalon sa *isang input*, humakbang *palabas* ng isang function, o tumalon sa *kasalukuyang napili* na bahagi ng code.",
                 "modes": "$~Ang /mode switcher/ ay pumipili kung paano tatakbo ang iyong programa. Sa ✏️ *edit* na mode, hihinto ang programa kung nasaan man ito at maaari mong baguhin — muling tatakbo ang iyong mga pagbabago para ipakita ang epekto sa puntong iyon. Sa ⏸️ *debug* na mode, ang kodigo ay para lamang basahin at ang *kasalukuyang halaga* ng bawat bahagi ng iyong programa ay lumalabas sa tabi nito sa editor at sa palette. Sa ▶️ *play* na mode, tumatakbo ang iyong programa nang live mula kung nasaan ito, tumutugon sa mga input sa totoong oras. Sa tabi ng switcher, ang /perform/ na pindutan — isang play na tatsulok na nakabalot sa mga sulok ng full screen — ay nagsisimula ng pagtakbo mula sa itaas at pinupuno ang screen ng stage, at ang ↻ ay nag-reset ng programa sa anumang mode."
             }
@@ -8309,6 +8384,38 @@
                             "$~Ipakita ang mga kapsyon na dalawang beses na mas malaki",
                             "$~Ipakita ang mga kapsyon na tatlong beses na mas malaki"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~mga kulay ng proyekto",
+                        "labels": ["$~panatilihin", "$~baligtarin"],
+                        "tips": [
+                            "$~ipakita ang mga kulay ng proyekto nang kapareho ng pagkasulat nito, kahit sa maitim na screen",
+                            "$~sa maitim na screen, baligtarin ang mga maliwanag na kulay ng proyekto para maging madilim: pinapanatili ng bawat kulay ang sarili nitong tint, at nananatiling magkalayo ang mga kulay ayon sa itinakda ng proyekto"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~mga senyas ng pagsusuri",
+                        "labels": ["$~nakaoff", "$~nakaon"],
+                        "tips": [
+                            "$~Huwag maglabas ng tunog kapag muling nagsusuri ang programa",
+                            "$~Magpatugtog ng maikling tunog bawat pagsusuri ng programa, isa para sa bawat uri ng input"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~mga senyas ng animasyon",
+                        "labels": ["$~nakaoff", "$~nakaon"],
+                        "tips": [
+                            "$~Huwag maglabas ng tunog kapag umaanimate ang output",
+                            "$~Magpatugtog ng maikling tunog kapag umabot ang animasyon sa isang pose, sunod ang tunog sa kilos ng pose"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~mga senyas ng banggaan",
+                        "labels": ["$~nakaoff", "$~nakaon"],
+                        "tips": [
+                            "$~Huwag maglabas ng tunog kapag nagbanggaan ang output",
+                            "$~Magpatugtog ng maikling tunog kapag nagbanggaan ang output, mas malakas kung mas malakas ang tama"
+                        ]
                     }
                 },
                 "options": {
@@ -8335,7 +8442,8 @@
                 },
                 "subheader": {
                     "music": "$~Musika",
-                    "say": "$~Sabihin"
+                    "say": "$~Sabihin",
+                    "cues": "$~Mga Senyas"
                 }
             },
             "notifications": {
@@ -8942,10 +9050,10 @@
                         "title": "$~Naa-access ang Wordplay",
                         "bullets": [
                             "$~• Anumang magagawa mo gamit ang mouse, magagawa mo rin gamit ang keyboard.",
-                            "• Inilalarawan ng mga screen reader ang stage habang ito ay nagbabago, hindi lang kapag ito ay nag-load.",
-                            "• Pwede mong basahin at isulat ang iyong kodigo bilang mga block sa halip na teksto, at lumipat kahit kailan mo gusto.",
-                            "• Ang paggalaw ay pwedeng bagalan, o patayin nang lubusan.",
-                            "• Ang sinasalitang output ay pwedeng bigyan ng caption sa stage para sa sinumang hindi ito naririnig."
+                            "• Inilalarawan ng mga screen reader ang stage habang nagbabago ito, at may mga opsyonal na tunog na nagsasaad kung ano ang muling sinusuri, ano ang gumagalaw, at ano ang nagbabanggaan.",
+                            "• Puwede mong basahin at isulat ang iyong kodigo bilang blocks sa halip na teksto, at lumipat kahit kailan mo gusto.",
+                            "• Ang paggalaw ay puwedeng bagalan, o patayin nang tuluyan.",
+                            "• Ang sinasalitang output ay puwedeng lagyan ng caption sa stage para sa sinumang hindi ito naririnig."
                         ]
                     },
                     "senses": {
@@ -10063,7 +10171,15 @@
             "scriptLabel": "$~i-filter ayon sa script",
             "pickFilter": "$~Pumili ng kategorya o script",
             "moreLanguages": "$~at $count pa",
-            "moreGlyphs": "$~Ipinapakita ang $count — maghanap para makakita ng higit pa"
+            "moreGlyphs": "$~Ipinapakita ang $count — maghanap para makakita ng higit pa",
+            "presentation": {
+                "label": "$~kulay ng emoji",
+                "labels": ["$~kulay", "$~itim at puti"],
+                "tips": [
+                    "$~maglagay ng emoji na may kulay",
+                    "$~maglagay ng emoji na itim at puti"
+                ]
+            }
         },
         "tour": {
             "label": "$~paglilibot",

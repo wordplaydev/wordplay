@@ -11,6 +11,7 @@ import { AnimationFactorSetting } from '@db/settings/AnimationFactorSetting';
 import { AnnotationsSetting } from '@db/settings/AnnotationsSetting';
 import type { ArrangementType } from '@db/settings/Arrangement';
 import { ArrangementSetting } from '@db/settings/ArrangementSetting';
+import { AdaptOutputSetting } from '@db/settings/AdaptOutputSetting';
 import {
     BlockDensitySetting,
     type BlockDensity,
@@ -37,6 +38,11 @@ import {
 } from '@db/settings/ProjectSortSetting';
 import { LineSetting } from '@db/settings/LinesSetting';
 import { CaptionSizeSetting } from '@db/settings/CaptionSizeSetting';
+import {
+    AnimationCuesSetting,
+    ContactCuesSetting,
+    CuesSetting,
+} from '@db/settings/CuesSetting';
 import { LocalesSetting } from '@db/settings/LocalesSetting';
 import { MicSetting } from '@db/settings/MicSetting';
 import type { MusicVisualization } from '@db/settings/MusicSettings';
@@ -115,14 +121,37 @@ export type SettingsSchemaV5 = Omit<SettingsSchemaV4, 'v'> & {
     projectSort: ProjectSort;
 };
 
-export type SettingsSchema = SettingsSchemaV5;
-const SettingsSchemaLatestVersion = 5;
+/**
+ * v6 adds four preferences that were already flagged `device: false` — and so
+ * already paying for a full creator-doc write on every change — but appeared in
+ * neither `toObject` nor `syncUser`, and so never actually crossed devices.
+ *
+ * They're optional because a v5 document genuinely lacks them: filling in
+ * defaults during the upgrade would let the first sync after this ships
+ * overwrite whatever the creator had chosen on that device. So `syncUser`
+ * applies each only when present, while `toObject` always writes all four.
+ */
+export type SettingsSchemaV6 = Omit<SettingsSchemaV5, 'v'> & {
+    v: 6;
+    /** The chosen typeface, or null to follow the locale's default. */
+    face?: string | null;
+    /** Whether the text editor numbers its lines. */
+    lines?: boolean;
+    /** Whether the text editor soft wraps. */
+    wrap?: boolean;
+    /** Whether the editor draws space and line-break markers. */
+    space?: boolean;
+};
+
+export type SettingsSchema = SettingsSchemaV6;
+const SettingsSchemaLatestVersion = 6;
 
 type SettingsSchemaUnknown =
     | SettingsSchemaV1
     | SettingsSchemaV2
     | SettingsSchemaV3
     | SettingsSchemaV4
+    | SettingsSchemaV5
     | SettingsSchema;
 
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
@@ -155,6 +184,11 @@ function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
                 projectFolders: {},
                 projectSort: 'name',
             });
+        case 5:
+            // v5→v6: nothing to fill in. The four new fields stay absent until
+            // the creator's next settings write, so this upgrade can't stomp a
+            // local choice with a default.
+            return upgradeSettings({ ...settings, v: 6 });
         case SettingsSchemaLatestVersion:
             return settings;
         default:
@@ -184,6 +218,7 @@ export default class SettingsDatabase {
         words: WordsSetting,
         blockDensity: BlockDensitySetting,
         dark: DarkSetting,
+        adaptOutput: AdaptOutputSetting,
         space: SpaceSetting,
         lines: LineSetting,
         wrap: WrapSetting,
@@ -197,6 +232,9 @@ export default class SettingsDatabase {
         musicVolume: MusicVolumeSetting,
         musicDucking: MusicDuckingSetting,
         haptics: HapticsSetting,
+        cues: CuesSetting,
+        animationCues: AnimationCuesSetting,
+        contactCues: ContactCuesSetting,
         captionSize: CaptionSizeSetting,
         projectFolders: ProjectFoldersSetting,
         projectSort: ProjectSortSetting,
@@ -276,6 +314,18 @@ export default class SettingsDatabase {
                 data.projectFolders,
             );
             this.settings.projectSort.set(this.database, data.projectSort);
+            // Absent in a document written before v6. Each is applied only when
+            // present so an older document leaves this device's choice alone
+            // rather than resetting it to the default. `face` is checked against
+            // undefined specifically, since null is one of its real values.
+            if (data.face !== undefined)
+                this.settings.face.set(this.database, data.face);
+            if (data.lines !== undefined)
+                this.settings.lines.set(this.database, data.lines);
+            if (data.wrap !== undefined)
+                this.settings.wrap.set(this.database, data.wrap);
+            if (data.space !== undefined)
+                this.settings.space.set(this.database, data.space);
         }
     }
 
@@ -502,6 +552,30 @@ export default class SettingsDatabase {
         return this.settings.musicDucking.get();
     }
 
+    setContactCues(on: boolean) {
+        this.settings.contactCues.set(this.database, on);
+    }
+
+    getContactCues() {
+        return this.settings.contactCues.get();
+    }
+
+    setAnimationCues(on: boolean) {
+        this.settings.animationCues.set(this.database, on);
+    }
+
+    getAnimationCues() {
+        return this.settings.animationCues.get();
+    }
+
+    setCues(on: boolean) {
+        this.settings.cues.set(this.database, on);
+    }
+
+    getCues() {
+        return this.settings.cues.get();
+    }
+
     setHaptics(on: boolean) {
         this.settings.haptics.set(this.database, on);
     }
@@ -528,6 +602,14 @@ export default class SettingsDatabase {
 
     setDark(dark: boolean | null) {
         this.settings.dark.set(this.database, dark);
+    }
+
+    setAdaptOutput(on: boolean) {
+        this.settings.adaptOutput.set(this.database, on);
+    }
+
+    getAdaptOutput() {
+        return this.settings.adaptOutput.get();
     }
 
     setSpace(space: boolean) {
@@ -634,6 +716,10 @@ export default class SettingsDatabase {
             newHowToNotifications: this.settings.howToNotifications.get(),
             projectFolders: this.settings.projectFolders.get(),
             projectSort: this.settings.projectSort.get(),
+            face: this.settings.face.get(),
+            lines: this.settings.lines.get(),
+            wrap: this.settings.wrap.get(),
+            space: this.settings.space.get(),
         };
     }
 }

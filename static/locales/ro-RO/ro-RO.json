@@ -125,7 +125,7 @@
             "definition": "$~Un cuvânt care se referă la o @value sau la o @FunctionDefinition."
         },
         "markup": {
-            "word": "$~marcaj",
+            "word": "$~text formatat",
             "definition": "$~Text cu formatare, cum ar fi cuvinte îngroșate sau legături."
         },
         "language": {
@@ -478,14 +478,16 @@
             "doc": "$~Sunt o listă de @TypeVariable."
         },
         "Markup": {
-            "name": "$~marcaj",
-            "description": "$~marcaj cu $#count[$#count paragraf|$count paragrafe|$count de paragrafe]",
+            "name": "$~text formatat",
+            "description": "$~text formatat cu $#count[$#count paragraf|$count paragrafe|$count de paragrafe]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragrafe"
             },
             "doc": [
-                "$~Sunt o listă de paragrafe, folosind numeroasele feluri de @markup disponibile în explicații, cum ar fi @Words, @WebLink, @ConceptLink și @Example."
+                "$~Sunt o listă de paragrafe, care folosește multe tipuri de text formatat disponibile în @Doc, cum ar fi @Words, @WebLink, @ConceptLink și @Example.",
+                "Mă vei găsi într-un @Doc și în @FormattedLiteral:",
+                "\\¶Sunt documentare cu text *aldin*. Pot să mă refer la concepte precum @Phrase și pot lega spre <lucruri de pe web@https://wordplay.dev>.¶\nFraza(\n\t`Sunt text formatat pentru un @Phrase, folosind *aldin*, /cursiv/ și _sublinieri_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "$~ramură",
-            "description": "$~alegere de marcaj în funcție de $condition",
+            "description": "$~alegere de text formatat pe baza $condition",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o modalitate de a alege între două segmente de explicație în funcție de dacă o valoare de intrare a explicației este definită sau adevărată.",
@@ -3237,6 +3239,24 @@
                 "TiB": "$~tebibytes",
                 "lux": "$~lucși",
                 "fc": "$~foot-candles"
+            },
+            "category": {
+                "time": "$~Timp",
+                "length": "$~Lungime",
+                "weight": "$~Greutate",
+                "temperature": "$~Temperatură",
+                "angle": "$~Unghi",
+                "area": "$~Suprafață",
+                "volume": "$~Volum",
+                "speed": "$~Viteză",
+                "pressure": "$~Presiune",
+                "energy": "$~Energie",
+                "power": "$~Putere",
+                "electricity": "$~Electricitate",
+                "frequency": "$~Frecvență",
+                "data": "$~Date",
+                "brightness": "$~Luminozitate",
+                "other": "$~Altele"
             }
         },
         "List": {
@@ -3632,23 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Pot lua o listă și să creez o listă nouă cu valorile sale sortate. Astfel:",
-                        "\\[1 5 8 0 2].sorted()\\",
-                        "Pot face asta și pentru valorile @Text",
-                        "\\['portocală' 'kiwi' 'banană' 'măr'].sorted()\\",
-                        "Și dacă aveți o listă de valori care nu sunt @Number sau @Text, puteți să-mi dați o @FunctionDefinition care transformă fiecare element într-un @Number, astfel încât să-l pot sorta. De exemplu, aici avem o listă de liste de lungimi diferite; dacă îmi dați o funcție care transformă fiecare listă în lungimea sa, pot sorta după lungimea acesteia.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(listă) listă.lungime())\\"
+                        "$~Pot să iau o listă și să fac o listă nouă cu valorile ei sortate. Uite așa:",
+                        "\\[1 5 8 0 2].sortat()\\",
+                        "Pot face asta și pentru valori de tip @Text, în ordine alfabetică. O literă mare este sortată lângă cea mică corespunzătoare, așa că un cuvânt nu ajunge la sfârșit doar pentru că începe cu literă mare:",
+                        "\\['Portocală' 'kiwi' 'Banană' 'măr'].sortat()\\",
+                        "Iar dacă ai o listă de valori care nu sunt de tip @Number sau @Text, îmi poți da un @FunctionDefinition care transformă fiecare element într-un @Number sau un @Text, ca să pot să le sortez. De exemplu, aici avem o listă de liste de lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot să sortez după lungime.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă2) listă2.lungime())\\",
+                        "O funcție care face @Text este modul în care sortezi după un cuvânt calculat, în loc de valoarea în sine. Aici sortez numele după cel din urmă:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume2•'') (nume2 ÷ ' ').dura()\n)\\"
                     ],
                     "names": "$~sortat",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opțional care se folosește pentru a sorta o listă @value. Ea ar trebui să transforme valoarea într-un @Number care poate fi folosit pentru a sorta lista.",
+                            "doc": "$~@FunctionDefinition opțional folosit pentru a sorta o listă @value. Ar trebui să transforme valoarea într-un @Number sau un @Text care poate fi folosit pentru sortarea listei.",
                             "names": "$~secvențiator"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value care se transformă într-un @Number.",
+                            "doc": "$~@value de transformat într-un @Number sau un @Text.",
                             "names": "$~valoare"
                         }
                     ]
@@ -5534,7 +5556,11 @@
                 "doc": "$~Dacă o valoare @Output ar trebui oglindită pe axa y, în loc de valoarea implicită.",
                 "names": "$~flip"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotit $rotation grade|] $scale[scalat $scale|] $flipx[întors pe orizontală|] $flipy[întors pe verticală|] $blur[umbră estompată $blur pixeli|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[rotit $rotation grade|] $scale[scalat $scale|] $flipx[întors pe orizontală|] $flipy[întors pe verticală|] $blur[umbră estompată $blur pixeli|]",
+            "music": {
+                "doc": "$~@Music pe care ar trebui să îl redau atunci când începe starea mea de animație sau când mă atinge un @Sequence. Ideea este un sunet scurt; îl redau doar o singură dată.",
+                "names": "$~muzică"
+            }
         },
         "Color": {
             "doc": [
@@ -6851,7 +6877,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~nu"
+            "missing": "$~nu",
+            "form": {
+                "sans": "$~un font fără serife",
+                "serif": "$~un font cu serife",
+                "slab": "$~un font cu serife groase",
+                "typewriter": "$~un font ca de mașină de scris",
+                "handwriting": "$~scris de mână",
+                "brush": "$~un font ca desenat cu pensula",
+                "script": "$~un font cursiv",
+                "poster": "$~un font de afiș",
+                "pixel": "$~un font din pixeli",
+                "outline": "$~un font gol pe interior",
+                "textured": "$~un font texturat",
+                "emoji": "$~imagini, nu litere"
+            },
+            "impression": {
+                "calm": "$~calm",
+                "oldFashioned": "$~de modă veche",
+                "strong": "$~puternic",
+                "quirky": "$~ciudățel",
+                "playful": "$~jucăuș",
+                "excited": "$~entuziasmat",
+                "childlike": "$~copilăresc",
+                "artistic": "$~artistic",
+                "futuristic": "$~futurist",
+                "energetic": "$~energic",
+                "cute": "$~drăguț",
+                "cheerful": "$~vesel",
+                "fancy": "$~elegant"
+            },
+            "mechanic": {
+                "sameWidth": "$~fiecare literă are aceeași lățime",
+                "tallLowercase": "$~literele mici sunt la fel de înalte ca majusculele",
+                "shortLowercase": "$~literele mici sunt mult mai scurte decât majusculele"
+            },
+            "description": {
+                "and": "$~$first și $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Buna ziua"
@@ -6907,6 +6971,10 @@
             },
             "logo": {
                 "description": "$~O bulă de vorbire cu o literă din sistemul tău de scriere înăuntru"
+            },
+            "synced": {
+                "saved": "$~Salvat pe toate dispozitivele",
+                "signedOut": "$~Salvat pe toate dispozitivele atunci când ești conectat"
             }
         },
         "tile": {
@@ -7753,6 +7821,13 @@
             "hidden": {
                 "message": "$~Totul este scos de pe scenă.",
                 "show": "$~arată totul"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7774,7 +7849,7 @@
                 "timeline": "$~/Cronologia/ îți permite să treci *înainte* și *înapoi* prin evaluarea programului tău, câte un pas pe rând. Apare în bara de instrumente a scenei în modurile ✏️ *editare* și ⏸️ *depanare* și este o cale bună să vezi *cum* calculează programul tău valoarea și să îți creezi o imagine mentală despre cum evaluează programele @wordplay, mai ales dacă nu vezi comportamentul pe care îl vrei.",
                 "annotations": "$~Fereastra /adnotări/ este locul unde apar explicațiile fiecărui pas. Pe măsură ce parcurgeți programul, aici veți citi ce tocmai s-a întâmplat.",
                 "editor": "$~/Editorul/ afișează codul. În timpul execuției pas cu pas, *valoarea* fiecărei părți a programului va apărea lângă acea parte *după* evaluare, astfel încât să puteți urmări cum se acumulează valori pe măsură ce programul rulează.",
-                "history": "$~/Istoricul/ afișează fiecare *intrare* pe care programul a primit-o, cum ar fi chei, intervale de timp și evenimente de indicator. Este *glisabil*, așa că poți reveni la orice moment din istoricul de evaluare al programului pur și simplu trăgând.",
+                "history": "$~/Istoricul/ arată fiecare *intrare* pe care programul tău a primit-o, cum ar fi taste, momente de timp și evenimente ale cursorului. Este *tras cu mouse-ul*, așa că te poți întoarce la orice moment din istoricul evaluării programului doar trăgând. Dacă preferi să *auzi* aceste intrări în loc să le vezi, activează /semnalele de evaluare/ din setări, iar @wordplay va reda un sunet scurt pentru fiecare, cu un sunet diferit pentru fiecare tip de intrare.",
                 "stepControls": "$~Comenzile /step/ vă permit să parcurgeți evaluarea cu precizie. Puteți sări la *start* sau *sfârșit*, să mergeți *înainte* sau *înapoi* pas cu pas, să săriți cu *o intrare*, să ieșiți *din funcție* sau să sari la partea *selectată în prezent* a codului.",
                 "modes": "$~/Comutatorul de mod/ alege cum evaluează programul tău. În modul ✏️ *editare*, programul se oprește acolo unde este și îl poți schimba — modificările tale se redau din nou ca să arate efectul lor în acel punct. În modul ⏸️ *depanare*, codul se poate doar citi, iar *valoarea curentă* a fiecărei părți din programul tău apare lângă ea în editor și în paletă. În modul ▶️ *redare*, programul tău rulează în direct de acolo unde este și răspunde la intrări în timp real. Lângă comutator, butonul /executare/ — un triunghi de redare încadrat de colțuri de ecran complet — pornește o execuție de la capăt și umple ecranul cu scena, iar ↻ resetează programul în orice mod."
             }
@@ -8320,6 +8395,38 @@
                             "$~Arată subtitrări de două ori mai mari",
                             "$~Arată subtitrări de trei ori mai mari"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~culorile proiectului",
+                        "labels": ["$~păstrează", "$~inversează"],
+                        "tips": [
+                            "$~arată culorile unui proiect exact cum au fost scrise, chiar și pe un ecran întunecat",
+                            "$~pe un ecran întunecat, întoarce culorile unui proiect luminos în culori întunecate: fiecare culoare își păstrează nuanța, iar culorile rămân la fel de diferite între ele cum au fost făcute în proiect"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~semnale de evaluare",
+                        "labels": ["$~dezactivat", "$~activat"],
+                        "tips": [
+                            "$~Nu reda niciun sunet când programul se reevaluează",
+                            "$~Redă un sunet scurt de fiecare dată când programul se reevaluează, câte unul pentru fiecare tip de intrare"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~semnale de animație",
+                        "labels": ["$~dezactivat", "$~activat"],
+                        "tips": [
+                            "$~Nu reda niciun sunet când ieșirea se animează",
+                            "$~Redă un sunet scurt de fiecare dată când o animație ajunge la o poziție, cu sunetul potrivit acțiunii poziției"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~semnale de coliziune",
+                        "labels": ["$~dezactivat", "$~activat"],
+                        "tips": [
+                            "$~Nu reda niciun sunet când ieșirea se ciocnește",
+                            "$~Redă un sunet scurt când ieșirea se ciocnește, mai tare cu cât lovitura e mai puternică"
+                        ]
                     }
                 },
                 "options": {
@@ -8346,7 +8453,8 @@
                 },
                 "subheader": {
                     "music": "$~Muzică",
-                    "say": "$~Say"
+                    "say": "$~Say",
+                    "cues": "$~Semnale"
                 }
             },
             "notifications": {
@@ -8917,7 +9025,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "phrase": "$~\\¶Frazele apar pe scenă, în orice culoare, cu orice strălucire și mișcare îți place.¶\nFraza(\n\t'salut!'\n\t6m\n\tculoare: Culoare(60% 90 200°)\n\taură: Aură(Culoare(80% 80 200°) 0.3m)\n\todihnă: Secvenţă.legănare(8°)\n)\\",
                         "music": "$~\\¶Muzica este note pe instrumente reale, la un tempo, într-o tonalitate. Scena desenează ce aude.¶\nMuzică(\n\tPistă([1 3 5 8 5 3] instrument: Instrument.pian)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Codul poate reacționa la o intrare precum @Time, iar textul poate fi în mai multe limbi și poate fi rostit.¶\nsaluturi: ['salut' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nsalut: saluturi.aleatoriu() … ∆ Timp(1000ms) … saluturi.aleatoriu(\n\t\t)\nFraza(salut 4m)\nCuvânt(salut)\\",
                         "keys": "$~\\¶Codul poate reacționa la pointeri, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator())]\n\tloc: Loc(0m 0m -12m)\n)\\",
@@ -8952,11 +9060,11 @@
                     "accessible": {
                         "title": "$~Wordplay este accesibil",
                         "bullets": [
-                            "$~• Tot ce poți face cu mausul, poți face și cu tastatura.",
-                            "• Cititoarele de ecran descriu scena pe măsură ce se schimbă, nu doar când se încarcă.",
-                            "• Poți citi și scrie codul tău sub formă de blocuri în loc de text, și poți trece de la una la alta oricând vrei.",
-                            "• Mișcarea poate fi încetinită sau oprită complet.",
-                            "• Sunetul vorbit poate fi afișat ca text pe scenă, pentru cei care nu îl pot auzi."
+                            "$~• Orice poți face cu mausul, poți face și cu tastatura.",
+                            "• Cititoarele de ecran descriu scena pe măsură ce se schimbă, iar sunete opționale arată ce se reevaluează, ce se animă și ce se ciocnește.",
+                            "• Poți citi și scrie codul tău ca blocuri în loc de text și poți schimba oricând vrei.",
+                            "• Mișcarea poate fi încetinită sau dezactivată complet.",
+                            "• Sunetul vorbit poate avea subtitrare pe scenă pentru cei care nu îl pot auzi."
                         ]
                     },
                     "senses": {
@@ -10066,7 +10174,15 @@
             "scriptLabel": "$~filtrare după script",
             "pickFilter": "$~Alegeți o categorie sau un script",
             "moreLanguages": "$~și mai multe $count",
-            "moreGlyphs": "$~Se afișează $count — caută pentru a găsi mai multe"
+            "moreGlyphs": "$~Se afișează $count — caută pentru a găsi mai multe",
+            "presentation": {
+                "label": "$~emoji color",
+                "labels": ["$~culoare", "$~alb-negru"],
+                "tips": [
+                    "$~inserează emoji color",
+                    "$~inserează emoji alb-negru"
+                ]
+            }
         },
         "connection": {
             "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",

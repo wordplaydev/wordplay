@@ -76,6 +76,7 @@ export function phonemeNote(symbol: string, startTime: number): ScheduledNote {
         // audio layer, so the name is only for anyone reading a trace.
         music: 'phoneme',
         trackIndex: 0,
+        noteIndex: 0,
         degree: 1,
         semitones: PreviewPitch,
         startBeat: 0,

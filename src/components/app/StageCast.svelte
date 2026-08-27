@@ -411,7 +411,6 @@
            background was right for a wash behind a whole document; on the stage
            these are the cast, and they should read as such. */
         opacity: 1;
-        user-select: none;
         color: var(--wordplay-inactive-color);
     }
 </style>

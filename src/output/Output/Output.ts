@@ -151,7 +151,26 @@ export default abstract class Output extends Valued {
             this.resting instanceof Sequence ||
             this.moving !== undefined ||
             this.exiting !== undefined ||
-            this.duration > 0
+            this.duration > 0 ||
+            this.hasPoseMusic()
+        );
+    }
+
+    /**
+     * Whether any of this output's animation states carries music.
+     *
+     * `isAnimated` decides whether an output gets an `OutputAnimation` at all, and
+     * a pose's music is struck from there — so without this a `duration: 0s`
+     * output with a `resting:` pose that sounds would be silently silent. Tests
+     * the raw value rather than a converted `Music`, since `Music` value-imports
+     * this module's own `Pose`.
+     */
+    hasPoseMusic(): boolean {
+        return [this.entering, this.resting, this.moving, this.exiting].some(
+            (source) =>
+                source instanceof Sequence
+                    ? source.poses.some((step) => step.pose.music !== undefined)
+                    : source?.music !== undefined,
         );
     }
 }

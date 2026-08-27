@@ -63,7 +63,11 @@ export default class ConversionConcept extends Concept {
     }
 
     getDocs(locales: Locales): Markup[] {
-        return this.definition.docs.getMarkup(locales);
+        return this.getLocalizedMarkup(
+            this.definition,
+            this.definition.docs,
+            locales,
+        );
     }
 
     getNames() {

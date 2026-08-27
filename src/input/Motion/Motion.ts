@@ -21,6 +21,7 @@ import type Value from '@values/Value';
 import createStreamEvaluator from '@input/createStreamEvaluator';
 import type Output from '@output/Output/Output';
 import type Evaluator from '@runtime/Evaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 /** The raw payload Motion records for each value: the elapsed delta that
  *  triggered it plus the engine-produced placement. Recording the placement
@@ -36,6 +37,8 @@ export type MotionPayload = {
 };
 
 export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
+    readonly kind: StreamKind = 'motion';
+
     private initialPlace: Place | undefined;
 
     private place: Place | undefined;

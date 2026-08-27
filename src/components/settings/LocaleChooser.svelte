@@ -17,6 +17,7 @@
         matchRegions,
     } from '@components/settings/LocaleSearch.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import Synced from '@components/widgets/Synced.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import { LocaleDialogID } from '@components/widgets/dialogIDs';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -254,11 +255,18 @@
     {:else}
         <MarkupHTMLView markup={(l) => l.ui.dialog.locale.localizeHelp} />
 
-        <h2
-            >{$locales
-                .concretize((l) => l.ui.dialog.locale.subheader.selected)
-                .toText()}</h2
-        >
+        <!-- The badge sits beside the heading rather than inside it: an
+             aria-label on a child would fold into the heading's own name. Absent
+             in prompt mode, where a first-time visitor has no account yet. -->
+        <div class="subheader">
+            <h2
+                >{$locales
+                    .concretize((l) => l.ui.dialog.locale.subheader.selected)
+                    .toText()}</h2
+            >
+            <Synced />
+        </div>
+
         <div class="languages">
             {#each selectedLocales as selected (selected)}
                 {#if selectedLocales.length > 1}
@@ -405,6 +413,15 @@
 </Dialog>
 
 <style>
+    /* Keeps the cloud on the heading's baseline instead of starting a line of
+       its own under it. */
+    .subheader {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing-half);
+        align-items: baseline;
+    }
+
     .available-header {
         display: flex;
         flex-direction: row;

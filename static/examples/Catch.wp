@@ -1,7 +1,18 @@
 🐭
 "Catch"/en"接住"/zh-CN"接住"/zh-TW
 ===start/en
-¶Catch the scurrying mouse with a click — click again to set it free.¶
+¶Catch the scurrying mouse with a click — click again to set it free.
+
+Both sounds come from the poses themselves. A @Pose can carry a @Music, which
+plays the moment that pose is struck: the pounce sounds when the mouse's resting
+pose changes to the caught one, and the scurry sounds when the spin reaches the
+halfway pose it's keyed to. Nothing has to be wired up between the animation and
+the sound — the pose is where they meet.¶
+
+¶Two brief pieces. A @Track loops by default, but a pose is an instant rather
+than something that lasts, so a pose's music always plays through just once.¶
+pounce: 🎼(🎶([5 1] instrument: 🔈.🔔 beat: 1beats) volume: 50% name: 'pounce')
+scurry: 🎼(🎶([1 2] instrument: 🔈.🪈 beat: 1beats) volume: 35% name: 'scurry')
 
 ¶If the selected phrase is mouse, toggle whether the mouse is caught.¶
 name: Choice()
@@ -14,8 +25,8 @@ Stage([
 			"🐭" 
 			selectable: ⊤
 			place: place
-			resting: caught ? Pose(rotation: 180°) Pose()
-			moving:caught ? Pose() Sequence({0%: Pose(rotation: 0°) 100%:Pose(rotation: 360°)})
+			resting: caught ? Pose(rotation: 180° music: pounce) Pose()
+			moving:caught ? Pose() Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180° music: scurry) 100%:Pose(rotation: 360°)})
 			duration: 1s
 			name: 'mouse'
 		)

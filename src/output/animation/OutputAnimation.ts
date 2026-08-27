@@ -1,13 +1,30 @@
 import { getPlacingMotion } from '@input/Motion/Motion';
+import {
+    cancelPoseMusic,
+    listeningForPoseMusic,
+    reportPoseMusic,
+} from '@output/animation/poseMusicEvents';
+import {
+    shouldStrike,
+    strikesFor,
+    type Struck,
+} from '@output/animation/poseMusic';
+import {
+    cancelAnimation,
+    listeningForAnimations,
+    reportAnimation,
+} from '@output/Cues/animations';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import { Easings, type EasingName } from '@output/animation/easing';
 import type Animator from '@output/animation/Animator';
+import { getAnimatingNodes } from '@output/animation/animatingNodes';
 import type {
     Orientation,
     OutputInfo,
     OutputName,
 } from '@output/animation/Animator';
+import type Node from '@nodes/Node';
 import type Output from '@output/Output/Output';
 import {
     PX_PER_METER,
@@ -56,11 +73,22 @@ export default class OutputAnimation {
     /** The current animation state */
     state: AnimationState = AnimationState.Rest;
 
+    /** What was last struck in each animation state, so a re-issue of the same
+     *  one — a per-frame rebuild, a stage re-render, a return to rest — doesn't
+     *  sound again. */
+    private readonly struck: Struck = new Map();
+
     /** The current Web API Animation playing, so we can cancel it as necessary. */
     animation: Animation | undefined;
 
     /** The curren transitions animating */
     sequence: Transition[] | undefined = undefined;
+
+    /** The nodes currently reported to the animator as animating. Stored rather
+     *  than recomputed at the end, so what we stop reporting is always exactly
+     *  what we started reporting — the animator refcounts them, and an
+     *  unmatched end would un-highlight code another output is still animating. */
+    private announced: Node[] | undefined = undefined;
 
     constructor(
         scene: Animator,
@@ -220,6 +248,13 @@ export default class OutputAnimation {
                 this.start(AnimationState.Rest, sequence);
             }
         }
+        // A resting pose that isn't being tweened to starts no animation at all,
+        // so it never reaches start() — but it still has a moment: the instant the
+        // output comes to rest in it. `renewed` is false here because nothing is
+        // beginning, so only an actual change sounds; `Animator.animate()` calls
+        // this on every present output on every re-render.
+        else if (currentPose instanceof Pose)
+            this.strikePoseMusic([], 0, false);
     }
 
     /** Change to the entering state.  */
@@ -425,6 +460,117 @@ export default class OutputAnimation {
     }
 
     // Must have at least two transitions.
+    /** The output property driving the current state, whose call site stands in
+     *  when the poses themselves were built outside the creator's code. */
+    private getAnimationSource(): Pose | Sequence | undefined {
+        switch (this.state) {
+            case AnimationState.Entering:
+                return this.output.entering;
+            case AnimationState.Moving:
+                return this.output.moving ?? this.output.pose;
+            case AnimationState.Exiting:
+                return this.output.exiting;
+            default:
+                return this.output.resting;
+        }
+    }
+
+    /** The nodes the given tween should highlight, or none if it holds still. */
+    private resolveAnimatingNodes(transitions: Transition[]): Node[] {
+        const project = this.animator.evaluator?.project;
+        if (project === undefined || !changesOverTime(transitions)) return [];
+        return getAnimatingNodes(
+            project,
+            this.output,
+            this.getAnimationSource(),
+            transitions,
+        );
+    }
+
+    /** Report a tween's nodes as animating. */
+    private announce(transitions: Transition[]) {
+        const nodes = this.resolveAnimatingNodes(transitions);
+        if (nodes.length === 0) return;
+        this.announced = nodes;
+        this.animator.startingSequence(nodes);
+    }
+
+    /** Hand this tween to the cue layer, so what it does can be heard. */
+    private reportToCues(
+        transitions: Transition[],
+        totalMs: number,
+        fromMs: number,
+    ) {
+        const evaluator = this.animator.evaluator;
+        if (evaluator === undefined || !listeningForAnimations(evaluator))
+            return;
+        reportAnimation(evaluator, {
+            name: this.name,
+            state: this.state,
+            transitions,
+            totalMs,
+            fromMs,
+        });
+    }
+
+    /**
+     * Sound whatever this animation's poses carry, if this is a new performance
+     * of them rather than a re-issue of the one already running.
+     */
+    private strikePoseMusic(
+        transitions: readonly Transition[],
+        totalMs: number,
+        renewed: boolean,
+    ) {
+        const source = this.getAnimationSource();
+        const fresh = shouldStrike(this.struck, this.state, source, renewed);
+        if (fresh) this.struck.set(this.state, source);
+        this.reportPoseStrikes(transitions, totalMs, 0, fresh);
+    }
+
+    /** Hand this tween's music to the player, so what the poses carry is heard. */
+    private reportPoseStrikes(
+        transitions: readonly Transition[],
+        totalMs: number,
+        fromMs: number,
+        fresh: boolean,
+    ) {
+        const evaluator = this.animator.evaluator;
+        if (evaluator === undefined || !listeningForPoseMusic(evaluator))
+            return;
+        const strikes = strikesFor(
+            evaluator.project,
+            this.getAnimationSource(),
+            transitions,
+            totalMs,
+            fromMs,
+            fresh,
+        );
+        if (strikes.length > 0)
+            reportPoseMusic(evaluator, { name: this.name, strikes });
+    }
+
+    /** Take back whatever this animation had scheduled to play. */
+    private cancelPoseStrikes() {
+        const evaluator = this.animator.evaluator;
+        if (evaluator === undefined) return;
+        cancelPoseMusic(evaluator, this.name);
+    }
+
+    /** Take back whatever this animation had scheduled to sound. */
+    private cancelCues() {
+        const evaluator = this.animator.evaluator;
+        if (evaluator === undefined) return;
+        cancelAnimation(evaluator, this.name);
+    }
+
+    /** Stop reporting whatever this animation last announced. */
+    private unannounce() {
+        if (this.announced === undefined) return;
+        this.animator.endingSequence(this.announced);
+        this.announced = undefined;
+    }
+
     start(
         state: AnimationState,
         transitions: [Transition, Transition, ...Transition[]],
@@ -445,6 +591,10 @@ export default class OutputAnimation {
         // still land here but has no valid context to animate against.
         if (this.animator.evaluator === undefined) return;
 
+        // Whether a *new* animation is beginning, rather than one still running
+        // being rebuilt. Read before the cancel below, which is what erases it.
+        const renewed = this.animation?.playState !== 'running';
+
         // Cancel any current animation.
         if (this.animation) {
             this.animation.onfinish = null;
@@ -452,10 +602,8 @@ export default class OutputAnimation {
         }
 
         // End any current sequence first.
-        if (this.sequence) {
-            this.animator.endingSequence(this.sequence);
-            this.sequence = undefined;
-        }
+        this.unannounce();
+        this.sequence = undefined;
 
         // Update to the requested state.
         this.state = state;
@@ -469,6 +617,14 @@ export default class OutputAnimation {
                 (total, transition) => total + transition.duration,
                 0,
             );
+
+        // Sound the poses before the early return below: a `duration: 0s`
+        // entrance still happens, it just happens instantly, and a creator who
+        // asked for no tween did not ask for no sound. `retries` guards the
+        // re-entry this method makes while waiting for its DOM element — without
+        // it a sequence would strike three times before sounding once.
+        if (retries === 0)
+            this.strikePoseMusic(transitions, totalDuration * 1000, renewed);
 
         // No duration? End immediately (unless resting, since
         // that would cause an infinite loop).
@@ -529,7 +685,7 @@ export default class OutputAnimation {
         this.sequence = transitions;
 
         // Notify the stage that we're starting the sequence.
-        this.animator.startingSequence(transitions);
+        this.announce(transitions);
 
         // Start the Web Animation API animation...
         this.animation?.cancel();
@@ -537,6 +693,12 @@ export default class OutputAnimation {
             // Wordplay durations are seconds
             duration: totalDuration * 1000,
         });
+
+        // Offer it to the cue layer, which sounds what the poses do. Reported
+        // here rather than in retarget(), which is the point: output the
+        // simulation places retargets every frame and never comes through
+        // start(), so a physics stage stays silent of animation cues.
+        this.reportToCues(transitions, totalDuration * 1000, 0);
 
         // When the animation is done, update the animation state.
         this.animation.onfinish = () => {
@@ -551,6 +713,9 @@ export default class OutputAnimation {
      *  do this: it's written for an animation that already ended, so it would
      *  leave this one running and let its onfinish finish it a second time. */
     settle() {
+        // Whatever it was going to sound or play, it is no longer doing.
+        this.cancelCues();
+        this.cancelPoseStrikes();
         // Drop the tween, so the element renders at its own transform again.
         if (this.animation) {
             this.animation.onfinish = null;
@@ -560,10 +725,8 @@ export default class OutputAnimation {
         // Stop highlighting its nodes, as finish() and start() both do. Cleared
         // before rest(), so a resting Sequence starting there doesn't end the
         // sequence it just began.
-        if (this.sequence) {
-            this.animator.endingSequence(this.sequence);
-            this.sequence = undefined;
-        }
+        this.unannounce();
+        this.sequence = undefined;
         this.rest();
         // A Scene may be waiting on this reaching rest, and finish() reports the
         // same transition, so a move that ends early has to report it too.
@@ -640,12 +803,16 @@ export default class OutputAnimation {
 
         // Only republish the animating nodes when they actually changed: this
         // runs every frame, and each notification allocates and broadcasts a set.
+        // The pose-creator comparison is the cheap gate; whether the tween moves
+        // at all is checked too, since a move whose place stopped changing must
+        // stop being reported even though its poses are unchanged.
         if (
             this.sequence === undefined ||
-            !sameAnimatingNodes(this.sequence, transitions)
+            !sameAnimatingNodes(this.sequence, transitions) ||
+            changesOverTime(transitions) !== (this.announced !== undefined)
         ) {
-            if (this.sequence) this.animator.endingSequence(this.sequence);
-            this.animator.startingSequence(transitions);
+            this.unannounce();
+            this.announce(transitions);
         }
         this.sequence = transitions;
 
@@ -692,8 +859,14 @@ export default class OutputAnimation {
         return transitions.map((transition) => {
             const keyframe: Keyframe = {};
 
+            // Animated pose colors are written straight into WAAPI keyframes
+            // and never pass through the Svelte markup, so they need the
+            // stage's adapt flag applied here or animated output would stay
+            // bright while everything static around it went dark.
             if (transition.pose.color !== undefined)
-                keyframe.color = transition.pose.color.toCSS();
+                keyframe.color = transition.pose.color.toCSS(
+                    this.context.adapting,
+                );
             if (transition.pose.opacity !== undefined)
                 keyframe.opacity = transition.pose.opacity;
 
@@ -795,7 +968,7 @@ export default class OutputAnimation {
         this.log(`Finished; determining next state`);
 
         // If there's a sequence animating, notify the stage we're ending it.
-        if (this.sequence) this.animator.endingSequence(this.sequence);
+        this.unannounce();
 
         // Reset the current sequence.
         this.sequence = undefined;
@@ -824,18 +997,45 @@ export default class OutputAnimation {
      */
     suspend() {
         if (this.animation?.playState === 'running') this.animation.pause();
+        // Cues are scheduled a whole animation ahead, so a pause has to take
+        // back what has not sounded yet — otherwise a frozen stage goes on
+        // describing motion it isn't making. Pose music is scheduled the same
+        // way and comes back the same way.
+        this.cancelCues();
+        this.cancelPoseStrikes();
     }
 
     /** Continue an animation held by `suspend`. */
     resume() {
-        if (this.animation?.playState === 'paused') this.animation.play();
+        if (this.animation?.playState !== 'paused') return;
+        this.animation.play();
+        // Re-offer the rest of the figure from where it actually is, rather
+        // than replaying the poses the stage already passed while playing.
+        const elapsed = this.animation.currentTime;
+        const effect = this.animation.effect;
+        const total = effect?.getTiming().duration;
+        if (
+            this.sequence !== undefined &&
+            typeof elapsed === 'number' &&
+            typeof total === 'number'
+        ) {
+            this.reportToCues(this.sequence, total, elapsed);
+            // Already decided when this animation started; resuming re-offers
+            // what a pause took back, so it doesn't go through the freshness
+            // check again.
+            this.reportPoseStrikes(this.sequence, total, elapsed, true);
+        }
     }
 
     done() {
         this.log(`Animation is done`);
 
         // If there's a sequence animating, notify the stage we're ending it.
-        if (this.sequence) this.animator.endingSequence(this.sequence);
+        this.unannounce();
+
+        // And take back anything it had scheduled to sound or play.
+        this.cancelCues();
+        this.cancelPoseStrikes();
 
         // Permananently mark the state as done.
         this.state = AnimationState.Done;
@@ -959,10 +1159,9 @@ export function isPlaceOnlyTween(transitions: Transition[]): boolean {
     );
 }
 
-/** Whether two tweens highlight the same nodes. Animator tracks animating nodes
- *  by each transition's pose creator, so a move that repeats with the same pose
- *  needs no new notification. Compared index-wise to avoid allocating a set per
- *  output per frame. */
+/** Whether two tweens would resolve to the same highlighted nodes. A cheap
+ *  pointer comparison used as the per-frame gate before the more expensive node
+ *  resolution, so a move that repeats with the same poses costs nothing. */
 export function sameAnimatingNodes(
     before: Transition[],
     after: Transition[],
@@ -974,5 +1173,25 @@ export function sameAnimatingNodes(
                 transition.pose.value.creator ===
                 after[index].pose.value.creator,
         )
+    );
+}
+
+/** Whether a tween changes anything visible over its duration. Two identical
+ *  keyframes animate nothing, so the editor must not say the code is animating:
+ *  `Sequence({0%: Pose()})` compiles to one pose held for its duration, and a
+ *  move to the place the output already occupies holds still too. Note this
+ *  says nothing about whether the animation should *run* — it still governs the
+ *  state machine's return to rest — only about what the editor reports. */
+export function changesOverTime(transitions: Transition[]): boolean {
+    const first = transitions[0];
+    if (first === undefined) return false;
+    return transitions.some(
+        (transition) =>
+            !transition.pose.equals(first.pose) ||
+            transition.size !== first.size ||
+            (transition.place === undefined) !== (first.place === undefined) ||
+            (transition.place !== undefined &&
+                first.place !== undefined &&
+                !transition.place.equals(first.place)),
     );
 }

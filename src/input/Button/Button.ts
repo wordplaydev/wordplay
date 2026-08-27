@@ -12,8 +12,11 @@ import type Locales from '@locale/Locales';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import BooleanType from '@nodes/BooleanType';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 export default class Button extends SingletonStreamValue<BoolValue, boolean> {
+    readonly kind: StreamKind = 'button';
+
     on = false;
     down: boolean | undefined;
 

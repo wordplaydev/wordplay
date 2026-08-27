@@ -327,6 +327,7 @@
         display: inline-block;
         vertical-align: middle;
         user-select: none;
+        -webkit-user-select: none;
 
         /* Allow vertical scroll of parent while still delivering pointer events for drag. */
         touch-action: pan-y;

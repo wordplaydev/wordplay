@@ -10,6 +10,7 @@ import {
 } from './lockfile';
 import type { Lockfile } from './lockfile';
 import { buildFaces, buildFallback, facesRanges } from './faces';
+import { buildMetrics, readMetrics } from './metrics';
 import { computeFallbackRanges } from './stylesheets';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
 
@@ -115,13 +116,22 @@ export async function checkCssConsistency(lock: Lockfile): Promise<Problem[]> {
 export async function checkRegistryConsistency(
     lock: Lockfile,
     committed: {
-        Faces: Record<string, { ranges?: string | readonly string[] }>;
+        Faces: Record<
+            string,
+            {
+                ranges?: string | readonly string[];
+                form?: string;
+                impression?: readonly string[];
+                ratio?: number;
+                mono?: boolean;
+            }
+        >;
         FallbackFaces: readonly { name: string; ranges: readonly string[] }[];
     },
     emojiRanges: Record<string, string>,
 ): Promise<Problem[]> {
     const problems: Problem[] = [];
-    const genFaces = buildFaces(lock, emojiRanges);
+    const genFaces = buildFaces(lock, emojiRanges, await readMetrics());
     for (const [name, face] of Object.entries(genFaces)) {
         const got = committed.Faces[name];
         if (!got) {
@@ -130,6 +140,9 @@ export async function checkRegistryConsistency(
         }
         if (JSON.stringify(got.ranges) !== JSON.stringify(face.ranges))
             problems.push(`Faces[${name}].ranges differs from generated`);
+        for (const field of ['form', 'impression', 'ratio', 'mono'] as const)
+            if (JSON.stringify(got[field]) !== JSON.stringify(face[field]))
+                problems.push(`Faces[${name}].${field} differs from generated`);
     }
     const genFallback = new Map(buildFallback(lock).map((f) => [f.name, f]));
     for (const f of committed.FallbackFaces) {
@@ -192,3 +205,27 @@ export async function checkRenderableSet(): Promise<Problem[]> {
 }
 
 export { readLock, facesRanges };
+
+/**
+ * Whether the committed measurements still match the font files.
+ *
+ * Re-measures rather than trusting the lockfile's hashes, because
+ * metrics.generated.ts is committed and so can be edited by hand or left stale
+ * when a face is added — the two ways a hash check can't catch. Cheap enough
+ * (~0.4s over 60 files) to run in `npm test` rather than only in `fonts-fix`.
+ */
+export async function checkMetrics(
+    committed: Record<string, { ratio?: number; mono?: boolean }>,
+): Promise<Problem[]> {
+    const problems: Problem[] = [];
+    const measured = await buildMetrics();
+    for (const [name, metrics] of Object.entries(measured))
+        if (JSON.stringify(committed[name]) !== JSON.stringify(metrics))
+            problems.push(
+                `metrics.generated.ts is stale for ${name}; run \`npm run fonts-fix\``,
+            );
+    for (const name of Object.keys(committed))
+        if (measured[name] === undefined)
+            problems.push(`metrics.generated.ts has a stale entry: ${name}`);
+    return problems;
+}

@@ -524,7 +524,9 @@
                 "paragraphs": "paragraphs"
             },
             "doc": [
-                "I'm a list of paragraphs, using the many kinds of @markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
+                "I'm a list of paragraphs, using the many kinds of markup available in @Doc, such as @Words, @WebLink, @ConceptLink, and @Example.",
+                "You'll find me in an @Doc, and in @FormattedLiteral:",
+                "\\¶I'm documentation with *bold* text.\nI can refer to concepts like @Phrase.\nI can link to <things on the web@https://wordplay.dev>.¶\nPhrase(\n\t`I'm markup for a @Phrase, using *bold*, /italics/, and _underlines_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -3389,6 +3391,24 @@
                 "TiB": "tebibytes",
                 "lux": "lux",
                 "fc": "foot-candles"
+            },
+            "category": {
+                "time": "Time",
+                "length": "Length",
+                "weight": "Weight",
+                "temperature": "Temperature",
+                "angle": "Angle",
+                "area": "Area",
+                "volume": "Volume",
+                "speed": "Speed",
+                "pressure": "Pressure",
+                "energy": "Energy",
+                "power": "Power",
+                "electricity": "Electricity",
+                "frequency": "Frequency",
+                "data": "Data",
+                "brightness": "Brightness",
+                "other": "Other"
             }
         },
         "List": {
@@ -3784,23 +3804,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "I can take a list, and make a new list with its values sorted. Like this:",
+                        "$! I can take a list, and make a new list with its values sorted. Like this:",
                         "\\[1 5 8 0 2].sorted()\\",
-                        "I can also do it for @Text values",
-                        "\\['orange' 'kiwi' 'banana' 'apple'].sorted()\\",
-                        "And if you have a list of values that aren't @Number or @Text, you can give me a @FunctionDefinition that turns each item into a @Number so I can sort it. For example, here we have a list of lists of different lengths; if you give me a function that turns each list into its length, I can sort by their length.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\"
+                        "I can also do it for @Text values, in alphabetical order. A capital letter sorts next to its lowercase one, so a word isn't sent to the end just for starting with a capital:",
+                        "\\['Orange' 'kiwi' 'Banana' 'apple'].sorted()\\",
+                        "And if you have a list of values that aren't @Number or @Text, you can give me a @FunctionDefinition that turns each item into a @Number or a @Text so I can sort it. For example, here we have a list of lists of different lengths; if you give me a function that turns each list into its length, I can sort by their length.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\",
+                        "A function that makes @Text is how you sort by a word you compute, instead of by the value itself. Here I sort names by the last one:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorted(ƒ(name•'') (name ÷ ' ').last())\\"
                     ],
                     "names": "sorted",
                     "inputs": [
                         {
-                            "doc": "The optional @FunctionDefinition to use to sort a list @value. It should turn the value into a @Number that can be used for sorting the list.",
+                            "doc": "$! The optional @FunctionDefinition to use to sort a list @value. It should turn the value into a @Number or a @Text that can be used for sorting the list.",
                             "names": "sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "The @value to turn into a @Number.",
+                            "doc": "$! The @value to turn into a @Number or a @Text.",
                             "names": "value"
                         }
                     ]
@@ -5955,6 +5977,10 @@
                 "doc": "Whether a @Output should be mirrored on the y-axis, instead of it's default.",
                 "names": "flipy"
             },
+            "music": {
+                "doc": "The @Music I should play when my animation state begins or when a @Sequence reaches me. A short sound is the point; I only ever play through once.",
+                "names": "music"
+            },
             "description": "$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
         },
         "Color": {
@@ -6880,7 +6906,45 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "no"
+            "missing": "no",
+            "form": {
+                "sans": "a sans-serif face",
+                "serif": "a serif face",
+                "slab": "a slab-serif face",
+                "typewriter": "a typewriter face",
+                "handwriting": "handwriting",
+                "brush": "a brush face",
+                "script": "a cursive face",
+                "poster": "a poster face",
+                "pixel": "a pixel face",
+                "outline": "a hollow face",
+                "textured": "a textured face",
+                "emoji": "pictures, not letters"
+            },
+            "impression": {
+                "calm": "calm",
+                "oldFashioned": "old-fashioned",
+                "strong": "strong",
+                "quirky": "quirky",
+                "playful": "playful",
+                "excited": "excited",
+                "childlike": "childlike",
+                "artistic": "artistic",
+                "futuristic": "futuristic",
+                "energetic": "energetic",
+                "cute": "cute",
+                "cheerful": "cheerful",
+                "fancy": "fancy"
+            },
+            "mechanic": {
+                "sameWidth": "every letter the same width",
+                "tallLowercase": "small letters as tall as the capitals",
+                "shortLowercase": "small letters much shorter than the capitals"
+            },
+            "description": {
+                "and": "$first and $second",
+                "full": "$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "hello"
@@ -6896,6 +6960,10 @@
                 "message": "Loading, thanks for waiting!"
             },
             "home": "go to home page",
+            "synced": {
+                "saved": "Saved across devices",
+                "signedOut": "Saved across devices when you're signed in"
+            },
             "logo": {
                 "description": "A speech bubble with a letter of your writing system inside"
             },
@@ -7711,6 +7779,21 @@
             "farther": "farther away",
             "turned": "turned",
             "manyChanged": "$#count[$count output|$count outputs] changed in $container, like $example",
+            "snap": {
+                "anchors": [
+                    "horizontal center",
+                    "left edge",
+                    "right edge",
+                    "vertical center",
+                    "bottom edge",
+                    "top edge",
+                    "baseline"
+                ],
+                "withOutput": "$anchor with $target's $targetAnchor",
+                "withGrid": "$anchor on the grid",
+                "aligned": "$constraints, at $place",
+                "none": "nothing to line up with $direction"
+            },
             "selectedOnly": "$name selected, opening palette",
             "selectedSuffix": "selected",
             "toggle": {
@@ -7856,7 +7939,7 @@
                 "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, the program pauses wherever it is and you can change it — your edits replay to show their effect at that point. In ⏸️ *debug* mode, the code is read-only and the *current value* of each part of your program appears next to it in the editor and in the palette. In ▶️ *play* mode, your program runs live from where it is, responding to inputs in real time. Beside the switcher, the /perform/ button — a play triangle wrapped in full screen corners — begins a performance from the top and fills the screen with the stage, and ↻ resets the program in any mode.",
                 "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
                 "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
-                "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging.",
+                "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging. If you'd rather *hear* those inputs than see them, turn on /evaluation cues/ in settings, and @wordplay will play a short sound for each one, with a different sound for each kind of input.",
                 "stepControls": "The /step controls/ let you move through evaluation precisely. You can jump to the *start* or *end*, step *forward* or *backward* one step at a time, jump by *one input*, step *out* of a function, or jump to the *currently selected* part of the code."
             }
         },
@@ -8236,7 +8319,8 @@
                 },
                 "subheader": {
                     "music": "Music",
-                    "say": "Say"
+                    "say": "Say",
+                    "cues": "Cues"
                 },
                 "mode": {
                     "layout": {
@@ -8290,6 +8374,14 @@
                             "lighter colors",
                             "darker colors",
                             "use the current device setting"
+                        ]
+                    },
+                    "adaptOutput": {
+                        "label": "project colors",
+                        "labels": ["keep", "flip"],
+                        "tips": [
+                            "show a project's colors exactly as it wrote them, even on a dark screen",
+                            "on a dark screen, flip a bright project's colors dark: every color keeps its hue, and colors stay as far apart as the project made them"
                         ]
                     },
                     "blocks": {
@@ -8402,6 +8494,30 @@
                         "tips": [
                             "Don't vibrate on the beat",
                             "Vibrate on the beat, where the device supports it"
+                        ]
+                    },
+                    "cues": {
+                        "label": "evaluation cues",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Make no sound when the program reevaluates",
+                            "Play a short sound each time the program reevaluates, one for each kind of input"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "collision cues",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Make no sound when output collides",
+                            "Play a short sound when output collides, louder the harder the hit"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "animation cues",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Make no sound when output animates",
+                            "Play a short sound each time an animation reaches a pose, with the sound following what the pose does"
                         ]
                     },
                     "captionSize": {
@@ -9036,7 +9152,7 @@
                         "title": "Wordplay is accessible",
                         "bullets": [
                             "• Anything you can do with a mouse, you can do with a keyboard.",
-                            "• Screen readers describe the stage as it changes, not only when it loads.",
+                            "• Screen readers describe the stage as it changes, and optional sounds mark what reevaluates, what animates, and what collides.",
                             "• You can read and write your code as blocks instead of text, and switch whenever you like.",
                             "• Motion can be slowed down, or turned off completely.",
                             "• Spoken output can be captioned on stage for anyone who can't hear it."
@@ -10239,6 +10355,14 @@
             "skinTone": "skin tone",
             "script": "scripts",
             "scriptLabel": "filter by script",
+            "presentation": {
+                "label": "emoji color",
+                "labels": ["color", "black and white"],
+                "tips": [
+                    "insert emoji in color",
+                    "insert emoji in black and white"
+                ]
+            },
             "moreLanguages": "and $count more",
             "pickFilter": "Choose a category or script",
             "moreGlyphs": "Showing $count — search to find more",

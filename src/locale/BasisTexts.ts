@@ -464,6 +464,42 @@ type BasisTexts = {
             /** [plain] The name of the unit foot-candles, used in conversion documentation */
             fc: string;
         };
+        /** The heading over each group of units in the editor's menu. A creator picking a unit
+         *  reads a short list of one kind of measurement instead of every unit there is. */
+        category: {
+            /** [plain] The heading for the group of units that measure time */
+            time: string;
+            /** [plain] The heading for the group of units that measure length */
+            length: string;
+            /** [plain] The heading for the group of units that measure weight */
+            weight: string;
+            /** [plain] The heading for the group of units that measure temperature */
+            temperature: string;
+            /** [plain] The heading for the group of units that measure angle */
+            angle: string;
+            /** [plain] The heading for the group of units that measure area */
+            area: string;
+            /** [plain] The heading for the group of units that measure volume */
+            volume: string;
+            /** [plain] The heading for the group of units that measure speed */
+            speed: string;
+            /** [plain] The heading for the group of units that measure pressure */
+            pressure: string;
+            /** [plain] The heading for the group of units that measure energy */
+            energy: string;
+            /** [plain] The heading for the group of units that measure power */
+            power: string;
+            /** [plain] The heading for the group of units that measure electricity */
+            electricity: string;
+            /** [plain] The heading for the group of units that measure frequency */
+            frequency: string;
+            /** [plain] The heading for the group of units that measure data */
+            data: string;
+            /** [plain] The heading for the group of units that measure brightness */
+            brightness: string;
+            /** [plain] The heading for the group of units that measure other */
+            other: string;
+        };
     };
     /** A list value, e.g., `[1 2 3]` */
     List: BasisNameAndDoc & {

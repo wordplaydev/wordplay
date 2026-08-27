@@ -28,6 +28,8 @@ import Expression, {
 } from '@nodes/Expression';
 import getGuards from '@nodes/getGuards';
 import { guardsTypesAround } from '@nodes/typeGuards';
+import type { ReplaceContext } from '@edit/revision/EditContext';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import MapType from '@nodes/MapType';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import NoneType from '@nodes/NoneType';
@@ -74,9 +76,25 @@ export default class SetOrMapAccess extends Expression {
         );
     }
 
-    /** Reachable via the palette and blocks-mode typing completions, so no menu suggestions here. */
-    static getPossibleReplacements() {
-        return [];
+    /** Offer `set{_}` / `map{_}` on any set- or map-valued expression, with a placeholder of
+     *  the key type so the creator is told what the key has to be. */
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
+        if (!(node instanceof Expression)) return [];
+        const type = node.getType(context);
+        const key =
+            type instanceof MapType
+                ? type.key
+                : type instanceof SetType
+                  ? type.key
+                  : undefined;
+        return type instanceof MapType || type instanceof SetType
+            ? [
+                  SetOrMapAccess.make(
+                      node,
+                      ExpressionPlaceholder.make(key?.clone()),
+                  ),
+              ]
+            : [];
     }
 
     static getPossibleInsertions() {

@@ -15,6 +15,7 @@ import type Root from '@nodes/Root';
 import type Token from '@nodes/Token';
 import type Spaces from '@parser/Spaces';
 import type { ProjectMode } from '@components/project/ProjectMode';
+import type { OutputInfoSet } from '@output/animation/Animator';
 import type Evaluator from '@runtime/Evaluator';
 import type { StreamChange } from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -174,6 +175,29 @@ export type EvaluationContext = {
 export const [getEvaluation, setEvaluation] =
     createOptionalContext<Writable<EvaluationContext>>();
 
+/** Whether the stage's measurement grid is on, and so whether moving output
+ *  snaps to it (#117). The toggle lives in ProjectView and the grid is drawn by
+ *  StageView, but the arrow-key move is owned by the individual output views
+ *  several levels below both, which have no other way to see it. */
+export const [getStageGrid, setStageGrid] =
+    createOptionalContext<Readable<boolean>>();
+
+/**
+ * Lays out what is currently on stage, which is where anything moving output
+ * finds what else is there to line up with (#117).
+ *
+ * A function rather than a value because the walk is a full layout pass and a
+ * move needs it only when one begins. Created by OutputView and filled in by
+ * StageView, which holds the stage and its render context, so the pointer drag
+ * (OutputView's) and the arrow keys (each output view's) read the same scene.
+ *
+ * Deliberately not `Animator.scene`: the animator is SUSPENDED whenever the
+ * stage is paused, and paused is the only state output can be edited in, so
+ * that scene is empty exactly when this is needed.
+ */
+export const [getStageScene, setStageScene] =
+    createOptionalContext<Writable<(() => OutputInfoSet) | undefined>>();
+
 /** A play-rate-decoupled view of the evaluation context: the same shape, but
  * updated only on step-relevant changes — play/pause flips, steps while paused,
  * and evaluator replacement — NOT on every while-playing broadcast (~60 Hz).
@@ -227,6 +251,10 @@ export const [getCaretTokenSummary, setCaretTokenSummary] =
 
 /** The set of nodes that are animating at runtime */
 export const [getAnimatingNodes, setAnimatingNodes] =
+    createOptionalContext<Writable<Set<Node>>>();
+
+/** The set of nodes that determined the notes sounding at runtime */
+export const [getSoundingNodes, setSoundingNodes] =
     createOptionalContext<Writable<Set<Node>>>();
 
 /** Various components outside the editor use this to apply edits */

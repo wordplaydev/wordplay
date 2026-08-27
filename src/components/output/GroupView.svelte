@@ -6,10 +6,13 @@
     import OutputHandles from '@components/output/OutputHandles.svelte';
     import PhraseView from '@components/output/PhraseView.svelte';
     import ShapeView from '@components/output/ShapeView.svelte';
-    import moveOutput from '@components/palette/editOutput';
+    import moveOutputWithKey from '@components/output/keyboardMove';
     import {
+        getAnnouncer,
         getProject,
         getSelectedOutput,
+        getStageGrid,
+        getStageScene,
     } from '@components/project/Contexts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { DB, locales } from '@db/Database';
@@ -73,6 +76,9 @@
 
     let selection = getSelectedOutput();
     let project = getProject();
+    const announce = getAnnouncer();
+    const grid = getStageGrid();
+    const stageScene = getStageScene();
 
     // Compute a local context based on size and font.
     let localContext = $derived(group.getRenderContext(context));
@@ -138,33 +144,20 @@
             !editable ||
             event.altKey ||
             $project === undefined ||
-            creator === undefined ||
-            !event.key.startsWith('Arrow')
+            creator === undefined
         )
             return;
-        const increment = 0.5;
-        const horizontal =
-            event.key === 'ArrowLeft'
-                ? -increment
-                : event.key === 'ArrowRight'
-                  ? increment
-                  : 0;
-        const vertical =
-            event.key === 'ArrowUp'
-                ? increment
-                : event.key === 'ArrowDown'
-                  ? -increment
-                  : 0;
-        event.stopPropagation();
-        moveOutput(
-            DB,
-            $project,
-            [creator],
-            $locales,
-            horizontal,
-            vertical,
-            true,
-        );
+        moveOutputWithKey(event, {
+            db: DB,
+            project: $project,
+            creator,
+            output: group,
+            locales: $locales,
+            scene: $stageScene,
+            grid: $grid ?? false,
+            selection,
+            announce: $announce,
+        });
     }
 
     // Seed the name once, synchronously, so this group is never an unnamed
@@ -215,11 +208,17 @@
     style:height={sizeToPx(layout.height)}
     style:font-family={getFaceCSS(localContext.face)}
     style:font-size={getSizeCSS(localContext.size)}
-    style:background={group instanceof Group ? group.background?.toCSS() : null}
-    style:outline-color={group instanceof Group
-        ? group.background?.toCSS()
+    style:background={group instanceof Group
+        ? group.background?.toCSS(localContext.adapting)
         : null}
-    style:color={getColorCSS(group.getFirstRestPose(), group.pose)}
+    style:outline-color={group instanceof Group
+        ? group.background?.toCSS(localContext.adapting)
+        : null}
+    style:color={getColorCSS(
+        group.getFirstRestPose(),
+        group.pose,
+        localContext.adapting,
+    )}
     style:opacity={getOpacityCSS(group.getFirstRestPose(), group.pose)}
     style:transform={toOutputTransform(
         group.getFirstRestPose(),

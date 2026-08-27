@@ -239,6 +239,96 @@ export const Units = {
 
 export type UnitKey = keyof typeof Units;
 
+/**
+ * Which kind of measurement each unit measures, mirroring the comment blocks in `Units` above.
+ * The edit menu groups its unit suggestions by these, so a creator looking for `km` reads a
+ * short list of lengths instead of scrolling all 126 units.
+ *
+ * Deliberately not derived from `Dimensions` below: temperature's entry there has no spokes
+ * (°F and K are affine, declared separately), so `degF` and `K` would belong to nothing, and
+ * electricity is three dimensions there where it reads as one idea here.
+ *
+ * `UnitConversions.test.ts` asserts every `UnitKey` appears in exactly one category, which is
+ * what keeps this and the table from drifting apart.
+ */
+export const UnitCategories = {
+    time: ['ns', 'us', 'ms', 's', 'min', 'h', 'day', 'wk', 'yr'],
+    length: [
+        'pm',
+        'nm',
+        'um',
+        'mm',
+        'cm',
+        'dm',
+        'm',
+        'hm',
+        'km',
+        'Mm',
+        'Gm',
+        'Tm',
+        'in',
+        'ft',
+        'yd',
+        'mi',
+        'nmi',
+        'au',
+        'ly',
+    ],
+    weight: ['ug', 'mg', 'g', 'kg', 't', 'oz', 'lb', 'st', 'uston', 'ukton'],
+    temperature: ['degC', 'degF', 'K'],
+    angle: ['deg', 'rad'],
+    area: ['mm2', 'cm2', 'm2', 'km2', 'in2', 'ft2', 'yd2', 'mi2', 'ha', 'acre'],
+    volume: [
+        'mL',
+        'cL',
+        'dL',
+        'L',
+        'kL',
+        'cm3',
+        'm3',
+        'tsp',
+        'tbsp',
+        'cup',
+        'usfloz',
+        'uspt',
+        'usqt',
+        'usgal',
+        'ukfloz',
+        'ukpt',
+        'ukqt',
+        'ukgal',
+    ],
+    speed: ['mps', 'kmph', 'miph', 'ftps', 'kn'],
+    pressure: ['Pa', 'hPa', 'kPa', 'bar', 'atm', 'psi', 'mmHg'],
+    energy: ['J', 'kJ', 'cal', 'kcal', 'Wh', 'kWh', 'BTU', 'eV'],
+    power: ['mW', 'W', 'kW', 'MW', 'GW', 'hp'],
+    electricity: [
+        'uA',
+        'mA',
+        'A',
+        'kA',
+        'mV',
+        'V',
+        'kV',
+        'mohm',
+        'ohm',
+        'kohm',
+        'Mohm',
+    ],
+    frequency: ['Hz', 'kHz', 'MHz', 'GHz', 'bpm'],
+    data: ['bit', 'B', 'kB', 'MB', 'GB', 'TB', 'KiB', 'MiB', 'GiB', 'TiB'],
+    brightness: ['lux', 'fc'],
+} as const satisfies Record<string, readonly UnitKey[]>;
+
+export type UnitCategory = keyof typeof UnitCategories;
+
+/** The kind of measurement a unit measures. Every key in `Units` has one. */
+export function getUnitCategory(key: UnitKey): UnitCategory | undefined {
+    return (Object.keys(UnitCategories) as UnitCategory[]).find((category) =>
+        (UnitCategories[category] as readonly UnitKey[]).includes(key),
+    );
+}
+
 /** π to Decimal's precision; `Decimal` has no π constant, but arccos(−1) is exact to it. */
 const Pi = Decimal.acos(-1);
 

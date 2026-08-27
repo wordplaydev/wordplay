@@ -1,27 +1,14 @@
 import type { Browser, BrowserContext, Page } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
-import { initializeApp } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
-
-/** Reuses a singleton admin-auth app to look up UIDs by email; calling
- *  initializeApp twice under the same name throws. */
-let authApp: ReturnType<typeof initializeApp> | null = null;
-function getAuthAdmin() {
-    process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
-    if (authApp === null) {
-        try {
-            authApp = initializeApp(
-                { projectId: 'demo-wordplay' },
-                'auth-admin-collab',
-            );
-        } catch {
-            // initializeApp throws if the named app exists; getAuth() still
-            // works as long as some app is initialized.
-        }
-    }
-    return getAuth(authApp ?? undefined);
-}
+/** The Auth emulator's admin REST surface, which `owner` is the documented
+ *  bearer token for. Used instead of `firebase-admin/auth`: that entry point is
+ *  CJS and reaches `require('jose')`, which is ESM-only, and under Playwright's
+ *  loader the require fails ("is from a module not been linked") — taking every
+ *  spec that imports this helper out of the run before a test could load. A
+ *  UID lookup needs one HTTP call, not the admin SDK. */
+const AuthEmulator = 'http://127.0.0.1:9099';
+const EmulatorProject = 'demo-wordplay';
 
 /**
  * Resolve a Firebase Auth UID from a Wordplay username. Wordplay derives
@@ -30,8 +17,34 @@ function getAuthAdmin() {
  */
 export async function uidForUsername(username: string): Promise<string> {
     const email = `${username}@u.wordplay.dev`;
-    const user = await getAuthAdmin().getUserByEmail(email);
-    return user.uid;
+    const response = await fetch(
+        `${AuthEmulator}/identitytoolkit.googleapis.com/v1/projects/${EmulatorProject}/accounts:lookup`,
+        {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer owner',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: [email] }),
+        },
+    );
+    if (!response.ok)
+        throw new Error(
+            `Auth emulator rejected the lookup of ${email}: ${response.status}`,
+        );
+    const found: unknown = await response.json();
+    const users =
+        typeof found === 'object' && found !== null && 'users' in found
+            ? found.users
+            : undefined;
+    const first: unknown = Array.isArray(users) ? users[0] : undefined;
+    const uid =
+        typeof first === 'object' && first !== null && 'localId' in first
+            ? first.localId
+            : undefined;
+    if (typeof uid !== 'string')
+        throw new Error(`No account for ${email} in the auth emulator`);
+    return uid;
 }
 
 /**

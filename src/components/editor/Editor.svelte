@@ -80,6 +80,7 @@
         IdleKind,
         deriveSteppedEvaluation,
         getAnimatingNodes,
+        getSoundingNodes,
         getAnnouncer,
         getConceptIndex,
         getConflicts,
@@ -639,6 +640,7 @@
     if (steppedEvaluation !== undefined)
         setSteppedEvaluation(steppedEvaluation);
     const animatingNodes = getAnimatingNodes();
+    const soundingNodes = getSoundingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
     const resetKeyboardIdle = getResetKeyboardIdle();
@@ -2505,9 +2507,9 @@
             return;
         }
 
-        // Blocks mode? There's no free text input — typing is handled by
-        // per-token text fields, and paste is handled by handlePaste directly.
-        // Revert whatever landed in the mirror.
+        // Blocks mode? Typing still reaches Caret.insert via the keydown command path; what
+        // it doesn't go through is this mirrored-textarea input event, and paste is handled by
+        // handlePaste directly. Revert whatever landed in the mirror.
         if ($blocks) {
             syncMirror($caret);
             return;
@@ -3426,6 +3428,7 @@
         const stepNode = projectStepNode;
         const exceptionNode = projectExceptionNode;
         const animating = $animatingNodes;
+        const sounding = $soundingNodes;
         const outputs = selectedOutputs;
         const inBlocks = $blocks;
         const _src = source;
@@ -3446,6 +3449,7 @@
             stepNode,
             exceptionNode,
             animating,
+            sounding,
             outputs,
             inBlocks,
         );
@@ -4234,7 +4238,10 @@
            above its background, below its content — never beneath anything
            outside the editor. */
         isolation: isolate;
+        /* Not redundant with the global `user-select: none`: the editor models
+           selection with its own caret, so it keeps this if that ever goes. */
         user-select: none;
+        -webkit-user-select: none;
         padding: var(--wordplay-spacing);
         flex: 1;
         cursor: text;
@@ -4312,6 +4319,13 @@
        as plain wrapped text, that grey band lands near, but not on, the node the
        editor has drawn its own highlight around. Make its selection paint
        nothing; the range itself, and so the accessibility bounds, are untouched. */
+    /* NodeView's debug bubbles render through ValueView, selectable elsewhere;
+       here that would compete with the caret's own selection. */
+    .editor :global(.value) {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
     .keyboard-input::selection {
         background-color: transparent;
         color: transparent;

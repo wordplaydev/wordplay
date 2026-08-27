@@ -39,6 +39,8 @@ function harness() {
 
     let fire: (() => void) | undefined = undefined;
     const beats: BeatTick[] = [];
+    /** Every `onSounding` report, in order, as `music:track:note,…`. */
+    const sounding: string[] = [];
     const vibrations: number[] = [];
     /** Instruments whose samples haven't arrived; empty means everything can play. */
     const unready = new Set<string>();
@@ -53,6 +55,12 @@ function harness() {
             };
         },
         onBeat: (beat) => beats.push(beat),
+        onSounding: (music, notes) =>
+            sounding.push(
+                `${music}:${notes
+                    .map((note) => `${note.trackIndex}:${note.noteIndex}`)
+                    .join(',')}`,
+            ),
         vibrate: (ms) => vibrations.push(ms),
         isHidden: () => false,
         ready: (instrument) => !unready.has(instrument),
@@ -67,6 +75,7 @@ function harness() {
         played,
         cancelled,
         beats,
+        sounding,
         vibrations,
         ducking,
         /** Hold an instrument's samples back, as a slow network would. */
@@ -106,6 +115,11 @@ function track(degrees: number[], options: Partial<TrackData> = {}): TrackData {
         mash: true,
         ...options,
     };
+}
+
+/** Notes of a given length in beats, for tracks that aren't all quarter notes. */
+function notes(degrees: number[], beats: number) {
+    return degrees.map((degree) => ({ degrees: [degree], beats, volume: 1 }));
 }
 
 function music(
@@ -662,4 +676,60 @@ test('a held piece starts itself when its instruments arrive', () => {
 
     expect(h.played.length).toBeGreaterThan(0);
     expect(h.played[0].startBeat).toBe(0);
+});
+
+/**
+ * `onSounding` reports the set of notes a music has playing right now, which is
+ * what the editor highlights the source of. Unlike `onSound`, which fires at
+ * onset and so can never say a note stopped, this has to go quiet on its own.
+ */
+
+test('sounding notes report their position in the track', () => {
+    const h = harness();
+    // 60bpm, so each note lasts a second.
+    h.player.update([music([track([1, 2, 3])])], true);
+    h.advance(0);
+    expect(h.sounding).toEqual(['song:0:0']);
+    h.advance(1);
+    expect(h.sounding).toEqual(['song:0:0', 'song:0:1']);
+    h.advance(1);
+    expect(h.sounding).toEqual(['song:0:0', 'song:0:1', 'song:0:2']);
+});
+
+test('a music that has run out reports that nothing is sounding', () => {
+    const h = harness();
+    h.player.update([music([track([1])])], true);
+    h.advance(0);
+    expect(h.sounding).toEqual(['song:0:0']);
+    // Past the end of the one note: the highlight has to be taken away, and
+    // nothing else starting is what would otherwise have said so.
+    h.advance(2);
+    expect(h.sounding).toEqual(['song:0:0', 'song:']);
+});
+
+test('a looping track reports the same indices again on the next pass', () => {
+    const h = harness();
+    h.player.update([music([track([1, 2], { loop: true })])], true);
+    h.advance(0);
+    h.advance(1);
+    h.advance(1);
+    expect(h.sounding).toEqual(['song:0:0', 'song:0:1', 'song:0:0']);
+});
+
+test('an unchanged set of sounding notes is reported once', () => {
+    const h = harness();
+    // A note four beats long, ticked several times while it holds.
+    h.player.update([music([track([1], { notes: notes([1], 4) })])], true);
+    h.advance(0);
+    h.advance(0.5);
+    h.advance(0.5);
+    h.advance(0.5);
+    expect(h.sounding).toEqual(['song:0:0']);
+});
+
+test('notes sounding together report as one set', () => {
+    const h = harness();
+    h.player.update([music([track([1, 2, 3]), track([5, 6, 7])])], true);
+    h.advance(0);
+    expect(h.sounding).toEqual(['song:0:0,1:0']);
 });

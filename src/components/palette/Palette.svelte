@@ -463,7 +463,6 @@
     .palette {
         background-color: var(--wordplay-background);
         border-radius: var(--wordplay-border-radius);
-        user-select: none;
         min-width: 100%;
         min-height: 100%;
         padding: calc(2 * var(--wordplay-spacing));

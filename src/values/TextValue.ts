@@ -184,23 +184,6 @@ export default class TextValue extends SimpleValue {
         return text instanceof TextValue && this.text === text.text;
     }
 
-    /**
-     * Converts the text into a number that allows text to be locale sequenced.
-     * The sequencing key is the sum of the positionally-weighted code points in the string.
-     * This means that the comparison limit is approximately 300 code points long.
-     * After that, JavaScript will start returning positive infinity. In practice,
-     * this shouldn't matter too much, since it will be pretty rare to be comparing the
-     * 301st symbol of two otherwise identical strings. But it will happen.
-     */
-    sequenced(requestor: Expression): NumberValue {
-        let sum = 0;
-        for (let i = 0; i < this.text.length; i++) {
-            const codepoint = this.text.codePointAt(i) ?? 0;
-            sum += codepoint * Math.pow(10, -i);
-        }
-        return new NumberValue(requestor, sum);
-    }
-
     getDescription() {
         return (l: LocaleText) => getConceptName(l, 'text');
     }

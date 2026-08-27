@@ -30,6 +30,8 @@ import getGuards from '@nodes/getGuards';
 import { guardsTypesAround } from '@nodes/typeGuards';
 import ListCloseToken from '@nodes/ListCloseToken';
 import ListOpenToken from '@nodes/ListOpenToken';
+import type { ReplaceContext } from '@edit/revision/EditContext';
+import NumberLiteral from '@nodes/NumberLiteral';
 import ListType from '@nodes/ListType';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import { NotAType } from '@nodes/NotAType';
@@ -74,9 +76,12 @@ export default class ListAccess extends Expression {
         );
     }
 
-    /** Reachable via the palette and blocks-mode typing completions, so no menu suggestions here. */
-    static getPossibleReplacements() {
-        return [];
+    /** Offer `list[1]` on any list-valued expression. */
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
+        return node instanceof Expression &&
+            node.getType(context) instanceof ListType
+            ? [ListAccess.make(node, NumberLiteral.make(1))]
+            : [];
     }
 
     static getPossibleInsertions() {

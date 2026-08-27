@@ -479,10 +479,12 @@
         },
         "Markup": {
             "name": "標記",
-            "description": "$~標記有 $#count[$count 個段落]",
+            "description": "$~標記 $#count[$count 個段落]",
             "emotion": "serious",
             "doc": [
-                "$~我是一串段落，使用說明裡各種可用的@markup，例如 @Words、@WebLink、@ConceptLink 和 @Example。"
+                "$~我是一份段落清單，會用到 @Doc 裡各種可用的標記，像是 @Words、@WebLink、@ConceptLink 和 @Example。",
+                "你會在 @Doc 裡找到我，也會在 @FormattedLiteral 裡找到我：",
+                "\\¶我是說明文件，裡面有*粗體*文字。我可以引用像 @Phrase 這樣的概念，也可以連結到<網路上的東西@https://wordplay.dev>。¶\n短語(\n\t`我是 @Phrase 的標記，用了*粗體*、/斜體/，還有_底線_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~段落"
@@ -571,7 +573,7 @@
         },
         "Branch": {
             "name": "分支",
-            "description": "$~根據$condition 選擇標記",
+            "description": "$~依 $condition 選擇標記",
             "emotion": "serious",
             "doc": [
                 "我是一個種在兩個部分之間根據有無定義和真假與否進行選擇的方法。",
@@ -3229,6 +3231,24 @@
                 "TiB": "$~太比位元組",
                 "lux": "$~勒克斯",
                 "fc": "$~呎燭光"
+            },
+            "category": {
+                "time": "$~時間",
+                "length": "$~長度",
+                "weight": "$~重量",
+                "temperature": "$~溫度",
+                "angle": "$~角度",
+                "area": "$~面積",
+                "volume": "$~體積",
+                "speed": "$~速度",
+                "pressure": "$~壓力",
+                "energy": "$~能量",
+                "power": "$~功率",
+                "electricity": "$~電力",
+                "frequency": "$~頻率",
+                "data": "$~資料",
+                "brightness": "$~亮度",
+                "other": "$~其他"
             }
         },
         "List": {
@@ -3623,23 +3643,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~我可以拿一個清單，並建立一個把它的價值排好序的新清單。像這樣：",
+                        "$~我可以拿一個清單，做出一個把值排好順序的新清單。就像這樣：",
                         "\\[1 5 8 0 2].排序好的()\\",
-                        "我也可以對 @Text 價值這樣做",
+                        "我也可以對 @Text 的值做一樣的事，照字母順序排列。大寫字母會排在對應小寫字母旁邊，所以一個字不會只因為開頭是大寫就被排到最後：",
                         "\\['橘子' '奇異果' '香蕉' '蘋果'].排序好的()\\",
-                        "如果你的清單裡的價值不是 @Number 或 @Text，你可以給我一個 @FunctionDefinition，把每個項目變成一個 @Number，這樣我就能排序它。舉例來說，這裡我們有一個清單，裡面裝著長度不同的清單；如果你給我一個函式，把每個清單變成它的長度，我就可以按照它們的長度排序。",
-                        "\\[[1] [2 3] [4 8 12] [8]].排序好的(ƒ(清單) 清單.📏())\\"
+                        "如果你有一個清單，裡面的值不是 @Number 也不是 @Text，你可以給我一個 @FunctionDefinition，把每個項目變成 @Number 或 @Text，這樣我就能排序了。舉例來說，這裡有一個清單，裡面裝著長度不同的清單；如果你給我一個函式，把每個清單變成它的長度，我就能依長度排序。",
+                        "\\[[1] [2 3] [4 8 12] [8]].排序好的(ƒ(清單2) 清單2.長度())\\",
+                        "一個能做出 @Text 的函式，就是讓你依照自己算出來的字詞來排序，而不是依照值本身排序。這裡我依姓氏來排序姓名：",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].排序好的(\n\tƒ(姓名2•'') (姓名2 ÷ ' ').最後一個()\n)\\"
                     ],
                     "names": "排序好的",
                     "inputs": [
                         {
-                            "doc": "$~用來排序清單 @value 的 @FunctionDefinition，這是可選的。它應該把價值變成一個可以用來排序清單的 @Number。",
+                            "doc": "$~用來排序清單 @value 的可選 @FunctionDefinition。它應該把值轉換成可以用來排序清單的 @Number 或 @Text。",
                             "names": "定序器"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~要變成 @Number 的 @value。",
+                            "doc": "$~要轉換成 @Number 或 @Text 的 @value。",
                             "names": "值"
                         }
                     ]
@@ -5604,7 +5626,11 @@
                 "doc": "@Output 是否應該y軸對稱,取代預設值。",
                 "names": "垂直翻轉"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]",
+            "music": {
+                "doc": "$~當我的動畫狀態開始，或是有 @Sequence 傳到我這裡時，我應該播放的 @Music。重點是一段短短的聲音，我只會播放一次而已。",
+                "names": "$~音樂"
+            }
         },
         "Color": {
             "doc": [
@@ -6822,7 +6848,45 @@
         "font": {
             "app": "Noto Sans Traditional Chinese",
             "code": "Noto Sans Mono",
-            "missing": "$~否"
+            "missing": "$~否",
+            "form": {
+                "sans": "$~無襯線字體",
+                "serif": "$~襯線字體",
+                "slab": "$~粗襯線字體",
+                "typewriter": "$~打字機字體",
+                "handwriting": "$~手寫字",
+                "brush": "$~毛筆字體",
+                "script": "$~手寫連體字體",
+                "poster": "$~海報字體",
+                "pixel": "$~像素字體",
+                "outline": "$~空心字體",
+                "textured": "$~有紋理的字體",
+                "emoji": "$~圖案，不是文字"
+            },
+            "impression": {
+                "calm": "$~平靜",
+                "oldFashioned": "$~復古",
+                "strong": "$~強烈",
+                "quirky": "$~古怪",
+                "playful": "$~俏皮",
+                "excited": "$~興奮",
+                "childlike": "$~童趣",
+                "artistic": "$~藝術感",
+                "futuristic": "$~未來感",
+                "energetic": "$~充滿活力",
+                "cute": "$~可愛",
+                "cheerful": "$~歡樂",
+                "fancy": "$~華麗"
+            },
+            "mechanic": {
+                "sameWidth": "$~每個字母寬度相同",
+                "tallLowercase": "$~小寫字母和大寫字母一樣高",
+                "shortLowercase": "$~小寫字母比大寫字母矮很多"
+            },
+            "description": {
+                "and": "$~$first 和 $second",
+                "full": "$~$form$impression[，$impression|]$mechanics[，$mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "你好"
@@ -6878,6 +6942,10 @@
             },
             "logo": {
                 "description": "$~一個對話泡泡，裡面有一個你書寫系統的字母"
+            },
+            "synced": {
+                "saved": "$~跨裝置儲存",
+                "signedOut": "$~登入後可跨裝置儲存"
             }
         },
         "tile": {
@@ -7472,6 +7540,13 @@
             "hidden": {
                 "message": "$~所有東西都離開舞台了。",
                 "show": "$~顯示所有內容"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7493,7 +7568,7 @@
                 "timeline": "$~/時間軸/ 讓你在程式的求值中一步一步*往前*和*往後*移動。它會出現在舞台工具列的 ✏️ *編輯*和 ⏸️ *除錯*模式中。它是很好的方式，可以讓你看到程式*如何*計算它的價值，並建立一個心理模型，了解 @wordplay 程式如何求值，尤其是當你沒有看到你想要的行為時。",
                 "annotations": "$~/註解/ 視窗是每一步的說明出現的地方。當你一步步執行程式時，你會在這裡讀到剛剛發生了什麼。",
                 "editor": "$~/編輯器/ 顯示你的程式碼。逐步執行時，程式每個部分的 *價值* 會在它被執行 *之後* 出現在旁邊，所以你可以看著程式執行時價值逐漸建立起來。",
-                "history": "$~/歷史記錄/ 顯示你的程式收到的每一個 *輸入*，像是按鍵、時間滴答和指標事件。它是 *可拖曳的*，所以你只要拖曳，就能回到程式執行歷史中的任何一刻。",
+                "history": "$~/歷史記錄/ 會顯示你的程式收到的每一個*輸入*，像是按鍵、時間刻度和指標事件。它可以*拖曳*，所以你只要拖曳，就能回到程式求值歷史中的任何一刻。如果你比較想*聽*這些輸入，而不是用看的，可以在設定裡開啟 /求值提示音/，這樣 @wordplay 就會為每一個輸入播放一段短音效，不同種類的輸入會有不同的聲音。",
                 "stepControls": "$~/逐步控制/ 讓你精準地在執行過程中移動。你可以跳到 *開始* 或 *結束*，一次一步 *向前* 或 *向後* 移動，跳過 *一個輸入*，跳 *出* 一個函式，或跳到程式碼中 *目前選取* 的部分。",
                 "modes": "$~/模式切換器/ 選擇你的程式如何求值。在 ✏️ *編輯*模式，程式會停在目前的位置，你可以更改它 —— 你的編輯會重播，顯示它們在那個位置的影響。在 ⏸️ *除錯*模式，程式碼是唯讀的，程式每個部分的*目前價值*會顯示在編輯器和調色盤裡它的旁邊。在 ▶️ *播放*模式，你的程式會從目前的位置即時執行，即時回應輸入。切換器旁邊有 /表演/ 按鈕 —— 一個被全螢幕邊角包住的播放三角形 —— 它會從頭開始表演，並用舞台填滿螢幕；而 ↻ 會在任何模式重設程式。"
             }
@@ -8028,6 +8103,38 @@
                             "$~以兩倍大小顯示字幕",
                             "$~以三倍大小顯示字幕"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~工程色彩",
+                        "labels": ["$~保留", "$~反轉"],
+                        "tips": [
+                            "$~即使在深色螢幕上，也依照工程原本寫的樣子顯示色彩",
+                            "$~在深色螢幕上，把明亮工程的色彩反轉成深色：每種色彩保留原本的色相，色彩之間也維持工程設定的差距"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~求值提示音",
+                        "labels": ["$~關閉", "$~開啟"],
+                        "tips": [
+                            "$~程式重新求值時不要發出聲音",
+                            "$~程式每次重新求值時播放一段短音效，每種輸入都有不同的聲音"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~動畫提示音",
+                        "labels": ["$~關閉", "$~開啟"],
+                        "tips": [
+                            "$~輸出播放動畫時不要發出聲音",
+                            "$~動畫每次到達一個姿勢時播放一段短音效，聲音會配合姿勢的動作而變化"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~碰撞提示音",
+                        "labels": ["$~關閉", "$~開啟"],
+                        "tips": [
+                            "$~輸出發生碰撞時不要發出聲音",
+                            "$~輸出發生碰撞時播放短音效，撞得越用力聲音越大"
+                        ]
                     }
                 },
                 "options": {
@@ -8054,7 +8161,8 @@
                 },
                 "subheader": {
                     "music": "$~音樂",
-                    "say": "$~說話"
+                    "say": "$~說話",
+                    "cues": "$~提示音"
                 }
             },
             "locale": {
@@ -8473,10 +8581,10 @@
                     "accessible": {
                         "title": "$~Wordplay 很無障礙",
                         "bullets": [
-                            "$~• 只要能用滑鼠做到的事，都能用鍵盤完成。",
-                            "• 螢幕報讀軟體會描述舞台的變化，不只是在載入的時候。",
-                            "• 你可以把程式碼用積木（Blocks）的方式讀寫，而不是用文字，隨時都能切換。",
-                            "• 動態效果可以放慢，也可以完全關閉。",
+                            "$~• 只要能用滑鼠做到的事，都能用鍵盤做到。",
+                            "• 螢幕報讀器會描述舞台上發生的變化，還有一些選用的聲音，用來標示什麼被重新求值、什麼在動畫、什麼發生碰撞。",
+                            "• 你可以把程式碼讀寫成積木（Blocks），而不是文字，隨時想切換就切換。",
+                            "• 動態效果可以放慢，也可以完全關掉。",
                             "• 語音輸出可以在舞台上加字幕，讓聽不到的人也能看懂。"
                         ]
                     },
@@ -9928,7 +10036,12 @@
             "scriptLabel": "$~依文字系統篩選",
             "pickFilter": "$~選一個分類或文字系統",
             "moreLanguages": "$~還有 $count 個",
-            "moreGlyphs": "$~顯示 $count 個——搜尋以找到更多"
+            "moreGlyphs": "$~顯示 $count 個——搜尋以找到更多",
+            "presentation": {
+                "label": "$~表情符號彩色",
+                "labels": ["$~彩色", "$~黑白"],
+                "tips": ["$~插入彩色表情符號", "$~插入黑白表情符號"]
+            }
         },
         "localize": {
             "header": "$~在地化",

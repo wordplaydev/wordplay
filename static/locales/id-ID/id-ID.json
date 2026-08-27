@@ -125,7 +125,7 @@
             "definition": "$~Sebuah kata yang merujuk ke sebuah @value atau @FunctionDefinition."
         },
         "markup": {
-            "word": "$~markup",
+            "word": "$~teks berformat",
             "definition": "$~Teks dengan format, seperti kata tebal atau tautan."
         },
         "language": {
@@ -483,14 +483,16 @@
             "doc": "$~Saya adalah daftar @TypeVariable."
         },
         "Markup": {
-            "name": "$~markup",
-            "description": "$~markup $#count[$count paragraf]",
+            "name": "$~teks berformat",
+            "description": "$~teks berformat $#count[$count paragraf]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragraf"
             },
             "doc": [
-                "$~Aku adalah daftar paragraf, memakai berbagai jenis @markup yang tersedia dalam penjelasan, seperti @Words, @WebLink, @ConceptLink, dan @Example."
+                "$~Saya adalah daftar paragraf, memakai banyak jenis teks berformat yang ada di @Doc, seperti @Words, @WebLink, @ConceptLink, dan @Example.",
+                "Kamu akan menemukan saya di @Doc, dan di @FormattedLiteral:",
+                "\\¶Saya adalah dokumentasi dengan teks *tebal*. Saya bisa merujuk ke konsep seperti @Phrase, dan bisa menautkan ke <hal-hal di web@https://wordplay.dev>.¶\nFrasa(\n\t`Saya adalah teks berformat untuk @Phrase, menggunakan *tebal*, /miring/, dan _garis bawah_`\n)\\"
             ]
         },
         "Paragraph": {
@@ -576,7 +578,7 @@
         },
         "Branch": {
             "name": "$~cabang",
-            "description": "$~pilihan markup pada $condition",
+            "description": "$~pilihan teks berformat pada $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ini adalah cara untuk memilih antara dua segmen penjelasan berdasarkan apakah nilai input penjelasan didefinisikan atau benar.",
@@ -3242,6 +3244,24 @@
                 "TiB": "$~tebibita",
                 "lux": "$~lux",
                 "fc": "$~foot-candle"
+            },
+            "category": {
+                "time": "$~Waktu",
+                "length": "$~Panjang",
+                "weight": "$~Berat",
+                "temperature": "$~Suhu",
+                "angle": "$~Sudut",
+                "area": "$~Luas",
+                "volume": "$~Volume",
+                "speed": "$~Kecepatan",
+                "pressure": "$~Tekanan",
+                "energy": "$~Energi",
+                "power": "$~Daya",
+                "electricity": "$~Listrik",
+                "frequency": "$~Frekuensi",
+                "data": "$~Data",
+                "brightness": "$~Kecerahan",
+                "other": "$~Lainnya"
             }
         },
         "List": {
@@ -3637,23 +3657,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Saya bisa mengambil sebuah daftar, dan membuat daftar baru dengan nilai-nilainya yang sudah diurutkan. Seperti ini:",
-                        "\\[1 5 8 0 2].sorted()\\",
-                        "Saya juga bisa melakukannya untuk nilai @Text.",
-                        "\\['jeruk' 'kiwi' 'pisang' 'apel'].sorted()\\",
-                        "Dan jika Anda memiliki daftar nilai yang bukan @Number atau @Text, Anda dapat memberi saya @FunctionDefinition yang mengubah setiap item menjadi @Number sehingga saya dapat mengurutkannya. Misalnya, di sini kita memiliki daftar berisi daftar dengan panjang yang berbeda; jika Anda memberi saya fungsi yang mengubah setiap daftar menjadi panjangnya, saya dapat mengurutkannya berdasarkan panjangnya.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\"
+                        "$~Aku bisa mengambil sebuah daftar, lalu membuat daftar baru dengan nilai-nilainya yang sudah diurutkan. Contohnya begini:",
+                        "\\[1 5 8 0 2].diurutkan()\\",
+                        "Aku juga bisa melakukannya untuk nilai @Text, dalam urutan abjad. Huruf kapital diurutkan berdampingan dengan huruf kecilnya, jadi sebuah kata tidak diletakkan di akhir hanya karena diawali huruf kapital:",
+                        "\\['Jeruk' 'kiwi' 'Pisang' 'apel'].diurutkan()\\",
+                        "Dan jika kamu punya daftar nilai yang bukan @Number atau @Text, kamu bisa memberiku @FunctionDefinition yang mengubah tiap item menjadi @Number atau @Text agar aku bisa mengurutkannya. Sebagai contoh, di sini kita punya daftar berisi daftar-daftar dengan panjang berbeda; jika kamu memberiku fungsi yang mengubah tiap daftar menjadi panjangnya, aku bisa mengurutkannya berdasarkan panjang itu.",
+                        "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar2) daftar2.panjang()\n)\\",
+                        "Sebuah fungsi yang membuat @Text adalah cara mengurutkan berdasarkan kata yang kamu hitung, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama2•'') (nama2 ÷ ' ').terakhir()\n)\\"
                     ],
                     "names": "$~diurutkan",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opsional untuk mengurutkan sebuah daftar @value. Ini seharusnya mengubah nilai menjadi @Number yang dapat digunakan untuk mengurutkan daftar.",
+                            "doc": "$~@FunctionDefinition opsional yang digunakan untuk mengurutkan sebuah daftar @value. Ini harus mengubah nilai tersebut menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar itu.",
                             "names": "$~pengurut"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value yang akan diubah menjadi @Number.",
+                            "doc": "$~@value yang akan diubah menjadi @Number atau @Text.",
                             "names": "$~nilai"
                         }
                     ]
@@ -5540,7 +5562,11 @@
                 "doc": "$~Apakah sebuah @Output harus dicerminkan pada sumbu y, alih-alih posisi default-nya.",
                 "names": "$~membalik"
             },
-            "description": "$~$opacity[transparan $opacity|] $rotation[diputar $rotation derajat|] $scale[diskalakan $scale|] $flipx[dibalik mendatar|] $flipy[dibalik tegak|] $blur[bayangan dikaburkan $blur piksel|]"
+            "description": "$~$opacity[transparan $opacity|] $rotation[diputar $rotation derajat|] $scale[diskalakan $scale|] $flipx[dibalik mendatar|] $flipy[dibalik tegak|] $blur[bayangan dikaburkan $blur piksel|]",
+            "music": {
+                "doc": "$~@Music yang harus saya mainkan saat keadaan animasi saya mulai atau saat sebuah @Sequence mencapai saya. Suara pendek adalah intinya; saya hanya memainkannya satu kali.",
+                "names": "$~musik"
+            }
         },
         "Color": {
             "doc": [
@@ -6857,7 +6883,45 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$~TIDAK"
+            "missing": "$~TIDAK",
+            "form": {
+                "sans": "$~gaya huruf sans-serif",
+                "serif": "$~gaya huruf serif",
+                "slab": "$~gaya huruf slab-serif",
+                "typewriter": "$~gaya huruf mesin tik",
+                "handwriting": "$~tulisan tangan",
+                "brush": "$~gaya huruf sapuan kuas",
+                "script": "$~gaya huruf sambung",
+                "poster": "$~gaya huruf poster",
+                "pixel": "$~gaya huruf piksel",
+                "outline": "$~gaya huruf berongga",
+                "textured": "$~gaya huruf bertekstur",
+                "emoji": "$~gambar, bukan huruf"
+            },
+            "impression": {
+                "calm": "$~tenang",
+                "oldFashioned": "$~kuno",
+                "strong": "$~kuat",
+                "quirky": "$~unik",
+                "playful": "$~jenaka",
+                "excited": "$~bersemangat",
+                "childlike": "$~kekanak-kanakan",
+                "artistic": "$~artistik",
+                "futuristic": "$~futuristik",
+                "energetic": "$~energik",
+                "cute": "$~lucu",
+                "cheerful": "$~ceria",
+                "fancy": "$~mewah"
+            },
+            "mechanic": {
+                "sameWidth": "$~setiap huruf memiliki lebar yang sama",
+                "tallLowercase": "$~huruf kecil setinggi huruf besar",
+                "shortLowercase": "$~huruf kecil jauh lebih pendek daripada huruf besar"
+            },
+            "description": {
+                "and": "$~$first dan $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "$~Halo"
@@ -6913,6 +6977,10 @@
             },
             "logo": {
                 "description": "$~Sebuah balon ucapan dengan huruf dari sistem penulisanmu di dalamnya"
+            },
+            "synced": {
+                "saved": "$~Tersimpan di semua perangkat",
+                "signedOut": "$~Tersimpan di semua perangkat saat kamu masuk akun"
             }
         },
         "tile": {
@@ -7759,6 +7827,13 @@
             "hidden": {
                 "message": "$~Semuanya tidak tampil di panggung.",
                 "show": "$~tampilkan semuanya"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7780,7 +7855,7 @@
                 "timeline": "$~/timeline/ memungkinkan kamu melangkah *maju* dan *mundur* melewati evaluasi programmu, satu langkah setiap kali. Ini muncul di bilah alat panggung dalam mode ✏️ *edit* dan ⏸️ *debug*. Ini cara yang bagus untuk melihat *bagaimana* programmu menghitung nilainya, dan untuk membangun gambaran di kepalamu tentang cara program @wordplay dievaluasi, terutama jika kamu belum melihat perilaku yang kamu inginkan.",
                 "annotations": "$~Jendela /annotations/ adalah tempat penjelasan setiap langkah muncul. Saat Anda menjalankan program langkah demi langkah, di sinilah Anda akan membaca apa yang baru saja terjadi.",
                 "editor": "$~Editor menampilkan kode Anda. Saat melakukan eksekusi langkah demi langkah, *nilai* setiap bagian program Anda akan muncul di sebelah bagian tersebut *setelah* dievaluasi, sehingga Anda dapat melihat nilai-nilai tersebut bertambah seiring berjalannya program.",
-                "history": "$~Bagian /history/ menampilkan setiap *input* yang diterima program Anda, seperti tombol, detak waktu, dan kejadian penunjuk. Bagian ini *dapat diseret*, sehingga Anda dapat kembali ke momen mana pun dalam riwayat evaluasi program hanya dengan menyeretnya.",
+                "history": "$~/Riwayat/ menunjukkan setiap *masukan* yang diterima programmu, seperti tombol, waktu, dan sentuhan penunjuk. Riwayat ini *bisa diseret*, jadi kamu bisa kembali ke momen mana pun dalam riwayat evaluasi program hanya dengan menyeretnya. Jika kamu lebih suka *mendengar* masukan itu daripada melihatnya, aktifkan /isyarat evaluasi/ di pengaturan, dan @wordplay akan memutar suara pendek untuk setiap masukan, dengan suara berbeda untuk setiap jenis masukan.",
                 "stepControls": "$~Kontrol langkah memungkinkan Anda untuk bergerak melalui evaluasi dengan tepat. Anda dapat melompat ke *awal* atau *akhir*, melangkah *maju* atau *mundur* satu langkah pada satu waktu, melompat sebanyak *satu input*, keluar dari suatu fungsi, atau melompat ke bagian kode yang *sedang dipilih*.",
                 "modes": "$~/mode switcher/ memilih cara programmu dievaluasi. Di mode ✏️ *edit*, program berhenti di posisinya dan kamu bisa mengubahnya — suntinganmu diputar ulang untuk menunjukkan efeknya di titik itu. Di mode ⏸️ *debug*, kode hanya bisa dibaca dan *nilai saat ini* dari setiap bagian programmu muncul di sebelahnya di editor dan di palet. Di mode ▶️ *play*, programmu berjalan langsung dari posisinya, menanggapi input secara langsung. Di samping switcher, tombol /perform/ — sebuah segitiga play yang dikelilingi sudut layar penuh — memulai pertunjukan dari atas dan memenuhi layar dengan panggung, dan ↻ mereset program di mode mana pun."
             }
@@ -8326,6 +8401,38 @@
                             "$~Tampilkan keterangan dua kali lebih besar",
                             "$~Tampilkan keterangan tiga kali lebih besar"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~warna proyek",
+                        "labels": ["$~pertahankan", "$~balik"],
+                        "tips": [
+                            "$~tampilkan warna proyek persis seperti yang ditulis, bahkan di layar gelap",
+                            "$~di layar gelap, balikkan warna proyek yang terang menjadi gelap: setiap warna tetap dengan rona aslinya, dan warna tetap sejauh yang dibuat oleh proyek"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~isyarat evaluasi",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan buat suara saat program dievaluasi ulang",
+                            "$~Putar suara pendek setiap kali program dievaluasi ulang, satu suara untuk setiap jenis masukan"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~isyarat animasi",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan buat suara saat keluaran beranimasi",
+                            "$~Putar suara pendek setiap kali animasi mencapai suatu pose, dengan suara yang mengikuti apa yang dilakukan pose itu"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~isyarat tabrakan",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan buat suara saat keluaran bertabrakan",
+                            "$~Putar suara saat keluaran bertabrakan, makin keras benturannya makin keras suaranya"
+                        ]
                     }
                 },
                 "options": {
@@ -8352,7 +8459,8 @@
                 },
                 "subheader": {
                     "music": "$~Musik",
-                    "say": "$~Ucapkan"
+                    "say": "$~Ucapkan",
+                    "cues": "$~Isyarat"
                 }
             },
             "notifications": {
@@ -8923,7 +9031,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$!\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "phrase": "$~\\¶Phrase muncul di panggung, dengan warna, cahaya, dan gerakan apa pun yang kamu suka.¶\nFrasa(\n\t'halo!'\n\t6m\n\twarna: Warna(60% 90 200°)\n\taura: Aura(Warna(80% 80 200°) 0.3m)\n\tberistirahat: Urutan.bergoyang(8°)\n)\\",
                         "music": "$~\\¶Musik adalah nada pada alat musik sungguhan, dengan tempo, dalam sebuah kunci nada. Panggung menggambar apa yang didengarnya.¶\nMusik(\n\tTrek([1 3 5 8 5 3] alatMusik: AlatMusik.piano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Kode bisa bereaksi terhadap masukan seperti @Time, dan teks bisa berbahasa banyak dan diucapkan.¶\nhellos: ['halo' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhalo: hellos.acak() … ∆ Waktu(1000ms) … hellos.acak()\nFrasa(halo 4m)\nMengatakan(halo)\\",
                         "keys": "$~\\¶Kode bisa bereaksi terhadap penunjuk, tombol, klik, dan ketukan.¶\nkunci2: Kunci()\nklik: Tombol()\nwajah2: ['🙂' '😮' '😎' '🤩']\nyangMana: 1 … ∆ kunci2 | ∆ klik … (yangMana % 4) + 1\nPanggung(\n\t[Frasa(wajah2[yangMana] 5m tempat: Penunjuk())]\n\ttempat: Tempat(0m 0m -12m)\n)\\",
@@ -8958,11 +9066,11 @@
                     "accessible": {
                         "title": "$~Wordplay mudah diakses",
                         "bullets": [
-                            "$~• Apa pun yang bisa kamu lakukan dengan mouse, bisa juga kamu lakukan dengan keyboard.",
-                            "• Pembaca layar menjelaskan panggung saat isinya berubah, bukan hanya saat dimuat.",
-                            "• Kamu bisa membaca dan menulis kode sebagai blok, bukan hanya teks, dan bisa berganti kapan saja.",
+                            "$~• Apa pun yang bisa kamu lakukan dengan tetikus, bisa kamu lakukan dengan papan ketik.",
+                            "• Pembaca layar menjelaskan pentas saat berubah, dan bunyi pilihan menandai apa yang dihitung ulang, apa yang bergerak, dan apa yang bertabrakan.",
+                            "• Kamu bisa membaca dan menulis kode sebagai blok alih-alih teks, dan berpindah kapan saja kamu suka.",
                             "• Gerakan bisa diperlambat, atau dimatikan sepenuhnya.",
-                            "• Suara yang diucapkan bisa ditampilkan sebagai teks di panggung untuk siapa pun yang tidak bisa mendengarnya."
+                            "• Suara ucapan bisa diberi teks di pentas untuk siapa saja yang tidak bisa mendengarnya."
                         ]
                     },
                     "senses": {
@@ -10075,7 +10183,15 @@
             "scriptLabel": "$~filter berdasarkan skrip",
             "pickFilter": "$~Pilih kategori atau skrip",
             "moreLanguages": "$~dan $count lebih banyak",
-            "moreGlyphs": "$~Menampilkan $count — cari untuk menemukan lebih banyak"
+            "moreGlyphs": "$~Menampilkan $count — cari untuk menemukan lebih banyak",
+            "presentation": {
+                "label": "$~warna emoji",
+                "labels": ["$~warna", "$~hitam putih"],
+                "tips": [
+                    "$~sisipkan emoji berwarna",
+                    "$~sisipkan emoji hitam putih"
+                ]
+            }
         },
         "connection": {
             "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",

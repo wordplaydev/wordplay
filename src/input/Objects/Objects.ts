@@ -34,6 +34,7 @@ import type Evaluation from '@runtime/Evaluation';
 import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
+import type { StreamKind } from '@values/StreamValue';
 
 /**
  * EfficientDet-Lite0 takes a 320×320 input, so sampling the camera at that size
@@ -70,6 +71,8 @@ export default class Objects extends CameraLandmarkStream<
     ObjectDetectorResult,
     ListValue
 > {
+    readonly kind: StreamKind = 'objects';
+
     private category: string | undefined;
     private confidence: number;
     private count: number;

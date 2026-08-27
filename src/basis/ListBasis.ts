@@ -35,6 +35,42 @@ import ValueException from '@values/ValueException';
 import { createBasisConversion, createBasisFunction } from '@basis/Basis';
 import InternalExpression from '@basis/InternalExpression';
 import { Iteration } from '@basis/Iteration';
+import { getCollatorFor } from '@unicode/collation';
+
+/** Where a sort key sits in the order: numbers first, then text, then keys
+ *  that aren't a number at all. */
+function rankKey(key: NumberValue | TextValue) {
+    return key instanceof TextValue ? 1 : Number.isNaN(key.toNumber()) ? 2 : 0;
+}
+
+/**
+ * Order two sort keys.
+ *
+ * Numbers come before text, which is what keeps `[ø "hi" ø]` sorting to
+ * `[ø ø "hi"]`, since ø keys to 0. Text is compared by Unicode collation
+ * rather than by code point, so "adhe" sits next to "Adea" instead of after
+ * every word starting with a capital A (#1322).
+ *
+ * A not-a-number key has no place in an order. Subtracting gives NaN for every
+ * pair it touches, which is an inconsistent comparator — that can scramble
+ * elements that have nothing to do with it, not just misplace this one. Send
+ * them to the end instead, tied with each other.
+ */
+function compareKeys(
+    a: NumberValue | TextValue,
+    b: NumberValue | TextValue,
+    collator: Intl.Collator,
+) {
+    const rank = rankKey(a);
+    const otherRank = rankKey(b);
+    if (rank !== otherRank) return rank - otherRank;
+    if (a instanceof TextValue && b instanceof TextValue)
+        return collator.compare(a.text, b.text);
+    if (a instanceof NumberValue && b instanceof NumberValue)
+        return rank === 2 ? 0 : a.toNumber() - b.toNumber();
+    // Unreachable: equal ranks mean both keys are the same kind.
+    return 0;
+}
 
 export default function bootstrapList(locales: Locales) {
     const ListTypeVarNames = getNameLocales(
@@ -51,10 +87,17 @@ export default function bootstrapList(locales: Locales) {
         getNameLocales(locales, (locale) => locale.basis.List.out),
     );
 
+    /** A sort key is a number or text; text is ordered by Unicode collation.
+     *  A factory rather than a constant, since each of the three places this
+     *  type appears needs its own node to parent. */
+    const SortKeyType = () =>
+        UnionType.make(NumberType.make(), TextType.make());
+
     /**
      * This function is the fallback when a sequencer isn't provided to List.sorted.
-     * It passes through numbers, since they're already numbers, and computes a key
-     * for text using unicode code points.
+     * It passes numbers and text through as their own keys, since both already
+     * have an order; text keeps its language tag, which is what decides the
+     * collation the sort uses.
      */
     const DefaultSortSequencer = FunctionDefinition.make(
         undefined,
@@ -62,7 +105,7 @@ export default function bootstrapList(locales: Locales) {
         undefined,
         [Bind.make(undefined, Names.make(), new AnyType())],
         new InternalExpression(
-            NumberType.make(),
+            SortKeyType(),
             [],
             (requestor: Expression, evaluation: Evaluation) => {
                 const input = evaluation.getInput(0);
@@ -73,8 +116,7 @@ export default function bootstrapList(locales: Locales) {
                         input,
                     );
                 else if (input instanceof NumberValue) return input;
-                else if (input instanceof TextValue)
-                    return input.sequenced(requestor);
+                else if (input instanceof TextValue) return input;
                 else if (input instanceof NoneValue)
                     return new NumberValue(requestor, 0);
                 else
@@ -82,11 +124,11 @@ export default function bootstrapList(locales: Locales) {
                         evaluation.getEvaluator(),
                         requestor,
                         input,
-                        NumberType.make(),
+                        SortKeyType(),
                     );
             },
         ),
-        NumberType.make(),
+        SortKeyType(),
     );
 
     return StructureDefinition.make(
@@ -937,7 +979,7 @@ export default function bootstrapList(locales: Locales) {
                                                     .sequencer,
                                             [ListTypeVariable.getReference()],
                                         ),
-                                        NumberType.make(),
+                                        SortKeyType(),
                                     ),
                                 ),
                                 NoneLiteral.make(),
@@ -951,8 +993,10 @@ export default function bootstrapList(locales: Locales) {
                         // The list we're sorting
                         list: ListValue;
                         // The keyed, sorted list, which will eventually be mapped back to the original values.
-                        // The number is used for sorting, but we keep a pointer to the value to undecorate at the end.
-                        keyed: [NumberValue, Value][];
+                        // The key is used for sorting, but we keep a pointer to the value to undecorate at the end.
+                        // A key is a number or text — text so that a list can be sorted by a word (#1322),
+                        // which a number computed from code points could never do in reading order.
+                        keyed: [NumberValue | TextValue, Value][];
                     }>(
                         // Produces a list of the same type as was given.
                         ListType.make(ListTypeVariable.getReference()),
@@ -978,13 +1022,16 @@ export default function bootstrapList(locales: Locales) {
                         // Save the keyed value and increment the index.
                         (evaluator, info, expression) => {
                             const key = evaluator.popValue(expression);
-                            // We expect the key to be a number. Bail if it's not.
-                            if (!(key instanceof NumberValue))
+                            // A key has to be something with an order: a number, or text we can collate.
+                            if (
+                                !(key instanceof NumberValue) &&
+                                !(key instanceof TextValue)
+                            )
                                 return key instanceof ExceptionValue
                                     ? key
                                     : evaluator.getValueOrTypeException(
                                           expression,
-                                          NumberType.make(),
+                                          SortKeyType(),
                                           key,
                                       );
                             // Remember a mapping from the keyed value to the original value, so we can map it back later.
@@ -994,27 +1041,25 @@ export default function bootstrapList(locales: Locales) {
                             return undefined;
                         },
                         // Take the list of keyed values and sort by the keys using JavaScript's Array.sort(), then map to the original value.
-                        (evaluator, info, expression) =>
-                            new ListValue(
+                        (evaluator, info, expression) => {
+                            // One collator for the whole sort. Building one per
+                            // comparison would construct the most expensive
+                            // object in Intl O(n log n) times.
+                            const collator = getCollatorFor(
+                                info.keyed
+                                    .map(([key]) => key)
+                                    .filter((key) => key instanceof TextValue)
+                                    .map((key) => key.language?.getBCP47()),
+                            );
+                            return new ListValue(
                                 expression,
                                 info.keyed
-                                    .sort((a, b) => {
-                                        const left = a[0].toNumber();
-                                        const right = b[0].toNumber();
-                                        // A not-a-number key has no place in an
-                                        // order. Subtracting gives NaN for every
-                                        // pair it touches, which is an
-                                        // inconsistent comparator — that can
-                                        // scramble elements that have nothing to
-                                        // do with it, not just misplace this one.
-                                        // Send them to the end instead.
-                                        if (Number.isNaN(left))
-                                            return Number.isNaN(right) ? 0 : 1;
-                                        if (Number.isNaN(right)) return -1;
-                                        return left - right;
-                                    })
+                                    .sort((a, b) =>
+                                        compareKeys(a[0], b[0], collator),
+                                    )
                                     .map((pair) => pair[1]),
-                            ),
+                            );
+                        },
                     ),
                 ),
                 createBasisConversion(

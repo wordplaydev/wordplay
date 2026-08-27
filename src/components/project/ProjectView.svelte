@@ -169,6 +169,7 @@
         IdleKind,
         isAuthenticated,
         setAnimatingNodes,
+        setSoundingNodes,
         setConceptIndex,
         setConflicts,
         setDragged,
@@ -188,6 +189,7 @@
         type KeyModifierState,
     } from '@components/project/Contexts';
     import Link from '@components/app/Link.svelte';
+    import EvaluationCues from '@components/project/EvaluationCues.svelte';
     import RemixButton from '@components/project/RemixButton.svelte';
     import { PARAM_CONCEPT } from '@concepts/ConceptParams';
     import { PROJECT_PARAM_FROM } from '../../routes/[[locale]]/project/constants';
@@ -898,6 +900,9 @@
     /** Several store contexts for tracking evaluator state. */
     const animatingNodes = writable<Set<Node>>(new Set());
     setAnimatingNodes(animatingNodes);
+
+    const soundingNodes = writable<Set<Node>>(new Set());
+    setSoundingNodes(soundingNodes);
 
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());
@@ -2565,6 +2570,19 @@
     }
 
     function toggleTile(tile: Tile) {
+        // In a one-tile arrangement the toggles are how you move between tiles, so
+        // hiding the one you're looking at leaves nothing to look at. Single only,
+        // not split: a split still has another tile showing, so collapsing one of
+        // the two is an ordinary "done with the palette" gesture — and a laptop at
+        // 1280x720 is already in split. TileView's own – collapses either way.
+        if (
+            currentArrangement === Arrangement.Single &&
+            layout
+                .getVisibleTiles(currentArrangement)
+                .some((visible) => visible.id === tile.id)
+        )
+            return;
+
         setMode(
             tile,
             tile.mode === TileMode.Expanded && !tile.isInvisible()
@@ -2851,6 +2869,9 @@
         if (!document.fullscreenElement) browserFullscreen = false;
     }}
 />
+
+<!-- Audible re-evaluation cues, which render nothing. -->
+<EvaluationCues />
 
 <!-- Content warnings (moderation, photosensitivity) are shown to read-only
      viewers in the output's blocking start gate, unified with permissions. -->

@@ -40,6 +40,7 @@ import StreamValue from '@values/StreamValue';
 import StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import type { StreamKind } from '@values/StreamValue';
 
 /** A single sampled outline point, in meters, in Wordplay's y-up world space. */
 export type ContourPoint = { x: number; y: number };
@@ -319,6 +320,8 @@ export default class Contour extends StreamValue<
     ListValue | ExceptionValue,
     ContourEvent
 > {
+    readonly kind: StreamKind = 'contour';
+
     glyphs: string;
     face: string;
     size: number;

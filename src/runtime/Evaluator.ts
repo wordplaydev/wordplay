@@ -43,7 +43,7 @@ import type Animator from '@output/animation/Animator';
 import EvaluationLimitException from '@values/EvaluationLimitException';
 import ReactionStream from '@values/ReactionStream';
 import StepLimitException from '@values/StepLimitException';
-import { MAX_STREAM_LENGTH } from '@values/StreamValue';
+import { MAX_STREAM_LENGTH, type StreamKind } from '@values/StreamValue';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import TypeException from '@values/TypeException';
 import Finish from '@runtime/Finish';
@@ -195,6 +195,13 @@ export default class Evaluator {
         path: Path;
         /** The count of the stream created */
         number: number;
+        /** What kind of stream received it. A path names a node type and an
+         * index among its siblings, so it cannot tell two `Evaluate`s apart:
+         * insert one and a recorded input's path resolves to a different
+         * stream. Replaying a `Key` event into a `Speech` stream is not a
+         * near miss — each stream's `react` trusts its own raw type — so the
+         * kind is recorded to be checked before replay. */
+        kind: StreamKind;
         /** Exactly when the input occurred */
         stepIndex: number;
         /** The raw data of the event */
@@ -481,6 +488,13 @@ export default class Evaluator {
                         // );
                         break;
                     }
+
+                    // Is it a different kind of stream than the one that
+                    // recorded this input? The path resolved to some other
+                    // evaluate, so this input's raw data means nothing here —
+                    // and handing it over would corrupt the stream's values or
+                    // throw. Stop, as every other unresolvable case does.
+                    if (stream.kind !== input.kind) break;
 
                     // React to the input.
                     stream.react(input.raw);
@@ -1868,6 +1882,7 @@ export default class Evaluator {
                         source,
                         path: root.getPath(evaluate),
                         number,
+                        kind: stream.kind,
                         stepIndex: this.#stepIndex,
                         raw,
                         silent,

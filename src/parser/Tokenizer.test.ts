@@ -325,3 +325,32 @@ test.each([
 ])('%s has syms %j', (code: string, expected: SymType[]) => {
     expect(tokens(code).map((t) => t.getTypes()[0])).toEqual(expected);
 });
+
+// Presentation selectors are asymmetric: the COLOR selector (U+FE0F) carries no
+// meaning (a bare emoji-default codepoint already renders in color) and is
+// normalized away, while the MONO selector (U+FE0E) is the only way to ask for
+// text presentation, so it has to survive into the token text and the value.
+test.each([
+    // The color selector is stripped wherever it appears.
+    ["'\u{1F44D}\uFE0F'", "'\u{1F44D}'"],
+    ['\u{1F508}.\u{1F32C}\uFE0F', '\u{1F508}.\u{1F32C}'],
+    // A keycap keeps working: its FE0F is optional in the sequence.
+    ["'2\uFE0F\u20E3'", "'2\u20E3'"],
+    // The mono selector survives, in text and in markup alike.
+    ["'\u{1F44D}\uFE0E'", "'\u{1F44D}\uFE0E'"],
+    ['`\u{1F44D}\uFE0E`', '`\u{1F44D}\uFE0E`'],
+])('%s tokenizes to %s', (code: string, expected: string) => {
+    expect(
+        tokens(code)
+            .map((t) => t.getText())
+            .join(''),
+    ).toBe(expected);
+});
+
+test('a name resolves the same with or without a color selector', () => {
+    // Instruments.wp relies on this: `\u{1F508}.\u{1F32C}\uFE0F` has to reach
+    // the definition named `\u{1F32C}`.
+    const withSelector = tokens('\u{1F32C}\uFE0F').map((t) => t.getText());
+    const without = tokens('\u{1F32C}').map((t) => t.getText());
+    expect(withSelector).toEqual(without);
+});

@@ -108,6 +108,11 @@ const Lanes = {
     'stage-entered': 'coalesce',
     'stage-changed': 'coalesce',
     'stage-moved': 'coalesce',
+    /** What an output being moved on stage is lined up with (#117). A pointer drag
+     *  streams it and only the latest constraint matters; it is separate from
+     *  'stage-moved' so a drag's snapping can't displace the program's own move
+     *  descriptions while playing. */
+    'stage-snap': 'coalesce',
     /** The stage zoom level, which a held key, a wheel, or a pinch streams; only the
      *  latest matters. Its own kind rather than 'command-state', whose single slot the
      *  editor's step feedback owns — a stage zoom would overwrite a step. */

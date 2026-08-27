@@ -53,6 +53,7 @@
         getAnnouncer,
         getEvaluation,
         getSelectedOutput,
+        getStageScene,
     } from '@components/project/Contexts';
     import GroupView from '@components/output/GroupView.svelte';
     import {
@@ -88,6 +89,9 @@
         /** Whether this is a thumbnail-sized preview, which opts out of the automatic
          * pull-back on small viewports — a thumbnail is small on purpose. */
         mini?: boolean;
+        /** Whether this stage's colors are being flipped for a dark canvas.
+         * Decided by OutputView, since it owns the run this is latched to. */
+        adapting?: boolean;
     }
 
     let {
@@ -106,6 +110,7 @@
         zoom = $bindable(1),
         contentHidden = $bindable(false),
         mini = false,
+        adapting = false,
     }: Props = $props();
 
     const evaluation = getEvaluation();
@@ -118,6 +123,12 @@
     const animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 10;
+
+    /** Half the snap lattice, so a move can see the lines it can land between. */
+    const HALF_GRID = 0.5;
+    /** How far a guide pokes past the outputs it relates, in metres, so it reads
+     *  as a line drawn through them rather than an edge of one of them. */
+    const GUIDE_OVERSHOOT = 0.25;
 
     let view: HTMLElement | null = $state(null);
 
@@ -171,6 +182,38 @@
 
     const announcer = getAnnouncer();
     const selectedOutput = getSelectedOutput();
+
+    // Publish a way to lay out what's on stage, which is what anything moving
+    // output lines up against (#117). Done from here because this is where the
+    // stage and its render context live. Handed over as a function so the walk
+    // happens when a move begins rather than on every render, and it goes
+    // through `Animator.layout` so guides are placed by exactly the same
+    // algorithm the renderer places output with.
+    const stageScene = getStageScene();
+    $effect(() => {
+        const currentAnimator = animator;
+        const currentStage = stage;
+        const currentContext = context;
+        stageScene?.set(
+            () =>
+                currentAnimator?.layout(
+                    currentStage,
+                    [],
+                    new Map(),
+                    currentContext,
+                ) ?? new Map(),
+        );
+    });
+
+    // Whether output is being moved, and what it is lined up with (#117). Both
+    // come from the shared selection state rather than props: the gesture that
+    // owns the move is sometimes OutputView (a pointer drag) and sometimes an
+    // individual output view (the arrow keys), and neither is an ancestor here.
+    let moving = $derived(editable && (selectedOutput?.moving ?? false));
+    let guides = $derived(moving ? (selectedOutput?.guides ?? []) : []);
+    // The grid is drawn faintly during a move for positioning clarity, even when
+    // the creator has it off — but only its own toggle makes moving snap to it.
+    let showGrid = $derived(grid || moving);
 
     /** The framing box the auto-fit camera fits. It only ever grows, so it settles instead
      *  of chasing moving content. Reset whenever the evaluator changes; see resetAnimator's
@@ -263,9 +306,14 @@
     /** The audience's pan/zoom at the start of a gesture, so a drag or pinch can anchor. */
     export const getOffset = () => offset;
 
-    /** Hand the camera back to the program or the platform. */
+    /** Hand the camera back to the program or the platform. The framing envelope
+     *  goes with the offset: handing the camera back means the platform frames
+     *  the content afresh rather than against a box the audience's own view was
+     *  composed with. (This button is only active once the audience has panned or
+     *  zoomed; restarting the performance is what reframes otherwise.) */
     export const resetFocus = () => {
         offset = { x: 0, y: 0, zoom: 1 };
+        framing = undefined;
     };
 
     let editing = $derived($evaluation?.playing === false);
@@ -336,15 +384,19 @@
     }
 
     // When the evaluator changes, stop the animator and create a new animator for the new evaluator.
+    //
+    // The framing envelope deliberately survives this. Every edit builds a new
+    // evaluator — a drag builds one per animation frame — and clearing the box
+    // here meant refitting the *instantaneous* bounds each time, which is exactly
+    // the camera-chasing that growEnvelope exists to prevent (moving one phrase
+    // made the stage dolly in and out under the creator's hand). A new evaluator
+    // is not a new scene; a new performance is, and that is where the box is
+    // started over, below.
     $effect(() => {
         evaluator;
         // Previous scene? Stop it.
         untrack(() => {
             resetAnimator();
-            // A new evaluator is a new scene, so the box it grew to no longer describes
-            // anything. Start framing over rather than inheriting a box sized for the
-            // previous project.
-            framing = undefined;
         });
     });
 
@@ -366,6 +418,10 @@
             if (performance !== animatedPerformance) {
                 animatedPerformance = performance;
                 resetAnimator();
+                // The program is being watched again from the top, so the box the
+                // camera grew no longer describes anything. This is the one thing
+                // that is a new scene; an ordinary edit is not.
+                framing = undefined;
                 if (!playing) {
                     animator?.suspend();
                     overlayAnimator?.suspend();
@@ -408,8 +464,27 @@
             // condition the selection chrome uses, so a placeholder never appears
             // without a palette to edit it in.
             $evaluation?.playing === false && !painting && inspectable,
+            adapting,
         );
     });
+
+    /** The stage background as it is actually painted, which is what the grid
+     *  and the color scheme have to agree with. */
+    let renderedBack = $derived(stage.back.adapted(adapting));
+
+    /** The color scheme this canvas is, so the theme tokens output falls back to
+     *  — the stage's own foreground, a Shape's untinted fill, a Group's frame —
+     *  resolve against the canvas rather than the UI around it. Derived from
+     *  the painted background, so a project that authors a dark background gets
+     *  dark-mode tokens even in a light UI with adaptation off. Null when the
+     *  stage isn't painting a background, so it inherits. */
+    let scheme = $derived(
+        background
+            ? renderedBack.lightness.greaterThan(0.5)
+                ? 'light'
+                : 'dark'
+            : null,
+    );
     let contentBounds = $derived(stage.getLayout(context));
 
     /** Permanently disable autofit when the user starts a palette edit, so the
@@ -425,12 +500,25 @@
      *  Fitting a box that only grows rather than the instantaneous bounds is what stops
      *  the camera chasing moving content; see growEnvelope.
      *
+     *  Held still for the whole of an on-stage gesture, the way it already is for a
+     *  palette one: a creator placing something by hand is framing the stage
+     *  themselves, and a camera that moves under the thing being dragged fights
+     *  them. `moving` also covers the arrow keys and outlasts them by a moment, so
+     *  a held key refits once at the end rather than on every repeat. When the
+     *  gesture ends these flip and the camera refits exactly once.
+     *
      *  The content bounds are read *tracked* so that content arriving after the stage
      *  first renders is framed too — a @Camera's first frame is empty, so a stage fit only
      *  at startup is a stage fit to nothing. Everything this effect writes is read inside
      *  untrack, so it can't feed itself. */
     $effect(() => {
-        if (view && fit && !selectedOutput?.adjusting) {
+        if (
+            view &&
+            fit &&
+            !selectedOutput?.adjusting &&
+            !selectedOutput?.interacting &&
+            !selectedOutput?.moving
+        ) {
             // Leave some padding on the edges.
             const availableWidth = viewportWidth * (3 / 4);
             const availableHeight = viewportHeight * (3 / 4);
@@ -846,6 +934,7 @@
     <section
         class="output stage {interactive && !editing ? 'live' : 'inert'}"
         class:interactive
+        class:readonly={!editable}
         class:changed
         class:editing={$evaluation?.playing === false &&
             !painting &&
@@ -858,10 +947,15 @@
         data-selectable={stage.selectable}
         style:font-family={getFaceCSS(stage.face)}
         style:font-size={getSizeCSS(context.size)}
-        style:background={background ? stage.back.toCSS() : null}
-        style:color={getColorCSS(stage.getFirstRestPose(), stage.pose)}
+        style:background={background ? stage.back.toCSS(adapting) : null}
+        style:color={getColorCSS(
+            stage.getFirstRestPose(),
+            stage.pose,
+            adapting,
+        )}
         style:opacity={getOpacityCSS(stage.getFirstRestPose(), stage.pose)}
-        style:--grid-color={stage.back.contrasting().toCSS()}
+        style:--grid-color={renderedBack.contrasting().toCSS()}
+        style:color-scheme={scheme}
         bind:this={view}
     >
         <!-- The light show tints the stage beneath its output, when the
@@ -902,7 +996,7 @@
             {editing}
             {frame}
         >
-            {#if grid}
+            {#if showGrid}
                 {@const left = Math.min(
                     0,
                     Math.floor(contentBounds.left - GRID_PADDING),
@@ -913,18 +1007,22 @@
                     Math.floor(contentBounds.bottom - GRID_PADDING),
                 )}
                 {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
-                <!-- Render a grid if this is the root and the grid is on. Apply the same transform that we do the the verse. -->
+                <!-- Render a grid if this is the root and the grid is on, or something
+                     is being moved and wants the reference. Apply the same transform
+                     that we do the the verse. `faint` is the moving-only grid, which
+                     is a reference rather than something anything snaps to. -->
                 {#each range(left, right) as number}
                     {@const left =
                         number * PX_PER_METER - HalfGridlineThickness}
                     <div
                         class="gridline vertical"
+                        class:faint={!grid}
                         style:left="{left}px"
                         style:top="{-top * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                     ></div>
-                    {#if number !== 0}
+                    {#if number !== 0 && grid}
                         <div class="coordinate vertical" style:left="{left}px"
                             >{number}m</div
                         >
@@ -935,28 +1033,84 @@
                         -number * PX_PER_METER - HalfGridlineThickness}
                     <div
                         class="gridline horizontal"
+                        class:faint={!grid}
                         style:top="{top}px"
                         style:left="{left * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:width="{Math.abs(left - right) * PX_PER_METER}px"
                     ></div>
-                    <div class="coordinate horizontal" style:top="{top}px"
-                        >{number}m</div
-                    >
+                    {#if grid}
+                        <div class="coordinate horizontal" style:top="{top}px"
+                            >{number}m</div
+                        >
+                    {/if}
                 {/each}
+                <!-- The lattice a move actually snaps to is half a metre, so while
+                     something is moving, show the lines between the labelled ones. -->
+                {#if grid && moving}
+                    {#each range(left, right - 1) as number}
+                        <div
+                            class="gridline vertical faint"
+                            style:left="{(number + HALF_GRID) * PX_PER_METER -
+                                HalfGridlineThickness}px"
+                            style:top="{-top * PX_PER_METER -
+                                HalfGridlineThickness}px"
+                            style:height="{Math.abs(top - bottom) *
+                                PX_PER_METER}px"
+                        ></div>
+                    {/each}
+                    {#each range(bottom, top - 1) as number}
+                        <div
+                            class="gridline horizontal faint"
+                            style:top="{-(number + HALF_GRID) * PX_PER_METER -
+                                HalfGridlineThickness}px"
+                            style:left="{left * PX_PER_METER -
+                                HalfGridlineThickness}px"
+                            style:width="{Math.abs(left - right) *
+                                PX_PER_METER}px"
+                        ></div>
+                    {/each}
+                {/if}
                 <div
                     class="gridline horizontal axis"
+                    class:faint={!grid}
                     style:top="0px"
                     style:left="{left * PX_PER_METER - HalfGridlineThickness}px"
                     style:width="{Math.abs(left - right) * PX_PER_METER}px"
                 ></div>
                 <div
                     class="gridline vertical axis"
+                    class:faint={!grid}
                     style:left="0px"
                     style:top="{-top * PX_PER_METER - HalfGridlineThickness}px"
                     style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                 ></div>
             {/if}
+            <!-- What the output being moved is currently lined up with (#117).
+                 Drawn here, inside the root group, so it inherits the camera
+                 transform the output itself gets: a metre is PX_PER_METER pixels
+                 and y is negated, with no camera arithmetic of its own. Purely
+                 decorative — the constraint is announced, not read from here. -->
+            {#each guides as guide, index (index)}
+                {@const from =
+                    (guide.span.from - GUIDE_OVERSHOOT) * PX_PER_METER}
+                {@const to = (guide.span.to + GUIDE_OVERSHOOT) * PX_PER_METER}
+                <div
+                    class="guide {guide.axis === 'x'
+                        ? 'vertical'
+                        : 'horizontal'}"
+                    class:grid={guide.target === undefined}
+                    aria-hidden="true"
+                    style:left={guide.axis === 'x'
+                        ? `${guide.position * PX_PER_METER}px`
+                        : `${from}px`}
+                    style:top={guide.axis === 'x'
+                        ? `${-to}px`
+                        : `${-guide.position * PX_PER_METER}px`}
+                    style:width={guide.axis === 'x' ? null : `${to - from}px`}
+                    style:height={guide.axis === 'x' ? `${to - from}px` : null}
+                ></div>
+            {/each}
             <!-- Render exiting nodes -->
             {#each Array.from(exiting.entries()) as [name, info] (name)}
                 {#if info.output instanceof Phrase}
@@ -1068,14 +1222,19 @@
     }
 
     .stage {
+        /* The stage is a drag surface (pan, and moving output while paused), so
+           a drag across it must not start a text selection. Read-only stages
+           never drag or pan — the whole block is gated on `editable` in
+           OutputView — so there is nothing to compete with there, and their
+           phrase text opts back in (see PhraseView). */
         user-select: none;
+        -webkit-user-select: none;
         position: relative;
         flex-grow: 1;
 
-        /* Keep stages a stable light canvas even when rendered outside OutputView
-           (e.g. project previews), so the fallbacks below resolve light and don't
-           invert under a dark UI. */
-        color-scheme: light;
+        /* The scheme is declared inline from the background actually painted
+           (see `scheme`), not from the app's, so the fallbacks below resolve
+           against the canvas a creator made rather than the UI around it. */
         color: var(--wordplay-foreground);
 
         --grid-color: currentColor;
@@ -1141,5 +1300,32 @@
     .axis {
         background-color: var(--grid-color);
         opacity: 0.5;
+    }
+
+    /* The grid shown only because something is being moved. Dimmer than the
+       creator's own grid, since it's a reference rather than something the
+       move is snapping to. */
+    .gridline.faint {
+        opacity: 0.08;
+    }
+
+    .axis.faint {
+        opacity: 0.2;
+    }
+
+    /* What the moved output is lined up with. z-index 1 puts it over the output
+       it relates (which the children snippet renders after this one) while
+       leaving it under the rotate/resize handles, which are interactive. */
+    .guide {
+        position: absolute;
+        background-color: var(--wordplay-highlight-color);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* A grid line the move landed on is already drawn; this just lights it up. */
+    .guide.grid {
+        background-color: var(--grid-color);
+        opacity: 0.7;
     }
 </style>

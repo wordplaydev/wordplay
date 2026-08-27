@@ -28,7 +28,6 @@
         align-items: baseline;
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
-        user-select: none;
         /* Reserve the caret-highlight bar's space (filled by Palette's
            .caret-highlight rule) so highlighting doesn't shift the row. */
         border-inline-start: var(--wordplay-focus-width) solid transparent;
@@ -36,6 +35,10 @@
     }
 
     .name {
+        /* A form-row label, not a heading over content. Opted out here rather
+           than on .property: a descendant's rule beats an ancestor's. */
+        user-select: none;
+        -webkit-user-select: none;
         flex-basis: 5em;
         text-align: start;
         margin: 0;

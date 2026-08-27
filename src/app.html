@@ -188,6 +188,13 @@
                 --shadow-dark: rgba(227, 227, 227, 0.8);
                 --shadow-transparent-light: rgb(0, 0, 0, 0.05);
                 --shadow-transparent-dark: rgba(227, 227, 227, 0.15);
+                /* The surface of a control that is pressed in (Toggle's on state).
+                   A step in from the background, and a bigger step in dark than
+                   --very-light-grey-dark's #1e1e1e, which is indistinguishable from
+                   a black page at button size. Deliberately not symmetric: near
+                   black a small step reads as nothing, near white it reads at once. */
+                --pressed-light: #dcdcdc;
+                --pressed-dark: #3a3a3a;
 
                 /* AA text variants. Colors rendered as *text* must meet WCAG
                    2.2 AA contrast (4.5:1) against --wordplay-background and
@@ -230,6 +237,7 @@
                 --color-dark-grey: var(--dark-grey-light);
                 --color-shadow: var(--shadow-light);
                 --color-shadow-transparent: var(--shadow-transparent-light);
+                --color-pressed: var(--pressed-light);
                 --color-gold-text: var(--gold-text-light);
                 --color-grey-text: var(--grey-text-light);
                 --color-blue-text: var(--blue-text-light);
@@ -242,6 +250,14 @@
                 --wordplay-chrome: var(--color-light-grey);
                 --wordplay-border-color: var(--color-light-grey);
                 --wordplay-evaluation-color: var(--color-pink);
+                /* A note sounding right now, filled behind the expression that
+                   wrote it. Purple rather than the highlight gold because the
+                   token text on this fill is painted --wordplay-background,
+                   and white on gold measures 3.01:1 — under AA. Purple gives
+                   4.51:1 light and 11.4:1 dark. Distinct from the evaluation
+                   pink too, so a phrase animating while a melody plays doesn't
+                   read as one thing. */
+                --wordplay-sounding-color: var(--color-purple);
                 --wordplay-highlight-color: var(--color-yellow);
                 /* Link/term text color. The AA gold text variant, NOT the
                    highlight gold: gold as text needs 4.5:1 contrast, gold as
@@ -493,6 +509,10 @@
                         var(--shadow-transparent-light),
                         var(--shadow-transparent-dark)
                     );
+                    --color-pressed: light-dark(
+                        var(--pressed-light),
+                        var(--pressed-dark)
+                    );
                     --color-gold-text: light-dark(
                         var(--gold-text-light),
                         var(--gold-text-dark)
@@ -543,6 +563,7 @@
                         --color-shadow-transparent: var(
                             --shadow-transparent-dark
                         );
+                        --color-pressed: var(--pressed-dark);
                         --color-gold-text: var(--gold-text-dark);
                         --color-grey-text: var(--grey-text-dark);
                         --color-blue-text: var(--blue-text-dark);
@@ -832,6 +853,18 @@
                    its own hover, active, focus, and selection feedback, so the
                    platform default only ever adds a stray box on top. */
                 -webkit-tap-highlight-color: transparent;
+                /* Chrome isn't body text: a select-all used to rake in tile names,
+                   toolbar labels, and footer links along with the few things worth
+                   copying. Selection is off by default and opted back in below, and
+                   in MarkupHTMLView, ValueView, CreatorView, and PhraseView.
+                   Every declaration in this scheme — the `none` here and every
+                   opt-in — must carry BOTH spellings. WebKit still answers
+                   `CSS.supports('user-select', 'none')` with false, so unprefixed
+                   alone made the whole scheme inert in Safari; prefixing only some
+                   of it makes a prefixed `none` beat an unprefixed opt-in and
+                   silently swallow text that should be selectable. */
+                user-select: none;
+                -webkit-user-select: none;
             }
 
             * {
@@ -883,6 +916,33 @@
 
             li:not(:last-of-type) {
                 margin-block-end: var(--wordplay-spacing-half);
+            }
+
+            /* The elements that only ever hold content here: prose, the headings
+               that title it, and tabular data. Links and inline markup inside them
+               inherit, so they need no rule of their own. Deliberately not `code`
+               (RootView renders a program inside one, and the editor draws its own
+               selection) and not `li` (also used for grids of draggable previews;
+               markup's own lists inherit from `.markup` instead). */
+            p,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            td,
+            th {
+                user-select: text;
+                -webkit-user-select: text;
+            }
+
+            /* WebKit stops honoring a field's own selection, and its editing, when
+               an ancestor is `none`, so fields have to ask for it back. */
+            input,
+            textarea {
+                user-select: text;
+                -webkit-user-select: text;
             }
 
             *:focus {

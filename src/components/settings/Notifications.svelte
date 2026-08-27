@@ -221,6 +221,7 @@
     }}
 >
     <Mode
+        synced
         modes={(l) => l.ui.dialog.notifications.howToNotifications}
         choice={$howToNotifications ? 1 : 0}
         select={(choice) =>

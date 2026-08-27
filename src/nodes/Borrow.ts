@@ -83,10 +83,22 @@ export default class Borrow extends SimpleExpression {
     }
 
     /** Offer a borrow wherever a grammar field holds borrows (a program's borrow list). */
-    static getPossibleInsertions({ parent, field }: InsertContext) {
+    static getPossibleInsertions({ parent, field, locales }: InsertContext) {
         const kind = parent.getGrammar().find((f) => f.name === field)?.kind;
+        // Named, not bare: a lone `↓` reparses by swallowing the next line's first name, and a
+        // `_` lexes as a placeholder rather than the source's name — either way the soundness
+        // gate dropped it, so no borrow was ever offered.
         return kind !== undefined && kind.allowsKind(Borrow)
-            ? [new Borrow()]
+            ? [
+                  new Borrow(
+                      undefined,
+                      Reference.make(
+                          locales.getUnannotatedPrimaryText(
+                              (l) => l.glossary.name.word,
+                          ),
+                      ),
+                  ),
+              ]
             : [];
     }
 

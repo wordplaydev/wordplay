@@ -94,6 +94,7 @@
         /* Selecting text on a touch input surface pops the callout menu over
            the stage, matching the status chips. */
         user-select: none;
+        -webkit-user-select: none;
         /* Bounded on both axes so a long line wraps into the stage instead of
            running off it. The box grows upward from the floor, so the block cap
            cuts the tail rather than the opening words. */

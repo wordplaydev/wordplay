@@ -8,6 +8,19 @@ import { NOT_A_NUMBER_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import NoneValue from '@values/NoneValue';
 import Decimal from 'decimal.js';
+import {
+    bengaliDigits,
+    devanagariDigits,
+    gujaratiDigits,
+    gurmukhiDigits,
+    hanNumbers,
+    hanOrders,
+    kannadaDigits,
+    romanNumerals,
+    tamilDigits,
+    teluguDigits,
+    thaiDigits,
+} from '@values/numerals';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Expression from '@nodes/Expression';
 import type Value from '@values/Value';
@@ -373,157 +386,6 @@ export default class NumberValue extends SimpleValue {
         return 1;
     }
 }
-
-const hanNumbers: Record<string, number> = {
-    一: 1,
-    二: 2,
-    三: 3,
-    四: 4,
-    五: 5,
-    六: 6,
-    七: 7,
-    八: 8,
-    九: 9,
-};
-
-const hanOrders: Record<string, number> = {
-    忽: 0.00001,
-    糸: 0.0001,
-    毛: 0.001,
-    厘: 0.01,
-    分: 0.1,
-    十: 10,
-    百: 100,
-    千: 1000,
-    万: 10000,
-    億: 100000000,
-    兆: 1000000000000,
-};
-
-// Positional numeral digit maps. Each script's ten digits translate one-to-one
-// to Arabic '0'–'9'; the converter shares a single helper.
-export const thaiDigits: Record<string, string> = {
-    '๐': '0',
-    '๑': '1',
-    '๒': '2',
-    '๓': '3',
-    '๔': '4',
-    '๕': '5',
-    '๖': '6',
-    '๗': '7',
-    '๘': '8',
-    '๙': '9',
-};
-
-export const bengaliDigits: Record<string, string> = {
-    '০': '0',
-    '১': '1',
-    '২': '2',
-    '৩': '3',
-    '৪': '4',
-    '৫': '5',
-    '৬': '6',
-    '৭': '7',
-    '৮': '8',
-    '৯': '9',
-};
-
-export const devanagariDigits: Record<string, string> = {
-    '०': '0',
-    '१': '1',
-    '२': '2',
-    '३': '3',
-    '४': '4',
-    '५': '5',
-    '६': '6',
-    '७': '7',
-    '८': '8',
-    '९': '9',
-};
-
-export const gujaratiDigits: Record<string, string> = {
-    '૦': '0',
-    '૧': '1',
-    '૨': '2',
-    '૩': '3',
-    '૪': '4',
-    '૫': '5',
-    '૬': '6',
-    '૭': '7',
-    '૮': '8',
-    '૯': '9',
-};
-
-export const gurmukhiDigits: Record<string, string> = {
-    '੦': '0',
-    '੧': '1',
-    '੨': '2',
-    '੩': '3',
-    '੪': '4',
-    '੫': '5',
-    '੬': '6',
-    '੭': '7',
-    '੮': '8',
-    '੯': '9',
-};
-
-export const kannadaDigits: Record<string, string> = {
-    '೦': '0',
-    '೧': '1',
-    '೨': '2',
-    '೩': '3',
-    '೪': '4',
-    '೫': '5',
-    '೬': '6',
-    '೭': '7',
-    '೮': '8',
-    '೯': '9',
-};
-
-export const tamilDigits: Record<string, string> = {
-    '௦': '0',
-    '௧': '1',
-    '௨': '2',
-    '௩': '3',
-    '௪': '4',
-    '௫': '5',
-    '௬': '6',
-    '௭': '7',
-    '௮': '8',
-    '௯': '9',
-};
-
-export const teluguDigits: Record<string, string> = {
-    '౦': '0',
-    '౧': '1',
-    '౨': '2',
-    '౩': '3',
-    '౪': '4',
-    '౫': '5',
-    '౬': '6',
-    '౭': '7',
-    '౮': '8',
-    '౯': '9',
-};
-
-const romanNumerals: Record<string, number> = {
-    Ⅰ: 1,
-    Ⅱ: 2,
-    Ⅲ: 3,
-    Ⅳ: 4,
-    Ⅴ: 5,
-    Ⅵ: 6,
-    Ⅶ: 7,
-    Ⅷ: 8,
-    Ⅸ: 9,
-    Ⅹ: 10,
-    Ⅺ: 11,
-    Ⅻ: 12,
-    Ⅼ: 50,
-    Ⅽ: 100,
-    Ⅾ: 500,
-    Ⅿ: 1000,
-};
 
 function convertBase(text: string): NumberAndPrecision {
     const [baseString, numString] = text.toString().split(';');

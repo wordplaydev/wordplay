@@ -26,6 +26,9 @@ export type ScheduledNote = {
     /** The music's reconciliation name. */
     music: string;
     trackIndex: number;
+    /** The sounding note's position in its track, so the editor can highlight
+     *  the expression that determined it. */
+    noteIndex: number;
     /** The degree as written; unpitched instruments index their kit with it. */
     degree: number;
     /** The degree resolved against the track's scale and key. */
@@ -98,7 +101,7 @@ export function noteAt(track: TrackData, beat: number): NoteData | undefined {
 export function noteCovering(
     track: TrackData,
     beat: number,
-): { note: NoteData; onset: number } | undefined {
+): { note: NoteData; onset: number; index: number } | undefined {
     const length = trackLength(track);
     if (length <= 0) return undefined;
     /** The absolute beat this pass through the notes began on. */
@@ -113,9 +116,11 @@ export function noteCovering(
         within = beat;
     }
     let onset = 0;
-    for (const note of track.notes) {
+    for (const [index, note] of track.notes.entries()) {
         if (within < onset + note.beats)
-            return within >= onset ? { note, onset: base + onset } : undefined;
+            return within >= onset
+                ? { note, onset: base + onset, index }
+                : undefined;
         onset += note.beats;
     }
     return undefined;
@@ -176,13 +181,16 @@ function partsAt(data: MusicData, beat: number): PartTick[] {
  * pitch, velocity, and pan exactly the way a normally scheduled one does.
  *
  * `durationBeats` is a parameter rather than `note.beats` because that is the
- * one thing a pickup changes: it plays only what was left.
+ * one thing a pickup changes: it plays only what was left. `noteIndex` is a
+ * parameter for a different reason: both callers already know where the note
+ * sits, so the plain-data `NoteData` needn't carry its own position.
  */
 function scheduledNotes(
     data: MusicData,
     track: TrackData,
     trackIndex: number,
     note: NoteData,
+    noteIndex: number,
     startBeat: number,
     startTime: number,
     durationBeats: number,
@@ -192,6 +200,7 @@ function scheduledNotes(
             (voice) => ({
                 music: data.name,
                 trackIndex,
+                noteIndex,
                 degree: voice.degree,
                 semitones: voice.semitones,
                 startBeat,
@@ -240,6 +249,7 @@ export function pickupNotes(
                 track,
                 which,
                 covering.note,
+                covering.index,
                 beat,
                 time,
                 remaining,
@@ -278,6 +288,7 @@ function scheduleRegion(
                         track,
                         which,
                         note,
+                        index,
                         onset,
                         timeOfBeat(transport, onset),
                         note.beats,

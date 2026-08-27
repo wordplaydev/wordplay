@@ -603,7 +603,9 @@ function wrapInStage(
         value,
         false,
         children,
-        new Color(value, new Decimal(100), new Decimal(0), new Decimal(0)),
+        // Lightness is 0–1; a literal 100 renders white only because browsers
+        // clamp `lch(10000%)`, and any arithmetic on it would go wrong.
+        new Color(value, new Decimal(1), new Decimal(0), new Decimal(0)),
         undefined,
         DefaultSize,
         evaluator.getLocales()[0].ui.font.app,

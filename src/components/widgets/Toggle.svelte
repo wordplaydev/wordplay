@@ -183,7 +183,6 @@
         appearance: none;
         line-height: 1;
         transform-origin: center;
-        user-select: none;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         border-top-left-radius: 0;
@@ -225,13 +224,25 @@
         animation-iteration-count: infinite;
     }
 
+    /* Pressed: the raised state's shadow moves inside, and the button sinks into the
+       space that shadow just vacated — the idiom Button.pressed states. This used to
+       translate up-left instead, so a button whose shading said "in" moved out at the
+       same moment, and it drew the inset in --wordplay-foreground, which in dark mode
+       is pure white and so read as a bevel highlight rather than a shadow. */
     button.on {
-        stroke: var(--wordplay-background);
-        fill: var(--wordplay-background);
-        background: var(--wordplay-alternating-color);
+        background: var(--color-pressed);
+        /* Translucent black, not the border color the raised shadow uses: outside,
+           a shadow falls on a near-black page in dark mode and has to be light to
+           show at all, but inside a pressed surface that sits lighter than the page,
+           only something darker reads as the recess wall. Same ink in both modes,
+           since darkening whatever it covers is what a shadow does. */
         box-shadow: inset var(--wordplay-border-width)
-            var(--wordplay-border-width) 0 var(--wordplay-foreground);
-        transform: translate(-1px, -1px);
+            var(--wordplay-border-width) 0 rgb(0 0 0 / 35%);
+        transform: translate(
+            var(--wordplay-border-width),
+            var(--wordplay-border-width)
+        );
+        text-shadow: none;
     }
 
     .icon {

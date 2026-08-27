@@ -21,6 +21,7 @@ import {
     type Readable,
     type Writable,
 } from 'svelte/store';
+import { prefersDarkScheme } from '@db/settings/prefersDarkScheme';
 import { prefersReducedMotion } from '@db/settings/prefersReducedMotion';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
@@ -1268,6 +1269,24 @@ export const localesReady = DB.Locales.localesReady;
 export const writingLayout = Settings.settings.writingLayout.value;
 export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;
+
+/** The effective color scheme as a plain boolean, resolving `DarkSetting`'s
+ * `null` (auto) against the OS `prefers-color-scheme` query. Explicit user
+ * picks always win, mirroring how `animationFactor` resolves its own auto. */
+export const darkMode = derived(
+    [Settings.settings.dark.value, prefersDarkScheme],
+    ([raw, os]) => raw ?? os,
+);
+export const adaptOutput = Settings.settings.adaptOutput.value;
+
+/** Whether program output should be adapted to a dark canvas right now: the
+ * viewer is in dark mode and hasn't asked for the original colors. Whether a
+ * given stage is actually adapted also depends on its own background — an
+ * already-dark stage is left alone. */
+export const adaptingOutput = derived(
+    [darkMode, adaptOutput],
+    ([isDark, adapt]) => isDark && adapt,
+);
 export const spaceIndicator = Settings.settings.space.value;
 export const insertTab = Settings.settings.tab.value;
 export const showLines = Settings.settings.lines.value;
@@ -1298,6 +1317,9 @@ export const musicVisualization = Settings.settings.musicVisualization.value;
 export const musicVolume = Settings.settings.musicVolume.value;
 export const musicDucking = Settings.settings.musicDucking.value;
 export const haptics = Settings.settings.haptics.value;
+export const cues = Settings.settings.cues.value;
+export const animationCues = Settings.settings.animationCues.value;
+export const contactCues = Settings.settings.contactCues.value;
 export const captionSize = Settings.settings.captionSize.value;
 export const projectFolders = Settings.settings.projectFolders.value;
 export const projectSort = Settings.settings.projectSort.value;

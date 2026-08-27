@@ -4,6 +4,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locales from '@locale/Locales';
 import type BasisCharacter from '../lore/BasisCharacter';
 import type { Emotion } from '../lore/Emotion';
+import type Docs from '@nodes/Docs';
 import type Markup from '@nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import type { PurposeType } from '@concepts/Purpose';
@@ -72,6 +73,26 @@ export default abstract class Concept {
      * Returns, if available, documentation for the concept.
      */
     abstract getDocs(locales: Locales): Markup[];
+
+    /**
+     * A built-in definition's docs, in the reader's language.
+     *
+     * A project's basis is built from the project's declared locales, so a definition in an
+     * English project carries only an English doc, whatever the reader chose. The basis
+     * finds the same definition in a basis built for the reader; when there isn't one (a
+     * creator's own definition, or the reader's locales are the project's) this is just the
+     * definition's own docs.
+     */
+    protected getLocalizedMarkup(
+        definition: Node,
+        docs: Docs,
+        locales: Locales,
+    ): Markup[] {
+        return (
+            this.context.getBasis().getLocalizedDocs(definition, locales) ??
+            docs
+        ).getMarkup(locales);
+    }
 
     /**
      * A short one-line hint shown below concept previews, to help creators learn

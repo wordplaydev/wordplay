@@ -54,6 +54,105 @@ const Excluded = new Map<string, string>([
     ['NonFunctionType', 'inference-only type'],
 ]);
 
+/** Node descriptors reached only through a path other than a PossibleNodes generator. */
+const ReachedElsewhere = new Map<string, string>([
+    [
+        'Names',
+        'a segmenting container, offered as a populated field assignment',
+    ],
+    ['Program', 'the root of a source; never created inside one'],
+    ['Source', 'created by adding a source to a project, not by an edit'],
+    [
+        'UnparsableExpression',
+        'what the parser leaves behind; created by typing, never chosen',
+    ],
+    ['AnyType', 'written as a placeholder (_), which has its own generator'],
+    // The pattern sublanguage builds its own defaults in patternSuggestions.ts rather than
+    // through PossibleNodes, since several atoms share one abstract kind with no single default.
+    ...(
+        [
+            'PatternSequence',
+            'PatternClass',
+            'PatternProperty',
+            'PatternQuantifier',
+            'PatternQuantified',
+            'PatternCapture',
+            'PatternComplement',
+            'PatternGroup',
+            'PatternSet',
+            'PatternRange',
+            'PatternLiteralText',
+            'PatternAnchor',
+            'PatternWord',
+            'PatternWordEdge',
+            'PatternLook',
+            'PatternBackref',
+            'PatternRest',
+            'PatternCaseFold',
+        ] as const
+    ).map(
+        (descriptor) =>
+            [descriptor, 'offered by getPatternSuggestions'] as [
+                string,
+                string,
+            ],
+    ),
+]);
+
+/**
+ * Programs covering each type family, so a generator that only fires in one context still has a
+ * context to fire in. A generator missing from every one of these is missing from the menu.
+ */
+const Corpus = [
+    '',
+    "a: 1\nPhrase('hi')",
+    'ƒ f(a•#) a\nf(1)',
+    '•Cat(hat•"")(\nƒ meow() 1\n↑ ƒ purr() 2\n)\nc: Cat("x")\nc.hat',
+    'a: [1 2]\na',
+    'a: {1 2}\nb: {1:2}\na',
+    't: ⎡a•#⎦⎡1⎦\nt ⎡? a > 1⎦',
+    // A bare table reference, so the query wrappers have a table to wrap.
+    't: ⎡a•#⎦⎡1⎦\nt',
+    // An unset boolean input, the one place a type check (`_•?•_`) can be inserted.
+    "Phrase('hi' selectable:)",
+    '1 … ∆ Time() … 2',
+    "'x' ≈ ⣿y:(#)⣿",
+    '`hi <a@https://x.dev> @Phrase`',
+    "'hi'/en",
+    '↓ Time',
+    'x•#: 1\n[1 2] ↦ ⬚',
+    '1m',
+    'Sequence.',
+];
+
+/** Every node descriptor the menu emits anywhere in the corpus. */
+function offeredAnywhere(): Set<string> {
+    const offered = new Set<string>();
+    for (const code of Corpus) {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        const anchors: (number | Node)[] = [];
+        for (let position = 0; position <= code.length; position++)
+            anchors.push(position);
+        for (const node of source.nodes()) anchors.push(node);
+        for (const anchor of anchors)
+            for (const revision of getEditsAt(
+                project,
+                new Caret(source, anchor, undefined, undefined),
+                undefined,
+                DefaultLocales,
+                undefined,
+                ['me/Star'],
+            )) {
+                const node = revision.getNewNode(DefaultLocales);
+                if (node === undefined) continue;
+                for (const part of [node, ...node.nodes()])
+                    offered.add(part.getDescriptor());
+            }
+    }
+    return offered;
+}
+
 test('every node type is creatable or excluded with a reason', () => {
     const creatable = new Set([
         ...Templates.map((template) => template.constructor.name),
@@ -66,6 +165,65 @@ test('every node type is creatable or excluded with a reason', () => {
         unclassified,
         'these node types have no creation path (add a template, a PossibleNodes entry with statics, or an exclusion with a reason)',
     ).toEqual([]);
+});
+
+// Heavy by construction: every caret position and every node of every corpus program.
+test(
+    'every registered node type is actually offered by the menu',
+    { timeout: 60000 },
+    () => {
+        // Membership in PossibleNodes is not reachability: a node registered with two `return []`
+        // stubs, or whose template can't survive the type filter and the print/reparse soundness
+        // gate, passes the name check above while being impossible to create. Run the generators.
+        const offered = offeredAnywhere();
+        const unreachable = PossibleNodes.map((kind) => kind.name).filter(
+            (name) =>
+                !offered.has(name) &&
+                !Excluded.has(name) &&
+                !ReachedElsewhere.has(name),
+        );
+        expect(
+            unreachable,
+            'these node types are registered but never offered anywhere in the corpus (fix the generator, add a corpus program that gives it a context, or record why it is reached elsewhere)',
+        ).toEqual([]);
+    },
+);
+
+test('no selection is a dead end', { timeout: 60000 }, () => {
+    // An empty menu tells a creator there is nothing they can do with what they selected, which
+    // is never true: at minimum something can go inside it.
+    const empty = new Map<string, string>();
+    for (const code of Corpus) {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        for (const node of source.nodes()) {
+            // Tokens are typed rather than chosen, a Source is not selectable in the editor,
+            // and a node that renders as nothing (an empty Docs) has nothing to click.
+            if (
+                node instanceof Token ||
+                node instanceof Source ||
+                node.toWordplay().length === 0
+            )
+                continue;
+            const revisions = getEditsAt(
+                project,
+                new Caret(source, node, undefined, undefined),
+                undefined,
+                DefaultLocales,
+                undefined,
+                ['me/Star'],
+            );
+            if (revisions.length === 0 && !empty.has(node.getDescriptor()))
+                empty.set(
+                    node.getDescriptor(),
+                    `${JSON.stringify(node.toWordplay())} in ${JSON.stringify(code)}`,
+                );
+        }
+    }
+    expect(
+        Object.fromEntries(empty),
+        'selecting these nodes offers nothing at all',
+    ).toEqual({});
 });
 
 describe('segmenting containers never leak as standalone concepts', () => {

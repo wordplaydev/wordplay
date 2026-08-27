@@ -3,6 +3,8 @@
     import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
     import Switch from '@components/widgets/Switch.svelte';
     import TextField from '@components/widgets/TextField.svelte';
+    import { adaptPreviewColors } from '@components/app/adaptPreview';
+    import { adaptingOutput } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import type { SerializedPreview } from '@db/projects/ProjectSchemas';
@@ -46,6 +48,11 @@
         Projects.setManualPreview(project.getID(), glyph);
         customDraft = glyph;
     }
+
+    /** Show the creator the tile as this viewer's own settings paint it. */
+    const colors = $derived(
+        adaptPreviewColors(displayed ?? null, $adaptingOutput),
+    );
 </script>
 
 <!-- No header: the share dialog's tab already names this section. -->
@@ -57,9 +64,10 @@
     <!-- Live preview tile of the currently-applied glyph. -->
     <div
         class="preview"
-        style:background={displayed?.background ?? null}
-        style:color={displayed?.foreground ?? null}
+        style:background={colors.background}
+        style:color={colors.foreground}
         style:font-family={displayed?.face ?? null}
+        style:color-scheme={colors.scheme}
     >
         {#if displayed}{displayed.text}{:else}—{/if}
     </div>

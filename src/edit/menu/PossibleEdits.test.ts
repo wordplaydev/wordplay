@@ -27,6 +27,9 @@ import Token from '@nodes/Token';
 import { Sym } from '@nodes/Sym';
 import Dimension from '@nodes/Dimension';
 import Reference from '@nodes/Reference';
+import MapLiteral from '@nodes/MapLiteral';
+import PropertyReference from '@nodes/PropertyReference';
+import TypePlaceholder from '@nodes/TypePlaceholder';
 import ListLiteral from '@nodes/ListLiteral';
 import ConceptLink from '@nodes/ConceptLink';
 import FormattedLiteral from '@nodes/FormattedLiteral';
@@ -93,6 +96,233 @@ test.each([
         undefined,
         Replace,
         'boomy.hat',
+    ],
+    [
+        // A subject naming the structure definition itself exposes its statics, so `Sequence.`
+        // must offer the predefined animations rather than nothing.
+        'complete static function on a definition reference',
+        `Sequence.**`,
+        undefined,
+        Replace,
+        'Sequence.sway()',
+    ],
+    [
+        'complete static function beside static binds',
+        `Color.**`,
+        undefined,
+        Replace,
+        'Color.random()',
+    ],
+    [
+        'complete static bind on a definition reference',
+        `Color.**`,
+        undefined,
+        Replace,
+        'Color.red',
+    ],
+    [
+        // Regression: the subject's own name used to become the function, so this offered `a()`.
+        'complete instance function on a named subject',
+        `a: 'hi'\na.**`,
+        undefined,
+        Replace,
+        'a.📏()',
+    ],
+    [
+        'complete instance function of a custom structure',
+        `•Cat(hat•'')(\nƒ meow() 1\n↑ ƒ purr() 2\n)\nboomy: Cat('none')\nboomy.**`,
+        undefined,
+        Replace,
+        'boomy.meow()',
+    ],
+    [
+        'complete static function of a custom structure',
+        `•Cat(hat•'')(\nƒ meow() 1\n↑ ƒ purr() 2\n)\nCat.**`,
+        undefined,
+        Replace,
+        'Cat.purr()',
+    ],
+    [
+        // Selecting a bare definition reference offers evaluating its statics on it.
+        'suggest static function when a definition reference is selected',
+        `Sequence`,
+        (node: Node) =>
+            node instanceof Reference && node.getName() === 'Sequence',
+        Replace,
+        'Sequence.sway()',
+    ],
+    [
+        // Access, conversion, match, refine, previous, and table update all *wrap* the selection,
+        // which changes its type — the one thing the expected-type filter used to drop.
+        'suggest list access on a selected list',
+        `[1 2 3]`,
+        (node: Node) => node instanceof ListLiteral,
+        Replace,
+        '[1 2 3][1]',
+    ],
+    [
+        'suggest map access on a selected map',
+        `{1:2}`,
+        (node: Node) => node instanceof MapLiteral,
+        Replace,
+        '{1: 2}{_•#}',
+    ],
+    [
+        'suggest a conversion to a reachable type',
+        `1m`,
+        (node: Node) => node instanceof NumberLiteral,
+        Replace,
+        '1m → #km',
+    ],
+    [
+        'suggest a match wrapping the selection as its value',
+        `1`,
+        (node: Node) => node instanceof NumberLiteral,
+        Replace,
+        '1 ???\n\t_: _\n\t_',
+    ],
+    [
+        'suggest refining a selected property reference',
+        `•Cat(hat•'')\nc: Cat('x')\nc.hat`,
+        (node: Node) => node instanceof PropertyReference,
+        Replace,
+        'c.hat:_',
+    ],
+    [
+        'suggest previous on a selected stream',
+        `Time()`,
+        (node: Node) => node instanceof Evaluate,
+        Replace,
+        '← 1 Time()',
+    ],
+    [
+        // Update built its `⎡:` with Sym.Select, so it printed the same and reparsed differently.
+        'suggest a table update alongside the other queries',
+        `t: ⎡a•#⎦⎡1⎦\nt`,
+        (node: Node) => node instanceof Reference && node.getName() === 't',
+        Replace,
+        't ⎡:⎦ _•?',
+    ],
+    [
+        // Its globe token carried Sym.Change rather than Sym.Locale, same failure.
+        'suggest a locale check',
+        `⊤`,
+        (node: Node) => node instanceof BooleanLiteral,
+        Replace,
+        '🌎/en',
+    ],
+    [
+        // getPossibleReplacements referenced the imported grammar helper instead of a parameter,
+        // so this was dead code that still typechecked.
+        'suggest wrapping the selection in a list',
+        `1`,
+        (node: Node) => node instanceof NumberLiteral,
+        Replace,
+        '[1]',
+    ],
+    [
+        'suggest a stream type where a type is expected',
+        `x•_: 1`,
+        (node: Node) => node instanceof TypePlaceholder,
+        Replace,
+        '…_',
+    ],
+    [
+        'suggest a pattern type where a type is expected',
+        `x•_: 1`,
+        (node: Node) => node instanceof TypePlaceholder,
+        Replace,
+        '⣿⣿',
+    ],
+    [
+        // Numerals are the hardest literals to type, so the menu is the only way to reach them.
+        'suggest a roman numeral where a number is expected',
+        `1 + **`,
+        undefined,
+        Assign,
+        'Ⅴ',
+    ],
+    [
+        'suggest a thai numeral carrying the expected unit',
+        `5m`,
+        (node: Node) => node instanceof NumberLiteral,
+        Replace,
+        '๕m',
+    ],
+    [
+        // The caret, not a selection, is how a creator actually assembles a number, and it says
+        // exactly where the new glyph goes. Every position has to work: after the digits, before
+        // them, between them, and between the digits and a unit.
+        'add a digit with the caret after a number',
+        `1**`,
+        undefined,
+        Replace,
+        '12',
+    ],
+    [
+        'add a digit with the caret before a number',
+        `**1`,
+        undefined,
+        Replace,
+        '21',
+    ],
+    [
+        'add a digit with the caret inside a number',
+        `12**3`,
+        undefined,
+        Replace,
+        '1293',
+    ],
+    [
+        'add a digit with the caret between a number and its unit',
+        `5**m`,
+        undefined,
+        Replace,
+        '52m',
+    ],
+    [
+        'add a glyph with the caret after a han numeral',
+        `一**`,
+        undefined,
+        Replace,
+        '一五',
+    ],
+    [
+        'add a glyph with the caret after a roman numeral',
+        `Ⅴ**`,
+        undefined,
+        Replace,
+        'ⅤⅠ',
+    ],
+    [
+        // A numeral is assembled a glyph at a time, since there's no keyboard for one: the menu
+        // has to offer a digit before, inside, and after what's already there.
+        'suggest assembling a roman numeral',
+        `Ⅴ`,
+        (node: Node) => node instanceof NumberLiteral,
+        Replace,
+        'ⅤⅠ',
+    ],
+    [
+        'suggest a digit before an existing numeral',
+        `Ⅴ`,
+        (node: Node) => node instanceof NumberLiteral,
+        Replace,
+        'ⅩⅤ',
+    ],
+    [
+        'suggest a digit inside an existing numeral',
+        `๑๒`,
+        (node: Node) => node instanceof NumberLiteral,
+        Replace,
+        '๑๙๒',
+    ],
+    [
+        'suggest a digit after an existing numeral',
+        `๑`,
+        (node: Node) => node instanceof NumberLiteral,
+        Replace,
+        '๑๒',
     ],
     [
         'suggest sibling property when property reference is selected',
@@ -303,6 +533,26 @@ test.each([
         }
     },
 );
+
+test('a definition reference offers only statics, never instance members', () => {
+    // `Cat.` resolves against the structure definition itself, so an instance input (`hat`) or a
+    // non-static function (`meow`) would be a NameException if chosen.
+    const code = "•Cat(hat•'')(\nƒ meow() 1\n↑ ƒ purr() 2\n)\nCat.";
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const suggestions = getEditsAt(
+        project,
+        new Caret(source, code.length, undefined, undefined),
+        undefined,
+        DefaultLocales,
+    )
+        .map((t) => t.getNewNode(DefaultLocales)?.toWordplay())
+        .filter((s): s is string => s !== undefined);
+
+    expect(suggestions).toContain('Cat.purr()');
+    expect(suggestions.some((s) => s.includes('hat'))).toBe(false);
+    expect(suggestions.some((s) => s.includes('meow'))).toBe(false);
+});
 
 test('pattern token suggestions insert real glyphs, not placeholder Sym values', () => {
     // Inside a pattern, several glyphs are reinterpreted and carry placeholder
@@ -605,9 +855,10 @@ test('selecting a typed Bind with no default value suggests adding one', () => {
 test('appending an input to a struct in use suggests a Bind with a default value', () => {
     // The "+" button on a struct's input list opens the menu with a
     // FieldPosition anchor (parent = StructureDefinition, field = 'inputs',
-    // index = end). The proposed Bind must include a default value or a
-    // MissingInput conflict at the existing call site (Fun(1 3)) blocks
-    // the suggestion in blocks mode.
+    // index = end). The proposed Bind must include a default value, or adding an
+    // input silently breaks the existing call site (Fun(1 3)) with a MissingInput
+    // conflict. (That conflict doesn't block the edit — only UnparsableConflict
+    // does, per blocking.test.ts — which is exactly why the default matters here.)
     const code = '•Fun(a•# b•#)\nFun(1 3)';
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);

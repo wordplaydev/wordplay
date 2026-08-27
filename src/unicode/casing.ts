@@ -12,12 +12,13 @@
 const Valid = new Map<string, string | undefined>();
 
 /**
- * A BCP-47 tag safe to hand to `toLocale*Case`, or undefined to use the root
- * mapping. Intl throws a RangeError on a structurally invalid tag — which
- * includes Wordplay's multilingual tag form (`es_en`) and any stray code a
- * creator writes — so an unusable tag degrades to root rather than crashing.
+ * A BCP-47 tag safe to hand to an `Intl` constructor (`toLocale*Case`,
+ * `Intl.Collator`), or undefined to use the root behavior. Intl throws a
+ * RangeError on a structurally invalid tag — which includes Wordplay's
+ * multilingual tag form (`es_en`) and any stray code a creator writes — so an
+ * unusable tag degrades to root rather than crashing.
  */
-export function toCasingLocale(tag: string | undefined): string | undefined {
+export function toIntlLocale(tag: string | undefined): string | undefined {
     if (tag === undefined || tag === '') return undefined;
     const cached = Valid.get(tag);
     if (cached !== undefined || Valid.has(tag)) return cached;
@@ -33,7 +34,7 @@ export function toCasingLocale(tag: string | undefined): string | undefined {
 
 /** The given text in uppercase, using the tag's rules when it names a locale. */
 export function upperCase(text: string, tag?: string): string {
-    const locale = toCasingLocale(tag);
+    const locale = toIntlLocale(tag);
     return locale === undefined
         ? text.toUpperCase()
         : text.toLocaleUpperCase(locale);
@@ -41,7 +42,7 @@ export function upperCase(text: string, tag?: string): string {
 
 /** The given text in lowercase, using the tag's rules when it names a locale. */
 export function lowerCase(text: string, tag?: string): string {
-    const locale = toCasingLocale(tag);
+    const locale = toIntlLocale(tag);
     return locale === undefined
         ? text.toLowerCase()
         : text.toLocaleLowerCase(locale);

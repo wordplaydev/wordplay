@@ -56,6 +56,7 @@ import ListAccess from '@nodes/ListAccess';
 import Name from '@nodes/Name';
 import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
+import Markup from '@nodes/Markup';
 import Paragraph from '@nodes/Paragraph';
 import Previous from '@nodes/Previous';
 import Program from '@nodes/Program';
@@ -70,6 +71,7 @@ import TableType from '@nodes/TableType';
 import This from '@nodes/This';
 import Translation from '@nodes/Translation';
 import TypeInputs from '@nodes/TypeInputs';
+import TypeVariable from '@nodes/TypeVariable';
 import TypeVariables from '@nodes/TypeVariables';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import UnionType from '@nodes/UnionType';
@@ -257,6 +259,7 @@ const Templates: Node[] = [
     ConceptLink.make(PLACEHOLDER_SYMBOL),
     WebLink.make('🔗', 'http://wordplay.dev'),
     Example.make(Program.make([ExpressionPlaceholder.make()])),
+    new Markup([new Paragraph([Words.make()])]),
     new Paragraph([Words.make()]),
     Words.make(),
 
@@ -280,6 +283,7 @@ const Templates: Node[] = [
         ExpressionPlaceholder.make(),
     ),
     TypeInputs.make([]),
+    TypeVariable.make([PLACEHOLDER_SYMBOL]),
     TypeVariables.make([]),
     new AnyType(),
     StreamType.make(),

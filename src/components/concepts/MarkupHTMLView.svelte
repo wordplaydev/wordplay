@@ -563,6 +563,10 @@
     .markup {
         display: flex;
         flex-direction: column;
+        /* Authored prose opts out of the global `user-select: none`; lists and
+           inline link buttons inherit, so a selection can't skip them. */
+        user-select: text;
+        -webkit-user-select: text;
         /* Put Noto Color Emoji first so emoji codepoints in markup
            prose render in color in Safari. The inherited
            --wordplay-app-font has Noto Sans first, which Safari can't

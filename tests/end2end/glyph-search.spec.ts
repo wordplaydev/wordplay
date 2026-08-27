@@ -87,3 +87,72 @@ test('the Han browse grid is capped with a "search to find more" hint', async ({
     // And a hint points to search for the rest.
     await expect(page.locator('.emojis .more')).toBeVisible();
 });
+
+/**
+ * Typing into the search field used to expand the chooser by swapping between
+ * two OverflowToolbar instances, which remounted the pinned field and dropped
+ * focus after the first character. `.fill()` sets a value in one shot and never
+ * reproduced it, so this types key by key.
+ */
+test('the search field keeps focus while typing character by character', async ({
+    page,
+}) => {
+    await createTestProject(page);
+    await page.locator('textarea.keyboard-input').first().focus();
+
+    // Deliberately NOT via openChooser: typing into the collapsed row is what
+    // fires the auto-expand effect on the first character.
+    const field = page.locator('#glyph-search');
+    await field.click();
+    await field.pressSequentially('water', { delay: 50 });
+
+    await expect(field).toBeFocused();
+    await expect(field).toHaveValue('water');
+    await expect(page.locator('.emojis')).toBeVisible();
+});
+
+/**
+ * The color/monochrome choice belongs to the chooser, not the toolbar row: it
+ * means nothing until there are glyphs to pick, so it appears with them.
+ */
+test('the presentation mode appears only once the chooser is open', async ({
+    page,
+}) => {
+    await createTestProject(page);
+    await page.locator('textarea.keyboard-input').first().focus();
+
+    const mode = page.locator('[data-uiid="presentation"]');
+    await expect(mode).toHaveCount(0);
+
+    await page.getByText('😊').first().click();
+    await expect(mode).toHaveCount(1);
+
+    // Each option is drawn in the presentation it selects — color (U+FE0F) and
+    // monochrome (U+FE0E) — so the control shows its own effect.
+    const options = mode.locator('button[role="radio"]');
+    await expect(options).toHaveCount(2);
+    await expect(options.nth(0)).toHaveText('🎨\uFE0F');
+    await expect(options.nth(1)).toHaveText('🎨\uFE0E');
+    await expect(options.nth(0)).toHaveAttribute('aria-checked', 'true');
+});
+
+test('picking in monochrome mode inserts an emoji that renders monochrome', async ({
+    page,
+}) => {
+    test.setTimeout(60000);
+    await createTestProject(page);
+    await page.locator('textarea.keyboard-input').first().focus();
+    await page.getByText('😊').first().click();
+
+    await page
+        .locator('[data-uiid="presentation"] button[role="radio"]')
+        .nth(1)
+        .click();
+    // The grid previews the pick, so it switches faces with the mode.
+    await expect(page.locator('.emojis span.emoji.mono').first()).toBeVisible();
+
+    await page.locator('#glyph-search').pressSequentially('grinning');
+    await page.locator('.emojis .emoji button').first().click();
+
+    await expect(page.locator('.editor .emoji-mono')).toHaveCount(1);
+});

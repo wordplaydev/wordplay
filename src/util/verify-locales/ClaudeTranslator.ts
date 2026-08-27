@@ -312,6 +312,8 @@ export default class ClaudeTranslator implements Translator {
         sourceLocale: string,
         targetLocale: string,
         targetText: LocaleText | undefined,
+        /** True when the strings being translated ARE the glossary terms. */
+        translatingGlossary = false,
     ): string {
         // Empty for a locale that declares no conventions, so its prompt is
         // unchanged (and still cached) by this section existing.
@@ -328,7 +330,12 @@ ${getPluralRulesForPrompt(targetLocale)}
 - Translate fully into the target language, written in its own native script. Do NOT leave words in English or merely transliterate them unless the language genuinely has no equivalent — prefer the native word a young learner of that language would recognize. This applies to ordinary text, names, and key terms alike (it does NOT apply to the @Concept and $name references above, which always stay verbatim).
 - Write for young, multilingual learners.
 - Key terms — the glossary below. When one of these words appears as ordinary text (a bare word, NOT a $name mention or @Concept link above), translate it to its listed target-language word and use that same word consistently. Where a line shows only an English word, translate it naturally and keep that choice consistent.
-${getGlossaryForPrompt(targetText)}
+${getGlossaryForPrompt(targetText)}${
+            translatingGlossary
+                ? `
+- The strings in THIS request are those glossary terms themselves, one word or phrase each. A bare word has no sentence around it to disambiguate it, so translate each in the sense its definition above gives — not the commonest sense of the English word. ("markup" is formatted text, not a price increase or a page margin.)`
+                : ''
+        }
 
 ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`;
     }
@@ -838,7 +845,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         sourceLocale: string,
         targetLocale: string,
         targetText?: LocaleText,
-        options?: { names?: boolean },
+        options?: { names?: boolean; glossary?: boolean },
     ): Promise<(string | null)[] | undefined> {
         // Everything this call reports — chunk progress, refusals, the final
         // count — belongs to one translation, so group it under the pair being
@@ -877,7 +884,12 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             }),
         );
 
-        const system = this.buildSystem(sourceLocale, targetLocale, targetText);
+        const system = this.buildSystem(
+            sourceLocale,
+            targetLocale,
+            targetText,
+            options?.glossary === true,
+        );
 
         // Translate units in bounded, deduplicated chunks. A chunk that fails
         // leaves its own segments null and the rest stand: the caller keeps a
@@ -1062,10 +1074,19 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             // a re-run retry it. This is what makes "the translator can't
             // break links" true rather than merely likely (#1263).
             const link = mismatchedConceptLinks(source, repaired);
-            if (link !== undefined)
+            if (link !== undefined) {
+                // Say which way it went. "Altered" covers dropped, duplicated,
+                // and invented, and those need different fixes — without the
+                // counts every report looks the same and the only way to tell
+                // is to re-run with a debugger attached.
+                const occurrences = (text: string) =>
+                    Array.from(text.matchAll(ConceptPattern)).filter(
+                        ([match]) => match === link,
+                    ).length;
                 return complain(
-                    `A translation altered the concept link ${link}; marking it unwritten (${targetLocale}).`,
+                    `A translation altered the concept link ${link} (${occurrences(source)} in the source, ${occurrences(repaired)} in the translation); marking it unwritten (${targetLocale}).`,
                 );
+            }
             // A placeholder that outlived restoration means the restore
             // silently failed, and `mismatchedConceptLinks` can't always
             // see it: when the source carries no links of its own, source

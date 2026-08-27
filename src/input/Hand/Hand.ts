@@ -24,6 +24,7 @@ import { createHandStructure, type HandState } from '@output/Gesture/Hand';
 import { createPlaceStructure } from '@output/Place/Place';
 import type Evaluation from '@runtime/Evaluation';
 import NumberValue from '@values/NumberValue';
+import type { StreamKind } from '@values/StreamValue';
 
 /** Frames a hand may be missing before we revert to the default Hand structure. */
 const MISSES_TO_LOSE_LOCK = 10;
@@ -73,6 +74,8 @@ const LM = {
  * CameraLandmarkStream; only the landmark → HandState geometry is here.
  */
 export default class Hand extends CameraLandmarkStream<HandLandmarkerResult> {
+    readonly kind: StreamKind = 'hand';
+
     /** Most recent emitted state — held when MediaPipe misses for a few frames. */
     private state: HandState;
     private consecutiveMisses = 0;

@@ -13,6 +13,44 @@ import type Expression from '@nodes/Expression';
 import type StreamDefinition from '@nodes/StreamDefinition';
 import SimpleValue from '@values/SimpleValue';
 
+/**
+ * A stable identifier for what kind of stream a `StreamValue` is.
+ *
+ * Nothing else in the runtime answers that question stably: `instanceof` can't
+ * separate the family classes (Face, Hand, and Objects all extend
+ * `CameraLandmarkStream`; Volume and Pitch extend `AudioStream`),
+ * `constructor.name` doesn't survive minification, and a stream definition's
+ * names are locale data. Audible re-evaluation cues need a key that is none of
+ * those, since a cue names the stream that reacted.
+ *
+ * Every concrete `StreamValue` declares one, so a new stream is a compile error
+ * until it says which kind it is and anything keyed by `StreamKind` gives it a
+ * value.
+ */
+export type StreamKind =
+    | 'beat'
+    | 'button'
+    | 'camera'
+    | 'chat'
+    | 'choice'
+    | 'collision'
+    | 'contour'
+    | 'face'
+    | 'hand'
+    | 'key'
+    | 'motion'
+    | 'now'
+    | 'objects'
+    | 'pitch'
+    | 'placement'
+    | 'pointer'
+    | 'reaction'
+    | 'scene'
+    | 'speech'
+    | 'time'
+    | 'volume'
+    | 'webpage';
+
 export const MAX_STREAM_LENGTH = 256;
 
 export default abstract class StreamValue<
@@ -25,6 +63,10 @@ export default abstract class StreamValue<
 
     /** The definition of this stream type */
     readonly definition: StreamDefinition;
+
+    /** What kind of stream this is, for anything that must name a stream
+     * without reading locale data. See StreamKind. */
+    abstract readonly kind: StreamKind;
 
     /** The stream of values */
     values: { value: ValueType; stepIndex: StepNumber }[] = [];

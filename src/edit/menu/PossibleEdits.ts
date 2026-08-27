@@ -98,6 +98,9 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import TypeVariable from '@nodes/TypeVariable';
 import TypeVariables from '@nodes/TypeVariables';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import StreamType from '@nodes/StreamType';
+import PatternType from '@nodes/PatternType';
+import PatternLiteral from '@nodes/PatternLiteral';
 import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
 import UnparsableExpression from '@nodes/UnparsableExpression';
@@ -236,10 +239,22 @@ export function getEditsAt(
             1,
         );
 
-        return soundRevisions(
+        const revisions = soundRevisions(
             removeDuplicates(getNodeRevisions(caret.position, edit), locales),
             locales,
         );
+        // Nothing can replace this selection? Offer what can go inside it. Checked after
+        // filtering, since a selection's only outward offer is often one the gates then drop
+        // (wrapping a root block in a block prints as a different program).
+        return revisions.length > 0
+            ? revisions
+            : soundRevisions(
+                  removeDuplicates(
+                      getInwardFieldEdits(caret.position, edit),
+                      locales,
+                  ),
+                  locales,
+              );
     }
     // If the token is a position rather than a node, find edits for the nodes between.
     else if (caret.isPosition()) {
@@ -255,6 +270,34 @@ export function getEditsAt(
             );
 
             edits = getNodeRevisions(caret.tokenExcludingSpace, edit);
+
+            // A caret inside a number's digits adds a glyph right there. Done here rather than
+            // through getReplacementsForTokenAnchor, which has no caret to aim at and so
+            // offered every position, including ones the creator's caret wasn't near.
+            const literal = caret.tokenExcludingSpace.getParent(context);
+            const literalParent = literal?.getParent(context);
+            const start = context.source.getNodeFirstPosition(
+                caret.tokenExcludingSpace,
+            );
+            if (
+                literal instanceof NumberLiteral &&
+                literalParent !== undefined &&
+                start !== undefined
+            )
+                edits = [
+                    ...edits,
+                    ...literal
+                        .getPossibleDigitInsertions(caret.position - start)
+                        .map(
+                            (replacement) =>
+                                new Replace(
+                                    context,
+                                    literalParent,
+                                    literal,
+                                    replacement,
+                                ),
+                        ),
+                ];
         }
 
         // What's before and after the caret?
@@ -373,8 +416,12 @@ function getFieldAssignments(fieldPosition: FieldPosition, edit: EditContext) {
         (Array.isArray(fieldValue) && index !== undefined)
     ) {
         // Figure out where the insertion is happening, so we know how to split space.
-        let position =
-            fieldValue === undefined || fieldValue.length === 0
+        // Index 0 means "before everything", so there is no preceding item to measure from —
+        // reading fieldValue[-1] threw. Use the field's own start position instead.
+        const position =
+            fieldValue === undefined ||
+            fieldValue.length === 0 ||
+            (index ?? 1) === 0
                 ? (context.source.getFieldPosition(parent, field) ?? 0)
                 : (context.source.getNodeLastPosition(
                       fieldValue[(index ?? 1) - 1],
@@ -516,6 +563,64 @@ function getNodeRevisions(anchor: Node, edit: EditContext) {
         }
     }
 
+    // The name of a property reference (`hat` in `c.hat`) can only be swapped for another name,
+    // so a member that needs a call — `c.meow()` — has to replace the whole property reference.
+    // Offered at the grandparent level, the same shape as the token anchor above.
+    if (
+        anchor instanceof Reference &&
+        parent instanceof PropertyReference &&
+        anchor === parent.name
+    ) {
+        const grandparent = parent.getParent(context);
+        if (grandparent)
+            edits = [
+                ...edits,
+                ...PropertyReference.getPossibleReferences(
+                    undefined,
+                    parent,
+                    context,
+                ).map(
+                    (replacement) =>
+                        new Replace(context, grandparent, parent, replacement),
+                ),
+            ];
+    }
+
+    return edits;
+}
+
+/**
+ * What can go *inside* a node: appends into its list fields and values for its empty ones. Used
+ * when nothing can replace a selection — a Program, a root Block, an empty Docs — so that a
+ * selection is never a dead end. Selecting everything then offers "add a statement" rather than
+ * an empty menu.
+ */
+function getInwardFieldEdits(anchor: Node, edit: EditContext): Revision[] {
+    // Filtered per attempt, not once at the end: the retry below has to know whether an append
+    // actually survives the soundness gate, and the raw list is never empty.
+    const assignmentsFor = (field: string, index: number | undefined) =>
+        soundRevisions(
+            removeDuplicates(
+                getFieldAssignments({ parent: anchor, field, index }, edit),
+                edit.locales,
+            ),
+            edit.locales,
+        );
+    let edits: Revision[] = [];
+    for (const grammarField of anchor.getGrammar()) {
+        const value = anchor.getField(grammarField.name);
+        // A field already holding a node is left alone: its only offer would be a removal, and
+        // "delete the program's block" is not what an empty menu was missing.
+        if (value !== undefined && !Array.isArray(value)) continue;
+        const index = Array.isArray(value) ? value.length : undefined;
+        let assignments = assignmentsFor(grammarField.name, index);
+        // Appending at the end can be unsound when the last statement would swallow what
+        // follows (a program ending in an incomplete query). Offer the start instead, so
+        // "add a statement" still works rather than the menu coming up empty.
+        if (assignments.length === 0 && index !== undefined && index > 0)
+            assignments = assignmentsFor(grammarField.name, 0);
+        edits = [...edits, ...assignments];
+    }
     return edits;
 }
 
@@ -563,6 +668,38 @@ function getRelativeFieldEdits(
     if (parent instanceof Program) return [];
     const field = parent?.getFieldOfChild(anchorNode);
     if (parent === undefined || field === undefined) return [];
+
+    // A caret touching a number literal — before it, inside it, or after it — offers that
+    // literal with a digit added at the caret. This is how a numeral gets assembled a glyph at
+    // a time, and the caret is the only thing that says where the glyph goes. Not gated on
+    // isAfterAnchor: a caret before a number can add a digit there just as well as after.
+    // Reached with the literal itself as the anchor, or its number token — the token is the
+    // anchor whenever the caret sits between the digits and a unit, as in `5|m`.
+    const numberAnchor =
+        anchorNode instanceof NumberLiteral
+            ? anchorNode
+            : anchorNode instanceof Token && parent instanceof NumberLiteral
+              ? parent
+              : undefined;
+    if (adjacent && numberAnchor) {
+        const literalParent = numberAnchor.getParent(context);
+        const start = context.source.getNodeFirstPosition(numberAnchor.number);
+        if (literalParent !== undefined && start !== undefined)
+            edits = [
+                ...edits,
+                ...numberAnchor
+                    .getPossibleDigitInsertions(position - start)
+                    .map(
+                        (replacement) =>
+                            new Replace(
+                                context,
+                                literalParent,
+                                numberAnchor,
+                                replacement,
+                            ),
+                    ),
+            ];
+    }
 
     // Generate possible nodes that could replace the token prior
     // (e.g., autocomplete References, create binary operations)
@@ -890,6 +1027,9 @@ const PossibleNodes = [
     TypeVariables,
     TypeVariable,
     ConversionType,
+    StreamType,
+    PatternType,
+    PatternLiteral,
     // Markup content
     Words,
 ];
@@ -957,6 +1097,14 @@ function getPossibleNodes(
             // Filter out nodes that don't match the given type, if provided.
             (action.type === undefined ||
                 !(node instanceof Expression) ||
+                // A suggestion that wraps the anchor is a deliberate structural change, so its
+                // type is allowed to differ from the anchor's — changing the type is the whole
+                // point of `x → #km`, `list[1]`, or `x ??? …`. Without this, the expected type
+                // for a selected node (which defaults to the node's own type) silently dropped
+                // every wrap that wasn't type-preserving.
+                ('node' in action &&
+                    action.node !== undefined &&
+                    node.contains(action.node)) ||
                 action.type.accepts(
                     node.getType(action.context),
                     action.context,

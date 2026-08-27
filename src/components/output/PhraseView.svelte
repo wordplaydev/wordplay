@@ -45,12 +45,17 @@
     } from '@output/animation/OutputAnimation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import PlainTextView from '@components/output/PlainTextView.svelte';
-    import moveOutput from '@components/palette/editOutput';
+    import moveOutputWithKey, {
+        arrowMove,
+    } from '@components/output/keyboardMove';
     import {
+        getAnnouncer,
         getPaletteOpen,
         getProject,
         getRevealPalette,
         getSelectedOutput,
+        getStageGrid,
+        getStageScene,
     } from '@components/project/Contexts';
 
     interface Props {
@@ -87,6 +92,9 @@
     const project = getProject();
     const revealPalette = getRevealPalette();
     const paletteOpen = getPaletteOpen();
+    const announce = getAnnouncer();
+    const grid = getStageGrid();
+    const stageScene = getStageScene();
 
     // Compute a local context based on size and font.
     let localContext = $derived(phrase.getRenderContext(context));
@@ -404,7 +412,7 @@
             $project === undefined ||
             selection?.isEmpty() ||
             entered ||
-            !event.key.startsWith('Arrow') ||
+            arrowMove(event.key) === undefined ||
             !(phrase.value.creator instanceof Evaluate)
         )
             return;
@@ -424,31 +432,21 @@
         ))
             return;
 
-        const increment = 0.5;
-        let horizontal =
-            event.key === 'ArrowLeft'
-                ? -1 * increment
-                : event.key === 'ArrowRight'
-                  ? increment
-                  : 0;
-        let vertical =
-            event.key === 'ArrowUp'
-                ? 1 * increment
-                : event.key === 'ArrowDown'
-                  ? -1 * increment
-                  : 0;
-
+        // Clear the text-editing caret before revising: the move re-mounts this
+        // view, and a caret index into text that no longer exists is stale.
         select(null);
 
-        moveOutput(
-            DB,
-            $project,
-            [phrase.value.creator],
-            $locales,
-            horizontal,
-            vertical,
-            true,
-        );
+        moveOutputWithKey(event, {
+            db: DB,
+            project: $project,
+            creator: phrase.value.creator,
+            output: phrase,
+            locales: $locales,
+            scene: $stageScene,
+            grid: $grid ?? false,
+            selection,
+            announce: $announce,
+        });
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
@@ -508,8 +506,13 @@
         onkeydown={editable && interactive ? handleKeyDown : null}
         style:font-family={getFaceCSS(localContext.face)}
         style:font-size={getSizeCSS(localContext.size)}
-        style:background={phrase.background?.toCSS() ?? null}
-        style:color={getColorCSS(phrase.getFirstRestPose(), phrase.pose)}
+        style:background={phrase.background?.toCSS(localContext.adapting) ??
+            null}
+        style:color={getColorCSS(
+            phrase.getFirstRestPose(),
+            phrase.pose,
+            localContext.adapting,
+        )}
         style:opacity={getOpacityCSS(phrase.getFirstRestPose(), phrase.pose)}
         style:width="{metrics.width}px"
         style:height="{metrics.height}px"
@@ -532,8 +535,12 @@
             ? `${getSizeCSS(phrase.aura.offsetX ?? 0)} ${getSizeCSS(
                   phrase.aura.offsetY ?? 0,
               )} ${getSizeCSS(phrase.aura.blur ?? 0)} ${
-                  phrase.aura.color?.toCSS() ??
-                  getColorCSS(phrase.getFirstRestPose(), phrase.pose) ??
+                  phrase.aura.color?.toCSS(localContext.adapting) ??
+                  getColorCSS(
+                      phrase.getFirstRestPose(),
+                      phrase.pose,
+                      localContext.adapting,
+                  ) ??
                   ''
               }`
             : null}
@@ -572,6 +579,7 @@
             />
         {:else if typeof displayed === 'string'}<PlainTextView
                 text={displayed}
+                adapting={localContext.adapting}
             />{:else}<MarkupHTMLView markup={displayed} inline />{/if}
     </div>
 {/if}
@@ -603,6 +611,18 @@
        than where the layout put it. */
     :global(.editing) .phrase {
         pointer-events: all;
+    }
+
+    /* A read-only stage (gallery, how-to, preview) never drags or pans — the
+       whole gesture block is gated on `editable` in OutputView — so a drag
+       across its text has nothing to compete with and can select. The stage
+       itself stays user-select: none, so only the words are selectable, which
+       also keeps a drag from painting an out-of-reading-order highlight across
+       phrases (each is its own absolutely-positioned, transformed box). */
+    :global(.stage.readonly) .phrase {
+        pointer-events: auto;
+        user-select: text;
+        -webkit-user-select: text;
     }
 
     .phrase[data-selectable='true'] {

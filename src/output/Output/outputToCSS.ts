@@ -113,8 +113,11 @@ export function getSizeCSS(size: number | undefined) {
     return size !== undefined ? sizeToPx(size) : null;
 }
 
-export function getColorCSS(primary: Pose, secondary: Pose) {
-    return (primary.color ?? secondary.color)?.toCSS() ?? null;
+/** `adapting` is required rather than defaulted so no output-layer call site
+ *  can silently leave a color unadapted while its neighbours are adapted —
+ *  which is precisely how contrast would be lost. */
+export function getColorCSS(primary: Pose, secondary: Pose, adapting: boolean) {
+    return (primary.color ?? secondary.color)?.toCSS(adapting) ?? null;
 }
 
 export function getOpacityCSS(primary: Pose, secondary: Pose) {

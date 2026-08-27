@@ -9,6 +9,7 @@ import Locales from '@locale/Locales';
 import firstSentence from '@locale/firstSentence';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Context from '@nodes/Context';
+import Dimension from '@nodes/Dimension';
 import Evaluate from '@nodes/Evaluate';
 import type Node from '@nodes/Node';
 import PropertyReference from '@nodes/PropertyReference';
@@ -195,6 +196,31 @@ describe('getMenuNoteMarkup', () => {
             expect(note, name).not.toBe(
                 ownDocSentence(Reference.make(name), locales),
             );
+    });
+
+    test('a unit is named, not given the generic unit doc', () => {
+        const { context, locales } = setup('1m');
+        const meters = Dimension.make(false, 'm', 1);
+        const seconds = Dimension.make(false, 's', 1);
+        const meterNote = getMenuNoteMarkup(meters, context, locales).toText();
+        const secondNote = getMenuNoteMarkup(
+            seconds,
+            context,
+            locales,
+        ).toText();
+        // Every unit shares one doc ("I am a unit of measurement!"), so the note has to
+        // come from the unit's name instead or the whole list reads identically (#890).
+        expect(meterNote).toBe('meters');
+        expect(meterNote).not.toBe(ownDocSentence(meters, locales));
+        expect(meterNote).not.toBe(secondNote);
+    });
+
+    test("a creator's own unit keeps the generic unit doc", () => {
+        const { context, locales } = setup('1cat');
+        const cats = Dimension.make(false, 'cat', 1);
+        expect(getMenuNoteMarkup(cats, context, locales).toText()).toBe(
+            ownDocSentence(cats, locales),
+        );
     });
 
     test('a non-call node falls back to its own doc', () => {

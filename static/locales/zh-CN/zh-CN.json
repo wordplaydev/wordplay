@@ -479,10 +479,12 @@
         },
         "Markup": {
             "name": "标记",
-            "description": "$~标记 $#count[$count 个段落]",
+            "description": "$~标记文本 $#count[$count 个段落]",
             "emotion": "serious",
             "doc": [
-                "$~我是一列段落，用到了解释里可用的多种 @markup，比如 @Words、@WebLink、@ConceptLink 和 @Example。"
+                "$~我是一串段落，用上了 @Doc 里各种各样的标记文本，比如 @Words、@WebLink、@ConceptLink 和 @Example。",
+                "你会在 @Doc 里找到我，还有在 @FormattedLiteral 里：",
+                "\\¶我是一段文档，里面有*加粗*的文字。我可以引用像 @Phrase 这样的概念，也可以链接到<网络上的东西@https://wordplay.dev>。¶\n短语(\n\t`我是 @Phrase 的标记文本，用了*加粗*、/斜体/和_下划线_`\n)\\"
             ],
             "label": {
                 "paragraphs": "段落"
@@ -573,7 +575,7 @@
         },
         "Branch": {
             "name": "分支",
-            "description": "$~根据 $condition 选择标记",
+            "description": "$~基于 $condition 的标记文本选择",
             "emotion": "serious",
             "doc": [
                 "我是一种在两个解释分段之间根据有无定义和正确与否进行选择的方法。",
@@ -3234,6 +3236,24 @@
                 "TiB": "$~太比字节",
                 "lux": "$~勒克斯",
                 "fc": "$~英尺烛光"
+            },
+            "category": {
+                "time": "$~时间",
+                "length": "$~长度",
+                "weight": "$~重量",
+                "temperature": "$~温度",
+                "angle": "$~角度",
+                "area": "$~面积",
+                "volume": "$~体积",
+                "speed": "$~速度",
+                "pressure": "$~压强",
+                "energy": "$~能量",
+                "power": "$~功率",
+                "electricity": "$~电",
+                "frequency": "$~频率",
+                "data": "$~数据",
+                "brightness": "$~亮度",
+                "other": "$~其他"
             }
         },
         "List": {
@@ -3629,23 +3649,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~我可以拿一个列表，创建一个里面值已排序的新列表。像这样：",
+                        "$~我可以拿一个列表，做出一个把值排好序的新列表。就像这样：",
                         "\\[1 5 8 0 2].排序好的()\\",
-                        "我也可以对 @Text 值这样做",
+                        "我也可以对 @Text 值这样做，按字母顺序排。大写字母会排在对应的小写字母旁边，所以一个词不会因为开头是大写就被排到最后：",
                         "\\['橙子' '猕猴桃' '香蕉' '苹果'].排序好的()\\",
-                        "如果你有一个不是 @Number 或 @Text 值的列表，你可以给我一个 @FunctionDefinition，把每个项目变成一个 @Number，这样我就能排序了。例如，这里我们有一个由不同长度的列表组成的列表；如果你给我一个把每个列表变成它长度的函数，我就能按它们的长度排序。",
-                        "\\[[1] [2 3] [4 8 12] [8]].排序好的(ƒ(列表) 列表.📏())\\"
+                        "如果你有一个列表，里面的值既不是 @Number 也不是 @Text，你可以给我一个 @FunctionDefinition，把每个项变成 @Number 或 @Text，这样我就能排序了。举个例子，这里有一个列表，里面装着长度不同的列表；如果你给我一个能把每个列表变成它的长度的函数，我就能按长度排序。",
+                        "\\[[1] [2 3] [4 8 12] [8]].排序好的(ƒ(列表2) 列表2.长度())\\",
+                        "一个能生成 @Text 的函数，可以让你按你算出来的一个词来排序，而不是按值本身排序。这里我按姓氏给名字排序：",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].排序好的(\n\tƒ(名字2•'') (名字2 ÷ ' ').最后一个()\n)\\"
                     ],
                     "names": "排序好的",
                     "inputs": [
                         {
-                            "doc": "$~用来给列表 @value 排序的可选 @FunctionDefinition。它应该把值变成一个可以用于排序的 @Number。",
+                            "doc": "$~可选的 @FunctionDefinition，用来给列表 @value 排序。它应该把值变成 @Number 或 @Text，这样才能用来给列表排序。",
                             "names": "定序器"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~要变成 @Number 的 @value。",
+                            "doc": "$~用来变成 @Number 或 @Text 的 @value。",
                             "names": "值"
                         }
                     ]
@@ -5498,7 +5520,11 @@
                 "doc": "@Output 是否应该y轴对称，代替默认值。",
                 "names": "垂直翻转"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]",
+            "music": {
+                "doc": "$~当我的动画状态开始时，或者当一个 @Sequence 碰到我时，我应该播放的 @Music。它是一段很短的声音，我只会完整播放一遍。",
+                "names": "$~音乐"
+            }
         },
         "Color": {
             "doc": [
@@ -6828,7 +6854,45 @@
         "font": {
             "app": "Noto Sans Simplified Chinese",
             "code": "Noto Sans Mono",
-            "missing": "$~否"
+            "missing": "$~否",
+            "form": {
+                "sans": "$~无衬线字体",
+                "serif": "$~衬线字体",
+                "slab": "$~粗衬线字体",
+                "typewriter": "$~打字机字体",
+                "handwriting": "$~手写体",
+                "brush": "$~毛笔字体",
+                "script": "$~手写连笔字体",
+                "poster": "$~海报字体",
+                "pixel": "$~像素字体",
+                "outline": "$~空心字体",
+                "textured": "$~带纹理的字体",
+                "emoji": "$~图案，不是字母"
+            },
+            "impression": {
+                "calm": "$~平静",
+                "oldFashioned": "$~老式",
+                "strong": "$~有力",
+                "quirky": "$~古怪",
+                "playful": "$~有趣",
+                "excited": "$~兴奋",
+                "childlike": "$~孩子气",
+                "artistic": "$~有艺术感",
+                "futuristic": "$~未来感",
+                "energetic": "$~有活力",
+                "cute": "$~可爱",
+                "cheerful": "$~欢快",
+                "fancy": "$~华丽"
+            },
+            "mechanic": {
+                "sameWidth": "$~每个字母宽度相同",
+                "tallLowercase": "$~小写字母和大写字母一样高",
+                "shortLowercase": "$~小写字母比大写字母矮很多"
+            },
+            "description": {
+                "and": "$~$first 和 $second",
+                "full": "$~$form$impression[，$impression|]$mechanics[，$mechanics|]"
+            }
         },
         "phrases": {
             "welcome": "你好"
@@ -6884,6 +6948,10 @@
             },
             "logo": {
                 "description": "$~一个对话气泡，里面有你书写系统中的一个字母"
+            },
+            "synced": {
+                "saved": "$~跨设备保存",
+                "signedOut": "$~登录后可跨设备保存"
             }
         },
         "tile": {
@@ -7478,6 +7546,13 @@
             "hidden": {
                 "message": "$~所有内容都不在舞台上了。",
                 "show": "$~显示全部内容"
+            },
+            "snap": {
+                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
+                "withOutput": "$?",
+                "withGrid": "$?",
+                "aligned": "$?",
+                "none": "$?"
             }
         },
         "timeline": {
@@ -7499,7 +7574,7 @@
                 "timeline": "$~/时间线/让你一步一步地*向前*和*向后*查看程序的运行。它会出现在 ✏️ *编辑*模式和 ⏸️ *调试*模式下舞台的工具栏里。这是一个很好的方法，可以看清程序是*如何*算出它的值的，也能帮你在脑海中建立起 @wordplay 程序运行方式的模型，尤其是当你没有看到想要的效果时。",
                 "annotations": "$~/注释/ 窗口是显示每一步说明的地方。当你逐步运行你的程序时，你会在这里读到刚刚发生了什么。",
                 "editor": "$~/编辑器/ 显示你的代码。在逐步运行时，你程序每个部分的*值*会在它被运算*之后*出现在那个部分旁边，这样你可以看着值随程序运行而逐渐建立。",
-                "history": "$~/历史/ 显示你程序收到的每一个*输入*，比如键、时间滴答和指针事件。它是*可拖动的*，所以你只要拖动就能回到程序运算历史中的任何时刻。",
+                "history": "$~/历史记录/ 会显示你的程序收到过的每一个 *输入*，比如按键、时间点和指针事件。它是 *可拖动的*，所以你只要拖一下，就能回到程序求值历史中的任意一个时刻。如果你更想 *听* 这些输入，而不是看它们，可以在设置里打开 /求值提示音/，这样 @wordplay 就会为每个输入播放一小段声音，不同种类的输入声音也不同。",
                 "stepControls": "$~/步进控制/ 让你精确地走过运算。你可以跳到*开始*或*结束*，一次一步地*向前*或*向后*步进，按*一个输入*跳跃，*跳出*一个函数，或跳到代码中*当前选择*的部分。",
                 "modes": "$~/模式切换器/用来选择程序的运行方式。在 ✏️ *编辑*模式下，程序会停在当前的位置，你可以修改它——你的修改会重新运行，显示出在那一点的效果。在 ⏸️ *调试*模式下，代码是只读的，程序每个部分的*当前值*会显示在它旁边，出现在编辑器里和调色板里。在 ▶️ *播放*模式下，你的程序会从当前位置实时运行，并实时响应输入。在切换器旁边，/表演/按钮——一个被全屏边角包住的播放三角形——会从头开始表演，并用舞台填满整个屏幕；而 ↻ 会在任何模式下重置程序。"
             }
@@ -8021,6 +8096,38 @@
                             "$~把字幕放大两倍",
                             "$~把字幕放大三倍"
                         ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~项目颜色",
+                        "labels": ["$~保持", "$~翻转"],
+                        "tips": [
+                            "$~按项目写好的样子显示颜色，即使在深色屏幕上也一样",
+                            "$~在深色屏幕上，把明亮项目的颜色翻转为深色：每种颜色都保持原来的色相，颜色之间的差别也和项目里设定的一样"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~求值提示音",
+                        "labels": ["$~关闭", "$~开启"],
+                        "tips": [
+                            "$~程序重新求值时不发出声音",
+                            "$~程序每次重新求值时播放一小段声音，每种输入对应一种声音"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~动画提示音",
+                        "labels": ["$~关闭", "$~开启"],
+                        "tips": [
+                            "$~输出播放动画时不发出声音",
+                            "$~动画每次到达一个姿态时播放一小段声音，声音会跟着姿态的动作变化"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~碰撞提示音",
+                        "labels": ["$~关闭", "$~开启"],
+                        "tips": [
+                            "$~输出发生碰撞时不发出声音",
+                            "$~输出发生碰撞时播放一小段声音，撞得越用力声音越响"
+                        ]
                     }
                 },
                 "options": {
@@ -8047,7 +8154,8 @@
                 },
                 "subheader": {
                     "music": "$~音乐",
-                    "say": "$~朗读"
+                    "say": "$~朗读",
+                    "cues": "$~提示音"
                 }
             },
             "locale": {
@@ -8466,10 +8574,10 @@
                     "accessible": {
                         "title": "$~Wordplay 无障碍可用",
                         "bullets": [
-                            "$~• 凡是用鼠标能做的事，用键盘也能做到。",
-                            "• 屏幕阅读器不仅在加载时，还会在舞台变化时描述它。",
-                            "• 你可以把代码当作积木来读和写，而不是纯文本，随时都能切换。",
-                            "• 动画可以放慢，也可以完全关闭。",
+                            "$~• 只要能用鼠标做的事，都能用键盘做到。",
+                            "• 屏幕阅读器会描述舞台的每次变化，还有可选的声音，用来提示什么求值了、什么在动画、什么碰撞了。",
+                            "• 你可以把代码当积木来读、来写，而不是当文本，随时都能切换。",
+                            "• 动作可以放慢，也可以完全关闭。",
                             "• 语音输出可以在舞台上加字幕，方便听不到的人。"
                         ]
                     },
@@ -9924,7 +10032,12 @@
             "scriptLabel": "$~按文字筛选",
             "pickFilter": "$~选择一个类别或文字",
             "moreLanguages": "$~还有 $count 个",
-            "moreGlyphs": "$~显示 $count — 搜索以查找更多"
+            "moreGlyphs": "$~显示 $count — 搜索以查找更多",
+            "presentation": {
+                "label": "$~表情符号颜色",
+                "labels": ["$~颜色", "$~黑白"],
+                "tips": ["$~插入彩色表情符号", "$~插入黑白表情符号"]
+            }
         },
         "localize": {
             "header": "$~本地化",
