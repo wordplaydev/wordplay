@@ -349,19 +349,20 @@
             "emotion": "eager",
             "doc": [
                 "$~Tôi là một thẻ ngôn ngữ và tôi làm việc với @Name và @Doc!",
-                "Tôi rất giỏi làm cho *thật rõ ràng* văn bản được viết bằng ngôn ngữ nào. Chỉ cần một dấu gạch chéo nhỏ và vài chữ cái, không ai còn nhầm lẫn về ngôn ngữ của một đoạn văn bản nữa.",
-                "Ví dụ, nếu bạn muốn nói \"Ngôn ngữ\" nhưng làm rõ nó bằng tiếng Anh:",
+                "Tôi rất giỏi trong việc làm cho *rõ ràng như pha lê* một thứ được viết bằng ngôn ngữ nào. Chỉ cần một dấu gạch chéo nhỏ và vài chữ cái, không ai sẽ nhầm lẫn về ngôn ngữ của một đoạn văn bản nữa.",
+                "Ví dụ, nếu bạn muốn nói \"Ngôn ngữ\" nhưng muốn làm rõ đó là tiếng Anh:",
                 "\\'Ngôn ngữ'\\",
                 "Bạn có thể làm điều này cho một @Name:",
                 "\\âmThanh: 'meo meo'\\🪲",
                 "…hoặc một @Doc:",
                 "\\¶Từ tượng thanh¶\nâmThanh: 'meo meo'\\🪲",
-                "Đôi khi văn bản không chỉ có một ngôn ngữ — nó là một *sự pha trộn*. Giống như Spanglish, nơi tiếng Tây Ban Nha và tiếng Anh hòa vào nhau. Với những trường hợp đó, hãy liệt kê từng ngôn ngữ với một dấu gạch dưới ở giữa. Ngôn ngữ đầu tiên là ngôn ngữ *chính* — đó là ngôn ngữ tôi dùng khi phải chọn một (ví dụ, để chọn loại dấu ngoặc kép nào).",
+                "Đôi khi văn bản không chỉ là một ngôn ngữ — mà là một *sự pha trộn*. Giống như Spanglish, nơi tiếng Tây Ban Nha và tiếng Anh hòa lẫn vào nhau. Với những trường hợp đó, hãy liệt kê từng ngôn ngữ với dấu gạch dưới ở giữa. Ngôn ngữ đầu tiên là ngôn ngữ *chính* — đó là ngôn ngữ tôi dùng khi phải chọn (ví dụ, để chọn loại dấu ngoặc kép nào sẽ dùng).",
                 "\\'Xin chào quý ông!'\\",
-                "\\¶Một lời chào song ngữ¶\nhello/es_en: 'Xin chào quý ông!'\\🪲",
+                "\\¶Một lời chào bằng hai ngôn ngữ¶\nhello/es_en: 'Xin chào quý ông!'\\🪲",
                 "Bạn cũng có thể thêm một @region duy nhất, sau một dấu gạch ngang, giống như với một ngôn ngữ duy nhất:",
                 "\\'Xin chào quý ông!'\\",
-                "Không có giới hạn về số ngôn ngữ bạn có thể liệt kê — chỉ cần đừng lặp lại cùng một ngôn ngữ hai lần; tôi sẽ báo cho bạn biết nếu bạn làm vậy. Có nhiều <mã ngôn ngữ 2 chữ cái@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> mà tôi hiểu. Nếu bạn không dùng một trong số đó, tôi cũng sẽ báo cho bạn biết."
+                "Không có giới hạn về số lượng ngôn ngữ bạn có thể liệt kê — chỉ đừng lặp lại cùng một ngôn ngữ hai lần; tôi sẽ báo cho bạn biết nếu bạn làm vậy.",
+                "Bạn có thể viết một ngôn ngữ bằng <mã 2 chữ cái@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> hoặc bằng *tên* của nó, viết bằng chính ngôn ngữ đó hoặc bằng tiếng Anh — `/es`, `/Español`, và `/Spanish` đều có nghĩa giống nhau, và `/es-MX`, `/es-México`, và `/es-Mexico` cũng vậy. Chữ hoa và dấu không quan trọng, nên `/ESPANOL` cũng dùng được. Một tên có khoảng trắng sẽ được viết không có khoảng trắng, như `/BahasaIndonesia`, vì thẻ luôn là một từ liền. Nếu tôi không nhận ra một ngôn ngữ hoặc một vùng đất, tôi sẽ báo cho bạn biết."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -378,6 +379,11 @@
                     "name": "$~ngôn ngữ trùng lặp",
                     "explanation": "$~Bạn đã sử dụng ngôn ngữ ' $code ' hai lần. Thẻ đa ngôn ngữ chỉ nên liệt kê mỗi ngôn ngữ một lần.",
                     "resolution": "$~Xóa thẻ * $code * trùng lặp"
+                },
+                "UnknownRegion": {
+                    "name": "$~vùng đất không xác định",
+                    "explanation": "$~Tôi không biết vùng đất này",
+                    "resolution": "$~Xóa vùng đất này"
                 }
             }
         },
@@ -3656,14 +3662,14 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Mình có thể lấy một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Ví dụ như thế này:",
+                        "$~Tôi có thể nhận một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Như thế này:",
                         "\\[1 5 8 0 2].đãsắpxếp()\\",
-                        "Mình cũng có thể làm điều này với các giá trị @Text, theo thứ tự chữ cái. Một chữ cái viết hoa sẽ được sắp xếp cạnh chữ cái viết thường của nó, nên một từ không bị đưa xuống cuối chỉ vì nó bắt đầu bằng chữ hoa:",
+                        "Tôi cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa được sắp xếp ngay cạnh chữ cái viết thường của nó, nên một từ không bị đẩy xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
                         "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
-                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể cho mình một @FunctionDefinition để biến mỗi phần tử thành một @Number hoặc một @Text để mình có thể sắp xếp nó. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn cho mình một hàm biến mỗi danh sách thành độ dài của nó, mình có thể sắp xếp theo độ dài của chúng.",
-                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách) danhSách.chiềudài()\n)\\",
-                        "Một hàm tạo ra @Text là cách để bạn sắp xếp theo một từ mà bạn tính toán ra, thay vì theo giá trị chính nó. Ở đây mình sắp xếp các tên theo tên cuối cùng:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên3•'') (tên3 ÷ ' ').cuốicùng()\n)\\"
+                        "Và nếu bạn có một danh sách các giá trị không phải @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition biến mỗi phần tử thành một @Number hoặc một @Text để tôi có thể sắp xếp nó. Ví dụ, đây là một danh sách các danh sách có độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài của chúng.",
+                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
+                        "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ mà bạn tính toán, thay vì theo chính giá trị đó. Ở đây tôi sắp xếp tên theo họ:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
                     ],
                     "names": "$~đãsắpxếp",
                     "inputs": [
@@ -3674,7 +3680,7 @@
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value để biến thành một @Number hoặc một @Text.",
+                            "doc": "$~@value cần biến thành một @Number hoặc một @Text.",
                             "names": "$~giátrị"
                         }
                     ]
@@ -9039,7 +9045,7 @@
                         "phrase": "$~\\¶Cụm từ xuất hiện trên sân khấu, với bất kỳ màu sắc, ánh sáng và chuyển động nào bạn muốn.¶\nCụmtừ(\n\t'xin chào!'\n\t6m\n\tmàusắc: Màusắc(60% 90 200°)\n\thàoquang: Hàoquang(Màusắc(80% 80 200°) 0.3m)\n\tnghỉngơi: Sựliêntiếp.đungđưa(8°)\n)\\",
                         "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
                         "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
-                        "keys": "$!\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m vịTrí: Contrỏ())]\n\tvịTrí: VịTrí(0m 0m -12m)\n)\\",
+                        "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím, cú nhấp chuột và cú chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[\n\t\tCụmtừ(\n\t\t\tkhuônMặt2[cáiNào]\n\t\t\t5m\n\t\t\tvịTrí: Contrỏ()\n\t\t\tbongBóng: 'chào'\n\t\t)\n\t]\n\tvịTrí: VịTrí(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Bố cục văn bản và làm cho nó có thể chọn được.¶\ntráiCây: ƒ(e•'') Cụmtừ(e 3m tên: e cóthểlựachọn: ⊤)\nđãChọn: Sựlựachọn()\nđãHiện: '?' … ∆ đãChọn … đãChọn\nNhóm(\n\tNgănxếp(đệm: 1m)\n\t[\n\t\tCụmtừ(đãHiện 4m)\n\t\tNhóm(\n\t\t\tHàngngang(đệm: 1m)\n\t\t\t[tráiCây('🍎') tráiCây('🍐') tráiCây('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Trò chuyện với chương trình và dùng hình dạng của phông chữ và ký hiệu.¶\ntinNhắn: Tròchuyện()\ntừ3: 'chào' … ∆ tinNhắn … tinNhắn\ndòng: Đườngviền(từ3 'Noto Sans' 8m)\ntiếngTíchTắc: 0 … ∆ Thờigian(30ms) … tiếngTíchTắc + 1\nđãHiện: ((dòng.chiềudài() × tiếngTíchTắc) ÷ 66).làmtrònxuống(\n\t) + 1\ndấuChấm: dòng.chuỗicon(1 đãHiện).dịch(\n\t\tƒ(p) Cụmtừ('•' vịTrí: p)\n\t)\nSânkhấu(dấuChấm.với(Cụmtừ(từ3 8m độmờđục: 15%)))\\",
                         "pile": "$~\\¶Văn bản cũng có thể có vật lý.¶\ntung: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tCụmtừ(\n\t\t\temoji\n\t\t\t2m\n\t\t\tvịTrí: Cửđộng(VịTrí(x2 y2) Vậntốc(vx 0m/s))\n\t\t\tvấnđề: Vấnđề(1kg 0.55 0.06 0.5)\n\t\t)\nSânkhấu(\n\t[\n\t\ttung('🍎' -2m 5m 2.2m/s)\n\t\ttung('🍊' 2m 7m -2.6m/s)\n\t\ttung('🍋' -1m 9m 1.4m/s)\n\t\ttung('🍇' 1.5m 11m -1.9m/s)\n\t\ttung('🫐' 0.5m 15m -1.2m/s)\n\t\tHìnhdạng(Hìnhchữnhật(-4m -3m 4m -3.6m))\n\t\tHìnhdạng(Hìnhchữnhật(-4.6m 4m -4m -3m))\n\t\tHìnhdạng(Hìnhchữnhật(4m 4m 4.6m -3m))\n\t]\n)\\",

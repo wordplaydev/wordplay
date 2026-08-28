@@ -651,6 +651,27 @@ describe('DuplicateLanguage', () => {
     test('repeated language tag → repair (drop the second)', () => {
         expectRepair("'hi'/en_en", DuplicateLanguage);
     });
+
+    test('a language named twice, once by code and once by name → repair', () => {
+        expectRepair("'hi'/es_Spanish", DuplicateLanguage);
+    });
+
+    test('repairing a repeated region keeps the regions that were not repeated', () => {
+        // The repair used to filter the *language* extras for a duplicate
+        // region and rebuild without regionExtras at all, so fixing
+        // `/en-US_CA_US` deleted `_CA` along with the duplicate.
+        const { resolutions, context } = locate(
+            "'hi'/en-US_CA_US",
+            DuplicateLanguage,
+        );
+        const repair = resolutions[0];
+        expect(repair.kind).toBe('repair');
+        if (repair.kind !== 'repair') return;
+        const { newProject } = repair.mediator(context, DefaultLocales);
+        expect(newProject.getSources()[0].getCode().toString()).toBe(
+            "'hi'/en-US_CA",
+        );
+    });
 });
 
 describe('DuplicateShare', () => {

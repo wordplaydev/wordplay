@@ -8768,10 +8768,34 @@
                                                 "resolution"
                                             ],
                                             "type": "object"
+                                        },
+                                        "UnknownRegion": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] Action description for the repair this conflict offers"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
                                         }
                                     },
                                     "required": [
                                         "UnknownLanguage",
+                                        "UnknownRegion",
                                         "MissingLanguage",
                                         "DuplicateLanguage"
                                     ],
@@ -13176,7 +13200,7 @@
                                 },
                                 "side": {
                                     "$ref": "#/definitions/NameAndDoc",
-                                    "description": "Which side of the phrase the bubble sits on, as an arrow"
+                                    "description": "Which side of the phrase the bubble sits on, as an arrow; unset lets the stage choose"
                                 },
                                 "size": {
                                     "$ref": "#/definitions/NameAndDoc",

@@ -215,12 +215,11 @@ export default class Names extends Node {
     }
 
     getLowerCaseNames() {
+        // `Name.getLowerCaseName` already casefolds safely; the old inline
+        // version truncated codes to two characters, turning `hoc` into the
+        // different language `ho`, and threw outright on the `😀` code.
         return this.names
-            .map((a) =>
-                a
-                    .getName()
-                    ?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2)),
-            )
+            .map((a) => a.getLowerCaseName())
             .filter((n): n is string => n !== undefined);
     }
 

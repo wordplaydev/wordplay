@@ -243,6 +243,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.Language.conflict.MissingLanguage.resolution': [],
     'node.Language.conflict.UnknownLanguage.explanation': [],
     'node.Language.conflict.UnknownLanguage.resolution': [],
+    'node.Language.conflict.UnknownRegion.explanation': [],
+    'node.Language.conflict.UnknownRegion.resolution': [],
     'node.Language.description': ['language', 'region'],
     'node.ListAccess.description': ['list', 'index'],
     'node.ListAccess.finish': ['value'],

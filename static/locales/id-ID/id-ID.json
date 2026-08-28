@@ -348,20 +348,21 @@
             "description": "$~bahasa $language[$language|tidak ditentukan]$region[, wilayah $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Aku adalah label bahasa dan aku bekerja dengan @Name dan @Doc!",
-                "Aku sangat pandai membuat *sangat jelas* bahasa apa yang dipakai untuk menulis sesuatu. Cukup sebuah garis miring kecil dan beberapa huruf, dan tidak ada yang akan bingung lagi bahasa apa yang dipakai dalam suatu teks.",
-                "Misalnya, kalau kamu ingin menulis \"Bahasa\" tapi menjelaskan bahwa itu dalam bahasa Inggris:",
+                "$~Aku label bahasa, dan aku bekerja dengan @Name dan @Doc!",
+                "Aku sangat pandai membuat *jelas sekali* bahasa apa yang dipakai dalam suatu tulisan. Cukup dengan garis miring dan beberapa huruf, tidak akan ada yang bingung lagi tentang bahasa apa yang dipakai dalam suatu teks.",
+                "Misalnya, jika kamu ingin menulis \"Language\" tapi ingin memperjelas bahwa itu dalam bahasa Inggris:",
                 "\\'Bahasa'\\",
-                "Kamu bisa melakukan ini untuk sebuah @Name:",
-                "\\suara: 'meong'\\🪲",
-                "…atau sebuah @Doc:",
-                "\\¶Onomatope¶\nsuara: 'meong'\\🪲",
-                "Kadang teks bukan hanya satu bahasa — melainkan *campuran*. Seperti Spanglish, di mana bahasa Spanyol dan Inggris berbaur. Untuk itu, tuliskan setiap bahasa dengan garis bawah di antaranya. Yang pertama adalah yang *utama* — itulah yang aku pakai kalau aku harus memilih (misalnya, untuk memilih tanda kutip mana yang dipakai).",
-                "\\'Halo, tuan!'\\",
-                "\\¶Salam dalam dua bahasa¶\nhello/es_en: 'Halo, Tuan!'\\🪲",
-                "Kamu juga bisa menambahkan satu @region, setelah sebuah tanda hubung, sama seperti dengan satu bahasa:",
-                "\\'Halo, tuan!'\\",
-                "Tidak ada batas berapa banyak bahasa yang bisa kamu tuliskan — hanya saja jangan mengulang bahasa yang sama dua kali; aku akan memberitahumu kalau kamu melakukannya. Ada banyak <kode bahasa 2 huruf@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> yang aku pahami. Kalau kamu tidak memakai salah satunya, aku juga akan memberitahumu."
+                "Kamu bisa melakukan ini untuk @Name:",
+                "\\suara2: 'meong'\\🪲",
+                "…atau untuk @Doc:",
+                "\\¶Onomatope¶\nsuara2: 'meong'\\🪲",
+                "Kadang teks bukan hanya satu bahasa — tapi *campuran*. Seperti Spanglish, di mana bahasa Spanyol dan Inggris bercampur. Untuk itu, tuliskan setiap bahasa dengan garis bawah di antaranya. Bahasa pertama adalah yang *utama* — itulah yang kupakai kalau aku harus memilih (misalnya, untuk menentukan tanda kutip mana yang dipakai).",
+                "\\'Hola gentleman!'\\",
+                "\\¶Salam dua bahasa¶\nhello/es_en: 'Hola gentleman!'\\🪲",
+                "Kamu juga bisa menambahkan satu @region, setelah tanda hubung, sama seperti dengan satu bahasa:",
+                "\\'Hola gentleman!'\\",
+                "Tidak ada batas berapa banyak bahasa yang bisa kamu daftarkan — asal jangan mengulang bahasa yang sama dua kali; aku akan memberitahumu kalau kamu melakukannya.",
+                "Kamu bisa menulis bahasa dengan <kode 2-huruf@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>-nya atau dengan *nama*-nya, dalam bahasa itu sendiri atau dalam bahasa Inggris — `/es`, `/Español`, dan `/Spanish` artinya sama, begitu juga `/es-MX`, `/es-México`, dan `/es-Mexico`. Huruf besar dan tanda aksen tidak berpengaruh, jadi `/ESPANOL` juga berfungsi. Nama yang mengandung spasi ditulis tanpa spasi, seperti `/BahasaIndonesia`, karena label itu harus jadi satu kata. Jika aku tidak mengenali suatu bahasa atau wilayah, aku akan memberitahumu."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -378,6 +379,11 @@
                     "name": "$~bahasa ganda",
                     "explanation": "$~Anda menggunakan bahasa ' $code ' dua kali. Tag campuran bahasa seharusnya hanya mencantumkan setiap bahasa satu kali.",
                     "resolution": "$~Hapus tag * $code * yang duplikat"
+                },
+                "UnknownRegion": {
+                    "name": "$~wilayah tidak dikenal",
+                    "explanation": "$~Aku tidak mengenal wilayah ini",
+                    "resolution": "$~Hapus wilayah ini"
                 }
             }
         },
@@ -3657,19 +3663,19 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Aku bisa mengambil sebuah daftar, dan membuat daftar baru dengan nilai-nilainya terurut. Seperti ini:",
+                        "$~Aku bisa mengambil sebuah daftar, dan membuat daftar baru dengan nilai-nilainya yang sudah diurutkan. Seperti ini:",
                         "\\[1 5 8 0 2].diurutkan()\\",
-                        "Aku juga bisa melakukannya untuk nilai @Text, secara urutan abjad. Huruf besar diurutkan bersebelahan dengan huruf kecilnya, jadi sebuah kata tidak dikirim ke akhir hanya karena diawali huruf besar:",
+                        "Aku juga bisa melakukannya untuk nilai @Text, dengan urutan abjad. Huruf besar diurutkan berdampingan dengan huruf kecilnya, jadi sebuah kata tidak dipindah ke akhir hanya karena diawali huruf besar:",
                         "\\['Jeruk' 'kiwi' 'Pisang' 'apel'].diurutkan()\\",
-                        "Dan jika kamu punya daftar berisi nilai yang bukan @Number atau @Text, kamu bisa memberiku @FunctionDefinition yang mengubah setiap unsurnya menjadi @Number atau @Text supaya aku bisa mengurutkannya. Contohnya, di sini kita punya daftar berisi beberapa daftar dengan panjang berbeda-beda; jika kamu memberiku fungsi yang mengubah setiap daftar menjadi panjangnya, aku bisa mengurutkannya berdasarkan panjang itu.",
-                        "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar2) daftar2.panjang()\n)\\",
-                        "Sebuah fungsi yang menghasilkan @Text adalah cara kamu mengurutkan berdasarkan kata yang kamu hitung, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama2•'') (nama2 ÷ ' ').terakhir()\n)\\"
+                        "Dan jika kamu punya daftar nilai yang bukan @Number atau @Text, kamu bisa memberiku @FunctionDefinition yang mengubah setiap item menjadi @Number atau @Text supaya aku bisa mengurutkannya. Misalnya, di sini ada daftar berisi beberapa daftar dengan panjang berbeda; jika kamu memberiku fungsi yang mengubah setiap daftar menjadi panjangnya, aku bisa mengurutkan berdasarkan panjangnya.",
+                        "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar3) daftar3.panjang()\n)\\",
+                        "Fungsi yang membuat @Text adalah cara untuk mengurutkan berdasarkan kata yang kamu hitung sendiri, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama3•'') (nama3 ÷ ' ').terakhir()\n)\\"
                     ],
                     "names": "$~diurutkan",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opsional yang dipakai untuk mengurutkan daftar @value. Fungsi ini harus mengubah nilai menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar.",
+                            "doc": "$~@FunctionDefinition opsional yang dipakai untuk mengurutkan sebuah daftar @value. Ini harus mengubah nilai menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar.",
                             "names": "$~pengurut"
                         }
                     ],

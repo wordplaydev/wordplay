@@ -343,20 +343,21 @@
             "description": "$~Sprache $language[$language|nicht angegeben]$region[, Region $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Ich bin eine Sprachmarkierung und arbeite mit @Name und @Doc!",
+                "$~Ich bin ein Sprach-Tag und ich arbeite mit @Name und @Doc!",
                 "Ich bin richtig gut darin, *ganz klar* zu machen, in welcher Sprache etwas geschrieben ist. Nur ein kleiner Schrägstrich und ein paar Buchstaben, und niemand ist mehr verwirrt, in welcher Sprache ein Text ist.",
-                "Zum Beispiel, wenn du \"Sprache\" sagen willst, aber klarmachen möchtest, dass es Englisch ist:",
+                "Wenn du zum Beispiel \"Sprache\" sagen willst, aber klarmachen willst, dass es Englisch ist:",
                 "\\'Sprache'\\",
                 "Das kannst du für einen @Name tun:",
                 "\\klang: 'miau'\\🪲",
-                "…oder einen @Doc:",
+                "…oder für eine @Doc:",
                 "\\¶Lautmalerei¶\nklang: 'miau'\\🪲",
-                "Manchmal ist Text nicht nur eine Sprache — er ist eine *Mischung*. Wie Spanglish, wo Spanisch und Englisch zusammenkommen. Dafür listest du jede Sprache auf, mit einem Unterstrich dazwischen. Die erste ist die *Haupt*sprache — die verwende ich, wenn ich eine wählen muss (zum Beispiel, um zu entscheiden, welche Anführungszeichen ich nehme).",
-                "\\'Hallo, mein Herr!'\\",
-                "\\¶Ein zweisprachiger Gruß¶\nhello/es_en: 'Hallo, mein Herr!'\\🪲",
+                "Manchmal ist ein Text nicht nur eine Sprache — er ist eine *Mischung*. Wie Spanglish, wo sich Spanisch und Englisch mischen. Dafür listest du jede Sprache auf, mit einem Unterstrich dazwischen. Die erste ist die *Hauptsprache* — das ist die, die ich benutze, wenn ich mich entscheiden muss (zum Beispiel, um zu wählen, welche Anführungszeichen ich verwende).",
+                "\\'Hola gentleman!'\\",
+                "\\¶Ein zweisprachiger Gruß¶\nhello/es_en: 'Hola gentleman!'\\🪲",
                 "Du kannst auch eine einzelne @region hinzufügen, nach einem Bindestrich, genau wie bei einer einzelnen Sprache:",
-                "\\'Hallo, mein Herr!'\\",
-                "Es gibt keine Grenze, wie viele Sprachen du auflisten kannst — wiederhole nur nicht dieselbe zweimal; ich sage dir Bescheid, wenn du es tust. Es gibt viele <2-Buchstaben-Sprachcodes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>, die ich verstehe. Wenn du keinen davon verwendest, sage ich dir das auch."
+                "\\'Hola gentleman!'\\",
+                "Es gibt keine Grenze, wie viele Sprachen du auflisten kannst — wiederhole nur nicht dieselbe zweimal; ich sage dir Bescheid, falls das passiert.",
+                "Du kannst eine Sprache mit ihrem <2-Buchstaben-Code@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> schreiben oder mit ihrem *Namen*, in dieser Sprache oder auf Englisch — `/es`, `/Español` und `/Spanish` bedeuten alle dasselbe, genauso wie `/es-MX`, `/es-México` und `/es-Mexico`. Groß- und Kleinschreibung und Akzente spielen keine Rolle, also funktioniert auch `/ESPANOL`. Ein Name mit einem Leerzeichen wird ohne das Leerzeichen geschrieben, wie `/BahasaIndonesia`, weil ein Tag ganz aus einem Wort besteht. Wenn ich eine Sprache oder eine Region nicht erkenne, sage ich dir Bescheid."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -373,6 +374,11 @@
                     "name": "$~doppelte Sprache",
                     "explanation": "$~Sie haben die Sprache ' $code ' zweimal verwendet. Bei Tags mit gemischten Sprachen sollte jede Sprache nur einmal aufgeführt werden.",
                     "resolution": "$~Entfernen Sie das doppelte * $code * Tag"
+                },
+                "UnknownRegion": {
+                    "name": "$~unbekannte Region",
+                    "explanation": "$~Ich kenne diese Region nicht",
+                    "resolution": "$~Diese Region entfernen"
                 }
             }
         },
@@ -3654,25 +3660,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Ich kann eine Liste nehmen und daraus eine neue Liste machen, deren Werte sortiert sind. So:",
+                        "$~Ich kann eine Liste nehmen und eine neue Liste machen, in der die Werte sortiert sind. So:",
                         "\\[1 5 8 0 2].sortiert()\\",
-                        "Ich kann das auch für @Text-Werte machen, in alphabetischer Reihenfolge. Ein Großbuchstabe wird direkt neben seinem Kleinbuchstaben einsortiert, sodass ein Wort nicht ans Ende rutscht, nur weil es mit einem Großbuchstaben beginnt:",
+                        "Ich kann das auch für @Text-Werte machen, in alphabetischer Reihenfolge. Ein Großbuchstabe wird direkt neben seinem Kleinbuchstaben sortiert, damit ein Wort nicht ans Ende rutscht, nur weil es großgeschrieben ist:",
                         "\\['Orange' 'Kiwi' 'Banane' 'Apfel'].sortiert()\\",
-                        "Und wenn du eine Liste mit Werten hast, die weder @Number noch @Text sind, kannst du mir ein @FunctionDefinition geben, das jedes Element in ein @Number oder ein @Text verwandelt, damit ich es sortieren kann. Hier haben wir zum Beispiel eine Liste von Listen mit unterschiedlichen Längen. Wenn du mir eine Funktion gibst, die jede Liste in ihre Länge verwandelt, kann ich nach der Länge sortieren.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste2) liste2.Länge())\\",
-                        "Eine Funktion, die @Text erzeugt, ist eine Möglichkeit, nach einem berechneten Wort zu sortieren, statt nach dem Wert selbst. Hier sortiere ich Namen nach dem Nachnamen:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortiert(\n\tƒ(name2•'') (name2 ÷ ' ').zuletzt()\n)\\"
+                        "Und wenn du eine Liste mit Werten hast, die weder @Number noch @Text sind, kannst du mir eine @FunctionDefinition geben, die jedes Element in eine @Number oder eine @Text verwandelt, damit ich sie sortieren kann. Zum Beispiel haben wir hier eine Liste von Listen mit unterschiedlichen Längen; wenn du mir eine Funktion gibst, die jede Liste in ihre Länge verwandelt, kann ich nach der Länge sortieren.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortiert(ƒ(liste) liste.Länge())\\",
+                        "Eine Funktion, die @Text erzeugt, ist der Weg, um nach einem berechneten Wort zu sortieren, statt nach dem Wert selbst. Hier sortiere ich Namen nach dem letzten:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortiert(\n\tƒ(name3•'') (name3 ÷ ' ').zuletzt()\n)\\"
                     ],
                     "names": "$~sortiert",
                     "inputs": [
                         {
-                            "doc": "$~Das optionale @FunctionDefinition, um eine Liste @value zu sortieren. Es sollte den Wert in ein @Number oder ein @Text verwandeln, das zum Sortieren der Liste genutzt werden kann.",
+                            "doc": "$~Der optionale @FunctionDefinition, um eine Liste @value zu sortieren. Er sollte den Wert in eine @Number oder eine @Text verwandeln, die zum Sortieren der Liste verwendet werden kann.",
                             "names": "$~Sequenzer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Das @value, das in ein @Number oder ein @Text verwandelt werden soll.",
+                            "doc": "$~Die @value, die in eine @Number oder eine @Text verwandelt werden soll.",
                             "names": "$~Wert"
                         }
                     ]

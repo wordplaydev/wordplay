@@ -343,20 +343,21 @@
             "description": "$~dil $language[$language|belirtilmemiş]$region[, bölge $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Ben bir dil etiketiyim ve @Name ile @Doc ile birlikte çalışırım!",
-                "Bir şeyin hangi dilde yazıldığını *çok net* yapmakta gerçekten iyiyim. Küçük bir eğik çizgi ve birkaç harf, ve bir metnin hangi dilde olduğu konusunda kimse asla kafası karışmaz.",
-                "Örneğin, \"Dil\" demek ama bunun İngilizce olduğunu net yapmak istersen:",
+                "$~Ben bir dil etiketiyim ve @Name ile @Doc ile çalışırım!",
+                "Bir metnin hangi dilde yazıldığını *çok net* göstermekte gerçekten iyiyimdir. Küçük bir eğik çizgi ve birkaç harf yeterli, artık kimse bir metnin hangi dilde olduğu konusunda kafası karışık kalmaz.",
+                "Örneğin, \"Dil\" demek istiyorsan ama bunun İngilizce olduğunu belirtmek istiyorsan:",
                 "\\'Dil'\\",
                 "Bunu bir @Name için yapabilirsin:",
-                "\\ses: 'miyav'\\🪲",
+                "\\ses2: 'miyav'\\🪲",
                 "…ya da bir @Doc için:",
-                "\\¶Yansıma sözcük¶\nses: 'miyav'\\🪲",
-                "Bazen metin tek bir dil değildir — bir *karışımdır*. Örneğin İspanyolca ile İngilizce'nin birbirine karıştığı Spanglish gibi. Bunlar için her dili aralarında alt çizgi ile listele. İlki *birincil* olandır — seçim yapmam gerektiğinde kullandığım budur (örneğin hangi tırnak işaretlerini kullanacağımı seçmek için).",
-                "\\'Merhaba beyefendi!'\\",
-                "\\¶İki dilli bir selamlama¶\nhello/es_en: 'Merhaba beyefendi!'\\🪲",
-                "Tek bir dilde olduğu gibi, tireden sonra tek bir @region da ekleyebilirsin:",
-                "\\'Merhaba beyefendi!'\\",
-                "Kaç dil listeleyebileceğinin bir sınırı yok — sadece aynısını iki kez tekrarlama; tekrarlarsan sana haber veririm. Anladığım birçok <2 harfli dil kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> var. Bunlardan birini kullanmazsan, bunu da sana bildiririm."
+                "\\¶Yansıma Sözcük¶\nses2: 'miyav'\\🪲",
+                "Bazen bir metin tek bir dilde olmaz — *karışık* olur. İspanyolca ile İngilizcenin karıştığı Spanglish gibi. Böyle durumlarda, her dili aralarına alt çizgi koyarak listele. İlki *asıl* dildir — bir seçim yapmam gerektiğinde (örneğin hangi tırnak işaretini kullanacağıma karar verirken) kullandığım dil odur.",
+                "\\'Hola gentleman!'\\",
+                "\\¶İki dilli bir selamlama¶\nhello/es_en: 'Hola gentleman!'\\🪲",
+                "Tek bir dilde olduğu gibi, bir tire koyduktan sonra tek bir @region de ekleyebilirsin:",
+                "\\'Hola gentleman!'\\",
+                "Kaç dil listeleyebileceğinin bir sınırı yoktur — sadece aynı dili iki kez yazma; eğer yaparsan sana haber veririm.",
+                "Bir dili <2 harfli kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ile ya da *ismiyle* yazabilirsin, o dilde ya da İngilizce olarak — `/es`, `/Español` ve `/Spanish` hepsi aynı şeyi ifade eder, aynı şekilde `/es-MX`, `/es-México` ve `/es-Mexico` de öyle. Büyük harfler ve aksanlar önemli değildir, yani `/ESPANOL` da çalışır. İçinde boşluk olan bir isim, boşluksuz yazılır, örneğin `/BahasaIndonesia`, çünkü bir etiket tek bir kelime olmalıdır. Eğer bir dili ya da bölgeyi tanımıyorsam, sana haber veririm."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -373,6 +374,11 @@
                     "name": "$~yinelenen dil",
                     "explanation": "$~' $code ' dilini iki kez kullandınız. Karma dil etiketlerinde her dil yalnızca bir kez listelenmelidir.",
                     "resolution": "$~Yinelenen * $code * etiketini kaldırın"
+                },
+                "UnknownRegion": {
+                    "name": "$~bilinmeyen bölge",
+                    "explanation": "$~Bu bölgeyi tanımıyorum",
+                    "resolution": "$~Bu bölgeyi kaldır"
                 }
             }
         },
@@ -3652,25 +3658,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Bir liste alıp, değerleri sıralanmış yeni bir liste yapabilirim. Şöyle:",
+                        "$~Bir liste alabilirim ve değerleri sıralanmış yeni bir liste oluşturabilirim. Şöyle:",
                         "\\[1 5 8 0 2].sıralanmış()\\",
-                        "@Text değerleri için de bunu yapabilirim, alfabetik sırayla. Büyük bir harf, kendi küçük harfinin yanına sıralanır, böylece bir kelime sadece büyük harfle başladığı için sona atılmaz:",
+                        "Bunu @Text değerleri için de alfabetik sırayla yapabilirim. Büyük harf, küçük harfiyle yan yana sıralanır, böylece bir kelime sırf büyük harfle başladığı için sona atılmaz:",
                         "\\['Portakal' 'kivi' 'Muz' 'elma'].sıralanmış()\\",
-                        "Ve eğer @Number veya @Text olmayan değerlerden oluşan bir listeniz varsa, bana her öğeyi bir @Number veya @Text'e çeviren bir @FunctionDefinition verebilirsiniz, ben de böylece sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; eğer bana her listeyi kendi uzunluğuna çeviren bir fonksiyon verirseniz, uzunluklarına göre sıralayabilirim.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste3) liste3.uzunluk()\n)\\",
-                        "@Text üreten bir fonksiyon, değerin kendisine göre değil hesapladığınız bir kelimeye göre sıralama yapmanın yoludur. Burada isimleri soyadına göre sıralıyorum:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim3•'') (isim3 ÷ ' ').son()\n)\\"
+                        "Ve eğer elinde @Number ya da @Text olmayan bir değer listesi varsa, bana her öğeyi bir @Number ya da bir @Text değerine çeviren bir @FunctionDefinition verebilirsin, böylece sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; bana her listeyi kendi uzunluğuna çeviren bir fonksiyon verirsen, uzunluklarına göre sıralayabilirim.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste2) liste2.uzunluk()\n)\\",
+                        "@Text üreten bir fonksiyon, değerin kendisine göre değil, hesapladığın bir kelimeye göre sıralamanı sağlar. Burada isimleri soyadına göre sıralıyorum:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim2•'') (isim2 ÷ ' ').son()\n)\\"
                     ],
                     "names": "$~sıralanmış",
                     "inputs": [
                         {
-                            "doc": "$~Bir @value listesini sıralamak için kullanılan isteğe bağlı @FunctionDefinition. Değeri, listeyi sıralamak için kullanılabilecek bir @Number veya @Text'e çevirmelidir.",
+                            "doc": "$~Bir listeyi @value sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Değeri, listeyi sıralamak için kullanılabilecek bir @Number ya da bir @Text değerine dönüştürmelidir.",
                             "names": "$~sıralayıcı"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Bir @Number veya @Text'e çevrilecek olan @value.",
+                            "doc": "$~Bir @Number ya da bir @Text değerine dönüştürülecek @value.",
                             "names": "$~değer"
                         }
                     ]
@@ -8795,7 +8801,7 @@
                         "phrase": "$~\\¶Cümleler sahnede görünür, istediğin renkte, parlaklıkta ve hareketle.¶\nİfadeetmek(\n\t'merhaba!'\n\t6m\n\trenk: Renk(60% 90 200°)\n\taura: Aura(Renk(80% 80 200°) 0.3m)\n\tdinlenme: Sekans.sallanmak(8°)\n)\\",
                         "music": "$~\\¶Müzik, gerçek çalgılarda, bir tempoda, bir tonda çalınan notalardan oluşur. Sahne duyduğunu çizer.¶\nMüzik(\n\tParça([1 3 5 8 5 3] çalgı: Çalgı.piyano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Kod, @Time gibi girdilere tepki verebilir ve metin çok dilli olup sesli okunabilir.¶\nmerhabalar: ['merhaba' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nmerhaba: merhabalar.rastgele() … ∆ Zaman(1000ms) … merhabalar.rastgele(\n\t\t)\nİfadeetmek(merhaba 4m)\nSöylemek(merhaba)\\",
-                        "keys": "$!\\¶Kod; imleçlere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Anahtar()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[İfadeetmek(yüzler[hangisi] 5m yer: İşaretçi())]\n\tyer: Yer(0m 0m -12m)\n)\\",
+                        "keys": "$~\\¶Kod; işaretçilere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Anahtar()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[\n\t\tİfadeetmek(\n\t\t\tyüzler[hangisi]\n\t\t\t5m\n\t\t\tyer: İşaretçi()\n\t\t\tbalon: 'merhaba'\n\t\t)\n\t]\n\tyer: Yer(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Metni yerleştir ve seçilebilir yap.¶\nmeyve: ƒ(e•'') İfadeetmek(e 3m isim: e seçilebilir: ⊤)\nseçildi: Seçenek()\ngösterildi: '?' … ∆ seçildi … seçildi\nGrup(\n\tYığın(dolgu: 1m)\n\t[\n\t\tİfadeetmek(gösterildi 4m)\n\t\tGrup(\n\t\t\tSıra(dolgu: 1m)\n\t\t\t[meyve('🍎') meyve('🍐') meyve('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Programlarla sohbet et ve yazı tiplerinin ile sembollerin şeklini kullan.¶\nmesaj: Sohbet()\nkelime2: 'selam' … ∆ mesaj … mesaj\nsatır: Kontur(kelime2 'Noto Sans' 8m)\ntikSesleri: 0 … ∆ Zaman(30ms) … tikSesleri + 1\ngösterildi: ((satır.uzunluk() × tikSesleri) ÷ 66).Aşağıyuvarla(\n\t) + 1\nnoktalar: satır.altdizi(1 gösterildi).tercümeetmek(\n\t\tƒ(p) İfadeetmek('•' yer: p)\n\t)\nSahne(noktalar.ile(İfadeetmek(kelime2 8m opaklık: 15%)))\\",
                         "pile": "$~\\¶Yazının fiziği olabilir.¶\nfırlat: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tİfadeetmek(\n\t\t\temoji\n\t\t\t2m\n\t\t\tyer: Hareket(Yer(x2 y2) Hız(vx 0m/s))\n\t\t\tkonu: Konu(1kg 0.55 0.06 0.5)\n\t\t)\nSahne(\n\t[\n\t\tfırlat('🍎' -2m 5m 2.2m/s)\n\t\tfırlat('🍊' 2m 7m -2.6m/s)\n\t\tfırlat('🍋' -1m 9m 1.4m/s)\n\t\tfırlat('🍇' 1.5m 11m -1.9m/s)\n\t\tfırlat('🫐' 0.5m 15m -1.2m/s)\n\t\tŞekil(Dikdörtgen(-4m -3m 4m -3.6m))\n\t\tŞekil(Dikdörtgen(-4.6m 4m -4m -3m))\n\t\tŞekil(Dikdörtgen(4m 4m 4.6m -3m))\n\t]\n)\\",

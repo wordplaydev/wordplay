@@ -344,19 +344,20 @@
             "emotion": "eager",
             "doc": [
                 "$~Sunt o etichetă de limbă și lucrez cu @Name și @Doc!",
-                "Sunt foarte bun la a face *foarte clar* în ce limbă este scris ceva. Doar o mică linie oblică și câteva litere, și nimeni nu va fi vreodată confuz despre limba în care este un text.",
-                "De exemplu, dacă vrei să spui „Limbă” dar să arăți clar că este în engleză:",
+                "Mă pricep foarte bine să fac *foarte clar* în ce limbă este scris ceva. Doar o mică linie oblică și câteva litere, și nimeni nu va mai fi vreodată confuz în privința limbii unui text.",
+                "De exemplu, dacă vrei să scrii „Limbă”, dar să arăți clar că este în engleză:",
                 "\\'Limbă'\\",
                 "Poți face asta pentru un @Name:",
-                "\\sunet: 'miau'\\🪲",
-                "…sau un @Doc:",
-                "\\¶Onomatopee¶\nsunet: 'miau'\\🪲",
-                "Uneori textul nu este într-o singură limbă — este un *amestec*. Ca Spanglish, unde spaniola și engleza se îmbină. Pentru acestea, enumeră fiecare limbă cu o liniuță de subliniere între ele. Prima este cea *principală* — aceea pe care o folosesc când trebuie să aleg (de exemplu, ca să aleg ce semne de citare să folosesc).",
-                "\\'Salut, domnule!'\\",
+                "\\sunet2: 'miau'\\🪲",
+                "…sau pentru un @Doc:",
+                "\\¶Onomatopee¶\nsunet2: 'miau'\\🪲",
+                "Uneori textul nu este scris într-o singură limbă — este un *amestec*. Ca spanglish, unde spaniola și engleza se amestecă. Pentru astfel de cazuri, scrie fiecare limbă cu o linie de subliniere între ele. Prima este limba *principală* — pe aceea o folosesc atunci când trebuie să aleg (de exemplu, ca să aleg ce fel de ghilimele să folosesc).",
+                "\\'Hola domnule!'\\",
                 "\\¶Un salut bilingv¶\nhello/es_en: 'Hola domnule!'\\🪲",
-                "Poți adăuga și o singură @region, după o cratimă, la fel ca la o singură limbă:",
-                "\\'Salut, domnule!'\\",
-                "Nu există o limită pentru câte limbi poți enumera — doar nu repeta aceeași limbă de două ori; îți voi spune dacă o faci. Există multe <coduri de limbă din 2 litere@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> pe care le înțeleg. Dacă nu folosești unul dintre acestea, îți voi spune și asta."
+                "Poți adăuga și o singură @region, după o liniuță, exact ca la o singură limbă:",
+                "\\'Hola domnule!'\\",
+                "Nu există o limită pentru câte limbi poți scrie în listă — doar să nu repeți aceeași limbă de două ori; te voi anunța dacă faci asta.",
+                "Poți scrie o limbă folosind <codul ei din 2 litere@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> sau *numele* ei, în acea limbă sau în engleză — `/es`, `/Español` și `/Spanish` înseamnă același lucru, la fel ca `/es-MX`, `/es-México` și `/es-Mexico`. Majusculele și accentele nu contează, așa că `/ESPANOL` funcționează la fel de bine. Un nume care are un spațiu în el se scrie fără spațiu, ca `/BahasaIndonesia`, pentru că o etichetă este mereu un singur cuvânt. Dacă nu recunosc o limbă sau o regiune, te voi anunța."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -373,6 +374,11 @@
                     "name": "$~limbă duplicată",
                     "explanation": "$~Ai folosit codul limbii „ $code ” de două ori. Etichetele pentru limbi mixte ar trebui să listeze fiecare limbă o singură dată.",
                     "resolution": "$~Eliminați eticheta duplicată * $code *"
+                },
+                "UnknownRegion": {
+                    "name": "$~regiune necunoscută",
+                    "explanation": "$~Nu cunosc această regiune",
+                    "resolution": "$~Elimină această regiune"
                 }
             }
         },
@@ -3652,19 +3658,19 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Pot lua o listă și pot face din ea o listă nouă cu valorile sortate. Uite așa:",
+                        "$~Pot lua o listă și pot face o listă nouă cu valorile ei sortate. Așa:",
                         "\\[1 5 8 0 2].sortat()\\",
-                        "Pot face asta și pentru valori @Text, în ordine alfabetică. O literă mare se sortează lângă litera mică echivalentă, așa că un cuvânt nu ajunge la final doar pentru că începe cu literă mare:",
+                        "Pot face asta și pentru valori @Text, în ordine alfabetică. O literă mare este sortată lângă cea mică corespunzătoare, astfel încât un cuvânt nu ajunge la final doar pentru că începe cu literă mare:",
                         "\\['Portocală' 'kiwi' 'Banană' 'măr'].sortat()\\",
-                        "Iar dacă ai o listă de valori care nu sunt @Number sau @Text, îmi poți da un @FunctionDefinition care transformă fiecare element într-un @Number sau într-un @Text ca să pot sorta lista. De exemplu, aici avem o listă de liste cu lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot sorta după lungime.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă3) listă3.lungime())\\",
-                        "O funcție care produce @Text este modul în care sortezi după un cuvânt calculat, în loc de valoarea în sine. Aici sortez nume după ultimul dintre ele:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume3•'') (nume3 ÷ ' ').dura()\n)\\"
+                        "Iar dacă ai o listă de valori care nu sunt @Number sau @Text, îmi poți da o @FunctionDefinition care transformă fiecare element într-un @Number sau un @Text, ca să pot să le sortez. De exemplu, aici avem o listă de liste de lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot sorta după lungime.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă2) listă2.lungime())\\",
+                        "O funcție care creează @Text este modul în care sortezi după un cuvânt pe care îl calculezi, în loc de valoarea în sine. Aici sortez numele după ultimul nume:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume2•'') (nume2 ÷ ' ').dura()\n)\\"
                     ],
                     "names": "$~sortat",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opțional folosit pentru a sorta o listă @value. Ar trebui să transforme valoarea într-un @Number sau un @Text care poate fi folosit pentru sortarea listei.",
+                            "doc": "$~@FunctionDefinition opțională, folosită pentru a sorta o listă @value. Ar trebui să transforme valoarea într-un @Number sau un @Text care poate fi folosit pentru a sorta lista.",
                             "names": "$~secvențiator"
                         }
                     ],
@@ -9128,7 +9134,7 @@
                         "phrase": "$~\\¶Frazele apar pe scenă, în orice culoare, cu orice strălucire și mișcare îți place.¶\nFraza(\n\t'salut!'\n\t6m\n\tculoare: Culoare(60% 90 200°)\n\taură: Aură(Culoare(80% 80 200°) 0.3m)\n\todihnă: Secvenţă.legănare(8°)\n)\\",
                         "music": "$~\\¶Muzica este note pe instrumente reale, la un tempo, într-o tonalitate. Scena desenează ce aude.¶\nMuzică(\n\tPistă([1 3 5 8 5 3] instrument: Instrument.pian)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Codul poate reacționa la o intrare precum @Time, iar textul poate fi în mai multe limbi și poate fi rostit.¶\nsaluturi: ['salut' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nsalut: saluturi.aleatoriu() … ∆ Timp(1000ms) … saluturi.aleatoriu(\n\t\t)\nFraza(salut 4m)\nCuvânt(salut)\\",
-                        "keys": "$!\\¶Codul poate reacționa la pointeri, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator())]\n\tloc: Loc(0m 0m -12m)\n)\\",
+                        "keys": "$~\\¶Codul poate reacționa la mișcări ale cursorului, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator() balon: 'salut')]\n\tloc: Loc(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Așază textul în pagină și fă-l selectabil.¶\nfruct: ƒ(e•'') Fraza(e 3m nume: e selectabil: ⊤)\nales: Alegere()\narătat: '?' … ∆ ales … ales\nGrup(\n\tStivă(umplutură: 1m)\n\t[\n\t\tFraza(arătat 4m)\n\t\tGrup(\n\t\t\tRând(umplutură: 1m)\n\t\t\t[fruct('🍎') fruct('🍐') fruct('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Discută cu programe și folosește forma fonturilor și a simbolurilor.¶\nmesaj: Chat()\ncuvânt2: 'salut' … ∆ mesaj … mesaj\nlinie: Contur(cuvânt2 'Noto Sans' 8m)\nsecunde: 0 … ∆ Timp(30ms) … secunde + 1\narătat: ((linie.lungime() × secunde) ÷ 66).rotunjireînjos() + 1\npuncte: linie.subsecvență(1 arătat).traduce(\n\t\tƒ(p) Fraza('•' loc: p)\n\t)\nEtapă(puncte.cu(Fraza(cuvânt2 8m opacitate: 15%)))\\",
                         "pile": "$~\\¶Textul poate avea fizică.¶\naruncă: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFraza(\n\t\t\temoji\n\t\t\t2m\n\t\t\tloc: Mişcare(Loc(x2 y2) Viteză(vx 0m/s))\n\t\t\tmaterie: Materie(1kg 0.55 0.06 0.5)\n\t\t)\nEtapă(\n\t[\n\t\taruncă('🍎' -2m 5m 2.2m/s)\n\t\taruncă('🍊' 2m 7m -2.6m/s)\n\t\taruncă('🍋' -1m 9m 1.4m/s)\n\t\taruncă('🍇' 1.5m 11m -1.9m/s)\n\t\taruncă('🫐' 0.5m 15m -1.2m/s)\n\t\tFigură(Dreptunghi(-4m -3m 4m -3.6m))\n\t\tFigură(Dreptunghi(-4.6m 4m -4m -3m))\n\t\tFigură(Dreptunghi(4m 4m 4.6m -3m))\n\t]\n)\\",

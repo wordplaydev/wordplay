@@ -343,20 +343,21 @@
             "description": "$~språk $language[$language|ospecificerat]$region[, område $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Jag är en språkmärkning och jag arbetar med @Name och @Doc!",
-                "Jag är riktigt bra på att göra det *kristallklart* vilket språk något är skrivet på. Bara ett litet snedstreck och ett par bokstäver, så blir ingen förvirrad om vilket språk en text är på.",
-                "Till exempel, om du vill säga \"Språk\" men göra tydligt att det är på engelska:",
+                "$~Jag är en språktagg och jag jobbar ihop med @Name och @Doc!",
+                "Jag är riktigt bra på att göra det *helt klart* vilket språk något är skrivet på. Bara ett litet snedstreck och några bokstäver, och ingen blir osäker på vilket språk en text har.",
+                "Om du till exempel vill skriva \"Language\" men visa att det är engelska:",
                 "\\'Språk'\\",
-                "Du kan göra detta för @Name:",
+                "Du kan göra så här för ett @Name:",
                 "\\ljud: 'mjau'\\🪲",
-                "…eller en @Doc:",
-                "\\¶Onomatopoeia¶\nljud: 'mjau'\\🪲",
-                "Ibland är text inte bara ett språk — det är en *blandning*. Som spanglish, där spanska och engelska smälter samman. För dessa listar du varje språk med ett understreck mellan dem. Det första är det *primära* — det är det jag använder när jag måste välja (till exempel för att välja vilka citattecken jag ska använda).",
-                "\\'Hej herrn!'\\",
+                "…eller för ett @Doc:",
+                "\\¶Onomatopoesi¶\nljud: 'mjau'\\🪲",
+                "Ibland är text inte bara ett språk — det är en *blandning*. Som Spanglish, där spanska och engelska blandas. Då listar du varje språk med ett understreck mellan dem. Det första är det *huvudsakliga* — det är det jag använder när jag måste välja (till exempel för att bestämma vilka citattecken som ska användas).",
+                "\\'Hola gentleman!'\\",
                 "\\¶En tvåspråkig hälsning¶\nhello/es_en: 'Hola gentleman!'\\🪲",
-                "Du kan också lägga till ett enda @region, efter ett bindestreck, precis som med ett enda språk:",
-                "\\'Hej herrn!'\\",
-                "Det finns ingen gräns för hur många språk du kan lista — bara upprepa inte samma två gånger; jag säger till om du gör det. Det finns många <2-bokstavsspråkkoder@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> som jag förstår. Om du inte använder en av dessa säger jag också till."
+                "Du kan också lägga till ett @region, efter ett bindestreck, precis som med ett enda språk:",
+                "\\'Hola gentleman!'\\",
+                "Det finns ingen gräns för hur många språk du kan lista — bara upprepa inte samma språk två gånger; jag säger till om du gör det.",
+                "Du kan skriva ett språk med dess <2-bokstavskod@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> eller med dess *namn*, på det språket eller på engelska — `/es`, `/Español` och `/Spanish` betyder alla samma sak, och det gör även `/es-MX`, `/es-México` och `/es-Mexico`. Stora bokstäver och accenter spelar ingen roll, så `/ESPANOL` funkar också. Ett namn med mellanslag skrivs utan mellanslaget, som `/BahasaIndonesia`, eftersom en tagg alltid är ett enda ord. Om jag inte känner igen ett språk eller ett område säger jag till."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -373,6 +374,11 @@
                     "name": "$~dubblett av språk",
                     "explanation": "$~Du använde språket ' $code ' två gånger. Taggar för blandspråk bör bara lista varje språk en gång.",
                     "resolution": "$~Ta bort dubbletten * $code * tagg"
+                },
+                "UnknownRegion": {
+                    "name": "$~okänt område",
+                    "explanation": "$~Jag känner inte igen detta område",
+                    "resolution": "$~Ta bort detta område"
                 }
             }
         },
@@ -3651,12 +3657,12 @@
                     "doc": [
                         "$~Jag kan ta en lista och göra en ny lista med värdena sorterade. Så här:",
                         "\\[1 5 8 0 2].sorterad()\\",
-                        "Jag kan också göra det för @Text värden, i bokstavsordning. En stor bokstav sorteras precis intill sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med stor bokstav:",
+                        "Jag kan också göra det för @Text-värden, i alfabetisk ordning. En stor bokstav sorteras bredvid sin lilla motsvarighet, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
                         "\\['Apelsin' 'kiwi' 'Banan' 'äpple'].sorterad()\\",
-                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör varje del till en @Number eller en @Text, så att jag kan sortera den. Till exempel, här har vi en lista med listor av olika längd. Om du ger mig en funktion som gör varje lista till dess längd, kan jag sortera efter längden.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista3) lista3.längd())\\",
-                        "En funktion som skapar @Text är hur du sorterar efter ett ord du räknar fram, istället för efter värdet själv. Här sorterar jag namn efter det sista namnet:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn3•'') (namn3 ÷ ' ').sista()\n)\\"
+                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör varje värde till en @Number eller en @Text så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd; om du ger mig en funktion som gör varje lista till dess längd, kan jag sortera efter längden.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista2) lista2.längd())\\",
+                        "En funktion som gör @Text är hur du sorterar efter ett ord du räknar fram, istället för efter värdet självt. Här sorterar jag namn efter det sista:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn2•'') (namn2 ÷ ' ').sista()\n)\\"
                     ],
                     "names": "$~sorterad",
                     "inputs": [
@@ -3667,7 +3673,7 @@
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value som ska göras till en @Number eller en @Text.",
+                            "doc": "$~Den @value som ska göras till en @Number eller en @Text.",
                             "names": "$~värde"
                         }
                     ]
@@ -8785,7 +8791,7 @@
                         "phrase": "$~\\¶Fraser visas på scenen, i vilken färg, glöd och rörelse du vill.¶\nFras(\n\t'hej!'\n\t6m\n\tfärg: Färg(60% 90 200°)\n\taura: Aura(Färg(80% 80 200°) 0.3m)\n\tvilande: Sekvens.vingla(8°)\n)\\",
                         "music": "$~\\¶Musik är toner på riktiga instrument, i ett tempo, i en tonart. Scenen ritar det den hör.¶\nMusik(\n\tSpår([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Koden kan reagera på inmatning som @Time, och text kan vara flerspråkig och talad.¶\nhejsan: ['hej' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhej: hejsan.slumpmässig() … ∆ Tid(1000ms) … hejsan.slumpmässig(\n\t\t)\nFras(hej 4m)\nSäga(hej)\\",
-                        "keys": "$!\\¶Koden kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare())]\n\tplats: Plats(0m 0m -12m)\n)\\",
+                        "keys": "$~\\¶Kod kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare() bubbla: 'hej')]\n\tplats: Plats(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Placera text och gör den markerbar.¶\nfrukt: ƒ(e•'') Fras(e 3m namn: e valbara: ⊤)\nvald: Val()\nvisad: '?' … ∆ vald … vald\nGrupp(\n\tStack(stoppning: 1m)\n\t[\n\t\tFras(visad 4m)\n\t\tGrupp(\n\t\t\tRad(stoppning: 1m)\n\t\t\t[frukt('🍎') frukt('🍐') frukt('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Chatta med program och använd formen på typsnitt och symboler.¶\nmeddelande: Chatta()\nord3: 'hej' … ∆ meddelande … meddelande\nrad: Kontur(ord3 'Noto Sans' 8m)\ntick: 0 … ∆ Tid(30ms) … tick + 1\nvisad: ((rad.längd() × tick) ÷ 66).rundaner() + 1\npunkter: rad.efterföljande(1 visad).översätta(\n\t\tƒ(p) Fras('•' plats: p)\n\t)\nEtapp(punkter.med(Fras(ord3 8m opacitet: 15%)))\\",
                         "pile": "$~\\¶Text kan ha fysik.¶\nkasta: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFras(\n\t\t\temoji\n\t\t\t2m\n\t\t\tplats: Rörelse(Plats(x2 y2) Hastighet(vx 0m/s))\n\t\t\tmateria: Materia(1kg 0.55 0.06 0.5)\n\t\t)\nEtapp(\n\t[\n\t\tkasta('🍎' -2m 5m 2.2m/s)\n\t\tkasta('🍊' 2m 7m -2.6m/s)\n\t\tkasta('🍋' -1m 9m 1.4m/s)\n\t\tkasta('🍇' 1.5m 11m -1.9m/s)\n\t\tkasta('🫐' 0.5m 15m -1.2m/s)\n\t\tFigur(Rektangel(-4m -3m 4m -3.6m))\n\t\tFigur(Rektangel(-4.6m 4m -4m -3m))\n\t\tFigur(Rektangel(4m 4m 4.6m -3m))\n\t]\n)\\",

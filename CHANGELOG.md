@@ -26,11 +26,17 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🧲 A @Path on your @Stage stops things by its real shape, so you can draw a hill or a valley and watch things roll into it. Circles and many-sided shapes already stopped things by their own shape; lines do now too. (#167)
 - 🔠 Give a shape `glyphs` and Wordplay writes that text along its edge, over and over until it fills. Words can run around a circle or a hexagon, and a line can be drawn out of letters instead of ink. (#167)
 - 🎨 Shapes now have `filled` and `stroked`, so you can have just an outline, or neither — which is how you make a wall that stops things without being seen.
+- 🌐 You can now write a language tag with the language's name, not just its code: `'hola'/Español`, `'hola'/Spanish`, and `'hola'/es` all mean the same thing, and so do `/es-México` and `/es-MX`. Capitals and accents don't matter, so `/espanol` works too. (#1220)
+- 🚦 Wordplay now tells you when it doesn't know the region in a language tag, the way it already did for the language. Before, a misspelled one like `/en-Merica` quietly meant nothing. (#1220)
+- 💡 You can now finish a language tag by typing part of one. Type `/esp` and pick `/español`, `/span` and pick `/Spanish`, or `/en-U` and pick `/en-US` — and once you've typed something, every language and region is offered, not just the ones Wordplay speaks. (#1220)
 
 ### Changed
 
 - 🗨️ Three examples now use speech bubbles instead of words placed by hand: the map that tells you about a place when you bump into it, the face that says your mood, and the story Pears. (#75)
 - 📐 When your program shows more than one thing, they now go exactly where you put them. Wordplay used to quietly gather them into a @Group and stack them, which threw away the up-and-down part of every place you wrote and moved the side-to-side part too. Things with no place of their own now sit on top of each other in the middle, so give them a place — or write a @Group yourself if stacking is what you wanted.
+- 🌐 The [language chooser](https://wordplay.dev/) now writes each region in its own language, so you'll see "México" and "日本" instead of "Mexico" and "Japan". You can still search for either one. (#1220)
+- 💡 When you pick a language tag from the menu, it now says which language the tag is for, so `/es` reads as "español" and `/es-MX` as "español (México)". Before, every choice showed the same sentence. (#1220)
+- 🌐 After you type a language, we now offer the places where people speak it — `/en` offers `-US`, `-GB`, and `-CA` — instead of every place Wordplay happens to know. Adding a second language is still there, just further down the list. (#1220)
 
 ### Fixed
 
@@ -38,6 +44,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🖱️ Sometimes you'd click something on your stage and nothing would happen — it got a blue outline but no handles, and the arrow keys wouldn't move it. That could last until you changed your code again. Now a click always finds what you clicked on.
 - 🔍 Your stage used to zoom in and out while you dragged something across it, which made things hard to place. Now it holds still while you move and fits your work again once you let go. If it ends up further out than you want, restart your program and it will frame everything fresh.
 - 🗣️ Screen readers used to read the name of a group or a shape as its symbol, saying "white square button" where they meant "group". Now they say the word.
+- 🐛 When a language tag named the same region twice, letting Wordplay fix it also deleted the other regions you had listed. Now it only removes the repeat. (#1220)
+- 💡 The menu wouldn't help you write a language tag at all. Typing `'hi'/` offered no languages, `'hi'/en` offered no regions, and `'hi'/en-U` wouldn't finish into `/en-US`. Now each of them offers what comes next. (#1220)
 - ✍️ Adding something to your program used to pull your project's description up onto the first line of your code.
 - 🎨 Picking a @Say used to show an empty palette. Now you can edit what it says there, like anything else.
 - 🐛 A small shape was drawn lower than the box that picks it, so its outline, its turn and resize handles, and the shape itself all sat in different places. They line up now.

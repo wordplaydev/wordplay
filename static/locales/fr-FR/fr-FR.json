@@ -343,20 +343,21 @@
             "description": "$~langue $language[$language|non précisée]$region[, région $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Je suis une étiquette de langue et je travaille avec @Name et @Doc !",
-                "Je suis très doué pour rendre *parfaitement clair* dans quelle langue quelque chose est écrit. Juste une petite barre oblique et quelques lettres, et personne ne sera jamais confus sur la langue d'un texte.",
-                "Par exemple, si tu veux dire « Langue » mais préciser que c'est en anglais :",
+                "$~Je suis une étiquette de langue et je fonctionne avec @Name et @Doc !",
+                "Je suis vraiment doué pour montrer *très clairement* dans quelle langue quelque chose est écrit. Juste une petite barre et quelques lettres, et personne ne se demandera jamais dans quelle langue un texte est écrit.",
+                "Par exemple, si tu veux dire « Langue » mais montrer clairement que c'est en anglais :",
                 "\\'Langue'\\",
-                "Tu peux faire cela pour un @Name :",
+                "Tu peux faire ça pour un @Name :",
                 "\\son: 'miaou'\\🪲",
-                "…ou une @Doc :",
+                "…ou pour un @Doc :",
                 "\\¶Onomatopée¶\nson: 'miaou'\\🪲",
-                "Parfois un texte n'est pas juste une seule langue — c'est un *mélange*. Comme le franglais, où le français et l'anglais se mêlent. Pour ceux-là, liste chaque langue avec un trait de soulignement entre elles. La première est la *principale* — c'est celle que j'utilise quand je dois choisir (par exemple, pour choisir quels guillemets utiliser).",
-                "\\'Bonjour monsieur !'\\",
-                "\\¶Un salut bilingue¶\nhello/es_en: 'Hola monsieur !'\\🪲",
-                "Tu peux aussi ajouter une seule @region, après un tiret, comme avec une seule langue :",
-                "\\'Bonjour monsieur !'\\",
-                "Il n'y a pas de limite au nombre de langues que tu peux lister — mais ne répète pas la même deux fois ; je te le dirai si tu le fais. Il y a beaucoup de <codes de langue à 2 lettres@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> que je comprends. Si tu n'en utilises pas un, je te le dirai aussi."
+                "Parfois, un texte n'est pas juste dans une seule langue — c'est un *mélange*. Comme le franglais, où le français et l'anglais se mélangent. Pour ça, liste chaque langue en les séparant par un trait de soulignement. La première est la *principale* — c'est celle que j'utilise quand je dois choisir (par exemple, pour choisir quels guillemets utiliser).",
+                "\\'Hola gentleman !'\\",
+                "\\¶Une salutation bilingue¶\nhello/es_en: 'Hola gentleman !'\\🪲",
+                "Tu peux aussi ajouter une seule @region, après un tiret, tout comme avec une seule langue :",
+                "\\'Hola gentleman !'\\",
+                "Il n'y a pas de limite au nombre de langues que tu peux lister — évite juste de répéter la même deux fois ; je te préviendrai si tu le fais.",
+                "Tu peux écrire une langue avec son <code à 2 lettres@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ou avec son *nom*, dans cette langue ou en anglais — `/es`, `/Español`, et `/Spanish` veulent tous dire la même chose, tout comme `/es-MX`, `/es-México`, et `/es-Mexico`. Les majuscules et les accents n'ont pas d'importance, donc `/ESPANOL` fonctionne aussi. Un nom avec une espace s'écrit sans l'espace, comme `/BahasaIndonesia`, parce qu'une étiquette est un seul mot. Si je ne reconnais pas une langue ou une région, je te le dirai."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -373,6 +374,11 @@
                     "name": "$~langue en double",
                     "explanation": "$~Vous avez utilisé la langue « $code » deux fois. Les balises multilingues ne doivent mentionner chaque langue qu'une seule fois.",
                     "resolution": "$~Supprimez la balise * $code * en double"
+                },
+                "UnknownRegion": {
+                    "name": "$~région inconnue",
+                    "explanation": "$~Je ne connais pas cette région",
+                    "resolution": "$~Retirer cette région"
                 }
             }
         },
@@ -3651,25 +3657,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Je peux prendre une liste et faire une nouvelle liste avec ses valeurs triées. Comme ceci :",
+                        "$~Je peux prendre une liste, et faire une nouvelle liste avec ses valeurs triées. Comme ceci :",
                         "\\[1 5 8 0 2].trié()\\",
-                        "Je peux aussi le faire pour des valeurs @Text, dans l'ordre alphabétique. Une lettre majuscule se trie juste à côté de sa version minuscule, donc un mot n'est pas envoyé à la fin juste parce qu'il commence par une majuscule :",
+                        "Je peux aussi le faire pour des valeurs @Text, par ordre alphabétique. Une lettre majuscule se trie juste à côté de sa version minuscule, donc un mot n'est pas envoyé à la fin juste parce qu'il commence par une majuscule :",
                         "\\['Orange' 'kiwi' 'Banane' 'pomme'].trié()\\",
-                        "Et si tu as une liste de valeurs qui ne sont pas @Number ou @Text, tu peux me donner un @FunctionDefinition qui transforme chaque élément en un @Number ou un @Text pour que je puisse le trier. Par exemple, ici on a une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux les trier par longueur.",
-                        "\\[[1] [2 3] [4 8 12] [8]].trié(ƒ(liste2) liste2.longueur())\\",
-                        "Une fonction qui produit @Text te permet de trier selon un mot que tu calcules, plutôt que selon la valeur elle-même. Ici, je trie des noms selon le dernier nom :",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].trié(\n\tƒ(nom2•'') (nom2 ÷ ' ').dernier()\n)\\"
+                        "Et si tu as une liste de valeurs qui ne sont pas @Number ou @Text, tu peux me donner un @FunctionDefinition qui transforme chaque élément en @Number ou en @Text pour que je puisse le trier. Par exemple, voici une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux les trier par longueur.",
+                        "\\[[1] [2 3] [4 8 12] [8]].trié(ƒ(liste3) liste3.longueur())\\",
+                        "Une fonction qui crée @Text permet de trier selon un mot que tu calcules, plutôt que selon la valeur elle-même. Ici, je trie des noms par le dernier nom :",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].trié(\n\tƒ(nom3•'') (nom3 ÷ ' ').dernier()\n)\\"
                     ],
                     "names": "$~trié",
                     "inputs": [
                         {
-                            "doc": "$~Le @FunctionDefinition optionnel à utiliser pour trier une liste @value. Il doit transformer la valeur en un @Number ou un @Text qui peut servir à trier la liste.",
+                            "doc": "$~Le @FunctionDefinition facultatif à utiliser pour trier une liste @value. Il doit transformer la valeur en @Number ou en @Text qui peut servir à trier la liste.",
                             "names": "$~séquenceur"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Le @value à transformer en un @Number ou un @Text.",
+                            "doc": "$~Le @value à transformer en @Number ou en @Text.",
                             "names": "$~valeur"
                         }
                     ]

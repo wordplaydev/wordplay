@@ -395,13 +395,19 @@
                 "\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\🪲",
                 "You can add a single @region too, after a dash, just like with a single language:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
-                "There's no limit to how many languages you can list — just don't repeat the same one twice; I'll let you know if you do. There are many <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> that I understand. If you don't use one of those, I'll let you know too."
+                "There's no limit to how many languages you can list — just don't repeat the same one twice; I'll let you know if you do.",
+                "You can write a language by its <2-letter code@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> or by its *name*, in that language or in English — `/es`, `/Español`, and `/Spanish` all mean the same thing, and so do `/es-MX`, `/es-México`, and `/es-Mexico`. Capitals and accents don't matter, so `/ESPANOL` works too. A name with a space in it gets written without the space, like `/BahasaIndonesia`, because a tag is all one word. If I don't recognize a language or a region, I'll let you know."
             ],
             "conflict": {
                 "UnknownLanguage": {
                     "name": "unknown language",
                     "explanation": "I don't know this language",
                     "resolution": "Remove this language code"
+                },
+                "UnknownRegion": {
+                    "name": "unknown region",
+                    "explanation": "I don't know this region",
+                    "resolution": "Remove this region"
                 },
                 "MissingLanguage": {
                     "name": "missing language",
@@ -3804,7 +3810,7 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$! I can take a list, and make a new list with its values sorted. Like this:",
+                        " I can take a list, and make a new list with its values sorted. Like this:",
                         "\\[1 5 8 0 2].sorted()\\",
                         "I can also do it for @Text values, in alphabetical order. A capital letter sorts next to its lowercase one, so a word isn't sent to the end just for starting with a capital:",
                         "\\['Orange' 'kiwi' 'Banana' 'apple'].sorted()\\",
@@ -3816,13 +3822,13 @@
                     "names": "sorted",
                     "inputs": [
                         {
-                            "doc": "$! The optional @FunctionDefinition to use to sort a list @value. It should turn the value into a @Number or a @Text that can be used for sorting the list.",
+                            "doc": " The optional @FunctionDefinition to use to sort a list @value. It should turn the value into a @Number or a @Text that can be used for sorting the list.",
                             "names": "sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$! The @value to turn into a @Number or a @Text.",
+                            "doc": " The @value to turn into a @Number or a @Text.",
                             "names": "value"
                         }
                     ]

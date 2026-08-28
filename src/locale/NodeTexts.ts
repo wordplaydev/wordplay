@@ -124,6 +124,10 @@ type NodeTexts = {
                 /** [formatted] Action description for the repair this conflict offers */
                 resolution: Template<[]>;
             };
+            UnknownRegion: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             MissingLanguage: ConflictText & {
                 /** [formatted] Action description for the repair this conflict offers */
                 resolution: Template<[]>;

@@ -253,13 +253,32 @@ test('resolving a color needs no basis', () => {
  * reached only from the stage's output views, so no entry here reaches them and
  * no file count moves. The other four budgets had enough slack to absorb the
  * text.
+ *
+ * Language and region names as tags (#1220) add **three files** to all five:
+ * `locale/tagNames.ts`, the region-name table it indexes
+ * (`locale/regionNames.generated.ts`), and `conflicts/UnknownRegion.ts`. These
+ * are reached through `nodes/Language.ts`, which every one of these entries
+ * already carries, and they have to be — a tag is resolved while conflicts are
+ * computed, so the name tables cannot be deferred behind a dynamic import the
+ * way a rarely-used view can. The +0.03MB is almost entirely the region table's
+ * 19KB — 249 regions, each with its own-language name, the language that named
+ * it, and CLDR's English name and alternates — plus the new conflict's strings
+ * in en-US.json, which every page carries. It sits beside `LanguageCode.ts`,
+ * which holds the same shape of data for languages, is four times larger, and
+ * is already on every one of these pages.
+ *
+ * Completing a tag as it's typed adds **no file** and +0.01MB: the prefix
+ * matcher in `tagNames.ts`, the completion method on `Language`, and the two
+ * dispatch branches in `PossibleEdits.ts` all live in modules these entries
+ * already carry. The file counts below are unchanged, which is the useful
+ * signal — this is code weight, not new reach.
  */
 test.each([
-    ['src/routes/+layout.svelte', 488, 3.51],
-    ['src/components/app/Page.svelte', 510, 3.75],
-    ['src/routes/[[locale]]/+page.svelte', 525, 3.84],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 528, 3.84],
-    ['src/routes/[[locale]]/projects/+page.svelte', 536, 3.87],
+    ['src/routes/+layout.svelte', 491, 3.56],
+    ['src/components/app/Page.svelte', 513, 3.8],
+    ['src/routes/[[locale]]/+page.svelte', 528, 3.88],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 531, 3.88],
+    ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.92],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

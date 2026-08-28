@@ -1,10 +1,12 @@
 import { Languages } from '@locale/LanguageCode';
 import { Regions } from '@locale/Regions';
 import { describe, expect, test } from 'vitest';
+import { stringToLocale } from '@locale/Locale';
 import {
     allLanguageOptions,
     allRegionOptions,
     bestMatch,
+    filterLocalesByQuery,
     matchLanguages,
     matchRegions,
 } from './LocaleSearch.svelte';
@@ -94,5 +96,40 @@ describe('bestMatch', () => {
 
     test('a query matching neither selects nothing', () => {
         expect(bestMatch('zzzzqq', EN)).toEqual({});
+    });
+});
+
+describe('regions are searched and shown by their own names (#1220)', () => {
+    test("a locale is found by its region's own name", () => {
+        const found = filterLocalesByQuery(
+            ['es-MX', 'en-US'],
+            'méxico',
+            stringToLocale,
+            ['en'],
+        );
+        expect(found).toEqual(['es-MX']);
+    });
+
+    test('and by the English name it already had', () => {
+        expect(
+            filterLocalesByQuery(['es-MX', 'en-US'], 'mexico', stringToLocale, [
+                'en',
+            ]),
+        ).toEqual(['es-MX']);
+    });
+
+    test('the region dropdown labels a region in its own language', () => {
+        const mexico = allRegionOptions().find((o) => o.value === 'MX');
+        expect(mexico?.label).toBe('México (Mexico)');
+    });
+
+    test('matching a region accepts its own name, accents or not', () => {
+        expect(matchRegions('méxico', ['en'])[0].value).toBe('MX');
+        expect(matchRegions('mexico', ['en'])[0].value).toBe('MX');
+    });
+
+    test('matching a language accepts its own name without its accents', () => {
+        // The keyboard someone has is not always the one a name was written on.
+        expect(matchLanguages('espanol', ['en'])[0].value).toBe('es');
     });
 });

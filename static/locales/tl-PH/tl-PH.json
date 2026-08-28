@@ -343,20 +343,21 @@
             "description": "$~wika $language[$language|hindi tinukoy]$region[, rehiyon $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Ako ay isang tatak ng wika at gumagana ako sa @Name at @Doc!",
-                "Napakahusay ko sa paggawang *napakalinaw* kung anong wika nakasulat ang isang bagay. Isang maliit na slash lang at ilang letra, at wala nang malilito kung anong wika nakasulat ang isang teksto.",
-                "Halimbawa, kung gusto mong sabihin ang \"Wika\" ngunit gawing malinaw na ito ay sa Ingles:",
+                "$~Ako ay isang tatak ng wika at gumagana ako kasama sina @Name at @Doc!",
+                "Mahusay ako sa paggawang *napakalinaw* kung anong wika ang ginamit sa isang bagay. Isang maliit na garis-pahilis lang at ilang letra, at wala nang malilito kung anong wika ang isang teksto.",
+                "Halimbawa, kung gusto mong sabihin ang \"Wika\" pero gusto mong linawin na ito ay nasa Ingles:",
                 "\\'Wika'\\",
                 "Magagawa mo ito para sa isang @Name:",
                 "\\tunog: 'ngiyaw'\\🪲",
-                "…o isang @Doc:",
+                "…o kaya isang @Doc:",
                 "\\¶Onomatopeya¶\ntunog: 'ngiyaw'\\🪲",
-                "Kung minsan ang teksto ay hindi lang iisang wika — ito ay isang *halo*. Gaya ng Taglish, kung saan pinagsasama ang Tagalog at Ingles. Para diyan, ilista ang bawat wika na may underscore sa pagitan nila. Ang una ang *pangunahin* — iyon ang ginagamit ko kapag kailangan kong pumili (halimbawa, para piliin kung anong panipi ang gagamitin).",
-                "\\'Kumusta ginoo!'\\",
-                "\\¶Isang pagbati sa dalawang wika¶\nhello/es_en: 'Hola ginoo!'\\🪲",
-                "Maaari ka ring magdagdag ng isang @region, pagkatapos ng gitling, gaya ng sa iisang wika:",
-                "\\'Kumusta ginoo!'\\",
-                "Walang hangganan kung ilang wika ang maaari mong ilista — huwag lang ulitin nang dalawang beses ang parehong wika; sasabihin ko sa iyo kung gagawin mo. Maraming <2-letrang mga kodigo ng wika@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ang naiintindihan ko. Kung hindi mo gagamitin ang isa sa mga iyon, sasabihin ko rin sa iyo."
+                "Minsan ang isang teksto ay hindi lang isang wika — ito ay isang *halo*. Katulad ng Taglish, kung saan naghahalo ang Tagalog at Ingles. Para diyan, ilista ang bawat wika na may guhit-ilalim sa pagitan nila. Ang una ay ang *pangunahin* — iyon ang ginagamit ko kapag kailangan kong pumili (halimbawa, sa pagpili kung anong uri ng panipi ang gagamitin).",
+                "\\'Hola ginoo!'\\",
+                "\\¶Isang bilingguwal na pagbati¶\nhello/es_en: 'Hola ginoo!'\\🪲",
+                "Maaari ka ring magdagdag ng iisang @region, pagkatapos ng gitling, katulad din ng isang wika:",
+                "\\'Hola ginoo!'\\",
+                "Walang limitasyon kung ilang wika ang maaari mong ilista — huwag lang paulit-ulitin ang parehong wika; ipapaalam ko sa iyo kung nangyari ito.",
+                "Maaari kang magsulat ng wika gamit ang <2-letrang kodigo@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> o gamit ang *pangalan* nito, sa wikang iyon o sa Ingles — magkatulad lang ang `/es`, `/Español`, at `/Spanish`, at ganoon din ang `/es-MX`, `/es-México`, at `/es-Mexico`. Hindi mahalaga ang malalaking letra at mga tuldik, kaya gagana rin ang `/ESPANOL`. Ang pangalang may espasyo ay isinusulat nang walang espasyo, tulad ng `/BahasaIndonesia`, dahil ang isang tatak ay iisang salita. Kung hindi ko makilala ang isang wika o isang rehiyon, ipapaalam ko sa iyo."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -373,6 +374,11 @@
                     "name": "$~nadobleng wika",
                     "explanation": "$~Ginamit mo nang dalawang beses ang wikang ' $code '. Ang mga tag na may halo-halong wika ay dapat maglista ng bawat wika nang isang beses lamang.",
                     "resolution": "$~Alisin ang dobleng * $code * tag"
+                },
+                "UnknownRegion": {
+                    "name": "$~hindi kilalang rehiyon",
+                    "explanation": "$~Hindi ko kilala ang rehiyong ito",
+                    "resolution": "$~Alisin ang rehiyong ito"
                 }
             }
         },
@@ -3657,25 +3663,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Kaya kong kumuha ng listahan, at gumawa ng bagong listahan na nakaayos ang mga halaga nito. Ganito:",
+                        "$~Maaari akong tumanggap ng listahan, at gumawa ng bagong listahan na may nakaayos na mga halaga nito. Ganito:",
                         "\\[1 5 8 0 2].inayos()\\",
-                        "Kaya ko rin itong gawin para sa mga halagang @Text, ayon sa pagkakasunod-sunod ng alpabeto. Ang malaking letra ay isinasama sa katabi nitong maliit na letra, kaya hindi napupunta sa dulo ang isang salita dahil lang nagsisimula ito sa malaking letra:",
+                        "Magagawa ko rin ito para sa mga halagang @Text, ayon sa pagkakasunod-sunod ng alpabeto. Ang malaking letra ay nasa tabi ng maliit na letra nito sa pagkakasunod-sunod, kaya ang isang salita ay hindi napupunta sa dulo dahil lang nagsisimula ito sa malaking letra:",
                         "\\['Kahel' 'kiwi' 'Saging' 'mansanas'].inayos()\\",
-                        "At kung mayroon kang listahan ng mga halagang hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na nagpapalit ng bawat item sa isang @Number o @Text para maayos ko ito. Halimbawa, narito ang isang listahan ng mga listahan na magkakaiba ang haba; kung bibigyan mo ako ng function na nagpapalit ng bawat listahan sa haba nito, kaya kong ayusin ang mga ito ayon sa haba.",
-                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan3) listahan3.haba()\n)\\",
-                        "Ang function na gumagawa ng @Text ay paraan mo para mag-ayos ayon sa isang salitang kinakalkula mo, sa halip na sa halaga mismo. Narito, inaayos ko ang mga pangalan ayon sa huling pangalan:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan3•'') (pangalan3 ÷ ' ').huli()\n)\\"
+                        "At kung mayroon kang listahan ng mga halagang hindi @Number o @Text, maaari mong bigyan ako ng isang @FunctionDefinition na nagpapalit ng bawat aytem sa isang @Number o isang @Text para maayos ko ito. Halimbawa, narito tayo ay may listahan ng mga listahan na may iba't ibang haba; kung bibigyan mo ako ng isang function na nagpapalit ng bawat listahan sa haba nito, maaari kong ayusin ayon sa haba nila.",
+                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan2) listahan2.haba()\n)\\",
+                        "Ang isang function na gumagawa ng @Text ay paraan ng pag-aayos ayon sa isang salitang kinukuwenta mo, sa halip na ayon mismo sa halaga. Dito, inaayos ko ang mga pangalan ayon sa huling pangalan:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan2•'') (pangalan2 ÷ ' ').huli()\n)\\"
                     ],
                     "names": "$~inayos",
                     "inputs": [
                         {
-                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para ayusin ang listahang @value. Dapat nitong palitan ang halaga sa isang @Number o @Text na magagamit sa pag-aayos ng listahan.",
+                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para ayusin ang isang listahang @value. Dapat nitong palitan ang halaga sa isang @Number o isang @Text na magagamit para sa pag-aayos ng listahan.",
                             "names": "$~sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Ang @value na papalitan ng isang @Number o @Text.",
+                            "doc": "$~Ang @value na papalitan sa isang @Number o isang @Text.",
                             "names": "$~halaga"
                         }
                     ]
@@ -9117,7 +9123,7 @@
                         "phrase": "$~\\¶Lumalabas ang mga Phrase sa entablado, sa anumang kulay, ningning, at galaw na gusto mo.¶\nParirala(\n\t'kumusta!'\n\t6m\n\tkulay: Kulay(60% 90 200°)\n\taura: Aura(Kulay(80% 80 200°) 0.3m)\n\tnagpapahinga: Pagkakasunodsunod.ugoy(8°)\n)\\",
                         "music": "$~\\¶Ang musika ay mga nota sa tunay na instrumento, sa isang tempo, sa isang key. Iginuguhit ng entablado ang naririnig nito.¶\nMusika(\n\tTrack([1 3 5 8 5 3] instrumento: Instrumento.piyano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Ang kodigo ay maaaring tumugon sa input tulad ng @Time, at ang teksto ay maaaring maraming wika at mabigkas.¶\nmgaKumusta: ['kumusta' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nkumusta: mgaKumusta.random() … ∆ Oras(1000ms) … mgaKumusta.random(\n\t\t)\nParirala(kumusta 4m)\nSabihin(kumusta)\\",
-                        "keys": "$!\\¶Ang kodigo ay maaaring tumugon sa mga pointer, susi, click, at tapik.¶\nsusi2: Susi()\nclick2: Butones()\nmgaMukha: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ click2 … (alin % 4) + 1\nEntablado(\n\t[Parirala(mgaMukha[alin] 5m lugar: Panturo())]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
+                        "keys": "$~\\¶Ang kodigo ay maaaring tumugon sa pointer, susi, klik, at tap.¶\nsusi2: Susi()\nklik: Butones()\nmukha2: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ klik … (alin % 4) + 1\nEntablado(\n\t[Parirala(mukha2[alin] 5m lugar: Panturo() bula: 'hi')]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Ayusin ang teksto at gawin itong mapipili.¶\nprutas: ƒ(e•'') Parirala(e 3m pangalan: e mapipili: ⊤)\nnapili: Pagpipilian()\nipinakita: '?' … ∆ napili … napili\nGrupo(\n\tPatongpatong(padding: 1m)\n\t[\n\t\tParirala(ipinakita 4m)\n\t\tGrupo(\n\t\t\tHilera(padding: 1m)\n\t\t\t[prutas('🍎') prutas('🍐') prutas('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Makipag-usap sa mga programa at gamitin ang hugis ng mga font at simbolo.¶\nmensahe: Makipagchat()\nsalita2: 'hi' … ∆ mensahe … mensahe\nlinya: Kontur(salita2 'Noto Sans' 8m)\nmgaTik: 0 … ∆ Oras(30ms) … mgaTik + 1\nipinakita: ((linya.haba() × mgaTik) ÷ 66).roundDown() + 1\nmgaTuldok: linya.kasunod(1 ipinakita).isalin(\n\t\tƒ(p) Parirala('•' lugar: p)\n\t)\nEntablado(\n\tmgaTuldok.kasama(Parirala(salita2 8m kalabuan: 15%))\n)\\",
                         "pile": "$~\\¶Maaaring may pisika ang teksto.¶\nitapon: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tParirala(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlugar: Paggalaw(Lugar(x2 y2) Bilis(vx 0m/s))\n\t\t\tmaterya: Materya(1kg 0.55 0.06 0.5)\n\t\t)\nEntablado(\n\t[\n\t\titapon('🍎' -2m 5m 2.2m/s)\n\t\titapon('🍊' 2m 7m -2.6m/s)\n\t\titapon('🍋' -1m 9m 1.4m/s)\n\t\titapon('🍇' 1.5m 11m -1.9m/s)\n\t\titapon('🫐' 0.5m 15m -1.2m/s)\n\t\tHugis(Parihaba(-4m -3m 4m -3.6m))\n\t\tHugis(Parihaba(-4.6m 4m -4m -3m))\n\t\tHugis(Parihaba(4m 4m 4.6m -3m))\n\t]\n)\\",

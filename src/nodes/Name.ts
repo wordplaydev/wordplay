@@ -13,6 +13,7 @@ import {
     SymbolNameRegEx,
 } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
+import { lowerCase } from '@unicode/casing';
 import { EmojiTestRegex } from '@unicode/emoji';
 import { Purpose } from '@concepts/Purpose';
 import { Emotion } from '../lore/Emotion';
@@ -212,11 +213,12 @@ export default class Name extends LanguageTagged {
     }
 
     getLowerCaseName(): string | undefined {
+        // Through `lowerCase`, not `toLocaleLowerCase` directly: a tag Intl
+        // rejects — including the `😀` symbolic-name code — is a RangeError,
+        // and should degrade to the root mapping instead.
         return this.name === undefined
             ? undefined
-            : this.name
-                  .getText()
-                  .toLocaleLowerCase(this.language?.getLanguageCode());
+            : lowerCase(this.name.getText(), this.language?.getBCP47());
     }
 
     isEqualTo(alias: Node) {
