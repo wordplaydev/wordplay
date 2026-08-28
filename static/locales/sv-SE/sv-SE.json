@@ -9842,11 +9842,18 @@
                 "readingLevelOk": "$~Detta läses tydligt för den avsedda läsnivån.",
                 "tabs": {
                     "label": "$~avsnitt",
-                    "labels": ["$~Om", "$~Text", "$~Termer", "$~Skicka in"],
+                    "labels": [
+                        "$~Om",
+                        "$~Text",
+                        "$~Termer",
+                        "$~Ordlista",
+                        "$~Skicka in"
+                    ],
                     "tips": [
                         "$~hur översättning fungerar, och anteckningar för dem som skriver detta språk",
                         "$~bläddra bland och redigera plattformens text",
                         "$~skapa fraser du kan återanvända i detta språks text",
+                        "$~lägg till pluralformer och andra sätt att stava detta språkets termer",
                         "$~granska dina ändringar och skicka in dem"
                     ]
                 },
@@ -10259,6 +10266,23 @@
                 "invalidKey": "$~En nyckel måste börja med en bokstav och får bara innehålla bokstäver och siffror, på vilket språk som helst.",
                 "duplicateKey": "$~Det här språket har redan ett ord med den nyckeln.",
                 "reservedKey": "$~Den nyckeln används redan för ett mallvärde, så den kan inte vara ett ord."
+            },
+            "glossary": {
+                "header": "$~Andra skrivsätt",
+                "description": "$~Ordlistan förklarar ord som eleverna möter. Varje term har ett huvudord, och här kan du lägga till andra sätt att skriva ordet på detta språk — pluralformer, andra ändelser, eller ett annat ord som betyder samma sak. När du skriver text kan du länka till något av dem med @ och ordet, och hela ordet är då en del av länken. Varje språk skriver sin egen lista, så lägg till så många eller så få former som ditt språk behöver.",
+                "reference": "$~på engelska",
+                "empty": "$~Inga andra former ännu.",
+                "form": {
+                    "description": "$~ett annat sätt att skriva denna term",
+                    "placeholder": "$~form"
+                },
+                "add": "$~lägg till denna form till termen",
+                "remove": "$~ta bort denna form från termen",
+                "ownWord": "$~Detta är termens eget ord, som redan fungerar av sig själv.",
+                "otherWord": "$~Detta är ordet för $term, så det skulle vara otydligt vilken term du menade.",
+                "conceptName": "$~Dokumentationen definierar redan detta ord, så en länk till det skulle gå dit istället.",
+                "alreadyUsed": "$~Detta är redan en form av $term, så det skulle vara otydligt vilken term du menade.",
+                "searchOnly": "$~En länk slutar vid ett mellanslag eller en symbol, så denna form hjälper bara vid sökning."
             }
         },
         "tour": {

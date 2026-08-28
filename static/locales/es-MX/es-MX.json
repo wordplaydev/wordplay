@@ -9765,12 +9765,14 @@
                         "$~Acerca de",
                         "$~Texto",
                         "$~Términos",
+                        "$~Glosario",
                         "$~Enviar"
                     ],
                     "tips": [
                         "$~cómo funciona la localización y notas para quienes escriben este idioma",
                         "$~explorar y editar el texto de la plataforma",
                         "$~definir frases que puedes reutilizar en el texto de este idioma",
+                        "$~agrega los plurales y otras formas de escribir los términos de este idioma",
                         "$~revisar tus ediciones y enviarlas"
                     ]
                 },
@@ -10286,6 +10288,23 @@
                 "invalidKey": "$~Una clave debe comenzar con una letra y usar solo letras y números, en cualquier idioma.",
                 "duplicateKey": "$~Este idioma ya tiene una palabra con esa clave.",
                 "reservedKey": "$~Esa clave ya se usa para un valor de plantilla, así que no puede ser una palabra."
+            },
+            "glossary": {
+                "header": "$~Otras formas escritas",
+                "description": "$~El glosario explica palabras que quien aprende va conociendo. Cada término tiene una palabra principal, y aquí puedes agregar las otras formas en que esa palabra se escribe en este idioma: plurales, otras terminaciones, u otra palabra que signifique lo mismo. Al escribir un texto, puedes enlazar cualquiera de ellas con @ y la palabra, y toda la palabra queda como parte del enlace. Cada idioma escribe su propia lista, así que agrega tantas formas como tu idioma necesite.",
+                "reference": "$~en inglés",
+                "empty": "$~Todavía no hay otras formas.",
+                "form": {
+                    "description": "$~otra forma en que se escribe este término",
+                    "placeholder": "$~forma"
+                },
+                "add": "$~agregar esta forma al término",
+                "remove": "$~quitar esta forma del término",
+                "ownWord": "$~Esta es la palabra propia del término, que ya funciona por sí sola.",
+                "otherWord": "$~Esta es la palabra para $term, así que no quedaría claro a qué término te refieres.",
+                "conceptName": "$~La documentación ya define esta palabra, así que un enlace a ella iría ahí en su lugar.",
+                "alreadyUsed": "$~Esta ya es una forma de $term, así que no quedaría claro a qué término te refieres.",
+                "searchOnly": "$~Un enlace termina en un espacio o un símbolo, así que esta forma solo ayudará en las búsquedas."
             }
         },
         "tour": {

@@ -22,7 +22,7 @@
 <div class="glossary">
     <HeaderAndExplanation text={(l) => l.ui.docs.glossary.explain} sub />
     {#each terms as term (term.id)}
-        <GlossaryEntry id={term.id} word={term.word} />
+        <GlossaryEntry id={term.id} />
     {/each}
 </div>
 

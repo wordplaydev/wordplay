@@ -9081,6 +9081,23 @@
                 "invalidKey": "$~Sebuah kunci harus diawali dengan huruf dan hanya memakai huruf serta angka, dalam bahasa apa pun.",
                 "duplicateKey": "$~Bahasa ini sudah punya kata dengan kunci itu.",
                 "reservedKey": "$~Kunci itu sudah dipakai untuk sebuah nilai templat, jadi tidak bisa menjadi kata."
+            },
+            "glossary": {
+                "header": "$~Bentuk tulisan lain",
+                "description": "$~Daftar istilah menjelaskan kata-kata yang ditemui pelajar. Setiap istilah punya satu kata utama, dan di sini kamu bisa menambahkan cara lain kata itu ditulis dalam bahasa ini — bentuk jamak, akhiran lain, atau kata lain yang berarti sama. Saat menulis teks, kamu bisa menautkan salah satu bentuk itu dengan @ dan kata tersebut, dan seluruh kata tetap menjadi bagian dari tautan itu. Setiap bahasa menulis daftarnya sendiri, jadi tambahkan sebanyak atau sesedikit yang dibutuhkan bahasamu.",
+                "reference": "$~dalam bahasa Inggris",
+                "empty": "$~Belum ada bentuk lain.",
+                "form": {
+                    "description": "$~cara lain istilah ini ditulis",
+                    "placeholder": "$~bentuk"
+                },
+                "add": "$~tambahkan bentuk ini ke istilah",
+                "remove": "$~hapus bentuk ini dari istilah",
+                "ownWord": "$~Ini adalah kata asli istilah ini, yang sudah bisa dipakai sendiri.",
+                "otherWord": "$~Ini adalah kata untuk $term, jadi tidak akan jelas istilah mana yang kamu maksud.",
+                "conceptName": "$~Dokumentasi sudah menjelaskan kata ini, jadi tautan ke kata ini akan mengarah ke sana.",
+                "alreadyUsed": "$~Ini sudah menjadi salah satu bentuk dari $term, jadi tidak akan jelas istilah mana yang kamu maksud.",
+                "searchOnly": "$~Tautan berakhir pada spasi atau simbol, jadi bentuk ini hanya akan membantu pencarian."
             }
         },
         "page": {
@@ -9367,11 +9384,18 @@
                 "readingLevelOk": "$~Ini mudah dibaca untuk tingkat keterbacaan yang dituju.",
                 "tabs": {
                     "label": "$~bagian",
-                    "labels": ["$~Tentang", "$~Teks", "$~Istilah", "$~Kirim"],
+                    "labels": [
+                        "$~Tentang",
+                        "$~Teks",
+                        "$~Istilah",
+                        "$~Daftar Istilah",
+                        "$~Kirim"
+                    ],
                     "tips": [
                         "$~cara kerja pelokalan, dan catatan untuk orang yang menulis bahasa ini",
                         "$~jelajahi dan ubah teks platform ini",
                         "$~tentukan frasa yang bisa kamu pakai lagi di seluruh teks bahasa ini",
+                        "$~tambahkan bentuk jamak dan cara penulisan lain untuk istilah-istilah dalam bahasa ini",
                         "$~tinjau perubahanmu dan kirimkan"
                     ]
                 },

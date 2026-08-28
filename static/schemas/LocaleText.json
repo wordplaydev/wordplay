@@ -1152,7 +1152,7 @@
             "description": "[formatted] Represents a string that is in Wordplay markup formatted syntax. Tagging the alias makes any bare `FormattedText` field default to the formatted editor; fields with their own (untagged) comment are still flagged.",
             "type": "string"
         },
-        "FunctionText<[def-alias-1170802340-6029-6294-1170802340-0-11145,def-alias-1170802340-6029-6294-1170802340-0-11145]>": {
+        "FunctionText<[def-alias-1170802340-6079-6344-1170802340-0-11328,def-alias-1170802340-6079-6344-1170802340-0-11328]>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1176,7 +1176,7 @@
             "required": ["doc", "inputs", "names"],
             "type": "object"
         },
-        "FunctionText<[def-alias-1170802340-6029-6294-1170802340-0-11145]>": {
+        "FunctionText<[def-alias-1170802340-6079-6344-1170802340-0-11328]>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1379,11 +1379,11 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "and": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "not": {
@@ -1391,11 +1391,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "or": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -1454,19 +1454,19 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "combine": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "ends": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
@@ -1478,15 +1478,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "repeat": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "starts": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
@@ -1548,7 +1548,7 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "add": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "all": {
@@ -1590,7 +1590,7 @@
                                             "type": "object"
                                         },
                                         "append": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "combine": {
@@ -1632,7 +1632,7 @@
                                             "type": "object"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "filter": {
@@ -1716,11 +1716,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "join": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "last": {
@@ -1732,7 +1732,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "random": {
@@ -1740,7 +1740,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
@@ -1748,7 +1748,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansAll": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansFirst": {
@@ -1802,7 +1802,7 @@
                                             "type": "object"
                                         },
                                         "subsequence": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -1970,7 +1970,7 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "filter": {
@@ -2012,15 +2012,15 @@
                                             "type": "object"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "remove": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "set": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
@@ -2066,7 +2066,7 @@
                                             "type": "object"
                                         },
                                         "unset": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -2135,11 +2135,11 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -2281,7 +2281,7 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "add": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arccos": {
@@ -2301,11 +2301,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "divide": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "exp": {
@@ -2313,39 +2313,39 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterOrEqual": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterThan": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lessOrEqual": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lessThan": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "log": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "max": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "min": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "multiply": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "positive": {
@@ -2353,15 +2353,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "power": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "remainder": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "root": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "round": {
@@ -2381,7 +2381,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subtract": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "tan": {
@@ -3098,15 +3098,15 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "add": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "difference": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "filter": {
@@ -3148,15 +3148,15 @@
                                             "type": "object"
                                         },
                                         "intersection": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "remove": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
@@ -3202,7 +3202,7 @@
                                             "type": "object"
                                         },
                                         "union": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -3268,11 +3268,11 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -3321,11 +3321,11 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -3383,23 +3383,23 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "combine": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "ends": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "index": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
@@ -3411,19 +3411,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "matches": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "`≈` — whether a pattern matches the whole text. See LANGUAGE.md."
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "repeat": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
@@ -3431,19 +3431,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "search": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "`⌕` — search the text for a pattern, returning a list of Result."
                                         },
                                         "segment": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "starts": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subsequence": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "trim": {
@@ -13340,7 +13340,7 @@
                                     "type": "object"
                                 },
                                 "darker": {
-                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                     "description": "`darker()` — a new color with lightness decreased by a percent (5% by default)."
                                 },
                                 "description": {
@@ -13381,7 +13381,7 @@
                                     "description": "0-360, a color wheel"
                                 },
                                 "lighter": {
-                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                     "description": "`lighter()` — a new color with lightness increased by a percent (5% by default)."
                                 },
                                 "lightness": {
@@ -13393,7 +13393,7 @@
                                     "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                                 },
                                 "random": {
-                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                     "description": "The static `Color.random()` function that produces a random color. With no inputs it picks a random basic color; with one color it keeps that color's lightness and chroma but randomizes the hue; with two colors it randomizes each LCH value within their range."
                                 }
                             },
@@ -19610,6 +19610,75 @@
                                     ],
                                     "type": "object"
                                 },
+                                "glossary": {
+                                    "additionalProperties": false,
+                                    "description": "The glossary's other written forms: the plurals, conjugations, and synonyms a reference to a term may also use. Each locale writes its own, so how many a language needs is its own business.",
+                                    "properties": {
+                                        "add": {
+                                            "description": "[plain] Tooltip for the button that adds a written form to a term",
+                                            "type": "string"
+                                        },
+                                        "alreadyUsed": {
+                                            "$ref": "#/definitions/Template%3C%5B%22term%22%5D%3E",
+                                            "description": "[formatted] Error shown when a form is already a written form of another term. $term = that term's word"
+                                        },
+                                        "conceptName": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Error shown when a form is the name of something the documentation already defines, which a reference finds first"
+                                        },
+                                        "description": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] An explanation of a term's other written forms"
+                                        },
+                                        "empty": {
+                                            "description": "[plain] Shown beside a term that has no other written forms yet, as an invitation to add some",
+                                            "type": "string"
+                                        },
+                                        "form": {
+                                            "$ref": "#/definitions/FieldText",
+                                            "description": "The field for a new written form of a term"
+                                        },
+                                        "header": {
+                                            "description": "[plain] Header for the glossary forms editor section",
+                                            "type": "string"
+                                        },
+                                        "otherWord": {
+                                            "$ref": "#/definitions/Template%3C%5B%22term%22%5D%3E",
+                                            "description": "[formatted] Error shown when a form is another term's word, so a reference to it would be ambiguous. $term = that term's word"
+                                        },
+                                        "ownWord": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Error shown when a form is the term's own word, which already works on its own"
+                                        },
+                                        "reference": {
+                                            "description": "[plain] Label above the English forms shown as a reference beside a term",
+                                            "type": "string"
+                                        },
+                                        "remove": {
+                                            "description": "[plain] Tooltip for the button that removes a written form from a term",
+                                            "type": "string"
+                                        },
+                                        "searchOnly": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Note shown when a form contains something a reference can't include, so it only helps searching"
+                                        }
+                                    },
+                                    "required": [
+                                        "header",
+                                        "description",
+                                        "reference",
+                                        "empty",
+                                        "form",
+                                        "add",
+                                        "remove",
+                                        "ownWord",
+                                        "otherWord",
+                                        "conceptName",
+                                        "alreadyUsed",
+                                        "searchOnly"
+                                    ],
+                                    "type": "object"
+                                },
                                 "guidance": {
                                     "description": "[plain] Label for the section that shows this locale's writing guidance",
                                     "type": "string"
@@ -19799,6 +19868,7 @@
                                 "guidanceToggle",
                                 "guidanceEmpty",
                                 "terms",
+                                "glossary",
                                 "description",
                                 "toggle",
                                 "button",
@@ -22650,8 +22720,8 @@
                                             "description": "[formatted] Notice rendered after the server accepts a submitted batch. The backend opens a GitHub pull request and returns its URL; the success Notice combines this text with a link the contributor can click to view and comment on the PR."
                                         },
                                         "tabs": {
-                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                                            "description": "Tab switcher for the workspace: about/guidance, the string editor, the word list (terms), and submission."
+                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                            "description": "Tab switcher for the workspace: about/guidance, the string editor, the word list (terms), the glossary's per-locale written forms, and submission."
                                         },
                                         "toSubmit": {
                                             "description": "[plain] Tooltip/label for the button at the bottom of the string editor that jumps to the submission tab",
@@ -27832,6 +27902,9 @@
             "type": "string"
         },
         "Template<[\"template\"]>": {
+            "type": "string"
+        },
+        "Template<[\"term\"]>": {
             "type": "string"
         },
         "Template<[\"text\",\"name\",\"size\",\"face\",\"animation\",\"color\",\"bubble\"]>": {

@@ -584,7 +584,7 @@
                 <!-- Glossary matches first (usually one or two), shown as
                      glossary entries; clicking the word jumps to the entry. -->
                 {#each glossaryResults as term (term.id)}
-                    <GlossaryEntry id={term.id} word={term.word} />
+                    <GlossaryEntry id={term.id} />
                 {/each}
                 {#each results.slice(0, resultLimit) as [concept, text]}
                     {@const match = text[0]}

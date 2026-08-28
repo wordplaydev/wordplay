@@ -7,8 +7,9 @@ type PageText = {
     /** [formatted] Introduction to the workspace shown above the dropdown */
     description: FormattedText[];
     /** Tab switcher for the workspace: about/guidance, the string editor, the
-     *  word list (terms), and submission. */
-    tabs: ModeText<[string, string, string, string]>;
+     *  word list (terms), the glossary's per-locale written forms, and
+     *  submission. */
+    tabs: ModeText<[string, string, string, string, string]>;
     /** [plain] Tooltip/label for the button at the bottom of the string editor that jumps to the submission tab */
     toSubmit: string;
     /** [plain] Note shown on the submission tab when there are no pending edits to submit */

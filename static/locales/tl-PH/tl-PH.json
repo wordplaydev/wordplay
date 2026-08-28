@@ -9064,6 +9064,23 @@
                 "invalidKey": "$~Ang isang susi ay dapat magsimula sa isang titik at gumamit lamang ng mga titik at numero, sa anumang wika.",
                 "duplicateKey": "$~Mayroon nang salita ang wikang ito na may ganoong susi.",
                 "reservedKey": "$~Ginagamit na ang susing iyon para sa isang halaga ng template, kaya hindi ito maaaring maging isang salita."
+            },
+            "glossary": {
+                "header": "$~Iba pang paraan ng pagsulat",
+                "description": "$~Ipinapaliwanag ng talahulugan ang mga salitang nakikita ng mga mag-aaral. May isang pangunahing salita ang bawat termino, at dito mo maidaragdag ang iba pang paraan ng pagsulat ng salitang iyon sa wikang ito — mga pangmaramihan, ibang hulapi, o ibang salitang may parehong kahulugan. Kapag sumusulat ng teksto, maaari mong i-link ang alinman sa mga ito gamit ang @ at ang salita, at ang buong salita ay mananatiling bahagi ng link. Bawat wika ay gumagawa ng sariling listahan, kaya magdagdag lang ng kasing dami o kasing kaunti ng kailangan ng iyong wika.",
+                "reference": "$~sa Ingles",
+                "empty": "$~Walang ibang paraan ng pagsulat pa.",
+                "form": {
+                    "description": "$~ibang paraan ng pagsulat ng terminong ito",
+                    "placeholder": "$~paraan ng pagsulat"
+                },
+                "add": "$~idagdag ang paraan ng pagsulat na ito sa termino",
+                "remove": "$~alisin ang paraan ng pagsulat na ito mula sa termino",
+                "ownWord": "$~Ito ang sariling salita ng termino, na gumagana na nang mag-isa.",
+                "otherWord": "$~Ito ang salita para sa $term, kaya hindi magiging malinaw kung aling termino ang ibig mong sabihin.",
+                "conceptName": "$~Naipaliwanag na ng dokumentasyon ang salitang ito, kaya ang link dito ay dun na magtutungo.",
+                "alreadyUsed": "$~Ito ay isa na sa mga paraan ng pagsulat ng $term, kaya hindi magiging malinaw kung aling termino ang ibig mong sabihin.",
+                "searchOnly": "$~Natatapos ang link sa isang espasyo o simbolo, kaya ang paraan ng pagsulat na ito ay makakatulong lang sa paghahanap."
             }
         },
         "page": {
@@ -10181,12 +10198,14 @@
                         "$~Tungkol Dito",
                         "$~Teksto",
                         "$~Mga Termino",
+                        "$~Talahulugan",
                         "$~Ipasa"
                     ],
                     "tips": [
                         "$~kung paano gumagana ang pagsasalin, at mga tala para sa mga taong sumusulat sa wikang ito",
                         "$~tingnan at baguhin ang teksto ng platform",
                         "$~magtakda ng mga parirala na maaari mong gamitin muli sa teksto ng wikang ito",
+                        "$~idagdag ang mga pangmaramihan at ibang paraan ng pagbaybay ng mga termino ng wikang ito",
                         "$~suriin ang iyong mga pagbabago at ipadala ang mga ito"
                     ]
                 },

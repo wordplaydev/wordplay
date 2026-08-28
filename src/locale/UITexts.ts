@@ -2089,6 +2089,35 @@ type UITexts = {
             /** [plain] Error shown when a term key collides with a template input name and so can't be used */
             reservedKey: string;
         };
+        /** The glossary's other written forms: the plurals, conjugations, and
+         *  synonyms a reference to a term may also use. Each locale writes its
+         *  own, so how many a language needs is its own business. */
+        glossary: {
+            /** [plain] Header for the glossary forms editor section */
+            header: string;
+            /** [formatted] An explanation of a term's other written forms */
+            description: FormattedText;
+            /** [plain] Label above the English forms shown as a reference beside a term */
+            reference: string;
+            /** [plain] Shown beside a term that has no other written forms yet, as an invitation to add some */
+            empty: string;
+            /** The field for a new written form of a term */
+            form: FieldText;
+            /** [plain] Tooltip for the button that adds a written form to a term */
+            add: string;
+            /** [plain] Tooltip for the button that removes a written form from a term */
+            remove: string;
+            /** [formatted] Error shown when a form is the term's own word, which already works on its own */
+            ownWord: FormattedText;
+            /** [formatted] Error shown when a form is another term's word, so a reference to it would be ambiguous. $term = that term's word */
+            otherWord: Template<['term']>;
+            /** [formatted] Error shown when a form is the name of something the documentation already defines, which a reference finds first */
+            conceptName: FormattedText;
+            /** [formatted] Error shown when a form is already a written form of another term. $term = that term's word */
+            alreadyUsed: Template<['term']>;
+            /** [formatted] Note shown when a form contains something a reference can't include, so it only helps searching */
+            searchOnly: FormattedText;
+        };
         /** [formatted] An explanation of the localization editor */
         description: FormattedText;
         toggle: {

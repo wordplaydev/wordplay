@@ -44,7 +44,10 @@
         const inner = $localeEdits.get(activeLocaleString);
         if (inner)
             for (const [path, value] of inner)
-                if (path.startsWith('terms.')) map.set(path.slice(6), value);
+                // A term's phrase is one string; a list-valued edit belongs to
+                // the glossary's forms, not here.
+                if (path.startsWith('terms.') && typeof value === 'string')
+                    map.set(path.slice(6), value);
         return map;
     });
 

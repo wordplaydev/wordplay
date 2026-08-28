@@ -10103,12 +10103,14 @@
                         "$~Giới thiệu",
                         "$~Văn bản",
                         "$~Thuật ngữ",
+                        "$~Sổ tay từ ngữ",
                         "$~Gửi đi"
                     ],
                     "tips": [
                         "$~cách dịch hoạt động, và ghi chú cho những người viết ngôn ngữ này",
                         "$~xem và chỉnh sửa văn bản của nền tảng",
                         "$~đặt các cụm từ mà bạn có thể dùng lại trong văn bản của ngôn ngữ này",
+                        "$~thêm các dạng số nhiều và cách viết khác của từ này trong ngôn ngữ này",
                         "$~xem lại các chỉnh sửa của bạn và gửi đi"
                     ]
                 },
@@ -10289,6 +10291,23 @@
                 "invalidKey": "$~Một chìa khóa phải bắt đầu bằng một chữ cái và chỉ dùng chữ cái và chữ số, trong bất kỳ ngôn ngữ nào.",
                 "duplicateKey": "$~Ngôn ngữ này đã có một từ với chìa khóa đó rồi.",
                 "reservedKey": "$~Chìa khóa đó đã được dùng cho một giá trị mẫu, nên nó không thể là một từ."
+            },
+            "glossary": {
+                "header": "$~Các cách viết khác",
+                "description": "$~Sổ tay từ ngữ giải thích các từ mà người học gặp phải. Mỗi từ có một dạng chính, và ở đây bạn có thể thêm những cách viết khác của từ đó trong ngôn ngữ này — dạng số nhiều, đuôi từ khác, hoặc một từ khác có nghĩa giống nhau. Khi viết văn bản, bạn có thể liên kết bất kỳ dạng nào bằng ký hiệu @ và từ đó, và cả từ vẫn thuộc về liên kết. Mỗi ngôn ngữ tự viết danh sách của mình, vì vậy hãy thêm bao nhiêu dạng mà ngôn ngữ của bạn cần.",
+                "reference": "$~trong tiếng Anh",
+                "empty": "$~Chưa có cách viết khác.",
+                "form": {
+                    "description": "$~một cách viết khác của từ này",
+                    "placeholder": "$~dạng viết"
+                },
+                "add": "$~thêm dạng viết này vào từ",
+                "remove": "$~xóa dạng viết này khỏi từ",
+                "ownWord": "$~Đây là từ chính của thuật ngữ này, và nó đã có thể dùng riêng được rồi.",
+                "otherWord": "$~Đây là từ dùng cho $term, nên sẽ không rõ bạn muốn nói đến thuật ngữ nào.",
+                "conceptName": "$~Tài liệu đã giải thích từ này rồi, nên một liên kết đến nó sẽ dẫn đến đó thay vì đây.",
+                "alreadyUsed": "$~Đây đã là một dạng viết của $term rồi, nên sẽ không rõ bạn muốn nói đến thuật ngữ nào.",
+                "searchOnly": "$~Một liên kết kết thúc ở dấu cách hoặc ký hiệu, nên dạng viết này chỉ giúp cho việc tìm kiếm."
             }
         },
         "tour": {

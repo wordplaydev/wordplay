@@ -9859,12 +9859,14 @@
                         "$~Hakkında",
                         "$~Metin",
                         "$~Terimler",
+                        "$~Sözlük",
                         "$~Gönder"
                     ],
                     "tips": [
                         "$~yerelleştirmenin nasıl çalıştığı ve bu dili yazan kişiler için notlar",
                         "$~platformun metnine göz atın ve düzenleyin",
                         "$~bu dilin metninde tekrar tekrar kullanabileceğiniz ifadeler tanımlayın",
+                        "$~bu dilde terimlerin çoğul hallerini ve diğer yazılışlarını ekle",
                         "$~düzenlemelerinizi gözden geçirin ve gönderin"
                     ]
                 },
@@ -10277,6 +10279,23 @@
                 "invalidKey": "$~Bir anahtar bir harfle başlamalı ve herhangi bir dilde yalnızca harfler ve sayılar kullanmalıdır.",
                 "duplicateKey": "$~Bu dilde bu anahtara sahip bir kelime zaten var.",
                 "reservedKey": "$~Bu anahtar zaten bir şablon değeri için kullanılıyor, bu yüzden bir kelime olamaz."
+            },
+            "glossary": {
+                "header": "$~Diğer yazılış biçimleri",
+                "description": "$~Sözlük, öğrencilerin karşılaştığı kelimeleri açıklar. Her terimin bir ana kelimesi vardır. Burada, o kelimenin bu dilde yazılabilecek diğer biçimlerini ekleyebilirsin — çoğul hallerini, başka eklerini veya aynı anlama gelen başka bir kelimeyi. Metin yazarken, bunların herhangi birini @ işareti ve kelimeyle bağlantı hâline getirebilirsin; kelimenin tamamı bağlantının bir parçası olarak kalır. Her dil kendi listesini yazar, bu yüzden dilinin ihtiyacı olduğu kadar biçim ekleyebilirsin.",
+                "reference": "$~İngilizce'de",
+                "empty": "$~Henüz başka biçim yok.",
+                "form": {
+                    "description": "$~bu terimin yazılabileceği başka bir biçim",
+                    "placeholder": "$~biçim"
+                },
+                "add": "$~bu biçimi terime ekle",
+                "remove": "$~bu biçimi terimden kaldır",
+                "ownWord": "$~Bu, terimin kendi kelimesidir ve zaten tek başına çalışır.",
+                "otherWord": "$~Bu, $term için kullanılan kelime, bu yüzden hangi terimi kastettiğin belirsiz olur.",
+                "conceptName": "$~Dokümantasyon bu kelimeyi zaten tanımlıyor, bu yüzden ona verilecek bir bağlantı oraya gider.",
+                "alreadyUsed": "$~Bu, $term'in zaten bir biçimi, bu yüzden hangi terimi kastettiğin belirsiz olur.",
+                "searchOnly": "$~Bir bağlantı bir boşlukta veya sembolde sona erer, bu yüzden bu biçim sadece arama yaparken işe yarar."
             }
         },
         "tour": {

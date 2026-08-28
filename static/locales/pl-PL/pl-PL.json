@@ -9877,12 +9877,14 @@
                         "$~O programie",
                         "$~Tekst",
                         "$~Terminy",
+                        "$~Słowniczek",
                         "$~Wyślij"
                     ],
                     "tips": [
                         "$~jak działa lokalizacja oraz notatki dla osób piszących w tym języku",
                         "$~przeglądaj i edytuj tekst platformy",
                         "$~zdefiniuj zwroty, których możesz używać ponownie w tekście tego języka",
+                        "$~dodaj liczbę mnogą i inne formy zapisu terminów tego języka",
                         "$~sprawdź swoje zmiany i wyślij je"
                     ]
                 },
@@ -10298,6 +10300,23 @@
                 "invalidKey": "$~Klawisz musi zaczynać się od litery i używać tylko liter oraz cyfr, w dowolnym języku.",
                 "duplicateKey": "$~Ten język ma już słowo z tym klawiszem.",
                 "reservedKey": "$~Ten klawisz jest już używany dla wartości szablonu, więc nie może być słowem."
+            },
+            "glossary": {
+                "header": "$~Inne formy zapisu",
+                "description": "$~Słowniczek wyjaśnia słowa, które poznają uczniowie. Każdy termin ma jedno główne słowo, a tutaj możesz dodać inne sposoby zapisu tego słowa w tym języku — liczbę mnogą, inne końcówki lub inne słowo o tym samym znaczeniu. Pisząc tekst, możesz połączyć z nim każde z nich za pomocą @ i słowa, a całe słowo pozostaje częścią odnośnika. Każdy język ma własną listę, więc dodaj tyle form, ile potrzebuje twój język.",
+                "reference": "$~po angielsku",
+                "empty": "$~Brak innych form.",
+                "form": {
+                    "description": "$~inny sposób zapisu tego terminu",
+                    "placeholder": "$~forma"
+                },
+                "add": "$~dodaj tę formę do terminu",
+                "remove": "$~usuń tę formę z terminu",
+                "ownWord": "$~To jest własne słowo tego terminu, które już działa samodzielnie.",
+                "otherWord": "$~To jest słowo dla $term, więc nie byłoby jasne, który termin masz na myśli.",
+                "conceptName": "$~Dokumentacja już wyjaśnia to słowo, więc odnośnik do niego prowadziłby tam.",
+                "alreadyUsed": "$~To jest już forma $term, więc nie byłoby jasne, który termin masz na myśli.",
+                "searchOnly": "$~Odnośnik kończy się na spacji lub symbolu, więc ta forma pomoże tylko w wyszukiwaniu."
             }
         },
         "tour": {

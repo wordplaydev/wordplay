@@ -33,7 +33,8 @@ const enUS = localeText('en-US');
 const esMX = localeText('es-MX');
 const svSE = localeText('sv-SE');
 
-/** The accessible name of the workspace's nth tab (About, Text, Terms, Submit). */
+/** The accessible name of the workspace's nth tab (About, Text, Terms,
+ *  Glossary, Submit). */
 function tabLabel(index: number) {
     return text(enUS.ui.page.localize.tabs.labels[index]);
 }
@@ -143,6 +144,6 @@ test('editing guidance queues an edit in the submission bundle', async ({
     await page
         .getByRole('button', { name: text(enUS.ui.localize.toggle.mode.on) })
         .click();
-    await page.getByRole('tab', { name: tabLabel(3) }).click();
+    await page.getByRole('tab', { name: tabLabel(4) }).click();
     await expect(page.getByText('.guidance').first()).toBeVisible();
 });

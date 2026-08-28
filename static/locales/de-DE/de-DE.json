@@ -9761,11 +9761,18 @@
                 "readingLevelOk": "$~Das liest sich klar für das Ziel-Leseniveau.",
                 "tabs": {
                     "label": "$~Abschnitt",
-                    "labels": ["$~Über", "$~Text", "$~Begriffe", "$~Absenden"],
+                    "labels": [
+                        "$~Über",
+                        "$~Text",
+                        "$~Begriffe",
+                        "$~Glossar",
+                        "$~Absenden"
+                    ],
                     "tips": [
                         "$~wie das Übersetzen funktioniert und Hinweise für Menschen, die diese Sprache schreiben",
                         "$~den Text der Plattform durchsuchen und bearbeiten",
                         "$~lege Sätze fest, die du im Text dieser Sprache wieder verwenden kannst",
+                        "$~Füge die Mehrzahlformen und andere Schreibweisen hinzu, die es für die Begriffe in dieser Sprache gibt",
                         "$~überprüfe deine Änderungen und sende sie ein"
                     ]
                 },
@@ -10281,6 +10288,23 @@
                 "invalidKey": "$~Ein Schlüssel muss mit einem Buchstaben beginnen und darf nur Buchstaben und Zahlen enthalten, in jeder Sprache.",
                 "duplicateKey": "$~Diese Sprache hat schon ein Wort mit diesem Schlüssel.",
                 "reservedKey": "$~Dieser Schlüssel wird schon für einen Vorlagen-Wert benutzt, deshalb kann er kein Wort sein."
+            },
+            "glossary": {
+                "header": "$~Andere Schreibweisen",
+                "description": "$~Das Glossar erklärt Wörter, die Lernende antreffen. Jeder Begriff hat ein Hauptwort. Hier kannst du weitere Schreibweisen dieses Wortes in dieser Sprache hinzufügen: Mehrzahlformen, andere Endungen oder ein anderes Wort mit gleicher Bedeutung. Beim Schreiben von Text kannst du jede davon mit @ und dem Wort verlinken, und das ganze Wort bleibt Teil des Links. Jede Sprache schreibt ihre eigene Liste, also füge so viele oder so wenige Formen hinzu, wie deine Sprache braucht.",
+                "reference": "$~auf Englisch",
+                "empty": "$~Noch keine anderen Formen.",
+                "form": {
+                    "description": "$~eine andere Schreibweise dieses Begriffs",
+                    "placeholder": "$~Form"
+                },
+                "add": "$~Diese Form zum Begriff hinzufügen",
+                "remove": "$~Diese Form vom Begriff entfernen",
+                "ownWord": "$~Das ist das eigene Wort des Begriffs, das schon allein funktioniert.",
+                "otherWord": "$~Das ist das Wort für $term. Es wäre also unklar, welchen Begriff du gemeint hast.",
+                "conceptName": "$~Die Dokumentation erklärt dieses Wort schon. Ein Link dazu würde also dorthin führen.",
+                "alreadyUsed": "$~Das ist bereits eine Form von $term. Es wäre also unklar, welchen Begriff du gemeint hast.",
+                "searchOnly": "$~Ein Link endet an einem Leerzeichen oder einem Symbol. Diese Form hilft also nur bei der Suche."
             }
         },
         "tour": {

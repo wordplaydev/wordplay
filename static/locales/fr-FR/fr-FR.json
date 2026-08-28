@@ -9772,12 +9772,14 @@
                         "$~À propos",
                         "$~Texte",
                         "$~Termes",
+                        "$~Glossaire",
                         "$~Envoyer"
                     ],
                     "tips": [
                         "$~comment fonctionne la traduction, et des notes pour les personnes qui écrivent cette langue",
                         "$~parcours et modifie le texte de la plateforme",
                         "$~définis des phrases que tu peux réutiliser dans le texte de cette langue",
+                        "$~ajouter les pluriels et autres façons d'écrire les termes de cette langue",
                         "$~revois tes modifications et envoie-les"
                     ]
                 },
@@ -10293,6 +10295,23 @@
                 "invalidKey": "$~Une clé doit commencer par une lettre et utiliser seulement des lettres et des chiffres, dans n'importe quelle langue.",
                 "duplicateKey": "$~Cette langue a déjà un mot avec cette clé.",
                 "reservedKey": "$~Cette clé est déjà utilisée pour une valeur de modèle, donc elle ne peut pas être un mot."
+            },
+            "glossary": {
+                "header": "$~Autres formes écrites",
+                "description": "$~Le glossaire explique les mots que les apprenants rencontrent. Chaque terme a un mot principal, et ici tu peux ajouter les autres façons d'écrire ce mot dans cette langue — pluriels, autres terminaisons, ou un autre mot qui veut dire la même chose. En écrivant du texte, tu peux relier n'importe lequel d'entre eux avec @ suivi du mot, et le mot entier reste dans le lien. Chaque langue écrit sa propre liste, alors ajoute autant de formes que ta langue en a besoin.",
+                "reference": "$~en anglais",
+                "empty": "$~Pas encore d'autres formes.",
+                "form": {
+                    "description": "$~une autre façon d'écrire ce terme",
+                    "placeholder": "$~forme"
+                },
+                "add": "$~ajouter cette forme au terme",
+                "remove": "$~retirer cette forme du terme",
+                "ownWord": "$~C'est le mot propre du terme, qui fonctionne déjà tout seul.",
+                "otherWord": "$~C'est le mot pour $term, donc on ne saurait pas clairement quel terme tu voulais dire.",
+                "conceptName": "$~La documentation définit déjà ce mot, donc un lien vers lui irait plutôt là-bas.",
+                "alreadyUsed": "$~C'est déjà une forme de $term, donc on ne saurait pas clairement quel terme tu voulais dire.",
+                "searchOnly": "$~Un lien se termine à une espace ou un symbole, donc cette forme aidera seulement la recherche."
             }
         },
         "tour": {

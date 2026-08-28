@@ -9122,6 +9122,23 @@
                 "duplicateKey": "This language already has a word with that key.",
                 "reservedKey": "That key is already used for a template value, so it can't be a word."
             },
+            "glossary": {
+                "header": "Other written forms",
+                "description": "The glossary explains words learners meet. Each term has one main word, and here you can add the other ways that word gets written in this language — plurals, other endings, or another word that means the same. When writing text, you can link any of them with @ and the word, and the whole word stays part of the link. Every language writes its own list, so add as many or as few as your language needs.",
+                "reference": "in English",
+                "empty": "No other forms yet.",
+                "form": {
+                    "description": "another way this term is written",
+                    "placeholder": "form"
+                },
+                "add": "add this form to the term",
+                "remove": "remove this form from the term",
+                "ownWord": "This is the term’s own word, which already works on its own.",
+                "otherWord": "This is the word for $term, so it would be unclear which term you meant.",
+                "conceptName": "The documentation already defines this word, so a link to it would go there instead.",
+                "alreadyUsed": "This is already a form of $term, so it would be unclear which term you meant.",
+                "searchOnly": "A link ends at a space or a symbol, so this form will only help searching."
+            },
             "description": "Welcome to localization mode! You can suggest improvements to the text in the @wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {
@@ -9384,11 +9401,12 @@
                 ],
                 "tabs": {
                     "label": "section",
-                    "labels": ["About", "Text", "Terms", "Submit"],
+                    "labels": ["About", "Text", "Terms", "Glossary", "Submit"],
                     "tips": [
                         "how localizing works, and notes for people writing this language",
                         "browse and edit the platform's text",
                         "define phrases you can reuse across this language's text",
+                        "add the plurals and other spellings this language's terms can be written as",
                         "review your edits and send them in"
                     ]
                 },

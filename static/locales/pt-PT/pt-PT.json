@@ -9060,6 +9060,23 @@
                 "invalidKey": "$~Uma chave tem de começar por uma letra e usar apenas letras e números, em qualquer idioma.",
                 "duplicateKey": "$~Este idioma já tem uma palavra com essa chave.",
                 "reservedKey": "$~Essa chave já é usada para um valor de modelo, por isso não pode ser uma palavra."
+            },
+            "glossary": {
+                "header": "$~Outras formas escritas",
+                "description": "$~O glossário explica palavras que os aprendizes encontram. Cada termo tem uma palavra principal, e aqui pode adicionar as outras formas como essa palavra é escrita neste idioma — plurais, outras terminações, ou outra palavra com o mesmo significado. Ao escrever texto, pode ligar qualquer uma delas com @ e a palavra, e a palavra inteira fica a fazer parte da ligação. Cada idioma escreve a sua própria lista, por isso adicione tantas ou tão poucas formas quantas o seu idioma precisar.",
+                "reference": "$~em inglês",
+                "empty": "$~Ainda não há outras formas.",
+                "form": {
+                    "description": "$~outra forma como este termo é escrito",
+                    "placeholder": "$~forma"
+                },
+                "add": "$~adicionar esta forma ao termo",
+                "remove": "$~remover esta forma do termo",
+                "ownWord": "$~Esta é a própria palavra do termo, que já funciona sozinha.",
+                "otherWord": "$~Esta é a palavra para $term, por isso não ficaria claro a que termo se referia.",
+                "conceptName": "$~A documentação já define esta palavra, por isso uma ligação a ela iria antes para lá.",
+                "alreadyUsed": "$~Isto já é uma forma de $term, por isso não ficaria claro a que termo se referia.",
+                "searchOnly": "$~Uma ligação termina num espaço ou num símbolo, por isso esta forma só vai ajudar na pesquisa."
             }
         },
         "page": {
@@ -10168,12 +10185,14 @@
                         "$~Acerca de",
                         "$~Texto",
                         "$~Termos",
+                        "$~Glossário",
                         "$~Enviar"
                     ],
                     "tips": [
                         "$~como funciona a localização e notas para quem escreve este idioma",
                         "$~explora e edita o texto da plataforma",
                         "$~define frases que podes reutilizar em todo o texto deste idioma",
+                        "$~adicionar os plurais e outras grafias com que os termos deste idioma podem ser escritos",
                         "$~revê as tuas edições e envia-as"
                     ]
                 },

@@ -4,6 +4,13 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.32.1 - 2026-08-28
+
+### Added
+
+- 🌐 We made it possible to add the other spellings of a glossary word — the plurals and endings each language needs — so a link like `@parameters` holds the whole word instead of stopping partway. If you help translate Wordplay, there's a new Glossary tab where you add and remove them. (#1244)
+- 📖 We made it easier to fix a glossary word or what it means: you can now change it right where you see it in the [Guide](https://wordplay.dev/guide), instead of finding it in a long list of text. (#1244)
+
 ## 0.32.0 - 2026-08-26
 
 ### Added

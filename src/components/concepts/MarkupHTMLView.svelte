@@ -218,11 +218,14 @@
               : undefined,
     );
     const activeLocaleString = $derived(toLocaleString($locales.getLocale()));
-    let override = $derived(
-        storageKey !== undefined
-            ? $localeEdits.get(activeLocaleString)?.get(storageKey)
-            : undefined,
-    );
+    // An edit's value can be a whole list (a glossary term's forms, edited on
+    // the localization workspace's Glossary tab); this editor only ever shows
+    // one string, and no list-valued path reaches it.
+    let override = $derived.by(() => {
+        if (storageKey === undefined) return undefined;
+        const value = $localeEdits.get(activeLocaleString)?.get(storageKey);
+        return typeof value === 'string' ? value : undefined;
+    });
 
     /** Parsed markup for display in localizing mode, using the override if one exists. */
     let displayParsed = $derived(override ? Markup.words(override) : parsed);

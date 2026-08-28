@@ -272,12 +272,18 @@ test('resolving a color needs no basis', () => {
  * dispatch branches in `PossibleEdits.ts` all live in modules these entries
  * already carry. The file counts below are unchanged, which is the useful
  * signal — this is code weight, not new reach.
+ *
+ * The glossary forms editor (#1244) adds **no file** to any of these five —
+ * `GlossaryFormsEditor.svelte` is reached only from `/localize`, which is not
+ * an entry here — and one budget moves by 0.01MB: the fifteen strings the
+ * editor needs, in en-US.json, which every page carries. `galleries` is simply
+ * the entry that had no slack left; the other four absorbed the same text.
  */
 test.each([
     ['src/routes/+layout.svelte', 491, 3.56],
     ['src/components/app/Page.svelte', 513, 3.8],
     ['src/routes/[[locale]]/+page.svelte', 528, 3.88],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 531, 3.88],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 531, 3.89],
     ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.92],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);

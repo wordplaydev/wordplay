@@ -183,11 +183,14 @@
         return accessorToLocalePath(path, ...extras)?.toString();
     });
     const activeLocaleString = $derived(toLocaleString($locales.getLocale()));
-    let override = $derived(
-        storageKey !== undefined
-            ? $localeEdits.get(activeLocaleString)?.get(storageKey)
-            : undefined,
-    );
+    // An edit's value can be a whole list (a glossary term's forms, edited on
+    // the localization workspace's Glossary tab); this editor only ever shows
+    // one string, and no list-valued path reaches it.
+    let override = $derived.by(() => {
+        if (storageKey === undefined) return undefined;
+        const value = $localeEdits.get(activeLocaleString)?.get(storageKey);
+        return typeof value === 'string' ? value : undefined;
+    });
 
     async function startEditing() {
         editedText = override ?? withoutAnnotationsText;

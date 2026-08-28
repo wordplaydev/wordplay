@@ -9075,6 +9075,23 @@
                 "invalidKey": "$~O cheie trebuie să înceapă cu o literă și să folosească doar litere și numere, în orice limbă.",
                 "duplicateKey": "$~Această limbă are deja un cuvânt cu acea cheie.",
                 "reservedKey": "$~Acea cheie este deja folosită pentru o valoare șablon, așa că nu poate fi un cuvânt."
+            },
+            "glossary": {
+                "header": "$~Alte forme scrise",
+                "description": "$~Glosarul explică cuvintele pe care le întâlnesc cei care învață. Fiecare termen are un cuvânt principal, iar aici poți adăuga celelalte moduri în care acel cuvânt se scrie în această limbă — la plural, cu alte terminații sau un alt cuvânt cu același înțeles. Când scrii un text, poți lega oricare dintre ele cu @ și cuvântul, iar tot cuvântul rămâne parte din legătură. Fiecare limbă își scrie propria listă, așa că adaugă atâtea forme câte are nevoie limba ta.",
+                "reference": "$~în engleză",
+                "empty": "$~Încă nu există alte forme.",
+                "form": {
+                    "description": "$~un alt mod în care se scrie acest termen",
+                    "placeholder": "$~formă"
+                },
+                "add": "$~adaugă această formă la termen",
+                "remove": "$~șterge această formă din termen",
+                "ownWord": "$~Acesta este cuvântul propriu al termenului, care funcționează deja de unul singur.",
+                "otherWord": "$~Acesta este cuvântul pentru $term, așa că nu ar fi clar la ce termen te referi.",
+                "conceptName": "$~Documentarea definește deja acest cuvânt, așa că o legătură la el ar duce acolo în schimb.",
+                "alreadyUsed": "$~Aceasta este deja o formă a $term, așa că nu ar fi clar la ce termen te referi.",
+                "searchOnly": "$~O legătură se termină la un spațiu sau un simbol, așa că această formă va ajuta doar la căutare."
             }
         },
         "page": {
@@ -9358,11 +9375,18 @@
                 "readingLevelOk": "$~Acest text se citește clar pentru nivelul de citire țintă.",
                 "tabs": {
                     "label": "$~secțiune",
-                    "labels": ["$~Despre", "$~Text", "$~Termeni", "$~Trimite"],
+                    "labels": [
+                        "$~Despre",
+                        "$~Text",
+                        "$~Termeni",
+                        "$~Glosar",
+                        "$~Trimite"
+                    ],
                     "tips": [
                         "$~cum funcționează localizarea și note pentru cei care scriu această limbă",
                         "$~răsfoiește și modifică textul platformei",
                         "$~definește fraze pe care le poți refolosi în textul acestei limbi",
+                        "$~adaugă pluralele și celelalte moduri de scriere ale termenilor din această limbă",
                         "$~verifică modificările tale și trimite-le"
                     ]
                 },

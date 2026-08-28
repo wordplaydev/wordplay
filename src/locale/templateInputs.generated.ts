@@ -658,6 +658,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.howto.announce.moveActivated': ['target'],
     'ui.howto.galleryView.subheader': ['#total', 'new'],
     'ui.howto.viewer.usedBy.countDisplay': ['#count'],
+    'ui.localize.glossary.alreadyUsed': ['term'],
+    'ui.localize.glossary.otherWord': ['term'],
     'ui.localize.inputs.plural.arity': ['name', 'found', 'expected'],
     'ui.localize.inputs.plural.missing': ['name'],
     'ui.localize.inputs.plural.tip': ['forms'],
