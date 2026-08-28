@@ -5299,13 +5299,13 @@
                 "doc": [
                     "$~Dymek pokazujący, co mówię, wskazujący prosto na mnie. Mogą tu być cztery różne rzeczy.",
                     "Zwykły tekst, który tylko pokazuję i nic więcej:",
-                    "\\Wyrażenie('a' bąbelek: 'cześć!')\\",
+                    "\\Wyrażenie('a' dymek: 'cześć!')\\",
                     "Sformatowany tekst, jeśli chcesz *pogrubionych* lub /pochylonych/ słów w tym, co mówię.",
                     "@Say, który pokazuję *i* wypowiadam na głos:",
-                    "\\Wyrażenie('a' bąbelek: Mowić('cześć!'))\\",
+                    "\\Wyrażenie('a' dymek: Mowić('cześć!'))\\",
                     "@Bubble, gdy chcesz wybrać, z której strony mówię, zmienić to w myśl albo nadać temu kolor."
                 ],
-                "names": "$~bąbelek"
+                "names": "$~dymek"
             }
         },
         "Arrangement": {
@@ -6929,7 +6929,7 @@
         "Bubble": {
             "doc": [
                 "$~Pokazuję, co mówi @Phrase, w dymku, który wskazuje prosto na niego. Podaj mnie do @Phrase.bubble frazy i pozwól literom mówić:",
-                "\\Wyrażenie('a' bąbelek: 'cześć!')\\",
+                "\\Wyrażenie('a' dymek: 'cześć!')\\",
                 "Daj mi @Say zamiast tekstu, a zostanę wypowiedziana na głos, a nie tylko pokazana.",
                 "Zmień moją @Bubble.kind na myśl, a stanę się dymkiem myśli.",
                 "Jestem ozdobą, więc nic na scenie nie przesuwa się, by zrobić mi miejsce — ale @Stage dba o to, bym była widoczna."

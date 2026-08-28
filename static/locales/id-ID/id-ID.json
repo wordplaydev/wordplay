@@ -3345,7 +3345,7 @@
                 "shuffled": {
                     "doc": [
                         "$~Buat daftar baru dengan item-item dalam daftar yang diurutkan secara acak.",
-                        "\\['apel' 'pisang' 'mangga'].acak()\\"
+                        "\\['apel' 'pisang' 'mangga'].diacak()\\"
                     ],
                     "names": "$~diacak",
                     "inputs": []
@@ -5376,7 +5376,7 @@
             "names": ["Bangun"],
             "form": {
                 "doc": "$~Saya adalah tipe bentuk yang perlu ditampilkan. Setiap bentuk membutuhkan informasi yang berbeda untuk menentukan susunannya.",
-                "names": "$~membentuk"
+                "names": "$~bentuk"
             },
             "name": {
                 "doc": "$~Saya adalah nama yang dapat Anda gunakan untuk animasi dan @Collision. Misalnya, jika a mewakili tanah, Anda mungkin ingin memanggil saya 'ground'.",

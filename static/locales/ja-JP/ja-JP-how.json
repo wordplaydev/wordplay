@@ -10,7 +10,7 @@
         "id": "move-phrase",
         "title": "キャラクターを移動可能にする",
         "category": "characters",
-        "body": "時には、 @Phrase キーボード、マウス、または指で移動できます。\n\nこれをやれば、組み合わせることができます @Phrase  と  @Placement ：\n\n\\Stage([Phrase('感動させる' 場所: Placement())] 場所: Place(0m 0m -10m))\\\n\nキーボードの矢印キーを使用するか、 @Stage 更新します @Placement 、原因は @Phrase その方向へ進む。\n\nでもご存知でしたか？ @Placement 一緒に使える/何でも/それは @Place ？例えば @Stage は @Place カメラがどこを向いているかを決定します。設定してみましょう @Placement のために @Stage の場所に行って、何が起こるか見てみましょう。\n\n\\Stage([\n\t\tPhrase('🐈' 場所: Place(-2m 2m))\n\t\tPhrase('🐈' 場所: Place(2m -2m))\n\t\tPhrase('🐈' 場所: Place(-1m 3m))\n\t] 場所: Placement(Place(0m 0m -10m)))\\\n\nこれでカメラが動きます！（注： @Placement と\\z\\の価値\\10m\\カメラがあらゆるものから遠ざかるようにします。",
+        "body": "時には、 @Phrase キーボード、マウス、または指で移動できます。\n\nこれをやれば、組み合わせることができます @Phrase  と  @Placement ：\n\n\\Stage([Phrase('感動させる' 位置: Placement())] 位置: Place(0m 0m -10m))\\\n\nキーボードの矢印キーを使用するか、 @Stage 更新します @Placement 、原因は @Phrase その方向へ進む。\n\nでもご存知でしたか？ @Placement 一緒に使える/何でも/それは @Place ？例えば @Stage は @Place カメラがどこを向いているかを決定します。設定してみましょう @Placement のために @Stage の場所に行って、何が起こるか見てみましょう。\n\n\\Stage([\n\t\tPhrase('🐈' 位置: Place(-2m 2m))\n\t\tPhrase('🐈' 位置: Place(2m -2m))\n\t\tPhrase('🐈' 位置: Place(-1m 3m))\n\t] 位置: Placement(Place(0m 0m -10m)))\\\n\nこれでカメラが動きます！（注： @Placement と\\z\\の価値\\10m\\カメラがあらゆるものから遠ざかるようにします。",
         "related": ["animated-scene"]
     },
     {
@@ -52,7 +52,7 @@
         "id": "layering-images",
         "title": "画像を重ねる",
         "category": "stories",
-        "body": "時には、画像を重ねて楽しいシーンや創造的な形を作りたいと思うことがあります。\n\nたとえば、プロジェクトに複数のレイヤーを使用できます @Stage 好きなように画像を積み重ねたり配置したりできます。\n\n見て！形だけを使って作ったカメだよ！それぞれの図形の数字を変えてみましょう。図形を移動したり、サイズを変更したり、回転させたりすることもできます。いろいろ試して、何が作れるか見てみましょう！\n\n\\¶注: 別のプロジェクトについてはギャラリーをご覧ください<例@https://wordplay.dev/project/example-Layers?play>画像を重ねる方法。¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) 回転: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 回転: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 回転: -25°)\n\t] 場所: Place(0m 10m -30m))\\\n\nレイヤーを使えば、すごくかっこいいものが作れますよ！ぜひ試してみてください！",
+        "body": "時には、画像を重ねて楽しいシーンや創造的な形を作りたいと思うことがあります。\n\nたとえば、プロジェクトに複数のレイヤーを使用できます @Stage 好きなように画像を積み重ねたり配置したりできます。\n\n見て！形だけを使って作ったカメだよ！それぞれの図形の数字を変えてみましょう。図形を移動したり、サイズを変更したり、回転させたりすることもできます。いろいろ試して、何が作れるか見てみましょう！\n\n\\¶注: 別のプロジェクトについてはギャラリーをご覧ください<例@https://wordplay.dev/project/example-Layers?play>画像を重ねる方法。¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) 回転: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 回転: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 回転: -25°)\n\t] 位置: Place(0m 10m -30m))\\\n\nレイヤーを使えば、すごくかっこいいものが作れますよ！ぜひ試してみてください！",
         "related": ["custom-characters"]
     },
     {
@@ -136,7 +136,7 @@
         "id": "follow-the-pointer",
         "title": "指の動きに合わせてキャラクターを動かす",
         "category": "characters",
-        "body": "マウスや指を追いかけるキャラクターが欲しいですか？ @Stage ？私たちはそれを行うことができます @Pointer 入力。 \n\n@Pointer 新鮮な @Place ポインターが移動するたびに。それを使うなら @Place として @Phrase の\\place\\そうすれば、キャラクターは私たちが指し示した場所に移動します。\n\n\\Stage([Phrase('🐈' 場所: Pointer())] 場所: Place(0m 0m -10m))\\\n\nこれで完了です！マウスを動かすか、指をドラッグすると、猫がついてきます。\n\n引き出すことで、より面白いことができます\\x\\ そして \\y\\から @Place 。こちらは、常にポインターの1メートル上空に浮かんでいるアヒルです。\n\n\\Stage([\n\t\tPhrase('🦆' 場所: Place(Pointer().x Pointer().y + 1m))\n\t] 場所: Place(0m 0m -10m))\\",
+        "body": "マウスや指を追いかけるキャラクターが欲しいですか？ @Stage ？私たちはそれを行うことができます @Pointer 入力。 \n\n@Pointer 新鮮な @Place ポインターが移動するたびに。それを使うなら @Place として @Phrase の\\place\\そうすれば、キャラクターは私たちが指し示した場所に移動します。\n\n\\Stage([Phrase('🐈' 位置: Pointer())] 位置: Place(0m 0m -10m))\\\n\nこれで完了です！マウスを動かすか、指をドラッグすると、猫がついてきます。\n\n引き出すことで、より面白いことができます\\x\\ そして \\y\\から @Place 。こちらは、常にポインターの1メートル上空に浮かんでいるアヒルです。\n\n\\Stage([\n\t\tPhrase('🦆' 位置: Place(Pointer().x Pointer().y + 1m))\n\t] 位置: Place(0m 0m -10m))\\",
         "related": ["move-phrase", "count-with-time"]
     },
     {
@@ -185,7 +185,7 @@
         "id": "gravity-and-bouncing",
         "title": "キャラクターを転倒させて跳ね返らせる",
         "category": "motion",
-        "body": "キャラクターが本物のように転んだり、床から跳ね返ったり、押し倒されたりするようにしたい場合はどうすればいいでしょうか？それが @Motion  そして  @Matter これらは、一緒に物理をシミュレートします @Phrase 。 \n\n@Motion コントロール/どこ/文字は時間とともに変化します。私たちはそれを\\place\\のために @Phrase 高い位置から始動させて、落下させる。何か落下する場所も必要だ。そうでないと、キャラクターは永遠に落下し続けることになる！ @Shape 幅広い @Rectangle 素敵な床になります。\n\n\\Stage([\n\t\tPhrase('🍎' 場所: Motion(Place(0m 5m)) 物質: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nリンゴは高さ5メートルから出発し、重力によって落下する。床に当たると少し跳ね返るのは、 @Phrase 内蔵 @Matter それは、重さや弾力性を制御するものです。\n\n方法を変更する/弾む/またはどのように/重い/キャラクターは、あなた自身の @Matter 。 @Matter 質量、弾力性、摩擦を考慮する必要がある。\n\n\\Stage([\n\t\tPhrase('⚽' 場所: Motion(Place(-2m 5m)) 物質: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' 場所: Motion(Place(2m 5m)) 物質: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nボールは軽くて弾力性があるので、跳ね返って元の位置に戻ります。その岩は重くて弾力がないので、ただ鈍い音を立てるだけだ。",
+        "body": "キャラクターが本物のように転んだり、床から跳ね返ったり、押し倒されたりするようにしたい場合はどうすればいいでしょうか？それが @Motion  そして  @Matter これらは、一緒に物理をシミュレートします @Phrase 。 \n\n@Motion コントロール/どこ/文字は時間とともに変化します。私たちはそれを\\place\\のために @Phrase 高い位置から始動させて、落下させる。何か落下する場所も必要だ。そうでないと、キャラクターは永遠に落下し続けることになる！ @Shape 幅広い @Rectangle 素敵な床になります。\n\n\\Stage([\n\t\tPhrase('🍎' 位置: Motion(Place(0m 5m)) 物質: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nリンゴは高さ5メートルから出発し、重力によって落下する。床に当たると少し跳ね返るのは、 @Phrase 内蔵 @Matter それは、重さや弾力性を制御するものです。\n\n方法を変更する/弾む/またはどのように/重い/キャラクターは、あなた自身の @Matter 。 @Matter 質量、弾力性、摩擦を考慮する必要がある。\n\n\\Stage([\n\t\tPhrase('⚽' 位置: Motion(Place(-2m 5m)) 物質: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' 位置: Motion(Place(2m 5m)) 物質: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nボールは軽くて弾力性があるので、跳ね返って元の位置に戻ります。その岩は重くて弾力がないので、ただ鈍い音を立てるだけだ。",
         "related": ["follow-the-pointer", "move-phrase"]
     },
     {

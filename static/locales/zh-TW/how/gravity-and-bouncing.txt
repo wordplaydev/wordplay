@@ -5,7 +5,7 @@
 @Motion 控制/在哪裡/角色會隨著時間的推移而改變。我們用它來…\place\為 @Phrase 把它放在高處，讓它掉下來。我們也需要一些東西來支撐我們，否則我們的角色就會一直墜落！ @Shape 寬 @Rectangle 鋪上一層漂亮的地板：
 
 \Stage([
-		Phrase('🍎' 位置: Motion(Place(0m 5m)) 物體: Matter())
+		Phrase('🍎' 位置: Motion(Place(0m 5m)) 物質: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 改變方式/有彈性的/或如何/重的/角色就是，賦予它你自己的個性。 @Matter 。 @Matter 它需要質量、彈性和摩擦力：
 
 \Stage([
-		Phrase('⚽' 位置: Motion(Place(-2m 5m)) 物體: Matter(1kg 0.9 0.2))
-		Phrase('🪨' 位置: Motion(Place(2m 5m)) 物體: Matter(5kg 0.1 0.8))
+		Phrase('⚽' 位置: Motion(Place(-2m 5m)) 物質: Matter(1kg 0.9 0.2))
+		Phrase('🪨' 位置: Motion(Place(2m 5m)) 物質: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

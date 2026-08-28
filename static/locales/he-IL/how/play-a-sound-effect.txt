@@ -6,7 +6,7 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 לחץ עליי' ניתןלבחירה: ⊤ שֵׁם: 'לחיצה')
+		Phrase('👆 לחץ עליי' ניתןלבחירה: ⊤ שם: 'לחיצה')
 		Music(Track(tapped ? [1 5 8] [] כלינגינה: Instrument.bell לולאה: ⊥) נגןשוב: tapped)
 	])\
 

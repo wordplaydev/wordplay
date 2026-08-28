@@ -4403,7 +4403,7 @@
                 "/bzzzzzzz/",
                 "Về cơ bản, @List đại diện cho một hình ảnh, nhưng bạn sẽ quyết định sử dụng nó như thế nào.",
                 "Bạn có thể thử thể hiện hình ảnh bằng nhiều @Phrase , trông sẽ khá thú vị đấy! Hãy thử sao chép đoạn mã này...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' địađiểm: Place((x - 1) × 0.5m y × -0.5m) màusắc: color khoảngthờigian: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' vịTrí: Place((x - 1) × 0.5m y × -0.5m) màusắc: color khoảngthờigian: 0s\n)\n)\n)\n)\n)\\",
                 "Nhưng bạn cũng có thể phân tích màu sắc để quyết định xem đèn có bật hay tắt, hoặc liệu một màu cụ thể có phổ biến hay không, cho phép khán giả tác động đến màn trình diễn bằng màu sắc mà họ thể hiện."
             ],
             "names": ["$~Máyảnh"],
@@ -4454,7 +4454,7 @@
             "names": ["$~Cửđộng"],
             "place": {
                 "doc": "$~Điểm xuất phát.",
-                "names": "$~địađiểm"
+                "names": "$~vịTrí"
             },
             "velocity": {
                 "doc": "$~Vận tốc ban đầu",
@@ -4484,7 +4484,7 @@
                 "Có nhiều cách để đặt @Output trên @Stage: cho chúng một @Place rõ ràng, dùng @Motion và để trọng lực làm việc, hoặc đặt chúng vào một @Group để được sắp xếp.",
                 "Nhưng đôi khi bạn muốn cho /khán giả/ quyền điều khiển nơi @Output đi trên @Stage.",
                 "Đây là cách nó hoạt động: tạo một @Placement và đưa nó cho @Place của một @Output:",
-                "\\Cụmtừ('chào' địađiểm: Vịtrí())\\",
+                "\\Cụmtừ('chào' vịTrí: Vịtrí())\\",
                 "Sau đó, bất cứ khi nào khán giả dùng một phím mũi tên @key hoặc nhấp hay chạm vào sân khấu, @Placement sẽ tạo ra một @Place mới di chuyển theo hướng mong muốn.",
                 "Hãy thử sao chép cái này vào chương trình của bạn và di chuyển @Output bằng con trỏ hoặc bàn phím.",
                 "Bạn có thể tùy chỉnh @Placement, bật và tắt chuyển động theo một số chiều nhất định, thay đổi mức độ di chuyển của một @Place, và @Place ban đầu mà luồng khởi đầu."
@@ -4652,7 +4652,7 @@
                 "Hãy cung cấp cho nó một đoạn văn bản và một kiểu phông chữ, và nó sẽ đồ lại đường viền của từng ký tự từng điểm một.",
                 "\\Contour('a' \"Noto Sans\")\\",
                 "Hãy đưa các giá trị @Place đó vào một @List gồm @Phrase để thấy đường viền được vẽ dưới dạng các chấm:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' địađiểm: point)))\\",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' vịTrí: point)))\\",
                 "Bạn có thể điều chỉnh kích thước đường viền bằng @Number of meters, di chuyển điểm gốc bằng @Place , chọn độ đậm phông chữ, bật chế độ in nghiêng và đặt `spacing` giữa các điểm theo khoảng cách tính bằng mét. `spacing` nhỏ hơn sẽ vẽ đường viền sát hơn, với các điểm cách đều nhau dọc theo cả đường thẳng và đường cong.",
                 "Một số ký tự, như biểu tượng cảm xúc màu sắc, không có đường viền, vì vậy chúng không được tính điểm. Trong khi tải phông chữ, nó sẽ trả về một @List trống, sau đó sẽ điền thông tin vào khi hoàn tất."
             ],
@@ -4804,7 +4804,7 @@
                 "Đằng sau hậu trường, @Face dùng một mô hình học máy. Lần đầu tiên bạn dùng nó trong một chương trình, mô hình mất vài giây để tải xuống, và một khuôn mặt nhỏ đang quay xuất hiện ở góc trên bên phải của sân khấu trong khi nó tải. Sau đó nó được lưu lại và bắt đầu ngay lập tức.",
                 "Mỗi khung hình, @Face cho bạn một @Expression. Hãy xem ở đó để biết danh sách đầy đủ các đầu vào và ý nghĩa của chúng.",
                 "Ví dụ này cho thấy một biểu tượng cảm xúc khớp với khuôn mặt của bạn ở bất cứ nơi nào khuôn mặt thật của bạn ở đó:",
-                "\\khuônMặt: 🙂()\nCụmtừ((khuônMặt.cườiTươi ? '😀' khuônMặt.miệngMở ? '😮' '😐') địađiểm: khuônMặt.vịTrí)\\"
+                "\\khuônMặt: 🙂()\nCụmtừ((khuônMặt.cườiTươi ? '😀' khuônMặt.miệngMở ? '😮' '😐') vịTrí: khuônMặt.vịTrí)\\"
             ],
             "names": ["$~KhuônMặt"],
             "frequency": {
@@ -4825,7 +4825,7 @@
                 "Mỗi khung hình, @Objects đưa cho bạn một @List gồm @Thing, được sắp xếp theo mức độ chắc chắn của mô hình, thứ chắc chắn nhất đứng đầu. Hãy xem @Thing để biết mỗi thứ cho bạn biết điều gì.",
                 "Mô hình chỉ đang đoán, nên đôi khi nó sẽ sai, hoặc không thấy gì cả. Hãy yêu cầu `confidence` cao hơn để chỉ nghe những phán đoán mà nó chắc chắn nhất.",
                 "Đây là một ví dụ ghi nhãn mọi thứ mà máy ảnh nhìn thấy:",
-                "\\🎭(📦() ↦ Cụmtừ(⬚.tên địađiểm: ⬚.vịTrí))\\",
+                "\\🎭(📦() ↦ Cụmtừ(⬚.tên vịTrí: ⬚.vịTrí))\\",
                 "Bạn cũng có thể chỉ tìm một loại đồ vật, và bỏ qua những thứ còn lại:",
                 "\\nhữngThứ: 📦(danhMục: 'cat')\nCụmtừ(nhữngThứ.📏() > 0 ? '🐈' '…')\\"
             ],
@@ -5088,7 +5088,7 @@
             },
             "place": {
                 "doc": "$~Vị trí trên sân khấu mà tôi nên đứng. Nội dung bên trong tôi sẽ được sắp xếp tương đối so với vị trí đó.",
-                "names": "$~địađiểm"
+                "names": "$~vịTrí"
             },
             "name": {
                 "doc": ["$~Giống như @Phrase.name!"],
@@ -5186,7 +5186,7 @@
             },
             "place": {
                 "doc": "$~Đây là vị trí trên sân khấu mà tôi nên đứng.",
-                "names": "$~địađiểm"
+                "names": "$~vịTrí"
             },
             "wrap": {
                 "doc": "$~Vị trí mà tôi nên xuống dòng các ký hiệu hoặc \\ø\\ nếu tôi không nên xuống dòng chúng.",
@@ -6090,7 +6090,7 @@
         },
         "Place": {
             "doc": "$~Tôi là một vị trí trên @Stage. Tất cả các đầu vào của tôi đều là tùy chọn, vì theo mặc định tôi ở vị trí trung tâm.",
-            "names": ["$~Địađiểm"],
+            "names": ["$~VịTrí"],
             "x": {
                 "doc": "$~Vị trí trên trục x.",
                 "names": "$~x"
@@ -6207,7 +6207,7 @@
             },
             "place": {
                 "doc": "$~NẾU TÔI LÀ MỘT CHIẾC MÁY ẢNH, ĐÂY LÀ NƠI TÔI ĐANG NHÌN",
-                "names": "$~địađiểm"
+                "names": "$~vịTrí"
             },
             "name": {
                 "doc": ["$~GIỐNG VỚI @Phrase.name!"],
@@ -6352,7 +6352,7 @@
             "names": ["$~Cửchỉ"],
             "place": {
                 "doc": "$~Vị trí bàn tay trên sân khấu.",
-                "names": ["$~địađiểm"]
+                "names": ["$~vịTrí"]
             },
             "open": {
                 "doc": "$~\\⊤\\ nếu bàn tay mở ra (từ 3 ngón trở lên duỗi ra), \\⊥\\ nếu nó là nắm đấm.",
@@ -6522,7 +6522,7 @@
                 "Bất cứ thứ gì tạo ra số đều có thể tạo ra nhạc. Giai điệu này tự xáo trộn thành một trật tự mới, và đi theo độ to của giọng bạn đang nói:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].xáotrộn())\n\tnhịpĐộ: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Không ai bắt buộc phải nghe tôi. @Beat báo cáo mỗi nhịp khi nó vang lên, nên bạn có thể vẽ nhạc cũng như phát nhạc, bên cạnh bất kỳ hình ảnh nào mà người xem chọn. @Beat luôn có một @Downbeat, nên bạn có thể đọc nó mà không cần kiểm tra gì:",
-                "\\nhịp: Nhịp()\nđếm: nhịp.đếm\n🎭([\n\t\tCụmtừ('◆' kíchcỡ: 1m + ((đếm % 4) = 0 ? 2m 0m) địađiểm: 📍(-2m 2m))\n\t\tCụmtừ('◆' kíchcỡ: 1m + ((đếm % 4) = 2 ? 2m 0m) địađiểm: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] nhạcCụ: 🔈.🥁))\n\t])\\",
+                "\\nhịp: Nhịp()\nđếm: nhịp.đếm\n🎭([\n\t\tCụmtừ('◆' kíchcỡ: 1m + ((đếm % 4) = 0 ? 2m 0m) vịTrí: 📍(-2m 2m))\n\t\tCụmtừ('◆' kíchcỡ: 1m + ((đếm % 4) = 2 ? 2m 0m) vịTrí: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] nhạcCụ: 🔈.🥁))\n\t])\\",
                 "Tôi không có vẻ ngoài riêng để tạo kiểu, nên tôi không nhận các đầu vào về vẻ ngoài thông thường — không kích thước, vị trí, màu sắc, hay hoạt ảnh. Cách tôi xuất hiện là lựa chọn của người xem, thực hiện trong phần cài đặt của họ, và nó được neo vào sân khấu chứ không đặt trong bố cục của bạn; tôi không chiếm chỗ, nên đặt tôi trong một @Row hay một @Stack không bao giờ làm dịch chuyển bất cứ thứ gì bên cạnh tôi. Để tự vẽ nhạc, hãy dùng @Beat: nó trao cho bạn mỗi nhịp khi nó vang lên, để điều khiển bất kỳ đầu ra nào bạn thích.",
                 "Tôi tiếp tục phát qua các lần đánh giá: chỉnh sửa các nốt của tôi trong khi tôi đang phát và thay đổi sẽ ghép vào ở nhịp tiếp theo thay vì khởi động lại, đó là điều khiến việc thay đổi một giai điệu giữa lúc phát nghe có tính âm nhạc. Để phát tôi lại từ đầu, xem @Music/replay; để giữ tôi đứng yên và tiếp tục ở cùng chỗ, xem @Music/pause."
             ],
@@ -6541,7 +6541,7 @@
                     "Đơn vị là nửa cung. Một nửa cung là bước nhỏ nhất trong nhạc phương Tây: trên một cây đàn dương cầm nó là khoảng cách từ một phím tới phím ngay kế bên, tính cả các phím đen, và mười hai cái làm thành một quãng tám. Vậy nên \\chìaKhóa: 12semitones\\🪲 là cùng bản cao hơn một quãng tám, \\chìaKhóa: -12semitones\\🪲 thấp hơn một quãng tám, và \\chìaKhóa: 2semitones\\🪲 nhích nó lên một chút.",
                     "Hai cách đếm gặp nhau ở đây, và chúng dễ bị nhầm. Các nốt đếm /bước scale/, ở đó quãng tám là \\8\\: từ \\1\\ lên tới \\8\\ là một quãng tám. Một chìa khóa đếm /nửa cung/, ở đó quãng tám là \\12\\. Cả hai mô tả cùng một khoảng cách — tám bước từ \\1\\ tới \\8\\ của một scale bảy nốt trải dài mười hai nửa cung. Một chìa khóa được đo bằng nửa cung vì một nửa cung có cùng kích cỡ trong mọi scale, còn một bước thì không: pentatonic của @Music/scale có năm nốt cho một quãng tám và major có bảy, nên dịch theo bước sẽ dời mỗi cái một khoảng cách khác nhau, trong khi \\12semitones\\ là một quãng tám trong tất cả chúng.",
                     "Vì nó chỉ là một con số, một chìa khóa có thể tới từ bất cứ đâu. Ở đây cả bản nâng lên hai nửa cung khi /lên/ là lựa chọn — một @Choice cần thứ gì đó chọn được trên sân khấu để đọc, nên hai cụm chữ là thứ khiến nó hoạt động:",
-                    "\\🎭([\n\t\tCụmtừ('lên' cóthểlựachọn: ⊤ tên: 'lên' địađiểm: 📍(-2m 0m))\n\t\tCụmtừ('trang chủ' cóthểlựachọn: ⊤ tên: 'trang chủ' địađiểm: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) chìaKhóa: (🔘() = 'lên' ? 2semitones 0semitones))\n\t])\\"
+                    "\\🎭([\n\t\tCụmtừ('lên' cóthểlựachọn: ⊤ tên: 'lên' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('trang chủ' cóthểlựachọn: ⊤ tên: 'trang chủ' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) chìaKhóa: (🔘() = 'lên' ? 2semitones 0semitones))\n\t])\\"
                 ],
                 "names": "$~chìaKhóa"
             },
@@ -6562,7 +6562,7 @@
                 "doc": [
                     "$~Khi cái này là \\⊤\\ trong một lần chạy, tôi bắt đầu lại từ đầu, ngay cả khi không nốt nào của tôi thay đổi.",
                     "Cái này dành cho âm thanh đáp lại một sự kiện thay vì chơi liên tục. Nếu một câu trả lời đúng phát tiếng ding, thì hai câu trả lời đúng liền nhau tạo ra đúng cùng bản nhạc, nên sẽ không có gì thay đổi và không có gì vang lên lại. Tôi là cách bạn nói /lại đi, ngay bây giờ/ — chọn /đúng/ hai lần bên dưới và nó ding hai lần:",
-                    "\\🎭([\n\t\tCụmtừ('đúng' cóthểlựachọn: ⊤ tên: 'đúng' địađiểm: 📍(-2m 0m))\n\t\tCụmtừ('sai' cóthểlựachọn: ⊤ tên: 'sai' địađiểm: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] nhạcCụ: 🔈.🔔 vòngLặp: ⊥) phátLại: ∆ 🔘() ? (🔘() = 'đúng') ⊥)\n\t])\\",
+                    "\\🎭([\n\t\tCụmtừ('đúng' cóthểlựachọn: ⊤ tên: 'đúng' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('sai' cóthểlựachọn: ⊤ tên: 'sai' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] nhạcCụ: 🔈.🔔 vòngLặp: ⊥) phátLại: ∆ 🔘() ? (🔘() = 'đúng') ⊥)\n\t])\\",
                     "Đưa cho tôi một điều kiện /nhất thời/, cái chỉ đúng trong lần chạy mà sự kiện gây ra, như \\∆ 🔘()\\ ở trên. Một điều kiện kéo dài như \\score > 10\\🪲 giữ đúng một khi nó trở thành đúng, nên nó sẽ khởi động lại tôi trong mỗi lần chạy kể từ đó."
                 ],
                 "names": "$~phátLại"
@@ -6658,7 +6658,7 @@
                 "doc": [
                     "$~Trong khi cái này là \\⊤\\ tôi đứng yên, và khi nó trở về \\⊥\\ tôi tiếp tục từ đúng nhịp mà tôi đã dừng.",
                     "Đây là điều khiến tôi khác với @Music/replay: replay nghĩa là /bắt đầu lại/, còn tôi nghĩa là /chờ ở đây/. Một nốt vẫn còn đang vang khi tôi dừng sẽ chơi hết phần còn lại của nó khi tôi bắt đầu lại, nên dừng giữa một hợp âm dài không làm mất nó. Chọn /giữ/ và /đi/ bên dưới:",
-                    "\\🎭([\n\t\tCụmtừ('giữ' cóthểlựachọn: ⊤ tên: 'giữ' địađiểm: 📍(-2m 0m))\n\t\tCụmtừ('đi' cóthểlựachọn: ⊤ tên: 'đi' địađiểm: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] nhạcCụ: 🔈.🎹) tạmDừng: 🔘() = 'giữ')\n\t])\\",
+                    "\\🎭([\n\t\tCụmtừ('giữ' cóthểlựachọn: ⊤ tên: 'giữ' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('đi' cóthểlựachọn: ⊤ tên: 'đi' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] nhạcCụ: 🔈.🎹) tạmDừng: 🔘() = 'giữ')\n\t])\\",
                     "Khác với phát lại, tôi muốn một điều kiện /lâu dài/, một điều kiện giữ đúng chừng nào bạn còn muốn sự im lặng. Bộ đếm @Beat của tôi chờ cùng tôi và tiếp tục từ chỗ nó đang dừng, thay vì bắt đầu lại từ số không."
                 ],
                 "names": "$~tạmDừng"
@@ -9039,10 +9039,10 @@
                         "phrase": "$~\\¶Cụm từ xuất hiện trên sân khấu, với bất kỳ màu sắc, ánh sáng và chuyển động nào bạn muốn.¶\nCụmtừ(\n\t'xin chào!'\n\t6m\n\tmàusắc: Màusắc(60% 90 200°)\n\thàoquang: Hàoquang(Màusắc(80% 80 200°) 0.3m)\n\tnghỉngơi: Sựliêntiếp.đungđưa(8°)\n)\\",
                         "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
                         "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
-                        "keys": "$!\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m địađiểm: Contrỏ())]\n\tđịađiểm: Địađiểm(0m 0m -12m)\n)\\",
+                        "keys": "$!\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m vịTrí: Contrỏ())]\n\tvịTrí: VịTrí(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Bố cục văn bản và làm cho nó có thể chọn được.¶\ntráiCây: ƒ(e•'') Cụmtừ(e 3m tên: e cóthểlựachọn: ⊤)\nđãChọn: Sựlựachọn()\nđãHiện: '?' … ∆ đãChọn … đãChọn\nNhóm(\n\tNgănxếp(đệm: 1m)\n\t[\n\t\tCụmtừ(đãHiện 4m)\n\t\tNhóm(\n\t\t\tHàngngang(đệm: 1m)\n\t\t\t[tráiCây('🍎') tráiCây('🍐') tráiCây('🍒')]\n\t\t)\n\t]\n)\\",
-                        "letters": "$~\\¶Trò chuyện với chương trình và dùng hình dạng của phông chữ và ký hiệu.¶\ntinNhắn: Tròchuyện()\ntừ3: 'chào' … ∆ tinNhắn … tinNhắn\ndòng: Đườngviền(từ3 'Noto Sans' 8m)\ntiếngTíchTắc: 0 … ∆ Thờigian(30ms) … tiếngTíchTắc + 1\nđãHiện: ((dòng.chiềudài() × tiếngTíchTắc) ÷ 66).làmtrònxuống(\n\t) + 1\ndấuChấm: dòng.chuỗicon(1 đãHiện).dịch(\n\t\tƒ(p) Cụmtừ('•' địađiểm: p)\n\t)\nSânkhấu(dấuChấm.với(Cụmtừ(từ3 8m độmờđục: 15%)))\\",
-                        "pile": "$~\\¶Văn bản cũng có thể có vật lý.¶\ntung: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tCụmtừ(\n\t\t\temoji\n\t\t\t2m\n\t\t\tđịađiểm: Cửđộng(Địađiểm(x2 y2) Vậntốc(vx 0m/s))\n\t\t\tvấnđề: Vấnđề(1kg 0.55 0.06 0.5)\n\t\t)\nSânkhấu(\n\t[\n\t\ttung('🍎' -2m 5m 2.2m/s)\n\t\ttung('🍊' 2m 7m -2.6m/s)\n\t\ttung('🍋' -1m 9m 1.4m/s)\n\t\ttung('🍇' 1.5m 11m -1.9m/s)\n\t\ttung('🫐' 0.5m 15m -1.2m/s)\n\t\tHìnhdạng(Hìnhchữnhật(-4m -3m 4m -3.6m))\n\t\tHìnhdạng(Hìnhchữnhật(-4.6m 4m -4m -3m))\n\t\tHìnhdạng(Hìnhchữnhật(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "letters": "$~\\¶Trò chuyện với chương trình và dùng hình dạng của phông chữ và ký hiệu.¶\ntinNhắn: Tròchuyện()\ntừ3: 'chào' … ∆ tinNhắn … tinNhắn\ndòng: Đườngviền(từ3 'Noto Sans' 8m)\ntiếngTíchTắc: 0 … ∆ Thờigian(30ms) … tiếngTíchTắc + 1\nđãHiện: ((dòng.chiềudài() × tiếngTíchTắc) ÷ 66).làmtrònxuống(\n\t) + 1\ndấuChấm: dòng.chuỗicon(1 đãHiện).dịch(\n\t\tƒ(p) Cụmtừ('•' vịTrí: p)\n\t)\nSânkhấu(dấuChấm.với(Cụmtừ(từ3 8m độmờđục: 15%)))\\",
+                        "pile": "$~\\¶Văn bản cũng có thể có vật lý.¶\ntung: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tCụmtừ(\n\t\t\temoji\n\t\t\t2m\n\t\t\tvịTrí: Cửđộng(VịTrí(x2 y2) Vậntốc(vx 0m/s))\n\t\t\tvấnđề: Vấnđề(1kg 0.55 0.06 0.5)\n\t\t)\nSânkhấu(\n\t[\n\t\ttung('🍎' -2m 5m 2.2m/s)\n\t\ttung('🍊' 2m 7m -2.6m/s)\n\t\ttung('🍋' -1m 9m 1.4m/s)\n\t\ttung('🍇' 1.5m 11m -1.9m/s)\n\t\ttung('🫐' 0.5m 15m -1.2m/s)\n\t\tHìnhdạng(Hìnhchữnhật(-4m -3m 4m -3.6m))\n\t\tHìnhdạng(Hìnhchữnhật(-4.6m 4m -4m -3m))\n\t\tHìnhdạng(Hìnhchữnhật(4m 4m 4.6m -3m))\n\t]\n)\\",
                         "listen": "$~\\¶Mã số có thể phản ứng với @Volume và @Pitch của micro của bạn.¶\nCụmtừ(\n\t'📣'\n\t1m + (Âmlượng() × 8m)\n\txoay: (Sânbóngđá() ÷ 1hz) × 0.1°\n)\\",
                         "smile": "$~\\¶Mã số có thể phản ứng với @Face của bạn, và những thứ khác trên @Camera.¶\nCụmtừ(\n\tKhuônMặt().cườiTươi ? '😄 cảm ơn bạn!' '🙂 mỉm cười với máy quay'\n\t2m\n)\\"
                     }

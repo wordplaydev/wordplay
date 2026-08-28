@@ -7,8 +7,8 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' ניתןלבחירה: ⊤ שֵׁם: 'פסנתר')
-				Phrase('🎻' ניתןלבחירה: ⊤ שֵׁם: 'כינור')
+				Phrase('🎹' ניתןלבחירה: ⊤ שם: 'פסנתר')
+				Phrase('🎻' ניתןלבחירה: ⊤ שם: 'כינור')
 			])
 		Music(Track([1 3 5 6 5 3] כלינגינה: (picked = 'כינור') ? Instrument.violin Instrument.piano))
 	])\
@@ -28,7 +28,7 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon ניתןלבחירה: ⊤ שֵׁם: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon ניתןלבחירה: ⊤ שם: voice.icon))
 			])
 		Music(Track([1 3 5 6 5 3] כלינגינה: current.sound))
 	])\

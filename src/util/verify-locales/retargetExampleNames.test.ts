@@ -35,6 +35,19 @@ const PhraseBubble = new LocalePath(
  * `Basis.getLocalizedBasis` memoizes on the locale's language and regions, so a copy that
  * keeps them silently gets the unmodified locale's basis and the test proves nothing.
  */
+/** What el-GR declares for an input right now. Read rather than written into the test, so
+ *  choosing a better word for a locale doesn't turn a mechanism test into a vocabulary test. */
+function declared(path: LocalePath, text: LocaleText = Greek): string {
+    const value = path.resolve(text);
+    const names = Array.isArray(value) ? value : [value];
+    const word = names.find(
+        (name): name is string =>
+            typeof name === 'string' && /\p{L}/u.test(name),
+    );
+    if (word === undefined) throw new Error(`no name at ${path.toString()}`);
+    return word.replace(/^(?:\$[?!~])+/, '');
+}
+
 function withNames(
     text: LocaleText,
     region: string,
@@ -57,7 +70,7 @@ test('an input left on a word the locale no longer declares is retargeted', () =
     );
     expect(result.kind).toBe('retargeted');
     if (result.kind !== 'retargeted') return;
-    expect(result.code).toBe("Φράση('ένα' φυσαλίδα: 'γεια!')");
+    expect(result.code).toBe(`Φράση('ένα' ${declared(PhraseBubble)}: 'γεια!')`);
     expect(result.renamed).toBe(1);
 });
 
@@ -71,11 +84,11 @@ test('an input still spelled in English is retargeted too', () => {
     );
     expect(result.kind).toBe('retargeted');
     if (result.kind !== 'retargeted') return;
-    expect(result.code).toBe("Φράση('ένα' φυσαλίδα: 'γεια!')");
+    expect(result.code).toBe(`Φράση('ένα' ${declared(PhraseBubble)}: 'γεια!')`);
 });
 
 test('a locale that already agrees is left alone, and the repair is idempotent', () => {
-    const already = "Φράση('ένα' φυσαλίδα: 'γεια!')";
+    const already = `Φράση('ένα' ${declared(PhraseBubble)}: 'γεια!')`;
     expect(
         retargetExampleNames(
             "Phrase('a' bubble: 'hello!')",
@@ -160,4 +173,70 @@ test('en-US is its own source, so nothing changes', () => {
     expect(
         retargetExampleNames(example, example, DefaultLocale, 'en').kind,
     ).toBe('unchanged');
+});
+
+/** `output.Place.names` — renaming a type strands references, not inputs. */
+const Place = new LocalePath(['output', 'Place'], 'names', []);
+
+test('a reference that still names the right definition is left alone', () => {
+    // A localized example may use any of a definition's names, and they lean on the symbolic
+    // ones constantly. Rewriting every reference to the declared word would have changed
+    // 12,027 examples, nearly all of them for the worse.
+    const example = "Φράση('ένα' θέση: 📍(0m 0m))";
+    expect(
+        retargetExampleNames(
+            "Phrase('a' place: 📍(0m 0m))",
+            example,
+            Greek,
+            'el',
+        ).kind,
+    ).toBe('unchanged');
+});
+
+test('an infix operator keeps its symbol', () => {
+    expect(retargetExampleNames('1 + 2', '1 + 2', Greek, 'el').kind).toBe(
+        'unchanged',
+    );
+});
+
+test('a reference that stopped naming its definition is retargeted', () => {
+    // What renaming a type does to every example that named it — the reason the Hebrew
+    // vowel-point strip needed this pass first.
+    const renamed = withNames(Greek, 'EE', Place, ['Τοποθεσία']);
+    const result = retargetExampleNames(
+        'Place(0m 0m)',
+        'Θέση(0m 0m)',
+        renamed,
+        'el',
+    );
+    expect(result.kind).toBe('retargeted');
+    if (result.kind !== 'retargeted') return;
+    expect(result.code).toBe('Τοποθεσία(0m 0m)');
+});
+
+test('a name the example declares itself is never retargeted', () => {
+    // It is the creator's word, translated with the example; the basis is all this pass owns.
+    const example = 'θέση: 1\nθέση + 1';
+    expect(
+        retargetExampleNames('place: 1\nplace + 1', example, Greek, 'el').kind,
+    ).toBe('unchanged');
+});
+
+test('renaming a type carries its inputs along in the same pass', () => {
+    // The input's bind is resolved through the basis counterparts, not through the localized
+    // example's own reference — which a rename has just stopped resolving. Before that, the
+    // reference was repaired and the input beside it was left stranded.
+    const renamed = withNames(Greek, 'FI', Place, ['Τοποθεσία']);
+    const result = retargetExampleNames(
+        'Place(0m 0m).offset(place: Place(1m 1m))',
+        'Θέση(0m 0m).μετατόπιση(θέση: Θέση(1m 1m))',
+        renamed,
+        'el',
+    );
+    // Whatever else it does, it must not leave a reference naming nothing.
+    expect(result.kind === 'retargeted' || result.kind === 'unchanged').toBe(
+        true,
+    );
+    if (result.kind === 'retargeted')
+        expect(result.code).not.toContain('Θέση(');
 });

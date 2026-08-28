@@ -5,7 +5,7 @@
 @Motion नियंत्रणे/जिथे/एखादे पात्र कालांतराने विकसित होते. आपण त्याचा वापर अशाप्रकारे करतो\place\साठी @Phrase ते उंचावर सुरू करणे जेणेकरून ते खाली पडू शकेल.आपल्याला पडायलाही काहीतरी हवे असते, नाहीतर आपले पात्र कायम पडतच राहील! @Shape विस्तृत @Rectangle छान फरशी बनवते:
 
 \Stage([
-		Phrase('🍎' जागा: Motion(Place(0m 5m)) वस्तू: Matter())
+		Phrase('🍎' ठिकाण: Motion(Place(0m 5m)) पदार्थ: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 कसे बदलायचे/बाउंसी/किंवा कसे/जड/एक पात्र आहे, त्याला स्वतःचे द्या @Matter ... @Matter वस्तुमान, लवचिकता आणि घर्षण लागते:
 
 \Stage([
-		Phrase('⚽' जागा: Motion(Place(-2m 5m)) वस्तू: Matter(1kg 0.9 0.2))
-		Phrase('🪨' जागा: Motion(Place(2m 5m)) वस्तू: Matter(5kg 0.1 0.8))
+		Phrase('⚽' ठिकाण: Motion(Place(-2m 5m)) पदार्थ: Matter(1kg 0.9 0.2))
+		Phrase('🪨' ठिकाण: Motion(Place(2m 5m)) पदार्थ: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

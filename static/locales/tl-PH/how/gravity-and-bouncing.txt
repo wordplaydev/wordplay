@@ -5,7 +5,7 @@ Paano kung gusto nating matumba ang isang karakter, tumalbog sa sahig, o maitula
 @Motion mga kontrol/saan/ang isang karakter ay nasa paglipas ng panahon. Ginagamit natin ito bilang\place\para sa isang @Phrase , sinimulan itong itaas nang mataas para ito ay mahulog.Kailangan din natin ng madadapaan, kung hindi ay patuloy lang na mahuhulog ang ating karakter! @Shape na may malawak @Rectangle nakakagawa ng magandang sahig:
 
 \Stage([
-		Phrase('🍎' lugar: Motion(Place(0m 5m)) bagay: Matter())
+		Phrase('🍎' lugar: Motion(Place(0m 5m)) materya: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@ Ang mansanas ay nagsisimula sa taas na limang metro at nahuhulog sa ilalim ng gr
 Para baguhin kung paano/mabounce/o paano/mabigat/ang isang karakter ay, bigyan ito ng sarili mo @Matter . @Matter tumatagal ng isang masa, isang bounciness, at isang friction:
 
 \Stage([
-		Phrase('⚽' lugar: Motion(Place(-2m 5m)) bagay: Matter(1kg 0.9 0.2))
-		Phrase('🪨' lugar: Motion(Place(2m 5m)) bagay: Matter(5kg 0.1 0.8))
+		Phrase('⚽' lugar: Motion(Place(-2m 5m)) materya: Matter(1kg 0.9 0.2))
+		Phrase('🪨' lugar: Motion(Place(2m 5m)) materya: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

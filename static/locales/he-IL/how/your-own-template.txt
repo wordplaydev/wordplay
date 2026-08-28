@@ -4,7 +4,7 @@
 
 א @Structure זה כמו מתכון עם חללים למלא.הנה תבנית בלון שמקבלת צבע ותווית, ויודעת איך להראות את עצמה:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` צֶבַע: color גוֹדֶל: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` צבע: color גודל: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'שָׁמַיִם').show()

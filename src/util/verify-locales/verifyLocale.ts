@@ -20,6 +20,8 @@ import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkExampleNames from '@util/verify-locales/checkExampleNames';
+import checkPointedNames from '@util/verify-locales/checkPointedNames';
+import checkTypedInputNames from '@util/verify-locales/checkTypedInputNames';
 import checkDegenerateNames from '@util/verify-locales/checkDegenerateNames';
 import checkNames from '@util/verify-locales/checkNames';
 import checkOperatorKeywords from '@util/verify-locales/checkOperatorKeywords';
@@ -190,6 +192,21 @@ export async function verifyLocale(
     // Validate the per-locale glossary forms: no collisions with words, ids, or
     // concept names, and nothing unreferenceable.
     revisedText = checkGlossaryForms(log, revisedText, fix);
+
+    // Vowel points first: they change names, and everything below reads names. Hebrew is
+    // written without them and nobody types them into code, so a pointed name is an
+    // identifier no creator can enter.
+    if (locale !== 'en-US')
+        revisedText = checkPointedNames(log, revisedText, fix);
+
+    // Then the type/input agreement, which reads the names the strip just settled.
+    if (locale !== 'en-US')
+        revisedText = checkTypedInputNames(
+            log,
+            DefaultLocale,
+            revisedText,
+            fix,
+        );
 
     // After the name checks above, so an example is retargeted to the name this run settled
     // on rather than one about to be repaired, and before the doc checks below, so the

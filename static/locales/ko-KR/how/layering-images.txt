@@ -12,7 +12,7 @@
 		Shape(Polygon(7m 6 0m -6m 0m))
 		Shape(Rectangle(-11m -9m 11m -12m 10m) 회전: 25°)
 		Shape(Rectangle(-11m -9m 11m -12m 10m) 회전: -25°)
-	] 장소: Place(0m 10m -30m))\
+	] 위치: Place(0m 10m -30m))\
 
 레이어를 활용하면 정말 멋진 작품을 만들 수 있어요! 한번 만들어 보세요!
 

@@ -6,12 +6,12 @@
 
 \Stage([
 		Phrase('🏀' כניסה: Sequence({
-					0%: Pose(לְקַזֵז: Place(י: 0.25m))
-					25%: Pose(לְקַזֵז: Place(י: 0m))
-					50%: Pose(לְקַזֵז: Place(י: -0.25m))
-					75%: Pose(לְקַזֵז: Place(י: 0m))
-					100%: Pose(לְקַזֵז: Place(י: 0.25m))
-				} לִסְפּוֹר: 2x מֶשֶׁך: 2s))
+					0%: Pose(לקזז: Place(י: 0.25m))
+					25%: Pose(לקזז: Place(י: 0m))
+					50%: Pose(לקזז: Place(י: -0.25m))
+					75%: Pose(לקזז: Place(י: 0m))
+					100%: Pose(לקזז: Place(י: 0.25m))
+				} לספור: 2x משך: 2s))
 	])\
 
 animate-phrase, shake-phrase

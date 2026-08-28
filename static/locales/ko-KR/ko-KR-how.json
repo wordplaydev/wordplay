@@ -10,7 +10,7 @@
         "id": "move-phrase",
         "title": "캐릭터를 움직일 수 있게 만들기",
         "category": "characters",
-        "body": "때로는 ~을 만드는 것이 도움이 됩니다. @Phrase 키보드, 마우스 또는 손가락으로 움직일 수 있습니다.\n\n이렇게 하면 결합할 수 있습니다 @Phrase  와 함께  @Placement :\n\n\\Stage([Phrase('나를 움직여' 장소: Placement())] 장소: Place(0m 0m -10m))\\\n\n키보드 화살표를 사용하거나 @Stage 업데이트할 것입니다 @Placement , 원인이 됨 @Phrase 그 방향으로 이동하다.\n\n하지만 당신은 알고 있었나요? @Placement 와 함께 사용할 수 있습니다/아무것/그것이 걸립니다 @Place ?예를 들어 @Stage 가지고있다 @Place 이는 카메라가 향하는 방향을 결정합니다.설정을 시도해 보자 @Placement ~을 위해 @Stage 의 자리에 가서 무슨 일이 일어나는지 지켜보세요.\n\n\\Stage([\n\t\tPhrase('🐈' 장소: Place(-2m 2m))\n\t\tPhrase('🐈' 장소: Place(2m -2m))\n\t\tPhrase('🐈' 장소: Place(-1m 3m))\n\t] 장소: Placement(Place(0m 0m -10m)))\\\n\n그러면 카메라가 움직입니다! (참고: 시작합니다. @Placement 와 함께\\z\\의 가치\\10m\\그래서 카메라는 모든 것에서 뒤로 물러나 있습니다.)",
+        "body": "때로는 ~을 만드는 것이 도움이 됩니다. @Phrase 키보드, 마우스 또는 손가락으로 움직일 수 있습니다.\n\n이렇게 하면 결합할 수 있습니다 @Phrase  와 함께  @Placement :\n\n\\Stage([Phrase('나를 움직여' 위치: Placement())] 위치: Place(0m 0m -10m))\\\n\n키보드 화살표를 사용하거나 @Stage 업데이트할 것입니다 @Placement , 원인이 됨 @Phrase 그 방향으로 이동하다.\n\n하지만 당신은 알고 있었나요? @Placement 와 함께 사용할 수 있습니다/아무것/그것이 걸립니다 @Place ?예를 들어 @Stage 가지고있다 @Place 이는 카메라가 향하는 방향을 결정합니다.설정을 시도해 보자 @Placement ~을 위해 @Stage 의 자리에 가서 무슨 일이 일어나는지 지켜보세요.\n\n\\Stage([\n\t\tPhrase('🐈' 위치: Place(-2m 2m))\n\t\tPhrase('🐈' 위치: Place(2m -2m))\n\t\tPhrase('🐈' 위치: Place(-1m 3m))\n\t] 위치: Placement(Place(0m 0m -10m)))\\\n\n그러면 카메라가 움직입니다! (참고: 시작합니다. @Placement 와 함께\\z\\의 가치\\10m\\그래서 카메라는 모든 것에서 뒤로 물러나 있습니다.)",
         "related": ["animated-scene"]
     },
     {
@@ -52,7 +52,7 @@
         "id": "layering-images",
         "title": "이미지를 서로 겹쳐 놓기",
         "category": "stories",
-        "body": "가끔은 재미있는 장면이나 창의적인 모양을 만들기 위해 이미지를 겹쳐서 표현하고 싶을 때가 있습니다.\n\n예를 들어, 프로젝트에 여러 레이어를 사용할 수 있습니다. @Stage 원하는 대로 이미지를 쌓고 배열하세요.\n\n보세요! 모양만으로 거북이를 만들었어요!각 도형의 숫자를 바꿔 보세요. 도형을 이동하고, 크기를 조절하고, 회전할 수도 있습니다.여러가지를 시도해보고 무엇을 만들 수 있는지 살펴보세요!\n\n\\¶참고: 다른 프로젝트에 대한 갤러리를 확인하세요<예@https://wordplay.dev/project/example-Layers?play>이미지를 레이어링하는 것.¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) 회전: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 회전: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 회전: -25°)\n\t] 장소: Place(0m 10m -30m))\\\n\n레이어를 활용하면 정말 멋진 작품을 만들 수 있어요! 한번 만들어 보세요!",
+        "body": "가끔은 재미있는 장면이나 창의적인 모양을 만들기 위해 이미지를 겹쳐서 표현하고 싶을 때가 있습니다.\n\n예를 들어, 프로젝트에 여러 레이어를 사용할 수 있습니다. @Stage 원하는 대로 이미지를 쌓고 배열하세요.\n\n보세요! 모양만으로 거북이를 만들었어요!각 도형의 숫자를 바꿔 보세요. 도형을 이동하고, 크기를 조절하고, 회전할 수도 있습니다.여러가지를 시도해보고 무엇을 만들 수 있는지 살펴보세요!\n\n\\¶참고: 다른 프로젝트에 대한 갤러리를 확인하세요<예@https://wordplay.dev/project/example-Layers?play>이미지를 레이어링하는 것.¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) 회전: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 회전: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 회전: -25°)\n\t] 위치: Place(0m 10m -30m))\\\n\n레이어를 활용하면 정말 멋진 작품을 만들 수 있어요! 한번 만들어 보세요!",
         "related": ["custom-characters"]
     },
     {
@@ -136,7 +136,7 @@
         "id": "follow-the-pointer",
         "title": "손가락을 따라 캐릭터가 움직이도록 하세요",
         "category": "characters",
-        "body": "마우스나 손가락을 따라다니는 캐릭터를 원하시나요? @Stage ?우리는 그것을 할 수 있습니다 @Pointer 입력. \n\n@Pointer 우리에게 새로운 것을 줍니다 @Place 포인터가 움직일 때마다.우리가 그것을 사용한다면 @Place ~로서 @Phrase 's\\place\\그러면 캐릭터는 우리가 가리키는 곳으로 이동합니다.\n\n\\Stage([Phrase('🐈' 장소: Pointer())] 장소: Place(0m 0m -10m))\\\n\n자, 이제 끝입니다! 마우스를 움직이거나 손가락을 드래그하면 고양이가 따라옵니다.\n\n그것을 꺼내면 더 흥미로운 일들을 할 수 있습니다.\\x\\ 그리고 \\y\\~로부터 @Place .여기 포인터보다 항상 1미터 위에 떠 있는 오리가 있습니다.\n\n\\Stage([\n\t\tPhrase('🦆' 장소: Place(Pointer().x Pointer().y + 1m))\n\t] 장소: Place(0m 0m -10m))\\",
+        "body": "마우스나 손가락을 따라다니는 캐릭터를 원하시나요? @Stage ?우리는 그것을 할 수 있습니다 @Pointer 입력. \n\n@Pointer 우리에게 새로운 것을 줍니다 @Place 포인터가 움직일 때마다.우리가 그것을 사용한다면 @Place ~로서 @Phrase 's\\place\\그러면 캐릭터는 우리가 가리키는 곳으로 이동합니다.\n\n\\Stage([Phrase('🐈' 위치: Pointer())] 위치: Place(0m 0m -10m))\\\n\n자, 이제 끝입니다! 마우스를 움직이거나 손가락을 드래그하면 고양이가 따라옵니다.\n\n그것을 꺼내면 더 흥미로운 일들을 할 수 있습니다.\\x\\ 그리고 \\y\\~로부터 @Place .여기 포인터보다 항상 1미터 위에 떠 있는 오리가 있습니다.\n\n\\Stage([\n\t\tPhrase('🦆' 위치: Place(Pointer().x Pointer().y + 1m))\n\t] 위치: Place(0m 0m -10m))\\",
         "related": ["move-phrase", "count-with-time"]
     },
     {
@@ -185,7 +185,7 @@
         "id": "gravity-and-bouncing",
         "title": "캐릭터가 넘어지고 튕기도록 하세요",
         "category": "motion",
-        "body": "캐릭터가 실제처럼 넘어지거나, 바닥에 부딪히거나, 밀쳐지는 모습을 보여주고 싶다면 어떻게 해야 할까요?그게 바로 그거예요 @Motion  그리고  @Matter 이것들은 함께 물리 현상을 시뮬레이션하기 위한 것입니다. @Phrase . \n\n@Motion 제어/어디/캐릭터는 시간이 지남에 따라 변합니다. 우리는 그것을 다음과 같이 사용합니다.\\place\\~을 위해 @Phrase 높이 올려놓아서 떨어지게 하는 거죠.또한, 넘어질 때 받쳐줄 무언가가 필요해요. 그렇지 않으면 우리 캐릭터가 계속해서 떨어질 테니까요! @Shape 넓은 범위로 @Rectangle 바닥재로 아주 좋습니다:\n\n\\Stage([\n\t\tPhrase('🍎' 장소: Motion(Place(0m 5m)) 문제: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n사과는 5미터 높이에서 떨어져 중력에 의해 아래로 떨어집니다.바닥에 닿으면 약간 튀어 오르는데, 그 이유는 다음과 같습니다. @Phrase 내장되어 있습니다 @Matter 그것은 물체의 무게와 탄력을 조절합니다.\n\n방식을 바꾸려면/탄력 있는/또는 어떻게/무거운/캐릭터란, 당신만의 개성을 부여하는 것입니다. @Matter . @Matter 질량, 탄성, 마찰력이 필요합니다.\n\n\\Stage([\n\t\tPhrase('⚽' 장소: Motion(Place(-2m 5m)) 문제: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' 장소: Motion(Place(2m 5m)) 문제: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n공은 가볍고 탄력이 좋아서 다시 튀어 오릅니다.그 돌은 무겁고 탄력이 없어서 그냥 쿵 하고 떨어질 뿐이에요.",
+        "body": "캐릭터가 실제처럼 넘어지거나, 바닥에 부딪히거나, 밀쳐지는 모습을 보여주고 싶다면 어떻게 해야 할까요?그게 바로 그거예요 @Motion  그리고  @Matter 이것들은 함께 물리 현상을 시뮬레이션하기 위한 것입니다. @Phrase . \n\n@Motion 제어/어디/캐릭터는 시간이 지남에 따라 변합니다. 우리는 그것을 다음과 같이 사용합니다.\\place\\~을 위해 @Phrase 높이 올려놓아서 떨어지게 하는 거죠.또한, 넘어질 때 받쳐줄 무언가가 필요해요. 그렇지 않으면 우리 캐릭터가 계속해서 떨어질 테니까요! @Shape 넓은 범위로 @Rectangle 바닥재로 아주 좋습니다:\n\n\\Stage([\n\t\tPhrase('🍎' 위치: Motion(Place(0m 5m)) 문제: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n사과는 5미터 높이에서 떨어져 중력에 의해 아래로 떨어집니다.바닥에 닿으면 약간 튀어 오르는데, 그 이유는 다음과 같습니다. @Phrase 내장되어 있습니다 @Matter 그것은 물체의 무게와 탄력을 조절합니다.\n\n방식을 바꾸려면/탄력 있는/또는 어떻게/무거운/캐릭터란, 당신만의 개성을 부여하는 것입니다. @Matter . @Matter 질량, 탄성, 마찰력이 필요합니다.\n\n\\Stage([\n\t\tPhrase('⚽' 위치: Motion(Place(-2m 5m)) 문제: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' 위치: Motion(Place(2m 5m)) 문제: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n공은 가볍고 탄력이 좋아서 다시 튀어 오릅니다.그 돌은 무겁고 탄력이 없어서 그냥 쿵 하고 떨어질 뿐이에요.",
         "related": ["follow-the-pointer", "move-phrase"]
     },
     {

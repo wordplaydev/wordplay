@@ -4,7 +4,7 @@
 
 @Pointer يمنحنا شيئًا جديدًا @Place في كل مرة يتحرك فيها المؤشر.إذا استخدمنا ذلك @Place كـ @Phrase 's\place\، ستذهب الشخصية إلى أي مكان نشير إليه.
 
-\Stage([Phrase('🐈' مكان: Pointer())] place: Place(0m 0m -10m))\
+\Stage([Phrase('🐈' مكان: Pointer())] مكان: Place(0m 0m -10m))\
 
 هذا كل شيء! حرك الماوس أو اسحب إصبعك، وشاهد القطة وهي تتبعك.
 
@@ -12,6 +12,6 @@
 
 \Stage([
 		Phrase('🦆' مكان: Place(Pointer().x Pointer().y + 1m))
-	] place: Place(0m 0m -10m))\
+	] مكان: Place(0m 0m -10m))\
 
 move-phrase, count-with-time

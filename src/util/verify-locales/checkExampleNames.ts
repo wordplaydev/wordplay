@@ -2,7 +2,7 @@ import type LocaleText from '@locale/LocaleText';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
 import { getCheckableLocalePairs } from '@util/verify-locales/verifyLocale';
-import { retargetExamplesIn } from '@util/verify-locales/retargetExampleNames';
+import { retargetExamplesInDocument } from '@util/verify-locales/retargetExampleNames';
 
 /**
  * Bring every localized `\code\` example's named inputs back in line with the names the
@@ -41,20 +41,21 @@ export function retargetExamplePaths<T extends Record<string, unknown>>(
             typeof sourceValue === 'string' ? [sourceValue] : sourceValue;
         const targetItems =
             typeof pair.value === 'string' ? [pair.value] : pair.value;
-        // Elements are only counterparts when there are the same number of them; a locale
-        // that split or merged a paragraph has no per-index pairing to make.
-        if (sourceItems.length !== targetItems.length) continue;
+        // A document with no example delimiter can't hold one, and parsing every locale
+        // string to find that out is most of a verify run.
+        if (!targetItems.some((item) => item.includes('\\'))) continue;
 
-        const repaired = targetItems.map((item, index) => {
-            // A string with no example delimiter can't hold one, and parsing every locale
-            // string to find that out is most of a verify run.
-            if (!item.includes('\\')) return item;
-            const result = retargetExamplesIn(sourceItems[index], item, locale);
-            renamed += result.renamed;
-            divergent += result.divergent;
-            refused += result.refused;
-            return result.text;
-        });
+        // Paired across the whole document rather than per element: a `[formatted]` array's
+        // items are paragraphs, and a locale may legitimately split or merge one.
+        const result = retargetExamplesInDocument(
+            sourceItems,
+            targetItems,
+            locale,
+        );
+        renamed += result.renamed;
+        divergent += result.divergent;
+        refused += result.refused;
+        const repaired = result.texts;
 
         if (fix && repaired.some((item, index) => item !== targetItems[index]))
             pair.repair(

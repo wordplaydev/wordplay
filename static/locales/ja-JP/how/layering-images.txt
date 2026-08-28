@@ -12,7 +12,7 @@
 		Shape(Polygon(7m 6 0m -6m 0m))
 		Shape(Rectangle(-11m -9m 11m -12m 10m) 回転: 25°)
 		Shape(Rectangle(-11m -9m 11m -12m 10m) 回転: -25°)
-	] 場所: Place(0m 10m -30m))\
+	] 位置: Place(0m 10m -30m))\
 
 レイヤーを使えば、すごくかっこいいものが作れますよ！ぜひ試してみてください！
 

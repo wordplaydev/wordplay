@@ -6928,7 +6928,7 @@
                 "Schimbă-mi @Bubble.kind într-un gând și devin o baloană de gândire în loc de vorbire.",
                 "Sunt o decorație, așa că nimic pe scenă nu se dă la o parte ca să-mi facă loc — dar @Stage se asigură că ajung să fiu vizibil."
             ],
-            "names": ["$~Bulă"],
+            "names": ["$~Balon"],
             "text": {
                 "doc": [
                     "$~Ce arăt. Dă-mi text simplu, sau text formatat dacă vrei cuvinte *îngroșate* sau /cursive/.",

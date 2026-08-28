@@ -5073,7 +5073,7 @@
             },
             "matter": {
                 "doc": "$~Kung gaano ako kabigat, kung gaano ako tumalbog, at kung gaano ako kadulas, at kung ano ang gumagawa sa akin na matigas kapag ginagalaw ako ng isang @Motion.",
-                "names": "$~bagay"
+                "names": "$~materya"
             },
             "size": {
                 "doc": "$~Ang taas dapat ng kahanga-hangang nilalaman sa loob ko, maliban na lang kung mayroon silang sarili nilang laki!",
@@ -5199,7 +5199,7 @@
             },
             "matter": {
                 "doc": "$~Kung gaano ako kabigat, kung gaano ako tumalbog, at kung gaano ako kadulas, at kung ano ang gumagawa sa akin na matigas kapag ginagalaw ako ng isang @Motion.",
-                "names": "$~bagay"
+                "names": "$~materya"
             },
             "aura": {
                 "doc": "$~Ang opsyonal na @Aura na makikita sa likuran ko. Pasiglahin mo ako!",
@@ -5469,7 +5469,7 @@
         },
         "Form": {
             "doc": "$~Ako ay isang abstraktong anyo, tulad ng isang @Rectangle o @Circle.",
-            "names": ["$~Pormularyo"]
+            "names": ["$~Anyo"]
         },
         "Rectangle": {
             "doc": "$~Ako ay isang parihaba, kapaki-pakinabang para sa paggawa ng @Stage na may hangganan na kasinglaki ng iyong napili.",
@@ -6138,7 +6138,7 @@
         },
         "Matter": {
             "doc": "$~Sinasabi ko kung gaano kabigat, kung gaano tumatalbog, at kung gaano kadulas ang @Output. Matigas ang @Output na mayroon sa akin at sa isang @Motion: tumatalbog ito sa @Shape na nasa @Stage at sa ibang gumagalaw na @Output. Ang @Output na inilagay ng iyong programa ay pupunta sa kung saan mo ito inilagay, at dumadaan sa anumang nadidikit nito. Hindi kailangan ng @Output ang akin para mapansin ng @Collision — sapat na ang pangalan para dito.",
-            "names": ["$~Materyales"],
+            "names": ["$~Materya"],
             "mass": {
                 "doc": "$~Timbang, sa kilo",
                 "names": "$~masa"
@@ -9120,7 +9120,7 @@
                         "keys": "$!\\¶Ang kodigo ay maaaring tumugon sa mga pointer, susi, click, at tapik.¶\nsusi2: Susi()\nclick2: Butones()\nmgaMukha: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ click2 … (alin % 4) + 1\nEntablado(\n\t[Parirala(mgaMukha[alin] 5m lugar: Panturo())]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Ayusin ang teksto at gawin itong mapipili.¶\nprutas: ƒ(e•'') Parirala(e 3m pangalan: e mapipili: ⊤)\nnapili: Pagpipilian()\nipinakita: '?' … ∆ napili … napili\nGrupo(\n\tPatongpatong(padding: 1m)\n\t[\n\t\tParirala(ipinakita 4m)\n\t\tGrupo(\n\t\t\tHilera(padding: 1m)\n\t\t\t[prutas('🍎') prutas('🍐') prutas('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Makipag-usap sa mga programa at gamitin ang hugis ng mga font at simbolo.¶\nmensahe: Makipagchat()\nsalita2: 'hi' … ∆ mensahe … mensahe\nlinya: Kontur(salita2 'Noto Sans' 8m)\nmgaTik: 0 … ∆ Oras(30ms) … mgaTik + 1\nipinakita: ((linya.haba() × mgaTik) ÷ 66).roundDown() + 1\nmgaTuldok: linya.kasunod(1 ipinakita).isalin(\n\t\tƒ(p) Parirala('•' lugar: p)\n\t)\nEntablado(\n\tmgaTuldok.kasama(Parirala(salita2 8m kalabuan: 15%))\n)\\",
-                        "pile": "$~\\¶Maaaring may pisika ang teksto.¶\nitapon: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tParirala(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlugar: Paggalaw(Lugar(x2 y2) Bilis(vx 0m/s))\n\t\t\tbagay: Materyales(1kg 0.55 0.06 0.5)\n\t\t)\nEntablado(\n\t[\n\t\titapon('🍎' -2m 5m 2.2m/s)\n\t\titapon('🍊' 2m 7m -2.6m/s)\n\t\titapon('🍋' -1m 9m 1.4m/s)\n\t\titapon('🍇' 1.5m 11m -1.9m/s)\n\t\titapon('🫐' 0.5m 15m -1.2m/s)\n\t\tHugis(Parihaba(-4m -3m 4m -3.6m))\n\t\tHugis(Parihaba(-4.6m 4m -4m -3m))\n\t\tHugis(Parihaba(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "pile": "$~\\¶Maaaring may pisika ang teksto.¶\nitapon: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tParirala(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlugar: Paggalaw(Lugar(x2 y2) Bilis(vx 0m/s))\n\t\t\tmaterya: Materya(1kg 0.55 0.06 0.5)\n\t\t)\nEntablado(\n\t[\n\t\titapon('🍎' -2m 5m 2.2m/s)\n\t\titapon('🍊' 2m 7m -2.6m/s)\n\t\titapon('🍋' -1m 9m 1.4m/s)\n\t\titapon('🍇' 1.5m 11m -1.9m/s)\n\t\titapon('🫐' 0.5m 15m -1.2m/s)\n\t\tHugis(Parihaba(-4m -3m 4m -3.6m))\n\t\tHugis(Parihaba(-4.6m 4m -4m -3m))\n\t\tHugis(Parihaba(4m 4m 4.6m -3m))\n\t]\n)\\",
                         "listen": "$~\\¶Ang kodigo ay maaaring tumugon sa @Volume at @Pitch ng iyong mikropono.¶\nParirala(\n\t'📣'\n\t1m + (Dami() × 8m)\n\tpagikot: (Tono() ÷ 1hz) × 0.1°\n)\\",
                         "smile": "$~\\¶Ang kodigo ay maaaring tumugon sa iyong @Face, at sa iba pang bagay sa @Camera.¶\nParirala(\n\tMukha().nakangiti ? '😄 salamat!' '🙂 ngumiti sa kamera'\n\t2m\n)\\"
                     }

@@ -13,7 +13,7 @@ Stage([
 		Shape(Polygon(7m 6 0m -6m 0m))
 		Shape(Rectangle(-11m -9m 11m -12m 10m) xoay: 25°)
 		Shape(Rectangle(-11m -9m 11m -12m 10m) xoay: -25°)
-	] địađiểm: Place(0m 10m -30m))\
+	] vịTrí: Place(0m 10m -30m))\
 
 Bạn có thể tạo ra những thứ thực sự tuyệt vời bằng cách sử dụng các lớp! Hãy thử xem!
 

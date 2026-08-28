@@ -3356,7 +3356,7 @@
                 "last": {
                     "doc": [
                         "$~O último item em mim, ou @None se estiver vazio.",
-                        "\\['maçã' 'banana' 'manga'].primeiro()\\"
+                        "\\['maçã' 'banana' 'manga'].último()\\"
                     ],
                     "names": "último",
                     "inputs": []
@@ -4799,7 +4799,7 @@
                 "Por detrás, o @Face usa um modelo de aprendizagem automática. Da primeira vez que o usas num programa, o modelo demora alguns segundos a descarregar, e um rosto pequenino a girar aparece no canto superior direito do palco enquanto carrega. Depois disso, fica guardado e inicia de imediato.",
                 "Em cada fotograma, o @Face dá-te uma @Expression. Consulta aí a lista completa de entradas e o que significam.",
                 "Este exemplo mostra um emoji que corresponde ao teu rosto onde quer que o teu rosto real esteja:",
-                "\\cara: 🙂()\n💬((cara.sorrindo ? '😀' cara.bocaAberta ? '😮' '😐') local: cara.lugar)\\"
+                "\\cara: 🙂()\n💬((cara.sorrindo ? '😀' cara.bocaAberta ? '😮' '😐') local: cara.local)\\"
             ],
             "names": ["$~Cara"],
             "frequency": {
@@ -4820,7 +4820,7 @@
                 "Em cada imagem, o @Objects dá-te uma @List de @Thing, ordenada pela certeza do modelo, com a mais certa primeiro. Vê @Thing para saber o que cada uma te diz.",
                 "O modelo está apenas a adivinhar, por isso às vezes vai errar, ou não ver nada. Pede uma `confidence` maior para ouvires só as suposições de que tem mais certeza.",
                 "Aqui está um exemplo que rotula tudo o que a câmara vê:",
-                "\\🎭(📦() ↦ 💬(⬚.nome local: ⬚.lugar))\\",
+                "\\🎭(📦() ↦ 💬(⬚.nome local: ⬚.local))\\",
                 "Também podes procurar apenas um tipo de coisa e ignorar as restantes:",
                 "\\coisas: 📦(categoria: 'cat')\n💬(coisas.📏() > 0 ? '🐈' '…')\\"
             ],
@@ -5071,7 +5071,7 @@
             },
             "matter": {
                 "doc": "$~O quão pesado, saltitão e escorregadio sou, e o que me torna sólido quando um @Motion me move.",
-                "names": "assunto"
+                "names": "matéria"
             },
             "size": {
                 "doc": "Quão alto deve ser o maravilhoso conteúdo dentro de mim, a menos que tenham um tamanho próprio!",
@@ -5197,7 +5197,7 @@
             },
             "matter": {
                 "doc": "$~O quão pesado, saltitão e escorregadio sou, e o que me torna sólido quando um @Motion me move.",
-                "names": "assunto"
+                "names": "matéria"
             },
             "aura": {
                 "doc": "A @Aura opcional para aparecer atrás de mim. Faça-me brilhar!",
@@ -5993,7 +5993,7 @@
                 "swing": {
                     "doc": [
                         "$~Baloiço um @Output como um pêndulo, até /angle/ e depois de volta com arcos cada vez menores até parar. Ao contrário de /sway/, eu paro.",
-                        "\\💬('🐈' descansar: 💃.balançar(20°))\\"
+                        "\\💬('🐈' descansar: 💃.pendular(20°))\\"
                     ],
                     "names": ["pendular"],
                     "angle": {
@@ -6420,7 +6420,7 @@
             "names": ["$~Expressão"],
             "place": {
                 "doc": "$~Onde está o rosto no palco.",
-                "names": ["$~lugar"]
+                "names": ["$~local"]
             },
             "leftEyeOpen": {
                 "doc": "$~\\⊤\\ se o olho esquerdo estiver aberto, \\⊥\\ se estiver fechado.",
@@ -6488,7 +6488,7 @@
             },
             "place": {
                 "doc": "$~Onde a coisa está no palco.",
-                "names": ["$~lugar"]
+                "names": ["$~local"]
             },
             "width": {
                 "doc": "$~O quão larga a coisa parecia, em metros.",
@@ -9116,7 +9116,7 @@
                         "keys": "$!\\¶O código pode reagir a ponteiros, teclas, cliques e toques.¶\nchave2: Chave()\nclique: Botão()\ncaras: ['🙂' '😮' '😎' '🤩']\nqual: 1 … ∆ chave2 | ∆ clique … (qual % 4) + 1\nFase(\n\t[Frase(caras[qual] 5m local: Ponteiro())]\n\tlocal: Local(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Disponha o texto e torne-o selecionável.¶\nfruta: ƒ(e2•'') Frase(e2 3m nome: e2 selecionável: ⊤)\nescolhido: Escolha()\nmostrado: '?' … ∆ escolhido … escolhido\nGrupo(\n\tMonte(preenchimento: 1m)\n\t[\n\t\tFrase(mostrado 4m)\n\t\tGrupo(\n\t\t\tLinha(preenchimento: 1m)\n\t\t\t[fruta('🍎') fruta('🍐') fruta('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Converse com programas e use a forma de letras e símbolos.¶\nmensagem: Conversa()\npalavra2: 'olá' … ∆ mensagem … mensagem\nlinha: Contorno(palavra2 'Noto Sans' 8m)\ntiques: 0 … ∆ Tempo(30ms) … tiques + 1\nmostrado: ((linha.comprimento() × tiques) ÷ 66).arredondarParaBaixo(\n\t) + 1\npontos: linha.subsequência(1 mostrado).traduzir(\n\t\tƒ(p) Frase('•' local: p)\n\t)\nFase(pontos.com(Frase(palavra2 8m opacidade: 15%)))\\",
-                        "pile": "$~\\¶O texto pode ter física.¶\nlançar: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFrase(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlocal: Movimento(Local(x2 y2) Velocidade(vx 0m/s))\n\t\t\tassunto: Matéria(1kg 0.55 0.06 0.5)\n\t\t)\nFase(\n\t[\n\t\tlançar('🍎' -2m 5m 2.2m/s)\n\t\tlançar('🍊' 2m 7m -2.6m/s)\n\t\tlançar('🍋' -1m 9m 1.4m/s)\n\t\tlançar('🍇' 1.5m 11m -1.9m/s)\n\t\tlançar('🫐' 0.5m 15m -1.2m/s)\n\t\tFigura(Retângulo(-4m -3m 4m -3.6m))\n\t\tFigura(Retângulo(-4.6m 4m -4m -3m))\n\t\tFigura(Retângulo(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "pile": "$~\\¶O texto pode ter física.¶\nlançar: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFrase(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlocal: Movimento(Local(x2 y2) Velocidade(vx 0m/s))\n\t\t\tmatéria: Matéria(1kg 0.55 0.06 0.5)\n\t\t)\nFase(\n\t[\n\t\tlançar('🍎' -2m 5m 2.2m/s)\n\t\tlançar('🍊' 2m 7m -2.6m/s)\n\t\tlançar('🍋' -1m 9m 1.4m/s)\n\t\tlançar('🍇' 1.5m 11m -1.9m/s)\n\t\tlançar('🫐' 0.5m 15m -1.2m/s)\n\t\tFigura(Retângulo(-4m -3m 4m -3.6m))\n\t\tFigura(Retângulo(-4.6m 4m -4m -3m))\n\t\tFigura(Retângulo(4m 4m 4.6m -3m))\n\t]\n)\\",
                         "listen": "$~\\¶O código pode reagir ao @Volume e ao @Pitch do seu microfone.¶\nFrase(\n\t'📣'\n\t1m + (Volume() × 8m)\n\trotação: (Tom() ÷ 1hz) × 0.1°\n)\\",
                         "smile": "$~\\¶O código pode reagir ao seu @Face, e a outras coisas em @Camera.¶\nFrase(\n\tCara().sorrindo ? '😄 obrigado(a)!' '🙂 sorria para a câmara'\n\t2m\n)\\"
                     }

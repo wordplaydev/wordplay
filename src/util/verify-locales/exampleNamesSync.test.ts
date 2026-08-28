@@ -9,6 +9,7 @@ import {
 import { getCheckableLocalePairs } from '@util/verify-locales/verifyLocale';
 import {
     retargetExamplesIn,
+    retargetExamplesInDocument,
     retargetTutorialExamples,
 } from '@util/verify-locales/retargetExampleNames';
 import fs from 'fs';
@@ -62,17 +63,16 @@ test(
                     typeof source === 'string' ? [source] : source;
                 const items =
                     typeof pair.value === 'string' ? [pair.value] : pair.value;
-                if (sourceItems.length !== items.length) continue;
-                items.forEach((item, index) => {
-                    if (!item.includes('\\')) return;
-                    const result = retargetExamplesIn(
-                        sourceItems[index],
-                        item,
-                        locale,
-                    );
-                    if (result.text !== item)
-                        stale.push(`${code} ${pair.toString()}`);
-                });
+                if (!items.some((item) => item.includes('\\'))) continue;
+                // Paired across the document, the way the fixer does: a markup array's items
+                // are paragraphs and a locale may legitimately split or merge one.
+                const result = retargetExamplesInDocument(
+                    sourceItems,
+                    items,
+                    locale,
+                );
+                if (result.texts.some((text, index) => text !== items[index]))
+                    stale.push(`${code} ${pair.toString()}`);
             }
         }
         expect(

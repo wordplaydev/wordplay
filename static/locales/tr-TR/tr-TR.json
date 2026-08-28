@@ -5001,7 +5001,7 @@
             "names": "$~Bölüm",
             "instrument": {
                 "doc": "$~Beni çalan @Instrument.",
-                "names": "$~enstrüman"
+                "names": "$~çalgı"
             },
             "sounding": {
                 "doc": "$~Bu vuruşta bir notanın duyulup duyulmadığı. Tutulan bir nota hâlâ sayılır, bu yüzden sürdüğü vuruşlar boyunca yalnızca başladığı vuruşta değil, \\⊤\\ olarak kalırım.",

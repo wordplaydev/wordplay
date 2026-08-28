@@ -12,7 +12,7 @@
 		Shape(Polygon(7m 6 0m -6m 0m))
 		Shape(Rectangle(-11m -9m 11m -12m 10m) घुमाव: 25°)
 		Shape(Rectangle(-11m -9m 11m -12m 10m) घुमाव: -25°)
-	] स्थान: Place(0m 10m -30m))\
+	] स्थल: Place(0m 10m -30m))\
 
 आप परतों से कुछ बहुत ही बढ़िया चीज़ें बना सकते हैं! इसे आज़माएँ!
 

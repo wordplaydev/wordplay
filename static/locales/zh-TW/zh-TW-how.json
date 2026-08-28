@@ -143,7 +143,7 @@
         "id": "your-own-template",
         "title": "製作自己的角色模板",
         "category": "characters",
-        "body": "有時你需要很多看起來幾乎一樣，但又略有不同的角色。而不是寫出同樣的東西 @Phrase 你可以重複使用以下方式創建自己的模板： @Structure 。\n\nA @Structure 就像一份需要填寫空白的食譜。這是一個氣球模板，它接受顏色和標籤，並能自動顯示自身：\n\n\\•Balloon(color•Color label•'') ( \tƒ show() Phrase(`🎈\\label\\` 顏色: color 尺寸: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) '天空').show()\n\t\tBalloon(Color(60% 80 0°) '玫瑰').show()\n\t\tBalloon(Color(90% 80 90°) '陽光明媚').show()\n\t])\\\n\n這\\•Balloon(...)\\這部分定義了模板，以及\\ƒ show()\\部分內容/如何畫一個/。然後我們製作了三個不同顏色和標籤的氣球，並要求每個人…\\show\\自身。\n\n當你想保持程式碼整潔和字元一致時，模板非常有用。",
+        "body": "有時你需要很多看起來幾乎一樣，但又略有不同的角色。而不是寫出同樣的東西 @Phrase 你可以重複使用以下方式創建自己的模板： @Structure 。\n\nA @Structure 就像一份需要填寫空白的食譜。這是一個氣球模板，它接受顏色和標籤，並能自動顯示自身：\n\n\\•Balloon(color•Color label•'') ( \tƒ show() Phrase(`🎈\\label\\` 色彩: color 尺寸: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) '天空').show()\n\t\tBalloon(Color(60% 80 0°) '玫瑰').show()\n\t\tBalloon(Color(90% 80 90°) '陽光明媚').show()\n\t])\\\n\n這\\•Balloon(...)\\這部分定義了模板，以及\\ƒ show()\\部分內容/如何畫一個/。然後我們製作了三個不同顏色和標籤的氣球，並要求每個人…\\show\\自身。\n\n當你想保持程式碼整潔和字元一致時，模板非常有用。",
         "related": ["track-game-state", "make-many-copies"]
     },
     {
@@ -185,7 +185,7 @@
         "id": "gravity-and-bouncing",
         "title": "讓角色跌倒彈跳",
         "category": "motion",
-        "body": "如果我們想讓角色像真人一樣跌倒、從地板上彈起來或被推來推去，該怎麼辦？就是這樣 @Motion  和 @Matter 是用來－它們共同模擬物理現象 @Phrase 。 \n\n@Motion 控制/在哪裡/角色會隨著時間的推移而改變。我們用它來…\\place\\為 @Phrase 把它放在高處，讓它掉下來。我們也需要一些東西來支撐我們，否則我們的角色就會一直墜落！ @Shape 寬 @Rectangle 鋪上一層漂亮的地板：\n\n\\Stage([\n\t\tPhrase('🍎' 位置: Motion(Place(0m 5m)) 物體: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n蘋果從五公尺高處開始下落，並受到重力作用而落下。它落地時會稍微彈一下，因為 @Phrase 內建 @Matter 這控制著它的重量和彈性。\n\n改變方式/有彈性的/或如何/重的/角色就是，賦予它你自己的個性。 @Matter 。 @Matter 它需要質量、彈性和摩擦力：\n\n\\Stage([\n\t\tPhrase('⚽' 位置: Motion(Place(-2m 5m)) 物體: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' 位置: Motion(Place(2m 5m)) 物體: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n這個球很輕，彈性很好，所以會彈回來。這塊石頭很重，沒有彈性，所以只會發出砰砰的響聲。",
+        "body": "如果我們想讓角色像真人一樣跌倒、從地板上彈起來或被推來推去，該怎麼辦？就是這樣 @Motion  和 @Matter 是用來－它們共同模擬物理現象 @Phrase 。 \n\n@Motion 控制/在哪裡/角色會隨著時間的推移而改變。我們用它來…\\place\\為 @Phrase 把它放在高處，讓它掉下來。我們也需要一些東西來支撐我們，否則我們的角色就會一直墜落！ @Shape 寬 @Rectangle 鋪上一層漂亮的地板：\n\n\\Stage([\n\t\tPhrase('🍎' 位置: Motion(Place(0m 5m)) 物質: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n蘋果從五公尺高處開始下落，並受到重力作用而落下。它落地時會稍微彈一下，因為 @Phrase 內建 @Matter 這控制著它的重量和彈性。\n\n改變方式/有彈性的/或如何/重的/角色就是，賦予它你自己的個性。 @Matter 。 @Matter 它需要質量、彈性和摩擦力：\n\n\\Stage([\n\t\tPhrase('⚽' 位置: Motion(Place(-2m 5m)) 物質: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' 位置: Motion(Place(2m 5m)) 物質: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n這個球很輕，彈性很好，所以會彈回來。這塊石頭很重，沒有彈性，所以只會發出砰砰的響聲。",
         "related": ["follow-the-pointer", "move-phrase"]
     },
     {
