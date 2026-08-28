@@ -1,5 +1,5 @@
 {
-    "created": "2026-08-14T09:03:19.796Z",
+    "created": "2026-08-28T09:03:39.055Z",
     "contributors": [
         {
             "login": "amyjko",
@@ -7,29 +7,74 @@
             "avatar_url": "https://avatars.githubusercontent.com/u/552276?v=4",
             "html_url": "https://github.com/amyjko",
             "counts": {
-                "commit": 6721,
-                "issue": 447,
-                "pull_request": 76,
-                "issue_comment": 2040,
-                "pr_review": 343,
+                "commit": 6884,
+                "issue": 459,
+                "pull_request": 96,
+                "issue_comment": 2085,
+                "pr_review": 347,
                 "pr_review_comment": 80
             },
-            "latest": "2026-08-13T21:17:19Z"
+            "latest": "2026-08-28T05:42:17Z"
+        },
+        {
+            "login": "tiaL-ops",
+            "name": "tiaL-ops",
+            "avatar_url": "https://avatars.githubusercontent.com/u/104815994?v=4",
+            "html_url": "https://github.com/tiaL-ops",
+            "counts": {
+                "commit": 3,
+                "issue": 0,
+                "pull_request": 2,
+                "issue_comment": 20,
+                "pr_review": 4,
+                "pr_review_comment": 4
+            },
+            "latest": "2026-08-27T04:27:28Z"
         },
         {
             "login": "ellipsis7449",
-            "name": "ellipsis7449",
+            "name": "Aditi K",
             "avatar_url": "https://avatars.githubusercontent.com/u/210096731?v=4",
             "html_url": "https://github.com/ellipsis7449",
             "counts": {
-                "commit": 19,
-                "issue": 26,
-                "pull_request": 5,
-                "issue_comment": 30,
+                "commit": 20,
+                "issue": 30,
+                "pull_request": 7,
+                "issue_comment": 37,
                 "pr_review": 0,
                 "pr_review_comment": 0
             },
-            "latest": "2026-08-13T19:20:18Z"
+            "latest": "2026-08-25T19:52:36Z"
+        },
+        {
+            "login": "claude",
+            "name": "Claude",
+            "avatar_url": "https://avatars.githubusercontent.com/u/81847?v=4",
+            "html_url": "https://github.com/claude",
+            "counts": {
+                "commit": 16,
+                "issue": 0,
+                "pull_request": 0,
+                "issue_comment": 0,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-08-23T21:57:28Z"
+        },
+        {
+            "login": "susan4syw",
+            "name": "Susan Wu",
+            "avatar_url": "https://avatars.githubusercontent.com/u/174283294?v=4",
+            "html_url": "https://github.com/susan4syw",
+            "counts": {
+                "commit": 5,
+                "issue": 1,
+                "pull_request": 2,
+                "issue_comment": 7,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-08-20T08:44:05Z"
         },
         {
             "login": "yeonselily",
@@ -45,36 +90,6 @@
                 "pr_review_comment": 0
             },
             "latest": "2026-08-11T18:05:04Z"
-        },
-        {
-            "login": "susan4syw",
-            "name": "Susan Wu",
-            "avatar_url": "https://avatars.githubusercontent.com/u/174283294?v=4",
-            "html_url": "https://github.com/susan4syw",
-            "counts": {
-                "commit": 5,
-                "issue": 1,
-                "pull_request": 2,
-                "issue_comment": 4,
-                "pr_review": 0,
-                "pr_review_comment": 0
-            },
-            "latest": "2026-08-11T10:20:30Z"
-        },
-        {
-            "login": "tiaL-ops",
-            "name": "tiaL-ops",
-            "avatar_url": "https://avatars.githubusercontent.com/u/104815994?v=4",
-            "html_url": "https://github.com/tiaL-ops",
-            "counts": {
-                "commit": 3,
-                "issue": 0,
-                "pull_request": 2,
-                "issue_comment": 17,
-                "pr_review": 4,
-                "pr_review_comment": 4
-            },
-            "latest": "2026-08-10T15:38:18Z"
         },
         {
             "login": "cxs7650",
@@ -225,21 +240,6 @@
                 "pr_review_comment": 0
             },
             "latest": "2026-07-06T00:45:06Z"
-        },
-        {
-            "login": "claude",
-            "name": "Claude",
-            "avatar_url": "https://avatars.githubusercontent.com/u/81847?v=4",
-            "html_url": "https://github.com/claude",
-            "counts": {
-                "commit": 3,
-                "issue": 0,
-                "pull_request": 0,
-                "issue_comment": 0,
-                "pr_review": 0,
-                "pr_review_comment": 0
-            },
-            "latest": "2026-06-30T15:33:45Z"
         },
         {
             "login": "AJT14-cmd",
