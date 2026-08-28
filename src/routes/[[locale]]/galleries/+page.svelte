@@ -407,9 +407,7 @@
                     {:else}
                         <div class="previews">
                             {#each Galleries.getExampleGalleries() as gallery}
-                                <div class="preview">
-                                    <GalleryPreview {gallery} />
-                                </div>
+                                <GalleryPreview {gallery} />
                             {/each}
                         </div>
                     {/if}
@@ -424,9 +422,7 @@
                         <div class="public">
                             <div class="previews">
                                 {#each galleries as gallery}
-                                    <div class="preview">
-                                        <GalleryPreview {gallery} />
-                                    </div>
+                                    <GalleryPreview {gallery} />
                                 {/each}
                             </div>
                             {#if lastBatch}
@@ -453,15 +449,15 @@
         margin-block-start: calc(2 * var(--wordplay-spacing));
     }
 
-    /* A grid so that when the page is wide enough for multiple columns,
-       previews share a consistent inline-start across rows. */
+    /* One column, capped at the reading measure Writing uses when it isn't wide —
+       a gallery's description shouldn't run the full width of this wide page. */
     .previews {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(min(100%, 28em), 1fr));
-        column-gap: calc(4 * var(--wordplay-spacing));
+        grid-template-columns: minmax(0, 40em);
         row-gap: calc(2 * var(--wordplay-spacing));
         align-items: start;
+        justify-items: start;
     }
 
     .public {
