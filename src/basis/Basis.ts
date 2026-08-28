@@ -62,6 +62,11 @@ export class Basis {
     /**
      * A global collection of Basis for every combination of language codes.
      * The key in this case is the join of a sequence of LanguageCode.
+     *
+     * Keyed by locale *name*, which assumes a name identifies its content — true of the shipped
+     * locales, so anything minting a synthetic locale (tests do, to exercise this cache) must give
+     * it a name no real locale has, or it publishes its content under that locale's key for
+     * everyone else.
      */
     static readonly Bases: Map<string, Basis> = new Map();
 

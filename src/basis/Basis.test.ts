@@ -17,8 +17,11 @@ import concretize from '@locale/concretize';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);
 
-// Two locales can share a language but define different names (zh-CN vs zh-TW), so the basis
+// Two locales can share a language but define different names (zh-SG vs zh-HK), so the basis
 // cache has to key on region too, or whichever loads second silently gets the other's basis.
+// The regions are ones no shipped locale uses, because `Basis.Bases` is global and keyed by
+// locale name: labelling this en-US content `zh-CN` would publish it under the real zh-CN's key,
+// and every later test asking for that basis would get English names back.
 // Explicit timeout because this is the one test that deliberately defeats the cache: building a
 // basis takes ~1.5s (it constructs every definition and parses every doc in the locale), and this
 // builds two uncached ones, which sits close enough to the 5s default to tip over under load.
@@ -26,7 +29,7 @@ test(
     'the basis cache distinguishes locales sharing a language',
     { timeout: 60000 },
     () => {
-        const forRegion = (region: 'CN' | 'TW') =>
+        const forRegion = (region: 'SG' | 'HK') =>
             Basis.getLocalizedBasis(
                 new Locales(
                     concretize,
@@ -34,9 +37,9 @@ test(
                     DefaultLocale,
                 ),
             );
-        expect(forRegion('CN')).not.toBe(forRegion('TW'));
+        expect(forRegion('SG')).not.toBe(forRegion('HK'));
         // The same locale still hits the cache rather than rebuilding.
-        expect(forRegion('CN')).toBe(forRegion('CN'));
+        expect(forRegion('SG')).toBe(forRegion('SG'));
     },
 );
 
@@ -82,7 +85,8 @@ function distinguishAllNames(value: unknown): void {
 function makeDistinctLocale(): LocaleText {
     const locale = structuredClone(DefaultLocale);
     distinguishAllNames(locale);
-    return { ...locale, language: 'zh', regions: ['CN'] };
+    // An unshipped region, for the reason above: this content is not zh-CN's.
+    return { ...locale, language: 'zh', regions: ['MO'] };
 }
 
 const DistinctLocale = makeDistinctLocale();

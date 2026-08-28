@@ -31,13 +31,11 @@ export const MockingTests = [
 ];
 
 /**
- * Files that don't mock but still need their own graph. Showcase compiles every tour example in
- * every locale, and unisolated it fails intermittently — a different locale each time — so some
- * other file leaves behind state it reads. `Basis.localeKey` caching one basis per locale *name*
- * rather than per locale content is the likeliest source; which file poisons it is not yet pinned
- * down, so this keeps its own graph rather than the suite keeping a flaky test.
+ * Files that don't mock but still need their own graph. Empty: the one thing that needed it was a
+ * synthetic locale in Basis.test.ts publishing en-US content under zh-CN's key in the global basis
+ * cache, which is fixed at the source rather than hidden behind isolation.
  */
-export const OrderSensitiveTests = ['src/components/app/Showcase.test.ts'];
+export const OrderSensitiveTests: string[] = [];
 
 const IsolatedTests = [...MockingTests, ...OrderSensitiveTests];
 
