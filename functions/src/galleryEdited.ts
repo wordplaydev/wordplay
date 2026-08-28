@@ -9,6 +9,79 @@ import type { Change, FirestoreEvent } from 'firebase-functions/v2/firestore';
  *  gallery referenced by many others doesn't overflow a single commit. */
 const BATCH_LIMIT = 450;
 
+/** How many words a gallery's search index may hold. It's a prefilter, so a
+ *  truncated one costs recall on a huge gallery rather than correctness, and
+ *  Firestore caps what a document can hold. */
+const MAX_WORDS = 400;
+
+/** How many project names to read when indexing. A gallery far larger than
+ *  this is indexed by its earliest projects; see MAX_WORDS. */
+const MAX_INDEXED_PROJECTS = 200;
+
+/**
+ * Fold text into the word list `Gallery.words` holds. Deliberately simple —
+ * lowercase, split on anything that isn't a letter or digit — because the
+ * client matches against it through the app's own search engine, which does the
+ * fuzzy and substring work. `functions/` compiles with rootDir "src" and so
+ * can't import that engine; this only has to agree with it on word boundaries.
+ */
+function foldWords(texts: string[]): string[] {
+    const words = new Set<string>();
+    for (const text of texts)
+        for (const word of text
+            .normalize('NFC')
+            .toLowerCase()
+            .split(/[^\p{L}\p{N}]+/u))
+            if (word.length > 0) words.add(word);
+    return [...words].slice(0, MAX_WORDS);
+}
+
+function sameWords(a: string[], b: string[]): boolean {
+    return a.length === b.length && a.every((word, index) => word === b[index]);
+}
+
+/**
+ * Whether a curator changed anything a decision was about. Deliberately blind
+ * to the fields this function itself writes: its own write comes back through
+ * the same trigger, and counting that as a change would re-review forever.
+ */
+export function galleryContentChanged(
+    before: Record<string, unknown> | undefined,
+    after: Record<string, unknown>,
+): boolean {
+    return (
+        before === undefined ||
+        JSON.stringify(before.name) !== JSON.stringify(after.name) ||
+        JSON.stringify(before.description) !==
+            JSON.stringify(after.description) ||
+        JSON.stringify([...((before.projects as string[]) ?? [])].sort()) !==
+            JSON.stringify([...((after.projects as string[]) ?? [])].sort())
+    );
+}
+
+/**
+ * Where a gallery stands with the moderators after this edit (#1311).
+ *
+ * The transition lives here rather than in a client or a security rule because
+ * it is the one thing a curator must not be able to write: `public` is their
+ * request, and this is the answer to it. An approval is of what the gallery
+ * *was*, so changing its name, description, or contents puts it back in the
+ * queue.
+ */
+export function nextModeration(
+    current: string,
+    isPublic: boolean,
+    contentChanged: boolean,
+): string {
+    // Not asking to be listed, so there's nothing pending.
+    if (!isPublic) return 'unrequested';
+    // Asking for the first time, or asking again after a denial.
+    if (current === 'unrequested' || current === 'denied') return 'pending';
+    // Approval was of what the gallery was, not of whatever it becomes.
+    if (current === 'approved' && contentChanged) return 'pending';
+    return current;
+}
+
 export default async function galleryEdited(
     event: FirestoreEvent<Change<DocumentSnapshot> | undefined, { id: string }>,
 ): Promise<unknown> {
@@ -48,6 +121,7 @@ export default async function galleryEdited(
     // in its list of expanded galleries
     // if so, then we need to update the list of viewers for that expanded gallery
 
+    // The expanded how-to viewer lists other galleries derive from this one.
     if (before && !after) {
         // if deletion, then remove this gallery from all other galleries' lists of expanded galleries and viewers
 
@@ -81,8 +155,10 @@ export default async function galleryEdited(
         listEq(before.curators, after.curators) &&
         listEq(before.creators, after.creators)
     ) {
-        // if none of the relevant fields changed, then return to prevent infinite loops
-        return;
+        // Neither list changed, so there's nothing to propagate. Falls through
+        // to the moderation and index work below rather than returning: this
+        // function's own writes land here, and returning early would mean a
+        // gallery renamed without a membership change was never re-reviewed.
     } else if (after) {
         // otherwise, update the howToViewers and howToViewersFlat fields of all galleries
 
@@ -107,6 +183,60 @@ export default async function galleryEdited(
                 },
             });
         });
+    }
+
+    // Curation of the public listing (#1311) and the search index that goes
+    // with it. Both are derived from this document, both are refused to clients
+    // by the security rules, and both are written here in one update.
+    if (after) {
+        const self: Record<string, unknown> = {};
+
+        const contentChanged = galleryContentChanged(before, after);
+        const moderation: string = after.moderation ?? 'unrequested';
+        const next = nextModeration(
+            moderation,
+            after.public === true,
+            contentChanged,
+        );
+
+        if (next !== moderation) {
+            self.moderation = next;
+            self.moderatedAt = Date.now();
+        }
+
+        // A project renamed inside the gallery doesn't touch the gallery
+        // document, so its words stay as they were until the next gallery
+        // write. Accepted: this is a search prefilter, not an authority.
+        if (contentChanged) {
+            const projectIDs: string[] = (after.projects ?? []).slice(
+                0,
+                MAX_INDEXED_PROJECTS,
+            );
+            const projectNames =
+                projectIDs.length === 0
+                    ? []
+                    : (
+                          await db.getAll(
+                              ...projectIDs.map((id) =>
+                                  db.collection('projects').doc(id),
+                              ),
+                          )
+                      )
+                          .map((doc) => doc.get('name'))
+                          .filter(
+                              (name): name is string =>
+                                  typeof name === 'string',
+                          );
+            const words = foldWords([
+                ...Object.values<string>(after.name ?? {}),
+                ...Object.values<string>(after.description ?? {}),
+                ...projectNames,
+            ]);
+            if (!sameWords(words, after.words ?? [])) self.words = words;
+        }
+
+        if (Object.keys(self).length > 0)
+            updates.push({ ref: galleryStore.doc(after.id), data: self });
     }
 
     return flush();

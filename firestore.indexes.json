@@ -9,7 +9,25 @@
                     "order": "ASCENDING"
                 },
                 {
+                    "fieldPath": "moderation",
+                    "order": "ASCENDING"
+                },
+                {
                     "fieldPath": "featured",
+                    "order": "DESCENDING"
+                },
+                {
+                    "fieldPath": "id",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "galleries",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "moderation",
                     "order": "ASCENDING"
                 },
                 {

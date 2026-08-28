@@ -23,6 +23,11 @@ const Users = {
     Mod: 'rulestest-mod-mod',
 };
 
+const Galleries = {
+    /** Awaiting a decision, and private while it waits. */
+    Pending: 'rulestest-mod-gallery-pending',
+};
+
 const Projects = {
     Public: 'rulestest-mod-public',
     /** Owned by the banned creator, and private. */
@@ -82,6 +87,31 @@ beforeAll(async () => {
             public: false,
             curators: [Users.Banned],
             creators: [],
+            moderation: 'unrequested',
+            moderatedAt: null,
+            flags: {
+                dehumanization: null,
+                violence: null,
+                disclosure: null,
+                misinformation: null,
+            },
+            words: [],
+        });
+        // A gallery in the queue: private, so only its curator and a moderator
+        // can see it at all.
+        await db.doc(`galleries/${Galleries.Pending}`).set({
+            public: false,
+            curators: [Users.Owner],
+            creators: [],
+            moderation: 'pending',
+            moderatedAt: null,
+            flags: {
+                dehumanization: null,
+                violence: null,
+                disclosure: null,
+                misinformation: null,
+            },
+            words: [],
         });
     });
 });
@@ -275,5 +305,92 @@ describe('a banned creator keeps everything except publishing', () => {
                 .doc('galleries/rulestest-mod-gallery')
                 .update({ public: false });
         });
+    });
+});
+
+/**
+ * Curated public listing (#1311). `public` is the curator's request and stays
+ * theirs to write; `moderation` is the decision, and no client may write it —
+ * a curator who could approve their own gallery is the whole thing curation
+ * prevents. The function that does write it uses the Admin SDK, which bypasses
+ * these rules entirely, so there is nothing here that grants it.
+ */
+describe("galleries: the moderation decision is not the curator's to write", () => {
+    const gallery = 'galleries/rulestest-mod-gallery';
+
+    it('a curator may still ask, by making their gallery public', async () => {
+        await assertSucceeds(
+            as(Users.Banned).doc(gallery).update({ public: true }),
+        );
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context.firestore().doc(gallery).update({ public: false });
+        });
+    });
+
+    it('a curator may still rename their gallery', async () => {
+        await assertSucceeds(
+            as(Users.Banned)
+                .doc(gallery)
+                .update({ name: { 'en-US': 'Mine' } }),
+        );
+    });
+
+    it('a curator cannot approve their own gallery', async () => {
+        await assertFails(
+            as(Users.Banned).doc(gallery).update({ moderation: 'approved' }),
+        );
+    });
+
+    it('a curator cannot clear the findings against their gallery', async () => {
+        await assertFails(
+            as(Users.Banned)
+                .doc(gallery)
+                .update({
+                    flags: {
+                        dehumanization: false,
+                        violence: false,
+                        disclosure: false,
+                        misinformation: false,
+                    },
+                }),
+        );
+    });
+
+    it('a curator cannot backdate a decision', async () => {
+        await assertFails(
+            as(Users.Banned).doc(gallery).update({ moderatedAt: 0 }),
+        );
+    });
+
+    it('a curator cannot stuff the search index', async () => {
+        await assertFails(
+            as(Users.Banned)
+                .doc(gallery)
+                .update({ words: ['free', 'money'] }),
+        );
+    });
+
+    it('nor can a moderator write the decision directly', async () => {
+        // Even the mod claim goes through the callable: the rules grant reads,
+        // not decisions.
+        await assertFails(
+            as(Users.Mod, { mod: true })
+                .doc(gallery)
+                .update({ moderation: 'approved' }),
+        );
+    });
+
+    it('a moderator can read a private gallery awaiting a decision', async () => {
+        await assertSucceeds(
+            as(Users.Mod, { mod: true })
+                .doc(`galleries/${Galleries.Pending}`)
+                .get(),
+        );
+    });
+
+    it('but a stranger still cannot', async () => {
+        await assertFails(
+            as(Users.Stranger).doc(`galleries/${Galleries.Pending}`).get(),
+        );
     });
 });

@@ -24,6 +24,7 @@ import type Locales from '@locale/Locales';
 import { type Database, type SaveCounts, type SaveError } from '@db/Database';
 import exceedsDocLimit from '@db/exceedsDocLimit';
 import { firestore } from '@db/firebase';
+import { unknownFlags } from '@db/projects/Moderation';
 import { Domain } from '@db/Domains';
 import isQuotaError from '@db/isQuotaError';
 import SaveTracker from '@db/SaveTracker.svelte';
@@ -439,6 +440,11 @@ export default class GalleryDatabase {
             creators: creators ?? [],
             public: false,
             featured: false,
+            // Private, so nothing has been asked of the moderators yet; the
+            // galleryEdited trigger moves this to 'pending' if it goes public.
+            moderation: 'unrequested',
+            moderatedAt: null,
+            flags: unknownFlags(),
             howTos: [],
             howToExpandedVisibility: false,
             howToExpandedGalleries: [],

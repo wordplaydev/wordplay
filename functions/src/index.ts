@@ -14,11 +14,13 @@ import type {
     EmailExistsInputs,
     EmailExistsOutput,
     GetLLMTranslationsInputs,
+    ModerateGalleryInputs,
     ModerateProjectInputs,
 } from 'shared-types';
 
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
 import createClassHandler from './createClass.js';
+import moderateGalleryHandler from './moderateGallery.js';
 import moderateProjectHandler from './moderateProject.js';
 import emailExistsHandler from './emailExists.js';
 import galleryEditedHandler from './galleryEdited.js';
@@ -135,6 +137,12 @@ export const compactProjectUpdates = onSchedule(
 export const moderateProject = onCall<ModerateProjectInputs>(
     cors,
     moderateProjectHandler,
+);
+
+/** #1311: a moderator's decision about whether a gallery may be listed. */
+export const moderateGallery = onCall<ModerateGalleryInputs>(
+    cors,
+    moderateGalleryHandler,
 );
 
 export const createClass = onCall<

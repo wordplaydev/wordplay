@@ -54,6 +54,31 @@ for (const scheme of ['light', 'dark'] as const) {
 }
 
 /**
+ * The galleries page's search results, which the route scan above can't reach:
+ * they replace the tab bar only once a term is typed (#299), and they are a
+ * different shape from what that scan sees — headed result groups mixing
+ * gallery cards with project previews and their match excerpts.
+ */
+for (const scheme of ['light', 'dark'] as const) {
+    test.describe(`gallery search results (${scheme})`, () => {
+        test.use({ colorScheme: scheme });
+
+        test('has no WCAG 2.2 AA violations', async ({ page }) => {
+            await page.goto('/en-US/galleries');
+            const search = page.locator('#gallery-search');
+            await expect(search).toBeVisible({ timeout: 15000 });
+            // A term that hits a built-in example, so a project preview with a
+            // match excerpt is on screen and not just the empty-results notice.
+            await search.fill('basketball');
+            await expect(
+                page.getByRole('heading', { name: /example projects/i }),
+            ).toBeVisible({ timeout: 30000 });
+            await expectNoAxeViolations(page);
+        });
+    });
+}
+
+/**
  * The landing page's carousel, which the route scan above can't reach: it
  * doesn't exist until a visitor presses for it, because loading it downloads
  * the language runtime. Its tab list, its read-only code, and the running

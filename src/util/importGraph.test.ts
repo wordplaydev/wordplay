@@ -273,6 +273,24 @@ test('resolving a color needs no basis', () => {
  * already carry. The file counts below are unchanged, which is the useful
  * signal — this is code weight, not new reach.
  *
+ * Searching galleries (#299) adds **one file** to `galleries` alone —
+ * `routes/[[locale]]/galleries/search.ts`, the `Searchable<Gallery>` adapter —
+ * and no file anywhere else. Searching a public gallery's *projects* needs the
+ * language runtime to parse them, and deliberately reaches it through the same
+ * `DB.loadProjects()` dynamic import the examples search already used: the
+ * "no page-wide chrome reaches the language runtime" test above is what caught
+ * a static import of `ProjectsDatabase` for the collection name, which would
+ * have put ~2MB on a page that shows gallery cards.
+ *
+ * Curated public galleries (#1311) add **no file** to any of these five and
+ * +0.01MB across all of them: the gallery schema's new moderation fields and
+ * the moderation state's shared zod schema live in `db/galleries/Gallery.ts`
+ * and `db/projects/Moderation.ts`, which every one of these entries already
+ * carries, and the new text sits in en-US.json, which every page carries. The
+ * moderator's gallery queue and the curator's notice are their own route
+ * components and reach none of these. File counts are unchanged, which is the
+ * signal that matters — this is code and text weight, not new reach.
+ *
  * The glossary forms editor (#1244) adds **no file** to any of these five —
  * `GlossaryFormsEditor.svelte` is reached only from `/localize`, which is not
  * an entry here — and one budget moves by 0.01MB: the fifteen strings the
@@ -280,11 +298,11 @@ test('resolving a color needs no basis', () => {
  * the entry that had no slack left; the other four absorbed the same text.
  */
 test.each([
-    ['src/routes/+layout.svelte', 491, 3.56],
-    ['src/components/app/Page.svelte', 513, 3.8],
-    ['src/routes/[[locale]]/+page.svelte', 528, 3.88],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 531, 3.89],
-    ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.92],
+    ['src/routes/+layout.svelte', 491, 3.57],
+    ['src/components/app/Page.svelte', 513, 3.81],
+    ['src/routes/[[locale]]/+page.svelte', 528, 3.89],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 532, 3.9],
+    ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.93],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

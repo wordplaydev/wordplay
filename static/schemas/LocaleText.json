@@ -18094,6 +18094,10 @@
                                     "additionalProperties": false,
                                     "description": "Everything related to how to content",
                                     "properties": {
+                                        "bookmarked": {
+                                            "description": "[plain] The subheader for how-tos the creator bookmarked, shown above the per-gallery groups",
+                                            "type": "string"
+                                        },
                                         "category": {
                                             "additionalProperties": false,
                                             "description": "[plain] The category names",
@@ -18167,6 +18171,7 @@
                                     "required": [
                                         "explain",
                                         "category",
+                                        "bookmarked",
                                         "related",
                                         "conceptHowTos",
                                         "howToGalleryButton"
@@ -21785,16 +21790,12 @@
                                             "additionalProperties": false,
                                             "description": "Buttons on the gallery page",
                                             "properties": {
-                                                "more": {
-                                                    "$ref": "#/definitions/ButtonText",
-                                                    "description": "Button for showing more galleries"
-                                                },
                                                 "newgallery": {
                                                     "description": "[plain] Create a new gallery tip",
                                                     "type": "string"
                                                 }
                                             },
-                                            "required": ["newgallery", "more"],
+                                            "required": ["newgallery"],
                                             "type": "object"
                                         },
                                         "error": {
@@ -21804,9 +21805,16 @@
                                                 "nogalleryedits": {
                                                     "description": "[plain] When the creator is not logged in.",
                                                     "type": "string"
+                                                },
+                                                "nopublic": {
+                                                    "description": "[plain] When no galleries have been approved for public listing yet.",
+                                                    "type": "string"
                                                 }
                                             },
-                                            "required": ["nogalleryedits"],
+                                            "required": [
+                                                "nogalleryedits",
+                                                "nopublic"
+                                            ],
                                             "type": "object"
                                         },
                                         "header": {
@@ -21819,20 +21827,35 @@
                                         },
                                         "search": {
                                             "additionalProperties": false,
-                                            "description": "Search functionality for example gallery projects",
+                                            "description": "Searching the built-in examples and the public galleries",
                                             "properties": {
                                                 "description": {
                                                     "description": "[plain] Description for the search field",
                                                     "type": "string"
                                                 },
+                                                "examples": {
+                                                    "description": "[plain] Heading above matching projects from the built-in example galleries",
+                                                    "type": "string"
+                                                },
+                                                "galleries": {
+                                                    "description": "[plain] Heading above matching galleries",
+                                                    "type": "string"
+                                                },
                                                 "noResults": {
                                                     "description": "[plain] No search results message",
+                                                    "type": "string"
+                                                },
+                                                "projects": {
+                                                    "description": "[plain] Heading above matching projects from public galleries",
                                                     "type": "string"
                                                 }
                                             },
                                             "required": [
                                                 "description",
-                                                "noResults"
+                                                "noResults",
+                                                "galleries",
+                                                "examples",
+                                                "projects"
                                             ],
                                             "type": "object"
                                         },
@@ -21843,10 +21866,6 @@
                                                 "examples": {
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Prompt for the built-in galleries"
-                                                },
-                                                "howtos": {
-                                                    "$ref": "#/definitions/FormattedText",
-                                                    "description": "[formatted] Prompt for how-tos shared by galleries the creator belongs to"
                                                 },
                                                 "own": {
                                                     "description": "[formatted] Prompt for galleries the creator curates or contributes to",
@@ -21860,15 +21879,14 @@
                                                     "description": "[formatted] Prompt for galleries creators have made public"
                                                 },
                                                 "tabs": {
-                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                                                    "description": "Labels and tooltips for the four gallery tabs"
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                                                    "description": "Labels and tooltips for the three gallery tabs"
                                                 }
                                             },
                                             "required": [
                                                 "tabs",
                                                 "own",
                                                 "examples",
-                                                "howtos",
                                                 "public"
                                             ],
                                             "type": "object"
@@ -27247,6 +27265,72 @@
                     "$ref": "#/definitions/FlagDescriptions",
                     "description": "[formatted] Content moderation rules that creators promise to follow. See en-US.json for ground truth language."
                 },
+                "gallery": {
+                    "additionalProperties": false,
+                    "description": "Curated public gallery listing (#1311). A gallery being public is its curator's request; a moderator's approval is what lists it.",
+                    "properties": {
+                        "approve": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that lists a gallery publicly"
+                        },
+                        "approved": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a curator whose gallery is listed publicly"
+                        },
+                        "denied": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a curator whose gallery was not accepted for the public list"
+                        },
+                        "deny": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that refuses to list a gallery"
+                        },
+                        "done": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a moderator when no gallery is waiting for a decision"
+                        },
+                        "explain": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a moderator above a gallery awaiting a decision"
+                        },
+                        "notification": {
+                            "additionalProperties": false,
+                            "description": "The notification headers a curator gets when a decision is made. The gallery's name rides along so a decision about a second gallery isn't read as a repeat of the first.",
+                            "properties": {
+                                "approved": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[formatted] A gallery is now listed publicly"
+                                },
+                                "denied": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[formatted] A gallery was not accepted for the public list"
+                                }
+                            },
+                            "required": ["approved", "denied"],
+                            "type": "object"
+                        },
+                        "pending": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a curator whose gallery is waiting for a decision"
+                        },
+                        "skip": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that leaves a gallery for someone else to decide"
+                        }
+                    },
+                    "required": [
+                        "pending",
+                        "approved",
+                        "denied",
+                        "explain",
+                        "done",
+                        "approve",
+                        "deny",
+                        "skip",
+                        "notification"
+                    ],
+                    "type": "object"
+                },
                 "moderate": {
                     "$ref": "#/definitions/HeaderAndExplanationText",
                     "description": "Moderation view text"
@@ -27254,6 +27338,10 @@
                 "progress": {
                     "$ref": "#/definitions/Template%3C%5B%22moderated%22%2C%22remaining%22%5D%3E",
                     "description": "[formatted] Progress message"
+                },
+                "queue": {
+                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                    "description": "Which queue the moderator is working through: projects or galleries"
                 },
                 "report": {
                     "additionalProperties": false,
@@ -27342,12 +27430,14 @@
                 "blocked",
                 "unmoderated",
                 "moderate",
+                "queue",
                 "flags",
                 "progress",
                 "done",
                 "button",
                 "report",
                 "strike",
+                "gallery",
                 "error"
             ],
             "type": "object"

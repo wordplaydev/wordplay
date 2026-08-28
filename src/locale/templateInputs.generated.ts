@@ -10,6 +10,8 @@
 /** Field path -> ordered list of declared input names. */
 export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'basis.Number.conversion.unit': ['from', 'to'],
+    'moderation.gallery.notification.approved': ['name'],
+    'moderation.gallery.notification.denied': ['name'],
     'moderation.progress': ['moderated', 'remaining'],
     'moderation.report.announce': ['project'],
     'moderation.strike.consequence': ['#count', '#remaining', 'banning'],

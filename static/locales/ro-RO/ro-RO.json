@@ -8192,7 +8192,8 @@
                     "header": "$~Ghiduri",
                     "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în @wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
                 },
-                "conceptHowTos": "$~Cum se face"
+                "conceptHowTos": "$~Cum se face",
+                "bookmarked": "$~Salvat la favorite"
             },
             "tour": {
                 "launch": "$~faceți un tur al ghidului",
@@ -9597,16 +9598,10 @@
                 "section": {
                     "tabs": {
                         "label": "$~tip de galerie",
-                        "labels": [
-                            "$~Al tău",
-                            "$~Exemple",
-                            "$~Ghiduri",
-                            "$~Public"
-                        ],
+                        "labels": ["$~Al tău", "$~Exemple", "$~Public"],
                         "tips": [
                             "$~galerii pe care le organizezi sau la care contribui",
                             "$~galerii selectate de dezvoltatorii Wordplay",
-                            "$~instrucțiuni împărtășite de galeriile din care faci parte",
                             "$~galerii pe care creatorii le-au făcut publice"
                         ]
                     },
@@ -9615,22 +9610,21 @@
                         "Curatorii sunt responsabili de moderarea conținutului din galerii folosind<gallery moderation dashboard@://galleries/moderation> ./"
                     ],
                     "examples": "$~Acestea sunt galerii atent selecționate de dezvoltatorii @wordplay. Sunt puncte de plecare bune pentru învățare și inspirație.",
-                    "howtos": "$~Puteți vizualiza și interacționa cu instrucțiunile din aceste galerii, dar nu puteți vedea proiectele lor decât dacă galeria sau proiectele sunt publice.",
-                    "public": "$~Acestea sunt galerii pe care creatorii @wordplay le-au făcut publice. Vezi ce au făcut alții pentru inspirație!"
+                    "public": "$~Acestea sunt galerii pe care creatorii @wordplay le-au făcut publice. Oricine poate cere ca galeria lui să fie listată aici, iar un moderator o citește întâi ca să se asigure că este terminată și respectă regulile. O galerie poate fi scoasă din această listă în orice moment, din orice motiv. Sunt arătate într-o ordine diferită la fiecare vizită, astfel încât fiecare galerie își are rândul aproape de vârf."
                 },
                 "button": {
-                    "newgallery": "$~galerie nouă",
-                    "more": {
-                        "label": "$~Mai mult...",
-                        "tip": "$~Încarcă mai multe galerii"
-                    }
+                    "newgallery": "$~galerie nouă"
                 },
                 "error": {
-                    "nogalleryedits": "$~Trebuie să fii<logged in@://login> pentru a crea și modifica galerii."
+                    "nogalleryedits": "$~Trebuie să fii<logged in@://login> pentru a crea și modifica galerii.",
+                    "nopublic": "$~Nicio galerie nu a fost aprobată încă pentru această listă. Revino în curând!"
                 },
                 "search": {
-                    "description": "$~Căutați exemple de proiecte de galerie",
-                    "noResults": "$~Nu s-au găsit rezultate."
+                    "description": "$~Caută exemple și galerii publice",
+                    "noResults": "$~Nu s-au găsit rezultate.",
+                    "galleries": "$~Galerii",
+                    "examples": "$~Proiecte exemplu",
+                    "projects": "$~Proiecte din galerii publice"
                 }
             },
             "characters": {
@@ -10571,6 +10565,37 @@
             "banned": "$~Ai fost avertizat de trei ori despre conținut public, așa că nu mai poți face proiecte sau galerii publice. Poți în continuare să faci proiecte și să le împarți cu persoanele pe care le alegi tu. Dacă crezi că este o greșeală, sau dacă s-a întâmplat cu mult timp în urmă și vrei să faci din nou lucruri publice, scrie-ne la hi@wordplay.dev și spune-ne numele tău de utilizator și motivul.",
             "warned": "$~Un conținut public de-al tău a încălcat regulile de partajare, așa că nu mai este public. Acesta este avertismentul $#count[1|$#count|$count]. $#remaining[Încă unul și nu vei mai putea face nimic public.|După încă $#remaining nu vei mai putea face nimic public.|După încă $remaining nu vei mai putea face nimic public.]",
             "notification": "$~Avertismentul $#count[1|$#count|$count] despre ceva ce ai făcut public."
+        },
+        "queue": {
+            "label": "$~ce să verifici",
+            "labels": ["$~proiecte", "$~galerii"],
+            "tips": [
+                "$~verifică proiectele pe care oamenii le-au făcut publice",
+                "$~verifică galeriile care cer să fie listate public"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Un moderator citește galeria ta pentru a decide dacă poate fi listată public. Până atunci, doar persoanele cu care ai partajat legătura o pot vedea.",
+            "approved": "$~Galeria ta este listată pe <pagina galeriilor publice@://galleries?tab=public>! Poate fi scoasă de pe acea listă în orice moment, din orice motiv.",
+            "denied": "$~Un moderator a decis să nu îți listeze galeria public. Poți continua să lucrezi la ea și să o faci publică din nou pentru a cere a doua oară.",
+            "explain": "$~Această galerie cere să fie listată public. Uită-te la ea și la proiectele ei și decide dacă este suficient de terminată ca să fie arătată tuturor.",
+            "done": "$~Nicio galerie nu așteaptă o decizie. Îți mulțumim!",
+            "approve": {
+                "label": "$~listeaz-o",
+                "tip": "$~listează această galerie pe pagina galeriilor publice"
+            },
+            "deny": {
+                "label": "$~nu o listezi",
+                "tip": "$~ține această galerie în afara paginii galeriilor publice"
+            },
+            "skip": {
+                "label": "$~treci peste",
+                "tip": "$~lasă această galerie pentru ca un alt moderator să decidă"
+            },
+            "notification": {
+                "approved": "$~$name este acum listat public.",
+                "denied": "$~$name nu a fost listat public."
+            }
         }
     },
     "gallery": {

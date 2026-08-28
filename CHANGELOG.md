@@ -8,8 +8,20 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- 🔍 You can now search the [galleries](https://wordplay.dev/galleries). Type a word and you'll see galleries whose name or description matches it, example projects, and projects from galleries people have shared. (#299)
+- 🤝 Getting your gallery onto the galleries page is now a request: a moderator reads it first and decides whether to list it. Your gallery page tells you whether it's waiting, listed, or turned down, and you get a notice when that changes. (#1311)
+- 📚 Six examples that weren't in any gallery are now in one, so you can find them: Adobo Recipe, Color Show, Laughing, Layouts, Mumble, and Wild Transforms.
 - 🌐 We made it possible to add the other spellings of a glossary word — the plurals and endings each language needs — so a link like `@parameters` holds the whole word instead of stopping partway. If you help translate Wordplay, there's a new Glossary tab where you add and remove them. (#1244)
 - 📖 We made it easier to fix a glossary word or what it means: you can now change it right where you see it in the [Guide](https://wordplay.dev/guide), instead of finding it in a long list of text. (#1244)
+
+### Changed
+
+- 📖 How-tos shared in a gallery now live in the [Guide](https://wordplay.dev/guide) with all the other how-tos, grouped under the gallery that shared them. They used to sit on the galleries page, which is for galleries. (#1277)
+- 🤝 The galleries page now shows public galleries in a different order each visit, so every one gets a turn near the top. It also says so when none have been listed yet, instead of showing an empty space. (#1311)
+
+### Fixed
+
+- 🌙 In dark mode, the highlighted word in a search result was too pale to read on its yellow background. It's dark now, like every other yellow highlight in Wordplay.
 
 ## 0.32.0 - 2026-08-26
 

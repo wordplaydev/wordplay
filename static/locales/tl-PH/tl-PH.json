@@ -8181,7 +8181,8 @@
                     "header": "$~Mga Paano-Gawin",
                     "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa @wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
                 },
-                "conceptHowTos": "$~Paano-gawin"
+                "conceptHowTos": "$~Paano-gawin",
+                "bookmarked": "$~Binookmark"
             },
             "tour": {
                 "launch": "$~maglibot sa gabay",
@@ -9481,13 +9482,11 @@
                         "labels": [
                             "$~Sa iyo",
                             "$~Mga Halimbawa",
-                            "$~Mga Paano-Gawin",
                             "$~Pampubliko"
                         ],
                         "tips": [
                             "$~mga gallery na inaayos mo o pinagbibigyan ng tulong",
                             "$~mga inayos na gallery mula sa mga tagabuo ng Wordplay",
-                            "$~mga kung paano gawin na ibinahagi ng mga gallery na kaanib mo",
                             "$~mga gallery na ginawang pampubliko ng mga tagalikha"
                         ]
                     },
@@ -9496,22 +9495,21 @@
                         "/Ang mga curator ang may pananagutan sa pagmo-moderate ng nilalaman sa mga gallery gamit ang <gallery moderation dashboard@://galleries/moderation>./"
                     ],
                     "examples": "$~Ito ay mga piniling gallery mula sa mga developer ng @wordplay. Ang mga ito ay magagandang panimulang punto para sa pag-aaral at inspirasyon.",
-                    "howtos": "$~Maaari mong tingnan at makipag-ugnayan sa mga how-to sa mga gallery na ito, ngunit hindi mo makikita ang kanilang mga proyekto maliban kung ang gallery o mga proyekto ay pampubliko.",
-                    "public": "$~Ito ang mga gallery na inilabas ng mga tagalikha ng @wordplay. Tingnan kung ano ang ginawa ng iba para sa inspirasyon!"
+                    "public": "$~Ito ang mga gallery na ginawang pampubliko ng @wordplay na tagalikha. Puwedeng humiling ang sinuman na ilista ang kanilang gallery dito, at babasahin muna ito ng isang moderator para tiyakin na tapos na ito at sumusunod sa mga alituntunin. Puwedeng alisin ang isang gallery sa listahang ito anumang oras, sa kahit anong dahilan. Ipinapakita ang mga ito sa ibang pagkasunod-sunod sa bawat pagbisita, para may pagkakataon ang bawat gallery na mapunta sa itaas."
                 },
                 "button": {
-                    "newgallery": "$~bagong galeriya",
-                    "more": {
-                        "label": "$~higit pa...",
-                        "tip": "$~mag-load ng mas maraming gallery"
-                    }
+                    "newgallery": "$~bagong galeriya"
                 },
                 "error": {
-                    "nogalleryedits": "$~Dapat ay <naka-log in@://login> ka para makagawa at makapagpalit ng mga gallery."
+                    "nogalleryedits": "$~Dapat ay <naka-log in@://login> ka para makagawa at makapagpalit ng mga gallery.",
+                    "nopublic": "$~Wala pang gallery na naaprubahan para sa listahang ito. Bumalik-balik ka!"
                 },
                 "search": {
-                    "description": "$~Maghanap ng mga halimbawang proyekto sa gallery",
-                    "noResults": "$~Walang nakitang resulta."
+                    "description": "$~Maghanap ng mga halimbawa at pampublikong gallery",
+                    "noResults": "$~Walang nakitang resulta.",
+                    "galleries": "$~Mga Gallery",
+                    "examples": "$~Mga halimbawang proyekto",
+                    "projects": "$~Mga proyekto sa mga pampublikong gallery"
                 }
             },
             "characters": {
@@ -10571,6 +10569,37 @@
             "banned": "$~Nabalaan ka na nang tatlong beses tungkol sa pampublikong nilalaman, kaya hindi ka na makakapaglabas ng mga proyekto o galeriya nang pampubliko. Puwede ka pa ring gumawa ng mga proyekto, at ibahagi pa rin ang mga ito sa mga taong pinili mo. Kung sa tingin mo ay pagkakamali ito, o matagal na itong nangyari at gusto mo nang muling magbahagi nang pampubliko, sumulat sa hi@wordplay.dev at sabihin sa amin ang iyong username at dahilan.",
             "warned": "$~May pampublikong nilalaman mo na lumabag sa mga patakaran sa pagbabahagi, kaya hindi na ito pampubliko. Ito ang babala bilang $#count[1|$count]. $#remaining[Isa na lang at hindi ka na makakapaglabas ng anumang bagay nang pampubliko.|Pagkatapos ng $remaining pang babala, hindi ka na makakapaglabas ng anumang bagay nang pampubliko.]",
             "notification": "$~Babala bilang $#count[1|$count] tungkol sa isang bagay na ibinahagi mo nang pampubliko."
+        },
+        "queue": {
+            "label": "$~ano ang susuriin",
+            "labels": ["$~mga proyekto", "$~mga gallery"],
+            "tips": [
+                "$~suriin ang mga proyektong ginawang pampubliko ng mga tao",
+                "$~suriin ang mga gallery na humihiling na ilista nang pampubliko"
+            ]
+        },
+        "gallery": {
+            "pending": "$~May isang moderator na nagbabasa ng iyong gallery para magpasya kung puwede itong ilista nang pampubliko. Hanggang hindi ito nagagawa, tanging ang mga taong ibinahagi mo ng link ang makakakita nito.",
+            "approved": "$~Naka-lista ang iyong gallery sa <pahina ng mga pampublikong gallery@://galleries?tab=public>! Puwede itong alisin sa listahang iyon anumang oras, sa kahit anong dahilan.",
+            "denied": "$~Nagpasya ang isang moderator na hindi ilista nang pampubliko ang iyong gallery. Puwede mo pa itong gawan ng trabaho at gawing pampubliko ulit para humiling muli.",
+            "explain": "$~Humihiling ang gallery na ito na ilista nang pampubliko. Tingnan ito at ang mga proyekto nito, at magpasya kung tapos na ito para ipakita sa lahat.",
+            "done": "$~Walang gallery na naghihintay ng desisyon. Salamat!",
+            "approve": {
+                "label": "$~ilista ito",
+                "tip": "$~ilista ang gallery na ito sa pahina ng mga pampublikong gallery"
+            },
+            "deny": {
+                "label": "$~huwag ilista",
+                "tip": "$~panatilihing hindi naka-lista ang gallery na ito sa pahina ng mga pampublikong gallery"
+            },
+            "skip": {
+                "label": "$~laktawan",
+                "tip": "$~iwan ang gallery na ito para ibang moderator ang magpasya"
+            },
+            "notification": {
+                "approved": "$~Naka-lista na ngayon nang pampubliko ang $name.",
+                "denied": "$~Hindi na-lista nang pampubliko ang $name."
+            }
         }
     },
     "gallery": {

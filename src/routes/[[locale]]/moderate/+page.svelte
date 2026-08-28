@@ -45,6 +45,11 @@
         StrikesUntilBanned,
     } from '@db/creators/strikes.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
+    import GalleryQueue from './GalleryQueue.svelte';
+
+    /** Which queue is showing. Projects first: it's the older and busier one. */
+    let queue: 'projects' | 'galleries' = $state('projects');
 
     /** Where reports of public content live. Only moderators can read them. */
     const ReportsCollection = 'reports';
@@ -374,134 +379,167 @@
 </script>
 
 <Page>
-    <div class="moderate">
-        <div class="flags">
+    {#if moderator === false}
+        <div class="notmod">
             <Header text={(l) => l.moderation.moderate.header} />
-            {#if moderator === false}
-                <p><LocalizedText path={(l) => l.moderation.error.notmod} /></p>
-            {:else if loading}
-                <Spinning />
-            {:else if done || project === undefined}
-                <p><LocalizedText path={(l) => l.moderation.done} /></p>
-            {:else}
-                <div class="progress-counter">
-                    <MarkupHTMLView
-                        markup={[
-                            (l) => l.moderation.progress,
-                            {
-                                moderated: moderatedCount,
-                                remaining: unmoderatedCount,
-                            },
-                        ]}
-                    />
-                </div>
-                {#if reported}
-                    <MarkupHTMLView
-                        markup={(l) => l.moderation.report.flagged}
-                    />
-                {/if}
-                <MarkupHTMLView
-                    markup={(l) => l.moderation.moderate.explanation}
-                />
-                {#each Object.entries(project.getFlags()) as [flag, state]}
-                    <div class="flag">
-                        <Checkbox
-                            label={(l) => l.moderation.button.property}
-                            on={state === null ? undefined : state}
-                            id={flag}
-                            changed={(value) =>
-                                (newFlags = withFlag(
-                                    newFlags ?? unknownFlags(),
-                                    flag,
-                                    value === true,
-                                ))}
-                        />
-                        <label for={flag}>
-                            <MarkupHTMLView
-                                markup={getFlagDescription(flag, $locales) ??
-                                    ''}
-                            /></label
-                        >
-                    </div>
-                {/each}
-                {#if violates}
-                    <div class="flag">
-                        <Checkbox
-                            label={(l) => l.moderation.strike.issue}
-                            on={warnCreator}
-                            id="warn-creator"
-                            changed={(value) => (warnCreator = value === true)}
-                        />
-                        <label for="warn-creator"
-                            ><LocalizedText
-                                path={(l) => l.moderation.strike.issue}
-                            /></label
-                        >
-                    </div>
-                    <!-- Say what this decision does to this person before it's
-                         made, not after. -->
-                    {#if warnCreator}
+            <p><LocalizedText path={(l) => l.moderation.error.notmod} /></p>
+        </div>
+    {:else}
+        <!-- Two queues, not two pages: they're the same job, and a moderator
+             shouldn't have to know a second URL to see the gallery one (#1311).
+             A Mode rather than tabs, because the two-pane layout below fills the
+             window and a tab panel would have to box it. -->
+        <div class="queuechoice">
+            <Mode
+                modes={(l) => l.moderation.queue}
+                choice={queue === 'projects' ? 0 : 1}
+                select={(choice) =>
+                    (queue = choice === 0 ? 'projects' : 'galleries')}
+            />
+        </div>
+    {/if}
+    {#if moderator !== false && queue === 'galleries'}
+        <GalleryQueue />
+    {:else if moderator !== false}
+        <div class="moderate">
+            <div class="flags">
+                <Header text={(l) => l.moderation.moderate.header} />
+                {#if loading}
+                    <Spinning />
+                {:else if done || project === undefined}
+                    <p><LocalizedText path={(l) => l.moderation.done} /></p>
+                {:else}
+                    <div class="progress-counter">
                         <MarkupHTMLView
                             markup={[
-                                (l) => l.moderation.strike.consequence,
+                                (l) => l.moderation.progress,
                                 {
-                                    count: ownerStrikes + 1,
-                                    remaining: Math.max(
-                                        0,
-                                        StrikesUntilBanned - (ownerStrikes + 1),
-                                    ),
-                                    banning:
-                                        ownerStrikes + 1 >= StrikesUntilBanned,
+                                    moderated: moderatedCount,
+                                    remaining: unmoderatedCount,
                                 },
                             ]}
                         />
-                    {/if}
-                {/if}
-                <div class="controls">
-                    {#if violates && warnCreator}
-                        <ConfirmButton
-                            enabled={!$disconnected && !saving}
-                            tip={(l) => l.moderation.strike.confirm.description}
-                            prompt={(l) => l.moderation.strike.confirm.prompt}
-                            action={save}
-                            label={(l) => l.moderation.button.submit.label}
-                            testid="moderate-submit"
+                    </div>
+                    {#if reported}
+                        <MarkupHTMLView
+                            markup={(l) => l.moderation.report.flagged}
                         />
-                    {:else}
+                    {/if}
+                    <MarkupHTMLView
+                        markup={(l) => l.moderation.moderate.explanation}
+                    />
+                    {#each Object.entries(project.getFlags()) as [flag, state]}
+                        <div class="flag">
+                            <Checkbox
+                                label={(l) => l.moderation.button.property}
+                                on={state === null ? undefined : state}
+                                id={flag}
+                                changed={(value) =>
+                                    (newFlags = withFlag(
+                                        newFlags ?? unknownFlags(),
+                                        flag,
+                                        value === true,
+                                    ))}
+                            />
+                            <label for={flag}>
+                                <MarkupHTMLView
+                                    markup={getFlagDescription(
+                                        flag,
+                                        $locales,
+                                    ) ?? ''}
+                                /></label
+                            >
+                        </div>
+                    {/each}
+                    {#if violates}
+                        <div class="flag">
+                            <Checkbox
+                                label={(l) => l.moderation.strike.issue}
+                                on={warnCreator}
+                                id="warn-creator"
+                                changed={(value) =>
+                                    (warnCreator = value === true)}
+                            />
+                            <label for="warn-creator"
+                                ><LocalizedText
+                                    path={(l) => l.moderation.strike.issue}
+                                /></label
+                            >
+                        </div>
+                        <!-- Say what this decision does to this person before it's
+                         made, not after. -->
+                        {#if warnCreator}
+                            <MarkupHTMLView
+                                markup={[
+                                    (l) => l.moderation.strike.consequence,
+                                    {
+                                        count: ownerStrikes + 1,
+                                        remaining: Math.max(
+                                            0,
+                                            StrikesUntilBanned -
+                                                (ownerStrikes + 1),
+                                        ),
+                                        banning:
+                                            ownerStrikes + 1 >=
+                                            StrikesUntilBanned,
+                                    },
+                                ]}
+                            />
+                        {/if}
+                    {/if}
+                    <div class="controls">
+                        {#if violates && warnCreator}
+                            <ConfirmButton
+                                enabled={!$disconnected && !saving}
+                                tip={(l) =>
+                                    l.moderation.strike.confirm.description}
+                                prompt={(l) =>
+                                    l.moderation.strike.confirm.prompt}
+                                action={save}
+                                label={(l) => l.moderation.button.submit.label}
+                                testid="moderate-submit"
+                            />
+                        {:else}
+                            <Button
+                                background
+                                active={!$disconnected && !saving}
+                                tip={(l) => l.moderation.button.submit.tip}
+                                action={save}
+                                testid="moderate-submit"
+                                label={(l) => l.moderation.button.submit.label}
+                            />
+                        {/if}
                         <Button
                             background
                             active={!$disconnected && !saving}
-                            tip={(l) => l.moderation.button.submit.tip}
-                            action={save}
-                            testid="moderate-submit"
-                            label={(l) => l.moderation.button.submit.label}
+                            tip={(l) => l.moderation.button.skip.tip}
+                            action={skip}
+                            label={(l) => l.moderation.button.skip.label}
                         />
-                    {/if}
-                    <Button
-                        background
-                        active={!$disconnected && !saving}
-                        tip={(l) => l.moderation.button.skip.tip}
-                        action={skip}
-                        label={(l) => l.moderation.button.skip.label}
-                    />
-                </div>
+                    </div>
+                {/if}
+            </div>
+            {#if lastBatch === undefined}<div class="big">✔</div
+                >{:else if project === undefined}
+                <Spinning />
+            {:else}
+                <ProjectView
+                    {project}
+                    autofocus={false}
+                    editable={false}
+                    warn={false}
+                />
             {/if}
         </div>
-        {#if lastBatch === undefined}<div class="big">✔</div
-            >{:else if project === undefined}
-            <Spinning />
-        {:else}
-            <ProjectView
-                {project}
-                autofocus={false}
-                editable={false}
-                warn={false}
-            />
-        {/if}
-    </div>
+    {/if}
 </Page>
 
 <style>
+    .notmod,
+    .queuechoice {
+        padding: var(--wordplay-spacing);
+    }
+
     .moderate {
         display: flex;
         flex-direction: row;

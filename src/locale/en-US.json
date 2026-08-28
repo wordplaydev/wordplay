@@ -8273,6 +8273,7 @@
                     "video": "use a camera",
                     "gallery": "created by your fellow Wordplay directors"
                 },
+                "bookmarked": "Bookmarked",
                 "related": "Not what you're looking for?",
                 "conceptHowTos": "How-to",
                 "howToGalleryButton": {
@@ -9695,11 +9696,10 @@
                 "section": {
                     "tabs": {
                         "label": "gallery kind",
-                        "labels": ["Yours", "Examples", "How-tos", "Public"],
+                        "labels": ["Yours", "Examples", "Public"],
                         "tips": [
                             "galleries you curate or contribute to",
                             "curated galleries from the Wordplay developers",
-                            "how-tos shared by galleries you belong to",
                             "galleries creators have made public"
                         ]
                     },
@@ -9708,22 +9708,21 @@
                         "/Curators are responsible for moderating the content in galleries using the <gallery moderation dashboard@://galleries/moderation>./"
                     ],
                     "examples": "These are curated galleries from the @wordplay developers. They are good starting points for learning and inspiration.",
-                    "howtos": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public.",
-                    "public": "These are galleries that @wordplay creators have made public. See what others have made for inspiration!"
+                    "public": "These are galleries that @wordplay creators have made public. Anyone can ask for their gallery to be listed here, and a moderator reads it first to make sure it is finished and follows the rules. A gallery can be taken off this list at any time, for any reason. They are shown in a different order each visit, so every gallery gets a turn near the top."
                 },
                 "button": {
-                    "newgallery": "new gallery",
-                    "more": {
-                        "label": "more...",
-                        "tip": "load more galleries"
-                    }
+                    "newgallery": "new gallery"
                 },
                 "error": {
-                    "nogalleryedits": "You must be <logged in@://login> to create and change galleries."
+                    "nogalleryedits": "You must be <logged in@://login> to create and change galleries.",
+                    "nopublic": "No galleries have been approved for this list yet. Check back soon!"
                 },
                 "search": {
-                    "description": "Search example gallery projects",
-                    "noResults": "No results found."
+                    "description": "Search examples and public galleries",
+                    "noResults": "No results found.",
+                    "galleries": "Galleries",
+                    "examples": "Example projects",
+                    "projects": "Projects in public galleries"
                 }
             },
             "characters": {
@@ -10544,6 +10543,14 @@
             "header": "Moderate",
             "explanation": "Review this project and decide if it's content does any of the following. If it does, content will be warned or blocked. You can skip if you're unsure."
         },
+        "queue": {
+            "label": "what to review",
+            "labels": ["projects", "galleries"],
+            "tips": [
+                "review projects people have made public",
+                "review galleries asking to be listed publicly"
+            ]
+        },
         "flags": {
             "violence": "Incite, encourage, or celebrate violence, harm, or self harm to anyone.",
             "dehumanization": "Dehumanize individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
@@ -10580,6 +10587,29 @@
             "banned": "You've been warned about public content three times, so you can no longer make projects or galleries public. You can still make projects, and still share them with people you choose. If you think this is a mistake, or it was a long time ago and you would like to share publicly again, write to hi@wordplay.dev and tell us your username and why.",
             "warned": "Some public content of yours broke the sharing rules, so it is no longer public. This is warning $#count[1|$count]. $#remaining[One more and you will no longer be able to make anything public.|After $remaining more you will no longer be able to make anything public.]",
             "notification": "Warning $#count[1|$count] about something you shared publicly."
+        },
+        "gallery": {
+            "pending": "A moderator is reading your gallery to decide whether it can be listed publicly. Until then, only people you share the link with can see it.",
+            "approved": "Your gallery is listed on the <public galleries page@://galleries?tab=public>! It can be taken off that list at any time, for any reason.",
+            "denied": "A moderator decided not to list your gallery publicly. You can keep working on it and make it public again to ask a second time.",
+            "explain": "This gallery is asking to be listed publicly. Look at it and its projects, and decide whether it is finished enough to show everyone.",
+            "done": "No galleries are waiting for a decision. Thank you!",
+            "approve": {
+                "label": "list it",
+                "tip": "list this gallery on the public galleries page"
+            },
+            "deny": {
+                "label": "don't list it",
+                "tip": "keep this gallery off the public galleries page"
+            },
+            "skip": {
+                "label": "skip",
+                "tip": "leave this gallery for another moderator to decide"
+            },
+            "notification": {
+                "approved": "$name is now listed publicly.",
+                "denied": "$name was not listed publicly."
+            }
         },
         "error": {
             "notmod": "It looks like you're not a moderator. If you were recently given moderator privileges, you may need to login again. If not, see the wiki for how to request moderation privileges."

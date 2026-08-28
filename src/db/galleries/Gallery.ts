@@ -1,9 +1,14 @@
 import { localeToString } from '@locale/Locale';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
+import {
+    ModerationStateSchema,
+    unknownFlags,
+    type ModerationState,
+} from '@db/projects/Moderation';
 import z from 'zod';
 
-export const GallerySchemaLatestVersion = 2;
+export const GallerySchemaLatestVersion = 3;
 
 /** The schema for a gallery */
 const SerializedGalleryV1 = z.object({
@@ -18,8 +23,12 @@ const SerializedGalleryV1 = z.object({
     /** Localized descriptions of the theme of the gallery, indexed by locale name. Cannot be empty. */
     description: z.record(z.string(), z.string()),
     /**
-     * A set of unique lower case non-preposition words that appear in the names and descriptions, suitable for basic text search.
-     * These are derived from the name and description.
+     * Folded, deduplicated words drawn from this gallery's name, description,
+     * and the names of the projects in it, maintained server-side by the
+     * galleryEdited trigger. The galleries page matches against it to decide
+     * which galleries could contain a search hit, so it only has to fetch and
+     * parse the projects of those. Empty on the built-in example galleries,
+     * whose projects are searched in full.
      */
     words: z.array(z.string()),
     /** Project IDs in the project. */
@@ -53,12 +62,40 @@ const SerializedGalleryV2 = SerializedGalleryV1.omit({ v: true }).extend({
     howToReactions: z.record(z.string(), z.string()),
 });
 
+/**
+ * v3 adds moderator curation of public listing (#1311). `public` remains the
+ * curator's request — it still grants read, so a gallery can be shared by link
+ * while it waits — and `moderation` is what decides whether it's listed. Only
+ * the moderateGallery function and the galleryEdited trigger write these; the
+ * security rules refuse them from any client.
+ */
+const SerializedGalleryV3 = SerializedGalleryV2.omit({ v: true }).extend({
+    v: z.literal(3),
+    /** Where this gallery stands with the moderators. */
+    moderation: z.enum(['unrequested', 'pending', 'approved', 'denied']),
+    /** When that last changed, so a second decision reads as new rather than
+     *  deduplicating against the first. */
+    moderatedAt: z.number().nullable(),
+    /**
+     * Which rules a denial found broken, in the same vocabulary projects use,
+     * so a denial gets a localized reason without new text. A denial with no
+     * flag set is a quality decision rather than a rule violation: both leave
+     * the gallery unlisted, but only a flag also withdraws `public`.
+     */
+    flags: ModerationStateSchema,
+});
+
 /** The latest version of a gallery */
-export const GallerySchema = SerializedGalleryV2;
-export type SerializedGallery = z.infer<typeof SerializedGalleryV2>;
+export const GallerySchema = SerializedGalleryV3;
+export type SerializedGallery = z.infer<typeof SerializedGalleryV3>;
+
+/** How a gallery stands with the moderators. */
+export type GalleryModeration = SerializedGallery['moderation'];
 
 type SerializedGalleryUnknownVersion =
-    z.infer<typeof SerializedGalleryV1> | SerializedGallery;
+    | z.infer<typeof SerializedGalleryV1>
+    | z.infer<typeof SerializedGalleryV2>
+    | SerializedGallery;
 
 export function upgradeGallery(
     gallery: SerializedGalleryUnknownVersion,
@@ -68,7 +105,7 @@ export function upgradeGallery(
             // default to empty guiding questions and reactions
             return upgradeGallery({
                 ...gallery,
-                v: 2,
+                v: 2 as const,
                 howToExpandedVisibility: false,
                 howTos: [],
                 howToExpandedGalleries: [],
@@ -76,6 +113,17 @@ export function upgradeGallery(
                 howToViewersFlat: [],
                 howToGuidingQuestions: [],
                 howToReactions: {},
+            });
+        case 2:
+            // An existing public gallery is not grandfathered in: it goes into
+            // the queue like any other, since being unreviewed is exactly the
+            // state this version exists to make visible.
+            return upgradeGallery({
+                ...gallery,
+                v: 3,
+                moderation: gallery.public ? 'pending' : 'unrequested',
+                moderatedAt: null,
+                flags: unknownFlags(),
             });
         case GallerySchemaLatestVersion:
             return gallery;
@@ -135,6 +183,9 @@ export default class Gallery {
             howToViewersFlat?: string[];
             howToGuidingQuestions?: string[];
             howToReactions?: Record<string, string>;
+            moderation?: GalleryModeration;
+            moderatedAt?: number | null;
+            flags?: ModerationState;
         } = {},
     ): Gallery {
         return new Gallery({
@@ -156,6 +207,9 @@ export default class Gallery {
             howToViewersFlat: opts.howToViewersFlat ?? [],
             howToGuidingQuestions: opts.howToGuidingQuestions ?? [],
             howToReactions: opts.howToReactions ?? {},
+            moderation: opts.moderation ?? 'unrequested',
+            moderatedAt: opts.moderatedAt ?? null,
+            flags: opts.flags ?? unknownFlags(),
         });
     }
 
@@ -253,6 +307,28 @@ export default class Gallery {
         const newData = { ...this.data };
         newData.public = isPublic;
         return new Gallery(newData);
+    }
+
+    getModeration(): GalleryModeration {
+        return this.data.moderation;
+    }
+
+    getModeratedAt(): number | null {
+        return this.data.moderatedAt;
+    }
+
+    getModerationFlags(): ModerationState {
+        return { ...this.data.flags };
+    }
+
+    /** Whether this gallery appears in the public listing and its search.
+     *  Being public is the curator's request; being approved is what lists it. */
+    isListed() {
+        return this.data.public && this.data.moderation === 'approved';
+    }
+
+    getWords(): string[] {
+        return this.data.words;
     }
 
     hasProject(projectID: string) {

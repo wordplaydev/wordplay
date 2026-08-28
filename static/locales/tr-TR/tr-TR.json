@@ -7806,7 +7806,8 @@
                     "header": "$~Nasıl yapılır",
                     "explanation": "$~/@wordplay'de işlemlerin nasıl yapılacağını gösteren kısa örnekler. Çalıştırılmasını görmek için herhangi bir önizlemede oynat düğmesine basın, ardından nasıl çalıştığını okumak için dosyayı açın./"
                 },
-                "conceptHowTos": "$~Nasıl yapılır"
+                "conceptHowTos": "$~Nasıl yapılır",
+                "bookmarked": "$~Yer İmlerine Eklendi"
             },
             "mode": {
                 "browse": {
@@ -9137,25 +9138,15 @@
                 "header": "$~Galeriler",
                 "prompt": "$~Galeriler, genellikle bir tema etrafında toplanan ve sizin veya diğer yaratıcılar tarafından derlenen proje koleksiyonlarıdır.",
                 "button": {
-                    "more": {
-                        "label": "$~Daha...",
-                        "tip": "$~daha fazla galeri yükle"
-                    },
                     "newgallery": "$~yeni galeri"
                 },
                 "section": {
                     "tabs": {
                         "label": "$~galeri türü",
-                        "labels": [
-                            "$~Sizinkiler",
-                            "$~Örnekler",
-                            "$~Nasıl yapılır",
-                            "$~Halk"
-                        ],
+                        "labels": ["$~Sizinkiler", "$~Örnekler", "$~Halk"],
                         "tips": [
                             "$~düzenlediğin veya katkıda bulunduğun galeriler",
                             "$~Wordplay geliştiricilerinin düzenlediği galeriler",
-                            "$~ait olduğun galerilerin paylaştığı nasıl rehberleri",
                             "$~oluşturanların herkese açık yaptığı galeriler"
                         ]
                     },
@@ -9164,15 +9155,18 @@
                         "/Küratörler, <galeri moderasyon paneli@://galleries/moderation> aracılığıyla galerilerdeki içeriği denetlemekten sorumludur./"
                     ],
                     "examples": "$~Bunlar @wordplay geliştiricileri tarafından derlenmiş galerilerdir. Öğrenme ve ilham almak için iyi birer başlangıç noktasıdırlar.",
-                    "howtos": "$~Bu galerilerdeki \"nasıl yapılır\" kılavuzlarını görüntüleyebilir ve bunlarla etkileşim kurabilirsiniz, ancak galeri veya projeler herkese açık olmadığı sürece projeleri göremezsiniz.",
-                    "public": "$~Bunlar, @wordplay yaratıcılarının herkese açık hale getirdiği galerilerdir. İlham almak için başkalarının neler yaptığını görün!"
+                    "public": "$~Bunlar @wordplay oluşturucunun herkese açık hâle getirdiği galeriler. Herkes kendi galerisinin burada listelenmesini isteyebilir. Bir denetçi, galerinin tamamlanmış olduğunu ve kurallara uyduğunu kontrol etmek için önce onu inceler. Bir galeri her an, herhangi bir nedenle bu listeden çıkarılabilir. Galeriler her ziyarette farklı bir sırayla gösterilir, böylece her galeri sırayla üstte yer alır."
                 },
                 "error": {
-                    "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>."
+                    "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>.",
+                    "nopublic": "$~Bu liste için henüz onaylanmış bir galeri yok. Yakında tekrar bak!"
                 },
                 "search": {
-                    "description": "$~Örnek galeri projelerini arayın",
-                    "noResults": "$~Hiçbir sonuç bulunamadı."
+                    "description": "$~Örnekleri ve herkese açık galerileri ara",
+                    "noResults": "$~Hiçbir sonuç bulunamadı.",
+                    "galleries": "$~Galeriler",
+                    "examples": "$~Örnek projeler",
+                    "projects": "$~Herkese açık galerilerdeki projeler"
                 }
             },
             "about": {
@@ -10563,6 +10557,37 @@
             "banned": "$~Herkese açık içerik hakkında üç kez uyarıldın, bu yüzden artık proje veya galerileri herkese açık yapamazsın. Yine de proje yapabilir ve seçtiğin kişilerle paylaşabilirsin. Bunun bir hata olduğunu düşünüyorsan ya da bu uzun zaman önce oldu ve yeniden herkese açık paylaşım yapmak istiyorsan, hi@wordplay.dev adresine yaz ve kullanıcı adını ve nedenini bize bildir.",
             "warned": "$~Herkese açık içeriklerinden biri paylaşım kurallarını ihlal etti, bu yüzden artık herkese açık değil. Bu, $#count[1. uyarın.|$count. uyarın.] $#remaining[Bir uyarı daha alırsan artık hiçbir şeyi herkese açık yapamayacaksın.|$remaining uyarı daha alırsan artık hiçbir şeyi herkese açık yapamayacaksın.]",
             "notification": "$~Herkese açık paylaştığın bir şey hakkında $#count[1. uyarı.|$count. uyarı.]"
+        },
+        "queue": {
+            "label": "$~neyi incelemeli",
+            "labels": ["$~projeler", "$~galeriler"],
+            "tips": [
+                "$~insanların herkese açık hâle getirdiği projeleri incele",
+                "$~herkese açık listelenmek isteyen galerileri incele"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Bir denetçi, galerinin herkese açık olarak listelenip listelenemeyeceğine karar vermek için onu inceliyor. Bu süre boyunca galerini sadece bağlantısını paylaştığın kişiler görebilir.",
+            "approved": "$~Galerin <herkese açık galeriler sayfasında@://galleries?tab=public> listelendi! Bu liste her an, herhangi bir nedenle değiştirilebilir ve galerin listeden çıkarılabilir.",
+            "denied": "$~Bir denetçi, galerini herkese açık olarak listelememeye karar verdi. Üzerinde çalışmayı sürdürebilir ve yeniden herkese açık hâle getirerek tekrar isteyebilirsin.",
+            "explain": "$~Bu galeri herkese açık olarak listelenmek istiyor. Galeriye ve içindeki projelere bak, ve herkese gösterilecek kadar tamamlanmış olup olmadığına karar ver.",
+            "done": "$~Karar bekleyen bir galeri yok. Teşekkürler!",
+            "approve": {
+                "label": "$~listele",
+                "tip": "$~bu galeriyi herkese açık galeriler sayfasında listele"
+            },
+            "deny": {
+                "label": "$~listeleme",
+                "tip": "$~bu galeriyi herkese açık galeriler sayfasında listeleme"
+            },
+            "skip": {
+                "label": "$~atla",
+                "tip": "$~bu galerinin kararını başka bir denetçiye bırak"
+            },
+            "notification": {
+                "approved": "$~$name artık herkese açık olarak listeleniyor.",
+                "denied": "$~$name herkese açık olarak listelenmedi."
+            }
         }
     },
     "gallery": {

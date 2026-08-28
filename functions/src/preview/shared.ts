@@ -64,6 +64,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'FloatingFoods',
             'AnimatedName',
             'WordplayTrace',
+            'Colors',
         ],
     },
     Motion: {
@@ -80,6 +81,10 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'Christmas',
             'Easing',
             'Echo',
+            'Laughing',
+            'Layouts',
+            'Mumble',
+            'WildTransforms',
         ],
     },
     Music: {
@@ -126,6 +131,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'JapaneseClass',
             'PersonalMap',
             'SlideShow',
+            'AdoboRecipe',
         ],
     },
     Tools: {

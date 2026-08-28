@@ -4,6 +4,7 @@ import type {
     ButtonText,
     ConfirmText,
     HeaderAndExplanationText,
+    ModeText,
 } from '@locale/UITexts';
 
 export type ModerationTexts = {
@@ -15,6 +16,8 @@ export type ModerationTexts = {
     unmoderated: HeaderAndExplanationText;
     /** Moderation view text */
     moderate: HeaderAndExplanationText;
+    /** Which queue the moderator is working through: projects or galleries */
+    queue: ModeText<[string, string]>;
     /** [formatted] Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     flags: FlagDescriptions;
     /** [formatted] Progress message */
@@ -57,6 +60,35 @@ export type ModerationTexts = {
         warned: Template<['#count', '#remaining']>;
         /** [plain] The notification saying a warning has arrived */
         notification: Template<['#count']>;
+    };
+    /** Curated public gallery listing (#1311). A gallery being public is its
+     *  curator's request; a moderator's approval is what lists it. */
+    gallery: {
+        /** [formatted] Shown to a curator whose gallery is waiting for a decision */
+        pending: FormattedText;
+        /** [formatted] Shown to a curator whose gallery is listed publicly */
+        approved: FormattedText;
+        /** [formatted] Shown to a curator whose gallery was not accepted for the public list */
+        denied: FormattedText;
+        /** [formatted] Shown to a moderator above a gallery awaiting a decision */
+        explain: FormattedText;
+        /** [formatted] Shown to a moderator when no gallery is waiting for a decision */
+        done: FormattedText;
+        /** The moderator's button that lists a gallery publicly */
+        approve: ButtonText;
+        /** The moderator's button that refuses to list a gallery */
+        deny: ButtonText;
+        /** The moderator's button that leaves a gallery for someone else to decide */
+        skip: ButtonText;
+        /** The notification headers a curator gets when a decision is made. The
+         *  gallery's name rides along so a decision about a second gallery isn't
+         *  read as a repeat of the first. */
+        notification: {
+            /** [formatted] A gallery is now listed publicly */
+            approved: Template<['name']>;
+            /** [formatted] A gallery was not accepted for the public list */
+            denied: Template<['name']>;
+        };
     };
     /** Moderation errors */
     error: {

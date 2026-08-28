@@ -8188,7 +8188,8 @@
                     "header": "$~Hướng dẫn",
                     "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong @wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
                 },
-                "conceptHowTos": "$~Làm cách nào để"
+                "conceptHowTos": "$~Làm cách nào để",
+                "bookmarked": "$~Đã đánh dấu"
             },
             "tour": {
                 "launch": "$~tham quan hướng dẫn viên.",
@@ -9383,16 +9384,10 @@
                 "section": {
                     "tabs": {
                         "label": "$~loại phòng trưng bày",
-                        "labels": [
-                            "$~Trân trọng,",
-                            "$~Ví dụ",
-                            "$~Hướng dẫn",
-                            "$~Công cộng"
-                        ],
+                        "labels": ["$~Trân trọng,", "$~Ví dụ", "$~Công cộng"],
                         "tips": [
                             "$~các phòng trưng bày mà bạn quản lý hoặc đóng góp vào",
                             "$~các phòng trưng bày được tuyển chọn bởi các nhà phát triển Wordplay",
-                            "$~làm cách nào để được chia sẻ bởi các phòng trưng bày mà bạn tham gia",
                             "$~các phòng trưng bày mà những người sáng tạo đã công khai"
                         ]
                     },
@@ -9401,22 +9396,21 @@
                         "Người quản lý chịu trách nhiệm kiểm duyệt nội dung trong các thư viện ảnh bằng cách sử dụng bảng điều khiển kiểm duyệt thư viện ảnh <gallery moderation dashboard@://galleries/moderation>./"
                     ],
                     "examples": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển @wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng.",
-                    "howtos": "$~Bạn có thể xem và tương tác với các hướng dẫn trong các thư viện này, nhưng bạn không thể xem các dự án của chúng trừ khi thư viện hoặc dự án đó được công khai.",
-                    "public": "$~Đây là những bộ sưu tập hình ảnh do những người sáng tạo @wordplay công khai. Hãy xem những tác phẩm của người khác để lấy cảm hứng!"
+                    "public": "$~Đây là những phòng trưng bày mà người tạo @wordplay đã công khai. Ai cũng có thể xin đưa phòng trưng bày của mình vào danh sách này, và một người kiểm duyệt sẽ xem qua trước để chắc chắn nó đã hoàn thành và tuân theo quy định. Một phòng trưng bày có thể bị gỡ khỏi danh sách này bất cứ lúc nào, vì bất kỳ lý do gì. Chúng được hiển thị theo thứ tự khác nhau mỗi lần bạn ghé thăm, để mỗi phòng trưng bày đều có lượt xuất hiện ở đầu danh sách."
                 },
                 "button": {
-                    "newgallery": "$~phòng trưng bày mới",
-                    "more": {
-                        "label": "$~hơn...",
-                        "tip": "$~Tải thêm bộ sưu tập ảnh"
-                    }
+                    "newgallery": "$~phòng trưng bày mới"
                 },
                 "error": {
-                    "nogalleryedits": "$~Bạn phải đăng nhập vào <địa chỉ email> để tạo và chỉnh sửa thư viện ảnh."
+                    "nogalleryedits": "$~Bạn phải đăng nhập vào <địa chỉ email> để tạo và chỉnh sửa thư viện ảnh.",
+                    "nopublic": "$~Chưa có phòng trưng bày nào được duyệt vào danh sách này. Hãy quay lại kiểm tra sau nhé!"
                 },
                 "search": {
-                    "description": "$~Tìm kiếm các dự án trong thư viện ảnh ví dụ",
-                    "noResults": "$~Không tìm thấy kết quả nào."
+                    "description": "$~Tìm ví dụ và các phòng trưng bày công khai",
+                    "noResults": "$~Không tìm thấy kết quả nào.",
+                    "galleries": "$~Phòng trưng bày",
+                    "examples": "$~Dự án ví dụ",
+                    "projects": "$~Dự án trong các phòng trưng bày công khai"
                 }
             },
             "characters": {
@@ -10575,6 +10569,37 @@
             "banned": "$~Bạn đã bị cảnh báo về nội dung công khai ba lần, vì vậy bạn không thể công khai dự án hoặc phòng trưng bày nữa. Bạn vẫn có thể tạo dự án, và vẫn có thể chia sẻ chúng với những người bạn chọn. Nếu bạn nghĩ đây là một sai sót, hoặc việc đó xảy ra đã lâu và bạn muốn chia sẻ công khai trở lại, hãy viết thư tới hi@wordplay.dev và cho chúng tôi biết tên người dùng của bạn cùng lý do.",
             "warned": "$~Một số nội dung công khai của bạn đã vi phạm các quy tắc chia sẻ, nên nó không còn công khai nữa. Đây là cảnh báo $#count[$count]. $#remaining[Sau $remaining lần nữa, bạn sẽ không còn có thể công khai bất cứ thứ gì.]",
             "notification": "$~Cảnh báo thứ $#count[$count] về một thứ bạn đã chia sẻ công khai."
+        },
+        "queue": {
+            "label": "$~cần xem xét gì",
+            "labels": ["$~dự án", "$~phòng trưng bày"],
+            "tips": [
+                "$~xem xét các dự án mà mọi người đã công khai",
+                "$~xem xét các phòng trưng bày xin được liệt kê công khai"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Một người kiểm duyệt đang xem phòng trưng bày của bạn để quyết định xem có thể liệt kê nó công khai hay không. Trước khi đó, chỉ những người bạn chia sẻ liên kết mới có thể xem được.",
+            "approved": "$~Phòng trưng bày của bạn đã được liệt kê trên <trang phòng trưng bày công khai@://galleries?tab=public>! Nó có thể bị gỡ khỏi danh sách đó bất cứ lúc nào, vì bất kỳ lý do gì.",
+            "denied": "$~Một người kiểm duyệt đã quyết định không liệt kê phòng trưng bày của bạn công khai. Bạn có thể tiếp tục làm việc và công khai lại nó để xin xét duyệt lần nữa.",
+            "explain": "$~Phòng trưng bày này đang xin được liệt kê công khai. Hãy xem qua nó và các dự án của nó, rồi quyết định xem nó đã đủ hoàn thiện để cho mọi người xem chưa.",
+            "done": "$~Không có phòng trưng bày nào đang chờ quyết định. Cảm ơn bạn!",
+            "approve": {
+                "label": "$~liệt kê nó",
+                "tip": "$~liệt kê phòng trưng bày này trên trang phòng trưng bày công khai"
+            },
+            "deny": {
+                "label": "$~đừng liệt kê nó",
+                "tip": "$~giữ phòng trưng bày này ngoài trang phòng trưng bày công khai"
+            },
+            "skip": {
+                "label": "$~bỏ qua",
+                "tip": "$~để phòng trưng bày này cho một người kiểm duyệt khác quyết định"
+            },
+            "notification": {
+                "approved": "$~$name hiện đã được liệt kê công khai.",
+                "denied": "$~$name đã không được liệt kê công khai."
+            }
         }
     },
     "gallery": {

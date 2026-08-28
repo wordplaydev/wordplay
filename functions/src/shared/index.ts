@@ -169,3 +169,30 @@ export type ModerateProjectOutput = {
     count: number;
     banned: boolean;
 };
+
+/**
+ * How a gallery stands with the moderators (#1311). Mirrors the union in
+ * src/db/galleries/Gallery.ts; the two are compared by
+ * src/db/galleries/galleryModerationSync.test.ts.
+ */
+export type GalleryModeration =
+    'unrequested' | 'pending' | 'approved' | 'denied';
+
+/** What `moderateGallery` is called with. */
+export type ModerateGalleryInputs = {
+    /** The gallery being decided on. */
+    gallery: string;
+    /** Whether it may be listed publicly. */
+    decision: 'approved' | 'denied';
+    /** The flag states to write, by flag name. All false or null for a denial
+     *  on quality grounds — a gallery can be too unfinished to list without
+     *  breaking any rule, and only a rule broken withdraws `public`. */
+    flags: Record<string, boolean | null>;
+};
+
+/** What it answers with, so the moderator sees what their decision did. */
+export type ModerateGalleryOutput = {
+    moderation: GalleryModeration;
+    /** Whether the decision also withdrew the gallery's public sharing. */
+    unpublished: boolean;
+};

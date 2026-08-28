@@ -3,6 +3,7 @@ import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { FormattedText } from '@locale/LocaleText';
 import getClaim from '@db/creators/getClaim';
+import z from 'zod';
 
 /** Ways the platform can respond to a content moderation flag */
 export enum Remedy {
@@ -38,6 +39,16 @@ export type FlagState = boolean | null;
 
 /** An object literal type that contains states for all moderation flags. */
 export type ModerationState = { [key in Flag]: FlagState };
+
+/** The persisted shape of a {@link ModerationState}. Declared once here and
+ *  reused by everything that stores one — projects and galleries — so a new
+ *  flag can't be added to `Flags` and forgotten in a schema. */
+export const ModerationStateSchema = z.object({
+    dehumanization: z.nullable(z.boolean()),
+    violence: z.nullable(z.boolean()),
+    disclosure: z.nullable(z.boolean()),
+    misinformation: z.nullable(z.boolean()),
+});
 
 export function withFlag(
     flags: ModerationState,

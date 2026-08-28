@@ -8177,7 +8177,8 @@
                     "header": "Tutoriais",
                     "explanation": "Exemplos curtos que mostram como fazer coisas no @wordplay. Clique em reproduzir em qualquer pré-visualização para ver o exemplo em execução e, em seguida, abra-o para ler como funciona."
                 },
-                "conceptHowTos": "$~Como fazer"
+                "conceptHowTos": "$~Como fazer",
+                "bookmarked": "$~Marcado como favorito"
             },
             "tour": {
                 "launch": "Faça um tour pelo guia.",
@@ -9474,16 +9475,10 @@
                 "section": {
                     "tabs": {
                         "label": "$~tipo de galeria",
-                        "labels": [
-                            "Os seus",
-                            "Exemplos",
-                            "Tutoriais",
-                            "Público"
-                        ],
+                        "labels": ["Os seus", "Exemplos", "Público"],
                         "tips": [
                             "$~galerias que organizas ou para as quais contribuis",
                             "$~galerias organizadas pelos programadores do Wordplay",
-                            "$~guias de como fazer partilhados por galerias a que pertences",
                             "$~galerias que os criadores tornaram públicas"
                         ]
                     },
@@ -9492,22 +9487,21 @@
                         "Os curadores são responsáveis por moderar o conteúdo das galerias utilizando o <painel de moderação da galeria@://galleries/moderation>."
                     ],
                     "examples": "Estas são galerias selecionadas pelos desenvolvedores do @wordplay. São ótimos pontos de partida para aprendizagem e inspiração.",
-                    "howtos": "Pode visualizar e interagir com os tutoriais nestas galerias, mas não poderá ver os projetos a menos que a galeria ou os projetos sejam públicos.",
-                    "public": "Estas são galerias que os criadores do @wordplay tornaram públicas. Veja o que outros criaram para se inspirar!"
+                    "public": "$~Estas são galerias que @wordplay criadores(as) tornaram públicas. Qualquer pessoa pode pedir para que a sua galeria apareça aqui. Um(a) moderador(a) lê a galeria primeiro para confirmar que está terminada e que segue as regras. Uma galeria pode ser retirada desta lista a qualquer momento, por qualquer motivo. As galerias aparecem numa ordem diferente em cada visita, para que todas tenham a sua vez perto do topo."
                 },
                 "button": {
-                    "newgallery": "nova galeria",
-                    "more": {
-                        "label": "mais...",
-                        "tip": "carregar mais galerias"
-                    }
+                    "newgallery": "nova galeria"
                 },
                 "error": {
-                    "nogalleryedits": "Necessita de estar <logado em@://login> para criar e alterar galerias."
+                    "nogalleryedits": "Necessita de estar <logado em@://login> para criar e alterar galerias.",
+                    "nopublic": "$~Ainda não foi aprovada nenhuma galeria para esta lista. Volte a verificar em breve!"
                 },
                 "search": {
-                    "description": "Veja exemplos de projetos na galeria de pesquisa",
-                    "noResults": "Nenhum resultado encontrado."
+                    "description": "$~Pesquisar exemplos e galerias públicas",
+                    "noResults": "Nenhum resultado encontrado.",
+                    "galleries": "$~Galerias",
+                    "examples": "$~Projetos de exemplo",
+                    "projects": "$~Projetos em galerias públicas"
                 }
             },
             "characters": {
@@ -10564,6 +10558,37 @@
             "banned": "$~Já foi avisado(a) três vezes sobre conteúdo público, por isso já não pode tornar projetos ou galerias públicos. Ainda pode criar projetos, e ainda pode partilhá-los com as pessoas que escolher. Se achar que isto é um engano, ou se foi há muito tempo e gostaria de voltar a partilhar publicamente, escreva para hi@wordplay.dev e diga-nos o seu nome de utilizador e a razão.",
             "warned": "$~Algum conteúdo público seu não cumpriu as regras de partilha, por isso deixou de ser público. Este é o aviso $#count[1|$#count|$count]. $#remaining[Mais um e já não poderá tornar mais nada público.|Depois de mais $#remaining já não poderá tornar mais nada público.|Depois de mais $remaining já não poderá tornar mais nada público.]",
             "notification": "$~Aviso $#count[1|$#count|$count] sobre algo que partilhou publicamente."
+        },
+        "queue": {
+            "label": "$~o que rever",
+            "labels": ["$~projetos", "$~galerias"],
+            "tips": [
+                "$~rever projetos que as pessoas tornaram públicos",
+                "$~rever galerias que pedem para ser listadas publicamente"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Um moderador está a ler a sua galeria para decidir se pode ser listada publicamente. Até essa decisão, só as pessoas com quem partilhar a hiperligação podem vê-la.",
+            "approved": "$~A sua galeria está listada na <página de galerias públicas@://galleries?tab=public>! Pode ser retirada dessa lista em qualquer momento, por qualquer motivo.",
+            "denied": "$~Um moderador decidiu não listar a sua galeria publicamente. Pode continuar a trabalhar nela e torná-la pública novamente para pedir uma segunda vez.",
+            "explain": "$~Esta galeria está a pedir para ser listada publicamente. Veja-a e os seus projetos, e decida se está suficientemente terminada para mostrar a todos.",
+            "done": "$~Não há galerias à espera de uma decisão. Obrigado!",
+            "approve": {
+                "label": "$~listar",
+                "tip": "$~listar esta galeria na página de galerias públicas"
+            },
+            "deny": {
+                "label": "$~não listar",
+                "tip": "$~manter esta galeria fora da página de galerias públicas"
+            },
+            "skip": {
+                "label": "$~saltar",
+                "tip": "$~deixar esta galeria para outro moderador decidir"
+            },
+            "notification": {
+                "approved": "$~$name está agora listada publicamente.",
+                "denied": "$~$name não foi listada publicamente."
+            }
         }
     },
     "gallery": {

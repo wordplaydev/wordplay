@@ -264,7 +264,8 @@
                 .toLowerCase()
                 .indexOf(searchTerm.toLowerCase())}
             {#if index !== -1}
-                {text.slice(0, index)}<mark class="search-highlight"
+                {text.slice(0, index)}<mark
+                    class="search-highlight highlight-surface"
                     >{text.slice(index, index + searchTerm.length)}</mark
                 >{text.slice(index + searchTerm.length)}
             {:else}
@@ -508,9 +509,11 @@
         gap: var(--wordplay-spacing);
     }
 
+    /* Background and text color come from .highlight-surface, the app-wide rule
+       for anything filled with --wordplay-highlight-color: the foreground has
+       to be literal black rather than the mode's own, since white on this gold
+       is 3.01:1 in dark mode. Only the shape is local. */
     .search-highlight {
-        background-color: var(--wordplay-highlight-color);
-        color: var(--wordplay-foreground);
         padding: 0 var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
     }

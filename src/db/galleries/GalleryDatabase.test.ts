@@ -82,13 +82,14 @@ vi.mock('@db/projects/ProjectsDatabase.svelte', () => ({
 import GalleryDatabase from './GalleryDatabase.svelte';
 import type { SerializedGallery } from './Gallery';
 import { getDoc } from 'firebase/firestore';
+import { unknownFlags } from '@db/projects/Moderation';
 
 function makeGallery(
     id: string,
     overrides: Partial<SerializedGallery> = {},
 ): Gallery {
     return new Gallery({
-        v: 2,
+        v: 3,
         id,
         path: null,
         name: {},
@@ -106,6 +107,9 @@ function makeGallery(
         howToViewersFlat: [],
         howToGuidingQuestions: [],
         howToReactions: {},
+        moderation: 'unrequested',
+        moderatedAt: null,
+        flags: unknownFlags(),
         ...overrides,
     });
 }

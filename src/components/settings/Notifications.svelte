@@ -15,7 +15,9 @@
             // message in a how-to chat needs moderation
             | 'howtomoderation'
             // a moderator warned this creator about something they made public
-            | 'strike';
+            | 'strike'
+            // a moderator decided whether a gallery may be listed publicly
+            | 'gallerymoderation';
     };
 
     // list of chats that need moderation action from the current user
@@ -105,6 +107,31 @@
     // user is responsible for moderating chats that are in their galleries
     const user = getUser();
 
+    // A decision about whether one of this creator's galleries may be listed
+    // publicly (#1311). Derived from the gallery document rather than pushed,
+    // like the strike above: the gallery listener already delivers it live, and
+    // deriving means the notification is still here after a reload. Keyed by
+    // state and time, since a re-denial after a fix has to read as new rather
+    // than deduplicate against the first.
+    $effect(() => {
+        const uid = $user?.uid;
+        if (uid === undefined) return;
+        for (const gallery of Galleries.accessibleGalleries.values()) {
+            // Curators only: a creator can't ask for public listing, so a
+            // decision about it isn't theirs to hear about.
+            if (!gallery.hasCurator(uid)) continue;
+            const state = gallery.getModeration();
+            if (state !== 'approved' && state !== 'denied') continue;
+            const itemID = `gallery-${gallery.getID()}-${state}-${gallery.getModeratedAt()}`;
+            notifications.set(itemID + 'gallerymoderation', {
+                title: gallery.getName($locales),
+                galleryID: gallery.getID(),
+                itemID,
+                type: 'gallerymoderation',
+            });
+        }
+    });
+
     $effect(() => {
         // Capture the uid up front: the per-chat work below awaits, and on
         // logout `$user` goes null mid-flight — reading `$user.uid` after an
@@ -183,6 +210,18 @@
                 accessor = (l) =>
                     l.ui.dialog.notifications.notification.moderationHeader;
                 break;
+            case 'gallerymoderation':
+                // The gallery's name rides along, so a decision about a second
+                // gallery isn't heard as a repeat of the first.
+                return (
+                    docToMarkup(
+                        $locales.getMultilingualText((l) =>
+                            notification.itemID.includes('-approved-')
+                                ? l.moderation.gallery.notification.approved
+                                : l.moderation.gallery.notification.denied,
+                        ),
+                    ).concretize($locales, { name: notification.title }) ?? ''
+                );
             case 'strike':
                 // Counted, so a second warning doesn't read identically to the
                 // first — and because "which warning is this" is the single
@@ -268,6 +307,15 @@
                     action={() => {
                         showDialog = false;
                         localeGoto(`/project/${notification.itemID}`);
+                    }}
+                />
+            {:else if notification.type === 'gallerymoderation'}
+                <Button
+                    tip={(l) => l.ui.dialog.notifications.notification.link}
+                    icon={'🔗'}
+                    action={() => {
+                        showDialog = false;
+                        localeGoto(`/gallery/${notification.galleryID}`);
                     }}
                 />
             {:else if notification.type === 'projectmoderation' || notification.type === 'howtomoderation'}

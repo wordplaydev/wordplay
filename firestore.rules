@@ -241,10 +241,25 @@ service cloud.firestore {
           || !('public' in request.resource.data)
           || request.resource.data.public != true;
       }
+      // A gallery's moderation state (#1311) is written by the moderateGallery
+      // function and the galleryEdited trigger, both of which use the Admin SDK
+      // and so bypass these rules. No client may write it: a curator who could
+      // approve their own gallery is the whole thing this curation prevents.
+      // `public` stays theirs to set — it's the request, not the decision.
+      function galleryServerFieldsUnchanged() {
+        return (!("moderation" in request.resource.data) || request.resource.data.moderation == resource.data.moderation)
+          && (!("moderatedAt" in request.resource.data) || request.resource.data.moderatedAt == resource.data.moderatedAt)
+          && (!("flags" in request.resource.data) || request.resource.data.flags == resource.data.flags)
+          && (!("words" in request.resource.data) || request.resource.data.words == resource.data.words);
+      }
       allow create: if request.auth != null && galleryMayBePublic();
       // Public galleries can be read, as can private ones if the creator is a curator, creator, or a how to viewer.
+      // Moderators can read any of them, since a gallery awaiting a decision is
+      // by definition not yet public — the same access the mod claim already
+      // grants on projects and how-tos.
       allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (
         request.auth != null && (
+          ("mod" in request.auth.token && request.auth.token.mod) ||
           ("curators" in resource.data && request.auth.uid in resource.data.curators) || 
           ("creators" in resource.data && request.auth.uid in resource.data.creators) || 
           (
@@ -259,6 +274,7 @@ service cloud.firestore {
       allow update: 
         if request.auth != null && 
           galleryMayBePublic() &&
+          galleryServerFieldsUnchanged() &&
           // Curators can update anything
           // Creators can't update public status or creator or curator list.
           (

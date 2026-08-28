@@ -7799,7 +7799,8 @@
                     "header": "$~Instruktioner",
                     "explanation": "$~/Korta exempel som visar hur man gör saker i @wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
                 },
-                "conceptHowTos": "$~Instruktioner"
+                "conceptHowTos": "$~Instruktioner",
+                "bookmarked": "$~Bokmärkt"
             },
             "mode": {
                 "browse": {
@@ -9127,25 +9128,15 @@
                 "header": "$~Gallerier",
                 "prompt": "$~Gallerier är samlingar av projekt, ofta kring ett tema, som du eller andra skapare väljer ut.",
                 "button": {
-                    "more": {
-                        "label": "$~mer...",
-                        "tip": "$~ladda fler gallerier"
-                    },
                     "newgallery": "$~nytt galleri"
                 },
                 "section": {
                     "tabs": {
                         "label": "$~gallerityp",
-                        "labels": [
-                            "$~Din",
-                            "$~Exempel",
-                            "$~Instruktioner",
-                            "$~Offentlig"
-                        ],
+                        "labels": ["$~Din", "$~Exempel", "$~Offentlig"],
                         "tips": [
                             "$~gallerier som du sköter eller bidrar till",
                             "$~utvalda gallerier från Wordplay-utvecklarna",
-                            "$~hur man-guider som delas av gallerier du tillhör",
                             "$~gallerier som skapare har gjort offentliga"
                         ]
                     },
@@ -9154,15 +9145,18 @@
                         "/Kuratorer ansvarar för att moderera innehållet i gallerier med hjälp av <gallery moderation dashboard@://galleries/moderation>./"
                     ],
                     "examples": "$~Detta är utvalda gallerier från utvecklarna av @wordplay. De är bra utgångspunkter för att lära sig och hitta inspiration.",
-                    "howtos": "$~Du kan visa och interagera med instruktionerna i dessa gallerier, men du kan inte se deras projekt om inte galleriet eller projekten är offentliga.",
-                    "public": "$~Det här är gallerier som skapare av @wordplay har gjort offentliga. Se vad andra har skapat för inspiration!"
+                    "public": "$~Det här är galleri:er som @wordplay skapare har gjort publika. Vem som helst kan be om att få sitt galleri listat här, och en moderator läser igenom det först för att se till att det är klart och följer reglerna. Ett galleri kan tas bort från listan när som helst, av vilken anledning som helst. De visas i en annan ordning varje gång du besöker sidan, så alla galleri:er får chansen att hamna högst upp."
                 },
                 "error": {
-                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier."
+                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier.",
+                    "nopublic": "$~Inga galleri:er har blivit godkända för den här listan än. Kom tillbaka snart!"
                 },
                 "search": {
-                    "description": "$~Sök exempel på galleriprojekt",
-                    "noResults": "$~Inga resultat hittades."
+                    "description": "$~Sök bland exempel och publika galleri:er",
+                    "noResults": "$~Inga resultat hittades.",
+                    "galleries": "$~Galleri:er",
+                    "examples": "$~Exempelprojekt",
+                    "projects": "$~Projekt i publika galleri:er"
                 }
             },
             "about": {
@@ -10550,6 +10544,37 @@
             "banned": "$~Du har blivit varnad om offentligt innehåll tre gånger, så du kan inte längre göra projekt eller gallerier offentliga. Du kan fortfarande skapa projekt, och fortfarande dela dem med personer du väljer. Om du tror detta är ett misstag, eller det var länge sedan och du vill dela offentligt igen, skriv till hi@wordplay.dev och berätta ditt användarnamn och varför.",
             "warned": "$~Något av ditt offentliga innehåll bröt delningsreglerna, så det är inte längre offentligt. Detta är varning $#count[1|$count]. $#remaining[En till och du kan inte längre göra något offentligt.|Efter $remaining till kan du inte längre göra något offentligt.]",
             "notification": "$~Varning $#count[1|$count] om något du delade offentligt."
+        },
+        "queue": {
+            "label": "$~vad ska granskas",
+            "labels": ["$~projekt", "$~galleri:er"],
+            "tips": [
+                "$~granska projekt som folk har gjort publika",
+                "$~granska galleri:er som vill listas publikt"
+            ]
+        },
+        "gallery": {
+            "pending": "$~En moderator läser ditt galleri för att avgöra om det kan listas publikt. Tills då kan bara de du delar länken med se det.",
+            "approved": "$~Ditt galleri är listat på <sidan för publika galleri:er@://galleries?tab=public>! Det kan tas bort från listan när som helst, av vilken anledning som helst.",
+            "denied": "$~En moderator bestämde sig för att inte lista ditt galleri publikt. Du kan fortsätta arbeta med det och göra det publikt igen för att fråga en andra gång.",
+            "explain": "$~Det här galleriet vill listas publikt. Titta på det och dess projekt, och avgör om det är klart nog att visa för alla.",
+            "done": "$~Inga galleri:er väntar på ett beslut. Tack!",
+            "approve": {
+                "label": "$~lista det",
+                "tip": "$~lista detta galleri på sidan för publika galleri:er"
+            },
+            "deny": {
+                "label": "$~lista inte det",
+                "tip": "$~håll detta galleri borta från sidan för publika galleri:er"
+            },
+            "skip": {
+                "label": "$~hoppa över",
+                "tip": "$~lämna detta galleri till en annan moderator att bestämma"
+            },
+            "notification": {
+                "approved": "$~$name är nu listat publikt.",
+                "denied": "$~$name listades inte publikt."
+            }
         }
     },
     "gallery": {

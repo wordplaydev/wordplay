@@ -8198,7 +8198,8 @@
                     "header": "$~Cara-cara",
                     "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di @wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
                 },
-                "conceptHowTos": "$~Cara"
+                "conceptHowTos": "$~Cara",
+                "bookmarked": "$~Ditandai"
             },
             "tour": {
                 "launch": "$~ikuti tur bersama pemandu",
@@ -9606,16 +9607,10 @@
                 "section": {
                     "tabs": {
                         "label": "$~jenis galeri",
-                        "labels": [
-                            "$~Milikmu",
-                            "$~Contoh",
-                            "$~Cara-cara",
-                            "$~Publik"
-                        ],
+                        "labels": ["$~Milikmu", "$~Contoh", "$~Publik"],
                         "tips": [
                             "$~galeri yang kamu kelola atau kamu ikut isi",
                             "$~galeri pilihan dari para pengembang Wordplay",
-                            "$~cara yang dibagikan oleh galeri tempat kamu bergabung",
                             "$~galeri yang dibuat publik oleh para pembuatnya"
                         ]
                     },
@@ -9624,22 +9619,21 @@
                         "Kurator bertanggung jawab untuk memoderasi konten di galeri menggunakan<gallery moderation dashboard@://galleries/moderation> ./"
                     ],
                     "examples": "$~Ini adalah galeri pilihan dari para pengembang @wordplay. Galeri-galeri ini merupakan titik awal yang baik untuk belajar dan mendapatkan inspirasi.",
-                    "howtos": "$~Anda dapat melihat dan berinteraksi dengan panduan di galeri-galeri ini, tetapi Anda tidak dapat melihat proyek-proyek mereka kecuali galeri atau proyek tersebut bersifat publik.",
-                    "public": "$~Ini adalah galeri yang telah dipublikasikan oleh para kreator @wordplay. Lihat apa yang telah dibuat orang lain untuk mendapatkan inspirasi!"
+                    "public": "$~Ini adalah galeri yang telah dibuat publik oleh @wordplay pembuat. Siapa pun dapat meminta agar galerinya ditampilkan di sini, dan seorang moderator membacanya terlebih dahulu untuk memastikan galeri itu selesai dan mengikuti aturan. Sebuah galeri dapat dihapus dari daftar ini kapan saja, untuk alasan apa pun. Galeri ditampilkan dalam urutan yang berbeda setiap kunjungan, sehingga setiap galeri mendapat giliran berada di dekat bagian atas."
                 },
                 "button": {
-                    "newgallery": "$~galeri baru",
-                    "more": {
-                        "label": "$~lagi...",
-                        "tip": "$~muat lebih banyak galeri"
-                    }
+                    "newgallery": "$~galeri baru"
                 },
                 "error": {
-                    "nogalleryedits": "$~Anda pasti<logged in@://login> untuk membuat dan mengubah galeri."
+                    "nogalleryedits": "$~Anda pasti<logged in@://login> untuk membuat dan mengubah galeri.",
+                    "nopublic": "$~Belum ada galeri yang disetujui untuk daftar ini. Periksa lagi nanti!"
                 },
                 "search": {
-                    "description": "$~Cari contoh proyek galeri",
-                    "noResults": "$~Tidak ada hasil yang ditemukan."
+                    "description": "$~Cari contoh dan galeri publik",
+                    "noResults": "$~Tidak ada hasil yang ditemukan.",
+                    "galleries": "$~Galeri",
+                    "examples": "$~Proyek contoh",
+                    "projects": "$~Proyek dalam galeri publik"
                 }
             },
             "characters": {
@@ -10580,6 +10574,37 @@
             "banned": "$~Kamu sudah diperingatkan tiga kali tentang konten publik, jadi kamu tidak bisa lagi membuat proyek atau galeri bersifat publik. Kamu masih bisa membuat proyek, dan tetap bisa membagikannya kepada orang yang kamu pilih. Jika menurutmu ini suatu kesalahan, atau sudah lama sekali dan kamu ingin membagikan sesuatu secara publik lagi, tulis surat ke hi@wordplay.dev dan beri tahu kami nama penggunamu serta alasannya.",
             "warned": "$~Beberapa konten publik milikmu melanggar aturan berbagi, jadi konten itu tidak lagi bersifat publik. Ini adalah peringatan $#count[$count]. $#remaining[Setelah $remaining lagi kamu tidak akan bisa membuat apa pun menjadi publik.]",
             "notification": "$~Peringatan ke-$#count[$count] tentang sesuatu yang kamu bagikan secara publik."
+        },
+        "queue": {
+            "label": "$~apa yang perlu diperiksa",
+            "labels": ["$~proyek", "$~galeri"],
+            "tips": [
+                "$~periksa proyek yang telah dipublikasikan orang lain",
+                "$~periksa galeri yang meminta untuk dicantumkan secara publik"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Seorang moderator sedang membaca galerimu untuk memutuskan apakah galeri ini bisa dicantumkan secara publik. Sampai saat itu, hanya orang yang kamu bagikan tautannya yang bisa melihatnya.",
+            "approved": "$~Galerimu sudah tercantum di <halaman galeri publik@://galleries?tab=public>! Galeri ini dapat dikeluarkan dari daftar itu kapan saja, dengan alasan apa pun.",
+            "denied": "$~Seorang moderator memutuskan untuk tidak mencantumkan galerimu secara publik. Kamu bisa terus mengerjakannya dan mempublikasikannya lagi untuk meminta sekali lagi.",
+            "explain": "$~Galeri ini meminta untuk dicantumkan secara publik. Lihat galeri ini dan proyek-proyeknya, lalu putuskan apakah sudah cukup selesai untuk ditampilkan kepada semua orang.",
+            "done": "$~Tidak ada galeri yang menunggu keputusan. Terima kasih!",
+            "approve": {
+                "label": "$~cantumkan",
+                "tip": "$~cantumkan galeri ini di halaman galeri publik"
+            },
+            "deny": {
+                "label": "$~jangan cantumkan",
+                "tip": "$~jangan cantumkan galeri ini di halaman galeri publik"
+            },
+            "skip": {
+                "label": "$~lewati",
+                "tip": "$~biarkan galeri ini diputuskan oleh moderator lain"
+            },
+            "notification": {
+                "approved": "$~$name sekarang tercantum secara publik.",
+                "denied": "$~$name tidak dicantumkan secara publik."
+            }
         }
     },
     "gallery": {
