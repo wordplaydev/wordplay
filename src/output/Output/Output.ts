@@ -9,6 +9,10 @@ import type Place from '@output/Place/Place';
 import type Pose from '@output/animation/Pose';
 import type { DefinitePose } from '@output/animation/Pose';
 import type RenderContext from '@output/RenderContext';
+import type Say from '@output/Output/Say';
+import type { BubbleBox } from '@output/Bubble/bubbleLayout';
+import type { BubbleSide } from '@output/Bubble/Bubble';
+import type { Rect } from '@output/Bubble/bubbleSides';
 import Sequence from '@output/animation/Sequence';
 import TextValue from '@values/TextValue';
 import Valued from '@output/Output/Valued';
@@ -89,6 +93,17 @@ export default abstract class Output extends Valued {
          *  leaf reports Infinity: its own z is reported by whichever parent placed it.
          *  The camera's zoom-in bound follows this; see `nearestZ` in fit.ts. */
         nearest: number;
+        /**
+         * Extra visual extent beyond this output's box, in its own frame — what
+         * speech bubbles spill. Optional, so nothing that has none has to say so.
+         *
+         * Kept apart from `width`/`height` because it must not resize anything:
+         * an arrangement makes no room for a bubble, and nothing on stage moves
+         * when someone starts talking. Only the box the camera frames grows.
+         */
+        overflow?: Rect | undefined;
+        /** The side each child's bubble was given, for whoever renders them. */
+        sides?: Map<Output, BubbleSide> | undefined;
     };
 
     abstract getOutput(): (Output | null)[];
@@ -134,6 +149,39 @@ export default abstract class Output extends Valued {
 
     /** False for outputs that are heard, not seen: they contribute no size to an
      *  arrangement, so they must not earn padding beside their siblings. */
+    /**
+     * The `Say` this output's own decoration carries, if any — only a `Phrase`'s
+     * bubble has one. Declared here so `Group`/`Stage` can gather them without
+     * knowing about `Phrase`, which would be an import cycle.
+     */
+    getBubbleSay(): Say | undefined {
+        return undefined;
+    }
+
+    /**
+     * How big this output's speech bubble is, or undefined without one. Only a
+     * `Phrase` has one; declared here so a container can gather its children's
+     * without knowing what they are.
+     */
+    getBubbleBox(_context: RenderContext): BubbleBox | undefined {
+        return undefined;
+    }
+
+    /** The side the creator pinned for this output's bubble, if they pinned one. */
+    getPinnedBubbleSide(): BubbleSide | undefined {
+        return undefined;
+    }
+
+    /**
+     * How far this output's text baseline sits above the bottom of its box, or
+     * undefined for output that has no baseline — a shape, a group, a phrase in
+     * vertical writing. A baseline only ever pairs with another baseline, so
+     * anything undefined here is aligned some other way.
+     */
+    getBaselineOffset(_context: RenderContext): number | undefined {
+        return undefined;
+    }
+
     occupiesSpace(): boolean {
         return true;
     }

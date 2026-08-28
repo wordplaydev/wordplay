@@ -94,6 +94,26 @@ export default function getPhraseProperties(
                     [],
                 ),
         ),
+        new OutputProperty(
+            (l) => l.output.Phrase.bubble.names,
+            'structure',
+            false,
+            false,
+            // Text and a `Say` are legal here too — they're the shorthand forms
+            // — but the palette works in the structure, which is where the
+            // side, kind, and colors live. A shorthand bubble is edited in code.
+            (expr, context) =>
+                expr instanceof Evaluate &&
+                expr.is(project.shares.output.Bubble, context),
+            () =>
+                Evaluate.make(
+                    Reference.make(
+                        locales.getName(project.shares.output.Bubble.names),
+                        project.shares.output.Bubble,
+                    ),
+                    [TextLiteral.make('')],
+                ),
+        ),
     ];
 
     const typeProperties = getTypeOutputProperties(project, locales);

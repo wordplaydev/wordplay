@@ -20,8 +20,14 @@ conflict: [
 risingAction1: [
 		Phrase(`My 炮炮👵🏽 stepped into the backyard` place: Place(-9m 7m))
 		Phrase(`I followed her, curious` place: Place(-6m 4m))
-		Phrase(`/"沙梨🍐, take go home!"/` place: Place(-3m 1m))
-		Phrase(`👵🏽` name: 'paupau' size: 2m matter: Matter() place: Place(6m -6m))
+		Phrase(
+			`👵🏽`
+			name: 'paupau'
+			size: 2m
+			matter: Matter()
+			place: Place(6m -6m)
+			bubble: `/"沙梨🍐, take go home!"/`
+		)
 		Phrase(`👧🏻` name: 'me' size: 1m matter: Matter() place: Placement(Place(-8m -6m)))
 	]
 

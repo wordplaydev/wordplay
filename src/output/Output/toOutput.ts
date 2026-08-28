@@ -7,8 +7,6 @@ import StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import Arrangement from '@output/Arrangement/Arrangement';
-import type Aura from '@output/Aura/Aura';
-import { toAura } from '@output/Aura/Aura';
 import Color, { toColor } from '@output/Color/Color';
 import { toFree } from '@output/Arrangement/Free';
 import { toGrid } from '@output/Arrangement/Grid';
@@ -116,7 +114,6 @@ export function getTypeStyle(
     changing: string | undefined;
     duration: number | undefined;
     style: string | undefined;
-    shadow: Aura | undefined;
 } {
     const [sizeVal, faceVal, placeVal] = getOutputInputs(value, index);
 
@@ -142,7 +139,6 @@ export function getTypeStyle(
         changing: style.changing,
         duration: style.duration,
         style: style.style,
-        shadow: style.shadow,
     };
 }
 
@@ -176,7 +172,6 @@ export function getStyle(
     const after = includeChanging ? 16 : 15;
     const durationVal = inputs[after];
     const styleVal = inputs[after + 1];
-    const shadowVal = inputs[after + 2];
 
     const name = toText(nameVal);
     const description = toText(descriptionVal);
@@ -207,7 +202,6 @@ export function getStyle(
     const move = toPose(project, moveVal) ?? toSequence(project, moveVal);
     const exit = toPose(project, exitVal) ?? toSequence(project, exitVal);
     const duration = toNumber(durationVal);
-    const shadow = toAura(project, shadowVal);
 
     return {
         name,
@@ -223,6 +217,5 @@ export function getStyle(
             changingVal instanceof TextValue ? changingVal.text : undefined,
         duration,
         style: styleVal instanceof TextValue ? styleVal.text : undefined,
-        shadow: shadow,
     };
 }

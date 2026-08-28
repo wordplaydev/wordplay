@@ -1,4 +1,5 @@
 import type Project from '@db/projects/Project';
+import { BaselineAlignment } from '@output/Arrangement/Row';
 import type Locales from '@locale/Locales';
 import type { LocaleTextsAccessor } from '@locale/Locales';
 import Evaluate from '@nodes/Evaluate';
@@ -33,12 +34,19 @@ function number(name: LocaleTextsAccessor, fallback = 1): OutputProperty {
     );
 }
 
-/** A start/center/end alignment dropdown property. */
-function alignment(name: LocaleTextsAccessor): OutputProperty {
+/** A start/center/end alignment dropdown property. A row also offers the
+ *  baseline, which a stack cannot: its cross axis is horizontal, and a baseline
+ *  is a horizontal line. */
+function alignment(
+    name: LocaleTextsAccessor,
+    baseline = false,
+): OutputProperty {
     return new OutputProperty(
         name,
         new OutputPropertyOptions(
-            ['<', '|', '>'].map((v) => ({ value: v, label: v })),
+            [...['<', '|', '>'], ...(baseline ? [BaselineAlignment] : [])].map(
+                (v) => ({ value: v, label: v }),
+            ),
             true,
             (text) => TextLiteral.make(text),
             (expr) =>
@@ -60,7 +68,7 @@ export default function getArrangementProperties(
     const context = project.getNodeContext(arrangement);
     if (arrangement.is(project.shares.output.Row, context))
         return [
-            alignment((l) => l.output.Row.alignment.names),
+            alignment((l) => l.output.Row.alignment.names, true),
             meters((l) => l.output.Row.padding.names, 1),
         ];
     if (arrangement.is(project.shares.output.Stack, context))

@@ -38,7 +38,12 @@ export function musicSource(music: string): string {
 }
 
 /** What is being said right now, for anything that has to show or react to it. */
-export type CurrentSpeech = { source: string; text: string };
+export type CurrentSpeech = {
+    source: string;
+    text: string;
+    /** Whether a caption should show these words; see `Utterance.captioned`. */
+    captioned: boolean;
+};
 
 const speaking = writable<CurrentSpeech | undefined>(undefined);
 
@@ -173,6 +178,7 @@ class Speech {
                 : {
                       source: current.utterance.source,
                       text: current.utterance.text,
+                      captioned: current.utterance.captioned !== false,
                   },
         );
         this.pace();

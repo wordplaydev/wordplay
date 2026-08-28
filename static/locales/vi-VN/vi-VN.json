@@ -3656,25 +3656,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Mình có thể lấy một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Như thế này:",
+                        "$~Mình có thể lấy một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Ví dụ như thế này:",
                         "\\[1 5 8 0 2].đãsắpxếp()\\",
-                        "Mình cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa sẽ được xếp cạnh chữ cái thường tương ứng, nên một từ không bị đẩy xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
+                        "Mình cũng có thể làm điều này với các giá trị @Text, theo thứ tự chữ cái. Một chữ cái viết hoa sẽ được sắp xếp cạnh chữ cái viết thường của nó, nên một từ không bị đưa xuống cuối chỉ vì nó bắt đầu bằng chữ hoa:",
                         "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
-                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho mình một @FunctionDefinition biến mỗi phần tử thành một @Number hay một @Text để mình có thể sắp xếp. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn đưa cho mình một hàm biến mỗi danh sách thành độ dài của nó, mình có thể sắp xếp theo độ dài của chúng.",
-                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
-                        "Một hàm tạo ra @Text là cách để bạn sắp xếp theo một từ mà bạn tính toán, thay vì theo chính giá trị đó. Ở đây mình sắp xếp các tên theo họ:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
+                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể cho mình một @FunctionDefinition để biến mỗi phần tử thành một @Number hoặc một @Text để mình có thể sắp xếp nó. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn cho mình một hàm biến mỗi danh sách thành độ dài của nó, mình có thể sắp xếp theo độ dài của chúng.",
+                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách) danhSách.chiềudài()\n)\\",
+                        "Một hàm tạo ra @Text là cách để bạn sắp xếp theo một từ mà bạn tính toán ra, thay vì theo giá trị chính nó. Ở đây mình sắp xếp các tên theo tên cuối cùng:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên3•'') (tên3 ÷ ' ').cuốicùng()\n)\\"
                     ],
                     "names": "$~đãsắpxếp",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number hay một @Text có thể dùng để sắp xếp danh sách.",
+                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number hoặc một @Text có thể dùng để sắp xếp danh sách.",
                             "names": "$~bộđiềukhiểntrìnhtự"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value cần biến thành một @Number hay một @Text.",
+                            "doc": "$~@value để biến thành một @Number hoặc một @Text.",
                             "names": "$~giátrị"
                         }
                     ]
@@ -5284,10 +5284,22 @@
                 "doc": "$~Phong cách hoạt hình được sử dụng khi di chuyển đến một vị trí khác trên sân khấu.",
                 "names": "$~phongcách"
             },
-            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
             "changing": {
                 "doc": "$~Tên của một hiệu ứng để phát khi văn bản của tôi thay đổi, trong khoảng @Phrase.duration của tôi, được làm mượt bởi @Phrase.style của tôi. Nếu \\ø\\, văn bản của tôi thay đổi ngay lập tức. Nếu là 'edit', tôi xóa văn bản cũ trở lại phần mà văn bản cũ và mới cùng chia sẻ, rồi gõ ra văn bản mới. Nếu là 'rewrite', tôi gõ văn bản mới đè lên văn bản cũ, thay thế từng ký hiệu một theo thứ tự ngẫu nhiên. Nếu là 'random', mỗi ký hiệu của tôi quay qua các ký hiệu ngẫu nhiên từ ngôn ngữ của văn bản của tôi (hoặc chữ viết của nó, khi không biết ngôn ngữ), khớp với chữ hoa chữ thường của văn bản của tôi, giống như một máy quay may mắn, cho đến khi nó dừng ở văn bản mới. Với văn bản @FormattedLiteral, các ký hiệu đang thay đổi sẽ mang định dạng của văn bản mới trong lúc diễn ra hiệu ứng.",
                 "names": "$~đangThayĐổi"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Bong bóng thoại cho thấy tôi đang nói gì, chỉ thẳng vào tôi. Có bốn thứ có thể đặt vào đây.",
+                    "Văn bản thường, tôi chỉ hiện ra và không làm gì thêm:",
+                    "\\Cụmtừ('một' bongBóng: 'xin chào!')\\",
+                    "Văn bản có định dạng, nếu bạn muốn có chữ *đậm* hay /nghiêng/ trong lời tôi nói.",
+                    "Một @Say, tôi vừa hiện ra *vừa* đọc to lên:",
+                    "\\Cụmtừ('một' bongBóng: Nói('xin chào!'))\\",
+                    "Một @Bubble, khi bạn muốn chọn tôi nói từ phía nào, đổi thành một suy nghĩ thay vì lời nói, hoặc đặt cho nó một màu."
+                ],
+                "names": "$~bongBóng"
             }
         },
         "Arrangement": {
@@ -5299,7 +5311,7 @@
             "names": ["$~Hàngngang"],
             "description": "$~hàng gồm $#count[$count cụm từ hoặc nhóm]",
             "alignment": {
-                "doc": "$~Có nên căn văn bản ở đầu, giữa, hay cuối trên mỗi @column hay không.",
+                "doc": "$~Có nên xếp nội dung của tôi vào đầu, giữa, hay cuối mỗi @column — hay, với \\'_'\\, theo đường cơ sở mà các chữ dựa vào, để những chữ cái có chiều cao khác nhau vẫn đọc thành một dòng.",
                 "names": "$~sựcănchỉnh"
             },
             "padding": {
@@ -6906,6 +6918,47 @@
             "z": {
                 "doc": "$~Độ sâu mình nằm ở đó.",
                 "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Tôi cho thấy một @Phrase đang nói gì, trong một bong bóng chỉ thẳng vào người đó. Đưa tôi vào @Phrase.bubble của một câu và để các chữ cái lên tiếng:",
+                "\\Cụmtừ('a' bongBóng: 'chào bạn!')\\",
+                "Đưa cho tôi một @Say thay vì chữ, tôi sẽ được đọc to lên chứ không chỉ hiện ra thôi.",
+                "Đổi @Bubble.kind của tôi thành một suy nghĩ, tôi sẽ biến thành bong bóng suy nghĩ.",
+                "Tôi chỉ là vật trang trí, nên không có gì trên sân khấu phải nhường chỗ cho tôi — nhưng @Stage vẫn luôn giữ tôi trong tầm nhìn."
+            ],
+            "names": ["$~BongBóng"],
+            "text": {
+                "doc": [
+                    "$~Điều tôi cho thấy. Đưa cho tôi chữ thường, hoặc chữ có định dạng nếu bạn muốn có từ *đậm* hay /nghiêng/.",
+                    "Đưa cho tôi một @Say thay vì chữ, tôi sẽ được đọc to lên chứ không chỉ hiện ra thôi. Khi đó tôi thay cho những chữ thường xuất hiện ở chân @Stage, vì chữ của tôi đã ở ngay trên màn hình, cạnh người nói."
+                ],
+                "names": "$~vănBản"
+            },
+            "side": {
+                "doc": "$~Tôi nằm ở phía nào của @Phrase, thể hiện bằng một mũi tên. Nếu \\ø\\, @Stage sẽ đặt tôi ở nơi ít vướng nhất, và chọn lại mỗi khi mọi thứ di chuyển.",
+                "names": "$~cạnh"
+            },
+            "kind": {
+                "doc": "$~Tôi là điều được nói (\\'💬'\\) hay điều được nghĩ (\\'💭'\\). Một suy nghĩ để lại các vòng tròn hướng về phía người nghĩ thay vì một điểm nhọn, và các góc được bo tròn.",
+                "names": "$~loại"
+            },
+            "color": {
+                "doc": "$~@Color của chữ tôi. Nếu \\ø\\, tôi dùng chính màu của @Phrase.",
+                "names": "$~màuSắc"
+            },
+            "background": {
+                "doc": "$~@Color mà tôi được tô đầy bên trong. Nếu \\ø\\, tôi được tô bằng màu nền của thứ mà tôi được vẽ lên.",
+                "names": "$~nền"
+            },
+            "size": {
+                "doc": "$~Chữ của tôi lớn cỡ nào. Nếu \\ø\\, chúng sẽ có kích thước chữ bình thường trên @Stage — không phải kích thước của người đang nói, vì một nhân vật cao vài mét sẽ tạo ra cả một bức tường chữ.",
+                "names": "$~kíchThước"
+            },
+            "wrap": {
+                "doc": "$~Ranh giới mà tại đó tôi xuống dòng chữ của mình.",
+                "names": "$~gói"
             }
         }
     },
@@ -8986,7 +9039,7 @@
                         "phrase": "$~\\¶Cụm từ xuất hiện trên sân khấu, với bất kỳ màu sắc, ánh sáng và chuyển động nào bạn muốn.¶\nCụmtừ(\n\t'xin chào!'\n\t6m\n\tmàusắc: Màusắc(60% 90 200°)\n\thàoquang: Hàoquang(Màusắc(80% 80 200°) 0.3m)\n\tnghỉngơi: Sựliêntiếp.đungđưa(8°)\n)\\",
                         "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
                         "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
-                        "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m địađiểm: Contrỏ())]\n\tđịađiểm: Địađiểm(0m 0m -12m)\n)\\",
+                        "keys": "$!\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m địađiểm: Contrỏ())]\n\tđịađiểm: Địađiểm(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Bố cục văn bản và làm cho nó có thể chọn được.¶\ntráiCây: ƒ(e•'') Cụmtừ(e 3m tên: e cóthểlựachọn: ⊤)\nđãChọn: Sựlựachọn()\nđãHiện: '?' … ∆ đãChọn … đãChọn\nNhóm(\n\tNgănxếp(đệm: 1m)\n\t[\n\t\tCụmtừ(đãHiện 4m)\n\t\tNhóm(\n\t\t\tHàngngang(đệm: 1m)\n\t\t\t[tráiCây('🍎') tráiCây('🍐') tráiCây('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Trò chuyện với chương trình và dùng hình dạng của phông chữ và ký hiệu.¶\ntinNhắn: Tròchuyện()\ntừ3: 'chào' … ∆ tinNhắn … tinNhắn\ndòng: Đườngviền(từ3 'Noto Sans' 8m)\ntiếngTíchTắc: 0 … ∆ Thờigian(30ms) … tiếngTíchTắc + 1\nđãHiện: ((dòng.chiềudài() × tiếngTíchTắc) ÷ 66).làmtrònxuống(\n\t) + 1\ndấuChấm: dòng.chuỗicon(1 đãHiện).dịch(\n\t\tƒ(p) Cụmtừ('•' địađiểm: p)\n\t)\nSânkhấu(dấuChấm.với(Cụmtừ(từ3 8m độmờđục: 15%)))\\",
                         "pile": "$~\\¶Văn bản cũng có thể có vật lý.¶\ntung: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tCụmtừ(\n\t\t\temoji\n\t\t\t2m\n\t\t\tđịađiểm: Cửđộng(Địađiểm(x2 y2) Vậntốc(vx 0m/s))\n\t\t\tvấnđề: Vấnđề(1kg 0.55 0.06 0.5)\n\t\t)\nSânkhấu(\n\t[\n\t\ttung('🍎' -2m 5m 2.2m/s)\n\t\ttung('🍊' 2m 7m -2.6m/s)\n\t\ttung('🍋' -1m 9m 1.4m/s)\n\t\ttung('🍇' 1.5m 11m -1.9m/s)\n\t\ttung('🫐' 0.5m 15m -1.2m/s)\n\t\tHìnhdạng(Hìnhchữnhật(-4m -3m 4m -3.6m))\n\t\tHìnhdạng(Hìnhchữnhật(-4.6m 4m -4m -3m))\n\t\tHìnhdạng(Hìnhchữnhật(4m 4m 4.6m -3m))\n\t]\n)\\",

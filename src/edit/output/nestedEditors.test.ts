@@ -19,6 +19,7 @@ import getArrangementProperties from '@edit/output/getArrangementProperties';
 import getPlaceProperties from '@edit/output/getPlaceProperties';
 import getVelocityProperties from '@edit/output/getVelocityProperties';
 import getAuraProperties from '@edit/output/getAuraProperties';
+import getBubbleProperties from '@edit/output/getBubbleProperties';
 import getStructureProperties from '@edit/output/getStructureProperties';
 import getPhraseProperties from '@edit/output/PhraseProperties';
 import {
@@ -224,6 +225,43 @@ test('Aura color is editable even when unset (ø), and blur reads its default', 
     expect(blur.areSet()).toBe(false);
     expect(blur.areEditable(project)).toBe(true);
     expect(blur.getNumber()).toBe(0.1);
+});
+
+test('Bubble side and kind read their defaults, and its text is set', () => {
+    const { project, evaluate } = find(
+        `Phrase("hi" bubble: Bubble("hello"))`,
+        (p) => p.shares.output.Bubble,
+    );
+    const properties = getBubbleProperties(project, DefaultLocales);
+
+    const text = valuesFor(
+        project,
+        evaluate,
+        properties,
+        (l) => l.output.Bubble.text.names,
+    );
+    expect(text.areSet()).toBe(true);
+    expect(text.areEditable(project)).toBe(true);
+
+    // Side and kind are unset but inline, so they read their defaults rather
+    // than showing as read-only "default" notes.
+    const side = valuesFor(
+        project,
+        evaluate,
+        properties,
+        (l) => l.output.Bubble.side.names,
+    );
+    expect(side.areSet()).toBe(false);
+    expect(side.areEditable(project)).toBe(true);
+
+    const kind = valuesFor(
+        project,
+        evaluate,
+        properties,
+        (l) => l.output.Bubble.kind.names,
+    );
+    expect(kind.areSet()).toBe(false);
+    expect(kind.areEditable(project)).toBe(true);
 });
 
 test('an unregistered structure is supported automatically by reflecting its inputs', () => {

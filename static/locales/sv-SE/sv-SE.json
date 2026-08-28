@@ -3651,23 +3651,23 @@
                     "doc": [
                         "$~Jag kan ta en lista och göra en ny lista med värdena sorterade. Så här:",
                         "\\[1 5 8 0 2].sorterad()\\",
-                        "Jag kan också göra det för @Text-värden, i bokstavsordning. En stor bokstav sorteras bredvid sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
+                        "Jag kan också göra det för @Text värden, i bokstavsordning. En stor bokstav sorteras precis intill sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med stor bokstav:",
                         "\\['Apelsin' 'kiwi' 'Banan' 'äpple'].sorterad()\\",
-                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör om varje del till en @Number eller en @Text, så jag kan sortera den. Här har vi till exempel en lista med listor av olika längd. Ger du mig en funktion som gör om varje lista till dess längd, kan jag sortera efter längden.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista2) lista2.längd())\\",
-                        "En funktion som skapar @Text är ett sätt att sortera efter ett ord du räknar ut, i stället för efter själva värdet. Här sorterar jag namn efter efternamnet:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn2•'') (namn2 ÷ ' ').sista()\n)\\"
+                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör varje del till en @Number eller en @Text, så att jag kan sortera den. Till exempel, här har vi en lista med listor av olika längd. Om du ger mig en funktion som gör varje lista till dess längd, kan jag sortera efter längden.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista3) lista3.längd())\\",
+                        "En funktion som skapar @Text är hur du sorterar efter ett ord du räknar fram, istället för efter värdet själv. Här sorterar jag namn efter det sista namnet:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn3•'') (namn3 ÷ ' ').sista()\n)\\"
                     ],
                     "names": "$~sorterad",
                     "inputs": [
                         {
-                            "doc": "$~Den valfria @FunctionDefinition som används för att sortera en lista @value. Den ska göra om värdet till en @Number eller en @Text som kan användas för att sortera listan.",
+                            "doc": "$~Den valfria @FunctionDefinition som används för att sortera en lista @value. Den ska göra värdet till en @Number eller en @Text som kan användas för att sortera listan.",
                             "names": "$~sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Den @value som ska göras om till en @Number eller en @Text.",
+                            "doc": "$~@value som ska göras till en @Number eller en @Text.",
                             "names": "$~värde"
                         }
                     ]
@@ -5269,10 +5269,22 @@
                 "doc": "$~Animeringsstilen som ska användas när du flyttar till en annan plats på scenen.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
             "changing": {
                 "doc": "$~Namnet på en effekt som ska spelas när min text ändras, under min @Phrase.duration, mjukad av min @Phrase.style. Om \\ø\\, ändras min text direkt. Om 'edit' suddar jag bort den gamla texten tillbaka till det som den gamla och nya texten delar, och skriver sedan ut den nya texten. Om 'rewrite' skriver jag den nya texten över den gamla och byter ut en symbol i taget i slumpmässig ordning. Om 'random' snurrar var och en av mina symboler genom slumpmässiga symboler från min texts språk (eller dess skrift, när språket är okänt), och matchar min texts stora och små bokstäver, som en enarmad bandit, tills den landar på den nya texten. Med @FormattedLiteral-text tar de ändrade symbolerna den nya textens formatering under effekten.",
                 "names": "$~ändras"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Pratbubblan som visar vad jag säger, pekar rakt på mig. Fyra olika saker kan finnas här.",
+                    "Vanlig text, som jag bara visar utan mer:",
+                    "\\Fras('en' bubbla: 'hej!')\\",
+                    "Formaterad text, om du vill ha *fetstilta* eller /kursiva/ ord i det jag säger.",
+                    "En @Say, som jag *både* visar och säger högt:",
+                    "\\Fras('en' bubbla: Säga('hej!'))\\",
+                    "En @Bubble, när du vill välja vilken sida jag pratar från, göra den till en tanke istället, eller ge den en färg."
+                ],
+                "names": "$~bubbla"
             }
         },
         "Arrangement": {
@@ -5284,7 +5296,7 @@
             "names": ["$~Rad"],
             "description": "$~rad med $#count[$count fras eller grupp|$count fraser och grupper]",
             "alignment": {
-                "doc": "$~Om text ska riktas in vid början, mitten eller slutet på varje @column.",
+                "doc": "$~Om innehållet mitt ska ligga i början, mitten eller slutet av varje @column — eller, med \\'_'\\, på baslinjen som orden ligger på, så att bokstäver med olika höjd ser ut som en rak rad.",
                 "names": "$~inriktning"
             },
             "padding": {
@@ -6891,6 +6903,47 @@
             "z": {
                 "doc": "$~Djupet jag ligger på.",
                 "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Jag visar vad en @Phrase säger, i en pratbubbla som pekar rakt mot den. Ge mig till en phrase sin @Phrase.bubble och låt bokstäverna prata:",
+                "\\Fras('en' bubbla: 'hej!')\\",
+                "Ge mig en @Say istället för text så blir jag uppläst högt och visad samtidigt.",
+                "Ändra min @Bubble.kind till en tanke, så blir jag en tankebubbla istället.",
+                "Jag är en dekoration, så inget på scenen flyttar sig för att göra plats åt mig — men @Stage ser till att jag ändå syns."
+            ],
+            "names": ["$~Bubbla"],
+            "text": {
+                "doc": [
+                    "$~Det jag visar. Ge mig vanlig text, eller formaterad text om du vill ha *fetstil* eller /kursiv/ text.",
+                    "Ge mig en @Say istället, så blir jag uppläst högt och visad samtidigt. Då ersätter jag texten som annars visas längst ner vid @Stage, eftersom min text redan står bredvid den som sa den."
+                ],
+                "names": "$~text"
+            },
+            "side": {
+                "doc": "$~Vilken sida av @Phrase jag sitter på, som en pil. Om \\ø\\, placerar @Stage mig där jag är minst i vägen, och väljer om varje gång saker flyttas.",
+                "names": "$~sida"
+            },
+            "kind": {
+                "doc": "$~Om jag är något som sägs (\\'💬'\\) eller något som tänks (\\'💭'\\). En tanke drar cirklar mot den som tänker istället för en spets, och har rundade hörn.",
+                "names": "$~sort"
+            },
+            "color": {
+                "doc": "$~@Color på mina ord. Om \\ø\\, använder jag @Phrase-ens egen färg.",
+                "names": "$~färg"
+            },
+            "background": {
+                "doc": "$~@Color jag är fylld med. Om \\ø\\, fylls jag med bakgrunden av det jag ritas på.",
+                "names": "$~bakgrund"
+            },
+            "size": {
+                "doc": "$~Hur stora mina ord är. Om \\ø\\, är de i den storlek text vanligtvis har på @Stage — inte storleken på den som talar, eftersom en figur som är flera meter hög skulle ge en vägg av ord.",
+                "names": "$~storlek"
+            },
+            "wrap": {
+                "doc": "$~Gränsen där jag bryter mina ord till en ny rad.",
+                "names": "$~radbryt"
             }
         }
     },
@@ -8732,7 +8785,7 @@
                         "phrase": "$~\\¶Fraser visas på scenen, i vilken färg, glöd och rörelse du vill.¶\nFras(\n\t'hej!'\n\t6m\n\tfärg: Färg(60% 90 200°)\n\taura: Aura(Färg(80% 80 200°) 0.3m)\n\tvilande: Sekvens.vingla(8°)\n)\\",
                         "music": "$~\\¶Musik är toner på riktiga instrument, i ett tempo, i en tonart. Scenen ritar det den hör.¶\nMusik(\n\tSpår([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Koden kan reagera på inmatning som @Time, och text kan vara flerspråkig och talad.¶\nhejsan: ['hej' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhej: hejsan.slumpmässig() … ∆ Tid(1000ms) … hejsan.slumpmässig(\n\t\t)\nFras(hej 4m)\nSäga(hej)\\",
-                        "keys": "$~\\¶Koden kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare())]\n\tplats: Plats(0m 0m -12m)\n)\\",
+                        "keys": "$!\\¶Koden kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare())]\n\tplats: Plats(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Placera text och gör den markerbar.¶\nfrukt: ƒ(e•'') Fras(e 3m namn: e valbara: ⊤)\nvald: Val()\nvisad: '?' … ∆ vald … vald\nGrupp(\n\tStack(stoppning: 1m)\n\t[\n\t\tFras(visad 4m)\n\t\tGrupp(\n\t\t\tRad(stoppning: 1m)\n\t\t\t[frukt('🍎') frukt('🍐') frukt('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Chatta med program och använd formen på typsnitt och symboler.¶\nmeddelande: Chatta()\nord3: 'hej' … ∆ meddelande … meddelande\nrad: Kontur(ord3 'Noto Sans' 8m)\ntick: 0 … ∆ Tid(30ms) … tick + 1\nvisad: ((rad.längd() × tick) ÷ 66).rundaner() + 1\npunkter: rad.efterföljande(1 visad).översätta(\n\t\tƒ(p) Fras('•' plats: p)\n\t)\nEtapp(punkter.med(Fras(ord3 8m opacitet: 15%)))\\",
                         "pile": "$~\\¶Text kan ha fysik.¶\nkasta: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFras(\n\t\t\temoji\n\t\t\t2m\n\t\t\tplats: Rörelse(Plats(x2 y2) Hastighet(vx 0m/s))\n\t\t\tmateria: Materia(1kg 0.55 0.06 0.5)\n\t\t)\nEtapp(\n\t[\n\t\tkasta('🍎' -2m 5m 2.2m/s)\n\t\tkasta('🍊' 2m 7m -2.6m/s)\n\t\tkasta('🍋' -1m 9m 1.4m/s)\n\t\tkasta('🍇' 1.5m 11m -1.9m/s)\n\t\tkasta('🫐' 0.5m 15m -1.2m/s)\n\t\tFigur(Rektangel(-4m -3m 4m -3.6m))\n\t\tFigur(Rektangel(-4.6m 4m -4m -3m))\n\t\tFigur(Rektangel(4m 4m 4.6m -3m))\n\t]\n)\\",

@@ -3657,25 +3657,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Aku bisa mengambil sebuah daftar, lalu membuat daftar baru dengan nilai-nilainya diurutkan. Seperti ini:",
+                        "$~Aku bisa mengambil sebuah daftar, dan membuat daftar baru dengan nilai-nilainya terurut. Seperti ini:",
                         "\\[1 5 8 0 2].diurutkan()\\",
-                        "Aku juga bisa melakukannya untuk nilai @Text, dalam urutan alfabet. Huruf besar diurutkan bersebelahan dengan huruf kecilnya, jadi sebuah kata tidak dikirim ke akhir hanya karena diawali huruf besar:",
+                        "Aku juga bisa melakukannya untuk nilai @Text, secara urutan abjad. Huruf besar diurutkan bersebelahan dengan huruf kecilnya, jadi sebuah kata tidak dikirim ke akhir hanya karena diawali huruf besar:",
                         "\\['Jeruk' 'kiwi' 'Pisang' 'apel'].diurutkan()\\",
-                        "Dan jika kamu punya daftar nilai yang bukan @Number atau @Text, kamu bisa memberiku sebuah @FunctionDefinition yang mengubah tiap item menjadi @Number atau @Text agar aku bisa mengurutkannya. Misalnya, di sini kita punya daftar berisi daftar-daftar dengan panjang berbeda; jika kamu memberiku fungsi yang mengubah tiap daftar menjadi panjangnya, aku bisa mengurutkan berdasarkan panjangnya.",
+                        "Dan jika kamu punya daftar berisi nilai yang bukan @Number atau @Text, kamu bisa memberiku @FunctionDefinition yang mengubah setiap unsurnya menjadi @Number atau @Text supaya aku bisa mengurutkannya. Contohnya, di sini kita punya daftar berisi beberapa daftar dengan panjang berbeda-beda; jika kamu memberiku fungsi yang mengubah setiap daftar menjadi panjangnya, aku bisa mengurutkannya berdasarkan panjang itu.",
                         "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar2) daftar2.panjang()\n)\\",
-                        "Sebuah fungsi yang membuat @Text adalah cara kamu mengurutkan berdasarkan kata yang kamu hitung, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
+                        "Sebuah fungsi yang menghasilkan @Text adalah cara kamu mengurutkan berdasarkan kata yang kamu hitung, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama2•'') (nama2 ÷ ' ').terakhir()\n)\\"
                     ],
                     "names": "$~diurutkan",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opsional untuk digunakan mengurutkan sebuah daftar @value. Fungsi ini harus mengubah nilai menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar.",
+                            "doc": "$~@FunctionDefinition opsional yang dipakai untuk mengurutkan daftar @value. Fungsi ini harus mengubah nilai menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar.",
                             "names": "$~pengurut"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value yang akan diubah menjadi @Number atau @Text.",
+                            "doc": "$~@value yang diubah menjadi @Number atau @Text.",
                             "names": "$~nilai"
                         }
                     ]
@@ -5290,10 +5290,22 @@
                 "doc": "$~Gaya animasi yang digunakan saat berpindah ke tempat lain di atas panggung.",
                 "names": "$~gaya"
             },
-            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[bernama $name|] $face[$face|] $animation $color[$color|] $bubble[mengucapkan $bubble|]",
             "changing": {
                 "doc": "$~Nama sebuah efek yang dimainkan saat teksku berubah, selama @Phrase.duration-ku, dilonggarkan oleh @Phrase.style-ku. Jika \\ø\\, teksku berubah seketika. Jika 'edit', aku menghapus teks lama kembali ke bagian yang sama antara teks lama dan baru, lalu mengetik teks baru. Jika 'rewrite', aku mengetik teks baru di atas yang lama, mengganti satu simbol setiap kali dalam urutan acak. Jika 'random', setiap simbolku berputar melalui simbol-simbol acak dari bahasa teksku (atau skripnya, saat bahasanya tidak diketahui), sesuai dengan huruf besar-kecil teksku, seperti mesin slot, sampai berhenti pada teks baru. Dengan teks @FormattedLiteral, simbol-simbol yang berubah mengambil format teks baru selama efek berlangsung.",
                 "names": "$~berubah"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Balon bicara yang menunjukkan apa yang aku katakan, menunjuk tepat ke arahku. Empat hal berbeda bisa ditaruh di sini.",
+                    "Teks biasa, yang aku tampilkan dan tidak lebih:",
+                    "\\Frasa('a' gelembung: 'halo!')\\",
+                    "Teks berformat, jika kamu ingin kata *tebal* atau /miring/ dalam apa yang aku katakan.",
+                    "Sebuah @Say, yang aku tampilkan *dan* ucapkan dengan suara:",
+                    "\\Frasa('a' gelembung: Mengatakan('halo!'))\\",
+                    "Sebuah @Bubble, saat kamu ingin memilih dari sisi mana aku bicara, mengubahnya menjadi pikiran, atau memberinya warna."
+                ],
+                "names": "$~gelembung"
             }
         },
         "Arrangement": {
@@ -5305,7 +5317,7 @@
             "names": ["$~Baris"],
             "description": "$~baris dengan $#count[$count frasa atau grup]",
             "alignment": {
-                "doc": "$~Apakah teks diratakan di awal, tengah, atau akhir pada setiap @column.",
+                "doc": "$~Apakah isiku disejajarkan di awal, tengah, atau akhir setiap @column — atau, dengan \\'_'\\, pada garis dasar tempat kata-katanya berdiri, sehingga huruf-huruf dengan tinggi berbeda terbaca sebagai satu baris.",
                 "names": "$~penyelarasan"
             },
             "padding": {
@@ -6912,6 +6924,47 @@
             "z": {
                 "doc": "$~Kedalaman tempatku berada.",
                 "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Aku menunjukkan apa yang dikatakan oleh @Phrase, dalam gelembung yang menunjuk langsung ke arahnya. Beri aku ke @Phrase.bubble suatu frasa dan biarkan hurufnya berbicara:",
+                "\\Frasa('a' gelembung: 'halo!')\\",
+                "Beri aku @Say sebagai ganti teks, dan aku akan diucapkan sekaligus ditampilkan.",
+                "Ubah @Bubble.kind milikku menjadi pikiran, dan aku berubah menjadi gelembung pikiran.",
+                "Aku adalah hiasan, jadi tidak ada apa pun di panggung yang bergeser untuk memberiku tempat — tapi @Stage tetap memastikan aku terlihat."
+            ],
+            "names": ["$~Gelembung"],
+            "text": {
+                "doc": [
+                    "$~Apa yang aku tampilkan. Beri aku teks biasa, atau teks berformat jika kamu ingin kata *tebal* atau /miring/.",
+                    "Beri aku @Say sebagai ganti, dan aku akan diucapkan sekaligus ditampilkan. Aku lalu menggantikan kata-kata yang biasanya muncul di bagian bawah @Stage, karena kata-kataku sudah tampil di layar tepat di sebelah siapa pun yang mengucapkannya."
+                ],
+                "names": "$~teks"
+            },
+            "side": {
+                "doc": "$~Di sisi mana aku duduk terhadap @Phrase, sebagai sebuah panah. Jika \\ø\\, @Stage menempatkanku di mana pun aku paling tidak menghalangi, dan memilih lagi setiap kali sesuatu bergerak.",
+                "names": "$~sisi"
+            },
+            "kind": {
+                "doc": "$~Apakah aku sesuatu yang diucapkan (\\'💬'\\) atau sesuatu yang dipikirkan (\\'💭'\\). Sebuah pikiran mengarahkan lingkaran-lingkaran ke arah orang yang berpikir, bukan sebuah titik, dan sudutnya membulat.",
+                "names": "$~jenis"
+            },
+            "color": {
+                "doc": "$~@Color dari kata-kataku. Jika \\ø\\, aku memakai warna milik @Phrase itu sendiri.",
+                "names": "$~warna"
+            },
+            "background": {
+                "doc": "$~@Color yang mengisiku. Jika \\ø\\, aku diisi dengan latar belakang dari apa pun tempat aku digambar.",
+                "names": "$~latarBelakang"
+            },
+            "size": {
+                "doc": "$~Seberapa besar kata-kataku. Jika \\ø\\, ukurannya adalah ukuran teks yang biasa dipakai pada @Stage — bukan ukuran tokoh yang berbicara, karena tokoh setinggi beberapa meter akan membuat dinding kata-kata.",
+                "names": "$~ukuran"
+            },
+            "wrap": {
+                "doc": "$~Batas tempat kata-kataku pindah ke baris berikutnya.",
+                "names": "$~bungkus"
             }
         }
     },
@@ -9081,7 +9134,7 @@
                         "phrase": "$~\\¶Phrase muncul di panggung, dengan warna, cahaya, dan gerakan apa pun yang kamu suka.¶\nFrasa(\n\t'halo!'\n\t6m\n\twarna: Warna(60% 90 200°)\n\taura: Aura(Warna(80% 80 200°) 0.3m)\n\tberistirahat: Urutan.bergoyang(8°)\n)\\",
                         "music": "$~\\¶Musik adalah nada pada alat musik sungguhan, dengan tempo, dalam sebuah kunci nada. Panggung menggambar apa yang didengarnya.¶\nMusik(\n\tTrek([1 3 5 8 5 3] alatMusik: AlatMusik.piano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Kode bisa bereaksi terhadap masukan seperti @Time, dan teks bisa berbahasa banyak dan diucapkan.¶\nhellos: ['halo' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhalo: hellos.acak() … ∆ Waktu(1000ms) … hellos.acak()\nFrasa(halo 4m)\nMengatakan(halo)\\",
-                        "keys": "$~\\¶Kode bisa bereaksi terhadap penunjuk, tombol, klik, dan ketukan.¶\nkunci2: Kunci()\nklik: Tombol()\nwajah2: ['🙂' '😮' '😎' '🤩']\nyangMana: 1 … ∆ kunci2 | ∆ klik … (yangMana % 4) + 1\nPanggung(\n\t[Frasa(wajah2[yangMana] 5m tempat: Penunjuk())]\n\ttempat: Tempat(0m 0m -12m)\n)\\",
+                        "keys": "$~\\¶Kode bisa bereaksi terhadap penunjuk, tombol, klik, dan ketukan.¶\nkunci2: Kunci()\nklik: Tombol()\nwajah2: ['🙂' '😮' '😎' '🤩']\nyangMana: 1 … ∆ kunci2 | ∆ klik … (yangMana % 4) + 1\nPanggung(\n\t[Frasa(wajah2[yangMana] 5m tempat: Penunjuk() gelembung: 'hai')]\n\ttempat: Tempat(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Atur tata letak teks dan buat teks bisa dipilih.¶\nbuah: ƒ(e•'') Frasa(e 3m nama: e dapatdipilih: ⊤)\ndipilih: Pilihan()\nditampilkan: '?' … ∆ dipilih … dipilih\nKelompok(\n\tTumpukan(lapisan: 1m)\n\t[\n\t\tFrasa(ditampilkan 4m)\n\t\tKelompok(\n\t\t\tBaris(lapisan: 1m)\n\t\t\t[buah('🍎') buah('🍐') buah('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Mengobrol dengan program dan memakai bentuk huruf serta simbol.¶\npesan: Mengobrol()\nkata2: 'hai' … ∆ pesan … pesan\nbaris2: Kontur(kata2 'Noto Sans' 8m)\ndetik2: 0 … ∆ Waktu(30ms) … detik2 + 1\nditampilkan: ((baris2.panjang() × detik2) ÷ 66).bulatkankebawah(\n\t) + 1\ntitik: baris2.suburutan(1 ditampilkan).menerjemahkan(\n\t\tƒ(p) Frasa('•' tempat: p)\n\t)\nPanggung(titik.dengan(Frasa(kata2 8m kegelapan: 15%)))\\",
                         "pile": "$~\\¶Teks bisa punya fisika.¶\nlempar: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFrasa(\n\t\t\temoji\n\t\t\t2m\n\t\t\ttempat: Gerakan(Tempat(x2 y2) Kecepatan(vx 0m/s))\n\t\t\turusan: Urusan(1kg 0.55 0.06 0.5)\n\t\t)\nPanggung(\n\t[\n\t\tlempar('🍎' -2m 5m 2.2m/s)\n\t\tlempar('🍊' 2m 7m -2.6m/s)\n\t\tlempar('🍋' -1m 9m 1.4m/s)\n\t\tlempar('🍇' 1.5m 11m -1.9m/s)\n\t\tlempar('🫐' 0.5m 15m -1.2m/s)\n\t\tBangun(Persegipanjang(-4m -3m 4m -3.6m))\n\t\tBangun(Persegipanjang(-4.6m 4m -4m -3m))\n\t\tBangun(Persegipanjang(4m 4m 4.6m -3m))\n\t]\n)\\",

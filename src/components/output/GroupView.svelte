@@ -243,6 +243,7 @@
             <PhraseView
                 phrase={child}
                 place={childPlace}
+                bubbleSide={layout.sides?.get(child)}
                 focus={offsetFocus}
                 {interactive}
                 parentAscent={root ? 0 : layout.height}

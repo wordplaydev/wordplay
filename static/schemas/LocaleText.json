@@ -13150,6 +13150,60 @@
                             ],
                             "type": "object"
                         },
+                        "Bubble": {
+                            "additionalProperties": false,
+                            "description": "A speech bubble showing what a phrase is saying or thinking",
+                            "properties": {
+                                "background": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The color the bubble is filled with"
+                                },
+                                "color": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The color of the bubble's text; ø means the phrase's own color"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "kind": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether the bubble is speech or thought"
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "side": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Which side of the phrase the bubble sits on, as an arrow"
+                                },
+                                "size": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How big the bubble's text is; ø means the phrase's own size"
+                                },
+                                "text": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "What the bubble shows; give it a Say instead of text to have it spoken aloud too"
+                                },
+                                "wrap": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The boundary at which to wrap the bubble's text to another line"
+                                }
+                            },
+                            "required": [
+                                "background",
+                                "color",
+                                "doc",
+                                "kind",
+                                "names",
+                                "side",
+                                "size",
+                                "text",
+                                "wrap"
+                            ],
+                            "type": "object"
+                        },
                         "Circle": {
                             "additionalProperties": false,
                             "description": "A circle form",
@@ -14177,6 +14231,10 @@
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The background color behind a phrase, group, or stage"
                                 },
+                                "bubble": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The optional speech bubble showing what the phrase is saying"
+                                },
                                 "changing": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The name of the effect used to animate changes to the text, played over the duration and eased by the style; ø means the text changes instantly"
@@ -14186,8 +14244,8 @@
                                     "description": "The color of characters in a phrase, group, or stage"
                                 },
                                 "defaultDescription": {
-                                    "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22name%22%2C%22size%22%2C%22face%22%2C%22animation%22%2C%22color%22%5D%3E",
-                                    "description": "[formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name"
+                                    "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22name%22%2C%22size%22%2C%22face%22%2C%22animation%22%2C%22color%22%2C%22bubble%22%5D%3E",
+                                    "description": "[formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name, $7: optional speech bubble text"
                                 },
                                 "description": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -14290,6 +14348,7 @@
                                 "alignment",
                                 "aura",
                                 "background",
+                                "bubble",
                                 "changing",
                                 "color",
                                 "defaultDescription",
@@ -15867,6 +15926,7 @@
                         "Output",
                         "Group",
                         "Aura",
+                        "Bubble",
                         "Phrase",
                         "Stage",
                         "Shape",
@@ -27750,7 +27810,7 @@
         "Template<[\"template\"]>": {
             "type": "string"
         },
-        "Template<[\"text\",\"name\",\"size\",\"face\",\"animation\",\"color\"]>": {
+        "Template<[\"text\",\"name\",\"size\",\"face\",\"animation\",\"color\",\"bubble\"]>": {
             "type": "string"
         },
         "Template<[\"text\",\"reminder\"]>": {

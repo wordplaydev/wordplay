@@ -27,6 +27,9 @@ import Place from '@output/Place/Place';
 import Pose, { DefinitePose } from '@output/animation/Pose';
 import type RenderContext from '@output/RenderContext';
 import Say from '@output/Output/Say';
+import resolveBubbles, {
+    type BubbleChild,
+} from '@output/Bubble/resolveBubbles';
 import type Sequence from '@output/animation/Sequence';
 import Shape from '@output/Output/Shape/Shape';
 import { getTypeStyle, toOutput, toOutputList } from '@output/Output/toOutput';
@@ -197,6 +200,19 @@ export default class Stage extends Output {
         return says;
     }
 
+    /** The `Say`s carried by speech bubbles on the content, in source order.
+     * Kept apart from `getSays` because a bubble is already the visual rendering
+     * of what it speaks, so it must not also be captioned. */
+    getBubbleSays(): Say[] {
+        const says: Say[] = [];
+        for (const child of this.content) {
+            const say = child?.getBubbleSay();
+            if (say !== undefined) says.push(say);
+            if (child instanceof Group) says.push(...child.getBubbleSays());
+        }
+        return says;
+    }
+
     /** All the music in the content, in source order. Like getSays, this
      * consciously skips the overlay. */
     getMusic(): Music[] {
@@ -210,6 +226,7 @@ export default class Stage extends Output {
 
     getLayout(context: RenderContext) {
         const places: [Output, Place][] = [];
+        const children: BubbleChild[] = [];
         let left = 0,
             right = 0,
             bottom = 0,
@@ -235,6 +252,13 @@ export default class Stage extends Output {
                               0,
                           );
                 places.push([child, place]);
+                children.push({
+                    output: child,
+                    place,
+                    width: layout.width,
+                    height: layout.height,
+                    overflow: layout.overflow,
+                });
 
                 if (place.x < left) left = place.x;
                 if (place.x + layout.width > right)
@@ -249,18 +273,34 @@ export default class Stage extends Output {
             }
         }
 
+        // Speech bubbles are decoration — they move nothing and resize nothing —
+        // but they are still words a viewer has to be able to read, so the box
+        // the camera frames has to include them. Folded into the bounds rather
+        // than kept beside them so the editor's grid spans what is framed, and
+        // so the off-stage hint counts a bubble as content; a larger box only
+        // makes that hint fire less, which is the safe direction.
+        const { sides, overflow } = resolveBubbles(
+            children,
+            { left, right, top, bottom },
+            context,
+        );
+
         return {
             output: this,
-            left,
-            right,
-            top,
-            bottom,
+            left: overflow ? Math.min(left, overflow.left) : left,
+            right: overflow ? Math.max(right, overflow.right) : right,
+            top: overflow ? Math.max(top, overflow.top) : top,
+            bottom: overflow ? Math.min(bottom, overflow.bottom) : bottom,
+            // Deliberately the content's own size, not the bounds': a bubble
+            // must not resize the stage or anything laid out inside it.
             width: right - left,
             height: top - bottom,
             ascent: top - bottom,
             descent: 0,
             places,
             nearest,
+            overflow,
+            sides,
         };
     }
 

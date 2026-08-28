@@ -120,7 +120,13 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
         localeKey: 'stories',
         name: 'Stories',
         description: 'Interactive stories and narratives.',
-        projects: ['Pears', 'JapaneseClass', 'PersonalMap', 'SlideShow'],
+        projects: [
+            'Pears',
+            'Dialog',
+            'JapaneseClass',
+            'PersonalMap',
+            'SlideShow',
+        ],
     },
     Tools: {
         localeKey: 'tools',

@@ -1,5 +1,6 @@
 import { createSceneDefinition } from '@input/Scene/Scene';
 import { createAuraType } from '@output/Aura/Aura';
+import { createBubbleType } from '@output/Bubble/Bubble';
 import { createFormType } from '@output/Output/Shape/Form';
 import { createRectangleType } from '@output/Output/Shape/Rectangle';
 import { createCircleType } from '@output/Output/Shape/Circle';
@@ -105,6 +106,7 @@ export default function createDefaultShares(locales: Locales) {
         Pose: createPoseType(locales),
         Sequence: createSequenceType(locales),
         Aura: createAuraType(locales),
+        Bubble: createBubbleType(locales),
         Color: ColorType,
         Place: PlaceType,
         Matter: MatterType,

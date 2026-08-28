@@ -8,6 +8,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- 🗨️ Give a @Phrase a `bubble` and it says something in a speech bubble that points right at it, so letters can talk to each other. Put words in it, or a @Say so it's spoken out loud as well as shown, or a @Bubble to pick a color or make it a thought instead. (#75)
+- 🗨️ A bubble finds its own place: above whoever is speaking, or off to one side if something is already there. Your stage makes room for it too, so what someone says is never off screen. (#75)
+- 🗨️ We added a new example called Dialog to the [galleries](https://wordplay.dev/galleries), where two letters talk about how strange it is that letters talk. (#75)
+- 📐 A @Row can now line its content up on the baseline, the line that letters sit on, so a short `a` and a tall `b` read as one line instead of two. Choose `_` for the row's alignment.
 - 🔠 Every font now says what it looks like, so you can pick one without seeing it. The font chooser reads "Creepster, a textured face, strong and old-fashioned" instead of just the name, and a phrase tells you what face it's wearing. There are 12 words for the shape of the letters and 13 for how a font feels, and they're translated into every language Wordplay speaks. (#298)
 - 📐 Things on your stage now line up with each other when you move them. Drag one near another and it snaps to its left or right edge, its middle, or the line its letters sit on, and a line shows you what it lined up with. Turn the grid on and it snaps to the grid too. Hold Alt or Option while you drag to place it anywhere you want. (#117)
 - 📐 You can line things up with the keyboard too. Arrow keys move whatever you picked, and holding shift while you press an arrow jumps it straight to the next thing it can line up with that way. Wordplay says where it landed and what it lined up with, so you can lay out a stage without seeing it. (#117)
@@ -25,6 +29,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- 🗨️ Three examples now use speech bubbles instead of words placed by hand: the map that tells you about a place when you bump into it, the face that says your mood, and the story Pears. (#75)
 - 📐 When your program shows more than one thing, they now go exactly where you put them. Wordplay used to quietly gather them into a @Group and stack them, which threw away the up-and-down part of every place you wrote and moved the side-to-side part too. Things with no place of their own now sit on top of each other in the middle, so give them a place — or write a @Group yourself if stacking is what you wanted.
 
 ### Fixed

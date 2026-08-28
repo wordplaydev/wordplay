@@ -21,30 +21,24 @@
         getFaceCSS,
         getOpacityCSS,
         getSizeCSS,
+        sizeToPx,
         toOutputTransform,
     } from '@output/Output/outputToCSS';
+    import {
+        BubbleSideNames,
+        FallbackSide,
+        type BubbleSide,
+    } from '@output/Bubble/Bubble';
     import type Phrase from '@output/Output/Phrase';
     import type Place from '@output/Place/Place';
     import type RenderContext from '@output/RenderContext';
     import { tick, untrack } from 'svelte';
-    import { DB, locales } from '@db/Database';
+    import { scale } from 'svelte/transition';
+    import { animationDuration, DB, locales } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
-    import Markup from '@nodes/Markup';
     import TextValue from '@values/TextValue';
     import { getLanguageDirection } from '@locale/LanguageCode';
-    import { getTransitionIndex } from '@output/animation/getTextTransition';
-    import {
-        getTransitionSteps,
-        keyOf,
-        reprOf,
-        sameKind,
-    } from '@output/animation/getTransitionSteps';
-    import {
-        changingToTextEffect,
-        styleToEasingFunction,
-    } from '@output/animation/OutputAnimation';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import PlainTextView from '@components/output/PlainTextView.svelte';
+    import AnimatedText from '@components/output/AnimatedText.svelte';
     import moveOutputWithKey, {
         arrowMove,
     } from '@components/output/keyboardMove';
@@ -72,6 +66,10 @@
         frame: number;
         /** Render flat (screen-fixed, no perspective/z) — used by the overlay/HUD layer. */
         flat?: boolean;
+        /** The side this phrase's container chose for its bubble, when it has one
+         *  to choose. Omitted for output with no container to decide — output on
+         *  its way off stage — which falls back to the bubble's own side. */
+        bubbleSide?: BubbleSide | undefined;
     }
 
     let {
@@ -86,6 +84,7 @@
         editing,
         frame,
         flat = false,
+        bubbleSide = undefined,
     }: Props = $props();
 
     const selection = getSelectedOutput();
@@ -135,19 +134,6 @@
             ? textLanguage?.getRegionText()
             : $locales.getPreferredLocales()[0]?.regions[0],
     );
-
-    // What's currently shown. While text is morphing this holds an intermediate
-    // step (a truncated string or Markup); otherwise it equals reprOf(text).
-    // Driven reactively so Svelte owns the DOM (the old engine mutated innerHTML,
-    // which broke Svelte).
-    let displayed = $state<string | Markup>(untrack(() => reprOf(text)));
-    // The last text value we committed to (null on first render).
-    let prev: TextValue | Markup | null = untrack(() => text);
-    // The in-flight requestAnimationFrame handle, if a transition is animating.
-    let rafHandle: number | undefined;
-    // Bumped on every text change and on destroy, so an async transition setup
-    // (the random effect's pool load) discards itself when superseded.
-    let transitionToken = 0;
 
     // The text field, if being edited.
     let input: HTMLInputElement | undefined = $state();
@@ -250,96 +236,6 @@
             }
             setKeyboardFocus(input, 'Restoring phrase text editor focus.');
         }
-    });
-
-    /** Cancel any transition animation in flight and invalidate any pending
-     *  async step building. */
-    function cancelTransition() {
-        transitionToken++;
-        if (rafHandle !== undefined) {
-            cancelAnimationFrame(rafHandle);
-            rafHandle = undefined;
-        }
-    }
-
-    /** Play a precomputed step sequence over `totalMs`, eased by the phrase's
-     *  style, landing exactly on `target`. */
-    function animateTransition(
-        steps: (string | Markup)[],
-        target: string | Markup,
-        totalMs: number,
-    ) {
-        const easing = styleToEasingFunction($locales, phrase.style);
-        const start = performance.now();
-        const step = (now: number) => {
-            const progress = Math.min(1, (now - start) / totalMs);
-            const index = getTransitionIndex(steps.length, easing(progress));
-            displayed = index < 0 ? target : steps[index];
-            if (progress < 1) rafHandle = requestAnimationFrame(step);
-            else {
-                displayed = target;
-                rafHandle = undefined;
-            }
-        };
-        rafHandle = requestAnimationFrame(step);
-    }
-
-    // Animate the displayed text when the phrase's text changes between evaluations
-    // and its `changing` input names a text effect (issue #74); without one, text
-    // changes are instant. Step building lives in getTransitionSteps; here we just
-    // gate, build, and play the steps over the phrase's duration, eased by its
-    // style. Reactive `displayed` state keeps Svelte in control of the DOM.
-    $effect(() => {
-        // Re-run whenever the phrase's text changes.
-        const current = text;
-
-        untrack(() => {
-            cancelTransition();
-
-            const target = reprOf(current);
-            const committed = prev === null ? null : reprOf(prev);
-            prev = current;
-
-            const factor = localContext.animationFactor;
-            const effect = changingToTextEffect($locales, phrase.changing);
-            // Only animate a real same-kind text change while playing, not editing,
-            // and only when the phrase names a text effect with `changing`.
-            // Cross-kind (plain↔markup) and formatting-only changes swap instantly.
-            if (
-                committed === null ||
-                !sameKind(committed, target) ||
-                keyOf(committed) === keyOf(target) ||
-                factor <= 0 ||
-                phrase.duration <= 0 ||
-                effect === undefined ||
-                entered
-            ) {
-                displayed = target;
-                return;
-            }
-
-            // Where to morph from: continue from what's on screen if it's the same
-            // kind (a transition was mid-flight), otherwise from the last committed text.
-            const from = sameKind(displayed, target) ? displayed : committed;
-            const totalMs = phrase.duration * factor * 1000;
-
-            // Build the steps (async only for the random effect's lazily
-            // fetched character data); the token discards the result if a
-            // newer change or destroy supersedes it. Random cycles roughly
-            // every 50ms regardless of duration.
-            const token = transitionToken;
-            getTransitionSteps(effect, from, target, {
-                stepCount: Math.max(8, Math.min(60, Math.round(totalMs / 50))),
-                language: effectLanguage,
-                region: effectRegion,
-            }).then((steps) => {
-                if (token !== transitionToken) return;
-                animateTransition(steps, target, totalMs);
-            });
-        });
-
-        // Cancel any in-flight transition on destroy.
-        return cancelTransition;
     });
 
     async function enter(event: MouseEvent | KeyboardEvent) {
@@ -549,6 +445,50 @@
             ? null
             : CSSAlignments[phrase.alignment]}
     >
+        {#if phrase.bubble}
+            <!-- aria-hidden because the words are already in the phrase's own
+                 aria-label, via Phrase.getDescription — and a spoken bubble
+                 leaves them out of that, since speech synthesis voices it.
+                 The Announcer owns the app's only live region, so nothing here
+                 announces on its own.
+
+                 The font size is the stage's ordinary text size rather than the
+                 speaker's: a character is often several metres tall, and dialog
+                 set at that size is a wall rather than a line. Everything in the
+                 bubble's own CSS is in em, so it scales from this. -->
+            <div
+                class="bubble {BubbleSideNames[
+                    bubbleSide ?? phrase.bubble.getSide() ?? FallbackSide
+                ]}"
+                class:thought={phrase.bubble.isThought()}
+                aria-hidden="true"
+                transition:scale|local={{
+                    duration: $animationDuration,
+                    start: 0.5,
+                }}
+                style:color={phrase.bubble.color?.toCSS(
+                    localContext.adapting,
+                ) ?? null}
+                style:--bubble-fill={phrase.bubble.background?.toCSS(
+                    localContext.adapting,
+                ) ?? null}
+                style:font-size={getSizeCSS(phrase.bubble.size ?? context.size)}
+                style:max-inline-size={phrase.bubble.wrap === undefined
+                    ? null
+                    : sizeToPx(phrase.bubble.wrap)}
+            >
+                <AnimatedText
+                    text={phrase.bubble.getLocalizedTextOrDoc()}
+                    changing={phrase.changing}
+                    duration={phrase.duration}
+                    style={phrase.style}
+                    animationFactor={localContext.animationFactor}
+                    language={effectLanguage}
+                    region={effectRegion}
+                    adapting={localContext.adapting}
+                />
+            </div>
+        {/if}
         {#if soleSelected && editable && !entered && creator}
             <OutputHandles
                 {creator}
@@ -577,14 +517,207 @@
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if typeof displayed === 'string'}<PlainTextView
-                text={displayed}
+        {:else}<AnimatedText
+                {text}
+                changing={phrase.changing}
+                duration={phrase.duration}
+                style={phrase.style}
+                animationFactor={localContext.animationFactor}
+                language={effectLanguage}
+                region={effectRegion}
                 adapting={localContext.adapting}
-            />{:else}<MarkupHTMLView markup={displayed} inline />{/if}
+            />{/if}
     </div>
 {/if}
 
 <style>
+    /* A speech bubble is a decoration, not layout: like an aura, it is absent
+       from getMetrics and getLayout, so a phrase occupies exactly the box its
+       own text does and nothing on stage moves when someone starts talking.
+       It lives inside the phrase's own element so it inherits the transform,
+       opacity, color, and fontSize that OutputAnimation animates — a bubbled
+       phrase carried by a Motion brings its bubble along for free. */
+    .bubble {
+        position: absolute;
+        box-sizing: border-box;
+        /* Everything is in em, so the bubble is the size of whoever is
+           speaking: font-size *is* the output's size in metres (sizeToPx). */
+        --tail: 0.3em;
+        --edge: 0.06em;
+        --fill: var(--bubble-fill, var(--wordplay-background));
+        width: max-content;
+        max-inline-size: 12em;
+        padding: 0.3em 0.5em;
+        border: var(--edge) solid currentcolor;
+        border-radius: 0.5em;
+        background: var(--fill);
+        /* The phrase sets these for its own glyphs, and a bubble that inherited
+           them would lay its words out vertically, on one metrics-exact line,
+           unwrapped, and aligned to whatever the phrase chose. */
+        writing-mode: horizontal-tb;
+        line-height: 1.25;
+        white-space: normal;
+        text-align: start;
+        /* break-word, not anywhere: `anywhere` also lets the box shrink below a
+           word's width, which broke "Wordplay" across two lines in a narrow
+           bubble. This breaks only a word that cannot fit a line by itself,
+           which is still enough to keep a long URL inside the bubble. */
+        overflow-wrap: break-word;
+    }
+
+    /* Positioning uses the standalone `translate` property, leaving `transform`
+       free for the entry/exit scale — and transform-origin puts the growth at
+       the tail, so a bubble appears out of the mouth of whoever said it. */
+    .bubble.up {
+        bottom: 100%;
+        left: 50%;
+        translate: -50% calc(-1 * var(--tail));
+        transform-origin: 50% 100%;
+    }
+    .bubble.down {
+        top: 100%;
+        left: 50%;
+        translate: -50% var(--tail);
+        transform-origin: 50% 0%;
+    }
+    .bubble.left {
+        right: 100%;
+        top: 50%;
+        translate: calc(-1 * var(--tail)) -50%;
+        transform-origin: 100% 50%;
+    }
+    .bubble.right {
+        left: 100%;
+        top: 50%;
+        translate: var(--tail) -50%;
+        transform-origin: 0% 50%;
+    }
+
+    /* The tail, in the two-triangle idiom the tutorial's own bubbles use
+       (lore/Speech.svelte): a fill-colored triangle over a slightly larger
+       one in the border color, so the outline carries around the point. */
+    .bubble::before,
+    .bubble::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+    }
+    .bubble.up::before,
+    .bubble.up::after {
+        left: 50%;
+        translate: -50% 0;
+        border-width: var(--tail) var(--tail) 0;
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+    .bubble.up::before {
+        top: 100%;
+        border-top-color: currentcolor;
+    }
+    .bubble.up::after {
+        top: calc(100% - var(--edge));
+        border-top-color: var(--fill);
+    }
+    .bubble.down::before,
+    .bubble.down::after {
+        left: 50%;
+        translate: -50% 0;
+        border-width: 0 var(--tail) var(--tail);
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+    .bubble.down::before {
+        bottom: 100%;
+        border-bottom-color: currentcolor;
+    }
+    .bubble.down::after {
+        bottom: calc(100% - var(--edge));
+        border-bottom-color: var(--fill);
+    }
+    .bubble.left::before,
+    .bubble.left::after {
+        top: 50%;
+        translate: 0 -50%;
+        border-width: var(--tail) 0 var(--tail) var(--tail);
+        border-top-color: transparent;
+        border-bottom-color: transparent;
+    }
+    .bubble.left::before {
+        left: 100%;
+        border-left-color: currentcolor;
+    }
+    .bubble.left::after {
+        left: calc(100% - var(--edge));
+        border-left-color: var(--fill);
+    }
+    .bubble.right::before,
+    .bubble.right::after {
+        top: 50%;
+        translate: 0 -50%;
+        border-width: var(--tail) var(--tail) var(--tail) 0;
+        border-top-color: transparent;
+        border-bottom-color: transparent;
+    }
+    .bubble.right::before {
+        right: 100%;
+        border-right-color: currentcolor;
+    }
+    .bubble.right::after {
+        right: calc(100% - var(--edge));
+        border-right-color: var(--fill);
+    }
+
+    /* A thought trails circles instead of a point, and rounds off, which is how
+       a reader tells a thought from something said without being told. */
+    .bubble.thought {
+        border-radius: 1em;
+        /* A wider gap than a point needs, so the trail has room to read as
+           circles rather than as punctuation. Everything below is a fraction
+           of it, so the trail always lands inside the gap. */
+        --tail: 0.8em;
+    }
+    /* The border shorthand resets the triangle the side rules above built, so a
+       thought's trail is two circles: the nearer one large, the further one
+       small, shrinking toward the thinker the way a drawn one does. */
+    .bubble.thought::before,
+    .bubble.thought::after {
+        border: var(--edge) solid currentcolor;
+        border-radius: 50%;
+        background: var(--fill);
+        width: calc(var(--tail) * 0.5);
+        height: calc(var(--tail) * 0.5);
+    }
+    .bubble.thought::after {
+        width: calc(var(--tail) * 0.28);
+        height: calc(var(--tail) * 0.28);
+    }
+    .bubble.thought.up::before {
+        top: calc(100% + var(--tail) * 0.06);
+    }
+    .bubble.thought.up::after {
+        top: calc(100% + var(--tail) * 0.66);
+    }
+    .bubble.thought.down::before {
+        bottom: calc(100% + var(--tail) * 0.06);
+    }
+    .bubble.thought.down::after {
+        bottom: calc(100% + var(--tail) * 0.66);
+    }
+    .bubble.thought.left::before {
+        left: calc(100% + var(--tail) * 0.06);
+    }
+    .bubble.thought.left::after {
+        left: calc(100% + var(--tail) * 0.66);
+    }
+    .bubble.thought.right::before {
+        right: calc(100% + var(--tail) * 0.06);
+    }
+    .bubble.thought.right::after {
+        right: calc(100% + var(--tail) * 0.66);
+    }
+
     .phrase {
         /* The position of a phrase is absolute relative to its group. */
         position: absolute;

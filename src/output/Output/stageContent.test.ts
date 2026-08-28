@@ -75,3 +75,30 @@ Shape(Rectangle(-1m 1m 1m -1m))`);
         'Shape',
     ]);
 });
+
+test('a speech bubble’s Say is gathered separately from the stage’s own', () => {
+    // getSays walks the content and never looks inside a Phrase, so a bubble's
+    // Say needs its own gathering — kept apart because a bubble is already the
+    // visual rendering of what it speaks and so must not also be captioned.
+    const stage = stageFrom(
+        `Stage([Phrase('a' bubble: Say('spoken')) Say('loose')])`,
+    );
+    expect(stage?.getSays().map((say) => say.text.text)).toEqual(['loose']);
+    expect(stage?.getBubbleSays().map((say) => say.text.text)).toEqual([
+        'spoken',
+    ]);
+});
+
+test('a speech bubble’s Say is found inside a Group', () => {
+    const stage = stageFrom(
+        `Stage([Group(Stack() [Phrase('a' bubble: Say('nested'))])])`,
+    );
+    expect(stage?.getBubbleSays().map((say) => say.text.text)).toEqual([
+        'nested',
+    ]);
+});
+
+test('a shown speech bubble has nothing to speak', () => {
+    const stage = stageFrom(`Stage([Phrase('a' bubble: 'shown only')])`);
+    expect(stage?.getBubbleSays()).toHaveLength(0);
+});

@@ -3652,25 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Pot lua o listă și pot face o listă nouă cu valorile ei ordonate. Uite așa:",
+                        "$~Pot lua o listă și pot face din ea o listă nouă cu valorile sortate. Uite așa:",
                         "\\[1 5 8 0 2].sortat()\\",
-                        "Pot face asta și pentru valori @Text, în ordine alfabetică. O literă mare se ordonează lângă litera ei mică, deci un cuvânt nu ajunge la sfârșit doar pentru că începe cu literă mare:",
+                        "Pot face asta și pentru valori @Text, în ordine alfabetică. O literă mare se sortează lângă litera mică echivalentă, așa că un cuvânt nu ajunge la final doar pentru că începe cu literă mare:",
                         "\\['Portocală' 'kiwi' 'Banană' 'măr'].sortat()\\",
-                        "Iar dacă ai o listă de valori care nu sunt @Number sau @Text, îmi poți da un @FunctionDefinition care transformă fiecare element într-un @Number sau într-un @Text, ca să o pot ordona. De exemplu, aici avem o listă de liste cu lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot să le ordonez după lungime.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă2) listă2.lungime())\\",
-                        "O funcție care face @Text este felul în care ordonezi după un cuvânt pe care îl calculezi, în loc de valoarea în sine. Aici ordonez numele după ultimul dintre ele:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume2•'') (nume2 ÷ ' ').dura()\n)\\"
+                        "Iar dacă ai o listă de valori care nu sunt @Number sau @Text, îmi poți da un @FunctionDefinition care transformă fiecare element într-un @Number sau într-un @Text ca să pot sorta lista. De exemplu, aici avem o listă de liste cu lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot sorta după lungime.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă3) listă3.lungime())\\",
+                        "O funcție care produce @Text este modul în care sortezi după un cuvânt calculat, în loc de valoarea în sine. Aici sortez nume după ultimul dintre ele:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume3•'') (nume3 ÷ ' ').dura()\n)\\"
                     ],
                     "names": "$~sortat",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opțional folosit pentru a ordona o listă @value. Ar trebui să transforme valoarea într-un @Number sau într-un @Text care poate fi folosit la ordonarea listei.",
+                            "doc": "$~@FunctionDefinition opțional folosit pentru a sorta o listă @value. Ar trebui să transforme valoarea într-un @Number sau un @Text care poate fi folosit pentru sortarea listei.",
                             "names": "$~secvențiator"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value de transformat într-un @Number sau într-un @Text.",
+                            "doc": "$~@value de transformat într-un @Number sau un @Text.",
                             "names": "$~valoare"
                         }
                     ]
@@ -5284,10 +5284,22 @@
                 "doc": "$~Stilul de animație de utilizat atunci când vă mutați într-un alt loc pe scenă.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size metri |]frază $text $name[numit $name|] $face[$face|] $animation $color[$color|] $bubble[spunând $bubble|]",
             "changing": {
                 "doc": "$~Numele unui efect care rulează atunci când textul meu se schimbă, pe durata mea @Phrase.duration, atenuat de stilul meu @Phrase.style. Dacă \\ø\\, textul meu se schimbă instantaneu. Dacă 'edit', șterg textul vechi până la ce au în comun textul vechi și cel nou, apoi scriu textul nou. Dacă 'rewrite', scriu textul nou peste cel vechi, înlocuind câte un simbol pe rând într-o ordine aleatoare. Dacă 'random', fiecare dintre simbolurile mele se rotește prin simboluri aleatoare din limba textului meu (sau din scrierea sa, când limba este necunoscută), potrivind litera mare sau mică a textului meu, ca o mașină de joc, până când se oprește pe textul nou. Cu text @FormattedLiteral, simbolurile care se schimbă preiau formatarea textului nou în timpul efectului.",
                 "names": "$~seSchimbă"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Bula de vorbire care arată ce spun, îndreptată chiar spre mine. Aici pot apărea patru lucruri diferite.",
+                    "Text simplu, pe care îl arăt și nimic mai mult:",
+                    "\\Fraza('un' balon: 'salut!')\\",
+                    "Text formatat, dacă vrei cuvinte cu *aldine* sau /cursive/ în ceea ce spun.",
+                    "Un @Say, pe care îl arăt *și* îl rostesc cu voce tare:",
+                    "\\Fraza('un' balon: Cuvânt('salut!'))\\",
+                    "Un @Bubble, când vrei să alegi din ce parte vorbesc, să-l transformi într-un gând sau să-i dai o culoare."
+                ],
+                "names": "$~balon"
             }
         },
         "Arrangement": {
@@ -5299,7 +5311,7 @@
             "names": ["$~Rând"],
             "description": "$~rând cu $#count[$#count frază sau grup|$count fraze și grupuri|$count de fraze și grupuri]",
             "alignment": {
-                "doc": "$~Dacă textul se aliniază la început, la centru sau la sfârșit pe fiecare @column.",
+                "doc": "$~Dacă să aliniez conținutul la început, la centru sau la sfârșitul fiecărui @column — sau, cu \\'_'\\, pe linia de bază pe care stau cuvintele, ca literele de înălțimi diferite să se citească pe un singur rând.",
                 "names": "$~aliniere"
             },
             "padding": {
@@ -6906,6 +6918,47 @@
             "z": {
                 "doc": "$~Adâncimea la care stau.",
                 "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Arăt ce spune un @Phrase, într-o baloană care arată chiar spre el. Dă-mă unui @Phrase.bubble al unei fraze și lasă literele să vorbească:",
+                "\\Fraza('un' balon: 'salut!')\\",
+                "Dă-mi un @Say în loc de text și voi fi rostit cu voce tare, pe lângă faptul că sunt arătat.",
+                "Schimbă-mi @Bubble.kind într-un gând și devin o baloană de gândire în loc de vorbire.",
+                "Sunt o decorație, așa că nimic pe scenă nu se dă la o parte ca să-mi facă loc — dar @Stage se asigură că ajung să fiu vizibil."
+            ],
+            "names": ["$~Bulă"],
+            "text": {
+                "doc": [
+                    "$~Ce arăt. Dă-mi text simplu, sau text formatat dacă vrei cuvinte *îngroșate* sau /cursive/.",
+                    "Dă-mi un @Say în loc și voi fi rostit cu voce tare, pe lângă faptul că sunt arătat. Atunci țin locul cuvintelor care apar de obicei la baza @Stage, pentru că ale mele sunt deja pe ecran, lângă cine le-a spus."
+                ],
+                "names": "$~text"
+            },
+            "side": {
+                "doc": "$~De care parte a @Phrase stau, ca o săgeată. Dacă \\ø\\, @Stage mă pune acolo unde stau cel mai puțin în cale și alege din nou de fiecare dată când lucrurile se mișcă.",
+                "names": "$~parte"
+            },
+            "kind": {
+                "doc": "$~Dacă sunt ceva spus (\\'💬'\\) sau ceva gândit (\\'💭'\\). Un gând lasă în urmă cercuri spre cel care gândește, în loc de un vârf, și are colțuri rotunjite.",
+                "names": "$~fel"
+            },
+            "color": {
+                "doc": "$~@Color cuvintelor mele. Dacă \\ø\\, folosesc culoarea proprie a @Phrase.",
+                "names": "$~culoare"
+            },
+            "background": {
+                "doc": "$~@Color cu care sunt umplut. Dacă \\ø\\, sunt umplut cu fundalul a orice pe care sunt desenat.",
+                "names": "$~fundal"
+            },
+            "size": {
+                "doc": "$~Cât de mari sunt cuvintele mele. Dacă \\ø\\, au dimensiunea normală a textului pe @Stage — nu dimensiunea celui care vorbește, pentru că un personaj înalt de câțiva metri ar face un zid de cuvinte.",
+                "names": "$~mărime"
+            },
+            "wrap": {
+                "doc": "$~Limita la care îmi trec cuvintele pe o linie nouă.",
+                "names": "$~încadrare"
             }
         }
     },
@@ -9075,7 +9128,7 @@
                         "phrase": "$~\\¶Frazele apar pe scenă, în orice culoare, cu orice strălucire și mișcare îți place.¶\nFraza(\n\t'salut!'\n\t6m\n\tculoare: Culoare(60% 90 200°)\n\taură: Aură(Culoare(80% 80 200°) 0.3m)\n\todihnă: Secvenţă.legănare(8°)\n)\\",
                         "music": "$~\\¶Muzica este note pe instrumente reale, la un tempo, într-o tonalitate. Scena desenează ce aude.¶\nMuzică(\n\tPistă([1 3 5 8 5 3] instrument: Instrument.pian)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Codul poate reacționa la o intrare precum @Time, iar textul poate fi în mai multe limbi și poate fi rostit.¶\nsaluturi: ['salut' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nsalut: saluturi.aleatoriu() … ∆ Timp(1000ms) … saluturi.aleatoriu(\n\t\t)\nFraza(salut 4m)\nCuvânt(salut)\\",
-                        "keys": "$~\\¶Codul poate reacționa la pointeri, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator())]\n\tloc: Loc(0m 0m -12m)\n)\\",
+                        "keys": "$!\\¶Codul poate reacționa la pointeri, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator())]\n\tloc: Loc(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Așază textul în pagină și fă-l selectabil.¶\nfruct: ƒ(e•'') Fraza(e 3m nume: e selectabil: ⊤)\nales: Alegere()\narătat: '?' … ∆ ales … ales\nGrup(\n\tStivă(umplutură: 1m)\n\t[\n\t\tFraza(arătat 4m)\n\t\tGrup(\n\t\t\tRând(umplutură: 1m)\n\t\t\t[fruct('🍎') fruct('🍐') fruct('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Discută cu programe și folosește forma fonturilor și a simbolurilor.¶\nmesaj: Chat()\ncuvânt2: 'salut' … ∆ mesaj … mesaj\nlinie: Contur(cuvânt2 'Noto Sans' 8m)\nsecunde: 0 … ∆ Timp(30ms) … secunde + 1\narătat: ((linie.lungime() × secunde) ÷ 66).rotunjireînjos() + 1\npuncte: linie.subsecvență(1 arătat).traduce(\n\t\tƒ(p) Fraza('•' loc: p)\n\t)\nEtapă(puncte.cu(Fraza(cuvânt2 8m opacitate: 15%)))\\",
                         "pile": "$~\\¶Textul poate avea fizică.¶\naruncă: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFraza(\n\t\t\temoji\n\t\t\t2m\n\t\t\tloc: Mişcare(Loc(x2 y2) Viteză(vx 0m/s))\n\t\t\tmaterie: Materie(1kg 0.55 0.06 0.5)\n\t\t)\nEtapă(\n\t[\n\t\taruncă('🍎' -2m 5m 2.2m/s)\n\t\taruncă('🍊' 2m 7m -2.6m/s)\n\t\taruncă('🍋' -1m 9m 1.4m/s)\n\t\taruncă('🍇' 1.5m 11m -1.9m/s)\n\t\taruncă('🫐' 0.5m 15m -1.2m/s)\n\t\tFigură(Dreptunghi(-4m -3m 4m -3.6m))\n\t\tFigură(Dreptunghi(-4.6m 4m -4m -3m))\n\t\tFigură(Dreptunghi(4m 4m 4.6m -3m))\n\t]\n)\\",

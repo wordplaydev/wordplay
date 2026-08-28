@@ -5237,6 +5237,18 @@
                 "doc": "The optional @Aura to show behind me. Make me glow!",
                 "names": "aura"
             },
+            "bubble": {
+                "doc": [
+                    "The speech bubble showing what I'm saying, pointing right at me. Four different things can go here.",
+                    "Plain text, which I show and nothing more:",
+                    "\\Phrase('a' bubble: 'hello!')\\",
+                    "Formatted text, if you want *bold* or /italic/ words in what I say.",
+                    "A @Say, which I show *and* speak out loud:",
+                    "\\Phrase('a' bubble: Say('hello!'))\\",
+                    "A @Bubble, when you want to choose which side I speak from, make it a thought instead, or give it a color."
+                ],
+                "names": "bubble"
+            },
             "name": {
                 "doc": [
                     "A name you give me! This is helpful for many things.",
@@ -5317,7 +5329,7 @@
                 "doc": "The animation style to use when moving to a different place on stage.",
                 "names": "style"
             },
-            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|]"
+            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]"
         },
         "Arrangement": {
             "doc": "I am an inspiration to the many other kinds of arrangement in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
@@ -5328,7 +5340,7 @@
             "names": ["➡", "Row"],
             "description": "row of $#count[$count phrase or group|$count phrases and groups]",
             "alignment": {
-                "doc": "Whether to align text at the start, center, or end on each @column.",
+                "doc": "Whether to line my content up at the start, center, or end of each @column — or, with \\'_'\\, on the baseline its words sit on, so letters of different heights read as one line.",
                 "names": "alignment"
             },
             "padding": {
@@ -6777,6 +6789,47 @@
             "offsetY": {
                 "doc": "How far up or down I should appear.\\0m\\ is directly under.",
                 "names": "offsetY"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "I show what a @Phrase is saying, in a bubble that points right at them. Give me to a phrase's @Phrase.bubble and let the letters talk:",
+                "\\Phrase('a' bubble: 'hello!')\\",
+                "Give me a @Say instead of text and I'll be spoken out loud as well as shown.",
+                "Change my @Bubble.kind to a thought and I become a thought bubble instead.",
+                "I'm a decoration, so nothing on stage moves aside to make room for me — but the @Stage does make sure I end up in view."
+            ],
+            "names": ["🗨", "Bubble"],
+            "text": {
+                "doc": [
+                    "What I show. Give me plain text, or formatted text if you want *bold* or /italic/ words.",
+                    "Give me a @Say instead and I'll be spoken out loud as well as shown. I then stand in for the words that usually appear at the foot of the @Stage, since mine are already on screen next to whoever said them."
+                ],
+                "names": "text"
+            },
+            "side": {
+                "doc": "Which side of the @Phrase I sit on, as an arrow. If \\ø\\, the @Stage puts me wherever I'm least in the way, and chooses again whenever things move.",
+                "names": "side"
+            },
+            "kind": {
+                "doc": "Whether I'm something said (\\'💬'\\) or something thought (\\'💭'\\). A thought trails circles toward the thinker instead of a point, and rounds off.",
+                "names": "kind"
+            },
+            "color": {
+                "doc": "The @Color of my words. If \\ø\\, I use the @Phrase's own color.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "The @Color I'm filled with. If \\ø\\, I'm filled with the background of whatever I'm drawn on.",
+                "names": "background"
+            },
+            "size": {
+                "doc": "How big my words are. If \\ø\\, they're the size text normally is on the @Stage — not the size of whoever is speaking, since a character several meters tall would make a wall of words.",
+                "names": "size"
+            },
+            "wrap": {
+                "doc": "The boundary at which I wrap my words to another line.",
+                "names": "wrap"
             }
         },
         "Stage": {
@@ -9157,7 +9210,7 @@
                         "phrase": "\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
                         "music": "\\¶Music is notes on real instruments, at a tempo, in a key. The stage draws what it hears.¶\nMusic(\n\tTrack([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "\\¶Code can react to input like @Time, and text can be multilingual and spoken.¶\nhellos: ['hello'/en 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhello: hellos.random() … ∆ Time(1000ms) … hellos.random()\nPhrase(hello 4m)\nSay(hello)\\",
-                        "keys": "\\¶Code can react to pointers, keys, clicks, and taps.¶\nkey: Key()\nclick: Button()\nfaces: ['🙂' '😮' '😎' '🤩']\nwhich: 1 … ∆ key | ∆ click … (which % 4) + 1\nStage([Phrase(faces[which] 5m place: Pointer())] place: Place(0m 0m -12m))\\",
+                        "keys": "\\¶Code can react to pointers, keys, clicks, and taps.¶\nkey: Key()\nclick: Button()\nfaces: ['🙂' '😮' '😎' '🤩']\nwhich: 1 … ∆ key | ∆ click … (which % 4) + 1\nStage([Phrase(faces[which] 5m place: Pointer() bubble: 'hi')] place: Place(0m 0m -12m))\\",
                         "choose": "\\¶Layout text and make it selectable.¶\nfruit: ƒ(e•'') Phrase(e 3m name: e selectable: ⊤)\npicked: Choice()\nshown: '?' … ∆ picked … picked\nGroup(Stack(padding: 1m) [\n\tPhrase(shown 4m)\n\tGroup(Row(padding: 1m) [fruit('🍎') fruit('🍐') fruit('🍒')])\n])\\",
                         "letters": "\\¶Chat with programs and use the shape of fonts and symbols.¶\nmessage: Chat()\nword: 'hi' … ∆ message … message\nline: Contour(word 'Noto Sans' 8m)\nticks: 0 … ∆ Time(30ms) … ticks + 1\nshown: ((line.length() × ticks) ÷ 66).roundDown() + 1\ndots: line.subsequence(1 shown).translate(ƒ(p) Phrase('•' place: p))\nStage(dots.add(Phrase(word 8m opacity: 15%)))\\",
                         "pile": "\\¶Text can have physics.¶\ntoss: ƒ(emoji•'' x•#m y•#m vx•#m/s) \nPhrase(\n\temoji 2m\n\tplace: Motion(Place(x y) Velocity(vx 0m/s))\n\tmatter: Matter(1kg 0.55 0.06 0.5)\n)\nStage(\n\t[\n\t\ttoss('🍎' -2m 5m 2.2m/s)\n\t\ttoss('🍊' 2m 7m -2.6m/s)\n\t\ttoss('🍋' -1m 9m 1.4m/s)\n\t\ttoss('🍇' 1.5m 11m -1.9m/s)\n\t\ttoss('🫐' 0.5m 15m -1.2m/s)\n\t\tShape(Rectangle(-4m -3m 4m -3.6m))\n\t\tShape(Rectangle(-4.6m 4m -4m -3m))\n\t\tShape(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",

@@ -13,7 +13,9 @@ mood: face.eyesOpen ?
 				'')
 	'blinking'
 
-¶ Convert the mood to an emoji and say the mood with text to speech ¶
+¶ Convert the mood to an emoji, and give the face a speech bubble saying it.
+Giving the bubble a @Say means the mood is spoken aloud as well as shown, and
+the bubble stands in for the caption at the foot of the stage. ¶
 Stage([
 		Phrase(
 			(mood = 'blinking' ? '😴'
@@ -21,11 +23,8 @@ Stage([
 					mood = 'frowning' ? '🙁'
 						'😐')
 			size: 8m
+			bubble: (mood = ''
+				? Bubble(`/Smile, frown, or close your eyes/` wrap: 8m)
+				Bubble(Say(mood)))
 		)
-		Phrase(
-			(mood = '' ? `/Smile, frown, or close your eyes/` mood)
-			place: Place(0m -10m)
-			size: 2m
-		)
-		Say(mood)
-	] place: Place(0m 0m -20m))
+	])

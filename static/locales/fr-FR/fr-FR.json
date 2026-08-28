@@ -3651,25 +3651,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Je peux prendre une liste, et faire une nouvelle liste avec ses valeurs triées. Comme ceci :",
+                        "$~Je peux prendre une liste et faire une nouvelle liste avec ses valeurs triées. Comme ceci :",
                         "\\[1 5 8 0 2].trié()\\",
-                        "Je peux aussi le faire pour des valeurs @Text, par ordre alphabétique. Une lettre majuscule se trie juste à côté de sa version minuscule, donc un mot n'est pas envoyé à la fin juste parce qu'il commence par une majuscule :",
+                        "Je peux aussi le faire pour des valeurs @Text, dans l'ordre alphabétique. Une lettre majuscule se trie juste à côté de sa version minuscule, donc un mot n'est pas envoyé à la fin juste parce qu'il commence par une majuscule :",
                         "\\['Orange' 'kiwi' 'Banane' 'pomme'].trié()\\",
-                        "Et si tu as une liste de valeurs qui ne sont ni @Number ni @Text, tu peux me donner un @FunctionDefinition qui transforme chaque élément en @Number ou en @Text pour que je puisse les trier. Par exemple, voici une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux trier selon leur longueur.",
+                        "Et si tu as une liste de valeurs qui ne sont pas @Number ou @Text, tu peux me donner un @FunctionDefinition qui transforme chaque élément en un @Number ou un @Text pour que je puisse le trier. Par exemple, ici on a une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux les trier par longueur.",
                         "\\[[1] [2 3] [4 8 12] [8]].trié(ƒ(liste2) liste2.longueur())\\",
-                        "Une fonction qui produit des @Text permet de trier selon un mot que tu calcules, plutôt que selon la valeur elle-même. Ici, je trie des noms selon le dernier :",
+                        "Une fonction qui produit @Text te permet de trier selon un mot que tu calcules, plutôt que selon la valeur elle-même. Ici, je trie des noms selon le dernier nom :",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].trié(\n\tƒ(nom2•'') (nom2 ÷ ' ').dernier()\n)\\"
                     ],
                     "names": "$~trié",
                     "inputs": [
                         {
-                            "doc": "$~Le @FunctionDefinition facultatif à utiliser pour trier une liste @value. Il doit transformer la valeur en @Number ou en @Text qui peut servir à trier la liste.",
+                            "doc": "$~Le @FunctionDefinition optionnel à utiliser pour trier une liste @value. Il doit transformer la valeur en un @Number ou un @Text qui peut servir à trier la liste.",
                             "names": "$~séquenceur"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Le @value à transformer en @Number ou en @Text.",
+                            "doc": "$~Le @value à transformer en un @Number ou un @Text.",
                             "names": "$~valeur"
                         }
                     ]
@@ -5400,10 +5400,22 @@
                 "doc": "$~Le style d'animation à utiliser lors du déplacement vers un autre endroit sur scène.",
                 "names": "$~style"
             },
-            "defaultDescription": "$~$size[ $size mètre |]phrase $text $name[nommé $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size mètre |]phrase $text $name[nommé $name|] $face[$face|] $animation $color[$color|] $bubble[disant $bubble|]",
             "changing": {
                 "doc": "$~Le nom d'un effet à jouer quand mon texte change, pendant ma @Phrase.duration, adouci par mon @Phrase.style. Si \\ø\\, mon texte change instantanément. Si 'edit', j'efface l'ancien texte jusqu'à ce que l'ancien et le nouveau texte partagent en commun, puis j'écris le nouveau texte. Si 'rewrite', j'écris le nouveau texte par-dessus l'ancien, en remplaçant un symbole à la fois dans un ordre aléatoire. Si 'random', chacun de mes symboles tourne à travers des symboles aléatoires de la langue de mon texte (ou de son écriture, quand la langue est inconnue), en respectant la casse de mon texte, comme une machine à sous, jusqu'à ce qu'il s'arrête sur le nouveau texte. Avec du texte @FormattedLiteral, les symboles qui changent prennent la mise en forme du nouveau texte pendant l'effet.",
                 "names": "$~changer"
+            },
+            "bubble": {
+                "doc": [
+                    "$~La bulle de dialogue qui montre ce que je dis, pointée juste vers moi. Quatre choses différentes peuvent aller ici.",
+                    "Du texte simple, que je montre et rien de plus :",
+                    "\\Phrase('un' bulle: 'salut !')\\",
+                    "Du texte mis en forme, si tu veux des mots en *gras* ou en /italique/ dans ce que je dis.",
+                    "Un @Say, que je montre *et* que je dis à voix haute :",
+                    "\\Phrase('un' bulle: Dire('salut !'))\\",
+                    "Un @Bubble, quand tu veux choisir de quel côté je parle, en faire une pensée à la place, ou lui donner une couleur."
+                ],
+                "names": "$~bulle"
             }
         },
         "Arrangement": {
@@ -5415,7 +5427,7 @@
             "doc": "$~Je suis @Row, un @Arrangement horizontal de @Output, avec un remplissage optionnel entre les deux. Avez-vous rencontré mon jumeau, @Stack ?",
             "description": "$~ligne de $#count[$#count phrase ou groupe|$count phrases et groupes|$count phrases et groupes]",
             "alignment": {
-                "doc": "$~S'il faut aligner le texte au début, au centre ou à la fin sur chaque @column.",
+                "doc": "$~Si mon contenu s'aligne au début, au centre, ou à la fin de chaque @column — ou, avec \\'_'\\, sur la ligne de base sur laquelle reposent les mots, pour que les lettres de hauteurs différentes se lisent comme une seule ligne.",
                 "names": "$~alignement"
             },
             "padding": {
@@ -6908,6 +6920,47 @@
             "z": {
                 "doc": "$~La profondeur à laquelle je me trouve.",
                 "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Je montre ce qu'un @Phrase est en train de dire, dans une bulle qui pointe droit vers lui. Donne-moi le @Phrase.bubble d'une phrase et laisse les lettres parler :",
+                "\\Phrase('un' bulle: 'bonjour !')\\",
+                "Donne-moi un @Say au lieu d'un texte, et je serai lue à voix haute en plus d'être affichée.",
+                "Change mon @Bubble.kind en pensée, et je deviens une bulle de pensée à la place.",
+                "Je suis une décoration, donc rien sur la scène ne se déplace pour me faire de la place — mais le @Stage s'assure que je reste bien visible."
+            ],
+            "names": ["$~Bulle"],
+            "text": {
+                "doc": [
+                    "$~Ce que je montre. Donne-moi du texte simple, ou du texte mis en forme si tu veux des mots en *gras* ou en /italique/.",
+                    "Donne-moi un @Say à la place, et je serai lue à voix haute en plus d'être affichée. Je remplace alors les mots qui apparaissent d'habitude au bas du @Stage, puisque les miens sont déjà à l'écran, juste à côté de celui ou celle qui les a dits."
+                ],
+                "names": "$~texte"
+            },
+            "side": {
+                "doc": "$~De quel côté du @Phrase je me place, sous forme de flèche. Si \\ø\\, le @Stage me met là où je gêne le moins, et refait ce choix à chaque fois que les choses bougent.",
+                "names": "$~côté"
+            },
+            "kind": {
+                "doc": "$~Si je suis quelque chose qui est dit (\\'💬'\\) ou quelque chose qui est pensé (\\'💭'\\). Une pensée forme une traînée de cercles vers celui qui pense, au lieu d'une pointe, et ses coins sont arrondis.",
+                "names": "$~genre"
+            },
+            "color": {
+                "doc": "$~Le @Color de mes mots. Si \\ø\\, j'utilise le @Phrase propre de celui qui parle.",
+                "names": "$~couleur"
+            },
+            "background": {
+                "doc": "$~Le @Color dont je suis remplie. Si \\ø\\, je suis remplie du fond sur lequel je suis dessinée.",
+                "names": "$~arrièrePlan"
+            },
+            "size": {
+                "doc": "$~La taille de mes mots. Si \\ø\\, ils ont la taille normale du texte sur le @Stage — pas la taille de celui qui parle, car un personnage haut de plusieurs mètres créerait un mur de mots.",
+                "names": "$~taille"
+            },
+            "wrap": {
+                "doc": "$~La limite à partir de laquelle mes mots passent à la ligne suivante.",
+                "names": "$~retourÀLaLigne"
             }
         }
     },
@@ -8655,7 +8708,7 @@
                         "phrase": "$~\\¶Les Phrases apparaissent sur la scène, avec la couleur, la lueur et le mouvement que tu veux.¶\nPhrase(\n\t'bonjour !'\n\t6m\n\tcouleur: Couleur(60% 90 200°)\n\taura: Aura(Couleur(80% 80 200°) 0.3m)\n\taurepos: Séquence.balancement(8°)\n)\\",
                         "music": "$~\\¶Music is notes on real instruments, at a tempo, in a key. The stage draws what it hears.¶\nMusic(\n\tTrack([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Le code peut réagir à une entrée comme @Time, et le texte peut être multilingue et parlé.¶\nbonjours: ['bonjour' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nbonjour: bonjours.aléatoire() … ∆ Temps(1000ms) … bonjours.aléatoire(\n\t\t)\nPhrase(bonjour 4m)\nDire(bonjour)\\",
-                        "keys": "$~\\¶Le code peut réagir aux pointeurs, aux touches, aux clics et aux tapotements.¶\nclé2: Clé()\nclic: Bouton()\nvisages: ['🙂' '😮' '😎' '🤩']\nlequel: 1 … ∆ clé2 | ∆ clic … (lequel % 4) + 1\nScène(\n\t[Phrase(visages[lequel] 5m lieu: Aiguille())]\n\tlieu: Lieu(0m 0m -12m)\n)\\",
+                        "keys": "$~\\¶Le code peut réagir aux pointeurs, aux touches, aux clics et aux tapotements.¶\nclé2: Clé()\nclic: Bouton()\nvisages: ['🙂' '😮' '😎' '🤩']\nlequel: 1 … ∆ clé2 | ∆ clic … (lequel % 4) + 1\nScène(\n\t[Phrase(visages[lequel] 5m lieu: Aiguille() bulle: 'salut')]\n\tlieu: Lieu(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Mets en page du texte et rends-le sélectionnable.¶\nfruit: ƒ(e•'') Phrase(e 3m nom: e sélectionnable: ⊤)\nchoisi: Choix()\nmontré: '?' … ∆ choisi … choisi\nGroupe(\n\tEmpiler(rembourrage: 1m)\n\t[\n\t\tPhrase(montré 4m)\n\t\tGroupe(\n\t\t\tRangée(rembourrage: 1m)\n\t\t\t[fruit('🍎') fruit('🍐') fruit('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Discute avec des programmes et utilise la forme des polices et des symboles.¶\nmessage: Chat()\nmot2: 'salut' … ∆ message … message\nligne: Contour(mot2 'Noto Sans' 8m)\ntics: 0 … ∆ Temps(30ms) … tics + 1\nmontré: ((ligne.longueur() × tics) ÷ 66).arrondirverslebas(\n\t) + 1\npoints: ligne.sousséquence(1 montré).traduire(\n\t\tƒ(p) Phrase('•' lieu: p)\n\t)\nScène(points.avec(Phrase(mot2 8m opacité: 15%)))\\",
                         "pile": "$~\\¶Le texte peut avoir de la physique.¶\nlancer: ƒ(émoji•'' x2•#m y2•#m vx•#m/s)\n\t\tPhrase(\n\t\t\témoji\n\t\t\t2m\n\t\t\tlieu: Mouvement(Lieu(x2 y2) Vitesse(vx 0m/s))\n\t\t\tmatière: Matière(1kg 0.55 0.06 0.5)\n\t\t)\nScène(\n\t[\n\t\tlancer('🍎' -2m 5m 2.2m/s)\n\t\tlancer('🍊' 2m 7m -2.6m/s)\n\t\tlancer('🍋' -1m 9m 1.4m/s)\n\t\tlancer('🍇' 1.5m 11m -1.9m/s)\n\t\tlancer('🫐' 0.5m 15m -1.2m/s)\n\t\tForme(Rectangle(-4m -3m 4m -3.6m))\n\t\tForme(Rectangle(-4.6m 4m -4m -3m))\n\t\tForme(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",

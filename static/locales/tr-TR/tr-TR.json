@@ -3652,25 +3652,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Bir liste alıp, değerleri sıralanmış yeni bir liste oluşturabilirim. Bunun gibi:",
+                        "$~Bir liste alıp, değerleri sıralanmış yeni bir liste yapabilirim. Şöyle:",
                         "\\[1 5 8 0 2].sıralanmış()\\",
-                        "Bunu @Text değerleri için de, alfabetik sırayla yapabilirim. Büyük harf, küçük harfiyle yan yana sıralanır, yani bir kelime sadece büyük harfle başladığı için sonda yer almaz:",
+                        "@Text değerleri için de bunu yapabilirim, alfabetik sırayla. Büyük bir harf, kendi küçük harfinin yanına sıralanır, böylece bir kelime sadece büyük harfle başladığı için sona atılmaz:",
                         "\\['Portakal' 'kivi' 'Muz' 'elma'].sıralanmış()\\",
-                        "Eğer @Number veya @Text olmayan bir değer listen varsa, bana her ögeyi bir @Number veya @Text değerine dönüştüren bir @FunctionDefinition verebilirsin, böylece sıralayabilirim. Örneğin burada farklı uzunluklarda listelerden oluşan bir liste var; bana her listeyi kendi uzunluğuna dönüştüren bir fonksiyon verirsen, onları uzunluklarına göre sıralayabilirim.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste2) liste2.uzunluk()\n)\\",
-                        "@Text üreten bir fonksiyon, değerin kendisine göre değil, hesapladığın bir kelimeye göre sıralama yapmanın yoludur. Burada isimleri soyadına göre sıralıyorum:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim2•'') (isim2 ÷ ' ').son()\n)\\"
+                        "Ve eğer @Number veya @Text olmayan değerlerden oluşan bir listeniz varsa, bana her öğeyi bir @Number veya @Text'e çeviren bir @FunctionDefinition verebilirsiniz, ben de böylece sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; eğer bana her listeyi kendi uzunluğuna çeviren bir fonksiyon verirseniz, uzunluklarına göre sıralayabilirim.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste3) liste3.uzunluk()\n)\\",
+                        "@Text üreten bir fonksiyon, değerin kendisine göre değil hesapladığınız bir kelimeye göre sıralama yapmanın yoludur. Burada isimleri soyadına göre sıralıyorum:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim3•'') (isim3 ÷ ' ').son()\n)\\"
                     ],
                     "names": "$~sıralanmış",
                     "inputs": [
                         {
-                            "doc": "$~Bir listeyi @value sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Bu, değeri, listeyi sıralamak için kullanılabilecek bir @Number veya @Text değerine dönüştürmelidir.",
+                            "doc": "$~Bir @value listesini sıralamak için kullanılan isteğe bağlı @FunctionDefinition. Değeri, listeyi sıralamak için kullanılabilecek bir @Number veya @Text'e çevirmelidir.",
                             "names": "$~sıralayıcı"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Bir @Number veya @Text değerine dönüştürülecek olan @value.",
+                            "doc": "$~Bir @Number veya @Text'e çevrilecek olan @value.",
                             "names": "$~değer"
                         }
                     ]
@@ -5276,10 +5276,22 @@
                 "doc": "$~Sahnede farklı bir yere geçerken kullanılacak animasyon stili.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size[ $size metre |] ifade $text $name[adlandırılmış $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
             "changing": {
                 "doc": "$~Metnim değiştiğinde oynatılacak bir etkinin ismi. Bu etki @Phrase.duration süremce sürer ve @Phrase.style ile yumuşatılır. Eğer \\ø\\, metnim anında değişir. Eğer 'edit' (düzenle) ise, eski metni geriye doğru silerim; eski ve yeni metnin ortak olan kısmına kadar sildikten sonra yeni metni yazarım. Eğer 'rewrite' (yeniden yaz) ise, yeni metni eskinin üzerine yazarım; her seferinde rastgele bir sırayla bir sembolü değiştiririm. Eğer 'random' (rastgele) ise, her sembolüm metnimin dilinden (dil bilinmiyorsa yazısından) rastgele semboller arasında döner; metnimin büyük-küçük harf düzenine uyar ve bir çekiliş makinesi gibi yeni metnin üzerine iner. @FormattedLiteral metni ile, değişen semboller etki sırasında yeni metnin biçimini alır.",
                 "names": "$~değişiyor"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Söylediklerimi gösteren, tam bana doğru işaret eden konuşma balonu. Buraya dört farklı şey gelebilir.",
+                    "Sadece gösterdiğim, başka bir şey yapmayan düz metin:",
+                    "\\İfadeetmek('bir' balon: 'merhaba!')\\",
+                    "Söylediklerimde *kalın* veya /italik/ kelimeler istiyorsan, biçimli metin.",
+                    "Hem gösterip *hem* sesli söylediğim bir @Say:",
+                    "\\İfadeetmek('bir' balon: Söylemek('merhaba!'))\\",
+                    "Hangi taraftan konuştuğumu seçmek, onu bir düşünceye çevirmek ya da ona bir renk vermek istediğinde, bir @Bubble."
+                ],
+                "names": "$~balon"
             }
         },
         "Arrangement": {
@@ -5291,7 +5303,7 @@
             "names": ["$~Sıra"],
             "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] satır",
             "alignment": {
-                "doc": "$~Metnin her @column üzerinde başta, ortada mı yoksa sonda mı hizalanacağı.",
+                "doc": "$~İçeriğimin her @column'in başına, ortasına ya da sonuna mı hizalanacağını — yoksa \\'_'\\ ile, sözcüklerin üzerinde durduğu temel çizgiye mi hizalanacağını belirler, böylece farklı yükseklikteki harfler tek bir satır gibi okunur.",
                 "names": "$~hizalama"
             },
             "padding": {
@@ -6898,6 +6910,47 @@
             "z": {
                 "doc": "$~Bulunduğum derinlik.",
                 "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Bir @Phrase'in ne söylediğini, tam onu gösteren bir konuşma balonu içinde gösteririm. Beni bir phrase'in @Phrase.bubble'ine ver, harfler konuşsun:",
+                "\\İfadeetmek('bir' balon: 'merhaba!')\\",
+                "Bana metin yerine bir @Say ver, o zaman hem gösterilirim hem sesli okunurum.",
+                "@Bubble.kind'imi bir düşünceyle değiştir, o zaman bir düşünce balonuna dönüşürüm.",
+                "Ben bir süslemeyim, bu yüzden sahnede bana yer açmak için hiçbir şey kenara kaymaz — ama @Stage görünür olmamı sağlar."
+            ],
+            "names": ["$~Balon"],
+            "text": {
+                "doc": [
+                    "$~Ne gösterdiğim. Bana düz metin ver, ya da *kalın* ya da /italik/ kelimeler istiyorsan biçimli metin ver.",
+                    "Bana bunun yerine bir @Say ver, o zaman hem gösterilirim hem sesli okunurum. O zaman genelde @Stage'in altında görünen kelimelerin yerini alırım, çünkü benimkiler zaten konuşanın yanında ekranda görünür."
+                ],
+                "names": "$~metin"
+            },
+            "side": {
+                "doc": "$~@Phrase'in hangi tarafında oturduğum, bir ok olarak. Eğer \\ø\\, @Stage beni en az engel olacağım yere koyar ve her şey hareket ettiğinde yeniden seçer.",
+                "names": "$~kenar"
+            },
+            "kind": {
+                "doc": "$~Söylenen bir şey mi (\\'💬'\\) yoksa düşünülen bir şey mi (\\'💭'\\) olduğum. Bir düşünce, bir noktaya değil düşünen kişiye doğru daireler bırakır ve köşeleri yuvarlatır.",
+                "names": "$~tür"
+            },
+            "color": {
+                "doc": "$~Kelimelerimin @Color'i. Eğer \\ø\\, @Phrase'in kendi rengini kullanırım.",
+                "names": "$~renk"
+            },
+            "background": {
+                "doc": "$~İçini doldurduğum @Color. Eğer \\ø\\, üzerine çizildiğim şeyin arka planıyla doldurulurum.",
+                "names": "$~arkaPlan"
+            },
+            "size": {
+                "doc": "$~Kelimelerimin ne kadar büyük olduğu. Eğer \\ø\\, @Stage üzerinde metnin normalde olduğu boyuttalar — konuşanın boyutu değil, çünkü birkaç metre boyunda bir karakter koca bir kelime duvarı oluştururdu.",
+                "names": "$~boyut"
+            },
+            "wrap": {
+                "doc": "$~Kelimelerimi başka bir satıra sardığım sınır.",
+                "names": "$~sar"
             }
         }
     },
@@ -8742,7 +8795,7 @@
                         "phrase": "$~\\¶Cümleler sahnede görünür, istediğin renkte, parlaklıkta ve hareketle.¶\nİfadeetmek(\n\t'merhaba!'\n\t6m\n\trenk: Renk(60% 90 200°)\n\taura: Aura(Renk(80% 80 200°) 0.3m)\n\tdinlenme: Sekans.sallanmak(8°)\n)\\",
                         "music": "$~\\¶Müzik, gerçek çalgılarda, bir tempoda, bir tonda çalınan notalardan oluşur. Sahne duyduğunu çizer.¶\nMüzik(\n\tParça([1 3 5 8 5 3] çalgı: Çalgı.piyano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Kod, @Time gibi girdilere tepki verebilir ve metin çok dilli olup sesli okunabilir.¶\nmerhabalar: ['merhaba' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nmerhaba: merhabalar.rastgele() … ∆ Zaman(1000ms) … merhabalar.rastgele(\n\t\t)\nİfadeetmek(merhaba 4m)\nSöylemek(merhaba)\\",
-                        "keys": "$~\\¶Kod; imleçlere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Anahtar()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[İfadeetmek(yüzler[hangisi] 5m yer: İşaretçi())]\n\tyer: Yer(0m 0m -12m)\n)\\",
+                        "keys": "$!\\¶Kod; imleçlere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Anahtar()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[İfadeetmek(yüzler[hangisi] 5m yer: İşaretçi())]\n\tyer: Yer(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Metni yerleştir ve seçilebilir yap.¶\nmeyve: ƒ(e•'') İfadeetmek(e 3m isim: e seçilebilir: ⊤)\nseçildi: Seçenek()\ngösterildi: '?' … ∆ seçildi … seçildi\nGrup(\n\tYığın(dolgu: 1m)\n\t[\n\t\tİfadeetmek(gösterildi 4m)\n\t\tGrup(\n\t\t\tSıra(dolgu: 1m)\n\t\t\t[meyve('🍎') meyve('🍐') meyve('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Programlarla sohbet et ve yazı tiplerinin ile sembollerin şeklini kullan.¶\nmesaj: Sohbet()\nkelime2: 'selam' … ∆ mesaj … mesaj\nsatır: Kontur(kelime2 'Noto Sans' 8m)\ntikSesleri: 0 … ∆ Zaman(30ms) … tikSesleri + 1\ngösterildi: ((satır.uzunluk() × tikSesleri) ÷ 66).Aşağıyuvarla(\n\t) + 1\nnoktalar: satır.altdizi(1 gösterildi).tercümeetmek(\n\t\tƒ(p) İfadeetmek('•' yer: p)\n\t)\nSahne(noktalar.ile(İfadeetmek(kelime2 8m opaklık: 15%)))\\",
                         "pile": "$~\\¶Yazının fiziği olabilir.¶\nfırlat: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tİfadeetmek(\n\t\t\temoji\n\t\t\t2m\n\t\t\tyer: Hareket(Yer(x2 y2) Hız(vx 0m/s))\n\t\t\tkonu: Konu(1kg 0.55 0.06 0.5)\n\t\t)\nSahne(\n\t[\n\t\tfırlat('🍎' -2m 5m 2.2m/s)\n\t\tfırlat('🍊' 2m 7m -2.6m/s)\n\t\tfırlat('🍋' -1m 9m 1.4m/s)\n\t\tfırlat('🍇' 1.5m 11m -1.9m/s)\n\t\tfırlat('🫐' 0.5m 15m -1.2m/s)\n\t\tŞekil(Dikdörtgen(-4m -3m 4m -3.6m))\n\t\tŞekil(Dikdörtgen(-4.6m 4m -4m -3m))\n\t\tŞekil(Dikdörtgen(4m 4m 4.6m -3m))\n\t]\n)\\",

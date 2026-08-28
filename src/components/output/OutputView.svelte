@@ -2399,11 +2399,22 @@
     });
 
     // Collect all Say outputs from the stage each evaluation, ignoring blank
-    // text so a conditional that evaluates to Say('') stays silent.
+    // text so a conditional that evaluates to Say('') stays silent. A `Say` a
+    // `Phrase`'s speech bubble carries is spoken alongside them, on the same
+    // source so there is still one queue and one cancellation scope, but it
+    // isn't captioned: the bubble is already its visual rendering, attached to
+    // the speaker, which is better than the floor band this stands in for.
     let says = $derived(
-        (stageValue?.getSays() ?? []).filter(
-            (say) => say.text.text.trim().length > 0,
-        ),
+        [
+            ...(stageValue?.getSays() ?? []).map((say) => ({
+                say,
+                captioned: true,
+            })),
+            ...(stageValue?.getBubbleSays() ?? []).map((say) => ({
+                say,
+                captioned: false,
+            })),
+        ].filter(({ say }) => say.text.text.trim().length > 0),
     );
 
     // Keep the bus in step with the viewer's chosen voice. It lives here
@@ -2436,7 +2447,7 @@
 
         const signature = currentSays
             .map(
-                (say) =>
+                ({ say }) =>
                     `${say.text.language?.getBCP47() ?? ''}:${say.text.text}`,
             )
             .join('\n');
@@ -2468,13 +2479,14 @@
         // — except that it cancelled every other source's speech along with it.
         speech.speak(
             SaySource,
-            currentSays.map((say) => ({
+            currentSays.map(({ say, captioned }) => ({
                 source: SaySource,
                 text: say.text.text,
                 lang: say.text.language?.getBCP47() ?? lang,
                 rate: 1,
                 volume: 1,
                 priority: 'flow' as const,
+                captioned,
             })),
         );
     });

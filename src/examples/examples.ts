@@ -276,7 +276,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [localeToString(l), l.gallery.stories]),
             ),
-            ['Pears', 'JapaneseClass', 'PersonalMap', 'SlideShow'],
+            ['Pears', 'Dialog', 'JapaneseClass', 'PersonalMap', 'SlideShow'],
             locales,
         ),
         createGallery(

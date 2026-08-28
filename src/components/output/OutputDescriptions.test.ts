@@ -146,6 +146,55 @@ test('entered skips a Say among describable output', () => {
     expect(description).not.toContain('hello');
 });
 
+test('a shown speech bubble is described', () => {
+    // A bubble that is only shown has no other voice, so its words have to
+    // reach the description or a line of dialog is silent to a screen reader.
+    const description = describeEnteredOutput(
+        DefaultLocales,
+        byName(outputs(`Stage([Phrase('a' bubble: 'hello')])`)),
+    );
+    expect(description).toContain('hello');
+});
+
+test('a spoken speech bubble is left out of the description', () => {
+    // Given a Say, the bubble is voiced by speech synthesis, so describing it
+    // here would deliver the same line twice — the bail Say itself gets above.
+    const description = describeEnteredOutput(
+        DefaultLocales,
+        byName(outputs(`Stage([Phrase('a' bubble: Say('hello'))])`)),
+    );
+    expect(description).toContain('a');
+    expect(description).not.toContain('hello');
+});
+
+test('two lines of dialog do not describe identically', () => {
+    // An announcement whose text repeats is heard once and then sounds broken,
+    // so what a bubble says has to be what varies between two firings.
+    const first = describeEnteredOutput(
+        DefaultLocales,
+        byName(outputs(`Stage([Phrase('a' bubble: 'who are you?')])`)),
+    );
+    const second = describeEnteredOutput(
+        DefaultLocales,
+        byName(outputs(`Stage([Phrase('a' bubble: 'nobody in particular')])`)),
+    );
+    expect(first).toBeDefined();
+    expect(first).not.toBe(second);
+});
+
+test('a changed bubble is reported as a change', () => {
+    const before = outputs(`Stage([Phrase('a' bubble: 'hi')])`);
+    const after = outputs(`Stage([Phrase('a' bubble: 'bye')])`);
+    expect(
+        describedChangedOutput(
+            DefaultLocales,
+            new Map(),
+            byName(after),
+            byName(before),
+        ),
+    ).toContain('bye');
+});
+
 test('entered says nothing when nothing entered', () => {
     expect(describeEnteredOutput(DefaultLocales, new Map())).toBeUndefined();
 });

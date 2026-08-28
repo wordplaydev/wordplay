@@ -41,6 +41,13 @@ export type Utterance = {
     /** 0–1, already clamped. */
     volume: number;
     priority: SpeechPriority;
+    /**
+     * Whether a caption should show these words. Defaults to shown. A `Say`
+     * carried by a `Phrase`'s speech bubble sets this false: the bubble is
+     * already this speech's visual rendering, attached to the speaker, so a
+     * floor caption of it would show the same line twice.
+     */
+    captioned?: boolean;
 };
 
 /**

@@ -3655,15 +3655,15 @@
                         "\\[1 5 8 0 2].ordenado()\\",
                         "También puedo hacerlo con valores @Text, en orden alfabético. Una letra mayúscula se ordena junto a su versión minúscula, así que una palabra no se manda al final solo por empezar con mayúscula:",
                         "\\['Naranja' 'kiwi' 'Plátano' 'manzana'].ordenado()\\",
-                        "Y si tienes una lista de valores que no son @Number ni @Text, puedes darme un @FunctionDefinition que convierta cada elemento en un @Number o un @Text para que yo pueda ordenarlo. Por ejemplo, aquí tenemos una lista de listas de distinto tamaño; si me das una función que convierta cada lista en su tamaño, puedo ordenarlas por tamaño.",
+                        "Y si tienes una lista de valores que no son @Number ni @Text, puedes darme un @FunctionDefinition que convierta cada elemento en un @Number o un @Text para que yo pueda ordenarlo. Por ejemplo, aquí tenemos una lista de listas de diferentes tamaños; si me das una función que convierta cada lista en su tamaño, puedo ordenarlas por su tamaño.",
                         "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista2) lista2.longitud()\n)\\",
-                        "Una función que hace @Text sirve para ordenar por una palabra que tú calculas, en vez de por el valor mismo. Aquí ordeno nombres por el último:",
+                        "Una función que produce @Text es una forma de ordenar por una palabra que calculas, en vez de por el valor mismo. Aquí ordeno nombres por el último:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nombre2•'') (nombre2 ÷ ' ').última()\n)\\"
                     ],
                     "names": "ordenado",
                     "inputs": [
                         {
-                            "doc": "$~El @FunctionDefinition opcional para ordenar una lista @value. Debe convertir el valor en un @Number o un @Text que se pueda usar para ordenar la lista.",
+                            "doc": "$~El @FunctionDefinition opcional que se usa para ordenar una lista @value. Debe convertir el valor en un @Number o un @Text que se pueda usar para ordenar la lista.",
                             "names": "sequenciador"
                         }
                     ],
@@ -5167,7 +5167,7 @@
                 "También puedes darme, si quieres, todo lo que puede hacer un @Output, como cambiar mi tamaño, fuente y rotación, y hacer todos mis increíbles bailes con @Pose y @Sequence.",
                 "También puedes seleccionarme en @Stage y editarme con la paleta 🎨 de al lado: es una gran forma de probar diferentes fuentes y elegir la /face/ correcta para tu @Text."
             ],
-            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size metro |]frase $text $name[llamada $name|] $face[$face|] $animation $color[$color|] $bubble[diciendo $bubble|]",
             "text": {
                 "doc": "$~Los caracteres que se muestran en @Stage, un @TextLiteral o @FormattedLiteral.",
                 "names": "texto"
@@ -5283,6 +5283,18 @@
             "changing": {
                 "doc": "$~El nombre de un efecto que se reproduce cuando mi texto cambia, durante mi @Phrase.duration, suavizado por mi @Phrase.style. Si \\ø\\, mi texto cambia al instante. Si es 'edit', borro el texto viejo hasta lo que el texto viejo y el nuevo comparten, y luego escribo el texto nuevo. Si es 'rewrite', escribo el texto nuevo sobre el viejo, reemplazando un símbolo a la vez en orden aleatorio. Si es 'random', cada uno de mis símbolos gira entre símbolos aleatorios del idioma de mi texto (o su escritura, cuando el idioma es desconocido), respetando las mayúsculas y minúsculas de mi texto, como una máquina tragamonedas, hasta que se detiene en el texto nuevo. Con texto @FormattedLiteral, los símbolos que cambian toman el formato del texto nuevo durante el efecto.",
                 "names": "$~cambiando"
+            },
+            "bubble": {
+                "doc": [
+                    "$~El globo de diálogo que muestra lo que digo, apuntando justo hacia mí. Aquí pueden ir cuatro cosas distintas.",
+                    "Texto simple, que solo muestro y nada más:",
+                    "\\Frase('un' burbuja: '¡hola!')\\",
+                    "Texto con formato, si quieres palabras en *negrita* o /cursiva/ en lo que digo.",
+                    "Un @Say, que muestro *y* digo en voz alta:",
+                    "\\Frase('un' burbuja: decir('¡hola!'))\\",
+                    "Un @Bubble, cuando quieras elegir de qué lado hablo, convertirlo en un pensamiento, o darle un color."
+                ],
+                "names": "$~burbuja"
             }
         },
         "Arrangement": {
@@ -5294,7 +5306,7 @@
             "doc": "$~Soy @Row, un @Arrangement horizontal de @Output, con espacio opcional en medio. ¿Ya conociste a mi gemelo, @Stack?",
             "description": "$~fila de $#count[$#count frase o grupo|$count frases y grupos|$count frases y grupos]",
             "alignment": {
-                "doc": "$~Si el texto se alinea al inicio, al centro o al final en cada @column.",
+                "doc": "$~Si mi contenido se alinea al inicio, al centro o al final de cada @column, o, con \\'_'\\, en la línea base donde se apoyan sus palabras, para que letras de diferentes alturas se lean como una sola línea.",
                 "names": "alineación"
             },
             "padding": {
@@ -6901,6 +6913,47 @@
             "z": {
                 "doc": "$~La profundidad en la que estoy.",
                 "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Muestro lo que dice un @Phrase, en una burbuja que apunta justo hacia esa persona. Dame el @Phrase.bubble de una frase y deja que las letras hablen:",
+                "\\Frase('un' burbuja: '¡hola!')\\",
+                "Dame un @Say en lugar de texto y me pronunciarán en voz alta además de mostrarme.",
+                "Cambia mi @Bubble.kind a un pensamiento y me convierto en una burbuja de pensamiento.",
+                "Soy una decoración, así que nada en el escenario se mueve para hacerme espacio — pero el @Stage sí se asegura de que quede a la vista."
+            ],
+            "names": ["$~Burbuja"],
+            "text": {
+                "doc": [
+                    "$~Lo que muestro. Dame texto simple, o texto con formato si quieres palabras en *negrita* o /cursiva/.",
+                    "Dame un @Say en su lugar y me pronunciarán en voz alta además de mostrarme. Entonces reemplazo las palabras que normalmente aparecen al pie del @Stage, ya que las mías ya están en pantalla junto a quien las dijo."
+                ],
+                "names": "$~texto"
+            },
+            "side": {
+                "doc": "$~De qué lado del @Phrase me coloco, como una flecha. Si \\ø\\, el @Stage me coloca donde menos estorbe, y elige de nuevo cada vez que algo se mueve.",
+                "names": "$~lado"
+            },
+            "kind": {
+                "doc": "$~Si soy algo dicho (\\'💬'\\) o algo pensado (\\'💭'\\). Un pensamiento traza círculos hacia quien piensa en lugar de una punta, y sus bordes se redondean.",
+                "names": "$~tipo"
+            },
+            "color": {
+                "doc": "$~El @Color de mis palabras. Si \\ø\\, uso el propio color del @Phrase.",
+                "names": "$~color"
+            },
+            "background": {
+                "doc": "$~El @Color con el que me relleno. Si \\ø\\, me relleno con el fondo de aquello sobre lo que estoy dibujada.",
+                "names": "$~fondo"
+            },
+            "size": {
+                "doc": "$~Qué tan grandes son mis palabras. Si \\ø\\, son del tamaño normal del texto en el @Stage — no del tamaño de quien habla, ya que un personaje de varios metros de altura formaría una pared de palabras.",
+                "names": "$~tamaño"
+            },
+            "wrap": {
+                "doc": "$~El límite en el que mis palabras pasan a otra línea.",
+                "names": "$~ajuste"
             }
         }
     },
@@ -8648,7 +8701,7 @@
                         "phrase": "$~\\¶Las frases aparecen en el escenario, en cualquier color, brillo y movimiento que quieras.¶\nFrase(\n\t'¡hola!'\n\t6m\n\tcolor: Color(60% 90 200°)\n\taura: Aura(Color(80% 80 200°) 0.3m)\n\tinmóvil: Secuencia.vaivén(8°)\n)\\",
                         "music": "$~\\¶La música son notas en instrumentos reales, a un tempo, en una clave. El escenario dibuja lo que escucha.¶\nMúsica(\n\tPista([1 3 5 8 5 3] instrumento: Instrumento.piano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶El código puede reaccionar a una entrada como @Time, y el texto puede ser multilingüe y hablado.¶\nholas: ['hola' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhola: holas.azar() … ∆ Tiempo(1000ms) … holas.azar()\nFrase(hola 4m)\ndecir(hola)\\",
-                        "keys": "$~\\¶El código puede reaccionar a punteros, teclas, clics y toques.¶\nclave2: Tecla()\nclic2: Botón()\ncaras: ['🙂' '😮' '😎' '🤩']\ncuál: 1 … ∆ clave2 | ∆ clic2 … (cuál % 4) + 1\nEscenario(\n\t[Frase(caras[cuál] 5m lugar: Puntero())]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
+                        "keys": "$~\\¶El código puede reaccionar a punteros, teclas, clics y toques.¶\nclave2: Tecla()\nclic2: Botón()\ncaras: ['🙂' '😮' '😎' '🤩']\ncuál: 1 … ∆ clave2 | ∆ clic2 … (cuál % 4) + 1\nEscenario(\n\t[Frase(caras[cuál] 5m lugar: Puntero() burbuja: 'hola')]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Acomoda el texto y hazlo seleccionable.¶\nfruta: ƒ(e•'') Frase(e 3m nombre: e seleccionable: ⊤)\nelegido: Elección()\nmostrado: '?' … ∆ elegido … elegido\nGrupo(\n\tPila(relleno: 1m)\n\t[\n\t\tFrase(mostrado 4m)\n\t\tGrupo(\n\t\t\tFila(relleno: 1m)\n\t\t\t[fruta('🍎') fruta('🍐') fruta('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Conversa con programas y usa la forma de las fuentes y los símbolos.¶\nmensaje: Charla()\npalabra2: 'hola' … ∆ mensaje … mensaje\nlínea: Contorno(palabra2 'Noto Sans' 8m)\ntics: 0 … ∆ Tiempo(30ms) … tics + 1\nmostrado: ((línea.longitud() × tics) ÷ 66).rondearBajo() + 1\npuntos: línea.subsecuencia(1 mostrado).traducir(\n\t\tƒ(p) Frase('•' lugar: p)\n\t)\nEscenario(puntos.agregar(Frase(palabra2 8m opacidad: 15%)))\\",
                         "pile": "$~\\¶El texto puede tener física.¶\nlanzar: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFrase(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlugar: Movimiento(Lugar(x2 y2) Velocidad(vx 0m/s))\n\t\t\tmateria: Materia(1kg 0.55 0.06 0.5)\n\t\t)\nEscenario(\n\t[\n\t\tlanzar('🍎' -2m 5m 2.2m/s)\n\t\tlanzar('🍊' 2m 7m -2.6m/s)\n\t\tlanzar('🍋' -1m 9m 1.4m/s)\n\t\tlanzar('🍇' 1.5m 11m -1.9m/s)\n\t\tlanzar('🫐' 0.5m 15m -1.2m/s)\n\t\tFigura(Rectángulo(-4m -3m 4m -3.6m))\n\t\tFigura(Rectángulo(-4.6m 4m -4m -3m))\n\t\tFigura(Rectángulo(4m 4m 4.6m -3m))\n\t]\n)\\",

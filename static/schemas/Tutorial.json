@@ -648,6 +648,10 @@
                     "type": "string"
                 },
                 {
+                    "const": "Bubble",
+                    "type": "string"
+                },
+                {
                     "const": "Phrase",
                     "type": "string"
                 },

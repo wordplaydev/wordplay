@@ -3657,25 +3657,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Kaya kong kumuha ng listahan, at gumawa ng bagong listahan kung saan nakaayos ang mga halaga nito. Ganito:",
+                        "$~Kaya kong kumuha ng listahan, at gumawa ng bagong listahan na nakaayos ang mga halaga nito. Ganito:",
                         "\\[1 5 8 0 2].inayos()\\",
-                        "Kaya ko rin itong gawin para sa mga halagang @Text, ayon sa pagkakasunod-sunod ng alpabeto. Ang malaking titik ay nakaayos katabi ng maliit na bersyon nito, kaya ang isang salita ay hindi ipapadala sa dulo dahil lang nagsisimula ito sa malaking titik:",
+                        "Kaya ko rin itong gawin para sa mga halagang @Text, ayon sa pagkakasunod-sunod ng alpabeto. Ang malaking letra ay isinasama sa katabi nitong maliit na letra, kaya hindi napupunta sa dulo ang isang salita dahil lang nagsisimula ito sa malaking letra:",
                         "\\['Kahel' 'kiwi' 'Saging' 'mansanas'].inayos()\\",
-                        "At kung mayroon kang listahan ng mga halagang hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na nagpapalit ng bawat item sa isang @Number o isang @Text para maayos ko ito. Halimbawa, narito ang isang listahan ng mga listahan na magkakaiba ang haba; kung bibigyan mo ako ng isang function na nagpapalit sa bawat listahan sa haba nito, maaari kong ayusin ang mga ito base sa haba.",
-                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan2) listahan2.haba()\n)\\",
-                        "Ang isang function na gumagawa ng @Text ay paraan kung paano mo aayusin base sa isang salitang kinakalkula mo, sa halip na base sa halaga mismo. Dito, inaayos ko ang mga pangalan base sa huling pangalan:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan2•'') (pangalan2 ÷ ' ').huli()\n)\\"
+                        "At kung mayroon kang listahan ng mga halagang hindi @Number o @Text, maaari mo akong bigyan ng @FunctionDefinition na nagpapalit ng bawat item sa isang @Number o @Text para maayos ko ito. Halimbawa, narito ang isang listahan ng mga listahan na magkakaiba ang haba; kung bibigyan mo ako ng function na nagpapalit ng bawat listahan sa haba nito, kaya kong ayusin ang mga ito ayon sa haba.",
+                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan3) listahan3.haba()\n)\\",
+                        "Ang function na gumagawa ng @Text ay paraan mo para mag-ayos ayon sa isang salitang kinakalkula mo, sa halip na sa halaga mismo. Narito, inaayos ko ang mga pangalan ayon sa huling pangalan:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan3•'') (pangalan3 ÷ ' ').huli()\n)\\"
                     ],
                     "names": "$~inayos",
                     "inputs": [
                         {
-                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para ayusin ang isang listahan @value. Dapat nitong palitan ang halaga tungo sa isang @Number o isang @Text na magagamit para ayusin ang listahan.",
+                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para ayusin ang listahang @value. Dapat nitong palitan ang halaga sa isang @Number o @Text na magagamit sa pag-aayos ng listahan.",
                             "names": "$~sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Ang @value na ipapalit tungo sa isang @Number o isang @Text.",
+                            "doc": "$~Ang @value na papalitan ng isang @Number o @Text.",
                             "names": "$~halaga"
                         }
                     ]
@@ -5281,10 +5281,22 @@
                 "doc": "$~Ang istilo ng animation na gagamitin kapag lumilipat sa ibang lugar sa entablado.",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$size[ $size meter |]parirala $text $name[pinangalanang $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[na pinangalanang $name|] $face[$face|] $animation $color[$color|] $bubble[na nagsasabing $bubble|]",
             "changing": {
                 "doc": "$~Ang pangalan ng isang epekto na patutugtugin kapag nagbago ang aking teksto, sa loob ng aking @Phrase.duration, na pinakikinis ng aking @Phrase.style. Kung \\ø\\, nagbabago agad ang aking teksto. Kung 'edit', binubura ko ang lumang teksto pabalik sa bahaging pareho ng luma at bagong teksto, pagkatapos ay ita-type ko ang bagong teksto. Kung 'rewrite', ita-type ko ang bagong teksto sa ibabaw ng luma, at pinapalitan ang isang simbolo sa bawat pagkakataon sa random na pagkakasunod-sunod. Kung 'random', ang bawat isa sa aking mga simbolo ay iikot sa mga random na simbolo mula sa wika ng aking teksto (o sa script nito, kapag hindi kilala ang wika), na tumutugma sa laki ng titik ng aking teksto, tulad ng isang slot machine, hanggang sa mapunta ito sa bagong teksto. Sa @FormattedLiteral na teksto, ang nagbabagong mga simbolo ay kukuha ng pormat ng bagong teksto habang tumatakbo ang epekto.",
                 "names": "$~nagbabago"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Ang balloon ng pananalita na nagpapakita kung ano ang sinasabi ko, na nakaturo diretso sa akin. May apat na magkakaibang bagay na puwedeng ilagay dito.",
+                    "Plain na text, na ipinapakita ko at wala nang iba pa:",
+                    "\\Parirala('ang' bula: 'kumusta!')\\",
+                    "Formatted na text, kung gusto mong may *bold* o /italic/ na mga salita sa sinasabi ko.",
+                    "Isang @Say, na ipinapakita ko *at* binibigkas nang malakas:",
+                    "\\Parirala('ang' bula: Sabihin('kumusta!'))\\",
+                    "Isang @Bubble, kapag gusto mong piliin kung saang panig ako magsasalita, gawin itong isip sa halip, o bigyan ito ng kulay."
+                ],
+                "names": "$~bula"
             }
         },
         "Arrangement": {
@@ -5296,7 +5308,7 @@
             "names": ["$~Hilera"],
             "description": "$~hilera ng $#count[$count parirala o grupo|$count na parirala at grupo]",
             "alignment": {
-                "doc": "$~Kung ihahanay ba ang teksto sa simula, gitna, o dulo sa bawat @column.",
+                "doc": "$~Kung ilalagay ang aking laman sa simula, gitna, o dulo ng bawat @column — o, gamit ang \\'_'\\, sa baseline kung saan nakapatong ang mga salita, para ang mga letrang may iba't ibang taas ay mabasa bilang isang linya.",
                 "names": "$~pagkakahanay"
             },
             "padding": {
@@ -6903,6 +6915,47 @@
             "z": {
                 "doc": "$~Ang lalim kung saan ako nakahiga.",
                 "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Ipinapakita ko kung ano ang sinasabi ng isang @Phrase, sa isang bula na tumuturo diretso sa kanila. Ibigay ako sa @Phrase.bubble ng isang parirala, at pahintulutan ang mga letra na magsalita:",
+                "\\Parirala('isang' bula: 'kumusta!')\\",
+                "Bigyan mo ako ng @Say sa halip na teksto, at sasabihin ako nang malakas habang ipinapakita rin.",
+                "Palitan ang aking @Bubble.kind ng isang isip, at magiging bula ng isip ako sa halip.",
+                "Ako ay isang dekorasyon, kaya walang gumagalaw sa entablado para bigyan ako ng puwang — pero tinitiyak ng @Stage na makikita talaga ako."
+            ],
+            "names": ["$~Bula"],
+            "text": {
+                "doc": [
+                    "$~Ang aking ipinapakita. Bigyan ako ng payak na teksto, o may pormatong teksto kung gusto mo ng *matapang* o /pahilig/ na mga salita.",
+                    "Bigyan mo ako ng @Say sa halip, at sasabihin ako nang malakas habang ipinapakita rin. Sa ganitong paraan, hahalili ako sa mga salitang karaniwang nasa ibaba ng @Stage, dahil nasa tabi na ng nagsalita ang mga sinabi ko."
+                ],
+                "names": "$~teksto"
+            },
+            "side": {
+                "doc": "$~Kung aling gilid ng @Phrase ako nakaupo, bilang isang palaso. Kung \\ø\\, inilalagay ako ng @Stage sa lugar na hindi ako nakakasagabal, at pumipili muli tuwing may gumagalaw.",
+                "names": "$~gilid"
+            },
+            "kind": {
+                "doc": "$~Kung ako ay isang bagay na sinabi (\\'💬'\\) o isang bagay na naisip (\\'💭'\\). Ang isang pag-iisip ay may mga bilog na patungo sa nag-iisip sa halip na isang tuldok, at may mga bilog na gilid.",
+                "names": "$~uri"
+            },
+            "color": {
+                "doc": "$~Ang @Color ng aking mga salita. Kung \\ø\\, ginagamit ko ang sariling kulay ng @Phrase.",
+                "names": "$~kulay"
+            },
+            "background": {
+                "doc": "$~Ang @Color na pinuno sa akin. Kung \\ø\\, pinupuno ako ng kulay-likod ng anumang kinaguguhitan ko.",
+                "names": "$~likuran"
+            },
+            "size": {
+                "doc": "$~Kung gaano kalaki ang aking mga salita. Kung \\ø\\, ang laki nito ay ang karaniwang laki ng teksto sa @Stage — hindi ang laki ng nagsasalita, dahil ang isang tauhan na ilang metro ang taas ay gagawa ng isang pader ng mga salita.",
+                "names": "$~laki"
+            },
+            "wrap": {
+                "doc": "$~Ang hangganan kung saan ibinabalot ko ang aking mga salita papunta sa susunod na linya.",
+                "names": "$~balutin"
             }
         }
     },
@@ -9064,7 +9117,7 @@
                         "phrase": "$~\\¶Lumalabas ang mga Phrase sa entablado, sa anumang kulay, ningning, at galaw na gusto mo.¶\nParirala(\n\t'kumusta!'\n\t6m\n\tkulay: Kulay(60% 90 200°)\n\taura: Aura(Kulay(80% 80 200°) 0.3m)\n\tnagpapahinga: Pagkakasunodsunod.ugoy(8°)\n)\\",
                         "music": "$~\\¶Ang musika ay mga nota sa tunay na instrumento, sa isang tempo, sa isang key. Iginuguhit ng entablado ang naririnig nito.¶\nMusika(\n\tTrack([1 3 5 8 5 3] instrumento: Instrumento.piyano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Ang kodigo ay maaaring tumugon sa input tulad ng @Time, at ang teksto ay maaaring maraming wika at mabigkas.¶\nmgaKumusta: ['kumusta' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nkumusta: mgaKumusta.random() … ∆ Oras(1000ms) … mgaKumusta.random(\n\t\t)\nParirala(kumusta 4m)\nSabihin(kumusta)\\",
-                        "keys": "$~\\¶Ang kodigo ay maaaring tumugon sa mga pointer, susi, click, at tapik.¶\nsusi2: Susi()\nclick2: Butones()\nmgaMukha: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ click2 … (alin % 4) + 1\nEntablado(\n\t[Parirala(mgaMukha[alin] 5m lugar: Panturo())]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
+                        "keys": "$!\\¶Ang kodigo ay maaaring tumugon sa mga pointer, susi, click, at tapik.¶\nsusi2: Susi()\nclick2: Butones()\nmgaMukha: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ click2 … (alin % 4) + 1\nEntablado(\n\t[Parirala(mgaMukha[alin] 5m lugar: Panturo())]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Ayusin ang teksto at gawin itong mapipili.¶\nprutas: ƒ(e•'') Parirala(e 3m pangalan: e mapipili: ⊤)\nnapili: Pagpipilian()\nipinakita: '?' … ∆ napili … napili\nGrupo(\n\tPatongpatong(padding: 1m)\n\t[\n\t\tParirala(ipinakita 4m)\n\t\tGrupo(\n\t\t\tHilera(padding: 1m)\n\t\t\t[prutas('🍎') prutas('🍐') prutas('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Makipag-usap sa mga programa at gamitin ang hugis ng mga font at simbolo.¶\nmensahe: Makipagchat()\nsalita2: 'hi' … ∆ mensahe … mensahe\nlinya: Kontur(salita2 'Noto Sans' 8m)\nmgaTik: 0 … ∆ Oras(30ms) … mgaTik + 1\nipinakita: ((linya.haba() × mgaTik) ÷ 66).roundDown() + 1\nmgaTuldok: linya.kasunod(1 ipinakita).isalin(\n\t\tƒ(p) Parirala('•' lugar: p)\n\t)\nEntablado(\n\tmgaTuldok.kasama(Parirala(salita2 8m kalabuan: 15%))\n)\\",
                         "pile": "$~\\¶Maaaring may pisika ang teksto.¶\nitapon: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tParirala(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlugar: Paggalaw(Lugar(x2 y2) Bilis(vx 0m/s))\n\t\t\tbagay: Materyales(1kg 0.55 0.06 0.5)\n\t\t)\nEntablado(\n\t[\n\t\titapon('🍎' -2m 5m 2.2m/s)\n\t\titapon('🍊' 2m 7m -2.6m/s)\n\t\titapon('🍋' -1m 9m 1.4m/s)\n\t\titapon('🍇' 1.5m 11m -1.9m/s)\n\t\titapon('🫐' 0.5m 15m -1.2m/s)\n\t\tHugis(Parihaba(-4m -3m 4m -3.6m))\n\t\tHugis(Parihaba(-4.6m 4m -4m -3m))\n\t\tHugis(Parihaba(4m 4m 4.6m -3m))\n\t]\n)\\",

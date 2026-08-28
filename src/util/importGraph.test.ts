@@ -237,6 +237,15 @@ test('resolving a color needs no basis', () => {
  * to absorb it; Page and projects moved a hundredth for the form, galleries a hundredth
  * more for the point handles.
  *
+ * Speech bubbles (#75) add **no file** to any of these five, and the counts
+ * below are unchanged: `Bubble.ts` is only ever constructed by
+ * `createDefaultShares`, which none of these entries evaluate, and
+ * `AnimatedText.svelte` hangs off the stage's output views, which none of them
+ * reach. The landing page's +0.01MB is en-US.json, which every page carries —
+ * the `Bubble` block's docs and names for seven inputs, the `Phrase.bubble`
+ * input, and the clause the description template gained so a spoken line is
+ * described once rather than twice. The other four had the slack to absorb it.
+ *
  * The layout's last +0.01MB is alignment guides (#117): the seven anchor words
  * and the four sentences naming what a moved output lined up with, in
  * en-US.json, which every page carries. The snapping itself is not in this
@@ -248,7 +257,7 @@ test('resolving a color needs no basis', () => {
 test.each([
     ['src/routes/+layout.svelte', 488, 3.51],
     ['src/components/app/Page.svelte', 510, 3.75],
-    ['src/routes/[[locale]]/+page.svelte', 525, 3.83],
+    ['src/routes/[[locale]]/+page.svelte', 525, 3.84],
     ['src/routes/[[locale]]/galleries/+page.svelte', 528, 3.84],
     ['src/routes/[[locale]]/projects/+page.svelte', 536, 3.87],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {

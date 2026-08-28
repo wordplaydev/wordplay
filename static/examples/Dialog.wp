@@ -1,0 +1,47 @@
+🗨
+"Dialog"/en
+=== start
+¶Two letters talk about what it means for letters to talk.¶
+
+¶One line of the conversation: who says it, the words, and whether it is thought rather than said.¶
+•Line(who•'' words•'' thinking•?: ⊥)
+
+script: [
+	Line('a' "Do you ever think it is strange that we are talking?")
+	Line('b' "We are letters. Talking is sort of our whole job.")
+	Line('a' "No, I mean us. Not the words we make. Us.")
+	Line('b' "…Oh.")
+	Line('a' "I am a shape that means a sound. Right now I am making the sound by being the shape.")
+	Line('b' "Is a speech bubble around a letter a picture of a letter, or a letter of a picture?" thinking: ⊤)
+	Line('a' "You are spiraling.")
+	Line('b' "I am a b. Spiraling is literally my silhouette.")
+	Line('a' "Anyway. This is normal here.")
+	Line('b' "Normal for us, anyway.")
+]
+
+¶Advance on a key, a click, or a tap, and stop on the last line.¶
+turn•#: 1 … ∆ Key() | ∆ Button() … (turn < script.length() ? turn + 1 turn)
+
+line: script[turn]
+
+¶Only whoever's turn it is gets a bubble. Every line is a @Say, so it is spoken
+as well as shown — and the bubble stands in for the caption, since the words are
+already on screen beside whoever said them. Nobody picks a side: the stage puts
+each bubble wherever it is least in the way.¶
+ƒ bubble(who•'')
+	who = line.who ?
+		Bubble(Say(line.words) kind: (line.thinking ? '💭' '💬') wrap: 9m)
+		ø
+
+¶A row lined up on the baseline, so both letters sit on one line. A phrase's box
+is its ink, so placing them at the same height would put a short letter and a
+tall one on different baselines.¶
+Stage([
+	Group(Stack('|' 1.5m) [
+		Group(Row('_' 6m) [
+			Phrase('a' size: 3m bubble: bubble('a'))
+			Phrase('b' size: 3m bubble: bubble('b'))
+		])
+		Phrase(`/space, click, or tap/` size: 0.6m)
+	])
+])

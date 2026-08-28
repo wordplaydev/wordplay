@@ -586,6 +586,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
         'face',
         'animation',
         'color',
+        'bubble',
     ],
     'output.Pose.description': [
         'opacity',

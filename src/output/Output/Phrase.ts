@@ -7,7 +7,7 @@ import {
     type WritingLayoutSymbol,
 } from '@locale/Scripts';
 import { getBind } from '@locale/getBind';
-import { LINK_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+import { TYPE_SYMBOL } from '@parser/Symbols';
 import MarkupValue from '@values/MarkupValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
@@ -25,6 +25,8 @@ import Markup from '@nodes/Markup';
 import StructureValue from '@values/StructureValue';
 import type Aura from '@output/Aura/Aura';
 import { toAura } from '@output/Aura/Aura';
+import type Bubble from '@output/Bubble/Bubble';
+import { toBubble } from '@output/Bubble/Bubble';
 import type Color from '@output/Color/Color';
 import type Matter from '@output/physics/Matter';
 import { toMatter } from '@output/physics/Matter';
@@ -34,17 +36,13 @@ import type { DefinitePose } from '@output/animation/Pose';
 import Pose from '@output/animation/Pose';
 import type RenderContext from '@output/RenderContext';
 import Sequence from '@output/animation/Sequence';
-import {
-    CSSFallbackFaces,
-    toNumber,
-    type NameGenerator,
-} from '@output/Output/Stage';
+import { toNumber, type NameGenerator } from '@output/Output/Stage';
 import { splitCharacterRefs } from '@output/Output/splitCharacterRefs';
 import { getOutputInput } from '@output/Output/Valued';
-import getTextMetrics from '@output/Output/getTextMetrics';
-import { PX_PER_METER, sizeToPx } from '@output/Output/outputToCSS';
-import segmentWraps from '@output/Output/segmentWraps';
+import { PX_PER_METER } from '@output/Output/outputToCSS';
 import { getTypeStyle } from '@output/Output/toOutput';
+import measureFormats from '@output/Output/measureFormats';
+import measureBubble, { type BubbleBox } from '@output/Bubble/bubbleLayout';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
@@ -116,6 +114,10 @@ export function createPhraseType(locales: Locales) {
         )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}'|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.aura)}•ø|🔮: ø
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.bubble,
+        )}•ø|""|\`…\`|🔊|🗨: ø
     )`);
 }
 
@@ -141,6 +143,7 @@ export default class Phrase extends Output {
     readonly direction: WritingLayoutSymbol | undefined;
     readonly matter: Matter | undefined;
     readonly aura: Aura | undefined;
+    readonly bubble: Bubble | undefined;
 
     private _metrics: Metrics | undefined = undefined;
     /** The effective layout the cached metrics were computed for, so we can
@@ -152,6 +155,15 @@ export default class Phrase extends Output {
     /** Whether the cached metrics stood in a placeholder, so an empty phrase
      *  re-measures when the palette opens or closes. */
     private _metricsPlaceholders = false;
+
+    /** The bubble's measured box, and the size and face it was measured at.
+     *  Separate from `_metrics` because a bubble is sized from the *stage's*
+     *  text size rather than the phrase's, so the two are measured against
+     *  different numbers and cannot share a cache. */
+    private _bubbleBox: BubbleBox | undefined = undefined;
+    private _bubbleSize: number | undefined = undefined;
+    private _bubbleFace: string | undefined = undefined;
+    private _bubbleGeneration = -1;
 
     private _description: string | undefined = undefined;
 
@@ -178,6 +190,7 @@ export default class Phrase extends Output {
         direction: WritingLayoutSymbol | undefined,
         matter: Matter | undefined,
         aura: Aura | undefined,
+        bubble: Bubble | undefined,
     ) {
         super(
             value,
@@ -204,6 +217,7 @@ export default class Phrase extends Output {
         this.direction = direction;
         this.matter = matter;
         this.aura = aura;
+        this.bubble = bubble;
     }
 
     find(check: (output: Output) => boolean): Output | undefined {
@@ -253,19 +267,12 @@ export default class Phrase extends Output {
         // Get the text that will be rendered.
         const text = this.getLocalizedTextOrDoc();
 
-        // Tracking metrics
-        let width = 0;
-        let height: undefined | number = 0;
-        let ascent: undefined | number = 0;
-        let descent: undefined | number = 0;
         const maxWidth =
             this.wrap === undefined ? undefined : this.wrap * PX_PER_METER;
-        let totalHeight = 0;
 
         const formats: FormattedText[] | undefined =
             // Is it plain text? Split out any custom-character references (#773)
-            // so each is measured as one '@' (see isCharacter below), then make
-            // a list of unformatted segments.
+            // so each is measured as one '@', then make a list of unformatted segments.
             text instanceof TextValue
                 ? splitCharacterRefs(text.text).map((chunk) => ({
                       text: chunk.kind === 'character' ? chunk.ref : chunk.text,
@@ -283,66 +290,21 @@ export default class Phrase extends Output {
         // Is the text horizontal or vertical? This determines how we calculate size.
         const horizontal = layout === 'horizontal-tb';
 
-        // Go through each formatted text,
-        for (const formatted of formats) {
-            // If the text is a character name, it will be the width of an m in the current font.
-            const isCharacter = formatted.text.startsWith(LINK_SYMBOL);
-            // If it is a custom character, treat it like the letter 'e' for measurement purposes.
-            const textToMeasure = isCharacter ? '@' : formatted.text;
-            // Segment the text into wrap candidates using locale-aware
-            // word segmentation, then measure each segment.
-            for (const segment of segmentWraps(
-                textToMeasure,
-                context.locales.getLocaleString(),
-            )) {
-                const metrics = getTextMetrics(
-                    // Choose the description with the preferred language.
-                    segment,
-                    // Convert the size to pixels and choose a font name.
-                    `${formatted.weight ?? ''} ${
-                        formatted.italic ? 'italic' : ''
-                    } ${sizeToPx(
-                        renderedSize,
-                    )} "${renderedFace}", ${CSSFallbackFaces}`,
-                    layout,
-                );
+        const measured = measureFormats(formats ?? [], {
+            face: renderedFace,
+            size: renderedSize,
+            maxWidth,
+            layout,
+            locale: context.locales.getLocaleString(),
+        });
 
-                if (metrics) {
-                    ascent = metrics.fontBoundingBoxAscent;
-                    descent = metrics.fontBoundingBoxDescent;
-                    height = isCharacter
-                        ? ascent
-                        : Math.max(
-                              metrics.actualBoundingBoxAscent +
-                                  metrics.actualBoundingBoxDescent,
-                              height,
-                          );
-                    // If we're not wrapping, just accumulate the width.
-                    if (maxWidth === undefined) {
-                        width += metrics.width;
-                    }
-                    // If we are wrapping, then see if adding this width would exceed the boundary.
-                    else {
-                        // Past the boundary? Wrap.
-                        if (width + metrics.width >= maxWidth) {
-                            width = 0;
-                            totalHeight +=
-                                metrics.fontBoundingBoxAscent +
-                                metrics.fontBoundingBoxDescent;
-                            height = 0;
-                        }
-                        // Add the width of the text
-                        width += metrics.width;
-                    }
-                }
-            }
-        }
+        let { width, height } = measured;
+        let { ascent, descent } = measured;
 
-        // Wrapping? The width is specified; we just need to compute the height. To do this,
-        // we place the
+        // Wrapping? The width is specified; we just need to compute the height.
         if (maxWidth !== undefined) {
             width = maxWidth;
-            height = totalHeight + (width > 0 ? ascent + descent : 0);
+            height = measured.totalHeight + (width > 0 ? ascent + descent : 0);
         }
 
         if (!horizontal) {
@@ -408,6 +370,44 @@ export default class Phrase extends Output {
         return this.wrap !== undefined
             ? descent
             : (height + descent - ascent) / 2;
+    }
+
+    /**
+     * How big this phrase's speech bubble is, or undefined without one.
+     *
+     * Takes the **parent's** render context on purpose. A bubble's font size is
+     * the stage's rather than the speaker's — a three metre character does not
+     * get three metre dialog — so measuring this against the phrase's own
+     * context would give a different answer, and the two callers would disagree
+     * about the same bubble depending on which ran first.
+     */
+    getBubbleBox(context: RenderContext): BubbleBox | undefined {
+        if (this.bubble === undefined) return undefined;
+        const face = this.face ?? context.face;
+        const size = this.bubble.size ?? context.size;
+        const generation = Fonts.getLoadGeneration();
+        if (
+            this._bubbleBox !== undefined &&
+            this._bubbleSize === size &&
+            this._bubbleFace === face &&
+            this._bubbleGeneration === generation
+        )
+            return this._bubbleBox;
+        const box = measureBubble(
+            this.bubble,
+            face,
+            size,
+            context.locales.getLocaleString(),
+        );
+        this._bubbleBox = box;
+        this._bubbleSize = size;
+        this._bubbleFace = face;
+        this._bubbleGeneration = generation;
+        return box;
+    }
+
+    getPinnedBubbleSide() {
+        return this.bubble?.getSide();
     }
 
     getLayout(context: RenderContext) {
@@ -500,11 +500,23 @@ export default class Phrase extends Output {
                     face: describeFaceWithName(locales, this.face),
                     animation: animationDescription,
                     color: colorDescription,
+                    // A spoken bubble is left out: speech synthesis already
+                    // voices it, and two describers of one line are heard as
+                    // the same sentence twice, in two different voices. The
+                    // same bail `OutputDescriptions.describable` makes for `Say`.
+                    bubble:
+                        this.bubble && this.bubble.say === undefined
+                            ? this.bubble.getShortDescription()
+                            : undefined,
                 })
                 .toText()
                 .trim();
         }
         return this._description;
+    }
+
+    getBubbleSay() {
+        return this.bubble?.say;
     }
 
     getEntryAnimated() {
@@ -572,6 +584,11 @@ export function toPhrase(
     const direction = toText(getOutputInput(value, AfterStyleOffset + 2));
     const matter = toMatter(getOutputInput(value, AfterStyleOffset + 3));
     const shadow = toAura(project, getOutputInput(value, AfterStyleOffset + 4));
+    const bubble = toBubble(
+        project,
+        getOutputInput(value, AfterStyleOffset + 5),
+        namer,
+    );
 
     return texts !== undefined &&
         (!Array.isArray(texts) || texts.length > 0) &&
@@ -603,6 +620,7 @@ export function toPhrase(
               direction ? (direction.text as WritingLayoutSymbol) : undefined,
               matter,
               shadow,
+              bubble,
           )
         : undefined;
 }
