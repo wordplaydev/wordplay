@@ -4,7 +4,7 @@ Visste du att ditt projekt kan lyssna på dig? @Volume   stream använder din mi
 
 Vi kan använda det numret för att kontrollera vad som helst – storleken på en @Phrase , dess rotation, dess färg.
 
-\Phrase('📣' size: (Volume() × 5m) + 1m)\
+\Phrase('📣' storlek: (Volume() × 5m) + 1m)\
 
 När det är tyst är megafonen\1m\hög. När du ropar kan den växa upp till\6m\hög.
 

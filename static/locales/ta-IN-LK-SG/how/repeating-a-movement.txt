@@ -5,13 +5,13 @@
 அதற்கு பதிலாக, நாம் பயன்படுத்தலாம் @Sequence உடன் @Phrase ஒரு விஷயத்தை பலமுறை திரும்பத் திரும்பச் சொல்ல! குறிப்பாக,நாம் எண்ணிக்கையைப் பயன்படுத்தலாம் @Sequence மற்றும் ஒரு தொகுப்பு போஸ்கள் எத்தனை முறை நடக்கின்றன என்பதைத் தேர்வுசெய்யவும். உதாரணமாக,இதோ ஒரு கூடைப்பந்து இரண்டு முறை மேலும் கீழும் துள்ளிக் குதிக்கிறது.
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' நுழைகிறது: Sequence({
+					0%: Pose(ஆஃப்செட்: Place(ஒய்: 0.25m))
+					25%: Pose(ஆஃப்செட்: Place(ஒய்: 0m))
+					50%: Pose(ஆஃப்செட்: Place(ஒய்: -0.25m))
+					75%: Pose(ஆஃப்செட்: Place(ஒய்: 0m))
+					100%: Pose(ஆஃப்செட்: Place(ஒய்: 0.25m))
+				} எண்ணிக்கை: 2x காலஅளவு: 2s))
 	])\
 
 animate-phrase, shake-phrase

@@ -4,7 +4,7 @@ Por vezes, quer muitos personagens que sejam quase idênticos, mas com pequenas 
 
 UM  @Structure É como se fosse uma receita com espaços em branco para preencher.Eis um modelo de balão que recebe uma cor e um rótulo e sabe como se exibir:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` cor: color tamanho: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Céu').show()

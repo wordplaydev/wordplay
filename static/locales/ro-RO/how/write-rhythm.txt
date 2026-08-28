@@ -6,7 +6,7 @@ O listă de numere simple dă fiecărei note aceeași durată, ceea ce sună ca 
 
 \Music([
 		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums bătaie: 0.5beats)
 	])\
 
 Prima notă a pianului este urmată de trei pauze, așa că sună timp de patru bătăi. Grila tobei este de o jumătate de bătaie, așa că cele opt intrări ale ei umplu patru bătăi, în timp ce cele opt ale pianului umplu opt — toba face un tur de două ori pentru fiecare tur al pianului. Piesele se repetă pe propriile lor lungimi, așa creează un singur număr un poliritm.
@@ -23,7 +23,7 @@ Să numeri pauzele obosește, așa că poți scrie durata chiar pe număr. Un nu
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] instrument: Instrument.trumpet bătaie: 1𝅘𝅥))\
 
 Acestea sunt două măsuri de câte patru bătăi. \𝅝\ este o notă întreagă, \𝅗𝅥\ o doime, \𝅘𝅥\ o pătrime, \𝅘𝅥𝅮\ o optime și \𝅘𝅥𝅯\ o șaisprezecime, iar punctul \𝅭\ le face pe oricare dintre ele cu jumătate mai lungă — așa că \𝅘𝅥𝅮𝅭\ este optimea cu punct care împinge acest marș înainte. Rândul de simboluri de sub editor ți le oferă după ce scrii un număr.
 

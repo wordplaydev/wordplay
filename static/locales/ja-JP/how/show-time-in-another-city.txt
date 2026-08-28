@@ -12,6 +12,6 @@
 
 カレンダーを選ぶこともできます。たとえば日本のカレンダーです。そしてフォントで時計を飾ることもできます：
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' 顔: 'Doto')\
 
 count-with-time

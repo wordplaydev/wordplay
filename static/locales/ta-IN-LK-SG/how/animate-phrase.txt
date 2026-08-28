@@ -4,14 +4,14 @@
 
 உதாரணமாக, இந்தப் பூனையைச் சுழற்றி நகர்த்துவதன் மூலம் அதைக் கொஞ்சம் நடனமாடச் செய்வோம்:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' ஓய்வெடுக்கிறது: Sequence({
+			0%: Pose(சுழற்சி: 0°)
+			15%: Pose(சுழற்சி: 15°)
+			30%: Pose(சுழற்சி: 0°)
+			45%: Pose(ஆஃப்செட்: Place(-0.25m))
+			60%: Pose(ஆஃப்செட்: Place(0.25m))
+			75%: Pose(ஆஃப்செட்: Place(-0.25m))
+			90%: Pose(ஆஃப்செட்: Place(0m))
 		} 2s))\
 
 இந்த எடுத்துக்காட்டு ஒரு @Sequence வேறுபட்ட @Pose .

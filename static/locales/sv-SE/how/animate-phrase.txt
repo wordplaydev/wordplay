@@ -4,7 +4,7 @@ Karaktärer kan ha en viloanimation som upprepas även om de inte rör sig.
 
 Låt oss till exempel få den här katten att dansa lite genom att få den att rotera och flytta sig:
 
-\Phrase('🐈' resting: Sequence({
+\Phrase('🐈' vilande: Sequence({
 			0%: Pose(rotation: 0°)
 			15%: Pose(rotation: 15°)
 			30%: Pose(rotation: 0°)

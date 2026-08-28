@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = '菜单') ? '▶ 按下开始' '🏃 跑！' 1m)
-		(phase = '菜单') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = '菜单') ? Music(Track(theme 乐器: Instrument.bell) 速度: 72beats/min) Music(Track(theme 乐器: Instrument.synth) 速度: 132beats/min)
 	])\
 
 两首歌曲都是同样的八个数字。只有乐器和速度改变，它听起来就已经像另一首曲子了 —— 因为音级说的是*音阶的哪一级*，而不是哪个音高，所以一个 @Music 可以重新解释它们。给它\缩放: 🎼.和声小调\，同一段旋律就会变得阴森，而不需要重写任何一个音符。
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('乐谱 \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] 乐器: Instrument.drums) 速度: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 按足够多次，鼓声就会比开始时快一倍。一个短促的、有敲击感的音符能让这一点听得出来 —— 在长时间保持的音符下面，速度变化很难被感觉到。

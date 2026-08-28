@@ -6,8 +6,8 @@
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune वाद्य: Instrument.flute)
+		Track(tune वाद्य: Instrument.synthBass किल्ली: -12semitones आवाज: 60%)
 	])\
 
 दोन आवाज, एकच यादी. चाल बदला की बास तिच्या मागोमाग बदलतो, कारण बदलायला एकच चाल आहे.
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune वाद्य: Instrument.flute पॅन: 0)
+		Track(tune वाद्य: Instrument.synthBass किल्ली: -12semitones आवाज: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] वाद्य: Instrument.synthPad ठेका: 2beats आवाज: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] वाद्य: Instrument.drums ठेका: 0.5beats आवाज: 45%)
 	])\
 
 आवाजाचे प्रमाण पाहा: फक्त बासरी पूर्ण जोरात आहे. पूर्ण जोरातले भाग मिळून वाद्यमेळ जोरात होत नाही, तर तो गढूळ होतो, कारण एकाच वेळी वाजणारे सर्व एकाच स्पीकरमधून जावे लागते. चाल \100%\ पासून सुरू करा आणि बाकी सर्व तिच्या खाली ठेवा.

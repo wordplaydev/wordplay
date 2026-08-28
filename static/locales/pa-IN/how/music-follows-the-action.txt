@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'ਮੀਨੂ') ? '▶ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਦਬਾਓ' '🏃 ਦੌੜੋ!' 1m)
-		(phase = 'ਮੀਨੂ') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'ਮੀਨੂ') ? Music(Track(theme ਸਾਜ਼: Instrument.bell) ਗਤੀ: 72beats/min) Music(Track(theme ਸਾਜ਼: Instrument.synth) ਗਤੀ: 132beats/min)
 	])\
 
 ਦੋਵੇਂ ਗੀਤ ਇੱਕੋ ਅੱਠ ਨੰਬਰ ਹਨ। ਸਿਰਫ਼ ਸਾਜ਼ ਅਤੇ ਰਫ਼ਤਾਰ ਬਦਲਦੇ ਹਨ, ਅਤੇ ਇਹ ਪਹਿਲਾਂ ਹੀ ਇੱਕ ਵੱਖਰੇ ਟੁਕੜੇ ਵਾਂਗ ਸੁਣਾਈ ਦਿੰਦਾ ਹੈ — ਕਿਉਂਕਿ ਡਿਗਰੀਆਂ ਦੱਸਦੀਆਂ ਹਨ *ਸਕੇਲ ਦਾ ਕਿਹੜਾ ਕਦਮ*, ਨਾ ਕਿ ਕਿਹੜੀ ਸੁਰ, ਇਸ ਲਈ ਇੱਕ  @Music  ਇਹਨਾਂ ਨੂੰ ਨਵੇਂ ਤਰੀਕੇ ਨਾਲ ਸਮਝ ਸਕਦਾ ਹੈ। ਇਸ ਨੂੰ \ਪੈਮਾਨਾ: 🎼.ਹਾਰਮੋਨਿਕਛੋਟਾ\ ਦਿਓ ਅਤੇ ਉਹੀ ਧੁਨ ਇੱਕ ਵੀ ਸੁਰ ਦੁਬਾਰਾ ਲਿਖੇ ਬਿਨਾਂ ਡਰਾਉਣੀ ਬਣ ਜਾਂਦੀ ਹੈ।
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('ਸਕੋਰ \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] ਸਾਜ਼: Instrument.drums) ਗਤੀ: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 ਕਾਫ਼ੀ ਵਾਰ ਦਬਾਓ ਅਤੇ ਢੋਲ ਸ਼ੁਰੂ ਨਾਲੋਂ ਦੁੱਗਣੀ ਜ਼ੋਰ ਨਾਲ ਵੱਜਦੇ ਹਨ। ਇੱਕ ਛੋਟੀ, ਥਪਥਪਾਉਂਦੀ ਸੁਰ ਹੀ ਇਸ ਨੂੰ ਸੁਣਨਯੋਗ ਬਣਾਉਂਦੀ ਹੈ — ਲੰਬੀਆਂ ਖਿੱਚੀਆਂ ਸੁਰਾਂ ਹੇਠ ਰਫ਼ਤਾਰ ਦੇ ਬਦਲਾਅ ਨੂੰ ਮਹਿਸੂਸ ਕਰਨਾ ਔਖਾ ਹੁੰਦਾ ਹੈ।

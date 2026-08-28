@@ -10,7 +10,7 @@ Dacă începem cu numărul \10\ și convertiți-l cu \→ []\, obținem o listă
 
 Pentru a face fiecare copie puțin diferită, folosiți numărul pe care ni-l oferă traducerea:
 
-\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
+\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' dimensiune: n × 0.5m)))\
 
 Fiecare stea este mai mare decât precedenta, pentru că \n\ merge de la \1\ la \8\.
 

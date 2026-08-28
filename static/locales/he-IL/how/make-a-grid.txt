@@ -18,10 +18,10 @@
 אם אתם רוצים שכל תא יהיה באותו גודל, תנו @Grid גם רוחב וגובה. כך התווים נשארים בצורה מסודרת בתוך הריבועים שלהם, גם אם הם בגדלים שונים:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' גוֹדֶל: 1m)
+		Phrase('🐶' גוֹדֶל: 1.5m)
+		Phrase('🦊' גוֹדֶל: 0.5m)
+		Phrase('🐻' גוֹדֶל: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

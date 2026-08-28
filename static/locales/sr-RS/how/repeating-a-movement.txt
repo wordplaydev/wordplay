@@ -5,13 +5,13 @@
 Уместо тога, можемо користити @Sequence са @Phrase да се нешто понови више пута! Конкретно,можемо користити бројање у @Sequence и изаберите колико пута се понавља скуп поза. На примерЕво кошаркашке лопте која два пута скаче горе-доле.
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' улазећи: Sequence({
+					0%: Pose(оффсет: Place(и: 0.25m))
+					25%: Pose(оффсет: Place(и: 0m))
+					50%: Pose(оффсет: Place(и: -0.25m))
+					75%: Pose(оффсет: Place(и: 0m))
+					100%: Pose(оффсет: Place(и: 0.25m))
+				} цоунт: 2x трајање: 2s))
 	])\
 
 animate-phrase, shake-phrase

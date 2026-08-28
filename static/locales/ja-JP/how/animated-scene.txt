@@ -5,24 +5,24 @@
 たとえば、短い童謡「ジャックは敏捷だ」をアニメ化したいとします。私たちは @Scene 各行が @Phrase を設定し、 @Phrase/duration 各行の @Scene 各フレーズが完了するたびに進みます。
 
 \Scene([
-		Phrase('ジャックは機敏だ' duration: 1s)
-		Phrase('ジャック、早く' duration: 1s)
-		Phrase('ジャックはろうそくの棒を飛び越える' duration: 1s)
+		Phrase('ジャックは機敏だ' 時間: 1s)
+		Phrase('ジャック、早く' 時間: 1s)
+		Phrase('ジャックはろうそくの棒を飛び越える' 時間: 1s)
 	])\
 
 @Scene 待つだろう @Sequence やるべきことも。ローソク足ラインをジャンプさせましょう！
 
 \Scene([
-		Phrase('ジャックは機敏だ' duration: 1s)
-		Phrase('ジャック、早く' duration: 1s)
-		Phrase('ジャックはろうそくの棒を飛び越える' entering: Sequence.bounce(duration: 1s))
+		Phrase('ジャックは機敏だ' 時間: 1s)
+		Phrase('ジャック、早く' 時間: 1s)
+		Phrase('ジャックはろうそくの棒を飛び越える' 登場: Sequence.bounce(長さ: 1s))
 	])\
 
 @Scene 取ることもできます @Group テキストも同様に、そのすべてのコンテンツのアニメーションが完了するまで待機します。
 
 \Scene([
-		Group(Stack() [Phrase('ジャックは機敏だ') Phrase('ジャック、早く')] duration: 2s)
-		Phrase('ジャックはろうそくの棒を飛び越える' entering: Sequence.bounce(duration: 1s))
+		Group(Stack() [Phrase('ジャックは機敏だ') Phrase('ジャック、早く')] 時間: 2s)
+		Phrase('ジャックはろうそくの棒を飛び越える' 登場: Sequence.bounce(長さ: 1s))
 	])\
 
 interactive-scene

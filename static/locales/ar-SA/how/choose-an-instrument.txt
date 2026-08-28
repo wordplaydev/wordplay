@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'بيانو')
-				Phrase('🎻' selectable: ⊤ name: 'كمان')
+				Phrase('🎹' قابلللتحديد: ⊤ اسم: 'بيانو')
+				Phrase('🎻' قابلللتحديد: ⊤ اسم: 'كمان')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'كمان') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] آلة: (picked = 'كمان') ? Instrument.violin Instrument.piano))
 	])\
 
 العبارتان القابلتان للاختيار هما ما يجعل هذا يعمل —  @Choice  لا يجد شيئًا ليقرأه إلا إذا كان شيء على المسرح \قابلللتحديد: ⊤\.
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon قابلللتحديد: ⊤ اسم: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] آلة: current.sound))
 	])\
 
 إضافة صوت رابع الآن هي سطر واحد، ويظهر الزر بنفسه. لاحظ الحماية \found•ø ?\:  @List/find  يعيد \ø\ عندما لا يطابق شيء، وهذا ما يحدث قبل أن يختار أحد — ويجب أن يكون البديل الاحتياطي \🎙\ كاملًا، لأن هذا ما \current\ يعد بأن يكونه.

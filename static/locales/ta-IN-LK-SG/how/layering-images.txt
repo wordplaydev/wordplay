@@ -8,11 +8,11 @@
 
 \¶குறிப்பு: வேறொரு திட்டத்திற்கு கேலரியைப் பாருங்கள்.<உதாரணம்@https://wordplay.dev/project/example-Layers?play>படங்களை அடுக்குதல்.¶Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) சுழற்சி: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) சுழற்சி: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) சுழற்சி: -25°)
+	] இடம்: Place(0m 10m -30m))\
 
 அடுக்குகளைப் பயன்படுத்தி நீங்கள் சில அருமையான பொருட்களைச் செய்யலாம்! முயற்சித்துப் பாருங்கள்!
 

@@ -12,6 +12,6 @@ Nu știi numele fusului orar? Scrie doar un oraș pe care îl cunoști — @word
 
 Poți alege și un calendar, cum ar fi calendarul japonez, și poți da un stil ceasului cu o fontă:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' faţă: 'Doto')\
 
 count-with-time

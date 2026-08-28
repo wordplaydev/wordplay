@@ -4,17 +4,17 @@ Terkadang bermanfaat untuk membuat  @Phrase  dapat digerakkan dengan keyboard, m
 
 Lakukan ini, kita bisa menggabungkannya  @Phrase  dengan  @Placement :
 
-\Stage([Phrase('gerakkan aku' place: Placement())] place: Place(0m 0m -10m))\
+\Stage([Phrase('gerakkan aku' tempat: Placement())] tempat: Place(0m 0m -10m))\
 
 Gunakan tombol panah keyboard atau klik pada  @Stage  akan memperbarui  @Placement , menyebabkan  @Phrase  untuk bergerak ke arah itu.
 
 Namun, tahukah Anda bahwa...  @Placement  dapat digunakan dengan /apa pun/ yang membutuhkan  @Place ? Sebagai contoh, sebuah  @Stage  memiliki  @Place  yang menentukan ke mana kamera tersebut mengarah.Mari kita coba mengatur  @Placement  untuk sebuah  @Stage di tempatnya, dan lihat apa yang terjadi.
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' tempat: Place(-2m 2m))
+		Phrase('🐈' tempat: Place(2m -2m))
+		Phrase('🐈' tempat: Place(-1m 3m))
+	] tempat: Placement(Place(0m 0m -10m)))\
 
 Itu membuat kamera bergerak! (Catatan: kita mulai  @Placement  dengan \z\ nilai dari \10m\ (sehingga kamera diposisikan agak jauh dari semuanya.)
 

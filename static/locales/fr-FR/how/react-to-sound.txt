@@ -4,7 +4,7 @@ Saviez-vous que votre projet peut vous écouter ? @Volume   stream utilise votre
 
 Nous pouvons utiliser ce nombre pour tout contrôler, y compris la taille d'un @Phrase , sa rotation, sa couleur.
 
-\Phrase('📣' size: (Volume() × 5m) + 1m)\
+\Phrase('📣' taille: (Volume() × 5m) + 1m)\
 
 Quand c'est calme, le mégaphone est\1m\grand. Quand vous criez, il peut atteindre\6m\ grand.
 

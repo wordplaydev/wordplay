@@ -4525,7 +4525,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~你知道吗，@Bind 能和很多其他字符一起用，包括 @Evaluate —— 当你命名一个 @FunctionDefinition 输入时你就见过它们，就像 \\姿势(color: _)\\ —— 我们接下来还会认识其中几个。@Bind，你会在场帮忙演示吗？"
+                            "$~你知道吗，@Bind 能和很多其他字符一起用，包括 @Evaluate —— 当你命名一个 @FunctionDefinition 输入时你就见过它们，就像 \\姿势(颜色: _)\\ —— 我们接下来还会认识其中几个。@Bind，你会在场帮忙演示吗？"
                         ],
                         [
                             "Bind",

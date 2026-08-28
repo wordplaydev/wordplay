@@ -9,11 +9,11 @@
 \¶గమనిక: మరొక ప్రాజెక్ట్ కోసం గ్యాలరీని చూడండి.<ఉదాహరణ@https://wordplay.dev/project/example-Layers?play>పొరలు వేసే చిత్రాలు.¶
 Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) భ్రమణం: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) భ్రమణం: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) భ్రమణం: -25°)
+	] స్థలం: Place(0m 10m -30m))\
 
 పొరలతో మీరు నిజంగా అద్భుతమైన వస్తువులను తయారు చేయవచ్చు! దీన్ని ప్రయత్నించండి!
 

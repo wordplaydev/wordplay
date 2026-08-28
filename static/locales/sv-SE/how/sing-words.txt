@@ -2,7 +2,7 @@ Få rösten att sjunga ord
 
 Av varje  @Instrument  i paletten är \🔈.🤖\ den enda som kan säga något. Ge dess  @Track  en  @Track/words  så sjunger den dem, en stavelse per ton:
 
-\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+\Music(Track([1 2 3 5 3 1] ord: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
 
 Sex stavelser, sex toner. Mellanrummen är hela grammatiken här — de säger var en stavelse slutar och nästa börjar. Pauser tar ingen stavelse, så orden landar på de toner du faktiskt hör. Skriv färre stavelser än toner så börjar de om från början; skriv inga alls så håller rösten ett /öh/-ljud, så den sjunger alltid något.
 
@@ -16,7 +16,7 @@ Börja med vokalerna. Dessa tolv täcker det mesta du vill ha, var och en visad 
 
 En vokal ensam är en helt bra stavelse. Att sjunga dem i rad är det tydligaste sättet att höra skillnaden mellan dem:
 
-\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+\Music(Track([1 2 3 4 5] ord: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
 
 Konsonanter ser oftast ut som du förväntar dig: \p
 b
@@ -31,11 +31,11 @@ l
 r
 w\ låter ungefär som på engelska. De som är värda att lära sig är de ljud som engelskan stavar med två bokstäver, plus en bokstav som har flyttats. \ʃ\ är /sh/, \ʒ\ är /s/ i /measure/, \θ\ är /th/ i /thin/, \ð\ är /th/ i /this/, \ŋ\ är /ng/ i /sing/, och \j\ är /y/ i /yes/. Sätt ett framför en vokal så får du ett ord:
 
-\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+\Music(Track([5 5 3 3 1] ord: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
 
 En stavelse kan också sträcka sig över flera toner. Avsluta den med ett bindestreck så håller den kvar över en ton till för varje bindestreck — raden av toner på en enda stavelse som ger psalmer och vaggvisor deras form:
 
-\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+\Music(Track([1 2 3 2 1] ord: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
 
 De tre bindestrecken bär \glo\ över fyra toner innan \ri\ landar på den sista. Allt som rösten inte känner igen hoppar den över i stället för att vägra, så du kan prova dig fram utan att förstöra melodin.
 
@@ -44,7 +44,7 @@ För att visa orden så som de sjungs, läs tillbaka dem ur  @Beat .  @Downbeat/
 \beat: Beat()
 Stage([
 		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
-		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+		Music(Track([1 2 3 5 3 1] ord: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
 	])\
 
 @Downbeat/parts  har samma stavelser spår för spår, om du vill rita isär två sångare i stället för ihop.

@@ -8,11 +8,11 @@ Uite! Iată o broască țestoasă pe care am făcut-o folosind doar forme!Încea
 
 \¶Notă: Consultați galeria pentru un alt proiect <exemplu@https://wordplay.dev/project/example-Layers?play> de stratificare a imaginilor.¶Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) rotaţie: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotaţie: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotaţie: -25°)
+	] loc: Place(0m 10m -30m))\
 
 Ai putea face niște chestii foarte interesante cu straturi! Încearcă!
 

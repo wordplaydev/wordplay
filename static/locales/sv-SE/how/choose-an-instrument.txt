@@ -7,8 +7,8 @@ Allt om en  @Music  kan bestämmas medan den spelar, även vem som spelar den. G
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'piano')
-				Phrase('🎻' selectable: ⊤ name: 'fiol')
+				Phrase('🎹' valbara: ⊤ namn: 'piano')
+				Phrase('🎻' valbara: ⊤ namn: 'fiol')
 			])
 		Music(Track([1 3 5 6 5 3] instrument: (picked = 'fiol') ? Instrument.violin Instrument.piano))
 	])\
@@ -28,7 +28,7 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon valbara: ⊤ namn: voice.icon))
 			])
 		Music(Track([1 3 5 6 5 3] instrument: current.sound))
 	])\

@@ -5,7 +5,7 @@
 @Motion  নিয়ন্ত্রণ /যেখানে/ একটি চরিত্র সময়ের সাথে সাথে গড়ে ওঠে। আমরা এটিকে ব্যবহার করি \place\ একটির জন্য  @Phrase উঁচু থেকে শুরু করা যাতে এটি পড়ে যেতে পারে।আমাদের পড়ার জন্য কোনো কিছুরও প্রয়োজন, নইলে আমাদের চরিত্রটি কেবল পড়তেই থাকবে!  @Shape  প্রশস্ত  @Rectangle  একটি সুন্দর মেঝে তৈরি করে:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' স্থান: Motion(Place(0m 5m)) পদার্থ: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 কীভাবে পরিবর্তন করতে /বাউন্সি/ অথবা কীভাবে /ভারী/ একটি চরিত্র হলো, এটিকে নিজের মতো করে গড়ে তুলুন।  @Matter . @Matter  এর জন্য প্রয়োজন ভর, স্থিতিস্থাপকতা এবং ঘর্ষণ:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' স্থান: Motion(Place(-2m 5m)) পদার্থ: Matter(1kg 0.9 0.2))
+		Phrase('🪨' স্থান: Motion(Place(2m 5m)) পদার্থ: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

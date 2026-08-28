@@ -2,15 +2,15 @@ Afficher les choix sélectionnables
 
 Parfois, on souhaite présenter plusieurs choix à l'écran et exploiter les choix du public. Pour cela, deux éléments sont nécessaires :
 
-• Un ou plusieurs @Phrase qui sont marqués comme sélectionnables et ont un nom unique (par exemple,\Phrase('option 1' selectable: ⊤ name: 'un')\)• UN  @Choice , qui change en @Phrase nom le plus récemment choisi.
+• Un ou plusieurs @Phrase qui sont marqués comme sélectionnables et ont un nom unique (par exemple,\Phrase('option 1' sélectionnable: ⊤ nom: 'un')\)• UN  @Choice , qui change en @Phrase nom le plus récemment choisi.
 
 Par exemple, nous montrons ici trois choix, chacun avec un nom unique.
 
 \option: Choice()
 Group(Stack() [
-		Phrase('option 1' selectable: ⊤ name: 'un')
-		Phrase('option 2' selectable: ⊤ name: 'deux')
-		Phrase('option 3' selectable: ⊤ name: 'trois')
+		Phrase('option 1' sélectionnable: ⊤ nom: 'un')
+		Phrase('option 2' sélectionnable: ⊤ nom: 'deux')
+		Phrase('option 3' sélectionnable: ⊤ nom: 'trois')
 		Phrase(option)
 	])\
 

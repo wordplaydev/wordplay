@@ -4,7 +4,7 @@ Minsan gusto mo ng maraming karakter na halos magkapareho ang hitsura, ngunit ma
 
 Isang @Structure parang isang recipe na may mga patlang na kailangang punan.Narito ang isang template ng lobo na may kulay at label, at alam kung paano ipapakita ang sarili nito:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` kulay: color laki: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Langit').show()

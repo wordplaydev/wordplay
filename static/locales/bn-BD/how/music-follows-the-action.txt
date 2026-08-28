@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'মেনু') ? '▶ শুরু করতে চাপো' '🏃 দৌড়াও!' 1m)
-		(phase = 'মেনু') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'মেনু') ? Music(Track(theme বাদ্যযন্ত্র: Instrument.bell) গতি: 72beats/min) Music(Track(theme বাদ্যযন্ত্র: Instrument.synth) গতি: 132beats/min)
 	])\
 
 দুটো গানই একই আটটি সংখ্যা। শুধু বাদ্যযন্ত্র আর গতি বদলায়, আর তাতেই এটি অন্য একটা গানের মতো শোনায় — কারণ ডিগ্রি বলে *স্কেলের কোন ধাপ*, কোন সুর নয়, তাই একটা  @Music  এগুলোকে নতুন করে বুঝতে পারে। এটিকে \স্কেল: 🎼.হারমোনিকমাইনর\ দাও, আর একটাও সুর না বদলে সেই একই গান ভয়ঙ্কর হয়ে ওঠে।
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('স্কোর \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] বাদ্যযন্ত্র: Instrument.drums) গতি: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 যথেষ্ট বার চাপো, আর ড্রাম শুরুর চেয়ে দ্বিগুণ জোরে বাজে। একটা ছোট, তালযুক্ত সুরই এটি শোনা যায় করে তোলে — দীর্ঘ ধরে রাখা সুরের নিচে গতির বদল টের পাওয়া কঠিন।

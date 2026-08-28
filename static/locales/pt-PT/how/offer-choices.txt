@@ -2,15 +2,15 @@ Mostrar opções selecionáveis
 
 Por vezes, quer mostrar várias opções no ecrã e fazer algo com a escolha do público. Para isso, precisamos de duas coisas:
 
-• Um ou mais @Phrase que estão marcados como selecionáveis e têm um nome único (por ex.\Phrase('opção 1' selectable: ⊤ name: 'um')\)• UM  @Choice , que muda para o @Phrase Nome escolhido mais recentemente.
+• Um ou mais @Phrase que estão marcados como selecionáveis e têm um nome único (por ex.\Phrase('opção 1' selecionável: ⊤ nome: 'um')\)• UM  @Choice , que muda para o @Phrase Nome escolhido mais recentemente.
 
 Por exemplo, aqui mostramos três opções, cada uma com um nome único.
 
 \option: Choice()
 Group(Stack() [
-		Phrase('opção 1' selectable: ⊤ name: 'um')
-		Phrase('opção 2' selectable: ⊤ name: 'dois')
-		Phrase('opção 3' selectable: ⊤ name: 'três')
+		Phrase('opção 1' selecionável: ⊤ nome: 'um')
+		Phrase('opção 2' selecionável: ⊤ nome: 'dois')
+		Phrase('opção 3' selecionável: ⊤ nome: 'três')
 		Phrase(option)
 	])\
 
@@ -20,9 +20,9 @@ Pode utilizar este padrão para executar ações em resposta a uma escolha. Por 
 
 \option: Choice()
 option = '' ? Group(Stack() [
-			Phrase('opção 1' selectable: ⊤ name: 'um')
-			Phrase('opção 2' selectable: ⊤ name: 'dois')
-			Phrase('opção 3' selectable: ⊤ name: 'três')
+			Phrase('opção 1' selecionável: ⊤ nome: 'um')
+			Phrase('opção 2' selecionável: ⊤ nome: 'dois')
+			Phrase('opção 3' selecionável: ⊤ nome: 'três')
 		]) Phrase({'um': '😡' 'dois': '🏀' 'três': '❤'}{option} ?? '?')\
 
 O  @Choice começa como um vazio @Text Depois, quando o projeto começa, verificamos isso e mostramos as três opções.Uma vez feita a escolha, esta passa a ser uma das três. @Phrase nomes.

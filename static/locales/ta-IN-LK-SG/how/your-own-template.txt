@@ -4,7 +4,7 @@
 
 ஒரு @Structure இது, நிரப்புவதற்கான காலி இடங்களைக் கொண்ட ஒரு சமையல் குறிப்பைப் போன்றது.இதோ ஒரு பலூன் டெம்ப்ளேட், இது நிறத்தையும் லேபிளையும் எடுத்துக்கொண்டு, தன்னை எப்படி வெளிப்படுத்துவது என்றும் அறிந்திருக்கிறது:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` நிறம்: color அளவு: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'வானம்').show()

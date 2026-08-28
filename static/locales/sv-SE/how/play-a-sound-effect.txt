@@ -6,8 +6,8 @@ Två saker gör det till en ljudeffekt istället för en sång. \loop: ⊥\ säg
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 tryck på mig' selectable: ⊤ name: 'tryck')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 tryck på mig' valbara: ⊤ namn: 'tryck')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) spelaom: tapped)
 	])\
 
 Oroa dig inte för att listan blir tom igen vid nästa uträkning — en ton som har börjat spelas alltid till slutet. Det du inte kan lämna ut är \replay\. Tryck två gånger och det andra trycket ger exakt samma musik som det första, så ingenting ändrades och ingenting skulle låta igen; \replay\ är hur du säger /igen, nu/. 
@@ -20,7 +20,7 @@ Eftersom tonerna bara är en lista kan du bestämma dem utifrån *vad* som händ
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ tryck på en tangent' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) spelaom: struck)
 	])\
 
 Lägg märke till att \∆ key\ räknas ut på sin egen rad och värdetestet \key = ' '\ sker separat. Om de skrivs ihop som ett villkor skulle ljudet spelas igen vid nästa orelaterade tangent medan \key\ läses fortfarande som ett mellanslag.

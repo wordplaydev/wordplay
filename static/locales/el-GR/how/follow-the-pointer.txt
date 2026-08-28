@@ -4,14 +4,14 @@
 
 @Pointer μας δίνει μια φρεσκάδα @Place κάθε φορά που ο δείκτης κινείται.Αν χρησιμοποιήσουμε αυτό @Place ως @Phrase του\place\, ο χαρακτήρας θα πάει όπου τον δείξουμε.
 
-\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+\Stage([Phrase('🐈' θέση: Pointer())] θέση: Place(0m 0m -10m))\
 
 Αυτό είναι! Κουνήστε το ποντίκι σας ή σύρετε το δάχτυλό σας και παρακολουθήστε τη γάτα να σας ακολουθεί.
 
 Μπορείτε να κάνετε πιο ενδιαφέροντα πράγματα τραβώντας το\x\και\y\από το @Place .Ορίστε μια πάπια που αιωρείται πάντα ένα μέτρο πάνω από τον δείκτη:
 
 \Stage([
-		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
-	] place: Place(0m 0m -10m))\
+		Phrase('🦆' θέση: Place(Pointer().x Pointer().y + 1m))
+	] θέση: Place(0m 0m -10m))\
 
 move-phrase, count-with-time

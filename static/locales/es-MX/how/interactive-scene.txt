@@ -9,14 +9,14 @@ Scene(
 	[
 		Phrase('haz clic en mí')
 		Button()
-		Phrase('haz clic en mí otra vez' duration: 1s)
+		Phrase('haz clic en mí otra vez' duración: 1s)
 		Button()
 		Phrase(
 			'¡¡en serio, haz clic en mí lo más fuerte que puedas!!'
-			duration: 1s
+			duración: 1s
 		)
 		Button()
-		Phrase('¿ya me hiciste clic?' duration: 1s)
+		Phrase('¿ya me hiciste clic?' duración: 1s)
 	]
 )\
 
@@ -31,12 +31,12 @@ Scene(
 		Volume() > .5
 		Phrase(
 			"no te escucho, ¿lo dices otra vez?"
-			duration: 1s
+			duración: 1s
 		)
 		Volume() > .7
-		Phrase('más fuerte por favor...' duration: 1s)
+		Phrase('más fuerte por favor...' duración: 1s)
 		Volume() > .9
-		Phrase('¡ah, hola!' duration: 1s)
+		Phrase('¡ah, hola!' duración: 1s)
 	]
 )\
 

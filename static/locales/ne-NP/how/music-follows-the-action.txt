@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'मेनु') ? '▶ सुरु गर्न थिच्नुहोस्' '🏃 दौड!' 1m)
-		(phase = 'मेनु') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'मेनु') ? Music(Track(theme बाजा: Instrument.bell) गति: 72beats/min) Music(Track(theme बाजा: Instrument.synth) गति: 132beats/min)
 	])\
 
 दुवै गीत उही आठ वटा नम्बर हुन्। केवल बाजा र गति फेरिन्छ, र यो पहिले नै फरक गीत जस्तै सुनिन्छ — किनभने डिग्रीहरूले *स्केलको कुन चरण* भन्छ, कुन पिच होइन, त्यसैले एउटा  @Music  ले तिनलाई पुनः व्याख्या गर्न सक्छ। यसलाई \नाप: 🎼.हार्मोनिकमाइनर\ दिनुहोस् र एउटै धुन कुनै नोट फेरिनु बिना नै डरलाग्दो बन्छ।
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('अंक \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] बाजा: Instrument.drums) गति: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 धेरै पटक थिच्नुहोस् र ड्रमहरू सुरुमा भन्दा दोब्बर जोडले बज्छन्। छोटो, ढोल जस्तो नोटले त्यो सुन्न सकिने बनाउँछ — लामो समय समातिएको नोट मुनि गति परिवर्तन महसुस गर्न गाह्रो हुन्छ।

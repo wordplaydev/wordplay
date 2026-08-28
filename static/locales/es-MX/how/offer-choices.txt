@@ -3,7 +3,7 @@ Mostrar opciones que se pueden elegir
 A veces quieres mostrar varias opciones en la pantalla y hacer algo con lo que el público elige. Para esto, necesitamos dos cosas:
 
 • Uno o más  @Phrase  que estén marcados como elegibles y tengan un nombre único (por ejemplo, \
-Phrase('opción 1' selectable: ⊤ name: 'uno')\)• Un  @Choice , que cambia al  @Phrase  cuyo nombre se eligió más recientemente.
+Phrase('opción 1' seleccionable: ⊤ nombre: 'uno')\)• Un  @Choice , que cambia al  @Phrase  cuyo nombre se eligió más recientemente.
 
 Por ejemplo, aquí mostramos tres opciones, cada una con un nombre único.
 
@@ -12,9 +12,9 @@ option: Choice()
 Group(
 	Stack()
 	[
-		Phrase('opción 1' selectable: ⊤ name: 'uno')
-		Phrase('opción 2' selectable: ⊤ name: 'dos')
-		Phrase('opción 3' selectable: ⊤ name: 'tres')
+		Phrase('opción 1' seleccionable: ⊤ nombre: 'uno')
+		Phrase('opción 2' seleccionable: ⊤ nombre: 'dos')
+		Phrase('opción 3' seleccionable: ⊤ nombre: 'tres')
 		Phrase(option)
 	]
 )\
@@ -28,9 +28,9 @@ option: Choice()
 option = '' ? Group(
 		Stack()
 		[
-			Phrase('opción 1' selectable: ⊤ name: 'uno')
-			Phrase('opción 2' selectable: ⊤ name: 'dos')
-			Phrase('opción 3' selectable: ⊤ name: 'tres')
+			Phrase('opción 1' seleccionable: ⊤ nombre: 'uno')
+			Phrase('opción 2' seleccionable: ⊤ nombre: 'dos')
+			Phrase('opción 3' seleccionable: ⊤ nombre: 'tres')
 		]
 	) Phrase(
 		{'uno': '😡' 'dos': '🏀' 'tres': '❤'}{option} ?? '?'

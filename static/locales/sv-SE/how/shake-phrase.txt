@@ -11,7 +11,7 @@ Detta skapar ett värde som kallas\offset\som ändras till ett nytt slumpmässig
 
 Om vi ville kontrollera skakningarna mer exakt skulle vi kunna använda en @Sequence för att skapa en slumpmässig skakanimation som upprepas.
 
-\Phrase('Hej' resting: Sequence({
+\Phrase('Hej' vilande: Sequence({
 			0%: Pose(offset: Place(Random(-.2m .2m)))
 			15%: Pose(offset: Place(Random(-.2m .2m)))
 			60%: Pose(offset: Place(Random(-.2m .2m)))

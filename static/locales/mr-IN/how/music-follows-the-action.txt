@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'मेनू') ? '▶ सुरू करण्यासाठी दाबा' '🏃 पळा!' 1m)
-		(phase = 'मेनू') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'मेनू') ? Music(Track(theme वाद्य: Instrument.bell) गती: 72beats/min) Music(Track(theme वाद्य: Instrument.synth) गती: 132beats/min)
 	])\
 
 दोन्ही गाणी तीच आठ संख्या आहेत. फक्त वाद्य आणि गती बदलते, आणि ते आधीच वेगळे गाणे वाटते — कारण अंश हे सांगतात की *स्केलची कोणती पायरी*, कोणता सूर नाही, म्हणून एखादा  @Music  त्यांना पुन्हा वेगळ्या अर्थाने घेऊ शकतो. त्याला \scale: Music.harmonicMinor\ द्या आणि तीच धून एकही सूर पुन्हा न लिहिता भीतीदायक बनते.
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('गुण \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] वाद्य: Instrument.drums) गती: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 पुरेसे वेळा दाबा आणि ढोल सुरुवातीपेक्षा दुप्पट जोरात वाजतात. एक लहान, ठोकणारा सूर हेच ते ऐकू येण्याजोगे करते — लांब धरून ठेवलेल्या सुरांखाली गतीतील बदल जाणवणे कठीण असते.

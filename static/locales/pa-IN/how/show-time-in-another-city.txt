@@ -12,6 +12,6 @@
 
 ਤੁਸੀਂ ਇੱਕ ਕੈਲੰਡਰ ਵੀ ਚੁਣ ਸਕਦੇ ਹੋ, ਜਿਵੇਂ ਜਪਾਨੀ ਕੈਲੰਡਰ, ਅਤੇ ਘੜੀ ਨੂੰ ਇੱਕ ਫੌਂਟ ਨਾਲ ਸਜਾ ਸਕਦੇ ਹੋ:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' ਚਿਹਰਾ: 'Doto')\
 
 count-with-time

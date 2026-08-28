@@ -6,7 +6,7 @@ Podemos usar  @Phrase/offset  con  @Random  y  @Time  para lograr eso.
 
 \
 offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('hola' offset: Place(offset 0m))\
+Phrase('hola' desplazamiento: Place(offset 0m))\
 
 Esto crea un valor llamado \
 offset\ que cambia a un nuevo valor aleatorio cada vez que el reloj avanza. Luego, usa ese desplazamiento para mostrar el  @Phrase  desplazado por esa cantidad.
@@ -16,12 +16,12 @@ Si quisiéramos controlar el temblor con más precisión, podríamos usar una  @
 \
 Phrase(
 	'hola'
-	resting: Sequence(
+	inmóvil: Sequence(
 		{
-			0%: Pose(offset: Place(Random(-.2m .2m)))
-			15%: Pose(offset: Place(Random(-.2m .2m)))
-			60%: Pose(offset: Place(Random(-.2m .2m)))
-			75%: Pose(offset: Place(Random(-.2m .2m)))
+			0%: Pose(desplazamiento: Place(Random(-.2m .2m)))
+			15%: Pose(desplazamiento: Place(Random(-.2m .2m)))
+			60%: Pose(desplazamiento: Place(Random(-.2m .2m)))
+			75%: Pose(desplazamiento: Place(Random(-.2m .2m)))
 		}
 		0.1s
 	)

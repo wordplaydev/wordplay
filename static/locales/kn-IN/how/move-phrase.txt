@@ -5,18 +5,18 @@
 ಇದನ್ನು ಮಾಡಿ, ನಾವು ಒಟ್ಟಿಗೆ ಸೇರಬಹುದು @Phrase ಜೊತೆಗೆ @Placement :
 
 \Stage([
-		Phrase('ನನ್ನನ್ನು ಸರಿಸಿ' place: Placement())
-	] place: Place(0m 0m -10m))\
+		Phrase('ನನ್ನನ್ನು ಸರಿಸಿ' ಸ್ಥಳ: Placement())
+	] ಸ್ಥಳ: Place(0m 0m -10m))\
 
 ಕೀಬೋರ್ಡ್ ಬಾಣಗಳನ್ನು ಬಳಸಿ ಅಥವಾ ಕ್ಲಿಕ್ ಮಾಡಿ @Stage ನವೀಕರಿಸುತ್ತದೆ @Placement , ಕಾರಣವಾಗುತ್ತದೆ @Phrase ಆ ದಿಕ್ಕಿನಲ್ಲಿ ಸಾಗಲು.
 
 ಆದರೆ, ನಿಮಗೆ ಅದು ತಿಳಿದಿದೆಯೇ @Placement ಇದರೊಂದಿಗೆ ಬಳಸಬಹುದು/ಏನಾದರೂ/ಅದು ತೆಗೆದುಕೊಳ್ಳುತ್ತದೆ @Place ?ಉದಾಹರಣೆಗೆ @Stage ಹೊಂದಿದೆ @Place ಅದು ತನ್ನ ಕ್ಯಾಮೆರಾ ಎಲ್ಲಿಗೆ ತೋರಿಸುತ್ತಿದೆ ಎಂಬುದನ್ನು ನಿರ್ಧರಿಸುತ್ತದೆ.ಹೊಂದಿಸಲು ಪ್ರಯತ್ನಿಸೋಣ @Placement ಒಂದು @Stage ನ ಸ್ಥಳ, ಮತ್ತು ಏನಾಗುತ್ತದೆ ಎಂದು ನೋಡಿ.
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' ಸ್ಥಳ: Place(-2m 2m))
+		Phrase('🐈' ಸ್ಥಳ: Place(2m -2m))
+		Phrase('🐈' ಸ್ಥಳ: Place(-1m 3m))
+	] ಸ್ಥಳ: Placement(Place(0m 0m -10m)))\
 
 ಅದು ಕ್ಯಾಮೆರಾ ಚಲಿಸುವಂತೆ ಮಾಡುತ್ತದೆ! (ಗಮನಿಸಿ: ನಾವು ಪ್ರಾರಂಭಿಸುತ್ತೇವೆ @Placement ಜೊತೆಗೆ\z\ಮೌಲ್ಯ\10m\(ಆದ್ದರಿಂದ ಕ್ಯಾಮೆರಾ ಎಲ್ಲದರಿಂದ ಹಿಂದೆ ಸರಿಯುತ್ತದೆ.)
 

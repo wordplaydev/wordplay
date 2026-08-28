@@ -10,12 +10,12 @@ Por ejemplo, puedes usar varias capas en tu proyecto en  @Stage  para apilar y a
 ¶Nota: Mira la galería para ver otro proyecto de <ejemplo@https://wordplay.dev/project/example-Layers?play> que pone imágenes en capas.¶Stage(
 	[
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) rotación: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotación: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotación: -25°)
 	]
-	place: Place(0m 10m -30m)
+	lugar: Place(0m 10m -30m)
 )\
 
 ¡Puedes hacer cosas muy geniales con las capas! ¡Pruébalo!

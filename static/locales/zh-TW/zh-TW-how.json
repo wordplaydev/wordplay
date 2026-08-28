@@ -3,14 +3,14 @@
         "id": "animate-phrase",
         "title": "使角色動畫化",
         "category": "characters",
-        "body": "角色可以擁有靜止動畫，該動畫在角色不動時重複。\n\n例如，讓我們透過旋轉和移動讓這隻貓跳一點舞：\n\n\\Phrase('🐈' resting: Sequence({\n\t\t\t0%: Pose(rotation: 0°)\n\t\t\t15%: Pose(rotation: 15°)\n\t\t\t30%: Pose(rotation: 0°)\n\t\t\t45%: Pose(offset: Place(-0.25m))\n\t\t\t60%: Pose(offset: Place(0.25m))\n\t\t\t75%: Pose(offset: Place(-0.25m))\n\t\t\t90%: Pose(offset: Place(0m))\n\t\t} 2s))\\\n\n此範例使用 @Sequence 不同的 @Pose 。",
+        "body": "角色可以擁有靜止動畫，該動畫在角色不動時重複。\n\n例如，讓我們透過旋轉和移動讓這隻貓跳一點舞：\n\n\\Phrase('🐈' 休息: Sequence({\n\t\t\t0%: Pose(旋轉: 0°)\n\t\t\t15%: Pose(旋轉: 15°)\n\t\t\t30%: Pose(旋轉: 0°)\n\t\t\t45%: Pose(偏移: Place(-0.25m))\n\t\t\t60%: Pose(偏移: Place(0.25m))\n\t\t\t75%: Pose(偏移: Place(-0.25m))\n\t\t\t90%: Pose(偏移: Place(0m))\n\t\t} 2s))\\\n\n此範例使用 @Sequence 不同的 @Pose 。",
         "related": ["move-phrase", "shake-phrase"]
     },
     {
         "id": "move-phrase",
         "title": "使角色可移動",
         "category": "characters",
-        "body": "有時， @Phrase 可用鍵盤、滑鼠或手指移動。\n\n這樣做，我們可以結合 @Phrase  和 @Placement ：\n\n\\Stage([Phrase('讓我動起來' place: Placement())] place: Place(0m 0m -10m))\\\n\n使用鍵盤箭頭或點擊 @Stage 將更新 @Placement ，導致 @Phrase 朝那個方向前進。\n\n但你知道嗎， @Placement 可以與/任何事物/這需要 @Place ？例如 @Stage 有一個 @Place 這決定了相機指向的位置。讓我們嘗試設定一個 @Placement 對於 @Stage 的地方，看看會發生什麼。\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\n這會讓相機移動！ （註：我們開始 @Placement 與\\z\\的價值\\10m\\這樣相機就遠離了一切。 ）",
+        "body": "有時， @Phrase 可用鍵盤、滑鼠或手指移動。\n\n這樣做，我們可以結合 @Phrase  和 @Placement ：\n\n\\Stage([Phrase('讓我動起來' 位置: Placement())] 位置: Place(0m 0m -10m))\\\n\n使用鍵盤箭頭或點擊 @Stage 將更新 @Placement ，導致 @Phrase 朝那個方向前進。\n\n但你知道嗎， @Placement 可以與/任何事物/這需要 @Place ？例如 @Stage 有一個 @Place 這決定了相機指向的位置。讓我們嘗試設定一個 @Placement 對於 @Stage 的地方，看看會發生什麼。\n\n\\Stage([\n\t\tPhrase('🐈' 位置: Place(-2m 2m))\n\t\tPhrase('🐈' 位置: Place(2m -2m))\n\t\tPhrase('🐈' 位置: Place(-1m 3m))\n\t] 位置: Placement(Place(0m 0m -10m)))\\\n\n這會讓相機移動！ （註：我們開始 @Placement 與\\z\\的價值\\10m\\這樣相機就遠離了一切。 ）",
         "related": ["animated-scene"]
     },
     {
@@ -31,14 +31,14 @@
         "id": "animated-scene",
         "title": "創建一系列動畫場景",
         "category": "stories",
-        "body": "有時我們想講述故事、展示歌詞或使詩歌生動。為此，我們可以使用 @Scene  和 @Phrase 一起來展現一個序列。\n\n例如，假設我們想要將短小的童謠「Jack be Nimble」製作成動畫。我們可以做一個 @Scene 每一行都是 @Phrase ，並透過設定 @Phrase/duration 每行， @Scene 每完成一個短語就會前進。\n\n\\Scene([\n\t\tPhrase('傑克很敏捷' duration: 1s)\n\t\tPhrase('傑克快點' duration: 1s)\n\t\tPhrase('傑克跳過蠟燭桿' duration: 1s)\n\t])\\\n\n@Scene 將等待 @Sequence 也要做。讓我們讓蠟燭線跳起來！\n\n\\Scene([\n\t\tPhrase('傑克很敏捷' duration: 1s)\n\t\tPhrase('傑克快點' duration: 1s)\n\t\tPhrase('傑克跳過蠟燭桿' entering: Sequence.bounce(duration: 1s))\n\t])\\\n\n@Scene 還可以 @Group 文字也是如此，它將等待所有內容完成動畫。\n\n\\Scene([\n\t\tGroup(Stack() [Phrase('傑克很敏捷') Phrase('傑克快點')] duration: 2s)\n\t\tPhrase('傑克跳過蠟燭桿' entering: Sequence.bounce(duration: 1s))\n\t])\\",
+        "body": "有時我們想講述故事、展示歌詞或使詩歌生動。為此，我們可以使用 @Scene  和 @Phrase 一起來展現一個序列。\n\n例如，假設我們想要將短小的童謠「Jack be Nimble」製作成動畫。我們可以做一個 @Scene 每一行都是 @Phrase ，並透過設定 @Phrase/duration 每行， @Scene 每完成一個短語就會前進。\n\n\\Scene([\n\t\tPhrase('傑克很敏捷' 持續時間: 1s)\n\t\tPhrase('傑克快點' 持續時間: 1s)\n\t\tPhrase('傑克跳過蠟燭桿' 持續時間: 1s)\n\t])\\\n\n@Scene 將等待 @Sequence 也要做。讓我們讓蠟燭線跳起來！\n\n\\Scene([\n\t\tPhrase('傑克很敏捷' 持續時間: 1s)\n\t\tPhrase('傑克快點' 持續時間: 1s)\n\t\tPhrase('傑克跳過蠟燭桿' 進入: Sequence.bounce(長度: 1s))\n\t])\\\n\n@Scene 還可以 @Group 文字也是如此，它將等待所有內容完成動畫。\n\n\\Scene([\n\t\tGroup(Stack() [Phrase('傑克很敏捷') Phrase('傑克快點')] 持續時間: 2s)\n\t\tPhrase('傑克跳過蠟燭桿' 進入: Sequence.bounce(長度: 1s))\n\t])\\",
         "related": ["interactive-scene"]
     },
     {
         "id": "interactive-scene",
         "title": "建立一系列互動式場景",
         "category": "stories",
-        "body": "有時我們想講述一些故事，等待觀眾採取一些行動，然後再進入下一個內容。\n\n為此，我們可以使用 @Scene ，但把 @Boolean 我們要顯示的內容之間的值。例如，點擊後會前進到下一個內容，使用 @Button ：\n\n\\Scene([\n\t\tPhrase('點擊我')\n\t\tButton()\n\t\tPhrase('再次點擊我' duration: 1s)\n\t\tButton()\n\t\tPhrase('不，真的，用盡全力點擊我！ ！' duration: 1s)\n\t\tButton()\n\t\tPhrase('你點擊我了嗎？' duration: 1s)\n\t])\\\n\n這 @Scene 顯示第一個 @Phrase ，然後等待 @Button 是真的，一旦是真的，它就會進入下一個 @Phrase 。\n\n您可以使用任何您想要推進的事情，只要它是真或假。例如，我們可以使用我們的聲音！如果我們喊得夠大聲，場景就會推進：\n\n\\Scene([\n\t\tPhrase('有人在嗎？')\n\t\tVolume() > .5\n\t\tPhrase(\"我聽不見，再說一次？\" duration: 1s)\n\t\tVolume() > .7\n\t\tPhrase('請大聲點...' duration: 1s)\n\t\tVolume() > .9\n\t\tPhrase('噢，嗨！' duration: 1s)\n\t])\\",
+        "body": "有時我們想講述一些故事，等待觀眾採取一些行動，然後再進入下一個內容。\n\n為此，我們可以使用 @Scene ，但把 @Boolean 我們要顯示的內容之間的值。例如，點擊後會前進到下一個內容，使用 @Button ：\n\n\\Scene([\n\t\tPhrase('點擊我')\n\t\tButton()\n\t\tPhrase('再次點擊我' 持續時間: 1s)\n\t\tButton()\n\t\tPhrase('不，真的，用盡全力點擊我！ ！' 持續時間: 1s)\n\t\tButton()\n\t\tPhrase('你點擊我了嗎？' 持續時間: 1s)\n\t])\\\n\n這 @Scene 顯示第一個 @Phrase ，然後等待 @Button 是真的，一旦是真的，它就會進入下一個 @Phrase 。\n\n您可以使用任何您想要推進的事情，只要它是真或假。例如，我們可以使用我們的聲音！如果我們喊得夠大聲，場景就會推進：\n\n\\Scene([\n\t\tPhrase('有人在嗎？')\n\t\tVolume() > .5\n\t\tPhrase(\"我聽不見，再說一次？\" 持續時間: 1s)\n\t\tVolume() > .7\n\t\tPhrase('請大聲點...' 持續時間: 1s)\n\t\tVolume() > .9\n\t\tPhrase('噢，嗨！' 持續時間: 1s)\n\t])\\",
         "related": ["animated-scene"]
     },
     {
@@ -52,14 +52,14 @@
         "id": "layering-images",
         "title": "將影像層疊在一起",
         "category": "stories",
-        "body": "有時我們會想將圖像分層以建立有趣的場景或富有創意的形狀。\n\n例如，您可以在您的專案上使用多個層 @Stage 按照您喜歡的方式堆疊和排列圖像。\n\n看！這是我用形狀製作的烏龜！嘗試更改每個形狀的數字。你可以移動它們、調整它們的大小，甚至旋轉它們。玩一玩，看看你能創造什麼！\n\n\\¶注意：請查看圖庫以了解另一個項目<例子@https://wordplay.dev/project/example-Layers?play>分層影像。¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) rotation: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)\n\t] place: Place(0m 10m -30m))\\\n\n你可以用圖層製作出一些很酷的東西！快來試試吧！",
+        "body": "有時我們會想將圖像分層以建立有趣的場景或富有創意的形狀。\n\n例如，您可以在您的專案上使用多個層 @Stage 按照您喜歡的方式堆疊和排列圖像。\n\n看！這是我用形狀製作的烏龜！嘗試更改每個形狀的數字。你可以移動它們、調整它們的大小，甚至旋轉它們。玩一玩，看看你能創造什麼！\n\n\\¶注意：請查看圖庫以了解另一個項目<例子@https://wordplay.dev/project/example-Layers?play>分層影像。¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) 自轉: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 自轉: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 自轉: -25°)\n\t] 位置: Place(0m 10m -30m))\\\n\n你可以用圖層製作出一些很酷的東西！快來試試吧！",
         "related": ["custom-characters"]
     },
     {
         "id": "shake-phrase",
         "title": "讓角色搖晃",
         "category": "randomization",
-        "body": "有時讓角色看起來在顫抖是有幫助的。我們可以透過幾種方法來實現這一點。\n\n我們可以使用 @Phrase/offset  和 @Random  和 @Time 來實現這一點。\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('你好' offset: Place(offset 0m))\\\n\n這將建立一個名為\\offset\\每當時鐘滴答作響時，它就會變成一個新的隨機值。然後，它使用該偏移量來顯示 @Phrase 抵銷該金額。\n\n如果我們想更精確地控制震動，我們可以使用 @Sequence 製作重複的隨機搖動動畫。\n\n\\Phrase('你好' resting: Sequence({\n\t\t\t0%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\n此範例僅選擇一次隨機值，但將它們變成重複序列。",
+        "body": "有時讓角色看起來在顫抖是有幫助的。我們可以透過幾種方法來實現這一點。\n\n我們可以使用 @Phrase/offset  和 @Random  和 @Time 來實現這一點。\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('你好' 抵銷: Place(offset 0m))\\\n\n這將建立一個名為\\offset\\每當時鐘滴答作響時，它就會變成一個新的隨機值。然後，它使用該偏移量來顯示 @Phrase 抵銷該金額。\n\n如果我們想更精確地控制震動，我們可以使用 @Sequence 製作重複的隨機搖動動畫。\n\n\\Phrase('你好' 休息: Sequence({\n\t\t\t0%: Pose(偏移: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(偏移: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(偏移: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(偏移: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\n此範例僅選擇一次隨機值，但將它們變成重複序列。",
         "related": ["move-phrase"]
     },
     {
@@ -87,7 +87,7 @@
         "id": "offer-choices",
         "title": "顯示可選的選項",
         "category": "remembering",
-        "body": "有時你想在螢幕上顯示一系列選項，並根據觀眾的選擇執行相應的操作。為此，我們需要做兩件事：\n\n• 一個或多個 @Phrase 標記為可選，並具有唯一名稱（例如，\\Phrase('選項 1' selectable: ⊤ name: '一')\\)• A @Choice ，這將變為 @Phrase 最近選擇的名稱。\n\n例如，這裡我們顯示三個選項，每個選項都有一個唯一的名稱。\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('選項 1' selectable: ⊤ name: '一')\n\t\tPhrase('選項 2' selectable: ⊤ name: '二')\n\t\tPhrase('選項 3' selectable: ⊤ name: '三')\n\t\tPhrase(option)\n\t])\\\n\n每次選一個，最後 @Phrase 顯示所選的名稱。\n\n你可以使用這個模式來響應使用者選擇。例如，我們可以修改上面的項目，讓它根據使用者選擇顯示一個秘密表情符號：\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('選項 1' selectable: ⊤ name: '一')\n\t\t\tPhrase('選項 2' selectable: ⊤ name: '二')\n\t\t\tPhrase('選項 3' selectable: ⊤ name: '三')\n\t\t]) Phrase({'一': '😡' '二': '🏀' '三': '❤️'}{option} ?? '？')\\\n\n這 @Choice 以空開始 @Text ，因此當項目開始時，我們會檢查這一點，並顯示三個選項。一旦做出選擇，它就成為三個之一 @Phrase 名字。\n\n為了根據選擇顯示表情符號，我們可以使用 @Map 將名稱轉換為秘密表情符號。當我們從 @Map ，如果沒有匹配，則計算結果為\\ø\\，所以我們使用\\??\\預設\\'？'\\如果該選項不在地圖中。在這種情況下，這種情況永遠不會發生，但我們不夠聰明，不知道這一點！",
+        "body": "有時你想在螢幕上顯示一系列選項，並根據觀眾的選擇執行相應的操作。為此，我們需要做兩件事：\n\n• 一個或多個 @Phrase 標記為可選，並具有唯一名稱（例如，\\Phrase('選項 1' 可選擇的: ⊤ 名字: '一')\\)• A @Choice ，這將變為 @Phrase 最近選擇的名稱。\n\n例如，這裡我們顯示三個選項，每個選項都有一個唯一的名稱。\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('選項 1' 可選擇的: ⊤ 名字: '一')\n\t\tPhrase('選項 2' 可選擇的: ⊤ 名字: '二')\n\t\tPhrase('選項 3' 可選擇的: ⊤ 名字: '三')\n\t\tPhrase(option)\n\t])\\\n\n每次選一個，最後 @Phrase 顯示所選的名稱。\n\n你可以使用這個模式來響應使用者選擇。例如，我們可以修改上面的項目，讓它根據使用者選擇顯示一個秘密表情符號：\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('選項 1' selectable: ⊤ name: '一')\n\t\t\tPhrase('選項 2' selectable: ⊤ name: '二')\n\t\t\tPhrase('選項 3' selectable: ⊤ name: '三')\n\t\t]) Phrase({'一': '😡' '二': '🏀' '三': '❤️'}{option} ?? '？')\\\n\n這 @Choice 以空開始 @Text ，因此當項目開始時，我們會檢查這一點，並顯示三個選項。一旦做出選擇，它就成為三個之一 @Phrase 名字。\n\n為了根據選擇顯示表情符號，我們可以使用 @Map 將名稱轉換為秘密表情符號。當我們從 @Map ，如果沒有匹配，則計算結果為\\ø\\，所以我們使用\\??\\預設\\'？'\\如果該選項不在地圖中。在這種情況下，這種情況永遠不會發生，但我們不夠聰明，不知道這一點！",
         "related": ["move-phrase"]
     },
     {
@@ -101,14 +101,14 @@
         "id": "repeating-a-movement",
         "title": "重複動作",
         "category": "characters",
-        "body": "有時我們想讓一個角色以相同的方式移動幾次！一遍又一遍地輸入相同的行變得很乏味。\n\n相反，我們可以使用 @Sequence  和 @Phrase 讓某件事重複多次！具體來說，我們可以使用計數 @Sequence 並選出一組姿勢出現的次數。例如，這是一個籃球上下彈跳兩次。\n\n\\Stage([\n\t\tPhrase('🏀' entering: Sequence({\n\t\t\t\t\t0%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t\t25%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t50%: Pose(offset: Place(y: -0.25m))\n\t\t\t\t\t75%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t100%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t} count: 2x duration: 2s))\n\t])\\",
+        "body": "有時我們想讓一個角色以相同的方式移動幾次！一遍又一遍地輸入相同的行變得很乏味。\n\n相反，我們可以使用 @Sequence  和 @Phrase 讓某件事重複多次！具體來說，我們可以使用計數 @Sequence 並選出一組姿勢出現的次數。例如，這是一個籃球上下彈跳兩次。\n\n\\Stage([\n\t\tPhrase('🏀' 進入: Sequence({\n\t\t\t\t\t0%: Pose(偏移: Place(y: 0.25m))\n\t\t\t\t\t25%: Pose(偏移: Place(y: 0m))\n\t\t\t\t\t50%: Pose(偏移: Place(y: -0.25m))\n\t\t\t\t\t75%: Pose(偏移: Place(y: 0m))\n\t\t\t\t\t100%: Pose(偏移: Place(y: 0.25m))\n\t\t\t\t} 計數: 2x 長度: 2s))\n\t])\\",
         "related": ["animate-phrase", "shake-phrase"]
     },
     {
         "id": "arrange-in-a-row",
         "title": "將文字並排顯示",
         "category": "layout",
-        "body": "有時我們希望文字整齊地排列成一行。我們可以用……來做到這一點。 @Row 它將一切安排妥當 @Group 從左到右。\n\n\\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\\\n\nA @Row 還可以按字符的頂部、中間或底部邊緣對齊字符，並在它們之間添加間距。這是同樣的水果，但底部對齊，留出一些空間：\n\n\\Group(Row('>' 0.5m) [\n\t\tPhrase('🍎' size: 2m)\n\t\tPhrase('🍌' size: 1m)\n\t\tPhrase('🍇' size: 3m)\n\t])\\\n\n這\\'>'\\告訴 @Row 將所有部件沿底部邊緣對齊。試試看。\\'<'\\頂部或\\'|'\\中間。這\\0.5m\\是每個字元之間的空格。",
+        "body": "有時我們希望文字整齊地排列成一行。我們可以用……來做到這一點。 @Row 它將一切安排妥當 @Group 從左到右。\n\n\\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\\\n\nA @Row 還可以按字符的頂部、中間或底部邊緣對齊字符，並在它們之間添加間距。這是同樣的水果，但底部對齊，留出一些空間：\n\n\\Group(Row('>' 0.5m) [\n\t\tPhrase('🍎' 尺寸: 2m)\n\t\tPhrase('🍌' 尺寸: 1m)\n\t\tPhrase('🍇' 尺寸: 3m)\n\t])\\\n\n這\\'>'\\告訴 @Row 將所有部件沿底部邊緣對齊。試試看。\\'<'\\頂部或\\'|'\\中間。這\\0.5m\\是每個字元之間的空格。",
         "related": ["stack-up-and-down", "make-a-grid"]
     },
     {
@@ -122,28 +122,28 @@
         "id": "make-a-grid",
         "title": "製作人物網格",
         "category": "layout",
-        "body": "如果我們想要行呢？/和/同時插入多列？這就是… @Grid 是為了。\n\nA @Grid 詢問行數、列數以及儲存格之間的間距。\n\n\\Group(Grid(2 3 0.25m) [\n\t\tPhrase('🍎')\n\t\tPhrase('🍌')\n\t\tPhrase('🍇')\n\t\tPhrase('🥕')\n\t\tPhrase('🥦')\n\t\tPhrase('🌽')\n\t])\\\n\n這樣就形成了一個 2 英尺 x 3 英尺的果蔬園！\n\n如果你希望每個單元格大小相同，請給出 @Grid 也要設定寬度和高度。這樣，即使字元大小不同，它們也能整齊地保持在各自的方格內：\n\n\\Group(Grid(2 2 0.1m 1.5m 1.5m) [\n\t\tPhrase('🐈' size: 1m)\n\t\tPhrase('🐶' size: 1.5m)\n\t\tPhrase('🦊' size: 0.5m)\n\t\tPhrase('🐻' size: 2m)\n\t])\\",
+        "body": "如果我們想要行呢？/和/同時插入多列？這就是… @Grid 是為了。\n\nA @Grid 詢問行數、列數以及儲存格之間的間距。\n\n\\Group(Grid(2 3 0.25m) [\n\t\tPhrase('🍎')\n\t\tPhrase('🍌')\n\t\tPhrase('🍇')\n\t\tPhrase('🥕')\n\t\tPhrase('🥦')\n\t\tPhrase('🌽')\n\t])\\\n\n這樣就形成了一個 2 英尺 x 3 英尺的果蔬園！\n\n如果你希望每個單元格大小相同，請給出 @Grid 也要設定寬度和高度。這樣，即使字元大小不同，它們也能整齊地保持在各自的方格內：\n\n\\Group(Grid(2 2 0.1m 1.5m 1.5m) [\n\t\tPhrase('🐈' 尺寸: 1m)\n\t\tPhrase('🐶' 尺寸: 1.5m)\n\t\tPhrase('🦊' 尺寸: 0.5m)\n\t\tPhrase('🐻' 尺寸: 2m)\n\t])\\",
         "related": ["arrange-in-a-row", "stack-up-and-down", "make-many-copies"]
     },
     {
         "id": "make-many-copies",
         "title": "複製一個角色多個副本",
         "category": "layout",
-        "body": "如果我們想要十隻貓，或是一百顆星星，但又不想把它們全部打出來怎麼辦？我們可以要求提供一份清單，讓他們為我們複印。 @List/translate 。\n\n如果我們從數字開始\\10\\並用\\→ []\\我們得到一個包含 1 到 10 的十個數字的清單。然後我們使用 @List/translate 將每個數字轉換為 @Phrase ：\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate 對每個項目呼叫一次我們的小函數，並將結果收集到一個新清單中。\n\n為了讓每個副本略有不同，請使用翻譯後得到的數字：\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\n每顆星都比上一顆更大，因為\\n\\從\\1\\ 到\\8\\。",
+        "body": "如果我們想要十隻貓，或是一百顆星星，但又不想把它們全部打出來怎麼辦？我們可以要求提供一份清單，讓他們為我們複印。 @List/translate 。\n\n如果我們從數字開始\\10\\並用\\→ []\\我們得到一個包含 1 到 10 的十個數字的清單。然後我們使用 @List/translate 將每個數字轉換為 @Phrase ：\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate 對每個項目呼叫一次我們的小函數，並將結果收集到一個新清單中。\n\n為了讓每個副本略有不同，請使用翻譯後得到的數字：\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' 尺寸: n × 0.5m)))\\\n\n每顆星都比上一顆更大，因為\\n\\從\\1\\ 到\\8\\。",
         "related": ["make-a-grid", "arrange-in-a-row"]
     },
     {
         "id": "follow-the-pointer",
         "title": "讓一個角色跟著你的手指移動",
         "category": "characters",
-        "body": "想要一個能追逐你的滑鼠或手指的角色嗎？ @Stage ？我們可以用以下方式做到這一點： @Pointer  輸入。 \n\n@Pointer 帶給我們新鮮感 @Place 每次指針移動。如果我們使用那個 @Place 作為一個 @Phrase 的\\place\\角色會按照我們指向的方向移動。\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\n就是這樣！移動滑鼠或拖曳手指，就能看到貓咪跟著你走。\n\n你可以透過拿出…來做更多有趣的事情。\\x\\ 和\\y\\ 從 @Place 。這是一隻始終漂浮在指針上方一公尺處的鴨子：\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
+        "body": "想要一個能追逐你的滑鼠或手指的角色嗎？ @Stage ？我們可以用以下方式做到這一點： @Pointer  輸入。 \n\n@Pointer 帶給我們新鮮感 @Place 每次指針移動。如果我們使用那個 @Place 作為一個 @Phrase 的\\place\\角色會按照我們指向的方向移動。\n\n\\Stage([Phrase('🐈' 位置: Pointer())] 位置: Place(0m 0m -10m))\\\n\n就是這樣！移動滑鼠或拖曳手指，就能看到貓咪跟著你走。\n\n你可以透過拿出…來做更多有趣的事情。\\x\\ 和\\y\\ 從 @Place 。這是一隻始終漂浮在指針上方一公尺處的鴨子：\n\n\\Stage([\n\t\tPhrase('🦆' 位置: Place(Pointer().x Pointer().y + 1m))\n\t] 位置: Place(0m 0m -10m))\\",
         "related": ["move-phrase", "count-with-time"]
     },
     {
         "id": "your-own-template",
         "title": "製作自己的角色模板",
         "category": "characters",
-        "body": "有時你需要很多看起來幾乎一樣，但又略有不同的角色。而不是寫出同樣的東西 @Phrase 你可以重複使用以下方式創建自己的模板： @Structure 。\n\nA @Structure 就像一份需要填寫空白的食譜。這是一個氣球模板，它接受顏色和標籤，並能自動顯示自身：\n\n\\•Balloon(color•Color label•'') ( \tƒ show() Phrase(`🎈\\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) '天空').show()\n\t\tBalloon(Color(60% 80 0°) '玫瑰').show()\n\t\tBalloon(Color(90% 80 90°) '陽光明媚').show()\n\t])\\\n\n這\\•Balloon(...)\\這部分定義了模板，以及\\ƒ show()\\部分內容/如何畫一個/。然後我們製作了三個不同顏色和標籤的氣球，並要求每個人…\\show\\自身。\n\n當你想保持程式碼整潔和字元一致時，模板非常有用。",
+        "body": "有時你需要很多看起來幾乎一樣，但又略有不同的角色。而不是寫出同樣的東西 @Phrase 你可以重複使用以下方式創建自己的模板： @Structure 。\n\nA @Structure 就像一份需要填寫空白的食譜。這是一個氣球模板，它接受顏色和標籤，並能自動顯示自身：\n\n\\•Balloon(color•Color label•'') ( \tƒ show() Phrase(`🎈\\label\\` 顏色: color 尺寸: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) '天空').show()\n\t\tBalloon(Color(60% 80 0°) '玫瑰').show()\n\t\tBalloon(Color(90% 80 90°) '陽光明媚').show()\n\t])\\\n\n這\\•Balloon(...)\\這部分定義了模板，以及\\ƒ show()\\部分內容/如何畫一個/。然後我們製作了三個不同顏色和標籤的氣球，並要求每個人…\\show\\自身。\n\n當你想保持程式碼整潔和字元一致時，模板非常有用。",
         "related": ["track-game-state", "make-many-copies"]
     },
     {
@@ -157,14 +157,14 @@
         "id": "show-time-in-another-city",
         "title": "顯示另一個城市的時間",
         "category": "animation",
-        "body": "@Now  會以  @Moment  的形式回報目前的日期和時間，而把 Moment 轉成文字時，會依照你的地區格式來顯示。這樣一來，做一個時鐘只需要一行程式碼：\n\n\\💬(⏰() → '')\\\n\n想看其他地方的時間嗎？給  @Now  一個時區。時區的名稱是用地區和城市來命名的，像是 \\'America/New_York'\\、\\'Europe/Paris'\\，或 \\'Asia/Tokyo'\\。你也可以在文字類型後面加上一種語言，像是 \\''/ja\\ 代表日文，這樣就能用那個城市的語言來顯示時鐘：\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\n不知道時區的名稱嗎？只要寫下你認識的城市——@wordplay 會提醒你那不是時區，並建議最接近的一個，你只要點一下就能修正。\n\n你也可以選一種曆法，像是日本曆，並用字型來設計時鐘的樣式：\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "body": "@Now  會以  @Moment  的形式回報目前的日期和時間，而把 Moment 轉成文字時，會依照你的地區格式來顯示。這樣一來，做一個時鐘只需要一行程式碼：\n\n\\💬(⏰() → '')\\\n\n想看其他地方的時間嗎？給  @Now  一個時區。時區的名稱是用地區和城市來命名的，像是 \\'America/New_York'\\、\\'Europe/Paris'\\，或 \\'Asia/Tokyo'\\。你也可以在文字類型後面加上一種語言，像是 \\''/ja\\ 代表日文，這樣就能用那個城市的語言來顯示時鐘：\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\n不知道時區的名稱嗎？只要寫下你認識的城市——@wordplay 會提醒你那不是時區，並建議最接近的一個，你只要點一下就能修正。\n\n你也可以選一種曆法，像是日本曆，並用字型來設計時鐘的樣式：\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' 表面: 'Doto')\\",
         "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",
         "title": "透過聲音讓角色成長",
         "category": "animation",
-        "body": "你知道你的專案也能「聽」到你說話嗎？ @Volume   stream 使用您的麥克風向我們提供一個數字\\0\\（沉默）\\1\\（大聲）\n\n我們可以用這個數字來控制任何東西──例如…的大小 @Phrase 它的旋轉，它的顏色。\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\n當周圍安靜下來時，擴音器…\\1m\\高大。當你喊叫時，它可以長高到…\\6m\\ 高的。\n\n想要一個聲音越大，旋轉速度越快的太陽嗎？\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\n試著拍手或哼歌，看看會發生什麼事。（您的電腦首次使用麥克風時可能會要求授權。）",
+        "body": "你知道你的專案也能「聽」到你說話嗎？ @Volume   stream 使用您的麥克風向我們提供一個數字\\0\\（沉默）\\1\\（大聲）\n\n我們可以用這個數字來控制任何東西──例如…的大小 @Phrase 它的旋轉，它的顏色。\n\n\\Phrase('📣' 尺寸: (Volume() × 5m) + 1m)\\\n\n當周圍安靜下來時，擴音器…\\1m\\高大。當你喊叫時，它可以長高到…\\6m\\ 高的。\n\n想要一個聲音越大，旋轉速度越快的太陽嗎？\n\n\\Phrase('🌞' 自轉: Volume() × 360°)\\\n\n試著拍手或哼歌，看看會發生什麼事。（您的電腦首次使用麥克風時可能會要求授權。）",
         "related": ["count-with-time", "follow-the-pointer"]
     },
     {
@@ -185,7 +185,7 @@
         "id": "gravity-and-bouncing",
         "title": "讓角色跌倒彈跳",
         "category": "motion",
-        "body": "如果我們想讓角色像真人一樣跌倒、從地板上彈起來或被推來推去，該怎麼辦？就是這樣 @Motion  和 @Matter 是用來－它們共同模擬物理現象 @Phrase 。 \n\n@Motion 控制/在哪裡/角色會隨著時間的推移而改變。我們用它來…\\place\\為 @Phrase 把它放在高處，讓它掉下來。我們也需要一些東西來支撐我們，否則我們的角色就會一直墜落！ @Shape 寬 @Rectangle 鋪上一層漂亮的地板：\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n蘋果從五公尺高處開始下落，並受到重力作用而落下。它落地時會稍微彈一下，因為 @Phrase 內建 @Matter 這控制著它的重量和彈性。\n\n改變方式/有彈性的/或如何/重的/角色就是，賦予它你自己的個性。 @Matter 。 @Matter 它需要質量、彈性和摩擦力：\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n這個球很輕，彈性很好，所以會彈回來。這塊石頭很重，沒有彈性，所以只會發出砰砰的響聲。",
+        "body": "如果我們想讓角色像真人一樣跌倒、從地板上彈起來或被推來推去，該怎麼辦？就是這樣 @Motion  和 @Matter 是用來－它們共同模擬物理現象 @Phrase 。 \n\n@Motion 控制/在哪裡/角色會隨著時間的推移而改變。我們用它來…\\place\\為 @Phrase 把它放在高處，讓它掉下來。我們也需要一些東西來支撐我們，否則我們的角色就會一直墜落！ @Shape 寬 @Rectangle 鋪上一層漂亮的地板：\n\n\\Stage([\n\t\tPhrase('🍎' 位置: Motion(Place(0m 5m)) 物體: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n蘋果從五公尺高處開始下落，並受到重力作用而落下。它落地時會稍微彈一下，因為 @Phrase 內建 @Matter 這控制著它的重量和彈性。\n\n改變方式/有彈性的/或如何/重的/角色就是，賦予它你自己的個性。 @Matter 。 @Matter 它需要質量、彈性和摩擦力：\n\n\\Stage([\n\t\tPhrase('⚽' 位置: Motion(Place(-2m 5m)) 物體: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' 位置: Motion(Place(2m 5m)) 物體: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n這個球很輕，彈性很好，所以會彈回來。這塊石頭很重，沒有彈性，所以只會發出砰砰的響聲。",
         "related": ["follow-the-pointer", "move-phrase"]
     },
     {
@@ -213,7 +213,7 @@
         "id": "play-a-sound-effect",
         "title": "當某件事發生時播放聲音",
         "category": "music",
-        "body": "答對時的叮聲，東西落地時的砰聲——音效就是一個小小的 @Music ，它只播放一次然後就結束了。\n\n有兩件事讓它成為音效，而不是一首歌曲。\\迴圈: ⊥\\告訴 @Track 只播放它的音符一次，而不是永遠重複。而音符清單本身來自那個時刻：當某件事剛發生時，它會裝著音符；其餘時間則是空的。\n\n\\tapped: ∆ Button()\nStage([\n\t\tPhrase('👆 點我' selectable: ⊤ name: '點擊')\n\t\tMusic(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)\n\t])\\\n\n不用擔心清單在下一次求值時又變空了——已經開始的音符一定會播放到結束。你不能省略的是\\replay\\。點兩下，第二下產生的音樂和第一下完全一樣，所以沒有任何改變，也不會再發出聲音；\\replay\\就是你用來說「/再來一次，現在/」的方式。 \n\n@Music 這裡需要一個*短暫的*條件——一個只在事件引發的那次求值時才為真的條件，就像上面的\\∆ 按鈕()\\。像\\score > 10\\這種持續為真的條件，此後會永遠為真，並且會在每次求值時重新開始播放聲音。\n\n既然音符只是一個清單，你可以根據*發生了什麼*來決定它們，而不是總是播放同樣的東西：\n\n\\key: Key()\nstruck: ∆ key\nStage([\n\t\tPhrase(struck ? key '⌨ 按一個鍵' 1m)\n\t\tMusic(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)\n\t])\\\n\n注意\\∆ key\\是在自己的一行算出來的，而值的測試\\key = ' '\\則是分開進行的。如果把它們寫成一個條件，當你按下下一個無關的鍵時聲音會再次響起，而\\key\\ 仍然讀作一個空格。",
+        "body": "答對時的叮聲，東西落地時的砰聲——音效就是一個小小的 @Music ，它只播放一次然後就結束了。\n\n有兩件事讓它成為音效，而不是一首歌曲。\\迴圈: ⊥\\告訴 @Track 只播放它的音符一次，而不是永遠重複。而音符清單本身來自那個時刻：當某件事剛發生時，它會裝著音符；其餘時間則是空的。\n\n\\tapped: ∆ Button()\nStage([\n\t\tPhrase('👆 點我' 可選擇的: ⊤ 名字: '點擊')\n\t\tMusic(Track(tapped ? [1 5 8] [] 樂器: Instrument.bell 迴圈: ⊥) 重播: tapped)\n\t])\\\n\n不用擔心清單在下一次求值時又變空了——已經開始的音符一定會播放到結束。你不能省略的是\\replay\\。點兩下，第二下產生的音樂和第一下完全一樣，所以沒有任何改變，也不會再發出聲音；\\replay\\就是你用來說「/再來一次，現在/」的方式。 \n\n@Music 這裡需要一個*短暫的*條件——一個只在事件引發的那次求值時才為真的條件，就像上面的\\∆ 按鈕()\\。像\\score > 10\\這種持續為真的條件，此後會永遠為真，並且會在每次求值時重新開始播放聲音。\n\n既然音符只是一個清單，你可以根據*發生了什麼*來決定它們，而不是總是播放同樣的東西：\n\n\\key: Key()\nstruck: ∆ key\nStage([\n\t\tPhrase(struck ? key '⌨ 按一個鍵' 1m)\n\t\tMusic(Track(struck ? [((key = ' ') ? 1 8)] [] 樂器: Instrument.piano 迴圈: ⊥) 重播: struck)\n\t])\\\n\n注意\\∆ key\\是在自己的一行算出來的，而值的測試\\key = ' '\\則是分開進行的。如果把它們寫成一個條件，當你按下下一個無關的鍵時聲音會再次響起，而\\key\\ 仍然讀作一個空格。",
         "related": [
             "draw-the-music",
             "music-follows-the-action",
@@ -224,7 +224,7 @@
         "id": "music-follows-the-action",
         "title": "讓音樂跟著動作走",
         "category": "music",
-        "body": "如果一個遊戲從頭到尾只播放同一段旋律，感覺很平淡。要是音樂知道你正在贏，會怎麼樣呢？\n\n沒有辦法*停止*一個 @Music ——讓它停下來的方法，是不要把它放在 @Stage 上。所以保留一段狀態，並把符合它的歌曲放到舞台上：\n\n\\phase: '選單' … ∆ Button() … (phase = '選單') ? '追逐' '選單'\ntheme: [1 ø 3 ø 5 ø 6 ø]\nStage([\n\t\tPhrase((phase = '選單') ? '▶ 按下開始' '🏃 跑！' 1m)\n\t\t(phase = '選單') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)\n\t])\\\n\n兩首歌都是同樣的八個數字。只有樂器和速度改變了，聽起來卻已經像是不同的曲子——因為音級表示的是*音階裡的哪一個階*，而不是哪一個音高，所以一個 @Music 可以重新詮釋它們。把\\縮放: 🎼.和聲小調\\交給它，同樣的旋律就會變得陰森，卻不用重寫任何一個音符。\n\n另一半，是能隨著情況變化而連續彎曲的音樂。改變\\tempo\\不會重新開始任何東西——它會在下一拍接上，所以曲子會加快，卻不會失去它的位置：\n\n\\score: 0 … ∆ Button() … score + 1\nurgency: (score ÷ 10).min(1)\nStage([\n\t\tPhrase('樂譜 \\score\\' 1m)\n\t\tMusic(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)\n\t])\\\n\n按下夠多次，鼓聲就會比一開始快上一倍。一個短促、有敲擊感的音符，才能讓這件事聽得出來——在長長持續的音符底下，速度的改變很難感覺到。",
+        "body": "如果一個遊戲從頭到尾只播放同一段旋律，感覺很平淡。要是音樂知道你正在贏，會怎麼樣呢？\n\n沒有辦法*停止*一個 @Music ——讓它停下來的方法，是不要把它放在 @Stage 上。所以保留一段狀態，並把符合它的歌曲放到舞台上：\n\n\\phase: '選單' … ∆ Button() … (phase = '選單') ? '追逐' '選單'\ntheme: [1 ø 3 ø 5 ø 6 ø]\nStage([\n\t\tPhrase((phase = '選單') ? '▶ 按下開始' '🏃 跑！' 1m)\n\t\t(phase = '選單') ? Music(Track(theme 樂器: Instrument.bell) 速度: 72beats/min) Music(Track(theme 樂器: Instrument.synth) 速度: 132beats/min)\n\t])\\\n\n兩首歌都是同樣的八個數字。只有樂器和速度改變了，聽起來卻已經像是不同的曲子——因為音級表示的是*音階裡的哪一個階*，而不是哪一個音高，所以一個 @Music 可以重新詮釋它們。把\\縮放: 🎼.和聲小調\\交給它，同樣的旋律就會變得陰森，卻不用重寫任何一個音符。\n\n另一半，是能隨著情況變化而連續彎曲的音樂。改變\\tempo\\不會重新開始任何東西——它會在下一拍接上，所以曲子會加快，卻不會失去它的位置：\n\n\\score: 0 … ∆ Button() … score + 1\nurgency: (score ÷ 10).min(1)\nStage([\n\t\tPhrase('樂譜 \\score\\' 1m)\n\t\tMusic(Track([1 5 8 5] 樂器: Instrument.drums) 速度: (90 + (urgency · 90)) · 1beats/min)\n\t])\\\n\n按下夠多次，鼓聲就會比一開始快上一倍。一個短促、有敲擊感的音符，才能讓這件事聽得出來——在長長持續的音符底下，速度的改變很難感覺到。",
         "related": [
             "choose-an-instrument",
             "play-a-sound-effect",
@@ -235,7 +235,7 @@
         "id": "choose-an-instrument",
         "title": "讓你的觀眾選擇樂器",
         "category": "music",
-        "body": "關於  @Music  的一切都可以在它播放時決定，包括由誰來播放它。把不同的  @Track  交給  @Instrument ，曲調會保持不變——只有聲音會改變。 \n\n@Choice  會回傳觀眾所選的那個可選輸出的 \\name\\，所以只要一個條件式，就能把它變成一件樂器：\n\n\\picked: Choice()\nStage([\n\t\tGroup(Row() [\n\t\t\t\tPhrase('🎹' selectable: ⊤ name: '鋼琴')\n\t\t\t\tPhrase('🎻' selectable: ⊤ name: '小提琴')\n\t\t\t])\n\t\tMusic(Track([1 3 5 6 5 3] instrument: (picked = '小提琴') ? Instrument.violin Instrument.piano))\n\t])\\\n\n這兩個可選的詞句就是讓它運作的關鍵—— @Choice  沒有東西可讀，除非舞台上有某個東西是 \\可選取的: ⊤\\。\n\n兩件樂器可以放進一個條件式裡。但整組樂器就放不下了，你最後會把清單寫兩次：一次給按鈕，一次給聲音。不如把它們一起放進你自己建立的結構裡，再從中建立兩者：\n\n\\•Voice(icon•'' sound•🔈)\nvoices•[Voice]: [\n\t\tVoice('🎹' Instrument.piano)\n\t\tVoice('🎺' Instrument.trumpet)\n\t\tVoice('🔔' Instrument.bell)\n\t]\npicked: Choice()\nfound: voices.find(ƒ(voice•Voice) voice.icon = picked)\ncurrent•Voice: found•ø ? voices[1] found\nStage([\n\t\tGroup(Row() [\n\t\t\t\t:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))\n\t\t\t])\n\t\tMusic(Track([1 3 5 6 5 3] instrument: current.sound))\n\t])\\\n\n現在加入第四種聲音只要一行，按鈕會自己出現。請注意 \\found•ø ?\\ 的防護： @List/find  在沒有東西符合時會回傳 \\ø\\，也就是在有人選擇之前發生的情況——而備用值必須是一個完整的 \\🎙\\，因為這正是 \\current\\ 承諾會提供的東西。",
+        "body": "關於  @Music  的一切都可以在它播放時決定，包括由誰來播放它。把不同的  @Track  交給  @Instrument ，曲調會保持不變——只有聲音會改變。 \n\n@Choice  會回傳觀眾所選的那個可選輸出的 \\name\\，所以只要一個條件式，就能把它變成一件樂器：\n\n\\picked: Choice()\nStage([\n\t\tGroup(Row() [\n\t\t\t\tPhrase('🎹' 可選擇的: ⊤ 名字: '鋼琴')\n\t\t\t\tPhrase('🎻' 可選擇的: ⊤ 名字: '小提琴')\n\t\t\t])\n\t\tMusic(Track([1 3 5 6 5 3] 樂器: (picked = '小提琴') ? Instrument.violin Instrument.piano))\n\t])\\\n\n這兩個可選的詞句就是讓它運作的關鍵—— @Choice  沒有東西可讀，除非舞台上有某個東西是 \\可選取的: ⊤\\。\n\n兩件樂器可以放進一個條件式裡。但整組樂器就放不下了，你最後會把清單寫兩次：一次給按鈕，一次給聲音。不如把它們一起放進你自己建立的結構裡，再從中建立兩者：\n\n\\•Voice(icon•'' sound•🔈)\nvoices•[Voice]: [\n\t\tVoice('🎹' Instrument.piano)\n\t\tVoice('🎺' Instrument.trumpet)\n\t\tVoice('🔔' Instrument.bell)\n\t]\npicked: Choice()\nfound: voices.find(ƒ(voice•Voice) voice.icon = picked)\ncurrent•Voice: found•ø ? voices[1] found\nStage([\n\t\tGroup(Row() [\n\t\t\t\t:voices.translate(ƒ(voice•Voice) Phrase(voice.icon 可選擇的: ⊤ 名字: voice.icon))\n\t\t\t])\n\t\tMusic(Track([1 3 5 6 5 3] 樂器: current.sound))\n\t])\\\n\n現在加入第四種聲音只要一行，按鈕會自己出現。請注意 \\found•ø ?\\ 的防護： @List/find  在沒有東西符合時會回傳 \\ø\\，也就是在有人選擇之前發生的情況——而備用值必須是一個完整的 \\🎙\\，因為這正是 \\current\\ 承諾會提供的東西。",
         "related": [
             "music-follows-the-action",
             "offer-choices",
@@ -246,14 +246,14 @@
         "id": "write-rhythm",
         "title": "寫出節奏，不只是音符",
         "category": "music",
-        "body": "如果只用一串沒有標記的數字，每個音符的長度都一樣，聽起來就像上了發條的玩具。真正的節奏來自兩個地方：一個是  @Track  用來計數的格線，另一個是你寫在個別數字上的音符值。 \n\n@Track/beat  設定格線。每個沒有標記的項目都持續那麼長——每個 \\ø\\ 也一樣長。這就是為什麼休止符是把音拉長最簡單的方法：\n\n\\Music([\n\t\tTrack([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)\n\t\tTrack([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)\n\t])\\\n\n鋼琴的第一個音後面接著三個休止符，所以它響了四拍。鼓的格線是半拍，所以它的八個項目填滿四拍，而鋼琴的八個項目填滿八拍——鼓循環兩次，鋼琴才循環一次。每個音軌會依自己的長度循環，這就是一個數字如何做出複節奏。\n\n一直數休止符很累，所以你可以把長度直接寫在數字上。沒有標記的數字仍然表示「一個格線步」；帶有音符值的數字則表示它自己的長度：\n\n\\Music(Track([\n\t\t\t5\n\t\t\t5\n\t\t\t5\n\t\t\t1𝅘𝅥𝅮𝅭\n\t\t\t8𝅘𝅥𝅯\n\t\t\t5\n\t\t\t1𝅘𝅥𝅮𝅭\n\t\t\t8𝅘𝅥𝅯\n\t\t\t5𝅗𝅥\n\t\t] instrument: Instrument.trumpet beat: 1𝅘𝅥))\\\n\n那是兩小節，每小節四拍。\\𝅝\\ 是全音符，\\𝅗𝅥\\ 是二分音符，\\𝅘𝅥\\ 是四分音符，\\𝅘𝅥𝅮\\ 是八分音符，\\𝅘𝅥𝅯\\ 是十六分音符，而那個附點 \\𝅭\\ 會讓其中任何一個再多出一半的長度——所以 \\𝅘𝅥𝅮𝅭\\ 是附點八分音符，讓這首進行曲更有向前推進的感覺。編輯器下方的符號列會在你打完數字後提供這些符號。\n\n它們有一件事做不到，就是休止：\\ø\\ 不是數字，所以它沒有空間放值。你可以改用兩個休止符疊起來，或者使用  @Note ，這也能做出任何音符值都寫不出的長度——\\Note(1 2beats ÷ 3)\\ 是三連音，在兩個音的空間裡放三個音。",
+        "body": "如果只用一串沒有標記的數字，每個音符的長度都一樣，聽起來就像上了發條的玩具。真正的節奏來自兩個地方：一個是  @Track  用來計數的格線，另一個是你寫在個別數字上的音符值。 \n\n@Track/beat  設定格線。每個沒有標記的項目都持續那麼長——每個 \\ø\\ 也一樣長。這就是為什麼休止符是把音拉長最簡單的方法：\n\n\\Music([\n\t\tTrack([1 ø ø ø 5 ø 8 ø] 樂器: Instrument.piano)\n\t\tTrack([1 1 1 1 1 1 1 1] 樂器: Instrument.drums 節拍: 0.5beats)\n\t])\\\n\n鋼琴的第一個音後面接著三個休止符，所以它響了四拍。鼓的格線是半拍，所以它的八個項目填滿四拍，而鋼琴的八個項目填滿八拍——鼓循環兩次，鋼琴才循環一次。每個音軌會依自己的長度循環，這就是一個數字如何做出複節奏。\n\n一直數休止符很累，所以你可以把長度直接寫在數字上。沒有標記的數字仍然表示「一個格線步」；帶有音符值的數字則表示它自己的長度：\n\n\\Music(Track([\n\t\t\t5\n\t\t\t5\n\t\t\t5\n\t\t\t1𝅘𝅥𝅮𝅭\n\t\t\t8𝅘𝅥𝅯\n\t\t\t5\n\t\t\t1𝅘𝅥𝅮𝅭\n\t\t\t8𝅘𝅥𝅯\n\t\t\t5𝅗𝅥\n\t\t] 樂器: Instrument.trumpet 節拍: 1𝅘𝅥))\\\n\n那是兩小節，每小節四拍。\\𝅝\\ 是全音符，\\𝅗𝅥\\ 是二分音符，\\𝅘𝅥\\ 是四分音符，\\𝅘𝅥𝅮\\ 是八分音符，\\𝅘𝅥𝅯\\ 是十六分音符，而那個附點 \\𝅭\\ 會讓其中任何一個再多出一半的長度——所以 \\𝅘𝅥𝅮𝅭\\ 是附點八分音符，讓這首進行曲更有向前推進的感覺。編輯器下方的符號列會在你打完數字後提供這些符號。\n\n它們有一件事做不到，就是休止：\\ø\\ 不是數字，所以它沒有空間放值。你可以改用兩個休止符疊起來，或者使用  @Note ，這也能做出任何音符值都寫不出的長度——\\Note(1 2beats ÷ 3)\\ 是三連音，在兩個音的空間裡放三個音。",
         "related": ["layer-an-arrangement", "draw-the-music"]
     },
     {
         "id": "layer-an-arrangement",
         "title": "把各個部份分層疊放成一個編排",
         "category": "music",
-        "body": "一個  @Track  是一段旋律。幾段一起演奏就成了一個樂團——而寫出樂團的訣竅在於，各部份不一定要是不同的音樂。\n\n因為音級是音階上的級數，而不是固定的音高，所以整條低音線可以就是旋律自己的數字降低一個八度。 @Track/key  會把單一音軌移動若干個半音，而十二個半音正好是一個八度：\n\n\\tune: [1 5 8 5 6 3 1 ø]\nMusic([\n\t\tTrack(tune instrument: Instrument.flute)\n\t\tTrack(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)\n\t])\\\n\n兩個聲部，一份清單。編輯旋律，低音就跟著改變，因為只有一段旋律可以編輯。\n\n現在在它周圍填滿其他部份。和弦想要有自己的節奏，而不是跟著旋律，而音軌自己的  @Track/beat  就給了它一個節奏；\\pan\\ 把各個聲部往左右散開，這樣耳朵就能把它們分辨出來：\n\n\\tune: [1 5 8 5 6 3 1 ø]\nMusic([\n\t\tTrack(tune instrument: Instrument.flute pan: 0)\n\t\tTrack(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)\n\t\tTrack([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)\n\t\tTrack([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)\n\t])\\\n\n注意音量：只有長笛開到最大。所有部份都用最大音量，並不會讓樂團變得更響亮，只會讓它變得更混濁，因為所有同時發出的聲音都得從同一個喇叭裡擠出來。讓旋律從 \\100%\\ 開始，把其他所有部份都藏在它下面。\n\n襯底聲部的四個項目在 \\拍子: 2beats\\ 填滿八拍，而鼓的八個項目在 \\0.5beats\\ 填滿四拍——所以鼓在每一個襯底循環裡走完兩次，然後所有部份又在開頭再次相遇。當各部份逐漸走不齊時，通常是因為它們的長度無法互相整除。",
+        "body": "一個  @Track  是一段旋律。幾段一起演奏就成了一個樂團——而寫出樂團的訣竅在於，各部份不一定要是不同的音樂。\n\n因為音級是音階上的級數，而不是固定的音高，所以整條低音線可以就是旋律自己的數字降低一個八度。 @Track/key  會把單一音軌移動若干個半音，而十二個半音正好是一個八度：\n\n\\tune: [1 5 8 5 6 3 1 ø]\nMusic([\n\t\tTrack(tune 樂器: Instrument.flute)\n\t\tTrack(tune 樂器: Instrument.synthBass 調: -12semitones 音量: 60%)\n\t])\\\n\n兩個聲部，一份清單。編輯旋律，低音就跟著改變，因為只有一段旋律可以編輯。\n\n現在在它周圍填滿其他部份。和弦想要有自己的節奏，而不是跟著旋律，而音軌自己的  @Track/beat  就給了它一個節奏；\\pan\\ 把各個聲部往左右散開，這樣耳朵就能把它們分辨出來：\n\n\\tune: [1 5 8 5 6 3 1 ø]\nMusic([\n\t\tTrack(tune 樂器: Instrument.flute 聲道平衡: 0)\n\t\tTrack(tune 樂器: Instrument.synthBass 調: -12semitones 音量: 60%)\n\t\tTrack([{1 3 5} ø {1 4 6} ø] 樂器: Instrument.synthPad 節拍: 2beats 音量: 35%)\n\t\tTrack([1 ø 2 ø 1 ø 2 3] 樂器: Instrument.drums 節拍: 0.5beats 音量: 45%)\n\t])\\\n\n注意音量：只有長笛開到最大。所有部份都用最大音量，並不會讓樂團變得更響亮，只會讓它變得更混濁，因為所有同時發出的聲音都得從同一個喇叭裡擠出來。讓旋律從 \\100%\\ 開始，把其他所有部份都藏在它下面。\n\n襯底聲部的四個項目在 \\拍子: 2beats\\ 填滿八拍，而鼓的八個項目在 \\0.5beats\\ 填滿四拍——所以鼓在每一個襯底循環裡走完兩次，然後所有部份又在開頭再次相遇。當各部份逐漸走不齊時，通常是因為它們的長度無法互相整除。",
         "related": [
             "write-rhythm",
             "choose-an-instrument",
@@ -264,7 +264,7 @@
         "id": "sing-words",
         "title": "讓聲音唱出文字",
         "category": "music",
-        "body": "在調色盤裡的每個  @Instrument  中，\\🔈.🤖\\ 是唯一能說話的。給它的  @Track  一個  @Track/words ，它就會把它們唱出來，一個音符對一個音節：\n\n\\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\\\n\n六個音節，六個音符。這裡的空格就是全部的文法——它們說明一個音節在哪裡停止，下一個在哪裡開始。休止符不佔音節，所以文字會落在你真正聽到的音符上。如果你寫的音節比音符少，它們就會從頭再開始；如果完全不寫，聲音就會維持一個 /uh/ 的聲音，所以它總是會唱出些什麼。\n\n這種拼法不是英文。它是 <國際音標@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>，在這裡每個字母都剛好是一個聲音，每個聲音也剛好有一個字母。英文拼法做不到——在 \\o\\ 中的 /go/、/do/ 和 /women/ 這三個是不同的聲音——所以讀英文拼法的聲音只能用猜的，而且會猜錯。這也表示不管你用哪種語言寫，歌詞的運作方式都一樣，因為這些字母描述的是你的嘴巴，而不是你的字母系統。\n\n你的鍵盤上大多數這些聲音都沒有對應的按鍵，所以請按編輯器下方的 🤖。它會列出聲音能發出的每個音，附上一個包含這個音的字，還有一個可以播放它的按鈕——按下那個字母本身，就會把它輸入到你的程式碼裡。聽到一個聲音是真正認識它的唯一方法，而那個面板就是參考資料；接下來的內容足夠讓你開始。\n\n先從母音開始。這十二個涵蓋了你大部分想用的音，每個都放在一個包含它的英文字裡展示：\n\n\\a\\ f/a/ther, \\e\\ b/e/d, \\i\\ s/ee/, \\o\\ g/o/, \\u\\ b/oo/t, \\ɛ\\ h/ea/d, \\ɪ\\ b/i/t, \\ɔ\\ b/ou/ght, \\ʊ\\ b/oo/k, \\æ\\ c/a/t、\\ʌ\\ c/u/p、\\ə\\ /a/bout\n\n母音單獨出現時，本身就是一個完整的音節。把它們一個接一個地唱出來，是分辨每個音最清楚的方法：\n\n\\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\\\n\n大部分子音看起來就跟你想的一樣：\\p\nb\nt\nd\nk\nm\nn\ns\nf\nl\nr\nw\\ 的發音大致都和英語裡的一樣。真正值得學的，是英語用兩個字母拼出來的那些音，還有一個位置改變了的字母。\\ʃ\\ 是 /sh/、\\ʒ\\ 是 /s/ 在 /measure/、\\θ\\ 是 /th/ 在 /thin/、\\ð\\ 是 /th/，在 /this/，\\ŋ\\ 就是 /ng/，在 /sing/ 中的音，還有 \\j\\ 就是 /y/，在 /yes/ 中的音。在母音前面放一個，你就得到一個字：\n\n\\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\\\n\n一個音節也可以延伸到好幾個音上。用連字號結尾，每加一個連字號，這個音節就多維持一個音——單一音節上連續的多個音，讓聖歌和搖籃曲有了形狀：\n\n\\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\\\n\n這三個連字號讓 \\glo\\ 延續四個音，接著 \\ri\\ 落在最後一個音上。任何聲音無法辨認的東西，它會跳過而不是拒絕，所以你可以盡情嘗試，不會弄壞旋律。\n\n想顯示正在唱的字，就從  @Beat  把它們讀出來。 @Downbeat/words  承載著那一刻正在唱的內容，所以一個片語就是一整個卡拉OK畫面：\n\n\\beat: Beat()\nStage([\n\t\tPhrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)\n\t\tMusic(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)\n\t])\\\n\n@Downbeat/parts  有著逐軌相同的音節，如果你想把兩位歌手分開畫，而不是畫在一起。",
+        "body": "在調色盤裡的每個  @Instrument  中，\\🔈.🤖\\ 是唯一能說話的。給它的  @Track  一個  @Track/words ，它就會把它們唱出來，一個音符對一個音節：\n\n\\Music(Track([1 2 3 5 3 1] 文字: 'la la la la la la' 樂器: Instrument.voice) 速度: 120beats/min)\\\n\n六個音節，六個音符。這裡的空格就是全部的文法——它們說明一個音節在哪裡停止，下一個在哪裡開始。休止符不佔音節，所以文字會落在你真正聽到的音符上。如果你寫的音節比音符少，它們就會從頭再開始；如果完全不寫，聲音就會維持一個 /uh/ 的聲音，所以它總是會唱出些什麼。\n\n這種拼法不是英文。它是 <國際音標@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>，在這裡每個字母都剛好是一個聲音，每個聲音也剛好有一個字母。英文拼法做不到——在 \\o\\ 中的 /go/、/do/ 和 /women/ 這三個是不同的聲音——所以讀英文拼法的聲音只能用猜的，而且會猜錯。這也表示不管你用哪種語言寫，歌詞的運作方式都一樣，因為這些字母描述的是你的嘴巴，而不是你的字母系統。\n\n你的鍵盤上大多數這些聲音都沒有對應的按鍵，所以請按編輯器下方的 🤖。它會列出聲音能發出的每個音，附上一個包含這個音的字，還有一個可以播放它的按鈕——按下那個字母本身，就會把它輸入到你的程式碼裡。聽到一個聲音是真正認識它的唯一方法，而那個面板就是參考資料；接下來的內容足夠讓你開始。\n\n先從母音開始。這十二個涵蓋了你大部分想用的音，每個都放在一個包含它的英文字裡展示：\n\n\\a\\ f/a/ther, \\e\\ b/e/d, \\i\\ s/ee/, \\o\\ g/o/, \\u\\ b/oo/t, \\ɛ\\ h/ea/d, \\ɪ\\ b/i/t, \\ɔ\\ b/ou/ght, \\ʊ\\ b/oo/k, \\æ\\ c/a/t、\\ʌ\\ c/u/p、\\ə\\ /a/bout\n\n母音單獨出現時，本身就是一個完整的音節。把它們一個接一個地唱出來，是分辨每個音最清楚的方法：\n\n\\Music(Track([1 2 3 4 5] 文字: 'a e i o u' 樂器: Instrument.voice) 速度: 90beats/min)\\\n\n大部分子音看起來就跟你想的一樣：\\p\nb\nt\nd\nk\nm\nn\ns\nf\nl\nr\nw\\ 的發音大致都和英語裡的一樣。真正值得學的，是英語用兩個字母拼出來的那些音，還有一個位置改變了的字母。\\ʃ\\ 是 /sh/、\\ʒ\\ 是 /s/ 在 /measure/、\\θ\\ 是 /th/ 在 /thin/、\\ð\\ 是 /th/，在 /this/，\\ŋ\\ 就是 /ng/，在 /sing/ 中的音，還有 \\j\\ 就是 /y/，在 /yes/ 中的音。在母音前面放一個，你就得到一個字：\n\n\\Music(Track([5 5 3 3 1] 文字: 'ʃi si mi lo ʌp' 樂器: Instrument.voice) 速度: 100beats/min)\\\n\n一個音節也可以延伸到好幾個音上。用連字號結尾，每加一個連字號，這個音節就多維持一個音——單一音節上連續的多個音，讓聖歌和搖籃曲有了形狀：\n\n\\Music(Track([1 2 3 2 1] 文字: 'glo--- ri' 樂器: Instrument.voice) 速度: 140beats/min)\\\n\n這三個連字號讓 \\glo\\ 延續四個音，接著 \\ri\\ 落在最後一個音上。任何聲音無法辨認的東西，它會跳過而不是拒絕，所以你可以盡情嘗試，不會弄壞旋律。\n\n想顯示正在唱的字，就從  @Beat  把它們讀出來。 @Downbeat/words  承載著那一刻正在唱的內容，所以一個片語就是一整個卡拉OK畫面：\n\n\\beat: Beat()\nStage([\n\t\tPhrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)\n\t\tMusic(Track([1 2 3 5 3 1] 文字: 'ðɪs ɪz ə soŋ tə si' 樂器: Instrument.voice) 速度: 100beats/min)\n\t])\\\n\n@Downbeat/parts  有著逐軌相同的音節，如果你想把兩位歌手分開畫，而不是畫在一起。",
         "related": ["choose-an-instrument", "write-rhythm", "draw-the-music"]
     }
 ]

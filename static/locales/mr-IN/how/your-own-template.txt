@@ -4,7 +4,7 @@
 
 ए @Structure हे रिकाम्या जागा भरायच्या असलेल्या पाककृतीसारखे आहे.येथे एक बलून टेम्पलेट आहे, जे रंग आणि लेबल स्वीकारते आणि स्वतःला कसे दाखवायचे हे त्याला माहीत आहे:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` रंग: color आकार: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'आकाश').show()

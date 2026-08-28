@@ -2,15 +2,15 @@ Ipakita ang mga pagpipiliang maaaring piliin
 
 Minsan gusto mong magpakita ng maraming pagpipilian sa screen, at gumawa ng isang bagay gamit ang pinipili ng mga manonood. Para magawa ito, kailangan natin ng dalawang bagay:
 
-• Isa o higit pa @Phrase na minarkahan bilang mapipili at may natatanging pangalan (hal.,\Phrase('opsyon 1' selectable: ⊤ name: 'isa')\)• Isang @Choice , na nagbabago sa @Phrase pangalang pinakahuling napili.
+• Isa o higit pa @Phrase na minarkahan bilang mapipili at may natatanging pangalan (hal.,\Phrase('opsyon 1' mapipili: ⊤ pangalan: 'isa')\)• Isang @Choice , na nagbabago sa @Phrase pangalang pinakahuling napili.
 
 Halimbawa, ipinapakita namin dito ang tatlong pagpipilian, bawat isa ay may natatanging pangalan.
 
 \option: Choice()
 Group(Stack() [
-		Phrase('opsyon 1' selectable: ⊤ name: 'isa')
-		Phrase('opsyon 2' selectable: ⊤ name: 'dalawa')
-		Phrase('opsyon 3' selectable: ⊤ name: 'tatlo')
+		Phrase('opsyon 1' mapipili: ⊤ pangalan: 'isa')
+		Phrase('opsyon 2' mapipili: ⊤ pangalan: 'dalawa')
+		Phrase('opsyon 3' mapipili: ⊤ pangalan: 'tatlo')
 		Phrase(option)
 	])\
 
@@ -20,9 +20,9 @@ Maaari mong gamitin ang pattern na ito upang gawin ang mga bagay bilang tugon sa
 
 \option: Choice()
 option = '' ? Group(Stack() [
-			Phrase('opsyon 1' selectable: ⊤ name: 'isa')
-			Phrase('opsyon 2' selectable: ⊤ name: 'dalawa')
-			Phrase('opsyon 3' selectable: ⊤ name: 'tatlo')
+			Phrase('opsyon 1' mapipili: ⊤ pangalan: 'isa')
+			Phrase('opsyon 2' mapipili: ⊤ pangalan: 'dalawa')
+			Phrase('opsyon 3' mapipili: ⊤ pangalan: 'tatlo')
 		]) Phrase({'isa': '😡' 'dalawa': '🏀' 'tatlo': '❤'}{option} ?? '?')\
 
 Ang @Choice nagsisimula bilang isang walang laman @Text , kaya kapag nagsimula na ang proyekto, sinusuri namin iyon, at ipinapakita ang tatlong pagpipilian.Kapag nagawa na ang isang pagpili, ito ay nagiging isa sa tatlo @Phrase mga pangalan.

@@ -5,7 +5,7 @@
 @Motion  ले समयसँगै एउटा क्यारेक्टर /कहाँ/ छ भन्ने नियन्त्रण गर्छ। हामी यसलाई एउटा \place\ को लागि  @Phrase  को रूपमा प्रयोग गर्छौं, यसलाई माथि सुरु गर्छौं ताकि यो खस्न सकोस्।हामीलाई खस्ने ठाउँ पनि चाहिन्छ, नत्र हाम्रो क्यारेक्टर सधैं खसिरहन्छ! एउटा चौडा  @Shape  भएको  @Rectangle  ले राम्रो भुइँ बनाउँछ:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' ठाउँ: Motion(Place(0m 5m)) पदार्थ: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 क्यारेक्टर कति /उफ्रने/ वा कति /गह्रौं/ हुन्छ भन्ने परिवर्तन गर्न, यसलाई आफ्नै  @Matter  दिनुहोस्। @Matter  ले एउटा द्रव्यमान, उफ्रने क्षमता, र घर्षण लिन्छ:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' ठाउँ: Motion(Place(-2m 5m)) पदार्थ: Matter(1kg 0.9 0.2))
+		Phrase('🪨' ठाउँ: Motion(Place(2m 5m)) पदार्थ: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

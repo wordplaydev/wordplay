@@ -7,11 +7,11 @@
 \Scene([
 		Phrase('לחץ עליי')
 		Button()
-		Phrase('לחצו עליי שוב' duration: 1s)
+		Phrase('לחצו עליי שוב' מֶשֶׁך: 1s)
 		Button()
-		Phrase('לא באמת, תלחצו עליי הכי חזק שאתם יכולים!!' duration: 1s)
+		Phrase('לא באמת, תלחצו עליי הכי חזק שאתם יכולים!!' מֶשֶׁך: 1s)
 		Button()
-		Phrase('לחצת עליי כבר?' duration: 1s)
+		Phrase('לחצת עליי כבר?' מֶשֶׁך: 1s)
 	])\
 
 ה @Scene מציג את הראשון @Phrase , ואז מחכה ל- @Button להיות אמיתי, וברגע שזה נכון, זה מתקדם לשלב הבא @Phrase .
@@ -21,11 +21,11 @@
 \Scene([
 		Phrase('האם יש שם מישהו?')
 		Volume() > .5
-		Phrase("אני לא שומע אותך, תגיד שוב?" duration: 1s)
+		Phrase("אני לא שומע אותך, תגיד שוב?" מֶשֶׁך: 1s)
 		Volume() > .7
-		Phrase('יותר חזק בבקשה...' duration: 1s)
+		Phrase('יותר חזק בבקשה...' מֶשֶׁך: 1s)
 		Volume() > .9
-		Phrase('אה, היי!' duration: 1s)
+		Phrase('אה, היי!' מֶשֶׁך: 1s)
 	])\
 
 animated-scene

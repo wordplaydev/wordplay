@@ -8,7 +8,7 @@ No hay forma de *detener* un  @Music  — lo que lo detiene es que ya no esté e
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'menú') ? '▶ presiona para empezar' '🏃 ¡corre!' 1m)
-		(phase = 'menú') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'menú') ? Music(Track(theme instrumento: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrumento: Instrument.synth) tempo: 132beats/min)
 	])\
 
 Las dos canciones son los mismos ocho números. Solo cambian el instrumento y el tempo, y ya suena como una pieza distinta — porque los grados dicen *qué paso de la escala*, no qué tono, así que un  @Music  puede reinterpretarlos. Dale \escala: 🎼.menorArmónica\ y la misma melodía se vuelve siniestra sin reescribir una sola nota.
@@ -19,7 +19,7 @@ La otra mitad es música que se dobla sin parar según cómo van las cosas. Camb
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('partitura \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] instrumento: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Presiona suficientes veces y los tambores golpean el doble de fuerte que al principio. Una nota corta y percusiva es lo que lo hace audible — bajo notas largas y sostenidas es difícil sentir un cambio de tempo.

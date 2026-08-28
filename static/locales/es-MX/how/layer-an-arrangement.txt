@@ -6,8 +6,8 @@ Como los grados son pasos de una escala y no tonos fijos, toda una línea de baj
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune instrumento: Instrument.flute)
+		Track(tune instrumento: Instrument.synthBass clave: -12semitones volumen: 60%)
 	])\
 
 Dos voces, una lista. Cambia la melodía y el bajo la sigue, porque solo hay una melodía que cambiar.
@@ -16,10 +16,10 @@ Ahora llena lo que la rodea. Los acordes quieren su propio ritmo en lugar del de
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune instrumento: Instrument.flute balance: 0)
+		Track(tune instrumento: Instrument.synthBass clave: -12semitones volumen: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrumento: Instrument.synthPad pulso: 2beats volumen: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrumento: Instrument.drums pulso: 0.5beats volumen: 45%)
 	])\
 
 Observa los volúmenes: solo la flauta está al máximo. Las partes a todo volumen no forman una banda más fuerte, forman una más turbia, porque todo lo que suena a la vez tiene que caber por la misma bocina. Empieza la melodía en \100%\ y coloca todo lo demás por debajo de ella.

@@ -4648,7 +4648,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Bạn biết đấy, @Bind hoạt động với rất nhiều ký tự khác, bao gồm cả @Evaluate — bạn đã thấy chúng khi đặt tên cho một input @FunctionDefinition, ví dụ như \\Pose(color: _)\\ — và chúng ta sẽ làm quen với một vài ký tự khác nữa. @Bind, bạn có mặt để trình diễn không?"
+                            "$~Bạn biết đấy, @Bind hoạt động với rất nhiều ký tự khác, bao gồm cả @Evaluate — bạn đã thấy chúng khi đặt tên cho một input @FunctionDefinition, ví dụ như \\Pose(màusắc: _)\\ — và chúng ta sẽ làm quen với một vài ký tự khác nữa. @Bind, bạn có mặt để trình diễn không?"
                         ],
                         [
                             "Bind",

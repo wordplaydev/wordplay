@@ -12,6 +12,6 @@
 
 তুমি একটি পঞ্জিকাও বেছে নিতে পারো, যেমন জাপানি পঞ্জিকা, আর একটি ফন্ট দিয়ে ঘড়িটি সাজাতে পারো:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' মুখ: 'Doto')\
 
 count-with-time

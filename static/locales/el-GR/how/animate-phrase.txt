@@ -4,14 +4,14 @@
 
 Για παράδειγμα, ας κάνουμε αυτή τη γάτα να χορέψει λίγο περιστρέφοντάς την και μετακινώντας την:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' ανάπαυση: Sequence({
+			0%: Pose(περιστροφή: 0°)
+			15%: Pose(περιστροφή: 15°)
+			30%: Pose(περιστροφή: 0°)
+			45%: Pose(όφσετ: Place(-0.25m))
+			60%: Pose(όφσετ: Place(0.25m))
+			75%: Pose(όφσετ: Place(-0.25m))
+			90%: Pose(όφσετ: Place(0m))
 		} 2s))\
 
 Αυτό το παράδειγμα χρησιμοποιεί ένα @Sequence διαφορετικών @Pose .

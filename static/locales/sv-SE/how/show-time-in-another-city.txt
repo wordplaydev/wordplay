@@ -12,6 +12,6 @@ Vet du inte tidszonens namn? Skriv bara en stad du känner till — @wordplay va
 
 Du kan också välja en kalender, som den japanska kalendern, och forma klockan med ett typsnitt:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' ansikte: 'Doto')\
 
 count-with-time

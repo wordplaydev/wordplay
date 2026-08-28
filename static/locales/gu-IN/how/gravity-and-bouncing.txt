@@ -5,7 +5,7 @@
 @Motion નિયંત્રણો/ક્યાં/એક પાત્ર સમય જતાં હોય છે. આપણે તેનો ઉપયોગ\place\માટે @Phrase , તેને ઊંચું શરૂ કરો જેથી તે પડી શકે.આપણને પણ પડવા માટે કંઈક જોઈએ છે, નહીં તો આપણું પાત્ર હંમેશા પડતું રહેશે! A @Shape પહોળા સાથે @Rectangle સરસ ફ્લોર બનાવે છે:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' સ્થળ: Motion(Place(0m 5m)) બાબત: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 કેવી રીતે બદલવું/ઉછાળવાળું/અથવા કેવી રીતે/ભારે/એક પાત્ર છે, તેને તમારું પોતાનું આપો @Matter . @Matter એક દળ, એક ઉછાળો અને એક ઘર્ષણ લે છે:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' સ્થળ: Motion(Place(-2m 5m)) બાબત: Matter(1kg 0.9 0.2))
+		Phrase('🪨' સ્થળ: Motion(Place(2m 5m)) બાબત: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

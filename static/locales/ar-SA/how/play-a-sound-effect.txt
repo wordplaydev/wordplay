@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 انقرني' selectable: ⊤ name: 'انقر')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 انقرني' قابلللتحديد: ⊤ اسم: 'انقر')
+		Music(Track(tapped ? [1 5 8] [] آلة: Instrument.bell حلقة: ⊥) إعادةالتشغيل: tapped)
 	])\
 
 لا تقلق من أن القائمة تفرغ مجددًا في التقييم التالي مباشرة — النغمة التي بدأت تُشغَّل دائمًا حتى نهايتها. ما لا يمكنك تركه هو \replay\. انقر مرتين، والنقرة الثانية تنتج الموسيقى نفسها تمامًا مثل الأولى، فلا شيء تغيّر ولن يصدر صوت مجددًا؛ \replay\ هي طريقتك لتقول /مرة أخرى، الآن/. 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ اضغط مفتاحًا' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] آلة: Instrument.piano حلقة: ⊥) إعادةالتشغيل: struck)
 	])\
 
 لاحظ أن \∆ key\ يُحسب في سطره الخاص، واختبار القيمة \key = ' '\ يحدث بشكل منفصل. لو كُتبا معًا كشرط واحد، لأصدر الصوت مجددًا عند المفتاح غير المرتبط التالي بينما \key\ لا تزال تُقرأ كمسافة.

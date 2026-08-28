@@ -4,7 +4,7 @@ Ibland vill man ha många karaktärer som ser nästan likadana ut, men med små 
 
 En @Structure är som ett recept med luckor att fylla i.Här är en ballongmall som tar en färg och en etikett, och vet hur den ska visa sig själv:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` färg: color storlek: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Sky').show()

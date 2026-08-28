@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'পিয়ানো')
-				Phrase('🎻' selectable: ⊤ name: 'বেহেলা')
+				Phrase('🎹' নিৰ্বাচনযোগ্য: ⊤ নাম: 'পিয়ানো')
+				Phrase('🎻' নিৰ্বাচনযোগ্য: ⊤ নাম: 'বেহেলা')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'বেহেলা') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] বাদ্যযন্ত্ৰ: (picked = 'বেহেলা') ? Instrument.violin Instrument.piano))
 	])\
 
 এই দুটা বাছিব পৰা বাক্যাংশই এইটো কাম কৰায় —  @Choice  ৰ পঢ়িবলৈ একো নাথাকে যদিহে মঞ্চত থকা কোনো বস্তু \বাছনিযোগ্য: ⊤\ নহয়।
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon নিৰ্বাচনযোগ্য: ⊤ নাম: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] বাদ্যযন্ত্ৰ: current.sound))
 	])\
 
 এতিয়া চতুৰ্থ এটা মাত যোগ কৰাটো এটা শাৰী, আৰু বুটামটো নিজে নিজে ওলায়। \found•ø ?\ গাৰ্ডটো লক্ষ্য কৰক:  @List/find  এ ঘূৰাই দিয়ে \ø\ যেতিয়া একোৱে মিল নাখায়, যিটো কোনোবাই বাছি লোৱাৰ আগতে ঘটে — আৰু ফলবেকটো এটা গোটেই \বক্তৃতা\ হ'ব লাগিব, কিয়নো \current\ এ সেয়াই হ'ম বুলি কথা দিয়ে।

@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 मलाई थिच्नुहोस्' selectable: ⊤ name: 'थिच्नुहोस्')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 मलाई थिच्नुहोस्' छनोटगर्नमिल्ने: ⊤ नाम: 'थिच्नुहोस्')
+		Music(Track(tapped ? [1 5 8] [] बाजा: Instrument.bell लुप: ⊥) फेरिबजाउने: tapped)
 	])\
 
 पछिल्लो मूल्याङ्कनमा सूची फेरि खाली हुन्छ भनेर चिन्ता नगर्नुहोस् — सुरु भइसकेको नोट सधैं आफ्नो अन्त्यसम्म बज्छ। तपाईंले छोड्न नमिल्ने कुरा हो \replay\। दुई पटक थिच्नुहोस् अनि दोस्रो थिचाइले पहिलोकै जस्तै संगीत बनाउँछ, त्यसैले केही परिवर्तन भएन र फेरि केही बज्दैन; \replay\ भनेको तपाईंले /फेरि, अहिले/ भन्ने तरिका हो। 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ एउटा की थिच्नुहोस्' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] बाजा: Instrument.piano लुप: ⊥) फेरिबजाउने: struck)
 	])\
 
 ध्यान दिनुहोस् कि \∆ key\ आफ्नै लाइनमा हिसाब गरिन्छ र value परीक्षण \key = ' '\ छुट्टै हुन्छ। एउटै condition को रूपमा सँगै लेख्दा, अर्को सम्बन्धित नभएको की थिच्दा आवाज फेरि बज्थ्यो जब कि \key\ अझै पनि खाली ठाउँको रूपमा पढिन्छ।

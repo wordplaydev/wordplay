@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'תפריט') ? '▶ לחצו כדי להתחיל' '🏃 רוצו!' 1m)
-		(phase = 'תפריט') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'תפריט') ? Music(Track(theme כלינגינה: Instrument.bell) קֶצֶב: 72beats/min) Music(Track(theme כלינגינה: Instrument.synth) קֶצֶב: 132beats/min)
 	])\
 
 שני השירים הם אותם שמונה מספרים. רק הכלי והקצב משתנים, וזה כבר נשמע כמו יצירה אחרת — כי דרגות אומרות *איזה שלב בסולם*, ולא איזה גובה צליל, כך ש @Music  יכול לפרש אותן מחדש. תנו לו \קנהמידה: 🎼.מינורהרמוני\ ואותו הלחן הופך למאיים בלי לכתוב מחדש אף תו.
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('תווים \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] כלינגינה: Instrument.drums) קֶצֶב: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 לחצו מספיק פעמים והתופים דוחפים חזק פי שניים מכפי שהתחילו. תו קצר והולם הוא מה שגורם לזה להישמע — מתחת לתווים ארוכים ומוחזקים קשה להרגיש שינוי בקצב.

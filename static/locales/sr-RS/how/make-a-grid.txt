@@ -18,10 +18,10 @@
 Ако желите да свака ћелија буде исте величине, дајте @Grid ширину и висину такође. На тај начин ликови остају уредно унутар својих квадрата, чак и ако су различитих величина:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' величина: 1m)
+		Phrase('🐶' величина: 1.5m)
+		Phrase('🦊' величина: 0.5m)
+		Phrase('🐻' величина: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

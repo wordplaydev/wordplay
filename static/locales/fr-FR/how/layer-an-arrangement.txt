@@ -7,7 +7,7 @@ Comme les degrés sont des pas d'une gamme et non des notes fixes, toute une lig
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
 		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune instrument: Instrument.synthBass clé: -12semitones volume: 60%)
 	])\
 
 Deux voix, une seule liste. Modifie la mélodie et la basse la suit, car il n'y a qu'une seule mélodie à modifier.
@@ -16,10 +16,10 @@ Maintenant, complète autour d'elle. Les accords veulent leur propre rythme plut
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune instrument: Instrument.flute balance: 0)
+		Track(tune instrument: Instrument.synthBass clé: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad battement: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums battement: 0.5beats volume: 45%)
 	])\
 
 Observe les volumes : seule la flûte est au maximum. Des parties au volume maximum ne donnent pas un groupe plus fort, elles donnent un groupe plus confus, car tout ce qui sonne en même temps doit passer par le même haut-parleur. Commence la mélodie à \100%\ et place tout le reste en dessous.

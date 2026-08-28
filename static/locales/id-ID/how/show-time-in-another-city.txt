@@ -12,6 +12,6 @@ Tidak tahu nama zona waktunya? Cukup tulis kota yang kamu kenal — @wordplay ak
 
 Kamu juga bisa memilih sebuah kalender, seperti kalender Jepang, dan menata jam dengan sebuah font:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' menghadapi: 'Doto')\
 
 count-with-time

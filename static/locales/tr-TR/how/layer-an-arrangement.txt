@@ -6,8 +6,8 @@ Dereceler sabit sesler değil, bir gamın adımları olduğu için, tüm bir bas
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune çalgı: Instrument.flute)
+		Track(tune çalgı: Instrument.synthBass anahtar: -12semitones sesDüzeyi: 60%)
 	])\
 
 İki ses, tek bir liste. Ezgiyi düzenle, bas onu takip etsin; çünkü düzenlenecek yalnızca tek bir ezgi var.
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune çalgı: Instrument.flute kaydırma: 0)
+		Track(tune çalgı: Instrument.synthBass anahtar: -12semitones sesDüzeyi: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] çalgı: Instrument.synthPad vuruş: 2beats sesDüzeyi: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] çalgı: Instrument.drums vuruş: 0.5beats sesDüzeyi: 45%)
 	])\
 
 Ses düzeylerine dikkat et: yalnızca flüt tam sesle çalıyor. Tam sesle çalan parçalar daha gür bir grup oluşturmaz, daha bulanık bir grup oluşturur; çünkü aynı anda çalan her şey aynı hoparlörden geçmek zorundadır. Ezgiyi \100%\ ile başlat ve her şeyi onun altına yerleştir.

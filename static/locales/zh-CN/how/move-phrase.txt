@@ -6,8 +6,8 @@
 
 \
 Stage(
-	[Phrase('move me' place: Placement())]
-	place: Place(0m 0m -10m)
+	[Phrase('move me' 位置: Placement())]
+	位置: Place(0m 0m -10m)
 )
 \
 
@@ -18,10 +18,10 @@ Stage(
 我们来试试看：给一个 @Stage 的 @Place 设置一个 @Placement，然后看看会发生什么。
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' 位置: Place(-2m 2m))
+		Phrase('🐈' 位置: Place(2m -2m))
+		Phrase('🐈' 位置: Place(-1m 3m))
+	] 位置: Placement(Place(0m 0m -10m)))\
 
 这会让相机移动！（注意：我们把 @Placement 的 \z\ 值从 \10m\ 开始，这样相机会往后退一些，离所有东西更远。）
 animated-scene

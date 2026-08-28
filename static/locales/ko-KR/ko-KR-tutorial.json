@@ -4616,7 +4616,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~아시다시피 @Bind @Evaluate 포함한 다른 많은 캐릭터와 함께 작동합니다. \\Pose(color: _)\\처럼 @FunctionDefinition 입력에 이름을 지정할 때 본 적이 있을 겁니다. 그리고 우리는 이 중 몇몇 다른 사람들을 만날 것입니다. @Bind, 데모를 보러 오실 수 있나요?"
+                            "$~아시다시피 @Bind @Evaluate 포함한 다른 많은 캐릭터와 함께 작동합니다. \\Pose(색상: _)\\처럼 @FunctionDefinition 입력에 이름을 지정할 때 본 적이 있을 겁니다. 그리고 우리는 이 중 몇몇 다른 사람들을 만날 것입니다. @Bind, 데모를 보러 오실 수 있나요?"
                         ],
                         [
                             "Bind",

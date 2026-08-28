@@ -7,9 +7,9 @@ Parfois, nous voulons que les textes soient alignés les uns à côté des autre
 UN  @Row Il est également possible d'aligner les caractères par leurs bords supérieur, médian ou inférieur, et d'ajouter un espace entre eux.Voici le même fruit, mais aligné en bas avec un peu d'espace :
 
 \Group(Row('>' 0.5m) [
-		Phrase('🍎' size: 2m)
-		Phrase('🍌' size: 1m)
-		Phrase('🍇' size: 3m)
+		Phrase('🍎' taille: 2m)
+		Phrase('🍌' taille: 1m)
+		Phrase('🍇' taille: 3m)
 	])\
 
 Le \'>'\raconte @Row aligner le tout le long de son bord inférieur. Essayez\'<'\pour le haut ou\'|'\pour le milieu.Le \0.5m\est l'espace entre chaque caractère.

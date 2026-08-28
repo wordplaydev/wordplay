@@ -4,17 +4,17 @@
 
 ਇਹ ਕਰੋ, ਅਸੀਂ ਜੋੜ ਸਕਦੇ ਹਾਂ @Phrase ਨਾਲ @Placement :
 
-\Stage([Phrase('ਮੈਨੂੰ ਹਿਲਾਓ' place: Placement())] place: Place(0m 0m -10m))\
+\Stage([Phrase('ਮੈਨੂੰ ਹਿਲਾਓ' ਸਥਾਨ: Placement())] ਸਥਾਨ: Place(0m 0m -10m))\
 
 ਕੀਬੋਰਡ ਤੀਰਾਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਜਾਂ 'ਤੇ ਕਲਿੱਕ ਕਰਕੇ @Stage ਨੂੰ ਅੱਪਡੇਟ ਕਰੇਗਾ @Placement , ਜਿਸ ਕਾਰਨ @Phrase ਉਸ ਦਿਸ਼ਾ ਵਿੱਚ ਵਧਣ ਲਈ।
 
 ਕੀ ਤੁਹਾਨੂੰ ਪਤਾ ਸੀ, ਪਰ, ਕਿ @Placement ਨਾਲ ਵਰਤਿਆ ਜਾ ਸਕਦਾ ਹੈ/ਕੁਝ ਵੀ/ਇਸ ਲਈ ਇੱਕ @Place ?ਉਦਾਹਰਣ ਵਜੋਂ ਇੱਕ @Stage ਕੋਲ ਇੱਕ ਹੈ @Place ਇਹ ਨਿਰਧਾਰਤ ਕਰਦਾ ਹੈ ਕਿ ਇਸਦਾ ਕੈਮਰਾ ਕਿੱਥੇ ਇਸ਼ਾਰਾ ਕਰ ਰਿਹਾ ਹੈ।ਆਓ ਸੈੱਟ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੀਏ @Placement ਲਈ ਇੱਕ @Stage ਦੀ ਜਗ੍ਹਾ, ਅਤੇ ਦੇਖੋ ਕੀ ਹੁੰਦਾ ਹੈ।
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' ਸਥਾਨ: Place(-2m 2m))
+		Phrase('🐈' ਸਥਾਨ: Place(2m -2m))
+		Phrase('🐈' ਸਥਾਨ: Place(-1m 3m))
+	] ਸਥਾਨ: Placement(Place(0m 0m -10m)))\
 
 ਇਸ ਨਾਲ ਕੈਮਰਾ ਹਿੱਲ ਜਾਂਦਾ ਹੈ! (ਨੋਟ: ਅਸੀਂ ਸ਼ੁਰੂ ਕਰਦੇ ਹਾਂ @Placement ਨਾਲ ਇੱਕ\z\ਦਾ ਮੁੱਲ\10m\ਤਾਂ ਜੋ ਕੈਮਰਾ ਹਰ ਚੀਜ਼ ਤੋਂ ਪਿੱਛੇ ਹਟ ਜਾਵੇ।)
 

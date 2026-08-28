@@ -7,11 +7,11 @@
 \Scene([
 		Phrase('點擊我')
 		Button()
-		Phrase('再次點擊我' duration: 1s)
+		Phrase('再次點擊我' 持續時間: 1s)
 		Button()
-		Phrase('不，真的，用盡全力點擊我！ ！' duration: 1s)
+		Phrase('不，真的，用盡全力點擊我！ ！' 持續時間: 1s)
 		Button()
-		Phrase('你點擊我了嗎？' duration: 1s)
+		Phrase('你點擊我了嗎？' 持續時間: 1s)
 	])\
 
 這 @Scene 顯示第一個 @Phrase ，然後等待 @Button 是真的，一旦是真的，它就會進入下一個 @Phrase 。
@@ -21,11 +21,11 @@
 \Scene([
 		Phrase('有人在嗎？')
 		Volume() > .5
-		Phrase("我聽不見，再說一次？" duration: 1s)
+		Phrase("我聽不見，再說一次？" 持續時間: 1s)
 		Volume() > .7
-		Phrase('請大聲點...' duration: 1s)
+		Phrase('請大聲點...' 持續時間: 1s)
 		Volume() > .9
-		Phrase('噢，嗨！' duration: 1s)
+		Phrase('噢，嗨！' 持續時間: 1s)
 	])\
 
 animated-scene

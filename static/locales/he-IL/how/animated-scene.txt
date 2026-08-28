@@ -6,9 +6,9 @@
 
 \
 Scene([
-  Phrase('Jack be nimble' duration: 1s)
-  Phrase('Jack be quick' duration: 1s)
-  Phrase('Jack jump over the candle stick' duration: 1s)
+  Phrase('Jack be nimble' מֶשֶׁך: 1s)
+  Phrase('Jack be quick' מֶשֶׁך: 1s)
+  Phrase('Jack jump over the candle stick' מֶשֶׁך: 1s)
 ])
 \
 
@@ -16,9 +16,9 @@ Scene([
 
 \
 Scene([
-		Phrase('Jack be nimble' duration: 1s)
-		Phrase('Jack be quick' duration: 1s)
-		Phrase('Jack jump over the candle stick' entering: Sequence.bounce(duration: 1s))
+		Phrase('Jack be nimble' מֶשֶׁך: 1s)
+		Phrase('Jack be quick' מֶשֶׁך: 1s)
+		Phrase('Jack jump over the candle stick' כניסה: Sequence.bounce(מֶשֶׁך: 1s))
 	])
 \
 
@@ -29,8 +29,8 @@ Scene([
 		Group(Stack() [
       Phrase('Jack be nimble')
 		  Phrase('Jack be quick')
-    ] duration: 2s)
-		Phrase('Jack jump over the candle stick' entering: Sequence.bounce(duration: 1s))
+    ] מֶשֶׁך: 2s)
+		Phrase('Jack jump over the candle stick' כניסה: Sequence.bounce(מֶשֶׁך: 1s))
 	])
 \
 

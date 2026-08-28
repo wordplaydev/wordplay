@@ -4,7 +4,7 @@ Uneori vrei o mulțime de personaje care arată aproape la fel, dar cu mici dife
 
 O  @Structure  e ca o rețetă cu spații libere de completat.Iată un șablon de balon care are o culoare și o etichetă și știe cum să se afișeze singur:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` culoare: color dimensiune: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Cer').show()

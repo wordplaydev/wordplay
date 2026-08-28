@@ -18,10 +18,10 @@
 إذا كنت تريد أن تكون جميع الخلايا بنفس الحجم، فقم بـ @Grid يجب أن يكون لها عرض وارتفاع أيضًا. وبهذه الطريقة، تبقى الأحرف مرتبة داخل مربعاتها، حتى لو كانت بأحجام مختلفة:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' حجم: 1m)
+		Phrase('🐶' حجم: 1.5m)
+		Phrase('🦊' حجم: 0.5m)
+		Phrase('🐻' حجم: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

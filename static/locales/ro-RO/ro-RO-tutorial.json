@@ -4628,7 +4628,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Știi, @Bind funcționează cu o mulțime de alte caractere, inclusiv @Evaluate — le-ai văzut când ai denumit o intrare @FunctionDefinition, ca în \\Pose(color: _)\\ — și vom cunoaște câțiva dintre acești oameni. @Bind, vei fi prin preajmă la demonstrație?"
+                            "$~Știi, @Bind funcționează cu o mulțime de alte caractere, inclusiv @Evaluate — le-ai văzut când ai denumit o intrare @FunctionDefinition, ca în \\Pose(culoare: _)\\ — și vom cunoaște câțiva dintre acești oameni. @Bind, vei fi prin preajmă la demonstrație?"
                         ],
                         [
                             "Bind",

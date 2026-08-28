@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 点我' selectable: ⊤ name: '点击')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 点我' 可选择的: ⊤ 名字: '点击')
+		Music(Track(tapped ? [1 5 8] [] 乐器: Instrument.bell 循环: ⊥) 重播: tapped)
 	])\
 
 不用担心列表在下一次计算时又变空了——已经开始的音符总会播放到结束。你不能省略的是 \replay\。点两下，第二次点击产生的音乐和第一次完全一样，所以什么都没变，也不会再发出声音；\replay\ 就是你用来表达 /现在，再来一次/ 的方式。 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ 按一个键' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] 乐器: Instrument.piano 循环: ⊥) 重播: struck)
 	])\
 
 请注意 \∆ key\ 是在它自己的那一行算出来的，而值的判断 \key = ' '\ 是单独进行的。如果把它们写在一起当作一个条件，声音就会在下一个无关的按键时再次触发，而当 \key\ 仍然读作空格。

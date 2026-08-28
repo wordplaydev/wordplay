@@ -6,8 +6,8 @@
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune વાદ્ય: Instrument.flute)
+		Track(tune વાદ્ય: Instrument.synthBass ચાવી: -12semitones અવાજ: 60%)
 	])\
 
 બે અવાજ, એક યાદી. ધૂનમાં ફેરફાર કરો અને બેસ તેને અનુસરે છે, કારણ કે ફેરફાર કરવા માટે માત્ર એક જ ધૂન છે.
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune વાદ્ય: Instrument.flute પૅન: 0)
+		Track(tune વાદ્ય: Instrument.synthBass ચાવી: -12semitones અવાજ: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] વાદ્ય: Instrument.synthPad તાલ: 2beats અવાજ: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] વાદ્ય: Instrument.drums તાલ: 0.5beats અવાજ: 45%)
 	])\
 
 અવાજની માત્રા જુઓ: માત્ર વાંસળી પૂરી છે. પૂરી માત્રા પરના ભાગો મળીને મોટા અવાજનું બેન્ડ બનતું નથી, તે એક ગૂંચવાડાભર્યું બેન્ડ બનાવે છે, કારણ કે એકસાથે વાગતું બધું એક જ સ્પીકરમાંથી પસાર થવું પડે છે. ધૂનને \100%\ પર શરૂ કરો અને બાકીનું બધું તેની નીચે ગોઠવો.

@@ -9,16 +9,16 @@ Stage(
 	[
 		Phrase(
 			'🏀'
-			entering: Sequence(
+			entrando: Sequence(
 				{
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
+					0%: Pose(desplazamiento: Place(y: 0.25m))
+					25%: Pose(desplazamiento: Place(y: 0m))
+					50%: Pose(desplazamiento: Place(y: -0.25m))
+					75%: Pose(desplazamiento: Place(y: 0m))
+					100%: Pose(desplazamiento: Place(y: 0.25m))
 				}
-				count: 2x
-				duration: 2s
+				cuenta: 2x
+				duración: 2s
 			)
 		)
 	]

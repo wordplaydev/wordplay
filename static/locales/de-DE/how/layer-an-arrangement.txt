@@ -6,8 +6,8 @@ Weil Tonstufen Schritte einer Tonleiter sind und keine festen Töne, kann eine g
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune Instrument: Instrument.flute)
+		Track(tune Instrument: Instrument.synthBass Tonart: -12semitones Lautstärke: 60%)
 	])\
 
 Zwei Stimmen, eine Liste. Ändere die Melodie, und der Bass folgt ihr, weil es nur eine Melodie zum Ändern gibt.
@@ -16,10 +16,10 @@ Jetzt fülle das Umfeld aus. Akkorde wollen ihren eigenen Rhythmus statt den der
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune Instrument: Instrument.flute Balance: 0)
+		Track(tune Instrument: Instrument.synthBass Tonart: -12semitones Lautstärke: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] Instrument: Instrument.synthPad Schlag: 2beats Lautstärke: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] Instrument: Instrument.drums Schlag: 0.5beats Lautstärke: 45%)
 	])\
 
 Achte auf die Lautstärken: Nur die Flöte ist auf voller Stärke. Teile mit voller Lautstärke ergeben keine lautere Band, sondern eine matschigere, weil alles gleichzeitig durch denselben Lautsprecher passen muss. Beginne die Melodie bei \100%\ und lege alles andere darunter.

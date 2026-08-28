@@ -4,7 +4,7 @@
 
 একটি  @Structure  এটা অনেকটা এমন একটা রান্নার রেসিপির মতো, যেখানে কিছু ফাঁকা জায়গা পূরণ করতে হয়।এখানে একটি বেলুন টেমপ্লেট রয়েছে যা একটি রঙ ও একটি লেবেল গ্রহণ করে এবং নিজেকে প্রদর্শন করতে জানে:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` রঙ: color আকার: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'আকাশ').show()

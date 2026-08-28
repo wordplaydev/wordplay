@@ -6,8 +6,8 @@
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune 樂器: Instrument.flute)
+		Track(tune 樂器: Instrument.synthBass 調: -12semitones 音量: 60%)
 	])\
 
 兩個聲部，一份清單。編輯旋律，低音就跟著改變，因為只有一段旋律可以編輯。
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune 樂器: Instrument.flute 聲道平衡: 0)
+		Track(tune 樂器: Instrument.synthBass 調: -12semitones 音量: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] 樂器: Instrument.synthPad 節拍: 2beats 音量: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] 樂器: Instrument.drums 節拍: 0.5beats 音量: 45%)
 	])\
 
 注意音量：只有長笛開到最大。所有部份都用最大音量，並不會讓樂團變得更響亮，只會讓它變得更混濁，因為所有同時發出的聲音都得從同一個喇叭裡擠出來。讓旋律從 \100%\ 開始，把其他所有部份都藏在它下面。

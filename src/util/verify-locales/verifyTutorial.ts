@@ -22,6 +22,7 @@ import {
 } from '@util/verify-locales/contentCategories';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import { retargetTutorialExamples } from '@util/verify-locales/retargetExampleNames';
 import type Log from '@util/verify-locales/Log';
 import TutorialSchema, {
     getDefaultTutorial,
@@ -398,6 +399,15 @@ async function checkTutorial(
     // repair: the fallback below rewrites a link from the English at that index whenever the link
     // counts happen to match, so a correct translation gets replaced with a stranger's concept.
     const counterparts = alignTutorialLines(defaultTutorial, revised);
+    // Bring every dialog example's named inputs back in line with the names this locale
+    // declares. A stored example spells names that live in the locale file, not here, so
+    // re-translating one of those names strands every example that used it (#1323).
+    const exampleNames = retargetTutorialExamples(
+        revised,
+        defaultTutorial,
+        locale,
+        repair,
+    );
     revised.acts.forEach((act, actIndex) =>
         act.scenes.forEach((scene, sceneIndex) =>
             scene.lines.forEach((line, lineIndex) => {
@@ -547,6 +557,21 @@ async function checkTutorial(
             }),
         ),
     );
+
+    if (exampleNames.renamed > 0)
+        log[repair ? 'good' : 'warning'](
+            repair
+                ? `Renamed ${exampleNames.renamed} input(s) in this tutorial's examples to the name this locale declares.`
+                : `${exampleNames.renamed} input(s) in this tutorial's examples don't use the name this locale declares. Run "npm run locales-fix" to retarget them.`,
+        );
+    if (exampleNames.refused > 0)
+        log.warning(
+            `Left ${exampleNames.refused} tutorial example(s) alone: retargeting them would have introduced a conflict.`,
+        );
+    if (exampleNames.divergent > 0)
+        log.warning(
+            `${exampleNames.divergent} tutorial example(s) no longer have the same shape as their en-US source, so their names can't be retargeted.`,
+        );
 
     const pairs = getTranslatableTutorialPairs(revised);
 

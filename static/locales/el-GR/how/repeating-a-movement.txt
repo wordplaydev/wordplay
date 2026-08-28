@@ -5,13 +5,13 @@
 Αντ' αυτού, μπορούμε να χρησιμοποιήσουμε @Sequence με @Phrase για να επαναλάβω κάτι πολλές φορές! Συγκεκριμένα,μπορούμε να χρησιμοποιήσουμε την αρίθμηση σε @Sequence και επιλέξτε πόσες φορές εμφανίζεται ένα σύνολο πόζες. Για παράδειγμα,Εδώ είναι μια μπάλα του μπάσκετ που αναπηδά πάνω-κάτω δύο φορές.
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' μπαίνοντας: Sequence({
+					0%: Pose(όφσετ: Place(y: 0.25m))
+					25%: Pose(όφσετ: Place(y: 0m))
+					50%: Pose(όφσετ: Place(y: -0.25m))
+					75%: Pose(όφσετ: Place(y: 0m))
+					100%: Pose(όφσετ: Place(y: 0.25m))
+				} κόμης: 2x διάρκεια: 2s))
 	])\
 
 animate-phrase, shake-phrase

@@ -4231,7 +4231,7 @@
                 "/klicka, tryck!/",
                 "Så det bästa sättet att använda det är att skapa en föreställning med namngivna, valbara fraser @Phrase , och sedan använda en @Reaction för att bestämma vad som ska göras när det namnet är valt.",
                 "Här är det enklaste exemplet:",
-                "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Group(\nStack() \n[\nPhrase('one' valbara:⊤ namn:'1') \nPhrase('two' valbara:⊤ namn:'2') \nPhrase(Choice())\n]\n)\\",
                 "Kopiera detta till redigeraren och välj sedan en av de två @Phrase . Du kommer att se att den tredje @Phrase visar namnet som valdes."
             ],
             "names": ["$~Val"]
@@ -4396,7 +4396,7 @@
                 "/bzzzzzzzz/",
                 "Den @List representerar i huvudsak en bild, men det är upp till dig att bestämma vad du ska göra med den.",
                 "Du kan försöka representera bilden med en massa @Phrase , vilket skulle kunna se ganska coolt ut! Försök att kopiera det här...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' plats: Place((x - 1) × 0.5m y × -0.5m) färg: color varaktighet: 0s\n)\n)\n)\n)\n)\\",
                 "Men man kunde också analysera färgerna för att avgöra om ett ljus var tänt eller släckt, eller om en viss färg var vanlig, och låta publiken påverka en föreställning med de färger de visar."
             ],
             "names": ["$~Kamera"],
@@ -4419,13 +4419,13 @@
                 "/Bopp boop boop/",
                 "För att kontrollera timingen kan du antingen ställa in @Phrase.duration på varje utgång, så visas den så länge innan den går vidare till nästa, och använda de @Phrase.entering eller @Phrase.exiting övergångar du eventuellt har ställt in. Om du ställer in dem till en @Sequence kommer den att använda dess varaktighet.",
                 "Allt detta låter dig göra saker som den här lilla @Scene , som visar dessa tre fraser i följd:",
-                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "\\Scene([\n\tPhrase('Hello' varaktighet: 1s)\n\tPhrase('How are you?' varaktighet: 2s rotation: 5° gårin: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
                 "Ser du hur den första utgången visas i en sekund, sedan nästa i två sekunder, men animerad till en femgraders rotation, och sedan visar den den sista?",
                 "Du kan skapa mycket avancerade sekvenser av utdata och animationer med @Scene , och till och med göra delar av dem dynamiska eller interaktiva, precis som med vilken annan @Phrase eller @Group som helst.",
                 "Om du har animerad utdata som är kapslad (en @Group med animerad @Phrase inuti), kommer @Scene att vänta tills allt animerat innehåll i @Group är klart.",
                 "Och en sista liten hemlighet! Du kan till och med lägga till @Boolean i listan, och om de är \\⊥\\ kommer @Scene att pausa och vänta på att det ska bli sant.",
                 "Om du till exempel vill skapa en sekvens av @Phrase och bara gå vidare när @Button ändras, kan du göra så här:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' varaktighet: 0.25s rotation: 5° gårin: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Ser du hur den pausar efter varje @Phrase och väntar på att @Button ska ändras innan den går vidare?"
             ],
             "names": ["$~Scen"],
@@ -4477,7 +4477,7 @@
                 "Det finns många sätt att placera @Output på @Stage: ge dem en tydlig @Place, använd @Motion och låt gravitationen göra jobbet, eller lägg dem i en @Group för att ordnas.",
                 "Men ibland vill du ge /publiken/ kontroll över var @Output hamnar på @Stage.",
                 "Så här fungerar det: skapa en @Placement och ge den till en @Output @Place:",
-                "\\Fras('hej' place: Placering())\\",
+                "\\Fras('hej' plats: Placering())\\",
                 "Sedan, varje gång publiken använder en piltangent @key eller klickar eller trycker på scenen, kommer @Placement att skapa en ny @Place som rör sig i önskad riktning.",
                 "Pröva att kopiera detta till ditt program och flytta @Output med pekaren eller tangentbordet.",
                 "Du kan anpassa @Placement, slå på och av rörelse i vissa riktningar, ändra hur långt en @Place rör sig, och den första @Place som strömmen börjar med."
@@ -4592,7 +4592,7 @@
                 "\\Tal()\\",
                 "Det här är perfekt för dem som kan tala ett @language men fortfarande lär sig att läsa eller skriva det (och mer)...",
                 "Du kan ange en språkkod för att känna igen tal på ett visst språk:",
-                "\\Tal(language: 'es-MX')\\",
+                "\\Tal(språk: 'es-MX')\\",
                 "Om inget språk anges används ditt föredragna språk.",
                 "Taligenkänning kräver tillgång till mikrofon och internetanslutning (ge tillgång, tack!). Det kan också finnas användningsgränser, så låt den inte vara på för länge (neeej)!"
             ],
@@ -4645,7 +4645,7 @@
                 "Ge den lite text och ett teckensnitt, så kommer den att spåra varje teckens kontur punkt för punkt.",
                 "\\Contour('a' \"Noto Sans\")\\",
                 "Mata in dessa @Place -värden till en @List med @Phrase för att se konturen ritad som punkter:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' plats: point)))\\",
                 "Du kan skala konturen med ett @Number of meters, flytta dess origo med ett @Place , välja en teckensnittsvikt, aktivera kursiv stil och ställa in `spacing` mellan punkter som ett avstånd i meter. Ett mindre `spacing` följer konturen närmare, med jämnt fördelade punkter längs både linjer och kurvor.",
                 "Vissa tecken, som färgemoji, har ingen kontur, så de lägger inte till några punkter. Medan den hämtar teckensnittet ger den dig en tom @List och fyller sedan i den när den är klar."
             ],
@@ -4723,11 +4723,11 @@
                 "Alla mina egenskaper är valfria. Ge mig datumdelar för att beskriva ett datum:",
                 "\\📅(2026 7 1) → ''\\",
                 "Eller bara tidsdelar, för en tid på dygnet:",
-                "\\📅(hour: 15 minute: 30) → ''\\",
-                "Om du inte ger mig några delar alls, omvandlar jag till aktuellt datum och tid, där programmet än körs. Om du utelämnar delar, kommer varje del som är större än den största du gav från aktuellt datum och tid, och mindre delar börjar från sin början: så \\📅(month: 12) → ''\\ är 1 december i år, vid midnatt. När jag omvandlas visas bara de sorters delar du gav: datumdelar ger ett datum, tidsdelar ger en tid, och båda ger båda:",
+                "\\📅(timme: 15 minut: 30) → ''\\",
+                "Om du inte ger mig några delar alls, omvandlar jag till aktuellt datum och tid, där programmet än körs. Om du utelämnar delar, kommer varje del som är större än den största du gav från aktuellt datum och tid, och mindre delar börjar från sin början: så \\📅(månad: 12) → ''\\ är 1 december i år, vid midnatt. När jag omvandlas visas bara de sorters delar du gav: datumdelar ger ett datum, tidsdelar ger en tid, och båda ger båda:",
                 "\\📅() → ''\\",
                 "Min @Moment.timezone tar ett standardnamn för tidszon enligt IANA, som \\'America/Los_Angeles'\\ eller \\'Asien/Tokyo'\\; om du lämnar den \\ø\\, använder jag tidszonen på enheten där programmet körs. Min @Moment.calendar tar ett Unicode-kalendernamn som \\'gregory'\\, \\'hebreiska'\\, eller \\'japanska'\\; om du lämnar den \\ø\\, använder jag kalendern för läsarens språkinställning. Min @Moment.year, @Moment.month och @Moment.day är i den kalendern:",
-                "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "\\📅(5786 10 4 kalender: 'hebrew') → ''\\",
                 "När jag omvandlas till @Text formateras jag för läsarens språkinställning: samma Moment visas olika på engelska, 中文 eller हिन्दी, och ändras när läsarens språkinställning ändras.",
                 "Min @Moment.era, @Moment.week och @Moment.weekday är informativa: @Now fyller i dem när den skapar Moment, men de ignoreras vid formatering.",
                 "Om du vill ha en ström av Moment som uppdateras när tiden går — en klocka — se @Now. Om du vill ha antalet millisekunder som gått sedan ditt program startade — för animering — se @Time."
@@ -4797,7 +4797,7 @@
                 "Bakom kulisserna använder @Face en maskininlärningsmodell. Första gången du använder den i ett program tar modellen några sekunder att ladda ner, och ett litet snurrande ansikte syns i övre högra hörnet av scenen medan den laddas. Efter det ligger den kvar i cacheminnet och startar direkt.",
                 "För varje bildruta ger @Face dig ett @Expression. Titta där för hela listan med indata och vad de betyder.",
                 "Detta exempel visar en emoji som matchar ditt ansikte var ditt riktiga ansikte än är:",
-                "\\ansikte: 🙂()\n💬((ansikte.leende ? '😀' ansikte.munÖppen ? '😮' '😐') place: ansikte.plats)\\"
+                "\\ansikte: 🙂()\n💬((ansikte.leende ? '😀' ansikte.munÖppen ? '😮' '😐') plats: ansikte.plats)\\"
             ],
             "names": ["$~Ansikte"],
             "frequency": {
@@ -4818,9 +4818,9 @@
                 "För varje bildruta ger @Objects dig en @List av @Thing, sorterad efter hur säker modellen är, med den säkraste först. Titta på @Thing för att se vad var och en berättar för dig.",
                 "Modellen gissar bara, så ibland har den fel eller ser ingenting alls. Be om en högre `confidence` för att bara höra de gissningar den är säkrast på.",
                 "Här är ett exempel som märker allt kameran ser:",
-                "\\🎭(📦() ↦ 💬(⬚.namn place: ⬚.plats))\\",
+                "\\🎭(📦() ↦ 💬(⬚.namn plats: ⬚.plats))\\",
                 "Du kan också leta efter bara en sorts sak och strunta i resten:",
-                "\\saker: 📦(category: 'cat')\n💬(saker.📏() > 0 ? '🐈' '…')\\"
+                "\\saker: 📦(kategori: 'cat')\n💬(saker.📏() > 0 ? '🐈' '…')\\"
             ],
             "names": ["$~Objekt"],
             "inputs": [
@@ -4935,7 +4935,7 @@
                 "Här turas tre spår om, så ett olika antal instrument låter på varje taktslag — och diamanten växer med hur många som spelar:",
                 "\\slag: Takt()\n🎭([\n\t\t💬('◆' ((slag.instrument.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Ge mig ett @Music-namn så hör jag bara den musiken. Två taktslag lyssnar nedan, på samma två musiker: det övre hör allt, så det växlar mellan båda namnen när varje musik når ett taktslag, och det nedre hör bara trumman och säger aldrig något annat. Den skillnaden är filtret.",
-                "\\allt: Takt()\nbaraTrumman: Takt('tick')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(allt.namn 1.4m)\n\t\t\t\t💬(baraTrumman.namn 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tick')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'klang')\n\t])\\",
+                "\\allt: Takt()\nbaraTrumman: Takt('tick')\n🎭([\n\t\t🔳(\n\t\t\t⬇(stoppning: 0.5m)\n\t\t\t[\n\t\t\t\t💬(allt.namn 1.4m)\n\t\t\t\t💬(baraTrumman.namn 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min namn: 'tick')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min namn: 'klang')\n\t])\\",
                 "Vad jag än styr sker /utöver/ den återgivning som betraktaren har valt; du lägger till den, du ersätter den aldrig."
             ],
             "name": {
@@ -5727,7 +5727,7 @@
                 "sway": {
                     "doc": [
                         "$~Jag lutar fram och tillbaka runt mitten av en @Output, som något som hänger i en lätt bris. Jag är en bra viloanimation, eftersom en liten /angle/ ser \"levande\" ut utan att dra till sig uppmärksamhet.",
-                        "\\💬('🐈' resting: 💃.vingla(10°))\\"
+                        "\\💬('🐈' vilande: 💃.vingla(10°))\\"
                     ],
                     "names": ["$~vingla"],
                     "angle": {
@@ -5738,7 +5738,7 @@
                 "bounce": {
                     "doc": [
                         "$~Jag hoppar upp en @Output till /height/ och låter den landa, och den klämmer ihop sig lite på väg upp och ner. Ge mig en @Phrase som just kom, så får jag den att kännas som att den har tyngd.",
-                        "\\💬('🐈' resting: 💃.studsa(3m))\\"
+                        "\\💬('🐈' vilande: 💃.studsa(3m))\\"
                     ],
                     "names": ["$~studsa"],
                     "height": {
@@ -5749,42 +5749,42 @@
                 "spin": {
                     "doc": [
                         "$~Jag snurrar en @Output hela varvet runt sin mitt, från 360° tillbaka till 0°. Sätt mig som en viloanimation, så fortsätter jag snurra för alltid.",
-                        "\\💬('🐈' resting: 💃.snurra(2s))\\"
+                        "\\💬('🐈' vilande: 💃.snurra(2s))\\"
                     ],
                     "names": ["$~snurra"]
                 },
                 "fadein": {
                     "doc": [
                         "$~Jag tar en @Output från osynlig till helt synlig. Jag är gjord för /entering/, när något kommer in på scenen.",
-                        "\\💬('🐈' entering: 💃.blekna(1s))\\"
+                        "\\💬('🐈' gårin: 💃.blekna(1s))\\"
                     ],
                     "names": ["$~blekna"]
                 },
                 "fadeout": {
                     "doc": [
                         "$~Jag tar en @Output från helt synlig till osynlig. Jag är gjord för /exiting/, när något lämnar scenen.",
-                        "\\💬('🐈' exiting: 💃.tonaut(duration: 1s))\\"
+                        "\\💬('🐈' avslutar: 💃.tonaut(varaktighet: 1s))\\"
                     ],
                     "names": ["$~tonaut"]
                 },
                 "popup": {
                     "doc": [
                         "$~Jag växer en @Output från ingenting, går förbi dess riktiga storlek och lägger mig sedan tillbaka. Den lilla översvängen gör att en ankomst känns lekfull i stället för mekanisk.",
-                        "\\💬('🐈' entering: 💃.popup(0.5s))\\"
+                        "\\💬('🐈' gårin: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
                         "$~Jag rycker en @Output fram och tillbaka i flera riktningar. Jag läses som \"nej\", eller som något som skallrar. Jag rör mig snabbt, så håll mig kort.",
-                        "\\💬('🐈' resting: 💃.skaka(0.5s count: 3x))\\"
+                        "\\💬('🐈' vilande: 💃.skaka(0.5s räkna: 3x))\\"
                     ],
                     "names": ["$~skaka"]
                 },
                 "pulse": {
                     "doc": [
                         "$~Jag skalar upp en @Output till /amount/ och tillbaka ner, en gång. Jag är det tystaste sättet att säga \"titta här\" utan att flytta något ur läge.",
-                        "\\💬('🐈' resting: 💃.puls(1.2))\\"
+                        "\\💬('🐈' vilande: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
                     "amount": {
@@ -5795,7 +5795,7 @@
                 "heartbeat": {
                     "doc": [
                         "$~Jag ger två snabba skalslag och vilar sedan, i takt med ett hjärtslag. Jag är mer brådskande än /pulse/ hos @Sequence och mer organisk än /flash/.",
-                        "\\💬('🐈' resting: 💃.hjärtslag(1.4 1s))\\"
+                        "\\💬('🐈' vilande: 💃.hjärtslag(1.4 1s))\\"
                     ],
                     "names": ["$~hjärtslag"],
                     "amount": {
@@ -5806,7 +5806,7 @@
                 "tada": {
                     "doc": [
                         "$~Jag firar: en liten krympning, sedan en skalning upp med ett vickande fram och tillbaka. Jag är till för att vinna, avsluta och lyckas.",
-                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                        "\\💬('🐈' vilande: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
@@ -5817,7 +5817,7 @@
                 "wiggle": {
                     "doc": [
                         "$~Jag glider en @Output från sida till sida medan jag lutar den, och varje sväng blir mindre än den förra. Jag är en skakning med lite mer personlighet.",
-                        "\\💬('🐈' resting: 💃.vicka(8°))\\"
+                        "\\💬('🐈' vilande: 💃.vicka(8°))\\"
                     ],
                     "names": ["$~vicka"],
                     "angle": {
@@ -5829,21 +5829,21 @@
                     "doc": [
                         "$~Jag blinkar en @Output mellan synlig och osynlig två gånger, och tonar bort medan jag gör det. Jag är svår att missa — vilket också betyder att jag är svår att ignorera, så använd mig sparsamt.",
                         "Jag blinkar snabbt, så en tittare som är känslig för blinkningar kan tycka att jag är obehaglig. Sakta ner mig med en längre /duration/ om jag ska upprepas.",
-                        "\\💬('🐈' resting: 💃.flash(1s))\\"
+                        "\\💬('🐈' vilande: 💃.flash(1s))\\"
                     ],
                     "names": ["$~flash"]
                 },
                 "zoomin": {
                     "doc": [
                         "$~Jag växer en @Output från ingenting till full storlek. Till skillnad från /popup/ går jag inte förbi målet — jag är den enklare, lugnare ankomsten.",
-                        "\\💬('🐈' entering: 💃.zoomain(0.5s))\\"
+                        "\\💬('🐈' gårin: 💃.zoomain(0.5s))\\"
                     ],
                     "names": ["$~zoomain"]
                 },
                 "fadeinup": {
                     "doc": [
                         "$~Jag tonar in en @Output medan jag glider upp den på plats från /distance/ nedanför.",
-                        "\\💬('🐈' entering: 💃.fadeinup(2m))\\"
+                        "\\💬('🐈' gårin: 💃.fadeinup(2m))\\"
                     ],
                     "names": ["$~fadeinup"],
                     "distance": {
@@ -5854,7 +5854,7 @@
                 "fadeindown": {
                     "doc": [
                         "$~Jag tonar in en @Output medan jag glider ner den på plats från /distance/ ovanför.",
-                        "\\💬('🐈' entering: 💃.fadeindown(2m))\\"
+                        "\\💬('🐈' gårin: 💃.fadeindown(2m))\\"
                     ],
                     "names": ["$~fadeindown"],
                     "distance": {
@@ -5865,7 +5865,7 @@
                 "fadeinleft": {
                     "doc": [
                         "$~Jag tonar in en @Output medan jag glider den åt höger på plats från /distance/ till vänster.",
-                        "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
+                        "\\💬('🐈' gårin: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
@@ -5876,7 +5876,7 @@
                 "fadeinright": {
                     "doc": [
                         "$~Jag tonar in en @Output samtidigt som jag glider den åt vänster till sin plats, från /distance/ åt höger.",
-                        "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
+                        "\\💬('🐈' gårin: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
@@ -5887,7 +5887,7 @@
                 "rotatein": {
                     "doc": [
                         "$~Jag snurrar en @Output till sin plats samtidigt som jag tonar in den. Den börjar vriden med /angle/ och slutar upprätt.",
-                        "\\💬('🐈' entering: 💃.rotera(180°))\\"
+                        "\\💬('🐈' gårin: 💃.rotera(180°))\\"
                     ],
                     "names": ["$~rotera"],
                     "angle": {
@@ -5898,14 +5898,14 @@
                 "zoomout": {
                     "doc": [
                         "$~Jag krymper en @Output från full storlek ner till ingenting.",
-                        "\\💬('🐈' exiting: 💃.zoomaut(0.5s))\\"
+                        "\\💬('🐈' avslutar: 💃.zoomaut(0.5s))\\"
                     ],
                     "names": ["$~zoomaut"]
                 },
                 "fadeoutup": {
                     "doc": [
                         "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ uppåt.",
-                        "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
+                        "\\💬('🐈' avslutar: 💃.fadeoutup(2m))\\"
                     ],
                     "names": ["$~fadeoutup"],
                     "distance": {
@@ -5916,7 +5916,7 @@
                 "fadeoutdown": {
                     "doc": [
                         "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ nedåt.",
-                        "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
+                        "\\💬('🐈' avslutar: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
@@ -5927,7 +5927,7 @@
                 "fadeoutleft": {
                     "doc": [
                         "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ åt vänster.",
-                        "\\💬('🐈' exiting: 💃.tonautvänster(2m))\\"
+                        "\\💬('🐈' avslutar: 💃.tonautvänster(2m))\\"
                     ],
                     "names": ["$~tonautvänster"],
                     "distance": {
@@ -5938,7 +5938,7 @@
                 "fadeoutright": {
                     "doc": [
                         "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ åt höger.",
-                        "\\💬('🐈' exiting: 💃.tonauthöger(2m))\\"
+                        "\\💬('🐈' avslutar: 💃.tonauthöger(2m))\\"
                     ],
                     "names": ["$~tonauthöger"],
                     "distance": {
@@ -5949,7 +5949,7 @@
                 "rotateout": {
                     "doc": [
                         "$~Jag snurrar bort en @Output samtidigt som jag tonar ut den. Den slutar vriden med /angle/.",
-                        "\\💬('🐈' exiting: 💃.roteraut(180°))\\"
+                        "\\💬('🐈' avslutar: 💃.roteraut(180°))\\"
                     ],
                     "names": ["$~roteraut"],
                     "angle": {
@@ -5961,14 +5961,14 @@
                     "doc": [
                         "$~Jag låter en @Output gå igenom alla regnbågens färger och tillbaka till där jag började.",
                         "Jag byter färg snabbt, så någon som är känslig för blinkande kan tycka att jag känns obehaglig. En längre /duration/ gör mig mycket mildare.",
-                        "\\💬('🐈' resting: 💃.regnbåge(3s))\\"
+                        "\\💬('🐈' vilande: 💃.regnbåge(3s))\\"
                     ],
                     "names": ["$~regnbåge"]
                 },
                 "swing": {
                     "doc": [
                         "$~Jag svänger en @Output som en pendel, ut till /angle/ och sedan tillbaka genom mindre och mindre bågar tills den kommer till ro. Till skillnad från /sway/ stannar jag.",
-                        "\\💬('🐈' resting: 💃.gunga(20°))\\"
+                        "\\💬('🐈' vilande: 💃.gunga(20°))\\"
                     ],
                     "names": ["$~gunga"],
                     "angle": {
@@ -5979,14 +5979,14 @@
                 "blink": {
                     "doc": [
                         "$~Jag stänger av en @Output och sätter på den igen utan toning emellan, så som en markör blinkar. /flash/ tonar; jag klipper.",
-                        "\\💬('🐈' resting: 💃.blinka(1s))\\"
+                        "\\💬('🐈' vilande: 💃.blinka(1s))\\"
                     ],
                     "names": ["$~blinka"]
                 },
                 "nod": {
                     "doc": [
                         "$~Jag doppar en @Output ner och upp igen två gånger, som en nick av instämmande. Jag är det mildaste sättet att säga ”ja”.",
-                        "\\💬('🐈' resting: 💃.nicka(0.4m))\\"
+                        "\\💬('🐈' vilande: 💃.nicka(0.4m))\\"
                     ],
                     "names": ["$~nicka"],
                     "distance": {
@@ -5997,7 +5997,7 @@
                 "dim": {
                     "doc": [
                         "$~Jag tonar ner en @Output till /amount/ och tillbaka till full, utan att någonsin dölja den. Jag används för att visa att något väntar eller är inaktivt.",
-                        "\\💬('🐈' resting: 💃.dämpa(20% 2s))\\"
+                        "\\💬('🐈' vilande: 💃.dämpa(20% 2s))\\"
                     ],
                     "names": ["$~dämpa"],
                     "amount": {
@@ -6008,7 +6008,7 @@
                 "slidein": {
                     "doc": [
                         "$~Jag glider en @Output på plats från var du än vill, utan toning. Ge mig en @Place så börjar jag där och slutar i vila, så att en animation täcker varje riktning.",
-                        "\\💬('🐈' entering: 💃.glidin(📍(0m -4m)))\\"
+                        "\\💬('🐈' gårin: 💃.glidin(📍(0m -4m)))\\"
                     ],
                     "names": ["$~glidin"],
                     "from": {
@@ -6019,7 +6019,7 @@
                 "slideout": {
                     "doc": [
                         "$~Jag glider undan en @Output till vart du vill, utan att tona bort. Ge mig en @Place så slutar jag där, så en animation täcker alla riktningar.",
-                        "\\💬('🐈' exiting: 💃.glidut(📍(0m -4m)))\\"
+                        "\\💬('🐈' avslutar: 💃.glidut(📍(0m -4m)))\\"
                     ],
                     "names": ["$~glidut"],
                     "to": {
@@ -6030,7 +6030,7 @@
                 "float": {
                     "doc": [
                         "$~Jag driver en @Output långsamt upp med /distance/ och tillbaka ner. Ge mig en lång /duration/ så får jag något att se viktlöst ut.",
-                        "\\💬('🐈' resting: 💃.sväva(0.5m 3s))\\"
+                        "\\💬('🐈' vilande: 💃.sväva(0.5m 3s))\\"
                     ],
                     "names": ["$~sväva"],
                     "distance": {
@@ -6041,7 +6041,7 @@
                 "drift": {
                     "doc": [
                         "$~Jag driver en @Output långsamt /distance/ åt sidan och tillbaka. Jag är /float/, i sidled.",
-                        "\\💬('🐈' resting: 💃.driva(0.5m 3s))\\"
+                        "\\💬('🐈' vilande: 💃.driva(0.5m 3s))\\"
                     ],
                     "names": ["$~driva"],
                     "distance": {
@@ -6052,7 +6052,7 @@
                 "orbit": {
                     "doc": [
                         "$~Jag bär en @Output runt en cirkel med /radius/, och den återvänder till där den började. Jag är den enda fördefinierade animationen som ritar en bana i stället för att gå fram och tillbaka.",
-                        "\\💬('🐈' resting: 💃.kretslopp(2m 4s))\\"
+                        "\\💬('🐈' vilande: 💃.kretslopp(2m 4s))\\"
                     ],
                     "names": ["$~kretslopp"],
                     "radius": {
@@ -6063,7 +6063,7 @@
                 "glow": {
                     "doc": [
                         "$~Jag lyser upp en @Output mot /color/ och låter den tona tillbaka, som något som värms upp och svalnar. Till skillnad från /rainbow/ håller jag mig i en färgton.",
-                        "\\💬('🐈' resting: 💃.glöd(🌈.orange 2s))\\"
+                        "\\💬('🐈' vilande: 💃.glöd(🌈.orange 2s))\\"
                     ],
                     "names": ["$~glöd"],
                     "color": {
@@ -6169,9 +6169,9 @@
                 "$~JAG VISAR DITT @Output FÖR PUBLIKEN. HEJ. SCEN HÄR. BERÄTTA MIG VAD JAG SKA VISA SÅ VISAR JAG DET.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "OM DU VILL, GE MIG EN BAKGRUND @Color SÅ LJUSAR JAG SCENEN DÄREFTER.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "\\Stage([Phrase('stufffffff')] bakgrund: Color(75% 50 100°))\\",
                 "DU KAN OCKSÅ GE MIG EN RAMKANT SÅ BESKÄR JAG.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+                "\\Stage([Phrase('stufffffff')] bakgrund: Color(75% 50 100°) ram: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["$~Etapp"],
             "content": {
@@ -6497,17 +6497,17 @@
                 "Noter är tal. 1 är den första noten i skalan — den som en melodi låter avslutad på — 2 är nästa not uppåt, och 8 är den första noten igen, en oktav högre. ø är en paus, som är tystnad. Talen fortsätter förbi båda ändarna: 9 är den andra noten en oktav upp, och 0 och -1 stegar under den första.",
                 "En /skala/ är den lilla uppsättning noter som ett stycke byggs av, och vilka noter det är avgör det mesta av stämningen. @Music/scale är \\🎼.dur\\ om du inte säger något annat, vilket låter ljust; \\🎼.moll\\ låter sorgligare av exakt samma tal. En /tonart/ är hur högt eller lågt hela stycket ligger, satt av @Music/key. Och @Music/tempo är hur snabbt det går, i taktslag per minut — ett taktslag är den jämna puls du skulle klappa med till.",
                 "Eftersom noterna är tal och inte fasta tonhöjder kan alla tre ändras utan att röra melodin. Detta är samma tre noter, sorgligare, lägre och långsammare:",
-                "\\🎼(🎶([1 3 5]) scale: 🎼.moll key: -5semitones tempo: 60beats/min)\\",
+                "\\🎼(🎶([1 3 5]) skala: 🎼.moll tonart: -5semitones tempo: 60beats/min)\\",
                 "Ett spår börjar om när det når sitt slut, så en kort lista är en slinga som spelar för alltid. Denna är fyra taktslag lång, med pauser i mellanrummen:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Ge mig en lista med spår så spelar de samtidigt, var och en med sitt eget instrument, sin egen hastighet och sin egen volym. Här håller en bastrumma och en virveltrumma takten medan en hi-hat går i dubbel hastighet — en polyrytm av ett enda tal. Trummor är ett trumset snarare än tonhöjder, så deras tal väljer delar av trumsetet i stället för noter:",
-                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 takt: 0.5beats volym: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
                 "Tal inom klamrar låter tillsammans som ett ackord, och ett notvärde skrivet på ett tal ger den posten sin egen längd. Här håller två helnotsackord under en rörlig melodi:",
-                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volym: 50%)\n\t])\\",
                 "Allt som skapar tal kan skapa musik. Denna melodi blandar om sig själv i en ny ordning, och följer hur högt du talar:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].blandade())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Ingen behöver höra mig. @Beat rapporterar varje taktslag när det låter, så du kan rita musiken lika väl som spela den, tillsammans med vilken visualisering betraktaren än valde. @Beat har alltid ett @Downbeat, så du kan läsa det utan att kolla efter något:",
-                "\\slag: Takt()\nantal: slag.räkna\n🎭([\n\t\t💬('◆' size: 1m + ((antal % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((antal % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "\\slag: Takt()\nantal: slag.räkna\n🎭([\n\t\t💬('◆' storlek: 1m + ((antal % 4) = 0 ? 2m 0m) plats: 📍(-2m 2m))\n\t\t💬('◆' storlek: 1m + ((antal % 4) = 2 ? 2m 0m) plats: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
                 "Jag har inget eget utseende att styla, så jag tar inga av de vanliga utseendeindata — ingen storlek, plats, färg eller animering. Hur jag ser ut är betraktarens val, gjort i deras inställningar, och det är förankrat till scenen snarare än placerat i din layout; jag tar ingen plats, så att sätta mig i en @Row eller en @Stack flyttar aldrig något bredvid mig. För att rita musiken själv, använd @Beat: den ger dig varje taktslag när det låter, för att styra vilken utdata du vill.",
                 "Jag fortsätter spela genom utvärderingar: ändra mina noter medan jag spelar så vävs ändringen in vid nästa taktslag i stället för att starta om, vilket är det som gör att ändra en melodi mitt i spelningen känns musikaliskt. För att spela mig igen från början, se @Music/replay; för att hålla mig stilla och ta upp på samma ställe, se @Music/pause."
             ],
@@ -6526,7 +6526,7 @@
                     "Enheten är halvtoner. En halvton är det minsta steget i västerländsk musik: på ett piano är det avståndet från en tangent till den allra närmaste, räknat med de svarta tangenterna, och tolv av dem bildar en oktav. Så \\nyckel: 12semitones\\🪲 är samma stycke en oktav högre, \\nyckel: -12semitones\\🪲 en oktav lägre, och \\nyckel: 2semitones\\🪲 knuffar det uppåt lite.",
                     "Två räkningar möts här, och de är lätta att blanda ihop. Toner räknar /skalsteg/, där oktaven är \\8\\: från \\1\\ upp till \\8\\ är en oktav. En nyckel räknar /halvtoner/, där oktaven är \\12\\. Båda beskriver samma avstånd — de åtta stegen från \\1\\ till \\8\\ i en sjutonsskala spänner över tolv halvtoner. En nyckel mäts i halvtoner eftersom en halvton är lika stor i varje skala, medan ett steg inte är det: @Music/scale pentatonik har fem toner till en oktav och dur har sju, så att förskjuta med steg skulle flytta var och en av dem olika långt, medan \\12semitones\\ är en oktav i dem alla.",
                     "Eftersom det bara är ett tal kan en nyckel komma varifrån som helst. Här lyfts hela stycket två halvtoner medan /upp/ är valet — ett @Choice behöver något valbart på scenen att läsa, så de två fraserna är det som får det att fungera:",
-                    "\\🎭([\n\t\t💬('upp' selectable: ⊤ name: 'upp' place: 📍(-2m 0m))\n\t\t💬('hem' selectable: ⊤ name: 'hem' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'upp' ? 2semitones 0semitones))\n\t])\\"
+                    "\\🎭([\n\t\t💬('upp' valbara: ⊤ namn: 'upp' plats: 📍(-2m 0m))\n\t\t💬('hem' valbara: ⊤ namn: 'hem' plats: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) tonart: (🔘() = 'upp' ? 2semitones 0semitones))\n\t])\\"
                 ],
                 "names": "$~tonart"
             },
@@ -6547,7 +6547,7 @@
                 "doc": [
                     "$~När detta är \\⊤\\ vid en utvärdering börjar jag om från början, även när ingen av mina toner har ändrats.",
                     "Detta är för ljud som svarar på en händelse i stället för att spela oavbrutet. Om ett rätt svar spelar ett pling, så ger två rätta svar i rad exakt samma musik, så inget skulle ändras och inget skulle låta igen. Jag är hur du säger /igen, nu/ — välj /rätt/ två gånger nedan så plingar det två gånger:",
-                    "\\🎭([\n\t\t💬('rätt' selectable: ⊤ name: 'rätt' place: 📍(-2m 0m))\n\t\t💬('fel' selectable: ⊤ name: 'fel' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'rätt') ⊥)\n\t])\\",
+                    "\\🎭([\n\t\t💬('rätt' valbara: ⊤ namn: 'rätt' plats: 📍(-2m 0m))\n\t\t💬('fel' valbara: ⊤ namn: 'fel' plats: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) spelaom: ∆ 🔘() ? (🔘() = 'rätt') ⊥)\n\t])\\",
                     "Ge mig ett /tillfälligt/ villkor, ett som bara är sant på den utvärdering händelsen orsakade, som \\∆ 🔘()\\ ovan. Ett bestående villkor som \\score > 10\\🪲 förblir sant när det väl blir sant, så det skulle starta om mig vid varje utvärdering från och med då."
                 ],
                 "names": "$~spelaom"
@@ -6643,7 +6643,7 @@
                 "doc": [
                     "$~Medan detta är \\⊤\\ håller jag stilla, och när det går tillbaka till \\⊥\\ fortsätter jag från precis det taktslag jag stannade på.",
                     "Detta är det som gör mig annorlunda från @Music/replay: replay betyder /börja om/, och jag betyder /vänta här/. En ton som fortfarande lät när jag stannade spelar ut det som var kvar av den när jag börjar igen, så att stanna mitt i ett långt ackord förlorar det inte. Välj /håll/ och /gå/ nedan:",
-                    "\\🎭([\n\t\t💬('håll' selectable: ⊤ name: 'håll' place: 📍(-2m 0m))\n\t\t💬('gå' selectable: ⊤ name: 'gå' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'håll')\n\t])\\",
+                    "\\🎭([\n\t\t💬('håll' valbara: ⊤ namn: 'håll' plats: 📍(-2m 0m))\n\t\t💬('gå' valbara: ⊤ namn: 'gå' plats: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) paus: 🔘() = 'håll')\n\t])\\",
                     "Till skillnad från omspelning vill jag ha ett /varaktigt/ villkor, ett som förblir sant så länge du vill ha tystnaden. Min @Beat-räkning väntar med mig och tar vid där den var, i stället för att börja om på noll."
                 ],
                 "names": "$~paus"
@@ -6655,7 +6655,7 @@
                 "Mina toner är tal, samma tal som @Music förklarar — 1 är skalans första ton, 8 är den tonen en oktav upp, ø är en paus, och tal inom klamrar som \\{1 3 5}\\ ljuder tillsammans som ett ackord:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
                 "Toner behöver inte vara hela. \\1.5\\ ligger mellan första och andra tonen, och båda spelas — den närmare högre — så att glida ett tal över tonerna låter som att slå på pianotangenter:",
-                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] takt: 0.5beats))\\",
                 "Sätt min @Track/mash till \\⊥\\ så böjer ett sådant tal en ton ur stämning i stället för att spela två.",
                 "Varje post varar min @Track/beat, vilket är ett taktslag om du inte ändrar det. Att ändra det rutar om allt jag spelar på en gång.",
                 "När en post ska vara längre eller kortare än de andra, skriv längden på själva talet som ett notvärde. \\8𝅗𝅥\\ är en halvnot — dubbelt så lång som ett taktslag — och behöver inget runtom sig:",
@@ -6706,7 +6706,7 @@
                 "names": "$~mosa"
             },
             "words": {
-                "doc": "$~Stavelserna som @Instrument/voice ska sjunga. En stavelse per ton, åtskilda med mellanslag, så \\'so mi fa'\\ sjunger tre toner och mellanslagen visar var en stavelse slutar och nästa börjar.\n\nPauser tar ingen stavelse, så en text landar på de toner som faktiskt låter. Om det finns färre stavelser än toner börjar de om från början istället för att tystna. Om det inte finns några alls håller rösten ett /uh/-ljud.\n\nAvsluta en stavelse med ett bindestreck för att hålla den över nästa ton också, en ton till för varje bindestreck — så sjunger du en stavelse över flera toner. I \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ täcker de första två tonerna, sedan \\mi\\ och \\so\\ tar en var.\n\nStavningen är det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, där varje bokstav är ett ljud. Tryck på 🤖 under redigeraren för att se varje ljud och höra det. Bokstäver jag inte känner igen hoppas över. Alla instrument utom rösten ignorerar mig, så en text överlever att du ändrar @Track/instrument och tillbaka.",
+                "doc": "$~Stavelserna som @Instrument/voice ska sjunga. En stavelse per ton, åtskilda med mellanslag, så \\'so mi fa'\\ sjunger tre toner och mellanslagen visar var en stavelse slutar och nästa börjar.\n\nPauser tar ingen stavelse, så en text landar på de toner som faktiskt låter. Om det finns färre stavelser än toner börjar de om från början istället för att tystna. Om det inte finns några alls håller rösten ett /uh/-ljud.\n\nAvsluta en stavelse med ett bindestreck för att hålla den över nästa ton också, en ton till för varje bindestreck — så sjunger du en stavelse över flera toner. I \\🎶([1 2 3 4] ord: 'la- mi so')\\, \\la\\ täcker de första två tonerna, sedan \\mi\\ och \\so\\ tar en var.\n\nStavningen är det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, där varje bokstav är ett ljud. Tryck på 🤖 under redigeraren för att se varje ljud och höra det. Bokstäver jag inte känner igen hoppas över. Alla instrument utom rösten ignorerar mig, så en text överlever att du ändrar @Track/instrument och tillbaka.",
                 "names": "$~ord"
             }
         },
@@ -6715,7 +6715,7 @@
                 "$~Jag är en post i ett @Track som bär sin egen volym, eller en längd inget notvärde kan stava.",
                 "De flesta toner ska förbli bara tal, och de flesta längder är kortare skrivna på själva talet: \\1𝅗𝅥\\ är en halvnot. Jag är värd att ta fram när en ton behöver sin egen volym, eller en längd som faller mellan värdena — och eftersom \\♪(1 2beats ÷ 3)\\ säger så mycket mer än \\1\\, skulle det begrava tonerna som betyder något att använda mig överallt.",
                 "En triol är ärlig aritmetik: \\♪(1 2beats ÷ 3)\\ säger att tre av dessa fyller två slag. Min längd kan vara ett notvärde också, så \\♪(1 1𝅗𝅥)\\ och \\♪(1 2beats)\\ är samma två slag.",
-                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+                "\\🎼(🎶([1 1 ♪(5 2beats volym: 60%) ø]))\\"
             ],
             "names": ["$~Not"],
             "degree": {
@@ -6741,56 +6741,56 @@
                 "piano": {
                     "doc": [
                         "$~Ett piano. Inspelat från ett riktigt piano och stämt, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
                     "doc": [
                         "$~En fiol. Inspelad från en riktig fiol och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~fiol"]
                 },
                 "drums": {
                     "doc": [
                         "$~Ett trumset. Inspelat, och ett set snarare än stämt: siffror väljer en del av trumsetet i stället för en ton — \\1\\ bastrumma, \\2\\ virveltrumma, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tomtom, \\6\\ koskälla — och \\7\\ börjar om igen vid bastrumman.",
-                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6] takt: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~trummor"]
                 },
                 "flute": {
                     "doc": [
                         "$~En flöjt. Inspelad från en riktig flöjt och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~flöjt"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~En trumpet. Inspelad från en riktig trumpet och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~🎺", "$~trumpet"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~En saxofon, en tenor. Inspelad från en riktig saxofon och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~saxofon"]
                 },
                 "bell": {
                     "doc": [
                         "$~En klocka — orkesterklockor, den sorten man slår på med en klubba. Inspelad och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~klocka"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~En didgeridoo, från aboriginernas Australien. Inspelad från en riktig didgeridoo och stämd, så att siffror väljer toner, fast den är ett droninstrument och håller sig lågt.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
                     ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
@@ -6798,62 +6798,62 @@
                     "names": ["$~katt", "$~mjau"],
                     "doc": [
                         "$~En katt — faktiskt ett helt set av en katt. Inspelad från en riktig katt, och ett set snarare än stämt: siffror väljer vad katten säger i stället för en ton — \\1\\ irriterad, \\2\\ tiggande, \\3\\ hungrig, \\4\\ protesterande, \\5\\ bönande, \\6\\ längtande, \\7\\ störd, \\8\\ rädd, \\9\\ känslig, \\10\\ tröstad, \\11\\ ensam, \\12\\ spinnande — och \\13\\ går tillbaka till irriterad. För en katt som spelar toner istället, se \\🔈.😺\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] takt: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
                     "names": ["$~hund", "$~skäll"],
                     "doc": [
                         "$~En hund — en hel uppsättning av dem, faktiskt. Inspelad från riktiga hundar, och en uppsättning istället för tonad: siffror väljer vilket skall du hör istället för en ton, från djupast till skarpast — \\1\\ barsk, \\2\\ varnande, \\3\\ vaktande, \\4\\ på alerten, \\5\\ enträget, \\6\\ krävande, \\7\\ tillkännagivande, \\8\\ ivrig, \\9\\ upprymd, \\10\\ otålig, \\11\\ gläfsande, \\12\\ gäll — och \\13\\ går tillbaka till barsk. För en hund som spelar toner istället, se \\🔈.🐕\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] takt: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
                     ]
                 },
                 "synth": {
                     "doc": [
                         "$~En syntledstämma: ljus och surrande, och utan att skämmas för att vara gjord av oscillatorer. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~synt"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~En syntbas: fyllig och låg. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~syntBas"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~En syntpad: mjuk, långsam att komma fram, och bra för att hålla ett ackord under allt annat. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~syntPad"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Samma katt, stämd. Av de tolv inspelningar som uppsättningen \\🔈.🐱\\ spelar är detta den som håller en jämn tonhöjd, och den är tonad istället för en uppsättning, så siffror väljer toner och du kan skriva en melodi med den. Spelad långt från tonen den spelades in på börjar ett jamande låta uttänjt istället för sjunget, så den trivs bäst inom en oktav eller så från mitten.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~tonsattKatt"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Samma hundar, stämda. Av alla skall som satsen är gjord av är detta det som håller en jämn tonhöjd. Den är tonad i stället för en sats, så tal väljer noter och du kan skriva en melodi med den. Om den spelas långt från noten den spelades in vid börjar ett skall låta uttöjt i stället för som ett skall. Därför trivs den bäst inom en oktav eller så från mitten.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~tonsattHund"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrarna i stället för ett plektrum. Inspelad från en riktig, och tonad, så tal väljer noter. Detta är den som enbart \\guitar\\ betyder, så äldre projekt som bad om en gitarr spelar denna.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~akustiskGitarr", "$~gitarr"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~En elektroakustisk gitarr — en ihålig kropp med en mikrofon i, med stålsträngar, så den klingar ljusare och längre än nylon-\\🔈.🎸\\. Inspelad från en riktig, och tonad, så tal väljer noter.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~elGitarr"]
                 },
@@ -6862,7 +6862,7 @@
                         "$~En sångröst, byggd av filter istället för inspelad från en människa. Tonad, så att tal väljer toner.",
                         "Jag är en synt, som @Instrument/synth — inte en imitation av en sångare. Min mun håller samma storlek hur högt eller lågt jag än sjunger, vilket ingen riktig strupe kan göra. Därför låter jag som en maskin som härmar en människa, och därför låter jag varken som en man eller en kvinna.",
                         "Ge min @Track en @Track/words så sjunger jag dem, en stavelse per ton. Utan någon håller jag ett /uh/-ljud, så jag sjunger alltid något.",
-                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "\\🎼(🎶([1 2 3 5] ord: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Stavelserna stavas i det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, ett alfabet där varje bokstav är ett /ljud/ istället för en stavning — så \\'ʃi'\\ är ljudet i början av /she/, oavsett vilket språk du skriver på. Tryck på 🤖 under redigeraren för att se alla ljud jag kan göra och höra vart och ett."
                     ],
                     "names": ["$~röst"]
@@ -6870,7 +6870,7 @@
                 "harmonica": {
                     "doc": [
                         "$~En munspel, av den kromatiska sorten med en knapp på sidan. Inspelad från en riktig, och stämd, så att siffror väljer toner.",
-                        "\\Musik(\n\tSpår([1] beat: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
+                        "\\Musik(\n\tSpår([1] takt: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~munspel"]
                 }

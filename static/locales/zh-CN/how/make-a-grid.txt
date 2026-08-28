@@ -18,10 +18,10 @@ A @Grid 询问行数、列数以及单元格之间的间距。
 如果你希望每个单元格大小相同，请给出 @Grid 还要设置宽度和高度。这样，即使字符大小不同，它们也能整齐地保持在各自的方格内：
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' 尺寸: 1m)
+		Phrase('🐶' 尺寸: 1.5m)
+		Phrase('🦊' 尺寸: 0.5m)
+		Phrase('🐻' 尺寸: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

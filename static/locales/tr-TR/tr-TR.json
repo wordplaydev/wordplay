@@ -1014,7 +1014,7 @@
                 "$~@Evaluate'e verilen bir girdiyim. Adım, değerlendirilen @FunctionDefinition veya @StructureDefinition'daki girdinin adına karşılık gelir.",
                 "Sadece belirli bir girdiyi geçersiz kılmak istediğiniz, ancak diğer her şeyi vermek istemediğiniz, birçok varsayılan değere sahip fonksiyonlarda yardımcı oluyorum.",
                 "Örneğin, @Phrase stilini kontrol etmek için birçok varsayılan değere sahiptir. Diyelim ki biraz @Text ve bir @Color vermek istediniz, ancak giriş listesinde başka hiçbir şey vermek istemediniz. Bunu yapmak için beni kullanabilirsiniz:",
-                "\\Phrase('Ben morum!' color: Color(50% 52 300°))\\"
+                "\\Phrase('Ben morum!' renk: Color(50% 52 300°))\\"
             ],
             "start": "$~Değerimi ölçelim."
         },
@@ -4234,7 +4234,7 @@
                 "/tıkır tıkır!/",
                 "Dolayısıyla bunu kullanmanın en iyi yolu, adlandırılmış seçilebilir ifadeler içeren bir performans @Phrase ) oluşturmak ve ardından bu ad seçildiğinde ne yapılacağına karar vermek için bir @Reaction kullanmaktır.",
                 "İşte en basit örnek:",
-                "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Group(\nStack() \n[\nPhrase('one' seçilebilir:⊤ isim:'1') \nPhrase('two' seçilebilir:⊤ isim:'2') \nPhrase(Choice())\n]\n)\\",
                 "Bunu düzenleyiciye kopyalayın ve ardından iki @Phrase birini seçin. Üçüncü @Phrase seçilen adı gösterdiğini göreceksiniz."
             ],
             "names": ["$~Seçenek"]
@@ -4399,7 +4399,7 @@
                 "/bzzzzzzz/",
                 "@List etiketi aslında bir görseli temsil ediyor, ancak onunla ne yapacağınıza siz karar veriyorsunuz.",
                 "Görseli bir sürü @Phrase kullanarak temsil etmeyi deneyebilirsiniz, oldukça havalı görünebilir! Bunu kopyalamayı deneyin...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' yer: Place((x - 1) × 0.5m y × -0.5m) renk: color süre: 0s\n)\n)\n)\n)\n)\\",
                 "Ancak renkleri analiz ederek bir ışığın açık mı kapalı mı olduğuna veya belirli bir rengin sık kullanılıp kullanılmadığına karar verebilir, böylece izleyicilerin gösterdikleri renklerle performansı etkilemelerini sağlayabilirsiniz."
             ],
             "names": ["$~Kamera"],
@@ -4422,13 +4422,13 @@
                 "/Boop boop boop/",
                 "Zamanlamayı kontrol etmek için, her çıktıya @Phrase.duration özelliğini atayabilirsiniz; bu sayede bir sonraki çıktıya geçmeden önce o ifade belirtilen süre boyunca gösterilecek ve ayarladığınız @Phrase.entering veya @Phrase.exiting geçiş efektleri kullanılacaktır. Eğer bunları bir @Sequence olarak ayarlarsanız, o dizinin süresini kullanacaktır.",
                 "Tüm bunlar, bu üç ifadeyi sırayla gösteren şu küçük @Scene gibi şeyler yapmanıza olanak tanır:",
-                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "\\Scene([\n\tPhrase('Hello' süre: 1s)\n\tPhrase('How are you?' süre: 2s rotasyon: 5° giriş: Pose(rotasyon: 0°))\n\tPhrase('I am fine')\n])\\",
                 "İlk çıktının bir saniye boyunca gösterildiğini, ardından ikincisinin iki saniye boyunca ancak beş derecelik bir dönüşle animasyonlu olarak gösterildiğini ve son olarak da sonuncusunun gösterildiğini görüyor musunuz?",
                 "@Scene ile çok ayrıntılı çıktı ve animasyon dizileri oluşturabilir, hatta diğer @Phrase veya @Group olduğu gibi bunların bazı kısımlarını dinamik veya etkileşimli hale getirebilirsiniz.",
                 "Eğer iç içe geçmiş animasyonlu bir çıktınız varsa (örneğin, içinde animasyonlu bir @Phrase bulunan bir @Group ), @Scene , @Group içindeki tüm animasyonlu içeriğin bitmesini bekleyecektir.",
                 "Ve son bir küçük sır daha! Listeye @Boolean bile ekleyebilirsiniz ve eğer bunlar \\⊥\\ ise, @Scene duraklayacak ve doğru olana kadar bekleyecektir.",
                 "Örneğin, @Phrase oluşan bir dizi oluşturmak ve yalnızca @Button değiştiğinde ilerlemek istiyorsanız, bunu şu şekilde yapabilirsiniz:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' süre: 0.25s rotasyon: 5° giriş: Pose(rotasyon: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Her @Phrase sonra nasıl durakladığını ve ilerlemeden önce @Button değişmesini beklediğini görüyor musunuz?"
             ],
             "names": ["Gösteri"],
@@ -4480,7 +4480,7 @@
                 "@Stage üzerine @Output yerleştirmenin birçok yolu vardır: onlara açık bir @Place ver, @Motion kullan ve yer çekiminin işini yapmasına izin ver, ya da düzenlenmeleri için onları bir @Group içine koy.",
                 "Ama bazen @Output öğesinin @Stage üzerinde nereye gideceğini /izleyicinin/ kontrol etmesini istersin.",
                 "İşte nasıl çalıştığı: bir @Placement oluştur ve onu bir @Output öğesinin @Place değerine ver:",
-                "\\İfadeetmek('merhaba' place: Atama())\\",
+                "\\İfadeetmek('merhaba' yer: Atama())\\",
                 "Sonra, izleyici bir ok @key tuşunu kullandığında ya da sahnede tıkladığında veya dokunduğunda, @Placement istenen yönde hareket eden yeni bir @Place oluşturur.",
                 "Bunu programına kopyalamayı ve @Output öğesini işaretçi ya da klavyeyle hareket ettirmeyi dene.",
                 "@Placement öğesini özelleştirebilirsin; belirli boyutlarda hareketi açıp kapatabilir, bir @Place öğesinin ne kadar uzağa hareket edeceğini ve akışın başladığı ilk @Place değerini değiştirebilirsin."
@@ -4595,7 +4595,7 @@
                 "\\Konuşma()\\",
                 "Bu, bir @language dili konuşabilen ama hâlâ onu okumayı ya da yazmayı öğrenen kişiler için mükemmeldir (ve daha fazlası)...",
                 "Konuşmayı belirli bir dilde tanımak için bir dil kodu belirtebilirsin:",
-                "\\Konuşma(language: 'es-MX')\\",
+                "\\Konuşma(dil: 'es-MX')\\",
                 "Hiçbir dil belirtilmezse, varsayılan olarak tercih ettiğin dili kullanır.",
                 "Konuşma tanıma, mikrofon erişimi ve İnternet bağlantısı gerektirir (lütfen erişim ver!). Ayrıca kullanım sınırları olabilir, bu yüzden onu çok uzun süre açık bırakma (hayııır)!"
             ],
@@ -4648,7 +4648,7 @@
                 "Ona biraz metin ve bir yazı tipi verin, o da her bir karakterin ana hatlarını nokta nokta takip edecektir.",
                 "\\Contour('a' \"Noto Sans\")\\",
                 "@Place değerlerini bir @Phrase @List besleyerek ana hatların noktalar halinde çizildiğini görebilirsiniz:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' yer: point)))\\",
                 "Anahatı @Number metre ile ölçeklendirebilir, başlangıç noktasını @Place ile taşıyabilir, yazı tipi kalınlığı seçebilir, italik yazı tipini açabilir ve noktalar arasındaki `aralığı` metre cinsinden mesafe olarak ayarlayabilirsiniz. Daha küçük bir `aralık`, anahatı daha yakından takip eder ve hem çizgiler hem de eğriler boyunca eşit aralıklı noktalar oluşturur.",
                 "Renk emojileri gibi bazı karakterlerin kenar çizgisi yoktur, bu nedenle puan eklemezler. Yazı tipini getirirken size boş bir @List verecek, hazır olduğunda ise dolduracaktır."
             ],
@@ -4726,11 +4726,11 @@
                 "Bütün özelliklerim isteğe bağlıdır. Bir tarihi anlatmam için bana tarih parçaları ver:",
                 "\\📅(2026 7 1) → ''\\",
                 "Ya da günün saati için sadece zaman parçaları:",
-                "\\📅(hour: 15 minute: 30) → ''\\",
-                "Bana hiç parça vermezsen, programın çalıştığı yerdeki şu anki tarih ve saate göre dönüştürürüm. Bazı parçaları atlarsan, verdiğin en büyük parçadan daha büyük olan parçalar şu anki tarih ve saatten alınır, daha küçük parçalar ise başlangıçlarından başlar: yani \\📅(month: 12) → ''\\ bu yılın 1 Aralık'ı, gece yarısıdır. Beni dönüştürmek sadece verdiğin türdeki parçaları gösterir: tarih parçaları bir tarih yapar, zaman parçaları bir zaman yapar, ikisi birden ikisini de yapar:",
+                "\\📅(saat: 15 dakika: 30) → ''\\",
+                "Bana hiç parça vermezsen, programın çalıştığı yerdeki şu anki tarih ve saate göre dönüştürürüm. Bazı parçaları atlarsan, verdiğin en büyük parçadan daha büyük olan parçalar şu anki tarih ve saatten alınır, daha küçük parçalar ise başlangıçlarından başlar: yani \\📅(ay: 12) → ''\\ bu yılın 1 Aralık'ı, gece yarısıdır. Beni dönüştürmek sadece verdiğin türdeki parçaları gösterir: tarih parçaları bir tarih yapar, zaman parçaları bir zaman yapar, ikisi birden ikisini de yapar:",
                 "\\📅() → ''\\",
                 "@Moment.timezone standart bir IANA saat dilimi ismi alır, örneğin \\'America/Los_Angeles'\\ ya da \\'Asya/Tokyo'\\; bunu \\ø\\ bırakırsan, programın çalıştığı cihazın saat dilimini kullanırım. @Moment.calendar bir Unicode takvim ismi alır, örneğin \\'gregory'\\, \\'İbranice'\\, ya da \\'japonca'\\; bunu \\ø\\ bırakırsan, okuyucunun yerel ayarının takvimini kullanırım. @Moment.year, @Moment.month ve @Moment.day o takvime göredir:",
-                "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "\\📅(5786 10 4 takvim: 'hebrew') → ''\\",
                 "Beni @Text tipine dönüştürmek, okuyucunun yerel ayarına göre biçimlendirir: aynı Moment İngilizce, 中文 ya da हिन्दी dillerinde farklı görünür ve okuyucunun yerel ayarı değiştiğinde değişir.",
                 "@Moment.era, @Moment.week ve @Moment.weekday bilgi amaçlıdır: @Now, Moment yaparken bunları doldurur, ama biçimlendirirken göz ardı edilir.",
                 "Zaman geçtikçe güncellenen bir Moment akışı — bir saat — istersen, @Now'a bak. Programın başladığından beri geçen milisaniyeleri istersen — canlandırma için — @Time'a bak."
@@ -4800,7 +4800,7 @@
                 "Arka planda @Face bir makine öğrenmesi modeli kullanır. Bir programda ilk kez kullandığında modelin inmesi birkaç saniye sürer. Model yüklenirken sahnenin sağ üst köşesinde küçük, dönen bir yüz görünür. Bundan sonra model önbellekte kalır ve anında başlar.",
                 "Her karede @Face sana bir @Expression verir. Girişlerin tam listesi ve anlamları için oraya bak.",
                 "Bu örnek, gerçek yüzün nerede olursa olsun yüzüne uyan bir emoji gösterir:",
-                "\\yüz: 🙂()\n💬((yüz.gülümseme ? '😀' yüz.ağızAçık ? '😮' '😐') place: yüz.yer)\\"
+                "\\yüz: 🙂()\n💬((yüz.gülümseme ? '😀' yüz.ağızAçık ? '😮' '😐') yer: yüz.yer)\\"
             ],
             "names": ["$~Yüz"],
             "frequency": {
@@ -4821,9 +4821,9 @@
                 "Her karede @Objects sana bir @List of @Thing verir. Bu liste, modelin ne kadar emin olduğuna göre sıralanır ve en emin olduğu ilk sırada olur. Her birinin sana ne söylediğini görmek için @Thing kısmına bak.",
                 "Model sadece tahmin yürütür, bu yüzden bazen yanılır ya da hiçbir şey görmez. Sadece en emin olduğu tahminleri duymak için daha yüksek bir `confidence` iste.",
                 "İşte kameranın gördüğü her şeyi etiketleyen bir örnek:",
-                "\\🎭(📦() ↦ 💬(⬚.isim place: ⬚.yer))\\",
+                "\\🎭(📦() ↦ 💬(⬚.isim yer: ⬚.yer))\\",
                 "Ayrıca sadece tek bir çeşit şeyi arayıp geri kalanını yok sayabilirsin:",
-                "\\şeyler: 📦(category: 'cat')\n💬(şeyler.📏() > 0 ? '🐈' '…')\\"
+                "\\şeyler: 📦(kategori: 'cat')\n💬(şeyler.📏() > 0 ? '🐈' '…')\\"
             ],
             "names": ["$~Nesneler"],
             "inputs": [
@@ -4940,9 +4940,9 @@
             "doc": [
                 "$~@Music çalarken her vuruşa ulaştığında yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller yapabilirsin. Senin için her zaman bir @Downbeat vardır, yani onu hemen okuyabilirsin: müzik çalmadan önce sıfır vuruşunda otururum, hiçbir ses çıkmaz ve benim \\tempo\\ değerim başlayana kadar sıfır kalır.",
                 "Burada üç parça sırayla çalar, bu yüzden her vuruşta farklı sayıda çalgı ses çıkarır — ve elmas, kaç tane çalıyorsa o kadar büyür:",
-                "\\vuruş: Vuruş()\n🎭([\n\t\t💬('◆' ((vuruş.enstrümanlar.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "\\vuruş: Vuruş()\n🎭([\n\t\t💬('◆' ((vuruş.enstrümanlar.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] çalgı: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] çalgı: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] çalgı: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Bana bir @Music ismi ver, sadece o müziği duyayım. Aşağıda iki vuruş dinliyor, aynı iki müziği: üstteki her şeyi duyar, bu yüzden her müzik bir vuruşa ulaştığında iki isim arasında yanıp söner; alttaki ise yalnızca davulu duyar ve başka hiçbir şey söylemez. İşte o fark, filtredir.",
-                "\\herŞey: Vuruş()\nsadeceDavul: Vuruş('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(herŞey.isim 1.4m)\n\t\t\t\t💬(sadeceDavul.isim 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'çınlama')\n\t])\\",
+                "\\herŞey: Vuruş()\nsadeceDavul: Vuruş('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(dolgu: 0.5m)\n\t\t\t[\n\t\t\t\t💬(herŞey.isim 1.4m)\n\t\t\t\t💬(sadeceDavul.isim 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] çalgı: 🔈.🥁) tempo: 120beats/min isim: 'tik')\n\t\t🎼(🎶([5 5 5] çalgı: 🔈.🔔) tempo: 90beats/min isim: 'çınlama')\n\t])\\",
                 "Yönlendirdiğim her şey, izleyicinin seçtiği görüntülemenin / üzerine eklenir/; sen ona ekleme yaparsın, asla yerine geçmezsin."
             ],
             "name": {
@@ -5734,7 +5734,7 @@
                 "sway": {
                     "doc": [
                         "$~Bir @Output'nin merkezi etrafında ileri geri eğilirim, hafif bir esintide asılı duran bir şey gibi. İyi bir dinlenme animasyonuyum, çünkü küçük bir /angle/ dikkat çekmeden “canlı” gibi görünür.",
-                        "\\💬('🐈' resting: 💃.sallanmak(10°))\\"
+                        "\\💬('🐈' dinlenme: 💃.sallanmak(10°))\\"
                     ],
                     "names": ["$~sallanmak"],
                     "angle": {
@@ -5745,7 +5745,7 @@
                 "bounce": {
                     "doc": [
                         "$~Bir @Output'yi /height/ kadar yukarı zıplatırım ve yere inmesini sağlarım, yukarı ve aşağı inerken biraz eziyorum. Bana yeni gelmiş bir @Phrase ver, ben de onu ağırlığı varmış gibi hissettireyim.",
-                        "\\💬('🐈' resting: 💃.sıçrama(3m))\\"
+                        "\\💬('🐈' dinlenme: 💃.sıçrama(3m))\\"
                     ],
                     "names": ["$~sıçrama"],
                     "height": {
@@ -5756,42 +5756,42 @@
                 "spin": {
                     "doc": [
                         "$~Bir @Output'yi merkezi etrafında tamamen döndürürüm, 360°'den 0°'ye geri. Beni dinlenme animasyonu olarak ayarla, sonsuza dek dönmeye devam edeyim.",
-                        "\\💬('🐈' resting: 💃.döndürmek(2s))\\"
+                        "\\💬('🐈' dinlenme: 💃.döndürmek(2s))\\"
                     ],
                     "names": ["$~döndürmek"]
                 },
                 "fadein": {
                     "doc": [
                         "$~Bir @Output'yi görünmezden tamamen görünür hale getiririm. /entering/ için, yani sahneye bir şey geldiğinde kullanılırım.",
-                        "\\💬('🐈' entering: 💃.kaybolmak(1s))\\"
+                        "\\💬('🐈' giriş: 💃.kaybolmak(1s))\\"
                     ],
                     "names": ["$~kaybolmak"]
                 },
                 "fadeout": {
                     "doc": [
                         "$~Bir @Output'yi tamamen görünürden görünmez hale getiririm. /exiting/ için, yani bir şey sahneden ayrıldığında kullanılırım.",
-                        "\\💬('🐈' exiting: 💃.kaybolma(duration: 1s))\\"
+                        "\\💬('🐈' çıkış: 💃.kaybolma(süre: 1s))\\"
                     ],
                     "names": ["$~kaybolma"]
                 },
                 "popup": {
                     "doc": [
                         "$~Bir @Output'yi hiçlikten büyütürüm, gerçek boyutunu biraz aşarım, sonra geri otururum. İşte o küçük aşma, bir gelişi mekanik yerine eğlenceli hissettiren şeydir.",
-                        "\\💬('🐈' entering: 💃.anidenbelirmek(0.5s))\\"
+                        "\\💬('🐈' giriş: 💃.anidenbelirmek(0.5s))\\"
                     ],
                     "names": ["$~anidenbelirmek"]
                 },
                 "shake": {
                     "doc": [
                         "$~Bir @Output'yi birkaç yönde ileri geri sarsarım. “Hayır” gibi ya da sallanan bir şey gibi okunurum. Hızlı hareket ederim, o yüzden beni kısa tut.",
-                        "\\💬('🐈' resting: 💃.sallamak(0.5s count: 3x))\\"
+                        "\\💬('🐈' dinlenme: 💃.sallamak(0.5s saymak: 3x))\\"
                     ],
                     "names": ["$~sallamak"]
                 },
                 "pulse": {
                     "doc": [
                         "$~Bir @Output'yi /amount/ kadar büyütüp geri küçültürüm, bir kez. Hiçbir şeyi yerinden oynatmadan “buraya bak” demenin en sessiz yoluyum.",
-                        "\\💬('🐈' resting: 💃.nabız(1.2))\\"
+                        "\\💬('🐈' dinlenme: 💃.nabız(1.2))\\"
                     ],
                     "names": ["$~nabız"],
                     "amount": {
@@ -5802,7 +5802,7 @@
                 "heartbeat": {
                     "doc": [
                         "$~İki hızlı ölçek vuruşu yaparım, sonra dinlenirim, bir kalp atışının ritmi gibi. @Sequence'nin /pulse/'undan daha aceleciyim ve /flash/'tan daha doğalım.",
-                        "\\💬('🐈' resting: 💃.kalpatışı(1.4 1s))\\"
+                        "\\💬('🐈' dinlenme: 💃.kalpatışı(1.4 1s))\\"
                     ],
                     "names": ["$~kalpatışı"],
                     "amount": {
@@ -5813,7 +5813,7 @@
                 "tada": {
                     "doc": [
                         "$~Kutlarım: küçük bir daralma, sonra ileri geri sallanarak bir büyüme. Kazanmak, bitirmek ve doğru yapmak için varım.",
-                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                        "\\💬('🐈' dinlenme: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
@@ -5824,7 +5824,7 @@
                 "wiggle": {
                     "doc": [
                         "$~Bir @Output'yi eğerken yana yana kaydırırım, her salınım bir öncekinden daha küçük. Biraz daha karakterli bir sarsıntıyım.",
-                        "\\💬('🐈' resting: 💃.kıpırdamak(8°))\\"
+                        "\\💬('🐈' dinlenme: 💃.kıpırdamak(8°))\\"
                     ],
                     "names": ["$~kıpırdamak"],
                     "angle": {
@@ -5836,21 +5836,21 @@
                     "doc": [
                         "$~Bir @Output'yi görünür ve görünmez arasında iki kez yakıp söndürürüm, giderken solarak. Fark etmemek zordur — bu da beni görmezden gelmenin zor olduğu anlamına gelir, o yüzden beni az kullan.",
                         "Hızlı yanıp sönerim, o yüzden yanıp sönmeye duyarlı bir izleyici beni rahatsız edici bulabilir. Tekrar edeceksem, daha uzun bir /duration/ ile beni yavaşlat.",
-                        "\\💬('🐈' resting: 💃.flaş(1s))\\"
+                        "\\💬('🐈' dinlenme: 💃.flaş(1s))\\"
                     ],
                     "names": ["$~flaş"]
                 },
                 "zoomin": {
                     "doc": [
                         "$~Bir @Output'yi hiçlikten tam boyutuna büyütürüm. /popup/'ın aksine, ben aşmam — daha sade, daha sakin gelişim.",
-                        "\\💬('🐈' entering: 💃.yakınlaştırma(0.5s))\\"
+                        "\\💬('🐈' giriş: 💃.yakınlaştırma(0.5s))\\"
                     ],
                     "names": ["$~yakınlaştırma"]
                 },
                 "fadeinup": {
                     "doc": [
                         "$~Bir @Output'yi solarak görünür yaparken, /distance/ kadar aşağıdan yukarı yerine kaydırırım.",
-                        "\\💬('🐈' entering: 💃.yavaşçayukarı(2m))\\"
+                        "\\💬('🐈' giriş: 💃.yavaşçayukarı(2m))\\"
                     ],
                     "names": ["$~yavaşçayukarı"],
                     "distance": {
@@ -5861,7 +5861,7 @@
                 "fadeindown": {
                     "doc": [
                         "$~Bir @Output'yi solarak görünür yaparken, /distance/ kadar yukarıdan aşağı yerine kaydırırım.",
-                        "\\💬('🐈' entering: 💃.solma(2m))\\"
+                        "\\💬('🐈' giriş: 💃.solma(2m))\\"
                     ],
                     "names": ["$~solma"],
                     "distance": {
@@ -5872,7 +5872,7 @@
                 "fadeinleft": {
                     "doc": [
                         "$~Bir @Output'yi solarak görünür yaparken, /distance/ kadar soldan sağa yerine kaydırırım.",
-                        "\\💬('🐈' entering: 💃.sol(2m))\\"
+                        "\\💬('🐈' giriş: 💃.sol(2m))\\"
                     ],
                     "names": ["$~sol"],
                     "distance": {
@@ -5883,7 +5883,7 @@
                 "fadeinright": {
                     "doc": [
                         "$~Bir @Output öğesini yavaşça belirirken sola kaydırarak yerine getiririm; sağdaki /distance/ noktasından başlarım.",
-                        "\\💬('🐈' entering: 💃.sağadoğrusolma(2m))\\"
+                        "\\💬('🐈' giriş: 💃.sağadoğrusolma(2m))\\"
                     ],
                     "names": ["$~sağadoğrusolma"],
                     "distance": {
@@ -5894,7 +5894,7 @@
                 "rotatein": {
                     "doc": [
                         "$~Bir @Output öğesini yavaşça belirirken döndürerek yerine getiririm; /angle/ kadar dönmüş başlar, dik biterim.",
-                        "\\💬('🐈' entering: 💃.dönen(180°))\\"
+                        "\\💬('🐈' giriş: 💃.dönen(180°))\\"
                     ],
                     "names": ["$~dönen"],
                     "angle": {
@@ -5905,14 +5905,14 @@
                 "zoomout": {
                     "doc": [
                         "$~Bir @Output öğesini tam boyutundan hiçliğe kadar küçültürüm.",
-                        "\\💬('🐈' exiting: 💃.uzaklaştırma(0.5s))\\"
+                        "\\💬('🐈' çıkış: 💃.uzaklaştırma(0.5s))\\"
                     ],
                     "names": ["$~uzaklaştırma"]
                 },
                 "fadeoutup": {
                     "doc": [
                         "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar yukarı kaydırırım.",
-                        "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
+                        "\\💬('🐈' çıkış: 💃.fadeoutup(2m))\\"
                     ],
                     "names": ["$~fadeoutup"],
                     "distance": {
@@ -5923,7 +5923,7 @@
                 "fadeoutdown": {
                     "doc": [
                         "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar aşağı kaydırırım.",
-                        "\\💬('🐈' exiting: 💃.solmaaşağı(2m))\\"
+                        "\\💬('🐈' çıkış: 💃.solmaaşağı(2m))\\"
                     ],
                     "names": ["$~solmaaşağı"],
                     "distance": {
@@ -5934,7 +5934,7 @@
                 "fadeoutleft": {
                     "doc": [
                         "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar sola kaydırırım.",
-                        "\\💬('🐈' exiting: 💃.soldankaybol(2m))\\"
+                        "\\💬('🐈' çıkış: 💃.soldankaybol(2m))\\"
                     ],
                     "names": ["$~soldankaybol"],
                     "distance": {
@@ -5945,7 +5945,7 @@
                 "fadeoutright": {
                     "doc": [
                         "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar sağa kaydırırım.",
-                        "\\💬('🐈' exiting: 💃.solupgitmek(2m))\\"
+                        "\\💬('🐈' çıkış: 💃.solupgitmek(2m))\\"
                     ],
                     "names": ["$~solupgitmek"],
                     "distance": {
@@ -5956,7 +5956,7 @@
                 "rotateout": {
                     "doc": [
                         "$~Bir @Output öğesini yavaşça kaybolurken döndürerek uzaklaştırırım; /angle/ kadar dönmüş biterim.",
-                        "\\💬('🐈' exiting: 💃.döndürerekçıkış(180°))\\"
+                        "\\💬('🐈' çıkış: 💃.döndürerekçıkış(180°))\\"
                     ],
                     "names": ["döndürerekçıkış"],
                     "angle": {
@@ -5968,14 +5968,14 @@
                     "doc": [
                         "$~Bir @Output öğesini gökkuşağının her renginden geçirir ve başladığım yere geri getiririm.",
                         "Rengi hızlı değiştiririm, bu yüzden yanıp sönmeye duyarlı bir izleyici beni rahatsız edici bulabilir. Daha uzun bir /duration/ beni çok daha yumuşak yapar.",
-                        "\\💬('🐈' resting: 💃.gökkuşağı(3s))\\"
+                        "\\💬('🐈' dinlenme: 💃.gökkuşağı(3s))\\"
                     ],
                     "names": ["$~gökkuşağı"]
                 },
                 "swing": {
                     "doc": [
                         "$~Bir @Output öğesini bir sarkaç gibi sallarım; /angle/ kadar dışarı çıkar, sonra gitgide küçülen yaylarla geri döner ve durur. /sway/ gibi değil, ben yavaşça dururum.",
-                        "\\💬('🐈' resting: 💃.salla(20°))\\"
+                        "\\💬('🐈' dinlenme: 💃.salla(20°))\\"
                     ],
                     "names": ["$~salla"],
                     "angle": {
@@ -5986,14 +5986,14 @@
                 "blink": {
                     "doc": [
                         "$~Bir @Output öğesini, arada hiç yavaşça kaybolmadan kapatır ve tekrar açarım; tıpkı bir imlecin yanıp sönmesi gibi. /flash/ yavaşça geçer; ben keserim.",
-                        "\\💬('🐈' resting: 💃.gözKırp(1s))\\"
+                        "\\💬('🐈' dinlenme: 💃.gözKırp(1s))\\"
                     ],
                     "names": ["$~gözKırp"]
                 },
                 "nod": {
                     "doc": [
                         "$~Bir @Output öğesini iki kez aşağı indirir ve tekrar yukarı kaldırırım; tıpkı onaylayan bir baş sallama gibi. “Evet” demenin en yumuşak yoluyum.",
-                        "\\💬('🐈' resting: 💃.başsalla(0.4m))\\"
+                        "\\💬('🐈' dinlenme: 💃.başsalla(0.4m))\\"
                     ],
                     "names": ["$~başsalla"],
                     "distance": {
@@ -6004,7 +6004,7 @@
                 "dim": {
                     "doc": [
                         "$~Bir @Output öğesini /amount/ değerine kadar yavaşça soldurur ve tekrar tam haline getiririm, ama onu asla gizlemem. Bir şeyin beklediğini veya etkin olmadığını göstermek için varım.",
-                        "\\💬('🐈' resting: 💃.karart(20% 2s))\\"
+                        "\\💬('🐈' dinlenme: 💃.karart(20% 2s))\\"
                     ],
                     "names": ["$~karart"],
                     "amount": {
@@ -6015,7 +6015,7 @@
                 "slidein": {
                     "doc": [
                         "$~Bir @Output öğesini, istediğin herhangi bir yerden yerine kaydırırım, yavaşça kaybolmadan. Bana bir @Place ver, oradan başlayıp durgun halde bitiririm, böylece tek bir animasyon her yönü kapsar.",
-                        "\\💬('🐈' entering: 💃.içerikay(📍(0m -4m)))\\"
+                        "\\💬('🐈' giriş: 💃.içerikay(📍(0m -4m)))\\"
                     ],
                     "names": ["$~içerikay"],
                     "from": {
@@ -6026,7 +6026,7 @@
                 "slideout": {
                     "doc": [
                         "$~Bir @Output öğesini istediğin yere kaydırırım, hiç soldurmadan. Bana bir @Place ver, orada bitiririm. Böylece tek bir animasyon her yönü kapsar.",
-                        "\\💬('🐈' exiting: 💃.dışarıkay(📍(0m -4m)))\\"
+                        "\\💬('🐈' çıkış: 💃.dışarıkay(📍(0m -4m)))\\"
                     ],
                     "names": ["$~dışarıkay"],
                     "to": {
@@ -6037,7 +6037,7 @@
                 "float": {
                     "doc": [
                         "$~Bir @Output öğesini yavaşça /distance/ kadar yukarı ve tekrar aşağı süzerim. Bana uzun bir /duration/ ver, bir şeyi ağırlıksız gibi göstereyim.",
-                        "\\💬('🐈' resting: 💃.süzül(0.5m 3s))\\"
+                        "\\💬('🐈' dinlenme: 💃.süzül(0.5m 3s))\\"
                     ],
                     "names": ["$~süzül"],
                     "distance": {
@@ -6048,7 +6048,7 @@
                 "drift": {
                     "doc": [
                         "$~Bir @Output öğesini yavaşça /distance/ kadar yana ve tekrar geri süzerim. Ben /float/ gibiyim ama yanlamasına.",
-                        "\\💬('🐈' resting: 💃.sürüklen(0.5m 3s))\\"
+                        "\\💬('🐈' dinlenme: 💃.sürüklen(0.5m 3s))\\"
                     ],
                     "names": ["$~sürüklen"],
                     "distance": {
@@ -6059,7 +6059,7 @@
                 "orbit": {
                     "doc": [
                         "$~Bir @Output öğesini /radius/ yarıçaplı bir daire boyunca taşırım ve başladığı yere geri döndürürüm. İleri geri gitmek yerine bir yol izleyen tek önceden tanımlı animasyon benim.",
-                        "\\💬('🐈' resting: 💃.yörünge(2m 4s))\\"
+                        "\\💬('🐈' dinlenme: 💃.yörünge(2m 4s))\\"
                     ],
                     "names": ["$~yörünge"],
                     "radius": {
@@ -6070,7 +6070,7 @@
                 "glow": {
                     "doc": [
                         "$~Bir @Output öğesini /color/ rengine doğru parlatır ve tekrar sönmesine izin veririm. Bir şeyin ısınıp soğuması gibi. /rainbow/ öğesinden farklı olarak tek bir renk tonunda kalırım.",
-                        "\\💬('🐈' resting: 💃.parla(🌈.turuncu 2s))\\"
+                        "\\💬('🐈' dinlenme: 💃.parla(🌈.turuncu 2s))\\"
                     ],
                     "names": ["$~parla"],
                     "color": {
@@ -6176,9 +6176,9 @@
                 "$~@Output Output'unuzu izleyicilere gösteriyorum. Merhaba. Sahne burada. Ne göstermemi istediğinizi söyleyin, ben de göstereyim.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "İSTERSENİZ, BANA @Color PLAN RENK BİLGİSİ VERİN, BEN DE SAHNEYİ ONA GÖRE AYDINLATACAĞIM.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "\\Stage([Phrase('stufffffff')] arkaplan: Color(75% 50 100°))\\",
                 "İsterseniz çerçeve kenarı da verebilirsiniz, ben de onu kırpacağım.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+                "\\Stage([Phrase('stufffffff')] arkaplan: Color(75% 50 100°) çerçeve: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["$~Sahne"],
             "content": {
@@ -6504,17 +6504,17 @@
                 "Notlar sayılardır. 1, gamın ilk notasıdır — bir ezginin bittiğini hissettiren nota — 2 bir üstteki notadır ve 8 yine o ilk notadır, bir oktav daha yüksek. ø bir es'tir, yani sessizliktir. Sayılar iki uçtan da devam eder: 9 bir oktav üstteki ikinci notadır, 0 ve -1 ise ilk notanın altına iner.",
                 "Bir /gam/, bir parçanın kurulduğu küçük nota takımıdır ve o notaların hangileri olduğu, parçanın havasının çoğunu belirler. @Music/scale, sen aksini söylemedikçe \\🎼.majör\\ olur ve parlak duyulur; \\🎼.minör\\ ise tam olarak aynı sayılardan daha hüzünlü duyulur. Bir /anahtar/, tüm parçanın ne kadar yüksek ya da alçak durduğudur ve @Music/key ile belirlenir. Ve @Music/tempo, parçanın ne kadar hızlı gittiğidir, dakikadaki vuruş olarak — vuruş, ona uyup alkış tutabileceğin düzenli nabızdır.",
                 "Notalar sabit perdeler değil sayılar olduğu için, üçü de ezgiye dokunmadan değişebilir. Bu, aynı üç notadır, daha hüzünlü, daha alçak ve daha yavaş:",
-                "\\🎼(🎶([1 3 5]) scale: 🎼.minör key: -5semitones tempo: 60beats/min)\\",
+                "\\🎼(🎶([1 3 5]) gam: 🎼.minör anahtar: -5semitones tempo: 60beats/min)\\",
                 "Bir parça sonuna ulaştığında yeniden başlar, bu yüzden kısa bir liste sonsuza dek çalan bir tekrardır. Bu dört vuruş uzunluğundadır, boşluklarda eslerle:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Bana bir parça listesi ver, hepsi aynı anda çalar, her biri kendi çalgısı, hızı ve ses düzeyiyle. Burada bir bas davul ile bir trampet vuruşu tutarken bir hi-hat iki kat hızda gider — tek bir sayıdan çıkan bir poliritim. Davullar perdeli değil bir takımdır, bu yüzden sayıları notalar yerine takımın parçalarını seçer:",
-                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] çalgı: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] çalgı: 🔈.🥁 vuruş: 0.5beats sesDüzeyi: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
                 "Süslü parantez içindeki sayılar bir akor olarak birlikte çalar ve bir sayının üzerine yazılan bir nota değeri, o girişe kendi uzunluğunu verir. Burada iki tam nota akoru, hareketli bir ezginin altında tutunur:",
-                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] çalgı: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] çalgı: 🔈.🎹 sesDüzeyi: 50%)\n\t])\\",
                 "Sayı üreten her şey müzik yapabilir. Bu ezgi kendini yeni bir sıraya karıştırır ve ne kadar yüksek sesle konuştuğunu izler:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].karıştırılmış())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Hiç kimse beni duymak zorunda değil. @Beat her vuruşu duyulduğu anda bildirir, böylece izleyicinin seçtiği görselleştirmeyle birlikte müziği çalmakla kalmaz, çizebilirsin de. @Beat her zaman bir @Downbeat'e sahiptir, bu yüzden hiçbir şey kontrol etmeden onu okuyabilirsin:",
-                "\\vuruş: Vuruş()\nsayı: vuruş.say\n🎭([\n\t\t💬('◆' size: 1m + ((sayı % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((sayı % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "\\vuruş: Vuruş()\nsayı: vuruş.say\n🎭([\n\t\t💬('◆' boyut: 1m + ((sayı % 4) = 0 ? 2m 0m) yer: 📍(-2m 2m))\n\t\t💬('◆' boyut: 1m + ((sayı % 4) = 2 ? 2m 0m) yer: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] çalgı: 🔈.🥁))\n\t])\\",
                 "Biçimlendirilecek kendime ait bir görünüşüm yok, bu yüzden her zamanki görünüm girişlerinin hiçbirini almam — boyut, yer, renk ya da hareket yok. Nasıl göründüğüm izleyicinin seçimidir, ayarlarında yapılır ve senin yerleşimine yerleştirilmek yerine sahneye sabitlenir; hiç yer kaplamam, bu yüzden beni bir @Row ya da @Stack içine koymak yanımdaki hiçbir şeyi kıpırdatmaz. Müziği kendin çizmek için @Beat kullan: sana her vuruşu duyulduğu anda verir, istediğin çıktıyı yönlendirebilirsin.",
                 "Değerlendirmeler boyunca çalmayı sürdürürüm: ben çalarken notalarımı düzenle, değişiklik baştan başlamak yerine bir sonraki vuruşta araya eklenir; işte bir ezgiyi çalma sırasında değiştirmeyi müzikal yapan budur. Beni baştan yeniden çalmak için @Music/replay'e bak; beni yerinde durdurup aynı noktadan sürdürmek için @Music/pause'a bak."
             ],
@@ -6533,7 +6533,7 @@
                     "Birim yarım seslerdir. Bir yarım ses, Batı müziğindeki en küçük adımdır: bir piyanoda bir tuştan hemen yanındakine olan mesafedir, siyah tuşlar sayılarak, ve on iki tanesi bir oktav yapar. Yani \\anahtar: 12semitones\\🪲 aynı parçanın bir oktav yükseğidir, \\anahtar: -12semitones\\🪲 bir oktav alçağıdır ve \\anahtar: 2semitones\\🪲 onu biraz yukarı iter.",
                     "Burada iki sayma buluşur ve bunları karıştırmak kolaydır. Notalar /gam adımlarını/ sayar, oktavın şu olduğu yerde: \\8\\: şundan \\1\\ şuna \\8\\ bir oktavdır. Bir anahtar /yarım sesleri/ sayar, oktavın şu olduğu yerde: \\12\\. İkisi de aynı mesafeyi tanımlar — yedi notalık bir gamın şundan \\1\\ şuna \\8\\ olan sekiz adımı on iki yarım sesi kapsar. Bir anahtar yarım seslerle ölçülür çünkü bir yarım ses her gamda aynı büyüklüktedir, ama bir adım değildir: @Music/scale'in beşli gamı bir oktava beş nota sığdırır ve majör yedi sığdırır, bu yüzden adımlarla kaydırmak her birini farklı bir mesafe hareket ettirirken, \\12semitones\\ hepsinde bir oktavdır.",
                     "Yalnızca bir sayı olduğu için, bir anahtar herhangi bir yerden gelebilir. Burada /yukarı/ seçildiğinde tüm parça iki yarım ses yükselir — bir @Choice okuyacak sahnede seçilebilir bir şeye ihtiyaç duyar, bu yüzden iki cümle onu çalıştıran şeydir:",
-                    "\\🎭([\n\t\t💬('yukarı' selectable: ⊤ name: 'yukarı' place: 📍(-2m 0m))\n\t\t💬('ana sayfa' selectable: ⊤ name: 'ana sayfa' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'yukarı' ? 2semitones 0semitones))\n\t])\\"
+                    "\\🎭([\n\t\t💬('yukarı' seçilebilir: ⊤ isim: 'yukarı' yer: 📍(-2m 0m))\n\t\t💬('ana sayfa' seçilebilir: ⊤ isim: 'ana sayfa' yer: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) anahtar: (🔘() = 'yukarı' ? 2semitones 0semitones))\n\t])\\"
                 ],
                 "names": "$~anahtar"
             },
@@ -6554,7 +6554,7 @@
                 "doc": [
                     "$~Bir değerlendirmede bu \\⊤\\ olduğunda, hiçbir notam değişmese bile baştan başlarım.",
                     "Bu, sürekli çalmak yerine bir olaya yanıt veren ses içindir. Doğru bir yanıt bir çıngırak çalarsa, üst üste iki doğru yanıt tam olarak aynı müziği üretir, bu yüzden hiçbir şey değişmez ve hiçbir şey tekrar ses çıkarmaz. Ben senin /yeniden, şimdi/ deme yolunum — aşağıda /doğru/'yu iki kez seç ve iki kez çıngırar:",
-                    "\\🎭([\n\t\t💬('doğru' selectable: ⊤ name: 'doğru' place: 📍(-2m 0m))\n\t\t💬('yanlış' selectable: ⊤ name: 'yanlış' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'doğru') ⊥)\n\t])\\",
+                    "\\🎭([\n\t\t💬('doğru' seçilebilir: ⊤ isim: 'doğru' yer: 📍(-2m 0m))\n\t\t💬('yanlış' seçilebilir: ⊤ isim: 'yanlış' yer: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] çalgı: 🔈.🔔 döngü: ⊥) tekrarOynat: ∆ 🔘() ? (🔘() = 'doğru') ⊥)\n\t])\\",
                     "Bana /anlık/ bir koşul ver, yalnızca olayın neden olduğu değerlendirmede doğru olan bir koşul, yukarıdaki \\∆ 🔘()\\ gibi. Şunun gibi kalıcı bir koşul \\score > 10\\🪲 bir kez doğru olduğunda doğru kalır, bu yüzden o andan itibaren her değerlendirmede beni yeniden başlatır."
                 ],
                 "names": "$~tekrarOynat"
@@ -6650,7 +6650,7 @@
                 "doc": [
                     "$~Bu \\⊤\\ iken yerinde dururum ve tekrar \\⊥\\ olduğunda durduğum vuruştan itibaren devam ederim.",
                     "Beni @Music/replay'den farklı kılan şey budur: replay /baştan başla/ demektir, ben ise /burada bekle/ demektir. Durduğumda hâlâ çalan bir nota, tekrar başladığımda ondan geriye kalanı çalar, bu yüzden uzun bir akorun ortasında durmak onu kaybetmez. Aşağıda /tut/ ve /devam et/'i seç:",
-                    "\\🎭([\n\t\t💬('tut' selectable: ⊤ name: 'tut' place: 📍(-2m 0m))\n\t\t💬('git' selectable: ⊤ name: 'git' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'tut')\n\t])\\",
+                    "\\🎭([\n\t\t💬('tut' seçilebilir: ⊤ isim: 'tut' yer: 📍(-2m 0m))\n\t\t💬('git' seçilebilir: ⊤ isim: 'git' yer: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] çalgı: 🔈.🎹) duraklat: 🔘() = 'tut')\n\t])\\",
                     "Tekrardan farklı olarak, /kalıcı/ bir koşul isterim; sessizliği ne kadar istersen o kadar süre doğru kalan bir koşul. @Beat sayacım benimle birlikte bekler ve sıfırdan başlamak yerine kaldığı yerden devam eder."
                 ],
                 "names": "$~duraklat"
@@ -6662,7 +6662,7 @@
                 "Notalarım sayıdır, @Music öğesinin açıkladığı aynı sayılar — 1 gamın ilk notasıdır, 8 aynı notanın bir oktav üstüdür, ø bir duraktır ve süslü parantez içindeki sayılar, örneğin \\{1 3 5}\\ bir akor olarak birlikte tınlar:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
                 "Notaların tam sayı olması gerekmez. \\1.5\\ birinci nota ile ikinci notanın arasındadır ve ikisi de çalar — yakın olan daha yüksek sesle — böylece bir sayıyı notalar boyunca kaydırmak piyano tuşlarına bastırmak gibi tınlar:",
-                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] vuruş: 0.5beats))\\",
                 "@Track/mash öğemi \\⊥\\ olarak ayarla, o zaman böyle bir sayı iki nota çalmak yerine bir notayı perdeden büker.",
                 "Her girdi benim @Track/beat öğem kadar sürer, sen değiştirmezsen bu bir vuruştur. Bunu değiştirmek, çaldığım her şeyi bir anda yeniden ızgaraya yerleştirir.",
                 "Bir girdinin geri kalanından daha uzun veya daha kısa olması gerektiğinde, uzunluğu sayının üzerine bir nota değeri olarak yaz. \\8𝅗𝅥\\ bir yarım notadır — bir vuruştan iki kat uzundur — ve çevresinde hiçbir şeye gerek duymaz:",
@@ -6671,9 +6671,9 @@
                 "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim sayılarımdan hemen sonra olduğu her yerde bunları sunar.",
                 "Bir es değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat uzundur ve daha ince olan her şey için @Note vardır.",
                 "Tek bir nota kendi ses düzeyine ya da hiçbir değerin yazamayacağı bir uzunluğa ihtiyaç duyduğunda, onu bir @Note içine sar. Buna yalnızca ihtiyacın olan yerde başvur: yalın bir sayı daha kolay okunur, bu yüzden çoğu parçada hiç yoktur ve bu nadirlik, bir @Note'yi bir olay olarak öne çıkaran şeydir.",
-                "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n2•#) 8 - n2))\n\t\tçalgı: 🔈.🎹\n\t)\n)\\",
                 "Eslerle doldurmak bir turun ihtiyacı olan tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirinden uzaklaşmak yerine adım adım kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\ her iki listenin de aynı türden şeyi tutmasına ihtiyaç duyar.",
-                "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlen: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlen] instrument: 🔈.🪈)\n\t\t🎶([:dinlen :melodi] instrument: 🔈.🎻)\n\t])\\"
+                "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlen: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlen] çalgı: 🔈.🪈)\n\t\t🎶([:dinlen :melodi] çalgı: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~Parça"],
             "notes": {
@@ -6713,7 +6713,7 @@
                 "names": "$~ez"
             },
             "words": {
-                "doc": "$~@Instrument/voice öğesinin söyleyeceği heceler. Her nota için bir hece, boşluklarla ayrılmış, yani \\'so mi fa'\\ üç nota söyler ve boşluklar bir hecenin nerede bittiğini ve bir sonrakinin nerede başladığını gösterir.\n\nSuskunluklar hece almaz, yani bir söz gerçekten ses veren notalara denk gelir. Notalardan daha az hece varsa, susmak yerine baştan başlarlar. Hiç hece yoksa, ses bir /uh/ sesi tutar.\n\nBir heceyi tire ile bitirirseniz, o hece bir sonraki notada da tutulur; her tire için bir nota daha eklenir — böylece bir heceyi birkaç nota boyunca söylersiniz. Şurada \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ ilk iki notayı kapsar, sonra \\mi\\ ve \\so\\ birer nota alır.\n\nYazım <Uluslararası Fonetik Alfabe@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ile yazılır; burada her harf bir sestir. Her sesi görmek ve duymak için düzenleyicinin altındaki 🤖 düğmesine basın. Tanımadığım harfler atlanır. Ses dışındaki her enstrüman beni yok sayar, yani bir söz @Track/instrument öğesini değiştirip geri aldığınızda korunur.",
+                "doc": "$~@Instrument/voice öğesinin söyleyeceği heceler. Her nota için bir hece, boşluklarla ayrılmış, yani \\'so mi fa'\\ üç nota söyler ve boşluklar bir hecenin nerede bittiğini ve bir sonrakinin nerede başladığını gösterir.\n\nSuskunluklar hece almaz, yani bir söz gerçekten ses veren notalara denk gelir. Notalardan daha az hece varsa, susmak yerine baştan başlarlar. Hiç hece yoksa, ses bir /uh/ sesi tutar.\n\nBir heceyi tire ile bitirirseniz, o hece bir sonraki notada da tutulur; her tire için bir nota daha eklenir — böylece bir heceyi birkaç nota boyunca söylersiniz. Şurada \\🎶([1 2 3 4] kelimeler: 'la- mi so')\\, \\la\\ ilk iki notayı kapsar, sonra \\mi\\ ve \\so\\ birer nota alır.\n\nYazım <Uluslararası Fonetik Alfabe@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ile yazılır; burada her harf bir sestir. Her sesi görmek ve duymak için düzenleyicinin altındaki 🤖 düğmesine basın. Tanımadığım harfler atlanır. Ses dışındaki her enstrüman beni yok sayar, yani bir söz @Track/instrument öğesini değiştirip geri aldığınızda korunur.",
                 "names": "$~kelimeler"
             }
         },
@@ -6722,7 +6722,7 @@
                 "$~Ben bir @Track içinde kendi ses seviyesini veya hiçbir nota değerinin heceleyemeyeceği bir uzunluğu taşıyan tek bir girişim.",
                 "Çoğu nota düz sayılar olarak kalmalı ve çoğu uzunluk sayının kendisine yazıldığında daha kısadır: \\1𝅗𝅥\\ bir yarım notadır. Bir nota kendi ses seviyesine veya değerlerin arasına düşen bir uzunluğa ihtiyaç duyduğunda bana uzanmaya değer — ve çünkü \\♪(1 2beats ÷ 3)\\ çok daha fazla şey söyler, \\1\\ ile karşılaştırıldığında, beni her yerde kullanmak önemli notaları gömer.",
                 "Bir triole dürüst aritmetiktir: \\♪(1 2beats ÷ 3)\\ bunlardan üçünün iki vuruş doldurduğunu söyler. Uzunluğum da bir nota değeri olabilir, yani \\♪(1 1𝅗𝅥)\\ ve \\♪(1 2beats)\\ aynı iki vuruştur.",
-                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+                "\\🎼(🎶([1 1 ♪(5 2beats sesDüzeyi: 60%) ø]))\\"
             ],
             "names": ["$~Nota"],
             "degree": {
@@ -6748,56 +6748,56 @@
                 "piano": {
                     "doc": [
                         "$~Bir piyano. Gerçek bir piyanodan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~piyano"]
                 },
                 "violin": {
                     "doc": [
                         "$~Bir keman. Gerçek bir kemandan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~keman"]
                 },
                 "drums": {
                     "doc": [
                         "$~Bir davul seti. Kaydedildi ve perdelenmek yerine bir set: sayılar bir nota yerine setin bir parçasını seçer — \\1\\ bas davul, \\2\\ trampet, \\3\\ hi-hat, \\4\\ zil, \\5\\ tom tom, \\6\\ çan — ve \\7\\ tekrar bas davula döner.",
-                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6] vuruş: 2beats döngü: ⊥ çalgı: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~davul"]
                 },
                 "flute": {
                     "doc": [
                         "$~Bir flüt. Gerçek bir flütten kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~flüt"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Bir trompet. Gerçek bir trompetten kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~trompet"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Bir saksofon, tenor. Gerçek bir saksofondan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~saksofon", "$~saks"]
                 },
                 "bell": {
                     "doc": [
                         "$~Bir çan — orkestra çanları, tokmakla vurulan türden. Kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~çan"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~Bir didgeridoo, Avustralya Aborjinlerinden. Gerçek bir didgeridoodan kaydedildi ve perdelendi, böylece sayılar notaları seçer, ancak bu bir uğultu çalgısıdır ve alçak kalır.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🪵) tempo: 60beats/min)\\"
                     ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
@@ -6805,62 +6805,62 @@
                     "names": ["$~kedi", "$~miyav"],
                     "doc": [
                         "$~Bir kedi — aslında tek bir kediden oluşan koca bir set. Gerçek bir kediden kaydedildi ve perdelenmek yerine bir set: sayılar bir nota yerine kedinin ne söylediğini seçer — \\1\\ sinirli, \\2\\ yalvaran, \\3\\ aç, \\4\\ itiraz eden, \\5\\ yakaran, \\6\\ istekli, \\7\\ rahatsız, \\8\\ korkmuş, \\9\\ hassas, \\10\\ rahatlamış, \\11\\ yalnız, \\12\\ mırlama — ve \\13\\ tekrar sinirlenmişe dönüyor. Bunun yerine notalar çalan bir kedi için bkz. \\🔈.😺\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] vuruş: 2beats döngü: ⊥ çalgı: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
                     "names": ["$~köpek", "$~havlama"],
                     "doc": [
                         "$~Bir köpek — aslında tam bir takım. Gerçek köpeklerden kaydedildi ve perdelenmiş değil bir takım: sayılar bir nota yerine hangi havlamayı duyacağını seçer, en derinden en keskine doğru gider — \\1\\ boğuk, \\2\\ uyarıcı, \\3\\ koruyucu, \\4\\ tetikte, \\5\\ ısrarcı, \\6\\ talep eden, \\7\\ duyuran, \\8\\ istekli, \\9\\ heyecanlı, \\10\\ sabırsız, \\11\\ havlayan, \\12\\ tiz — ve \\13\\ tekrar boğuğa dönüyor. Bunun yerine notalar çalan bir köpek için bkz. \\🔈.🐕\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] vuruş: 2beats döngü: ⊥ çalgı: 🔈.🐶) tempo: 60beats/min)\\"
                     ]
                 },
                 "synth": {
                     "doc": [
                         "$~Bir sentezleyici solo sesi: parlak ve vızıltılı, osilatörlerden yapıldığından utanmayan. Kaydedilmiş değil sentezlenmiş ve perdelenmiş, bu yüzden sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎛) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~🎛️", "$~synth"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Bir sentezleyici bası: dolgun ve alçak. Kaydedilmiş değil sentezlenmiş ve perdelenmiş, bu yüzden sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎚) tempo: 60beats/min)\\"
                     ],
                     "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Bir sentezleyici pad sesi: yumuşak, yavaş gelen ve her şeyin altında bir akoru tutmak için iyi. Kaydedilmiş değil sentezlenmiş ve perdelenmiş, bu yüzden sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.☁) tempo: 60beats/min)\\"
                     ],
                     "names": ["☁️", "$~synthPad"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Aynı kedi, akort edilmiş. Takımın \\🔈.🐱\\ çaldığı on iki kayıt arasından, bu sabit bir perdeyi tutan tek olanı ve bir takım değil perdelenmiş, bu yüzden sayılar notaları seçer ve onunla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalındığında, bir miyavlama söylenmiş yerine gerilmiş gibi gelmeye başlar, bu yüzden ortanın bir oktav kadar yakınında en mutludur.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.😺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~perdeliKedi"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Aynı köpekler, ama akort edilmiş. Setin oluştuğu bütün havlamalar arasından bu, sabit bir perde tutan tek olanıdır. Ayrıca bu bir set değil, perdeli bir sestir. Yani sayılar notaları seçer ve onunla bir ezgi yazabilirsin. Kaydedildiği notadan uzakta çalındığında, bir havlama havlama gibi değil, gerilmiş gibi duyulmaya başlar. Bu yüzden orta perdenin bir oktav kadar yakınında en mutludur.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~perdeliKöpek"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Bir klasik gitar. Naylon telleri pena yerine parmaklarla çekilir. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer. Sade \\guitar\\ bunu ifade eder. Yani gitar isteyen eski projeler bunu çalar.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~akustikGitar", "$~gitar"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~Bir elektro-akustik gitar — içinde bir manyetik bulunan içi boş bir gövde. Çelik tellidir, bu yüzden naylon \\🔈.🎸\\ gitardan daha parlak ve daha uzun süre tınlar. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~elektroGitar"]
                 },
@@ -6869,7 +6869,7 @@
                         "$~Bir insandan kaydedilmek yerine filtrelerden oluşturulmuş bir şarkı söyleyen ses. Perdeli olduğu için sayılar notaları seçer.",
                         "Ben bir sentezleyiciyim, tıpkı @Instrument/synth gibi — bir şarkıcının taklidi değilim. Ağzım ne kadar yüksek ya da alçak söylersem söyleyeyim aynı boyutta kalır, ki bunu gerçek bir boğaz yapamaz. İşte bu yüzden bir insanı taklit eden bir makine gibi duyuluyorum ve ne bir erkek ne de bir kadın gibi duyuluyorum.",
                         "@Track öğeme bir @Track/words verin, ben de onları her nota için bir hece söyleyeyim. Hiç hece olmadan, bir /uh/ sesi tutarım, yani her zaman bir şeyler söylerim.",
-                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "\\🎼(🎶([1 2 3 5] kelimeler: 'la la la la' çalgı: 🔈.🤖) tempo: 120beats/min)\\",
                         "Heceler <Uluslararası Fonetik Alfabe@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ile yazılır; bu, her harfin bir yazım değil bir /ses/ olduğu bir alfabedir — yani \\'ʃi'\\ hangi dilde yazarsan yaz, /she/ kelimesinin başındaki sestir. Yapabileceğim tüm sesleri görmek ve her birini duymak için düzenleyicinin altındaki 🤖 düğmesine bas."
                     ],
                     "names": ["$~ses"]
@@ -6877,7 +6877,7 @@
                 "harmonica": {
                     "doc": [
                         "$~Bir ağız mızıkası, yanında düğmesi olan kromatik türde. Gerçek birinden kaydedildi ve akort edildi, böylece sayılar notaları seçer.",
-                        "\\Müzik(\n\tParça([1] beat: 4beats loop: ⊥ instrument: Çalgı.🌬)\n\ttempo: 60beats/min\n)\\"
+                        "\\Müzik(\n\tParça([1] vuruş: 4beats döngü: ⊥ çalgı: Çalgı.🌬)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~mızıka"]
                 }

@@ -1014,7 +1014,7 @@
                 "$~Sunt o intrare dată unei @Evaluate. Numele meu corespunde numelui intrării din @FunctionDefinition sau @StructureDefinition care este evaluată.",
                 "Sunt de ajutor cu funcțiile care au multe valori implicite, unde vrei doar să suprascrii o anumită intrare, fără a oferi tot restul.",
                 "De exemplu, @Phrase are foarte multe valori implicite pentru a-i controla stilul. Să presupunem că vrei să dai niște @Text și o @Color, dar nimic altceva în lista de input. Mă poți folosi pentru asta:",
-                "\\Phrase('Sunt mov!' color: Color(50% 52 300°))\\"
+                "\\Phrase('Sunt mov!' culoare: Color(50% 52 300°))\\"
             ],
             "start": "$~Hai să-mi evaluăm valoarea."
         },
@@ -4234,7 +4234,7 @@
                 "/apăsare rapidă!/",
                 "Deci, cea mai bună modalitate de a o utiliza este să creezi o performanță cu fraze selectabile denumite @Phrase , și apoi să folosești o @Reaction pentru a decide ce să faci când este ales acel nume.",
                 "Iată cel mai simplu exemplu:",
-                "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Group(\nStack() \n[\nPhrase('one' selectabil:⊤ nume:'1') \nPhrase('two' selectabil:⊤ nume:'2') \nPhrase(Choice())\n]\n)\\",
                 "Copiați acest cod în editor și apoi selectați una dintre cele două @Phrase . Veți vedea că a treia @Phrase arată numele selectat."
             ],
             "names": ["$~Alegere"]
@@ -4401,7 +4401,7 @@
                 "\\Vorbire()\\",
                 "Acest lucru e perfect pentru cei care pot vorbi o @language, dar încă învață să o citească sau să o scrie (și altele)...",
                 "Poți indica un cod de limbă ca să recunoască vorbirea într-o anumită limbă:",
-                "\\Vorbire(language: 'es-MX')\\",
+                "\\Vorbire(limbă: 'es-MX')\\",
                 "Dacă nu indici nicio limbă, se folosește limba ta preferată.",
                 "Recunoașterea vorbirii are nevoie de acces la microfon și de conexiune la Internet (te rog dă acces!). De asemenea, pot exista limite de utilizare, așa că nu o lăsa pornită prea mult timp (nuuuu)!"
             ],
@@ -4434,7 +4434,7 @@
                 "/bzzzzzzz/",
                 "Această @List reprezintă în esență o imagine, dar depinde de tine să decizi ce să faci cu ea.",
                 "Ai putea încerca să reprezinți imaginea cu o grămadă de @Phrase , ceea ce ar putea arăta destul de interesant! Încearcă să copiezi asta...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' loc: Place((x - 1) × 0.5m y × -0.5m) culoare: color durată: 0s\n)\n)\n)\n)\n)\\",
                 "Dar ai putea analiza culorile și pentru a decide dacă o lumină era aprinsă sau stinsă sau dacă o anumită culoare era comună, permițând publicului să influențeze o reprezentație cu culorile pe care le arată."
             ],
             "names": ["$~Cameră"],
@@ -4477,13 +4477,13 @@
                 "/Boop boop boop/",
                 "Pentru a controla temporizarea, poți fie să setezi @Phrase.duration pentru fiecare ieșire, care va afișa această durată înainte de a trece la următoarea, fie să utilizezi orice tranziții @Phrase.entering sau @Phrase.exiting pe care le-ai fi setat. Dacă le setezi la @Sequence , aceasta va folosi durata acesteia.",
                 "Toate acestea vă permit să faceți lucruri precum acest mic @Scene , care afișează aceste trei fraze în secvență:",
-                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "\\Scene([\n\tPhrase('Hello' durată: 1s)\n\tPhrase('How are you?' durată: 2s rotaţie: 5° intrând: Pose(rotaţie: 0°))\n\tPhrase('I am fine')\n])\\",
                 "Vedeți cum prima ieșire este afișată timp de o secundă, apoi următoarea timp de două secunde, dar animată la o rotație de cinci grade, și apoi arată ultima?",
                 "Poți crea secvențe foarte elaborate de ieșiri și animații cu @Scene și chiar poți face porțiuni din ele dinamice sau interactive, ca în cazul oricărui alt @Phrase sau @Group .",
                 "Dacă aveți o ieșire animată imbricată (un @Group cu @Phrase animată în interior), @Scene va aștepta ca tot conținutul animat din @Group să se termine.",
                 "A, și un ultim mic secret! Poți chiar să pui @Boolean în listă, iar dacă este \\⊥\\ , @Scene se va opri și va aștepta ca valoarea să devină adevărată.",
                 "De exemplu, dacă vrei să creezi o secvență de @Phrase și să avansezi doar atunci când @Button se schimbă, poți face astfel:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' durată: 0.25s rotaţie: 5° intrând: Pose(rotaţie: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Vezi cum se întrerupe după fiecare @Phrase și așteaptă ca @Button să se schimbe înainte de a avansa?"
             ],
             "names": ["$~Scenă"],
@@ -4535,7 +4535,7 @@
                 "Există multe moduri de a plasa @Output pe @Stage: dă-le un @Place explicit, folosește @Motion și lasă gravitația să facă treaba, sau pune-le într-un @Group pentru a fi aranjate.",
                 "Dar uneori vrei să oferi /spectatorilor/ controlul asupra locului unde merge @Output pe @Stage.",
                 "Iată cum funcționează: fă un @Placement și dă-l unui @Place al unui @Output:",
-                "\\Fraza('salut' place: Plasament())\\",
+                "\\Fraza('salut' loc: Plasament())\\",
                 "Apoi, de fiecare dată când spectatorii folosesc o @key săgeată sau apasă pe scenă, @Placement va face un nou @Place care se mișcă în direcția dorită.",
                 "Încearcă să copiezi asta în programul tău și să miști @Output cu indicatorul sau cu tastatura.",
                 "Poți personaliza @Placement, activând și dezactivând mișcarea pe anumite dimensiuni, schimbând cât de departe se mișcă un @Place și @Place inițial cu care începe fluxul."
@@ -4648,7 +4648,7 @@
                 "Dă-i niște text și un font, și va trasa conturul fiecărui glif punct cu punct.",
                 "\\Contour('a' \"Noto Sans\")\\",
                 "Introduceți acele valori @Place într-o @List de @Phrase pentru a vedea conturul desenat ca puncte:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' loc: point)))\\",
                 "Puteți scala conturul cu un @Number de metri, puteți muta originea acestuia cu un @Place , puteți alege o grosime a fontului, puteți activa italic și puteți seta `spațierea` dintre puncte ca distanță în metri. O `spațiere` mai mică trasează conturul mai îndeaproape, cu puncte distanțate uniform atât de-a lungul liniilor, cât și de-a lungul curbelor.",
                 "Unele glife, cum ar fi emoji-urile colorate, nu au contur, deci nu adaugă puncte. În timp ce preia fontul, îți va oferi o @List goală, apoi o va completa când este gata."
             ],
@@ -4726,8 +4726,8 @@
                 "Toate proprietățile mele sunt opționale. Dă-mi părți de dată pentru a descrie o dată:",
                 "\\📅(2026 7 1) → ''\\",
                 "Sau doar părți de oră, pentru o oră din zi:",
-                "\\📅(hour: 15 minute: 30) → ''\\",
-                "Dacă nu îmi dai nicio parte, mă transform în data și ora curentă, oriunde rulează programul. Dacă lași părți deoparte, orice parte mai mare decât cea mai mare pe care ai dat-o vine din data și ora curentă, iar părțile mai mici încep de la începutul lor: astfel \\📅(month: 12) → ''\\ este 1 decembrie al acestui an, la miezul nopții. Transformarea mea arată doar tipurile de părți pe care le-ai dat: părțile de dată fac o dată, părțile de oră fac o oră, iar amândouă le fac pe amândouă:",
+                "\\📅(oră: 15 minut: 30) → ''\\",
+                "Dacă nu îmi dai nicio parte, mă transform în data și ora curentă, oriunde rulează programul. Dacă lași părți deoparte, orice parte mai mare decât cea mai mare pe care ai dat-o vine din data și ora curentă, iar părțile mai mici încep de la începutul lor: astfel \\📅(lună: 12) → ''\\ este 1 decembrie al acestui an, la miezul nopții. Transformarea mea arată doar tipurile de părți pe care le-ai dat: părțile de dată fac o dată, părțile de oră fac o oră, iar amândouă le fac pe amândouă:",
                 "\\📅() → ''\\",
                 "Proprietatea mea @Moment.timezone acceptă un nume standard de fus orar IANA, cum ar fi \\'America/Los_Angeles'\\ sau \\'Asia/Tokyo'\\; dacă îl lași \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul. Proprietatea mea @Moment.calendar acceptă un nume de calendar Unicode, cum ar fi \\'gregory'\\, \\'ebraică'\\, sau \\'japoneză'\\; dacă îl lași \\ø\\, folosesc calendarul din regiunea cititorului. Proprietățile mele @Moment.year, @Moment.month și @Moment.day sunt în acel calendar:",
                 "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
@@ -4800,7 +4800,7 @@
                 "În spatele scenei, @Face folosește un model de învățare automată. Prima dată când îl folosești într-un program, modelul are nevoie de câteva secunde pentru a se descărca și o mică față care se rotește apare în colțul din dreapta sus al scenei în timp ce se încarcă. După aceea rămâne salvat și pornește instantaneu.",
                 "La fiecare cadru, @Face îți dă o @Expression. Uită-te acolo pentru lista completă de intrări și ce înseamnă ele.",
                 "Acest exemplu arată un emoji care se potrivește cu fața ta oriunde este fața ta reală:",
-                "\\față: 🙂()\n💬((față.zâmbind ? '😀' față.gurăDeschisă ? '😮' '😐') place: față.loc)\\"
+                "\\față: 🙂()\n💬((față.zâmbind ? '😀' față.gurăDeschisă ? '😮' '😐') loc: față.loc)\\"
             ],
             "names": ["$~Față"],
             "frequency": {
@@ -4821,9 +4821,9 @@
                 "La fiecare cadru, @Objects îți dă o @List de @Thing, ordonate după cât de sigur este modelul, cu cel mai sigur primul. Uită-te la @Thing pentru ce îți spune fiecare.",
                 "Modelul doar ghicește, așa că uneori va greși sau nu va vedea nimic. Cere o valoare `confidence` mai mare ca să auzi doar presupunerile de care este cel mai sigur.",
                 "Iată un exemplu care etichetează tot ce vede camera:",
-                "\\🎭(📦() ↦ 💬(⬚.nume place: ⬚.loc))\\",
+                "\\🎭(📦() ↦ 💬(⬚.nume loc: ⬚.loc))\\",
                 "Poți de asemenea să cauți doar un singur fel de lucru și să ignori restul:",
-                "\\lucruri: 📦(category: 'cat')\n💬(lucruri.📏() > 0 ? '🐈' '…')\\"
+                "\\lucruri: 📦(categorie: 'cat')\n💬(lucruri.📏() > 0 ? '🐈' '…')\\"
             ],
             "names": ["$~Obiecte"],
             "inputs": [
@@ -4950,7 +4950,7 @@
                 "Aici trei piese se schimbă pe rând, așa că un număr diferit de instrumente sună la fiecare beat — iar rombul crește cu oricâte instrumente cântă:",
                 "\\bătaie: Bătaie()\n🎭([\n\t\t💬('◆' ((bătaie.instrumente.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Dă-mi un nume de @Music și aud doar acea muzică. Două beat-uri ascultă mai jos, aceleași două muzici: cel de sus aude totul, așa că pâlpâie între ambele nume pe măsură ce fiecare muzică ajunge la un beat, iar cel de jos aude doar toba și nu spune niciodată altceva. Această diferență este filtrul.",
-                "\\tot: Bătaie()\ndoarToba: Bătaie('tic')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tot.nume 1.4m)\n\t\t\t\t💬(doarToba.nume 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tic')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'clopoțel')\n\t])\\",
+                "\\tot: Bătaie()\ndoarToba: Bătaie('tic')\n🎭([\n\t\t🔳(\n\t\t\t⬇(umplutură: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tot.nume 1.4m)\n\t\t\t\t💬(doarToba.nume 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min nume: 'tic')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min nume: 'clopoțel')\n\t])\\",
                 "Orice conduc eu se adaugă /pe lângă/ redarea pe care a ales-o privitorul; tu adaugi la ea, niciodată nu o înlocuiești."
             ],
             "name": {
@@ -5757,7 +5757,7 @@
                 "sway": {
                     "doc": [
                         "$~Mă înclin înainte și înapoi în jurul centrului unui @Output, ca ceva ce atârnă într-o briză ușoară. Sunt o animație bună de repaus, pentru că un /angle/ mic pare „viu” fără să atragă atenția.",
-                        "\\💬('🐈' resting: 💃.legănare(10°))\\"
+                        "\\💬('🐈' odihnă: 💃.legănare(10°))\\"
                     ],
                     "names": ["$~legănare"],
                     "angle": {
@@ -5768,7 +5768,7 @@
                 "bounce": {
                     "doc": [
                         "$~Fac un @Output să sară până la /height/ și să aterizeze, turtindu-se puțin la urcare și la coborâre. Dă-mi un @Phrase care tocmai a sosit și îl voi face să pară că are greutate.",
-                        "\\💬('🐈' resting: 💃.sări(3m))\\"
+                        "\\💬('🐈' odihnă: 💃.sări(3m))\\"
                     ],
                     "names": ["$~sări"],
                     "height": {
@@ -5779,42 +5779,42 @@
                 "spin": {
                     "doc": [
                         "$~Rotesc un @Output complet în jurul centrului său, de la 360° înapoi la 0°. Alege-mă ca animație de repaus și mă voi roti pentru totdeauna.",
-                        "\\💬('🐈' resting: 💃.rotire(2s))\\"
+                        "\\💬('🐈' odihnă: 💃.rotire(2s))\\"
                     ],
                     "names": ["$~rotire"]
                 },
                 "fadein": {
                     "doc": [
                         "$~Aduc un @Output de la invizibil la complet vizibil. Sunt gândit pentru /intrare/, când ceva sosește pe scenă.",
-                        "\\💬('🐈' entering: 💃.estompare(1s))\\"
+                        "\\💬('🐈' intrând: 💃.estompare(1s))\\"
                     ],
                     "names": ["$~estompare"]
                 },
                 "fadeout": {
                     "doc": [
                         "$~Duc un @Output de la complet vizibil la invizibil. Sunt gândit pentru /ieșire/, când ceva părăsește scena.",
-                        "\\💬('🐈' exiting: 💃.estompareieșire(duration: 1s))\\"
+                        "\\💬('🐈' ieșire: 💃.estompareieșire(durată: 1s))\\"
                     ],
                     "names": ["estompareieșire"]
                 },
                 "popup": {
                     "doc": [
                         "$~Fac un @Output să crească din nimic, depășind mărimea sa reală, apoi să revină. Acea mică depășire face ca o sosire să pară jucăușă în loc de mecanică.",
-                        "\\💬('🐈' entering: 💃.popup(0.5s))\\"
+                        "\\💬('🐈' intrând: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
                         "$~Trag brusc un @Output înainte și înapoi în mai multe direcții. Par „nu”, sau ceva care zornăie. Mă mișc repede, așa că păstrează-mă scurt.",
-                        "\\💬('🐈' resting: 💃.scutura(0.5s count: 3x))\\"
+                        "\\💬('🐈' odihnă: 💃.scutura(0.5s conta: 3x))\\"
                     ],
                     "names": ["$~scutura"]
                 },
                 "pulse": {
                     "doc": [
                         "$~Măresc un @Output până la /amount/ și înapoi, o dată. Sunt cea mai liniștită modalitate de a spune „privește aici” fără a muta nimic din loc.",
-                        "\\💬('🐈' resting: 💃.puls(1.2))\\"
+                        "\\💬('🐈' odihnă: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
                     "amount": {
@@ -5825,7 +5825,7 @@
                 "heartbeat": {
                     "doc": [
                         "$~Dau două bătăi rapide de mărire și apoi mă odihnesc, ritmul unei bătăi de inimă. Sunt mai urgent decât /pulse/-ul unui @Sequence și mai natural decât /flash/.",
-                        "\\💬('🐈' resting: 💃.bătaiainimii(1.4 1s))\\"
+                        "\\💬('🐈' odihnă: 💃.bătaiainimii(1.4 1s))\\"
                     ],
                     "names": ["$~bătaiainimii"],
                     "amount": {
@@ -5836,7 +5836,7 @@
                 "tada": {
                     "doc": [
                         "$~Sărbătoresc: o mică micșorare, apoi o mărire cu o legănare înainte și înapoi. Sunt pentru câștig, terminare și reușită.",
-                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                        "\\💬('🐈' odihnă: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
@@ -5847,7 +5847,7 @@
                 "wiggle": {
                     "doc": [
                         "$~Alunec un @Output dintr-o parte în alta în timp ce îl înclin, fiecare legănare fiind mai mică decât cea de dinainte. Sunt o scuturare cu un pic mai multă personalitate.",
-                        "\\💬('🐈' resting: 💃.semișcă(8°))\\"
+                        "\\💬('🐈' odihnă: 💃.semișcă(8°))\\"
                     ],
                     "names": ["$~semișcă"],
                     "angle": {
@@ -5859,21 +5859,21 @@
                     "doc": [
                         "$~Fac un @Output să clipească între vizibil și invizibil de două ori, estompându-mă pe parcurs. Sunt greu de ratat — ceea ce înseamnă și că sunt greu de ignorat, așa că folosește-mă rar.",
                         "Clipesc repede, așa că un privitor sensibil la clipiri m-ar putea găsi neplăcut. Încetinește-mă cu un /duration/ mai lung dacă mă voi repeta.",
-                        "\\💬('🐈' resting: 💃.bliț(1s))\\"
+                        "\\💬('🐈' odihnă: 💃.bliț(1s))\\"
                     ],
                     "names": ["$~bliț"]
                 },
                 "zoomin": {
                     "doc": [
                         "$~Fac un @Output să crească din nimic până la mărimea completă. Spre deosebire de /popup/, nu depășesc — sunt sosirea mai simplă și mai calmă.",
-                        "\\💬('🐈' entering: 💃.mărire(0.5s))\\"
+                        "\\💬('🐈' intrând: 💃.mărire(0.5s))\\"
                     ],
                     "names": ["$~mărire"]
                 },
                 "fadeinup": {
                     "doc": [
                         "$~Fac un @Output să apară estompat în timp ce îl alunec în sus, la locul lui, dintr-o /distance/ de mai jos.",
-                        "\\💬('🐈' entering: 💃.estomparesus(2m))\\"
+                        "\\💬('🐈' intrând: 💃.estomparesus(2m))\\"
                     ],
                     "names": ["estomparesus"],
                     "distance": {
@@ -5884,7 +5884,7 @@
                 "fadeindown": {
                     "doc": [
                         "$~Fac un @Output să apară estompat în timp ce îl alunec în jos, la locul lui, dintr-o /distance/ de mai sus.",
-                        "\\💬('🐈' entering: 💃.estomparejos(2m))\\"
+                        "\\💬('🐈' intrând: 💃.estomparejos(2m))\\"
                     ],
                     "names": ["estomparejos"],
                     "distance": {
@@ -5895,7 +5895,7 @@
                 "fadeinleft": {
                     "doc": [
                         "$~Fac un @Output să apară estompat în timp ce îl alunec spre dreapta, la locul lui, dintr-o /distance/ din stânga.",
-                        "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
+                        "\\💬('🐈' intrând: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
@@ -5906,7 +5906,7 @@
                 "fadeinright": {
                     "doc": [
                         "$~Fac un @Output să apară treptat în timp ce îl aduc spre stânga la locul lui, de la /distance/ spre dreapta.",
-                        "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
+                        "\\💬('🐈' intrând: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
@@ -5917,7 +5917,7 @@
                 "rotatein": {
                     "doc": [
                         "$~Rotesc un @Output la locul lui în timp ce îl fac să apară treptat, pornind rotit cu /angle/ și terminând drept.",
-                        "\\💬('🐈' entering: 💃.rotație(180°))\\"
+                        "\\💬('🐈' intrând: 💃.rotație(180°))\\"
                     ],
                     "names": ["$~rotație"],
                     "angle": {
@@ -5928,14 +5928,14 @@
                 "zoomout": {
                     "doc": [
                         "$~Micșorez un @Output de la mărimea completă până la nimic.",
-                        "\\💬('🐈' exiting: 💃.micșorare(0.5s))\\"
+                        "\\💬('🐈' ieșire: 💃.micșorare(0.5s))\\"
                     ],
                     "names": ["$~micșorare"]
                 },
                 "fadeoutup": {
                     "doc": [
                         "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ în sus.",
-                        "\\💬('🐈' exiting: 💃.estompareieșiresus(2m))\\"
+                        "\\💬('🐈' ieșire: 💃.estompareieșiresus(2m))\\"
                     ],
                     "names": ["estompareieșiresus"],
                     "distance": {
@@ -5946,7 +5946,7 @@
                 "fadeoutdown": {
                     "doc": [
                         "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ în jos.",
-                        "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
+                        "\\💬('🐈' ieșire: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
@@ -5957,7 +5957,7 @@
                 "fadeoutleft": {
                     "doc": [
                         "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ spre stânga.",
-                        "\\💬('🐈' exiting: 💃.estomparelastânga(2m))\\"
+                        "\\💬('🐈' ieșire: 💃.estomparelastânga(2m))\\"
                     ],
                     "names": ["$~estomparelastânga"],
                     "distance": {
@@ -5968,7 +5968,7 @@
                 "fadeoutright": {
                     "doc": [
                         "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ spre dreapta.",
-                        "\\💬('🐈' exiting: 💃.estompeazăcomplet(2m))\\"
+                        "\\💬('🐈' ieșire: 💃.estompeazăcomplet(2m))\\"
                     ],
                     "names": ["$~estompeazăcomplet"],
                     "distance": {
@@ -5979,7 +5979,7 @@
                 "rotateout": {
                     "doc": [
                         "$~Rotesc un @Output pentru a-l îndepărta în timp ce îl fac să dispară treptat, terminând rotit cu /angle/.",
-                        "\\💬('🐈' exiting: 💃.rotireieșire(180°))\\"
+                        "\\💬('🐈' ieșire: 💃.rotireieșire(180°))\\"
                     ],
                     "names": ["rotireieșire"],
                     "angle": {
@@ -5991,14 +5991,14 @@
                     "doc": [
                         "$~Trec un @Output prin fiecare nuanță a curcubeului și înapoi la punctul de plecare.",
                         "Schimb culoarea repede, așa că o persoană sensibilă la lumini care clipesc poate să nu se simtă bine. O /duration/ mai lungă mă face mult mai blând.",
-                        "\\💬('🐈' resting: 💃.curcubeu(3s))\\"
+                        "\\💬('🐈' odihnă: 💃.curcubeu(3s))\\"
                     ],
                     "names": ["$~curcubeu"]
                 },
                 "swing": {
                     "doc": [
                         "$~Legăn un @Output ca un pendul, până la /angle/ și apoi înapoi prin arce tot mai mici până se oprește. Spre deosebire de /sway/, eu mă opresc.",
-                        "\\💬('🐈' resting: 💃.leagăn(20°))\\"
+                        "\\💬('🐈' odihnă: 💃.leagăn(20°))\\"
                     ],
                     "names": ["$~leagăn"],
                     "angle": {
@@ -6009,14 +6009,14 @@
                 "blink": {
                     "doc": [
                         "$~Sting un @Output și îl aprind la loc fără estompare între, așa cum clipește un cursor. /flash/ se estompează; eu tai brusc.",
-                        "\\💬('🐈' resting: 💃.clipire(1s))\\"
+                        "\\💬('🐈' odihnă: 💃.clipire(1s))\\"
                     ],
                     "names": ["$~clipire"]
                 },
                 "nod": {
                     "doc": [
                         "$~Cobor un @Output în jos și înapoi în sus de două ori, ca o mișcare de aprobare a capului. Sunt cel mai blând mod de a spune „da”.",
-                        "\\💬('🐈' resting: 💃.aprobare(0.4m))\\"
+                        "\\💬('🐈' odihnă: 💃.aprobare(0.4m))\\"
                     ],
                     "names": ["$~aprobare"],
                     "distance": {
@@ -6027,7 +6027,7 @@
                 "dim": {
                     "doc": [
                         "$~Estompez un @Output până la /amount/ și înapoi la maxim, fără să îl ascund vreodată. Sunt pentru a arăta că ceva așteaptă sau este inactiv.",
-                        "\\💬('🐈' resting: 💃.întunecare(20% 2s))\\"
+                        "\\💬('🐈' odihnă: 💃.întunecare(20% 2s))\\"
                     ],
                     "names": ["$~întunecare"],
                     "amount": {
@@ -6038,7 +6038,7 @@
                 "slidein": {
                     "doc": [
                         "$~Alunec un @Output la locul lui de oriunde dorești, fără estompare. Dă-mi un @Place și voi porni de acolo și voi termina la odihnă, așa că o singură animație acoperă toate direcțiile.",
-                        "\\💬('🐈' entering: 💃.glisareînăuntru(📍(0m -4m)))\\"
+                        "\\💬('🐈' intrând: 💃.glisareînăuntru(📍(0m -4m)))\\"
                     ],
                     "names": ["$~glisareînăuntru"],
                     "from": {
@@ -6049,7 +6049,7 @@
                 "slideout": {
                     "doc": [
                         "$~Eu mut un @Output oriunde vrei tu, fără estompare. Dă-mi un @Place și voi termina acolo, așa că o singură animație acoperă orice direcție.",
-                        "\\💬('🐈' exiting: 💃.glisareînafară(📍(0m -4m)))\\"
+                        "\\💬('🐈' ieșire: 💃.glisareînafară(📍(0m -4m)))\\"
                     ],
                     "names": ["$~glisareînafară"],
                     "to": {
@@ -6060,7 +6060,7 @@
                 "float": {
                     "doc": [
                         "$~Eu ridic încet un @Output cu /distance/ și îl las jos. Dă-mi o /duration/ lungă și voi face ceva să pară fără greutate.",
-                        "\\💬('🐈' resting: 💃.plutire(0.5m 3s))\\"
+                        "\\💬('🐈' odihnă: 💃.plutire(0.5m 3s))\\"
                     ],
                     "names": ["$~plutire"],
                     "distance": {
@@ -6071,7 +6071,7 @@
                 "drift": {
                     "doc": [
                         "$~Eu mut încet un @Output cu /distance/ într-o parte și înapoi. Sunt /float/, dar lateral.",
-                        "\\💬('🐈' resting: 💃.deriva(0.5m 3s))\\"
+                        "\\💬('🐈' odihnă: 💃.deriva(0.5m 3s))\\"
                     ],
                     "names": ["$~deriva"],
                     "distance": {
@@ -6082,7 +6082,7 @@
                 "orbit": {
                     "doc": [
                         "$~Eu port un @Output pe un cerc cu /radius/, aducându-l înapoi de unde a plecat. Sunt singura animație predefinită care urmează o cale în loc să meargă înainte și înapoi.",
-                        "\\💬('🐈' resting: 💃.orbită(2m 4s))\\"
+                        "\\💬('🐈' odihnă: 💃.orbită(2m 4s))\\"
                     ],
                     "names": ["$~orbită"],
                     "radius": {
@@ -6093,7 +6093,7 @@
                 "glow": {
                     "doc": [
                         "$~Eu luminez un @Output spre /color/ și îl las să revină, ca ceva care se încălzește și se răcește. Spre deosebire de /rainbow/, eu rămân la o singură nuanță.",
-                        "\\💬('🐈' resting: 💃.strălucire(🌈.portocale 2s))\\"
+                        "\\💬('🐈' odihnă: 💃.strălucire(🌈.portocale 2s))\\"
                     ],
                     "names": ["$~strălucire"],
                     "color": {
@@ -6239,9 +6239,9 @@
                 "$~ÎI ARĂT @Output REZULTATUL TĂU. SALUT. URMEAZĂ AICI. SPUNE-MI CE SĂ ARĂT ȘI ȚI-L VOI ARĂTA.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "DACĂ VREI, DĂ-MI UN FUNDAL @Color ȘI VOI LUMINA SCENA ÎN CONSECINȚĂ.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "\\Stage([Phrase('stufffffff')] fundal: Color(75% 50 100°))\\",
                 "ÎMI POȚI DA ȘI O CHEMINĂ PENTRU O CADRU ȘI O VOI DECUPA.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+                "\\Stage([Phrase('stufffffff')] fundal: Color(75% 50 100°) cadru: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["$~Etapă"],
             "content": {
@@ -6512,17 +6512,17 @@
                 "Notele sunt numere. 1 este prima notă a scalei — cea pe care o melodie sună terminată — 2 este următoarea notă mai sus, iar 8 este din nou acea primă notă, cu o octavă mai sus. ø este o pauză, adică liniște. Numerele continuă dincolo de ambele capete: 9 este a doua notă cu o octavă mai sus, iar 0 și -1 coboară sub prima.",
                 "O /scală/ este mica mulțime de note din care este construită o piesă, iar ce note sunt acelea dă cea mai mare parte a dispoziției. @Music/scale este \\🎼.major\\ dacă nu spui altfel, ceea ce sună luminos; \\🎼.minor\\ sună mai trist din exact aceleași numere. O /cheie/ este cât de sus sau de jos stă întreaga piesă, stabilită de @Music/key. Iar @Music/tempo este cât de repede merge, în beat-uri pe minut — un beat este pulsul constant pe care ai bate din palme odată cu el.",
                 "Deoarece notele sunt numere, nu tonuri fixe, toate trei se pot schimba fără a atinge melodia. Acestea sunt aceleași trei note, mai triste, mai joase și mai lente:",
-                "\\🎼(🎶([1 3 5]) scale: 🎼.minor key: -5semitones tempo: 60beats/min)\\",
+                "\\🎼(🎶([1 3 5]) gamă: 🎼.minor cheie: -5semitones tempo: 60beats/min)\\",
                 "O piesă începe din nou când ajunge la capătul ei, așa că o listă scurtă este un riff care cântă la nesfârșit. Acesta este lung de patru beat-uri, cu pauze în goluri:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Dă-mi o listă de piese și cântă în același timp, fiecare cu propriul instrument, viteză și volum. Aici o tobă mare și o tobă mică țin ritmul în timp ce un hi-hat merge cu viteză dublă — un poliritm dintr-un singur număr. Tobele sunt un set, nu tonuri, așa că numerele lor aleg piese din set în loc de note:",
-                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 bătaie: 0.5beats volum: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
                 "Numerele dintre acolade sună împreună ca un acord, iar o valoare de notă scrisă pe un număr dă acelei intrări propria lungime. Aici două acorduri de notă întreagă țin dedesubtul unei melodii în mișcare:",
-                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volum: 50%)\n\t])\\",
                 "Orice creează numere poate crea muzică. Această melodie se amestecă într-o ordine nouă și urmează cât de tare vorbești:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].amestecat())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Nimeni nu trebuie să mă audă. @Beat raportează fiecare beat pe măsură ce sună, ca să poți desena muzica la fel de bine cum o cânți, alături de orice vizualizare a ales privitorul. @Beat are mereu un @Downbeat, ca să-l poți citi fără a verifica nimic:",
-                "\\bătaie: Bătaie()\nnumărare: bătaie.număr\n🎭([\n\t\t💬('◆' size: 1m + ((numărare % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((numărare % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "\\bătaie: Bătaie()\nnumărare: bătaie.număr\n🎭([\n\t\t💬('◆' dimensiune: 1m + ((numărare % 4) = 0 ? 2m 0m) loc: 📍(-2m 2m))\n\t\t💬('◆' dimensiune: 1m + ((numărare % 4) = 2 ? 2m 0m) loc: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
                 "Nu am un aspect propriu de stilizat, așa că nu iau niciuna dintre intrările obișnuite de aspect — nici dimensiune, loc, culoare sau animație. Cum apar este alegerea privitorului, făcută în setările lui, și este ancorat de scenă în loc să fie plasat în aranjamentul tău; nu ocup loc, așa că punându-mă într-un @Row sau un @Stack nu mută niciodată nimic de lângă mine. Ca să desenezi muzica singur, folosește @Beat: îți dă fiecare beat pe măsură ce sună, ca să conduci orice output vrei.",
                 "Continui să cânt de-a lungul evaluărilor: editează-mi notele în timp ce cânt și schimbarea se îmbină la următorul beat în loc să repornească, ceea ce face ca schimbarea unei melodii în timpul cântării să pară muzicală. Ca să mă cânți din nou de la început, vezi @Music/replay; ca să mă ții pe loc și să continui din același loc, vezi @Music/pause."
             ],
@@ -6541,7 +6541,7 @@
                     "Unitatea este semitonul. Un semiton este cel mai mic pas din muzica occidentală: pe un pian este distanța de la o clapă la următoarea, numărând și clapele negre, iar douăsprezece dintre ele fac o octavă. Așa că \\cheie: 12semitones\\🪲 este aceeași piesă cu o octavă mai sus, \\cheie: -12semitones\\🪲 cu o octavă mai jos, iar \\cheie: 2semitones\\🪲 o împinge puțin mai sus.",
                     "Aici se întâlnesc două numărători, și sunt ușor de confundat. Notele numără /pași de scală/, unde octava este \\8\\: de la \\1\\ până la \\8\\ este o octavă. O cheie numără /semitonuri/, unde octava este \\12\\. Ambele descriu aceeași distanță — cei opt pași de la \\1\\ la \\8\\ ai unei scale de șapte note acoperă douăsprezece semitonuri. O cheie se măsoară în semitonuri pentru că un semiton are aceeași mărime în fiecare scală, în timp ce un pas nu are: scala pentatonică din @Music/scale are cinci note pe octavă, iar cea majoră are șapte, așa că deplasarea prin pași ar muta fiecare o distanță diferită, în timp ce \\12semitones\\ este o octavă în toate.",
                     "Pentru că este doar un număr, o cheie poate veni de oriunde. Aici întreaga piesă urcă două semitonuri în timp ce /sus/ este alegerea — un @Choice are nevoie de ceva selectabil pe scenă de citit, așa că cele două fraze sunt cele care o fac să funcționeze:",
-                    "\\🎭([\n\t\t💬('sus' selectable: ⊤ name: 'sus' place: 📍(-2m 0m))\n\t\t💬('acasă' selectable: ⊤ name: 'acasă' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'sus' ? 2semitones 0semitones))\n\t])\\"
+                    "\\🎭([\n\t\t💬('sus' selectabil: ⊤ nume: 'sus' loc: 📍(-2m 0m))\n\t\t💬('acasă' selectabil: ⊤ nume: 'acasă' loc: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) cheie: (🔘() = 'sus' ? 2semitones 0semitones))\n\t])\\"
                 ],
                 "names": "$~cheie"
             },
@@ -6562,7 +6562,7 @@
                 "doc": [
                     "$~Când acest lucru este \\⊤\\ la o evaluare, o iau de la capăt, chiar dacă niciuna dintre notele mele nu s-a schimbat.",
                     "Acest lucru este pentru sunetul care răspunde unui eveniment, nu pentru cel care cântă continuu. Dacă un răspuns corect cântă un clinchet, atunci două răspunsuri corecte la rând produc exact aceeași muzică, așa că nimic nu s-ar schimba și nimic nu s-ar auzi din nou. Eu sunt felul în care spui /din nou, acum/ — alege /corect/ de două ori mai jos și face clinchet de două ori:",
-                    "\\🎭([\n\t\t💬('corect' selectable: ⊤ name: 'corect' place: 📍(-2m 0m))\n\t\t💬('greșit' selectable: ⊤ name: 'greșit' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'corect') ⊥)\n\t])\\",
+                    "\\🎭([\n\t\t💬('corect' selectabil: ⊤ nume: 'corect' loc: 📍(-2m 0m))\n\t\t💬('greșit' selectabil: ⊤ nume: 'greșit' loc: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 buclă: ⊥) reluare: ∆ 🔘() ? (🔘() = 'corect') ⊥)\n\t])\\",
                     "Dă-mi o condiție /momentană/, una care este adevărată doar la evaluarea provocată de eveniment, cum ar fi \\∆ 🔘()\\ de mai sus. O condiție de durată cum ar fi \\score > 10\\🪲 rămâne adevărată odată ce devine adevărată, așa că m-ar reporni la fiecare evaluare de atunci încolo."
                 ],
                 "names": "$~reluare"
@@ -6658,7 +6658,7 @@
                 "doc": [
                     "$~Cât timp acest lucru este \\⊤\\ mă țin pe loc, iar când revine la \\⊥\\ continui chiar de la ritmul pe care m-am oprit.",
                     "Acest lucru mă face diferit de @Music/replay: replay înseamnă /o ia de la capăt/, iar eu înseamnă /așteaptă aici/. O notă care încă se auzea când m-am oprit se cântă cât a mai rămas din ea când încep din nou, așa că oprirea în mijlocul unui acord lung nu îl pierde. Alege /ține/ și /mergi/ mai jos:",
-                    "\\🎭([\n\t\t💬('ține' selectable: ⊤ name: 'ține' place: 📍(-2m 0m))\n\t\t💬('mergi' selectable: ⊤ name: 'mergi' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'ține')\n\t])\\",
+                    "\\🎭([\n\t\t💬('ține' selectabil: ⊤ nume: 'ține' loc: 📍(-2m 0m))\n\t\t💬('mergi' selectabil: ⊤ nume: 'mergi' loc: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pauză: 🔘() = 'ține')\n\t])\\",
                     "Spre deosebire de reluare, vreau o condiție /durabilă/, una care rămâne adevărată atât timp cât vrei liniștea. Numărul meu de @Beat așteaptă cu mine și continuă de unde a rămas, în loc să înceapă din nou de la zero."
                 ],
                 "names": "$~pauză"
@@ -6670,7 +6670,7 @@
                 "Notele mele sunt numere, aceleași numere pe care le explică @Music — 1 este prima notă a scării, 8 este acea notă cu o octavă mai sus, ø este o pauză, iar numerele între acolade precum \\{1 3 5}\\ sună împreună ca un acord:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
                 "Notele nu trebuie să fie întregi. \\1.5\\ este între prima notă și a doua, iar amândouă se aud — cea mai apropiată mai tare — așa că mutarea unui număr pe note sună ca apăsarea multor clape de pian:",
-                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] bătaie: 0.5beats))\\",
                 "Setează-mi @Track/mash la \\⊥\\ și un asemenea număr îndoaie o notă în afara tonului în loc să cânte două.",
                 "Fiecare intrare durează @Track/beat, care este o bătaie dacă nu îl schimbi. Schimbarea lui reașază totul ce cânt deodată.",
                 "Când o intrare trebuie să fie mai lungă sau mai scurtă decât restul, scrie lungimea chiar pe număr ca o valoare a notei. \\8𝅗𝅥\\ este o notă de jumătate — de două ori mai lungă decât o bătaie — și nu are nevoie de nimic în jur:",
@@ -6721,7 +6721,7 @@
                 "names": "$~amestecare"
             },
             "words": {
-                "doc": "$~Silabele pe care @Instrument/voice să le cânte. O silabă pentru fiecare notă, separate prin spații, așa că \\'sol mi fa'\\ cântă trei note, iar spațiile sunt cele care spun unde se termină o silabă și unde începe următoarea.\n\nPauzele nu iau nicio silabă, așa că un vers ajunge pe notele care chiar sună. Dacă sunt mai puține silabe decât note, ele o iau de la început în loc să tacă. Dacă nu există deloc, vocea ține un sunet /uh/.\n\nTermină o silabă cu o liniuță ca s-o ții și peste nota următoare, câte o notă în plus pentru fiecare liniuță — așa cânți o singură silabă pe mai multe note. În \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ acoperă primele două note, apoi \\mi\\ și \\so\\ iau câte una fiecare.\n\nScrierea este <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, unde fiecare literă este un sunet. Apasă 🤖 sub editor ca să vezi fiecare sunet și să îl auzi. Literele pe care nu le recunosc sunt sărite. Orice instrument în afară de voce mă ignoră, așa că un vers rămâne dacă schimbi @Track/instrument și te întorci.",
+                "doc": "$~Silabele pe care @Instrument/voice să le cânte. O silabă pentru fiecare notă, separate prin spații, așa că \\'sol mi fa'\\ cântă trei note, iar spațiile sunt cele care spun unde se termină o silabă și unde începe următoarea.\n\nPauzele nu iau nicio silabă, așa că un vers ajunge pe notele care chiar sună. Dacă sunt mai puține silabe decât note, ele o iau de la început în loc să tacă. Dacă nu există deloc, vocea ține un sunet /uh/.\n\nTermină o silabă cu o liniuță ca s-o ții și peste nota următoare, câte o notă în plus pentru fiecare liniuță — așa cânți o singură silabă pe mai multe note. În \\🎶([1 2 3 4] cuvinte: 'la- mi so')\\, \\la\\ acoperă primele două note, apoi \\mi\\ și \\so\\ iau câte una fiecare.\n\nScrierea este <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, unde fiecare literă este un sunet. Apasă 🤖 sub editor ca să vezi fiecare sunet și să îl auzi. Literele pe care nu le recunosc sunt sărite. Orice instrument în afară de voce mă ignoră, așa că un vers rămâne dacă schimbi @Track/instrument și te întorci.",
                 "names": "$~cuvinte"
             }
         },
@@ -6730,7 +6730,7 @@
                 "$~Sunt o intrare dintr-un @Track care poartă propriul volum, sau o lungime pe care nicio valoare de notă nu o poate scrie.",
                 "Majoritatea notelor ar trebui să rămână numere simple, iar majoritatea lungimilor sunt mai scurte scrise pe numărul însuși: \\1𝅗𝅥\\ este o doime. Merit folosit când o notă are nevoie de propriul volum, sau de o lungime care cade între valori — și pentru că \\♪(1 2beats ÷ 3)\\ spune mult mai mult decât \\1\\, folosirea mea peste tot ar îngropa notele care contează.",
                 "O triolă este aritmetică cinstită: \\♪(1 2beats ÷ 3)\\ spune că trei dintre acestea umplu două bătăi. Lungimea mea poate fi și o valoare de notă, deci \\♪(1 1𝅗𝅥)\\ și \\♪(1 2beats)\\ sunt aceleași două bătăi.",
-                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+                "\\🎼(🎶([1 1 ♪(5 2beats volum: 60%) ø]))\\"
             ],
             "names": ["$~Notă"],
             "degree": {
@@ -6756,56 +6756,56 @@
                 "piano": {
                     "doc": [
                         "$~Un pian. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~pian"]
                 },
                 "violin": {
                     "doc": [
                         "$~O vioară. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~vioară"]
                 },
                 "drums": {
                     "doc": [
                         "$~O tobă. Înregistrată și un set, nu acordată: numerele aleg o parte din set, nu o notă — \\1\\ tobă mare, \\2\\ tobă mică, \\3\\ fus, \\4\\ talger, \\5\\ tom-tom, \\6\\ clopoțel de vacă — și \\7\\ revine înapoi la toba mare.",
-                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6] bătaie: 2beats buclă: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~tobe"]
                 },
                 "flute": {
                     "doc": [
                         "$~Un flaut. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~flaut"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~O trompetă. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~trompetă"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Un saxofon, un tenor. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~saxofon"]
                 },
                 "bell": {
                     "doc": [
                         "$~Un clopot — clopoței de orchestră, cei loviți cu un ciocănel. Înregistrat și acordat, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~clopoțel"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~Un didgeridoo, din Australia aborigenă. Înregistrat de la unul real și acordat, așa că numerele aleg notele, deși este un instrument cu ton continuu și rămâne jos.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
                     ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
@@ -6813,62 +6813,62 @@
                     "names": ["$~pisică", "$~miau"],
                     "doc": [
                         "$~O pisică — de fapt un set întreg dintr-una. Înregistrată de la o pisică reală și un set, nu acordată: numerele aleg ce spune pisica, nu o notă — \\1\\ iritată, \\2\\ cerșind, \\3\\ flămândă, \\4\\ protestând, \\5\\ implorând, \\6\\ doritoare, \\7\\ deranjată, \\8\\ speriată, \\9\\ sensibilă, \\10\\ liniștit, \\11\\ singuratic, \\12\\ torcând — și \\13\\ se întoarce înapoi la iritat. Pentru o pisică ce cântă note în schimb, vezi \\🔈.😺\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] bătaie: 2beats buclă: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
                     "names": ["$~câine", "$~lătrat"],
                     "doc": [
                         "$~Un câine — de fapt, o întreagă trusă de câini. Înregistrat de la câini reali, și este o trusă, nu un instrument acordat: numerele aleg ce lătrat auzi în loc de o notă, mergând de la cel mai grav la cel mai ascuțit — \\1\\ răgușit, \\2\\ avertizare, \\3\\ pază, \\4\\ alertă, \\5\\ insistent, \\6\\ cerând, \\7\\ anunțând, \\8\\ nerăbdător, \\9\\ entuziasmat, \\10\\ nervos, \\11\\ chelălăind, \\12\\ ascuțit — și \\13\\ se întoarce înapoi la răgușit. Pentru un câine ce cântă note în schimb, vezi \\🔈.🐕\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] bătaie: 2beats buclă: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
                     ]
                 },
                 "synth": {
                     "doc": [
                         "$~Un sunet principal de sintetizator: luminos și zumzăitor, și nu se rușinează că este făcut din oscilatoare. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~sintetizator"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Un bas de sintetizator: gros și jos. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~sintetizatorBas"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Un sunet de fundal de sintetizator: moale, lent la apariție, și bun pentru a ține un acord sub toate celelalte. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~sintetizatorPad"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Aceeași pisică, acordată. Dintre cele douăsprezece înregistrări pe care le cântă trusa \\🔈.🐱\\, aceasta este cea care ține un ton constant, și este acordată, nu o trusă, deci numerele aleg note și poți scrie o melodie cu ea. Cântată departe de nota la care a fost înregistrată, un mieunat începe să sune întins în loc de cântat, deci se simte cel mai bine într-o octavă sau cam așa de la mijloc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~pisicăCuNote"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Aceiași câini, acordați. Dintre toate lătratele din care este făcut setul, acesta ține o notă constantă. Este acordat pe note, nu doar un set, așa că numerele aleg notele și poți scrie o melodie cu el. Când este cântat departe de nota la care a fost înregistrat, un lătrat începe să sune întins, nu lătrat. De aceea sună cel mai bine într-o octavă sau două față de mijloc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~câineCuNote"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~O chitară clasică, cu corzi de nailon ciupite cu degetele, nu cu o pană. Este înregistrată de la una reală și acordată pe note, așa că numerele aleg notele. Aceasta este cea la care se referă simplul \\guitar\\, așa că proiectele mai vechi care cereau o chitară o cântă pe aceasta.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~chitarăAcustică", "$~chitară"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~O chitară electro-acustică — un corp gol cu un traductor înăuntru, cu corzi de oțel, așa că sună mai luminos și mai lung decât cea de nailon \\🔈.🎸\\. Este înregistrată de la una reală și acordată pe note, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~chitarăElectrică"]
                 },
@@ -6877,7 +6877,7 @@
                         "$~O voce care cântă, făcută din filtre în loc să fie înregistrată de la o persoană. Are înălțime, așa că numerele aleg notele.",
                         "Sunt un sintetizator, ca @Instrument/synth — nu o imitație a unui cântăreț. Gura mea rămâne la fel de mare oricât de sus sau de jos cânt, ceea ce niciun gât adevărat nu poate face. De aceea sun ca o mașină care imită o persoană și de aceea nu sun nici a bărbat, nici a femeie.",
                         "Dă-i lui @Track un @Track/words și le cânt, o silabă pentru fiecare notă. Fără nimic, țin un sunet /uh/, așa că mereu cânt ceva.",
-                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "\\🎼(🎶([1 2 3 5] cuvinte: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Silabele sunt scrise în <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabet în care fiecare literă este un /sunet/ în loc de o scriere — așa că \\'ʃi'\\ este sunetul de la începutul cuvântului /she/, indiferent de limba în care scrii. Apasă 🤖 sub editor ca să vezi toate sunetele pe care le pot face și să auzi fiecare sunet."
                     ],
                     "names": ["$~voce"]
@@ -6885,7 +6885,7 @@
                 "harmonica": {
                     "doc": [
                         "$~O muzicuță, tipul cromatic cu un buton pe partea laterală. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
-                        "\\Muzică(\n\tPistă([1] beat: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
+                        "\\Muzică(\n\tPistă([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~muzicuță"]
                 }

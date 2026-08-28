@@ -5,13 +5,13 @@ Terkadang kita ingin membuat karakter bergerak dengan cara yang sama beberapa ka
 Sebagai gantinya, kita bisa menggunakan  @Sequence  dengan  @Phrase  untuk membuat sesuatu berulang beberapa kali! Secara spesifik,kita bisa menggunakan hitungan di  @Sequence  dan pilih berapa kali serangkaian pose tersebut diulang. Misalnya, Ini dia bola basket yang memantul naik turun dua kali. 
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' memasuki: Sequence({
+					0%: Pose(mengimbangi: Place(y: 0.25m))
+					25%: Pose(mengimbangi: Place(y: 0m))
+					50%: Pose(mengimbangi: Place(y: -0.25m))
+					75%: Pose(mengimbangi: Place(y: 0m))
+					100%: Pose(mengimbangi: Place(y: 0.25m))
+				} menghitung: 2x lamanya: 2s))
 	])\
 
 animate-phrase, shake-phrase

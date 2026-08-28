@@ -5,7 +5,7 @@ Nếu chúng ta muốn nhân vật ngã xuống, nảy lên khỏi sàn nhà, ho
 @Motion điều khiển/Ở đâu/Một nhân vật được hình thành theo thời gian. Chúng ta sử dụng nó như là...\place\cho một @Phrase , khởi động nó ở vị trí cao để nó có thể rơi xuống.Chúng ta cũng cần một điểm tựa để ngã, nếu không nhân vật của chúng ta sẽ cứ rơi mãi không thôi! @Shape với một phạm vi rộng @Rectangle Tạo nên một sàn nhà đẹp:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' địađiểm: Motion(Place(0m 5m)) vấnđề: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@ Quả táo bắt đầu từ độ cao năm mét và rơi xuống do trọng l�
 Để thay đổi cách thức/đàn hồi/hoặc như thế nào/nặng/Một nhân vật là, hãy tạo cho nó nét riêng của bạn. @Matter . @Matter Cần có khối lượng, độ đàn hồi và ma sát:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' địađiểm: Motion(Place(-2m 5m)) vấnđề: Matter(1kg 0.9 0.2))
+		Phrase('🪨' địađiểm: Motion(Place(2m 5m)) vấnđề: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

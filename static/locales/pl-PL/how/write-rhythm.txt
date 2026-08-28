@@ -6,7 +6,7 @@ Lista samych liczb sprawia, że każda nuta ma tę samą długość, co brzmi ja
 
 \Music([
 		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums rytm: 0.5beats)
 	])\
 
 Po pierwszej nucie fortepianu następują trzy pauzy, więc brzmi ona przez cztery uderzenia. Siatka bębna to pół uderzenia, więc jego osiem wpisów wypełnia cztery uderzenia, a osiem wpisów fortepianu wypełnia osiem — bęben przechodzi cykl dwa razy na jeden cykl fortepianu. Ścieżki zapętlają się według własnej długości i tak jedna liczba tworzy polirytmię.
@@ -23,7 +23,7 @@ Liczenie pauz męczy, więc możesz zapisać długość na samej liczbie. Sama l
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] instrument: Instrument.trumpet rytm: 1𝅘𝅥))\
 
 To dwa takty po cztery uderzenia. \𝅝\ to cała nuta, \𝅗𝅥\ połowa, \𝅘𝅥\ ćwiartka, \𝅘𝅥𝅮\ ósemka, a \𝅘𝅥𝅯\ szesnastka, a kropka \𝅭\ wydłuża każdą z nich o połowę — więc \𝅘𝅥𝅮𝅭\ to ósemka z kropką, która popycha ten marsz do przodu. Rząd symboli pod edytorem pokazuje je po wpisaniu liczby.
 

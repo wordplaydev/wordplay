@@ -16,7 +16,7 @@ Stage(
 				[]
 				ƒ(phrases row) [
 						:phrases
-						:row ↦ Phrase("⬤" color: ⬚ duration: 0s)
+						:row ↦ Phrase("⬤" color: ⬚ duración: 0s)
 					]
 			)
 		)

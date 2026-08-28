@@ -7,10 +7,10 @@ Semua tentang sebuah  @Music  bisa diputuskan saat dijalankan, termasuk siapa ya
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'piano')
-				Phrase('🎻' selectable: ⊤ name: 'biola')
+				Phrase('🎹' dapatdipilih: ⊤ nama: 'piano')
+				Phrase('🎻' dapatdipilih: ⊤ nama: 'biola')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'biola') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] alatMusik: (picked = 'biola') ? Instrument.violin Instrument.piano))
 	])\
 
 Dua frasa yang bisa dipilih inilah yang membuat ini bekerja —  @Choice  tidak punya apa pun untuk dibaca kecuali ada sesuatu di panggung yang \dapatDipilih: ⊤\.
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon dapatdipilih: ⊤ nama: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] alatMusik: current.sound))
 	])\
 
 Menambahkan suara keempat kini hanya satu baris, dan tombolnya muncul dengan sendirinya. Perhatikan penjaga \found•ø ?\:  @List/find  mengembalikan \ø\ saat tidak ada yang cocok, yaitu yang terjadi sebelum ada yang memilih — dan cadangannya harus berupa sebuah \🎙\ yang utuh, karena itulah yang \current\ janjikan.

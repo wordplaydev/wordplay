@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'મેનુ') ? '▶ શરૂ કરવા દબાવો' '🏃 દોડો!' 1m)
-		(phase = 'મેનુ') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'મેનુ') ? Music(Track(theme વાદ્ય: Instrument.bell) ગતિ: 72beats/min) Music(Track(theme વાદ્ય: Instrument.synth) ગતિ: 132beats/min)
 	])\
 
 બંને ગીતો એ જ આઠ સંખ્યાઓ છે. માત્ર વાદ્ય અને ગતિ બદલાય છે, અને તે પહેલેથી જ એક જુદા ટુકડા જેવું લાગે છે — કારણ કે ડિગ્રી કહે છે *સ્કેલનું કયું પગથિયું*, કયો સૂર નહીં, તેથી એક  @Music  તેમને ફરી અર્થ આપી શકે છે. તેને \માપ: 🎼.હાર્મોનિકગૌણ\ આપો અને એ જ ધૂન એક પણ સૂર ફરી લખ્યા વગર ભયાનક બની જાય છે.
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('સ્કોર \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] વાદ્ય: Instrument.drums) ગતિ: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 પૂરતી વાર દબાવો અને ડ્રમ શરૂ થયા હતા તેના કરતાં બમણી જોરથી ચાલે છે. એક ટૂંકો, ધબકતો સૂર એ છે જે તેને સંભળાવે છે — લાંબા પકડેલા સૂરો હેઠળ ગતિનો ફેરફાર અનુભવવો મુશ્કેલ છે.

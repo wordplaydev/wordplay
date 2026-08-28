@@ -5,8 +5,8 @@ Una lista de números simples da a cada nota la misma duración, lo cual suena c
 @Track/beat  fija la cuadrícula. Cada entrada simple dura ese tiempo — y también lo hace cada \ø\, que es lo que hace de los silencios la forma más fácil de sostener una nota:
 
 \Music([
-		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 ø ø ø 5 ø 8 ø] instrumento: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrumento: Instrument.drums pulso: 0.5beats)
 	])\
 
 A la primera nota del piano le siguen tres silencios, así que suena durante cuatro tiempos. La cuadrícula del tambor es de medio tiempo, así que sus ocho entradas llenan cuatro tiempos mientras las ocho del piano llenan ocho — el tambor da la vuelta dos veces por cada una del piano. Las pistas se repiten según su propia duración, y así un número crea una polirritmia.
@@ -23,7 +23,7 @@ Contar silencios cansa, así que puedes escribir la duración en el número mism
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] instrumento: Instrument.trumpet pulso: 1𝅘𝅥))\
 
 Esos son dos compases de cuatro tiempos. \𝅝\ es una redonda, \𝅗𝅥\ una blanca, \𝅘𝅥\ una negra, \𝅘𝅥𝅮\ una corchea y \𝅘𝅥𝅯\ una semicorchea, y el punto \𝅭\ hace cualquiera de ellas la mitad más larga — así que \𝅘𝅥𝅮𝅭\ es la corchea con puntillo que impulsa esta marcha hacia adelante. La fila de símbolos bajo el editor te los ofrece después de que escribes un número.
 

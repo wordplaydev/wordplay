@@ -4612,7 +4612,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Sabe, o @Bind funciona com muitos outros caracteres, incluindo o @Evaluate — viu-os quando nomeou uma entrada @FunctionDefinition, como em \\Pose(color: _)\\ — e vamos conhecer alguns desses outros caracteres. @Bind, estará por aqui para fazer uma demonstração?"
+                            "Sabe, o @Bind funciona com muitos outros caracteres, incluindo o @Evaluate — viu-os quando nomeou uma entrada @FunctionDefinition, como em \\Pose(cor: _)\\ — e vamos conhecer alguns desses outros caracteres. @Bind, estará por aqui para fazer uma demonstração?"
                         ],
                         [
                             "Bind",

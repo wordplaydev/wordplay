@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 মোক টিপক' selectable: ⊤ name: 'টিপক')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 মোক টিপক' নিৰ্বাচনযোগ্য: ⊤ নাম: 'টিপক')
+		Music(Track(tapped ? [1 5 8] [] বাদ্যযন্ত্ৰ: Instrument.bell লুপ: ⊥) পুনৰচলাওক: tapped)
 	])\
 
 তালিকাটো পিছৰ মূল্যাংকনতে আকৌ খালী হৈ যোৱাটোৰ বাবে চিন্তা নকৰিব — যি সুৰ এবাৰ আৰম্ভ হয় সেয়া সদায় শেষলৈকে বাজে। যিটো এৰি দিব নোৱাৰি সেয়া হৈছে \replay\। দুবাৰ টিপক আৰু দ্বিতীয় টিপে প্ৰথমটোৰ দৰেই একেই সংগীত সৃষ্টি কৰে, গতিকে একো সলনি নহ'ল আৰু একো আকৌ নবাজিলহেঁতেন; \replay\ হৈছে আপুনি ক'বৰ উপায় /আকৌ, এতিয়া/। 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ এটা কী টিপক' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] বাদ্যযন্ত্ৰ: Instrument.piano লুপ: ⊥) পুনৰচলাওক: struck)
 	])\
 
 লক্ষ্য কৰক যে \∆ key\ নিজৰ শাৰীত সমাধান কৰা হয় আৰু মূল্য পৰীক্ষা \key = ' '\ পৃথকভাৱে ঘটে। এটা চৰ্ত হিচাপে একেলগে লিখিলে, শব্দটো পিছৰ সম্পৰ্কহীন কী-ত আকৌ বাজিলহেঁতেন যেতিয়া \key\ এতিয়াও এটা খালী ঠাই হিচাপে পঢ়া হয়।

@@ -18,10 +18,10 @@
 যদি আপনি চান প্রতিটি সেল একই আকারের হোক, তাহলে দিন  @Grid  এর একটি প্রস্থ এবং উচ্চতাও আছে। এর ফলে অক্ষরগুলো ভিন্ন আকারের হলেও তাদের বর্গক্ষেত্রের মধ্যে সুন্দরভাবে থাকে।
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' আকার: 1m)
+		Phrase('🐶' আকার: 1.5m)
+		Phrase('🦊' আকার: 0.5m)
+		Phrase('🐻' আকার: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

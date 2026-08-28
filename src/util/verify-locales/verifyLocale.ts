@@ -19,6 +19,7 @@ import { toTokens } from '@parser/toTokens';
 import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
+import checkExampleNames from '@util/verify-locales/checkExampleNames';
 import checkDegenerateNames from '@util/verify-locales/checkDegenerateNames';
 import checkNames from '@util/verify-locales/checkNames';
 import checkOperatorKeywords from '@util/verify-locales/checkOperatorKeywords';
@@ -190,6 +191,19 @@ export async function verifyLocale(
     // concept names, and nothing unreferenceable.
     revisedText = checkGlossaryForms(log, revisedText, fix);
 
+    // After the name checks above, so an example is retargeted to the name this run settled
+    // on rather than one about to be repaired, and before the doc checks below, so the
+    // conflict check analyzes the retargeted example rather than the stale one. Applied on a
+    // translate run too, not just `fix`: translating is when names change, so it is exactly
+    // the run whose examples would otherwise be left naming the old word.
+    if (locale !== 'en-US')
+        revisedText = checkExampleNames(
+            log,
+            DefaultLocale,
+            revisedText,
+            fix || translate,
+        );
+
     // Don't warn if we're checking the example locale.
     revisedText = await checkLocale(
         log,
@@ -204,6 +218,13 @@ export async function verifyLocale(
         localeFilter,
         translator,
     );
+
+    // Again, because `checkLocale` is where this run's own name translations land: a name
+    // Phase 2a rewrote strands every already-translated example that spelled the old word,
+    // and leaving that to the next run is what made the divergence look permanent. Costs one
+    // pass over the examples, and only on a run that could have changed a name.
+    if (translate && locale !== 'en-US')
+        revisedText = checkExampleNames(log, DefaultLocale, revisedText, true);
 
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
 }

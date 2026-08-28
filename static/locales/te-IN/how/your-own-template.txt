@@ -4,7 +4,7 @@
 
 ఎ @Structure ఇది పూరించడానికి ఖాళీలు ఉన్న వంటకం లాంటిది.రంగు మరియు లేబుల్‌ను తీసుకుని, తనను తాను ఎలా ప్రదర్శించుకోవాలో తెలిసిన బెలూన్ టెంప్లేట్ ఇక్కడ ఉంది:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` రంగు: color పరిమాణం: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'ఆకాశం').show()

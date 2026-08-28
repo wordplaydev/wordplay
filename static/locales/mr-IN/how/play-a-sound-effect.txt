@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 मला टॅप करा' selectable: ⊤ name: 'टॅप')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 मला टॅप करा' निवडण्याजोगे: ⊤ नाव: 'टॅप')
+		Music(Track(tapped ? [1 5 8] [] वाद्य: Instrument.bell फेरा: ⊥) पुन्हावाजवा: tapped)
 	])\
 
 पुढच्याच मूल्यमापनात यादी पुन्हा रिकामी होते याची काळजी करू नका — जो स्वर सुरू झाला आहे तो नेहमी शेवटपर्यंत वाजतो. जे तुम्ही वगळू शकत नाही ते म्हणजे \replay\. दोनदा टॅप करा आणि दुसरा टॅप पहिल्यासारखेच अगदी तेच संगीत तयार करतो, म्हणजे काहीच बदलले नाही आणि पुन्हा काहीच वाजणार नाही; \replay\ हा असा मार्ग आहे ज्याने तुम्ही म्हणता /पुन्हा, आत्ता/. 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ एक की दाबा' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] वाद्य: Instrument.piano फेरा: ⊥) पुन्हावाजवा: struck)
 	])\
 
 लक्षात घ्या की \∆ key\ हे त्याच्या स्वतःच्या ओळीवर काढले जाते आणि मूल्य तपासणी \key = ' '\ वेगळी घडते. एकच condition म्हणून एकत्र लिहिले, तर पुढच्या असंबंधित की दाबल्यावर आवाज पुन्हा वाजेल जेव्हा \key\ तरीही जागा म्हणून वाचली जाते.

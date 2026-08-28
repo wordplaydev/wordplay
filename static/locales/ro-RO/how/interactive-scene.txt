@@ -7,11 +7,11 @@ Pentru a face acest lucru, putem folosi un  @Scene , dar pune  @Boolean  valori 
 \Scene([
 		Phrase('dă clic pe mine')
 		Button()
-		Phrase('dă-mi clic din nou' duration: 1s)
+		Phrase('dă-mi clic din nou' durată: 1s)
 		Button()
-		Phrase('Nu serios, apasă-mă cât de tare poți!!' duration: 1s)
+		Phrase('Nu serios, apasă-mă cât de tare poți!!' durată: 1s)
 		Button()
-		Phrase('Ai dat clic pe mine până acum?' duration: 1s)
+		Phrase('Ai dat clic pe mine până acum?' durată: 1s)
 	])\
 
 Cel/Cea/Cei/Cele  @Scene  arată primul  @Phrase , apoi așteaptă ca  @Button  să fie adevărat, iar odată ce este, trece la următorul  @Phrase .
@@ -21,11 +21,11 @@ Poți folosi orice vrei pentru a avansa, atâta timp cât este adevărat sau fal
 \Scene([
 		Phrase('este cineva acolo?')
 		Volume() > .5
-		Phrase("Nu te aud, mai spui o dată?" duration: 1s)
+		Phrase("Nu te aud, mai spui o dată?" durată: 1s)
 		Volume() > .7
-		Phrase('mai tare te rog...' duration: 1s)
+		Phrase('mai tare te rog...' durată: 1s)
 		Volume() > .9
-		Phrase('o, salut!' duration: 1s)
+		Phrase('o, salut!' durată: 1s)
 	])\
 
 animated-scene

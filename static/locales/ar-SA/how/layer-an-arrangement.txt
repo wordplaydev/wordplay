@@ -6,8 +6,8 @@
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune آلة: Instrument.flute)
+		Track(tune آلة: Instrument.synthBass مفتاح: -12semitones مستوىالصوت: 60%)
 	])\
 
 صوتان، قائمة واحدة. عدّل اللحن فيتبعه الباص، لأن هناك لحنًا واحدًا فقط لتعديله.
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune آلة: Instrument.flute اتجاه: 0)
+		Track(tune آلة: Instrument.synthBass مفتاح: -12semitones مستوىالصوت: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] آلة: Instrument.synthPad نبضة: 2beats مستوىالصوت: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] آلة: Instrument.drums نبضة: 0.5beats مستوىالصوت: 45%)
 	])\
 
 راقب مستويات الصوت: الفلوت وحده على أعلى مستوى. الأجزاء عند أعلى مستوى للصوت لا تصنع فرقة أعلى صوتًا، بل تصنع فرقة أكثر تشوشًا، لأن كل شيء يُعزف في وقت واحد يجب أن يمر عبر نفس السماعة. ابدأ اللحن عند \100%\ وضع كل شيء آخر تحته.

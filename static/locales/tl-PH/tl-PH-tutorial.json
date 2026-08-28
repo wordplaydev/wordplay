@@ -4664,7 +4664,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Alam mo, ang @Bind ay gumagana sa maraming iba pang mga karakter, kabilang ang @Evaluate — nakita mo sila kapag pinangalanan mo ang isang input na @FunctionDefinition, tulad ng sa \\Pose(color: _)\\ — at makikilala natin ang ilan sa mga taong ito. @Bind, pupunta ka ba rito para mag-demo?"
+                            "$~Alam mo, ang @Bind ay gumagana sa maraming iba pang mga karakter, kabilang ang @Evaluate — nakita mo sila kapag pinangalanan mo ang isang input na @FunctionDefinition, tulad ng sa \\Pose(kulay: _)\\ — at makikilala natin ang ilan sa mga taong ito. @Bind, pupunta ka ba rito para mag-demo?"
                         ],
                         [
                             "Bind",

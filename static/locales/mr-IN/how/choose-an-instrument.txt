@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'पियानो')
-				Phrase('🎻' selectable: ⊤ name: 'व्हायोलिन')
+				Phrase('🎹' निवडण्याजोगे: ⊤ नाव: 'पियानो')
+				Phrase('🎻' निवडण्याजोगे: ⊤ नाव: 'व्हायोलिन')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'व्हायोलिन') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] वाद्य: (picked = 'व्हायोलिन') ? Instrument.violin Instrument.piano))
 	])\
 
 ही दोन निवडता येणारी वाक्ये हेच याला काम करतात —  @Choice  कडे वाचण्यासाठी काही नसते जोवर रंगमंचावरची एखादी गोष्ट \निवडण्याजोगे: ⊤\ नसते.
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon निवडण्याजोगे: ⊤ नाव: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] वाद्य: current.sound))
 	])\
 
 चौथा आवाज जोडणे आता एका ओळीचे काम आहे, आणि बटण आपोआप दिसते. या \found•ø ?\ रक्षकाकडे लक्ष द्या:  @List/find  काहीही जुळत नसेल तेव्हा \ø\ परत देते, आणि कोणी निवडण्याआधी असेच होते — आणि पर्यायी उत्तर पूर्ण \🎙\ असले पाहिजे, कारण \current\ तेच असल्याचे वचन देते.

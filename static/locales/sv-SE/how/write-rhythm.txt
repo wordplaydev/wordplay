@@ -6,7 +6,7 @@ En lista med bara siffror ger varje ton samma längd, vilket låter som en uppdr
 
 \Music([
 		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums takt: 0.5beats)
 	])\
 
 Pianots första ton följs av tre pauser, så den klingar i fyra slag. Trummans rutnät är ett halvt slag, så dess åtta poster fyller fyra slag medan pianots åtta fyller åtta — trumman går runt två gånger på pianots ena. Spår upprepas efter sina egna längder, och så gör en enda siffra en polyrytm.
@@ -23,7 +23,7 @@ Att räkna pauser blir tröttsamt, så du kan skriva längden på själva siffra
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] instrument: Instrument.trumpet takt: 1𝅘𝅥))\
 
 Det är två takter med fyra slag. \𝅝\ är en helnot, \𝅗𝅥\ en halvnot, \𝅘𝅥\ en fjärdedel, \𝅘𝅥𝅮\ en åttondel och \𝅘𝅥𝅯\ en sextondel, och punkten \𝅭\ gör vilken som helst av dem hälften så lång till — så \𝅘𝅥𝅮𝅭\ är den punkterade åttondelen som knäpper den här marschen framåt. Symbolraden under redigeraren erbjuder dem efter att du skrivit en siffra.
 

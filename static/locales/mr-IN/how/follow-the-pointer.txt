@@ -4,14 +4,14 @@
 
 @Pointer आम्हाला एक ताजे @Place प्रत्येक वेळी पॉइंटर हलतो.जर आपण ते वापरले @Place म्हणून @Phrase 's\place\आपण ज्या दिशेने बोट दाखवू, त्या दिशेने ते पात्र जाईल.
 
-\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+\Stage([Phrase('🐈' जागा: Pointer())] जागा: Place(0m 0m -10m))\
 
 बस एवढंच! तुमचा माउस हलवा किंवा बोट ओढा, आणि मांजर तुमच्या मागे येताना बघा.
 
 बाहेर काढून तुम्ही अधिक मनोरंजक गोष्टी करू शकता\x\आणि\y\पासून @Place ...हे एक बदक आहे जे नेहमी पॉइंटरच्या एक मीटर वर तरंगत असते:
 
 \Stage([
-		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
-	] place: Place(0m 0m -10m))\
+		Phrase('🦆' जागा: Place(Pointer().x Pointer().y + 1m))
+	] जागा: Place(0m 0m -10m))\
 
 move-phrase, count-with-time

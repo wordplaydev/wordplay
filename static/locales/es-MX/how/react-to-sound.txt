@@ -4,13 +4,13 @@ Haz que los personajes crezcan con el sonido.
 
 Podemos usar ese número para controlar cualquier cosa: el tamaño de una @Phrase , su rotación, su color.
 
-\Phrase('📣' size: (Volume() × 5m) + 1m)\
+\Phrase('📣' tamaño: (Volume() × 5m) + 1m)\
 
 Cuando hay silencio, el megáfono es\1m\alto. Cuando gritas, puede crecer hasta\6m\ alto.
 
 ¿Quieres un sol que gire más rápido cuanto más fuerte grites?
 
-\Phrase('🌞' rotation: Volume() × 360°)\
+\Phrase('🌞' rotación: Volume() × 360°)\
 
 Prueba a aplaudir o tararear y observa qué sucede.(Es posible que su ordenador le pida permiso para usar el micrófono la primera vez).
 

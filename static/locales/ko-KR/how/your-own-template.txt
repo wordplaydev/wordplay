@@ -4,7 +4,7 @@
 
 에이 @Structure 마치 빈칸을 채워 넣어야 하는 레시피와 같습니다.다음은 색상과 라벨을 입력받아 스스로 표시되는 풍선 템플릿입니다.
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` 색상: color 크기: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) '하늘').show()

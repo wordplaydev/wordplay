@@ -4,7 +4,7 @@
 
 Α @Structure είναι σαν μια συνταγή με κενά που πρέπει να συμπληρωθούν.Ορίστε ένα πρότυπο μπαλονιού που παίρνει ένα χρώμα και μια ετικέτα και ξέρει πώς να εμφανίζεται:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` χρώμα: color μέγεθος: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Ουρανός').show()

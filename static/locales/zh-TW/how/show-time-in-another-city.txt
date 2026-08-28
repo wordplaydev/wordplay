@@ -12,6 +12,6 @@
 
 你也可以選一種曆法，像是日本曆，並用字型來設計時鐘的樣式：
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' 表面: 'Doto')\
 
 count-with-time

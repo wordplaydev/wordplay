@@ -4,13 +4,13 @@ Tahukah Anda bahwa proyek Anda dapat mendengarkan Anda?  @Volume   stream  mengg
 
 Kita bisa menggunakan angka itu untuk mengendalikan apa saja — ukuran sebuah  @Phrase , rotasinya, warnanya.
 
-\Phrase('📣' size: (Volume() × 5m) + 1m)\
+\Phrase('📣' ukuran: (Volume() × 5m) + 1m)\
 
 Saat suasana tenang, megafon digunakan \1m\ tinggi. Saat Anda berteriak, tingginya bisa mencapai \6m\ tinggi.
 
 Ingin matahari yang berputar lebih cepat semakin keras suaramu?
 
-\Phrase('🌞' rotation: Volume() × 360°)\
+\Phrase('🌞' rotasi: Volume() × 360°)\
 
 Cobalah bertepuk tangan atau bersenandung dan perhatikan apa yang terjadi.(Komputer Anda mungkin akan meminta izin untuk menggunakan mikrofon pada penggunaan pertama.)
 

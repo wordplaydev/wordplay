@@ -7,10 +7,10 @@ Tudo sobre um  @Music  pode ser decidido enquanto toca, incluindo quem o toca. D
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'piano')
-				Phrase('🎻' selectable: ⊤ name: 'violino')
+				Phrase('🎹' selecionável: ⊤ nome: 'piano')
+				Phrase('🎻' selecionável: ⊤ nome: 'violino')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'violino') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] instrumento: (picked = 'violino') ? Instrument.violin Instrument.piano))
 	])\
 
 As duas frases selecionáveis são o que faz isto funcionar —  @Choice  não tem nada para ler a menos que algo no palco esteja \selecionável: ⊤\.
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selecionável: ⊤ nome: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] instrumento: current.sound))
 	])\
 
 Adicionar uma quarta voz é agora uma linha, e o botão aparece sozinho. Repara na proteção \found•ø ?\:  @List/find  devolve \ø\ quando nada corresponde, que é o que acontece antes de alguém ter escolhido — e a alternativa tem de ser um \🎙\ inteiro, porque é isso que \current\ promete ser.

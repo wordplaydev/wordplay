@@ -2,15 +2,15 @@ Visa valbara alternativ
 
 Ibland vill man visa en massa valmöjligheter på skärmen och göra något med det publiken väljer. För att göra detta behöver vi två saker:
 
-• En eller flera @Phrase som är markerade som valbara och har ett unikt namn (t.ex.\Phrase('alternativ 1' selectable: ⊤ name: 'en')\)• En @Choice , vilket ändras till @Phrase det senast valda namnet.
+• En eller flera @Phrase som är markerade som valbara och har ett unikt namn (t.ex.\Phrase('alternativ 1' valbara: ⊤ namn: 'en')\)• En @Choice , vilket ändras till @Phrase det senast valda namnet.
 
 Till exempel visar vi här tre alternativ, vart och ett med ett unikt namn.
 
 \option: Choice()
 Group(Stack() [
-		Phrase('alternativ 1' selectable: ⊤ name: 'en')
-		Phrase('alternativ 2' selectable: ⊤ name: 'två')
-		Phrase('alternativ 3' selectable: ⊤ name: 'tre')
+		Phrase('alternativ 1' valbara: ⊤ namn: 'en')
+		Phrase('alternativ 2' valbara: ⊤ namn: 'två')
+		Phrase('alternativ 3' valbara: ⊤ namn: 'tre')
 		Phrase(option)
 	])\
 

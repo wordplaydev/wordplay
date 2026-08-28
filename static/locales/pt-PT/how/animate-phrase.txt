@@ -4,14 +4,14 @@ Os personagens podem ter uma animação de repouso que se repete enquanto não s
 
 Por exemplo, vamos pôr este gato a dançar um bocadinho, fazendo-o rodar e mudar de posição:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' descansar: Sequence({
+			0%: Pose(rotação: 0°)
+			15%: Pose(rotação: 15°)
+			30%: Pose(rotação: 0°)
+			45%: Pose(desvio: Place(-0.25m))
+			60%: Pose(desvio: Place(0.25m))
+			75%: Pose(desvio: Place(-0.25m))
+			90%: Pose(desvio: Place(0m))
 		} 2s))\
 
 Este exemplo utiliza um @Sequence de diferentes @Pose .

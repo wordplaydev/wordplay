@@ -18,10 +18,10 @@
 यदि आप चाहते हैं कि प्रत्येक कोशिका का आकार समान हो, तो @Grid चौड़ाई और ऊंचाई भी। इस तरह अक्षर अपने-अपने वर्गों के अंदर व्यवस्थित रूप से बने रहते हैं, भले ही उनका आकार अलग-अलग हो:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' आकार: 1m)
+		Phrase('🐶' आकार: 1.5m)
+		Phrase('🦊' आकार: 0.5m)
+		Phrase('🐻' आकार: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

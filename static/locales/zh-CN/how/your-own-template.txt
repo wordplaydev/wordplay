@@ -4,7 +4,7 @@
 
 A @Structure 就像一份需要填写空白的食谱。这是一个气球模板，它接受颜色和标签，并能自动显示自身：
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` 颜色: color 尺寸: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) '天空').show()

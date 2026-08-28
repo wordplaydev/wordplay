@@ -12,6 +12,6 @@
 
 तपाईं एउटा पात्रो पनि छान्न सक्नुहुन्छ, जस्तै जापानी पात्रो, र घडीलाई फन्टले सजाउन सक्नुहुन्छ:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' रूप: 'Doto')\
 
 count-with-time

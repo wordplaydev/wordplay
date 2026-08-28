@@ -4,7 +4,7 @@
 
 ಅ @Structure ಖಾಲಿ ಜಾಗಗಳನ್ನು ತುಂಬಲು ಇರುವ ಪಾಕವಿಧಾನದಂತಿದೆ.ಬಣ್ಣ ಮತ್ತು ಲೇಬಲ್ ಅನ್ನು ತೆಗೆದುಕೊಳ್ಳುವ ಮತ್ತು ತನ್ನನ್ನು ಹೇಗೆ ತೋರಿಸಿಕೊಳ್ಳಬೇಕೆಂದು ತಿಳಿದಿರುವ ಬಲೂನ್ ಟೆಂಪ್ಲೇಟ್ ಇಲ್ಲಿದೆ:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` ಬಣ್ಣ: color ಗಾತ್ರ: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'ಆಕಾಶ').show()

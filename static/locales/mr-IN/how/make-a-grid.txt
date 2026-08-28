@@ -18,10 +18,10 @@
 जर तुम्हाला प्रत्येक सेल समान आकाराचा हवा असेल, तर द्या @Grid रुंदी आणि उंचीसुद्धा. त्यामुळे अक्षरे वेगवेगळ्या आकारांची असली तरी, ती त्यांच्या चौकोनांमध्ये व्यवस्थित राहतात.
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' आकार: 1m)
+		Phrase('🐶' आकार: 1.5m)
+		Phrase('🦊' आकार: 0.5m)
+		Phrase('🐻' आकार: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

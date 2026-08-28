@@ -2,7 +2,7 @@ Fă vocea să cânte cuvinte
 
 Din fiecare  @Instrument  din paletă, \🔈.🤖\ este singurul care poate spune ceva. Dă-i  @Track  un  @Track/words  și le cântă, câte o silabă pe fiecare notă:
 
-\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+\Music(Track([1 2 3 5 3 1] cuvinte: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
 
 Șase silabe, șase note. Spațiile sunt toată gramatica de aici — ele spun unde se oprește o silabă și unde începe următoarea. Pauzele nu iau nicio silabă, așa că cuvintele cad pe notele pe care chiar le auzi. Scrie mai puține silabe decât note și ele o iau de la început; nu scrie niciuna și vocea ține un sunet /ăă/, deci mereu cântă ceva.
 
@@ -16,7 +16,7 @@ Nu există nicio tastă pe tastatura ta pentru majoritatea acestora, așa că ap
 
 O vocală singură este o silabă foarte bună, iar dacă le cânți una după alta este cel mai clar mod de a le auzi diferența:
 
-\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+\Music(Track([1 2 3 4 5] cuvinte: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
 
 Consoanele arată în cea mai mare parte așa cum te aștepți: \p
 b
@@ -31,11 +31,11 @@ l
 r
 w\ toate sună aproape ca în engleză. Cele care merită învățate sunt sunetele pe care engleza le scrie cu două litere, plus o literă care s-a schimbat. \ʃ\ este /ș/, \ʒ\ este sunetul /s/ din /măsură/, \θ\ este /th/ din /subțire/, \ð\ este /th/ din /this/, \ŋ\ este /ng/ din /sing/, și \j\ este /y/ din /yes/. Pune una în fața unei vocale și ai un cuvânt:
 
-\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+\Music(Track([5 5 3 3 1] cuvinte: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
 
 O silabă se poate întinde și peste mai multe note. Termin-o cu o liniuță și ea ține încă o notă pentru fiecare liniuță — șirul de note pe o singură silabă care dă imnurilor și cântecelor de leagăn forma lor:
 
-\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+\Music(Track([1 2 3 2 1] cuvinte: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
 
 Cele trei liniuțe duc \glo\ peste patru note înainte ca \ri\ să cadă pe ultima. Orice nu recunoaște vocea sare peste, în loc să refuze, așa că poți experimenta fără să strici melodia.
 
@@ -44,7 +44,7 @@ Pentru a arăta cuvintele așa cum sunt cântate, citește-le înapoi din  @Beat
 \beat: Beat()
 Stage([
 		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
-		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+		Music(Track([1 2 3 5 3 1] cuvinte: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
 	])\
 
 @Downbeat/parts  are aceleași silabe pistă cu pistă, dacă vrei să desenezi doi cântăreți separat, nu împreună.

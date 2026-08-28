@@ -12,6 +12,6 @@ Bạn không biết tên múi giờ? Chỉ cần viết tên một thành phố 
 
 Bạn cũng có thể chọn một loại lịch, ví dụ lịch Nhật Bản, và trang trí đồng hồ bằng một phông chữ:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' khuônmặt: 'Doto')\
 
 count-with-time

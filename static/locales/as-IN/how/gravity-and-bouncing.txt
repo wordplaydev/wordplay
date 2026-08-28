@@ -5,7 +5,7 @@
 @Motion  নিয়ন্ত্ৰণ কৰে /ক’ত/ এটা চৰিত্ৰ সময়ৰ লগে লগে হয়। আমি ইয়াক হিচাপে ব্যৱহাৰ কৰো \place\ কাৰণ ক  @Phrase , ওখকৈ আৰম্ভ কৰি যাতে ই পৰিব পাৰে।আমাকো কিবা এটা লাগে যাৰ ওপৰত পৰিব, নহ’লে আমাৰ চৰিত্ৰটো কেৱল চিৰদিনৰ বাবে পৰি থাকিব! উঃ  @Shape  বহল এটাৰ সৈতে  @Rectangle  এটা সুন্দৰ মজিয়া বনায়:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' স্থান: Motion(Place(0m 5m)) বিষয়: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 কেনেকৈ সলনি কৰিবলৈ /বাউন্সি/ বা কেনেকৈ /গধুৰ/ এটা চৰিত্ৰ হৈছে, ইয়াক আপোনাৰ নিজৰ দিয়ক  @Matter . @Matter  এটা ভৰ, এটা বাউন্সিনেছ আৰু এটা ঘৰ্ষণ লয়:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' স্থান: Motion(Place(-2m 5m)) বিষয়: Matter(1kg 0.9 0.2))
+		Phrase('🪨' স্থান: Motion(Place(2m 5m)) বিষয়: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

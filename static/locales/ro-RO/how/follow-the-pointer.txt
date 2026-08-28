@@ -4,14 +4,14 @@ Vrei un personaj care îți aleargă mouse-ul sau degetul prin  @Stage ?Putem fa
 
 @Pointer  ne oferă o proaspătă  @Place  de fiecare dată când indicatorul se mișcă.Dacă folosim asta  @Place  ca un  @Phrase 's \place\, personajul va merge oriunde arătăm.
 
-\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+\Stage([Phrase('🐈' loc: Pointer())] loc: Place(0m 0m -10m))\
 
 Asta e tot! Mișcă mouse-ul sau trage degetul și urmărește cum pisica te urmărește.
 
 Poți face lucruri mai interesante trăgând afară \x\ şi \y\ din  @Place .Iată o rață care plutește mereu la un metru deasupra indicatorului:
 
 \Stage([
-		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
-	] place: Place(0m 0m -10m))\
+		Phrase('🦆' loc: Place(Pointer().x Pointer().y + 1m))
+	] loc: Place(0m 0m -10m))\
 
 move-phrase, count-with-time

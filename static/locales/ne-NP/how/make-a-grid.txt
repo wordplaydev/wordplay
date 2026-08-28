@@ -18,10 +18,10 @@
 यदि तपाईं हरेक cell एउटै आकारको होस् भन्ने चाहनुहुन्छ भने,  @Grid  लाई चौडाइ र उचाइ पनि दिनुहोस्। यसरी वर्णहरू आफ्ना वर्गभित्र राम्ररी बस्छन्, फरक आकारका भए पनि:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' आकार: 1m)
+		Phrase('🐶' आकार: 1.5m)
+		Phrase('🦊' आकार: 0.5m)
+		Phrase('🐻' आकार: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

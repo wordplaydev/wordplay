@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: '钢琴')
-				Phrase('🎻' selectable: ⊤ name: '小提琴')
+				Phrase('🎹' 可选择的: ⊤ 名字: '钢琴')
+				Phrase('🎻' 可选择的: ⊤ 名字: '小提琴')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = '小提琴') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] 乐器: (picked = '小提琴') ? Instrument.violin Instrument.piano))
 	])\
 
 让这一切生效的是这两个可选短语—— @Choice  没有任何东西可读，除非舞台上有东西是可选的\可选择的: ⊤\。
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon 可选择的: ⊤ 名字: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] 乐器: current.sound))
 	])\
 
 现在添加第四种声音只需一行，按钮会自己出现。请注意这个 \found•ø ?\ 保护： @List/find  在没有匹配时会返回 \ø\，这正是任何人做出选择之前会发生的情况——而这个后备值必须是一个完整的 \语音\，因为那正是 \current\ 承诺要返回的东西。

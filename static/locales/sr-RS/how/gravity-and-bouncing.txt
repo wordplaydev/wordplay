@@ -5,7 +5,7 @@
 @Motion контроле/где/лик је током времена. Користимо га као\place\за @Phrase , покретајући га високо како би могао да падне.Такође нам је потребно нешто на шта ћемо пасти, иначе ће наш лик падати заувек! @Shape са широким @Rectangle прави леп под:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' место: Motion(Place(0m 5m)) материја: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 Да бисте променили како/одскочан/или како/тежак/лик је, дај му своје @Matter . @Matter узима масу, одскочност и трење:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' место: Motion(Place(-2m 5m)) материја: Matter(1kg 0.9 0.2))
+		Phrase('🪨' место: Motion(Place(2m 5m)) материја: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

@@ -5,17 +5,17 @@ Minsan gusto nating magkwento, magpakita ng mga liriko, o magbigay-buhay ng mga 
 Halimbawa, isipin na gusto nating bigyang-buhay ang maikling tula para sa mga bata na pinamagatang "Jack be Nimble".Maaari tayong gumawa ng @Scene na ang bawat linya ay @Phrase , at sa pamamagitan ng pagtatakda ng @Phrase/duration ng bawat linya, ang @Scene ay susulong kapag natapos ang bawat parirala.
 
 \Scene([
-		Phrase('Maging maliksi si Jack' duration: 1s)
-		Phrase('Bilisan mo Jack' duration: 1s)
-		Phrase('Tumalon si Jack sa ibabaw ng kandila' duration: 1s)
+		Phrase('Maging maliksi si Jack' tagal: 1s)
+		Phrase('Bilisan mo Jack' tagal: 1s)
+		Phrase('Tumalon si Jack sa ibabaw ng kandila' tagal: 1s)
 	])\
 
 @Scene maghihintay para sa isang @Sequence para matapos na rin. Tara, patalbugin natin ang linya ng kandila!
 
 \Scene([
-		Phrase('Maging maliksi si Jack' duration: 1s)
-		Phrase('Bilisan mo Jack' duration: 1s)
-		Phrase('Tumalon si Jack sa ibabaw ng kandila' entering: Sequence.bounce(duration: 1s))
+		Phrase('Maging maliksi si Jack' tagal: 1s)
+		Phrase('Bilisan mo Jack' tagal: 1s)
+		Phrase('Tumalon si Jack sa ibabaw ng kandila' pagpasok: Sequence.bounce(tagal: 1s))
 	])\
 
 @Scene maaari ring kumuha ng @Group ng teksto rin, at hihintayin nitong matapos ang lahat ng nilalaman nito sa animation.
@@ -24,8 +24,8 @@ Halimbawa, isipin na gusto nating bigyang-buhay ang maikling tula para sa mga ba
 		Group(Stack() [
 				Phrase('Maging maliksi si Jack')
 				Phrase('Bilisan mo Jack')
-			] duration: 2s)
-		Phrase('Tumalon si Jack sa ibabaw ng kandila' entering: Sequence.bounce(duration: 1s))
+			] tagal: 2s)
+		Phrase('Tumalon si Jack sa ibabaw ng kandila' pagpasok: Sequence.bounce(tagal: 1s))
 	])\
 
 interactive-scene

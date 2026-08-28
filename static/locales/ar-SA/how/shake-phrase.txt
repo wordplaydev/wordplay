@@ -5,7 +5,7 @@
 يمكننا استخدام @Phrase/offset  مع  @Random  و  @Time لتحقيق ذلك.
 
 \offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('أهلاً' offset: Place(offset 0m))\
+Phrase('أهلاً' إزاحة: Place(offset 0m))\
 
 يؤدي هذا إلى إنشاء قيمة تسمى\offset\يتغير ذلك إلى قيمة عشوائية جديدة في كل مرة تدق فيها الساعة.ثم يستخدم هذا الإزاحة لعرض @Phrase يتم تعويض ذلك المبلغ.
 

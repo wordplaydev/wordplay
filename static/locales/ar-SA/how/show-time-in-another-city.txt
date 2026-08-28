@@ -12,6 +12,6 @@
 
 يمكنك أيضاً اختيار تقويم، مثل التقويم الياباني، وتنسيق الساعة بخط:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' شكل: 'Doto')\
 
 count-with-time

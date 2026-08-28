@@ -8,7 +8,7 @@ Bir *durdurmak* için bir  @Music  yoktur — onu durduran şey, sahnede olmamas
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'menü') ? '▶ başlamak için bas' '🏃 koş!' 1m)
-		(phase = 'menü') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'menü') ? Music(Track(theme çalgı: Instrument.bell) tempo: 72beats/min) Music(Track(theme çalgı: Instrument.synth) tempo: 132beats/min)
 	])\
 
 İki şarkı da aynı sekiz sayıdır. Yalnızca çalgı ve tempo değişir, ama bu bile farklı bir parça gibi duyulur — çünkü dereceler perdeyi değil, *ölçeğin hangi adımını* söyler; böylece bir  @Music  onları yeniden yorumlayabilir. Ona \ölçek: 🎼.harmonikMinör\ ver, aynı ezgi tek bir nota yeniden yazılmadan uğursuz bir hâl alır.
@@ -19,7 +19,7 @@ Diğer yarısı ise işlerin nasıl gittiğine göre sürekli bükülen müzikti
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('puan \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] çalgı: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Yeterince bas, davullar başladıklarından iki kat daha güçlü çalar. Kısa, vurmalı bir nota bunu duyulur kılar — uzun tutulan notaların altında tempo değişimini hissetmek zordur.

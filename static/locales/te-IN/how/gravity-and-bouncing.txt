@@ -5,7 +5,7 @@
 @Motion నియంత్రణలు/ఎక్కడ/ఒక పాత్ర కాలక్రమేణా ఏర్పడుతుంది. మనం దానిని ఇలా ఉపయోగిస్తాము\place\ఒక @Phrase పై నుండి మొదలుపెట్టడం, తద్వారా అది కింద పడగలదు.మనం పడటానికి కూడా ఏదైనా ఆధారం కావాలి, లేకపోతే మన పాత్ర ఎప్పటికీ పడుతూనే ఉంటుంది! @Shape విశాలమైన @Rectangle చక్కని నేలను తయారు చేస్తుంది:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' స్థలం: Motion(Place(0m 5m)) విషయం: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 ఎలా మార్చాలి/బౌన్సీ/లేదా ఎలా/బరువైన/పాత్ర అంటే, దానికి మీ స్వంత రూపాన్ని ఇవ్వండి @Matter . @Matter దీనికి ద్రవ్యరాశి, ఎగిరే గుణం మరియు ఘర్షణ అవసరం:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' స్థలం: Motion(Place(-2m 5m)) విషయం: Matter(1kg 0.9 0.2))
+		Phrase('🪨' స్థలం: Motion(Place(2m 5m)) విషయం: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

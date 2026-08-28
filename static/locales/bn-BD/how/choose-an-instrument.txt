@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'পিয়ানো')
-				Phrase('🎻' selectable: ⊤ name: 'বেহালা')
+				Phrase('🎹' নির্বাচনযোগ্য: ⊤ নাম: 'পিয়ানো')
+				Phrase('🎻' নির্বাচনযোগ্য: ⊤ নাম: 'বেহালা')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'বেহালা') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] বাদ্যযন্ত্র: (picked = 'বেহালা') ? Instrument.violin Instrument.piano))
 	])\
 
 এই দুটি নির্বাচনযোগ্য বাক্যাংশই এটিকে কাজ করায় —  @Choice  পড়ার মতো কিছুই থাকে না যতক্ষণ না মঞ্চে কিছু \নির্বাচনযোগ্য: ⊤\ হয়।
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon নির্বাচনযোগ্য: ⊤ নাম: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] বাদ্যযন্ত্র: current.sound))
 	])\
 
 এখন একটি চতুর্থ কণ্ঠ যোগ করা মানে একটি লাইন, আর বোতামটি নিজে থেকেই দেখা যায়। \found•ø ?\ রক্ষাটি লক্ষ্য করো:  @List/find  কিছুর সাথে মিল না থাকলে \ø\ ফিরিয়ে দেয়, যা কেউ কিছু বেছে নেওয়ার আগে ঘটে — আর বিকল্পটি অবশ্যই একটি পুরো \🎙\ হতে হবে, কারণ \current\ সেটাই হওয়ার প্রতিশ্রুতি দেয়।

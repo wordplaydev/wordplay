@@ -12,6 +12,6 @@ Mostrar la hora en otra ciudad
 
 También puedes elegir un calendario, como el calendario japonés, y darle estilo al reloj con una fuente:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' fuente: 'Doto')\
 
 count-with-time

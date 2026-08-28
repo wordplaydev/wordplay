@@ -1019,7 +1019,7 @@
                 "$~Saya adalah input yang diberikan ke @Evaluate. Nama saya sesuai dengan nama input dalam @FunctionDefinition atau @StructureDefinition yang sedang dievaluasi.",
                 "Saya bisa membantu dengan fungsi yang memiliki banyak nilai default, di mana Anda hanya ingin mengganti input tertentu, tanpa mengubah semua yang lain.",
                 "Misalnya, @Phrase memiliki banyak sekali nilai default untuk mengontrol gayanya. Katakanlah Anda ingin memberikan @Text dan @Color, tetapi tidak ada yang lain dalam daftar inputnya. Anda dapat menggunakan saya untuk melakukan itu:",
-                "\\Phrase('Saya berwarna ungu!' color: Color(50% 52 300°))\\"
+                "\\Phrase('Saya berwarna ungu!' warna: Color(50% 52 300°))\\"
             ],
             "start": "$~Mari kita evaluasi nilai saya."
         },
@@ -4239,7 +4239,7 @@
                 "/klik ketuk!/",
                 "Jadi cara terbaik untuk menggunakannya adalah dengan membuat pertunjukan dengan frasa yang dapat dipilih bernama @Phrase , dan kemudian menggunakan @Reaction untuk memutuskan apa yang harus dilakukan ketika nama tersebut dipilih.",
                 "Berikut contoh paling sederhana:",
-                "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Group(\nStack() \n[\nPhrase('one' dapatdipilih:⊤ nama:'1') \nPhrase('two' dapatdipilih:⊤ nama:'2') \nPhrase(Choice())\n]\n)\\",
                 "Salin ini ke editor, lalu pilih salah satu dari dua @Phrase . Anda akan melihat @Phrase ketiga menampilkan nama yang dipilih."
             ],
             "names": ["$~Pilihan"]
@@ -4406,7 +4406,7 @@
                 "\\Pidato()\\",
                 "Ini cocok bagi mereka yang bisa berbicara dalam suatu @language tetapi masih belajar membaca atau menulisnya (dan lainnya)...",
                 "Kamu bisa menentukan kode bahasa untuk mengenali ucapan dalam bahasa tertentu:",
-                "\\Pidato(language: 'es-MX')\\",
+                "\\Pidato(bahasa: 'es-MX')\\",
                 "Jika tidak ada bahasa yang ditentukan, maka akan menggunakan bahasa pilihanmu.",
                 "Pengenalan suara membutuhkan akses mikrofon dan koneksi Internet (mohon berikan aksesnya!). Selain itu, mungkin ada batas penggunaan, jadi jangan biarkan menyala terlalu lama (jangaaaan)!"
             ],
@@ -4439,7 +4439,7 @@
                 "/bzzzzzzz/",
                 "@List tersebut pada dasarnya mewakili sebuah gambar, tetapi terserah Anda untuk memutuskan apa yang akan dilakukan dengannya.",
                 "Anda bisa mencoba merepresentasikan gambar dengan sejumlah @Phrase , yang mungkin terlihat cukup keren! Coba salin ini...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' tempat: Place((x - 1) × 0.5m y × -0.5m) warna: color lamanya: 0s\n)\n)\n)\n)\n)\\",
                 "Namun Anda juga dapat menganalisis warna untuk menentukan apakah lampu menyala atau mati, atau apakah warna tertentu umum, sehingga penonton dapat memengaruhi pertunjukan dengan warna yang mereka tunjukkan."
             ],
             "names": ["$~Kamera"],
@@ -4482,13 +4482,13 @@
                 "/Boop boop boop/",
                 "Untuk mengontrol pengaturan waktu, Anda dapat mengatur @Phrase.duration pada setiap output, dan output tersebut akan ditampilkan selama durasi tersebut sebelum beralih ke output berikutnya, dan menggunakan transisi @Phrase.entering atau @Phrase.exiting apa pun yang mungkin telah Anda atur. Jika Anda mengaturnya ke @Sequence , maka akan menggunakan durasinya.",
                 "Semua itu memungkinkan Anda melakukan hal-hal seperti @Scene kecil ini, yang menunjukkan tiga frasa ini secara berurutan:",
-                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "\\Scene([\n\tPhrase('Hello' lamanya: 1s)\n\tPhrase('How are you?' lamanya: 2s rotasi: 5° memasuki: Pose(rotasi: 0°))\n\tPhrase('I am fine')\n])\\",
                 "Perhatikan bagaimana output pertama ditampilkan selama satu detik, kemudian output berikutnya selama dua detik, tetapi dianimasikan dengan rotasi lima derajat, dan kemudian menampilkan output terakhir?",
                 "Anda dapat membuat rangkaian output dan animasi yang sangat rumit dengan @Scene , dan bahkan membuat sebagian darinya dinamis atau interaktif, seperti halnya dengan @Phrase atau @Group lainnya.",
                 "Jika Anda memiliki output animasi yang bersarang (sebuah @Group dengan @Phrase animasi di dalamnya), @Scene akan menunggu hingga semua konten animasi di dalam @Group selesai.",
                 "Oh, dan satu rahasia kecil terakhir! Anda bahkan dapat menambahkan @Boolean ke dalam daftar, dan jika nilainya \\⊥\\ , @Scene akan berhenti sejenak dan menunggu hingga nilainya menjadi benar.",
                 "Sebagai contoh, jika Anda ingin membuat urutan @Phrase dan hanya melanjutkan ketika @Button berubah, Anda dapat melakukannya seperti ini:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' lamanya: 0.25s rotasi: 5° memasuki: Pose(rotasi: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Perhatikan bagaimana kode tersebut berhenti sejenak setelah setiap @Phrase , dan menunggu @Button berubah sebelum melanjutkan?"
             ],
             "names": ["$~Pemandangan"],
@@ -4540,7 +4540,7 @@
                 "Ada banyak cara untuk menempatkan @Output di @Stage: berikan mereka @Place yang jelas, gunakan @Motion dan biarkan gravitasi bekerja, atau letakkan mereka dalam sebuah @Group untuk diatur.",
                 "Tetapi kadang kamu ingin memberi /penonton/ kendali atas ke mana @Output pergi di @Stage.",
                 "Begini cara kerjanya: buat sebuah @Placement dan berikan pada @Place dari sebuah @Output:",
-                "\\Frasa('hai' place: Penempatan())\\",
+                "\\Frasa('hai' tempat: Penempatan())\\",
                 "Lalu, setiap kali penonton menggunakan @key panah atau mengklik atau mengetuk panggung, @Placement akan membuat @Place baru yang bergerak ke arah yang diinginkan.",
                 "Coba salin ini ke programmu dan gerakkan @Output dengan penunjuk atau papan ketik.",
                 "Kamu bisa menyesuaikan @Placement, mengaktifkan dan menonaktifkan gerakan pada dimensi tertentu, mengubah seberapa jauh @Place bergerak, dan @Place awal tempat aliran ini dimulai."
@@ -4653,7 +4653,7 @@
                 "Berikan teks dan jenis huruf, dan alat ini akan menelusuri garis luar setiap glif titik demi titik.",
                 "\\Contour('a' \"Noto Sans\")\\",
                 "Masukkan nilai @Place tersebut ke dalam @List of @Phrase untuk melihat garis luarnya digambar sebagai titik-titik:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' tempat: point)))\\",
                 "Anda dapat mengubah ukuran garis luar dengan @Number of meters, memindahkan titik asalnya dengan @Place , memilih ketebalan font, mengaktifkan huruf miring, dan mengatur `spacing` antar titik sebagai jarak dalam meter. `spacing` yang lebih kecil akan menelusuri garis luar dengan lebih akurat, dengan titik-titik yang berjarak sama di sepanjang garis dan kurva.",
                 "Beberapa glif, seperti emoji warna, tidak memiliki garis luar, sehingga tidak menambahkan titik. Saat mengambil font, ia akan memberi Anda @List kosong, lalu mengisinya saat sudah siap."
             ],
@@ -4731,11 +4731,11 @@
                 "Semua properti saya bersifat opsional. Beri saya bagian tanggal untuk menjelaskan sebuah tanggal:",
                 "\\📅(2026 7 1) → ''\\",
                 "Atau hanya bagian waktu, untuk waktu dalam sehari:",
-                "\\📅(hour: 15 minute: 30) → ''\\",
-                "Jika kamu tidak memberi saya bagian apa pun, saya berubah menjadi tanggal dan waktu saat ini, di mana pun program itu berjalan. Jika kamu menghilangkan beberapa bagian, setiap bagian yang lebih besar daripada bagian terbesar yang kamu beri diambil dari tanggal dan waktu saat ini, dan bagian yang lebih kecil dimulai dari awalnya: jadi \\📅(month: 12) → ''\\ adalah 1 Desember tahun ini, pada tengah malam. Mengubah saya hanya menunjukkan jenis bagian yang kamu beri: bagian tanggal membuat tanggal, bagian waktu membuat waktu, dan keduanya membuat keduanya:",
+                "\\📅(jam: 15 menit: 30) → ''\\",
+                "Jika kamu tidak memberi saya bagian apa pun, saya berubah menjadi tanggal dan waktu saat ini, di mana pun program itu berjalan. Jika kamu menghilangkan beberapa bagian, setiap bagian yang lebih besar daripada bagian terbesar yang kamu beri diambil dari tanggal dan waktu saat ini, dan bagian yang lebih kecil dimulai dari awalnya: jadi \\📅(bulan: 12) → ''\\ adalah 1 Desember tahun ini, pada tengah malam. Mengubah saya hanya menunjukkan jenis bagian yang kamu beri: bagian tanggal membuat tanggal, bagian waktu membuat waktu, dan keduanya membuat keduanya:",
                 "\\📅() → ''\\",
                 "@Moment.timezone saya menerima nama zona waktu IANA standar seperti \\'America/Los_Angeles'\\ atau \\'Asia/Tokyo'\\; jika kamu membiarkannya \\ø\\, saya memakai zona waktu perangkat tempat program itu berjalan. @Moment.calendar saya menerima nama kalender Unicode seperti \\'gregory'\\, \\'ibrani'\\, atau \\'bahasa Jepang'\\; jika kamu membiarkannya \\ø\\, saya memakai kalender dari lokal pembaca. @Moment.year, @Moment.month, dan @Moment.day saya berada dalam kalender itu:",
-                "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "\\📅(5786 10 4 kalender: 'hebrew') → ''\\",
                 "Mengubah saya menjadi @Text menata saya untuk lokal pembaca: Moment yang sama tampil berbeda dalam bahasa Inggris, 中文, atau हिन्दी, dan berubah ketika lokal pembaca berubah.",
                 "@Moment.era, @Moment.week, dan @Moment.weekday saya hanya bersifat informasi: @Now mengisinya saat membuat Moment, tetapi keduanya diabaikan saat penataan.",
                 "Jika kamu ingin aliran Moment yang diperbarui seiring waktu berlalu — sebuah jam — lihat @Now. Jika kamu ingin milidetik yang berlalu sejak program kamu dimulai — untuk animasi — lihat @Time."
@@ -4805,7 +4805,7 @@
                 "Di balik layar, @Face menggunakan model pembelajaran mesin. Saat pertama kali kamu memakainya dalam sebuah program, model itu perlu beberapa detik untuk diunduh, dan wajah kecil yang berputar muncul di pojok kanan atas panggung saat model itu dimuat. Setelah itu, model tetap tersimpan dan langsung mulai.",
                 "Pada setiap bingkai, @Face memberimu sebuah @Expression. Lihat di sana untuk daftar lengkap masukan dan artinya.",
                 "Contoh ini menampilkan emoji yang sesuai dengan wajahmu di mana pun wajah aslimu berada:",
-                "\\wajah: 🙂()\n💬((wajah.tersenyum ? '😀' wajah.mulutTerbuka ? '😮' '😐') place: wajah.tempat)\\"
+                "\\wajah: 🙂()\n💬((wajah.tersenyum ? '😀' wajah.mulutTerbuka ? '😮' '😐') tempat: wajah.tempat)\\"
             ],
             "names": ["$~Wajah"],
             "frequency": {
@@ -4826,9 +4826,9 @@
                 "Setiap bingkai, @Objects memberimu sebuah @List dari @Thing, diurutkan berdasarkan seberapa yakin modelnya, dengan yang paling yakin lebih dulu. Lihat @Thing untuk mengetahui apa yang diberitahukan masing-masing.",
                 "Model ini hanya menebak, jadi kadang ia salah, atau tidak melihat apa pun. Minta `confidence` yang lebih tinggi untuk mendengar hanya tebakan yang paling ia yakini.",
                 "Berikut contoh yang memberi label pada semua yang dilihat kamera:",
-                "\\🎭(📦() ↦ 💬(⬚.nama place: ⬚.tempat))\\",
+                "\\🎭(📦() ↦ 💬(⬚.nama tempat: ⬚.tempat))\\",
                 "Kamu juga bisa mencari hanya satu jenis benda, dan mengabaikan yang lain:",
-                "\\benda: 📦(category: 'cat')\n💬(benda.📏() > 0 ? '🐈' '…')\\"
+                "\\benda: 📦(kategori: 'cat')\n💬(benda.📏() > 0 ? '🐈' '…')\\"
             ],
             "names": ["$~Objek"],
             "inputs": [
@@ -4954,9 +4954,9 @@
             "doc": [
                 "$~Aku memberi @value baru setiap kali pemutaran @Music mencapai satu ketukan, jadi kamu bisa membuat visual yang bergerak mengikuti musik. Aku selalu punya @Downbeat untukmu, jadi kamu bisa langsung membacanya: sebelum musik apa pun dimainkan, aku duduk di ketukan nol tanpa suara apa pun, dan \\tempo\\ milikku tetap nol sampai musik mulai.",
                 "Di sini tiga trek bergantian, jadi jumlah alat musik yang berbunyi berbeda pada tiap ketukan — dan berlian membesar sesuai berapa banyak yang sedang dimainkan:",
-                "\\ketukan: Ketukan()\n🎭([\n\t\t💬('◆' ((ketukan.alatMusik.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "\\ketukan: Ketukan()\n🎭([\n\t\t💬('◆' ((ketukan.alatMusik.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] alatMusik: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] alatMusik: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] alatMusik: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Beri aku nama @Music dan aku hanya mendengar musik itu. Dua ketukan sedang mendengar di bawah, pada dua musik yang sama: yang atas mendengar semuanya, jadi ia berkedip di antara kedua nama saat tiap musik mencapai ketukan, dan yang bawah hanya mendengar drum dan tidak pernah mengatakan apa pun lain. Perbedaan itu adalah penyaringnya.",
-                "\\segalanya: Ketukan()\nhanyaDrum: Ketukan('detak')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(segalanya.nama 1.4m)\n\t\t\t\t💬(hanyaDrum.nama 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'detak')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'dentang')\n\t])\\",
+                "\\segalanya: Ketukan()\nhanyaDrum: Ketukan('detak')\n🎭([\n\t\t🔳(\n\t\t\t⬇(lapisan: 0.5m)\n\t\t\t[\n\t\t\t\t💬(segalanya.nama 1.4m)\n\t\t\t\t💬(hanyaDrum.nama 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] alatMusik: 🔈.🥁) tempo: 120beats/min nama: 'detak')\n\t\t🎼(🎶([5 5 5] alatMusik: 🔈.🔔) tempo: 90beats/min nama: 'dentang')\n\t])\\",
                 "Apa pun yang aku kendalikan adalah /tambahan/ dari tampilan yang telah dipilih penonton; kamu menambahkannya, tidak pernah menggantinya."
             ],
             "name": {
@@ -5763,7 +5763,7 @@
                 "sway": {
                     "doc": [
                         "$~Saya miring ke depan dan ke belakang di sekitar pusat @Output, seperti sesuatu yang tergantung dalam angin sepoi. Saya animasi istirahat yang baik, karena /angle/ kecil terbaca sebagai “hidup” tanpa menarik perhatian.",
-                        "\\💬('🐈' resting: 💃.bergoyang(10°))\\"
+                        "\\💬('🐈' beristirahat: 💃.bergoyang(10°))\\"
                     ],
                     "names": ["$~bergoyang"],
                     "angle": {
@@ -5774,7 +5774,7 @@
                 "bounce": {
                     "doc": [
                         "$~Saya membuat @Output melompat setinggi /height/ lalu mendarat, sedikit memipih saat naik dan turun. Berikan saya @Phrase yang baru tiba dan saya akan membuatnya terasa punya berat.",
-                        "\\💬('🐈' resting: 💃.melambung(3m))\\"
+                        "\\💬('🐈' beristirahat: 💃.melambung(3m))\\"
                     ],
                     "names": ["$~melambung"],
                     "height": {
@@ -5785,42 +5785,42 @@
                 "spin": {
                     "doc": [
                         "$~Saya memutar @Output mengelilingi pusatnya, dari 360° kembali ke 0°. Atur saya sebagai animasi istirahat dan saya akan terus berputar selamanya.",
-                        "\\💬('🐈' resting: 💃.putaran(2s))\\"
+                        "\\💬('🐈' beristirahat: 💃.putaran(2s))\\"
                     ],
                     "names": ["$~putaran"]
                 },
                 "fadein": {
                     "doc": [
                         "$~Saya membawa @Output dari tak terlihat menjadi terlihat penuh. Saya untuk /entering/, saat sesuatu tiba di panggung.",
-                        "\\💬('🐈' entering: 💃.memudar(1s))\\"
+                        "\\💬('🐈' memasuki: 💃.memudar(1s))\\"
                     ],
                     "names": ["$~memudar"]
                 },
                 "fadeout": {
                     "doc": [
                         "$~Saya membawa @Output dari terlihat penuh menjadi tak terlihat. Saya untuk /exiting/, saat sesuatu meninggalkan panggung.",
-                        "\\💬('🐈' exiting: 💃.memudarhilang(duration: 1s))\\"
+                        "\\💬('🐈' keluar: 💃.memudarhilang(lamanya: 1s))\\"
                     ],
                     "names": ["memudarhilang"]
                 },
                 "popup": {
                     "doc": [
                         "$~Saya menumbuhkan @Output dari tidak ada, melebihi ukuran sebenarnya, lalu kembali menetap. Sedikit kelebihan itu membuat kedatangan terasa ceria, bukan seperti mesin.",
-                        "\\💬('🐈' entering: 💃.popup(0.5s))\\"
+                        "\\💬('🐈' memasuki: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
                         "$~Saya menyentak @Output maju mundur ke beberapa arah. Saya terbaca sebagai “tidak”, atau sesuatu yang bergetar. Saya bergerak cepat, jadi buat saya singkat.",
-                        "\\💬('🐈' resting: 💃.menggoyang(0.5s count: 3x))\\"
+                        "\\💬('🐈' beristirahat: 💃.menggoyang(0.5s menghitung: 3x))\\"
                     ],
                     "names": ["$~menggoyang"]
                 },
                 "pulse": {
                     "doc": [
                         "$~Saya memperbesar @Output sampai /amount/ lalu mengecil kembali, satu kali. Saya cara paling tenang untuk berkata “lihat di sini” tanpa memindahkan apa pun dari tempatnya.",
-                        "\\💬('🐈' resting: 💃.detak(1.2))\\"
+                        "\\💬('🐈' beristirahat: 💃.detak(1.2))\\"
                     ],
                     "names": ["$~detak"],
                     "amount": {
@@ -5831,7 +5831,7 @@
                 "heartbeat": {
                     "doc": [
                         "$~Saya memberi dua ketukan skala cepat lalu istirahat, seperti irama detak jantung. Saya lebih mendesak daripada /pulse/ milik @Sequence dan lebih alami daripada /flash/.",
-                        "\\💬('🐈' resting: 💃.denyutjantung(1.4 1s))\\"
+                        "\\💬('🐈' beristirahat: 💃.denyutjantung(1.4 1s))\\"
                     ],
                     "names": ["$~denyutjantung"],
                     "amount": {
@@ -5842,7 +5842,7 @@
                 "tada": {
                     "doc": [
                         "$~Saya merayakan: mengecil sedikit, lalu membesar dengan goyangan maju mundur. Saya untuk kemenangan, penyelesaian, dan hal yang benar.",
-                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                        "\\💬('🐈' beristirahat: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
@@ -5853,7 +5853,7 @@
                 "wiggle": {
                     "doc": [
                         "$~Saya menggeser @Output ke samping sambil memiringkannya, tiap ayunan lebih kecil dari sebelumnya. Saya guncangan dengan sedikit lebih banyak kepribadian.",
-                        "\\💬('🐈' resting: 💃.menggoyangkan(8°))\\"
+                        "\\💬('🐈' beristirahat: 💃.menggoyangkan(8°))\\"
                     ],
                     "names": ["$~menggoyangkan"],
                     "angle": {
@@ -5865,21 +5865,21 @@
                     "doc": [
                         "$~Saya membuat @Output berkedip antara terlihat dan tak terlihat dua kali, memudar sambil berjalan. Saya sulit dilewatkan — yang juga berarti saya sulit diabaikan, jadi gunakan saya secukupnya.",
                         "Saya berkedip cepat, jadi penonton yang sensitif terhadap kedipan mungkin merasa tidak nyaman. Perlambat saya dengan /duration/ lebih panjang jika saya akan diulang.",
-                        "\\💬('🐈' resting: 💃.kilatan(1s))\\"
+                        "\\💬('🐈' beristirahat: 💃.kilatan(1s))\\"
                     ],
                     "names": ["$~kilatan"]
                 },
                 "zoomin": {
                     "doc": [
                         "$~Saya menumbuhkan @Output dari tidak ada menjadi ukuran penuh. Berbeda dari /popup/, saya tidak melebihi ukuran — saya kedatangan yang lebih sederhana dan tenang.",
-                        "\\💬('🐈' entering: 💃.perbesar(0.5s))\\"
+                        "\\💬('🐈' memasuki: 💃.perbesar(0.5s))\\"
                     ],
                     "names": ["$~perbesar"]
                 },
                 "fadeinup": {
                     "doc": [
                         "$~Saya membuat @Output memudar masuk sambil menggesernya naik ke tempatnya dari /distance/ di bawah.",
-                        "\\💬('🐈' entering: 💃.munculkeatas(2m))\\"
+                        "\\💬('🐈' memasuki: 💃.munculkeatas(2m))\\"
                     ],
                     "names": ["munculkeatas"],
                     "distance": {
@@ -5890,7 +5890,7 @@
                 "fadeindown": {
                     "doc": [
                         "$~Saya membuat @Output memudar masuk sambil menggesernya turun ke tempatnya dari /distance/ di atas.",
-                        "\\💬('🐈' entering: 💃.memudarkebawah(2m))\\"
+                        "\\💬('🐈' memasuki: 💃.memudarkebawah(2m))\\"
                     ],
                     "names": ["memudarkebawah"],
                     "distance": {
@@ -5901,7 +5901,7 @@
                 "fadeinleft": {
                     "doc": [
                         "$~Saya membuat @Output memudar masuk sambil menggesernya ke kanan ke tempatnya dari /distance/ di sebelah kiri.",
-                        "\\💬('🐈' entering: 💃.memudarkekiri(2m))\\"
+                        "\\💬('🐈' memasuki: 💃.memudarkekiri(2m))\\"
                     ],
                     "names": ["$~memudarkekiri"],
                     "distance": {
@@ -5912,7 +5912,7 @@
                 "fadeinright": {
                     "doc": [
                         "$~Aku memunculkan @Output secara perlahan sambil menggesernya ke kiri ke tempatnya dari jarak /distance/ di sebelah kanan.",
-                        "\\💬('🐈' entering: 💃.memudarkekanan(2m))\\"
+                        "\\💬('🐈' memasuki: 💃.memudarkekanan(2m))\\"
                     ],
                     "names": ["$~memudarkekanan"],
                     "distance": {
@@ -5923,7 +5923,7 @@
                 "rotatein": {
                     "doc": [
                         "$~Aku memutar @Output ke tempatnya sambil memunculkannya secara perlahan, dimulai dengan putaran sebesar /angle/ dan berakhir tegak.",
-                        "\\💬('🐈' entering: 💃.berputar(180°))\\"
+                        "\\💬('🐈' memasuki: 💃.berputar(180°))\\"
                     ],
                     "names": ["$~berputar"],
                     "angle": {
@@ -5934,14 +5934,14 @@
                 "zoomout": {
                     "doc": [
                         "$~Aku mengecilkan @Output dari ukuran penuh sampai hilang.",
-                        "\\💬('🐈' exiting: 💃.perkeciltampilan(0.5s))\\"
+                        "\\💬('🐈' keluar: 💃.perkeciltampilan(0.5s))\\"
                     ],
                     "names": ["$~perkeciltampilan"]
                 },
                 "fadeoutup": {
                     "doc": [
                         "$~Aku menghilangkan @Output secara perlahan sambil menggesernya ke atas sejauh /distance/.",
-                        "\\💬('🐈' exiting: 💃.memudarkeatas(2m))\\"
+                        "\\💬('🐈' keluar: 💃.memudarkeatas(2m))\\"
                     ],
                     "names": ["$~memudarkeatas"],
                     "distance": {
@@ -5952,7 +5952,7 @@
                 "fadeoutdown": {
                     "doc": [
                         "$~Aku menghilangkan @Output secara perlahan sambil menggesernya ke bawah sejauh /distance/.",
-                        "\\💬('🐈' exiting: 💃.memudarhilangbawah(2m))\\"
+                        "\\💬('🐈' keluar: 💃.memudarhilangbawah(2m))\\"
                     ],
                     "names": ["memudarhilangbawah"],
                     "distance": {
@@ -5963,7 +5963,7 @@
                 "fadeoutleft": {
                     "doc": [
                         "$~Aku menghilangkan @Output secara perlahan sambil menggesernya ke kiri sejauh /distance/.",
-                        "\\💬('🐈' exiting: 💃.memudarhilangkiri(2m))\\"
+                        "\\💬('🐈' keluar: 💃.memudarhilangkiri(2m))\\"
                     ],
                     "names": ["memudarhilangkiri"],
                     "distance": {
@@ -5974,7 +5974,7 @@
                 "fadeoutright": {
                     "doc": [
                         "$~Aku menghilangkan @Output secara perlahan sambil menggesernya ke kanan sejauh /distance/.",
-                        "\\💬('🐈' exiting: 💃.memudarsepenuhnya(2m))\\"
+                        "\\💬('🐈' keluar: 💃.memudarsepenuhnya(2m))\\"
                     ],
                     "names": ["$~memudarsepenuhnya"],
                     "distance": {
@@ -5985,7 +5985,7 @@
                 "rotateout": {
                     "doc": [
                         "$~Aku memutar @Output menjauh sambil menghilangkannya secara perlahan, berakhir dengan putaran sebesar /angle/.",
-                        "\\💬('🐈' exiting: 💃.putarkeluar(180°))\\"
+                        "\\💬('🐈' keluar: 💃.putarkeluar(180°))\\"
                     ],
                     "names": ["$~putarkeluar"],
                     "angle": {
@@ -5997,14 +5997,14 @@
                     "doc": [
                         "$~Aku memutar warna @Output melalui setiap corak pelangi dan kembali ke tempat aku memulai.",
                         "Aku mengubah warna dengan cepat, jadi penonton yang peka terhadap kedipan mungkin merasa tidak nyaman. Durasi /duration/ yang lebih panjang membuatku jauh lebih lembut.",
-                        "\\💬('🐈' resting: 💃.pelangi(3s))\\"
+                        "\\💬('🐈' beristirahat: 💃.pelangi(3s))\\"
                     ],
                     "names": ["$~pelangi"]
                 },
                 "swing": {
                     "doc": [
                         "$~Saya mengayunkan @Output seperti bandul, keluar sampai /angle/ lalu kembali melalui busur yang makin kecil sampai berhenti. Tidak seperti /sway/, saya berhenti.",
-                        "\\💬('🐈' resting: 💃.ayun(20°))\\"
+                        "\\💬('🐈' beristirahat: 💃.ayun(20°))\\"
                     ],
                     "names": ["$~ayun"],
                     "angle": {
@@ -6015,14 +6015,14 @@
                 "blink": {
                     "doc": [
                         "$~Saya mematikan dan menyalakan lagi @Output tanpa efek memudar di antaranya, seperti kursor yang berkedip. /flash/ memudar; saya memotong.",
-                        "\\💬('🐈' resting: 💃.kedip(1s))\\"
+                        "\\💬('🐈' beristirahat: 💃.kedip(1s))\\"
                     ],
                     "names": ["$~kedip"]
                 },
                 "nod": {
                     "doc": [
                         "$~Saya menurunkan @Output ke bawah lalu naik lagi dua kali, seperti anggukan setuju. Saya cara paling lembut untuk berkata “ya”.",
-                        "\\💬('🐈' resting: 💃.angguk(0.4m))\\"
+                        "\\💬('🐈' beristirahat: 💃.angguk(0.4m))\\"
                     ],
                     "names": ["$~angguk"],
                     "distance": {
@@ -6033,7 +6033,7 @@
                 "dim": {
                     "doc": [
                         "$~Saya memudarkan @Output turun sampai /amount/ lalu kembali penuh, tanpa pernah menyembunyikannya. Saya untuk menunjukkan bahwa sesuatu sedang menunggu atau tidak aktif.",
-                        "\\💬('🐈' resting: 💃.redup(20% 2s))\\"
+                        "\\💬('🐈' beristirahat: 💃.redup(20% 2s))\\"
                     ],
                     "names": ["$~redup"],
                     "amount": {
@@ -6044,7 +6044,7 @@
                 "slidein": {
                     "doc": [
                         "$~Saya menggeser @Output ke tempatnya dari mana pun kamu suka, tanpa memudar. Beri saya @Place dan saya akan mulai di sana lalu berakhir diam, jadi satu animasi mencakup semua arah.",
-                        "\\💬('🐈' entering: 💃.gesermasuk(📍(0m -4m)))\\"
+                        "\\💬('🐈' memasuki: 💃.gesermasuk(📍(0m -4m)))\\"
                     ],
                     "names": ["$~gesermasuk"],
                     "from": {
@@ -6055,7 +6055,7 @@
                 "slideout": {
                     "doc": [
                         "$~Saya menggeser @Output ke mana pun kamu suka, tanpa memudar. Beri saya @Place dan saya akan berhenti di sana, jadi satu animasi mencakup semua arah.",
-                        "\\💬('🐈' exiting: 💃.geserkeluar(📍(0m -4m)))\\"
+                        "\\💬('🐈' keluar: 💃.geserkeluar(📍(0m -4m)))\\"
                     ],
                     "names": ["$~geserkeluar"],
                     "to": {
@@ -6066,7 +6066,7 @@
                 "float": {
                     "doc": [
                         "$~Saya menghanyutkan @Output perlahan ke atas sejauh /distance/ lalu turun kembali. Beri saya /duration/ yang lama dan saya akan membuat sesuatu terlihat tanpa bobot.",
-                        "\\💬('🐈' resting: 💃.mengapung(0.5m 3s))\\"
+                        "\\💬('🐈' beristirahat: 💃.mengapung(0.5m 3s))\\"
                     ],
                     "names": ["$~mengapung"],
                     "distance": {
@@ -6077,7 +6077,7 @@
                 "drift": {
                     "doc": [
                         "$~Saya menghanyutkan @Output perlahan sejauh /distance/ ke samping lalu kembali. Saya adalah /float/, tetapi ke samping.",
-                        "\\💬('🐈' resting: 💃.melayang(0.5m 3s))\\"
+                        "\\💬('🐈' beristirahat: 💃.melayang(0.5m 3s))\\"
                     ],
                     "names": ["$~melayang"],
                     "distance": {
@@ -6088,7 +6088,7 @@
                 "orbit": {
                     "doc": [
                         "$~Saya membawa @Output mengelilingi lingkaran berjari-jari /radius/, lalu kembali ke tempat awalnya. Saya satu-satunya animasi bawaan yang menelusuri sebuah jalur, bukan bolak-balik.",
-                        "\\💬('🐈' resting: 💃.mengorbit(2m 4s))\\"
+                        "\\💬('🐈' beristirahat: 💃.mengorbit(2m 4s))\\"
                     ],
                     "names": ["$~mengorbit"],
                     "radius": {
@@ -6099,7 +6099,7 @@
                 "glow": {
                     "doc": [
                         "$~Saya menerangkan @Output menuju /color/ lalu membiarkannya memudar kembali, seperti sesuatu yang memanas lalu mendingin. Berbeda dengan /rainbow/, saya tetap pada satu warna.",
-                        "\\💬('🐈' resting: 💃.berpendar(🌈.oranye 2s))\\"
+                        "\\💬('🐈' beristirahat: 💃.berpendar(🌈.oranye 2s))\\"
                     ],
                     "names": ["$~berpendar"],
                     "color": {
@@ -6245,9 +6245,9 @@
                 "$~SAYA AKAN MENUNJUKKAN @Output ANDA KEPADA PENONTON. HAI. DI PANGGUNG SINI. BERITAHU SAYA APA YANG HARUS SAYA TAMPILKAN DAN SAYA AKAN MENUNJUKKANNYA.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "JIKA ANDA MAU, BERIKAN SAYA LATAR BELAKANG @Color DAN SAYA AKAN MENATA PANGGUNG SESUAI DENGANNYA.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "\\Stage([Phrase('stufffffff')] latarbelakang: Color(75% 50 100°))\\",
                 "ANDA JUGA DAPAT MEMBERIKAN SAYA BATAS BINGKAI DAN SAYA AKAN MEMOTONGNYA.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+                "\\Stage([Phrase('stufffffff')] latarbelakang: Color(75% 50 100°) bingkai: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["$~Panggung"],
             "content": {
@@ -6518,17 +6518,17 @@
                 "Not adalah angka. 1 adalah not pertama dari tangga nada — not tempat melodi terdengar selesai — 2 adalah not berikutnya di atasnya, dan 8 adalah not pertama itu lagi, satu oktaf lebih tinggi. ø adalah istirahat, yaitu keheningan. Angka terus berlanjut melewati kedua ujungnya: 9 adalah not kedua satu oktaf ke atas, dan 0 serta -1 melangkah di bawah not pertama.",
                 "Sebuah /tangga nada/ adalah kumpulan kecil not yang menjadi dasar sebuah karya, dan not-not mana itulah yang menentukan sebagian besar suasananya. @Music/scale adalah \\🎼.mayor\\ kecuali kamu menyatakan lain, yang terdengar cerah; \\🎼.minor\\ terdengar lebih sedih dari angka yang persis sama. Sebuah /kunci/ adalah seberapa tinggi atau rendah seluruh karya berada, diatur oleh @Music/key. Dan @Music/tempo adalah seberapa cepat ia berjalan, dalam ketukan per menit — satu ketukan adalah denyut mantap yang bisa kamu ikuti dengan tepukan tangan.",
                 "Karena not adalah angka, bukan nada tetap, ketiganya bisa berubah tanpa mengubah melodi. Ini adalah tiga not yang sama, lebih sedih, lebih rendah, dan lebih lambat:",
-                "\\🎼(🎶([1 3 5]) scale: 🎼.minor key: -5semitones tempo: 60beats/min)\\",
+                "\\🎼(🎶([1 3 5]) tanggaNada: 🎼.minor kunci: -5semitones tempo: 60beats/min)\\",
                 "Sebuah trek mulai lagi saat mencapai akhirnya, jadi daftar pendek adalah riff yang bermain selamanya. Yang ini panjangnya empat ketukan, dengan istirahat di sela-selanya:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Berikan aku daftar trek dan mereka bermain pada saat yang sama, masing-masing dengan alat musik, kecepatan, dan volumenya sendiri. Di sini bass drum dan snare menjaga ketukan sementara hi-hat berjalan dua kali lebih cepat — sebuah poliritme dari satu angka. Drum adalah satu set alat, bukan bernada, jadi angkanya memilih bagian dari set itu, bukan not:",
-                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] alatMusik: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] alatMusik: 🔈.🥁 ketukan: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
                 "Angka di dalam kurung kurawal berbunyi bersama sebagai akord, dan nilai not yang ditulis pada sebuah angka memberi entri itu panjangnya sendiri. Di sini dua akord not penuh menahan di bawah melodi yang bergerak:",
-                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] alatMusik: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] alatMusik: 🔈.🎹 volume: 50%)\n\t])\\",
                 "Apa pun yang membuat angka bisa membuat musik. Melodi ini mengacak dirinya menjadi urutan baru, dan mengikuti seberapa keras kamu berbicara:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].diacak())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Tidak ada yang harus mendengarku. @Beat melaporkan tiap ketukan saat ia berbunyi, jadi kamu bisa menggambar musik sekaligus memainkannya, bersama visualisasi apa pun yang dipilih penonton. @Beat selalu punya @Downbeat, jadi kamu bisa membacanya tanpa memeriksa apa pun:",
-                "\\ketukan: Ketukan()\nhitung: ketukan.hitung\n🎭([\n\t\t💬('◆' size: 1m + ((hitung % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((hitung % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "\\ketukan: Ketukan()\nhitung: ketukan.hitung\n🎭([\n\t\t💬('◆' ukuran: 1m + ((hitung % 4) = 0 ? 2m 0m) tempat: 📍(-2m 2m))\n\t\t💬('◆' ukuran: 1m + ((hitung % 4) = 2 ? 2m 0m) tempat: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] alatMusik: 🔈.🥁))\n\t])\\",
                 "Aku tidak punya tampilan sendiri untuk diberi gaya, jadi aku tidak menerima input tampilan biasa — tidak ada ukuran, tempat, warna, atau animasi. Bagaimana aku tampil adalah pilihan penonton, dibuat dalam pengaturan mereka, dan ia ditambatkan ke panggung, bukan ditempatkan dalam tata letakmu; aku tidak memakan ruang, jadi menaruhku dalam @Row atau @Stack tidak pernah menggeser apa pun di sebelahku. Untuk menggambar musik sendiri, gunakan @Beat: ia memberimu tiap ketukan saat ia berbunyi, untuk menggerakkan output apa pun yang kamu suka.",
                 "Aku terus bermain di antara evaluasi: ubah not-notku saat aku sedang bermain dan perubahan itu disisipkan pada ketukan berikutnya alih-alih memulai ulang, dan itulah yang membuat mengubah melodi di tengah pemutaran terasa musikal. Untuk memainkanku lagi dari awal, lihat @Music/replay; untuk menahanku diam dan melanjutkan di tempat yang sama, lihat @Music/pause."
             ],
@@ -6547,7 +6547,7 @@
                     "Satuannya adalah semiton. Sebuah semiton adalah langkah terkecil dalam musik Barat: pada piano itu adalah jarak dari satu tuts ke tuts di sebelahnya, menghitung tuts hitam, dan dua belas semiton membentuk satu oktaf. Jadi \\kunci: 12semitones\\🪲 adalah lagu yang sama satu oktaf lebih tinggi, \\kunci: -12semitones\\🪲 satu oktaf lebih rendah, dan \\kunci: 2semitones\\🪲 menaikkannya sedikit.",
                     "Dua penghitungan bertemu di sini, dan keduanya mudah tertukar. Nada menghitung /langkah skala/, di mana oktaf adalah \\8\\: dari \\1\\ naik ke \\8\\ adalah satu oktaf. Sebuah kunci menghitung /semiton/, di mana oktaf adalah \\12\\. Keduanya menggambarkan jarak yang sama — delapan langkah dari \\1\\ ke \\8\\ dari skala tujuh nada mencakup dua belas semiton. Sebuah kunci diukur dalam semiton karena semiton berukuran sama dalam setiap skala, sementara sebuah langkah tidak: pentatonik dari @Music/scale punya lima nada per oktaf dan mayor punya tujuh, jadi menggeser dengan langkah akan memindahkan masing-masing sejauh jarak yang berbeda, sementara \\12semitones\\ adalah satu oktaf dalam semuanya.",
                     "Karena hanya sebuah angka, sebuah kunci bisa datang dari mana saja. Di sini seluruh lagu naik dua semiton ketika /up/ menjadi pilihan — sebuah @Choice butuh sesuatu yang bisa dipilih di panggung untuk dibaca, jadi kedua frasa itulah yang membuatnya bekerja:",
-                    "\\🎭([\n\t\t💬('atas' selectable: ⊤ name: 'atas' place: 📍(-2m 0m))\n\t\t💬('beranda' selectable: ⊤ name: 'beranda' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'atas' ? 2semitones 0semitones))\n\t])\\"
+                    "\\🎭([\n\t\t💬('atas' dapatdipilih: ⊤ nama: 'atas' tempat: 📍(-2m 0m))\n\t\t💬('beranda' dapatdipilih: ⊤ nama: 'beranda' tempat: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) kunci: (🔘() = 'atas' ? 2semitones 0semitones))\n\t])\\"
                 ],
                 "names": "$~kunci"
             },
@@ -6568,7 +6568,7 @@
                 "doc": [
                     "$~Ketika ini \\⊤\\ pada sebuah evaluasi, aku mulai lagi dari atas, bahkan ketika tidak ada satu pun nadaku yang berubah.",
                     "Ini untuk suara yang menjawab sebuah peristiwa alih-alih bermain terus-menerus. Jika sebuah jawaban benar membunyikan sebuah ding, maka dua jawaban benar berturut-turut menghasilkan musik yang sama persis, jadi tidak ada yang berubah dan tidak ada yang berbunyi lagi. Aku adalah caramu berkata /lagi, sekarang/ — pilih /right/ dua kali di bawah dan ia berbunyi ding dua kali:",
-                    "\\🎭([\n\t\t💬('benar' selectable: ⊤ name: 'benar' place: 📍(-2m 0m))\n\t\t💬('salah' selectable: ⊤ name: 'salah' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'benar') ⊥)\n\t])\\",
+                    "\\🎭([\n\t\t💬('benar' dapatdipilih: ⊤ nama: 'benar' tempat: 📍(-2m 0m))\n\t\t💬('salah' dapatdipilih: ⊤ nama: 'salah' tempat: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] alatMusik: 🔈.🔔 perulangan: ⊥) putarUlang: ∆ 🔘() ? (🔘() = 'benar') ⊥)\n\t])\\",
                     "Berikan aku sebuah kondisi /sesaat/, yang benar hanya pada evaluasi yang disebabkan peristiwa itu, seperti \\∆ 🔘()\\ di atas. Sebuah kondisi yang bertahan seperti \\score > 10\\🪲 tetap benar begitu ia menjadi benar, jadi ia akan memulai ulang aku pada setiap evaluasi sejak saat itu."
                 ],
                 "names": "$~putarUlang"
@@ -6664,7 +6664,7 @@
                 "doc": [
                     "$~Selama ini \\⊤\\ aku menahan diri diam, dan ketika kembali menjadi \\⊥\\ aku melanjutkan dari ketukan tepat tempat aku berhenti.",
                     "Inilah yang membuatku berbeda dari @Music/replay: replay berarti /mulai lagi/, dan aku berarti /tunggu di sini/. Sebuah nada yang masih berbunyi ketika aku berhenti akan memainkan sisanya ketika aku mulai lagi, jadi berhenti di tengah sebuah akor panjang tidak kehilangannya. Pilih /hold/ dan /go/ di bawah:",
-                    "\\🎭([\n\t\t💬('tahan' selectable: ⊤ name: 'tahan' place: 📍(-2m 0m))\n\t\t💬('pergi' selectable: ⊤ name: 'pergi' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'tahan')\n\t])\\",
+                    "\\🎭([\n\t\t💬('tahan' dapatdipilih: ⊤ nama: 'tahan' tempat: 📍(-2m 0m))\n\t\t💬('pergi' dapatdipilih: ⊤ nama: 'pergi' tempat: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] alatMusik: 🔈.🎹) jeda: 🔘() = 'tahan')\n\t])\\",
                     "Berbeda dengan putar ulang, aku ingin kondisi yang /bertahan/, yang tetap benar selama kamu menginginkan keheningan itu. Hitungan @Beat-ku menunggu bersamaku dan melanjutkan dari tempat terakhirnya, bukan mulai lagi dari nol."
                 ],
                 "names": "$~jeda"
@@ -6676,7 +6676,7 @@
                 "Nada-nada saya adalah angka, angka yang sama yang dijelaskan @Music — 1 adalah nada pertama dari tangga nada, 8 adalah nada itu satu oktaf lebih tinggi, ø adalah jeda, dan angka dalam kurung kurawal seperti \\{1 3 5}\\ berbunyi bersama sebagai sebuah akor:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
                 "Nada tidak harus bulat. \\1.5\\ berada di antara nada pertama dan nada kedua, dan keduanya berbunyi — yang lebih dekat lebih keras — jadi menggeser sebuah angka melintasi nada-nada terdengar seperti menekan banyak tuts piano sekaligus:",
-                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] ketukan: 0.5beats))\\",
                 "Atur @Track/mash saya ke \\⊥\\ dan angka seperti itu membengkokkan satu nada dari pitch-nya, bukan memainkan dua nada.",
                 "Setiap entri berlangsung selama @Track/beat saya, yaitu satu ketukan kecuali kamu mengubahnya. Mengubahnya akan menata ulang semua yang saya mainkan sekaligus.",
                 "Ketika satu entri harus lebih panjang atau lebih pendek dari yang lain, tuliskan panjangnya pada angka itu sendiri sebagai nilai nada. \\8𝅗𝅥\\ adalah not setengah — dua kali lebih panjang dari satu ketukan — dan tidak butuh apa pun di sekitarnya:",
@@ -6685,9 +6685,9 @@
                 "Ini sulit ditemukan, jadi baris simbol di bawah editor menawarkannya setiap kali kursormu berada tepat setelah salah satu angka milikku.",
                 "Sebuah jeda tidak bisa membawa nilai, karena \\ø\\ bukan sebuah angka. Dua jeda berturut-turut dua kali lebih panjang, dan untuk sesuatu yang lebih halus ada @Note.",
                 "Ketika satu nada butuh volume sendiri, atau panjang yang tidak bisa dieja oleh nilai apa pun, bungkus yang satu itu dalam sebuah @Note. Gunakan hanya di tempat yang kamu butuhkan: angka telanjang lebih mudah dibaca, jadi kebanyakan trek tidak punya sama sekali, dan kelangkaan itulah yang membuat sebuah @Note menonjol sebagai sebuah peristiwa.",
-                "\\sel: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tsel\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n•#) n + 2))\n\t\t.denganDaftar(sel.terbalik())\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "\\sel: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tsel\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n•#) n + 2))\n\t\t.denganDaftar(sel.terbalik())\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n2•#) 8 - n2))\n\t\talatMusik: 🔈.🎹\n\t)\n)\\",
                 "Mengisi dengan jeda adalah semua yang dibutuhkan sebuah putaran: kedua bagian menahan jumlah ketukan yang sama, jadi mereka tetap seirama alih-alih terpisah. Menyebarkan dua daftar menjadi satu dengan : adalah cara mereka dibangun, karena \\append\\ butuh kedua daftar untuk menahan jenis hal yang sama.",
-                "\\nada: [1 2 3 1 1 2 3 1 3 4 5 ø]\nistirahat: [ø ø ø ø]\n🎼([\n\t\t🎶([:nada :istirahat] instrument: 🔈.🪈)\n\t\t🎶([:istirahat :nada] instrument: 🔈.🎻)\n\t])\\"
+                "\\nada: [1 2 3 1 1 2 3 1 3 4 5 ø]\nistirahat: [ø ø ø ø]\n🎼([\n\t\t🎶([:nada :istirahat] alatMusik: 🔈.🪈)\n\t\t🎶([:istirahat :nada] alatMusik: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~Trek"],
             "notes": {
@@ -6727,7 +6727,7 @@
                 "names": "$~lumat"
             },
             "words": {
-                "doc": "$~Suku kata untuk dinyanyikan oleh @Instrument/voice. Satu suku kata per nada, dipisahkan oleh spasi, jadi \\'so mi fa'\\ menyanyikan tiga nada dan spasi itulah yang menunjukkan di mana satu suku kata berakhir dan yang berikutnya dimulai.\n\nJeda tidak memakai suku kata, jadi lirik jatuh pada nada yang benar-benar berbunyi. Jika suku kata lebih sedikit daripada nada, mereka mulai lagi dari awal daripada menjadi diam. Jika sama sekali tidak ada, suara menahan bunyi /uh/.\n\nAkhiri suku kata dengan tanda hubung untuk menahannya sampai nada berikutnya juga, satu nada lagi untuk setiap tanda hubung — itulah cara menyanyikan satu suku kata di beberapa nada. Pada \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ menutupi dua nada pertama, lalu \\mi\\ dan \\so\\ masing-masing mengambil satu.\n\nEjaannya menggunakan <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, di mana setiap huruf adalah satu bunyi. Tekan 🤖 di bawah editor untuk melihat setiap bunyi dan mendengarnya. Huruf yang tidak saya kenali akan dilewati. Setiap alat musik selain suara mengabaikan saya, jadi lirik tetap ada saat mengubah @Track/instrument dan kembali.",
+                "doc": "$~Suku kata untuk dinyanyikan oleh @Instrument/voice. Satu suku kata per nada, dipisahkan oleh spasi, jadi \\'so mi fa'\\ menyanyikan tiga nada dan spasi itulah yang menunjukkan di mana satu suku kata berakhir dan yang berikutnya dimulai.\n\nJeda tidak memakai suku kata, jadi lirik jatuh pada nada yang benar-benar berbunyi. Jika suku kata lebih sedikit daripada nada, mereka mulai lagi dari awal daripada menjadi diam. Jika sama sekali tidak ada, suara menahan bunyi /uh/.\n\nAkhiri suku kata dengan tanda hubung untuk menahannya sampai nada berikutnya juga, satu nada lagi untuk setiap tanda hubung — itulah cara menyanyikan satu suku kata di beberapa nada. Pada \\🎶([1 2 3 4] kataKata: 'la- mi so')\\, \\la\\ menutupi dua nada pertama, lalu \\mi\\ dan \\so\\ masing-masing mengambil satu.\n\nEjaannya menggunakan <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, di mana setiap huruf adalah satu bunyi. Tekan 🤖 di bawah editor untuk melihat setiap bunyi dan mendengarnya. Huruf yang tidak saya kenali akan dilewati. Setiap alat musik selain suara mengabaikan saya, jadi lirik tetap ada saat mengubah @Track/instrument dan kembali.",
                 "names": "$~kataKata"
             }
         },
@@ -6762,56 +6762,56 @@
                 "piano": {
                     "doc": [
                         "$~Sebuah piano. Direkam dari piano asli, dan bernada, jadi angka memilih not.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
                     "doc": [
                         "$~Sebuah biola. Direkam dari biola asli, dan bernada, jadi angka memilih not.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~biola"]
                 },
                 "drums": {
                     "doc": [
                         "$~Satu set drum. Direkam, dan berupa set bukan bernada: angka memilih bagian dari set, bukan not — \\1\\ drum bas, \\2\\ snare, \\3\\ hi-hat, \\4\\ simbal, \\5\\ tom tom, \\6\\ cowbell — dan \\7\\ kembali lagi ke drum bas.",
-                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6] ketukan: 2beats perulangan: ⊥ alatMusik: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~drum"]
                 },
                 "flute": {
                     "doc": [
                         "$~Sebuah seruling. Direkam dari seruling asli, dan bernada, jadi angka memilih not.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~seruling"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Sebuah terompet. Direkam dari terompet asli, dan bernada, jadi angka memilih not.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~terompet"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Sebuah saksofon, jenis tenor. Direkam dari saksofon asli, dan bernada, jadi angka memilih not.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~saksofon", "$~saks"]
                 },
                 "bell": {
                     "doc": [
                         "$~Sebuah lonceng — lonceng orkestra, yang dipukul dengan palu. Direkam, dan bernada, jadi angka memilih not.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~lonceng"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~Sebuah didgeridoo, dari Aborigin Australia. Direkam dari didgeridoo asli, dan bernada, jadi angka memilih not, meskipun ini alat dengung dan tetap rendah.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🪵) tempo: 60beats/min)\\"
                     ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
@@ -6819,62 +6819,62 @@
                     "names": ["$~kucing", "$~meong"],
                     "doc": [
                         "$~Seekor kucing — sebenarnya satu set penuh dari kucing. Direkam dari kucing asli, dan berupa set bukan bernada: angka memilih apa yang dikatakan kucing, bukan not — \\1\\ kesal, \\2\\ memohon, \\3\\ lapar, \\4\\ memprotes, \\5\\ merengek, \\6\\ berharap, \\7\\ terganggu, \\8\\ takut, \\9\\ peka, \\10\\ tenang, \\11\\ kesepian, \\12\\ mendengkur — dan \\13\\ kembali ke jengkel. Untuk kucing yang memainkan nada, lihat \\🔈.😺\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] ketukan: 2beats perulangan: ⊥ alatMusik: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
                     "names": ["$~anjing", "$~gonggong"],
                     "doc": [
                         "$~Seekor anjing — sebenarnya satu kumpulan penuh. Direkam dari anjing sungguhan, dan berupa kumpulan bukan nada: angka memilih gonggongan mana yang kamu dengar, bukan nada, berurutan dari yang terdalam sampai yang tertajam — \\1\\ serak, \\2\\ memperingatkan, \\3\\ menjaga, \\4\\ waspada, \\5\\ mendesak, \\6\\ menuntut, \\7\\ mengumumkan, \\8\\ bersemangat, \\9\\ gembira, \\10\\ tidak sabar, \\11\\ menyalak, \\12\\ melengking — dan \\13\\ kembali ke serak. Untuk anjing yang memainkan nada, lihat \\🔈.🐕\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] ketukan: 2beats perulangan: ⊥ alatMusik: 🔈.🐶) tempo: 60beats/min)\\"
                     ]
                 },
                 "synth": {
                     "doc": [
                         "$~Suara utama synthesizer: cerah dan berdengung, dan bangga terbuat dari osilator. Dibuat dengan synthesizer bukan direkam, dan bernada, jadi angka memilih nada.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🎛) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~🎛️", "$~synth"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Suara bass synthesizer: tebal dan rendah. Dibuat dengan synthesizer bukan direkam, dan bernada, jadi angka memilih nada.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🎚) tempo: 60beats/min)\\"
                     ],
                     "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Suara pad synthesizer: lembut, muncul perlahan, dan cocok untuk menahan akor di bawah yang lain. Dibuat dengan synthesizer bukan direkam, dan bernada, jadi angka memilih nada.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.☁) tempo: 60beats/min)\\"
                     ],
                     "names": ["☁️", "$~synthPad"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Kucing yang sama, tetapi disetel. Dari dua belas rekaman yang dimainkan kumpulan \\🔈.🐱\\, inilah yang menahan nada yang tetap, dan ini bernada bukan kumpulan, jadi angka memilih nada dan kamu bisa menulis lagu dengannya. Dimainkan jauh dari nada saat direkam, meong mulai terdengar meregang bukan bernyanyi, jadi ia paling nyaman dalam satu oktaf dari tengah.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.😺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~kucingBernada"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Anjing yang sama, tapi disetel. Dari semua gonggongan dalam kit ini, inilah yang menjaga nada tetap stabil. Nada ini disetel bukan sebagai kit, jadi angka memilih not dan kamu bisa menulis lagu dengannya. Jika dimainkan jauh dari not saat direkam, gonggongan mulai terdengar meregang daripada menggonggong. Jadi, nada ini paling nyaman dalam jarak sekitar satu oktaf dari nada tengah.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~anjingBernada"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Sebuah gitar klasik, dengan senar nilon yang dipetik jari, bukan dengan pick. Direkam dari gitar sungguhan, dan disetel, jadi angka memilih not. Inilah yang dimaksud dengan kata \\guitar\\ biasa, jadi proyek lama yang meminta gitar akan memainkan yang ini.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~gitarAkustik", "$~gitar"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~Sebuah gitar elektro-akustik — badan berongga dengan pickup di dalamnya, bersenar baja, sehingga bunyinya lebih cerah dan lebih panjang daripada nilon \\🔈.🎸\\. Direkam dari gitar sungguhan, dan disetel, jadi angka memilih not.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] ketukan: 4beats perulangan: ⊥ alatMusik: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~gitarListrik"]
                 },
@@ -6883,7 +6883,7 @@
                         "$~Suara nyanyian, dibuat dari filter dan bukan direkam dari seseorang. Bernada, jadi angka memilih nada.",
                         "Saya adalah penyintesis suara, seperti @Instrument/synth — bukan tiruan seorang penyanyi. Mulut saya tetap sama ukurannya betapapun tinggi atau rendah saya menyanyi, yang tidak bisa dilakukan tenggorokan asli mana pun. Itulah sebabnya saya terdengar seperti mesin yang meniru seseorang orang, dan sebabnya saya terdengar bukan seperti pria maupun wanita.",
                         "Beri @Track saya sebuah @Track/words dan saya menyanyikannya, satu suku kata per nada. Tanpa itu, saya menahan bunyi /uh/, jadi saya selalu menyanyikan sesuatu.",
-                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "\\🎼(🎶([1 2 3 5] kataKata: 'la la la la' alatMusik: 🔈.🤖) tempo: 120beats/min)\\",
                         "Suku kata dieja dalam <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, sebuah alfabet di mana setiap huruf adalah satu /bunyi/ dan bukan satu ejaan — jadi \\'ʃi'\\ adalah bunyi di awal kata /she/, dalam bahasa apa pun yang kamu tulis. Tekan 🤖 di bawah editor untuk melihat setiap bunyi yang bisa aku buat dan mendengar setiap bunyinya."
                     ],
                     "names": ["$~suara"]
@@ -6891,7 +6891,7 @@
                 "harmonica": {
                     "doc": [
                         "$~Sebuah harmonika, jenis kromatik dengan tombol di sisinya. Direkam dari harmonika asli, dan disetel nada, sehingga angka memilih nada.",
-                        "\\Musik(\n\tTrek([1] beat: 4beats loop: ⊥ instrument: AlatMusik.🌬)\n\ttempo: 60beats/min\n)\\"
+                        "\\Musik(\n\tTrek([1] ketukan: 4beats perulangan: ⊥ alatMusik: AlatMusik.🌬)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~harmonika"]
                 }

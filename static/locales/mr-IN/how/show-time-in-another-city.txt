@@ -12,6 +12,6 @@
 
 तुम्ही एक कॅलेंडर देखील निवडू शकता, जसे जपानी कॅलेंडर, आणि फॉन्टने घड्याळ सजवू शकता:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' चेहरा: 'Doto')\
 
 count-with-time

@@ -6,8 +6,8 @@ Două lucruri îl fac să fie un efect sonor, nu un cântec. \buclă: ⊥\ îi s
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 atinge-mă' selectable: ⊤ name: 'atingere')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 atinge-mă' selectabil: ⊤ nume: 'atingere')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell buclă: ⊥) reluare: tapped)
 	])\
 
 Nu-ți face griji că lista se golește din nou la următoarea evaluare — o notă care a început se redă mereu până la capăt. Ceea ce nu poți lăsa deoparte este \replay\. Atinge de două ori și a doua atingere produce exact aceeași muzică precum prima, deci nimic nu s-a schimbat și nimic nu ar suna din nou; \replay\ este modul în care spui /din nou, acum/. 
@@ -20,7 +20,7 @@ Deoarece notele sunt doar o listă, le poți hotărî în funcție de *ce* s-a �
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ apasă o tastă' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano buclă: ⊥) reluare: struck)
 	])\
 
 Observă că \∆ key\ este calculat pe propria linie, iar testul valorii \key = ' '\ se întâmplă separat. Scrise împreună ca o singură condiție, sunetul s-ar declanșa din nou la următoarea tastă fără legătură, în timp ce \key\ încă se citește ca un spațiu.

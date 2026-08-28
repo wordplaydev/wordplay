@@ -12,6 +12,6 @@
 
 Μπορείς επίσης να διαλέξεις ένα ημερολόγιο, όπως το ιαπωνικό ημερολόγιο, και να δώσεις στυλ στο ρολόι με μια γραμματοσειρά:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' πρόσωπο: 'Doto')\
 
 count-with-time

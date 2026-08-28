@@ -4648,7 +4648,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Biliyorsunuz, @Bind, @Evaluate dahil olmak üzere birçok başka karakterle çalışıyor — bunları bir @FunctionDefinition girdisini adlandırdığınızda gördünüz, örneğin \\Pose(color: _)\\ — ve bu diğer kişilerden birkaçıyla tanışacağız. @Bind, demo için burada olacak mısın?"
+                            "$~Biliyorsunuz, @Bind, @Evaluate dahil olmak üzere birçok başka karakterle çalışıyor — bunları bir @FunctionDefinition girdisini adlandırdığınızda gördünüz, örneğin \\Pose(renk: _)\\ — ve bu diğer kişilerden birkaçıyla tanışacağız. @Bind, demo için burada olacak mısın?"
                         ],
                         [
                             "Bind",

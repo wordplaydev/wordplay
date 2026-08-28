@@ -5,8 +5,8 @@ Daftar angka polos membuat semua nada sama panjang, terdengar seperti mainan yan
 @Track/beat  mengatur kisi. Setiap entri polos berlangsung selama itu — begitu juga setiap \ø\, yang membuat jeda menjadi cara termudah untuk menahan nada:
 
 \Music([
-		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 ø ø ø 5 ø 8 ø] alatMusik: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] alatMusik: Instrument.drums ketukan: 0.5beats)
 	])\
 
 Nada pertama piano diikuti tiga jeda, jadi nada itu berbunyi selama empat ketukan. Kisi drum adalah setengah ketukan, jadi delapan entrinya mengisi empat ketukan sementara delapan entri piano mengisi delapan — drum berputar dua kali untuk satu putaran piano. Setiap trek berputar dengan panjangnya sendiri, dan begitulah satu angka menghasilkan poliritme.
@@ -23,7 +23,7 @@ Menghitung jeda itu melelahkan, jadi kamu bisa menulis panjang pada angka itu se
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] alatMusik: Instrument.trumpet ketukan: 1𝅘𝅥))\
 
 Itu dua bar dari empat ketukan. \𝅝\ adalah nada penuh, \𝅗𝅥\ setengah, \𝅘𝅥\ seperempat, \𝅘𝅥𝅮\ seperdelapan dan \𝅘𝅥𝅯\ seperenam belas, dan titik \𝅭\ membuat semuanya menjadi setengah kali lebih panjang — jadi \𝅘𝅥𝅮𝅭\ adalah nada seperdelapan bertitik yang membuat mars ini melaju maju. Baris simbol di bawah editor menawarkannya setelah kamu mengetik angka.
 

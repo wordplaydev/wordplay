@@ -12,7 +12,7 @@ Titta! Här är en sköldpadda jag gjorde med bara former!Försök att ändra si
 		Shape(Polygon(7m 6 0m -6m 0m))
 		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
 		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+	] plats: Place(0m 10m -30m))\
 
 Du kan göra riktigt coola saker med lager! Testa det!
 

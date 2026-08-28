@@ -339,6 +339,7 @@ async function handleLocale(
         // The revised locale, not the one loaded at startup: how-tos retarget
         // example references against names this run may have just translated.
         revisedLocale,
+        FixRequested || TranslationRequested,
     );
 
     // Regenerate the per-locale how-to bundle the runtime loads. Only fix/translate

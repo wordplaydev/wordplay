@@ -12,6 +12,6 @@
 
 אפשר גם לבחור לוח שנה, כמו הלוח היפני, ולעצב את השעון עם גופן:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' פָּנִים: 'Doto')\
 
 count-with-time

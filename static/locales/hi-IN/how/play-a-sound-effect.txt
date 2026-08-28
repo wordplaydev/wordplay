@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 मुझे छुओ' selectable: ⊤ name: 'छूना')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 मुझे छुओ' चुननेयोग्य: ⊤ नाम: 'छूना')
+		Music(Track(tapped ? [1 5 8] [] वाद्य: Instrument.bell लूप: ⊥) दोबाराचलाएँ: tapped)
 	])\
 
 इस बात की चिंता मत करो कि अगली गणना पर सूची फिर खाली हो जाती है — जो स्वर शुरू हो चुका है वह हमेशा अपने अंत तक चलता है। जो चीज़ तुम छोड़ नहीं सकते वह है \replay\। दो बार छुओ और दूसरी बार का छूना पहली बार जैसा बिल्कुल वही संगीत बनाता है, इसलिए कुछ नहीं बदला और कुछ फिर से नहीं बजेगा; \replay\ इस तरह तुम कहते हो /फिर से, अभी/। 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ कोई कुंजी दबाएं' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] वाद्य: Instrument.piano लूप: ⊥) दोबाराचलाएँ: struck)
 	])\
 
 ध्यान दो कि \∆ key\ अपनी अलग लाइन पर हल किया जाता है और मान की जाँच \key = ' '\ अलग से होती है। एक ही शर्त के रूप में साथ लिखने पर, आवाज़ अगली असंबंधित कुंजी पर फिर से चलेगी जबकि \key\ फिर भी एक स्थान के रूप में पढ़ा जाता है।

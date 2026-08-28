@@ -9,11 +9,11 @@
 \¶ಗಮನಿಸಿ: ಇನ್ನೊಂದು ಯೋಜನೆಗಾಗಿ ಗ್ಯಾಲರಿಯನ್ನು ಪರಿಶೀಲಿಸಿ.<ಉದಾಹರಣೆ@https://wordplay.dev/project/example-Layers?play>ಪದರಗಳ ಚಿತ್ರಗಳ.¶
 Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) ತಿರುಗುವಿಕೆ: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) ತಿರುಗುವಿಕೆ: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) ತಿರುಗುವಿಕೆ: -25°)
+	] ಸ್ಥಳ: Place(0m 10m -30m))\
 
 ನೀವು ಪದರಗಳನ್ನು ಬಳಸಿ ನಿಜವಾಗಿಯೂ ಅದ್ಭುತವಾದ ವಸ್ತುಗಳನ್ನು ಮಾಡಬಹುದು! ಇದನ್ನು ಪ್ರಯತ್ನಿಸಿ!
 

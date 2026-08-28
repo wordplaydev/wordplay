@@ -12,6 +12,6 @@ Saat diliminin adını bilmiyor musun? Sadece bildiğin bir şehir yaz — @word
 
 Ayrıca bir takvim seçebilirsin, örneğin Japon takvimi, ve saati bir yazı tipiyle biçimlendirebilirsin:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' yüz: 'Doto')\
 
 count-with-time

@@ -5,16 +5,16 @@
 على سبيل المثال، تخيل أننا نريد تحريك أغنية الأطفال القصيرة "جاك كن رشيقًا".يمكننا أن نصنع @Scene الذي يحتوي على كل سطر كـ @Phrase وبوضع @Phrase/duration من كل سطر، الـ @Scene سيتم التقدم عند الانتهاء من كل عبارة.
 
 \Scene([
-		Phrase('كن رشيقًا يا جاك' duration: 1s)
-		Phrase('جاك، كن سريعاً' duration: 1s)
-		Phrase('قفز جاك فوق الشمعدان' duration: 1s)
+		Phrase('كن رشيقًا يا جاك' مدة: 1s)
+		Phrase('جاك، كن سريعاً' مدة: 1s)
+		Phrase('قفز جاك فوق الشمعدان' مدة: 1s)
 	])\
 
 @Scene سأنتظر... @Sequence يجب القيام بذلك أيضاً. فلنجعل خط الشموع يقفز!
 
 \Scene([
-		Phrase('كن رشيقًا يا جاك' duration: 1s)
-		Phrase('جاك، كن سريعاً' duration: 1s)
+		Phrase('كن رشيقًا يا جاك' مدة: 1s)
+		Phrase('جاك، كن سريعاً' مدة: 1s)
 		Phrase('قفز جاك فوق الشمعدان' entering: Sequence.bounce(duration: 1s))
 	])\
 
@@ -24,7 +24,7 @@
 		Group(Stack() [
 				Phrase('كن رشيقًا يا جاك')
 				Phrase('جاك، كن سريعاً')
-			] duration: 2s)
+			] مدة: 2s)
 		Phrase('قفز جاك فوق الشمعدان' entering: Sequence.bounce(duration: 1s))
 	])\
 

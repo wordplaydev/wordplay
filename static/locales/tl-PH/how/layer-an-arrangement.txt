@@ -6,8 +6,8 @@ Dahil ang mga degree ay mga hakbang ng isang scale, hindi mga nakapirmeng tunog,
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune instrumento: Instrument.flute)
+		Track(tune instrumento: Instrument.synthBass susi: -12semitones lakasNgTunog: 60%)
 	])\
 
 Dalawang boses, isang listahan. Baguhin ang tono at susunod ang bass dito, dahil isang tono lang ang binabago mo.
@@ -16,10 +16,10 @@ Ngayon, punuin ang paligid nito. Ang mga kord ay nais ng sarili nilang ritmo, hi
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune instrumento: Instrument.flute pan: 0)
+		Track(tune instrumento: Instrument.synthBass susi: -12semitones lakasNgTunog: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrumento: Instrument.synthPad beat: 2beats lakasNgTunog: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrumento: Instrument.drums beat: 0.5beats lakasNgTunog: 45%)
 	])\
 
 Pagmasdan ang mga lakas ng tunog: ang plawta lang ang nasa buong lakas. Ang mga bahaging nasa buong lakas ay hindi nagreresulta sa mas malakas na banda, kundi sa mas magulong tunog, dahil ang lahat ng tumutugtog nang sabay ay kailangang dumaan sa iisang ispiker. Simulan ang melodiya sa \100%\ at ilagay ang lahat ng iba pa sa ilalim nito.

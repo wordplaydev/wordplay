@@ -2,15 +2,15 @@ Pokaż możliwe do wyboru opcje
 
 Czasami chcesz pokazać na ekranie wiele wyborów i zrobić coś z tym, co wybierze publiczność. Aby to zrobić, potrzebujemy dwóch rzeczy:
 
-• Jeden lub więcej @Phrase które są oznaczone jako wybieralne i mają unikalną nazwę (np.\Phrase('opcja 1' selectable: ⊤ name: 'jeden')\)• A  @Choice , który zmienia się na @Phrase nazwa ostatnio wybrana.
+• Jeden lub więcej @Phrase które są oznaczone jako wybieralne i mają unikalną nazwę (np.\Phrase('opcja 1' wybieralny: ⊤ nazwa: 'jeden')\)• A  @Choice , który zmienia się na @Phrase nazwa ostatnio wybrana.
 
 Na przykład tutaj pokazujemy trzy opcje, każda z nich ma unikalną nazwę.
 
 \option: Choice()
 Group(Stack() [
-		Phrase('opcja 1' selectable: ⊤ name: 'jeden')
-		Phrase('opcja 2' selectable: ⊤ name: 'dwa')
-		Phrase('opcja 3' selectable: ⊤ name: 'trzy')
+		Phrase('opcja 1' wybieralny: ⊤ nazwa: 'jeden')
+		Phrase('opcja 2' wybieralny: ⊤ nazwa: 'dwa')
+		Phrase('opcja 3' wybieralny: ⊤ nazwa: 'trzy')
 		Phrase(option)
 	])\
 

@@ -12,6 +12,6 @@ Tu ne connais pas le nom du fuseau horaire ? Écris simplement une ville que tu 
 
 Tu peux aussi choisir un calendrier, comme le calendrier japonais, et styliser l'horloge avec une police :
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' affronter: 'Doto')\
 
 count-with-time

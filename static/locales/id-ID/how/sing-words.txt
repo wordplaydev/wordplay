@@ -2,7 +2,7 @@ Buat suara menyanyikan kata
 
 Dari setiap  @Instrument  di palet, \🔈.🤖\ adalah satu-satunya yang bisa mengatakan sesuatu. Beri  @Track -nya sebuah  @Track/words  dan ia akan menyanyikannya, satu suku kata per nada:
 
-\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+\Music(Track([1 2 3 5 3 1] kataKata: 'la la la la la la' alatMusik: Instrument.voice) tempo: 120beats/min)\
 
 Enam suku kata, enam nada. Spasi adalah seluruh tata bahasa di sini — spasi menandai di mana satu suku kata berhenti dan berikutnya mulai. Jeda tidak mengambil suku kata, jadi kata-kata jatuh pada nada yang benar-benar kamu dengar. Tulis suku kata lebih sedikit daripada nada, dan mereka akan mulai lagi dari awal; tulis tanpa suku kata sama sekali, dan suara akan menahan bunyi /uh/, jadi ia selalu menyanyikan sesuatu.
 
@@ -16,7 +16,7 @@ Mulai dengan huruf vokal. Dua belas huruf ini mencakup sebagian besar yang akan 
 
 Sebuah huruf vokal sendirian sudah menjadi suku kata yang baik, dan menyanyikannya berturut-turut adalah cara paling jelas untuk membedakan satu dari yang lain:
 
-\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+\Music(Track([1 2 3 4 5] kataKata: 'a e i o u' alatMusik: Instrument.voice) tempo: 90beats/min)\
 
 Huruf konsonan kebanyakan terdengar seperti yang kamu duga: \p
 b
@@ -31,11 +31,11 @@ l
 r
 w\ semua terdengar hampir sama seperti dalam bahasa Inggris. Yang perlu dipelajari adalah bunyi yang dalam bahasa Inggris ditulis dengan dua huruf, ditambah satu huruf yang berubah. \ʃ\ adalah /sh/, \ʒ\ adalah /s/ dalam /measure/, \θ\ adalah /th/ dalam /thin/, \ð\ adalah /th/ pada /this/, \ŋ\ adalah /ng/ pada /sing/, dan \j\ adalah /y/ pada /yes/. Letakkan satu di depan huruf vokal, dan kamu punya sebuah kata:
 
-\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+\Music(Track([5 5 3 3 1] kataKata: 'ʃi si mi lo ʌp' alatMusik: Instrument.voice) tempo: 100beats/min)\
 
 Satu suku kata juga bisa memanjang melewati beberapa nada. Akhiri dengan tanda hubung, dan suku kata itu bertahan satu nada lagi untuk setiap tanda hubung — rentetan nada pada satu suku kata inilah yang memberi bentuk pada nyanyian pujian dan lagu pengantar tidur:
 
-\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+\Music(Track([1 2 3 2 1] kataKata: 'glo--- ri' alatMusik: Instrument.voice) tempo: 140beats/min)\
 
 Tiga tanda hubung membawa \glo\ selama empat nada sebelum \ri\ mendarat di nada terakhir. Apa pun yang tidak dikenali oleh suara akan dilewati, bukan ditolak, jadi kamu bisa bereksperimen tanpa merusak lagunya.
 
@@ -44,7 +44,7 @@ Untuk menampilkan kata-kata saat dinyanyikan, bacakan kembali kata-kata itu dari
 \beat: Beat()
 Stage([
 		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
-		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+		Music(Track([1 2 3 5 3 1] kataKata: 'ðɪs ɪz ə soŋ tə si' alatMusik: Instrument.voice) tempo: 100beats/min)
 	])\
 
 @Downbeat/parts  memiliki suku kata yang sama pada setiap jalur, jika kamu ingin memisahkan dua penyanyi, bukan menyatukan mereka.

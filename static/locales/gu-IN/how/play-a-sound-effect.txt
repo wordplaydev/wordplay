@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 મને ટેપ કરો' selectable: ⊤ name: 'ટેપ')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 મને ટેપ કરો' પસંદકરીશકાયતેવું: ⊤ નામ: 'ટેપ')
+		Music(Track(tapped ? [1 5 8] [] વાદ્ય: Instrument.bell લૂપ: ⊥) ફરીચલાવો: tapped)
 	])\
 
 ચિંતા ના કરો કે તરત જ પછીની ગણતરીમાં યાદી ફરી ખાલી થઈ જાય છે — જે નોંધ શરૂ થઈ ગઈ હોય તે હંમેશા તેના અંત સુધી વાગે છે. જે તમે છોડી ના શકો તે છે \replay\. બે વાર ટેપ કરો અને બીજી ટેપ પહેલી જેવું જ સંગીત બનાવે છે, એટલે કંઈ બદલાયું નથી અને ફરી કંઈ વાગશે નહીં; \replay\ એ રીત છે જેમાં તમે કહો છો /ફરી, હમણાં/. 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ કોઈ કી દબાવો' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] વાદ્ય: Instrument.piano લૂપ: ⊥) ફરીચલાવો: struck)
 	])\
 
 ધ્યાન આપો કે \∆ key\ પોતાની અલગ લાઇન પર ગણાય છે અને value ની ચકાસણી \key = ' '\ અલગથી થાય છે. જો બંનેને એક જ condition તરીકે લખો, તો અવાજ પછીની બિનસંબંધિત કી પર ફરી વાગશે જ્યારે \key\ હજુ પણ જગ્યા તરીકે વંચાય છે.

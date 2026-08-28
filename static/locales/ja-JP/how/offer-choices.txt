@@ -2,15 +2,15 @@
 
 画面上にたくさんの選択肢を表示し、視聴者が選んだものに応じて何かを行いたい場合があります。そのためには、次の2つの要素が必要です。
 
-• 1つ以上 @Phrase 選択可能とマークされ、一意の名前が付けられているもの（例：\Phrase('オプション1' selectable: ⊤ name: '1つ')\）• A @Choice に変化します @Phrase 最後に選択した名前。
+• 1つ以上 @Phrase 選択可能とマークされ、一意の名前が付けられているもの（例：\Phrase('オプション1' 選択可能: ⊤ 名前: '1つ')\）• A @Choice に変化します @Phrase 最後に選択した名前。
 
 たとえば、ここではそれぞれ一意の名前を持つ 3 つの選択肢を示します。
 
 \option: Choice()
 Group(Stack() [
-		Phrase('オプション1' selectable: ⊤ name: '1つ')
-		Phrase('オプション2' selectable: ⊤ name: '二')
-		Phrase('オプション3' selectable: ⊤ name: '三つ')
+		Phrase('オプション1' 選択可能: ⊤ 名前: '1つ')
+		Phrase('オプション2' 選択可能: ⊤ 名前: '二')
+		Phrase('オプション3' 選択可能: ⊤ 名前: '三つ')
 		Phrase(option)
 	])\
 

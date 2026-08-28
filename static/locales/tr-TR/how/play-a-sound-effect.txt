@@ -6,8 +6,8 @@ Cevap doğru olduğunda bir zil sesi, bir şey yere düştüğünde bir gümbür
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 bana dokun' selectable: ⊤ name: 'dokun')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 bana dokun' seçilebilir: ⊤ isim: 'dokun')
+		Music(Track(tapped ? [1 5 8] [] çalgı: Instrument.bell döngü: ⊥) tekrarOynat: tapped)
 	])\
 
 Listenin bir sonraki hesaplamada tekrar boşalmasından endişe etme — başlamış bir nota her zaman sonuna kadar çalar. Dışarıda bırakamayacağın şey \replay\. İki kez dokun, ikinci dokunuş birinciyle tam olarak aynı müziği üretir, yani hiçbir şey değişmedi ve hiçbir şey tekrar seslenmez; \replay\ şunu söylemenin yoludur: /tekrar, şimdi/. 
@@ -20,7 +20,7 @@ Notalar sadece bir liste olduğundan, her zaman aynı şeyi çalmak yerine *neyi
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ bir tuşa bas' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] çalgı: Instrument.piano döngü: ⊥) tekrarOynat: struck)
 	])\
 
 Şuna dikkat et: \∆ key\ kendi satırında hesaplanır ve değer testi \key = ' '\ ayrı olarak gerçekleşir. Tek bir koşul olarak birlikte yazılırsa, ses ilgisiz bir sonraki tuşta tekrar çalar, çünkü \key\ hâlâ boşluk olarak okunur.

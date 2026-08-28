@@ -6,8 +6,8 @@ Duas coisas fazem disto um efeito sonoro em vez de uma música. \ciclo: ⊥\ diz
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 toca-me' selectable: ⊤ name: 'toque')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 toca-me' selecionável: ⊤ nome: 'toque')
+		Music(Track(tapped ? [1 5 8] [] instrumento: Instrument.bell ciclo: ⊥) repetir: tapped)
 	])\
 
 Não te preocupes que a lista fique vazia outra vez na avaliação seguinte — uma nota que já começou toca sempre até ao fim. O que não podes deixar de fora é \replay\. Toca duas vezes e o segundo toque produz exatamente a mesma música que o primeiro, por isso nada mudou e nada voltaria a soar; \replay\ é como dizes /outra vez, agora/. 
@@ -20,7 +20,7 @@ Como as notas são apenas uma lista, podes decidi-las a partir *do que* acontece
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ carrega numa tecla' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrumento: Instrument.piano ciclo: ⊥) repetir: struck)
 	])\
 
 Repara que \∆ key\ é resolvido na sua própria linha e o teste do value \key = ' '\ acontece à parte. Escritos juntos como uma só condition, o som dispararia outra vez na próxima tecla não relacionada enquanto \key\ ainda é lido como um espaço.

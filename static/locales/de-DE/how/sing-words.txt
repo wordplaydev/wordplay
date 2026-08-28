@@ -2,7 +2,7 @@ Bring die Stimme dazu, Wörter zu singen
 
 Von jedem  @Instrument  in der Palette kann \🔈.🤖\ als Einziges etwas sagen. Gib seinem  @Track  ein  @Track/words  und es singt sie, eine Silbe pro Note:
 
-\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+\Music(Track([1 2 3 5 3 1] Wörter: 'la la la la la la' Instrument: Instrument.voice) Tempo: 120beats/min)\
 
 Sechs Silben, sechs Noten. Die Leerzeichen sind hier die ganze Grammatik – sie sagen, wo eine Silbe aufhört und die nächste beginnt. Pausen bekommen keine Silbe, also landen die Wörter auf den Noten, die du wirklich hörst. Schreibst du weniger Silben als Noten, fangen sie von vorn an. Schreibst du gar keine, hält die Stimme einen /äh/-Laut, damit sie immer etwas singt.
 
@@ -16,15 +16,15 @@ Fang mit den Vokalen an. Diese zwölf decken das meiste ab, was du brauchen wirs
 
 Ein Vokal für sich allein ist eine völlig gute Silbe. Sie hintereinander zu singen ist der klarste Weg, einen vom anderen zu hören:
 
-\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+\Music(Track([1 2 3 4 5] Wörter: 'a e i o u' Instrument: Instrument.voice) Tempo: 90beats/min)\
 
 Konsonanten sehen meist so aus, wie du es erwartest: \pbtdkmnsflrw\ klingen alle ungefähr so wie im Englischen. Die, die man lernen sollte, sind die Laute, die das Englische mit zwei Buchstaben schreibt, sowie ein Buchstabe, der sich verschoben hat. \ʃ\ ist /sch/, \ʒ\ ist das /s/ in /measure/, \θ\ ist das /th/ in /thin/, \ð\ ist das /th/ in /this/, \ŋ\ ist das /ng/ in /sing/, und \j\ ist das /y/ in /yes/. Setze einen vor einen Vokal, und du hast ein Wort:
 
-\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+\Music(Track([5 5 3 3 1] Wörter: 'ʃi si mi lo ʌp' Instrument: Instrument.voice) Tempo: 100beats/min)\
 
 Eine Silbe kann sich auch über mehrere Noten strecken. Beende sie mit einem Bindestrich, und sie hält für jeden Bindestrich eine Note länger — die Folge von Noten auf einer einzigen Silbe, die Liedern und Wiegenliedern ihre Form gibt:
 
-\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+\Music(Track([1 2 3 2 1] Wörter: 'glo--- ri' Instrument: Instrument.voice) Tempo: 140beats/min)\
 
 Die drei Bindestriche tragen \glo\ über vier Noten, bevor \ri\ auf der letzten landet. Alles, was die Stimme nicht erkennt, überspringt sie, statt es abzulehnen. So kannst du ausprobieren, ohne die Melodie zu zerstören.
 
@@ -33,7 +33,7 @@ Um die Wörter so zu zeigen, wie sie gesungen werden, lies sie aus  @Beat  zurü
 \beat: Beat()
 Stage([
 		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
-		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+		Music(Track([1 2 3 5 3 1] Wörter: 'ðɪs ɪz ə soŋ tə si' Instrument: Instrument.voice) Tempo: 100beats/min)
 	])\
 
 @Downbeat/parts  hat dieselben Silben Spur für Spur, falls du zwei Singende getrennt statt zusammen zeigen willst.
