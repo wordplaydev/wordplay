@@ -15,6 +15,7 @@
     import TranslationMeter from '@components/app/TranslationMeter.svelte';
     import { getAnnouncer } from '@components/project/Contexts';
     import { getFunctionsInstance } from '@db/firebase';
+    import getLocalTranslator from '@db/getLocalTranslator';
     import getPreferredTranslator from '@db/getPreferredTranslator';
     import type { TranslationBackend } from '@db/chooseTranslator';
     import {
@@ -338,6 +339,11 @@
         const request = ++translateRequest;
         translateError = false;
         messageErrors = {};
+        // Reset rather than left standing. A pass that finds everything already
+        // cached returns before setting this, and the cache only ever holds
+        // what our servers translated — so leaving the last pass's claim up
+        // would tell a reader nothing was sent to us about messages that were.
+        translatedOnDevice = false;
         if (target === undefined || !chat) {
             translating = false;
             return;
@@ -395,23 +401,29 @@
         translating = true;
         const backends = new Set<TranslationBackend>();
         try {
+            const reportProgress = {
+                onBackend: (backend: TranslationBackend) =>
+                    backends.add(backend),
+                download: (loaded: number) => {
+                    if (request === translateRequest)
+                        downloading = loaded < 1 ? loaded : undefined;
+                },
+            };
+
+            // Our servers are asked for second, and only if they can be
+            // reached at all. A reader offline with a model already downloaded
+            // can still read the conversation — which is most of the point of
+            // translating on the device — and failing here before ever asking
+            // the browser would take that away.
             const functions = await getFunctionsInstance();
-            if (!functions) {
-                if (request !== translateRequest) return;
-                translateError = true;
-                return;
-            }
+            const translate = functions
+                ? getPreferredTranslator(functions, reportProgress)
+                : getLocalTranslator(reportProgress);
 
             const { translated, failed } = await translateMarkupTexts(
                 toTranslate,
                 toLocale,
-                getPreferredTranslator(functions, {
-                    onBackend: (backend) => backends.add(backend),
-                    download: (loaded) => {
-                        if (request === translateRequest)
-                            downloading = loaded < 1 ? loaded : undefined;
-                    },
-                }),
+                translate,
             );
 
             // A newer target was chosen while this ran; throw the result away.
@@ -424,7 +436,10 @@
 
             translations = { ...cachedTranslations, ...next };
             messageErrors = failedIDs;
-            translatedOnDevice = backends.size === 1 && backends.has('device');
+            // With no Firebase reachable there was only ever one backend, and
+            // it reported nothing because it was never chosen between.
+            translatedOnDevice =
+                !functions || (backends.size === 1 && backends.has('device'));
 
             // Cache what we just bought, so nobody else in the conversation
             // buys it again. Only what our own servers translated: an
@@ -757,10 +772,11 @@
                 />
             {/if}
             {#if translating}
+                <!-- Always labelled: leaving it off falls back to a generic
+                     "loading", which says less than "translating messages"
+                     does even while the translator is still downloading. -->
                 <Spinning
-                    label={downloading === undefined
-                        ? (l) => l.ui.collaborate.translate.translating
-                        : undefined}
+                    label={(l) => l.ui.collaborate.translate.translating}
                 />
                 {#if downloading !== undefined && translateTo !== undefined}
                     <Note
