@@ -23,6 +23,7 @@
         type MarkupTranslationInput,
     } from '@db/translateMarkup';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
+    import { SupportedLocales } from '@locale/SupportedLocales';
     import { getLanguageDirection } from '@locale/LanguageCode';
     import {
         localesAreEqual,
@@ -30,7 +31,10 @@
         stringToLocale,
         type default as Locale,
     } from '@locale/Locale';
-    import { getMultilingualLanguageLabel } from '@locale/LocaleText';
+    import {
+        getLocaleRegionNames,
+        getMultilingualLanguageLabel,
+    } from '@locale/LocaleText';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import Loading from '@components/app/Loading.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -83,29 +87,66 @@
 
     const translatableLocales = getTranslatableLocales();
 
-    /** The languages this conversation is actually in: the viewer's own first
-     *  (so the compose picker always has an option matching its default, even
-     *  for a locale like ta-IN-LK-SG that the translatable list only carries as
-     *  separate single-region entries), then the chat's own, then every
-     *  language a message is tagged with. Keeps both pickers to a handful of
-     *  options rather than ~650 with no way to filter. */
-    let chatLocales = $derived.by(() => {
+    /** Build a list of locales from tags, in order, without repeats. */
+    function localesFrom(tags: (string | undefined)[]): Locale[] {
         const seen = new Set<string>();
         const found: Locale[] = [];
-        const add = (tag: string | undefined) => {
-            if (tag === undefined || seen.has(tag)) return;
+        for (const tag of tags) {
+            if (tag === undefined || seen.has(tag)) continue;
             const locale = stringToLocale(tag);
-            if (locale === undefined) return;
+            if (locale === undefined) continue;
             seen.add(tag);
             found.push(locale);
-        };
-        add(localeToString($locales.getLocale()));
-        if (chat) {
-            add(chat.getLanguage());
-            for (const msg of chat.getMessages()) add(msg.language);
         }
         return found;
-    });
+    }
+
+    /** The languages this conversation is already in: the viewer's own first,
+     *  then the chat's, then every language a message is tagged with. */
+    let chatLocales = $derived(
+        localesFrom([
+            localeToString($locales.getLocale()),
+            ...(chat
+                ? [
+                      chat.getLanguage(),
+                      ...chat.getMessages().map((msg) => msg.language),
+                  ]
+                : []),
+        ]),
+    );
+
+    /** What both pickers offer before anyone searches.
+     *
+     *  Deliberately *not* just the conversation's own languages, which is what
+     *  this was first and is exactly backwards: an English speaker in an
+     *  English chat was offered English and nothing else — the one language
+     *  they demonstrably do not need it translated into. The languages
+     *  Wordplay itself speaks are the useful shortlist, since a reader here
+     *  has already chosen one of them to read the app in, and the search
+     *  widens to all ~650. Both pickers use it: you may be writing in a
+     *  language nobody in the conversation has used yet. */
+    let offeredLocales = $derived(
+        localesFrom([
+            ...$locales.getLocales().map(localeToString),
+            ...SupportedLocales,
+            ...chatLocales.map(localeToString),
+        ]),
+    );
+
+    /** A language's name, with its regions only when the name alone would
+     *  appear twice — zh-CN and zh-TW are both 中文, and two identical options
+     *  is worse than a longer one. */
+    function localeLabel(locale: Locale, among: Locale[]): string {
+        const label = getMultilingualLanguageLabel(locale);
+        if (
+            among.filter(
+                (other) => getMultilingualLanguageLabel(other) === label,
+            ).length < 2
+        )
+            return label;
+        const regions = getLocaleRegionNames(locale);
+        return regions.length === 0 ? label : `${label} (${regions.join('/')})`;
+    }
 
     /** Whether each picker's search is open, and what is typed in it. Closed by
      *  default so neither permanently costs width for a list almost nobody
@@ -123,8 +164,15 @@
                   (locale) => locale,
                   $locales.getLanguages(),
               )
-            : chatLocales;
+            : offeredLocales;
     }
+
+    let translateOptions = $derived(
+        languagePickerLocales(translateSearchExpanded, translateQuery),
+    );
+    let messageOptions = $derived(
+        languagePickerLocales(messageSearchExpanded, messageQuery),
+    );
 
     /** What language the next message is written in. Defaults to the viewer's
      *  own locale; the picker overrides it, for someone who reads Wordplay in
@@ -745,12 +793,9 @@
                         label: (l) =>
                             l.ui.collaborate.translate.choosePlaceholder,
                     },
-                    ...languagePickerLocales(
-                        translateSearchExpanded,
-                        translateQuery,
-                    ).map((locale) => ({
+                    ...translateOptions.map((locale) => ({
                         value: localeToString(locale),
-                        label: getMultilingualLanguageLabel(locale),
+                        label: localeLabel(locale, translateOptions),
                     })),
                 ]}
                 change={(chosen) => (translateTo = chosen)}
@@ -852,12 +897,9 @@
                 id="{ids}-message-language"
                 value={messageLanguage}
                 label={(l) => l.ui.collaborate.translate.writingIn}
-                options={languagePickerLocales(
-                    messageSearchExpanded,
-                    messageQuery,
-                ).map((locale) => ({
+                options={messageOptions.map((locale) => ({
                     value: localeToString(locale),
-                    label: getMultilingualLanguageLabel(locale),
+                    label: localeLabel(locale, messageOptions),
                 }))}
                 change={(chosen) => (messageLanguageOverride = chosen)}
             />

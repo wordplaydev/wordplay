@@ -42,6 +42,14 @@ function formatViolations(violations: Result[]): string {
  * of scope. Wordplay-authored content (seeded projects, guide examples,
  * tutorial) is always in scope.
  *
+ * `include` narrows a scan to one region. Unlike `exclude` it suppresses
+ * nothing: the whole-page scans above still cover everything, and this is for a
+ * test that opens a particular surface to check that surface — so a failure
+ * names the thing the test is about rather than whatever else that route
+ * happens to render. Prefer a whole-page scan; reach for this only when a
+ * region can't be opened without also opening chrome that is somebody else's
+ * fix, and say which at the call site.
+ *
  * `verbose` logs axe's "incomplete" results (checks needing human review,
  * e.g. contrast over gradients). They never gate, but are worth an
  * occasional look.
@@ -49,12 +57,15 @@ function formatViolations(violations: Result[]): string {
 export async function expectNoAxeViolations(
     page: Page,
     options?: {
+        include?: string[];
         exclude?: string[];
         disableRules?: string[];
         verbose?: boolean;
     },
 ): Promise<void> {
     let builder = new AxeBuilder({ page }).withTags(WCAG_AA_TAGS);
+    for (const selector of options?.include ?? [])
+        builder = builder.include(selector);
     for (const selector of options?.exclude ?? [])
         builder = builder.exclude(selector);
     if (options?.disableRules !== undefined)

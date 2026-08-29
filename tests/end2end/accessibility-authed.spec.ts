@@ -99,6 +99,54 @@ for (const scheme of ['light', 'dark'] as const) {
             }
         });
 
+        test(`chat, with its translation controls, has no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            // The editor scan above never opens this tile, so nothing was
+            // scanning the chat at all — and translating it (#1214) added two
+            // labelled language pickers, two search fields, and the buttons
+            // that disclose them, which is exactly the shape axe catches
+            // mislabelled or duplicated.
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                await page.goto('/en-US/project/seed-collab-project');
+                await expect(page.locator('#project-name')).toHaveValue(
+                    'Shared Sketch',
+                    { timeout: LOAD_TIMEOUT },
+                );
+                await page.getByTestId('collaborate-toggle').click();
+                // Open both language searches, since a collapsed disclosure
+                // hides the field whose id its button claims to control.
+                // Re-queried between clicks rather than collected up front:
+                // the first click re-renders the bar, which strands a handle
+                // taken before it and hangs the test rather than failing it.
+                for (const controls of ['translate-search', 'language-search'])
+                    await page
+                        .locator(`button[aria-controls$="${controls}"]`)
+                        .first()
+                        .click();
+                // Scoped to the chat, not because anything here is out of
+                // scope, but because expanding this tile also reveals the tile
+                // footer's overflow toggles — whose labels fail contrast in
+                // dark mode (black on --color-pressed, 1.84:1). That is a
+                // pre-existing bug in shared chrome, reachable on main by the
+                // identical click in chat.spec.ts and simply never scanned
+                // before; fixing it means reasoning about every Toggle state,
+                // which is not this feature's to decide.
+                await expectNoAxeViolations(page, {
+                    include: ['[data-uiid="collaborate"]'],
+                    verbose: true,
+                });
+            } finally {
+                await context.close();
+            }
+        });
+
         test(`languages dialog has no WCAG 2.2 AA violations`, async ({
             browser,
         }) => {
